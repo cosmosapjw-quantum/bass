@@ -1,0 +1,58 @@
+{
+  "schema_version": 4,
+  "all_resolved": false,
+  "owner_receipt": null,
+  "sector_registry_ref": "contracts/scientific_contract.json#/sector_registry",
+  "decisions": [
+    {
+      "id": "OD001",
+      "question": "Define the v1.0 high-ell production floor and absolute/relative tolerances for every selectable channel row and low-ell observable block.",
+      "decision_type": "HIGH_ELL_ACCEPTANCE",
+      "status": "PENDING_OWNER",
+      "value": null,
+      "required_value_fields": ["mode","production_floor_L_prod","channel_tolerances","low_ell_observable_tolerance"],
+      "allowed_modes": ["ADAPTIVE_CONFIGURABLE_WITH_PRODUCTION_FLOOR"],
+      "tolerance_encoding": "NONNEGATIVE_ATOL_AND_POSITIVE_RTOL_DECIMAL_STRINGS",
+      "recommended_value": {
+        "mode": "ADAPTIVE_CONFIGURABLE_WITH_PRODUCTION_FLOOR",
+        "production_floor_L_prod": null,
+        "channel_tolerances": null,
+        "low_ell_observable_tolerance": null
+      }
+    },
+    {
+      "id": "OD002",
+      "question": "Select the release-blocking v1.0 physics sectors; every key is bound through the scientific sector registry to claims and conditional gate criteria.",
+      "decision_type": "BOOLEAN_MAP",
+      "status": "PENDING_OWNER",
+      "value": null,
+      "required_keys": ["global_tilt","photon_I","photon_E","photon_B","photon_V","massless_neutrinos","exact_electron_frame_thomson","recombination","reionization"],
+      "recommended_value": {"global_tilt":true,"photon_I":true,"photon_E":true,"photon_B":true,"photon_V":false,"massless_neutrinos":true,"exact_electron_frame_thomson":false,"recombination":false,"reionization":false},
+      "dependency_rules": ["photon_I_must_be_true","photon_E_must_equal_photon_B","recombination_implies_exact_electron_frame_thomson","reionization_implies_exact_electron_frame_thomson","exact_electron_frame_thomson_implies_photon_I"]
+    },
+    {
+      "id": "OD003",
+      "question": "Confirm bianchi_phase_r as the pinned read-only verification oracle.",
+      "decision_type": "EXTERNAL_ORACLE_ROLE",
+      "status": "PENDING_OWNER",
+      "value": null,
+      "required_value_fields": ["role","pinned_commit"],
+      "allowed_roles": ["READ_ONLY_EXTERNAL_ORACLE"],
+      "required_pinned_commit": "539fcd6acc81dfd19d05951c2c5cbc3602eda077",
+      "recommended_value": {"role":"READ_ONLY_EXTERNAL_ORACLE","pinned_commit":"539fcd6acc81dfd19d05951c2c5cbc3602eda077"}
+    },
+    {
+      "id": "OD004",
+      "question": "Decide the v1.0 Rust backend requirement and the role of the supplied partial Rust-core artifact.",
+      "decision_type": "RUST_BACKEND_ROLE",
+      "status": "PENDING_OWNER",
+      "value": null,
+      "allowed_rustcore_roles": ["EXCLUDED","READ_ONLY_REFERENCE","QUARANTINED_PRODUCTION_CANDIDATE"],
+      "allowed_toolchain_policies": ["STRICT_REPRODUCTION_PIN","MINIMUM_SUPPORTED_VERSION","NOT_REQUIRED"],
+      "required_value_fields": ["rust_backend_in_v1","provided_rustcore_role","pyo3_surface_in_v1","independent_python_reference_required","rust_1_94_1_policy"],
+      "dependency_rules": ["pyo3_implies_rust_backend","rust_backend_implies_independent_python_reference","no_rust_backend_implies_no_pyo3_and_toolchain_not_required","rust_backend_implies_toolchain_policy_required"],
+      "recommended_value": {"rust_backend_in_v1":null,"provided_rustcore_role":"READ_ONLY_REFERENCE","pyo3_surface_in_v1":null,"independent_python_reference_required":true,"rust_1_94_1_policy":null},
+      "non_authorization_notice": "Resolution does not authorize installation, execution, modification, overlay, or remote writes."
+    }
+  ]
+}

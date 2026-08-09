@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "phases": [
+    {"id":"USER_SCOPE_CONFIRMATION","current_nodes":["OD0"],"requires_pass":["H0","H1"],"required_true":[],"allowed_true":[]},
+    {"id":"CODE_INTAKE_READ_ONLY","current_nodes":["C0"],"requires_pass":["H0","H1","OD0"],"required_true":["code_read"],"allowed_true":["code_read"]},
+    {"id":"CODE_REALITY_AUDIT_READ_ONLY","current_nodes":["C1"],"requires_pass":["C0"],"required_true":["code_read"],"allowed_true":["code_read"]},
+    {"id":"IMPLEMENTATION_AUTHORIZATION","current_nodes":["IA0"],"requires_pass":["C1"],"required_true":["code_read"],"allowed_true":["code_read"]},
+    {"id":"IMPLEMENTATION","current_nodes":["C2","C3","C4","C5","C6","C7","C8"],"requires_pass":["IA0"],"required_true":["code_read","code_write"],"allowed_true":["code_read","code_write","solver_build","solver_execute","dependency_install","external_oracle_execute"]},
+    {"id":"RELEASE_AUDIT","current_nodes":["C9"],"requires_pass":["C8"],"required_true":["code_read"],"allowed_true":["code_read","solver_build","solver_execute","external_oracle_execute"]},
+    {"id":"OWNER_RELEASE_DECISION","current_nodes":["C10"],"requires_pass":["C9"],"required_true":["code_read"],"allowed_true":["code_read"]},
+    {"id":"RELEASED","current_nodes":["TERMINAL"],"requires_pass":["C10"],"required_true":["code_read","public_release"],"allowed_true":["code_read","public_release"]},
+    {"id":"INVALIDATION_REMEDIATION","current_nodes":["H0","H1","OD0","C0","C1","IA0","C2","C3","C4","C5","C6","C7","C8","C9","C10","TERMINAL"],"requires_pass":[],"required_true":[],"allowed_true":[]}
+  ],
+  "od0_to_c0_invariant": {
+    "owner_decisions_derived_all_resolved": true,
+    "od0_and_gate_status": "PASS",
+    "od0_receipt_authorization_action": "READ_CANONICAL_SOLVER_CODE",
+    "c0_status": "NOT_RUN",
+    "current_phase": "CODE_INTAKE_READ_ONLY",
+    "current_node": "C0",
+    "required_true_authorizations": ["code_read"],
+    "required_false_authorizations": ["code_write","solver_build","solver_execute","dependency_install","external_oracle_execute","external_repo_write","github_write","public_release"]
+  }
+}

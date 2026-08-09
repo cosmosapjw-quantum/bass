@@ -1,0 +1,61 @@
+{
+  "schema_version": 3,
+  "objective": "Exact/nonlinear homogeneous Bianchi Einstein-matter-radiation evolution with a finite configurable angular hierarchy and evidence-controlled v1.0 claims.",
+  "spatial_dependence": "homogeneous_only",
+  "spatial_perturbative_order": "forbidden_in_v1",
+  "family_registry": "contracts/family_registry.json",
+  "target_families": ["I", "II", "III", "IV", "V", "VI_0", "VI_h", "VII_0", "VII_h", "VIII", "IX"],
+  "exceptional_branches_to_track": ["VI_-1/9"],
+  "representation": {
+    "radiation": "angular multipoles or an exactly specified equivalent basis",
+    "ell_max": "configurable_finite_pending_OD001",
+    "closure": "explicit_and_convergence_tested",
+    "high_ell_norm_blocks": ["low_ell_observables", "retained_bulk_by_species_and_spin", "closure_guard_band_by_species_and_spin"],
+    "energy_grid": "explicit_if_non_grey_or_spectral_distortions_are_enabled"
+  },
+  "sector_registry": {
+    "global_tilt": {"decision_id":"OD002","claim_ids":["CLM-GLOBAL-TILT"],"gate_bindings":[{"gate_id":"G-C3","criterion_ids":["G-C3-TILT-DYNAMICS"]},{"gate_id":"G-C7","criterion_ids":["G-C7-TILT-FRAME"]}],"high_ell_channel_ids":[],"semantics":"forward-model homogeneous tilt; never the output-only observer boost"},
+    "photon_I": {"decision_id":"OD002","claim_ids":["CLM-HIGH-ELL-PHOTON-I"],"gate_bindings":[{"gate_id":"G-C5","criterion_ids":["G-C5-CH-PHOTON-I"]}],"high_ell_channel_ids":["photon_I"],"semantics":"photon Stokes-I hierarchy"},
+    "photon_E": {"decision_id":"OD002","claim_ids":["CLM-HIGH-ELL-PHOTON-E","CLM-POLARIZATION-E"],"gate_bindings":[{"gate_id":"G-C5","criterion_ids":["G-C5-CH-PHOTON-E"]},{"gate_id":"G-C7","criterion_ids":["G-C7-POL-E"]}],"high_ell_channel_ids":["photon_E"],"semantics":"photon E-mode hierarchy and polarization validation"},
+    "photon_B": {"decision_id":"OD002","claim_ids":["CLM-HIGH-ELL-PHOTON-B","CLM-POLARIZATION-B"],"gate_bindings":[{"gate_id":"G-C5","criterion_ids":["G-C5-CH-PHOTON-B"]},{"gate_id":"G-C7","criterion_ids":["G-C7-POL-B"]}],"high_ell_channel_ids":["photon_B"],"semantics":"photon B-mode hierarchy and polarization validation"},
+    "photon_V": {"decision_id":"OD002","claim_ids":["CLM-HIGH-ELL-PHOTON-V","CLM-POLARIZATION-V"],"gate_bindings":[{"gate_id":"G-C5","criterion_ids":["G-C5-CH-PHOTON-V"]},{"gate_id":"G-C7","criterion_ids":["G-C7-POL-V"]}],"high_ell_channel_ids":["photon_V"],"semantics":"photon Stokes-V hierarchy and polarization validation"},
+    "massless_neutrinos": {"decision_id":"OD002","claim_ids":["CLM-HIGH-ELL-MASSLESS-NEUTRINOS","CLM-MASSLESS-NEUTRINO-RUNTIME"],"gate_bindings":[{"gate_id":"G-C5","criterion_ids":["G-C5-CH-MASSLESS-NU"]},{"gate_id":"G-C6","criterion_ids":["G-C6-MASSLESS-NU"]}],"high_ell_channel_ids":["massless_neutrinos"],"semantics":"collisionless species with exactly m_nu=0"},
+    "exact_electron_frame_thomson": {"decision_id":"OD002","claim_ids":["CLM-EXACT-ELECTRON-FRAME-THOMSON"],"gate_bindings":[{"gate_id":"G-C6","criterion_ids":["G-C6-THOMSON"]}],"high_ell_channel_ids":[],"semantics":"collision kernel evaluated in the electron rest frame"},
+    "recombination": {"decision_id":"OD002","claim_ids":["CLM-RECOMBINATION"],"gate_bindings":[{"gate_id":"G-C6","criterion_ids":["G-C6-RECOMBINATION"]}],"high_ell_channel_ids":[],"semantics":"recombination history coupled to collision/visibility terms"},
+    "reionization": {"decision_id":"OD002","claim_ids":["CLM-REIONIZATION"],"gate_bindings":[{"gate_id":"G-C6","criterion_ids":["G-C6-REIONIZATION"]}],"high_ell_channel_ids":[],"semantics":"reionization history coupled to collision/visibility terms"}
+  },
+  "conditional_sector_effects": {
+    "false": {"criterion_applicability":"NOT_APPLICABLE","leaf_claim_status":"LOCKED_OUT_OF_SCOPE","leaf_claim_value":false,"release_blocking":false},
+    "true_before_evidence": {"criterion_applicability":"REQUIRED","leaf_claim_status":"LOCKED_PENDING_EVIDENCE","leaf_claim_value":null,"release_blocking":true}
+  },
+  "neutrino_scope": {"decision_key":"massless_neutrinos","kinetic_regime":"collisionless","mass":"exact_zero","mass_shell":"p^a p_a=0","massive_neutrino_transport":"OUT_OF_SCOPE_V1"},
+  "required_obligation_ids": [
+    "OBL-HAR-001", "OBL-SCOPE-001", "OBL-GEO-001", "OBL-GEO-002",
+    "OBL-FAM-001", "OBL-FAM-002", "OBL-DYN-001", "OBL-TILT-001", "OBL-TILT-002", "OBL-TRN-001",
+    "OBL-FRM-001", "OBL-POL-001", "OBL-COL-001", "OBL-CNS-001",
+    "OBL-HL-001", "OBL-HL-002", "OBL-NUM-001", "OBL-LIM-001",
+    "OBL-BE-001", "OBL-REL-001"
+  ],
+  "obligations": [
+    {"id":"OBL-HAR-001","kind":"harness","text":"Harness contracts, state machine, receipts, manifests, negative oracles, and authorization firewalls are internally consistent and fail closed."},
+    {"id":"OBL-SCOPE-001","kind":"solver","text":"The canonical production path contains no spatial k-mode, SVT/gauge perturbation, transfer, stochastic primordial, likelihood, posterior, or real-data authority path."},
+    {"id":"OBL-GEO-001","kind":"solver","text":"Structure constants, Jacobi identities, class A/B registry, h-domain boundaries/aliases, and exceptional branches obey the canonical conventions."},
+    {"id":"OBL-GEO-002","kind":"solver","text":"Hamiltonian/momentum constraints and their propagation are evaluated from the same state and equations used by runtime evolution."},
+    {"id":"OBL-FAM-001","kind":"solver","text":"Each individually claimed Bianchi family has genuine background evolution and residual evidence, with h-boundaries and aliases tested but not double-counted."},
+    {"id":"OBL-FAM-002","kind":"solver","text":"Parameterized-family claims require an explicit h convention, disjoint exact domains, exact rational special-value dispatch, symbolic domain-wide identities, and runtime evidence that cannot be replaced by one representative h value."},
+    {"id":"OBL-DYN-001","kind":"solver","text":"Matter/radiation stress-energy coupling closes a declared energy-momentum ledger without double counting."},
+    {"id":"OBL-TILT-001","kind":"solver","text":"If global tilt is enabled, its forward dynamics, momentum constraints, admissible state domain, electron-frame coupling, and zero-tilt limit pass independently of the output-only local boost."},
+    {"id":"OBL-TILT-002","kind":"solver","text":"If global tilt is enabled, tilted momentum density and anisotropic stress enter the same Hamiltonian, momentum/Codazzi, and propagation constraints used by runtime evolution, with per-family admissibility and constraint propagation evidence."},
+    {"id":"OBL-TRN-001","kind":"solver","text":"Homogeneous Liouville transport, anisotropic redshift, direction flow, and screen-basis transport map exactly to executable operators."},
+    {"id":"OBL-FRM-001","kind":"solver","text":"Normal-frame transport, electron-frame collision/visibility, global tilt, and output-only local boost remain explicitly separated."},
+    {"id":"OBL-POL-001","kind":"solver","text":"For each enabled polarization sector: density-matrix Hermiticity/PSD, spin-basis rotation, E/B parity, reality, and synthesis-analysis closure pass."},
+    {"id":"OBL-COL-001","kind":"solver","text":"For each enabled collision/history sector: exact electron-frame kernel where selected, nullspace/equilibrium, photon number and energy exchange, history transitions, and no OTS/source double counting pass."},
+    {"id":"OBL-CNS-001","kind":"solver","text":"Photon number/energy, nuclei or matter charges as applicable, stress-energy, and Einstein constraints have explicit ledgers and tolerances."},
+    {"id":"OBL-HL-001","kind":"solver","text":"For every enabled photon or exactly massless collisionless-neutrino species/spin block, ell_max, closure, angular/energy quadrature, timestep, and solver tolerances are jointly refined under declared norms for low-ell observables, the retained high-ell bulk, and a closure guard band."},
+    {"id":"OBL-HL-002","kind":"solver","text":"No closure-front pile-up, aliasing, spurious reflection, species/spin-localized tail error, or E/B leakage is hidden by aggregate norms."},
+    {"id":"OBL-NUM-001","kind":"solver","text":"Stiffness handling, adaptive stepping, interpolation, positivity/realizability, and failure semantics are validated over the declared domain."},
+    {"id":"OBL-LIM-001","kind":"solver","text":"FLRW, Bianchi I, LRS, no-shear, no-tilt, collisionless, h-boundary/alias, and other applicable analytic/symmetry limits recover the convention-matched result."},
+    {"id":"OBL-BE-001","kind":"solver","text":"Any Python/Rust/CAS/backend swap agrees for the same equations, inputs, precision, tolerance, and output semantics."},
+    {"id":"OBL-REL-001","kind":"release","text":"Release claims are promoted per feature and per family from durable gate evidence; no aggregate claim or readiness percentage substitutes for its constituent rows."}
+  ]
+}

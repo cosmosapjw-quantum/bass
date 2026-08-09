@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "current_phase": "USER_SCOPE_CONFIRMATION",
+  "authorizations": {
+    "code_read": false,
+    "code_write": false,
+    "solver_build": false,
+    "solver_execute": false,
+    "dependency_install": false,
+    "external_oracle_execute": false,
+    "external_repo_write": false,
+    "github_write": false,
+    "public_release": false
+  },
+  "permanent_prohibitions": {
+    "spatial_perturbations": true,
+    "stochastic_primordial_sector": true,
+    "likelihood_or_data_fitting": true
+  },
+  "background_dynamics": "EXACT_NONLINEAR_TARGET_PENDING_EVIDENCE",
+  "angular_hierarchy": "FINITE_CONFIGURABLE_ELLMAX_CONVERGENCE_REQUIRED",
+  "declared_code_roots": [],
+  "transition_requirements": {
+    "code_read": ["G-H0_PASS", "G-H1_PASS", "G-OD0_PASS", "explicit_user_code_intake_authorization"],
+    "code_write": ["G-C0_PASS", "G-C1_PASS", "G-IA0_PASS", "explicit_user_implementation_authorization"],
+    "solver_build": ["G-C0_PASS", "G-C1_PASS", "G-IA0_PASS", "toolchain_plan_approved"],
+    "solver_execute": ["G-C0_PASS", "G-C1_PASS", "G-IA0_PASS", "execution_plan_approved"],
+    "dependency_install": ["G-C0_PASS", "G-C1_PASS", "G-IA0_PASS", "dependency_lock_approved"],
+    "external_oracle_execute": ["G-C0_PASS", "job_contract_approved", "pinned_clean_oracle"],
+    "external_repo_write": ["explicit_user_external_write_authorization"],
+    "github_write": ["explicit_user_github_write_authorization"],
+    "public_release": ["G-C9_PASS", "G-C10_PASS", "explicit_owner_release_authorization"]
+  }
+}

@@ -1,0 +1,37 @@
+item_id	kind	locator	evidence_class	result	identity_or_head	notes
+FS-001	git_mount	/workspace/scratch/5f62256bcea8/.git	MISSING_OR_MASKED	empty read-only tmpfs	-	Original object store, if any, is hidden from this namespace and cannot be declared absent.
+FS-002	git_mount	/workspace/.git	MISSING_OR_MASKED	empty read-only tmpfs	-	Not a Git repository in the visible namespace.
+FS-003	git_mount	/tmp/.git	MISSING_OR_MASKED	empty read-only tmpfs	-	Not a Git repository in the visible namespace.
+GIT-001	visible_object_store	/workspace/scratch/e0b7421d181e/rrss_remote_mirror/.git	MISSING	no BASS locator or ref	-	Two unreachable Python blobs were inspected and excluded as unrelated.
+GIT-002	visible_object_store	/root/.codex/.arcade-git/aggregate-skills	MISSING	no BASS locator or unreachable object	-	Unrelated repository; no target ref.
+GIT-003	visible_object_store	/root/.oh-my-zsh/.git	MISSING	no BASS locator or unreachable object	-	Unrelated repository; no target ref.
+GIT-004	recovery_checkout	bass_recovery_checkout/.git	RECONSTRUCTED	cloned during this recovery	d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9	Not evidence of a pre-existing local checkout.
+REMOTE-001	github_repository	cosmosapjw-quantum/bass	DURABLE_VERIFIED	two identical public branch heads	d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9	Before publication, main and agent/longrun-checkpoints each contained only LICENSE and the bootstrap checkpoint.
+REMOTE-002	github_pull_requests	cosmosapjw-quantum/bass	DURABLE_VERIFIED	zero open pull requests	-	Read-only connector query before publication.
+REMOTE-003	github_tag_refs	cosmosapjw-quantum/bass	DURABLE_VERIFIED	zero advertised tag refs	d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9	git ls-remote --tags origin exited 0 with zero rows; this says nothing about unreachable server objects.
+REMOTE-004	github_unreachable_objects	cosmosapjw-quantum/bass	MISSING	not enumerable through public API	-	Commit endpoint failures do not prove server-side dangling-object absence.
+PROC-001	process_snapshot	/proc/[0-9]*	DURABLE_VERIFIED	27 PIDs; no pytest, Git, or project Python process	2026-08-09T12:21:48Z	Point-in-time negative evidence only; ps was unavailable so procfs was inspected directly.
+PROC-002	open_deleted_files	/proc/[0-9]*/fd and lsof +L1	DURABLE_VERIFIED	zero visible deleted-open files	2026-08-09T12:21:48Z	Point-in-time negative evidence; lsof warned that /dev/mqueue could not be statted.
+CACHE-001	cache_and_editor_search	accessible /workspace /tmp /root	MISSING	no BASS pytest cache, pycache, swap, backup, or editor autosave	-	/root/.codex/sessions was excluded by policy.
+LOG-001	runtime_sqlite	/tmp/.codex/sqlite/logs_2.sqlite	RECONSTRUCTED	integrity OK; current recovery runtime only	-	No prior ten-hour source tree or Git objects recovered from this log.
+UPLOAD-001	incomplete_upload	.codex-upload-186...	MISSING	corrupt incomplete XZ payload	-	Excluded; the complete Rust distribution is project_sources/08.
+TOOL-001	temporary_rust_validation	project_sources/08 Rust 1.94.1 components	RECONSTRUCTED	cargo metadata passed; offline test dependency resolution blocked	rustc/cargo 1.94.1	cargo test --offline --locked stopped before compilation because nalgebra was absent from the empty temporary Cargo cache; temporary toolchain removed.
+SRC-01	attached_input	project_sources/01-physmath-research-harness-gpt56.zip	DURABLE_VERIFIED	general research harness	9adde688f8020e7feb2c1c0304b3204dbe70dd01e2d87e64a5c4eb357c019934	No solver or target tests.
+SRC-02	attached_input	project_sources/02-physmath-coding-harness-gpt56.zip	DURABLE_VERIFIED	general coding harness	6e67e999a0c19f6ed9de7c339067cc11691d5cf5cb662a11756d8fc393c849b4	No solver or target tests.
+SRC-03	attached_input	project_sources/03-Low-ell-Bianchi-Einstein-Boltzmann-Solver.txt	DURABLE_VERIFIED	specification text	de4c4d3d467e91d3f8420b5b2748ee7294db3ca8e809df4045b2f8c2d71881f1	No implementation tree.
+SRC-04	attached_input	project_sources/04-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz.asc	DURABLE_VERIFIED	Rust distribution signature	942bc6926af6a2130d70e77933e3df09d39beeedafad77710259e6df7eadee08	Toolchain input, not BASS state.
+SRC-05	attached_input	project_sources/05-rust_1_94_1_env.sh	DURABLE_VERIFIED	Rust environment helper	8e84fa4b09a0e7e50f05302f4e3b3373442fdbd4f3ddb725713e082d9776b64b	Toolchain input, not BASS state.
+SRC-06	attached_input	project_sources/06-Adaptive-CMB-Code-Development-Protocol.txt	DURABLE_VERIFIED	development protocol	8e1140b4922b7556970998465e0ce9126bf644bc108d9b78a73a2bb48027a1dc	Process context only.
+SRC-07	attached_input	project_sources/07-Adaptive-CMB-Code-Research-Executor-DAG-Governed-Development-Mandatory-Dual-Audit-Plot-Driven-Adversarial-Loop.txt	DURABLE_VERIFIED	executor protocol	8c6d7bd933cd7a80057a10816e692c10816a41d560129b3e8470983d2be2f4a9	Process context only.
+SRC-08	attached_input	project_sources/08-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz	DURABLE_VERIFIED	complete Rust distribution	294b3d81fa72e62581276290c60c81eb8b58498d333d422ca1dfc432877d0c40	192 MB toolchain distribution; deliberately not committed.
+SRC-09	attached_input	project_sources/09-Figure-Residual-Error-Pass.txt	DURABLE_VERIFIED	figure audit prompt	37b64cd6d232b3525a838f2f23a05ca44aa99c6362f0a28b695397fbbffc8e22	No solver tree.
+SRC-10	attached_input	project_sources/10-Figure-Hostile-Audit.txt	DURABLE_VERIFIED	figure audit prompt	46b920c886549a228876ddb7b5651d1a213ff9ad4669843ea4afc3700b4f5bbc	No solver tree.
+SRC-11	attached_input	project_sources/11-bootstrap.sh	DURABLE_VERIFIED	bootstrap helper	215b4d2aac919c1c4efa45fb49be66368c526b81f954a3ee9c2f0c0c3cb0872b	No solver tree.
+SRC-12	attached_input	project_sources/12-bianchirustcoreRDAGcomplete.tar.gz	PARTIALLY_RECOVERED	18 regular-file Rust/Python/test overlay	53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb	Incomplete baseline; no bianchi/full, Git metadata, or execution receipts.
+SRC-13	attached_input	project_sources/13-lowell_bianchi_codex_automation_kit.zip	DURABLE_VERIFIED	PATCH80R automation kit	3883ea604a1ed6ac0969f49c578b1324e34716d97a788b351d2e289ba14ce1c1	Concept/process kit; no solver, target tests, receipts, or commit objects.
+SRC-14	attached_input	project_sources/14-BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803-1-.zip	DURABLE_VERIFIED	canonical harness and interruption-recovery bundle	79c36566c958cc260adf82a2795a992fe7723c9d37611ab7b8d94de73fe831fa	Explicitly HARNESS_ONLY with solver_code_included=false.
+SRC-15	attached_input	project_sources/15-xAct_1.3.0.tgz	DURABLE_VERIFIED	xAct dependency archive	7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be	External symbolic tool dependency, not BASS state.
+REC-001	recovered_tree	harness/BASS_v1_background_highl_harness	DURABLE_VERIFIED	72 exact regular files	cd80b4e9ee4a0d292e99bba7fffd60bd313d765e4510498ae1c8e99ec0ff3b64	Byte-identical to the nested immutable harness ZIP; not a solver.
+REC-002	recovered_tree	recovered_sources/legacy_partial/bianchirustcoreRDAGcomplete	PARTIALLY_RECOVERED	18 exact regular files	53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb	Quarantined rather than installed into a production package.
+REC-003	reconstructed_record	docs/recovery/TRANSCRIPT_TASK3_10_STATE_20260809.md	TRANSCRIPT_ONLY	stage ledger and future RED-test invariants	-	Contains no recovered implementation or scientific PASS claim.
+LIMIT-001	block_recovery	raw host filesystem	MISSING	not attempted	-	Outside the visible namespace and unsafe/unauthorized for this recovery.

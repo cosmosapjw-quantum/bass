@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "status_taxonomy": ["NOT_RUN", "PASS", "FAIL", "BLOCKED", "NOT_APPLICABLE"],
+  "invalidation_rule": "receipt_governing_fingerprint_mismatch_blocks_the_node_and_all_transitive_dependents",
+  "nodes": [
+    {"id":"H0","name":"Harness input audit and provenance","status":"PASS","depends_on":[],"gate_id":"G-H0","receipt":"receipts/H0_INPUT_AUDIT.json"},
+    {"id":"H1","name":"Harness installation and static self-test","status":"PASS","depends_on":["H0"],"gate_id":"G-H1","receipt":"receipts/H1_INSTALLATION_SELF_TEST.json"},
+    {"id":"OD0","name":"Owner scope confirmation and code-read authorization","status":"BLOCKED","depends_on":["H1"],"gate_id":"G-OD0","receipt":null},
+    {"id":"C0","name":"Canonical code intake and provenance","status":"BLOCKED","depends_on":["OD0"],"gate_id":"G-C0","receipt":null},
+    {"id":"C1","name":"Existing-code reality reconstruction","status":"BLOCKED","depends_on":["C0"],"gate_id":"G-C1","receipt":null},
+    {"id":"IA0","name":"Owner implementation/build/execute authorization","status":"BLOCKED","depends_on":["C1"],"gate_id":"G-IA0","receipt":null},
+    {"id":"C2","name":"Geometry and matter SSOT","status":"BLOCKED","depends_on":["IA0"],"gate_id":"G-C2","receipt":null},
+    {"id":"C3","name":"Eleven-family background dynamics","status":"BLOCKED","depends_on":["C2"],"gate_id":"G-C3","receipt":null},
+    {"id":"C4","name":"Homogeneous radiation transport and selected collisions","status":"BLOCKED","depends_on":["C3"],"gate_id":"G-C4","receipt":null},
+    {"id":"C5","name":"High-ell representation and closure","status":"BLOCKED","depends_on":["C4"],"gate_id":"G-C5","receipt":null},
+    {"id":"C6","name":"Coupled background integration and ledgers","status":"BLOCKED","depends_on":["C5"],"gate_id":"G-C6","receipt":null},
+    {"id":"C7","name":"Deterministic outputs and observer-frame separation","status":"BLOCKED","depends_on":["C6"],"gate_id":"G-C7","receipt":null},
+    {"id":"C8","name":"Performance and backend equivalence","status":"BLOCKED","depends_on":["C7"],"gate_id":"G-C8","receipt":null},
+    {"id":"C9","name":"v1.0 hostile release audit","status":"BLOCKED","depends_on":["C8"],"gate_id":"G-C9","receipt":null},
+    {"id":"C10","name":"Owner release decision","status":"BLOCKED","depends_on":["C9"],"gate_id":"G-C10","receipt":null},
+    {"id":"TERMINAL","name":"Released terminal state","status":"BLOCKED","depends_on":["C10"],"gate_id":"G-TERMINAL","receipt":null}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "decision_id": "OD001",
+  "sector_decision_id": "OD002",
+  "sector_registry_ref": "contracts/scientific_contract.json#/sector_registry",
+  "allocation_contract": {"retained_bulk_symbol":"L_keep","closure_guard_symbol":"G","allocated_max_symbol":"L_alloc","allocated_max_rule":"L_alloc=L_keep+G","structural_guard_minimum_rule":"G>=2*max_abs_operator_delta_ell","structural_minimum_is_not_convergence_evidence":true,"closure_applied_only_at":"L_alloc","production_outputs_must_satisfy":"ell<=L_keep","minimum_allocation_levels":3,"common_bulk_projection_required":true},
+  "norm_contract": {"basis":"canonical_orthonormal_spin_weighted_harmonics","hybrid_test":"error<=atol+rtol*reference_scale","required_bulk_norms":["parseval_weighted_l2","componentwise_linf","per_ell_l2_profile"],"required_guard_diagnostics":["guard_to_total_l2","outermost_shell_to_guard_l2","bulk_delta_profile_under_allocation_refinement","closure_reflection_indicator"],"guard_coefficients_excluded_from_bulk_norm":true,"cross_species_or_cross_spin_aggregation_forbidden":true,"pass_operator":"ALL_ENABLED_ROWS"},
+  "channel_rows": [
+    {"id":"photon_I","sector_key":"photon_I","species":"photon","spin_weights":[0],"component":"I","ell_min":0,"tolerance_ref":"OD001.value.channel_tolerances.photon_I"},
+    {"id":"photon_E","sector_key":"photon_E","species":"photon","spin_weights":[-2,2],"component":"E","ell_min":2,"tolerance_ref":"OD001.value.channel_tolerances.photon_E"},
+    {"id":"photon_B","sector_key":"photon_B","species":"photon","spin_weights":[-2,2],"component":"B","ell_min":2,"tolerance_ref":"OD001.value.channel_tolerances.photon_B"},
+    {"id":"photon_V","sector_key":"photon_V","species":"photon","spin_weights":[0],"component":"V","ell_min":0,"tolerance_ref":"OD001.value.channel_tolerances.photon_V"},
+    {"id":"massless_neutrinos","sector_key":"massless_neutrinos","species":"each_evolved_massless_neutrino_species_or_declared_massless_aggregate","mass_assumption":"m_nu=0_exact","collision_model":"collisionless","spin_weights":[0],"component":"intensity","ell_min":0,"tolerance_ref":"OD001.value.channel_tolerances.massless_neutrinos"}
+  ]
+}

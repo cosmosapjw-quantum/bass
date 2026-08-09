@@ -1,0 +1,20 @@
+{
+  "schema_version": 3,
+  "h_convention": {"id":"WE_CLASS_B_H","relation":"aB_sq=h*n2*n3","required_gauge":"diagonal_n_class_B","exact_rational_special_dispatch":true,"floating_proximity_dispatch_forbidden":true},
+  "canonical_family_ids": ["I","II","III","IV","V","VI_0","VI_h","VII_0","VII_h","VIII","IX"],
+  "families": [
+    {"id":"I","class":"A","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-I","required_criterion_ids":["G-C3-FAM-I-RUNTIME","G-C3-FAM-I-CONSTRAINT","G-C3-FAM-I-LIMIT"]},
+    {"id":"II","class":"A","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-II","required_criterion_ids":["G-C3-FAM-II-RUNTIME","G-C3-FAM-II-CONSTRAINT","G-C3-FAM-II-LIMIT"]},
+    {"id":"III","class":"B","h":{"kind":"canonical_alias","series":"VI","value":{"numerator":-1,"denominator":1}},"claim_id":"CLM-FAMILY-III","required_criterion_ids":["G-C3-FAM-III-RUNTIME","G-C3-FAM-III-CONSTRAINT","G-C3-FAM-III-LIMIT"]},
+    {"id":"IV","class":"B","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-IV","required_criterion_ids":["G-C3-FAM-IV-RUNTIME","G-C3-FAM-IV-CONSTRAINT","G-C3-FAM-IV-LIMIT"]},
+    {"id":"V","class":"B","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-V","required_criterion_ids":["G-C3-FAM-V-RUNTIME","G-C3-FAM-V-CONSTRAINT","G-C3-FAM-V-LIMIT"]},
+    {"id":"VI_0","class":"A","h":{"kind":"fixed_branch","series":"VI","value":{"numerator":0,"denominator":1}},"claim_id":"CLM-FAMILY-VI-0","required_criterion_ids":["G-C3-FAM-VI-0-RUNTIME","G-C3-FAM-VI-0-CONSTRAINT","G-C3-FAM-VI-0-LIMIT"]},
+    {"id":"VI_h","class":"B","h":{"kind":"generic_interval","series":"VI","lower":null,"upper":{"numerator":0,"denominator":1},"lower_open":true,"upper_open":true,"excluded_exact":[{"numerator":-1,"denominator":1},{"numerator":-1,"denominator":9}]},"claim_id":"CLM-FAMILY-VI-H","leaf_claim_ids":["CLM-FAMILY-VI-H-GENERIC","CLM-FAMILY-VI-MINUS-1-9"],"required_criterion_ids":["G-C3-FAM-VI-H-GENERIC-RUNTIME","G-C3-FAM-VI-H-GENERIC-CONSTRAINT","G-C3-FAM-VI-H-GENERIC-LIMIT","G-C3-FAM-VI-H-GENERIC-H-DOMAIN","G-C3-FAM-VI-MINUS-1-9-RUNTIME","G-C3-FAM-VI-MINUS-1-9-CONSTRAINT","G-C3-FAM-VI-MINUS-1-9-LIMIT","G-C3-FAM-VI-MINUS-1-9-EXACT-DISPATCH"],"leaf_claim_contracts":[{"claim_id":"CLM-FAMILY-VI-H-GENERIC","required_criterion_ids":["G-C3-FAM-VI-H-GENERIC-RUNTIME","G-C3-FAM-VI-H-GENERIC-CONSTRAINT","G-C3-FAM-VI-H-GENERIC-LIMIT","G-C3-FAM-VI-H-GENERIC-H-DOMAIN"]},{"claim_id":"CLM-FAMILY-VI-MINUS-1-9","required_criterion_ids":["G-C3-FAM-VI-MINUS-1-9-RUNTIME","G-C3-FAM-VI-MINUS-1-9-CONSTRAINT","G-C3-FAM-VI-MINUS-1-9-LIMIT","G-C3-FAM-VI-MINUS-1-9-EXACT-DISPATCH"]}]},
+    {"id":"VII_0","class":"A","h":{"kind":"fixed_branch","series":"VII","value":{"numerator":0,"denominator":1}},"claim_id":"CLM-FAMILY-VII-0","required_criterion_ids":["G-C3-FAM-VII-0-RUNTIME","G-C3-FAM-VII-0-CONSTRAINT","G-C3-FAM-VII-0-LIMIT"]},
+    {"id":"VII_h","class":"B","h":{"kind":"generic_interval","series":"VII","lower":{"numerator":0,"denominator":1},"upper":null,"lower_open":true,"upper_open":true},"claim_id":"CLM-FAMILY-VII-H","required_criterion_ids":["G-C3-FAM-VII-H-RUNTIME","G-C3-FAM-VII-H-CONSTRAINT","G-C3-FAM-VII-H-LIMIT"]},
+    {"id":"VIII","class":"A","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-VIII","required_criterion_ids":["G-C3-FAM-VIII-RUNTIME","G-C3-FAM-VIII-CONSTRAINT","G-C3-FAM-VIII-LIMIT"]},
+    {"id":"IX","class":"A","h":{"kind":"not_applicable"},"claim_id":"CLM-FAMILY-IX","required_criterion_ids":["G-C3-FAM-IX-RUNTIME","G-C3-FAM-IX-CONSTRAINT","G-C3-FAM-IX-LIMIT"]}
+  ],
+  "exceptional_branches": [{"id":"VI_-1/9","parent_family":"VI_h","h":{"numerator":-1,"denominator":9},"claim_id":"CLM-FAMILY-VI-MINUS-1-9","required_criterion_ids":["G-C3-FAM-VI-MINUS-1-9-RUNTIME","G-C3-FAM-VI-MINUS-1-9-CONSTRAINT","G-C3-FAM-VI-MINUS-1-9-LIMIT","G-C3-FAM-VI-MINUS-1-9-EXACT-DISPATCH"],"exact_branch_tag_required":true,"required_for_parent_claim":true}],
+  "deduplication_policy": "Aliases and boundary values are tested but never double-counted as distinct canonical family claims."
+}

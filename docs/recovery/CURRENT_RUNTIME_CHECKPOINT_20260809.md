@@ -1,51 +1,67 @@
 # BASS current-runtime recovery checkpoint
 
-- Recorded: 2026-08-09 (Asia/Seoul)
+- Recorded: 2026-08-09
 - Target repository: `cosmosapjw-quantum/bass`
-- Classification: `RUNTIME_CHECKPOINT_BOOTSTRAP`
+- Working branch: `agent/longrun-checkpoints`
+- Remote baseline: `d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9`
+- Classification: `PARTIALLY_RECOVERED / IMPLEMENTATION_MISSING_OR_MASKED`
 
-## Verified remote state at bootstrap
+## Durable state now preserved
 
-The repository was empty (`main`, repository size reported as 0) when this checkpoint was created. The connected GitHub identity has push/admin permission.
+- 15 attached input identities in `manifests/PROJECT_SOURCE_SHA256_20260809.txt`.
+- 72-file immutable harness in `harness/BASS_v1_background_highl_harness/`.
+- 18-file historical partial overlay in
+  `recovered_sources/legacy_partial/bianchirustcoreRDAGcomplete/`.
+- Task 3–10 conversational evidence in
+  `docs/recovery/TRANSCRIPT_TASK3_10_STATE_20260809.md`.
+- Full search scope, outcomes, limitations, and validation in
+  `docs/recovery/RECOVERY_REPORT_20260809.md`.
 
-## Current-runtime source state
+The harness is not a solver: its own manifest declares `solver_code_included=false`. The
+partial overlay is quarantined and is not installed into a production package namespace.
 
-The current workspace contains the attached project-source archives listed below, but it does **not** contain the Git checkout or Git objects for the Task 3–10 implementation reported in the conversation. Consequently, the short commit identifiers below are evidence locators only and must not be treated as recovered commits until their objects and trees are independently recovered or the stages are reconstructed and reverified.
+The preserved immutable `docs/HARNESS_AUDIT_REPORT.md` contains stale prose saying OD0 was
+completed. The source bundle identifies that sentence as a known quarantined defect. It is
+not authorization: `state/gates.json` says `G-OD0=BLOCKED`, while `state/run_state.json`
+keeps OD001–004 pending and has no OD0 authorization receipt. Machine state takes precedence.
 
-Transcript-reported locators include:
+## Unresolved implementation locators
 
-- Task 5 review head: `3347547`
-- Task 6: `eaf13af`, fix `4e1a3b6`
-- Task 7: `54fb3bf` (later fix-round commit object unavailable here)
-- Task 8: `29327f9`, fix `e993691`
-- Task 9: `6d786e1`, fix `c3d45f3`
-- Task 10: in progress at the time of this checkpoint; no final commit reported
+`3347547`, `eaf13af`, `4e1a3b6`, `54fb3bf`, `29327f9`, `e993691`, `6d786e1`, and
+`c3d45f3` remain `TRANSCRIPT_ONLY`. None resolves in a visible local object store, the
+current public branch history, or the GitHub commit endpoint.
 
-Status of these implementation commits in this runtime: `TRANSCRIPT_ONLY / OBJECTS_NOT_FOUND`.
+The original scratch-root `.git` is currently hidden by an empty read-only tmpfs. An object
+store behind that mask cannot be inspected from this namespace, so the implementation is
+classified `MISSING_OR_MASKED`, not proven destroyed.
 
-## Durable attached source archives
+## Verification boundary
 
-SHA-256 values verified in the current workspace:
+- Recovered harness and overlay bytes match their source archives exactly.
+- Harness governed-file manifest: 71/71 OK.
+- Harness path-sensitivity control: validator PASS and 38/38 unit tests PASS at the exact
+  recorded execution path; expected fail-closed after repository relocation.
+- Recovered Python files: 4/4 compile in memory.
+- Supplied Rust 1.94.1 toolchain: offline Cargo metadata PASS; offline tests stopped before
+  compilation because `nalgebra` was absent from the empty temporary dependency cache.
+- Partial-overlay Python tests: pytest unavailable and complete baseline absent.
+- Remote tag advertisement: zero rows with successful `git ls-remote --tags`; server-side
+  unreachable objects remain non-enumerable.
+- No Task 3–10 production solver code was executed or scientifically validated.
 
-- `BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803(1).zip`
-  - `79c36566c958cc260adf82a2795a992fe7723c9d37611ab7b8d94de73fe831fa`
-- `lowell_bianchi_codex_automation_kit.zip`
-  - `3883ea604a1ed6ac0969f49c578b1324e34716d97a788b351d2e289ba14ce1c1`
-- `bianchirustcoreRDAGcomplete.tar.gz`
-  - `53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb`
+## Checkpoint policy
 
-These archives predate the transcript-reported Task 3–10 implementation and are not substitutes for its missing Git trees.
+1. `main` remains the integration target; recovery work is preserved on
+   `agent/longrun-checkpoints` by fast-forward only.
+2. WIP preservation never promotes a scientific claim.
+3. Missing stages require observed RED, fresh GREEN, cumulative regression, and independent
+   review before they may be called recovered.
+4. Push after each approved task or fix round and checkpoint at runtime boundaries.
+5. Do not commit credentials, caches, vendor toolchains, or unreviewed large binaries.
 
-## Checkpoint policy from this point forward
+## Next safe boundary
 
-1. Work is committed on `agent/longrun-checkpoints`; `main` remains the integration target.
-2. Push after every task-level independent review approval and after every approved fix round.
-3. During a long unapproved task, create a clearly labelled `wip(checkpoint)` commit before a runtime boundary or after at most roughly one hour of material changes.
-4. A checkpoint report must include the local commit SHA, the verified remote SHA, the exact test command/result, and dirty/clean worktree state.
-5. WIP commits are preservation only and do not promote scientific claims.
-6. Never infer missing code from conversational completion language. Missing stages are reconstructed under RED/GREEN tests and independent review.
-7. Do not commit credentials, local caches, vendor toolchains, or unreviewed large binary distributions.
-
-## Immediate next recovery boundary
-
-Recover the exact Task 3–10 Git objects if an external checkout or bundle exists. Otherwise reconstruct from the last durable source package, rerun all gates, and commit each recovered task separately before continuing beyond Task 10.
+First seek an authorized read-only export of the object store hidden behind the `.git`
+tmpfs or another external checkout/bundle. If unavailable, obtain the complete canonical
+Python baseline and reconstruct from Task 3 forward. Task 10 must not be resumed as if its
+65 focused transcript-only tests constituted a final reviewed checkpoint.
