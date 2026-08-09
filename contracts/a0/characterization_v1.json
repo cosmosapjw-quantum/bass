@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "contract_id": "bass.characterization.a0.background.v1",
+  "related_future_photon_contract": "contracts/a0/photon_formula_core_v1.json",
+  "formula_intake_does_not_change_first_slice_budget": true,
+  "unit_roundoff": {"expression": "2^-53", "hex_binary64": "0x1.0000000000000p-53"},
+  "dimensionless_guard": {
+    "formula": "abs(error) <= 64*u + 256*u*reference_scale",
+    "reference_scale": "max(1, fsum(abs(reference_term_i)))",
+    "term_list_must_be_declared": true
+  },
+  "background_budget": {
+    "budget_id": "A0_BACKGROUND_BUDGET_V1",
+    "atol": {
+      "HAMILTONIAN": {"value": 0.0, "unit": "s^-2"},
+      "CONTINUITY": {"value": 0.0, "unit": "J m^-3 s^-1"},
+      "RAYCHAUDHURI": {"value": 0.0, "unit": "s^-2"}
+    },
+    "rtol": {"expression": "1024*2^-53 = 2^-43", "hex_binary64": "0x1.0000000000000p-43", "decimal": 1.1368683772161603e-13},
+    "claim_policy": "Only this exact budget may support an A0 characterization claim."
+  },
+  "residual_channels": [
+    {
+      "id": "HAMILTONIAN",
+      "equation_id": "A0-EQ-BG-001",
+      "unit": "s^-2",
+      "ordered_terms": [
+        "3*H_s_inv^2",
+        "(c_m_s^2/2)*R3_m_inv2",
+        "-(8*pi*G_m3_kg_s2/c_m_s^2)*rho_energy_J_m3",
+        "-Lambda_m_inv2*c_m_s^2"
+      ]
+    },
+    {
+      "id": "CONTINUITY",
+      "equation_id": "A0-EQ-FLRW-001",
+      "unit": "J m^-3 s^-1",
+      "ordered_terms": [
+        "d_rho_energy_dt_J_m3_s",
+        "3*H_s_inv*rho_energy_J_m3",
+        "3*H_s_inv*pressure_J_m3"
+      ]
+    },
+    {
+      "id": "RAYCHAUDHURI",
+      "equation_id": "A0-EQ-FLRW-002",
+      "unit": "s^-2",
+      "ordered_terms": [
+        "dH_dt_s_inv2",
+        "(4*pi*G_m3_kg_s2/c_m_s^2)*rho_energy_J_m3",
+        "(4*pi*G_m3_kg_s2/c_m_s^2)*pressure_J_m3",
+        "-(c_m_s^2/6)*R3_m_inv2"
+      ]
+    }
+  ],
+  "evaluation": {
+    "residual_sum": "math.fsum(ordered_terms)",
+    "reference_scale": "math.fsum(abs(term) for term in ordered_terms)",
+    "zero_scale": "PASS iff raw_value == 0.0 under atol=0; relative_value=null",
+    "nonzero_scale": "PASS iff abs(raw_value) <= atol + rtol*reference_scale; relative_value=abs(raw_value)/reference_scale",
+    "aggregate": "PASS iff every channel PASS",
+    "empty_terms": "raise E_SERIALIZATION_CONTRACT",
+    "nonfinite_or_overflow": "raise E_NONFINITE",
+    "nonzero_subnormal_input_or_term": "raise E_SUBNORMAL_UNSUPPORTED",
+    "underflow_to_zero": "raise E_SUBNORMAL_UNSUPPORTED",
+    "negative_zero_hashing": "canonicalize_to_positive_zero"
+  },
+  "geometry_cases": [
+    {
+      "id": "A0-GEO-001",
+      "name": "Euclidean_spatial_frame",
+      "exact_inputs": {
+        "h_alpha_beta": [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+        "epsilon_123": 1
+      },
+      "expected_exact": {
+        "symmetric": true,
+        "inverse_is_identity": true,
+        "projector_idempotent": true,
+        "dimension": 3,
+        "orientation_positive": true
+      }
+    },
+    {
+      "id": "A0-GEO-002",
+      "name": "Abelian_type_I",
+      "exact_inputs": {
+        "family_id": "I",
+        "a_B": [0, 0, 0],
+        "n_B": [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      },
+      "expected_exact": {
+        "C_gamma_alpha_beta_all_zero": true,
+        "antisymmetry": true,
+        "jacobi": true,
+        "class_id": "A"
+      }
+    },
+    {
+      "id": "A0-GEO-003",
+      "name": "All_family_structural_registry",
+      "public_order": ["I", "II", "III", "IV", "V", "VI_0", "VI_h", "VII_0", "VII_h", "VIII", "IX"],
+      "identity_policy": "public_III_and_public_VI_h_minus_1_each_roundtrip_with_original_label_while_sharing_VI_h_minus_1_computational_kernel_and_VI_minus_1_9_is_not_a_twelfth_public_row",
+      "registry_rows": [
+        {"id": "I", "class_id": "A", "h_kind": "none"},
+        {"id": "II", "class_id": "A", "h_kind": "none"},
+        {"id": "III", "class_id": "B", "h_kind": "alias", "h": {"numerator": "-1", "denominator": "1"}},
+        {"id": "IV", "class_id": "B", "h_kind": "none"},
+        {"id": "V", "class_id": "B", "h_kind": "none"},
+        {"id": "VI_0", "class_id": "A", "h_kind": "boundary", "h": {"numerator": "0", "denominator": "1"}},
+        {"id": "VI_h", "class_id": "B", "h_kind": "parameterized_real_with_exact_subdispatch", "domain": "h<0; exact -1 is label-preserving III-equivalent; exact -1/9 uses exceptional handler; all other values use generic path"},
+        {"id": "VII_0", "class_id": "A", "h_kind": "boundary", "h": {"numerator": "0", "denominator": "1"}},
+        {"id": "VII_h", "class_id": "B", "h_kind": "generic_real", "domain": "h>0"},
+        {"id": "VIII", "class_id": "A", "h_kind": "none"},
+        {"id": "IX", "class_id": "A", "h_kind": "none"}
+      ],
+      "exceptional_branches": [
+        {"id": "VI_-1/9", "parent": "VI_h", "h": {"numerator": "-1", "denominator": "9"}, "double_counted": false}
+      ],
+      "dispatch_cases": [
+        {"family_id": "III", "h_type": "None", "expected": {"requested_id": "III", "canonical_id": "III", "branch_id": "III", "computational_key": "VI_h(h=-1)", "equivalent_public_labels": ["VI_h"]}},
+        {"family_id": "VI_h", "h_type": "Fraction", "h": "-1/1", "expected": {"requested_id": "VI_h", "canonical_id": "VI_h", "branch_id": "VI_h_exact_minus_1", "computational_key": "VI_h(h=-1)", "equivalent_public_labels": ["III"]}},
+        {"family_id": "VI_h", "h_type": "Fraction", "h": "-1/9", "expected": {"requested_id": "VI_h", "canonical_id": "VI_h", "branch_id": "VI_-1/9", "computational_key": "VI_-1/9", "equivalent_public_labels": [], "registry_only": true, "handler": "EXCEPTIONAL_VI_MINUS_1_9"}},
+        {"family_id": "VI_h", "h_type": "Fraction", "h": "0/1", "expected_error": "E_H_DOMAIN"},
+        {"family_id": "VII_h", "h_type": "Fraction", "h": "0/1", "expected_error": "E_H_DOMAIN"},
+        {"family_id": "VI_h", "h_type": "float64", "h_hex": "-0x1.0000000000000p+0", "expected_error": "E_H_SPECIAL_FLOAT"},
+        {"family_id": "VI_h", "h_type": "float64", "h_hex": "-0x1.0000000000001p+0", "expected": "VI_h_generic"},
+        {"family_id": "VI_h", "h_type": "float64", "h_hex": "-0x1.c71c71c71c71cp-4", "expected": "VI_h_generic_no_proximity_dispatch"},
+        {"family_id": "VII_h", "h_type": "float64", "h_hex": "0x1.0000000000000p-2", "expected": "VII_h_generic"}
+      ],
+      "required_exact_checks_per_row": [
+        "class_membership",
+        "commutator_antisymmetry",
+        "symbolic_Jacobi_using_n_B_times_a_B_equals_zero",
+        "alias_boundary_exception_deduplication",
+        "registry_presence_does_not_imply_runtime_readiness"
+      ],
+      "representative_policy": "scale_eigenvalue_order_and_sign_parity_orbit_deferred_to_geometry_representative_gate"
+    }
+  ],
+  "analytic_cases": [
+    {
+      "id": "A0-FLRW-001",
+      "name": "Minkowski",
+      "domain": "t_s > 0",
+      "fields": {"H_s_inv": "0", "dH_dt_s_inv2": "0", "rho_energy_J_m3": "0", "d_rho_energy_dt_J_m3_s": "0", "pressure_J_m3": "0", "R3_m_inv2": "0", "Lambda_m_inv2": "0"},
+      "expected_pass_channels": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+    },
+    {
+      "id": "A0-FLRW-002",
+      "name": "flat_de_Sitter",
+      "domain": "t_s > 0 and Lambda_m_inv2 > 0",
+      "fields": {"H_s_inv": "c_m_s*sqrt(Lambda_m_inv2/3)", "dH_dt_s_inv2": "0", "rho_energy_J_m3": "0", "d_rho_energy_dt_J_m3_s": "0", "pressure_J_m3": "0", "R3_m_inv2": "0"},
+      "expected_pass_channels": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+    },
+    {
+      "id": "A0-FLRW-003",
+      "name": "flat_dust",
+      "domain": "t_s > 0",
+      "fields": {"H_s_inv": "2/(3*t_s)", "dH_dt_s_inv2": "-2/(3*t_s^2)", "pressure_J_m3": "0", "rho_energy_J_m3": "3*c_m_s^2*H_s_inv^2/(8*pi*G_m3_kg_s2)", "d_rho_energy_dt_J_m3_s": "-3*H_s_inv*rho_energy_J_m3", "R3_m_inv2": "0", "Lambda_m_inv2": "0"},
+      "expected_pass_channels": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+    },
+    {
+      "id": "A0-FLRW-004",
+      "name": "flat_radiation",
+      "domain": "t_s > 0",
+      "fields": {"H_s_inv": "1/(2*t_s)", "dH_dt_s_inv2": "-1/(2*t_s^2)", "rho_energy_J_m3": "3*c_m_s^2*H_s_inv^2/(8*pi*G_m3_kg_s2)", "pressure_J_m3": "rho_energy_J_m3/3", "d_rho_energy_dt_J_m3_s": "-3*H_s_inv*(rho_energy_J_m3+pressure_J_m3)", "R3_m_inv2": "0", "Lambda_m_inv2": "0"},
+      "expected_pass_channels": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+    },
+    {
+      "id": "A0-FLRW-005",
+      "name": "Milne_curvature_sentinel",
+      "domain": "t_s > 0",
+      "fields": {"scale_factor_m": "c_m_s*t_s", "H_s_inv": "1/t_s", "dH_dt_s_inv2": "-1/t_s^2", "rho_energy_J_m3": "0", "d_rho_energy_dt_J_m3_s": "0", "pressure_J_m3": "0", "R3_m_inv2": "-6/(c_m_s^2*t_s^2)", "Lambda_m_inv2": "0"},
+      "expected_pass_channels": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+    },
+    {
+      "id": "A0-BI-001",
+      "name": "Kasner_handoff_not_first_slice_runtime",
+      "domain": "t_s > 0; sum(p_i)=sum(p_i^2)=1",
+      "fields": {"H_s_inv": "1/(3*t_s)", "sigma_i_s_inv": "(p_i-1/3)/t_s", "sigma2_s_inv2": "1/(3*t_s^2)", "R3_m_inv2": "0", "rho_energy_J_m3": "0", "Lambda_m_inv2": "0"},
+      "expected_identity": "3*H_s_inv^2-sigma2_s_inv2=0",
+      "implementation_gate": "A2_BIANCHI_I"
+    }
+  ],
+  "required_negative_controls": [
+    "change_constants_without_updating_constants_sha256_fails",
+    "change_residual_terms_or_values_without_updating_residuals_sha256_fails",
+    "change_budget_without_updating_budget_sha256_fails",
+    "flip_Hamiltonian_R3_sign_fails_A0-FLRW-005",
+    "remove_Hamiltonian_R3_term_fails_A0-FLRW-005",
+    "flip_Raychaudhuri_R3_sign_fails_A0-FLRW-005",
+    "remove_Raychaudhuri_R3_term_fails_A0-FLRW-005",
+    "replace_kinematic_expansion_with_ADM_sign_fails",
+    "mutate_each_explicit_c_power_fails_dimension_or_analytic_check",
+    "replace_normal_frame_rho_with_unlabeled_rest_frame_rho_fails_type_or_tilt_limit_check",
+    "remove_or_duplicate_each_ordered_term_fails_fixture_contract",
+    "mutate_structure_constant_sign_or_epsilon_index_fails_Jacobi_or_family_fixture"
+  ],
+  "required_edge_cases": [
+    "zero_scale_exact_zero",
+    "cancellation_with_nonzero_scale",
+    "smallest_normal_accepted_when_operations_remain_normal",
+    "subnormal_input_rejected",
+    "intermediate_underflow_rejected",
+    "overflow_rejected",
+    "nonfinite_rejected",
+    "empty_comparison_rejected"
+  ],
+  "production_tolerances_deferred": ["ODE", "backend_equivalence", "quadrature", "high_ell", "closure"]
+}
