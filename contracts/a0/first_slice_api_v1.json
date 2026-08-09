@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "contract_id": "bass.api.v1/a0-first-slice",
+  "public_module": "bass.api.v1",
+  "root_reexports_allowed": false,
+  "canonical_family_order": ["I", "II", "III", "IV", "V", "VI_0", "VI_h", "VII_0", "VII_h", "VIII", "IX"],
+  "exceptional_branches": [{"id": "VI_-1/9", "parent": "VI_h", "h": {"numerator": "-1", "denominator": "9"}}],
+  "enums": {
+    "CapabilityState": ["READY", "LOCKED_PENDING_EVIDENCE", "OUT_OF_SCOPE"],
+    "CheckStatus": ["PASS", "FAIL"],
+    "ResidualChannelID": ["HAMILTONIAN", "CONTINUITY", "RAYCHAUDHURI"]
+  },
+  "symbols": [
+    {"name": "API_CONTRACT_ID", "kind": "constant", "value": "bass.api.v1/a0-first-slice"},
+    {"name": "get_conventions", "kind": "function", "signature": "() -> ConventionSpec"},
+    {"name": "list_families", "kind": "function", "signature": "() -> tuple[FamilySpec, ...]"},
+    {"name": "select_family", "kind": "function", "signature": "(family_id: FamilyID, *, h: Fraction | float | numpy.float64 | None = None) -> FamilySelection"},
+    {"name": "capabilities", "kind": "function", "signature": "() -> CapabilitySnapshot"},
+    {"name": "CODATA_2022", "kind": "constant", "record_type": "PhysicalConstants"},
+    {"name": "A0_BACKGROUND_BUDGET_V1", "kind": "constant", "record_type": "ResidualBudget"},
+    {"name": "FLRWPoint", "kind": "frozen_record_constructor", "record_type": "FLRWPoint"},
+    {"name": "evaluate_flrw_residuals", "kind": "function", "signature": "(point: FLRWPoint, *, constants: PhysicalConstants = CODATA_2022) -> FLRWResidualSet"},
+    {"name": "check_flrw_residuals", "kind": "function", "signature": "(residuals: FLRWResidualSet, *, budget: ResidualBudget = A0_BACKGROUND_BUDGET_V1) -> ResidualCheckSet"},
+    {"name": "canonical_bytes", "kind": "function", "signature": "(record: CanonicalRecord) -> bytes"},
+    {"name": "content_sha256", "kind": "function", "signature": "(record: CanonicalRecord) -> str"}
+  ],
+  "records": {
+    "ConventionSpec": [
+      ["contract_id", "str", null], ["metric_id", "str", null], ["riemann_id", "str", null],
+      ["orientation_id", "str", null], ["physical_time_id", "str", null],
+      ["kinematic_expansion_id", "str", null], ["adm_relation_id", "str", null],
+      ["structure_id", "str", null], ["units_id", "str", null]
+    ],
+    "FamilySpec": [
+      ["family_id", "FamilyID", null], ["class_id", "str", null], ["h_kind", "str", null],
+      ["h_domain", "str | None", null], ["aliases", "tuple[str, ...]", null],
+      ["exceptional_branches", "tuple[str, ...]", null], ["capabilities", "CapabilitySnapshot", null]
+    ],
+    "FamilySelection": [
+      ["requested_id", "FamilyID", null], ["canonical_id", "FamilyID", null], ["branch_id", "str", null],
+      ["h_exact", "Fraction | None", null], ["h_binary64", "float | None", null],
+      ["registry_only", "bool", null], ["frame_parity", "str | None", null]
+    ],
+    "CapabilityRow": [["layer", "str", null], ["state", "CapabilityState", null], ["evidence_sha256", "str | None", null]],
+    "CapabilitySnapshot": [["rows", "tuple[CapabilityRow, ...]", null]],
+    "PhysicalConstants": [
+      ["c_m_s", "float64", "m s^-1"], ["G_m3_kg_s2", "float64", "m^3 kg^-1 s^-2"],
+      ["G_standard_uncertainty_m3_kg_s2", "float64", "m^3 kg^-1 s^-2"],
+      ["codata_year", "int", null], ["source_uri", "str", null]
+    ],
+    "FLRWPoint": [
+      ["t_s", "float64", "s"], ["H_s_inv", "float64", "s^-1"], ["dH_dt_s_inv2", "float64", "s^-2"],
+      ["rho_energy_J_m3", "float64", "J m^-3"], ["d_rho_energy_dt_J_m3_s", "float64", "J m^-3 s^-1"],
+      ["pressure_J_m3", "float64", "J m^-3"], ["R3_m_inv2", "float64", "m^-2"],
+      ["Lambda_m_inv2", "float64", "m^-2"]
+    ],
+    "ResidualChannel": [
+      ["channel_id", "ResidualChannelID", null], ["raw_value", "float64", "channel_unit"],
+      ["unit_id", "str", null], ["reference_scale", "float64", "channel_unit"],
+      ["relative_value", "float64 | None", "1"], ["ordered_terms", "tuple[float64, ...]", "channel_unit"]
+    ],
+    "FLRWResidualSet": [
+      ["contract_id", "str", null], ["point_sha256", "str", null], ["constants_sha256", "str", null],
+      ["channels", "tuple[ResidualChannel, ...]", null]
+    ],
+    "ResidualBudget": [
+      ["contract_id", "str", null], ["hamiltonian_atol_s_inv2", "float64", "s^-2"],
+      ["continuity_atol_J_m3_s", "float64", "J m^-3 s^-1"],
+      ["raychaudhuri_atol_s_inv2", "float64", "s^-2"], ["rtol", "float64", "1"]
+    ],
+    "ResidualCheck": [
+      ["channel_id", "ResidualChannelID", null], ["status", "CheckStatus", null],
+      ["limit", "float64", "channel_unit"], ["budget_sha256", "str", null]
+    ],
+    "ResidualCheckSet": [
+      ["status", "CheckStatus", null], ["residuals_sha256", "str", null], ["budget_sha256", "str", null],
+      ["checks", "tuple[ResidualCheck, ...]", null],
+      ["failed_channels", "tuple[ResidualChannelID, ...]", null]
+    ]
+  },
+  "constants": {
+    "CODATA_2022": {
+      "c_m_s": 299792458.0,
+      "G_m3_kg_s2": 6.6743e-11,
+      "G_standard_uncertainty_m3_kg_s2": 1.5e-15,
+      "codata_year": 2022,
+      "source_uri": "https://physics.nist.gov/cuu/pdf/JPCRD2022CODATA.pdf"
+    },
+    "A0_BACKGROUND_BUDGET_V1": {
+      "hamiltonian_atol_s_inv2": 0.0,
+      "continuity_atol_J_m3_s": 0.0,
+      "raychaudhuri_atol_s_inv2": 0.0,
+      "rtol_expression": "1024 * 2^-53"
+    }
+  },
+  "scalar_policy": {
+    "accepted_real_types": ["builtins.float", "numpy.float64"],
+    "rejected": ["bool", "int", "str", "complex", "numpy.float32", "nonfinite", "subclass", "nonzero_subnormal"],
+    "negative_zero": "canonicalize_to_positive_zero",
+    "storage": "little_endian_ieee754_binary64_copy"
+  },
+  "family_dispatch": {
+    "special_value_type": "fractions.Fraction_positive_denominator",
+    "VI_h": {"domain": "real h < 0", "exact_alias": "-1 -> III", "exact_exception": "-1/9 -> VI_-1/9", "exact_boundary": "0 rejected; use VI_0"},
+    "VII_h": {"domain": "real h > 0", "exact_boundary": "0 rejected; use VII_0"},
+    "binary64_policy": "generic_parameter_only_never_special_dispatch",
+    "reserved_binary64_values": [-1.0, 0.0],
+    "proximity_dispatch": false
+  },
+  "exception_hierarchy": [
+    "BASSError", "ConventionError", "ShapeTypeError", "DomainError", "ConstraintViolation",
+    "IntegrationFailure", "ConvergenceFailure", "UnsupportedSector", "BackendMismatch"
+  ],
+  "first_slice_error_map": {
+    "ConventionError": ["E_CONVENTION_ID", "E_FRAME_UNRESOLVED", "E_PARITY_UNRESOLVED"],
+    "ShapeTypeError": ["E_TYPE", "E_DTYPE", "E_SHAPE", "E_SUBCLASS", "E_NONFINITE", "E_SUBNORMAL_UNSUPPORTED", "E_IMMUTABLE", "E_SERIALIZATION_CONTRACT", "E_CONTENT_HASH"],
+    "DomainError": ["E_FAMILY_ID", "E_H_REQUIRED", "E_H_FORBIDDEN", "E_H_DOMAIN", "E_H_SPECIAL_FLOAT", "E_TIME_DOMAIN", "E_CONSTANT_DOMAIN"],
+    "UnsupportedSector": ["E_SECTOR_LOCKED", "E_SECTOR_OUT_OF_SCOPE"]
+  },
+  "finite_residual_miss": "return_FAIL_not_exception",
+  "a0_pass_hash_requirements": [
+    "FLRWResidualSet.constants_sha256 == content_sha256(CODATA_2022)",
+    "ResidualCheckSet.residuals_sha256 == content_sha256(FLRWResidualSet)",
+    "ResidualCheckSet.budget_sha256 == content_sha256(A0_BACKGROUND_BUDGET_V1)"
+  ],
+  "error_metadata_allowlist": ["field", "expected", "received_type", "shape", "unit_id", "family_id", "branch_id", "contract_id"],
+  "error_metadata_max_unicode_scalars": 256,
+  "canonical_frame": {
+    "prefix_ascii_nul_terminated": "BASS-CANONICAL-v1",
+    "layout": "prefix_with_NUL || uint64_be(metadata_length) || metadata_json || uint64_be(payload_length) || payload",
+    "metadata": {"encoding": "UTF-8", "unicode": "NFC", "sort_keys": true, "separators": [",", ":"], "allow_nan": false, "floating_values_allowed": false},
+    "payload": {"dtype": "<f8", "record_field_order": true, "negative_zero": "positive_zero"},
+    "fraction_metadata": "signed_decimal_numerator_and_positive_decimal_denominator_strings",
+    "unknown_or_duplicate_fields": "reject",
+    "trailing_bytes": "reject",
+    "hash": "SHA-256_complete_frame_lowercase_hex"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "decision_id": "A0-SCOPE-v1",
+  "decision_status": "OWNER_REVIEW_CANDIDATE",
+  "historical_receipts_modified": false,
+  "historical_decisions_satisfied": [],
+  "a0b_authority": "PLANNING_ONLY",
+  "implementation_requires": ["owner_approved_implementation_plan", "A1_IMPLEMENTATION_AUTHORIZATION"],
+  "statuses": ["IN_V1_REQUIRED", "OPTIONAL_NON_BLOCKING", "OUT_OF_SCOPE_V1"],
+  "initial_states": ["LOCKED_PENDING_EVIDENCE", "OUT_OF_SCOPE"],
+  "rows": [
+    {
+      "sector": "python_float64_reference",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A1_CONVENTIONS_REGISTRY_FLRW",
+      "claim_effect": "No scientific result may be authoritative without the transparent reference lane."
+    },
+    {
+      "sector": "all_family_registry",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A1_CONVENTIONS_REGISTRY_FLRW",
+      "claim_effect": "Registry presence is distinct from runtime support."
+    },
+    {
+      "sector": "homogeneous_geometry_all_families",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A2_HOMOGENEOUS_GEOMETRY",
+      "claim_effect": "Each family and VI_-1/9 needs isolated geometry and residual evidence."
+    },
+    {
+      "sector": "einstein_matter_background",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A3_BACKGROUND_DYNAMICS",
+      "claim_effect": "Background claims remain per family and matter model."
+    },
+    {
+      "sector": "global_tilt",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A4_TILT_DYNAMICS",
+      "claim_effect": "Forward-model tilt, momentum constraints, and zero-tilt limit are required."
+    },
+    {
+      "sector": "photon_I",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A5_RADIATION_TRANSPORT",
+      "claim_effect": "Intensity hierarchy claim remains locked until transport convergence passes."
+    },
+    {
+      "sector": "photon_E",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A5_RADIATION_TRANSPORT",
+      "claim_effect": "E and B enablement and evidence promotion are coupled."
+    },
+    {
+      "sector": "photon_B",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A5_RADIATION_TRANSPORT",
+      "claim_effect": "E and B enablement and evidence promotion are coupled."
+    },
+    {
+      "sector": "photon_V",
+      "status": "OUT_OF_SCOPE_V1",
+      "release_blocking": false,
+      "initial_state": "OUT_OF_SCOPE",
+      "enabling_gate": null,
+      "claim_effect": "Claim is false and v1 criteria are NOT_APPLICABLE."
+    },
+    {
+      "sector": "massless_neutrinos",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A5_RADIATION_TRANSPORT",
+      "claim_effect": "Collisionless transport with exactly m_nu=0 is required; massive neutrino transport is excluded."
+    },
+    {
+      "sector": "exact_electron_frame_thomson",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A6_COLLISION_HISTORY",
+      "claim_effect": "The exact electron-frame kernel must be the authority path; reduced paths cannot impersonate it."
+    },
+    {
+      "sector": "recombination",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A6_COLLISION_HISTORY",
+      "depends_on": ["exact_electron_frame_thomson"],
+      "claim_effect": "History and visibility coupling are required and separately characterized."
+    },
+    {
+      "sector": "reionization",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A6_COLLISION_HISTORY",
+      "depends_on": ["exact_electron_frame_thomson"],
+      "claim_effect": "History and visibility coupling are required and separately characterized."
+    },
+    {
+      "sector": "local_observer_boost_adapter",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A7_DETERMINISTIC_OUTPUT",
+      "claim_effect": "Output-only adapter; never a substitute for global tilt."
+    },
+    {
+      "sector": "deterministic_bianchi_sky_output",
+      "status": "IN_V1_REQUIRED",
+      "release_blocking": true,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "A7_DETERMINISTIC_OUTPUT",
+      "claim_effect": "Only deterministic homogeneous-solver outputs are in scope."
+    },
+    {
+      "sector": "rust_pyo3_backend",
+      "status": "OPTIONAL_NON_BLOCKING",
+      "release_blocking": false,
+      "initial_state": "LOCKED_PENDING_EVIDENCE",
+      "enabling_gate": "OPTIONAL_BACKEND_EQUIVALENCE",
+      "claim_effect": "Absence does not block v1; presence requires componentwise differential equivalence."
+    },
+    {
+      "sector": "photon_spatial_k_modes_and_svt_perturbations",
+      "status": "OUT_OF_SCOPE_V1",
+      "release_blocking": false,
+      "initial_state": "OUT_OF_SCOPE",
+      "enabling_gate": null,
+      "claim_effect": "No spatial perturbation, gauge, or transfer-function claim is permitted."
+    },
+    {
+      "sector": "stochastic_primordial_spectra",
+      "status": "OUT_OF_SCOPE_V1",
+      "release_blocking": false,
+      "initial_state": "OUT_OF_SCOPE",
+      "enabling_gate": null,
+      "claim_effect": "No stochastic-spectrum claim is permitted."
+    },
+    {
+      "sector": "likelihood_posterior_and_data_fitting",
+      "status": "OUT_OF_SCOPE_V1",
+      "release_blocking": false,
+      "initial_state": "OUT_OF_SCOPE",
+      "enabling_gate": null,
+      "claim_effect": "No likelihood, posterior, inference, or real-data authority path is permitted."
+    }
+  ],
+  "dependency_rules": [
+    "photon_I_is_required",
+    "photon_E_status_equals_photon_B_status",
+    "recombination_requires_exact_electron_frame_thomson",
+    "reionization_requires_exact_electron_frame_thomson",
+    "local_observer_boost_is_output_only",
+    "massless_neutrinos_means_collisionless_and_exact_m_nu_zero",
+    "registry_presence_never_implies_runtime_readiness"
+  ]
+}
