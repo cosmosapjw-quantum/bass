@@ -1,0 +1,84 @@
+schema_version: 1
+project: BASS
+recovery_mode: RUNTIME_INTERRUPTION_RECOVERY
+captured_at_utc: "2026-08-11T02:49:49Z"
+repository: cosmosapjw-quantum/bass
+
+authority_nodes:
+  - name: original_task_3_10_identity
+    state_label: MISSING_OR_MASKED
+    exact_commit: null
+    safe_as_next_base: false
+    note: No new Git-object source exists in the current runtime.
+
+  - name: forensic_boundary
+    state_label: DURABLE_VERIFIED
+    branch: agent/longrun-checkpoints
+    commit: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
+    tree: eae7ea44bc762df2d3b173e37bd3de9f1ea0487e
+    parent: 5365125a584b1c8c384e7cebfb6dd44aff8268de
+    safe_as_next_base: true
+
+  - name: route_a_a0_v1
+    state_label: SUPERSEDED
+    branch: agent/route-a-a0
+    commit: 98d289f4e237b9229560fbf2229d0f303966b63d
+    tree: fc0488447c32411ff327f7d03b652ddd67727afd
+    parent: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
+    safe_as_next_base: false
+
+  - name: route_a_a0_v2
+    state_label: RECONSTRUCTED
+    branch: agent/route-a-a0-v2
+    commit: 854ff3d9d5a0f4fef4dd8cb221fcc95003faed95
+    tree: d4717bf95fdd93502c3b12512d8d2a77195a16c1
+    parent: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
+    safe_as_next_base: false
+    note: Current durable A0 candidate; not A0B-freeze eligible on surviving evidence.
+
+  - name: earlier_a0_v3_candidate
+    state_label: MISSING_OR_MASKED
+    intended_branch: agent/route-a-a0-v3
+    transcript_commit: c3a8731d48a15670549b70445b56bcdb2b16d47c
+    safe_as_next_base: false
+
+  - name: review05_candidate
+    state_label: TRANSCRIPT_ONLY
+    transcript_commit: 20b960b7
+    safe_as_next_base: false
+    note: Claimed 100/100 and audit results have no current durable object or receipt.
+
+  - name: bianchireview87_archive
+    state_label: RECONSTRUCTED
+    original_source_sha256: 6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84
+    original_source_bytes: 2298253
+    sanitized_sha256: 337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f
+    sanitized_bytes: 2270244
+    excluded_member: ./refs_neutrinos_LewisChallinor.tex
+    excluded_member_sha256: 324058b7241662ea18a772f65971fe0a7be838a7e8070a3eb808c39770732c78
+    excluded_member_bytes: 63066
+    role: QUARANTINE_REFERENCE_ONLY
+    safe_as_next_base: false
+
+recovery_capsule:
+  state_label: RECONSTRUCTED
+  branch: agent/recovery/runtime-interruption-20260811-inventory
+  parent: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
+  commit_binding: SELF
+  remote_verification: REQUIRED_POST_SEAL
+  mutates_a0_candidate: false
+  freezes_a0b: false
+  authorizes_a1: false
+  resumes_task_10: false
+
+decisions:
+  exact_object_search_repeat: false
+  public_archive_sanitized: true
+  full_third_party_manuscript_member_committed: false
+  bibliographic_citations_short_excerpts_and_transcribed_equations_retained: true
+  a0_candidate_mutation: false
+  a0b_action: false
+  a1_authorized: false
+  task_10_authorized: false
+  merge_authorized: false
+  next_stage: DURABLE_ORCHESTRATION_CONTROL_PLANE

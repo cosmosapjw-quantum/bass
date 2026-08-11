@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-11T02:49:49Z",
+  "sanitized_at_utc": "2026-08-11T06:26:01Z",
+  "target": "recovered_sources/quarantine/bianchireview87_20260811/bianchireview87.tar.gz",
+  "archive": {
+    "bytes": 2270244,
+    "sha256": "337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f",
+    "gzip_integrity": "PASS",
+    "tar_listing": "PASS",
+    "member_count": 469,
+    "regular_files": 433,
+    "directories": 36,
+    "uncompressed_regular_bytes": 5294354,
+    "largest_member": {
+      "path": "./report/report.pdf",
+      "bytes": 481755
+    }
+  },
+  "publication_filter": {
+    "original_source_bytes": 2298253,
+    "original_source_sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+    "excluded_member": "./refs_neutrinos_LewisChallinor.tex",
+    "excluded_member_bytes": 63066,
+    "excluded_member_sha256": "324058b7241662ea18a772f65971fe0a7be838a7e8070a3eb808c39770732c78",
+    "excluded_member_count_in_sanitized_archive": 0,
+    "retained_members_match_source": "PASS",
+    "bibliographic_citations_short_excerpts_and_transcribed_equations_retained": true,
+    "full_manuscript_member_retained": false,
+    "exact_full_member_hash_retained": false,
+    "author_email_strings_retained": false,
+    "original_unsanitized_archive_committed": false
+  },
+  "container_safety": {
+    "absolute_or_drive_paths": 0,
+    "parent_traversal_paths": 0,
+    "backslash_paths": 0,
+    "duplicate_paths": 0,
+    "symlinks": 0,
+    "hardlinks": 0,
+    "devices": 0,
+    "fifos": 0,
+    "setid_members": 0,
+    "world_writable_members": 0,
+    "regular_executables": 2,
+    "git_roots_objects_refs_packs_indexes_or_bundles": 0
+  },
+  "nested_npz": {
+    "path": "./bianchi/matter/gaunt_tables.npz",
+    "zip_integrity": "PASS",
+    "member_count": 60,
+    "compressed_bytes": 30169,
+    "uncompressed_bytes": 429392,
+    "duplicate_names": 0,
+    "unsafe_names": 0,
+    "symlink_entries": 0
+  },
+  "scanner_availability": {
+    "gitleaks": false,
+    "trufflehog": false,
+    "detect_secrets": false,
+    "git_secrets": false,
+    "dedicated_scanner_limit_recorded": true
+  },
+  "bounded_secret_checks": {
+    "parent_direct_tar_pass": {
+      "regular_files_scanned": 433,
+      "high_confidence_signature_matches": 0,
+      "generic_sensitive_assignment_matches": 0,
+      "sensitive_filename_matches": 0
+    },
+    "independent_archive_pass": {
+      "text_files_scanned": 419,
+      "binary_files_scanned": 14,
+      "pdfs_text_extracted_and_scanned": 10,
+      "confirmed_secrets": 0,
+      "likely_false_positives": 0,
+      "generic_sensitive_candidates": 0,
+      "bounded_entropy_candidates": 0
+    }
+  },
+  "findings": [],
+  "public_quarantine_push_safe": true,
+  "caveats": [
+    "No dedicated secret-scanner binary was installed; the result is a bounded two-pass scan, not a universal proof.",
+    "The public archive is a sanitized derivative; the original source hash is retained only as provenance.",
+    "./bianchi/generated/riemann_frame.pkl is inert quarantine evidence and must not be deserialized without a later trust decision."
+  ]
+}

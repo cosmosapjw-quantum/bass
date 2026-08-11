@@ -1,0 +1,88 @@
+schema_version: 1
+project: BASS
+recovery_mode: RUNTIME_INTERRUPTION_RECOVERY
+task_stage: FINAL_PRE_INFRASTRUCTURE_SALVAGE
+repository: cosmosapjw-quantum/bass
+branch: agent/recovery/runtime-interruption-20260811-inventory
+commit: SELF
+commit_resolution: Resolve the branch after create-only publication.
+tree: SELF_TREE
+parent: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
+remote_verified: REQUIRED_POST_SEAL
+dirty_files_before_mutation: []
+
+accepted_facts:
+  - c9cd8ecb is the durable forensic boundary.
+  - route-a-a0-v2 is the latest surviving remote A0 candidate.
+  - the intended recovery ref was absent before publication.
+  - the uploaded source archive has SHA-256 6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84.
+  - the sanitized public archive has SHA-256 337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f.
+  - ./refs_neutrinos_LewisChallinor.tex was excluded from the public archive.
+
+reconstructed_facts:
+  - The archive is a reconstructed quarantine/reference snapshot.
+  - This capsule is reconstructed from currently surviving durable authority.
+
+transcript_only_claims:
+  - review05 commit 20b960b7 and its claimed 100/100 and independent audit results
+  - original Task 3-10 commit-like locators and Task 10 progress
+
+missing_or_masked_objects:
+  - exact original Task 3-10 Git objects
+  - c3a8731d48a15670549b70445b56bcdb2b16d47c
+
+superseded_candidates:
+  - branch: agent/route-a-a0
+    commit: 98d289f4e237b9229560fbf2229d0f303966b63d
+
+decisions:
+  - Do not repeat the exhausted exact-object search without a new Git-object source.
+  - Do not mutate A0, freeze A0B, authorize A1, or resume Task 10.
+  - Preserve only the sanitized archive as inert public quarantine evidence.
+  - Do not commit the excluded third-party manuscript or the original unsanitized archive.
+  - Stop immediately after remote commit/tree/parent identity verification.
+
+changed_files_scope:
+  - docs/recovery/runtime-interruption-20260811/
+  - recovered_sources/quarantine/bianchireview87_20260811/
+
+checks:
+  - fresh clone base identity
+  - git fsck --full --strict
+  - original source identity, exact manuscript exclusion, and sanitized gzip/tar integrity
+  - retained-member identity against the original source archive
+  - complete tar member manifest
+  - bounded two-pass secret scan
+  - manifest and SHA256 replay
+  - create-only remote ref verification
+
+audit_results:
+  remote_preflight: PASS
+  archive_container: PASS
+  archive_bounded_security: PASS_WITH_DISCLOSED_SCANNER_LIMIT
+  scope_containment: PASS
+
+artifacts:
+  - RECOVERY_INVENTORY.md
+  - RECOVERY_STATE_LEDGER.yaml
+  - QUARANTINE_PROVENANCE.md
+  - archive_members.tsv
+  - archive_security_scan.json
+  - manifest.json
+  - SHA256SUMS
+  - replay_validation.log
+
+open_questions:
+  - Durable orchestration/control-plane requirements are intentionally deferred to the next authorized stage.
+
+risks:
+  - Archive contents remain untrusted and non-authoritative.
+  - Exact original identity remains unavailable.
+
+next_exact_action: STOP_AFTER_REMOTE_IDENTITY_VERIFICATION_THEN_AWAIT_CONTROL_PLANE_SCOPE
+
+EXACT_TASK_3_10_IDENTITY: MISSING_OR_MASKED
+ROUTE_A_STATUS: RECONSTRUCTED_A0_PATH_SURVIVES_REMOTELY
+A0_STATUS: A0_CANDIDATE
+A0B_STATUS: NOT_FREEZE_ELIGIBLE
+A1_AUTHORIZED: NO
