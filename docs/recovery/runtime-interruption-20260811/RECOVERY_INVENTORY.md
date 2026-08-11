@@ -20,7 +20,7 @@ Public-archive sanitization time:
 ## Isolated Git checkout
 
 - Repository: `cosmosapjw-quantum/bass`
-- Recovery branch planned for create-only publication:
+- Recovery branch published by create-only publication:
   `agent/recovery/runtime-interruption-20260811-inventory`
 - Fresh-clone base ref: `agent/longrun-checkpoints`
 - Base commit: `c9cd8ecb8765649ace77ea8f22890ff4c24153eb`
@@ -50,6 +50,24 @@ account (`admin`, `maintain`, `push`, and `pull` permissions reported true).
 The intended new recovery ref was absent in both `git ls-remote` and the GitHub branch
 query before publication. `agent/route-a-a0-v3` was also absent. No force update is
 authorized.
+
+## Post-seal remote identity
+
+The recovery payload was published and then verified through both the connected GitHub
+repository view and `git ls-remote`:
+
+- Sealed commit: `9a8f35ff107f4eb8053477bff2b9c8c77633b43a`
+- Sealed tree: `95233a394939d6a48bdc8b59fee199ffae65cb10`
+- Sole parent: `c9cd8ecb8765649ace77ea8f22890ff4c24153eb`
+- Relationship to the forensic boundary: one commit ahead, zero commits behind
+- Sanitized archive Git blob: `91b53b10cd5ba741a267a1532ba72be9b6ac012a`
+- Verification time: `2026-08-11T09:26:59Z`
+- Receipt: `REMOTE_IDENTITY_RECEIPT.json`
+
+The follow-up carrying the receipt uses a predecessor-seal model: it binds the exact
+payload commit above and is required to be its direct fast-forward child. The carrier does
+not attempt to encode its own Git SHA inside its own tree. Its identity is resolved from
+the branch after publication, which avoids an impossible recursive self-hash.
 
 ## Sanitized quarantined archive
 
@@ -117,3 +135,23 @@ trusted.
 The earlier exhaustive exact-object search has no genuinely new Git-object source to
 inspect. This archive is a new source snapshot, not a new object store. Repeating the prior
 104-locator search is therefore not authorized by this evidence.
+
+## Next-stage preparation boundary
+
+All 16 currently supplied project-source identities are consolidated in
+`NEXT_STAGE_INPUT_LOCK.yaml`. The lock records roles and dispositions; it does not vendor
+the Rust distribution, xAct, unsanitized archive, legacy automation kit, or quarantined
+scripts into an executable path. Existing durable repository representations remain in
+their separate lanes:
+
+- exact low-ell acceptance contract under `docs/specs/`;
+- harness-only background/high-ell provenance under `harness/`;
+- historical partial Rust/Python overlay under `recovered_sources/legacy_partial/`;
+- sanitized `bianchireview87` snapshot under `recovered_sources/quarantine/`.
+
+The next stage is `DURABLE_ORCHESTRATION_CONTROL_PLANE`, status
+`PREPARED_NOT_STARTED`. It must begin from the final fast-forward tip of this recovery
+branch, first revalidate the sealed predecessor and input lock, and remain separate from
+the Route A A0 candidate. This preparation does not authorize control-plane
+implementation, A0 mutation, A0B freeze, A1, Task 10, scientific execution, dependency
+installation, or merge.

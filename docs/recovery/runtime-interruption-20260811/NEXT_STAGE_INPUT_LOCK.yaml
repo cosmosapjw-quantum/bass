@@ -1,0 +1,274 @@
+schema_version: 1
+project: BASS
+purpose: DURABLE_ORCHESTRATION_CONTROL_PLANE_PREPARATION
+input_set_id: BASS_CONTROL_PLANE_INPUTS_20260811_V1
+input_count: 16
+captured_at_utc: "2026-08-11T09:26:59Z"
+status: PREPARED_NOT_STARTED
+repository: cosmosapjw-quantum/bass
+recovery_branch: agent/recovery/runtime-interruption-20260811-inventory
+sealed_recovery_commit: 9a8f35ff107f4eb8053477bff2b9c8c77633b43a
+
+lock_semantics:
+  discovery_policy: EXACT_16_ENTRY_ALLOWLIST_ONLY
+  filesystem_glob_allowed: false
+  unlisted_files_are_inputs: false
+  unlisted_files_in_finalized_staging: FATAL
+  symlink_following_allowed: false
+  content_identity_verified_in_current_runtime: true
+  bytes_are_not_implied_to_be_committed: true
+  uncommitted_inputs_require_hash-matched_rematerialization: true
+  listing_is_not_execution_authorization: true
+  listing_is_not_scientific_authority: true
+  conflict_policy: FAIL_CLOSED
+  historical_15_input_lock: manifests/PROJECT_SOURCE_SHA256_20260809.txt
+
+operation_defaults:
+  identity_and_metadata_verification: true
+  content_read: false
+  archive_extract: false
+  import: false
+  execute: false
+  install: false
+  deserialize: false
+  production_overlay: false
+  override_requires_hash_bound_authorization_receipt: true
+
+inputs:
+  - id: SRC01
+    locked_basename: 01-physmath-research-harness-gpt56.zip
+    name: physmath-research-harness-gpt56.zip
+    bytes: 32648
+    sha256: 9adde688f8020e7feb2c1c0304b3204dbe70dd01e2d87e64a5c4eb357c019934
+    role: GENERIC_RESEARCH_GOVERNANCE_REFERENCE
+    disposition: SELECTIVE_TRANSPLANT_ONLY
+    authority_tier: ADVISORY
+    storage_mode: HASH_LOCK_ONLY
+    container_entries: 59
+    superseded_by: SRC14_SELECTIVE_TRANSPLANT
+    committed_bytes: false
+
+  - id: SRC02
+    locked_basename: 02-physmath-coding-harness-gpt56.zip
+    name: physmath-coding-harness-gpt56.zip
+    bytes: 25533
+    sha256: 6e67e999a0c19f6ed9de7c339067cc11691d5cf5cb662a11756d8fc393c849b4
+    role: GENERIC_SCIENTIFIC_CODING_PROCESS_REFERENCE
+    disposition: STRUCTURAL_CONCEPTS_NO_OVERLAY
+    authority_tier: ADVISORY
+    storage_mode: HASH_LOCK_ONLY
+    container_entries: 46
+    superseded_by: SRC14_SPECIALIZED_HARNESS
+    committed_bytes: false
+
+  - id: SRC03
+    locked_basename: 03-Low-ell-Bianchi-Einstein-Boltzmann-Solver.txt
+    name: Low-ell Bianchi Einstein-Boltzmann Solver.txt
+    bytes: 17592
+    sha256: de4c4d3d467e91d3f8420b5b2748ee7294db3ca8e809df4045b2f8c2d71881f1
+    role: PRIMARY_LOW_ELL_AUDIT_AND_ACCEPTANCE_CONTRACT
+    disposition: EXACT_DURABLE_COPY
+    authority_tier: ACCEPTANCE_CONTRACT_NOT_IMPLEMENTATION
+    storage_mode: COMMITTED_EXACT_BYTES
+    committed_bytes: true
+    repository_path: docs/specs/LOWELL_BIANCHI_FINAL_CODE_AUDIT_CONTRACT_20260810.txt
+    implementation_evidence: false
+
+  - id: SRC04
+    locked_basename: 04-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz.asc
+    name: rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz.asc
+    bytes: 801
+    sha256: 942bc6926af6a2130d70e77933e3df09d39beeedafad77710259e6df7eadee08
+    role: TOOLCHAIN_DETACHED_SIGNATURE_INPUT
+    disposition: AUTHENTICITY_CHECK_ONLY
+    authority_tier: TOOLCHAIN_PROVENANCE
+    storage_mode: HASH_LOCK_ONLY
+    signature_target: SRC08
+    pinned_signing_fingerprint: 108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE
+    committed_bytes: false
+
+  - id: SRC05
+    locked_basename: 05-rust_1_94_1_env.sh
+    name: rust_1_94_1_env.sh
+    bytes: 240
+    sha256: 8e84fa4b09a0e7e50f05302f4e3b3373442fdbd4f3ddb725713e082d9776b64b
+    role: UNTRUSTED_ENVIRONMENT_HELPER
+    disposition: QUARANTINE_DO_NOT_SOURCE
+    authority_tier: DENYLISTED_EXECUTABLE_INPUT
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC06
+    locked_basename: 06-Adaptive-CMB-Code-Development-Protocol.txt
+    name: Adaptive CMB Code Development Protocol.txt
+    bytes: 8705
+    sha256: 8e1140b4922b7556970998465e0ce9126bf644bc108d9b78a73a2bb48027a1dc
+    role: BOUNDED_HYPOTHESIS_AND_DUAL_AUDIT_REFERENCE
+    disposition: ADVISORY_ONLY_REQUIRES_EXPLICIT_CONTROL_PLANE_ADOPTION
+    authority_tier: ADVISORY_SUPERSEDED_FOR_EXECUTION
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC07
+    locked_basename: 07-Adaptive-CMB-Code-Research-Executor-DAG-Governed-Development-Mandatory-Dual-Audit-Plot-Driven-Adversarial-Loop.txt
+    name: Adaptive CMB Code Research Executor.txt
+    bytes: 12670
+    sha256: 8c6d7bd933cd7a80057a10816e692c10816a41d560129b3e8470983d2be2f4a9
+    role: DAG_EXECUTOR_AND_PLOT_AUDIT_REFERENCE
+    disposition: ADVISORY_ONLY_REQUIRES_EXPLICIT_CONTROL_PLANE_ADOPTION
+    authority_tier: ADVISORY_SUPERSEDED_FOR_EXECUTION
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC08
+    locked_basename: 08-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz
+    name: rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz
+    bytes: 192287020
+    sha256: 294b3d81fa72e62581276290c60c81eb8b58498d333d422ca1dfc432877d0c40
+    role: OFFLINE_TOOLCHAIN_DISTRIBUTION
+    disposition: DEFER_NO_INSTALL_NO_VENDOR
+    authority_tier: TOOLCHAIN_PROVENANCE
+    storage_mode: EXTERNAL_HASH_LOCK_ONLY
+    container_entries: 51085
+    expanded_bytes: 1644585984
+    container_checksum: NONE
+    detached_signature_input: SRC04
+    committed_bytes: false
+
+  - id: SRC09
+    locked_basename: 09-Figure-Residual-Error-Pass.txt
+    name: Figure Residual Error Pass.txt
+    bytes: 3315
+    sha256: 37b64cd6d232b3525a838f2f23a05ca44aa99c6362f0a28b695397fbbffc8e22
+    role: OPTIONAL_FIGURE_VALIDATION_PROFILE
+    disposition: RELEASE_AUDIT_REFERENCE_ONLY
+    authority_tier: ADVISORY_INACTIVE
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC10
+    locked_basename: 10-Figure-Hostile-Audit.txt
+    name: Figure Hostile Audit.txt
+    bytes: 5183
+    sha256: 46b920c886549a228876ddb7b5651d1a213ff9ad4669843ea4afc3700b4f5bbc
+    role: OPTIONAL_FIGURE_ADVERSARIAL_PROFILE
+    disposition: RELEASE_AUDIT_REFERENCE_ONLY
+    authority_tier: ADVISORY_INACTIVE
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC11
+    locked_basename: 11-bootstrap.sh
+    name: bootstrap.sh
+    bytes: 2488
+    sha256: 215b4d2aac919c1c4efa45fb49be66368c526b81f954a3ee9c2f0c0c3cb0872b
+    role: UNTRUSTED_BOOTSTRAP_SCRIPT
+    disposition: QUARANTINE_NOT_EXECUTED
+    authority_tier: DENYLISTED_EXECUTABLE_INPUT
+    storage_mode: HASH_LOCK_ONLY
+    committed_bytes: false
+
+  - id: SRC12
+    locked_basename: 12-bianchirustcoreRDAGcomplete.tar.gz
+    name: bianchirustcoreRDAGcomplete.tar.gz
+    bytes: 44365
+    sha256: 53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb
+    role: HISTORICAL_PARTIAL_RUST_PYTHON_OVERLAY
+    disposition: PARTIALLY_RECOVERED_REFERENCE_ONLY
+    authority_tier: QUARANTINE_REFERENCE
+    storage_mode: HASH_LOCKED_SOURCE_WITH_COMMITTED_QUARANTINED_MEMBERS
+    container_entries: 23
+    regular_files: 18
+    committed_bytes: false
+    repository_representation: recovered_sources/legacy_partial/bianchirustcoreRDAGcomplete
+    safe_as_production_base: false
+
+  - id: SRC13
+    locked_basename: 13-lowell_bianchi_codex_automation_kit.zip
+    name: lowell_bianchi_codex_automation_kit.zip
+    bytes: 52267
+    sha256: 3883ea604a1ed6ac0969f49c578b1324e34716d97a788b351d2e289ba14ce1c1
+    role: LEGACY_PATCH80R_PROCESS_KIT
+    disposition: CONCEPTS_ONLY_RUNNER_REJECTED
+    authority_tier: DENYLISTED_LEGACY_RUNNER
+    storage_mode: HASH_LOCK_ONLY
+    container_entries: 38
+    committed_bytes: false
+    embedded_completion_claims_inheritable: false
+
+  - id: SRC14
+    locked_basename: 14-BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803-1-.zip
+    name: BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803.zip
+    bytes: 418717
+    sha256: 79c36566c958cc260adf82a2795a992fe7723c9d37611ab7b8d94de73fe831fa
+    role: BACKGROUND_HIGH_ELL_HARNESS_ONLY_PROVENANCE
+    disposition: DURABLE_VERIFIED_NON_SOLVER_SEPARATE_LANE
+    authority_tier: HISTORICAL_HARNESS_ONLY
+    storage_mode: HASH_LOCKED_ENVELOPE_WITH_COMMITTED_CANONICAL_SUBTREE
+    container_entries: 103
+    committed_bytes: false
+    repository_representation: harness/BASS_v1_background_highl_harness
+    live_snapshot_node: OD0_BLOCKED
+    solver_code_included: false
+
+  - id: SRC15
+    locked_basename: 15-xAct_1.3.0.tgz
+    name: xAct_1.3.0.tgz
+    bytes: 15613945
+    sha256: 7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be
+    role: SYMBOLIC_TOOL_DEPENDENCY_ARCHIVE
+    disposition: DEFER_NO_INSTALL_NO_VENDOR
+    authority_tier: VENDOR_DEPENDENCY_PROVENANCE_UNKNOWN
+    storage_mode: EXTERNAL_HASH_LOCK_ONLY
+    container_entries: 693
+    expanded_regular_bytes: 185962743
+    redistribution_status: NOT_ESTABLISHED_FOR_REPOSITORY_VENDORING
+    committed_bytes: false
+
+  - id: SRC16
+    locked_basename: 16-bianchireview87.tar-1-.gz
+    name: bianchireview87.tar(1).gz
+    bytes: 2298253
+    sha256: 6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84
+    role: RECONSTRUCTED_SOURCE_REPORT_SNAPSHOT
+    disposition: SANITIZED_QUARANTINE_REFERENCE_ONLY
+    authority_tier: QUARANTINE_REFERENCE
+    storage_mode: ORIGINAL_HASH_LOCK_WITH_COMMITTED_SANITIZED_DERIVATIVE
+    original_container_entries: 470
+    original_committed_bytes: false
+    sanitized_repository_path: recovered_sources/quarantine/bianchireview87_20260811/bianchireview87.tar.gz
+    sanitized_bytes: 2270244
+    sanitized_sha256: 337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f
+    safe_as_production_base: false
+
+precedence:
+  - CURRENT_REMOTE_GIT_OBJECT_IDENTITY_AND_RECOVERY_RECEIPTS
+  - EXACT_COMMITTED_LOW_ELL_ACCEPTANCE_CONTRACT
+  - MACHINE_READABLE_HARNESS_STATE_WITHIN_ITS_SEPARATE_LANE
+  - HASH_LOCKED_PROCESS_PROTOCOLS_AND_AUDIT_PROFILES
+  - QUARANTINED_OR_LEGACY_SOURCE_SNAPSHOTS
+  - TRANSCRIPT_ONLY_CLAIMS
+
+authority_conflict_rule: CURRENT_GIT_RECEIPTS_AND_MACHINE_STATE_OVERRIDE_PROCESS_PROMPTS_THAT_REQUEST_IMMEDIATE_PATCH_EXECUTION_OR_PLOTS
+
+next_stage_permissions:
+  control_plane_design: REQUIRES_EXPLICIT_OWNER_AUTHORIZATION
+  control_plane_implementation: false
+  a0_candidate_mutation: false
+  a0b_freeze: false
+  a1: false
+  task_10: false
+  scientific_execution: false
+  dependency_installation: false
+  source_overlay: false
+  merge: false
+
+operational_intake_requirements:
+  - Materialize exactly the 16 allowlisted names in a clean staging view.
+  - Recompute decimal bytes and SHA-256 before any content read.
+  - Reject symlinks and any unlisted finalized-staging entry.
+  - Require a separate receipt before archive listing, extraction, import, execution, installation, deserialization, or overlay.
+  - For SRC08, freshly verify SRC04 against the pinned full fingerprint before any toolchain use.
+  - For SRC16, use only the committed sanitized derivative; never substitute the original unsanitized archive.
+
+next_exact_action: OWNER_REVIEW_AND_AUTHORIZE_CP0_CONTROL_PLANE_BOOTSTRAP_FROM_FINAL_RECOVERY_BRANCH_TIP

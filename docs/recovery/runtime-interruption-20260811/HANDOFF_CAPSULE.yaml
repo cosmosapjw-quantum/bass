@@ -1,20 +1,31 @@
-schema_version: 1
+schema_version: 2
 project: BASS
 recovery_mode: RUNTIME_INTERRUPTION_RECOVERY
-task_stage: FINAL_PRE_INFRASTRUCTURE_SALVAGE
+task_stage: POST_SEAL_RECOVERY_COMPLETION
 repository: cosmosapjw-quantum/bass
 branch: agent/recovery/runtime-interruption-20260811-inventory
-commit: SELF
-commit_resolution: Resolve the branch after create-only publication.
-tree: SELF_TREE
+binding_model: PREDECESSOR_SEAL_WITH_DIRECT_CHILD_RECEIPT
+commit: 9a8f35ff107f4eb8053477bff2b9c8c77633b43a
+commit_semantics: SEALED_RECOVERY_PAYLOAD_COMMIT
+tree: 95233a394939d6a48bdc8b59fee199ffae65cb10
 parent: c9cd8ecb8765649ace77ea8f22890ff4c24153eb
-remote_verified: REQUIRED_POST_SEAL
+parent_semantics: SEALED_RECOVERY_PAYLOAD_SOLE_PARENT
+remote_verified: true
+remote_verification_subject: SEALED_RECOVERY_PAYLOAD_COMMIT
+remote_verified_at_utc: "2026-08-11T09:26:59Z"
+branch_tip_at_verification: 9a8f35ff107f4eb8053477bff2b9c8c77633b43a
+remote_verification_receipt: REMOTE_IDENTITY_RECEIPT.json
+receipt_carrier:
+  relationship: DIRECT_CHILD_OF_SEALED_RECOVERY_COMMIT
+  identity_resolution: RESOLVE_BRANCH_TIP_AFTER_FAST_FORWARD_PUBLICATION
+  recursive_self_hash_required: false
 dirty_files_before_mutation: []
 
 accepted_facts:
-  - c9cd8ecb is the durable forensic boundary.
+  - c9cd8ecb8765649ace77ea8f22890ff4c24153eb is the durable forensic boundary.
   - route-a-a0-v2 is the latest surviving remote A0 candidate.
-  - the intended recovery ref was absent before publication.
+  - the recovery ref was absent before publication and later resolved remotely to 9a8f35ff107f4eb8053477bff2b9c8c77633b43a.
+  - the sealed recovery commit has tree 95233a394939d6a48bdc8b59fee199ffae65cb10 and sole parent c9cd8ecb8765649ace77ea8f22890ff4c24153eb.
   - the uploaded source archive has SHA-256 6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84.
   - the sanitized public archive has SHA-256 337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f.
   - ./refs_neutrinos_LewisChallinor.tex was excluded from the public archive.
@@ -40,11 +51,38 @@ decisions:
   - Do not mutate A0, freeze A0B, authorize A1, or resume Task 10.
   - Preserve only the sanitized archive as inert public quarantine evidence.
   - Do not commit the excluded third-party manuscript or the original unsanitized archive.
-  - Stop immediately after remote commit/tree/parent identity verification.
+  - Complete post-seal receipts and next-stage input locking without starting the control plane.
+  - Use the final fast-forward tip of this recovery branch as the only admissible control-plane design base.
+  - Do not base control-plane work on an A0 candidate or quarantine snapshot.
 
-changed_files_scope:
-  - docs/recovery/runtime-interruption-20260811/
-  - recovered_sources/quarantine/bianchireview87_20260811/
+changed_files:
+  sealed_recovery_payload:
+    - docs/recovery/runtime-interruption-20260811/HANDOFF_CAPSULE.yaml
+    - docs/recovery/runtime-interruption-20260811/QUARANTINE_PROVENANCE.md
+    - docs/recovery/runtime-interruption-20260811/RECOVERY_INVENTORY.md
+    - docs/recovery/runtime-interruption-20260811/RECOVERY_STATE_LEDGER.yaml
+    - docs/recovery/runtime-interruption-20260811/SHA256SUMS
+    - docs/recovery/runtime-interruption-20260811/archive_members.tsv
+    - docs/recovery/runtime-interruption-20260811/archive_security_scan.json
+    - docs/recovery/runtime-interruption-20260811/audit_summary.md
+    - docs/recovery/runtime-interruption-20260811/git_head_tree_parent_before.txt
+    - docs/recovery/runtime-interruption-20260811/git_status_before.txt
+    - docs/recovery/runtime-interruption-20260811/manifest.json
+    - docs/recovery/runtime-interruption-20260811/remote_preflight.txt
+    - docs/recovery/runtime-interruption-20260811/replay_validation.log
+    - recovered_sources/quarantine/bianchireview87_20260811/README.md
+    - recovered_sources/quarantine/bianchireview87_20260811/bianchireview87.tar.gz
+  post_seal_receipt_followup:
+    - docs/recovery/runtime-interruption-20260811/HANDOFF_CAPSULE.yaml
+    - docs/recovery/runtime-interruption-20260811/RECOVERY_INVENTORY.md
+    - docs/recovery/runtime-interruption-20260811/RECOVERY_STATE_LEDGER.yaml
+    - docs/recovery/runtime-interruption-20260811/audit_summary.md
+    - docs/recovery/runtime-interruption-20260811/CONTROL_PLANE_HANDOFF.md
+    - docs/recovery/runtime-interruption-20260811/NEXT_STAGE_INPUT_LOCK.yaml
+    - docs/recovery/runtime-interruption-20260811/REMOTE_IDENTITY_RECEIPT.json
+    - docs/recovery/runtime-interruption-20260811/post_seal_identity_validation.log
+    - docs/recovery/runtime-interruption-20260811/manifest.json
+    - docs/recovery/runtime-interruption-20260811/SHA256SUMS
 
 checks:
   - fresh clone base identity
@@ -55,12 +93,18 @@ checks:
   - bounded two-pass secret scan
   - manifest and SHA256 replay
   - create-only remote ref verification
+  - post-seal git ls-remote and local commit-object identity agreement
+  - 16-input content lock and disposition review
+  - receipt-carrier fast-forward precondition
 
 audit_results:
   remote_preflight: PASS
   archive_container: PASS
   archive_bounded_security: PASS_WITH_DISCLOSED_SCANNER_LIMIT
   scope_containment: PASS
+  sealed_remote_identity: PASS
+  next_stage_input_lock: PASS
+  control_plane_status: PREPARED_NOT_STARTED
 
 artifacts:
   - RECOVERY_INVENTORY.md
@@ -71,18 +115,26 @@ artifacts:
   - manifest.json
   - SHA256SUMS
   - replay_validation.log
+  - REMOTE_IDENTITY_RECEIPT.json
+  - NEXT_STAGE_INPUT_LOCK.yaml
+  - CONTROL_PLANE_HANDOFF.md
+  - post_seal_identity_validation.log
+artifact_list_semantics: KEY_ARTIFACTS_NON_EXHAUSTIVE
+exhaustive_artifact_index: manifest.json
 
 open_questions:
-  - Durable orchestration/control-plane requirements are intentionally deferred to the next authorized stage.
+  - The durable orchestration/control-plane implementation design remains a separately authorized next stage.
 
 risks:
   - Archive contents remain untrusted and non-authoritative.
   - Exact original identity remains unavailable.
 
-next_exact_action: STOP_AFTER_REMOTE_IDENTITY_VERIFICATION_THEN_AWAIT_CONTROL_PLANE_SCOPE
+next_exact_action: OWNER_REVIEW_AND_AUTHORIZE_CP0_CONTROL_PLANE_BOOTSTRAP_FROM_FINAL_RECOVERY_BRANCH_TIP
 
 EXACT_TASK_3_10_IDENTITY: MISSING_OR_MASKED
 ROUTE_A_STATUS: RECONSTRUCTED_A0_PATH_SURVIVES_REMOTELY
 A0_STATUS: A0_CANDIDATE
 A0B_STATUS: NOT_FREEZE_ELIGIBLE
 A1_AUTHORIZED: NO
+CONTROL_PLANE_STATUS: PREPARED_NOT_STARTED
+CONTROL_PLANE_IMPLEMENTATION_AUTHORIZED: NO

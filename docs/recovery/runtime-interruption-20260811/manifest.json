@@ -1,15 +1,58 @@
 {
-  "a1_authorized": false,
-  "capsule_role": "FINAL_PRE_INFRASTRUCTURE_SALVAGE",
-  "captured_at_utc": "2026-08-11T02:49:49Z",
-  "commit_binding": "SELF via the Git commit containing this manifest and the verified remote branch ref",
-  "exact_task_3_10_identity": "MISSING_OR_MASKED",
+  "schema_version": 2,
+  "project": "BASS",
+  "recovery_mode": "RUNTIME_INTERRUPTION_RECOVERY",
+  "capsule_role": "POST_SEAL_COMPLETED_RECOVERY_AND_CONTROL_PLANE_PREPARATION",
+  "inventory_started_at_utc": "2026-08-11T02:49:49Z",
+  "archive_sanitized_at_utc": "2026-08-11T06:26:01Z",
+  "post_seal_observed_at_utc": "2026-08-11T09:26:59Z",
+  "repository": "cosmosapjw-quantum/bass",
+  "branch": "agent/recovery/runtime-interruption-20260811-inventory",
+  "commit_binding": {
+    "model": "PREDECESSOR_SEAL_WITH_DIRECT_CHILD_RECEIPT",
+    "sealed_payload_commit": "9a8f35ff107f4eb8053477bff2b9c8c77633b43a",
+    "sealed_payload_tree": "95233a394939d6a48bdc8b59fee199ffae65cb10",
+    "sealed_payload_parent": "c9cd8ecb8765649ace77ea8f22890ff4c24153eb",
+    "receipt_carrier_required_parent": "9a8f35ff107f4eb8053477bff2b9c8c77633b43a",
+    "receipt_carrier_commit_embedded": false,
+    "receipt_carrier_resolution": "RESOLVE_FINAL_BRANCH_TIP_AFTER_FAST_FORWARD_PUBLICATION",
+    "recursive_self_hash_required": false
+  },
+  "sealed_payload_integrity_records": {
+    "manifest_bytes": 4475,
+    "manifest_sha256": "1622413e53212b9d77bba565c7a1214a4ae12814a56fefcb15536e29a638c684",
+    "sha256sums_bytes": 1863,
+    "sha256sums_sha256": "7d2faca2cc9cd2108f77990bc4b766093a859ff64e79067719fb765dfb3899ff",
+    "retrieval": "git show sealed_payload_commit:path"
+  },
+  "authority": {
+    "exact_task_3_10_identity": "MISSING_OR_MASKED",
+    "route_a_status": "RECONSTRUCTED_A0_PATH_SURVIVES_REMOTELY",
+    "a0_status": "A0_CANDIDATE",
+    "a0b_status": "NOT_FREEZE_ELIGIBLE",
+    "a1_authorized": false,
+    "task_10_authorized": false,
+    "control_plane_status": "PREPARED_NOT_STARTED",
+    "control_plane_implementation_authorized": false
+  },
   "files": [
     {
-      "bytes": 3259,
+      "bytes": 4455,
+      "git_mode": "100644",
+      "path": "docs/recovery/runtime-interruption-20260811/CONTROL_PLANE_HANDOFF.md",
+      "sha256": "27a1b585ce6cee1ec58bb3dfa99b64b3c1d298942698a5cc9fdad512e03ad458"
+    },
+    {
+      "bytes": 6614,
       "git_mode": "100644",
       "path": "docs/recovery/runtime-interruption-20260811/HANDOFF_CAPSULE.yaml",
-      "sha256": "ee4669e73253d0bf6ba318523bd8a8621ca971366bc0d2ad90c4be5e451dd7b5"
+      "sha256": "a44568e7287b8e9cdc0a3ff4d52e1b64545ba9874390011190278d853c6ae27c"
+    },
+    {
+      "bytes": 10858,
+      "git_mode": "100644",
+      "path": "docs/recovery/runtime-interruption-20260811/NEXT_STAGE_INPUT_LOCK.yaml",
+      "sha256": "37859330999da82b1cd7a02fe076551edb684afd8417d7cfa5fa7ec848eeb6de"
     },
     {
       "bytes": 2881,
@@ -18,16 +61,22 @@
       "sha256": "edc13c63d04deecc2322abc8da9cb8126cdf1f5173db7c03a28b2106eaf5cf3c"
     },
     {
-      "bytes": 5943,
+      "bytes": 7966,
       "git_mode": "100644",
       "path": "docs/recovery/runtime-interruption-20260811/RECOVERY_INVENTORY.md",
-      "sha256": "940250dc92959fdd7d1ef3542588ebc3204307ea6b22eb6db1ecbb7b4ad5e20b"
+      "sha256": "e080e1ea5c9c78d548b1fea739c5a3ba4e7665e273d50c3ab4bcf04b1e283c6d"
     },
     {
-      "bytes": 2973,
+      "bytes": 4702,
       "git_mode": "100644",
       "path": "docs/recovery/runtime-interruption-20260811/RECOVERY_STATE_LEDGER.yaml",
-      "sha256": "31e7b43bd65fd66953aff3ccda9f8b7e4ccc16f79aa1993139ea551356c6a7c7"
+      "sha256": "95b820cf0f1c2b7e9fd06456c4ec6b9808acf2dc33a37de960c30755f7525e0d"
+    },
+    {
+      "bytes": 2355,
+      "git_mode": "100644",
+      "path": "docs/recovery/runtime-interruption-20260811/REMOTE_IDENTITY_RECEIPT.json",
+      "sha256": "49911a902096b3a7851a4205a7dcfeecad2b7ce4871ad5847c3e4022ec9fa1ff"
     },
     {
       "bytes": 59559,
@@ -42,10 +91,10 @@
       "sha256": "09f8b4f005267beb8ce75866cd47885eeeaee6087754320fa66a926e001408ff"
     },
     {
-      "bytes": 2136,
+      "bytes": 3444,
       "git_mode": "100644",
       "path": "docs/recovery/runtime-interruption-20260811/audit_summary.md",
-      "sha256": "98c4141ae74f1c86bc958fb7ded60e15ea36c5ab8bd4e7a48dd85e2d7e7b15bc"
+      "sha256": "555bc437dcb23e5d526cc9c42f2762fad814b8b8f952fbac6d6dae4478b7eb3d"
     },
     {
       "bytes": 320,
@@ -58,6 +107,12 @@
       "git_mode": "100644",
       "path": "docs/recovery/runtime-interruption-20260811/git_status_before.txt",
       "sha256": "30bc1120cb36a07ad87c9284f9cb41d093694958e6b85134c6ba7fc592186227"
+    },
+    {
+      "bytes": 1246,
+      "git_mode": "100644",
+      "path": "docs/recovery/runtime-interruption-20260811/post_seal_identity_validation.log",
+      "sha256": "191ba10908d439d17c87ff7c68579b6ed9da9a7ca79db8105fef2c19c4a5710b"
     },
     {
       "bytes": 645,
@@ -84,28 +139,28 @@
       "sha256": "337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f"
     }
   ],
-  "parent_commit": "c9cd8ecb8765649ace77ea8f22890ff4c24153eb",
-  "parent_tree": "eae7ea44bc762df2d3b173e37bd3de9f1ea0487e",
-  "planned_branch": "agent/recovery/runtime-interruption-20260811-inventory",
-  "project": "BASS",
-  "recovery_mode": "RUNTIME_INTERRUPTION_RECOVERY",
-  "repository": "cosmosapjw-quantum/bass",
+  "coverage": {
+    "manifest_subject_exclusions": [
+      "docs/recovery/runtime-interruption-20260811/manifest.json",
+      "docs/recovery/runtime-interruption-20260811/SHA256SUMS"
+    ],
+    "checksum_ledger_exclusions": [
+      "docs/recovery/runtime-interruption-20260811/SHA256SUMS"
+    ],
+    "checksum_path_set_contract": "manifest.files UNION manifest.json",
+    "subject_file_count": 17,
+    "checksum_row_count": 18,
+    "paths_unique_and_normalized": true
+  },
   "sanitization": {
-    "bibliographic_citations_short_excerpts_and_transcribed_equations_retained": true,
+    "original_source_bytes": 2298253,
+    "original_source_sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+    "sanitized_bytes": 2270244,
+    "sanitized_sha256": "337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f",
     "excluded_member": "./refs_neutrinos_LewisChallinor.tex",
     "excluded_member_bytes": 63066,
     "excluded_member_sha256": "324058b7241662ea18a772f65971fe0a7be838a7e8070a3eb808c39770732c78",
     "full_manuscript_member_retained": false,
-    "original_source_bytes": 2298253,
-    "original_source_sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
-    "sanitized_at_utc": "2026-08-11T06:26:01Z",
-    "sanitized_bytes": 2270244,
-    "sanitized_sha256": "337f2aed1b959b0fcb9bf78a35b17a2a182b24d280a882d025800c113d3ff30f"
-  },
-  "schema_version": 1,
-  "self_exclusions": [
-    "docs/recovery/runtime-interruption-20260811/manifest.json",
-    "docs/recovery/runtime-interruption-20260811/SHA256SUMS"
-  ],
-  "subject_file_count": 13
+    "original_unsanitized_archive_committed": false
+  }
 }
