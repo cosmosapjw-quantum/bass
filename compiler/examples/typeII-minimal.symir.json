@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "formula_authority_hash": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361",
+  "nodes": [
+    {
+      "id": "q_v",
+      "kind": "PointwiseRate",
+      "authority_level": "continuum",
+      "stage": "collision",
+      "domain": "S2",
+      "units": "L^-1",
+      "frame": "normal",
+      "representation": "scalar angular field",
+      "dependencies": ["v_e", "e"],
+      "metadata": {"depends_on_direction": true},
+      "consumes_tokens": [],
+      "produces_tokens": []
+    },
+    {
+      "id": "E_sky",
+      "kind": "ObservedSkyEndpoint",
+      "authority_level": "continuum",
+      "stage": "output",
+      "domain": "sky",
+      "units": "1",
+      "frame": "transport_to_observed",
+      "representation": "endpoint map",
+      "dependencies": ["transport_state"],
+      "metadata": {},
+      "consumes_tokens": ["transport_to_sky_once"],
+      "produces_tokens": []
+    }
+  ],
+  "equations": [],
+  "predicates": [
+    {
+      "id": "typeII_aligned",
+      "classification": "exact_invariant",
+      "expr": {
+        "op": "And",
+        "args": [
+          {
+            "op": "Eq",
+            "args": [
+              {"op": "Ref", "args": [], "value": "N2"},
+              {"op": "Const", "args": [], "value": 0}
+            ],
+            "value": null
+          }
+        ],
+        "value": null
+      },
+      "proof_receipt": "G-DYN-MANIFOLD-II"
+    }
+  ],
+  "pass_receipts": []
+}
