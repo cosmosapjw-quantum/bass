@@ -1,0 +1,42 @@
+{
+  "stage": "WSC-0",
+  "status": "PASS_CORE_WOLFRAM15_CAPABILITIES__ENV_OPEN_XACT_PYTHON_EXTERNAL",
+  "observed_evaluator": {
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "actual_probe": {
+      "NDSolve_Pantelides": "PASS",
+      "NDSolve_StructuralMatrix": "PASS",
+      "symbolic_jacobian": "PASS",
+      "SparseArray": "PASS",
+      "FunctionCompile": "PASS",
+      "FunctionCompileExportString_WolframIR": "PASS",
+      "ExternalEvaluate_Python": "ENV_OPEN",
+      "xAct_xTensor": "ENV_OPEN"
+    }
+  },
+  "public_documentation_support": {
+    "DAE_index_reduction": ["Pantelides", "StructuralMatrix"],
+    "DAE_consistent_initialization": true,
+    "symbolic_or_finite_difference_jacobian": true,
+    "automatic_or_user_sparse_jacobian": true,
+    "Python_ExternalEvaluate": true,
+    "Python_client_local_engine": true,
+    "WXF_numpy_consumer": true,
+    "FunctionCompile": true,
+    "WolframIR_export": true
+  },
+  "policy": {
+    "Wolfram_C_codegen": "DISABLED_UNLESS_SEPARATELY_APPROVED",
+    "private_NDSolve_internal_API": "FORBIDDEN_AS_COMPILER_CONTRACT",
+    "xAct_native_replay": "OPEN_IN_THIS_EVALUATOR; USER_LOCAL_ENV_EXPECTED",
+    "Python_external_session": "OPEN_IN_THIS_EVALUATOR; OFFICIAL_FEATURE_SUPPORTED"
+  },
+  "sources": [
+    "Wolfram NDSolve DAE documentation",
+    "Wolfram NDSolve design documentation",
+    "Wolfram ExternalEvaluate Python documentation",
+    "Wolfram Client Library for Python documentation",
+    "Wolfram Compiler documentation"
+  ]
+}
