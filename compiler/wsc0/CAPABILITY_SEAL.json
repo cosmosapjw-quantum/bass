@@ -1,6 +1,6 @@
 {
   "stage": "WSC-0",
-  "status": "PASS_CORE_WOLFRAM15_CAPABILITIES__ENV_OPEN_XACT_PYTHON_EXTERNAL",
+  "status": "PASS_CORE_WOLFRAM15_CAPABILITIES__PASS_XACT_PACKAGE_BOOTSTRAP__ENV_OPEN_PYTHON_EXTERNAL",
   "observed_evaluator": {
     "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
     "system_id": "Linux-x86-64",
@@ -12,7 +12,10 @@
       "FunctionCompile": "PASS",
       "FunctionCompileExportString_WolframIR": "PASS",
       "ExternalEvaluate_Python": "ENV_OPEN",
-      "xAct_xTensor": "ENV_OPEN"
+      "xAct_xTensor": "PASS_LOAD_VIA_PINNED_BOOTSTRAP",
+      "xAct_xCoba": "PASS_LOAD_VIA_PINNED_BOOTSTRAP",
+      "xAct_xTras": "PASS_LOAD_VIA_PINNED_BOOTSTRAP",
+      "xAct_xPerm_native": "PASS"
     }
   },
   "public_documentation_support": {
@@ -29,7 +32,7 @@
   "policy": {
     "Wolfram_C_codegen": "DISABLED_UNLESS_SEPARATELY_APPROVED",
     "private_NDSolve_internal_API": "FORBIDDEN_AS_COMPILER_CONTRACT",
-    "xAct_native_replay": "OPEN_IN_THIS_EVALUATOR; USER_LOCAL_ENV_EXPECTED",
+    "xAct_native_replay": "PACKAGE_LOAD_PASS; HEADLESS_DEF_TENSOR_OPERATION_RECEIPT_OPEN",
     "Python_external_session": "OPEN_IN_THIS_EVALUATOR; OFFICIAL_FEATURE_SUPPORTED"
   },
   "sources": [
@@ -37,6 +40,8 @@
     "Wolfram NDSolve design documentation",
     "Wolfram ExternalEvaluate Python documentation",
     "Wolfram Client Library for Python documentation",
-    "Wolfram Compiler documentation"
-  ]
+    "Wolfram Compiler documentation",
+    "xAct 1.3.0 official distribution"
+  ],
+  "xact_bootstrap_receipt": "wsc0/XACT_BOOTSTRAP_RECEIPT.json"
 }
