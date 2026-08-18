@@ -1,0 +1,1 @@
+from .rust_typeii import GeneratedBundle, generate_typeii_rust_bundle
