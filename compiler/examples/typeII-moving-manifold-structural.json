@@ -1,0 +1,128 @@
+{
+  "pass_name": "WSC-2-StructuralGraph",
+  "pass_version": "1.0.0",
+  "input_hash": "6d54930b10c5d73f8d8f7637880ffbcde95d0ace71213e39f3fc072231aa58e5",
+  "active_exact_predicates": [
+    "typeII_aligned"
+  ],
+  "aliases": {},
+  "active_equations": [
+    "Kdef",
+    "Pdef",
+    "Pdotdef",
+    "v2dot"
+  ],
+  "stage_equations": {
+    "background": [
+      "v2dot"
+    ],
+    "collision": [
+      "Kdef",
+      "Pdef",
+      "Pdotdef"
+    ]
+  },
+  "incidence": {
+    "Kdef": [
+      "K",
+      "P",
+      "Pdot"
+    ],
+    "Pdef": [
+      "P",
+      "v2"
+    ],
+    "Pdotdef": [
+      "P",
+      "Pdot",
+      "v2"
+    ],
+    "v2dot": [
+      "v2"
+    ]
+  },
+  "equation_to_variable": {
+    "Kdef": "K",
+    "Pdef": "P",
+    "Pdotdef": "Pdot",
+    "v2dot": "v2"
+  },
+  "unmatched_equations": [],
+  "unmatched_variables": [],
+  "dependency_edges": [
+    [
+      "P",
+      "K"
+    ],
+    [
+      "P",
+      "Pdot"
+    ],
+    [
+      "Pdot",
+      "K"
+    ],
+    [
+      "v2",
+      "P"
+    ],
+    [
+      "v2",
+      "Pdot"
+    ]
+  ],
+  "blocks": [
+    {
+      "id": 0,
+      "variables": [
+        "v2"
+      ],
+      "equations": [
+        "v2dot"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": 1,
+      "variables": [
+        "P"
+      ],
+      "equations": [
+        "Pdef"
+      ],
+      "dependencies": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "variables": [
+        "Pdot"
+      ],
+      "equations": [
+        "Pdotdef"
+      ],
+      "dependencies": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "variables": [
+        "K"
+      ],
+      "equations": [
+        "Kdef"
+      ],
+      "dependencies": [
+        1,
+        2
+      ]
+    }
+  ],
+  "proof_receipts": [
+    "G-DYN-MANIFOLD-II"
+  ],
+  "content_hash": "12df4129d8c3cf97c8137f6c6a246c2bc0bb6262d25bfc528bf1483498084802"
+}
