@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/schemas/symir-v1.schema.json",
+  "title": "BASS Neutral Continuum SymIR v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "formula_authority_hash",
+    "nodes",
+    "equations",
+    "predicates",
+    "pass_receipts"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "formula_authority_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nodes": {"type": "array"},
+    "equations": {"type": "array"},
+    "predicates": {"type": "array"},
+    "pass_receipts": {"type": "array"}
+  },
+  "additionalProperties": false
+}
