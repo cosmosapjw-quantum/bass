@@ -1,0 +1,25 @@
+{
+  "stage": "WSC-0-xAct-amendment",
+  "status": "PASS_PACKAGE_BOOTSTRAP__HEADLESS_TENSOR_PROBE_OPEN",
+  "project_pin": {
+    "archive": "xAct_1.3.0.tgz",
+    "sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be"
+  },
+  "current_evaluator": {
+    "mnt_data_visible": false,
+    "official_archive_sha_matches_project_pin": true,
+    "FindFile_xTensor_after_temp_extract": "PASS",
+    "xPerm_native_linux_executable": "PASS",
+    "xTensor_load": "PASS",
+    "xCoba_load": "PASS",
+    "xTras_load": "PASS",
+    "headless_DefManifold_one_shot": "TOOL_WRAPPER_OPEN"
+  },
+  "policy": {
+    "local_project_archive_preferred": true,
+    "network_fallback_requires_exact_hash": true,
+    "network_fallback_default": false,
+    "wolfram_c_codegen": "DISABLED_UNLESS_SEPARATELY_APPROVED"
+  },
+  "interpretation": "xAct is usable in the Wolfram evaluator once the pinned archive is materialized inside the evaluator filesystem and its extracted parent is added to $Path. The remaining open item is a clean headless tensor-operation adapter/receipt, not package discovery or xPerm availability."
+}
