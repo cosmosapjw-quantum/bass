@@ -16,7 +16,7 @@
 - [x] stage extraction and diagnostics
 - [x] deterministic pass hash/proof receipts
 - [x] regression tests
-- [ ] branch commit/push and stacked PR
+- [x] branch commit/push and stacked PR
 
 ## Deferred to WSC-3
 Pantelides/dummy derivatives, residual/mass-matrix DAE lowering and initialization-system generation.
