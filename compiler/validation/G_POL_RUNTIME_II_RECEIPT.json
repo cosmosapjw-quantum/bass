@@ -1,0 +1,101 @@
+{
+  "base_head": "6a235df0b24841cf553ab141a17c143f74329233",
+  "base_pr": 7,
+  "claim_boundary": {
+    "allowed": "Type-II aligned-tilt polarized finite-v Thomson collision/Kato reference runtime",
+    "not_allowed": [
+      "full polarized Liouville/free-stream runtime",
+      "arbitrary external screen-basis Wigner phase",
+      "cross-family polarized runtime",
+      "adaptive/restarted m<n Krylov",
+      "production migration",
+      "data/statistics readiness"
+    ]
+  },
+  "fresh_verification": {
+    "full_rustcore_locked_offline": {
+      "status": "PASS",
+      "bundle_sha256": "f30a4da90c68819d16df44632da91fa76e443df3b8dcf1d55c843bede1e1fb29",
+      "bundle_size_bytes": 33103685,
+      "vendor_directories": 176,
+      "archive_base_lib": "122 passed, 0 failed",
+      "after_typeii_scalar_generated_integration": "128 passed, 0 failed",
+      "full_pr8_replay": "128 lib + 12 polarized integration passed; 0 failed",
+      "cargo_command": "cargo test --locked --offline --quiet",
+      "crate_root_required": true
+    },
+    "python_targeted_prior_closeout": "10 passed",
+    "rust_exact_pr6_runtime_isolated_prior_closeout": "12 passed, 0 failed",
+    "rustfmt_check": "PASS"
+  },
+  "integration_repair": {
+    "remote_test_file": "runtime/rust/typeii/tests/support/typeii_polarized_tail.rs",
+    "root_cause": "type alias declared as TMaT while helpers referenced TMat",
+    "red_reproduction": "rustc E0425 cannot find type TMat",
+    "minimal_fix": "rename TMaT to TMat",
+    "post_fix_targeted": "12 passed, 0 failed"
+  },
+  "next": {
+    "merge_gate": "CLOSED: exact RustCore locked/offline vendor replay passed",
+    "performance_after_merge_gate": "G-KRYLOV-ADAPT",
+    "physics_extension": "polarized geometric/free-streaming basis-transport gate"
+  },
+  "physics_metrics": {
+    "I_E_feedback_order": 1.9623596907810117,
+    "I_generator_reduction": 1.249000902703301e-16,
+    "K_commutator_defect": 2.6020852139652106e-18,
+    "P2_defect": 0.0,
+    "V_generated": 0.0,
+    "grid6_fixed_v01_null": 0.009605220075000013,
+    "lebedev26_fixed_v01_null": 3.88671016333962e-07,
+    "lebedev26_fixed_v02_null": 2.3861029712080026e-05,
+    "paired_max_left": 1.115402857041025e-16,
+    "paired_max_null": 3.731582943878999e-16,
+    "python_actual_typeii_kato": {
+      "defect": [6.567973065200533e-08, 1.641251221527632e-08, 4.1026645780565306e-09, 1.0256366407699115e-09, 2.5640811113297854e-10],
+      "h": [0.05, 0.025, 0.0125, 0.00625, 0.003125],
+      "order": 2.0000672622980664,
+      "source": "actual class_a_tilted.rhs + SahaHistory/RateSchedule internal lane"
+    },
+    "python_deep_cone_min_eig": 1.7922457709825377,
+    "python_max_screen_leak": 2.883660323400213e-15,
+    "quadrupole_polarization": 0.08000000000000018,
+    "rest_spectrum": {
+      "counts": {"-0.3": 5, "-0.5": 3, "-1.0": 95, "0.0": 1},
+      "dimension": 104,
+      "max_cluster_deviation": 1.9984014443252818e-15,
+      "max_imag": 0.0
+    },
+    "rust_actual_typeii_kato": {
+      "defect": [8.85800731775899e-08, 2.2137574603513797e-08, 5.5339286676007455e-09, 1.3834540810678604e-09, 3.4586155264997273e-10],
+      "fitted_order": 2.0000505423441926,
+      "h": [0.05, 0.025, 0.0125, 0.00625, 0.003125]
+    },
+    "rust_deep_cone_margin": 0.7459613827690769,
+    "rust_deep_cone_screen_leak": 1.6715954190263236e-16
+  },
+  "plot_sha256": {
+    "polarized_boosted_equilibrium_null_vs_tilt.png": "5f7db79fa7264f70655dcd99d04704d14e5949936146d96a09de90e0c6c5d6b2",
+    "polarized_i_e_feedback_scaling.png": "f15acb94c8eaf90ea7892b8afe98a8e020e83b1b37181fb4dad2c93fbb9eae16",
+    "polarized_kato_endpoint_convergence.png": "edf0035315784544753f770308b85823774743f6be06c2f7dff40ef54cb63c64"
+  },
+  "provenance": {
+    "exact_pr6_runtime_source_sha256": "78dc3dc28cfade9ea0066b2033c16b28faf570d591b806590da54138b6b2eb0d",
+    "exact_rustcore_cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "offline_bundle_sha256": "f30a4da90c68819d16df44632da91fa76e443df3b8dcf1d55c843bede1e1fb29",
+    "polarization_authority_sha256": "b4becce7e7162991c63b7f065d56c6a29c4123b9b9030eb8eba1b30eee3a3a6b",
+    "rust": "1.94.1",
+    "cargo": "1.94.1",
+    "rustfmt": "1.8.0-stable",
+    "typeii_schedule_git_blob": "ec336c88944715122ff4d6758298d9c4fd40d727",
+    "typeii_schedule_sha256": "c3fe9a57afd3690fb51f4180fe22d5047bcfa0ec3672ed9beda5504b0fd3f2d3"
+  },
+  "scope": {
+    "carrier": "basis-free rank-9 coherency tensor (symmetric 6 + antisymmetric/V 3)",
+    "family": "Bianchi Type II aligned v2 lane",
+    "production_solver_modified": false,
+    "runtime": "finite-v polarized Thomson + moving-equilibrium projector/Kato + exact PR #6 full-dimensional expm_action"
+  },
+  "stage": "G-POL-RUNTIME-II",
+  "status": "PASS_POLARIZED_REFERENCE_RUNTIME__FULL_RUSTCORE_LOCKED_OFFLINE_REPLAY_PASS"
+}
