@@ -1,0 +1,293 @@
+//! G-POL-RUNTIME-II reference polarized finite-tilt collision/Kato lane.
+//! Polarization authority SHA-256: b4becce7e7162991c63b7f065d56c6a29c4123b9b9030eb8eba1b30eee3a3a6b
+//! Carrier: 9 real components per angular node: symmetric 6 + antisymmetric 3.
+
+pub const POLARIZATION_AUTHORITY_SHA256: &str =
+    "b4becce7e7162991c63b7f065d56c6a29c4123b9b9030eb8eba1b30eee3a3a6b";
+
+const PI: f64 = std::f64::consts::PI;
+type Mat3 = [[f64; 3]; 3];
+
+#[inline]
+fn transpose(a: &Mat3) -> Mat3 {
+    let mut t = [[0.0; 3]; 3];
+    for i in 0..3 {
+        for j in 0..3 {
+            t[i][j] = a[j][i];
+        }
+    }
+    t
+}
+
+#[inline]
+fn mm(a: &Mat3, b: &Mat3) -> Mat3 {
+    let mut c = [[0.0; 3]; 3];
+    for i in 0..3 {
+        for j in 0..3 {
+            for k in 0..3 {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+    c
+}
+
+#[inline]
+fn projector(e: [f64; 3]) -> Mat3 {
+    let mut p = [[0.0; 3]; 3];
+    for i in 0..3 {
+        for j in 0..3 {
+            p[i][j] = if i == j { 1.0 } else { 0.0 } - e[i] * e[j];
+        }
+    }
+    p
+}
+
+#[inline]
+fn unpack9(p: &[f64]) -> Mat3 {
+    debug_assert_eq!(p.len(), 9);
+    [
+        [p[0], p[3] + p[8], p[4] - p[7]],
+        [p[3] - p[8], p[1], p[5] + p[6]],
+        [p[4] + p[7], p[5] - p[6], p[2]],
+    ]
+}
+
+#[inline]
+fn pack9(m: &Mat3) -> [f64; 9] {
+    [
+        m[0][0],
+        m[1][1],
+        m[2][2],
+        0.5 * (m[0][1] + m[1][0]),
+        0.5 * (m[0][2] + m[2][0]),
+        0.5 * (m[1][2] + m[2][1]),
+        0.5 * (m[1][2] - m[2][1]),
+        0.5 * (m[2][0] - m[0][2]),
+        0.5 * (m[0][1] - m[1][0]),
+    ]
+}
+
+fn aberrate(e: [f64; 3], v: f64, axis: usize) -> ([f64; 3], f64) {
+    assert!(axis < 3 && v.abs() < 1.0);
+    if v.abs() < 1e-15 {
+        return (e, 1.0);
+    }
+    let gamma = 1.0 / (1.0 - v * v).sqrt();
+    let mu = e[axis];
+    let d = gamma * (1.0 - v * mu);
+    let mut ep = e;
+    ep[axis] += (gamma - 1.0) * mu - gamma * v;
+    for x in &mut ep {
+        *x /= d;
+    }
+    let n = (ep.iter().map(|x| x * x).sum::<f64>()).sqrt();
+    for x in &mut ep {
+        *x /= n;
+    }
+    (ep, d)
+}
+
+/// Canonical basis-free screen map normal-frame screen(e) -> electron-rest screen(e').
+fn screen_map(e: [f64; 3], v: f64, axis: usize) -> (Mat3, [f64; 3], f64) {
+    let p = projector(e);
+    if v.abs() < 1e-15 {
+        return (p, e, 1.0);
+    }
+    let (ep, d) = aberrate(e, v, axis);
+    let gamma = 1.0 / (1.0 - v * v).sqrt();
+    let mut s = [[0.0; 3]; 3];
+    for k in 0..3 {
+        let pv = v * p[axis][k];
+        let w0 = -gamma * pv;
+        for i in 0..3 {
+            let wsp = p[i][k]
+                + if i == axis {
+                    (gamma - 1.0) * p[axis][k]
+                } else {
+                    0.0
+                };
+            s[i][k] = wsp - w0 * ep[i];
+        }
+    }
+    (s, ep, d)
+}
+
+fn validate(directions: &[[f64; 3]], weights: &[f64], y: &[f64], axis: usize) {
+    assert_eq!(directions.len(), weights.len());
+    assert_eq!(y.len(), 9 * directions.len());
+    assert!(axis < 3);
+}
+
+pub fn equilibrium_state_polarized(directions: &[[f64; 3]], v: f64, axis: usize) -> Vec<f64> {
+    assert!(axis < 3 && v.abs() < 1.0);
+    let gamma = 1.0 / (1.0 - v * v).sqrt();
+    let mut out = vec![0.0; 9 * directions.len()];
+    for (i, e) in directions.iter().enumerate() {
+        let d = gamma * (1.0 - v * e[axis]);
+        let p = projector(*e);
+        let mut j = [[0.0; 3]; 3];
+        for a in 0..3 {
+            for b in 0..3 {
+                j[a][b] = 0.5 * d.powi(-4) * p[a][b];
+            }
+        }
+        out[9 * i..9 * i + 9].copy_from_slice(&pack9(&j));
+    }
+    out
+}
+
+pub fn collision_generator_apply_polarized(
+    directions: &[[f64; 3]],
+    weights: &[f64],
+    v: f64,
+    axis: usize,
+    y: &[f64],
+) -> Vec<f64> {
+    validate(directions, weights, y, axis);
+    assert!(v.abs() < 1.0);
+    let n = directions.len();
+    let mut maps = Vec::with_capacity(n);
+    let mut eps = Vec::with_capacity(n);
+    let mut ds = Vec::with_capacity(n);
+    let mut jp = Vec::with_capacity(n);
+    let mut moment = [[0.0; 3]; 3];
+    for i in 0..n {
+        let (s, ep, d) = screen_map(directions[i], v, axis);
+        let j = unpack9(&y[9 * i..9 * i + 9]);
+        let sjst = mm(&mm(&s, &j), &transpose(&s));
+        let mut jr = sjst;
+        for a in 0..3 {
+            for b in 0..3 {
+                jr[a][b] *= d.powi(4);
+            }
+        }
+        let wr = weights[i] / d.powi(2);
+        for a in 0..3 {
+            for b in 0..3 {
+                moment[a][b] += wr * jr[a][b];
+            }
+        }
+        maps.push(s);
+        eps.push(ep);
+        ds.push(d);
+        jp.push(jr);
+    }
+    let pref = 3.0 / (8.0 * PI);
+    let mut out = vec![0.0; 9 * n];
+    for i in 0..n {
+        let pr = projector(eps[i]);
+        let mut cr = mm(&mm(&pr, &moment), &pr);
+        for a in 0..3 {
+            for b in 0..3 {
+                cr[a][b] = pref * cr[a][b] - jp[i][a][b];
+            }
+        }
+        let s = &maps[i];
+        let mut cn = mm(&mm(&transpose(s), &cr), s);
+        let q = 1.0 - v * directions[i][axis];
+        let scale = q * ds[i].powi(-4);
+        for a in 0..3 {
+            for b in 0..3 {
+                cn[a][b] *= scale;
+            }
+        }
+        out[9 * i..9 * i + 9].copy_from_slice(&pack9(&cn));
+    }
+    out
+}
+
+#[inline]
+fn left_functional(
+    directions: &[[f64; 3]],
+    weights: &[f64],
+    v: f64,
+    axis: usize,
+    y: &[f64],
+) -> f64 {
+    let mut s = 0.0;
+    for i in 0..directions.len() {
+        let tr = y[9 * i] + y[9 * i + 1] + y[9 * i + 2];
+        s += weights[i] * (1.0 - v * directions[i][axis]) * tr / (4.0 * PI);
+    }
+    s
+}
+
+#[inline]
+fn left_functional_dv(directions: &[[f64; 3]], weights: &[f64], axis: usize, y: &[f64]) -> f64 {
+    let mut s = 0.0;
+    for i in 0..directions.len() {
+        let tr = y[9 * i] + y[9 * i + 1] + y[9 * i + 2];
+        s += -weights[i] * directions[i][axis] * tr / (4.0 * PI);
+    }
+    s
+}
+
+fn equilibrium_state_dv(directions: &[[f64; 3]], v: f64, axis: usize) -> Vec<f64> {
+    let gamma = 1.0 / (1.0 - v * v).sqrt();
+    let r = equilibrium_state_polarized(directions, v, axis);
+    let mut rv = vec![0.0; r.len()];
+    for i in 0..directions.len() {
+        let mu = directions[i][axis];
+        let q = 1.0 - v * mu;
+        let fac = 4.0 * (mu / q - gamma * gamma * v);
+        for k in 0..9 {
+            rv[9 * i + k] = fac * r[9 * i + k];
+        }
+    }
+    rv
+}
+
+pub fn projector_apply_polarized(
+    directions: &[[f64; 3]],
+    weights: &[f64],
+    v: f64,
+    axis: usize,
+    y: &[f64],
+) -> Vec<f64> {
+    validate(directions, weights, y, axis);
+    let r = equilibrium_state_polarized(directions, v, axis);
+    let den = left_functional(directions, weights, v, axis, &r);
+    let s = left_functional(directions, weights, v, axis, y);
+    r.into_iter().map(|x| x * s / den).collect()
+}
+
+pub fn projector_dv_apply_polarized(
+    directions: &[[f64; 3]],
+    weights: &[f64],
+    v: f64,
+    axis: usize,
+    y: &[f64],
+) -> Vec<f64> {
+    validate(directions, weights, y, axis);
+    let r = equilibrium_state_polarized(directions, v, axis);
+    let rv = equilibrium_state_dv(directions, v, axis);
+    let den = left_functional(directions, weights, v, axis, &r);
+    let denv = left_functional_dv(directions, weights, axis, &r)
+        + left_functional(directions, weights, v, axis, &rv);
+    let s = left_functional(directions, weights, v, axis, y);
+    let sv = left_functional_dv(directions, weights, axis, y);
+    r.iter()
+        .zip(&rv)
+        .map(|(ri, rvi)| rvi * s / den + ri * sv / den - ri * s * denv / (den * den))
+        .collect()
+}
+
+pub fn kato_apply_polarized(
+    directions: &[[f64; 3]],
+    weights: &[f64],
+    v: f64,
+    vdot: f64,
+    axis: usize,
+    y: &[f64],
+) -> Vec<f64> {
+    let py = projector_apply_polarized(directions, weights, v, axis, y);
+    let pv_py = projector_dv_apply_polarized(directions, weights, v, axis, &py);
+    let pv_y = projector_dv_apply_polarized(directions, weights, v, axis, y);
+    let p_pv_y = projector_apply_polarized(directions, weights, v, axis, &pv_y);
+    pv_py
+        .iter()
+        .zip(p_pv_y)
+        .map(|(a, b)| vdot * (a - b))
+        .collect()
+}
