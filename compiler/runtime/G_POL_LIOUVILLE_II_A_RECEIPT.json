@@ -1,0 +1,133 @@
+{
+  "base_head": "c4bdd3ea0ca4db4fd8b975968063fa128c4a55d3",
+  "base_pr": 10,
+  "base_tree": "f0dd35514654687e73c22af26d8f10cb6ac5ff65",
+  "claim_boundary": {
+    "allowed": "Hubble-normalized Type-II collisionless polarized ray characteristic with basis-free physical-screen tensor Lie-midpoint transport",
+    "not_allowed": [
+      "full G-POL-LIOUVILLE-II closure",
+      "fixed-grid angular remap",
+      "sign-locked Q/U or E/B component transport",
+      "collision + Kato + Liouville composition",
+      "observer/local-boost output",
+      "PSTF or harmonic outputs",
+      "cross-family support",
+      "production migration",
+      "observables/statistics readiness"
+    ]
+  },
+  "fresh_verification": {
+    "additional_guards": [
+      "exact diagonal Bianchi-I tetrad-momentum direction/redshift recovery",
+      "invalid or zero direction fails closed",
+      "non-symmetric shear fails closed",
+      "non-tracefree shear fails closed",
+      "non-symmetric structure_n fails closed",
+      "direct Ricci-rotation-coefficient parity"
+    ],
+    "independent_python": "6 passed, 0 failed",
+    "integration_note": "runtime source was copied to exact RustCore src/generated and module-registered only for locked/offline replay; repository authority remains under runtime/rust/typeii",
+    "new_rust": "17 passed, 0 failed",
+    "new_warning_origin": "none; observed warnings are inherited RustCore warnings",
+    "plot_generation": "PASS from machine-readable receipt",
+    "rustcore_locked_offline_total": "218 passed, 0 failed",
+    "rustfmt_check": "PASS"
+  },
+  "independent_coordinate_oracle": {
+    "determinant_defect": 0.0,
+    "direction_max_abs": 3.885780586188048e-16,
+    "log_energy_abs": 1.5265566588595902e-16,
+    "metric": "ds2=-dt2+a1(t)^2(dx-N1*y*dz)^2+a2(t)^2dy2+a3(t)^2dz2",
+    "null_residual": -3.0254801615357055e-16,
+    "orthogonality_defect": 2.220446049250313e-16,
+    "spatial_transport_max_abs": 4.926614671774132e-16
+  },
+  "next": {
+    "parallel": "G-DYN-MANIFOLD-CROSS: VI0 -> VII0 -> VIII -> class B",
+    "primary": "G-POL-LIOUVILLE-II-B: finite tensor-to-dyad/Stokes sign seal plus screen-aware angular remap",
+    "then": "G-POL-LIOUVILLE-II-C: compose Liouville + collision + Kato + raw/AP policies"
+  },
+  "numerics": {
+    "generic_errors": [
+      0.0003270802741863199,
+      8.171564555578548e-05,
+      2.0425440581312015e-05,
+      5.106088212414317e-06
+    ],
+    "generic_ratios": [
+      4.002664018153,
+      4.000679702868,
+      4.000213026413
+    ],
+    "method": "implicit Lie-midpoint SO(3) congruence",
+    "roundtrip": {
+      "coherency_max_abs": 2.55351295663786e-15,
+      "direction_max_abs": 1.0547118733938987e-15,
+      "log_energy_abs": 5.551115123125783e-17
+    },
+    "source_trajectory": {
+      "errors": [
+        6.686741160777387e-10,
+        1.6520573797862426e-10,
+        3.933880998729933e-11,
+        7.869205287391878e-12
+      ],
+      "log_energy_shift": -0.21063405481614572,
+      "max_screen_leakage": 2.220446049250313e-16,
+      "minimum_coherency_eigenvalue": 0.14577045446371167,
+      "ratios": [
+        4.047523556139,
+        4.199561146663,
+        4.999082950642
+      ],
+      "samples": 401,
+      "screen_connection_integral": -0.05150824491471552
+    }
+  },
+  "open_findings": {
+    "P0": [],
+    "P1": [],
+    "P2": [
+      "Q/U active-passive component sign is deliberately unsealed",
+      "no angular remap/fixed-grid Liouville solver",
+      "no collision/Kato/AP composition",
+      "Type-II H-normalized adapter is not cross-family authority"
+    ]
+  },
+  "physics": {
+    "bolometric_tensor_rhs": "4 R J + [g cross]J + J[g cross]^T",
+    "component_Q_U_sign_sealed": false,
+    "direction_rate": "-sigma.e + sigma_ee e - a + (a.e)e - e cross(n.e) + Omega cross e",
+    "energy_rate": "-(H + sigma_ab e^a e^b)",
+    "global_tilt_in_geometric_operator": false,
+    "local_observer_boost_present": false,
+    "metric_signature": "(-,+,+,+)",
+    "screen_W": "Omega + a cross e + n.e - tr(n)e/2",
+    "screen_connection": "omega_scr=e.W",
+    "time_convention": "Type-II generated adapter uses Hubble-normalized time with H=1"
+  },
+  "provenance": {
+    "cargo": "1.94.1 (29ea6fb6a 2026-03-24)",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "file_sha256": {
+      "compiler/runtime/G_POL_LIOUVILLE_II_A_AUDIT.md": "9ab6abb727c65cfbad0d24ddf0a687e25d0f6f797079de5ab8e01a45402d63a9",
+      "compiler/runtime/G_POL_LIOUVILLE_II_A_LITERATURE.md": "0b6036d87a86425f2413cae114c3ffbc488c07858274ff36d0228e94fd9af2ed",
+      "compiler/validation/plot_typeii_polarized_liouville.py": "e8d9d95bd015728151f70a32ccf4467ffed559f2b7ecc08977b117bd044b247e",
+      "compiler/validation/test_typeii_polarized_liouville.py": "857490344d8eee7b8db65b41b240c2b5fa3a8f84263c3351784e1ab42e7f084f",
+      "compiler/validation/typeii_polarized_liouville_coordinate_oracle.json": "1b42a79cc01d3100176bd79743dd73028ed30e8d22b0789af7453c42aaf88a15",
+      "compiler/validation/typeii_polarized_liouville_coordinate_oracle.py": "af912fc8ffe85358f98c50e9a60cf12efc0df9c9bd12b6a1f1df802d8cbe40d1",
+      "docs/superpowers/plans/2026-08-20-g-pol-liouville-iia.md": "fc75827580fc0edf7cb71a328f43c14b8974be755ed23a9db9a81694a5a1503a",
+      "docs/superpowers/specs/2026-08-20-g-pol-liouville-iia-design.md": "2664a9e7524941a993d59e104e3bc2738f9c6dfedb850fda878421b8d87dd1d9",
+      "runtime/rust/typeii/tests/typeii_polarized_liouville_fixture.rs": "93f5f48af37adbdc643038d71cdd3efdaeec03c0fe8734407fae3a8755781f1d",
+      "runtime/rust/typeii/tests/typeii_polarized_liouville_unit.rs": "41835539161ac9a1dd5a7d6a8ba7aa8c4d060f6d887d4380baa002fc6f7efa36",
+      "runtime/rust/typeii/typeii_polarized_liouville.rs": "b73462751b8bcbfd2fb4d2331e7a5479a626f578a4a0c5ee37065ad3d49b03a3"
+    },
+    "plot_sha256": {
+      "g_pol_liouville_ii_a_convergence.png": "1a5d8d5eea1ac44585cedd89ef83cea0d7b4de404b35500e6f25e363eab03d65",
+      "g_pol_liouville_ii_a_source_trajectory.png": "dbacf590ec99406a866bae17f1cf12cd3e23d8c8783542905f7eee0e4623fde1"
+    },
+    "rust": "1.94.1 (e408947bf 2026-03-25)"
+  },
+  "stage": "G-POL-LIOUVILLE-II-A",
+  "status": "PASS_TYPEII_RAY_LEVEL_BASIS_FREE_LIOUVILLE_AUTHORITY"
+}
