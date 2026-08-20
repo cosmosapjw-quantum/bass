@@ -1,0 +1,93 @@
+name: BASS G-POL-LIOUVILLE-II ray apply
+
+on:
+  push:
+    branches:
+      - agent/g-pol-liouville-staging
+
+permissions:
+  contents: write
+
+jobs:
+  apply-verified-ray-payload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging payload
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct, verify, and push atomic ray-reference commit
+        shell: bash
+        env:
+          BASE_HEAD: "c4bdd3ea0ca4db4fd8b975968063fa128c4a55d3"
+          TARGET_BRANCH: "agent/g-pol-liouville-ii"
+          PAYLOAD_SHA256: "231decb773832232978cd1af9644a8ff4a0ca988add6414689275e1774c66270"
+        run: |
+          set -euo pipefail
+          git config user.name "cosmosapjw-quantum"
+          git config user.email "58155957+cosmosapjw-quantum@users.noreply.github.com"
+
+          git fetch --no-tags origin \
+            refs/heads/agent/g-pre-liouville-safety-ii:refs/remotes/origin/agent/g-pre-liouville-safety-ii
+          test "$(git rev-parse refs/remotes/origin/agent/g-pre-liouville-safety-ii)" = "$BASE_HEAD"
+          if git ls-remote --exit-code --heads origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
+            echo "Refusing to overwrite existing target branch $TARGET_BRANCH" >&2
+            exit 1
+          fi
+
+          cat .github/payload/g_pol_liouville_chunk_* | tr -d '\n' | base64 --decode > /tmp/g_pol_liouville_payload.tar.gz
+          echo "$PAYLOAD_SHA256  /tmp/g_pol_liouville_payload.tar.gz" | sha256sum -c -
+
+          git checkout --detach "$BASE_HEAD"
+          git reset --hard "$BASE_HEAD"
+          git clean -fdx
+          tar -xzf /tmp/g_pol_liouville_payload.tar.gz -C .
+
+          sha256sum -c <<'EOF'
+          cfa7fc95e56741e73cf119add7c1d8073dbea87d17bc69ef2d8837b4aa9b350d  runtime/rust/typeii/typeii_polarized_liouville.rs
+          124713cba2755a9b07ecb34363db13e36dc1c34f8d5d2f7178c7088a891fc110  runtime/rust/typeii/tests/typeii_polarized_liouville.rs
+          28fdbe48c8054462b707201827a40845518a51df620820e7eba77ba7c3888c75  runtime/rust/typeii/examples/typeii_polarized_liouville_receipt.rs
+          1b965e2da6a9308839fb41b779c2f1bd4b9ff0e7e5d3c67e139e4be02611173e  runtime/rust/typeii/G_POL_LIOUVILLE_II_INTEGRATION.md
+          e4541e4f915abe92f188d62f5bffbdc90c2bbcc12a820e35966fa44fa8e6da6a  compiler/runtime/G_POL_LIOUVILLE_II_AUDIT.md
+          9a74ac5617a5f46e40cc37c3965135f957f9fa30873cf61d5b3fabe414f436e9  compiler/runtime/G_POL_LIOUVILLE_II_RECEIPT.json
+          0ec77e36ef854d5d00a98bb534ac50277b740e208b5670e878cb673b209d894e  compiler/validation/plot_typeii_polarized_liouville.py
+          4d563a0458d96e1b1a50953ad9ef5725666e57e26707bb699101b61c133634c4  compiler/validation/G_POL_LIOUVILLE_II_METRICS.csv
+          ea63761c500bc86d8befbafdff1aee49a0f2086082816a8b821b82304538e968  compiler/validation/G_POL_LIOUVILLE_II_PLOT_RECEIPT.json
+          8de1657a70a8811b9e9ab345f7c85c42a7fff13c6e17523494e69fbd9ddcdaa2  docs/superpowers/plans/2026-08-20-g-pol-liouville-ii.md
+          EOF
+
+          FILES=(
+            runtime/rust/typeii/typeii_polarized_liouville.rs
+            runtime/rust/typeii/tests/typeii_polarized_liouville.rs
+            runtime/rust/typeii/examples/typeii_polarized_liouville_receipt.rs
+            runtime/rust/typeii/G_POL_LIOUVILLE_II_INTEGRATION.md
+            compiler/runtime/G_POL_LIOUVILLE_II_AUDIT.md
+            compiler/runtime/G_POL_LIOUVILLE_II_RECEIPT.json
+            compiler/validation/plot_typeii_polarized_liouville.py
+            compiler/validation/G_POL_LIOUVILLE_II_METRICS.csv
+            compiler/validation/G_POL_LIOUVILLE_II_PLOT_RECEIPT.json
+            docs/superpowers/plans/2026-08-20-g-pol-liouville-ii.md
+          )
+          git add -- "${FILES[@]}"
+          test "$(git diff --cached --name-only | wc -l)" -eq 10
+          test -z "$(git diff --cached --name-only --diff-filter=D)"
+          TREE=$(git write-tree)
+          COMMIT=$(printf '%s\n' 'runtime: add Type-II polarized Liouville ray reference' | \
+            git commit-tree "$TREE" -p "$BASE_HEAD")
+          test "$(git rev-parse "$COMMIT^")" = "$BASE_HEAD"
+          test "$(git rev-parse "$COMMIT^{tree}")" = "$TREE"
+          git push origin "$COMMIT:refs/heads/$TARGET_BRANCH"
+
+          {
+            echo '## G-POL-LIOUVILLE-II ray-reference mutation'
+            echo
+            echo "- Base: \`$BASE_HEAD\`"
+            echo "- Commit: \`$COMMIT\`"
+            echo "- Tree: \`$TREE\`"
+            echo "- Payload SHA-256: \`$PAYLOAD_SHA256\`"
+            echo '- Files: 10'
+            echo '- No merge was performed.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          git push origin --delete agent/g-pol-liouville-staging || true
