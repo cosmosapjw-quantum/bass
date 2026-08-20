@@ -1,0 +1,124 @@
+name: BASS G-POL-LIOUVILLE B1+B2 atomic apply
+
+on:
+  push:
+    branches:
+      - agent/g-pol-liouville-b1-b2-staging-20260821
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging ref
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct verified package and push stacked commits
+        shell: bash
+        env:
+          BASE_BRANCH: agent/g-pol-liouville-ii
+          BASE_HEAD: 7865ac7fee1f4d55cf302dc0bb6132afc87b7ea1
+          B1_BRANCH: agent/g-pol-liouville-ii-b1
+          B2_BRANCH: agent/g-pol-liouville-ii-b2
+          PACKAGE_SHA256: 9ab08cc5a2d282d28130819225c13c93197375a7770d746f98cfa118647999a3
+          CHUNKS: >-
+            3bb43bc4a060eb3d7aeec90bc677e274540b59a0
+            ff33ec0fc08e2f733f061f7f5c38328e96ec0bdc
+            2e82e747077c5634882faf2e995c45fd83aa1b3b
+            54990a4582a0c90343bd3efab6af6018d71d7231
+            971fab74ce2698743176d6c75fef3d545a1d0bb6
+            ceefc53c061f3dac325060577904ca34bc33b2f9
+            268c4151db6980a903bf1c4cab2cfb74d0ce5808
+            87c55892d0631d796a497087cbd7f277b03c46fb
+        run: |
+          set -euo pipefail
+          git config user.name "cosmosapjw-quantum"
+          git config user.email "58155957+cosmosapjw-quantum@users.noreply.github.com"
+
+          git fetch --no-tags origin \
+            "refs/heads/${BASE_BRANCH}:refs/remotes/origin/${BASE_BRANCH}"
+          test "$(git rev-parse "refs/remotes/origin/${BASE_BRANCH}")" = "$BASE_HEAD"
+          for branch in "$B1_BRANCH" "$B2_BRANCH"; do
+            if git ls-remote --exit-code --heads origin "refs/heads/${branch}" >/dev/null 2>&1; then
+              echo "Refusing to overwrite existing branch ${branch}" >&2
+              exit 1
+            fi
+          done
+
+          rm -f /tmp/bass-package.b64 /tmp/bass-package.tar.gz
+          python - <<'PY'
+          import base64, json, os, urllib.request
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GITHUB_TOKEN"]
+          chunks = os.environ["CHUNKS"].split()
+          with open("/tmp/bass-package.b64", "wb") as out:
+              for sha in chunks:
+                  req = urllib.request.Request(
+                      f"https://api.github.com/repos/{repo}/git/blobs/{sha}",
+                      headers={
+                          "Authorization": f"Bearer {token}",
+                          "Accept": "application/vnd.github+json",
+                          "X-GitHub-Api-Version": "2022-11-28",
+                      },
+                  )
+                  with urllib.request.urlopen(req) as response:
+                      payload = json.load(response)
+                  out.write(base64.b64decode(payload["content"]))
+          PY
+          base64 --decode /tmp/bass-package.b64 > /tmp/bass-package.tar.gz
+          echo "$PACKAGE_SHA256  /tmp/bass-package.tar.gz" | sha256sum -c -
+
+          rm -rf /tmp/bass-package
+          mkdir -p /tmp/bass-package
+          tar -xzf /tmp/bass-package.tar.gz -C /tmp/bass-package
+          PKG=/tmp/bass-package/BASS_GPOL_LIOUVILLE_II_B1_B2_APPLY_20260821
+          test -f "$PKG/MANIFEST.json"
+
+          python - "$PKG" <<'PY'
+          import hashlib, json, pathlib, sys
+          root = pathlib.Path(sys.argv[1])
+          manifest = json.loads((root / "MANIFEST.json").read_text())
+          assert manifest["base_head"] == "7865ac7fee1f4d55cf302dc0bb6132afc87b7ea1"
+          for rel, meta in manifest["files"].items():
+              path = root / rel
+              data = path.read_bytes()
+              assert len(data) == meta["size"], (rel, len(data), meta["size"])
+              assert hashlib.sha256(data).hexdigest() == meta["sha256"], rel
+          print(f"verified {len(manifest['files'])} files")
+          PY
+
+          git checkout --detach "$BASE_HEAD"
+          git reset --hard "$BASE_HEAD"
+          git clean -fdx
+          cp -a "$PKG/b1/." .
+          git add -A
+          B1_TREE=$(git write-tree)
+          B1_COMMIT=$(printf '%s\n' 'runtime: seal Type-II tensor-to-Stokes sign authority' | \
+            git commit-tree "$B1_TREE" -p "$BASE_HEAD")
+          test "$(git rev-parse "$B1_COMMIT^")" = "$BASE_HEAD"
+          git push origin "$B1_COMMIT:refs/heads/$B1_BRANCH"
+
+          git reset --hard "$B1_COMMIT"
+          git clean -fdx
+          cp -a "$PKG/b2/." .
+          git add -A
+          B2_TREE=$(git write-tree)
+          B2_COMMIT=$(printf '%s\n' 'runtime: add screen-aware polarized angular remap' | \
+            git commit-tree "$B2_TREE" -p "$B1_COMMIT")
+          test "$(git rev-parse "$B2_COMMIT^")" = "$B1_COMMIT"
+          git push origin "$B2_COMMIT:refs/heads/$B2_BRANCH"
+
+          {
+            echo '## G-POL-LIOUVILLE-II B1+B2 atomic apply'
+            echo
+            echo "- package: \`$PACKAGE_SHA256\`"
+            echo "- B1 commit: \`$B1_COMMIT\`"
+            echo "- B1 tree: \`$B1_TREE\`"
+            echo "- B2 commit: \`$B2_COMMIT\`"
+            echo "- B2 tree: \`$B2_TREE\`"
+            echo '- no merge performed'
+          } >> "$GITHUB_STEP_SUMMARY"
