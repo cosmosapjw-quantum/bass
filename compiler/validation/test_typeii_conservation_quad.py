@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT))
 import typeii_conservation_quad as v
 
 def result(): return v.run(ROOT/'typeII_v_schedule.json')

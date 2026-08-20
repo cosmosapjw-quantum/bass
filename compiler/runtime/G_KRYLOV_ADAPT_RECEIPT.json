@@ -1,0 +1,98 @@
+{
+  "base_head": "9254f47f1ded7762014325093a3e294982671169",
+  "base_pr": 8,
+  "claim_boundary": {
+    "allowed": "adaptive truncated Krylov exp / phi1 numerical reference backend with residual-controlled requested targets and fail-closed budgets",
+    "not_allowed": [
+      "rigorous global relative error for arbitrary nonnormal semigroups",
+      "exact KIOPS parity",
+      "production speedup",
+      "arbitrary phi-combination completeness",
+      "full polarized Liouville solver",
+      "cross-family generality",
+      "production migration readiness"
+    ]
+  },
+  "contracts": {
+    "adaptive_phi1_action": "standalone phi1(t A)b residual target; no divide-by-t tolerance amplification",
+    "adaptive_t_phi1_action": "direct t phi1(t A)b action used by Kato-AEM2",
+    "caller_divided_action": "caller heuristic dividing the residual budget; explicitly not a forward certificate",
+    "default_target_semantics": "ResidualEstimateOnly",
+    "nonnormal_boundary": "an ordinary-Ok forward miss is retained as an explicit negative control",
+    "orthogonalization": {
+      "full_capacity": "two-pass full MGS",
+      "truncated": "IOP(2)"
+    }
+  },
+  "fresh_verification": {
+    "fixture_reconstruction": "4 passed, 0 failed",
+    "hostile_krylov": "33 passed, 0 failed",
+    "public_krylov": "5 passed, 0 failed"
+  },
+  "hostile_metrics": {
+    "controller": {
+      "accepted_steps": 104,
+      "joint_tau_growth_basis_shrinks": 0,
+      "matvecs": 832,
+      "max_basis": 8,
+      "rejected_steps": 22,
+      "tau_recoveries": 67,
+      "tau_reductions": 19
+    },
+    "nonnormal_negative_control": {
+      "forward_certified": false,
+      "forward_error": 1.8199636343638716e-09,
+      "requested_forward_target": 1e-10,
+      "target_semantics": "ResidualEstimateOnly"
+    },
+    "oscillatory_64x64": {
+      "accepted_steps": 436,
+      "budget_exhausted": false,
+      "frequency_max": 300.0,
+      "frequency_min": 0.1,
+      "global_l2_error": 6.150718919799523e-12,
+      "matvecs": 5232,
+      "max_basis": 12,
+      "rejected_steps": 88,
+      "requested_target": 4.6121145083305985e-10
+    },
+    "standalone_phi1_small_time": {
+      "maximum_l2_error": 2.3190080331548624e-15,
+      "m_max": 16,
+      "n": 48,
+      "requested_target": 4.70758498113147e-12,
+      "times": [
+        1e-06,
+        1e-08,
+        1e-10,
+        1e-12,
+        -1e-08
+      ]
+    }
+  },
+  "next": {
+    "node": "G-PRE-LIOUVILLE-SAFETY-II",
+    "production_migration": "blocked",
+    "subsequent_node": "G-POL-LIOUVILLE-II"
+  },
+  "open_findings": {
+    "P0": 0,
+    "P1": 0,
+    "P2": [
+      "projected-residual control is not a generic nonnormal forward-error certificate",
+      "IOP(2) orthogonality telemetry is diagnostic",
+      "no production wall-clock benchmark"
+    ]
+  },
+  "original_pr9_head": "01993a11d209b7b3bc85be251fbdf51b8eac0932",
+  "provenance": {
+    "cargo": "1.94.1 (29ea6fb6a 2026-03-24)",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "hostile_test_sha256": "a5339622aeff0fa6575ef71288469e14da520faf5bc155dd5f2dc4bf09352d89",
+    "public_test_sha256": "350c9b781c9c424fc86c04f065a3731391dbd4706e054865a804468a37d9e1a8",
+    "runtime_source_sha256": "06a2c2d68f17020ceb16ce554f41a2347d5992682477f07774f7737430d55859",
+    "rust": "1.94.1 (e408947bf 2026-03-25)"
+  },
+  "stage": "G-KRYLOV-ADAPT",
+  "status": "PASS_RESIDUAL_CONTROLLED_REFERENCE_WITH_EXPLICIT_NONFORWARD_BOUNDARY"
+}
