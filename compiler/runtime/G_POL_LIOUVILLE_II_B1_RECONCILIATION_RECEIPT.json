@@ -1,0 +1,62 @@
+{
+  "schema": "bass-g-pol-liouville-b1-reconciliation-v1",
+  "stage": "B1-AUTHORITY-RECONCILIATION",
+  "status": "RECONCILED",
+  "base": {
+    "pr": 14,
+    "branch": "agent/g-pol-liouville-ii-b2a",
+    "commit": "1f7c007ef1edc99bc88ecc8ca999da261a040e1f",
+    "tree": "b27eee0a286151fe282f128fe152d509cdd089ea"
+  },
+  "canonical_internal_convention": {
+    "screen_handedness": "s1 x s2 = e",
+    "screen_matrix": "1/2 [[I+Q,U-iV],[U+iV,I-Q]]",
+    "packed_coordinate": "p8=(J12-J21)/2",
+    "relation": "p8=-V/2",
+    "meaning": "internal local-screen diagnostic convention only"
+  },
+  "superseded_alternative": {
+    "screen_matrix": "1/2 [[I+Q,U+iV],[U-iV,I-Q]]",
+    "relation": "p8=+V_alt/2",
+    "equivalence": "V_alt=-V",
+    "status": "SUPERSEDED_ALTERNATIVE_CONVENTION"
+  },
+  "authority": {
+    "polarization_authority_sha256": "b4becce7e7162991c63b7f065d56c6a29c4123b9b9030eb8eba1b30eee3a3a6b",
+    "generated_polarized_rust_git_blob": "557fc72d893b87bb9aaf55c7d4c85533bf5e0312",
+    "pr13_stokes_rust_git_blob": "16f8d6229ffb902ec54722947338566e822ac7d7",
+    "runtime_diagnostic_git_blob": "a2d5d7a27e07e570d83cb2c9bab8e2363a1ec772",
+    "upstream_sha256": {
+      "_rustcore/src/kinetic/pol_collide.rs": "c6cb5099b139a4f04a5693d1f07ae8bffd90acc9b5ffd32579532a2dce5fe202",
+      "audit/p3_polarized_thomson.py": "eb5ba68a22c88f88026bdd27898e5b6e03abae901f7aa9a0982389f5d7436255",
+      "audit/p9_boost_screen.py": "8ab2545b535cf89a3cf2b3ae45d2d0a8e9df0d8a1e6695f979dd29dd60f8aed9",
+      "bianchi/q/polstate.py": "3ebabbfe264a50dfe2fd0a2e39c279b201a6911a9711abd9f698f9ad53264da1",
+      "docs/P-DERIVATION.md": "a25e1f897a71efbba02f3d971dd36fcff8c20f3b3abfb36c9cb06401681fd91d"
+    }
+  },
+  "required_tests": [
+    "canonical xy pure-circular p8=-V/2",
+    "generic tensor-Stokes roundtrip for positive negative and zero V",
+    "pure-V collision Q/U non-mixing",
+    "superseded +V/2 alternative is detectably opposite"
+  ],
+  "physics_impact": {
+    "basis_free_collision": "UNCHANGED",
+    "basis_free_liouville": "UNCHANGED",
+    "tensor_remap": "UNCHANGED",
+    "active_passive_spin2_phase": "UNCHANGED",
+    "observed_sky_output": "NOT_DEFINED"
+  },
+  "governance": {
+    "jira": "BASS-2",
+    "confluence_page_id": "7700482",
+    "join_j1_prerequisite": true
+  },
+  "not_claimed": [
+    "IAU COSMO or HEALPix compatibility",
+    "observer n=-e bridge",
+    "global dyad atlas",
+    "E/B or Wigner convention",
+    "full polarized Liouville closure"
+  ]
+}
