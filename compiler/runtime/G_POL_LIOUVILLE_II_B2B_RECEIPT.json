@@ -1,0 +1,126 @@
+{
+  "base": {
+    "branch": "agent/g-pol-liouville-ii-b2a",
+    "commit": "1f7c007ef1edc99bc88ecc8ca999da261a040e1f",
+    "pr": 14,
+    "tree": "b27eee0a286151fe282f128fe152d509cdd089ea"
+  },
+  "claim_boundary": {
+    "allowed": "deterministic recursive-icosphere face locator and one-step polarized semi-Lagrangian reference adapter",
+    "not_allowed": [
+      "arbitrary spherical triangulation",
+      "production lookup performance",
+      "conservative or high-order advection",
+      "HEALPix/IAU/COSMO compatibility",
+      "global antipodal routing",
+      "E/B or harmonic accuracy",
+      "collision-Kato-Liouville composition",
+      "full G-POL-LIOUVILLE-II closure",
+      "production migration"
+    ]
+  },
+  "contract": {
+    "antipodes": "fail closed in PR14 transport",
+    "arrival": "forward PR11 characteristic with endpoint check",
+    "departure": "backward PR11 characteristic",
+    "face_count": "20*4^L",
+    "fallback": "none",
+    "grid": "recursively refined regular icosphere",
+    "interpolation": "PR14 common-screen convex packed-tensor remap",
+    "locator": "radial planar-face barycentric intersection",
+    "stokes_authority": "PR13 packed[8]=-V/2",
+    "tie_break": "lexicographically smallest sorted vertex triple",
+    "vertex_count": "10*4^L+2"
+  },
+  "log_sha256": {
+    "full_locked_offline": "e59942fbb90b64e1bb2380e21eebce94207e27c13d2c6b800be19aa54b1c1a26",
+    "initial_red": "b279b7e6b1fa2570f2fca2dab7c59e56794406a58af061d4871218dcde5d783b",
+    "mutation_summary": "8756c8033164738db1658b114b0b20cd061efcd19c473b15491f5ae0f6fa18ce",
+    "python_final": "619349d90a8237cdb16f1df8a1b879c05882232cae5cf4f3d4a517453beae178",
+    "targeted_final": "c4ff2005968a20c638e6c3b404f6d10625c6ef0c7179fe865bd14cd1b07891b0"
+  },
+  "metrics": {
+    "characteristic_error": 5.551115123125783e-17,
+    "combined_error": 0.0001513215779582744,
+    "independent_solid_rotation_spatial_error": 0.001253865460688508,
+    "oracle_level1_face_count": 80,
+    "oracle_level1_locator_cases": 6,
+    "remap_error": 0.00014771714677319636,
+    "roundtrip_diffusion": [
+      0.011428346284363622,
+      0.005730003022453134,
+      0.0030085929325907035
+    ],
+    "roundtrip_diffusion_reduction_ratios": [
+      1.9944747392944495,
+      1.9045457962699595
+    ],
+    "spatial_reduction_ratios": [
+      3.4977395461113487,
+      3.59141711258008,
+      4.522969703546038
+    ],
+    "spatial_rms_errors": [
+      0.013672753263864027,
+      0.003909025553107539,
+      0.0010884354088014267,
+      0.00024064618605516776
+    ]
+  },
+  "mutation_tests": {
+    "backward_characteristic_sign": "REJECTED exit=101",
+    "equal_weight_stencil": "REJECTED exit=101",
+    "face_enumeration_tie_break": "REJECTED exit=101",
+    "restored_source_sha256": "43001668533089664e8f2f795135737b4f898cfdc32097f51bdc57d10fa0f9a1"
+  },
+  "next": "G-POL-LIOUVILLE-II-C",
+  "schema": "bass-g-pol-liouville-ii-b2b-receipt-v1",
+  "source_sha256": {
+    "compiler/runtime/G_POL_LIOUVILLE_II_B2B_AUDIT.md": "315738bbc747a83749d9431947df771171b79b2564582950bbcdd996d63c12ca",
+    "compiler/runtime/G_POL_LIOUVILLE_II_B2B_LITERATURE.md": "4e821075e2030a9042693ae060709ce90799c1bbaec48a148ee96a0dc106e9c9",
+    "compiler/validation/plot_typeii_spherical_grid.py": "93b37e2bc0c92f8f2d60b8e9c37547959725fe0a6db914fad3ae96b4985d3451",
+    "compiler/validation/test_typeii_spherical_grid.py": "be1929671b7bd7e0410a9b6fc46ac5331ef39c296a9d99c852c91ea3a4e527a8",
+    "compiler/validation/typeii_spherical_grid_oracle.json": "8b506e75fdc36b422fa674bd73a1f9925171ea4f44425c7616514f067aaf03f7",
+    "compiler/validation/typeii_spherical_grid_oracle.py": "eaaf56e6eca95556a1c1cefdb2ac977c716e302098a6874d8b3ddc43506c0d67",
+    "docs/superpowers/plans/2026-08-21-g-pol-liouville-iib2b.md": "962f29a226dbc1e27d28a877b2e87d4ca75bd8a07c85a1b381aca6ad09c71a45",
+    "docs/superpowers/specs/2026-08-21-g-pol-liouville-iib2b-design.md": "83d18a38ae8d01e7936ac2389add2c862e2bd1f554af482ccee6a1bb180aeb27",
+    "runtime/rust/typeii/tests/support/typeii_spherical_grid_fixture.rs": "b472bce07580d4e35a74377c79f1d9a31de456b0f3eb2dab2d36cad09d7692b0",
+    "runtime/rust/typeii/tests/typeii_spherical_grid_remap_fixture.rs": "046871b79b5405e69dc2a71914b2bcd2a5e48ae8496129aaf79536efc93c5cdd",
+    "runtime/rust/typeii/tests/typeii_spherical_grid_remap_unit.rs": "42e150a10369a1ab0eb2cc50ab453b408fabf1e36ff3cad0281b8821fc30090c",
+    "runtime/rust/typeii/typeii_spherical_grid_remap.rs": "43001668533089664e8f2f795135737b4f898cfdc32097f51bdc57d10fa0f9a1"
+  },
+  "stage": "G-POL-LIOUVILLE-II-B2B",
+  "status": "PASS_DETERMINISTIC_ICOSPHERE_DEPARTURE_ADAPTER",
+  "verification": {
+    "cargo": "1.94.1 (29ea6fb6a 2026-03-24)",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "fixture_byte_identity": "PASS_WITH_PINNED_RUSTFMT",
+    "full_group_counts": [
+      128,
+      4,
+      4,
+      33,
+      5,
+      1,
+      16,
+      1,
+      11,
+      12,
+      9,
+      12,
+      3,
+      3,
+      11,
+      0
+    ],
+    "full_locked_offline": "253 passed, 0 failed",
+    "inherited_warning_headers": 18,
+    "numpy": "2.3.5",
+    "python": "3.13.5",
+    "python_independent": "8 passed, 0 failed",
+    "rust": "1.94.1 (e408947bf 2026-03-25)",
+    "rust_targeted": "14 passed, 0 failed (11 unit + 3 independent fixture)",
+    "rustfmt": "PASS",
+    "scipy": "1.17.0"
+  }
+}

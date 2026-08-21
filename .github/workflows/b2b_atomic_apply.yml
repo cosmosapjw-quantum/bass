@@ -1,0 +1,85 @@
+name: BASS G-POL-LIOUVILLE-II-B2B atomic apply
+
+on:
+  push:
+    branches:
+      - agent/g-pol-liouville-ii-b2b-upload
+
+permissions:
+  contents: write
+
+jobs:
+  reconstruct-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct verified B2B source and create atomic child commit
+        shell: bash
+        env:
+          BASE: "1f7c007ef1edc99bc88ecc8ca999da261a040e1f"
+          TARGET_BRANCH: "agent/g-pol-liouville-ii-b2b"
+          SOURCE_SHA256: "43001668533089664e8f2f795135737b4f898cfdc32097f51bdc57d10fa0f9a1"
+          SOURCE_GIT_BLOB: "213df1f8fdb2629db4a7c4303f841c6eb8d53871"
+        run: |
+          set -euo pipefail
+          git config user.name "cosmosapjw-quantum"
+          git config user.email "58155957+cosmosapjw-quantum@users.noreply.github.com"
+          git fetch --no-tags origin \
+            refs/heads/agent/g-pol-liouville-ii-b2a:refs/remotes/origin/agent/g-pol-liouville-ii-b2a
+          test "$(git rev-parse refs/remotes/origin/agent/g-pol-liouville-ii-b2a)" = "$BASE"
+          if git ls-remote --exit-code --heads origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
+            echo "Refusing to overwrite existing target branch $TARGET_BRANCH" >&2
+            exit 1
+          fi
+
+          mkdir -p runtime/rust/typeii
+          cat .b2b_chunks/part_* | base64 -d > runtime/rust/typeii/typeii_spherical_grid_remap.rs
+          echo "$SOURCE_SHA256  runtime/rust/typeii/typeii_spherical_grid_remap.rs" | sha256sum -c -
+          test "$(git hash-object runtime/rust/typeii/typeii_spherical_grid_remap.rs)" = "$SOURCE_GIT_BLOB"
+
+          rm -rf .b2b_chunks
+          rm -f .github/workflows/b2b_atomic_apply.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git add -A
+
+          cat > /tmp/expected-files <<'EOF'
+compiler/runtime/G_POL_LIOUVILLE_II_B2B_AUDIT.md
+compiler/runtime/G_POL_LIOUVILLE_II_B2B_LITERATURE.md
+compiler/runtime/G_POL_LIOUVILLE_II_B2B_RECEIPT.json
+compiler/validation/plot_typeii_spherical_grid.py
+compiler/validation/test_typeii_spherical_grid.py
+compiler/validation/typeii_spherical_grid_oracle.json
+compiler/validation/typeii_spherical_grid_oracle.py
+docs/superpowers/plans/2026-08-21-g-pol-liouville-iib2b.md
+docs/superpowers/specs/2026-08-21-g-pol-liouville-iib2b-design.md
+runtime/rust/typeii/tests/support/typeii_spherical_grid_fixture.rs
+runtime/rust/typeii/tests/typeii_spherical_grid_remap_fixture.rs
+runtime/rust/typeii/tests/typeii_spherical_grid_remap_unit.rs
+runtime/rust/typeii/typeii_spherical_grid_remap.rs
+EOF
+          git diff --cached --name-only "$BASE" | LC_ALL=C sort > /tmp/actual-files
+          LC_ALL=C sort -o /tmp/expected-files /tmp/expected-files
+          diff -u /tmp/expected-files /tmp/actual-files
+
+          TREE=$(git write-tree)
+          NEW=$(printf '%s\n' 'runtime: add deterministic spherical departure/remap adapter' | \
+            git commit-tree "$TREE" -p "$BASE")
+          test "$(git rev-parse "$NEW^")" = "$BASE"
+          git push origin "$NEW:refs/heads/$TARGET_BRANCH"
+
+          {
+            echo '## G-POL-LIOUVILLE-II-B2B atomic apply'
+            echo
+            echo "- Commit: \`$NEW\`"
+            echo "- Tree: \`$TREE\`"
+            echo "- Parent: \`$BASE\`"
+            echo "- Source SHA-256: \`$SOURCE_SHA256\`"
+            echo "- Source Git blob: \`$SOURCE_GIT_BLOB\`"
+            echo '- Changed files: 13'
+            echo '- Merge performed: no'
+          } >> "$GITHUB_STEP_SUMMARY"
