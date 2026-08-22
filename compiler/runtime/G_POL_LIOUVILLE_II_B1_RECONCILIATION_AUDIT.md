@@ -30,9 +30,10 @@ which is internally consistent only after the relabeling `V_alt=-V`. It is retai
 
 1. The original polarization authority defines a basis-free Hermitian screen tensor with six symmetric and three antisymmetric real components.
 2. The packed carrier fixes the antisymmetric coordinate `p8=(J12-J21)/2`; it does not name that coordinate `V`.
-3. The original diagnostic adapter and PR #13 choose `V=J21-J12`, giving `p8=-V/2`.
-4. The PR #13 finite active/passive spin-2 phases are unchanged by this reconciliation.
-5. PR #14 and the deferred B2B package transport packed tensors by congruence rather than interpolating node-local Stokes components, so their tensor-geometric results are invariant under `V→-V` relabeling.
+3. PR #13 chooses `V=J21-J12`, giving `p8=-V/2`.
+4. Before this correction, `compiler/validation/typeii_polarized_runtime.py` encoded and decoded the alternative `p8=+V/2` label. This PR now changes both adapter signs to the PR #13 convention.
+5. The PR #13 finite active/passive spin-2 phases are unchanged by this reconciliation.
+6. PR #14 and the deferred B2B package transport packed tensors by congruence rather than interpolating node-local Stokes components, so their tensor-geometric results are invariant under `V→-V` relabeling.
 
 Pinned upstream authority hashes from the PR #8 generator:
 
@@ -62,6 +63,42 @@ The reconciliation regression requires:
 - rest-frame Thomson collision does not mix a pure-`V` input into `Q/U`;
 - the superseded `+V/2` embedding is explicitly detected as the opposite label.
 
+## Corrective implementation and replay
+
+The implementation delta is confined to the existing Python
+validation/diagnostic adapter:
+
+```text
+compiler/validation/typeii_polarized_runtime.py
+encoder: +V/2 -> -V/2
+decoder: +2 u A v -> -2 u A v
+```
+
+The corrected file has SHA-256
+`d660afe25e60fbf4350d5ac25711dc8e64ad2ba02258d55238c315a8af1f4696`
+and Git blob `3dfc86dea2f0c20c09c467068e9dc2084cfeb1cd`.
+
+Fresh corrective replay on 2026-08-22 produced:
+
+```text
+exact-head reconciliation RED       2 failed, 2 passed
+corrected reconciliation            4 passed
+independent complex-Hermitian oracle 6 passed
+full public Python repository        93 passed
+exact Rust Stokes target              9 passed
+recovered G-RUNTIME-KATO-II target    4 passed
+full locked/offline Rust stack      227 passed
+```
+
+The recovered historical runtime authority bundle has SHA-256
+`0b0cf2637a65c96c3024820ffb2a3feecfa43d94b659a4649b9cbf141c22364f`.
+Its test and fixture bytes match the receipt hashes
+`599aa392adffd59d85e54136296a596ff8ea0324df4c1efeccca751f7a98abf1`
+and `5737dead724b86ead64cc25f9e00802973df1eb2abbdc92a5e7c095df1378ef1`.
+The full Rust replay used Rust/Cargo 1.94.1, `--locked --offline`, and
+`Cargo.lock` SHA-256
+`d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310`.
+
 ## Claim boundary
 
 Allowed:
@@ -75,6 +112,9 @@ Not claimed:
 - a global nonsingular dyad atlas;
 - an E/B or Wigner convention;
 - a change to the basis-free collision, Liouville or remap physics.
+
+This audit verifies the local convention correction and its regression gates.
+It does not by itself approve merge, close BASS-2, or open Join J1.
 
 ## Governance
 

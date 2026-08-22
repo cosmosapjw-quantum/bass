@@ -189,14 +189,14 @@ def stokes_to_pack(e,z):
         Js.append(.5*I*(np.outer(u,u)+np.outer(v,v))
                   +.5*Q*(np.outer(u,u)-np.outer(v,v))
                   +.5*U*(np.outer(u,v)+np.outer(v,u))
-                  +.5*V*(np.outer(u,v)-np.outer(v,u)))
+                  -.5*V*(np.outer(u,v)-np.outer(v,u)))
     return pack9(np.asarray(Js)).ravel()
 
 def pack_to_stokes(e,y):
     out=[]
     for ei,j in zip(np.asarray(e,float),unpack9(y)):
         u,v=tangent_basis(ei); S=.5*(j+j.T); A=.5*(j-j.T)
-        out.extend([u@S@u+v@S@v,u@S@u-v@S@v,2*u@S@v,2*u@A@v])
+        out.extend([u@S@u+v@S@v,u@S@u-v@S@v,2*u@S@v,-2*u@A@v])
     return np.asarray(out)
 
 def rest_spectrum_metrics():
