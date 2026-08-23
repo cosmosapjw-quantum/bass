@@ -1,0 +1,49 @@
+{
+  "schema": "bass.e4_trajectory_orientation_checkpoint/v1",
+  "created_date": "2026-08-23",
+  "status": "CONFIRMED_BOUNDED_PYTHON_AUTHORITY_NOT_PROMOTED",
+  "node": "BASS-8B.1E.4",
+  "claim_scope": "trajectory_total_cross_section_cold_delta_and_typed_optical_depth_orientation_only",
+  "hashes": {
+    "STATE.md": "66678b749114cc964422e742ec79f9b0cbe81331c65f7374d58ef18f1f435b0a",
+    "VERIFICATION_REPORT.md": "38ffccbcfcd396777e9936805b3eaca62f54e591e6cbbd97c6235d81c8b1dead",
+    "NEXT_ACTION.md": "7f9666806df2449495cb8d235add195be68c28e0a67e2fac5daece0d954d2dfc",
+    "electron_testfield_work/repo/bianchi/q/electron_trajectory.py": "fd7045723df0bbb98077f86c56b5763d4f4d490b8ebaa483d7197ba8c4a30eea",
+    "electron_testfield_work/repo/bianchi/q/electron_rate.py": "27fe46756023380078fc503e8fe2ea5e976504314e206f55613d06af61f4be1a",
+    "electron_testfield_work/repo/tests/test_electron_trajectory_authority.py": "aa6f4dee447b155aba011dc265809dba229a053f4d5b504c3bbce4fade518633",
+    "electron_testfield_work/repo/audit/electron_trajectory_authority.py": "62b4e255e3f9652ef50cdcfd2162a9ab4ccec2e05731c347bf172bacd8f97f70",
+    "electron_testfield_work/repo/docs/ELECTRON-TRAJECTORY-AUTHORITY-CONTRACT.md": "9a952ea405c1b3b435509349deb01c93bc1815ba239f3c07c7e00a29cc6cdaa3",
+    "electron_testfield_work/repo/docs/electron-trajectory-authority-contract.json": "8bd609bb816ba6c90dcccac1d5ff838f72cf77d9fb667c9e0378b1d1c0e0121a"
+  },
+  "decisive_commands": [
+    "python tests/test_electron_trajectory_authority.py",
+    "python audit/electron_trajectory_authority.py",
+    "python tests/test_electron_test_field.py",
+    "python tests/test_electron_collision_rate.py",
+    "python tests/test_electron_thomson_validity.py",
+    "python audit/electron_frame_adapter.py",
+    "python audit/electron_collision_rate.py",
+    "python audit/electron_thomson_validity.py",
+    "python audit/p9_boost_screen.py",
+    "python -m compileall -q bianchi tests audit",
+    "python -m json.tool docs/electron-trajectory-authority-contract.json"
+  ],
+  "results": {
+    "focused": "28/28 PASS",
+    "predecessors": "13/13 + 13/13 + 20/20 PASS",
+    "hostile_audit": "PASS; 108 numeric-domain fail-closed; max_actual_over_bound=0.9971762526375411",
+    "independent_verifier": "CONFIRMED",
+    "zip_crc": "PASS",
+    "clean_extract_replay": "PASS"
+  },
+  "web_sources": [
+    "https://arxiv.org/pdf/astro-ph/9603033",
+    "https://arxiv.org/pdf/1207.4234",
+    "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html"
+  ],
+  "q_collision_generator_wired": false,
+  "production_runtime_wired": false,
+  "rust_abi_wired": false,
+  "authority_row_promoted": false,
+  "next_node": "BASS-8B.1E.5_direction_dependent_Q_local_rate_binding_authority"
+}
