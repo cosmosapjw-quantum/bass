@@ -13,15 +13,22 @@ jobs:
   exact-host-replay:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    env:
-      EVIDENCE_DIR: ${{ runner.temp }}/bass8b2a-r1-evidence
-      CANDIDATE_ROOT: ${{ runner.temp }}/BASS8B2A_TYPED_ELECTRON_STATE_BINDING_CANDIDATE_20260824
-      E4_ZIP: ${{ runner.temp }}/BASS8B1E4_TRAJECTORY_ORIENTATION_AUTHORITY_20260823.zip
-      E4_EXTRACT: ${{ runner.temp }}/bass8b1e4-extracted
 
     steps:
       - name: Checkout pinned verification branch
         uses: actions/checkout@v4
+
+      - name: Bind runner-local replay paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            printf 'EVIDENCE_DIR=%s\n' "$RUNNER_TEMP/bass8b2a-r1-evidence"
+            printf 'CANDIDATE_ROOT=%s\n' "$RUNNER_TEMP/BASS8B2A_TYPED_ELECTRON_STATE_BINDING_CANDIDATE_20260824"
+            printf 'E4_ZIP=%s\n' "$RUNNER_TEMP/BASS8B1E4_TRAJECTORY_ORIENTATION_AUTHORITY_20260823.zip"
+            printf 'E4_EXTRACT=%s\n' "$RUNNER_TEMP/bass8b1e4-extracted"
+          } >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/bass8b2a-r1-evidence"
 
       - name: Set up Python 3.13
         uses: actions/setup-python@v5
