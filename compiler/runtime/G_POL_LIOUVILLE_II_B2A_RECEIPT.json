@@ -1,0 +1,100 @@
+{
+  "base": {
+    "branch": "agent/g-pol-liouville-ii-b1",
+    "commit": "6067501f24bba03b317f5de19b5625c79b9e6467",
+    "pr": 13
+  },
+  "claim_boundary": {
+    "allowed": "shortest-geodesic common-screen convex-stencil tensor-remap core",
+    "not_allowed": [
+      "grid-specific stencil construction",
+      "observed-sky convention",
+      "global dyad atlas",
+      "E/B or Wigner transport",
+      "map-level accuracy",
+      "full polarized Liouville closure",
+      "collision-Kato-Liouville composition",
+      "production migration"
+    ]
+  },
+  "contract": {
+    "antipodes": "fail closed",
+    "interpolation": "finite non-negative weights, normalized to one within tolerance",
+    "packed_v_authority": "PR13 canonical packed[8]=-V/2",
+    "path": "unique shortest great-circle",
+    "projection": "single final P(target) J P(target)",
+    "stencil_construction": "external / B2B",
+    "transport": "J_target = R J_source R^T"
+  },
+  "discovered_repairs": [
+    "transport raw physical source tensors, interpolate on common screen, project once at target",
+    "canonical fixture generator now runs pinned rustfmt and is byte-identity tested"
+  ],
+  "metrics": {
+    "fixture_minimum_transport_dot": 0.9363406575547659,
+    "naive_local_qu_gauge_error": 1.0817171333574376,
+    "python_roundtrip_max_abs_error": 1.6653345369377348e-16,
+    "refinement_errors": [
+      0.004036517987148547,
+      0.0010116565311996117,
+      0.00025307227001925003,
+      6.3277954170049e-05
+    ],
+    "refinement_ratios": [
+      3.990008330556702,
+      3.9975005207906014,
+      3.9993750325612663
+    ],
+    "rust_roundtrip_max_abs_error": 6.661338147750939e-16,
+    "scipy_fixture_max_abs_error": 1.1102230246251565e-16
+  },
+  "mutation_tests": {
+    "remove_final_projection_after_repair": "REJECTED",
+    "remove_final_projection_initial": "SURVIVED_AND_TRIGGERED_ARCHITECTURE_REPAIR",
+    "remove_negative_weight_guard": "REJECTED",
+    "skip_common_screen_transport": "REJECTED"
+  },
+  "schema": "bass-g-pol-liouville-iib2a-receipt-v1",
+  "source_sha256": {
+    "compiler/runtime/G_POL_LIOUVILLE_II_B2A_AUDIT.md": "a7e3cae77e01f6f0a42e852e329db6b9ccbe490c7aef6e4e7f7424561503c725",
+    "compiler/runtime/G_POL_LIOUVILLE_II_B2A_LITERATURE.md": "6e8fbf6e570ae24424189b312daac6eb7bd792a5879e228ec39f77d4b7533b2d",
+    "compiler/validation/plot_typeii_polarized_remap.py": "24431481457bfad3c18ea1acecbc9740f250c267147c62bb33ecd00b8836a473",
+    "compiler/validation/test_typeii_polarized_remap.py": "0611b1d745852719d1908a97d7d8c0bba43d7b427addb0d338b1f18f950c182b",
+    "compiler/validation/typeii_polarized_remap_oracle.json": "d2c957221ef85569506acb0663ec14b7fb8c88f0946e92f972f05bde26e19024",
+    "compiler/validation/typeii_polarized_remap_oracle.py": "3dfce387a1de186a41182636bd64d1444d6fa8dece92e7eabf3ffe5ef41c594b",
+    "docs/superpowers/plans/2026-08-21-g-pol-liouville-iib2a.md": "32abddb0a0367a45f06a9109a851f99ae0fb69e7fbeb8280a9ae1a1b891690f1",
+    "docs/superpowers/specs/2026-08-21-g-pol-liouville-iib2a-design.md": "549ae8f11792fc6309822e80389bba2fcce25bf8408bd851035c4e3f6e1bfc1d",
+    "runtime/rust/typeii/tests/support/typeii_polarized_remap_fixture.rs": "aa9c0aa40b29fb01cf7858633b1e2987916f5c26883cffb9a325a29bf86029af",
+    "runtime/rust/typeii/tests/typeii_polarized_remap_fixture.rs": "1bf07b947dc2b957e61bbf0b6ac5e827a90829b012fbbdb80205d51a40c7e499",
+    "runtime/rust/typeii/tests/typeii_polarized_remap_unit.rs": "982c3299df2475d35b3f4811ad578b87d9d5471f8518fa5c91cfc6a2a53f4e9d",
+    "runtime/rust/typeii/typeii_polarized_remap.rs": "cfc4f46ad8efe7a5cd4c1abf6bf982a13ac9663406452691bb203a6a20d48b0e"
+  },
+  "stage": "G-POL-LIOUVILLE-II-B2A",
+  "status": "PASS_COMMON_SCREEN_CONVEX_REMAP_CORE",
+  "verification": {
+    "cargo": "1.94.1",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "fixture_generator_byte_identity": "PASS_AFTER_PINNED_RUSTFMT_REPAIR",
+    "full_group_counts": [
+      128,
+      4,
+      4,
+      33,
+      5,
+      1,
+      16,
+      1,
+      11,
+      12,
+      9,
+      12,
+      3,
+      0
+    ],
+    "full_locked_offline": "239 passed, 0 failed",
+    "python_independent": "8 passed, 0 failed",
+    "rust": "1.94.1",
+    "rust_targeted": "12 passed, 0 failed",
+    "rustfmt": "PASS"
+  }
+}

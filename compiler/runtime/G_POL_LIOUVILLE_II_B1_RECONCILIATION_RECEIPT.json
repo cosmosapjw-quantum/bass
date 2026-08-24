@@ -1,0 +1,107 @@
+{
+  "schema": "bass-g-pol-liouville-b1-reconciliation-v2",
+  "stage": "B1-AUTHORITY-RECONCILIATION",
+  "status": "RECONCILED_FULL_GATE_GREEN",
+  "base": {
+    "pr": 14,
+    "branch": "agent/g-pol-liouville-ii-b2a",
+    "commit": "1f7c007ef1edc99bc88ecc8ca999da261a040e1f",
+    "tree": "b27eee0a286151fe282f128fe152d509cdd089ea"
+  },
+  "canonical_internal_convention": {
+    "screen_handedness": "s1 x s2 = e",
+    "screen_matrix": "1/2 [[I+Q,U-iV],[U+iV,I-Q]]",
+    "packed_coordinate": "p8=(J12-J21)/2",
+    "relation": "p8=-V/2",
+    "meaning": "internal local-screen diagnostic convention only"
+  },
+  "superseded_alternative": {
+    "screen_matrix": "1/2 [[I+Q,U+iV],[U-iV,I-Q]]",
+    "relation": "p8=+V_alt/2",
+    "equivalence": "V_alt=-V",
+    "status": "SUPERSEDED_ALTERNATIVE_CONVENTION"
+  },
+  "authority": {
+    "polarization_authority_sha256": "b4becce7e7162991c63b7f065d56c6a29c4123b9b9030eb8eba1b30eee3a3a6b",
+    "generated_polarized_rust_git_blob": "557fc72d893b87bb9aaf55c7d4c85533bf5e0312",
+    "pr13_stokes_rust_git_blob": "16f8d6229ffb902ec54722947338566e822ac7d7",
+    "runtime_diagnostic_git_blob_before": "a2d5d7a27e07e570d83cb2c9bab8e2363a1ec772",
+    "runtime_diagnostic_git_blob_corrected": "3dfc86dea2f0c20c09c467068e9dc2084cfeb1cd",
+    "upstream_sha256": {
+      "_rustcore/src/kinetic/pol_collide.rs": "c6cb5099b139a4f04a5693d1f07ae8bffd90acc9b5ffd32579532a2dce5fe202",
+      "audit/p3_polarized_thomson.py": "eb5ba68a22c88f88026bdd27898e5b6e03abae901f7aa9a0982389f5d7436255",
+      "audit/p9_boost_screen.py": "8ab2545b535cf89a3cf2b3ae45d2d0a8e9df0d8a1e6695f979dd29dd60f8aed9",
+      "bianchi/q/polstate.py": "3ebabbfe264a50dfe2fd0a2e39c279b201a6911a9711abd9f698f9ad53264da1",
+      "docs/P-DERIVATION.md": "a25e1f897a71efbba02f3d971dd36fcff8c20f3b3abfb36c9cb06401681fd91d"
+    }
+  },
+  "required_tests": [
+    "canonical xy pure-circular p8=-V/2",
+    "generic tensor-Stokes roundtrip for positive negative and zero V",
+    "pure-V collision Q/U non-mixing",
+    "superseded +V/2 alternative is detectably opposite"
+  ],
+  "implementation_correction": {
+    "path": "compiler/validation/typeii_polarized_runtime.py",
+    "scope": "existing Python validation and diagnostic adapter",
+    "encoder": "+V/2 to -V/2",
+    "decoder": "+2 u A v to -2 u A v",
+    "insertions": 2,
+    "deletions": 2,
+    "corrected_sha256": "d660afe25e60fbf4350d5ac25711dc8e64ad2ba02258d55238c315a8af1f4696"
+  },
+  "fresh_corrective_replay": {
+    "date": "2026-08-22",
+    "python": {
+      "exact_head_red": {"passed": 2, "failed": 2},
+      "corrected_reconciliation": {"passed": 4, "failed": 0},
+      "independent_oracle": {"passed": 6, "failed": 0},
+      "full_public_repository": {"passed": 93, "failed": 0}
+    },
+    "rust": {
+      "toolchain": "1.94.1",
+      "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+      "mode": "--locked --offline",
+      "recovered_bundle_sha256": "0b0cf2637a65c96c3024820ffb2a3feecfa43d94b659a4649b9cbf141c22364f",
+      "recovered_runtime_test_sha256": "599aa392adffd59d85e54136296a596ff8ea0324df4c1efeccca751f7a98abf1",
+      "recovered_fixture_sha256": "5737dead724b86ead64cc25f9e00802973df1eb2abbdc92a5e7c095df1378ef1",
+      "named_test_counts": {
+        "library_unit": 128,
+        "typeii_fixture_reconstruction": 4,
+        "typeii_krylov_adapt_hostile": 33,
+        "typeii_krylov_adapt_unit": 5,
+        "typeii_polarized_liouville_fixture": 1,
+        "typeii_polarized_liouville_unit": 16,
+        "typeii_polarized_runtime_unit": 12,
+        "typeii_polarized_stokes_unit": 9,
+        "typeii_pre_liouville_safety": 12,
+        "typeii_runtime_generated": 4,
+        "typeii_runtime_unit": 3,
+        "standalone_runtime_fixture": 0,
+        "doc_tests": 0
+      },
+      "total_passed": 227,
+      "failed": 0
+    }
+  },
+  "physics_impact": {
+    "basis_free_collision": "UNCHANGED",
+    "basis_free_liouville": "UNCHANGED",
+    "tensor_remap": "UNCHANGED",
+    "active_passive_spin2_phase": "UNCHANGED",
+    "observed_sky_output": "NOT_DEFINED"
+  },
+  "governance": {
+    "jira": "BASS-2",
+    "confluence_page_id": "7700482",
+    "join_j1_prerequisite": true,
+    "merge_authority": "NOT_GRANTED_BY_THIS_RECEIPT"
+  },
+  "not_claimed": [
+    "IAU COSMO or HEALPix compatibility",
+    "observer n=-e bridge",
+    "global dyad atlas",
+    "E/B or Wigner convention",
+    "full polarized Liouville closure"
+  ]
+}
