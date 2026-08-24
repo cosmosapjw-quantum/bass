@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "exact": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {"kind": {"const": "integer"}, "value": {"type": "integer"}},
+          "required": ["kind", "value"],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "denominator": {"minimum": 2, "type": "integer"},
+            "kind": {"const": "rational"},
+            "numerator": {"type": "integer"}
+          },
+          "required": ["kind", "numerator", "denominator"],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "isolating_interval": {
+              "items": {"$ref": "#/$defs/exact"},
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "kind": {"const": "algebraic"},
+            "minimal_polynomial": {
+              "items": {"type": "integer"},
+              "minItems": 2,
+              "type": "array"
+            },
+            "root_index": {"minimum": 0, "type": "integer"}
+          },
+          "required": ["kind", "minimal_polynomial", "isolating_interval", "root_index"],
+          "type": "object"
+        }
+      ]
+    },
+    "sparse_entry": {
+      "additionalProperties": false,
+      "properties": {
+        "indices": {
+          "items": {"minimum": 0, "type": "integer"},
+          "minItems": 1,
+          "type": "array"
+        },
+        "value": {"$ref": "#/$defs/exact"}
+      },
+      "required": ["indices", "value"],
+      "type": "object"
+    },
+    "sparse_tensor": {
+      "additionalProperties": false,
+      "properties": {
+        "entries": {"items": {"$ref": "#/$defs/sparse_entry"}, "type": "array"},
+        "shape": {
+          "items": {"minimum": 1, "type": "integer"},
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": ["shape", "entries"],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "adapter_requests": {
+      "additionalProperties": false,
+      "properties": {
+        "D_normalization": {"type": "boolean"},
+        "rank_one_axis_projector": {"type": "boolean"}
+      },
+      "type": "object"
+    },
+    "basis_dimension": {"const": 3},
+    "basis_id": {"minLength": 1, "type": "string"},
+    "convention": {"type": "object"},
+    "convention_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "generator_representation": {"enum": ["adjoint", "faithful_embedding"]},
+    "invariant_embedding": {
+      "additionalProperties": false,
+      "properties": {
+        "coframe_matrix": {"$ref": "#/$defs/sparse_tensor"},
+        "frame_matrix": {"$ref": "#/$defs/sparse_tensor"},
+        "maurer_cartan_coefficients": {"$ref": "#/$defs/sparse_tensor"}
+      },
+      "required": ["frame_matrix", "coframe_matrix", "maurer_cartan_coefficients"],
+      "type": "object"
+    },
+    "matrix_generators": {"$ref": "#/$defs/sparse_tensor"},
+    "metadata": {
+      "additionalProperties": false,
+      "properties": {"type_label": {"type": "string"}},
+      "type": "object"
+    },
+    "na_decomposition": {
+      "additionalProperties": false,
+      "properties": {
+        "a": {"$ref": "#/$defs/sparse_tensor"},
+        "n": {"$ref": "#/$defs/sparse_tensor"}
+      },
+      "required": ["n", "a"],
+      "type": "object"
+    },
+    "representation_certificate": {
+      "additionalProperties": false,
+      "properties": {
+        "faithful": {"const": true},
+        "structure_constants_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "uniquely_recoverable": {"const": true}
+      },
+      "required": ["faithful", "uniquely_recoverable", "structure_constants_sha256"],
+      "type": "object"
+    },
+    "schema_version": {"const": "bianchi-spec-v1"},
+    "spec_id": {"pattern": "^[A-Za-z0-9_.-]+$", "type": "string"},
+    "structure_constants": {"$ref": "#/$defs/sparse_tensor"}
+  },
+  "anyOf": [
+    {"required": ["structure_constants"]},
+    {"required": ["na_decomposition"]},
+    {"required": ["matrix_generators", "generator_representation"]}
+  ],
+  "allOf": [
+    {
+      "if": {"properties": {"generator_representation": {"const": "faithful_embedding"}}, "required": ["generator_representation"]},
+      "then": {"required": ["representation_certificate"]}
+    }
+  ],
+  "required": ["schema_version", "spec_id", "basis_dimension", "basis_id", "convention", "convention_hash"],
+  "title": "Exact type-ignorant BianchiSpec",
+  "type": "object"
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapters": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "adapter_id": {"type": "string"},
+          "input_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+          "output_assumptions": {"items": {"type": "string"}, "type": "array"},
+          "predicate": {"$ref": "#/$defs/expr"}
+        },
+        "required": ["adapter_id", "predicate", "input_hash", "output_assumptions"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "assumptions": {"items": {"type": "string"}, "type": "array"},
+    "authority_status": {"const": "CANDIDATE_UNPROMOTED_FORMULA_BYTES_ABSENT"},
+    "convention_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "cse_temporaries": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {"expr": {"$ref": "#/$defs/expr"}, "id": {"type": "string"}},
+        "required": ["id", "expr"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "dependency_dag": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "dependencies": {"items": {"type": "string"}, "type": "array"},
+          "id": {"type": "string"}
+        },
+        "required": ["id", "dependencies"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "expressions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {"expr": {"$ref": "#/$defs/expr"}, "id": {"type": "string"}, "units": {"type": "string"}},
+        "required": ["id", "expr", "units"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "formula_source_hashes": {
+      "additionalProperties": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+      "minProperties": 4,
+      "type": "object"
+    },
+    "historical_formula": {
+      "additionalProperties": false,
+      "properties": {
+        "is_dag_parent": {"const": false},
+        "label_sha256": {"const": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361"},
+        "status": {"const": "UNRESOLVED_REFERENCE"}
+      },
+      "required": ["label_sha256", "status", "is_dag_parent"],
+      "type": "object"
+    },
+    "orientation_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "pass_receipts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "input_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+          "output_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+          "pass_name": {"type": "string"},
+          "pass_version": {"type": "string"}
+        },
+        "required": ["pass_name", "pass_version", "input_hash", "output_hash"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "schema_version": {"const": "symir-v2-candidate-1"},
+    "selected_oracle": {
+      "additionalProperties": false,
+      "properties": {
+        "spatial_scalar_curvature": {"$ref": "#/$defs/exact"}
+      },
+      "required": ["spatial_scalar_curvature"],
+      "type": "object"
+    },
+    "spec_hash": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "spec_id": {"type": "string"},
+    "tensors": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "entries": {"type": "array"},
+          "id": {"type": "string"},
+          "index_domains": {"items": {"type": "string"}, "type": "array"},
+          "shape": {"items": {"minimum": 1, "type": "integer"}, "type": "array"},
+          "symmetries": {"items": {"type": "string"}, "type": "array"},
+          "variance": {"items": {"enum": ["up", "down"]}, "type": "array"}
+        },
+        "required": ["id", "shape", "index_domains", "variance", "symmetries", "entries"],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "$defs": {
+    "exact": {
+      "additionalProperties": true,
+      "properties": {"kind": {"enum": ["integer", "rational", "algebraic"]}},
+      "required": ["kind"],
+      "type": "object"
+    },
+    "expr": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {"items": {"$ref": "#/$defs/expr"}, "type": "array"},
+        "op": {"type": "string"},
+        "value": {}
+      },
+      "required": ["op", "args"],
+      "type": "object"
+    }
+  },
+  "required": ["schema_version", "authority_status", "historical_formula", "spec_id", "spec_hash", "convention_hash", "orientation_hash", "formula_source_hashes", "assumptions", "tensors", "expressions", "dependency_dag", "cse_temporaries", "adapters", "pass_receipts", "selected_oracle"],
+  "title": "Typed exact SymIR v2 candidate",
+  "type": "object"
+}
