@@ -17,6 +17,7 @@ from __future__ import annotations
 import os
 
 import numpy as np
+import sympy as sp
 
 from bianchi.matter import hierarchy as H
 
@@ -28,6 +29,43 @@ L_MAX_RUST = 5
 
 def fmt(vals):
     return ", ".join(repr(float(v)) for v in vals)
+
+
+def _rational_trace_basis(A: np.ndarray) -> sp.Matrix:
+    """Recover the exact permutation-average entries behind a float basis."""
+    return sp.Matrix(
+        [
+            [sp.Rational(float(value)).limit_denominator(720) for value in row]
+            for row in np.asarray(A, dtype=np.float64)
+        ]
+    )
+
+
+def canonical_trace_basis(A: np.ndarray) -> np.ndarray:
+    """Round the permutation-average basis back to its exact rational values."""
+    exact = _rational_trace_basis(A)
+    canonical = np.asarray(exact.tolist(), dtype=np.float64)
+    error = float(np.max(np.abs(canonical - np.asarray(A, dtype=np.float64))))
+    if error > 2.0 * np.finfo(np.float64).eps:
+        raise ValueError(f"trace-subspace rational reconstruction error {error}")
+    return canonical
+
+
+def exact_left_inverse(A: np.ndarray) -> np.ndarray:
+    """Return ``(A.T A)^-1 A.T`` from exact rational trace-basis entries.
+
+    The trace-subspace basis is built only from permutation averages, so every
+    entry is rational.  Reconstructing those small denominators before the
+    solve removes the SVD/LAPACK backend from the generated-byte contract while
+    preserving the unique orthogonal projector and its normalization.
+    """
+    exact = _rational_trace_basis(A)
+    if exact.rank() != exact.cols:
+        raise ValueError("trace-subspace basis is not full column rank")
+    left_inverse = (exact.T * exact).inv() * exact.T
+    if left_inverse * exact != sp.eye(exact.cols):
+        raise AssertionError("exact PSTF left-inverse identity failed")
+    return np.asarray(left_inverse.tolist(), dtype=np.float64)
 
 
 def generate() -> str:
@@ -49,8 +87,8 @@ def generate() -> str:
         "",
     ]
     for l in range(2, L_MAX_RUST + 1):
-        A = H._trace_subspace(l)                       # (3^l, nb)
-        S = np.linalg.pinv(A)                          # (nb, 3^l)
+        A = canonical_trace_basis(H._trace_subspace(l))  # (3^l, nb), exact rational
+        S = exact_left_inverse(A)                      # (nb, 3^l), BLAS-independent
         nb = A.shape[1]
         dim = A.shape[0]
         # 정확성 자체검증: P 가 실제로 대각합을 없애는지
@@ -60,9 +98,8 @@ def generate() -> str:
         resid = np.abs(np.trace(P.reshape((3,) * l), axis1=-2, axis2=-1)).max()
         assert resid < 1e-10, (l, resid)
         lines += [
-            f"/// l={l}: 기저 차원 nb={nb}, 텐서 차원 3^{l}={dim}  (자체검증 잔여 {resid:.2e})",
+            f"/// l={l}: 기저 차원 nb={nb}, 텐서 차원 3^{l}={dim}  (정확 유리수 좌역 검증)",
             f"pub const NB_{l}: usize = {nb};",
-            f"pub const DIM_{l}: usize = {dim};",
             f"pub const A_{l}: [f64; {dim * nb}] = [{fmt(A.ravel(order='C'))}];",
             f"pub const S_{l}: [f64; {nb * dim}] = [{fmt(S.ravel(order='C'))}];",
             "",
