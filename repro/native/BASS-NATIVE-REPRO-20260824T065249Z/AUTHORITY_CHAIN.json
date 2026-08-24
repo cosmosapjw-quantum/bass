@@ -1,0 +1,54 @@
+{
+  "schema": "bass-native-authority-chain-v1",
+  "run_id": "BASS-NATIVE-REPRO-20260824T065249Z",
+  "source_identity": {
+    "commit": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+    "tree": "675213f191477b1f47c725892e9f4c804c623ab0",
+    "ancestry": "PASS_EQUAL_TO_ANCHOR"
+  },
+  "cargo_lock": {
+    "path": "_rustcore/Cargo.lock",
+    "sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "historical_anchor_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "comparison": "PASS_EXACT"
+  },
+  "formula_authority": {
+    "historical_sha256": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361",
+    "named_file": "Bianchi_Polarized_Boltzmann_Core_SSOT_extracted.md",
+    "path_in_source": null,
+    "mapping": "ABSENT",
+    "meaning": "Propagated historical label in SymIR, generated headers, tests, and receipts; no source bytes are available for fresh hash verification."
+  },
+  "canonical_lowering_inputs": {
+    "compiler/symir/core.py": "6a403e66242b06ec95bebc167a98df6cfe774479b13521887347848c4749602d",
+    "compiler/symir/symir-v1.schema.json": "e7cdbdf3deee873963897fa3b91c1186ec0b4e588f1d4c4cf0afde5175089774",
+    "compiler/examples/typeII-minimal.symir.json": "f7585b05d629ee6aff4bd7274f2bc20aca0ffbdf94af2e6e8c29e46bb8004b70",
+    "compiler/structural/graph.py": "be666be6e71511a61c29160402a80c5d60038a801f55282ef49b422002be091d",
+    "compiler/dae/index.py": "b32aa6eba0c3f07a56d3f627c914ed4b4e3142225723f452282ce4d93225ff43",
+    "compiler/derivatives/jacobian.py": "39936556637b937e8170e388c027939facf32f96764302cddca585fca90dfc8b",
+    "compiler/lowering/rust_typeii.py": "57a4d5aab9f5df084062f0cca56bf6a4ecbd002b2da0b3baeae52a15557e227a",
+    "compiler/lowering/rust_typeii_polarized.py": "e9d8a10ef0a6e71a98bfe89fdee72bd61b6b2a3394bfb73308388ccd259efee1",
+    "compiler/lowering/templates/typeii_polarized.rs.in": "eae306e56a0ab1083881ad23d3de0ca682ecf8f0f891c67f8e9f8a423158ebed"
+  },
+  "generated_rust": {
+    "generated/rust/typeii/mod.rs": "3268f06134026646dc0ff7b3b4ac4e4907f1c52f47382053c7e20ff381c35265",
+    "generated/rust/typeii/typeii_background.rs": "0f1f31dad4c106fa22ac1ea8e95651ede24a32d24400629e10f8271d99490d15",
+    "generated/rust/typeii/typeii_collision.rs": "745f15441abdd48b1ac5e1e10946aeca9bf22d5e74ab8c8215a449d681572e39",
+    "generated/rust/typeii/typeii_kato.rs": "ddea9a2af01201f84aecdabce2f70642650ccf816c827b80e6605921031f13de",
+    "generated/rust/typeii/typeii_polarized.rs": "34cad7b9fdb38652be48faa111a12f6b54cfd7a2cb172e5ed428745c19ca288b"
+  },
+  "historical_generated_bundle": {
+    "declared_sha256": "ea1b0bbf981a28ecaf1a2db09fe59c8f41e124c2e1451145833ea1bfcf4b1cde",
+    "mapping": "MAPPED_SCALAR_BUNDLE_MANIFEST",
+    "fresh_current_directory_recomputation_sha256": "a8e9154044e399e1b0f9eb700020f689593183d64ea6861ec674b8786f853bfe",
+    "comparison": "CONCERN_MANIFEST_DRIFT",
+    "cause": "The current tracked mod.rs adds typeii_polarized and hashes to 3268f0..., while the scalar manifest records historical mod.rs 5dce27...; the other three scalar generated modules match their manifest hashes. Fresh generator replay remains required."
+  },
+  "chain_status": {
+    "formula_bytes_to_symir": "BLOCKED_FORMULA_BYTES_ABSENT",
+    "symir_to_scalar_generated_rust": "CONCERN_PENDING_FRESH_REPLAY",
+    "polarized_lowering_to_generated_rust": "NOT_RUN",
+    "generated_rust_to_rustfmt_rustc_cargo": "NOT_RUN"
+  },
+  "claim_boundary": "This graph proves source/hash relationships only. It does not promote formula, solver, runtime, publication, or statistics authority."
+}
