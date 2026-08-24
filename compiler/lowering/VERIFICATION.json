@@ -1,6 +1,7 @@
 {
   "stage": "G-SYMBOLIC-LOWERING-II",
-  "status": "PASS_GENERATED_TYPEII_RUST_KERNEL__RUNTIME_INTEGRATION_NEXT",
+  "status": "LEGACY_HISTORICAL_PASS__CURRENT_DELTA_SCOPE_REBOUND_ONLY",
+  "status_scope": "The historical test counts are not a fresh PASS for the current delta. Current evidence is limited to the two focused Type-II lowering files after the manifest-scope repair.",
   "formula_authority_sha256": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361",
   "generated_bundle_content_sha256": "a8e9154044e399e1b0f9eb700020f689593183d64ea6861ec674b8786f853bfe",
   "generated_bundle_scope": "current mod.rs composition root plus the three scalar modules owned by compiler/lowering/rust_typeii.py; typeii_polarized.rs is bound separately by polarized_manifest.json",
@@ -15,11 +16,24 @@
     "structural_graph_sha256": "be666be6e71511a61c29160402a80c5d60038a801f55282ef49b422002be091d",
     "symir_core_sha256": "5c5761aec1b420b0ec6a715771647fa4e26844e0a66f0ebbf3e84c4e40721f01"
   },
-  "python_tests": "39 passed",
-  "rust_generated_tests": "6 passed",
-  "rust_full_tests": "128 passed",
+  "current_delta_evidence": {
+    "run_id": "BASS-NATIVE-DELTA-20260824T092016Z",
+    "command": "PYTHONPATH=.:compiler python -m pytest -q compiler/tests/test_rust_typeii_lowering.py compiler/tests/test_rust_typeii_polarized_lowering.py",
+    "result": "8 passed",
+    "claim_boundary": "Focused generator/manifest scope only; no full compiler or Rust-suite claim."
+  },
+  "legacy_test_receipt": {
+    "classification": "LEGACY_HISTORICAL_RECEIPT",
+    "canonical_source_commit": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+    "verification_file_sha256_at_source": "b1d5383ac7472e286a67b0f0bdd13657d2d3c0c8348037c766dd32e16862351b",
+    "python_tests": "39 passed",
+    "rust_generated_tests": "6 passed",
+    "rust_full_tests": "128 passed",
+    "unchanged_input_analysis": "Not reusable as current evidence because rust_typeii.py, its manifest scope, and its focused test changed in this delta."
+  },
   "codegen_repairs": ["f64 coefficient canonicalization", "expand_mul before SymPy Rust printing"],
   "public_repo_policy": "generated source/provenance only; vendor/toolchain not committed",
-  "production_solver_modified": false,
-  "next": "G-RUNTIME-KATO-II: bind generated collision/Kato actions to exponential/phi1 action backend and recover time-dependent stiff order in Rust"
+  "typeii_scope_repair_modified_production_solver": false,
+  "claim_boundary": "This file describes the Type-II lowering scope only; it does not classify unrelated native delta edits or promote scientific authority.",
+  "historical_next": "G-RUNTIME-KATO-II: bind generated collision/Kato actions to exponential/phi1 action backend and recover time-dependent stiff order in Rust"
 }
