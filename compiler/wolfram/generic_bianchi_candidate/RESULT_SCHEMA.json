@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acceptance_checks": {
+      "additionalProperties": false,
+      "properties": {
+        "antisymmetry_failure_fail_closed": {"const": true},
+        "canonical_output_deterministic": {"const": true},
+        "closure_failure_fail_closed": {"const": true},
+        "equivalent_representations_equal": {"const": true},
+        "exceptional_adapter_exact": {"const": true},
+        "selected_oracle_emitted": {"const": true},
+        "jacobi_failure_fail_closed": {"const": true},
+        "typeii_specialization_no_leak": {"const": true}
+      },
+      "required": ["antisymmetry_failure_fail_closed", "jacobi_failure_fail_closed", "closure_failure_fail_closed", "equivalent_representations_equal", "exceptional_adapter_exact", "typeii_specialization_no_leak", "canonical_output_deterministic", "selected_oracle_emitted"],
+      "type": "object"
+    },
+    "aggregate_status": {"const": "VALIDATED_NEW_CANDIDATE"},
+    "authority_status": {"const": "CANDIDATE_UNPROMOTED_FORMULA_BYTES_ABSENT"},
+    "cold_warm_equal": {"const": true},
+    "fixtures": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "cold_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+          "fixture_id": {"minLength": 1, "type": "string"},
+          "result_path": {"pattern": "^cold/[A-Za-z0-9_.-]+\\.symir-v2\\.json$", "type": "string"},
+          "warm_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"}
+        },
+        "required": ["fixture_id", "cold_sha256", "warm_sha256", "result_path"],
+        "type": "object"
+      },
+      "minItems": 8,
+      "type": "array"
+    },
+    "packet_manifest_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "schema_version": {"const": "workmode-result-v1"},
+    "wolfram_environment": {
+      "additionalProperties": false,
+      "properties": {
+        "kernel_version": {"minLength": 1, "type": "string"},
+        "system_id": {"minLength": 1, "type": "string"},
+        "xact_version": {"minLength": 1, "type": "string"}
+      },
+      "required": ["kernel_version", "system_id", "xact_version"],
+      "type": "object"
+    }
+  },
+  "required": ["schema_version", "aggregate_status", "authority_status", "packet_manifest_sha256", "cold_warm_equal", "wolfram_environment", "fixtures", "acceptance_checks"],
+  "title": "BASS generic Bianchi Work-mode aggregate result",
+  "type": "object"
+}
