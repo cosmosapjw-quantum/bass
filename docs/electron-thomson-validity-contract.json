@@ -1,0 +1,69 @@
+{
+  "schema": "bass.electron_thomson_validity_contract/v1",
+  "date": "2026-08-23",
+  "metric_signature": "-+++",
+  "units": {
+    "photon_energy": "J",
+    "electron_temperature": "K",
+    "rate": "s^-1",
+    "constants_owner": "bianchi.physical.units",
+    "codata_release": "2022"
+  },
+  "dimensionless_parameters": {
+    "x": "E_e/(m_e*c^2)",
+    "theta_e": "k_B*T_e/(m_e*c^2)"
+  },
+  "energy_support": {
+    "certifiable_kind": "hard_finite",
+    "fail_closed_kinds": ["bolometric", "unknown", "effective_tail"],
+    "scope": "instantaneous_same_event_only",
+    "all_sky_bound": "D_max=Gamma_rel+sqrt(Gamma_rel^2-1)",
+    "restricted_angular_support": "conservative"
+  },
+  "numeric_semantics": {
+    "relative_gamma": "exact_binary64_components_decimal80",
+    "one_ray_doppler": "exact_binary64_components_decimal80_canonical_unit_direction",
+    "kn_ratio": "x_le_1e-3_series_x10_else_decimal80",
+    "kn_deficit": "direct_not_one_minus_rounded_ratio"
+  },
+  "total_cross_section_measure": {
+    "quantity": "1-sigma_KN/sigma_T",
+    "denominator": "sigma_T",
+    "claim_scope": "stationary_electron_total_cross_section_only",
+    "polarized_differential_kernel_certified": false,
+    "finite_temperature_tail_certified": false
+  },
+  "temperature_policy": {
+    "predicate": "theta_e<=caller_max_theta_e",
+    "positive_temperature_status_without_tail_authority": "unverified_finite_temperature_tail",
+    "exact_cold_lane": "T_e=0"
+  },
+  "vacuum_status": "vacuous_collision_off",
+  "consumer_contract": {
+    "applies_relative_flux_internally": "RestOpacityPerSecond",
+    "expects_observer_ray_rate": "ObserverRayRatePerSecond",
+    "bianchi.matter.collision_moving.collision_rate_density": "applies_relative_flux_internally",
+    "external.single_observer_ray": "expects_observer_ray_rate",
+    "bianchi.q.scalar_collision_kernel": "scalar_q_kernel_generator_unresolved",
+    "relative_flux_power": 1
+  },
+  "provenance": {
+    "required": ["source_id", "source_sha256", "matching_event_id"],
+    "bound_inputs": [
+      "electron_state", "photon_energy_bound", "electron_temperature",
+      "observer_frame", "requested_budget", "constants_profile"
+    ],
+    "computed": [
+      "electron_state_sha256", "energy_bound_sha256", "temperature_authority_sha256",
+      "source_frame_sha256", "budget_sha256", "certificate_payload_sha256"
+    ],
+    "serialization": "length_prefixed_typed_tokens",
+    "signed_zero_canonicalized": true,
+    "embedded_nul_rejected": true
+  },
+  "integration_orientation": "local_future_ray_rate_only__unverified",
+  "runtime_signature_type_enforced": false,
+  "project_acceptance_ceiling_frozen": false,
+  "production_runtime_wired": false,
+  "authority_row_promoted": false
+}

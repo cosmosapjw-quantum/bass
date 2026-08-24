@@ -1,0 +1,77 @@
+{
+  "schema": "bass.electron_test_field_contract/v1",
+  "date": "2026-08-23",
+  "status": "FRAME_ADAPTER_BASELINE_WITH_SUBSEQUENT_RATE_COMPANION",
+  "historical_scope": true,
+  "subsequent_contract": "docs/electron-collision-rate-contract.json",
+  "selection": {
+    "selector": "H2_WITH_COMOVING_RESTRICTION",
+    "general_model": "INDEPENDENT_COLD_ELECTRON_TEST_FIELD",
+    "embedded_restriction": "H1_COMOVING_ELECTRON",
+    "restriction_predicate": "beta_e_normal == beta_fluid_normal",
+    "restriction_consequence": "u_e == u_fluid",
+    "density_identified_by_restriction": false,
+    "frame_change_is_closure_projection": false
+  },
+  "conventions": {
+    "metric": "(-,+,+,+)",
+    "epsilon_123": 1,
+    "stored_velocity": "beta=v_physical/c",
+    "c_boundary": "explicit",
+    "default_c_m_s": 299792458.0
+  },
+  "state": {
+    "n_e_free": {
+      "semantics": "proper_free_electron_density",
+      "domain": "finite and >= 0",
+      "owner": "explicit_input",
+      "unit": "m^-3"
+    },
+    "beta_normal": {
+      "shape": [3],
+      "domain": "finite and squared_norm < 1"
+    },
+    "thermal_model": "COLD",
+    "source_kind": "PRESCRIBED_HOMOGENEOUS_TEST_FIELD",
+    "coupling": "THOMSON_COLLISION_CONTEXT_ONLY",
+    "background_backreaction": false,
+    "time_dependent_schedule_owner": "NOT_SELECTED"
+  },
+  "frame_map": {
+    "fluid_to_electron": "L(beta_e) L(-beta_fluid)",
+    "electron_to_fluid": "L(beta_fluid) L(-beta_e)",
+    "naive_beta_subtraction_forbidden": true,
+    "noncollinear_spatial_rotation_retained": true,
+    "photon_primitive": "bianchi.q.boost.doppler",
+    "polarization_primitive": "bianchi.q.polstate.boost_shape",
+    "mode_a_intensity_law": "G_target=D^4 G_source",
+    "solid_angle_law": "dOmega_target=D^-2 dOmega_source"
+  },
+  "implemented": [
+    "independent state",
+    "comoving exact restriction",
+    "dimensionless and physical four-velocity",
+    "full noncollinear observer-frame matrix",
+    "photon energy and direction transform plus inverse",
+    "normalized screen-coherency transform plus inverse",
+    "Mode-A log-weight and log-intensity transform plus inverse",
+    "machine-readable authority boundary"
+  ],
+  "not_implemented": [
+    "electron backreaction",
+    "composition or ionization density map",
+    "time-dependent schedule provenance",
+    "normal-time collision relative-flux D factor",
+    "legacy Collision.v_b or Rust ABI wiring",
+    "finite-l boost closure",
+    "global Stokes-basis Wigner phase",
+    "residual-U(1) quotient proof",
+    "canonical OD001-OD004 receipt",
+    "row-7 or row-8 promotion"
+  ],
+  "authority": {
+    "source_archive_sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+    "canonical_receipt_complete": false,
+    "authority_row_promoted": false
+  }
+}

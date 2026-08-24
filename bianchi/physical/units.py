@@ -10,7 +10,15 @@ from __future__ import annotations
 import numpy as np
 
 # ---------------------------------------------------------------- CODATA / 천문 상수
-C_LIGHT_KM_S = 299792.458          # km/s
+# Exact SI definitions and CODATA 2022 recommended electron rest energy.
+# Keep public cross-domain constants here; physics modules may retain aliases
+# for compatibility but must not copy private recombination constants.
+CODATA_RELEASE = "2022"
+C_LIGHT_M_S = 299_792_458.0        # m/s, exact
+C_LIGHT_KM_S = C_LIGHT_M_S / 1_000.0
+BOLTZMANN_CONSTANT_J_K = 1.380_649e-23  # J/K, exact
+ELECTRON_REST_ENERGY_J = 8.187_105_7880e-14  # J, CODATA 2022
+ELECTRON_REST_ENERGY_EV = 510_998.950_69     # eV, CODATA 2022
 MPC_KM = 3.0856775814913673e19     # 1 Mpc in km
 GYR_S = 3.1556952e16               # 1 Gyr in s  (Julian)
 KB_EV_K = 8.617333262e-5           # Boltzmann k_B in eV/K

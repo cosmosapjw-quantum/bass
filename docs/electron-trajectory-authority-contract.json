@@ -1,0 +1,74 @@
+{
+  "schema": "bass.electron_trajectory_authority_contract/v1",
+  "status": "BOUNDED_PYTHON_AUTHORITY_NOT_PROMOTED",
+  "coordinate": {
+    "kind": "q_hubble_time_tau",
+    "unit": "dimensionless",
+    "future_direction": 1,
+    "physical_time_relation": "dt_phys/dtau_Q=1/H_normal",
+    "accepted_mapping": "identity_only",
+    "array_order": "strictly_increasing",
+    "support_policy": "exact_closed_intersection_no_clamp_no_extrapolation"
+  },
+  "units": {
+    "electron_proper_density": "m^-3",
+    "photon_energy": "J",
+    "electron_temperature": "K",
+    "normal_hubble": "s^-1; each knot >= smallest_normal_positive_binary64",
+    "local_ray_rate": "dimensionless_per_dimensionless_tau_Q"
+  },
+  "closures": {
+    "independent": "piecewise_linear_number_current",
+    "comoving": "piecewise_linear_proper_density_with_live_u_e_equals_u_fluid",
+    "vacuum": "collision_off_velocity_quotient"
+  },
+  "segment_bound": {
+    "partition": "union_of_all_input_knots",
+    "independent_electron_gamma": "exact_rational_endpoints_plus_stationary_point_and_live_binary64_current_interpolation_division_enclosure",
+    "source_gamma": "exact_affine_endpoint_norm_maximum_plus_live_binary64_component_error_enclosure",
+    "relative_gamma_upper": "gamma_e_max*gamma_source_max*(1+beta_e_max*beta_source_max)",
+    "doppler_upper": "Gamma+sqrt((Gamma-1)*(Gamma+1))",
+    "numeric_semantics": "binary64_knots_as_exact_rationals; conservative_multiply_add_divide_enclosure; decimal100_sqrt; outward_export; exact_zero_preserved",
+    "numeric_failure": "unverified_numeric_domain",
+    "moving_current_touching_vacuum": "unverified_numeric_domain",
+    "rest_current_touching_vacuum": "requires_nextafter_owner_edge_weight_to_clear_live_norm_product_floor_else_unverified_numeric_domain",
+    "live_density_reconstruction_overflow": "unverified_numeric_domain",
+    "live_density_reconstruction_underflow": "unverified_numeric_domain",
+    "comoving_density_interpolation_overflow": "unverified_numeric_domain",
+    "node_interval_numeric_domain": "every_adjacent_binary64_width_finite_and_positive",
+    "scalar_energy_temperature_maximum": "exact_affine_max_plus_live_binary64_component_error_enclosure"
+  },
+  "orientation": {
+    "future_kinetic_ivp": {
+      "derivative": "+nu_tau",
+      "traversal": "tau_start<=tau_end"
+    },
+    "past_light_cone_accumulation": {
+      "definition": "kappa(tau)=integral_tau^tau_observer nu_tau d_tau",
+      "derivative": "-nu_tau",
+      "traversal": "tau_start>=tau_end"
+    },
+    "paired_depth": "same_nonnegative_value",
+    "canonical_arrays_reversed": false
+  },
+  "positive_status": "certified_cold_delta_trajectory",
+  "local_ray_rate_semantics": "separate_provenance_bound_orientation_input_not_yet_derived_from_electron_schedule",
+  "certificate_hash_semantics": "content_commitment_not_signature",
+  "certificate_construction": "factory_only_with_segment_and_aggregate_invariants",
+  "fail_closed_statuses": [
+    "vacuous_collision_off_trajectory",
+    "unverified_energy_support",
+    "unverified_finite_temperature_tail",
+    "unverified_numeric_domain",
+    "rejected_total_cross_section_budget",
+    "rejected_temperature_policy"
+  ],
+  "claim_scope": "trajectory_total_cross_section_cold_delta_only",
+  "finite_temperature_tail_certified": false,
+  "polarized_differential_kernel_certified": false,
+  "q_collision_generator_wired": false,
+  "production_runtime_wired": false,
+  "rust_abi_wired": false,
+  "authority_row_promoted": false,
+  "next_node": "BASS-8B.1E.5_direction_dependent_Q_collision_generator_authority"
+}

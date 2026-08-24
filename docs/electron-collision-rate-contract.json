@@ -1,0 +1,83 @@
+{
+  "schema": "bass.electron_collision_rate_contract/v1",
+  "date": "2026-08-23",
+  "status": "BOUNDED_IMPLEMENTATION_NOT_PRODUCTION_WIRED_NOT_PROMOTED",
+  "conventions": {
+    "metric": "(-,+,+,+)",
+    "c_explicit": true,
+    "direction": "photon_propagation_direction",
+    "density_semantics": "electron_rest_frame_proper_density",
+    "density_unit": "m^-3"
+  },
+  "rates": {
+    "covariant_increment": "d_tau=-(n_e_star*sigma_T/c)*u_e_dot_dx",
+    "fluid_time": "n_e_star*sigma_T*c*D_e_from_f",
+    "normal_time": "n_e_star*sigma_T*c*D_e_from_normal",
+    "solver_hubble_time": "normal_time_rate/H_normal",
+    "relative_flux_power": 1,
+    "fluid_rate_divided_by_normal_H_forbidden": true,
+    "backward_orientation_owned_by_caller": true
+  },
+  "units": {
+    "cross_section_owner": "bianchi.thermo.history_api.SIGMA_T_CM2",
+    "sigma_T_cm2": 6.6524587e-25,
+    "sigma_T_m2": 6.6524587e-29,
+    "c_cm_s": 2.99792458e10,
+    "c_m_s": 299792458.0,
+    "proper_cm3_to_m3": 1000000.0,
+    "legacy_history_density_adapter": false
+  },
+  "schedules": {
+    "coordinate": "hubble_time_tau",
+    "support": "closed_finite_no_extrapolation",
+    "provenance": ["source_id", "source_sha256", "computed_payload_sha256"],
+    "independent": {
+      "interpolation": "linear_number_current_v1",
+      "tetrad_gauge": "declared_normal_tetrad_components",
+      "vacuum_beta_canonicalized_before_hash": true,
+      "density_interpolation_linear": false,
+      "residual_u1_descended": false,
+      "ad_jvp_certified": false
+    },
+    "comoving": {
+      "interpolation": "linear_proper_density_live_fluid_beta",
+      "positive_density_closure": "u_e_equals_u_fluid_exactly",
+      "vacuum_closure": "undefined_on_velocity_quotient"
+    }
+  },
+  "vacuum": {
+    "rate": "bit_exact_positive_zero",
+    "velocity": "quotiented",
+    "relative_flux_factor": "undefined"
+  },
+  "validity": {
+    "thermal_model": "cold",
+    "thomson_status": "DECLARED_COLD_THOMSON_ASSUMPTION_ENERGY_DOMAIN_UNVERIFIED",
+    "electron_frame_energy_bound_present": false,
+    "klein_nishina_certified": false
+  },
+  "consumer_boundary": {
+    "collision_moving_already_applies_D": true,
+    "pass_observer_rate_to_collision_moving": false,
+    "required_future_input": "rest_opacity_n_e_star_sigma_T_c"
+  },
+  "implemented": [
+    "fluid_observer_rate",
+    "normal_observer_rate",
+    "normal_hubble_time_rate",
+    "vacuum_noop_and_velocity_quotient",
+    "independent_number_current_schedule",
+    "live_fluid_comoving_schedule",
+    "explicit_proper_density_unit_conversion",
+    "strict_provenance_and_support"
+  ],
+  "not_implemented": [
+    "production_collision_loop_wiring",
+    "Collision_v_b_or_Rust_ABI_change",
+    "generic_H2_legacy_history_density_adapter",
+    "spectral_Thomson_validity_predicate",
+    "finite_l_boost_closure",
+    "residual_U1_quotient",
+    "authority_row_promotion"
+  ]
+}

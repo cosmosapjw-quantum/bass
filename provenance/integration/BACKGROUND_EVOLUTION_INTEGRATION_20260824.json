@@ -1,0 +1,98 @@
+{
+  "schema": "bass.background-evolution-integration-receipt.v1",
+  "created_utc_date": "2026-08-24",
+  "purpose": "preservation_and_review_backup",
+  "repository": "cosmosapjw-quantum/bass",
+  "integration_branch": "agent/recovery/background-evolution-v87-integrated-20260824",
+  "recovery_base": {
+    "ref": "agent/recovery/background-evolution-v87-source-20260824",
+    "commit": "dc546a07c5d05cd68b6d43c9ca4c41a57d8d5c81",
+    "tree": "336ba546e4aaa4a5dbe87366a6f465bcff87735d",
+    "external_snapshot_sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+    "git_ancestry_in_archive": false
+  },
+  "merge_inputs": [
+    {
+      "ref": "agent/bass-dag-realignment-20260821",
+      "commit": "af467a974cfd9bd8ccd59870e5a03c8099f23db1",
+      "role": "type_ii_aggregate_and_dag_reconciliation"
+    },
+    {
+      "ref": "agent/b1-authority-reconciliation-20260821",
+      "commit": "38fd8b08b81d9969f81fb6299b23cc0673380a4c",
+      "role": "bounded_corrected_b1_polarization_aggregate"
+    }
+  ],
+  "selective_blob_source": {
+    "ref": "agent/backup/bass-8b1e1-e4-plus-applicability-20260823",
+    "commit": "e4c9308af11e3234a344aeab487188a5550b1a3c",
+    "merged_as_ancestry": false,
+    "reason": "preservation-only checkpoint; active-tree E1-E4 files are audited transplants"
+  },
+  "merge_safety_evidence": {
+    "recovery_tree_blobs": 421,
+    "local_exact_blob_and_mode_matches": 408,
+    "local_mismatches": 0,
+    "recovery_metadata_only_paths": 13,
+    "dag_delta_paths": 6,
+    "b1_delta_paths": 75,
+    "dag_b1_overlap": 0,
+    "dag_recovery_overlap": 0,
+    "b1_recovery_overlap": 0,
+    "dag_active_e1_e4_overlap": 0,
+    "b1_active_e1_e4_overlap": 0
+  },
+  "excluded_refs": [
+    "agent/g-pol-liouville-ii-b2b-upload",
+    "agent/g-pol-liouville-b1-b2-staging-20260821",
+    "agent/recovery/runtime-interruption-20260811-inventory",
+    "agent/route-a-a0",
+    "agent/route-a-a0-v2"
+  ],
+  "claim_boundary": {
+    "electron_checkpoint_status": "PRESERVED_UNVERIFIED_NUMERIC_DOMAIN",
+    "authority_row_promoted": false,
+    "production_collision_wired": false,
+    "scalar_q_kernel_resolved": false,
+    "jax_solver_wired": false,
+    "rust_abi_wired": false,
+    "next_node": "BASS-8B.2A_TYPED_ELECTRON_STATE_BINDING"
+  },
+  "independent_review_stop_boundaries": [
+    {
+      "id": "E1_E2_NEAR_NULL_NUMERIC_DOMAIN",
+      "severity": "P2_BLOCKS_AUTHORITY_OR_RUNTIME_PROMOTION",
+      "state": "UNVERIFIED_NUMERIC_DOMAIN",
+      "reproduced_relative_gamma_binary64": 0.9999999999999998,
+      "reproduced_relative_gamma_decimal80": 1.0006827776097833,
+      "reproduced_lorentz_residual_max": 0.7964699272409437,
+      "required_before_binding": "cancellation-stable or fail-closed frame adapter plus hostile regression"
+    },
+    {
+      "id": "E3_PUBLIC_CERTIFICATE_CONSTRUCTOR",
+      "severity": "P2_NON_BLOCKING_FOR_UNWIRED_BACKUP",
+      "state": "KNOWN_UNSAFE_TO_PROMOTE",
+      "required_before_binding": "factory-lock ColdThomsonCertificate and add adversarial construction tests"
+    },
+    {
+      "id": "HISTORICAL_E4_NEXT_NODE_POINTER",
+      "severity": "P3_CONTROL_PLANE_CLARIFICATION",
+      "historical_value": "BASS-8B.1E.5_direction_dependent_Q_collision_generator_authority",
+      "superseded_by": "BASS-8B.2A_TYPED_ELECTRON_STATE_BINDING",
+      "source_of_current_authority": "Jira BASS-8 latest control-plane decision"
+    }
+  ],
+  "focused_verification": {
+    "electron_state_frame": "13/13 PASS",
+    "collision_rate": "13/13 PASS",
+    "cold_thomson_validity": "20/20 PASS",
+    "trajectory_authority": "28/28 PASS",
+    "rate_audit_cases": 2000,
+    "kn_audit_cases": 1201,
+    "boost_audit_cases": 1200,
+    "python_compileall": "PASS",
+    "full_python_suite": "UNVERIFIED_DEPENDENCIES_UNAVAILABLE",
+    "full_rust_suite": "UNVERIFIED_TOOLCHAIN_DEPENDENCIES_UNAVAILABLE"
+  },
+  "final_git_identity": "RECORDED_EXTERNALLY_AFTER_COMMIT"
+}
