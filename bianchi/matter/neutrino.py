@@ -16,9 +16,11 @@ w_ν(a) 를 정확 FD 적분으로 준다.  질량은 오늘의 온도 T_ν0 = (
 from __future__ import annotations
 
 import numpy as np
-from scipy import integrate
 
 from bianchi.physical import units as U
+from bianchi.optional_dependencies import require_optional
+
+integrate = require_optional("scipy.integrate", feature=__name__, dependency="scipy")
 
 # FD 적분 상수:  단일 페르미온 (g=2, 입자+반입자는 계수로), 무차원 x = p/T.
 #   n ∝ ∫ x^2 f dx ,  ρ ∝ ∫ x^2 √(x^2+y^2) f dx ,  P ∝ (1/3)∫ x^4/√(x^2+y^2) f dx

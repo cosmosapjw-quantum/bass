@@ -14,7 +14,8 @@ from bianchi.q import polstate
 
 
 @pytest.fixture(autouse=True)
-def _isolated_native_loader_cache():
+def _isolated_native_loader_cache(monkeypatch):
+    monkeypatch.delenv(policy.DEVELOPMENT_OVERRIDE_ENV, raising=False)
     policy._reset_native_loader_for_tests()
     yield
     policy._reset_native_loader_for_tests()
@@ -38,6 +39,37 @@ def _inject_native_import(monkeypatch, module: ModuleType) -> None:
         "_distribution_version",
         lambda: (policy.EXPECTED_EXTENSION_VERSION, "test_distribution_metadata"),
     )
+
+
+class _PayloadEvidence:
+    """Callable payload-verification seam that supports the cache-reset fixture."""
+
+    def __init__(self, verified: bool, reason: str):
+        self.verified = verified
+        self.reason = reason
+        self.origins = []
+
+    def __call__(self, native_origin):
+        self.origins.append(native_origin)
+        return self.verified, self.reason
+
+    def cache_clear(self):
+        return None
+
+
+def _inject_payload_evidence(monkeypatch, *, verified: bool, reason: str):
+    evidence = _PayloadEvidence(verified, reason)
+    monkeypatch.setattr(policy, "_installed_native_payload_matches", evidence)
+    return evidence
+
+
+def _native_module(**symbols):
+    module = ModuleType(policy.NATIVE_MODULE_NAME)
+    module.__file__ = f"/proof/bianchi_rustcore{_extension_suffix()}"
+    module.rayon_thread_pool_size = lambda: 1
+    for name, value in symbols.items():
+        setattr(module, name, value)
+    return module
 
 
 def _modeb_inputs():
@@ -172,6 +204,92 @@ def test_r2_capability_binds_loaded_so_to_distribution_owned_file(
         report["provenance"]["cargo_lock_sha256"]
         == "rf00_r3_loaded_distribution_file_fingerprint"
     )
+
+
+def test_unverified_native_payload_fails_closed_by_default(monkeypatch):
+    native = _native_module(chart_rhs=lambda *_args: np.arange(5.0))
+    _inject_native_import(monkeypatch, native)
+    evidence = _inject_payload_evidence(
+        monkeypatch,
+        verified=False,
+        reason="test_unverified_source_build",
+    )
+
+    with pytest.raises(policy.UnverifiedNativePayloadError) as caught:
+        policy.select_backend("background.chart_rhs", policy="rust_required")
+
+    assert caught.value.route_id == "background.chart_rhs"
+    assert "test_unverified_source_build" in str(caught.value)
+    assert policy.DEVELOPMENT_OVERRIDE_ENV in str(caught.value)
+    assert evidence.origins == [native.__file__]
+
+
+def test_exact_development_override_warns_and_returns_typed_diagnostic(monkeypatch):
+    native = _native_module(chart_rhs=lambda *_args: np.arange(5.0))
+    _inject_native_import(monkeypatch, native)
+    evidence = _inject_payload_evidence(
+        monkeypatch,
+        verified=False,
+        reason="test_unverified_source_build",
+    )
+    assert policy.DEVELOPMENT_OVERRIDE_ENV == "BASS_ALLOW_UNVERIFIED_NATIVE_DEV"
+    monkeypatch.setenv(policy.DEVELOPMENT_OVERRIDE_ENV, "1")
+
+    with pytest.warns(policy.UnverifiedNativeDevelopmentWarning) as recorded:
+        selected = policy.select_backend(
+            "background.chart_rhs", policy=policy.BackendPolicy.RUST_REQUIRED
+        )
+
+    assert selected.policy is policy.BackendPolicy.RUST_REQUIRED
+    assert selected.native_module is native
+    assert selected.load_state is policy.NativeLoadState.AVAILABLE
+    assert selected.installed_payload_verified is False
+    assert selected.development_override is True
+    assert selected.diagnostic is not None
+    assert selected.diagnostic.startswith("UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD:")
+    assert "route=background.chart_rhs" in selected.diagnostic
+    assert "reason=test_unverified_source_build" in selected.diagnostic
+    assert str(recorded[0].message) == selected.diagnostic
+    assert evidence.origins == [native.__file__]
+
+
+@pytest.mark.parametrize("override", ("0", "true", "yes", " 1", "1 "))
+def test_invalid_development_override_value_is_typed(monkeypatch, override):
+    native = _native_module(chart_rhs=lambda *_args: np.arange(5.0))
+    _inject_native_import(monkeypatch, native)
+    _inject_payload_evidence(
+        monkeypatch,
+        verified=False,
+        reason="test_unverified_source_build",
+    )
+    monkeypatch.setenv(policy.DEVELOPMENT_OVERRIDE_ENV, override)
+
+    with pytest.raises(policy.BackendPolicyError) as caught:
+        policy.select_backend("background.chart_rhs", policy="rust_required")
+
+    assert caught.value.route_id == "background.chart_rhs"
+    assert f"{policy.DEVELOPMENT_OVERRIDE_ENV} must be exactly '1'" in str(caught.value)
+    assert repr(override) in str(caught.value)
+
+
+def test_verified_installed_payload_dispatches_without_override(monkeypatch):
+    native = _native_module(chart_rhs=lambda *_args: np.arange(5.0))
+    _inject_native_import(monkeypatch, native)
+    evidence = _inject_payload_evidence(
+        monkeypatch,
+        verified=True,
+        reason="test_verified_installed_payload",
+    )
+
+    selected = policy.select_backend(
+        "background.chart_rhs", policy=policy.BackendPolicy.RUST_REQUIRED
+    )
+
+    assert selected.native_module is native
+    assert selected.installed_payload_verified is True
+    assert selected.development_override is False
+    assert selected.diagnostic is None
+    assert evidence.origins == [native.__file__]
 
 
 @pytest.mark.parametrize(

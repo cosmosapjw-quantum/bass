@@ -1,9 +1,10 @@
 """엔드투엔드 데모: 여러 Bianchi 유형을 적분하고 진단·물리량을 뽑는다."""
 import numpy as np
-import jax
-import jax.numpy as jnp
 
-import bianchi                                   # x64
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature="scripts.demo")
+
 from bianchi import algebra as alg, constraints as con, integrate as itg
 from bianchi import physical as ph, thresholds as th, batch as bt
 from bianchi.charts import class_a as ca, class_b as cb, exceptional as ce

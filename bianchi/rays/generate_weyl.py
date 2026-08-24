@@ -16,6 +16,8 @@ import os
 import pickle
 import sys
 
+from bianchi.optional_dependencies import require_optional
+
 
 def build_and_pickle(out_path=None):
     # audit/ 를 경로에 추가하여 einstein_frame 재사용
@@ -24,7 +26,7 @@ def build_and_pickle(out_path=None):
     audit = os.path.join(root, "audit")
     if audit not in sys.path:
         sys.path.insert(0, audit)
-    import sympy as sp
+    sp = require_optional("sympy", feature=f"{__name__}.build_and_pickle")
     from einstein_frame import einstein, t, I4
 
     m = einstein(with_rotation=True)

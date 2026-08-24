@@ -87,11 +87,31 @@ printf '%s  %s\n' e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f39
 python -m pip install --constraint requirements.lock "$BASS_NATIVE_WHEEL" .
 ```
 
-마지막 줄이 유일한 정상 resolver 진입점이다. 로컬 휠이 없거나 현재
+이 기본 resolver 진입점은 생산용 Rust-first 최소 프론트엔드만 설치한다:
+정확히 일치하는 native 휠과 NumPy가 필수이고 JAX/diffrax/SciPy/SymPy는 로드하지
+않는다. 로컬 휠이 없거나 현재
 Python/ABI/플랫폼과 맞지 않으면 pip가 설치를 실패시킨다. 다른 버전의 native
 배포본이나 Python-only 설치로 조용히 진행하지 않는다. 소스에서 native 휠을
 복구해야 할 때만 아래 `_rustcore/README.md`의 고정 도구·`--locked` 절차 또는
 `bootstrap.sh` 복구 helper를 사용한다.
+
+독립 Python 오라클이나 기호/과학 프론트엔드가 필요한 환경만 같은 resolver에
+`python-oracle` extra를 명시한다. 이 extra는 JAX/diffrax/equinox/optimistix/lineax,
+SciPy, SymPy, mpmath를 설치하며 생산 native fallback을 허용하지 않는다.
+
+```bash
+python -m pip install --constraint requirements.lock "$BASS_NATIVE_WHEEL" '.[python-oracle]'
+```
+
+직접 JAX 오라클 코드를 작성할 때는 배열이나 JAX companion package를 만들기 전에
+x64 로더를 명시적으로 호출한다. 실패하면 설치/구성 정보를 포함한
+`OptionalDependencyError` 계열 예외가 발생하며 float32로 계속하지 않는다.
+
+```python
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature="interactive_python_oracle")
+```
 
 ## 실행
 

@@ -34,9 +34,10 @@ CAPABILITY_FIELDS = (
 
 
 @pytest.fixture(autouse=True)
-def _isolated_native_loader_cache():
+def _isolated_native_loader_cache(monkeypatch):
     """Keep injected loader outcomes local without reloading Python modules."""
 
+    monkeypatch.delenv(policy.DEVELOPMENT_OVERRIDE_ENV, raising=False)
     policy._reset_native_loader_for_tests()
     yield
     policy._reset_native_loader_for_tests()
@@ -50,6 +51,35 @@ def _native_module(**symbols):
     for name, value in symbols.items():
         setattr(module, name, value)
     return module
+
+
+class _PayloadEvidence:
+    """Callable verified-payload seam that remains compatible with cache reset."""
+
+    def __init__(self, verified: bool, reason: str):
+        self.verified = verified
+        self.reason = reason
+        self.origins = []
+
+    def __call__(self, native_origin):
+        self.origins.append(native_origin)
+        return self.verified, self.reason
+
+    def cache_clear(self):
+        return None
+
+
+def _inject_payload_evidence(monkeypatch, *, verified=True, reason=None):
+    evidence = _PayloadEvidence(
+        verified,
+        reason or (
+            "test_verified_installed_payload"
+            if verified
+            else "test_unverified_native_payload"
+        ),
+    )
+    monkeypatch.setattr(policy, "_installed_native_payload_matches", evidence)
+    return evidence
 
 
 def _inject_native_import(monkeypatch, outcome):
@@ -79,13 +109,18 @@ def _missing_extension_error():
 def test_policy_matrix_native_transitional_oracle_unknown_and_conflict(monkeypatch):
     native = _native_module(chart_rhs=lambda *_args: np.arange(5.0))
     calls = _inject_native_import(monkeypatch, native)
+    payload_evidence = _inject_payload_evidence(monkeypatch)
 
     selected = policy.select_backend("background.chart_rhs")
     assert selected.policy is policy.BackendPolicy.RUST_REQUIRED
     assert selected.native_module is native
     assert selected.load_state is policy.NativeLoadState.AVAILABLE
+    assert selected.installed_payload_verified is True
+    assert selected.development_override is False
+    assert selected.diagnostic is None
     assert selected.uses_rust
     assert calls == [policy.NATIVE_MODULE_NAME]
+    assert payload_evidence.origins == [native.__file__]
 
     with pytest.warns(RuntimeWarning, match="legacy_python_transitional"):
         transitional = policy.select_backend(
@@ -274,6 +309,7 @@ def test_rust_required_wrapper_uses_native_and_never_imports_oracle(monkeypatch)
         return expected.copy()
 
     native = _native_module(chart_rhs=native_rhs)
+    payload_evidence = _inject_payload_evidence(monkeypatch)
     real_import = policy.importlib.import_module
 
     def guarded_import(name, package=None):
@@ -290,6 +326,7 @@ def test_rust_required_wrapper_uses_native_and_never_imports_oracle(monkeypatch)
 
     np.testing.assert_array_equal(observed, expected)
     assert len(native_calls) == 1
+    assert payload_evidence.origins == [native.__file__]
 
 
 def test_installed_native_wrapper_result_is_unchanged_from_direct_call(monkeypatch):
@@ -297,6 +334,7 @@ def test_installed_native_wrapper_result_is_unchanged_from_direct_call(monkeypat
     if not load.available:
         pytest.skip("installed native extension is exercised by the native-wheel job")
     assert load.module is not None and hasattr(load.module, "chart_rhs")
+    payload_evidence = _inject_payload_evidence(monkeypatch)
 
     real_import = policy.importlib.import_module
 
@@ -313,6 +351,44 @@ def test_installed_native_wrapper_result_is_unchanged_from_direct_call(monkeypat
         "class_a", state, gamma, policy=policy.BackendPolicy.RUST_REQUIRED
     )
     np.testing.assert_array_equal(wrapped, direct)
+    assert payload_evidence.origins == [policy._native_extension_origin(load.module)]
+
+
+def test_public_route_inventory_uses_every_committed_contract_category():
+    inventory = policy.public_route_inventory()
+    allowed_states = {state.value for state in policy.PublicRouteState}
+
+    assert set(inventory) == set(policy.ROUTE_CAPABILITIES)
+    assert {
+        state
+        for record in inventory.values()
+        for state in (
+            record["supported_state"],
+            record["explicit_oracle_state"],
+            record["outside_native_domain_state"],
+        )
+    } == allowed_states
+
+    for route_id, capability in policy.ROUTE_CAPABILITIES.items():
+        record = inventory[route_id]
+        assert set(record) == {
+            "supported_state",
+            "explicit_oracle_state",
+            "outside_native_domain_state",
+            "required_symbols",
+            "transitional_reason",
+        }
+        assert record["supported_state"] == "native_required"
+        assert record["explicit_oracle_state"] == (
+            "python_oracle" if capability.python_oracle_supported else "unsupported"
+        )
+        assert record["outside_native_domain_state"] == (
+            "legacy_python_transitional"
+            if capability.transitional_reason is not None
+            else "unsupported"
+        )
+        assert record["required_symbols"] == list(capability.required_symbols)
+        assert record["transitional_reason"] == capability.transitional_reason
 
 
 def test_capability_report_has_exact_fields_provenance_and_canonical_json(
@@ -325,7 +401,8 @@ def test_capability_report_has_exact_fields_provenance_and_canonical_json(
     assert set(CAPABILITY_FIELDS) <= set(report)
     assert report["backend_policy"] == "python_oracle"
     assert report["python_abi"] == (sysconfig.get_config_var("SOABI") or "unknown")
-    assert report["cargo_lock_sha256"] == policy.EXPECTED_CARGO_LOCK_SHA256
+    assert report["cargo_lock_sha256"] is None
+    assert report["expected_cargo_lock_sha256"] == policy.EXPECTED_CARGO_LOCK_SHA256
     assert isinstance(report["optional_features"], list)
     assert report["optional_features"] == sorted(set(report["optional_features"]))
 

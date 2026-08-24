@@ -31,6 +31,7 @@ from functools import lru_cache
 import numpy as np
 
 from bianchi.backend_policy import BackendPolicy, select_backend
+from bianchi.optional_dependencies import require_optional
 
 # ═══════════════════════════════════════ 1. 경로 A — 구조상수
 def characteristic_rhs(p, a_vec, mass, A):
@@ -63,7 +64,7 @@ def _symbolic_geodesic():
     y, z 는 순환좌표라 p_y, p_z 가 보존된다 (Killing).  p_x 만 소스가 있다.
     반환 lambdify 된 dp_x/dλ (좌표 성분).
     """
-    import sympy as sp
+    sp = require_optional("sympy", feature=f"{__name__}._symbolic_geodesic")
     t, x, A = sp.symbols("t x A", real=True)
     a1, a2, a3 = sp.symbols("a1 a2 a3", positive=True)
     px, py, pz, pt = sp.symbols("p_x p_y p_z p_t", real=True)
@@ -267,7 +268,8 @@ def back_trace(P_t, bg, mass, t, nsteps=64, backend=None):
     return P
 
 
-def moments_type_V(bg, mass, t, l_max=2, i_max=1, f0=None, nsteps=64):
+def moments_type_V(bg, mass, t, l_max=2, i_max=1, f0=None, nsteps=64,
+                   backend=None):
     """★★ type V 자유흐름 모멘트 J^(i)_{A_l}(t) — 역방향 특성곡선 구적.
 
     측도는 type I 과 동일: d³P = d³p/V,  P^î = p_i/a_i (정규직교 성분).
@@ -279,7 +281,7 @@ def moments_type_V(bg, mass, t, l_max=2, i_max=1, f0=None, nsteps=64):
     Q, DQ, NH, WA = fs._Q, fs._DQ, fs._NHAT, fs._WANG
     # 시각 t 의 격자: 불변기저 공변성분 p_i = q n̂_i (구면 격자를 p-공간에 그대로)
     P = (Q[:, None, None] * NH[None, :, :]).reshape(-1, 3)
-    P0 = back_trace(P, bg, mass, t, nsteps)            # ← t=0 의 값
+    P0 = back_trace(P, bg, mass, t, nsteps, backend=backend)  # ← t=0 의 값
     g0 = (lambda pp: fs.f_fermi_dirac(np.linalg.norm(pp, axis=-1))) if f0 is None else f0
     fv = np.asarray(g0(P0), float).reshape(len(Q), -1)
 
@@ -304,7 +306,8 @@ def moments_type_V(bg, mass, t, l_max=2, i_max=1, f0=None, nsteps=64):
     return out
 
 
-def type_I_moment_residual(mass=0.6, t=0.35, l_max=2, i_max=1, nsteps=64):
+def type_I_moment_residual(mass=0.6, t=0.35, l_max=2, i_max=1, nsteps=64,
+                           backend=None):
     """★★ A → 0 에서 type V 모멘트가 **type I 정확 구적과 일치**해야 한다.
 
     역방향 특성곡선·격자·측도가 모두 옳은지 한 번에 보는 게이트.
@@ -312,11 +315,15 @@ def type_I_moment_residual(mass=0.6, t=0.35, l_max=2, i_max=1, nsteps=64):
     from bianchi.matter import hierarchy as H
     bg = Background(A=0.0)
     a = bg.a(t)
-    got = moments_type_V(bg, mass, t, l_max, i_max, nsteps=nsteps)
-    rho = H.J_moment(a, mass, 0, 0)
+    got = moments_type_V(
+        bg, mass, t, l_max, i_max, nsteps=nsteps, backend=backend
+    )
+    rho = H.J_moment(a, mass, 0, 0, backend=backend)
     worst = 0.0
     for (l, i), v in got.items():
-        ex = np.atleast_1d(np.asarray(H.J_moment(a, mass, l, i), float))
+        ex = np.atleast_1d(np.asarray(
+            H.J_moment(a, mass, l, i, backend=backend), float
+        ))
         worst = max(worst, float(np.abs(np.atleast_1d(np.asarray(v, float)).ravel()
                                         - ex.ravel()).max() / rho))
     return worst
@@ -356,7 +363,8 @@ def isotropic_redshift_residual(mass=0.0, t=0.4, A=0.7, nsteps=64):
 #              측도도 d³P′ = (E′/E)d³P 그대로.
 #   · 다른 것 — 격자에서 f 값을 얻는 방법.  type I 은 f₀(q) 를 바로 읽지만
 #              type V 는 **역방향 특성곡선**으로 t=0 까지 거슬러야 한다 (`back_trace`).
-def moments_type_V_tilted(bg, mass, t, v, l_max=2, i_max=1, f0=None, nsteps=64):
+def moments_type_V_tilted(bg, mass, t, v, l_max=2, i_max=1, f0=None,
+                          nsteps=64, backend=None):
     """★★ tilt 를 켠 type V 모멘트 J′^(i)_{A_l}(t).
 
     v = 0 이면 `moments_type_V` 와 **비트-정확** 같아야 한다 (피적분함수가 문자 그대로 동일).
@@ -368,7 +376,7 @@ def moments_type_V_tilted(bg, mass, t, v, l_max=2, i_max=1, f0=None, nsteps=64):
     V = float(np.prod(a))
     Q, DQ, NH, WA = fs._Q, fs._DQ, fs._NHAT, fs._WANG
     P_inv = (Q[:, None, None] * NH[None, :, :]).reshape(-1, 3)   # 불변기저 p_i (t)
-    P0 = back_trace(P_inv, bg, mass, t, nsteps)
+    P0 = back_trace(P_inv, bg, mass, t, nsteps, backend=backend)
     g0 = (lambda pp: fs.f_fermi_dirac(np.linalg.norm(pp, axis=-1))) if f0 is None else f0
     fv = np.asarray(g0(P0), float).reshape(len(Q), -1)
 
@@ -391,11 +399,16 @@ def moments_type_V_tilted(bg, mass, t, v, l_max=2, i_max=1, f0=None, nsteps=64):
     return out
 
 
-def tilted_v_zero_residual(mass=0.6, t=0.35, A=0.7, l_max=2, i_max=1, nsteps=64):
+def tilted_v_zero_residual(mass=0.6, t=0.35, A=0.7, l_max=2, i_max=1,
+                           nsteps=64, backend=None):
     """★ v = 0 에서 `moments_type_V` 와 **비트-정확** 일치 (E′=E, P′=P)."""
     bg = Background(A=A)
-    a = moments_type_V(bg, mass, t, l_max, i_max, nsteps=nsteps)
-    b = moments_type_V_tilted(bg, mass, t, np.zeros(3), l_max, i_max, nsteps=nsteps)
+    a = moments_type_V(
+        bg, mass, t, l_max, i_max, nsteps=nsteps, backend=backend
+    )
+    b = moments_type_V_tilted(
+        bg, mass, t, np.zeros(3), l_max, i_max, nsteps=nsteps, backend=backend
+    )
     return max(float(np.abs(np.atleast_1d(np.asarray(a[k], float)).ravel()
                             - np.atleast_1d(np.asarray(b[k], float)).ravel()).max())
                for k in a)
@@ -469,16 +482,21 @@ def spontaneous_flux(masses=(0.0, 0.6, 2.0), As=(0.0, 0.2, 0.4, 0.7), t=0.35,
     return out
 
 
-def type_I_boosted_residual(mass=0.6, t=0.35, v=(0.15, -0.1, 0.2), nsteps=64):
+def type_I_boosted_residual(mass=0.6, t=0.35, v=(0.15, -0.1, 0.2), nsteps=64,
+                            backend=None):
     """★★ A → 0 에서 **H5-d 의 type I boosted 구적**과 일치 — 두 오라클이 만난다."""
     from bianchi.matter import tilted_moments as TM
     bg = Background(A=0.0)
     a = bg.a(t)
-    got = moments_type_V_tilted(bg, mass, t, v, 2, 1, nsteps=nsteps)
-    rho = TM.J_moment_tilted(a, v, mass, 0, 0)
+    got = moments_type_V_tilted(
+        bg, mass, t, v, 2, 1, nsteps=nsteps, backend=backend
+    )
+    rho = TM.J_moment_tilted(a, v, mass, 0, 0, backend=backend)
     worst = 0.0
     for (l, i), val in got.items():
-        ex = np.atleast_1d(np.asarray(TM.J_moment_tilted(a, v, mass, l, i), float))
+        ex = np.atleast_1d(np.asarray(
+            TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float
+        ))
         worst = max(worst, float(np.abs(np.atleast_1d(np.asarray(val, float)).ravel()
                                         - ex.ravel()).max() / rho))
     return worst

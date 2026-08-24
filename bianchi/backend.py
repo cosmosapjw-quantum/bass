@@ -20,59 +20,15 @@ import numpy as np
 
 from bianchi.backend_policy import (
     BackendPolicy,
-    ROUTE_CAPABILITIES,
     capability_report,
-    load_native,
     select_backend,
 )
-
-
-_FACADE_ROUTE_IDS = (
-    "ray.final_z_batch",
-    "ray.optical_batch",
-    "background.integrate",
-    "background.integrate_batch",
-    "background.chart_rhs",
-    "kinetic.j_moment",
-    "kinetic.moments",
-    "kinetic.hierarchy_integrate",
-    "kinetic.thomson_eigenvalue",
-    "kinetic.thomson_viscosity",
-    "kinetic.thomson_stiffness",
-    "kinetic.transport_coefficients",
-    "kinetic.viscous_cross_validate",
-    "tilted.j_moment",
-    "tilted.moments",
-    "tilted.boost_shell_residual",
-)
-
-
-def _complete_facade_native():
-    """Prebind a complete compatible wheel; failures remain route-typed on use."""
-
-    load = load_native()
-    if not load.available or load.module is None:
-        return None
-    required = {
-        symbol
-        for route_id in _FACADE_ROUTE_IDS
-        for symbol in ROUTE_CAPABILITIES[route_id].required_symbols
-    }
-    return load.module if all(hasattr(load.module, symbol) for symbol in required) else None
-
-
-# The previous facade imported the extension eagerly and used one module-global
-# branch per call.  Preserve that steady-state cost while keeping failure policy
-# in select_backend(): an incomplete/missing module takes the typed slow path.
-_FACADE_NATIVE = _complete_facade_native()
-_CHART_RHS_NATIVE = (
-    _FACADE_NATIVE.chart_rhs if _FACADE_NATIVE is not None else None
-)
+from bianchi.optional_dependencies import require_jax_x64
 
 
 def available() -> bool:
-    """진단용 Rust 코어 import 가능 여부 (dispatch authority 가 아님)."""
-    return load_native().available
+    """검증된 production Rust payload 가 dispatch 가능한지 보고한다."""
+    return bool(capability_report()["production_native_dispatch_permitted"])
 
 
 def name() -> str:
@@ -87,16 +43,26 @@ def info() -> dict:
     return report
 
 
+def _native_for(route_id, *, policy=None, force_python=False, **domain):
+    """Resolve lazily; importing :mod:`bianchi.backend` never probes native code."""
+
+    selected = select_backend(
+        route_id,
+        policy=policy,
+        force_python=force_python,
+        **domain,
+    )
+    return selected.native_module if selected.uses_rust else None
+
+
 # ════════════════════════════════ 광선추적 (R1)
 def ray_final_z_batch(model, nhats, t0, t_end, nsteps=4000, force_python=False,
                       *, policy=None):
     """방향 배열(K,3) → 방향별 최종 적색이동 z(n̂)  (CMB 패턴용)."""
     nhats = np.atleast_2d(np.asarray(nhats, float))
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("ray.final_z_batch", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "ray.final_z_batch", policy=policy, force_python=force_python
+    )
     if native is not None:
         return np.asarray(native.trace_rays_batch(
             float(model["H0"]), np.asarray(model["Sigma0"], float),
@@ -115,11 +81,9 @@ def optical_batch(model, nhats, t0, t_end, nsteps=4000, force_python=False,
                   *, policy=None):
     """방향 배열(K,3) → (z[K], d_A[K]).  Sachs 광학 (조석 닫힌형 R4)."""
     nhats = np.atleast_2d(np.asarray(nhats, float))
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("ray.optical_batch", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "ray.optical_batch", policy=policy, force_python=force_python
+    )
     if native is not None:
         z, dA = native.trace_optical_batch(
             float(model["H0"]), np.asarray(model["Sigma0"], float),
@@ -146,18 +110,16 @@ def integrate_background(chart, y0, t_eval, gamma, kappa=0.0,
     Rust: diffsol BDF(가변차수, 강성 적합).  명시적 Python 오라클: diffrax Kvaerno5.
     """
     y0 = np.asarray(y0, float); t_eval = np.asarray(t_eval, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("background.integrate", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "background.integrate", policy=policy, force_python=force_python
+    )
     if native is not None:
         ys, ok = native.integrate_background(
             chart, y0, t_eval, float(gamma), float(kappa), float(rtol), float(atol))
         return np.asarray(ys), bool(ok)
     # 명시적 Python 오라클: JAX/diffrax
     import importlib
-    import jax.numpy as jnp
+    _, jnp = require_jax_x64(feature="background.integrate python_oracle")
     from bianchi import integrate as itg
     mod = importlib.import_module(_CHART_MODULES[chart])
     args = {"gamma": gamma} if chart == "class_a" else {"gamma": gamma, "kappa": kappa}
@@ -178,11 +140,9 @@ def integrate_batch(chart, y0s, t_eval, gamma, kappa=0.0,
       않는다** — JAX batched while_loop 의 `batch × max_steps` 병리를 회피 (계획 §1).
     """
     y0s = np.atleast_2d(np.asarray(y0s, float)); t_eval = np.asarray(t_eval, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("background.integrate_batch", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "background.integrate_batch", policy=policy, force_python=force_python
+    )
     if native is not None:
         ys, ok = native.integrate_batch(
             chart, y0s, t_eval, float(gamma), float(kappa), float(rtol), float(atol))
@@ -199,18 +159,15 @@ def integrate_batch(chart, y0s, t_eval, gamma, kappa=0.0,
 def chart_rhs(chart, y, gamma, kappa=0.0, force_python=False, *, policy=None):
     """차트 RHS 단일 평가 (진단·차등테스트용)."""
     y = np.asarray(y, float)
-    native_rhs = _CHART_RHS_NATIVE if policy is None and not force_python else None
-    if native_rhs is None:
-        selected = select_backend("background.chart_rhs", policy=policy,
-                                  force_python=force_python)
-        native_rhs = (
-            selected.native_module.chart_rhs if selected.uses_rust else None
-        )
+    native = _native_for(
+        "background.chart_rhs", policy=policy, force_python=force_python
+    )
+    native_rhs = native.chart_rhs if native is not None else None
     if native_rhs is not None:
         return np.asarray(native_rhs(
             chart, y, float(gamma), float(kappa)))
     import importlib
-    import jax.numpy as jnp
+    _, jnp = require_jax_x64(feature="background.chart_rhs python_oracle")
     mod = importlib.import_module(_CHART_MODULES[chart])
     State = mod.StateA if chart == "class_a" else mod.StateB
     args = {"gamma": gamma} if chart == "class_a" else {"gamma": gamma, "kappa": kappa}
@@ -228,11 +185,9 @@ def j_moment(a_vec, mass, l, i, dipole_eps=0.0, dipole_axis=2,
     `matter.hierarchy.J_moment`.
     """
     a_vec = np.asarray(a_vec, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.j_moment", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.j_moment", policy=policy, force_python=force_python
+    )
     if native is not None:
         flat = np.asarray(native.kin_j_moment(
             a_vec, float(mass), int(l), int(i), float(dipole_eps), int(dipole_axis)))
@@ -246,11 +201,9 @@ def j_moment(a_vec, mass, l, i, dipole_eps=0.0, dipole_axis=2,
 def kinetic_moments(a_vec, mass, force_python=False, *, policy=None):
     """freestream 대응 (ρ, p, π_ab) — 경로 A(정확 구적)."""
     a_vec = np.asarray(a_vec, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.moments", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.moments", policy=policy, force_python=force_python
+    )
     if native is not None:
         rho, p, pi = native.kin_moments(a_vec, float(mass))
         return float(rho), float(p), np.asarray(pi)
@@ -270,11 +223,9 @@ def hierarchy_integrate(a0, mass, H, sigma_diag, t_end, nsteps=40, l_max=4, i_ma
       `thomson_stiffness()` 로 사전 진단할 수 있다.
     """
     a0 = np.asarray(a0, float); sigma_diag = np.asarray(sigma_diag, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.hierarchy_integrate", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.hierarchy_integrate", policy=policy, force_python=force_python
+    )
     if native is not None:
         if n_e_sigma_T == 0.0:
             t, rho, p, pi = native.kin_integrate(
@@ -303,11 +254,9 @@ def hierarchy_integrate(a0, mass, H, sigma_diag, t_end, nsteps=40, l_max=4, i_ma
 # ── H3 · Thomson 충돌 (경로 A = 수치 위상함수, 경로 B = 해석 다극)
 def thomson_eigenvalue(l, route="analytic", force_python=False, *, policy=None):
     """λ_l.  route='analytic' → 해석 다극(경로 B), 'numeric' → 위상함수 적분(경로 A)."""
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.thomson_eigenvalue", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.thomson_eigenvalue", policy=policy, force_python=force_python
+    )
     if native is not None:
         return (native.kin_thomson_eigenvalue(int(l))
                 if route == "analytic"
@@ -324,11 +273,9 @@ def thomson_viscosity(rho, n_e_sigma_T, H=0.0, include_thomson_9_10=True,
     ★ 9/10 (Thomson 사중극) 포함 시 8/27, 미포함 시 4/15 — **차이의 전부가 이 인자**다.
       문헌 관례가 갈리므로 플래그로 노출하고 어느 쪽이 맞다고 단정하지 않는다.
     """
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.thomson_viscosity", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.thomson_viscosity", policy=policy, force_python=force_python
+    )
     if native is not None:
         eta, tau, damp, ratio = native.kin_thomson_viscosity(
             float(rho), float(n_e_sigma_T), float(H), bool(include_thomson_9_10))
@@ -341,11 +288,9 @@ def thomson_viscosity(rho, n_e_sigma_T, H=0.0, include_thomson_9_10=True,
 
 def thomson_stiffness(n_e_sigma_T, dt, force_python=False, *, policy=None):
     """RK4 강성 진단 → (n_eσ_T·dt·(1−λ₂), 안정 여부).  2.785 는 RK4 실축 안정한계."""
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.thomson_stiffness", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.thomson_stiffness", policy=policy, force_python=force_python
+    )
     if native is not None:
         r, ok = native.kin_stiffness_ratio(
             float(n_e_sigma_T), float(dt))
@@ -364,11 +309,9 @@ def transport_coefficients(mass=0.0, a_vec=(1.0, 0.85, 1.18), H=1.0,
     ★ 경로 A 는 유한차분 조건수 때문에 유효자리 ~7 자리다 (경로 B 는 방정식 평가라 정확).
     """
     a_vec = np.asarray(a_vec, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.transport_coefficients", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.transport_coefficients", policy=policy, force_python=force_python
+    )
     if native is not None:
         eta, tau, rho, damp, src, eta_rh = native.kin_transport_coefficients(
             float(mass), a_vec, float(H), route)
@@ -387,11 +330,9 @@ def viscous_cross_validate(mass=0.0, a_vec=(1.0, 0.85, 1.18), H=1.0,
     Rust 전환 후에도 **양쪽 경로를 모두 유지**하는 이유다.
     """
     a_vec = np.asarray(a_vec, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("kinetic.viscous_cross_validate", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "kinetic.viscous_cross_validate", policy=policy, force_python=force_python
+    )
     if native is not None:
         d, s, ok = native.kin_cross_validate(
             float(mass), a_vec, float(H), 2e-3, 5e-3)
@@ -410,11 +351,9 @@ def j_moment_tilted(a_vec, v, mass, l, i, dipole_eps=0.0, dipole_axis=2,
       1e−12 이내 일치함은 차등테스트로 고정돼 있다.
     """
     a_vec = np.asarray(a_vec, float); v = np.asarray(v, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("tilted.j_moment", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "tilted.j_moment", policy=policy, force_python=force_python
+    )
     if native is not None:
         flat = np.asarray(native.kin_j_moment_tilted(
             a_vec, v, float(mass), int(l), int(i), float(dipole_eps), int(dipole_axis)))
@@ -429,11 +368,9 @@ def j_moment_tilted(a_vec, v, mass, l, i, dipole_eps=0.0, dipole_axis=2,
 def moments_tilted(a_vec, v, mass, force_python=False, *, policy=None):
     """tilted 관측자가 보는 (ρ′, p′, q′_A, π′_AB)."""
     a_vec = np.asarray(a_vec, float); v = np.asarray(v, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("tilted.moments", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "tilted.moments", policy=policy, force_python=force_python
+    )
     if native is not None:
         rho, p, q, pi = native.kin_moments_tilted(
             a_vec, v, float(mass))
@@ -445,11 +382,9 @@ def moments_tilted(a_vec, v, mass, force_python=False, *, policy=None):
 def boost_shell_residual(a_vec, v, mass, force_python=False, *, policy=None):
     """★ boost 대수 자기검증 λ′² = E′² − m² 의 격자 전점 최대 상대잔차."""
     a_vec = np.asarray(a_vec, float); v = np.asarray(v, float)
-    native = _FACADE_NATIVE if policy is None and not force_python else None
-    if native is None:
-        selected = select_backend("tilted.boost_shell_residual", policy=policy,
-                                  force_python=force_python)
-        native = selected.native_module if selected.uses_rust else None
+    native = _native_for(
+        "tilted.boost_shell_residual", policy=policy, force_python=force_python
+    )
     if native is not None:
         return float(native.kin_boost_shell_residual(
             a_vec, v, float(mass)))

@@ -13,9 +13,16 @@ fudge 로 비평형 꼬리(잔존 x_e)를 잡는다 (RECFAST 수준).
 from __future__ import annotations
 
 import numpy as np
-from scipy.integrate import solve_ivp
 
 from bianchi.physical import units as U
+from bianchi.optional_dependencies import require_optional
+
+solve_ivp = require_optional(
+    "scipy.integrate", feature=__name__, dependency="scipy"
+).solve_ivp
+brentq = require_optional(
+    "scipy.optimize", feature=__name__, dependency="scipy"
+).brentq
 
 # 상수 (CGS/자연 혼합, eV 단위 에너지)
 _EION_H = 13.605693              # 수소 이온화에너지 [eV]
@@ -109,7 +116,6 @@ def recombination_redshift(Omega_b_h2=0.0224, T0_K=U.T_CMB_K):
 
     관측되는 최종산란 z_*≈1090 은 비평형(Peebles)로 지연되어 **가시함수 최대점**
     (optical_depth_and_visibility 의 z_star) 으로 정의된다.  이 함수는 순수 Saha 값."""
-    from scipy.optimize import brentq
     f = lambda z: saha_xe(z, Omega_b_h2, T0_K) - 0.5
     return brentq(f, 800, 1600)
 
@@ -189,7 +195,6 @@ def saha_all_species(z, Omega_b_h2=0.0224, T0_K=U.T_CMB_K, Y_p=0.245):
     x_e ≡ n_e/n_H (수소 기준 정규화; 완전이온화 시 1 + 2 f_He).
     n_e 에 대해 자기일관으로 풀어야 하므로 log n_e 에서 이분법.
     """
-    from scipy.optimize import brentq
     T_K = T0_K * (1.0 + z)
     T_eV = U.KB_EV_K * T_K
     n_H = _NB0_PER_OBH2 * Omega_b_h2 * (1.0 + z) ** 3

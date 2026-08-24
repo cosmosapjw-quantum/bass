@@ -30,6 +30,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.optional_dependencies import require_jax_x64
+
 # ---------------------------------------------------------------- 고정 임계값
 #: tilted II 의 sink 전이점 (첫 구간은 비틸트 CS(II) 임에 주의)
 TILTED_II = (2/3, 10/7, 14/9)
@@ -140,8 +142,7 @@ def stability_of_CS_II(gamma):
     해석 결과 (테스트에서 교차검증):  lambda = (3g-4) - Sigma_+ = 3(7g-10)/8,
     부호 전환 g = 10/7  (Hewitt-Bridson-Wainwright 와 일치).
     """
-    import jax
-    import jax.numpy as jnp
+    jax, jnp = require_jax_x64(feature=f"{__name__}.cs_II_tilt_eigenvalue")
     from bianchi.matter.fluid import TiltedFluid, dv_general, sources
 
     g = float(gamma)

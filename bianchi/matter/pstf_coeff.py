@@ -44,11 +44,14 @@ from functools import lru_cache
 from itertools import permutations
 
 import numpy as np
-import sympy as sp
-from sympy.physics.wigner import gaunt as _cx_gaunt
-from sympy.physics.wigner import real_gaunt as _real_gaunt
 
 from bianchi.matter.hierarchy import L_MAX_SUPPORTED
+from bianchi.optional_dependencies import require_optional
+
+sp = require_optional("sympy", feature=__name__)
+_wigner = require_optional("sympy.physics.wigner", feature=__name__, dependency="sympy")
+_cx_gaunt = _wigner.gaunt
+_real_gaunt = _wigner.real_gaunt
 
 _x, _y, _z, _w = sp.symbols("x y z w", real=True)
 

@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
 from bianchi.q import comoving as CM
 
 
@@ -78,7 +79,7 @@ def residual_step(sph, M, lG, N6, A3, dtau, k_theta=6, k_phi=6, substeps=2):
     """★ 잔여 이류 한 스텝.  lnĜ 을 갱신해 돌려준다 (보간은 여기서만 일어난다).
 
     반환 (lG_new, jac_min)."""
-    import bianchi_rustcore as R
+    rust = require_native("q.residual.residual_step")
     from bianchi.q import sphere as S
 
     N6 = np.asarray(N6, float)
@@ -92,8 +93,8 @@ def residual_step(sph, M, lG, N6, A3, dtau, k_theta=6, k_phi=6, substeps=2):
     lnJ = np.asarray(lG, float) - 4.0 * np.log(mu0)
 
     qb, delta = _backtrace(M, qhat, N6, A3, dtau, substeps)
-    plan = R.qt_plan_from_points(sph, np.ascontiguousarray(qb.ravel()),
-                                 np.zeros(len(qhat)), int(k_theta), int(k_phi))
+    plan = rust.qt_plan_from_points(sph, np.ascontiguousarray(qb.ravel()),
+                                    np.zeros(len(qhat)), int(k_theta), int(k_phi))
     lnJ_new = np.asarray(plan.apply_mode_a(np.ascontiguousarray(lnJ), 0.0)) + 4.0 * delta
     return lnJ_new + 4.0 * np.log(mu0), float(plan.jac_min)
 

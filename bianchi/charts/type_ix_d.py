@@ -28,8 +28,10 @@ LIMITATIONS
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax.numpy as jnp
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 name = "type_ix_D"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
@@ -109,7 +111,6 @@ def constraints(y: StateD, args):
 
 def definition_propagation_residual(y: StateD, args):
     """G' = -2(q H + F) G  — trace-free 부과 시에만 성립."""
-    import jax
     G = lambda v: constraints(StateD.from_array(v), args)["definition"]
     v = y.as_array()
     dG = jnp.dot(jax.grad(G)(v), rhs(0.0, y, args).as_array())

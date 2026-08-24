@@ -3,23 +3,29 @@ name: RF-00 backend policy
 on:
   pull_request:
     paths:
-      - "bianchi/backend.py"
-      - "bianchi/backend_policy.py"
-      - "bianchi/matter/hierarchy.py"
-      - "bianchi/matter/viscous_derived.py"
-      - "bianchi/q/polstate.py"
+      - "bianchi/**"
+      - "benchmarks/bench_backend_policy.py"
+      - "bootstrap.sh"
+      - "requirements.lock"
+      - "README.md"
       - "pyproject.toml"
+      - "_rustcore/README.md"
       - "_rustcore/pyproject.toml"
       - "_rustcore/Cargo.toml"
       - "_rustcore/Cargo.lock"
       - "_rustcore/src/**"
+      - "scripts/demo.py"
       - "tests/test_backend_policy.py"
       - "tests/test_backend_packaging.py"
       - "tests/test_backend_integration.py"
-      - "tests/test_rf00_policy_adversarial.py"
-      - "tests/test_rf00_native_capability.py"
-      - "tests/test_rf00_oracle_closure.py"
+      - "tests/test_p8_polstate.py"
+      - "tests/test_rf00_*.py"
+      - "tests/test_pr01_scaffold.py"
       - "tests/test_r5a_tilted_terms_rust.py"
+      - "tests/test_r5b_tilted_hier_rust.py"
+      - "tests/test_r1r2_typev_rust.py"
+      - "tests/test_r4_mixmaster_rust.py"
+      - "tests/test_r5c_quadrature_routing.py"
       - ".github/workflows/rf00-backend-policy.yml"
   workflow_dispatch:
 
@@ -63,7 +69,9 @@ jobs:
           python -m pytest -q
           tests/test_backend_policy.py
           tests/test_backend_packaging.py
+          tests/test_rf00_optional_dependencies.py
           tests/test_rf00_policy_adversarial.py
+          tests/test_rf00_route_inventory.py
 
   native-wheel-policy:
     name: Native wheel and supported-route policy
@@ -103,14 +111,21 @@ jobs:
         env:
           PIP_NO_INDEX: "1"
           CARGO_NET_OFFLINE: "true"
+          # This job builds from source and therefore must never masquerade as
+          # the immutable verified r3 installed payload.
+          BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"
         run: |
           python -m pytest -q \
             tests/test_backend_policy.py \
             tests/test_backend_packaging.py \
             tests/test_rf00_policy_adversarial.py \
+            tests/test_rf00_route_inventory.py \
             tests/test_rf00_native_capability.py \
             tests/test_rf00_oracle_closure.py \
             tests/test_r5a_tilted_terms_rust.py::test_typed_python_operator_never_calls_native_fallback \
+            tests/test_r5b_tilted_hier_rust.py::test_the_numpy_oracle_is_still_reachable \
+            tests/test_r1r2_typev_rust.py::test_the_python_oracle_is_still_reachable \
+            tests/test_r4_mixmaster_rust.py::test_the_rust_path_is_the_default_and_the_oracle_is_still_reachable \
             tests/test_backend_integration.py::test_backend_j_moment_both_paths \
             tests/test_backend_integration.py::test_backend_hierarchy_integrate_both_paths \
             tests/test_backend_integration.py::test_backend_transport_coefficients_both_routes \
@@ -118,4 +133,7 @@ jobs:
             tests/test_p8_polstate.py::test_p9c_modeb_rust_matches_python_and_mode_a \
             tests/test_p8_polstate.py::test_p9c_modeb_zero_x_is_identity_and_rejects_negative \
             tests/test_backend_integration.py::test_ray_batch_paths_agree \
-            tests/test_backend_integration.py::test_legacy_dispatch_alias
+            tests/test_backend_integration.py::test_legacy_dispatch_alias \
+            tests/test_r5c_quadrature_routing.py::test_the_dispatch_matches_the_numpy_oracle \
+            tests/test_r5c_quadrature_routing.py::test_the_plain_moment_dispatch_matches_too \
+            tests/test_r5c_quadrature_routing.py::test_the_audit_grid_is_pinned_to_python

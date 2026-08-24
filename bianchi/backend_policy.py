@@ -28,6 +28,7 @@ import warnings
 NATIVE_MODULE_NAME = "bianchi_rustcore"
 NATIVE_DISTRIBUTION_NAME = "bianchi-rustcore"
 EXPECTED_EXTENSION_VERSION = "0.1.0"
+DEVELOPMENT_OVERRIDE_ENV = "BASS_ALLOW_UNVERIFIED_NATIVE_DEV"
 EXPECTED_CARGO_LOCK_SHA256 = (
     "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
 )
@@ -94,6 +95,15 @@ class NativeLoadState(str, Enum):
     INCOMPATIBLE_EXTENSION = "incompatible_extension"
 
 
+class PublicRouteState(str, Enum):
+    """Committed RF-00 states for backend-touching public compute routes."""
+
+    NATIVE_REQUIRED = "native_required"
+    PYTHON_ORACLE = "python_oracle"
+    LEGACY_PYTHON_TRANSITIONAL = "legacy_python_transitional"
+    UNSUPPORTED = "unsupported"
+
+
 class BackendError(RuntimeError):
     """Base class for actionable backend contract failures."""
 
@@ -112,6 +122,14 @@ class IncompatibleNativeExtensionError(BackendError):
 
 class BackendPolicyError(BackendError):
     """A policy or route/domain combination is invalid."""
+
+
+class UnverifiedNativePayloadError(BackendError):
+    """A loadable native module is not the verified installed payload."""
+
+
+class UnverifiedNativeDevelopmentWarning(RuntimeWarning):
+    """An explicit development override admitted an unverified native build."""
 
 
 @dataclass(frozen=True)
@@ -183,6 +201,7 @@ class RouteCapability:
     required_symbols: tuple[str, ...]
     native_domain: NativeDomainPredicate = _always_native
     transitional_reason: str | None = None
+    python_oracle_supported: bool = True
 
     def supports_native(self, domain: Mapping[str, Any]) -> bool:
         return bool(self.native_domain(domain))
@@ -193,8 +212,15 @@ def _route(
     *symbols: str,
     native_domain: NativeDomainPredicate = _always_native,
     transitional_reason: str | None = None,
+    python_oracle_supported: bool = True,
 ) -> RouteCapability:
-    return RouteCapability(route_id, tuple(symbols), native_domain, transitional_reason)
+    return RouteCapability(
+        route_id,
+        tuple(symbols),
+        native_domain,
+        transitional_reason,
+        python_oracle_supported,
+    )
 
 
 # The matrix covers every existing Python public/compatibility route that makes a
@@ -299,9 +325,120 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
                 transitional_reason="distribution is not encodable by the native route",
             ),
             _route("q.polstate.collide_modeb", "qp_collide_modeb"),
+            # Native-only public wrappers.  They have no independent Python
+            # implementation, so an explicit oracle request is unsupported
+            # rather than a disguised fallback.
+            _route(
+                "collision_ladder.thomson_matrix_rust",
+                "gc_thomson",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "collision_ladder.collide_rust",
+                "gc_expm_apply",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "collision_ladder.strang_evolve_rust",
+                "gc_strang",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "coupled_tilted.coupled_rhs_rust",
+                "cp_rhs",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "coupled_tilted.rk4_evolve_rust",
+                "cp_evolve",
+                python_oracle_supported=False,
+            ),
+            _route("coeff_kernel.lhs_grid", "coeff_lhs_grid", python_oracle_supported=False),
+            _route("coeff_kernel.mass_blocks", "coeff_mass_blocks", python_oracle_supported=False),
+            _route("coeff_kernel.rhs_grid", "coeff_rhs_grid", python_oracle_supported=False),
+            _route("q.characteristics.rhs_p", "qc_rhs_p", python_oracle_supported=False),
+            _route("q.characteristics.rhs_split", "qc_rhs_split", python_oracle_supported=False),
+            _route("q.characteristics.direction_map", "qc_direction_map", python_oracle_supported=False),
+            _route("q.collide.kernel_eigenvalues", "qx_kernel_eigenvalues", python_oracle_supported=False),
+            _route("q.collide.collide", "qx_collide", python_oracle_supported=False),
+            _route("q.collide.collide_modeb", "qx_collide_modeb", python_oracle_supported=False),
+            _route("q.comoving.frame", "QFrame", python_oracle_supported=False),
+            _route("q.comoving.frame_from", "QFrame", python_oracle_supported=False),
+            _route("q.comoving.moments_log", "qm_moments_log", python_oracle_supported=False),
+            _route("q.comoving.collide_log", "qm_collide_log", python_oracle_supported=False),
+            _route("q.fast.reduce_det", "qe_reduce_det", python_oracle_supported=False),
+            _route("q.fast.evolve", "qe_evolve", python_oracle_supported=False),
+            _route("q.fast.diagnostics", "qe_diagnostics", python_oracle_supported=False),
+            _route("q.fast.ensemble", "qe_ensemble", python_oracle_supported=False),
+            _route("q.fast.residual_mode_b", "qe_residual_mode_b", python_oracle_supported=False),
+            _route("q.group.classify", "qg_classify", python_oracle_supported=False),
+            _route("q.group.jacobi_residual", "qg_jacobi", python_oracle_supported=False),
+            _route("q.group.structure_constants", "qg_structure_constants", python_oracle_supported=False),
+            _route("q.group.ricci3", "qg_ricci3", python_oracle_supported=False),
+            _route("q.group.curvature", "qg_curvature", python_oracle_supported=False),
+            _route("q.group.kappa", "qg_kappa", python_oracle_supported=False),
+            _route("q.modeb.evolve", "qe_evolve", python_oracle_supported=False),
+            _route("q.modeb.diagnostics", "qe_diagnostics", python_oracle_supported=False),
+            _route("q.polstate.residual_step", "qt_plan_from_points", python_oracle_supported=False),
+            _route("q.residual.residual_step", "qt_plan_from_points", python_oracle_supported=False),
+            _route("q.sphere.sphere", "QSphere", python_oracle_supported=False),
+            _route("q.transport.radial", "QRadial", python_oracle_supported=False),
+            _route("q.transport.plan", "qt_plan_step", python_oracle_supported=False),
+            _route("routing.ic_template", "chart_aux", python_oracle_supported=False),
+            _route("routing.roundtrip", "integrate_background", python_oracle_supported=False),
         )
     }
 )
+
+
+@dataclass(frozen=True)
+class PublicRouteInventoryRecord:
+    """Machine-readable classification for one backend-touching public route."""
+
+    route_id: str
+    supported_state: PublicRouteState
+    explicit_oracle_state: PublicRouteState
+    outside_native_domain_state: PublicRouteState
+    required_symbols: tuple[str, ...]
+    transitional_reason: str | None
+
+
+PUBLIC_ROUTE_INVENTORY: Mapping[str, PublicRouteInventoryRecord] = MappingProxyType(
+    {
+        route_id: PublicRouteInventoryRecord(
+            route_id=route_id,
+            supported_state=PublicRouteState.NATIVE_REQUIRED,
+            explicit_oracle_state=(
+                PublicRouteState.PYTHON_ORACLE
+                if capability.python_oracle_supported
+                else PublicRouteState.UNSUPPORTED
+            ),
+            outside_native_domain_state=(
+                PublicRouteState.LEGACY_PYTHON_TRANSITIONAL
+                if capability.transitional_reason is not None
+                else PublicRouteState.UNSUPPORTED
+            ),
+            required_symbols=capability.required_symbols,
+            transitional_reason=capability.transitional_reason,
+        )
+        for route_id, capability in ROUTE_CAPABILITIES.items()
+    }
+)
+
+
+def public_route_inventory() -> dict[str, dict[str, Any]]:
+    """Return the committed backend-touching route inventory as plain values."""
+
+    return {
+        route_id: {
+            "supported_state": record.supported_state.value,
+            "explicit_oracle_state": record.explicit_oracle_state.value,
+            "outside_native_domain_state": record.outside_native_domain_state.value,
+            "required_symbols": list(record.required_symbols),
+            "transitional_reason": record.transitional_reason,
+        }
+        for route_id, record in PUBLIC_ROUTE_INVENTORY.items()
+    }
 
 
 def _native_extension_origin(module: ModuleType) -> str | None:
@@ -398,6 +535,9 @@ def _reset_native_loader_for_tests() -> None:
     """Clear only the lazy import cache; production code must not dispatch on this."""
 
     load_native.cache_clear()
+    clear_payload_cache = getattr(_installed_native_payload_matches, "cache_clear", None)
+    if clear_payload_cache is not None:
+        clear_payload_cache()
 
 
 @dataclass(frozen=True)
@@ -407,6 +547,9 @@ class BackendSelection:
     native_module: ModuleType | None
     load_state: NativeLoadState | None
     transitional_reason: str | None = None
+    installed_payload_verified: bool | None = None
+    development_override: bool = False
+    diagnostic: str | None = None
 
     @property
     def uses_rust(self) -> bool:
@@ -470,11 +613,54 @@ def _native_if_compatible(
     return (None if missing else load.module), missing
 
 
+def _development_override(
+    route_id: str, explicit: bool | None
+) -> bool:
+    """Resolve the only supported unverified-build escape hatch.
+
+    The override is deliberately noisy and development-only.  Production calls
+    neither infer it from importability nor accept truthy spellings other than
+    the exact value ``1``.
+    """
+
+    if explicit is not None:
+        if not isinstance(explicit, bool):
+            raise BackendPolicyError(
+                route_id, "development_override must be an explicit boolean"
+            )
+        return explicit
+    raw = os.environ.get(DEVELOPMENT_OVERRIDE_ENV)
+    if raw is None:
+        return False
+    if raw != "1":
+        raise BackendPolicyError(
+            route_id,
+            f"{DEVELOPMENT_OVERRIDE_ENV} must be exactly '1' when used; "
+            f"observed {raw!r}",
+        )
+    return True
+
+
+def _unverified_payload_error(
+    route_id: str, native_origin: str | None, reason: str
+) -> NoReturn:
+    origin = native_origin or "unavailable"
+    raise UnverifiedNativePayloadError(
+        route_id,
+        f"route {route_id!r} refuses native dispatch because the loaded payload "
+        f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+        f"Install the documented immutable native wheel. For an intentional local "
+        f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+        "the emitted development diagnostic; this is not production provenance.",
+    )
+
+
 def select_backend(
     route_id: str,
     *,
     policy: BackendPolicy | str | None = None,
     force_python: bool = False,
+    development_override: bool | None = None,
     **domain: Any,
 ) -> BackendSelection:
     """Resolve one route without using extension importability as fallback authority."""
@@ -492,10 +678,20 @@ def select_backend(
                 "force_python=True conflicts with the requested backend policy; "
                 "use policy='python_oracle' alone",
             )
+        if not capability.python_oracle_supported:
+            raise BackendPolicyError(
+                route_id,
+                "python_oracle is unsupported for this native-only public route",
+            )
         return BackendSelection(route_id, BackendPolicy.PYTHON_ORACLE, None, None)
 
     native_domain = capability.supports_native(domain)
     if requested is BackendPolicy.PYTHON_ORACLE:
+        if not capability.python_oracle_supported:
+            raise BackendPolicyError(
+                route_id,
+                "python_oracle is unsupported for this native-only public route",
+            )
         return BackendSelection(route_id, BackendPolicy.PYTHON_ORACLE, None, None)
 
     if requested is BackendPolicy.LEGACY_PYTHON_TRANSITIONAL:
@@ -557,9 +753,50 @@ def select_backend(
         _incompatible_error(route_id, load)
     if module is None:
         _incompatible_error(route_id, load, missing_symbols)
+
+    native_origin = _native_extension_origin(module)
+    payload_verified, payload_reason = _installed_native_payload_matches(native_origin)
+    override = _development_override(route_id, development_override)
+    diagnostic = None
+    if not payload_verified:
+        if not override:
+            _unverified_payload_error(route_id, native_origin, payload_reason)
+        diagnostic = (
+            "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD:"
+            f"route={route_id};reason={payload_reason};origin={native_origin or 'unavailable'}"
+        )
+        warnings.warn(
+            diagnostic,
+            UnverifiedNativeDevelopmentWarning,
+            stacklevel=2,
+        )
     return BackendSelection(
-        route_id, BackendPolicy.RUST_REQUIRED, module, NativeLoadState.AVAILABLE
+        route_id,
+        BackendPolicy.RUST_REQUIRED,
+        module,
+        NativeLoadState.AVAILABLE,
+        installed_payload_verified=payload_verified,
+        development_override=override,
+        diagnostic=diagnostic,
     )
+
+
+def require_native(
+    route_id: str,
+    *,
+    development_override: bool | None = None,
+    **domain: Any,
+) -> ModuleType:
+    """Return a route-bound native module or raise one typed RF-00 error."""
+
+    selected = select_backend(
+        route_id,
+        policy=BackendPolicy.RUST_REQUIRED,
+        development_override=development_override,
+        **domain,
+    )
+    assert selected.native_module is not None
+    return selected.native_module
 
 
 def _distribution_version() -> tuple[str | None, str]:
@@ -589,6 +826,7 @@ def _installed_wheel_sha256() -> tuple[str | None, str]:
     return value.lower(), "installed_distribution_direct_url"
 
 
+@lru_cache(maxsize=8)
 def _installed_native_payload_matches(native_origin: str | None) -> tuple[bool, str]:
     """Bind the loaded extension to the RF-00 r3 installed-file receipt."""
 
@@ -662,7 +900,7 @@ def _native_rayon_threads(load: NativeLoadResult) -> tuple[int | None, str]:
 def capability_report(
     policy: BackendPolicy | str = BackendPolicy.RUST_REQUIRED,
 ) -> dict[str, Any]:
-    """Return honest runtime/build capabilities without asserting wheel provenance."""
+    """Return runtime/build capabilities and installed-payload dispatch authority."""
 
     selected_policy = _policy_value("capability_report", policy)
     load = load_native()
@@ -679,6 +917,14 @@ def capability_report(
         and version == EXPECTED_EXTENSION_VERSION
         and payload_matches_reference
     )
+    development_override_raw = os.environ.get(DEVELOPMENT_OVERRIDE_ENV)
+    development_override_active = development_override_raw == "1"
+    if reference_bound:
+        native_dispatch_provenance_state = "verified_installed_payload"
+    elif load.available:
+        native_dispatch_provenance_state = "unverified_development_payload"
+    else:
+        native_dispatch_provenance_state = "native_unavailable"
     exact_reference_wheel_observed = (
         wheel_sha256 == REFERENCE_NATIVE_BUILD["wheel_sha256"]
     )
@@ -712,8 +958,7 @@ def capability_report(
             REFERENCE_NATIVE_BUILD["rustc_version"] if reference_bound else None
         ),
         "cargo_lock_sha256": (
-            REFERENCE_NATIVE_BUILD["cargo_lock_sha256"] if reference_bound
-            else EXPECTED_CARGO_LOCK_SHA256
+            REFERENCE_NATIVE_BUILD["cargo_lock_sha256"] if reference_bound else None
         ),
         "wheel_sha256": wheel_sha256,
         "build_profile": (
@@ -738,6 +983,16 @@ def capability_report(
         "cargo_lock_binding_verified": reference_bound,
         "installed_native_build_verified": reference_bound,
         "installed_native_payload_fingerprint_verified": reference_bound,
+        "production_native_dispatch_permitted": reference_bound,
+        "native_dispatch_provenance_state": native_dispatch_provenance_state,
+        "development_override_environment": DEVELOPMENT_OVERRIDE_ENV,
+        "development_override_active": development_override_active,
+        "development_override_value_valid": development_override_raw in (None, "1"),
+        "development_override_diagnostic": (
+            None
+            if reference_bound or not development_override_active
+            else "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD"
+        ),
         "exact_native_wheel_archive_observed": exact_reference_wheel_observed,
         "expected_cargo_lock_sha256": EXPECTED_CARGO_LOCK_SHA256,
         "configured_build_profile": configured_build_profile,
@@ -797,6 +1052,13 @@ def capability_report(
             "configured_rayon_threads": thread_source,
             "enabled_optional_features": (
                 "BASS_RUST_OPTIONAL_FEATURES" if feature_text else "not_configured"
+            ),
+            "production_native_dispatch_permitted": payload_source,
+            "native_dispatch_provenance_state": payload_source,
+            "development_override_environment": "RF-00_development_contract",
+            "development_override_active": (
+                DEVELOPMENT_OVERRIDE_ENV
+                if development_override_raw is not None else "not_configured"
             ),
         },
         "reference_native_build": reference_native_build,

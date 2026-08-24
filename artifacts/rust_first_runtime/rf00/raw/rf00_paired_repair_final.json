@@ -36,14 +36,14 @@
         "python_executable": "/usr/bin/python3.12"
       },
       "paired_summary": {
+        "acceptance_claim": "NONE",
         "bootstrap_95_ci": [
           1.0188405687582438,
           1.0413493156219509
         ],
         "bootstrap_replicates": 10000,
         "candidate_over_baseline": 1.0303681533929716,
-        "no_regression_ceiling": 1.05,
-        "no_regression_pass": true,
+        "evidence_class": "EXPLORATORY_ONLY",
         "pairs": 30,
         "statistic": "exp(median(paired log(candidate_ns/baseline_ns)))"
       },
@@ -2578,14 +2578,14 @@
         "python_executable": "/usr/bin/python3.12"
       },
       "paired_summary": {
+        "acceptance_claim": "NONE",
         "bootstrap_95_ci": [
           0.9969052817549814,
           1.0204133876894426
         ],
         "bootstrap_replicates": 10000,
         "candidate_over_baseline": 1.0091263118158824,
-        "no_regression_ceiling": 1.05,
-        "no_regression_pass": true,
+        "evidence_class": "EXPLORATORY_ONLY",
         "pairs": 30,
         "statistic": "exp(median(paired log(candidate_ns/baseline_ns)))"
       },
@@ -5086,8 +5086,10 @@
     }
   },
   "decision": {
-    "pass": true,
-    "rule": "CI95 upper candidate/baseline <= 1.05 for each affected workload"
+    "acceptance_claim": "NONE",
+    "benchmark_rerun_for_reclassification": "NOT_RUN",
+    "evidence_class": "EXPLORATORY_ONLY",
+    "reason": "CPU affinity was recorded, but exclusive cpuset/cgroup control, effective CPU-set and SMT isolation, migrations, CPU pressure/steal, frequency and throttling, and perf running-ratio metadata were not verified"
   },
   "design": {
     "blas_openmp_threads": 1,

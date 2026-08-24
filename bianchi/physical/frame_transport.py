@@ -17,10 +17,10 @@ PR-29 · 삼각대(triad) 전송과 방향 스케일인자.
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
-
 from bianchi.conventions import rotation_matrix, EPS3_J
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature=__name__)
 
 
 def transport_generator(Sigma, R):

@@ -13,14 +13,12 @@ from __future__ import annotations
 
 import numpy as np
 
-
-def _rc():
-    import bianchi_rustcore as R
-    return R
+from bianchi.backend_policy import require_native
 
 
 def reduce_det(v):
-    return _rc().qe_reduce_det(np.ascontiguousarray(np.asarray(v, float).ravel()))
+    rust = require_native("q.fast.reduce_det")
+    return rust.qe_reduce_det(np.ascontiguousarray(np.asarray(v, float).ravel()))
 
 
 def evolve(st, dtau, nsteps, nu=0.0, kernel="thomson", k_theta=6, k_phi=6,
@@ -32,7 +30,8 @@ def evolve(st, dtau, nsteps, nu=0.0, kernel="thomson", k_theta=6, k_phi=6,
     기존과 **비트 동일**."""
     v = np.ascontiguousarray(st.pack())
     ns, ha = (None, 0.0) if sched is None else sched.sample(dtau, nsteps)
-    out = np.asarray(_rc().qe_evolve(
+    rust = require_native("q.fast.evolve")
+    out = np.asarray(rust.qe_evolve(
         int(st.sph.n_theta), int(st.sph.n_phi), v,
         np.ascontiguousarray(st.rot, float), bool(st.residual),
         float(dtau), int(nsteps), float(nu), kernel,
@@ -52,7 +51,8 @@ def evolve(st, dtau, nsteps, nu=0.0, kernel="thomson", k_theta=6, k_phi=6,
 
 def diagnostics(st):
     """(Ω, Π6, q, gauss) — Rust 경로에서 직접."""
-    v = np.asarray(_rc().qe_diagnostics(
+    rust = require_native("q.fast.diagnostics")
+    v = np.asarray(rust.qe_diagnostics(
         int(st.sph.n_theta), int(st.sph.n_phi),
         np.ascontiguousarray(st.pack()), np.ascontiguousarray(st.rot, float)))
     return dict(Omega=float(v[0]), Pi6=v[1:7].copy(), q=float(v[7]),
@@ -66,7 +66,8 @@ def ensemble(states, dtau, nsteps, nu=0.0, kernel="thomson", k_theta=6, k_phi=6,
         return np.zeros((0, 0))
     s0 = states[0]
     flat = np.concatenate([np.ascontiguousarray(s.pack()) for s in states])
-    out = np.asarray(_rc().qe_ensemble(
+    rust = require_native("q.fast.ensemble")
+    out = np.asarray(rust.qe_ensemble(
         int(s0.sph.n_theta), int(s0.sph.n_phi), flat, len(states),
         np.ascontiguousarray(s0.rot, float), bool(s0.residual),
         float(dtau), int(nsteps), float(nu), kernel,
@@ -82,7 +83,8 @@ def residual_mode_b(sph, rad, M, f, N6, A3, dtau, k_theta=6, k_phi=6, k_rad=8,
     (R2) 의 δ(q̂) = ∫(dln|q|/dτ)dτ 가 그대로 ln p 시프트가 된다 — Q4 의 반경
     스텐실 기계를 재사용한다.  f 배치는 방향-주 f[i*n_p + j].
     """
-    return np.asarray(_rc().qe_residual_mode_b(
+    rust = require_native("q.fast.residual_mode_b")
+    return np.asarray(rust.qe_residual_mode_b(
         sph, rad, np.ascontiguousarray(np.asarray(M, float).ravel()),
         np.ascontiguousarray(np.asarray(f, float).ravel()),
         np.ascontiguousarray(np.asarray(N6, float)),

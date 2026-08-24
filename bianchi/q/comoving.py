@@ -22,6 +22,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
+
 SQ3 = np.sqrt(3.0)
 
 
@@ -33,13 +35,13 @@ def sigma6_from_we5(S5):
 
 
 def frame():
-    import bianchi_rustcore as R
-    return R.QFrame()
+    rust = require_native("q.comoving.frame")
+    return rust.QFrame()
 
 
 def frame_from(M):
-    import bianchi_rustcore as R
-    return R.QFrame.from_matrix(np.ascontiguousarray(np.asarray(M, float).ravel()))
+    rust = require_native("q.comoving.frame_from")
+    return rust.QFrame.from_matrix(np.ascontiguousarray(np.asarray(M, float).ravel()))
 
 
 def phys(fr, qhat):
@@ -61,17 +63,17 @@ def moments_log(lw, lG, ehat):
     ★ 깊은 붕괴에서 ρ 자체는 double 범위를 넘는다 (ln ρ ~ 900).  물리가 쓰는
     것은 Ω = ρ/(3H²) 와 Π/Ω 같은 **비**이므로 비는 항상 범위 안이고 스케일만
     ln 으로 나른다 — 이것이 I2c 의 LNA_WALL 을 완전히 없애는 방식이다."""
-    import bianchi_rustcore as R
-    v = np.asarray(R.qm_moments_log(np.ascontiguousarray(lw, float),
-                                    np.ascontiguousarray(lG, float),
-                                    np.ascontiguousarray(np.asarray(ehat).ravel(), float)))
+    rust = require_native("q.comoving.moments_log")
+    v = np.asarray(rust.qm_moments_log(
+        np.ascontiguousarray(lw, float), np.ascontiguousarray(lG, float),
+        np.ascontiguousarray(np.asarray(ehat).ravel(), float)))
     pi = np.array([[v[4], v[7], v[8]], [v[7], v[5], v[9]], [v[8], v[9], v[6]]])
     return float(v[0]), v[1:4].copy(), pi
 
 
 def collide_log(lw, lG, ehat, nu_dt, kernel="thomson"):
-    import bianchi_rustcore as R
-    return np.asarray(R.qm_collide_log(
+    rust = require_native("q.comoving.collide_log")
+    return np.asarray(rust.qm_collide_log(
         np.ascontiguousarray(lw, float), np.ascontiguousarray(lG, float),
         np.ascontiguousarray(np.asarray(ehat).ravel(), float),
         float(nu_dt), kernel))

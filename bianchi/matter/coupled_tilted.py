@@ -27,11 +27,10 @@ from __future__ import annotations
 
 import numpy as np
 
-import jax
+from bianchi.backend_policy import require_native
+from bianchi.optional_dependencies import require_jax_x64
 
-jax.config.update("jax_enable_x64", True)
-
-import jax.numpy as jnp  # noqa: E402
+_, jnp = require_jax_x64(feature=__name__)
 
 from bianchi.charts import class_a_tilted_multi as MM  # noqa: E402
 from bianchi.charts import general as G  # noqa: E402
@@ -225,27 +224,27 @@ def _sigma_signs_vec():
 
 def coupled_rhs_rust(y, gammas, l_max, kappa=None, nterm_on=True, nu_bgk=0.0):
     """Rust cp_rhs — Python `coupled_rhs` 의 두-경로 상대 (차등시험 게이트)."""
-    import bianchi_rustcore as _R
+    rust = require_native("coupled_tilted.coupled_rhs_rust")
     u1, u2 = _u_tables()
     k = None if kappa is None else np.ascontiguousarray(
         np.asarray(kappa, float)).ravel()
-    return np.asarray(_R.cp_rhs(np.ascontiguousarray(np.asarray(y, float)),
-                                np.asarray(gammas, float), k, int(l_max),
-                                bool(nterm_on), u1, u2, _sigma_signs_vec(),
-                                float(nu_bgk)))
+    return np.asarray(rust.cp_rhs(np.ascontiguousarray(np.asarray(y, float)),
+                                  np.asarray(gammas, float), k, int(l_max),
+                                  bool(nterm_on), u1, u2, _sigma_signs_vec(),
+                                  float(nu_bgk)))
 
 
 def rk4_evolve_rust(y0, gammas, l_max, tau, nsteps, kappa=None,
                     nterm_on=True, keep=False, nu_bgk=0.0):
     """Rust cp_evolve — 루프째 (R5b).  반환 Python 판과 동일 형상."""
-    import bianchi_rustcore as _R
+    rust = require_native("coupled_tilted.rk4_evolve_rust")
     u1, u2 = _u_tables()
     k = None if kappa is None else np.ascontiguousarray(
         np.asarray(kappa, float)).ravel()
-    yT, traj = _R.cp_evolve(np.ascontiguousarray(np.asarray(y0, float)),
-                            np.asarray(gammas, float), k, int(l_max),
-                            float(tau), int(nsteps), bool(nterm_on),
-                            bool(keep), u1, u2, _sigma_signs_vec(),
-                            float(nu_bgk))
+    yT, traj = rust.cp_evolve(np.ascontiguousarray(np.asarray(y0, float)),
+                              np.asarray(gammas, float), k, int(l_max),
+                              float(tau), int(nsteps), bool(nterm_on),
+                              bool(keep), u1, u2, _sigma_signs_vec(),
+                              float(nu_bgk))
     yT = np.asarray(yT)
     return (yT, np.asarray(traj)) if keep else yT

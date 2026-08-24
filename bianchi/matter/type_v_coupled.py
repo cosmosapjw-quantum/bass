@@ -166,11 +166,16 @@ def forward_vs_backward(mass=0.6, t=0.35, A=0.7, nsteps=200, l_max=2, i_max=1,
 
     반환 max|Δ|/ρ.
     """
+    selected = _selection("type_v.forward_vs_backward", backend)
+    child_backend = (BackendPolicy.RUST_REQUIRED if selected.uses_rust
+                     else BackendPolicy.PYTHON_ORACLE)
     bg = TV.Background(A=A)
-    ref = TV.moments_type_V(bg, mass, t, l_max, i_max, nsteps=ref_steps)
+    ref = TV.moments_type_V(
+        bg, mass, t, l_max, i_max, nsteps=ref_steps, backend=child_backend
+    )
     P, W = initial_nodes(mass)
     P, W = _push_nodes(P, W, bg.a, mass, A, t, nsteps, measure,
-                       rate=bg.H + bg.sig, backend=backend)
+                       rate=bg.H + bg.sig, backend=child_backend)
     got = moments_from_nodes(P, W, bg.a(t), mass, l_max, i_max)
     rho = float(ref[(0, 0)])
     return max(float(np.abs(np.atleast_1d(np.asarray(got[k], float)).ravel()

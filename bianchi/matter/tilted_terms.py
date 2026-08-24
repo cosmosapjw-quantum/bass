@@ -34,8 +34,18 @@ def available():
                 and hasattr(load.module, "tt_perp_dot"))
 
 
+class _LazyRustAvailability:
+    """Historical bool-like diagnostic without probing native code at import time."""
+
+    def __bool__(self):
+        return available()
+
+    def __repr__(self):
+        return repr(available())
+
+
 # Historical test/diagnostic compatibility only. Numerical dispatch never reads it.
-USE_RUST = available()
+USE_RUST = _LazyRustAvailability()
 
 
 _RC_KEYS = ("eup", "edn", "deup", "hmix", "uup", "G")

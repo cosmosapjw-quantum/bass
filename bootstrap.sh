@@ -64,12 +64,13 @@ say "3/4  단일 root resolver 설치"
 python -m pip install --disable-pip-version-check --constraint requirements.lock \
   "${NATIVE_WHEELS[0]}" .
 
-say "4/4  native-required 임포트 점검"
+say "4/4  최소 native-required 임포트 점검"
 python - <<'PY'
 import importlib
 from importlib import metadata
+import sys
 
-mods = ["numpy", "scipy", "sympy", "jax", "bianchi", "bianchi.matter.hierarchy",
+mods = ["numpy", "bianchi", "bianchi.backend_policy", "bianchi.matter.hierarchy",
         "bianchi.matter.collision", "bianchi.matter.viscous_derived",
         "bianchi.matter.tilted", "bianchi.matter.tilted_moments",
         "bianchi.matter.tilted_terms", "bianchi.backend", "bianchi_rustcore"]
@@ -80,6 +81,16 @@ version = metadata.version("bianchi-rustcore")
 if version != "0.1.0":
     raise RuntimeError(f"incompatible bianchi-rustcore distribution: {version}")
 print(f"  ok  bianchi-rustcore {version} (native-required install)")
+optional_roots = {
+    "jax", "jaxlib", "diffrax", "equinox", "optimistix", "lineax",
+    "scipy", "sympy", "mpmath",
+}
+loaded_optional = sorted(optional_roots.intersection(sys.modules))
+if loaded_optional:
+    raise RuntimeError(
+        f"minimal native frontend imported optional dependencies: {loaded_optional}"
+    )
+print("  ok  optional Python oracle stack not imported")
 PY
 
 say "완료 — 검증은 RF-00 focused CI/evidence 명령을 별도로 사용"

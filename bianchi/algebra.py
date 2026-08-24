@@ -15,7 +15,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi.conventions import EPS3

@@ -18,8 +18,11 @@ import enum
 from dataclasses import dataclass
 from typing import Literal
 
-import jax.numpy as jnp
 import numpy as np
+
+from bianchi.optional_dependencies import require_jax_x64
+
+_, jnp = require_jax_x64(feature=__name__)
 
 # ---------------------------------------------------------------- 기본 상수
 SQRT3 = float(np.sqrt(3.0))

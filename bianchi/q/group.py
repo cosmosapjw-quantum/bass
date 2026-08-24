@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
+
 N_ORDER = ((0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2))
 
 
@@ -31,42 +33,43 @@ def unpack_n(n6):
     return N
 
 
-def _rc():
-    import bianchi_rustcore as R
-    return R
-
-
 def classify(n, a):
     """(n, a) → dict(name, group_class, kappa, exceptional, signature)."""
     n6 = pack_n(n)
     a3 = np.asarray(a, float)
-    name, cls, kap, exc, sig, asgn = _rc().qg_classify(n6, a3)
+    rust = require_native("q.group.classify")
+    name, cls, kap, exc, sig, asgn = rust.qg_classify(n6, a3)
     return dict(name=name, group_class=cls, kappa=kap, exceptional=exc,
                 signature=(tuple(sig), asgn))
 
 
 def jacobi_residual(n, a):
-    return np.asarray(_rc().qg_jacobi(pack_n(n), np.asarray(a, float)))
+    rust = require_native("q.group.jacobi_residual")
+    return np.asarray(rust.qg_jacobi(pack_n(n), np.asarray(a, float)))
 
 
 def structure_constants(n, a):
     """C^c_{ab} — (3,3,3), 지표 [c][a][b] (algebra.structure_constants 와 동일)."""
-    return np.asarray(_rc().qg_structure_constants(
+    rust = require_native("q.group.structure_constants")
+    return np.asarray(rust.qg_structure_constants(
         pack_n(n), np.asarray(a, float))).reshape(3, 3, 3)
 
 
 def ricci3(n, a):
-    return np.asarray(_rc().qg_ricci3(pack_n(n), np.asarray(a, float))).reshape(3, 3)
+    rust = require_native("q.group.ricci3")
+    return np.asarray(rust.qg_ricci3(pack_n(n), np.asarray(a, float))).reshape(3, 3)
 
 
 def curvature(n, a):
     """(K, ^3S_ab)."""
-    v = np.asarray(_rc().qg_curvature(pack_n(n), np.asarray(a, float)))
+    rust = require_native("q.group.curvature")
+    v = np.asarray(rust.qg_curvature(pack_n(n), np.asarray(a, float)))
     return float(v[0]), v[1:].reshape(3, 3)
 
 
 def kappa(n, a):
-    return _rc().qg_kappa(pack_n(n), np.asarray(a, float))
+    rust = require_native("q.group.kappa")
+    return rust.qg_kappa(pack_n(n), np.asarray(a, float))
 
 
 def roundtrip(n, a):

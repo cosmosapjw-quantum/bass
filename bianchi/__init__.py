@@ -1,21 +1,30 @@
+"""Bianchi background-cosmology solver.
+
+The package root is deliberately dependency-light. Optional Python oracle
+frontends configure and import JAX/SciPy/SymPy only when those frontends are
+requested explicitly.
 """
-bianchi — Bianchi 배경 우주론 solver.
+from __future__ import annotations
 
-PR-01: x64 를 임포트 시점에 강제한다. 설계 §5.5 — float32 는 stiff 구간에서
-       "그럴듯한 오답" 또는 max_steps 실패를 낸다. 협상 불가.
-"""
-import jax as _jax
+import importlib
 
-_jax.config.update("jax_enable_x64", True)
-
-import jax.numpy as _jnp
-if _jnp.zeros(1).dtype != _jnp.float64:          # pragma: no cover
-    raise RuntimeError(
-        "x64 활성화 실패. bianchi 를 jax 배열 생성 '이전에' 임포트해야 한다."
-    )
 
 __version__ = "0.1.0"
 
-from bianchi import conventions, algebra          # noqa: E402,F401
-
 __all__ = ["conventions", "algebra", "__version__"]
+
+_LAZY_PUBLIC_MODULES = frozenset({"conventions", "algebra"})
+
+
+def __getattr__(name: str):
+    """Preserve the historical public modules without importing them eagerly."""
+
+    if name not in _LAZY_PUBLIC_MODULES:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    module = importlib.import_module(f"{__name__}.{name}")
+    globals()[name] = module
+    return module
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals()) | _LAZY_PUBLIC_MODULES)

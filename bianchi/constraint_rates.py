@@ -18,12 +18,13 @@ M 의 스펙트럼이 증폭률이다.  유도·측정 과정과 대조군은 `a
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi.charts import general as G
 from bianchi.conventions import EPS3_J, tracefree_from_5
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature=__name__)
 
 
 #: 기울기가 항등적으로 0 인 `trace` (index 1) 를 뺀 구속 인덱스.

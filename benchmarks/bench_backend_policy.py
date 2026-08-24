@@ -5,6 +5,11 @@ The driver compares two immutable source roots using this exact interpreter and
 the same installed native module bytes.  Process startup is outside the child
 timer.  Cold backend import and warmed ``chart_rhs`` dispatch are separate
 populations.  Run explicitly with ``--run``; pytest never imports this file.
+
+This legacy runner records affinity but does not prove exclusive CPU/cgroup
+control.  Its output is therefore always ``EXPLORATORY_ONLY`` and carries no
+performance or no-regression acceptance authority.  RF-BENCH-00 owns any later
+controlled acceptance runner.
 """
 from __future__ import annotations
 
@@ -26,6 +31,11 @@ RF00_R3_WHEEL_SHA256 = (
     "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917"
 )
 DEFAULT_SEED = 20260824
+EXPLORATORY_ONLY_REASON = (
+    "CPU affinity was recorded, but exclusive cpuset/cgroup control, effective "
+    "CPU-set and SMT isolation, migrations, CPU pressure/steal, frequency and "
+    "throttling, and perf running-ratio metadata were not verified"
+)
 
 
 _CHILD = r"""
@@ -328,8 +338,8 @@ def _measure_case(
             "candidate_over_baseline": median_ratio,
             "bootstrap_95_ci": [ci_low, ci_high],
             "bootstrap_replicates": bootstrap_replicates,
-            "no_regression_ceiling": 1.05,
-            "no_regression_pass": ci_high <= 1.05,
+            "evidence_class": "EXPLORATORY_ONLY",
+            "acceptance_claim": "NONE",
         },
     }
 
@@ -428,11 +438,9 @@ def main() -> int:
         },
         "cases": cases,
         "decision": {
-            "rule": "CI95 upper candidate/baseline <= 1.05 for each affected workload",
-            "pass": all(
-                result["paired_summary"]["no_regression_pass"]
-                for result in cases.values()
-            ),
+            "evidence_class": "EXPLORATORY_ONLY",
+            "acceptance_claim": "NONE",
+            "reason": EXPLORATORY_ONLY_REASON,
         },
     }
     output = args.output.resolve()
@@ -455,7 +463,7 @@ def main() -> int:
             sort_keys=True,
         )
     )
-    return 0 if payload["decision"]["pass"] else 2
+    return 0
 
 
 if __name__ == "__main__":

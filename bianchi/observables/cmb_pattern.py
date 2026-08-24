@@ -20,6 +20,8 @@ from __future__ import annotations
 import numpy as np
 
 from bianchi import backend
+from bianchi.backend_policy import BackendPolicy, select_backend
+from bianchi.optional_dependencies import require_optional
 
 from bianchi.rays import geodesics as gd
 
@@ -36,13 +38,20 @@ def _direction_grid(n_theta=24, n_phi=48):
 
 
 def temperature_pattern_diag_bianchi(model, t0, t_lss, n_theta=24, n_phi=48,
-                                     nsteps=2000, force_python=False):
+                                     nsteps=2000, force_python=False, *, policy=None):
     """대각 Bianchi 배경에서 ΔT/T(n̂) 패턴을 계산.
 
     각 방향으로 관측 -> 최종산란(t_lss) 광선을 적분해 z(n̂) 를 얻고,
     등방 평균을 빼서 ΔT/T = (⟨1+z⟩ - (1+z))/(1+z) 를 만든다.
     반환: dict(nhat, dT_over_T, z, quadrupole_amplitude).
     """
+    selected = select_backend(
+        "observable.cmb_pattern_diag",
+        policy=policy,
+        force_python=force_python,
+    )
+    child_policy = (BackendPolicy.RUST_REQUIRED if selected.uses_rust
+                    else BackendPolicy.PYTHON_ORACLE)
     th, ph, nhat, w = _direction_grid(n_theta, n_phi)
     shape = nhat.shape[:2]
     # ★ R3 (성능): 방향마다 Python 루프로 광선을 적분했다 (10×16 방향 × 400 스텝이
@@ -50,7 +59,7 @@ def temperature_pattern_diag_bianchi(model, t0, t_lss, n_theta=24, n_phi=48,
     #   (Rust 가 있으면 Rust, 없으면 같은 Python 루프로 폴백 — 값은 동일).
     z = np.asarray(backend.ray_final_z_batch(
         model, nhat.reshape(-1, 3), t0, t_lss, nsteps=nsteps,
-        force_python=force_python)).reshape(shape)
+        policy=child_policy)).reshape(shape)
     one_pz = 1.0 + z
     # 구면 가중 평균 (등방 성분).  w 는 이미 (nth, nph) 2D (sinθ 격자).
     W = np.broadcast_to(w, shape)
@@ -65,14 +74,15 @@ def multipole_amplitudes(pattern, lmax=4):
 
     직접 적분 (healpy 불요):  a_lm = ∫ ΔT/T Y_lm* dΩ,  C_ℓ = (1/(2ℓ+1)) Σ_m |a_lm|².
     """
-    try:
-        from scipy.special import sph_harm_y
+    special = require_optional(
+        "scipy.special", feature=f"{__name__}.multipole_amplitudes", dependency="scipy"
+    )
+    if hasattr(special, "sph_harm_y"):
         def _Y(l, m, T, P):
-            return sph_harm_y(l, m, T, P)          # (n, m, theta, phi)
-    except ImportError:                            # 구버전 scipy 폴백
-        from scipy.special import sph_harm
+            return special.sph_harm_y(l, m, T, P)  # (n, m, theta, phi)
+    else:                                          # 구버전 scipy 폴백
         def _Y(l, m, T, P):
-            return sph_harm(m, l, P, T)            # (m, n, phi, theta)
+            return special.sph_harm(m, l, P, T)    # (m, n, phi, theta)
     dT = pattern["dT_over_T"]; th = pattern["theta"]; ph = pattern["phi"]
     T, P = np.meshgrid(th, ph, indexing="ij")
     w = np.sin(T)

@@ -13,11 +13,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, Optional, Sequence
 
-import diffrax as dfx
-import equinox as eqx
-import jax
-import jax.numpy as jnp
-import optimistix as optx
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+dfx = require_optional("diffrax", feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
+optx = require_optional("optimistix", feature=__name__)
 
 
 # ---------------------------------------------------------------- 가중 노름

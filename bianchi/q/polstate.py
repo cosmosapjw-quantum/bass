@@ -33,6 +33,7 @@ import numpy as np
 from bianchi.backend_policy import (
     BackendPolicy,
     BackendPolicyError,
+    require_native,
     select_backend,
 )
 from bianchi.q import polarization as PL
@@ -166,7 +167,7 @@ class PolQState:
             return self
         N6, A3 = np.asarray(self.st.N6, float), np.asarray(self.st.A3, float)
         if np.any(N6) or np.any(A3):
-            import bianchi_rustcore as R
+            rust = require_native("q.polstate.residual_step")
             from bianchi.q import comoving as CM
             from bianchi.q.residual import _backtrace
             n = len(self.st.qhat)
@@ -175,9 +176,9 @@ class PolQState:
             qb, _ = _backtrace(self.st.M, self.st.qhat, N6, A3, dtau, substeps)
             e_back, _ = CM.phys(fr, qb)
             dev = self.Jhat - unpolarized_shape(e_now)      # tr = 0
-            plan = R.qt_plan_from_points(self.st.sph,
-                                         np.ascontiguousarray(qb.ravel()),
-                                         np.zeros(n), int(k_theta), int(k_phi))
+            plan = rust.qt_plan_from_points(self.st.sph,
+                                            np.ascontiguousarray(qb.ravel()),
+                                            np.zeros(n), int(k_theta), int(k_phi))
             flat = dev.reshape(n, 9)
             out = np.stack([np.asarray(plan.apply_mode_a(
                 np.ascontiguousarray(flat[:, k]), 0.0)) for k in range(9)], axis=1)

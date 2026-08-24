@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
 from bianchi.q import sphere as S
 
 
@@ -122,10 +123,10 @@ def evolve(st: ModeBState, dtau, nsteps, nu=0.0, kernel="thomson",
     """★ Rust 전-루프 (Mode B).  PyO3 진입 1회.
 
     Q19: `sched` 를 주면 ν 가 커널 안에서 매 스텝 이력에서 계산된다."""
-    import bianchi_rustcore as R
+    rust = require_native("q.modeb.evolve")
     v = np.ascontiguousarray(st.pack())
     ns_, ha = (None, 0.0) if sched is None else sched.sample(dtau, nsteps)
-    out = np.asarray(R.qe_evolve(
+    out = np.asarray(rust.qe_evolve(
         int(st.sph.n_theta), int(st.sph.n_phi), v,
         np.ascontiguousarray(st.rot, float), bool(st.residual),
         float(dtau), int(nsteps), float(nu), kernel,
@@ -140,8 +141,8 @@ def evolve(st: ModeBState, dtau, nsteps, nu=0.0, kernel="thomson",
 
 
 def diagnostics(st: ModeBState):
-    import bianchi_rustcore as R
-    v = np.asarray(R.qe_diagnostics(
+    rust = require_native("q.modeb.diagnostics")
+    v = np.asarray(rust.qe_diagnostics(
         int(st.sph.n_theta), int(st.sph.n_phi),
         np.ascontiguousarray(st.pack()), np.ascontiguousarray(st.rot, float),
         int(st.n_p), st.lnq_min, st.lnq_max))

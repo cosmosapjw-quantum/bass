@@ -19,8 +19,6 @@ D1 은 Bianchi II 로 **한 번의 튐**을 오라클로 삼아 Kasner 사상을
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi import integrate as itg
@@ -33,6 +31,9 @@ from bianchi.backend_policy import (
 )
 from bianchi.charts import class_a as ca
 from bianchi.conventions import SQRT3
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature=__name__)
 
 
 def rust_available():
@@ -286,20 +287,24 @@ def type_VIII_also_bounces(u0=3.7, n_bounce=4, **kw):
     return u_sequence(u0=u0, n_bounce=n_bounce, kind="VIII", **kw)
 
 
-def type_II_bounces_once(u0=3.7, seed=1e-3, span=20.0):
+def type_II_bounces_once(u0=3.7, seed=1e-3, span=20.0, backend=None):
     """★ 대조군 — 벽이 하나(Bianchi II)면 튐도 **한 번**뿐이다."""
     p = K.u_to_exponents(u0)
     Sp, Sm = K.sigma_from_exponents(p)
     Sp, Sm = K._project_to_vacuum(Sp, Sm, seed)
     y0 = ca.StateA.of(Sp, Sm, seed, 0.0, 0.0)
-    return len(bounce_sequence(y0, {"gamma": 2.0}, n_bounce=2, span=span))
+    return len(bounce_sequence(
+        y0, {"gamma": 2.0}, n_bounce=2, span=span, backend=backend
+    ))
 
 
-def type_I_never_bounces(u0=3.7, span=20.0):
+def type_I_never_bounces(u0=3.7, span=20.0, backend=None):
     """★ 대조군 — 벽이 없으면(N = 0) 튐이 0 번."""
     Sp, Sm = K.sigma_from_exponents(K.u_to_exponents(u0))
     y0 = ca.StateA.of(Sp, Sm, 0.0, 0.0, 0.0)
-    return len(bounce_sequence(y0, {"gamma": 2.0}, n_bounce=1, span=span))
+    return len(bounce_sequence(
+        y0, {"gamma": 2.0}, n_bounce=1, span=span, backend=backend
+    ))
 
 
 def report():

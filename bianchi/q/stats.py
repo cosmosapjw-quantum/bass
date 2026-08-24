@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.optional_dependencies import require_optional
 from bianchi.q import boost as B
 
 
@@ -39,7 +40,9 @@ def kasner_sequence(u0, n):
 
 def gauss_measure_ks(us):
     """u 수열의 소수부가 Gauss 측도를 따르는가 (KS 통계·p)."""
-    from scipy import stats
+    stats = require_optional(
+        "scipy.stats", feature=f"{__name__}.gauss_measure_ks", dependency="scipy"
+    )
     x = np.asarray(us) % 1.0
     x = x[(x > 0) & (x < 1)]
     cdf = lambda t: np.log2(1.0 + t)          # noqa: E731

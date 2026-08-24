@@ -26,9 +26,10 @@ PR-14/15 · Tilted gamma-law 완전유체.
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax
-import jax.numpy as jnp
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 GUARD_EPS = 1e-12
 

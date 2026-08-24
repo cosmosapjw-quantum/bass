@@ -52,8 +52,18 @@ def available(mode="ratio"):
     )
 
 
+class _LazyRustAvailability:
+    """Historical bool-like diagnostic without probing native code at import time."""
+
+    def __bool__(self):
+        return available()
+
+    def __repr__(self):
+        return repr(available())
+
+
 # Historical test/diagnostic compatibility only. Numerical dispatch never reads it.
-USE_RUST = available()
+USE_RUST = _LazyRustAvailability()
 
 
 def _native(route_id, mode="ratio"):

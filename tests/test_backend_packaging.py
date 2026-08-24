@@ -53,11 +53,19 @@ def test_root_requires_exact_matching_native_distribution():
     assert native["name"] == NATIVE_PROJECT
     assert root["version"] == native["version"] == cargo["version"]
     exact_native = f"{NATIVE_PROJECT}=={root['version']}"
-    assert root["dependencies"].count(exact_native) == 1
-    assert not any(
-        dependency.startswith(NATIVE_PROJECT) and dependency != exact_native
-        for dependency in root["dependencies"]
-    )
+    assert root["dependencies"] == [exact_native, "numpy"]
+    assert root["optional-dependencies"] == {
+        "python-oracle": [
+            "jax>=0.10.2",
+            "diffrax>=0.7.2",
+            "equinox>=0.13.8",
+            "optimistix>=0.1.0",
+            "lineax>=0.1.1",
+            "scipy",
+            "sympy>=1.14",
+            "mpmath>=1.3.0",
+        ]
+    }
 
 
 def test_install_documentation_uses_one_root_resolver_and_verified_wheel():
@@ -70,6 +78,12 @@ def test_install_documentation_uses_one_root_resolver_and_verified_wheel():
         r'"\$BASS_NATIVE_WHEEL" \.',
         readme,
     )
+    assert (
+        "python -m pip install --constraint requirements.lock "
+        "\"$BASS_NATIVE_WHEEL\" '.[python-oracle]'"
+        in readme
+    )
+    assert "require_jax_x64" in readme
     assert "Python-only" in readme
     assert "pip install -e ." not in readme
 
@@ -88,6 +102,8 @@ def test_bootstrap_builds_locked_wheel_then_resolves_native_and_root_together():
     )
     assert 'metadata.version("bianchi-rustcore")' in bootstrap
     assert "incompatible bianchi-rustcore distribution" in bootstrap
+    assert 'mods = ["numpy", "bianchi", "bianchi.backend_policy"' in bootstrap
+    assert "optional Python oracle stack not imported" in bootstrap
 
 
 def test_rf00_workflow_exercises_portable_and_native_install_contracts():
@@ -110,6 +126,18 @@ def test_rf00_workflow_exercises_portable_and_native_install_contracts():
     )
     assert "tests/test_backend_policy.py" in workflow
     assert "tests/test_backend_packaging.py" in workflow
+    assert "tests/test_rf00_optional_dependencies.py" in workflow
+    assert "tests/test_rf00_route_inventory.py" in workflow
+    assert 'BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"' in workflow
+    for trigger in (
+        '"bianchi/**"',
+        '"requirements.lock"',
+        '"bootstrap.sh"',
+        '"README.md"',
+        '"scripts/demo.py"',
+        '"tests/test_pr01_scaffold.py"',
+    ):
+        assert trigger in workflow
 
 
 def test_optional_active_install_matches_root_and_native_metadata():

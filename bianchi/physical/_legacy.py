@@ -14,7 +14,6 @@ PR-25 · 물리량 재구성 (Hubble 정규화 해 -> 관측 가능량).
 """
 from __future__ import annotations
 
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi.conventions import ShearScalar, SQRT3

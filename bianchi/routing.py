@@ -30,6 +30,7 @@ from __future__ import annotations
 import numpy as np
 
 from bianchi import algebra as AL
+from bianchi.backend_policy import require_native
 
 #: class_b 가 축퇴하는 κ — `charts.class_b.KAPPA_EXCEPTIONAL` 과 동일 값
 KAPPA_EXCEPTIONAL = -9.0
@@ -116,7 +117,7 @@ def ic_template(bt, seed=1e-2, sigma=(0.06, -0.02), gamma=1.3):
 
 def _aux_of(chart, y, gamma, kappa):
     """Rust chart_aux → (Ω, 구속잔차) — [1] 을 버리지 않는다 (리뷰 MAJOR 1)."""
-    import bianchi_rustcore as rc
+    rc = require_native("routing.ic_template")
     om, con = rc.chart_aux(chart, np.asarray(y, float), gamma, kappa)
     return float(om), float(con)
 
@@ -177,7 +178,7 @@ def signature_of_state(chart, y, kappa=None, tol=1e-9):
 
 def roundtrip(name, t_end=2.0, npts=21, gamma=1.3, seed=1e-2):
     """★★ 왕복 게이트의 본체: 분류→라우팅→적분(Rust)→서명이 전 구간 보존되는가."""
-    import bianchi_rustcore as rc
+    rc = require_native("routing.roundtrip")
     n, a = AL.CANONICAL[name]
     bt = AL.classify(n, a)
     y0, r = ic_template(bt, seed=seed, gamma=gamma)

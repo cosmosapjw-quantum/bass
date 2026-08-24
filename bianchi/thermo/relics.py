@@ -13,7 +13,12 @@ PR-37 · 열적 잔존물 동결 (WIMP 급).
 from __future__ import annotations
 
 import numpy as np
-from scipy.integrate import solve_ivp
+
+from bianchi.optional_dependencies import require_optional
+
+solve_ivp = require_optional(
+    "scipy.integrate", feature=__name__, dependency="scipy"
+).solve_ivp
 
 M_PL_GEV = 1.220890e19          # Planck 질량 [GeV]
 GEV2_PER_PB = 2.5681894e-9      # 1 pb = 2.568e-9 GeV^-2
@@ -104,7 +109,6 @@ def freeze_out_boltzmann(sigma_v_GeV2, m_GeV=100.0, g_star=90.0, g_dof=2.0,
     method: 'Radau'(기본) 또는 'BDF'.  ★ 'LSODA' 는 λ≳10^9 에서 실패한다.
     반환: dict(Y_inf, Omega_h2, x_f, lam, success, method).
     """
-    from scipy.integrate import solve_ivp
     lam = boltzmann_lambda(sigma_v_GeV2, m_GeV, g_star, shear_boost)
 
     def Yeq(x):

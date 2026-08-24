@@ -34,6 +34,8 @@ from functools import lru_cache
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
+
 from bianchi.matter.grid_boltzmann import DQ, NA, NHAT, Q, WANG
 
 
@@ -200,26 +202,26 @@ def measure_grid_quality(a_vec, n_theta, n_phi):
 
 def thomson_matrix_rust(a_vec, nhat=None, wang=None):
     """Rust Sinkhorn 핵 (보존형) — Python `thomson_operator` 의 K 와 대조."""
-    import bianchi_rustcore as _R
+    rust = require_native("collision_ladder.thomson_matrix_rust")
     if nhat is None:
         nhat, wang = NHAT, WANG
     e, _, w = physical_frame_on(nhat, wang, a_vec)
-    return np.asarray(_R.gc_thomson(np.ascontiguousarray(e),
-                                    np.ascontiguousarray(w)))
+    return np.asarray(rust.gc_thomson(np.ascontiguousarray(e),
+                                      np.ascontiguousarray(w)))
 
 
 def collide_rust(G, K, nu_dt, tol=1e-16):
     """exp(νdt(K−I))·G — Rust 테일러 (eigh 없음)."""
-    import bianchi_rustcore as _R
-    return np.asarray(_R.gc_expm_apply(np.ascontiguousarray(K, float),
-                                       np.ascontiguousarray(G, float),
-                                       float(nu_dt), float(tol)))
+    rust = require_native("collision_ladder.collide_rust")
+    return np.asarray(rust.gc_expm_apply(np.ascontiguousarray(K, float),
+                                         np.ascontiguousarray(G, float),
+                                         float(nu_dt), float(tol)))
 
 
 def strang_evolve_rust(G0, a_of, t0, t1, nsteps, nu, n=0, tol=1e-16,
                        nhat=None, wang=None):
     """Strang 루프째 (Rust) — 물리 프레임 시퀀스는 Python 이 캐리 (좌표-동일)."""
-    import bianchi_rustcore as _R
+    rust = require_native("collision_ladder.strang_evolve_rust")
     if nhat is None:
         nhat, wang = NHAT, WANG
     h = (t1 - t0) / nsteps
@@ -229,9 +231,9 @@ def strang_evolve_rust(G0, a_of, t0, t1, nsteps, nu, n=0, tol=1e-16,
         es.append(e)
         ws.append(w)
         ms.append(mu)
-    out = _R.gc_strang(np.ascontiguousarray(G0, float),
-                       np.ascontiguousarray(np.stack(es)),
-                       np.ascontiguousarray(np.stack(ws)),
-                       np.ascontiguousarray(np.stack(ms)),
-                       int(nsteps), float(nu), float(h), int(n), float(tol))
+    out = rust.gc_strang(np.ascontiguousarray(G0, float),
+                         np.ascontiguousarray(np.stack(es)),
+                         np.ascontiguousarray(np.stack(ws)),
+                         np.ascontiguousarray(np.stack(ms)),
+                         int(nsteps), float(nu), float(h), int(n), float(tol))
     return np.asarray(out)

@@ -13,10 +13,12 @@ PR-33 · 온도-부피 관계 T(ℓ) 와 중성미자 온도.
 from __future__ import annotations
 
 import numpy as np
-from scipy.optimize import brentq
 
 from bianchi.thermo import dof
 from bianchi.physical import units as U
+from bianchi.optional_dependencies import require_optional
+
+brentq = require_optional("scipy.optimize", feature=__name__, dependency="scipy").brentq
 
 
 def temperature_of_ell(ell, T0_GeV, ell0=1.0):

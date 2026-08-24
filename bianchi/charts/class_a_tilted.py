@@ -37,11 +37,12 @@ LIMITATIONS
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax.numpy as jnp
-
 from bianchi.conventions import SQRT3
 from bianchi.matter.fluid import G_minus, G_plus, _safe
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+_, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 name = "class_a_tilted"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
