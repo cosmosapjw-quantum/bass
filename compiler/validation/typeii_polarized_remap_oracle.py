@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -19,7 +20,21 @@ RUST_OUT = ROOT / "runtime/rust/typeii/tests/support/typeii_polarized_remap_fixt
 
 
 def unit(x: np.ndarray) -> np.ndarray:
-    return x / np.linalg.norm(x)
+    """Normalize a 3-vector with a fixed binary64 reduction order.
+
+    ``np.linalg.norm`` delegates the three-term reduction to the active NumPy/
+    BLAS build.  Different conforming builds changed the last bit of the B2A
+    fixture.  Keep the original right-associated scalar evaluation explicit so
+    the committed JSON and Rust fixture remain byte-reproducible.
+    """
+    x = np.asarray(x, dtype=np.float64)
+    if x.shape != (3,):
+        raise ValueError(f"expected a 3-vector, got shape {x.shape}")
+    x0, x1, x2 = map(float, x)
+    norm = math.sqrt(x0 * x0 + (x1 * x1 + x2 * x2))
+    if norm == 0.0:
+        raise ValueError("cannot normalize the zero vector")
+    return x / norm
 
 
 def pack(m: np.ndarray) -> np.ndarray:
