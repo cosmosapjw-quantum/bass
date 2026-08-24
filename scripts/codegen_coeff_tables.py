@@ -36,7 +36,15 @@ _OPS = [
 
 
 def fmt(vals):
-    return ", ".join(repr(float(v)) for v in vals)
+    """Serialize binary64 values with one representation for mathematical zero.
+
+    Linear-algebra backends may return either sign bit for an exact zero.  The
+    sign has no coefficient meaning here, so normalize both variants to +0.0
+    before emitting Rust and keep every nonzero binary64 unchanged.
+    """
+    return ", ".join(
+        repr(0.0 if float(v) == 0.0 else float(v)) for v in vals
+    )
 
 
 def generate() -> str:
@@ -70,11 +78,13 @@ def generate() -> str:
             f"/// {name}: l = {lmin}..={lmax}, K={k}, 총 {data.size} f64",
             f"pub const {up}_MIN_L: usize = {lmin};",
             f"pub const {up}_MAX_L: usize = {lmax};",
+            "#[rustfmt::skip]",
             f"pub static {up}_OFF: [usize; {len(offs)}] = [{', '.join(map(str, offs))}];",
+            "#[rustfmt::skip]",
             f"pub static {up}_DATA: [f64; {data.size}] = [{fmt(data)}];",
             "",
         ]
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 if __name__ == "__main__":

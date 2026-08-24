@@ -45,7 +45,11 @@ fn tdot0(x: &[f64], m_rows: usize, mat: &[f64], n: usize, transposed: bool) -> V
                 continue;
             }
             for c in 0..n {
-                let w = if transposed { mat[c * m_rows + a] } else { mat[a * n + c] };
+                let w = if transposed {
+                    mat[c * m_rows + a]
+                } else {
+                    mat[a * n + c]
+                };
                 out[j * n + c] += v * w;
             }
         }
@@ -73,7 +77,11 @@ pub fn to_tetrad(x: &[f64], n_ax: usize, edn: &[f64; 12]) -> Vec<f64> {
 
 /// ∂_t X^{μ…} = Σ(dX_A/dt)E…E + Σ X_A ∂_t(E…E)  — 둘째 항이 **사틀 회전항**.
 pub fn coord_time_derivative(
-    x: &[f64], dx: &[f64], r: usize, eup: &[f64; 12], deup: &[f64; 12],
+    x: &[f64],
+    dx: &[f64],
+    r: usize,
+    eup: &[f64; 12],
+    deup: &[f64; 12],
 ) -> Vec<f64> {
     let mut out = to_coord(dx, r, eup);
     for k in 0..r {
@@ -98,14 +106,13 @@ pub fn covariant_derivative(xc: &[f64], dxc: &[f64], r: usize, gam: &[f64; 64]) 
     for flat in 0..n {
         // flat → 다중지표
         let mut t = flat;
-        for k in (0..r).rev() {
-            idx[k] = t % 4;
+        for idx_k in idx.iter_mut().rev() {
+            *idx_k = t % 4;
             t /= 4;
         }
         for lam in 0..4 {
             let mut acc = 0.0f64;
-            for k in 0..r {
-                let mu_k = idx[k];
+            for (k, &mu_k) in idx.iter().enumerate().take(r) {
                 let stride = 4usize.pow((r - 1 - k) as u32);
                 let base = flat - mu_k * stride;
                 for rho in 0..4 {
@@ -176,7 +183,7 @@ pub fn div_contracted(x: &[f64], dx: &[f64], r: usize, geo: &Geo) -> Vec<f64> {
     for b in 0..3 {
         let base = b * 3usize.pow(r as u32) + b * rest;
         for j in 0..rest {
-            out[j] = out[j] + s[base + j];
+            out[j] += s[base + j];
         }
     }
     out
@@ -201,8 +208,12 @@ mod tests {
 
     fn toy_geo() -> Geo {
         let mut g = Geo {
-            eup: [0.0; 12], edn: [0.0; 12], deup: [0.0; 12], hmix: [0.0; 16],
-            uup: [1.0, 0.0, 0.0, 0.0], gam: [0.0; 64],
+            eup: [0.0; 12],
+            edn: [0.0; 12],
+            deup: [0.0; 12],
+            hmix: [0.0; 16],
+            uup: [1.0, 0.0, 0.0, 0.0],
+            gam: [0.0; 64],
         };
         for a in 0..3 {
             g.eup[a * 4 + a + 1] = 1.0;
@@ -239,7 +250,7 @@ mod tests {
     fn spatial_derivative_vanishes_in_a_static_orthonormal_frame() {
         let g = toy_geo();
         let x: Vec<f64> = (0..3).map(|i| i as f64 + 1.0).collect();
-        let s = spatial_derivative(&x, &vec![0.0; 3], 1, &g);
+        let s = spatial_derivative(&x, &[0.0; 3], 1, &g);
         assert!(s.iter().all(|v| v.abs() < 1e-13), "{s:?}");
     }
 }

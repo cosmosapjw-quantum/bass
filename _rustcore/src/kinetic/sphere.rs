@@ -56,9 +56,9 @@ pub fn gauss_legendre(n: usize) -> (Vec<f64>, Vec<f64>) {
 pub struct SphereGrid {
     pub n_theta: usize,
     pub n_phi: usize,
-    pub ct: Vec<f64>,   // cos(theta), 길이 n_theta
+    pub ct: Vec<f64>, // cos(theta), 길이 n_theta
     pub st: Vec<f64>,
-    pub wt: Vec<f64>,   // GL 가중
+    pub wt: Vec<f64>, // GL 가중
     pub phi: Vec<f64>,
     pub ehat: Vec<f64>, // 3M
     pub w: Vec<f64>,    // M, 합 = 4 pi
@@ -76,23 +76,28 @@ impl SphereGrid {
         for it in 0..n_theta {
             let s = (1.0 - x[it] * x[it]).max(0.0).sqrt();
             st[it] = s;
-            for ip in 0..n_phi {
+            for (ip, &phi_ip) in phi.iter().enumerate() {
                 let i = it * n_phi + ip;
-                ehat[3 * i] = s * phi[ip].cos();
-                ehat[3 * i + 1] = s * phi[ip].sin();
+                ehat[3 * i] = s * phi_ip.cos();
+                ehat[3 * i + 1] = s * phi_ip.sin();
                 ehat[3 * i + 2] = x[it];
                 w[i] = wx[it] * dphi;
             }
         }
-        SphereGrid { n_theta, n_phi, ct: x, st, wt: wx, phi, ehat, w }
+        SphereGrid {
+            n_theta,
+            n_phi,
+            ct: x,
+            st,
+            wt: wx,
+            phi,
+            ehat,
+            w,
+        }
     }
 
     pub fn len(&self) -> usize {
         self.n_theta * self.n_phi
-    }
-
-    pub fn is_empty(&self) -> bool {
-        self.len() == 0
     }
 }
 
@@ -110,7 +115,7 @@ fn pbar_column(l_max: usize, m: usize, x: f64, s: f64) -> Vec<f64> {
         pmm *= -((2.0 * kk + 1.0) / (2.0 * kk)).sqrt() * s;
     }
     out[m] = pmm;
-    if m + 1 <= l_max {
+    if m < l_max {
         out[m + 1] = (2.0 * m as f64 + 3.0).sqrt() * x * pmm;
     }
     for l in (m + 2)..=l_max {
@@ -266,8 +271,10 @@ pub fn moments(g: &SphereGrid, f: &[f64]) -> (f64, [f64; 3], [f64; 6]) {
     let mut rho = 0.0;
     let mut q = [0.0; 3];
     let mut pi = [0.0; 6];
-    for i in 0..g.len() {
-        let wf = g.w[i] * f[i];
+    // Slice first so a too-short distribution keeps the historical fail-closed
+    // behavior; extra entries remain intentionally ignored.
+    for (i, &fi) in f[..g.len()].iter().enumerate() {
+        let wf = g.w[i] * fi;
         let e = [g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]];
         rho += wf;
         for k in 0..3 {
@@ -309,6 +316,14 @@ mod tests {
     use super::*;
 
     #[test]
+    #[should_panic]
+    fn moments_rejects_a_short_distribution() {
+        let g = SphereGrid::new(2, 4);
+        let short = vec![0.0; g.len() - 1];
+        let _ = moments(&g, &short);
+    }
+
+    #[test]
     fn gl_weights_sum_and_exactness() {
         let (x, w) = gauss_legendre(24);
         let s: f64 = w.iter().sum();
@@ -332,11 +347,11 @@ mod tests {
         let nc = n_coef(l_max);
         // <Y_k, Y_j> = delta
         let mut ys = vec![vec![0.0; g.len()]; nc];
-        for i in 0..g.len() {
-            let e = [g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]];
+        for (i, e) in g.ehat.chunks_exact(3).enumerate() {
+            let e = [e[0], e[1], e[2]];
             let y = ylm_at(l_max, &e);
-            for k in 0..nc {
-                ys[k][i] = y[k];
+            for (ys_k, &y_k) in ys.iter_mut().zip(&y) {
+                ys_k[i] = y_k;
             }
         }
         for k in 0..nc {

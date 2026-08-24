@@ -47,6 +47,13 @@ impl Background {
     }
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct CharacteristicStep {
+    pub dt: f64,
+    pub substeps: usize,
+    pub renormalize: bool,
+}
+
 #[inline]
 fn sym_apply(m: &[f64; 6], v: &[f64; 3]) -> [f64; 3] {
     // (11,22,33,12,13,23)
@@ -82,19 +89,13 @@ pub fn char_rhs_p(phat: &[f64; 3], mass: f64, bg: &Background) -> [f64; 3] {
     let ap = dot(&bg.a, phat);
     let mut out = [0.0; 3];
     for k in 0..3 {
-        out[k] = -bg.h * phat[k] - sp[k] + cr[k]
-            + (cn[k] + ap * phat[k] - p2 * bg.a[k]) / e;
+        out[k] = -bg.h * phat[k] - sp[k] + cr[k] + (cn[k] + ap * phat[k] - p2 * bg.a[k]) / e;
     }
     out
 }
 
 /// (dê/dt, dln p/dt) — 방향·크기 분해형 (Q5 가 쓰는 형태).
-pub fn char_rhs_split(
-    ehat: &[f64; 3],
-    lnp: f64,
-    mass: f64,
-    bg: &Background,
-) -> ([f64; 3], f64) {
+pub fn char_rhs_split(ehat: &[f64; 3], lnp: f64, mass: f64, bg: &Background) -> ([f64; 3], f64) {
     let p = lnp.exp();
     let e = (mass * mass + p * p).sqrt();
     let pe = p / e; // 무질량이면 정확히 1
@@ -106,8 +107,7 @@ pub fn char_rhs_split(
     let ae = dot(&bg.a, ehat);
     let mut de = [0.0; 3];
     for k in 0..3 {
-        de[k] = -(se[k] - ese * ehat[k]) + cr[k]
-            + pe * (cn[k] - (bg.a[k] - ae * ehat[k]));
+        de[k] = -(se[k] - ese * ehat[k]) + cr[k] + pe * (cn[k] - (bg.a[k] - ae * ehat[k]));
     }
     (de, -(bg.h + ese))
 }
@@ -132,17 +132,15 @@ pub fn integrate_characteristic(
     lnp0: f64,
     bg0: &Background,
     bg1: &Background,
-    dt: f64,
-    substeps: usize,
-    renormalize: bool,
+    step: CharacteristicStep,
 ) -> ([f64; 3], f64) {
-    let h = dt / substeps as f64;
+    let h = step.dt / step.substeps as f64;
     let mut e = *ehat0;
     let mut lp = lnp0;
-    for k in 0..substeps {
-        let s0 = k as f64 / substeps as f64;
-        let sh = (k as f64 + 0.5) / substeps as f64;
-        let s1 = (k as f64 + 1.0) / substeps as f64;
+    for k in 0..step.substeps {
+        let s0 = k as f64 / step.substeps as f64;
+        let sh = (k as f64 + 0.5) / step.substeps as f64;
+        let s1 = (k as f64 + 1.0) / step.substeps as f64;
         let b0 = bg0.lerp(bg1, s0);
         let bh = bg0.lerp(bg1, sh);
         let b1 = bg0.lerp(bg1, s1);
@@ -161,17 +159,13 @@ pub fn integrate_characteristic(
             e[2] + 0.5 * h * k2e[2],
         ];
         let (k3e, k3l) = f(&e3, lp + 0.5 * h * k2l, &bh);
-        let e4 = [
-            e[0] + h * k3e[0],
-            e[1] + h * k3e[1],
-            e[2] + h * k3e[2],
-        ];
+        let e4 = [e[0] + h * k3e[0], e[1] + h * k3e[1], e[2] + h * k3e[2]];
         let (k4e, k4l) = f(&e4, lp + h * k3l, &b1);
         for j in 0..3 {
             e[j] += h / 6.0 * (k1e[j] + 2.0 * k2e[j] + 2.0 * k3e[j] + k4e[j]);
         }
         lp += h / 6.0 * (k1l + 2.0 * k2l + 2.0 * k3l + k4l);
-        if renormalize {
+        if step.renormalize {
             renorm(&mut e);
         }
     }
@@ -186,17 +180,14 @@ pub fn direction_map(
     lnp: f64,
     bg0: &Background,
     bg1: &Background,
-    dt: f64,
-    substeps: usize,
-    renormalize: bool,
+    step: CharacteristicStep,
 ) -> (Vec<f64>, Vec<f64>) {
     let m = ehat.len() / 3;
     let mut eo = vec![0.0; 3 * m];
     let mut dl = vec![0.0; m];
     for i in 0..m {
         let e0 = [ehat[3 * i], ehat[3 * i + 1], ehat[3 * i + 2]];
-        let (e, d) =
-            integrate_characteristic(&e0, mass, lnp, bg0, bg1, dt, substeps, renormalize);
+        let (e, d) = integrate_characteristic(&e0, mass, lnp, bg0, bg1, step);
         eo[3 * i] = e[0];
         eo[3 * i + 1] = e[1];
         eo[3 * i + 2] = e[2];
@@ -274,10 +265,26 @@ mod tests {
         let bg = bg_test();
         let mut e = [0.2, -0.5, 0.8];
         renorm(&mut e);
-        let run = |n: usize| integrate_characteristic(&e, 0.0, 0.0, &bg, &bg, 1.0, n, false).0;
+        let run = |n: usize| {
+            integrate_characteristic(
+                &e,
+                0.0,
+                0.0,
+                &bg,
+                &bg,
+                CharacteristicStep {
+                    dt: 1.0,
+                    substeps: n,
+                    renormalize: false,
+                },
+            )
+            .0
+        };
         let r = [run(8), run(16), run(32), run(1024)];
         let err = |x: [f64; 3]| {
-            (0..3).map(|k| (x[k] - r[3][k]).abs()).fold(0.0f64, f64::max)
+            (0..3)
+                .map(|k| (x[k] - r[3][k]).abs())
+                .fold(0.0f64, f64::max)
         };
         let (e0, e1, e2) = (err(r[0]), err(r[1]), err(r[2]));
         let o1 = (e0 / e1).log2();

@@ -35,7 +35,10 @@ fn node_geom(p: &[f64; 3], a: &[f64; 3], mass: f64) -> (f64, f64, [f64; 3]) {
 ///
 /// 반환 (rho, three_p, q[3], pi[9]).
 pub fn moments(
-    p: &[[f64; 3]], w: &[f64], a: &[f64; 3], mass: f64,
+    p: &[[f64; 3]],
+    w: &[f64],
+    a: &[f64; 3],
+    mass: f64,
 ) -> (f64, f64, [f64; 3], [f64; 9]) {
     let v = a[0] * a[1] * a[2];
     let acc = p
@@ -47,12 +50,12 @@ pub fn moments(
                 let (e, lam, ev) = node_geom(pp, a, mass);
                 let x = if e > 0.0 { lam / e } else { 0.0 };
                 let wu = *ww;
-                let base = wu * e;                 // f·E     → J^(0)
-                let l2 = base * x * x;             // f·λ²/E  → 3p, π
-                s[0] += base;                      // ρ
-                s[1] += l2;                        // 3p
+                let base = wu * e; // f·E     → J^(0)
+                let l2 = base * x * x; // f·λ²/E  → 3p, π
+                s[0] += base; // ρ
+                s[1] += l2; // 3p
                 for i in 0..3 {
-                    s[2 + i] += base * x * ev[i];  // q_a  (l=1, i=0)
+                    s[2 + i] += base * x * ev[i]; // q_a  (l=1, i=0)
                     for j in 0..3 {
                         s[5 + i * 3 + j] += l2 * ev[i] * ev[j];
                     }
@@ -85,8 +88,13 @@ pub fn moments(
 
 /// ★ (Ṗ, Ẇ) — 특성곡선 + Liouville 측도 무게 (K4a/K5b).
 pub fn kinetic_rhs(
-    p: &[[f64; 3]], w: &[f64], a: &[f64; 3], mass: f64, av: f64,
-    dp: &mut [[f64; 3]], dw: &mut [f64],
+    p: &[[f64; 3]],
+    w: &[f64],
+    a: &[f64; 3],
+    mass: f64,
+    av: f64,
+    dp: &mut [[f64; 3]],
+    dw: &mut [f64],
 ) {
     let a2 = [a[0] * a[0], a[1] * a[1], a[2] * a[2]];
     dp.par_iter_mut()
@@ -140,7 +148,13 @@ pub fn accelerations(a: &[f64; 3], h: &[f64; 3], av: f64, p: f64, pid: &[f64; 3]
 }
 
 /// (F, C) — Friedmann·Codazzi 잔차.
-pub fn constraints(a: &[f64; 3], h: &[f64; 3], av: f64, rho: f64, q1: f64) -> (f64, f64, f64, [f64; 3]) {
+pub fn constraints(
+    a: &[f64; 3],
+    h: &[f64; 3],
+    av: f64,
+    rho: f64,
+    q1: f64,
+) -> (f64, f64, f64, [f64; 3]) {
     let hh = (h[0] + h[1] + h[2]) / 3.0;
     let sig = [h[0] - hh, h[1] - hh, h[2] - hh];
     let s2 = 0.5 * (sig[0] * sig[0] + sig[1] * sig[1] + sig[2] * sig[2]);
@@ -192,6 +206,24 @@ pub struct Record {
     pub qdot_naive: Vec<f64>,
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct EvolutionConfig {
+    pub mass: f64,
+    pub av: f64,
+    pub t_end: f64,
+    pub nsteps: usize,
+    pub do_project: bool,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct PushConfig {
+    pub mass: f64,
+    pub av: f64,
+    pub t: f64,
+    pub nsteps: usize,
+    pub measure: bool,
+}
+
 struct Stage {
     da: [f64; 3],
     acc: [f64; 3],
@@ -199,9 +231,7 @@ struct Stage {
     dw: Vec<f64>,
 }
 
-fn rhs(
-    a: &[f64; 3], da: &[f64; 3], p: &[[f64; 3]], w: &[f64], mass: f64, av: f64,
-) -> Stage {
+fn rhs(a: &[f64; 3], da: &[f64; 3], p: &[[f64; 3]], w: &[f64], mass: f64, av: f64) -> Stage {
     let (_, three_p, _, pi) = moments(p, w, a, mass);
     let h = [da[0] / a[0], da[1] / a[1], da[2] / a[2]];
     let pid = [pi[0], pi[4], pi[8]];
@@ -209,14 +239,29 @@ fn rhs(
     let mut dp = vec![[0.0f64; 3]; p.len()];
     let mut dw = vec![0.0f64; w.len()];
     kinetic_rhs(p, w, a, mass, av, &mut dp, &mut dw);
-    Stage { da: *da, acc: [u[0] * a[0], u[1] * a[1], u[2] * a[2]], dp, dw }
+    Stage {
+        da: *da,
+        acc: [u[0] * a[0], u[1] * a[1], u[2] * a[2]],
+        dp,
+        dw,
+    }
 }
 
 /// ★★ K5b 의 `evolve_coupled` 전체 — 노드가 Python 으로 되돌아오지 않는다.
 pub fn evolve(
-    p0: &[[f64; 3]], w0: &[f64], a0: &[f64; 3], da0: &[f64; 3], mass: f64, av: f64,
-    t_end: f64, nsteps: usize, do_project: bool,
+    p0: &[[f64; 3]],
+    w0: &[f64],
+    a0: &[f64; 3],
+    da0: &[f64; 3],
+    config: EvolutionConfig,
 ) -> Record {
+    let EvolutionConfig {
+        mass,
+        av,
+        t_end,
+        nsteps,
+        do_project,
+    } = config;
     let n = p0.len();
     let mut a = *a0;
     let mut da = *da0;
@@ -224,9 +269,20 @@ pub fn evolve(
     let mut w = w0.to_vec();
     let dt = t_end / nsteps as f64;
     let mut r = Record {
-        t: vec![], a: vec![], h: vec![], sigma1: vec![], rho: vec![], q1: vec![],
-        pi: vec![], friedmann: vec![], codazzi: vec![], offdiag: vec![],
-        hdot_spatial: vec![], hdot_ray: vec![], qdot_node: vec![], qdot_law: vec![],
+        t: vec![],
+        a: vec![],
+        h: vec![],
+        sigma1: vec![],
+        rho: vec![],
+        q1: vec![],
+        pi: vec![],
+        friedmann: vec![],
+        codazzi: vec![],
+        offdiag: vec![],
+        hdot_spatial: vec![],
+        hdot_ray: vec![],
+        qdot_node: vec![],
+        qdot_law: vec![],
         qdot_naive: vec![],
     };
     let mut pa = vec![[0.0f64; 3]; n];
@@ -290,8 +346,8 @@ pub fn evolve(
             .zip(w.par_iter_mut())
             .enumerate()
             .for_each(|(j, (pp, ww))| {
-                for c in 0..3 {
-                    pp[c] += dt / 6.0
+                for (c, pp_c) in pp.iter_mut().enumerate() {
+                    *pp_c += dt / 6.0
                         * (s1.dp[j][c] + 2.0 * s2s.dp[j][c] + 2.0 * s3.dp[j][c] + s4.dp[j][c]);
                 }
                 *ww += dt / 6.0 * (s1.dw[j] + 2.0 * s2s.dw[j] + 2.0 * s3.dw[j] + s4.dw[j]);
@@ -308,14 +364,16 @@ pub fn evolve(
 fn axpy2(a: &[f64; 3], da: &[f64; 3], s: &Stage, c: f64) -> ([f64; 3], [f64; 3]) {
     (
         [a[0] + c * s.da[0], a[1] + c * s.da[1], a[2] + c * s.da[2]],
-        [da[0] + c * s.acc[0], da[1] + c * s.acc[1], da[2] + c * s.acc[2]],
+        [
+            da[0] + c * s.acc[0],
+            da[1] + c * s.acc[1],
+            da[2] + c * s.acc[2],
+        ],
     )
 }
 
 #[inline]
-fn stage_state(
-    p: &[[f64; 3]], w: &[f64], s: &Stage, c: f64, pa: &mut [[f64; 3]], wa: &mut [f64],
-) {
+fn stage_state(p: &[[f64; 3]], w: &[f64], s: &Stage, c: f64, pa: &mut [[f64; 3]], wa: &mut [f64]) {
     pa.par_iter_mut()
         .zip(wa.par_iter_mut())
         .enumerate()
@@ -325,6 +383,141 @@ fn stage_state(
             }
             *ow = w[j] + c * s.dw[j];
         });
+}
+
+// ═══════════════════════════════════════ R2 · 특성곡선 적분 (배경 처방)
+#[inline]
+fn bg_a(a0: &[f64; 3], rate: &[f64; 3], t: f64) -> [f64; 3] {
+    [
+        a0[0] * (rate[0] * t).exp(),
+        a0[1] * (rate[1] * t).exp(),
+        a0[2] * (rate[2] * t).exp(),
+    ]
+}
+
+#[inline]
+fn char_rhs(p: &[[f64; 3]], a: &[f64; 3], mass: f64, av: f64, out: &mut [[f64; 3]]) {
+    let a2 = [a[0] * a[0], a[1] * a[1], a[2] * a[2]];
+    out.par_iter_mut().zip(p.par_iter()).for_each(|(o, pp)| {
+        let pu = [pp[0] / a2[0], pp[1] / a2[1], pp[2] / a2[2]];
+        let e = (mass * mass + pp[0] * pu[0] + pp[1] * pu[1] + pp[2] * pu[2]).sqrt();
+        let inv = 1.0 / e;
+        o[0] = av * (pp[1] * pu[1] + pp[2] * pu[2]) * inv;
+        o[1] = -av * pu[0] * pp[1] * inv;
+        o[2] = -av * pu[0] * pp[2] * inv;
+    });
+}
+
+/// ★ K4b 의 **역방향 특성곡선** — 시각 t 의 P 를 t=0 까지 거슬러 적분 (RK4, 음의 스텝).
+pub fn back_trace(
+    p0: &[[f64; 3]],
+    a0: &[f64; 3],
+    rate: &[f64; 3],
+    mass: f64,
+    av: f64,
+    t: f64,
+    nsteps: usize,
+) -> Vec<[f64; 3]> {
+    let n = p0.len();
+    let mut p = p0.to_vec();
+    let dt = -t / nsteps as f64;
+    let (mut k1, mut k2, mut k3, mut k4) = (
+        vec![[0.0; 3]; n],
+        vec![[0.0; 3]; n],
+        vec![[0.0; 3]; n],
+        vec![[0.0; 3]; n],
+    );
+    let mut tmp = vec![[0.0f64; 3]; n];
+    for step in 0..nsteps {
+        let s = t + step as f64 * dt;
+        char_rhs(&p, &bg_a(a0, rate, s), mass, av, &mut k1);
+        blend(&p, &k1, 0.5 * dt, &mut tmp);
+        char_rhs(&tmp, &bg_a(a0, rate, s + 0.5 * dt), mass, av, &mut k2);
+        blend(&p, &k2, 0.5 * dt, &mut tmp);
+        char_rhs(&tmp, &bg_a(a0, rate, s + 0.5 * dt), mass, av, &mut k3);
+        blend(&p, &k3, dt, &mut tmp);
+        char_rhs(&tmp, &bg_a(a0, rate, s + dt), mass, av, &mut k4);
+        p.par_iter_mut().enumerate().for_each(|(j, pp)| {
+            for c in 0..3 {
+                pp[c] += dt / 6.0 * (k1[j][c] + 2.0 * k2[j][c] + 2.0 * k3[j][c] + k4[j][c]);
+            }
+        });
+    }
+    p
+}
+
+#[inline]
+fn blend(p: &[[f64; 3]], k: &[[f64; 3]], c: f64, out: &mut [[f64; 3]]) {
+    out.par_iter_mut().enumerate().for_each(|(j, o)| {
+        for i in 0..3 {
+            o[i] = p[j][i] + c * k[j][i];
+        }
+    });
+}
+
+/// ★ K5b 의 순방향 Liouville 밀기 — (P, W) 를 t 까지 (배경 처방).
+pub fn push_nodes(
+    p0: &[[f64; 3]],
+    w0: &[f64],
+    a0: &[f64; 3],
+    rate: &[f64; 3],
+    config: PushConfig,
+) -> (Vec<[f64; 3]>, Vec<f64>) {
+    let PushConfig {
+        mass,
+        av,
+        t,
+        nsteps,
+        measure,
+    } = config;
+    let n = p0.len();
+    let mut p = p0.to_vec();
+    let mut w = w0.to_vec();
+    let dt = t / nsteps as f64;
+    let mut kp = vec![vec![[0.0f64; 3]; n]; 4];
+    let mut kw = vec![vec![0.0f64; n]; 4];
+    let (mut tp, mut tw) = (vec![[0.0f64; 3]; n], vec![0.0f64; n]);
+    for step in 0..nsteps {
+        let s = step as f64 * dt;
+        let cs = [0.0, 0.5 * dt, 0.5 * dt, dt];
+        let ts = [s, s + 0.5 * dt, s + 0.5 * dt, s + dt];
+        for stage in 0..4 {
+            if stage == 0 {
+                tp.copy_from_slice(&p);
+                tw.copy_from_slice(&w);
+            } else {
+                let (pk, wk) = (&kp[stage - 1], &kw[stage - 1]);
+                tp.par_iter_mut()
+                    .zip(tw.par_iter_mut())
+                    .enumerate()
+                    .for_each(|(j, (op, ow))| {
+                        for i in 0..3 {
+                            op[i] = p[j][i] + cs[stage] * pk[j][i];
+                        }
+                        *ow = w[j] + cs[stage] * wk[j];
+                    });
+            }
+            let a = bg_a(a0, rate, ts[stage]);
+            if measure {
+                let (dp, dw) = (&mut kp[stage], &mut kw[stage]);
+                kinetic_rhs(&tp, &tw, &a, mass, av, dp, dw);
+            } else {
+                char_rhs(&tp, &a, mass, av, &mut kp[stage]);
+                kw[stage].iter_mut().for_each(|x| *x = 0.0);
+            }
+        }
+        p.par_iter_mut()
+            .zip(w.par_iter_mut())
+            .enumerate()
+            .for_each(|(j, (pp, ww))| {
+                for c in 0..3 {
+                    pp[c] += dt / 6.0
+                        * (kp[0][j][c] + 2.0 * kp[1][j][c] + 2.0 * kp[2][j][c] + kp[3][j][c]);
+                }
+                *ww += dt / 6.0 * (kw[0][j] + 2.0 * kw[1][j] + 2.0 * kw[2][j] + kw[3][j]);
+            });
+    }
+    (p, w)
 }
 
 // ═══════════════════════════════════════ 단위시험 (Python 오라클과는 차등테스트)
@@ -394,115 +587,4 @@ mod tests {
         assert!(dw.iter().all(|x| *x == 0.0));
         assert!(dp.iter().all(|v| v.iter().all(|x| *x == 0.0)));
     }
-}
-
-
-// ═══════════════════════════════════════ R2 · 특성곡선 적분 (배경 처방)
-#[inline]
-fn bg_a(a0: &[f64; 3], rate: &[f64; 3], t: f64) -> [f64; 3] {
-    [a0[0] * (rate[0] * t).exp(), a0[1] * (rate[1] * t).exp(), a0[2] * (rate[2] * t).exp()]
-}
-
-#[inline]
-fn char_rhs(p: &[[f64; 3]], a: &[f64; 3], mass: f64, av: f64, out: &mut [[f64; 3]]) {
-    let a2 = [a[0] * a[0], a[1] * a[1], a[2] * a[2]];
-    out.par_iter_mut().zip(p.par_iter()).for_each(|(o, pp)| {
-        let pu = [pp[0] / a2[0], pp[1] / a2[1], pp[2] / a2[2]];
-        let e = (mass * mass + pp[0] * pu[0] + pp[1] * pu[1] + pp[2] * pu[2]).sqrt();
-        let inv = 1.0 / e;
-        o[0] = av * (pp[1] * pu[1] + pp[2] * pu[2]) * inv;
-        o[1] = -av * pu[0] * pp[1] * inv;
-        o[2] = -av * pu[0] * pp[2] * inv;
-    });
-}
-
-/// ★ K4b 의 **역방향 특성곡선** — 시각 t 의 P 를 t=0 까지 거슬러 적분 (RK4, 음의 스텝).
-pub fn back_trace(
-    p0: &[[f64; 3]], a0: &[f64; 3], rate: &[f64; 3], mass: f64, av: f64, t: f64,
-    nsteps: usize,
-) -> Vec<[f64; 3]> {
-    let n = p0.len();
-    let mut p = p0.to_vec();
-    let dt = -t / nsteps as f64;
-    let (mut k1, mut k2, mut k3, mut k4) =
-        (vec![[0.0; 3]; n], vec![[0.0; 3]; n], vec![[0.0; 3]; n], vec![[0.0; 3]; n]);
-    let mut tmp = vec![[0.0f64; 3]; n];
-    for step in 0..nsteps {
-        let s = t + step as f64 * dt;
-        char_rhs(&p, &bg_a(a0, rate, s), mass, av, &mut k1);
-        blend(&p, &k1, 0.5 * dt, &mut tmp);
-        char_rhs(&tmp, &bg_a(a0, rate, s + 0.5 * dt), mass, av, &mut k2);
-        blend(&p, &k2, 0.5 * dt, &mut tmp);
-        char_rhs(&tmp, &bg_a(a0, rate, s + 0.5 * dt), mass, av, &mut k3);
-        blend(&p, &k3, dt, &mut tmp);
-        char_rhs(&tmp, &bg_a(a0, rate, s + dt), mass, av, &mut k4);
-        p.par_iter_mut()
-            .enumerate()
-            .for_each(|(j, pp)| {
-                for c in 0..3 {
-                    pp[c] += dt / 6.0 * (k1[j][c] + 2.0 * k2[j][c] + 2.0 * k3[j][c] + k4[j][c]);
-                }
-            });
-    }
-    p
-}
-
-#[inline]
-fn blend(p: &[[f64; 3]], k: &[[f64; 3]], c: f64, out: &mut [[f64; 3]]) {
-    out.par_iter_mut().enumerate().for_each(|(j, o)| {
-        for i in 0..3 {
-            o[i] = p[j][i] + c * k[j][i];
-        }
-    });
-}
-
-/// ★ K5b 의 순방향 Liouville 밀기 — (P, W) 를 t 까지 (배경 처방).
-pub fn push_nodes(
-    p0: &[[f64; 3]], w0: &[f64], a0: &[f64; 3], rate: &[f64; 3], mass: f64, av: f64,
-    t: f64, nsteps: usize, measure: bool,
-) -> (Vec<[f64; 3]>, Vec<f64>) {
-    let n = p0.len();
-    let mut p = p0.to_vec();
-    let mut w = w0.to_vec();
-    let dt = t / nsteps as f64;
-    let mut kp = vec![vec![[0.0f64; 3]; n]; 4];
-    let mut kw = vec![vec![0.0f64; n]; 4];
-    let (mut tp, mut tw) = (vec![[0.0f64; 3]; n], vec![0.0f64; n]);
-    for step in 0..nsteps {
-        let s = step as f64 * dt;
-        let cs = [0.0, 0.5 * dt, 0.5 * dt, dt];
-        let ts = [s, s + 0.5 * dt, s + 0.5 * dt, s + dt];
-        for stage in 0..4 {
-            if stage == 0 {
-                tp.copy_from_slice(&p);
-                tw.copy_from_slice(&w);
-            } else {
-                let (pk, wk) = (&kp[stage - 1], &kw[stage - 1]);
-                tp.par_iter_mut().zip(tw.par_iter_mut()).enumerate().for_each(
-                    |(j, (op, ow))| {
-                        for i in 0..3 {
-                            op[i] = p[j][i] + cs[stage] * pk[j][i];
-                        }
-                        *ow = w[j] + cs[stage] * wk[j];
-                    },
-                );
-            }
-            let a = bg_a(a0, rate, ts[stage]);
-            if measure {
-                let (dp, dw) = (&mut kp[stage], &mut kw[stage]);
-                kinetic_rhs(&tp, &tw, &a, mass, av, dp, dw);
-            } else {
-                char_rhs(&tp, &a, mass, av, &mut kp[stage]);
-                kw[stage].iter_mut().for_each(|x| *x = 0.0);
-            }
-        }
-        p.par_iter_mut().zip(w.par_iter_mut()).enumerate().for_each(|(j, (pp, ww))| {
-            for c in 0..3 {
-                pp[c] += dt / 6.0
-                    * (kp[0][j][c] + 2.0 * kp[1][j][c] + 2.0 * kp[2][j][c] + kp[3][j][c]);
-            }
-            *ww += dt / 6.0 * (kw[0][j] + 2.0 * kw[1][j] + 2.0 * kw[2][j] + kw[3][j]);
-        });
-    }
-    (p, w)
 }

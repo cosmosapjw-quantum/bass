@@ -45,7 +45,7 @@ pub fn symmetrize(t: &[f64], l: usize) -> Vec<f64> {
     let perms = permutations(l);
     let mut out = vec![0.0; d];
     for p in &perms {
-        for flat in 0..d {
+        for (flat, out_flat) in out.iter_mut().enumerate() {
             // flat 를 지표로 분해 → 순열 적용 → 원본 위치
             let mut idx = [0usize; MAX_RANK];
             let mut r = flat;
@@ -57,7 +57,7 @@ pub fn symmetrize(t: &[f64], l: usize) -> Vec<f64> {
             for k in 0..l {
                 src = src * 3 + idx[p[k]];
             }
-            out[flat] += t[src];
+            *out_flat += t[src];
         }
     }
     let n = perms.len() as f64;
@@ -116,6 +116,7 @@ pub fn project(t: &[f64], l: usize) -> Vec<f64> {
 }
 
 /// 진단: 마지막 두 지표 대각합의 최대 절대값 (0 이어야).
+#[cfg(test)]
 pub fn trace_residual(t: &[f64], l: usize) -> f64 {
     if l < 2 {
         return 0.0;

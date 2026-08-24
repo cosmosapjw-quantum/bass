@@ -25,14 +25,26 @@ pub fn build_thomson(ehat: &[f64], w: &[f64], iters: usize, tol: f64) -> Vec<f64
     });
     let mut d = vec![1.0f64; n];
     for _ in 0..iters {
-        let r: Vec<f64> = k.par_chunks(n).enumerate().map(|(i, row)| {
-            let s: f64 = row.iter().zip(w.iter()).zip(d.iter())
-                .map(|((kv, wv), dv)| kv * wv * dv).sum();
-            s * d[i]
-        }).collect();
+        let r: Vec<f64> = k
+            .par_chunks(n)
+            .enumerate()
+            .map(|(i, row)| {
+                let s: f64 = row
+                    .iter()
+                    .zip(w.iter())
+                    .zip(d.iter())
+                    .map(|((kv, wv), dv)| kv * wv * dv)
+                    .sum();
+                s * d[i]
+            })
+            .collect();
         let dev = r.iter().map(|x| (x - 1.0).abs()).fold(0.0, f64::max);
-        d.par_iter_mut().zip(r.par_iter()).for_each(|(dv, rv)| *dv /= rv.sqrt());
-        if dev < tol { break; }
+        d.par_iter_mut()
+            .zip(r.par_iter())
+            .for_each(|(dv, rv)| *dv /= rv.sqrt());
+        if dev < tol {
+            break;
+        }
     }
     let mut kk = vec![0.0f64; n * n];
     kk.par_chunks_mut(n).enumerate().for_each(|(i, row)| {
@@ -51,8 +63,7 @@ fn matvec(k: &[f64], g: &[f64]) -> Vec<f64> {
 }
 
 /// exp(νdt(K−I))·g — 테일러 (eigh 없음).  절단은 꼬리 상대크기 tol.
-pub fn expm_apply(k: &[f64], g: &[f64], nu_dt: f64, tol: f64, m_max: usize)
-    -> Vec<f64> {
+pub fn expm_apply(k: &[f64], g: &[f64], nu_dt: f64, tol: f64, m_max: usize) -> Vec<f64> {
     let n = g.len();
     let mut term = g.to_vec();
     let mut acc = g.to_vec();
@@ -61,9 +72,13 @@ pub fn expm_apply(k: &[f64], g: &[f64], nu_dt: f64, tol: f64, m_max: usize)
         term = matvec(k, &term);
         let c = nu_dt / m as f64;
         term.par_iter_mut().for_each(|t| *t *= c);
-        acc.par_iter_mut().zip(term.par_iter()).for_each(|(a, t)| *a += t);
+        acc.par_iter_mut()
+            .zip(term.par_iter())
+            .for_each(|(a, t)| *a += t);
         let tn = term.iter().fold(0.0f64, |a, b| a.max(b.abs()));
-        if tn <= tol * scale0 { break; }
+        if tn <= tol * scale0 {
+            break;
+        }
     }
     let e = (-nu_dt).exp();
     let mut out = acc;
@@ -76,21 +91,36 @@ pub fn expm_apply(k: &[f64], g: &[f64], nu_dt: f64, tol: f64, m_max: usize)
 /// ehat_seq/w_seq/mu_seq: 스텝 경계 (nsteps+1) × n 로 미리 준비 (Python 이
 /// 물리 프레임을 만들어 넘긴다 — 좌표-동일 캐리, 규약원 단일).
 #[allow(clippy::too_many_arguments)]
-pub fn strang_evolve(g0: &[f64], ehat_seq: &[f64], w_seq: &[f64],
-                     mu_seq: &[f64], nsteps: usize, nu: f64, h: f64,
-                     n_pow: i32, tol: f64) -> Vec<f64> {
+pub fn strang_evolve(
+    g0: &[f64],
+    ehat_seq: &[f64],
+    w_seq: &[f64],
+    mu_seq: &[f64],
+    nsteps: usize,
+    nu: f64,
+    h: f64,
+    n_pow: i32,
+    tol: f64,
+) -> Vec<f64> {
     let n = g0.len();
     let mut g = g0.to_vec();
     let half = 0.5 * nu * h;
     let mut k_cur = build_thomson(&ehat_seq[0..3 * n], &w_seq[0..n], 400, 1e-15);
     for s in 0..nsteps {
         g = expm_apply(&k_cur, &g, half, tol, 64);
-        let (m0, m1) = (&mu_seq[s * n..(s + 1) * n], &mu_seq[(s + 1) * n..(s + 2) * n]);
+        let (m0, m1) = (
+            &mu_seq[s * n..(s + 1) * n],
+            &mu_seq[(s + 1) * n..(s + 2) * n],
+        );
         g.par_iter_mut().enumerate().for_each(|(i, v)| {
             *v *= (m1[i] / m0[i]).powi(n_pow + 4);
         });
-        k_cur = build_thomson(&ehat_seq[3 * n * (s + 1)..3 * n * (s + 2)],
-                              &w_seq[n * (s + 1)..n * (s + 2)], 400, 1e-15);
+        k_cur = build_thomson(
+            &ehat_seq[3 * n * (s + 1)..3 * n * (s + 2)],
+            &w_seq[n * (s + 1)..n * (s + 2)],
+            400,
+            1e-15,
+        );
         g = expm_apply(&k_cur, &g, half, tol, 64);
     }
     g
@@ -103,8 +133,9 @@ mod tests {
     #[test]
     fn sinkhorn_doubly_stochastic() {
         // 등방 정사면체형 6점 (±축) + 균등 무게
-        let e = [1.0, 0., 0., -1., 0., 0., 0., 1., 0., 0., -1., 0.,
-                 0., 0., 1., 0., 0., -1.];
+        let e = [
+            1.0, 0., 0., -1., 0., 0., 0., 1., 0., 0., -1., 0., 0., 0., 1., 0., 0., -1.,
+        ];
         let w = [4.0 * std::f64::consts::PI / 6.0; 6];
         let k = build_thomson(&e, &w, 400, 1e-15);
         for i in 0..6 {
@@ -119,12 +150,15 @@ mod tests {
 
     #[test]
     fn expm_preserves_constant() {
-        let e = [1.0, 0., 0., -1., 0., 0., 0., 1., 0., 0., -1., 0.,
-                 0., 0., 1., 0., 0., -1.];
+        let e = [
+            1.0, 0., 0., -1., 0., 0., 0., 1., 0., 0., -1., 0., 0., 0., 1., 0., 0., -1.,
+        ];
         let w = [4.0 * std::f64::consts::PI / 6.0; 6];
         let k = build_thomson(&e, &w, 400, 1e-15);
         let g = vec![2.5; 6];
         let out = expm_apply(&k, &g, 0.7, 1e-16, 64);
-        for v in out { assert!((v - 2.5).abs() < 1e-13); }
+        for v in out {
+            assert!((v - 2.5).abs() < 1e-13);
+        }
     }
 }

@@ -10,6 +10,7 @@
 #![allow(clippy::all)]
 
 /// R^a_bcd 를 평탄 배열 out[a*64+b*16+c*4+d] 에 기록 (먼저 0 으로 채움).
+#[rustfmt::skip]
 pub fn riemann_up(p: &[f64; 24], out: &mut [f64; 256]) {
     let hh = p[0];
     let n00 = p[1];
@@ -324,10 +325,10 @@ pub fn riemann_up(p: &[f64; 24], out: &mut [f64; 256]) {
 }
 
 /// R_{abcd} = eta_ae R^e_bcd  (eta = diag(-1,1,1,1)) — a=0 행 부호반전.
+#[rustfmt::skip]
 pub fn riemann_low(p: &[f64; 24], out: &mut [f64; 256]) {
     riemann_up(p, out);
     for i in 0..64 {
         out[i] = -out[i];
     }
 }
-

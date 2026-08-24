@@ -45,8 +45,8 @@ mod tests {
 
     #[test]
     fn asymptotes() {
-        assert!((g_star(1e4) - 106.75).abs() < 1e-9);      // 10 TeV
-        assert!((g_star(1e-5) - 3.36).abs() < 1e-9);       // 10 keV
+        assert!((g_star(1e4) - 106.75).abs() < 1e-9); // 10 TeV
+        assert!((g_star(1e-5) - 3.36).abs() < 1e-9); // 10 keV
         assert!((g_star_s(1e-5) - 3.91).abs() < 1e-9);
     }
 

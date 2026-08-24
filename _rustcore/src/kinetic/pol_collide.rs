@@ -53,7 +53,7 @@ fn three_term_coeff(x: f64, lam: f64) -> f64 {
 pub fn collide(ehat: &[f64], w: &[f64], j: &[f64], x: f64) -> Vec<f64> {
     let n = w.len();
     debug_assert!(x >= 0.0, "nu*dt < 0 금지 (조용한 폴백 금지)");
-    if !(x > 0.0) {
+    if x.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
         return j.to_vec();
     }
     // 1. M = sum w J   (9 성분 축약)
@@ -141,12 +141,15 @@ pub fn kcal_eigenvalues(ehat: &[f64], w: &[f64]) -> [f64; 3] {
             let eae = ae[0] * e[0] + ae[1] * e[1] + ae[2] * e[2];
             for a in 0..3 {
                 for b in 0..3 {
-                    acc[a][b] += w[i]
-                        * (m[a][b] - e[a] * ea[b] - ae[a] * e[b] + e[a] * e[b] * eae);
+                    acc[a][b] += w[i] * (m[a][b] - e[a] * ea[b] - ae[a] * e[b] + e[a] * e[b] * eae);
                 }
             }
         }
-        let (ia, ib) = if p == 0 { (0, 0) } else { (0, if p == 1 { 0 } else { 1 }) };
+        let (ia, ib) = if p == 0 {
+            (0, 0)
+        } else {
+            (0, if p == 1 { 0 } else { 1 })
+        };
         out[p] = (3.0 / (8.0 * PI)) * acc[ia][ib] / m[ia][ib];
     }
     out
@@ -176,14 +179,28 @@ mod tests {
             let ii = 1.0 + 0.5 * e[2] * e[2];
             // 무편광 J = (I/2)(delta - ee)
             let m = [
-                [0.5 * ii * (1.0 - e[0] * e[0]), -0.5 * ii * e[0] * e[1], -0.5 * ii * e[0] * e[2]],
-                [-0.5 * ii * e[1] * e[0], 0.5 * ii * (1.0 - e[1] * e[1]), -0.5 * ii * e[1] * e[2]],
-                [-0.5 * ii * e[2] * e[0], -0.5 * ii * e[2] * e[1], 0.5 * ii * (1.0 - e[2] * e[2])],
+                [
+                    0.5 * ii * (1.0 - e[0] * e[0]),
+                    -0.5 * ii * e[0] * e[1],
+                    -0.5 * ii * e[0] * e[2],
+                ],
+                [
+                    -0.5 * ii * e[1] * e[0],
+                    0.5 * ii * (1.0 - e[1] * e[1]),
+                    -0.5 * ii * e[1] * e[2],
+                ],
+                [
+                    -0.5 * ii * e[2] * e[0],
+                    -0.5 * ii * e[2] * e[1],
+                    0.5 * ii * (1.0 - e[2] * e[2]),
+                ],
             ];
             pack_into(&m, &mut j[i * 9..i * 9 + 9]);
         }
         let num = |v: &[f64]| -> f64 {
-            (0..n).map(|i| g.w[i] * (v[i * 9] + v[i * 9 + 1] + v[i * 9 + 2])).sum()
+            (0..n)
+                .map(|i| g.w[i] * (v[i * 9] + v[i * 9 + 1] + v[i * 9 + 2]))
+                .sum()
         };
         let n0 = num(&j);
         for x in [0.1f64, 3.0, 1e3, 1e6] {
@@ -203,7 +220,7 @@ mod tests {
 pub fn collide_modeb(ehat: &[f64], w: &[f64], j: &[f64], n_p: usize, x: f64) -> Vec<f64> {
     let n = w.len();
     debug_assert!(x >= 0.0, "nu*dt < 0 금지");
-    if !(x > 0.0) {
+    if x.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
         return j.to_vec();
     }
     let mut out = vec![0.0; n * n_p * 9];

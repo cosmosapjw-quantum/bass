@@ -32,7 +32,9 @@ pub struct Frame {
 
 impl Frame {
     pub fn identity() -> Self {
-        Frame { m: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0] }
+        Frame {
+            m: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+        }
     }
 
     #[inline]
@@ -55,9 +57,15 @@ impl Frame {
     fn rhs(&self, sigma: &[f64; 6], rot: &[f64; 3]) -> [f64; 9] {
         // A_ab = delta + Sigma_ab - eps_abc R_c   (프레임 co-rotation 흡수)
         let a = [
-            1.0 + sigma[0], sigma[3] - rot[2], sigma[4] + rot[1],
-            sigma[3] + rot[2], 1.0 + sigma[1], sigma[5] - rot[0],
-            sigma[4] - rot[1], sigma[5] + rot[0], 1.0 + sigma[2],
+            1.0 + sigma[0],
+            sigma[3] - rot[2],
+            sigma[4] + rot[1],
+            sigma[3] + rot[2],
+            1.0 + sigma[1],
+            sigma[5] - rot[0],
+            sigma[4] - rot[1],
+            sigma[5] + rot[0],
+            1.0 + sigma[2],
         ];
         let mut out = [0.0; 9];
         for i in 0..3 {
@@ -141,35 +149,12 @@ pub fn ln_phys_weights(f: &Frame, w_com: &[f64], mu: &[f64]) -> Vec<f64> {
         .collect()
 }
 
-/// logsumexp 가중합:  ln( sum_i exp(lw_i + lg_i) * sgn ) — 부호 없는 양수합 전용.
-pub fn ln_weighted_sum(lw: &[f64], lg: &[f64]) -> f64 {
-    let mut mx = f64::NEG_INFINITY;
-    for i in 0..lw.len() {
-        let v = lw[i] + lg[i];
-        if v > mx {
-            mx = v;
-        }
-    }
-    if !mx.is_finite() {
-        return f64::NEG_INFINITY;
-    }
-    let mut s = 0.0;
-    for i in 0..lw.len() {
-        s += (lw[i] + lg[i] - mx).exp();
-    }
-    mx + s.ln()
-}
-
 /// 물리 프레임 모멘트를 **로그-스케일 분리형**으로 반환:
 ///     (ln rho,  q_a / rho,  pi_ab / rho)
 /// ★ rho 자체는 깊은 붕괴에서 double 범위를 넘는다 (ln rho ~ 900).  물리가
 /// 필요로 하는 것은 Omega 와 Pi/Omega 같은 **비**이므로, 비는 항상 범위 안이고
 /// 스케일은 ln 으로 나른다 — 이것이 LNA_WALL 을 완전히 없애는 방법이다.
-pub fn moments_log(
-    lw: &[f64],
-    lg: &[f64],
-    ehat: &[f64],
-) -> (f64, [f64; 3], [f64; 6]) {
+pub fn moments_log(lw: &[f64], lg: &[f64], ehat: &[f64]) -> (f64, [f64; 3], [f64; 6]) {
     let n = lg.len();
     let mut mx = f64::NEG_INFINITY;
     for i in 0..n {
@@ -319,10 +304,8 @@ mod tests {
                 for b in 0..nm {
                     let mut s = 0.0;
                     for i in 0..g.len() {
-                        let y = real_ylm_l(
-                            l,
-                            &[g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]],
-                        );
+                        let y =
+                            real_ylm_l(l, &[g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]]);
                         s += g.w[i] * y[a] * y[b];
                     }
                     let want = if a == b { 1.0 } else { 0.0 };
@@ -343,8 +326,12 @@ mod tests {
             let out = collide_exact_log(&lw, &lg, &g.ehat, x, &active);
             // 선형 경로 (작은 범위라 안전)
             let f: Vec<f64> = lg.iter().map(|v| v.exp()).collect();
-            let ref_ =
-                crate::kinetic::collide_exact::collide_exact(&g, &f, x, crate::kinetic::collide_exact::Kernel::Thomson);
+            let ref_ = crate::kinetic::collide_exact::collide_exact(
+                &g,
+                &f,
+                x,
+                crate::kinetic::collide_exact::Kernel::Thomson,
+            );
             let e = (0..n)
                 .map(|i| (out[i].exp() - ref_[i]).abs() / ref_[i].abs())
                 .fold(0.0f64, f64::max);

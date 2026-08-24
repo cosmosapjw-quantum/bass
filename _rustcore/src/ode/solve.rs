@@ -8,9 +8,7 @@
 //!   OR-리듀스해 **끝난 원소도 본문을 실행**하므로 비용이 `batch × max_steps` 다.
 //!   Rayon 은 원소마다 독립 적분이라 낙오자가 배치 전체를 오염시키지 않는다.
 
-use diffsol::{
-    NalgebraLU, NalgebraMat, NalgebraVec, OdeBuilder, OdeSolverMethod, Vector,
-};
+use diffsol::{NalgebraLU, NalgebraMat, NalgebraVec, OdeBuilder, OdeSolverMethod, Vector};
 use rayon::prelude::*;
 use std::panic::{catch_unwind, AssertUnwindSafe};
 
@@ -29,14 +27,15 @@ pub struct Trajectory {
 }
 
 /// 차트 배경 ODE 를 τ 격자에서 적분 (diffsol BDF).
-pub fn integrate(
-    chart: Chart,
-    y0: &[f64],
-    t_eval: &[f64],
-    rtol: f64,
-    atol: f64,
-) -> Trajectory {
-    integrate_whiplash(chart, y0, t_eval, rtol, atol, None).0
+pub fn integrate(chart: Chart, y0: &[f64], t_eval: &[f64], rtol: f64, atol: f64) -> Trajectory {
+    let trajectory = integrate_whiplash(chart, y0, t_eval, rtol, atol, None).0;
+    debug_assert_eq!(
+        trajectory.taus.len(),
+        trajectory.ys.len(),
+        "trajectory time/state length mismatch: {}",
+        trajectory.message
+    );
+    trajectory
 }
 
 /// F3 · 편타(whiplash) 문턱 감시 적분: G₋ = 1 − (γ−1)V² 가 `gap_eps` 아래로
@@ -79,16 +78,19 @@ pub fn integrate_whiplash(
             .rtol(rtol)
             .atol([atol])
             .rhs_implicit(
-                move |y: &NalgebraVec<f64>, _p: &NalgebraVec<f64>, _t: f64, out: &mut NalgebraVec<f64>| {
+                move |y: &NalgebraVec<f64>,
+                      _p: &NalgebraVec<f64>,
+                      _t: f64,
+                      out: &mut NalgebraVec<f64>| {
                     let nn = c_rhs.nstates();
                     let mut yy = [0.0f64; MAX_STATES];
-                    for i in 0..nn {
-                        yy[i] = y.get_index(i);
+                    for (i, yy_i) in yy.iter_mut().enumerate().take(nn) {
+                        *yy_i = y.get_index(i);
                     }
                     let mut o = [0.0f64; MAX_STATES];
                     charts::rhs(&c_rhs, &yy[..nn], &mut o[..nn]);
-                    for i in 0..nn {
-                        out.set_index(i, o[i]);
+                    for (i, &o_i) in o.iter().enumerate().take(nn) {
+                        out.set_index(i, o_i);
                     }
                 },
                 move |y: &NalgebraVec<f64>,
@@ -105,15 +107,15 @@ pub fn integrate_whiplash(
                     }
                     let mut o = [0.0f64; MAX_STATES];
                     charts::jac_mul(&c_jac, &yy[..nn], &vv[..nn], &mut o[..nn]);
-                    for i in 0..nn {
-                        out.set_index(i, o[i]);
+                    for (i, &o_i) in o.iter().enumerate().take(nn) {
+                        out.set_index(i, o_i);
                     }
                 },
             )
             .init(
                 move |_p: &NalgebraVec<f64>, _t: f64, out: &mut NalgebraVec<f64>| {
-                    for i in 0..n {
-                        out.set_index(i, y0v[i]);
+                    for (i, &y0_i) in y0v.iter().enumerate().take(n) {
+                        out.set_index(i, y0_i);
                     }
                 },
                 n,
@@ -133,16 +135,16 @@ pub fn integrate_whiplash(
         let mut col = 0;
         let push = |ys: &mut Vec<[f64; MAX_STATES]>, v: &NalgebraVec<f64>| {
             let mut row = [0.0f64; MAX_STATES];
-            for i in 0..n {
-                row[i] = v.get_index(i);
+            for (i, row_i) in row.iter_mut().enumerate().take(n) {
+                *row_i = v.get_index(i);
             }
             ys.push(row);
         };
         // G₋ 추출 (tilt 차트 전용)
         let row_of = |v: &NalgebraVec<f64>| -> [f64; MAX_STATES] {
             let mut row = [0.0f64; MAX_STATES];
-            for i in 0..n {
-                row[i] = v.get_index(i);
+            for (i, row_i) in row.iter_mut().enumerate().take(n) {
+                *row_i = v.get_index(i);
             }
             row
         };
@@ -354,7 +356,10 @@ mod tests {
         //   solve_dense tstop 레이스 panic.  고정 패딩(1차 수정)은 199점
         //   스윕 중 9점이 여전히 실패했다 — 수동 step+interpolate 가 구조적
         //   수정이고, 이 스윕(과거 실패 9점 + 조밀 격자)이 그것을 고정한다.
-        let c = Chart::ClassB { gamma: 1.3, kappa: 4.0 };
+        let c = Chart::ClassB {
+            gamma: 1.3,
+            kappa: 4.0,
+        };
         let np = (2.16f64).sqrt(); // N_+^2 = (1+Sp)[k(1+Sp)-3Sp], Sp=-0.4
         let y0 = [-0.4, 0.24, 0.0, 0.36, np];
         let known_bad = [2.9, 3.3, 4.8, 4.9, 5.35, 6.05, 6.15, 6.85, 7.65];

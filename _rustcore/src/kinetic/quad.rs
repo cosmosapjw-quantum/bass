@@ -21,10 +21,10 @@ const NANG: usize = 24;
 const L_MAP: f64 = 3.0;
 
 pub struct Grid {
-    pub q: Vec<f64>,        // 반경 노드 (NR)
-    pub dq: Vec<f64>,       // 반경 가중 (NR)
+    pub q: Vec<f64>,         // 반경 노드 (NR)
+    pub dq: Vec<f64>,        // 반경 가중 (NR)
     pub nhat: Vec<[f64; 3]>, // 방향 (NANG*NANG)
-    pub wang: Vec<f64>,     // 각 가중 (NANG*NANG)
+    pub wang: Vec<f64>,      // 각 가중 (NANG*NANG)
 }
 
 fn grid() -> &'static Grid {
@@ -59,13 +59,6 @@ fn grid() -> &'static Grid {
 #[inline]
 pub fn f_fermi_dirac(q: f64) -> f64 {
     1.0 / (q.min(700.0).exp() + 1.0)
-}
-
-/// 방향의존 분포 f(q, n̂) = f_FD(q)(1 + ε n̂_axis) — 홀수 l 다극을 켜는 시험용.
-/// ★ 등방 f₀ 는 f(p)=f(−p) 라서 홀수 l 이 항등적으로 0 이 되어 (A) 항군을 시험 못 한다.
-#[inline]
-pub fn f_dipole(q: f64, nh: &[f64; 3], eps: f64, axis: usize) -> f64 {
-    f_fermi_dirac(q) * (1.0 + eps * nh[axis])
 }
 
 /// flat 지표 → 성분 지표 테이블 (l 마다 1회 계산 후 캐시).
@@ -116,46 +109,45 @@ pub fn j_moment(
     let tbl = index_table(l);
 
     // 반경 노드에 대해 병렬 축약 (각 노드가 독립적으로 부분합을 만든다)
-    let out = g
-        .q
-        .par_iter()
-        .zip(g.dq.par_iter())
-        .map(|(&qr, &dqr)| {
-            let wr = dqr * qr * qr / v_vol;
-            let f_iso = f_fermi_dirac(qr);
-            let mut acc = vec![0.0; d];
-            for (m, nh) in g.nhat.iter().enumerate() {
-                let px = qr * nh[0] / a_vec[0];
-                let py = qr * nh[1] / a_vec[1];
-                let pz = qr * nh[2] / a_vec[2];
-                let p2 = px * px + py * py + pz * pz;
-                let lam = p2.sqrt();
-                let e = (mass * mass + p2).sqrt();
-                let fval = if dipole_eps == 0.0 {
-                    f_iso
-                } else {
-                    f_iso * (1.0 + dipole_eps * nh[dipole_axis])
-                };
-                let w = wr * g.wang[m] * fval;
-                let ratio = if e > 0.0 { lam / e } else { 0.0 };
-                let weight = w * e * ratio.powi(n);
-                if l == 0 {
-                    acc[0] += weight;
-                    continue;
-                }
-                let inv = 1.0 / lam.max(1e-300);
-                let eh = [px * inv, py * inv, pz * inv];
-                for (flat, idx) in tbl.iter().enumerate() {
-                    let mut prod = weight;
-                    for &k in idx {
-                        prod *= eh[k];
+    let out =
+        g.q.par_iter()
+            .zip(g.dq.par_iter())
+            .map(|(&qr, &dqr)| {
+                let wr = dqr * qr * qr / v_vol;
+                let f_iso = f_fermi_dirac(qr);
+                let mut acc = vec![0.0; d];
+                for (m, nh) in g.nhat.iter().enumerate() {
+                    let px = qr * nh[0] / a_vec[0];
+                    let py = qr * nh[1] / a_vec[1];
+                    let pz = qr * nh[2] / a_vec[2];
+                    let p2 = px * px + py * py + pz * pz;
+                    let lam = p2.sqrt();
+                    let e = (mass * mass + p2).sqrt();
+                    let fval = if dipole_eps == 0.0 {
+                        f_iso
+                    } else {
+                        f_iso * (1.0 + dipole_eps * nh[dipole_axis])
+                    };
+                    let w = wr * g.wang[m] * fval;
+                    let ratio = if e > 0.0 { lam / e } else { 0.0 };
+                    let weight = w * e * ratio.powi(n);
+                    if l == 0 {
+                        acc[0] += weight;
+                        continue;
                     }
-                    acc[flat] += prod;
+                    let inv = 1.0 / lam.max(1e-300);
+                    let eh = [px * inv, py * inv, pz * inv];
+                    for (flat, idx) in tbl.iter().enumerate() {
+                        let mut prod = weight;
+                        for &k in idx {
+                            prod *= eh[k];
+                        }
+                        acc[flat] += prod;
+                    }
                 }
-            }
-            acc
-        })
-        .collect::<Vec<Vec<f64>>>();
+                acc
+            })
+            .collect::<Vec<Vec<f64>>>();
     // ★ 비트 재현성: Rayon `reduce` 는 작업훔치기(work stealing)에 따라 축약 **트리
     //   모양이 실행마다 달라져** 부동소수 합산 순서가 바뀐다.  실제로 동시 부하 아래
     //   200회 호출에서 서로 다른 비트패턴 2개가 관측됐다(측정).  물리 코드에서
@@ -260,57 +252,56 @@ pub fn j_moment_tilted(
     let d = pstf::dim(l);
     let tbl = index_table(l);
 
-    let parts = g
-        .q
-        .par_iter()
-        .zip(g.dq.par_iter())
-        .map(|(&qr, &dqr)| {
-            let wr = dqr * qr * qr / v_vol;
-            let f_iso = f_fermi_dirac(qr);
-            let mut acc = vec![0.0; d];
-            for (m, nh) in g.nhat.iter().enumerate() {
-                let p = [
-                    qr * nh[0] / a_vec[0],
-                    qr * nh[1] / a_vec[1],
-                    qr * nh[2] / a_vec[2],
-                ];
-                let p2 = p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
-                let e = (mass * mass + p2).sqrt();
-                let vdp = v[0] * p[0] + v[1] * p[1] + v[2] * p[2];
-                let ep = gam * (e - vdp);
-                let shift = kk * vdp - gam * e;
-                let pp = [
-                    p[0] + v[0] * shift,
-                    p[1] + v[1] * shift,
-                    p[2] + v[2] * shift,
-                ];
-                let lamp = (pp[0] * pp[0] + pp[1] * pp[1] + pp[2] * pp[2]).sqrt();
-                let fval = if dipole_eps == 0.0 {
-                    f_iso
-                } else {
-                    f_iso * (1.0 + dipole_eps * nh[dipole_axis])
-                };
-                // ★ 야코비안이 (E′/E) 하나로 압축된다 (d³P′ = (E′/E)d³P)
-                let w = wr * g.wang[m] * fval * (ep / e);
-                let ratio = if ep > 0.0 { lamp / ep } else { 0.0 };
-                let weight = w * ep * ratio.powi(n);
-                if l == 0 {
-                    acc[0] += weight;
-                    continue;
-                }
-                let inv = 1.0 / lamp.max(1e-300);
-                let eh = [pp[0] * inv, pp[1] * inv, pp[2] * inv];
-                for (flat, idx) in tbl.iter().enumerate() {
-                    let mut prod = weight;
-                    for &k in idx {
-                        prod *= eh[k];
+    let parts =
+        g.q.par_iter()
+            .zip(g.dq.par_iter())
+            .map(|(&qr, &dqr)| {
+                let wr = dqr * qr * qr / v_vol;
+                let f_iso = f_fermi_dirac(qr);
+                let mut acc = vec![0.0; d];
+                for (m, nh) in g.nhat.iter().enumerate() {
+                    let p = [
+                        qr * nh[0] / a_vec[0],
+                        qr * nh[1] / a_vec[1],
+                        qr * nh[2] / a_vec[2],
+                    ];
+                    let p2 = p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
+                    let e = (mass * mass + p2).sqrt();
+                    let vdp = v[0] * p[0] + v[1] * p[1] + v[2] * p[2];
+                    let ep = gam * (e - vdp);
+                    let shift = kk * vdp - gam * e;
+                    let pp = [
+                        p[0] + v[0] * shift,
+                        p[1] + v[1] * shift,
+                        p[2] + v[2] * shift,
+                    ];
+                    let lamp = (pp[0] * pp[0] + pp[1] * pp[1] + pp[2] * pp[2]).sqrt();
+                    let fval = if dipole_eps == 0.0 {
+                        f_iso
+                    } else {
+                        f_iso * (1.0 + dipole_eps * nh[dipole_axis])
+                    };
+                    // ★ 야코비안이 (E′/E) 하나로 압축된다 (d³P′ = (E′/E)d³P)
+                    let w = wr * g.wang[m] * fval * (ep / e);
+                    let ratio = if ep > 0.0 { lamp / ep } else { 0.0 };
+                    let weight = w * ep * ratio.powi(n);
+                    if l == 0 {
+                        acc[0] += weight;
+                        continue;
                     }
-                    acc[flat] += prod;
+                    let inv = 1.0 / lamp.max(1e-300);
+                    let eh = [pp[0] * inv, pp[1] * inv, pp[2] * inv];
+                    for (flat, idx) in tbl.iter().enumerate() {
+                        let mut prod = weight;
+                        for &k in idx {
+                            prod *= eh[k];
+                        }
+                        acc[flat] += prod;
+                    }
                 }
-            }
-            acc
-        })
-        .collect::<Vec<Vec<f64>>>();
+                acc
+            })
+            .collect::<Vec<Vec<f64>>>();
     // 비트 재현성: 순서대로 순차 합산 (위 j_moment 와 같은 이유)
     let mut acc = vec![0.0; d];
     for part in &parts {
@@ -326,8 +317,7 @@ pub fn j_moment_tilted(
 }
 
 /// tilted 관측자가 보는 (ρ′, p′, q′_A, π′_AB 평탄9).
-pub fn moments_tilted(a_vec: &[f64; 3], v: &[f64; 3], mass: f64)
-    -> (f64, f64, [f64; 3], Vec<f64>) {
+pub fn moments_tilted(a_vec: &[f64; 3], v: &[f64; 3], mass: f64) -> (f64, f64, [f64; 3], Vec<f64>) {
     let rho = j_moment_tilted(a_vec, v, mass, 0, 0, 0.0, 2)[0];
     let p = j_moment_tilted(a_vec, v, mass, 0, 1, 0.0, 2)[0] / 3.0;
     let q = j_moment_tilted(a_vec, v, mass, 1, 0, 0.0, 2);

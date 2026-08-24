@@ -58,7 +58,7 @@ pub fn build_stencils(
     k_phi: usize,
 ) -> (Vec<u32>, Vec<f64>, f64) {
     let m = sph.len();
-    assert!(sph.n_phi % 2 == 0, "n_phi 는 짝수");
+    assert!(sph.n_phi.is_multiple_of(2), "n_phi 는 짝수");
     let s_ang = k_theta * k_phi;
     let mut ang_idx = vec![0u32; m * s_ang];
     let mut ang_w = vec![0.0f64; m * s_ang];
@@ -86,14 +86,14 @@ pub fn build_stencils(
         let pstart = p0 as i64 - (k_phi as i64 / 2 - 1);
         let target = (u - p0) - (pstart as f64 - p0);
         let mut wphi = vec![0.0; k_phi];
-        for a in 0..k_phi {
+        for (a, wphi_a) in wphi.iter_mut().enumerate() {
             let mut v = 1.0;
             for b in 0..k_phi {
                 if a != b {
                     v *= (target - b as f64) / (a as f64 - b as f64);
                 }
             }
-            wphi[a] = v;
+            *wphi_a = v;
         }
         let mut tj = vec![0usize; k_theta];
         let mut xs = vec![0.0; k_theta];
@@ -115,7 +115,7 @@ pub fn build_stencils(
             wth[a] = num;
         }
         for a in 0..k_theta {
-            for b in 0..k_phi {
+            for (b, &wphi_b) in wphi.iter().enumerate() {
                 let mut pj = pstart + b as i64;
                 if flip[a] {
                     pj += (np_ as i64) / 2;
@@ -123,7 +123,7 @@ pub fn build_stencils(
                 let pj = pj.rem_euclid(np_ as i64) as usize;
                 let k = i * s_ang + a * k_phi + b;
                 ang_idx[k] = (tj[a] * np_ + pj) as u32;
-                ang_w[k] = wth[a] * wphi[b];
+                ang_w[k] = wth[a] * wphi_b;
             }
         }
     }
@@ -179,10 +179,23 @@ pub fn plan_step(
     k_rad: usize,
 ) -> TransportPlan {
     let m = sph.len();
-    assert!(sph.n_phi % 2 == 0, "n_phi 는 짝수 (극 반사가 phi+pi 를 격자점으로 보내야 한다)");
+    assert!(
+        sph.n_phi.is_multiple_of(2),
+        "n_phi 는 짝수 (극 반사가 phi+pi 를 격자점으로 보내야 한다)"
+    );
     // 1. 역추적: t+dt 의 격자점에서 t 로 (배경은 bg1 -> bg0 순서)
-    let (eb, dlnp_back) =
-        direction_map(&sph.ehat, mass, lnp_ref, bg1, bg0, -dt, substeps, false);
+    let (eb, dlnp_back) = direction_map(
+        &sph.ehat,
+        mass,
+        lnp_ref,
+        bg1,
+        bg0,
+        super::characteristics::CharacteristicStep {
+            dt: -dt,
+            substeps,
+            renormalize: false,
+        },
+    );
     let ln_s: Vec<f64> = dlnp_back.iter().map(|x| -x).collect();
 
     let s_ang = k_theta * k_phi;
@@ -215,14 +228,14 @@ pub fn plan_step(
         let target = (u - p0) - (pstart as f64 - p0);
 
         let mut wphi = vec![0.0; k_phi];
-        for a in 0..k_phi {
+        for (a, wphi_a) in wphi.iter_mut().enumerate() {
             let mut v = 1.0;
             for b in 0..k_phi {
                 if a != b {
                     v *= (target - b as f64) / (a as f64 - b as f64);
                 }
             }
-            wphi[a] = v;
+            *wphi_a = v;
         }
 
         let mut tj = vec![0usize; k_theta];
@@ -246,7 +259,7 @@ pub fn plan_step(
         }
 
         for a in 0..k_theta {
-            for b in 0..k_phi {
+            for (b, &wphi_b) in wphi.iter().enumerate() {
                 let mut pj = pstart + b as i64;
                 if flip[a] {
                     pj += (np_ as i64) / 2;
@@ -254,7 +267,7 @@ pub fn plan_step(
                 let pj = pj.rem_euclid(np_ as i64) as usize;
                 let k = i * s_ang + a * k_phi + b;
                 ang_idx[k] = (tj[a] * np_ + pj) as u32;
-                ang_w[k] = wth[a] * wphi[b];
+                ang_w[k] = wth[a] * wphi_b;
             }
         }
     }
@@ -403,7 +416,13 @@ mod tests {
     use super::*;
 
     fn bg_i(sig: [f64; 6]) -> Background {
-        Background { h: 1.0, sigma: sig, rot: [0.0; 3], n: [0.0; 6], a: [0.0; 3] }
+        Background {
+            h: 1.0,
+            sigma: sig,
+            rot: [0.0; 3],
+            n: [0.0; 6],
+            a: [0.0; 3],
+        }
     }
 
     #[test]
@@ -411,9 +430,15 @@ mod tests {
         let sph = SphereGrid::new(16, 32);
         let bg = bg_i([0.0; 6]);
         let plan = plan_step(&sph, None, &bg, &bg, 0.05, 0.0, 0.0, 4, 4, 4, 8);
-        let g: Vec<f64> = (0..sph.len()).map(|i| 1.0 + 0.1 * (i as f64).sin()).collect();
+        let g: Vec<f64> = (0..sph.len())
+            .map(|i| 1.0 + 0.1 * (i as f64).sin())
+            .collect();
         let out = apply_mode_a(&g, &plan, 0.0);
-        let e = g.iter().zip(&out).map(|(a, b)| (a - b).abs()).fold(0.0f64, f64::max);
+        let e = g
+            .iter()
+            .zip(&out)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0f64, f64::max);
         assert!(e < 1e-12, "{e}");
         assert!((plan.jac_min - 1.0).abs() < 1e-10, "{}", plan.jac_min);
     }
@@ -443,7 +468,9 @@ mod tests {
         };
         let plan = plan_step(&sph, None, &bg, &bg, 0.05, 0.0, 0.0, 4, 6, 6, 8);
         for i in 0..sph.len() {
-            let s: f64 = (0..plan.s_ang).map(|k| plan.ang_w[i * plan.s_ang + k]).sum();
+            let s: f64 = (0..plan.s_ang)
+                .map(|k| plan.ang_w[i * plan.s_ang + k])
+                .sum();
             assert!((s - 1.0).abs() < 1e-11, "i={i} s={s}");
         }
     }

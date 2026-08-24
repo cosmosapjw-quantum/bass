@@ -40,21 +40,34 @@ pub struct RayHistory {
     pub lna: Vec<[f64; 3]>,
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct RayTraceConfig {
+    pub h0: f64,
+    pub omega0: f64,
+    pub gamma: f64,
+    pub t0: f64,
+    pub t_end: f64,
+    pub nsteps: usize,
+}
+
 /// 대각 Bianchi 배경 광선추적 (Euler; Python `trace_ray_diag_bianchi` 정확 미러).
 ///
 /// 초기: H=h0, σ(차원량)=Σ0·h0, ρ=3h0²Ω0, lna=0, E=1, n̂=nhat/|nhat|, t=t0.
 /// dt=(t_end-t0)/nsteps.  갱신 순서·기록 간격(max(1,nsteps/400))·break(H≤0 또는 비유한)를
 /// Python 과 성분별로 일치시킨다.  z = E - 1 (과거로 E 증가).
 pub fn trace_ray_diag(
-    h0: f64,
     sigma0: &Vector3<f64>,
-    omega0: f64,
-    gamma: f64,
     nhat: &Vector3<f64>,
-    t0: f64,
-    t_end: f64,
-    nsteps: usize,
+    config: &RayTraceConfig,
 ) -> RayHistory {
+    let RayTraceConfig {
+        h0,
+        omega0,
+        gamma,
+        t0,
+        t_end,
+        nsteps,
+    } = *config;
     let mut h = h0;
     let mut sig = sigma0 * h0; // 차원량 shear (대각)
     let mut rho = 3.0 * h0 * h0 * omega0;
@@ -105,19 +118,14 @@ pub fn trace_ray_diag(
 /// 배치: 방향마다 광선추적 후 **마지막 기록 z** (CMB 패턴이 쓰는 z(n̂)) 반환.
 /// Rayon 데이터병렬 over 방향 — 방향별 이질적 조기종료(H≤0)를 native 처리 (계획 §1 근거).
 pub fn trace_rays_batch_final_z(
-    h0: f64,
     sigma0: &Vector3<f64>,
-    omega0: f64,
-    gamma: f64,
     nhats: &[Vector3<f64>],
-    t0: f64,
-    t_end: f64,
-    nsteps: usize,
+    config: &RayTraceConfig,
 ) -> Vec<f64> {
     nhats
         .par_iter()
         .map(|nh| {
-            let hist = trace_ray_diag(h0, sigma0, omega0, gamma, nh, t0, t_end, nsteps);
+            let hist = trace_ray_diag(sigma0, nh, config);
             *hist.z.last().unwrap_or(&f64::NAN)
         })
         .collect()

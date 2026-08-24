@@ -53,8 +53,7 @@ impl State {
         let mut s = State::zeros(l_max, i_max);
         for l in 0..=l_max {
             for i in 0..=i_max + 2 {
-                s.j[l][i] =
-                    quad::j_moment(a_vec, mass, l, i as i32, dipole_eps, dipole_axis);
+                s.j[l][i] = quad::j_moment(a_vec, mass, l, i as i32, dipole_eps, dipole_axis);
             }
         }
         s
@@ -95,7 +94,7 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
     let d = pstf::dim(l);
     let mut out = vec![0.0; d];
     let mut idx = [0usize; crate::kinetic::pstf::MAX_RANK];
-    for flat in 0..d {
+    for (flat, out_flat) in out.iter_mut().enumerate() {
         let mut r = flat;
         for k in (0..l).rev() {
             idx[k] = r % 3;
@@ -107,12 +106,12 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
         for a in 0..3 {
             // src = (a, idx[0..l-1])
             let mut src = a;
-            for k in 0..l - 1 {
-                src = src * 3 + idx[k];
+            for &idx_k in idx.iter().take(l - 1) {
+                src = src * 3 + idx_k;
             }
             acc += j[src] * sigma[b * 3 + a];
         }
-        out[flat] = acc;
+        *out_flat = acc;
     }
     out
 }
@@ -121,7 +120,7 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
 fn contract_two(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
     let d = pstf::dim(l);
     let mut out = vec![0.0; d];
-    for flat in 0..d {
+    for (flat, out_flat) in out.iter_mut().enumerate() {
         let mut acc = 0.0;
         for a in 0..3 {
             for b in 0..3 {
@@ -129,7 +128,7 @@ fn contract_two(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
                 acc += j[src] * sigma[a * 3 + b];
             }
         }
-        out[flat] = acc;
+        *out_flat = acc;
     }
     out
 }
@@ -181,8 +180,8 @@ pub fn rhs_one(s: &State, h: f64, sigma: &[f64; 9], l: usize, i: i32) -> Vec<f64
     if l + 2 <= s.l_max {
         let cb_prev = l as f64 - n; // = -2i  → i=0 에서 0 (아래로 닫힘)
         let mut tb = contract_two(s.get(l + 2, i), l, sigma);
-        for k in 0..d {
-            tb[k] *= n - 1.0;
+        for tb_k in tb.iter_mut().take(d) {
+            *tb_k *= n - 1.0;
         }
         if cb_prev != 0.0 {
             let tprev = contract_two(s.get(l + 2, i - 1), l, sigma);
@@ -241,9 +240,15 @@ pub fn integrate(
     dipole_eps: f64,
 ) -> (Vec<f64>, Vec<f64>, Vec<f64>, Vec<[f64; 9]>) {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let mut s = State::from_quadrature(a0, mass, l_max, i_max, dipole_eps, 2);
     let dt = t_end / nsteps as f64;
@@ -251,10 +256,10 @@ pub fn integrate(
 
     let axpy = |base: &State, d: &Vec<Vec<Vec<f64>>>, c: f64| -> State {
         let mut o = base.clone();
-        for l in 0..=base.l_max {
-            for i in 0..=base.i_max {
-                for k in 0..o.j[l][i].len() {
-                    o.j[l][i][k] = base.j[l][i][k] + c * d[l][i][k];
+        for (l, d_l) in d.iter().enumerate().take(base.l_max + 1) {
+            for (i, d_i) in d_l.iter().enumerate().take(base.i_max + 1) {
+                for (k, &d_k) in d_i.iter().enumerate().take(o.j[l][i].len()) {
+                    o.j[l][i][k] = base.j[l][i][k] + c * d_k;
                 }
             }
         }
@@ -281,8 +286,7 @@ pub fn integrate(
             for i in 0..=i_max {
                 for k in 0..s.j[l][i].len() {
                     s.j[l][i][k] += dt / 6.0
-                        * (k1[l][i][k] + 2.0 * k2[l][i][k] + 2.0 * k3[l][i][k]
-                            + k4[l][i][k]);
+                        * (k1[l][i][k] + 2.0 * k2[l][i][k] + 2.0 * k3[l][i][k] + k4[l][i][k]);
                 }
             }
         }
@@ -314,14 +318,26 @@ mod tests {
         );
         let pi_h = pis.last().unwrap();
         let worst = (0..9).fold(0.0f64, |a, k| a.max((pi_h[k] - pi_e[k]).abs()));
-        let scale = pi_e.iter().fold(0.0f64, |a, b| a.max(b.abs())).max(1e-8 * rho_e);
+        let scale = pi_e
+            .iter()
+            .fold(0.0f64, |a, b| a.max(b.abs()))
+            .max(1e-8 * rho_e);
         assert!(worst < 1e-6 * scale.max(1e-30) * 1e6, "pi {worst:e}");
     }
 
     #[test]
     fn isotropic_background_keeps_pi_zero() {
-        let (_, rhos, _, pis) = integrate(&[1.0, 1.0, 1.0], 0.5, 1.0,
-                                         &[0.0, 0.0, 0.0], 0.4, 20, 4, 2, 0.0);
+        let (_, rhos, _, pis) = integrate(
+            &[1.0, 1.0, 1.0],
+            0.5,
+            1.0,
+            &[0.0, 0.0, 0.0],
+            0.4,
+            20,
+            4,
+            2,
+            0.0,
+        );
         let rho0 = rhos[0];
         for pi in &pis {
             let w = pi.iter().fold(0.0f64, |a, b| a.max(b.abs()));
