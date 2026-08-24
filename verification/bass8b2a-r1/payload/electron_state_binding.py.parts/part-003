@@ -1,0 +1,102 @@
+aise ValueError("density knots must match trajectory nodes")
+        if any(value < 0.0 for value in densities):
+            raise ValueError("proper-density knots must be non-negative")
+        return _ScheduleView(raw_nodes, interpolation, None, densities, source, payload)
+
+    raise ValueError(f"unsupported interpolation: {interpolation}")
+
+
+def _select_segment(
+    nodes: tuple[float, ...], tau: float, side: DerivativeSide | None
+) -> tuple[int, DerivativeSide]:
+    query = _finite(tau, "tau")
+    if query < nodes[0] or query > nodes[-1]:
+        raise ValueError(
+            f"tau={query} lies outside closed support [{nodes[0]}, {nodes[-1]}]"
+        )
+    if side is not None and not isinstance(side, DerivativeSide):
+        raise TypeError("side must be a DerivativeSide")
+
+    knot = next((index for index, value in enumerate(nodes) if query == value), None)
+    if knot is None:
+        if side not in (None, DerivativeSide.INTERIOR):
+            raise ValueError("LEFT/RIGHT side is valid only at an exact knot")
+        for index, (left, right) in enumerate(zip(nodes[:-1], nodes[1:])):
+            if left < query < right:
+                return index, DerivativeSide.INTERIOR
+        raise RuntimeError("failed to locate open trajectory segment")
+
+    if knot == 0:
+        if side is not DerivativeSide.RIGHT:
+            raise ValueError("the first knot requires explicit RIGHT derivative side")
+        return 0, DerivativeSide.RIGHT
+    if knot == len(nodes) - 1:
+        if side is not DerivativeSide.LEFT:
+            raise ValueError("the last knot requires explicit LEFT derivative side")
+        return len(nodes) - 2, DerivativeSide.LEFT
+    if side not in (DerivativeSide.LEFT, DerivativeSide.RIGHT):
+        raise ValueError("an interior knot requires explicit LEFT or RIGHT derivative side")
+    return (knot - 1, side) if side is DerivativeSide.LEFT else (knot, side)
+
+
+def _affine_fraction(
+    left: float, right: float, node_left: float, node_right: float, tau: float
+) -> tuple[Fraction, Fraction]:
+    t0 = _fraction(node_left, "node_left")
+    t1 = _fraction(node_right, "node_right")
+    query = _fraction(tau, "tau")
+    width = t1 - t0
+    if width <= 0:
+        raise ValueError("segment width must be positive")
+    slope = (_fraction(right, "right value") - _fraction(left, "left value")) / width
+    value = _fraction(left, "left value") + (query - t0) * slope
+    return value, slope
+
+
+def _independent_jet(
+    view: _ScheduleView,
+    tau: float,
+    segment: int,
+    derivative_side: DerivativeSide,
+) -> tuple[IndependentElectronState | CollisionOff, ElectronStateJet | None]:
+    assert view.number_currents is not None
+    left = view.number_currents[segment]
+    right = view.number_currents[segment + 1]
+    values: list[Fraction] = []
+    slopes: list[Fraction] = []
+    for component_left, component_right in zip(left, right):
+        value, slope = _affine_fraction(
+            component_left,
+            component_right,
+            view.nodes[segment],
+            view.nodes[segment + 1],
+            tau,
+        )
+        values.append(value)
+        slopes.append(slope)
+
+    if all(value == 0 for value in values):
+        return (
+            CollisionOff("exact-vacuum-electron-current", view.payload_sha256),
+            None,
+        )
+
+    temporal = values[0]
+    spatial = values[1:]
+    if temporal <= 0:
+        raise ValueError("electron number current must be future-timelike with N0>0")
+    norm2 = temporal * temporal - sum(component * component for component in spatial)
+    if norm2 <= 0:
+        raise ValueError("electron number current must be future-timelike")
+
+    density = _sqrt_fraction(norm2)
+    beta_fraction = tuple(component / temporal for component in spatial)
+    beta = tuple(float(component) for component in beta_fraction)
+    _validate_beta(beta, "derived beta_normal")
+
+    numerator = temporal * slopes[0] - sum(
+        component * slope for component, slope in zip(spatial, slopes[1:])
+    )
+    dn = float(numerator) / density
+    dbeta_fraction = tuple(
+        (slope * temporal - com

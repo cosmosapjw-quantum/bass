@@ -1,0 +1,130 @@
+"""Typed electron-state binding and exact segment-time jets for BASS-8B.2A.
+
+This module is a bounded authority candidate.  It wraps the public E1--E4
+schedule view contract without altering the schedule owner's interpolation
+semantics.  It does not bind the direction-dependent opacity, finite radiation
+carrier, collision projector, paired left functional, solver, JAX/Rust ABI, or
+production runtime.
+
+Conventions
+-----------
+* metric signature ``(-,+,+,+)``;
+* ``tau_Q`` is dimensionless and increases to the physical future;
+* electron number current components are normal-tetrad components
+  ``N^A = n_e U_e^A``;
+* ``n_e`` is proper free-electron density in ``m^-3``;
+* ``beta`` and ``d beta / d tau_Q`` are dimensionless;
+* exact vacuum is a collision-off quotient and retains no electron velocity.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from decimal import Decimal, localcontext
+from enum import Enum
+from fractions import Fraction
+import hashlib
+import json
+import math
+import re
+from types import MappingProxyType
+from typing import Any, Mapping
+
+
+_SHA256 = re.compile(r"[0-9a-f]{64}\Z")
+_C_LIGHT_M_S = 299_792_458.0
+_DECIMAL_PRECISION = 100
+_CANONICAL_PLASMA_MODEL = "cold-ionized-baryon-electron-plasma"
+
+
+def _text(value: Any, name: str) -> str:
+    out = str(value).strip()
+    if not out or "\0" in out:
+        raise ValueError(f"{name} must be non-empty and contain no NUL")
+    return out
+
+
+def _sha(value: Any, name: str) -> str:
+    out = str(value)
+    if _SHA256.fullmatch(out) is None:
+        raise ValueError(f"{name} must be lowercase 64-hex SHA-256")
+    return out
+
+
+def _finite(value: Any, name: str) -> float:
+    out = float(value)
+    if not math.isfinite(out):
+        raise ValueError(f"{name} must be finite")
+    return out
+
+
+def _vec3(value: Any, name: str) -> tuple[float, float, float]:
+    try:
+        out = tuple(float(component) for component in value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be a finite length-3 vector") from exc
+    if len(out) != 3 or not all(math.isfinite(component) for component in out):
+        raise ValueError(f"{name} must be a finite length-3 vector")
+    return out
+
+
+def _validate_beta(value: Any, name: str) -> tuple[float, float, float]:
+    out = _vec3(value, name)
+    norm2 = sum(component * component for component in out)
+    if norm2 >= 1.0:
+        raise ValueError(f"{name} must satisfy |beta|<1")
+    return out
+
+
+def _fraction(value: Any, name: str) -> Fraction:
+    out = _finite(value, name)
+    return Fraction.from_float(out)
+
+
+def _sqrt_fraction(value: Fraction) -> float:
+    if value < 0:
+        raise ValueError("cannot take square root of a negative exact fraction")
+    if value == 0:
+        return 0.0
+    with localcontext() as ctx:
+        ctx.prec = _DECIMAL_PRECISION
+        decimal_value = Decimal(value.numerator) / Decimal(value.denominator)
+        result = decimal_value.sqrt()
+    out = float(result)
+    if not math.isfinite(out):
+        raise ValueError("exact square root overflowed binary64")
+    return out
+
+
+def _canonical_hash(schema: str, payload: Mapping[str, Any]) -> str:
+    raw = json.dumps(
+        {"schema": schema, **payload},
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    ).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+@dataclass(frozen=True, slots=True)
+class HashRef:
+    source_id: str
+    source_sha256: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "source_id", _text(self.source_id, "source_id"))
+        object.__setattr__(
+            self, "source_sha256", _sha(self.source_sha256, "source_sha256")
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class QHubbleTimeAuthority:
+    origin_event: str
+    provenance: HashRef
+    coordinate_kind: str = "q_hubble_time_tau"
+    mapping: str = "identity"
+    unit: str = "dimensionless"
+    future_direction: int = 1
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "origin_event", _text(self.origin_event, "origin_event"))

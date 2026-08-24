@@ -1,0 +1,96 @@
+xt(self.reason, "reason"))
+        object.__setattr__(
+            self,
+            "schedule_payload_sha256",
+            _sha(self.schedule_payload_sha256, "schedule_payload_sha256"),
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class ElectronStateJet:
+    tau: float
+    proper_density_m3: float
+    beta_normal: tuple[float, float, float]
+    dproper_density_dtau: float
+    dbeta_normal_dtau: tuple[float, float, float]
+    segment_index: int
+    derivative_side: DerivativeSide
+    closure: str
+    schedule_payload_sha256: str
+
+
+@dataclass(frozen=True, slots=True)
+class ElectronBindingCertificate:
+    state: IndependentElectronState | ComovingWithMatterSpecies | CollisionOff
+    jet: ElectronStateJet | None
+    coordinate_sha256: str
+    binding_sha256: str
+    metadata: Mapping[str, Any]
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self, "coordinate_sha256", _sha(self.coordinate_sha256, "coordinate_sha256")
+        )
+        object.__setattr__(
+            self, "binding_sha256", _sha(self.binding_sha256, "binding_sha256")
+        )
+        object.__setattr__(self, "metadata", MappingProxyType(dict(self.metadata)))
+
+
+@dataclass(frozen=True, slots=True)
+class _ScheduleView:
+    nodes: tuple[float, ...]
+    interpolation: str
+    number_currents: tuple[tuple[float, float, float, float], ...] | None
+    densities: tuple[float, ...] | None
+    source: HashRef
+    payload_sha256: str
+
+
+def _read_schedule_view(schedule: Any) -> _ScheduleView:
+    if not hasattr(schedule, "trajectory_view") or not callable(schedule.trajectory_view):
+        raise TypeError("schedule must expose trajectory_view()")
+    if not hasattr(schedule, "payload_sha256"):
+        raise TypeError("schedule must expose payload_sha256")
+    view = schedule.trajectory_view()
+
+    payload = _sha(schedule.payload_sha256, "schedule.payload_sha256")
+    view_payload = _sha(view.schedule_payload_sha256, "view.schedule_payload_sha256")
+    if payload != view_payload:
+        raise ValueError("schedule payload does not match trajectory-view payload")
+    if getattr(view, "coordinate_kind", None) != "q_hubble_time_tau":
+        raise ValueError("schedule view must use q_hubble_time_tau")
+    if float(getattr(view, "c_m_s", math.nan)) != _C_LIGHT_M_S:
+        raise ValueError("schedule view must retain exact SI c")
+
+    raw_nodes = tuple(_finite(value, "trajectory node") for value in view.nodes_ascending)
+    if len(raw_nodes) < 2:
+        raise ValueError("trajectory needs at least two nodes")
+    if any(right <= left for left, right in zip(raw_nodes[:-1], raw_nodes[1:])):
+        raise ValueError("trajectory nodes must be strictly increasing")
+
+    interpolation = _text(view.interpolation, "interpolation")
+    source = HashRef(
+        _text(view.source_id, "view.source_id"),
+        _sha(view.source_sha256, "view.source_sha256"),
+    )
+
+    if interpolation == "linear_number_current_v1":
+        if view.number_current_nodes is None or view.density_nodes_m3 is not None:
+            raise ValueError("independent schedule view has inconsistent carrier fields")
+        currents: list[tuple[float, float, float, float]] = []
+        for row in view.number_current_nodes:
+            values = tuple(_finite(value, "number-current component") for value in row)
+            if len(values) != 4:
+                raise ValueError("number-current rows must have four components")
+            currents.append(values)  # type: ignore[arg-type]
+        if len(currents) != len(raw_nodes):
+            raise ValueError("number-current knots must match trajectory nodes")
+        return _ScheduleView(raw_nodes, interpolation, tuple(currents), None, source, payload)
+
+    if interpolation == "linear_proper_density_live_fluid_beta":
+        if view.density_nodes_m3 is None or view.number_current_nodes is not None:
+            raise ValueError("comoving schedule view has inconsistent carrier fields")
+        densities = tuple(_finite(value, "proper-density knot") for value in view.density_nodes_m3)
+        if len(densities) != len(raw_nodes):
+            r

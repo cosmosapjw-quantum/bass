@@ -1,0 +1,118 @@
+        if not isinstance(self.provenance, HashRef):
+            raise TypeError("provenance must be a HashRef")
+        if self.coordinate_kind != "q_hubble_time_tau":
+            raise ValueError("coordinate_kind must be q_hubble_time_tau")
+        if self.mapping != "identity":
+            raise ValueError("only an identity Q-time binding is allowed")
+        if self.unit != "dimensionless" or self.future_direction != 1:
+            raise ValueError("tau_Q must be dimensionless and future increasing")
+
+    @property
+    def payload_sha256(self) -> str:
+        return _canonical_hash(
+            "bass.q_hubble_time_authority/v1",
+            {
+                "origin_event": self.origin_event,
+                "coordinate_kind": self.coordinate_kind,
+                "mapping": self.mapping,
+                "unit": self.unit,
+                "future_direction": self.future_direction,
+                "source_id": self.provenance.source_id,
+                "source_sha256": self.provenance.source_sha256,
+            },
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class PlasmaIdentity:
+    species_id: str
+    plasma_model: str
+    provenance: HashRef
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "species_id", _text(self.species_id, "species_id"))
+        object.__setattr__(self, "plasma_model", _text(self.plasma_model, "plasma_model"))
+        if not isinstance(self.provenance, HashRef):
+            raise TypeError("provenance must be a HashRef")
+
+
+@dataclass(frozen=True, slots=True)
+class VelocityEqualityProof:
+    species_id: str
+    statement: str
+    proof_sha256: str
+    authority: HashRef
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "species_id", _text(self.species_id, "species_id"))
+        object.__setattr__(self, "statement", _text(self.statement, "statement"))
+        object.__setattr__(self, "proof_sha256", _sha(self.proof_sha256, "proof_sha256"))
+        if not isinstance(self.authority, HashRef):
+            raise TypeError("authority must be a HashRef")
+
+
+@dataclass(frozen=True, slots=True)
+class SpeciesKinematicJet:
+    species_id: str
+    beta_normal: tuple[float, float, float]
+    dbeta_normal_dtau: tuple[float, float, float]
+    tau: float
+    coordinate_sha256: str
+    provenance: HashRef
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "species_id", _text(self.species_id, "species_id"))
+        object.__setattr__(
+            self, "beta_normal", _validate_beta(self.beta_normal, "beta_normal")
+        )
+        object.__setattr__(
+            self,
+            "dbeta_normal_dtau",
+            _vec3(self.dbeta_normal_dtau, "dbeta_normal_dtau"),
+        )
+        object.__setattr__(self, "tau", _finite(self.tau, "tau"))
+        object.__setattr__(
+            self,
+            "coordinate_sha256",
+            _sha(self.coordinate_sha256, "coordinate_sha256"),
+        )
+        if not isinstance(self.provenance, HashRef):
+            raise TypeError("provenance must be a HashRef")
+
+
+class DerivativeSide(Enum):
+    INTERIOR = "interior"
+    LEFT = "left"
+    RIGHT = "right"
+
+
+@dataclass(frozen=True, slots=True)
+class IndependentElectronState:
+    proper_density_m3: float
+    beta_normal: tuple[float, float, float]
+    schedule_payload_sha256: str
+    source: HashRef
+    closure: str = field(init=False, default="independent-electron-test-field")
+
+
+@dataclass(frozen=True, slots=True)
+class ComovingWithMatterSpecies:
+    proper_density_m3: float
+    beta_normal: tuple[float, float, float]
+    species_id: str
+    plasma_identity_sha256: str
+    equality_proof_sha256: str
+    schedule_payload_sha256: str
+    closure: str = field(init=False, default="comoving-with-named-plasma-species")
+
+
+@dataclass(frozen=True, slots=True)
+class CollisionOff:
+    reason: str
+    schedule_payload_sha256: str
+    kappa: float = field(init=False, default=0.0)
+    beta_normal: None = field(init=False, default=None)
+    closure: str = field(init=False, default="collision-off")
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "reason", _te

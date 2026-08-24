@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  echo "usage: $0 /path/to/e4-extracted-root" >&2
+  exit 2
+fi
+
+candidate_root=$(cd "$(dirname "$0")/.." && pwd)
+host_root=$(cd "$1" && pwd)
+
+owners=(
+  source/bianchi/q/electron.py
+  source/bianchi/q/electron_rate.py
+  source/bianchi/q/electron_validity.py
+  source/bianchi/q/electron_trajectory.py
+)
+expected=(
+  f5fa2da696453ea0b11cfddeb7f824cd1bdb42596cd4e2947fb7841e1387aafe
+  27fe46756023380078fc503e8fe2ea5e976504314e206f55613d06af61f4be1a
+  58928b738e600a1b379d5d8b4ae79a3279e7997382a7da952f7267ebbb7846fe
+  fd7045723df0bbb98077f86c56b5763d4f4d490b8ebaa483d7197ba8c4a30eea
+)
+
+for i in "${!owners[@]}"; do
+  path="$host_root/${owners[$i]}"
+  [[ -f "$path" ]] || { echo "missing owner: $path" >&2; exit 1; }
+  actual=$(sha256sum "$path" | awk '{print $1}')
+  [[ "$actual" == "${expected[$i]}" ]] || {
+    echo "owner hash mismatch: ${owners[$i]} $actual" >&2
+    exit 1
+  }
+done
+
+export PYTHONPATH="$candidate_root/source:$host_root/source${PYTHONPATH:+:$PYTHONPATH}"
+python -m pytest -q "$candidate_root/tests/test_electron_state_binding.py"
+python -m pytest -q "$candidate_root/host_replay/test_real_schedule_integration.py"
+python -m pytest -q \
+  "$host_root/tests/test_electron_test_field.py" \
+  "$host_root/tests/test_electron_collision_rate.py" \
+  "$host_root/tests/test_electron_thomson_validity.py" \
+  "$host_root/tests/test_electron_trajectory_authority.py"
+
+for i in "${!owners[@]}"; do
+  path="$host_root/${owners[$i]}"
+  actual=$(sha256sum "$path" | awk '{print $1}')
+  [[ "$actual" == "${expected[$i]}" ]] || {
+    echo "owner mutated during replay: ${owners[$i]}" >&2
+    exit 1
+  }
+done
+
+echo "BASS8B2A_EXACT_E1_E4_REPLAY_PASS"

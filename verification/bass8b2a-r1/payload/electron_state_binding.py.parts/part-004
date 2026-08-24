@@ -1,0 +1,103 @@
+ponent * slopes[0]) / (temporal * temporal)
+        for component, slope in zip(spatial, slopes[1:])
+    )
+    dbeta = tuple(float(component) for component in dbeta_fraction)
+    if not math.isfinite(dn) or not all(math.isfinite(value) for value in dbeta):
+        raise ValueError("state-jet conversion overflowed binary64")
+
+    state = IndependentElectronState(
+        proper_density_m3=density,
+        beta_normal=beta,
+        schedule_payload_sha256=view.payload_sha256,
+        source=view.source,
+    )
+    jet = ElectronStateJet(
+        tau=float(tau),
+        proper_density_m3=density,
+        beta_normal=beta,
+        dproper_density_dtau=dn,
+        dbeta_normal_dtau=dbeta,
+        segment_index=segment,
+        derivative_side=derivative_side,
+        closure=state.closure,
+        schedule_payload_sha256=view.payload_sha256,
+    )
+    return state, jet
+
+
+def _validate_comoving_proofs(
+    *,
+    species_jet: SpeciesKinematicJet | None,
+    plasma_identity: PlasmaIdentity | None,
+    equality_proof: VelocityEqualityProof | None,
+    coordinate: QHubbleTimeAuthority,
+    tau: float,
+) -> tuple[SpeciesKinematicJet, PlasmaIdentity, VelocityEqualityProof]:
+    if species_jet is None:
+        raise ValueError("positive-density comoving binding requires species_jet")
+    if plasma_identity is None:
+        raise ValueError("positive-density comoving binding requires plasma_identity")
+    if equality_proof is None:
+        raise ValueError("positive-density comoving binding requires equality_proof")
+    if not isinstance(species_jet, SpeciesKinematicJet):
+        raise TypeError("species_jet must be a SpeciesKinematicJet")
+    if not isinstance(plasma_identity, PlasmaIdentity):
+        raise TypeError("plasma_identity must be a PlasmaIdentity")
+    if not isinstance(equality_proof, VelocityEqualityProof):
+        raise TypeError("equality_proof must be a VelocityEqualityProof")
+    ids = {species_jet.species_id, plasma_identity.species_id, equality_proof.species_id}
+    if len(ids) != 1:
+        raise ValueError("species_id mismatch across comoving authority objects")
+    if equality_proof.statement != "u_e_equals_u_species":
+        raise ValueError("equality proof must state u_e_equals_u_species")
+    if plasma_identity.plasma_model != _CANONICAL_PLASMA_MODEL:
+        raise ValueError(
+            "comoving branch requires cold-ionized-baryon-electron-plasma identity"
+        )
+    if species_jet.coordinate_sha256 != coordinate.payload_sha256:
+        raise ValueError("species jet coordinate authority mismatch")
+    if species_jet.tau != float(tau):
+        raise ValueError("species jet tau must equal electron-state query tau exactly")
+    return species_jet, plasma_identity, equality_proof
+
+
+def _comoving_jet(
+    view: _ScheduleView,
+    tau: float,
+    segment: int,
+    derivative_side: DerivativeSide,
+    *,
+    coordinate: QHubbleTimeAuthority,
+    species_jet: SpeciesKinematicJet | None,
+    plasma_identity: PlasmaIdentity | None,
+    equality_proof: VelocityEqualityProof | None,
+) -> tuple[ComovingWithMatterSpecies | CollisionOff, ElectronStateJet | None]:
+    assert view.densities is not None
+    density_fraction, density_slope = _affine_fraction(
+        view.densities[segment],
+        view.densities[segment + 1],
+        view.nodes[segment],
+        view.nodes[segment + 1],
+        tau,
+    )
+    if density_fraction < 0:
+        raise ValueError("interpolated proper density became negative")
+    if density_fraction == 0:
+        return CollisionOff("exact-vacuum-proper-density", view.payload_sha256), None
+
+    species, identity, proof = _validate_comoving_proofs(
+        species_jet=species_jet,
+        plasma_identity=plasma_identity,
+        equality_proof=equality_proof,
+        coordinate=coordinate,
+        tau=tau,
+    )
+    density = float(density_fraction)
+    dn = float(density_slope)
+    if not math.isfinite(density) or not math.isfinite(dn):
+        raise ValueError("comoving density jet overflowed binary64")
+
+    identity_hash = _canonical_hash(
+        "bass.plasma_identity/v1",
+        {
+   

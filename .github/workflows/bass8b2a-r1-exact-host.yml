@@ -1,0 +1,179 @@
+name: BASS-8B.2A R1 exact E1-E4 host replay
+
+on:
+  push:
+    branches:
+      - agent/verify/bass-8b2a-r1-exact-host-20260824
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-host-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      EVIDENCE_DIR: ${{ runner.temp }}/bass8b2a-r1-evidence
+      CANDIDATE_ROOT: ${{ runner.temp }}/BASS8B2A_TYPED_ELECTRON_STATE_BINDING_CANDIDATE_20260824
+      E4_ZIP: ${{ runner.temp }}/BASS8B1E4_TRAJECTORY_ORIENTATION_AUTHORITY_20260823.zip
+      E4_EXTRACT: ${{ runner.temp }}/bass8b1e4-extracted
+
+    steps:
+      - name: Checkout pinned verification branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install replay-only Python dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy==2.3.5 \
+            pytest==9.0.2 \
+            scipy==1.17.0 \
+            sympy==1.14.0
+          mkdir -p "$EVIDENCE_DIR"
+          {
+            python --version
+            python -m pip freeze
+          } > "$EVIDENCE_DIR/environment.txt"
+
+      - name: Reconstruct and hash-verify the exact 2A candidate inputs
+        run: |
+          set -euo pipefail
+          payload="verification/bass8b2a-r1/payload"
+          mkdir -p \
+            "$CANDIDATE_ROOT/source/bass8b2a" \
+            "$CANDIDATE_ROOT/tests" \
+            "$CANDIDATE_ROOT/host_replay" \
+            "$EVIDENCE_DIR"
+
+          cat "$payload/electron_state_binding.py.parts"/part-* \
+            > "$CANDIDATE_ROOT/source/bass8b2a/electron_state_binding.py"
+          cat "$payload/__init__.py.parts"/part-* \
+            > "$CANDIDATE_ROOT/source/bass8b2a/__init__.py"
+          gzip -dc "$payload/test_electron_state_binding.py.gz" \
+            > "$CANDIDATE_ROOT/tests/test_electron_state_binding.py"
+          gzip -dc "$payload/test_real_schedule_integration.py.gz" \
+            > "$CANDIDATE_ROOT/host_replay/test_real_schedule_integration.py"
+          cat "$payload/run_exact_e1_e4_replay.sh.parts"/part-* \
+            > "$CANDIDATE_ROOT/host_replay/run_exact_e1_e4_replay.sh"
+          chmod +x "$CANDIDATE_ROOT/host_replay/run_exact_e1_e4_replay.sh"
+
+          (
+            cd "$CANDIDATE_ROOT"
+            printf '%s\n' \
+              '31ff41590b3083c825a1faa7efd04bfa168d0a9ae6add08ba3f6c5c1a444db62  source/bass8b2a/electron_state_binding.py' \
+              'e75df46f948cae7cf1620b762bc384676189c454d68253018c7c5b0a466a9185  source/bass8b2a/__init__.py' \
+              '022112affdcf048d19759863bdd342fc769e90c7bf8a4ea4d5504ced51e4313e  tests/test_electron_state_binding.py' \
+              'a2ba269406f86b50699cba5c1ed770bf190a86e3ac283a1a5ab9aec54a3e8c82  host_replay/test_real_schedule_integration.py' \
+              '03bdbc3740d91d14550fc3828f050e3335ce571a0a93d7740e1ce6d06f524de4  host_replay/run_exact_e1_e4_replay.sh' \
+              > "$EVIDENCE_DIR/candidate_expected.sha256"
+            sha256sum -c "$EVIDENCE_DIR/candidate_expected.sha256" \
+              | tee "$EVIDENCE_DIR/candidate_hash_check.log"
+            sha256sum \
+              source/bass8b2a/electron_state_binding.py \
+              source/bass8b2a/__init__.py \
+              tests/test_electron_state_binding.py \
+              host_replay/test_real_schedule_integration.py \
+              host_replay/run_exact_e1_e4_replay.sh \
+              > "$EVIDENCE_DIR/candidate_actual.sha256"
+          )
+
+      - name: Restore the exact E4 archive and locate the authority host
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" "$E4_EXTRACT"
+          bash checkpoints/2026-08-23/bass-8b1e/restore_e4.sh "$E4_ZIP" \
+            | tee "$EVIDENCE_DIR/e4_restore.log"
+          echo 'd7590182b52d7bb30f537232993f2bb954a049d530138b0325474633926ec766  '"$E4_ZIP" \
+            | sha256sum -c - | tee "$EVIDENCE_DIR/e4_outer_hash.log"
+          unzip -q "$E4_ZIP" -d "$E4_EXTRACT"
+
+          host_root=''
+          while IFS= read -r owner; do
+            root="${owner%/source/bianchi/q/electron.py}"
+            required=(
+              source/bianchi/q/electron.py
+              source/bianchi/q/electron_rate.py
+              source/bianchi/q/electron_validity.py
+              source/bianchi/q/electron_trajectory.py
+              tests/test_electron_test_field.py
+              tests/test_electron_collision_rate.py
+              tests/test_electron_thomson_validity.py
+              tests/test_electron_trajectory_authority.py
+            )
+            ok=1
+            for rel in "${required[@]}"; do
+              [[ -f "$root/$rel" ]] || ok=0
+            done
+            if [[ $ok -eq 1 ]]; then
+              host_root="$root"
+              break
+            fi
+          done < <(find "$E4_EXTRACT" -type f -path '*/source/bianchi/q/electron.py' -print | sort)
+
+          [[ -n "$host_root" ]] || {
+            echo 'No complete E1-E4 host root found in restored archive' >&2
+            find "$E4_EXTRACT" -maxdepth 5 -type f | sort | head -200 >&2
+            exit 1
+          }
+          printf '%s\n' "$host_root" > "$RUNNER_TEMP/bass8b2a-host-root.txt"
+          printf '%s\n' "${host_root#"$E4_EXTRACT"/}" > "$EVIDENCE_DIR/host_root_relative.txt"
+          sha256sum \
+            "$host_root/source/bianchi/q/electron.py" \
+            "$host_root/source/bianchi/q/electron_rate.py" \
+            "$host_root/source/bianchi/q/electron_validity.py" \
+            "$host_root/source/bianchi/q/electron_trajectory.py" \
+            > "$EVIDENCE_DIR/owner_before.sha256"
+
+      - name: Run exact E1-E4 host replay and no-owner-mutation gate
+        run: |
+          set -euo pipefail
+          host_root="$(cat "$RUNNER_TEMP/bass8b2a-host-root.txt")"
+          "$CANDIDATE_ROOT/host_replay/run_exact_e1_e4_replay.sh" "$host_root" \
+            2>&1 | tee "$EVIDENCE_DIR/replay.log"
+          sha256sum \
+            "$host_root/source/bianchi/q/electron.py" \
+            "$host_root/source/bianchi/q/electron_rate.py" \
+            "$host_root/source/bianchi/q/electron_validity.py" \
+            "$host_root/source/bianchi/q/electron_trajectory.py" \
+            > "$EVIDENCE_DIR/owner_after.sha256"
+          cmp "$EVIDENCE_DIR/owner_before.sha256" "$EVIDENCE_DIR/owner_after.sha256"
+          grep -Fx 'BASS8B2A_EXACT_E1_E4_REPLAY_PASS' "$EVIDENCE_DIR/replay.log"
+          {
+            echo '# BASS-8B.2A-R1 exact-host replay receipt'
+            echo
+            echo "- repository commit: $GITHUB_SHA"
+            echo '- candidate package SHA-256: caf3113fe56204652cb844f51cbce90a48e1c00cb1ffa4ff98ae80bd4a670d36'
+            echo '- E4 archive SHA-256: d7590182b52d7bb30f537232993f2bb954a049d530138b0325474633926ec766'
+            echo '- result: PASS_EXACT_E1_E4_HOST_REPLAY__NO_OWNER_MUTATION'
+            echo '- authority-row promotion: false'
+            echo '- BASS-3 classifier authorization: false'
+            echo '- production/runtime wiring: false'
+          } > "$EVIDENCE_DIR/RECEIPT.md"
+
+      - name: Record failure context
+        if: failure()
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          {
+            echo "commit=$GITHUB_SHA"
+            echo "run_id=$GITHUB_RUN_ID"
+            echo "run_attempt=$GITHUB_RUN_ATTEMPT"
+            echo 'status=FAILED_OR_INCOMPLETE'
+          } > "$EVIDENCE_DIR/failure_context.txt"
+
+      - name: Upload replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bass8b2a-r1-exact-host-evidence-${{ github.sha }}
+          path: ${{ runner.temp }}/bass8b2a-r1-evidence
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,104 @@
+         "species_id": identity.species_id,
+            "plasma_model": identity.plasma_model,
+            "source_id": identity.provenance.source_id,
+            "source_sha256": identity.provenance.source_sha256,
+        },
+    )
+    state = ComovingWithMatterSpecies(
+        proper_density_m3=density,
+        beta_normal=species.beta_normal,
+        species_id=species.species_id,
+        plasma_identity_sha256=identity_hash,
+        equality_proof_sha256=proof.proof_sha256,
+        schedule_payload_sha256=view.payload_sha256,
+    )
+    jet = ElectronStateJet(
+        tau=float(tau),
+        proper_density_m3=density,
+        beta_normal=species.beta_normal,
+        dproper_density_dtau=dn,
+        dbeta_normal_dtau=species.dbeta_normal_dtau,
+        segment_index=segment,
+        derivative_side=derivative_side,
+        closure=state.closure,
+        schedule_payload_sha256=view.payload_sha256,
+    )
+    return state, jet
+
+
+def _certificate_metadata(state: Any, jet: ElectronStateJet | None) -> Mapping[str, Any]:
+    has_jet = jet is not None
+    return {
+        "schema": "bass.electron_state_binding_certificate/v1",
+        "metric_signature": "(-,+,+,+)",
+        "coordinate": "q_hubble_time_tau",
+        "generic_three_vector_schema": True,
+        "typeii_special_case_implemented": False,
+        "typed_decision_union": True,
+        "state_jet_present": has_jet,
+        "ad_jvp_certified": has_jet,
+        "ad_jvp_scope": (
+            "analytic_q_time_tangent_of_declared_affine_segment_or_explicit_knot_side"
+            if has_jet
+            else "none_on_collision_off_quotient"
+        ),
+        "generic_solver_jvp_certified": False,
+        "direction_dependent_rate_bound": False,
+        "finite_radiation_carrier_bound": False,
+        "projector_bound": False,
+        "paired_left_functional_bound": False,
+        "production_runtime_wired": False,
+        "authority_row_promoted": False,
+        "state_closure": state.closure,
+    }
+
+
+def bind_electron_state(
+    schedule: Any,
+    *,
+    tau: float,
+    coordinate: QHubbleTimeAuthority,
+    binding_provenance: HashRef,
+    side: DerivativeSide | None = None,
+    species_jet: SpeciesKinematicJet | None = None,
+    plasma_identity: PlasmaIdentity | None = None,
+    equality_proof: VelocityEqualityProof | None = None,
+) -> ElectronBindingCertificate:
+    """Bind one E1--E4 schedule state to a typed decision and exact time jet.
+
+    The function consumes only the public ``trajectory_view`` and payload hash.
+    It does not call or replace private interpolation routines.  The derivative
+    is selected from the exact declared affine segment.  At a knot, the caller
+    must select a one-sided derivative; exact vacuum returns ``CollisionOff``.
+    """
+    if not isinstance(coordinate, QHubbleTimeAuthority):
+        raise TypeError("coordinate must be a QHubbleTimeAuthority")
+    if not isinstance(binding_provenance, HashRef):
+        raise TypeError("binding_provenance must be a HashRef")
+
+    query = _finite(tau, "tau")
+    view = _read_schedule_view(schedule)
+    segment, derivative_side = _select_segment(view.nodes, query, side)
+
+    if view.interpolation == "linear_number_current_v1":
+        if any(value is not None for value in (species_jet, plasma_identity, equality_proof)):
+            raise ValueError("independent schedule rejects comoving species authority objects")
+        state, jet = _independent_jet(view, query, segment, derivative_side)
+    elif view.interpolation == "linear_proper_density_live_fluid_beta":
+        state, jet = _comoving_jet(
+            view,
+            query,
+            segment,
+            derivative_side,
+            coordinate=coordinate,
+            species_jet=species_jet,
+            plasma_identity=plasma_identity,
+            equality_proof=equality_proof,
+        )
+    else:  # guarded by _read_schedule_view
+        raise RuntimeError("unreachable interpolation branch")
+
+    metadata = _certificate_metadata(state, jet)
+    payload: dict[str, Any] = {
+        "coordinate_sha256": coordinate.payload_sha256,
+        "bi

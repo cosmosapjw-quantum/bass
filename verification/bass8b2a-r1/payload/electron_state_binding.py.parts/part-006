@@ -1,0 +1,43 @@
+nding_source_id": binding_provenance.source_id,
+        "binding_source_sha256": binding_provenance.source_sha256,
+        "schedule_payload_sha256": view.payload_sha256,
+        "schedule_source_id": view.source.source_id,
+        "schedule_source_sha256": view.source.source_sha256,
+        "tau_hex": query.hex(),
+        "state_closure": state.closure,
+        "segment_index": None if jet is None else jet.segment_index,
+        "derivative_side": None if jet is None else jet.derivative_side.value,
+        "proper_density_hex": (
+            None if jet is None else float(jet.proper_density_m3).hex()
+        ),
+        "beta_hex": None if jet is None else [float(x).hex() for x in jet.beta_normal],
+        "dn_hex": None if jet is None else float(jet.dproper_density_dtau).hex(),
+        "dbeta_hex": (
+            None if jet is None else [float(x).hex() for x in jet.dbeta_normal_dtau]
+        ),
+        "metadata": dict(metadata),
+    }
+    binding_sha = _canonical_hash("bass.electron_state_binding/v1", payload)
+    return ElectronBindingCertificate(
+        state=state,
+        jet=jet,
+        coordinate_sha256=coordinate.payload_sha256,
+        binding_sha256=binding_sha,
+        metadata=metadata,
+    )
+
+
+__all__ = [
+    "CollisionOff",
+    "ComovingWithMatterSpecies",
+    "DerivativeSide",
+    "ElectronBindingCertificate",
+    "ElectronStateJet",
+    "HashRef",
+    "IndependentElectronState",
+    "PlasmaIdentity",
+    "QHubbleTimeAuthority",
+    "SpeciesKinematicJet",
+    "VelocityEqualityProof",
+    "bind_electron_state",
+]
