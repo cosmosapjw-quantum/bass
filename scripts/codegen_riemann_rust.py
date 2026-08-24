@@ -64,6 +64,7 @@ def generate() -> str:
     lines.append("#![allow(clippy::all)]")
     lines.append("")
     lines.append("/// R^a_bcd 를 평탄 배열 out[a*64+b*16+c*4+d] 에 기록 (먼저 0 으로 채움).")
+    lines.append("#[rustfmt::skip]")
     lines.append("pub fn riemann_up(p: &[f64; 24], out: &mut [f64; 256]) {")
     # 인자 언팩
     for i, n in enumerate(names):
@@ -80,13 +81,13 @@ def generate() -> str:
     lines.append("}")
     lines.append("")
     lines.append("/// R_{abcd} = eta_ae R^e_bcd  (eta = diag(-1,1,1,1)) — a=0 행 부호반전.")
+    lines.append("#[rustfmt::skip]")
     lines.append("pub fn riemann_low(p: &[f64; 24], out: &mut [f64; 256]) {")
     lines.append("    riemann_up(p, out);")
     lines.append("    for i in 0..64 {")
     lines.append("        out[i] = -out[i];")
     lines.append("    }")
     lines.append("}")
-    lines.append("")
     return "\n".join(lines) + "\n"
 
 

@@ -100,7 +100,9 @@ def generate() -> str:
         lines += [
             f"/// l={l}: 기저 차원 nb={nb}, 텐서 차원 3^{l}={dim}  (정확 유리수 좌역 검증)",
             f"pub const NB_{l}: usize = {nb};",
+            "#[rustfmt::skip]",
             f"pub const A_{l}: [f64; {dim * nb}] = [{fmt(A.ravel(order='C'))}];",
+            "#[rustfmt::skip]",
             f"pub const S_{l}: [f64; {nb * dim}] = [{fmt(S.ravel(order='C'))}];",
             "",
         ]

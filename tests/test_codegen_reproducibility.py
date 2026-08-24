@@ -10,6 +10,8 @@ import pytest
 
 from scripts import codegen_coeff_tables as coeff_codegen
 from scripts import codegen_pstf as pstf_codegen
+from scripts import codegen_riemann_rust as riemann_codegen
+from scripts import codegen_thermo_tables as thermo_codegen
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,3 +50,14 @@ def test_pstf_generator_matches_checked_source():
     checked = (ROOT / "_rustcore/src/kinetic/pstf_gen.rs").read_text()
 
     assert generated == checked
+
+
+@pytest.mark.parametrize(
+    ("generator", "relative"),
+    [
+        (riemann_codegen.generate, "_rustcore/src/rays/riemann_gen.rs"),
+        (thermo_codegen.generate, "_rustcore/src/thermo/dof_table.rs"),
+    ],
+)
+def test_other_generated_rust_matches_checked_source(generator, relative):
+    assert generator() == (ROOT / relative).read_text()

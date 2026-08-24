@@ -78,11 +78,13 @@ def generate() -> str:
             f"/// {name}: l = {lmin}..={lmax}, K={k}, 총 {data.size} f64",
             f"pub const {up}_MIN_L: usize = {lmin};",
             f"pub const {up}_MAX_L: usize = {lmax};",
+            "#[rustfmt::skip]",
             f"pub static {up}_OFF: [usize; {len(offs)}] = [{', '.join(map(str, offs))}];",
+            "#[rustfmt::skip]",
             f"pub static {up}_DATA: [f64; {data.size}] = [{fmt(data)}];",
             "",
         ]
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 if __name__ == "__main__":
