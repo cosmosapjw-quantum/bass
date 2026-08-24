@@ -1,0 +1,13 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: geometry_candidate_b_exact_600_rows
+CWD: /tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree
+START_UTC: 2026-08-24T15:53:53Z
+TIMEOUT_SECONDS: 300
+COMMAND: env PYTHONPATH=.:compiler RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 taskset -c 0 /tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python -m pytest -q tests/test_r5b_geometry_rows_batch.py::test_exact_background_direct_rows_match_the_scalar_geometry_oracle
+--- COMBINED STDOUT+STDERR ---
+.                                                                        [100%]
+1 passed in 1.27s
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T15:53:55Z
+EXIT_CODE: 0

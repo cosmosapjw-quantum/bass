@@ -1,0 +1,13 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: phase1_r5b_focused_contract_final
+CWD: /tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/r5b-worktree
+START_UTC: 2026-08-24T13:35:25Z
+TIMEOUT_SECONDS: 1800
+COMMAND: env PYTHONPATH=.:compiler /tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python -m pytest -q --junitxml=/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/logs/phase1_r5b_focused_contract_final.junit.xml tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp tests/test_r5b_tilted_hier_rust.py::test_the_mass_matrix_matches_numpy tests/test_r5b_tilted_hier_rust.py::test_bit_exactness_is_lost_only_in_the_linear_solve tests/test_r5b_tilted_hier_rust.py::test_former_red_modes_match_on_common_state_operators tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle tests/test_r5b_tilted_hier_rust.py::test_the_triangular_truncation_matches tests/test_r5b_tilted_hier_rust.py::test_both_backends_meet_the_designated_exact_quadrature_gate tests/test_r5b_tilted_hier_rust.py::test_no_supported_mode_silently_falls_back_to_python
+--- COMBINED STDOUT+STDERR ---
+..................................                                       [100%]
+34 passed in 5.50s
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T13:35:31Z
+EXIT_CODE: 0

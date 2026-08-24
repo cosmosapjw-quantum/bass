@@ -1,0 +1,12 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: phase1_r5b_remote_readback
+CWD: /tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/r5b-worktree
+START_UTC: 2026-08-24T13:39:10Z
+TIMEOUT_SECONDS: 120
+COMMAND: bash -lc set\ -euo\ pipefail\;\ local_sha=\$\(git\ rev-parse\ HEAD\)\;\ remote_sha=\$\(git\ ls-remote\ --heads\ origin\ refs/heads/agent/recovery/r5b-contract-20260824-r1\ \|\ cut\ -f1\)\;\ test\ \"\$local_sha\"\ =\ \"\$remote_sha\"\;\ gh\ pr\ view\ 21\ --repo\ cosmosapjw-quantum/bass\ --json\ number\,state\,isDraft\,baseRefName\,headRefName\,headRefOid\,mergeStateStatus\,url\,body
+--- COMBINED STDOUT+STDERR ---
+{"baseRefName":"agent/recovery/native-repro-closeout-20260824-r2","body":"Outcome: replaces the inherited near-zero relative error-of-error comparator with the PI-authorized operator, direct-state, and independent-science contract.\n\nAffected closure: tests/test_r5b_tilted_hier_rust.py only; production physics, solver, grid, seed, RK4, references, and tolerances are unchanged. The default fixed wall-clock assertion moved out of correctness authority and will be represented by the stacked benchmark delivery.\n\nFocused result: 34 passed in 5.50 s. Former RED state gaps are 2.49e-17 and 5.38e-17 against the predeclared 1e-12 state-parity ceiling; F/M/RHS and both solve backward residual gates pass; mass 0/1 exact-quadrature gates pass for Rust and Python with a no-fallback guard.\n\nEvidence: final focused log SHA-256 a5783348dc0ec8b41c11a0200f1556a6c781db524e5ffee01ec1aeadb687a080; JUnit SHA-256 351762816b59ec269bdb5520a43d1ffddd3cd5d7ca5f22fadb4e9089733c6ffa. The stacked delivery will index these in artifacts/performance/EVIDENCE.json.\n\nBoundary: acceptance-observable correction, not a tolerance waiver, reference change, solver defect fix, or scientific-authority promotion. Draft only; do not merge or mark ready without user approval.","headRefName":"agent/recovery/r5b-contract-20260824-r1","headRefOid":"b810092755837ccfa96502aa7e132a50c3fcbd33","isDraft":true,"mergeStateStatus":"CLEAN","number":21,"state":"OPEN","url":"https://github.com/cosmosapjw-quantum/bass/pull/21"}
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T13:39:11Z
+EXIT_CODE: 0

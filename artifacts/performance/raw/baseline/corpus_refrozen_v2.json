@@ -1,0 +1,217 @@
+{
+  "aggregate_definition": "speedup=1/sum(weight*median_candidate/median_baseline)",
+  "cases": {
+    "optical_map_final": {
+      "directions": {
+        "algorithm": "fibonacci_midpoint_v1",
+        "count": 64,
+        "ordered_float64_sha256": "82e2c40ec08ed112a2fc4a4544cb51913eabdc8a602b38d7cded235407eae519"
+      },
+      "flow": "bianchi.backend.optical_batch",
+      "model": {
+        "H0": 1.0,
+        "Omega0": 0.3,
+        "Sigma0": [
+          0.06,
+          -0.02,
+          -0.04
+        ],
+        "gamma": 1.3333333333333333
+      },
+      "parameters": {
+        "force_python": false,
+        "nsteps": 1000,
+        "t0": 0.0,
+        "t_end": -0.3
+      },
+      "weight": 0.2
+    },
+    "q_mode_a": {
+      "flow": "bianchi.q.model.run",
+      "model": {
+        "a": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "collision": {
+          "history": null,
+          "kernel": "thomson",
+          "nu": 1.0,
+          "rate_mode": "model"
+        },
+        "grid": {
+          "lnq_max": 4.0,
+          "lnq_min": -6.0,
+          "n_p": 0,
+          "n_phi": 48,
+          "n_theta": 24
+        },
+        "lnH": 0.0,
+        "n": [
+          [
+            -0.3,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.3,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.3
+          ]
+        ],
+        "nsteps": 500,
+        "sigma": [
+          [
+            0.2,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -0.1,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -0.1
+          ]
+        ],
+        "tau_span": [
+          0.0,
+          -1.0
+        ],
+        "type": "VIII"
+      },
+      "parameters": {
+        "events": [],
+        "fast": true,
+        "keep_every": 0
+      },
+      "weight": 0.3
+    },
+    "r5b_small_control": {
+      "background": {
+        "H": 1.0,
+        "a0": [
+          1.0,
+          0.9,
+          1.2
+        ],
+        "dv": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "sigma_diag": [
+          0.06,
+          -0.02,
+          -0.04
+        ],
+        "v0": [
+          0.08,
+          -0.05,
+          0.12
+        ]
+      },
+      "flow": "bianchi.matter.tilted_integrate.integrate",
+      "parameters": {
+        "backend": null,
+        "i_max": 1,
+        "jdot_closure": true,
+        "l_max": 2,
+        "mass": 1.0,
+        "mode": "frozen",
+        "n_star": null,
+        "nsteps": 10,
+        "t_end": 0.2
+      },
+      "role": "unweighted_correctness_sensitive_control",
+      "weight": null
+    },
+    "r5b_tilted": {
+      "background": {
+        "H": 1.0,
+        "a0": [
+          1.0,
+          0.9,
+          1.2
+        ],
+        "dv": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "sigma_diag": [
+          0.06,
+          -0.02,
+          -0.04
+        ],
+        "v0": [
+          0.08,
+          -0.05,
+          0.12
+        ]
+      },
+      "flow": "bianchi.matter.tilted_integrate.integrate",
+      "parameters": {
+        "backend": null,
+        "i_max": 3,
+        "jdot_closure": true,
+        "l_max": 3,
+        "mass": 1.0,
+        "mode": "ratio",
+        "n_star": null,
+        "nsteps": 200,
+        "t_end": 0.2
+      },
+      "weight": 0.3
+    },
+    "ray_map_final": {
+      "directions": {
+        "algorithm": "fibonacci_midpoint_v1",
+        "count": 256,
+        "ordered_float64_sha256": "767788aaffed46cd05347c21ed09e72988deb6f73f17472018b5e8531b12182a"
+      },
+      "flow": "bianchi.backend.ray_final_z_batch",
+      "model": {
+        "H0": 1.0,
+        "Omega0": 0.3,
+        "Sigma0": [
+          0.06,
+          -0.02,
+          -0.04
+        ],
+        "gamma": 1.3333333333333333
+      },
+      "parameters": {
+        "force_python": false,
+        "nsteps": 2000,
+        "t0": 0.0,
+        "t_end": -0.3
+      },
+      "weight": 0.2
+    }
+  },
+  "corpus_identity_sha256": "54e465ffdda6a97c939d2f84144ee58522949fc724fcf5d3d8788fc5a443758a",
+  "schema_version": "bass-runtime-benchmark-v2",
+  "unweighted_control": "r5b_small_control",
+  "weighted_cases": [
+    "r5b_tilted",
+    "q_mode_a",
+    "ray_map_final",
+    "optical_map_final"
+  ],
+  "weights": {
+    "optical_map_final": 0.2,
+    "q_mode_a": 0.3,
+    "r5b_tilted": 0.3,
+    "ray_map_final": 0.2
+  }
+}
