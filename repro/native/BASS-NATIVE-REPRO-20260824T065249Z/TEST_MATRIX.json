@@ -1,0 +1,165 @@
+{
+  "schema": "bass-native-repro-test-matrix-v1",
+  "run_id": "BASS-NATIVE-REPRO-20260824T065249Z",
+  "source_commit": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+  "source_tree": "675213f191477b1f47c725892e9f4c804c623ab0",
+  "overall": "FAIL",
+  "terminal_classification": "PARTIAL/BLOCKED",
+  "environment": {
+    "cargo_home_initial_state": "empty",
+    "cargo_home": "dedicated offline CARGO_HOME; only Cargo bookkeeping files appeared",
+    "cargo_net_offline": true,
+    "cargo_source": "relative vendored source replacement",
+    "network_namespace": "BLOCKED_UNSHARE_NOT_PERMITTED",
+    "python_environment": "independent CPython 3.12 smoke venv populated only from wheelhouse plus locally built native wheel"
+  },
+  "gates": [
+    {
+      "id": "cargo_fmt",
+      "status": "FAIL",
+      "command": "cargo fmt --all -- --check",
+      "exit_code": 1,
+      "result": "tracked Rust formatting drift under rustfmt 1.94.1",
+      "retry_count": 0,
+      "log": "logs/p4_cargo_fmt_offline.log"
+    },
+    {
+      "id": "cargo_clippy",
+      "status": "FAIL",
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "exit_code": 101,
+      "result": "103 lib diagnostics and 104 lib-test diagnostics under -D warnings",
+      "retry_count": 0,
+      "log": "logs/p4_cargo_clippy_offline.log"
+    },
+    {
+      "id": "cargo_metadata",
+      "status": "PASS",
+      "command": "cargo metadata --locked --offline --format-version 1",
+      "exit_code": 0,
+      "result": "single workspace package bianchi_rustcore 0.1.0 resolved from vendor",
+      "log": "logs/p4_cargo_metadata_offline.log"
+    },
+    {
+      "id": "cargo_test_workspace",
+      "status": "PASS",
+      "command": "cargo test --workspace --locked --offline",
+      "exit_code": 0,
+      "result": "122 passed; 0 failed; doc-tests 0",
+      "log": "logs/p4_cargo_test_offline.log"
+    },
+    {
+      "id": "maturin_native_wheel",
+      "status": "PASS",
+      "command": "/tmp/BASS-NATIVE-REPRO-20260824T065249Z/env/venv-offline-build/bin/python -m maturin build --release --locked --offline --out /tmp/BASS-NATIVE-REPRO-20260824T065249Z/dist",
+      "exit_code": 0,
+      "result": "CPython 3.12 manylinux_2_34 x86_64 wheel built with PIP_NO_INDEX=1 and offline Cargo",
+      "log": "logs/p5_maturin_build_offline.log"
+    },
+    {
+      "id": "native_import_and_call",
+      "status": "PASS",
+      "command": "python native_smoke.py",
+      "exit_code": 0,
+      "result": "backend rust, rust_available true, 98 exports, exact rotation_matrix call",
+      "log": "logs/p5_native_import_smoke.log"
+    },
+    {
+      "id": "pytest_collection",
+      "status": "PASS",
+      "command": "PYTHONPATH=.:compiler python -m pytest --collect-only -q tests compiler/tests compiler/validation",
+      "exit_code": 0,
+      "result": "1849 tests collected in 46.18s",
+      "log": "logs/p5_pytest_collect_all.log"
+    },
+    {
+      "id": "native_differential",
+      "status": "PASS",
+      "command": "PYTHONPATH=. python -m pytest -q tests/test_rustcore_differential.py",
+      "exit_code": 0,
+      "result": "112 passed in 41.96s; native import independently proven before test",
+      "log": "logs/p5_pytest_native_differential.log"
+    },
+    {
+      "id": "background_classification_constraint",
+      "status": "PASS",
+      "command": "PYTHONPATH=. python -m pytest -q tests/test_backend_integration.py tests/test_c2_chart_coverage.py tests/test_d2_constraint_propagation.py tests/test_d2b_chart_amplification.py tests/test_d2c_matter_state.py tests/test_f1_type_routing.py tests/test_f2_exact_solutions.py tests/test_f2b_exact_ix_exceptional.py tests/test_f3_class_a_tilted.py",
+      "exit_code": 0,
+      "result": "174 passed in 97.88s",
+      "log": "logs/p5_pytest_background_focus.log"
+    },
+    {
+      "id": "e1_e4",
+      "status": "PASS",
+      "command": "PYTHONPATH=. python -m pytest -q tests/test_electron_test_field.py tests/test_electron_collision_rate.py tests/test_electron_thomson_validity.py tests/test_electron_trajectory_authority.py",
+      "exit_code": 0,
+      "result": "74 passed and 46 subtests passed in 1.29s",
+      "log": "logs/p5_pytest_e1_e4_focus.log"
+    },
+    {
+      "id": "compiler_validation",
+      "status": "FAIL",
+      "command": "PYTHONPATH=.:compiler python -m pytest -q compiler/tests compiler/validation",
+      "exit_code": 1,
+      "result": "92 passed, 1 failed: Type-II polarized remap generator output is not byte-identical",
+      "log": "logs/p5_pytest_compiler_full.log"
+    },
+    {
+      "id": "full_feasible_python",
+      "status": "FAIL",
+      "command": "PYTHONPATH=.:compiler python -m pytest -q tests compiler/tests compiler/validation --ignore=tests/test_m11_rays.py --ignore=tests/test_m11_cmb.py",
+      "exit_code": 1,
+      "result": "1833 passed, 3 failed, 46 subtests passed, 1 warning in 1768.62s",
+      "failures": [
+        "tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-frozen]",
+        "tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-ratio_scalar]",
+        "compiler/validation/test_typeii_polarized_remap.py::test_generator_reproduces_committed_outputs_byte_identically"
+      ],
+      "log": "logs/p5_pytest_full_feasible.log"
+    },
+    {
+      "id": "m11_rays",
+      "status": "NOT_RUN",
+      "command": "PYTHONPATH=. python -m pytest -q tests/test_m11_rays.py",
+      "reason": "repository-documented long-test exclusion retained for full-feasible lane; exact command recorded",
+      "expected_cost": "not freshly measured",
+      "log": null
+    },
+    {
+      "id": "m11_cmb",
+      "status": "NOT_RUN",
+      "command": "PYTHONPATH=. python -m pytest -q tests/test_m11_cmb.py",
+      "reason": "repository-documented long-test exclusion retained for full-feasible lane; exact command recorded",
+      "expected_cost": "not freshly measured",
+      "log": null
+    },
+    {
+      "id": "python_sympy_codegen",
+      "status": "FAIL",
+      "result": "Type-II verify/check input binding failure; PSTF and coefficient-table byte drift; Riemann and thermo byte-identical",
+      "log_glob": "logs/ag2b_*.log",
+      "metadata": "metadata/CODEGEN_RESULT.json"
+    },
+    {
+      "id": "wolfram_xact_environment",
+      "status": "BLOCKED",
+      "result": "BLOCKED_NO_VALID_WOLFRAM_LICENSE; xAct FindFile/Needs did not evaluate",
+      "log": "logs/ag1b_04_xact_clean_probe.log"
+    },
+    {
+      "id": "wolfram_xact_project_replay",
+      "status": "BLOCKED",
+      "result": "BLOCKED_NO_PROJECT_DRIVER; no project tensor identity was executed",
+      "log": "logs/ag1b_05_driver_inventory.log"
+    }
+  ],
+  "selection_boundary": {
+    "native_import_dependent_tests": "covered by the full-feasible tests tree and the independently selected native differential file; native backend was proven active",
+    "deselected_by_selector": "focused lanes intentionally select named files; only the full-feasible lane is used for aggregate coverage",
+    "full_feasible_ignored": [
+      "tests/test_m11_rays.py",
+      "tests/test_m11_cmb.py"
+    ],
+    "skip_policy": "no skip or xfail was added; no historical result was copied as fresh evidence"
+  }
+}
