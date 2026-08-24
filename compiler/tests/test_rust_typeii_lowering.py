@@ -30,6 +30,18 @@ def test_manifest_pins_formula_and_has_deterministic_hash(tmp_path):
     mb = json.loads((tmp_path / "b" / "manifest.json").read_text())
     assert ma["formula_authority_sha256"] == FORMULA
     assert ma["bundle_content_sha256"] == mb["bundle_content_sha256"]
+    assert ma["scope"] == {
+        "composition_root": "mod.rs",
+        "owned_scalar_modules": [
+            "typeii_background.rs",
+            "typeii_collision.rs",
+            "typeii_kato.rs",
+        ],
+        "polarized_companion_manifest": "polarized_manifest.json",
+        "polarized_module": "typeii_polarized.rs",
+        "polarized_module_owned_here": False,
+    }
+    assert "pub mod typeii_polarized;" in (tmp_path / "a" / "mod.rs").read_text()
 
 
 def test_background_module_contains_rhs_and_jvp(tmp_path):

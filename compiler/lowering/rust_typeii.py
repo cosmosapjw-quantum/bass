@@ -11,7 +11,7 @@ import numpy as np
 import sympy as sp
 from sympy.printing import rust_code
 
-GENERATOR_VERSION = "1.0.0"
+GENERATOR_VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -153,7 +153,15 @@ def generate_typeii_rust_bundle(
         "typeii_background.rs": _background_rs(formula_authority_hash),
         "typeii_kato.rs": _kato_rs(formula_authority_hash),
         "typeii_collision.rs": _collision_rs(formula_authority_hash),
-        "mod.rs": "pub mod typeii_background;\npub mod typeii_kato;\npub mod typeii_collision;\n",
+        # ``mod.rs`` is the integration root shared with the independently
+        # generated polarized lane.  The old scalar-only declaration was
+        # embedded in this manifest and became stale when polarization landed.
+        "mod.rs": (
+            "pub mod typeii_background;\n"
+            "pub mod typeii_collision;\n"
+            "pub mod typeii_kato;\n"
+            "pub mod typeii_polarized;\n"
+        ),
     }
     for name, text in contents.items():
         (out / name).write_text(text)
@@ -161,7 +169,15 @@ def generate_typeii_rust_bundle(
     formatter = None
     if rustfmt_path is not None:
         rustfmt_path = str(rustfmt_path)
-        rs_files = [str(out / name) for name in sorted(contents) if name.endswith(".rs")]
+        # Formatting the composition root makes rustfmt resolve its external
+        # polarized module, which this scalar generator intentionally does not
+        # own.  ``mod.rs`` is emitted as four canonical declaration lines;
+        # format only the three owned scalar modules here.
+        rs_files = [
+            str(out / name)
+            for name in sorted(contents)
+            if name != "mod.rs" and name.endswith(".rs")
+        ]
         subprocess.run([rustfmt_path, "--edition", "2021", *rs_files], check=True)
         formatter = {"tool": "rustfmt", "version": rustfmt_version or "UNRECORDED"}
 
@@ -176,6 +192,17 @@ def generate_typeii_rust_bundle(
         "generated_files": file_hashes,
         "bundle_content_sha256": bundle_hash,
         "formatter": formatter,
+        "scope": {
+            "composition_root": "mod.rs",
+            "owned_scalar_modules": [
+                "typeii_background.rs",
+                "typeii_collision.rs",
+                "typeii_kato.rs",
+            ],
+            "polarized_companion_manifest": "polarized_manifest.json",
+            "polarized_module": "typeii_polarized.rs",
+            "polarized_module_owned_here": False,
+        },
         "semantics": {
             "background": "exact Type-II aligned 5-state specialization",
             "projector": "low-rank scalar bolometric moving-equilibrium action",
