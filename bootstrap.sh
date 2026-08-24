@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 세션 컨테이너 회수 후 **한 번에** 환경을 복원한다.
+# 세션 컨테이너 회수 후 native-required 설치 단위를 복원한다.
 #
 # 배경: 이 프로젝트는 클라우드 세션에서 개발되는데 컨테이너가 비활성 후 회수되면
 # 작업트리·설치 의존성·빌드 산출물이 모두 사라진다 (2026-07-30 에 두 번 발생).
@@ -7,14 +7,10 @@
 #
 # 사용법:
 #     tar -xzf bianchi-*.tar.gz && cd restore && bash bootstrap.sh
-#     bash bootstrap.sh --fast      # Rust 재빌드 건너뛰기 (Python 시험만)
+# 이 파일은 복구 helper이며 회귀 test runner나 CI authority가 아니다.
 #
-# 확인 대상: pytest 1682 passed, cargo test 122 passed (doctest 0).
-
 set -euo pipefail
 cd "$(dirname "$0")"
-FAST=0
-[[ "${1:-}" == "--fast" ]] && FAST=1
 
 say() { printf '\n\033[1m== %s\033[0m\n' "$*"; }
 
@@ -30,49 +26,60 @@ if [[ "${1:-}" == "--snapshot" ]]; then
   say "스냅샷: $(cd .. && pwd)/bianchi-${NAME}.tar.gz  ($(du -h "$OUT" | cut -f1))"
   exit 0
 fi
-
-say "1/5  Python 의존성"
-pip install -q --break-system-packages -r requirements.lock 2>&1 | tail -1 || \
-  pip install -q -r requirements.lock 2>&1 | tail -1
-# ★ requirements.lock 에 없지만 필요한 것들:
-#   maturin  = Rust 확장 빌드 (개발 전용이라 lock 에 넣지 않았다)
-pip install -q maturin 2>&1 | tail -1
-
-say "2/5  audit 패키지 마커"
-# ★ tests/test_h5_tilted_signs.py 가 `audit.h5_tilted_conservation` 을 임포트한다.
-touch audit/__init__.py
-
-if [[ $FAST -eq 0 ]]; then
-  say "3/5  Rust 코어 빌드 (약 2분)"
-  ( cd _rustcore && cargo test --release 2>&1 | tail -3 )
-  ( cd _rustcore && maturin build --release 2>&1 | tail -2 )
-  pip install -q --force-reinstall --no-deps _rustcore/target/wheels/*.whl 2>&1 | tail -1
-else
-  say "3/5  Rust 빌드 건너뜀 (--fast)"
+if [[ $# -ne 0 ]]; then
+  printf 'ERROR: unsupported bootstrap argument: %s (only --snapshot NAME is supported).\n' "$1" >&2
+  exit 2
 fi
 
-say "4/5  임포트 점검"
+if [[ -z "${VIRTUAL_ENV:-}" ]]; then
+  printf 'ERROR: bootstrap.sh requires an activated venv. Run: python3.12 -m venv .venv && source .venv/bin/activate\n' >&2
+  exit 2
+fi
+if ! command -v rustc >/dev/null 2>&1; then
+  printf 'ERROR: Rust 1.94.1 is required but rustc is not on PATH.\n' >&2
+  exit 2
+fi
+if [[ "$(rustc --version)" != "rustc 1.94.1 "* ]]; then
+  printf 'ERROR: Rust 1.94.1 is required; observed: %s\n' "$(rustc --version 2>&1)" >&2
+  exit 2
+fi
+
+WHEEL_DIR="$(mktemp -d)"
+trap 'rm -rf -- "$WHEEL_DIR"' EXIT
+
+say "1/4  고정 native builder"
+python -m pip install --disable-pip-version-check 'maturin==1.14.1'
+
+say "2/4  lockfile 고정 native 휠"
+( cd _rustcore && python -m maturin build --release --locked --out "$WHEEL_DIR" )
+mapfile -t NATIVE_WHEELS < <(find "$WHEEL_DIR" -maxdepth 1 -type f \
+  -name 'bianchi_rustcore-0.1.0-*.whl' -print)
+if [[ ${#NATIVE_WHEELS[@]} -ne 1 ]]; then
+  printf 'ERROR: expected exactly one bianchi-rustcore 0.1.0 wheel, found %d in %s\n' \
+    "${#NATIVE_WHEELS[@]}" "$WHEEL_DIR" >&2
+  exit 2
+fi
+
+say "3/4  단일 root resolver 설치"
+python -m pip install --disable-pip-version-check --constraint requirements.lock \
+  "${NATIVE_WHEELS[0]}" .
+
+say "4/4  native-required 임포트 점검"
 python - <<'PY'
-import importlib, sys
+import importlib
+from importlib import metadata
+
 mods = ["numpy", "scipy", "sympy", "jax", "bianchi", "bianchi.matter.hierarchy",
         "bianchi.matter.collision", "bianchi.matter.viscous_derived",
         "bianchi.matter.tilted", "bianchi.matter.tilted_moments",
-        "bianchi.matter.tilted_terms", "bianchi.backend"]
+        "bianchi.matter.tilted_terms", "bianchi.backend", "bianchi_rustcore"]
 for m in mods:
     importlib.import_module(m)
     print(f"  ok  {m}")
-try:
-    import bianchi_rustcore
-    print("  ok  bianchi_rustcore (Rust 가속 경로 활성)")
-except ImportError:
-    print("  !!  bianchi_rustcore 없음 → Python 폴백으로만 동작 "
-          "(차등테스트는 skip 된다)", file=sys.stderr)
+version = metadata.version("bianchi-rustcore")
+if version != "0.1.0":
+    raise RuntimeError(f"incompatible bianchi-rustcore distribution: {version}")
+print(f"  ok  bianchi-rustcore {version} (native-required install)")
 PY
 
-say "5/5  회귀 시험"
-# test_m11_{rays,cmb} 는 장시간 실행이라 기본 제외 (기존 관례와 동일)
-python -m pytest tests/ -q --ignore=tests/test_m11_rays.py --ignore=tests/test_m11_cmb.py \
-  2>&1 | tail -3
-
-say "완료 — 기대값: pytest 1682 passed / cargo test 122 passed"
-
+say "완료 — 검증은 RF-00 focused CI/evidence 명령을 별도로 사용"

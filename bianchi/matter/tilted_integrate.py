@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, select_backend
 from bianchi.matter import tilted_closure as TC
 from bianchi.matter import tilted_equation as TE
 from bianchi.matter import tilted_mass as TMass
@@ -164,13 +165,16 @@ def integrate(bg, mass, t_end, nsteps=40, l_max=3, i_max=1, signs=None,
     ★ R5b: 기본 경로면 Rust 커널이 루프 전체를 돌린다.  `backend="python"` 이
       오라클로 남아 있다 (차등시험이 이걸 쓴다).
     """
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
     keys, _, _ = TMass.layout(l_max, i_max, n_star)
     J = {k: v for k, v in initial_state(bg, mass, l_max, i_max).items()
          if k in keys}
     dt = t_end / nsteps
-    if backend != "python" and rust_available(mode, jdot_closure, n_star):
+    if selected.uses_rust:
         ts, js = TR.integrate(bg, J, t_end, nsteps, l_max, i_max, signs, mode,
-                              jdot_closure, n_star, set(keys))
+                              jdot_closure, n_star, set(keys),
+                              _native_module=selected.native_module)
         return {"t": ts, "J": js}
     hist = {"t": [0.0], "J": [dict(J)]}
 

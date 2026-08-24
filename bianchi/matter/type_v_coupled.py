@@ -35,17 +35,19 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, load_native, select_backend
 from bianchi.matter import type_v as TV
 
-try:                                        # R1 · Rust 가속 (없으면 numpy 폴백)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
-
-
 def rust_available():
-    """R1 가속 경로가 살아 있는가 (없으면 numpy 오라클로 그대로 돈다)."""
-    return _RC is not None
+    """진단용 native 가용성; production dispatch 권한은 capability matrix다."""
+    load = load_native()
+    return bool(load.available and load.module is not None
+                and hasattr(load.module, "tv_evolve"))
+
+
+def _selection(route_id, backend, **domain):
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    return select_backend(route_id, policy=policy, **domain)
 
 
 # ═══════════════════════════════════════ 1. 순방향 운동론 (Liouville)
@@ -129,8 +131,10 @@ def _push_nodes(P, W, bg_a, mass, A, t, nsteps, measure=True, rate=None,
 
     ★ R2: `rate` (지수 성장률) 를 주면 배경이 해석적이라 Rust 커널로 갈 수 있다.
     """
-    if backend != "python" and rate is not None and _RC is not None:
-        Pn, Wn = _RC.tv_push_nodes(
+    selected = _selection("type_v.push_nodes", backend,
+                          has_exact_rate=rate is not None)
+    if selected.uses_rust:
+        Pn, Wn = selected.native_module.tv_push_nodes(
             np.ascontiguousarray(np.asarray(P, float)),
             np.ascontiguousarray(np.asarray(W, float)),
             np.asarray(bg_a(0.0), float), np.asarray(rate, float), float(mass),
@@ -318,10 +322,12 @@ def evolve_coupled(a0=(1.0, 0.95, 1.05), A=0.7, mass=0.6, t_end=0.3, nsteps=120,
     rho0 = float(moments_from_nodes(P, W, a, mass, 0, 0)[(0, 0)])
     da = np.asarray(da0, float).copy() if da0 is not None \
         else initial_expansion(a, A, rho0, shear, sigma1, hsign)[0]
-    if backend != "python" and _RC is not None and (l_max, i_max) == (2, 1):
-        return _RC.tv_evolve(np.ascontiguousarray(P), np.ascontiguousarray(W),
-                             a, da, float(mass), float(A), float(t_end),
-                             int(nsteps), bool(project))
+    selected = _selection("type_v.evolve_coupled", backend,
+                          l_max=l_max, i_max=i_max)
+    if selected.uses_rust:
+        return selected.native_module.tv_evolve(
+            np.ascontiguousarray(P), np.ascontiguousarray(W), a, da,
+            float(mass), float(A), float(t_end), int(nsteps), bool(project))
     dt = t_end / nsteps
     rec = {k: [] for k in ("t", "a", "h", "sigma1", "rho", "q1", "pi",
                            "friedmann", "codazzi", "offdiag", "Hdot_spatial",

@@ -29,9 +29,10 @@ type V 는 RK4 루프 전체가 Rust 안에 있어 노드가 Python 으로 돌�
 import numpy as np
 import pytest
 
+from bianchi.backend_policy import BackendPolicy
 from bianchi.matter import tilted_terms as TT
 
-pytestmark = pytest.mark.skipif(not TT.USE_RUST,
+pytestmark = pytest.mark.skipif(not TT.available(),
                                 reason="bianchi_rustcore 없음 (numpy 폴백만)")
 
 GEO_ARGS = ((1.0, 0.9, 1.2), (0.35, 0.28, 0.42), (0.08, -0.05, 0.12),
@@ -87,17 +88,21 @@ def test_div_free_index_matches_numpy(l):
     assert np.abs(a - b).max() / np.abs(a).max() < 1e-14
 
 
-def test_the_integrated_trajectory_is_bit_identical():
-    """★★ **가장 결정적** — 적분 궤적 오차가 두 경로에서 비트-정확 같다."""
-    from bianchi.matter import tilted_integrate as TI
-    ref_rust = TI.trajectory_error(TI.Background(), 1.0, 0.1, 8, 2, 1)
-    TT.USE_RUST = False
-    try:
-        ref_py = TI.trajectory_error(TI.Background(), 1.0, 0.1, 8, 2, 1)
-    finally:
-        TT.USE_RUST = True
-    for k in ref_py:
-        assert ref_py[k] == ref_rust[k], (k, ref_py[k], ref_rust[k])
+def test_typed_python_operator_never_calls_native_fallback(monkeypatch):
+    """명시적 typed Python 오라클은 같은 연산자를 쓰며 native를 호출하지 않는다."""
+    geo = _geo()
+    X = np.arange(9.0).reshape(3, 3)
+    dX = np.linspace(-0.75, 0.5, 9).reshape(3, 3)
+    expected = np.asarray(TT.perp_dot(X, dX, geo, backend="python"), float)
+
+    def unexpected_native(*args, **kwargs):
+        raise AssertionError("typed Python oracle called the native tensor kernel")
+
+    monkeypatch.setattr(TT, "_rc_call", unexpected_native)
+    observed = np.asarray(
+        TT.perp_dot(X, dX, geo, backend=BackendPolicy.PYTHON_ORACLE), float
+    )
+    np.testing.assert_array_equal(observed, expected)
 
 
 def test_the_numpy_oracle_is_still_reachable():

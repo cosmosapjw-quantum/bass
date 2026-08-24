@@ -30,6 +30,7 @@ from functools import lru_cache
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, select_backend
 
 # ═══════════════════════════════════════ 1. 경로 A — 구조상수
 def characteristic_rhs(p, a_vec, mass, A):
@@ -238,15 +239,18 @@ def back_trace(P_t, bg, mass, t, nsteps=64, backend=None):
     ★ R2: 배경이 처방형 `Background` 면 Rust 커널로 간다 (`backend="python"` 으로 강제).
       두 경로는 차등테스트로 대조한다 — 포트는 빠르게만 할 뿐 정확해지지 않는다.
     """
-    if backend != "python" and isinstance(bg, Background):
-        try:
-            import bianchi_rustcore as _RC
-        except Exception:
-            _RC = None
-        if _RC is not None:
-            return np.asarray(_RC.tv_back_trace(
-                np.ascontiguousarray(np.asarray(P_t, float)), bg.a0,
-                bg.H + bg.sig, float(mass), float(bg.A), float(t), int(nsteps)))
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend(
+        "type_v.back_trace",
+        policy=policy,
+        builtin_background=type(bg) is Background,
+    )
+    if selected.uses_rust:
+        rc = selected.native_module
+        assert rc is not None
+        return np.asarray(rc.tv_back_trace(
+            np.ascontiguousarray(np.asarray(P_t, float)), bg.a0,
+            bg.H + bg.sig, float(mass), float(bg.A), float(t), int(nsteps)))
     P = np.asarray(P_t, float).copy()
     dt = -t / nsteps
     for k in range(nsteps):

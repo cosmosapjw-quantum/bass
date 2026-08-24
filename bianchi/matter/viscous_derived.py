@@ -67,7 +67,8 @@ def route_a_source(mass=0.0, delta=0.002):
 
 
 # ════════════════════════════════════════════ 경로 B — PSTF 계층
-def route_b_damping(mass=0.0, a_vec=(1.0, 0.85, 1.18), H_hubble=1.0):
+def route_b_damping(mass=0.0, a_vec=(1.0, 0.85, 1.18), H_hubble=1.0, *,
+                    backend=None):
     """σ=0 에서 l=2 방정식의 감쇠율을 읽는다 — **방정식만** 평가 (미분 없음).
 
     ★ σ=0 이면 (A),(B),(C) 세 σ-결합 항군이 모두 사라져 l=2 방정식이 **절단 없이**
@@ -79,7 +80,7 @@ def route_b_damping(mass=0.0, a_vec=(1.0, 0.85, 1.18), H_hubble=1.0):
     a = np.asarray(a_vec, float)
     if abs(a[0] - a[1]) < 1e-12 and abs(a[1] - a[2]) < 1e-12:
         raise ValueError("a_vec 이 등방이면 π_ab ≡ 0 이라 감쇠율을 정의할 수 없다")
-    J = {(l, i): H.J_moment(a, mass, l, i)
+    J = {(l, i): H.J_moment(a, mass, l, i, backend=backend)
          for l in (0, 2, 4) for i in (0, 1, 2, 3)}
     pi0 = np.asarray(J[(2, 0)], float)
     dpi = np.asarray(H.hierarchy_rhs(J, H_hubble, np.zeros((3, 3)), 2, 0), float)
@@ -107,16 +108,17 @@ def route_b_damping_handset(H_hubble=1.0, pi_diag=(0.1, -0.04, -0.06)):
 
 
 def route_b_source(mass=0.0, a_vec=(1.0, 1.0, 1.0), H_hubble=1.0,
-                   sigma_diag=(0.05, -0.02, -0.03)):
+                   sigma_diag=(0.05, -0.02, -0.03), *, backend=None):
     """π=0, σ≠0 상태에서 l=2 방정식의 σ-소스 계수 (dπ/dt / (ρσ)) — 계층만 사용."""
     a = np.asarray(a_vec, float)
     sig_d = np.asarray(sigma_diag, float)
     sigma = np.diag(sig_d)
-    rho = H.J_moment(a, mass, 0, 0)
+    rho = H.J_moment(a, mass, 0, 0, backend=backend)
     J = {}
     for l in (0, 2, 4):
         for i in (0, 1, 2, 3):
-            J[(l, i)] = H.J_moment(a, mass, l, i) if l == 0 else np.zeros((3,) * l)
+            J[(l, i)] = (H.J_moment(a, mass, l, i, backend=backend)
+                         if l == 0 else np.zeros((3,) * l))
     src = np.asarray(H.hierarchy_rhs(J, H_hubble, sigma, 2, 0), float)
     coef = np.array([src[k, k] / sig_d[k] for k in range(3)]) / rho
     return float(coef.mean())
@@ -124,7 +126,7 @@ def route_b_source(mass=0.0, a_vec=(1.0, 1.0, 1.0), H_hubble=1.0,
 
 # ════════════════════════════════════════════ 유도된 수송계수
 def transport_coefficients(mass=0.0, a_vec=(1.0, 0.85, 1.18), H_hubble=1.0,
-                           route="hierarchy"):
+                           route="hierarchy", *, backend=None):
     """유도된 (η, τ_π) — 자유 파라미터 없음.
 
         1/τ_π = -(감쇠율),        2η/τ_π = -(소스계수)·ρ
@@ -133,10 +135,10 @@ def transport_coefficients(mass=0.0, a_vec=(1.0, 0.85, 1.18), H_hubble=1.0,
     route: 'hierarchy' (경로 B) 또는 'quadrature' (경로 A).
     무질량 기대값: τ_π = 1/(4H),  η = ρ/(15H).
     """
-    rho = H.J_moment(np.asarray(a_vec, float), mass, 0, 0)
+    rho = H.J_moment(np.asarray(a_vec, float), mass, 0, 0, backend=backend)
     if route == "hierarchy":
-        damp = route_b_damping(mass, a_vec, H_hubble)["rate_mean"]
-        src = route_b_source(mass, (1.0, 1.0, 1.0), H_hubble)
+        damp = route_b_damping(mass, a_vec, H_hubble, backend=backend)["rate_mean"]
+        src = route_b_source(mass, (1.0, 1.0, 1.0), H_hubble, backend=backend)
     elif route == "quadrature":
         damp = route_a_damping(mass, a_vec, H_hubble=H_hubble)["rate_mean"]
         src = route_a_source(mass)
@@ -159,15 +161,17 @@ def relaxation_time_massless(H_hubble):
     return 1.0 / (4.0 * H_hubble)
 
 
-def cross_validate(mass=0.0, H_hubble=1.0, tol_damp=2e-3, tol_src=5e-3):
+def cross_validate(mass=0.0, H_hubble=1.0, tol_damp=2e-3, tol_src=5e-3, *,
+                   backend=None):
     """★ 두 경로 교차검증 — 서로 다른 계산으로 같은 계수가 나오는지.
 
     반환 dict(route_a, route_b, damping_rel_diff, source_rel_diff, agree).
     """
     a_damp = route_a_damping(mass, H_hubble=H_hubble)["rate_mean"]
-    b_damp = route_b_damping(mass, H_hubble=H_hubble)["rate_mean"]
+    b_damp = route_b_damping(mass, H_hubble=H_hubble,
+                             backend=backend)["rate_mean"]
     a_src = route_a_source(mass)
-    b_src = route_b_source(mass, H_hubble=H_hubble)
+    b_src = route_b_source(mass, H_hubble=H_hubble, backend=backend)
     d_rel = abs(a_damp - b_damp) / abs(b_damp)
     s_rel = abs(a_src - b_src) / abs(b_src)
     return dict(route_a=dict(damping=a_damp, source=a_src),

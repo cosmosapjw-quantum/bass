@@ -1,8 +1,8 @@
-# bianchi_rustcore — Rust 연산 코어 (R0/R1)
+# bianchi_rustcore — Rust 연산 코어
 
-Bianchi 배경 우주론 솔버의 Rust 백엔드. **하이브리드** 전략(계획 §2)의 첫 조각:
-Rust 가 핫 컴퓨트(현재 측지 광선추적)를 맡고, Python 은 검증 스위트·sympy 오라클·
-오케스트레이션을 유지한다. 모든 노출 함수는 Python 오라클과 **차등테스트로 대조**된다.
+Bianchi 배경 우주론 솔버의 native 수치 백엔드. 지원 경로는 Rust가 실행하고,
+Python은 명시적 오라클과 아직 이식되지 않은 경로의 오케스트레이션을 유지한다.
+노출된 수치 함수는 해당 Python 오라클과 **차등테스트로 대조**된다.
 
 ## 현황 — R-DAG 완주 (R0·R1·R2·R3·R4 + 통합; R5 GPU 만 유예)
 
@@ -78,28 +78,35 @@ Kasner 근방)에서 Rust 는 229/256 을 완료하고 **실패 27개는 전부 
 부동소수점에서 **정확히** 보존된다 (유형 안전성).  Class B Codazzi 구속 C 도 궤적 위에서
 <1e-8 로 유지된다.
 
-## 빌드
+## 낮은 수준의 native 복구 빌드
+
+일반 사용자는 repository 루트의 단일 pip resolver 진입점을 사용한다. 아래는
+검증된 native 휠이 없을 때의 개발/복구 절차이며 Python 패키지를 따로 설치하는
+두 번째 정상 진입점이 아니다. Rust 1.94.1과 maturin 1.14.1을 사용하고 lockfile을
+변경하지 않는다.
 
 시스템 Python 환경(venv 없이)에서 휠을 만들어 설치:
 
 ```bash
+python -m venv .venv && source .venv/bin/activate
+python -m pip install 'maturin==1.14.1'
 cd _rustcore
-maturin build --release
-pip install --force-reinstall --break-system-packages target/wheels/bianchi_rustcore-*.whl
+python -m maturin build --release --locked
+cd ..
+python -m pip install --constraint requirements.lock _rustcore/target/wheels/bianchi_rustcore-0.1.0-*.whl .
 ```
 
-venv 를 쓰면 `maturin develop --release` 한 줄로 된다:
+native crate만 개발하는 경우에도 lockfile을 고정한다:
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -e ..            # bianchi (오라클) + deps
-maturin develop --release
+cd _rustcore
+python -m maturin develop --release --locked
 ```
 
 ## 테스트
 
 ```bash
-cargo test --lib                                   # 순수 Rust 단위테스트 (libpython 링크)
+cargo test --lib --locked --offline                # 검증된 vendor/cache가 있을 때
 pytest ../tests/test_rustcore_differential.py -q   # 차등테스트 (인수 게이트)
 ```
 
@@ -120,16 +127,19 @@ src/
 
 ## 통합 — `bianchi.backend`
 
-공개 API 는 백엔드에 무관하다.  Rust 가 있으면 가속 경로, 없으면 조용히 오라클 폴백:
+RF-00 이후 공개 경로는 정적 capability matrix를 따른다. native 지원 경로는
+`rust_required`로 실패 폐쇄되고, Python 오라클은 명시적으로만 선택한다. 아직
+이식되지 않은 경로만 보이는 `legacy_python_transitional` 상태를 사용한다:
 
 ```python
 from bianchi import backend
-backend.name()                              # 'rust' | 'python'
+from bianchi.backend_policy import BackendPolicy
+backend.capability_report()                 # ABI/build/policy 진단
 backend.ray_final_z_batch(model, nhats, t0, t_end)      # R1
 backend.optical_batch(model, nhats, t0, t_end)          # R1+R4
 backend.integrate_background('class_a', y0, ts, gamma)  # R2
 backend.integrate_batch('class_a', y0s, ts, gamma)      # R3
-# 모든 함수에 force_python=True 로 오라클 경로 강제 (차등테스트·디버깅)
+# policy=BackendPolicy.PYTHON_ORACLE 는 차등테스트·디버깅에만 명시적으로 사용
 ```
 
 검증된 Python 모듈은 **수정하지 않았다** — 디스패치만 얹었다.

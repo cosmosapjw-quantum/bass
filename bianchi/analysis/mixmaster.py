@@ -25,17 +25,25 @@ import numpy as np
 
 from bianchi import integrate as itg
 from bianchi.analysis import kasner as K
+from bianchi.backend_policy import (
+    BackendPolicy,
+    ROUTE_CAPABILITIES,
+    load_native,
+    select_backend,
+)
 from bianchi.charts import class_a as ca
 from bianchi.conventions import SQRT3
 
-try:                                        # R4 · Rust 커널 (없으면 diffrax 오라클)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
-
 
 def rust_available():
-    return _RC is not None
+    """진단용 native capability; 실행 경로 선택 권한은 없다."""
+    load = load_native()
+    capability = ROUTE_CAPABILITIES["mixmaster.bounce_sequence"]
+    return bool(
+        load.available
+        and load.module is not None
+        and all(hasattr(load.module, symbol) for symbol in capability.required_symbols)
+    )
 
 
 def rhs_past(t, y, args):
@@ -112,7 +120,11 @@ def bounce_sequence(y0, args, n_bounce=8, span=40.0, push=1e-2, n_probe=41,
     `push` 는 이벤트 직후 같은 근을 다시 잡지 않도록 τ̃ 를 조금 넘기는 양이다.
     반환 [(τ̃_bounce, 벽, u_epoch, τ̃_epoch, maxN_epoch, Ω)] .
     """
-    if backend != "python" and _RC is not None:
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend("mixmaster.bounce_sequence", policy=policy)
+    if selected.uses_rust:
+        rc = selected.native_module
+        assert rc is not None
         # ★ R4: 세 벽을 **한 번의 적분**으로 감시한다 (되감기·중복 적분 없음).
         v = np.array([float(y0.Sigma_p), float(y0.Sigma_m), float(y0.N1),
                       float(y0.N2), float(y0.N3)], float)
@@ -123,11 +135,11 @@ def bounce_sequence(y0, args, n_bounce=8, span=40.0, push=1e-2, n_probe=41,
             sg[sg == 0.0] = 1.0
             ylog = np.array([v[0], v[1], *np.log(np.maximum(np.abs(v[2:5]),
                                                             1e-300))])
-            tau, w, u, te, mx, om = _RC.mx_bounce_sequence_log(
+            tau, w, u, te, mx, om = rc.mx_bounce_sequence_log(
                 ylog, sg, float(args["gamma"]), int(n_bounce), tm, float(rtol),
                 float(atol), 1e-3)
         else:
-            tau, w, u, te, mx, om = _RC.mx_bounce_sequence(
+            tau, w, u, te, mx, om = rc.mx_bounce_sequence(
                 v, float(args["gamma"]), int(n_bounce), tm, float(rtol),
                 float(atol), 1e-3)
         return [(float(tau[i]), int(w[i]), float(u[i]), float(te[i]),
