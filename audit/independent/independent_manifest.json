@@ -1,0 +1,73 @@
+{
+  "kind": "independent_coordinate_basis_verification",
+  "imports_bianchi_or_engine": false,
+  "parts": [
+    {
+      "part": "partA",
+      "certifies": "type-VI_h coordinate realization: structure constants re-read, Jacobi",
+      "passed": true,
+      "verdict": "PART A VERDICT: PASS",
+      "returncode": 0,
+      "min_residual": 0.0,
+      "tail": [
+        "=> class B (a != 0) with n of signature (0,+,-): type VI_h flavor confirmed",
+        "",
+        "PART A VERDICT: PASS"
+      ]
+    },
+    {
+      "part": "partB",
+      "certifies": "frame data (H, sigma, R, n-hat, a-hat) read off the metric",
+      "passed": true,
+      "verdict": "PART B VERDICT: PASS",
+      "returncode": 0,
+      "min_residual": 0.0,
+      "tail": [
+        "  metricity nabla g = 0 (Christoffel check)               2.220e-16",
+        "",
+        "PART B VERDICT: PASS"
+      ]
+    },
+    {
+      "part": "partC",
+      "certifies": "CLAIM 1 geodesic transport (H/sigma/P-quadratic) vs exact coordinate geodesic",
+      "passed": true,
+      "verdict": "PART C VERDICT (CLAIM 1, H/sigma/P-quadratic terms; Omega inert): PASS",
+      "returncode": 0,
+      "min_residual": 0.0,
+      "tail": [
+        "",
+        "worst-case: exact 2.220e-16 | FD(1e-6) 9.268e-11 | FD(5e-7) 1.294e-10 | Richardson 2.034e-10",
+        "PART C VERDICT (CLAIM 1, H/sigma/P-quadratic terms; Omega inert): PASS"
+      ]
+    },
+    {
+      "part": "partD",
+      "certifies": "CLAIM 2 Maxwell curl relative sign +eps (vs coordinate div F / dF)",
+      "passed": true,
+      "verdict": "PART D VERDICT: NEW claim (+eps_abc a^b X^c) CONFIRMED; OLD (-eps) REFUTED.",
+      "returncode": 0,
+      "min_residual": 0.0,
+      "tail": [
+        "",
+        "SIGN VERDICT: NEW(+eps) worst residual 1.665e-16 ; OLD(-eps) best residual 1.132e-01",
+        "PART D VERDICT: NEW claim (+eps_abc a^b X^c) CONFIRMED; OLD (-eps) REFUTED."
+      ]
+    },
+    {
+      "part": "partE_rotated",
+      "certifies": "rotating-frame run: Maxwell R-terms + D13 Omega-sign discriminator",
+      "passed": true,
+      "verdict": "PART E VERDICT: PASS  (Maxwell R-terms + +eps confirmed; transport corrected to +(R x P) and confirmed to 1.7e-16)",
+      "returncode": 0,
+      "min_residual": 0.0,
+      "tail": [
+        "    terms] holds to 1.665e-16.",
+        "",
+        "PART E VERDICT: PASS  (Maxwell R-terms + +eps confirmed; transport corrected to +(R x P) and confirmed to 1.7e-16)"
+      ]
+    }
+  ],
+  "n_failed": 0,
+  "all_passed": true
+}

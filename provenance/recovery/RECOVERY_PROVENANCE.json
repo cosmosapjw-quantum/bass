@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "BASS_BACKGROUND_V87_RECOVERY_20260824",
+  "created_date": "2026-08-24",
+  "status": "RECOVERED_SOURCE_SNAPSHOT_VERIFIED",
+  "source_selection": {
+    "canonical_source_archive": {
+      "name": "bianchireview87.tar(3).gz",
+      "sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+      "role": "LATEST_COMPLETE_SOURCE_SNAPSHOT"
+    },
+    "byte_identical_duplicate": {
+      "name": "bianchireview87.tar(1).gz",
+      "sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84"
+    },
+    "predecessor": {
+      "name": "bianchicoverage87.tar.gz",
+      "sha256": "8e676a442653fb43365cbfac38855c57e27bf05978535ad425f142a6bd4735e2",
+      "role": "STRICT_PREDECESSOR_DO_NOT_OVERLAY"
+    },
+    "partial_rust_overlay": {
+      "name": "bianchirustcoreRDAGcomplete.tar.gz",
+      "sha256": "53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb",
+      "role": "HISTORICAL_PARTIAL_OVERLAY_ONLY"
+    }
+  },
+  "original_git_lineage": {
+    "status": "UNAVAILABLE",
+    "reason": "The source-bearing tar archives contain no .git directory, commit object, parent object, remote URL, or signed build receipt.",
+    "archive_label_only": "bianchii2b -> bianchib2bready"
+  },
+  "formula_authority": {
+    "archive": "Bianchi_Core_Closure_Final(1).zip",
+    "sha256": "5909b3cd5632245ecc794532c0f569a59c6ee5a0e741bb307001f1c4e3087a0e",
+    "bundle_head": "f63d5ae8faa2ea0c9afd2fee37fe2e7051cf16b0",
+    "fresh_wrapper_integrity_and_claim_verifier": "21/21 PASS",
+    "fresh_mathematical_engine_replay": "NOT_PERFORMED",
+    "role": "FORMULA_AND_CONVENTION_PROVENANCE_ONLY",
+    "runtime_merge": false
+  },
+  "external_oracle": {
+    "repository": "cosmosapjw-quantum/bianchi_phase_r",
+    "commit": "539fcd6acc81dfd19d05951c2c5cbc3602eda077",
+    "tree": "7f155a4c815495c519f30d78ea8682bf3e3b0162",
+    "role": "DISTINCT_OLDER_EXTERNAL_ORACLE",
+    "nonempty_git_blobs_shared_with_recovery": 0,
+    "ancestry_claim": "UNAVAILABLE"
+  },
+  "recovery_policy": {
+    "retained": [
+      "Python source",
+      "Rust source and Cargo metadata",
+      "tests",
+      "audit sources and machine-readable receipts",
+      "scripts",
+      "project documentation and report sources",
+      "required generated numerical source data"
+    ],
+    "excluded": [
+      "cache directories and Python bytecode",
+      "generated PDF and PNG outputs",
+      "TeX auxiliary, log, and output files",
+      "transient runtime logs",
+      "refs_neutrinos_LewisChallinor.tex (third-party manuscript source)"
+    ],
+    "scientific_source_edits": 0,
+    "git_mode_normalization": "0600 regular files become 100644; two executable shell scripts remain 100755",
+    "generated_binary_inputs": {
+      "bianchi/generated/riemann_frame.pkl": "PINNED_UNTRUSTED_INPUT_OPCODE_PARSED_NOT_EXECUTED",
+      "bianchi/matter/gaunt_tables.npz": "OPENED_WITH_ALLOW_PICKLE_FALSE"
+    }
+  },
+  "verification": {
+    "archive_member_path_safety": "PASS",
+    "formula_wrapper_integrity_and_claim_verifier": "21/21 PASS; 179 manifest rows and Git bundle checked; not a fresh mathematical-engine replay",
+    "retained_file_byte_identity": "408/408 PASS",
+    "selected_formula_receipt_byte_identity": "6/6 PASS",
+    "secret_pattern_scan": "PASS",
+    "special_file_scan": "PASS",
+    "python_compile": "302/302 PASS",
+    "json_parse": "30/30 PASS",
+    "toml_parse": "3/3 PASS",
+    "shell_parse": "3/3 PASS",
+    "rust_parse": "40/40 PASS",
+    "cargo_metadata_locked_offline": "PASS",
+    "generated_pickle_opcode_parse_without_execution": "PASS",
+    "npz_open_with_pickle_disabled": "PASS",
+    "full_python_runtime_suite": "ENVIRONMENT_BLOCKED_MISSING_PYTEST_JAX_DIFFRAX_SYMPY_MATURIN",
+    "full_rust_test_suite": "ENVIRONMENT_BLOCKED_MISSING_OFFLINE_NALGEBRA",
+    "independent_recovery_review": "CONFIRMED_AFTER_MANIFEST_AND_FORMULA_WORDING_FIXES"
+  },
+  "claim_boundaries": [
+    "RECOVERED_SOURCE_SNAPSHOT",
+    "NO_AUTHORITY_PROMOTION",
+    "NO_PRODUCTION_READINESS_CLAIM",
+    "HISTORICAL_TEST_COUNTS_ARE_NON_INHERITABLE"
+  ]
+}

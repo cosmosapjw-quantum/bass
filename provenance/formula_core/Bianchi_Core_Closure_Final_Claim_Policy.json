@@ -1,0 +1,371 @@
+{
+  "PASS": true,
+  "allowed_count": 8,
+  "allowed_headline_claims": [
+    {
+      "classification": "EXACT_PROJECT_THEOREM",
+      "headline": "Exact homogeneous nonperturbative polarized Liouville transport",
+      "id": "HC01",
+      "minimal_conditions": [
+        "Spatial homogeneity.",
+        "Metric signature (-,+,+,+), epsilon_123=+1, and the locked screen/tetrad conventions.",
+        "Sufficient regularity for the distribution and angular projections.",
+        "Collision scope, when present, is the cold non-tilted electron-rest Thomson block."
+      ],
+      "not_implied": [
+        "Einstein-equation evolution",
+        "solver construction",
+        "numerical output readiness"
+      ],
+      "release_text": "An exact formula-level Liouville transport theorem for polarized photons on spatially homogeneous Bianchi backgrounds, nonperturbative in the homogeneous anisotropy variables within the declared regularity and convention domain.",
+      "replay_gates": [
+        "CC20:A03_ABSTRACT_LANE",
+        "CC20:A04_COMPONENT_LANE",
+        "CC21:A02_REVIEWERS"
+      ],
+      "theorem_evidence": [
+        "CC03",
+        "CC04"
+      ]
+    },
+    {
+      "classification": "EXACT_SOURCE_LOCKED",
+      "headline": "Cold, non-tilted electron-rest Thomson scattering",
+      "id": "HC02",
+      "minimal_conditions": [
+        "Cold electron distribution.",
+        "Electron bulk tilt is zero in the authority frame.",
+        "Elastic Thomson limit."
+      ],
+      "not_implied": [
+        "thermal or recoil Comptonization",
+        "Klein-Nishina corrections",
+        "finite-electron-tilt collisions"
+      ],
+      "release_text": "An exact multipole representation of classical elastic Thomson scattering for cold, non-tilted electrons at rest in the normal frame.",
+      "replay_gates": [
+        "CC20:A04_COMPONENT_LANE",
+        "CC21:M14_SCOPE_PROMOTION",
+        "CC21:A14_SCOPE_FIREWALL"
+      ],
+      "theorem_evidence": [
+        "CC05"
+      ]
+    },
+    {
+      "classification": "PROJECT_DERIVED_EXACT",
+      "headline": "Generic all-rank scalar and polarized PSTF hierarchy",
+      "id": "HC03",
+      "minimal_conditions": [
+        "Scalar multipoles have ell>=0; polarized multipoles have ell>=2.",
+        "Endpoint condition [epsilon_gamma X_Aell]_0^infinity=0 for bolometric integration.",
+        "Finite-rank and random checks are regression evidence only, not the all-rank authority."
+      ],
+      "not_implied": [
+        "hierarchy truncation",
+        "line-of-sight implementation"
+      ],
+      "release_text": "Generic all-rank spectral and brightness PSTF hierarchies for I, V, E, and B, with structural boundary ranks and the energy map applied exactly once.",
+      "replay_gates": [
+        "CC20:A04_COMPONENT_LANE",
+        "CC20:A07_COEFFICIENT_AGREEMENT",
+        "CC21:M05_DOUBLE_ENERGY_MAP",
+        "CC21:M16_FINITE_SAMPLE_AS_AUTHORITY"
+      ],
+      "theorem_evidence": [
+        "CC06",
+        "CC07",
+        "CC08",
+        "CC09"
+      ]
+    },
+    {
+      "classification": "PROJECT_DERIVED_EXACT",
+      "headline": "Equivalent project-spin/Wigner representation",
+      "id": "HC04",
+      "minimal_conditions": [
+        "ProjectSpinY[s]=StandardSpinY[-s].",
+        "Wigner ordering is (ell_out,L_geometry,ell_in).",
+        "The common-map sign is applied exactly once."
+      ],
+      "not_implied": [
+        "a competing convention",
+        "finite-rank authority"
+      ],
+      "release_text": "A bidirectional PSTF-to-project-spin/Wigner dictionary and three-way distribution/PSTF/Wigner operator equivalence.",
+      "replay_gates": [
+        "CC20:A05_HARMONIC_LANE",
+        "CC20:A07_COEFFICIENT_AGREEMENT",
+        "CC21:M03_WRONG_PROJECT_SPIN",
+        "CC21:M04_DOUBLE_COMMON_MAP"
+      ],
+      "theorem_evidence": [
+        "CC10",
+        "CC11"
+      ]
+    },
+    {
+      "classification": "PROJECT_DERIVED_EXACT_SPECIALIZATION",
+      "headline": "Explicit eleven public Bianchi branches",
+      "id": "HC05",
+      "minimal_conditions": [
+        "Public label III is retained while its computational equivalence to VI_h(h=-1) is recorded.",
+        "Generic class-B N23 remains until an explicit proper-frame gauge is chosen.",
+        "Generic Type-IX N_STF is not replaced by its optional closed-FLRW locus."
+      ],
+      "not_implied": [
+        "canonical integer/sign entries as physical curvature magnitudes",
+        "automatic FLRW specialization"
+      ],
+      "release_text": "Literal generic-rank spectral and brightness formulas for the eleven public Bianchi labels, with canonical and physical layers kept separate.",
+      "replay_gates": [
+        "CC20:A09_BRANCH_COVERAGE",
+        "CC20:A10_ADAPTER_FIREWALLS",
+        "CC21:M06_ERASE_III_PUBLIC_LABEL",
+        "CC21:M07_DELETE_GENERIC_CLASSB_N23",
+        "CC21:M08_DELETE_GENERIC_IX_NSTF"
+      ],
+      "theorem_evidence": [
+        "CC13",
+        "CC14",
+        "CC15",
+        "CC17",
+        "CC19"
+      ]
+    },
+    {
+      "classification": "PROJECT_DERIVED_EXACT_SUPPLEMENT",
+      "headline": "Exceptional VI_-1/9 dynamical supplement",
+      "id": "HC06",
+      "minimal_conditions": [
+        "The supplement is not counted as a twelfth Bianchi algebra type.",
+        "The exceptional algebraic and momentum constraints are retained.",
+        "The witness gauge is not promoted to the full branch."
+      ],
+      "not_implied": [
+        "ordinary diagonal-shear VI_h shortcut"
+      ],
+      "release_text": "A dedicated exceptional VI_-1/9 formula supplement that preserves the degenerate constraint and the independent Sigma13/Sigma23 shear freedom.",
+      "replay_gates": [
+        "CC20:A09_BRANCH_COVERAGE",
+        "CC20:A10_ADAPTER_FIREWALLS",
+        "CC21:M10_DELETE_EXCEPTIONAL_SHEAR"
+      ],
+      "theorem_evidence": [
+        "CC16",
+        "CC17",
+        "CC19"
+      ]
+    },
+    {
+      "classification": "PROJECT_DERIVED_RELEASE_ARTIFACT",
+      "headline": "Formula SSOT and literal formula atlas",
+      "id": "HC07",
+      "minimal_conditions": [
+        "All 96 explicit equations and 824 atomic term/source rows are present.",
+        "No coefficient is hand-edited outside the frozen registry.",
+        "CC12-SA-001 remains visible."
+      ],
+      "not_implied": [
+        "journal-production typesetting completion of the long SSOT"
+      ],
+      "release_text": "A checksum-linked mathematical SSOT and literal branch atlas generated from frozen coefficient and term registries.",
+      "replay_gates": [
+        "CC20:A04_COMPONENT_LANE",
+        "CC21:M15_REGISTRY_WITHOUT_LITERAL_EQUATION",
+        "CC21:A11_FORMULA_TOKEN_PRESERVATION"
+      ],
+      "theorem_evidence": [
+        "CC18",
+        "CC19"
+      ]
+    },
+    {
+      "classification": "REPRODUCIBILITY_NARROWED",
+      "headline": "Formula-level hybrid plugin-assisted replay evidence",
+      "id": "HC08",
+      "minimal_conditions": [
+        "The shell orchestration validates fresh checksum-gated plugin receipts but does not itself invoke the ChatGPT Wolfram plugin.",
+        "The packaged native wolframscript path was not executed in this environment.",
+        "xTensor/xCoba/xTras and the MakeTraceless symbol/definition were verified; the authority trace-free identity was independently checked with xTensor rather than by a direct MakeTraceless output replay."
+      ],
+      "not_implied": [
+        "native end-to-end Wolfram replay completed here",
+        "direct MakeTraceless API result as authority"
+      ],
+      "release_text": "Formula-level reproducibility evidence from a hybrid plugin-assisted clean orchestration with source-hash-validated fresh stateless-Wolfram receipts and independent local symbolic lanes.",
+      "replay_gates": [
+        "CC20:A01_INHERITED_INTEGRITY",
+        "CC20:A02_ONE_COMMAND_CLEAN",
+        "CC20:A17_HASH_CONTRACTS",
+        "CC21:A08_CLAIM_PROPAGATION"
+      ],
+      "theorem_evidence": [
+        "CC20",
+        "CC21-P1-001",
+        "CC21-P2-001"
+      ]
+    }
+  ],
+  "created_utc": "2026-08-09T16:31:24Z",
+  "forbidden_claims": [
+    {
+      "claim": "full Einstein--Boltzmann solver",
+      "id": "FC01",
+      "negative_gate": "NC01_FULL_EINSTEIN_BOLTZMANN_SOLVER",
+      "normalized_pattern": "full einstein-boltzmann solver",
+      "reason": "No Einstein/background evolution, truncation, numerical integrator, line-of-sight or output pipeline is part of the formula core."
+    },
+    {
+      "claim": "solver-ready",
+      "id": "FC02",
+      "negative_gate": "NC03_SOLVER_READY",
+      "normalized_pattern": "solver-ready",
+      "reason": "The closed work is formula-level; solver interfaces and numerical stability are unverified."
+    },
+    {
+      "claim": "numerically mature",
+      "id": "FC03",
+      "negative_gate": "NC04_NUMERICALLY_MATURE",
+      "normalized_pattern": "numerically mature",
+      "reason": "No production numerical evolution or convergence campaign is included."
+    },
+    {
+      "claim": "output-ready",
+      "id": "FC04",
+      "negative_gate": "NC05_OUTPUT_READY",
+      "normalized_pattern": "output-ready",
+      "reason": "No observable-output or line-of-sight pipeline is closed."
+    },
+    {
+      "claim": "perturbation-ready",
+      "id": "FC05",
+      "negative_gate": "NC06_PERTURBATION_READY",
+      "normalized_pattern": "perturbation-ready",
+      "reason": "No perturbation implementation or gauge-ready solver contract is closed."
+    },
+    {
+      "claim": "statistics-ready",
+      "id": "FC06",
+      "negative_gate": "NC07_STATISTICS_READY",
+      "normalized_pattern": "statistics-ready",
+      "reason": "No likelihood, covariance or inference layer is included."
+    },
+    {
+      "claim": "all microphysics exact",
+      "id": "FC07",
+      "negative_gate": "NC02_ALL_MICROPHYSICS_EXACT",
+      "normalized_pattern": "all microphysics exact",
+      "reason": "The collision authority is cold electron-rest Thomson only; recombination and other microphysics are excluded."
+    },
+    {
+      "claim": "full Compton exact",
+      "id": "FC08",
+      "negative_gate": "NC08_FULL_COMPTON_EXACT",
+      "normalized_pattern": "full compton exact",
+      "reason": "Thermal, recoil and generalized Compton/Kompaneets effects are outside scope."
+    },
+    {
+      "claim": "Klein--Nishina complete",
+      "id": "FC09",
+      "negative_gate": "NC09_KLEIN_NISHINA",
+      "normalized_pattern": "klein-nishina complete",
+      "reason": "Klein-Nishina corrections are excluded."
+    },
+    {
+      "claim": "finite-electron-tilt complete",
+      "id": "FC10",
+      "negative_gate": "NC10_FINITE_TILT",
+      "normalized_pattern": "finite-electron-tilt complete",
+      "reason": "The collision theorem assumes non-tilted electrons."
+    },
+    {
+      "claim": "recombination/reionization complete",
+      "id": "FC11",
+      "negative_gate": "NC11_RECOMBINATION_REIONIZATION",
+      "normalized_pattern": "recombination/reionization complete",
+      "reason": "Atomic recombination and reionization modules are separate future extensions."
+    },
+    {
+      "claim": "line-of-sight complete",
+      "id": "FC12",
+      "negative_gate": "NC12_LINE_OF_SIGHT",
+      "normalized_pattern": "line-of-sight complete",
+      "reason": "No line-of-sight integration is implemented."
+    },
+    {
+      "claim": "inference-ready",
+      "id": "FC13",
+      "negative_gate": "NC13_INFERENCE_READY",
+      "normalized_pattern": "inference-ready",
+      "reason": "No parameter inference or statistical release is included."
+    },
+    {
+      "claim": "native end-to-end Wolfram replay completed here",
+      "id": "FC14",
+      "negative_gate": "NC14_NATIVE_WOLFRAM_OVERCLAIM",
+      "normalized_pattern": "native end-to-end wolfram replay completed here",
+      "reason": "CC20 used hybrid plugin-assisted orchestration; the native wolframscript path was packaged but not executed here."
+    },
+    {
+      "claim": "direct MakeTraceless API replay is the authority witness",
+      "id": "FC15",
+      "negative_gate": "NC15_MAKETRACELESS_OVERCLAIM",
+      "normalized_pattern": "direct maketraceless api replay is the authority witness",
+      "reason": "xTras availability and definition were verified, while the authority trace-free identity was checked independently with xTensor."
+    }
+  ],
+  "forbidden_count": 15,
+  "future_extension_count": 6,
+  "future_extensions": [
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Derive and validate the boosted electron-rest collision operator with independent frame and conservation gates.",
+      "extension": "Finite-electron-tilt collision operator",
+      "id": "EX01"
+    },
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Couple checksum-addressed atomic/radiative-transfer modules without altering the closed formula core.",
+      "extension": "Recombination and reionization microphysics",
+      "id": "EX02"
+    },
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Define closure, truncation-error and gauge/frame contracts, then validate against exact hierarchy limits.",
+      "extension": "Hierarchy truncation and line-of-sight integration",
+      "id": "EX03"
+    },
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Implement a stable solver, convergence tests, restart state, output normalization and independent regression.",
+      "extension": "Numerical solver and observable outputs",
+      "id": "EX04"
+    },
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Replace the Thomson-only collision block with a separately derived and source-regressed collision authority.",
+      "extension": "Thermal/recoil/Klein-Nishina Compton physics",
+      "id": "EX05"
+    },
+    {
+      "current_status": "NOT_INCLUDED",
+      "entry_condition": "Require validated observables, covariance, data provenance and inference-specific audits.",
+      "extension": "Likelihood and statistical inference",
+      "id": "EX06"
+    }
+  ],
+  "release_label": "formula-only Core Closure release",
+  "reproducibility_qualification": {
+    "direct_MakeTraceless_output_is_authority_witness": false,
+    "execution_mode": "hybrid plugin-assisted clean orchestration",
+    "native_wolframscript_executed_here": false
+  },
+  "schema_version": "1.0",
+  "source_hashes": {
+    "Bianchi_CC22_Allowed_Claims.json": "4b51b6d0c10e6b49522d1884522cc7e1f04d8b8ec8bfa75dfa1ebc666b3fb33e",
+    "Bianchi_CC22_Forbidden_and_Extension_Claims.json": "08d051e5eec115d7fc6cc09f69740b29b2f9fdab05bed11f9780f89e114288f5",
+    "CLAIM_POLICY.md": "0cad642246ef47085e5b33dcd70d21abb00b5b32c45764b268c4d47fb145f24c"
+  },
+  "title": "Bianchi Core Closure Final claim policy"
+}

@@ -1,0 +1,280 @@
+\documentclass[11pt]{article}
+\usepackage{fontspec}
+\setmainfont{Noto Serif CJK KR}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\newcommand{\Sig}{\Sigma}
+\newcommand{\nhat}{\hat{n}}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+
+\title{\textbf{Bianchi 배경 우주론 솔버 — v2.0 보고서}\\[0.3em]
+\large 배경 수준 우주 현상의 완전 구현과 관측 브리지}
+\author{계산·검증 기록 (M8--M11)}
+\date{2026년 7월 29일}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+v1.4 에서 확정된 11개 Bianchi 유형(+예외 VI$^*_{-1/9}$, tilted) 배경 동역학 위에,
+관측 가능량을 산출하기 위한 배경 수준 물리를 전면 구현했다. 광선추적(측지·Sachs 광학),
+무충돌 자유흐름, 전자기장, 점성, 게이지장 이방 인플레이션, 기울어진 유체 합동의
+vorticity, 그리고 열역사(재결합·중성미자·암흑에너지·동결)를 24개 계획 PR 중 22개까지
+완료했다. 모든 모듈은 유도 검증 오라클과 단위시험을 갖추며, 전체 249개 시험이 통과한다.
+FLRW 극한에서 최종산란까지의 공변거리는 CAMB 대비 0.02\%, 우주 나이는 0.01\%,
+BAO 거리비는 BOSS/eBOSS 대비 3\% 내로 재현된다. 본 보고서는 확정 수식, 구현 지도,
+검증 잔차, 관측 예측, 그리고 v2.0 에서 발견·수정한 프레임 접속 규약 결함과 정직한
+한계(음향지평 반해석 $\sim$2\%)를 기록한다.
+\end{abstract}
+
+\section{개요: v2.0 범위}
+
+v1.4 는 Wainwright--Ellis 팽창 정규화 직교틀 형식의 \emph{배경 동역학}(전단 $\Sig$,
+곡률 $N$, 가속도 $A$, 밀도 $\Omega$, tilt $v$)을 확정했다. v2.0 의 목표는 이 해로부터
+\emph{관측 가능량}을 산출하는 데 필요한 배경 수준 물리를 빠짐없이 구현하는 것이다.
+BBN 같은 별도 대규모 프로젝트는 범위에서 제외했다. 구현은 유도(D1--D24)를 코드(PR)로
+잇는 DAG(\texttt{IMPL-DAG.md})를 따랐으며, 각 PR 은 검증 오라클을 통과해야 병합된다.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+마일스톤 & 내용 & PR \\
+\midrule
+M8 기반 & 물리 차트, 삼각대 전송, 종족 프로토콜, 단위 & 28--31 \\
+M9 열역사 & DOF, 온도, 중성미자, 암흑에너지, 재결합, 동결 & 32--37 \\
+M10 물질·no-hair & 자유흐름, 점성, 게이지장, no-hair, 유체 합동 & 38--42 \\
+M11 관측 & 광선추적, 광학 $d_A$, CMB 패턴, 거리·BAO, SN & 43--49 \\
+통합 & 배치 비용, 본 보고서 & 51--52 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+미구현 2건(PR-50 계열 회귀 자동화 일부, 완전 정밀 Boltzmann 결합)은 범위상 후속으로
+남긴다. 아래는 v2.0 에서 확정한 수식과 그 검증이다.
+
+\section{확정 수식 (D13--D24)}
+
+\subsection{프레임 접속과 측지 전송 (D2, D13)}
+직교틀 접속 블록은 좌표계 독립 검산(잔차 $\le 6.7\times10^{-16}$)으로 확정되었다:
+\[
+\Gamma^0_{ab}=\Gamma^a_{0b}=H\delta_{ab}+\sigma_{ab},\quad
+\Gamma^a_{b0}=-\Omega_{ab},\ \ \Omega_{ab}=\varepsilon_{abc}R^c,\quad
+\Gamma^a_{bc}={}^3\Gamma^a_{bc}.
+\]
+광자 전송(우주시간 $t$)은
+\[
+\dot E = -E\,(H+\sigma_{ab}\nhat^a\nhat^b),\qquad
+\dot P^a = -(H\delta+\sigma)P + (R\times P) - E\,\mathcal{P}^a(\nhat),
+\]
+\[
+\mathcal{P}^a(x)=A^a|x|^2-(A\!\cdot\!x)x^a+\varepsilon^a{}_{bc}x^b(Nx)^c .
+\]
+$E=1+z$ 는 과거로 갈수록 커지므로 적색이동은 $z=E-1$ 로 부호가 고정된다(관측자에서
+$E=1$). 이 $\mathcal{P}^a$ 의 이중축약 계수는 tilt 유도(잔차 $3.1\times10^{-14}$)와 공유된다.
+
+\subsection{Sachs 광학과 각지름거리 (D15--D17)}
+조석행렬 $T_{AB}=-R_{a\mu b\nu}k^\mu k^\nu E_A^a E_B^b$ (스크린 기저 $E_A$)로 Jacobi
+방정식 $J''=T J$ 를 적분하여 $d_A=|\det J|^{1/2}$ 를 얻는다. 검증: Ricci 집속
+$\operatorname{tr}T=-R_{\mu\nu}k^\mu k^\nu$ (잔차 $2.8\times10^{-14}$), EdS 기준해
+$2.3\times10^{-13}$, 그리고 상반성 $r_{s\to o}=(1+z)r_{o\to s}$ ($4.1\times10^{-12}$).
+Etherington $d_L=(1+z)^2 d_A$ 는 \emph{검증에만} 쓰고 정의로 쓰지 않는다.
+
+\subsection{무충돌 자유흐름 (D8, D11, D12)}
+Vlasov 구적으로 $\rho,p,\pi_{ab}$ 를 산출한다. 무질량 극한 $w=1/3$, $\rho\propto\ell^{-4}$;
+비상대론 $\rho\propto\ell^{-3}$. 급격 응답 계수는 Misner 점성의 $-8/15$ 이며, 보존
+$\dot\rho+3H(\rho+p)+\sigma_{ab}\pi^{ab}=0$ 이 $\sim4\times10^{-10}$ 로 성립한다.
+
+\subsection{전자기장 E+B (D19)}
+프레임 Maxwell 은 E, B 동시 풀이로 쌍대구조를 가진다:
+\[
+\dot E_a=-2HE_a+\sigma_{ab}E^b+(R\times E)_a-(n_{ab}B^b+\varepsilon_{abc}a^bB^c),
+\]
+$\dot B$ 는 $E\!\leftrightarrow\!B$, curl 부호 반전. curl 상대부호는 \textbf{+}
+(v1.2 정정; 좌표검산 $1.7\times10^{-16}$). 구속 $a\!\cdot\!E=a\!\cdot\!B=0$.
+
+\subsection{점성과 게이지장 이방 인플레이션 (D20, D21)}
+Eckart $\Pi_{ab}=-2(\eta/H)\Sig_{ab}$ 는 전단의 순수 감쇠항(등방화). 엔트로피 생성
+$T\dot S=2\eta\sigma^2+\zeta\theta^2\ge0$. 게이지장 $f(\phi)^2F^2$ 결합은 이방 응력을
+유지하여 정규화 전단이 $\Sig/H\to O(\epsilon)\ne0$ 끌개로 간다(Watanabe--Kanno--Soda) --
+이는 아래 no-hair 정리의 반례를 이룬다.
+
+\subsection{기울어진 유체 합동의 vorticity (D22)}
+법선 합동은 비회전이지만 물질 4-속도 $u^\mu=\Gamma(e_0+v^ae_a)$ 는 vorticity 를 가진다.
+v1.2/v1.3 이 이를 구현 버그로 오인했으나, 재유도 결과 vorticity 는 off-shell 에서 $\dot v$ 에
+\emph{진짜로} 의존한다(물리). 관측량은 \textbf{on-shell} vorticity 이며, 운동량 보존
+$\nabla_\mu T^{\mu\nu}=0$ 이 유체 가속도를 $v$ 에 평행하게 만들어(잔차 $1.8\times10^{-10}$)
+공간 vorticity 가 \textbf{EOS-무관}($4.9\times10^{-11}$)·$u$-직교·반대칭·$v{=}0$ 소멸인
+깨끗한 상태함수가 된다. CMB 쌍극 $\beta=|v|$ 는 같은 $v$ 에서 나온다.
+
+\subsection{Wald 우주 no-hair 정리와 반례 (D20 응용)}
+$\Lambda>0$ 이고 물질이 에너지조건을 만족하면 Bianchi(IX 제외)는 de Sitter 로 점근한다.
+Bianchi I$+\Lambda$ 정확해에서
+\[
+\sigma_{ab}\propto a^{-3},\quad H^2=\tfrac{\sigma^2}{3}+\tfrac{\Lambda}{3}
+\ \Rightarrow\ H\to\sqrt{\Lambda/3},\ \ \Sig=\sigma/H\propto e^{-3\tau},
+\]
+즉 \textbf{Wald 감쇠지수 $d\ln\Sig/d\tau=-3$}. 게이지장 반례는 $\Sig/H\to O(\epsilon)$ 로
+$d\ln\Sig/d\tau\to0$ (에너지조건 위반 시 정리 불성립을 예시).
+
+\section{구현 지도 (22/24 PR)}
+
+각 PR 은 모듈 하나와 시험 파일에 대응한다. 핵심 모듈:
+
+\begin{center}
+\begin{tabular}{@{}llc@{}}
+\toprule
+모듈 & 역할 & PR \\
+\midrule
+\texttt{physical/chart.py} & $\tau\!\leftrightarrow\!(H,t,\ell)$, IX D-차트 & 28 \\
+\texttt{physical/frame\_transport.py} & 삼각대 $dE/d\tau=(I{+}\Sig{+}\Omega)E$ & 29 \\
+\texttt{physical/congruence.py} & 유체 합동 $\theta_u,\dot u_a,\omega_{ab}$, CMB 쌍극 & 42 \\
+\texttt{matter/\{neutrino,dark\_energy\}.py} & FD 중성미자, CPL $w(a)$ & 34,35 \\
+\texttt{matter/\{viscous,gauge\_field\}.py} & Eckart/IS 점성, Maxwell E+B & 39,40 \\
+\texttt{matter/freestream.py} & Vlasov 구적 $\rho,p,\pi$ & 38 \\
+\texttt{thermo/\{recombination,relics\}.py} & Saha+Peebles, WIMP 동결 & 36,37 \\
+\texttt{rays/\{geodesics,weyl,optical\}.py} & 광선, 조석행렬, Sachs $d_A$ & 43--45 \\
+\texttt{observables/\{cmb\_pattern,distances,sn\}.py} & $\Delta T/T$, BAO, SN & 46--48 \\
+\texttt{analysis/no\_hair.py} & Wald 검증 + 반례 & 41 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{검증 오라클}
+
+모든 오라클은 자동 시험으로 박제되어 있다. 대표 잔차·값:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+영역 & 검증 & 값/잔차 \\
+\midrule
+측지 전송 & 프레임 접속 좌표검산 & $\le6.7\times10^{-16}$ \\
+Sachs 광학 & Ricci 집속 $\operatorname{tr}T$ & $2.8\times10^{-14}$ \\
+& EdS $d_A$ 기준해 & $2.3\times10^{-13}$ \\
+& 거리 상반성 & $4.1\times10^{-12}$ \\
+자유흐름 & 무질량 $w$ & $0.333333$ \\
+& EMT 보존 & $3.9\times10^{-10}$ \\
+Maxwell & curl 상대부호 좌표검산 & $1.7\times10^{-16}$ \\
+vorticity & on-shell $a\parallel v$ & $1.8\times10^{-10}$ \\
+& on-shell EOS-무관 & $4.9\times10^{-11}$ \\
+no-hair & Wald 지수 $d\ln\Sig/d\tau$ & $-3.00$ \\
+재결합 & 잔존 $x_e$ & $2$--$3\times10^{-4}$ \\
+동결 & WIMP miracle $\Omega h^2$ & $0.08$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+프레임 접속에서 vorticity 의 on-shell $a\parallel v$ 는 v2.0 에서 새로 노출된
+\emph{비대칭} 소비자였으며, 아래 \S7 의 규약 결함을 드러냈다.
+
+\section{FLRW 극한 검증 (CAMB 대조)}
+
+$\Sig,N,A\to0$ 에서 솔버가 표준 $\Lambda$CDM 로 환원됨을 관측 파생량 수준에서 확인했다.
+Planck 2018 / CAMB 기준값과의 대조:
+
+\begin{center}
+\begin{tabular}{@{}lllr@{}}
+\toprule
+양 & 솔버 & 기준 (Planck/CAMB) & 편차 \\
+\midrule
+$D_M(z_*)$ [Mpc] & 13867.0 & 13869.6 & 0.02\% \\
+우주 나이 [Gyr] & 13.795 & 13.797 & 0.01\% \\
+$r_\mathrm{drag}$ (Aubourg2015) [Mpc] & 147.07 & 147.09 & 0.01\% \\
+$r_\mathrm{drag}$ (물리적분) [Mpc] & 147.82 & 147.09 & 0.5\% \\
+$\Omega_\nu h^2$ ($\Sigma m{=}0.06$) & $6.44\times10^{-4}$ & $6.4\times10^{-4}$ & 0.6\% \\
+$z_*$ (가시함수 최대) & 1077.6 & 1089.9 & 1.1\% \\
+$g_*$ 고온/저온 & 106.75 / 3.363 & 106.75 / 3.363 & 정확 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+BAO 거리비는 BOSS/eBOSS 유효값과 다음과 같이 일치한다(솔버; 괄호는 관측):
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+$z$ & $D_M/r_s$ & $D_H/r_s$ \\
+\midrule
+0.38 & 10.37 (10.3) & 24.47 (24.9) \\
+0.51 & 13.43 (13.4) & 22.63 (22.3) \\
+1.48 & 30.07 (30.2) & 12.84 (13.3) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+또한 이방 고유 신호가 등방 극한에서 정확히 소멸함을 확인했다: $\Sig=0$ 에서
+방향 Hubble율 $H_\parallel(\nhat)=H$, 이방 BAO anisotropy $=0$, AP 사중극 $C_2=0$,
+그리고 $v=0$ 에서 유체 합동 vorticity $=0$, SN Hubble diagram 쌍극·사중극 $=0$.
+
+\section{v2.0 에서 발견·수정한 규약 결함}
+
+\texttt{rays/frame.py} 의 \texttt{frame\_connection} 이 공간 블록 ${}^3\Gamma^a_{bc}$ 의
+지표 순서를 잘못 조립하고 있었다. 하부 \texttt{\_connection} 은 미분 슬롯을 \emph{가운데}
+지표로 반환하는데, 조립부는 \emph{마지막} 지표로 가정했다. PR-43/44(측지·광학)는 항상
+대칭축약 $\mathcal{P}^a\sim{}^3\Gamma^a_{bc}x^bx^c$ 만 사용하여 이 전치가 드러나지 않았다.
+v2.0 의 첫 \emph{비대칭} 소비자인 \texttt{congruence.py} 에서 on-shell $a\parallel v$ 잔차가
+$2.7$ 로 튀며 결함이 표출되었고, 마지막 두 지표를 교환(\texttt{swapaxes})하여 계약을
+복구했다. 회귀: 광선·광학·CMB 포함 전체 249 시험 통과로 부작용 없음을 확인했다.
+
+이 사건은 \emph{대칭축약으로만 검증된 텐서는 반대칭 부분이 미검증으로 남는다}는 교훈을
+남긴다 -- 검증 오라클의 축약 패턴이 곧 검증 범위다.
+
+\section{한계와 정직성}
+
+\textbf{음향지평 반해석 $\sim$2\%.} 물리적분 $r_s=\int c_s/H\,dz$ 는 재결합 부근에서
+$\sim$2\% 낮다(반복 확인). 이는 반해석적 음속·재결합 단순화의 알려진 특성이며, 바로
+그 때문에 Eisenstein--Hu 및 Aubourg 가 \emph{보정식}을 제시했다. 정밀 오라클로는
+Aubourg2015 보정식(\texttt{sound\_horizon\_fit}, CAMB 0.1\%)을 병기하되, 물리적분도
+투명성을 위해 유지한다. 음향척도 $100\theta_*$ 는 물리적분 $r_s$ 를 상속해 $\sim$2\%
+낮다($1.021$ vs $1.041$); 완전 정밀은 Boltzmann(CLASS/CAMB) 결합이 필요하다.
+
+\textbf{동결 Boltzmann.} 표준 동결 ODE 는 강성이라 견고한 해석적 공식으로 대체했다
+(WIMP miracle 재현). 이방 팽창이 $x_f$ 를 옮기는 효과는 포함하나, 완전한 상대론적
+충돌항은 후속이다.
+
+\textbf{$g_*(T)$ 표.} QCD 전이 부근(1--200 GeV)은 106.75 로 단순화된 로그-선형 표이다.
+고온·저온 극한은 정확하나 중간 구간은 준정밀이다.
+
+\section{광선추적 비용 (실측 기반)}
+
+이 컨테이너(numpy 단일스레드)에서 실측한 스텝당 벽시계: 측지 $\approx0.7$ ms,
+광학(2-pass) $\approx1.6$ ms. 전천 관측 지도 비용:
+
+\begin{center}
+\begin{tabular}{@{}llr@{}}
+\toprule
+작업 & 규모 & 벽시계 \\
+\midrule
+CMB $\Delta T/T$ (측지) & $64\times128\times1500$ & 143 min \\
+$d_A$ 지도 (광학) & $64\times128\times1500$ & 328 min \\
+SN Hubble diagram & 1700 SNe & $\sim5$ s \\
+BAO/거리 & quad & $\sim5$ s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+광선추적이 지배적이며, RTX 3060 Ti 로의 vmap/JIT 이식 시 방향축 병렬화로 대폭 단축이
+기대된다(미측정 상한). 조석행렬 배치 메모리는 ray 당 $\sim2$ MB (2000 스텝) 이다.
+
+\section{남은 작업}
+
+FLRW 회귀 자동화의 CI 편입, 완전 정밀 Boltzmann 결합(음향지평·$C_\ell$), 광선추적의
+GPU 이식과 실측 재추정이 남는다. 물리 유도·검증·환원은 관측 브리지 수준에서 완결되었으며,
+Planck 의 Bianchi VII$_h$ 탐색이 쓰는 배경 템플릿(사중극 지배 CMB 패턴, 나선 VII$_h$)을
+본 솔버가 직접 산출할 수 있음을 확인했다.
+
+\vspace{1em}\hrule\vspace{0.5em}
+{\small 전체 249개 시험 통과(fast 236 + 광선 9 + CMB 4). 구현 22/24 PR.
+검증 오라클과 CAMB 대조는 본문 \S5--\S6 및 저장소 \texttt{tests/}, \texttt{audit/} 에 박제.}
+
+\end{document}

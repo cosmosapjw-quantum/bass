@@ -1,0 +1,13 @@
+[project]
+name = "bianchi-solver"
+version = "0.1.0"
+description = "Bianchi background cosmology solver (all types, tilted)"
+requires-python = ">=3.11"
+dependencies = [
+  "jax>=0.10.2", "diffrax>=0.7.2", "equinox>=0.13.8",
+  "optimistix>=0.1.0", "lineax>=0.1.1", "sympy>=1.14", "numpy", "scipy",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

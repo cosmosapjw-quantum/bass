@@ -1,0 +1,2083 @@
+{
+  "schema_version": "1.0",
+  "title": "Bianchi CC13 physical eleven-branch registry",
+  "status": "PROJECT_DERIVED_FROM_CLOSED_STAGE7_AND_CC01_CC11_CC12",
+  "scope": "canonical/physical/gauge registry only; no family photon equations",
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "epsilon_123": 1,
+    "structure_constants": "C^gamma_{alpha beta}=epsilon_{alpha beta delta} n^{delta gamma}+a_alpha delta^gamma_beta-a_beta delta^gamma_alpha",
+    "class_A": "a_alpha=0",
+    "class_B": "n^{alpha beta}a_beta=0",
+    "improper_frame_adapter": {
+      "a_prime": "R a",
+      "n_prime": "det(R) R n R^T"
+    }
+  },
+  "public_branch_count": 11,
+  "public_labels": [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI_0",
+    "VI_h",
+    "VII_0",
+    "VII_h",
+    "VIII",
+    "IX"
+  ],
+  "source_hashes": {
+    "stage7_manifest": "793d844dd8aa81ad7031fd9f0cd89ac32988b9df318cc06a26e39bfa63e7ed75",
+    "stage7_summary": "ca4c5d46413608aa62cad985927660ac7c615d74ee2459d128246308612a90f8",
+    "stage7_report": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+    "stage7_registry": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+    "stage7_wolfram": "9cd06694b5cceb46dd0f0a39e838375e3dca1c08889636acc41ba25ddcf3bfcb",
+    "public_type_registry": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+    "cc01_conventions": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+    "cc11_operator_theorem": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d",
+    "core_pr_specs": "588a472c21e3a10043446d3c3ea282176563c211a84fd81e1d976f722d3a662f"
+  },
+  "branches": [
+    {
+      "public_label": "I",
+      "computational_key": "I",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "0",
+          "0"
+        ],
+        "rank": 0,
+        "inertia_positive_negative_zero": [
+          0,
+          0,
+          3
+        ],
+        "R3_scalar_fingerprint": "0",
+        "automorphism_lie_algebra_dimension": 9,
+        "proper_rotation_stabilizer_dimension": 3
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "n=0"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": [
+          "0",
+          "0",
+          "0"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 3,
+        "isotropic_subcase": {
+          "kind": "flat",
+          "condition": "always",
+          "default": true
+        }
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "n=0"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "0",
+            "0"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 3,
+          "generic_physical_continuous_SO_dimension": 3,
+          "enhancement_loci": [
+            {
+              "condition": "always",
+              "dimension": 3
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "off",
+        "K_trN": "off"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [],
+        "tr_n": []
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "II",
+      "computational_key": "II",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "1",
+          "0",
+          "0"
+        ],
+        "rank": 1,
+        "inertia_positive_negative_zero": [
+          1,
+          0,
+          2
+        ],
+        "R3_scalar_fingerprint": "-1/2",
+        "automorphism_lie_algebra_dimension": 6,
+        "proper_rotation_stabilizer_dimension": 1
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "rank(n)=1"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": [
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 1,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "rank(n)=1"
+          ],
+          "canonical_axis_order": [
+            "1",
+            "0",
+            "0"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 1,
+          "generic_physical_continuous_SO_dimension": 1,
+          "enhancement_loci": [
+            {
+              "condition": "rank(n)=1",
+              "dimension": 1
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "on",
+        "K_trN": "on"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [
+          0
+        ],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "III",
+      "computational_key": "VI_h",
+      "computational_parameters": {
+        "h": "-1"
+      },
+      "public_label_preserved": true,
+      "class": "B",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "1",
+        "a_vector": [
+          "1",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "1",
+          "-1"
+        ],
+        "rank": 2,
+        "inertia_positive_negative_zero": [
+          1,
+          1,
+          1
+        ],
+        "R3_scalar_fingerprint": "-8",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 0
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "A!=0",
+          "det(n_perp)<0",
+          "A^2=-det(n_perp)",
+          "h=-1"
+        ],
+        "h_domain": "h=-1",
+        "default_n_diagonal": null,
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame before a-alignment",
+          "a_vector": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T",
+            "n.a=0"
+          ],
+          "selection_required": false
+        },
+        "a_aligned_full_transverse": {
+          "frame": "proper frame with a=(A,0,0)",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N22",
+              "N23"
+            ],
+            [
+              "0",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "A!=0",
+            "n.a=0"
+          ],
+          "harmonic_support": {
+            "Phi_1_M": [
+              0
+            ],
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "diagonal_n": {
+          "frame": "SO(2) rotation about the a-axis",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "lambda2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "lambda3"
+            ]
+          ],
+          "rotation_condition": "tan(2*theta)=2*N23/(N22-N33)",
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "a-aligned frame plus determinant/rank/sign and signed-h conditions",
+          "conditions": [
+            "A!=0",
+            "det(n_perp)<0",
+            "A^2=-det(n_perp)",
+            "h=-1"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "1",
+            "-1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 0,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": []
+        }
+      },
+      "geometry_channels": {
+        "K_a": "on",
+        "K_N_STF": "on",
+        "K_trN": "conditional: tr(n)!=0"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [
+          0
+        ],
+        "Psi_2_M": [
+          -2,
+          2
+        ],
+        "tr_n": []
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      },
+      "computational_equivalence": "III == VI_h(h=-1)"
+    },
+    {
+      "public_label": "IV",
+      "computational_key": "IV",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "B",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "1",
+        "a_vector": [
+          "1",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "0",
+          "1"
+        ],
+        "rank": 1,
+        "inertia_positive_negative_zero": [
+          1,
+          0,
+          2
+        ],
+        "R3_scalar_fingerprint": "-13/2",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 0
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "A!=0",
+          "rank(n_perp)=1",
+          "n.a=0"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": null,
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame before a-alignment",
+          "a_vector": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T",
+            "n.a=0"
+          ],
+          "selection_required": false
+        },
+        "a_aligned_full_transverse": {
+          "frame": "proper frame with a=(A,0,0)",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N22",
+              "N23"
+            ],
+            [
+              "0",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "A!=0",
+            "n.a=0"
+          ],
+          "harmonic_support": {
+            "Phi_1_M": [
+              0
+            ],
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "diagonal_n": {
+          "frame": "SO(2) rotation about the a-axis",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "lambda2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "lambda3"
+            ]
+          ],
+          "rotation_condition": "tan(2*theta)=2*N23/(N22-N33)",
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "a-aligned frame plus determinant/rank/sign and signed-h conditions",
+          "conditions": [
+            "A!=0",
+            "rank(n_perp)=1",
+            "n.a=0"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "0",
+            "1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 0,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": []
+        }
+      },
+      "geometry_channels": {
+        "K_a": "on",
+        "K_N_STF": "on",
+        "K_trN": "on"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [
+          0
+        ],
+        "Psi_2_M": [
+          -2,
+          0,
+          2
+        ],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "V",
+      "computational_key": "V",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "B",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "1",
+        "a_vector": [
+          "1",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "0",
+          "0"
+        ],
+        "rank": 0,
+        "inertia_positive_negative_zero": [
+          0,
+          0,
+          3
+        ],
+        "R3_scalar_fingerprint": "-6",
+        "automorphism_lie_algebra_dimension": 6,
+        "proper_rotation_stabilizer_dimension": 1
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "A!=0",
+          "n=0"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": null,
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 1,
+        "isotropic_subcase": {
+          "kind": "open",
+          "condition": "shear=0 and isotropic radiation",
+          "default": false
+        }
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame before a-alignment",
+          "a_vector": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T",
+            "n.a=0"
+          ],
+          "selection_required": false
+        },
+        "a_aligned_full_transverse": {
+          "frame": "proper frame with a=(A,0,0)",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N22",
+              "N23"
+            ],
+            [
+              "0",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "A!=0",
+            "n.a=0"
+          ],
+          "harmonic_support": {
+            "Phi_1_M": [
+              0
+            ],
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "diagonal_n": {
+          "frame": "SO(2) rotation about the a-axis",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "lambda2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "lambda3"
+            ]
+          ],
+          "rotation_condition": "tan(2*theta)=2*N23/(N22-N33)",
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "a-aligned frame plus determinant/rank/sign and signed-h conditions",
+          "conditions": [
+            "A!=0",
+            "n=0"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "0",
+            "0"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 1,
+          "generic_physical_continuous_SO_dimension": 1,
+          "enhancement_loci": [
+            {
+              "condition": "n=0 and A!=0",
+              "dimension": 1
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "on",
+        "K_N_STF": "off",
+        "K_trN": "off"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [
+          0
+        ],
+        "Psi_2_M": [],
+        "tr_n": []
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "VI_0",
+      "computational_key": "VI_0",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "1",
+          "-1"
+        ],
+        "rank": 2,
+        "inertia_positive_negative_zero": [
+          1,
+          1,
+          1
+        ],
+        "R3_scalar_fingerprint": "-2",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 0
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "rank(n)=2",
+          "nonzero eigenvalues have opposite signs"
+        ],
+        "h_domain": "h=0 class-A limit",
+        "default_n_diagonal": [
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "rank(n)=2",
+            "nonzero eigenvalues have opposite signs"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "1",
+            "-1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 0,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": []
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "on",
+        "K_trN": "conditional: tr(n)!=0"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [
+          -2,
+          2
+        ],
+        "tr_n": []
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "VI_h",
+      "computational_key": "VI_h",
+      "computational_parameters": {
+        "h": "h<0"
+      },
+      "public_label_preserved": true,
+      "class": "B",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "sqrt(-h)",
+        "a_vector": [
+          "sqrt(-h)",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "1",
+          "-1"
+        ],
+        "rank": 2,
+        "inertia_positive_negative_zero": [
+          1,
+          1,
+          1
+        ],
+        "R3_scalar_fingerprint": "-2+6*h",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 0
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "A!=0",
+          "det(n_perp)<0",
+          "A^2=h*det(n_perp)",
+          "h<0"
+        ],
+        "h_domain": "h<0",
+        "default_n_diagonal": null,
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame before a-alignment",
+          "a_vector": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T",
+            "n.a=0"
+          ],
+          "selection_required": false
+        },
+        "a_aligned_full_transverse": {
+          "frame": "proper frame with a=(A,0,0)",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N22",
+              "N23"
+            ],
+            [
+              "0",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "A!=0",
+            "n.a=0"
+          ],
+          "harmonic_support": {
+            "Phi_1_M": [
+              0
+            ],
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "diagonal_n": {
+          "frame": "SO(2) rotation about the a-axis",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "lambda2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "lambda3"
+            ]
+          ],
+          "rotation_condition": "tan(2*theta)=2*N23/(N22-N33)",
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "a-aligned frame plus determinant/rank/sign and signed-h conditions",
+          "conditions": [
+            "A!=0",
+            "det(n_perp)<0",
+            "A^2=h*det(n_perp)",
+            "h<0"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "1",
+            "-1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 0,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": []
+        }
+      },
+      "geometry_channels": {
+        "K_a": "on",
+        "K_N_STF": "on",
+        "K_trN": "conditional: tr(n)!=0"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [
+          0
+        ],
+        "Psi_2_M": [
+          -2,
+          2
+        ],
+        "tr_n": []
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      },
+      "special_subbranches": {
+        "III": {
+          "h": "-1",
+          "public_label_remains": "III when entered as III"
+        },
+        "exceptional_VI_-1/9": {
+          "h": "-1/9",
+          "registry_extension": "exceptional_VI_-1/9"
+        }
+      }
+    },
+    {
+      "public_label": "VII_0",
+      "computational_key": "VII_0",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "1",
+          "1"
+        ],
+        "rank": 2,
+        "inertia_positive_negative_zero": [
+          2,
+          0,
+          1
+        ],
+        "R3_scalar_fingerprint": "0",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 1
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "rank(n)=2",
+          "nonzero eigenvalues have the same sign"
+        ],
+        "h_domain": "h=0 class-A limit",
+        "default_n_diagonal": [
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": {
+          "kind": "flat",
+          "condition": "N2=N3 with isotropic radiation/shear sector",
+          "default": false
+        }
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "rank(n)=2",
+            "nonzero eigenvalues have the same sign"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "1",
+            "1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 1,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": [
+            {
+              "condition": "N2=N3",
+              "dimension": 1
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "on",
+        "K_trN": "on"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [
+          0
+        ],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "VII_h",
+      "computational_key": "VII_h",
+      "computational_parameters": {
+        "h": "h>0"
+      },
+      "public_label_preserved": true,
+      "class": "B",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "sqrt(h)",
+        "a_vector": [
+          "sqrt(h)",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "0",
+          "1",
+          "1"
+        ],
+        "rank": 2,
+        "inertia_positive_negative_zero": [
+          2,
+          0,
+          1
+        ],
+        "R3_scalar_fingerprint": "-6*h",
+        "automorphism_lie_algebra_dimension": 4,
+        "proper_rotation_stabilizer_dimension": 1
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "A!=0",
+          "det(n_perp)>0",
+          "A^2=h*det(n_perp)",
+          "h>0"
+        ],
+        "h_domain": "h>0",
+        "default_n_diagonal": null,
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": {
+          "kind": "open",
+          "condition": "transverse eigenvalues equal with isotropic radiation/shear sector",
+          "default": false
+        }
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame before a-alignment",
+          "a_vector": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T",
+            "n.a=0"
+          ],
+          "selection_required": false
+        },
+        "a_aligned_full_transverse": {
+          "frame": "proper frame with a=(A,0,0)",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N22",
+              "N23"
+            ],
+            [
+              "0",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "A!=0",
+            "n.a=0"
+          ],
+          "harmonic_support": {
+            "Phi_1_M": [
+              0
+            ],
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "diagonal_n": {
+          "frame": "SO(2) rotation about the a-axis",
+          "a_vector": [
+            "A",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "lambda2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "lambda3"
+            ]
+          ],
+          "rotation_condition": "tan(2*theta)=2*N23/(N22-N33)",
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "a-aligned frame plus determinant/rank/sign and signed-h conditions",
+          "conditions": [
+            "A!=0",
+            "det(n_perp)>0",
+            "A^2=h*det(n_perp)",
+            "h>0"
+          ],
+          "canonical_axis_order": [
+            "0",
+            "1",
+            "1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 1,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": [
+            {
+              "condition": "lambda2=lambda3",
+              "dimension": 1
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "on",
+        "K_N_STF": "on",
+        "K_trN": "on"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [
+          0
+        ],
+        "Psi_2_M": [
+          0
+        ],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "VIII",
+      "computational_key": "VIII",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "-1",
+          "1",
+          "1"
+        ],
+        "rank": 3,
+        "inertia_positive_negative_zero": [
+          2,
+          1,
+          0
+        ],
+        "R3_scalar_fingerprint": "-5/2",
+        "automorphism_lie_algebra_dimension": 3,
+        "proper_rotation_stabilizer_dimension": 1
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "rank(n)=3",
+          "one eigenvalue has sign opposite to the other two"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": [
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": null
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "rank(n)=3",
+            "one eigenvalue has sign opposite to the other two"
+          ],
+          "canonical_axis_order": [
+            "-1",
+            "1",
+            "1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 1,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": [
+            {
+              "condition": "the same-sign eigenvalue pair is equal",
+              "dimension": 1
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "on",
+        "K_trN": "conditional: tr(n)!=0"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [
+          0
+        ],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    },
+    {
+      "public_label": "IX",
+      "computational_key": "IX",
+      "computational_parameters": {},
+      "public_label_preserved": true,
+      "class": "A",
+      "canonical": {
+        "dimension": "dimensionless Lie-algebra fingerprint",
+        "A": "0",
+        "a_vector": [
+          "0",
+          "0",
+          "0"
+        ],
+        "n_diagonal": [
+          "1",
+          "1",
+          "1"
+        ],
+        "rank": 3,
+        "inertia_positive_negative_zero": [
+          3,
+          0,
+          0
+        ],
+        "R3_scalar_fingerprint": "3/2",
+        "automorphism_lie_algebra_dimension": 3,
+        "proper_rotation_stabilizer_dimension": 3
+      },
+      "physical": {
+        "dimension": {
+          "a": "L^-1",
+          "n": "L^-1",
+          "h": "1"
+        },
+        "defining_conditions": [
+          "a=0",
+          "rank(n)=3",
+          "all eigenvalues have the same sign"
+        ],
+        "h_domain": null,
+        "default_n_diagonal": [
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "canonical_entries_are_defaults": false,
+        "generic_proper_rotation_stabilizer_dimension": 0,
+        "isotropic_subcase": {
+          "kind": "closed_FLRW",
+          "condition": "N1=N2=N3",
+          "default": false,
+          "firewall": "canonical (1,1,1) does not impose physical eigenvalue equality"
+        }
+      },
+      "gauges": {
+        "full_symmetric_n": {
+          "frame": "arbitrary proper orthonormal frame",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N11",
+              "N12",
+              "N13"
+            ],
+            [
+              "N12",
+              "N22",
+              "N23"
+            ],
+            [
+              "N13",
+              "N23",
+              "N33"
+            ]
+          ],
+          "constraints": [
+            "n=n^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              -2,
+              -1,
+              0,
+              1,
+              2
+            ]
+          },
+          "selection_required": false
+        },
+        "diagonal_n": {
+          "frame": "proper SO(3) eigenframe",
+          "a_vector": [
+            "0",
+            "0",
+            "0"
+          ],
+          "n_matrix": [
+            [
+              "N1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "N2",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "N3"
+            ]
+          ],
+          "constraints": [
+            "R in SO(3)",
+            "n'=R n R^T"
+          ],
+          "harmonic_support": {
+            "Psi_2_M": [
+              0,
+              -2,
+              2
+            ]
+          },
+          "selection_required": true
+        },
+        "branch_aligned": {
+          "frame": "diagonal eigenframe plus public-type sign/rank ordering",
+          "conditions": [
+            "a=0",
+            "rank(n)=3",
+            "all eigenvalues have the same sign"
+          ],
+          "canonical_axis_order": [
+            "1",
+            "1",
+            "1"
+          ],
+          "selection_required": true
+        },
+        "residual": {
+          "canonical_continuous_SO_dimension": 3,
+          "generic_physical_continuous_SO_dimension": 0,
+          "enhancement_loci": [
+            {
+              "condition": "exactly two eigenvalues equal",
+              "dimension": 1
+            },
+            {
+              "condition": "N1=N2=N3",
+              "dimension": 3
+            }
+          ]
+        }
+      },
+      "geometry_channels": {
+        "K_a": "off",
+        "K_N_STF": "conditional: off only when N1=N2=N3",
+        "K_trN": "on"
+      },
+      "canonical_harmonic_support": {
+        "Phi_1_M": [],
+        "Psi_2_M": [],
+        "tr_n": [
+          0
+        ]
+      },
+      "provenance": {
+        "stage7_registry_sha256": "4cb7bfcc85ec726ac5a26aa4138542840df48a75d749a01de79d5057a2f8fe15",
+        "stage7_report_sha256": "502794ee1539136fe747c6efb88d3bd2323a0ccdbb90c53bf7df2f1a8b4dfcfb",
+        "public_type_registry_sha256": "9fbe833049d53c5bff8e7742e5e9495564efbd546b1b641b3155f2b958ce9788",
+        "cc01_conventions_sha256": "fb2fdeccfe4ed9af70cb9a33d611abe12a242ad47096be541d3b3c60a1a742d7",
+        "cc11_operator_theorem_sha256": "a2fb7b8c74ecf4cfee0b0b387effb009db442b0d35deea34ca7a5c714111624d"
+      }
+    }
+  ],
+  "exceptional_VI_-1/9": {
+    "constraint_residuals": [
+      "0",
+      "0"
+    ],
+    "gauge_witness": {
+      "Sigma12": "0",
+      "N23": "3*A1",
+      "N33": "0"
+    },
+    "independent_shear": [
+      "Sigma13",
+      "Sigma23"
+    ],
+    "Sigma2": "Sigma13/sqrt(3)",
+    "n_diagonalization": "tan(2*theta)=6*A1/N22",
+    "rotated_shear_norm_residual": "0",
+    "diagonal_shear_deletes_generic_sector": true
+  },
+  "forbidden": [
+    "explicit eleven-family photon hierarchy equations",
+    "using canonical entries as physical curvature magnitudes",
+    "dropping N23 before an explicit class-B gauge choice",
+    "diagonalizing all shear in exceptional VI_-1/9"
+  ]
+}

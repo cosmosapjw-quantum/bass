@@ -1,0 +1,859 @@
+{
+  "title": "Bianchi CC01 Convention and Amendment SSOT",
+  "scope": "Stage 1–7 convention lock only; no distribution theorem, PSTF hierarchy or branch equations",
+  "status": {
+    "formula_ssot": "COMPLETE",
+    "independent_sympy_lane": "PASS",
+    "wolfram_replay": "PASS",
+    "cross_engine_comparison": "PASS",
+    "dag_merge_status": "MERGED",
+    "next_node": "CC02_LITERATURE_SOURCE_LOCK",
+    "runtime_provenance": "PARTIAL_DEFERRED_TO_CC20"
+  },
+  "engine": "SymPy 1.14.0",
+  "adapter_count": 35,
+  "all_round_trip_pass": true,
+  "all_negative_tests_detected": true,
+  "adapters": [
+    {
+      "id": "A01_METRIC_SIGNATURE",
+      "raw_source_convention": "gCh=diag(+---)",
+      "project_convention": "gProj=diag(-+++)",
+      "forward_map": "gProj=-gCh",
+      "inverse_map": "gCh=-gProj",
+      "composition_map": "sign involution",
+      "round_trip_residual": "Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[-2, 0, 0, 0], [0, 2, 0, 0], [0, 0, 2, 0], [0, 0, 0, 2]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 2.0,
+      "assumptions_constraint_ideal": "same contravariant tetrad components",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A02_CHALLINOR_SCREEN",
+      "raw_source_convention": "HCh=hCh+eCh eCh",
+      "project_convention": "SProj=g+nNormal nNormal-e e",
+      "forward_map": "SProj=-HCh",
+      "inverse_map": "HCh=-SProj",
+      "composition_map": "sign involution",
+      "round_trip_residual": "Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, -2, 0], [0, 0, 0, -2]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 2.0,
+      "assumptions_constraint_ideal": "A01 and screen constraints",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A03_EVE_CONNECTION_ORDER",
+      "raw_source_convention": "GammaEvE[p,v,d]",
+      "project_convention": "GammaD[d|v|p]",
+      "forward_map": "GammaD[d|v|p]=GammaEvE[p,v,d]",
+      "inverse_map": "inverse permutation",
+      "composition_map": "permutation squared",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[0], [0], [0], [G010 - G100], [G011 - G101], [G012 - G102], [G020 - G200], [G021 - G201], [G022 - G202], [-G010 + G100], [-G011 + G101], [-G012 + G102], [0], [0], [0], [G120 - G210], [G121 - G211], [G122 - G212], [-G020 + G200], [-G021 + G201], [-G022 + G202], [-G120 + G210], [-G121 + G211], [-G122 + G212], [0], [0], [0]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "orthonormal tetrad",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A04_PC_CONNECTION_ORDER",
+      "raw_source_convention": "GammaPC[p,d,v]",
+      "project_convention": "GammaD[d|v|p]",
+      "forward_map": "GammaD[d|v|p]=GammaPC[p,d,v]",
+      "inverse_map": "inverse permutation",
+      "composition_map": "permutation squared",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[0], [0], [0], [G010 - G100], [G011 - G101], [G012 - G102], [G020 - G200], [G021 - G201], [G022 - G202], [-G010 + G100], [-G011 + G101], [-G012 + G102], [0], [0], [0], [G120 - G210], [G121 - G211], [G122 - G212], [-G020 + G200], [-G021 + G201], [-G022 + G202], [-G120 + G210], [-G121 + G211], [-G122 + G212], [0], [0], [0]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "PC index-role definition",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A05_GEODESIC_CONNECTION_RAISE",
+      "raw_source_convention": "GammaD[c|b|d] lower output",
+      "project_convention": "omega^a_bc",
+      "forward_map": "omega^a_bc=g^{ad}GammaD[c|b|d]",
+      "inverse_map": "GammaD[c|b|d]=g_da omega^a_bc",
+      "composition_map": "metric inverse",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*gl210",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "nondegenerate metric",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A06_ADM_EXTRINSIC_SIGN",
+      "raw_source_convention": "KADM=-h h nabla n",
+      "project_convention": "Kcal=Hgeom delta+sigma",
+      "forward_map": "KADM=-Kcal",
+      "inverse_map": "Kcal=-KADM",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*Kcal",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "stated ADM definition",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A07_BERGSHOEFF_A_N",
+      "raw_source_convention": "Q=diag(q_i)/2, aBG",
+      "project_convention": "nB,aB",
+      "forward_map": "nB=Q=q/2; aB=-aBG",
+      "inverse_map": "q=2nB; aBG=-aB",
+      "composition_map": "scale/sign round trip",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[q1/2], [2*aBG]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "same basis before GL normalization",
+      "dimensions": "canonical dimensionless",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A08_BERGSHOEFF_H",
+      "raw_source_convention": "4aBG^2/(q2q3)",
+      "project_convention": "A^2/(N2N3)",
+      "forward_map": "substitute A=-aBG,N=q/2",
+      "inverse_map": "|aBG|=sqrt(h q2q3)/2 plus orientation",
+      "composition_map": "squared relation",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-3*aBG**2/(q2*q3)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "q2q3 nonzero",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A09_NUW_ROTATION",
+      "raw_source_convention": "R_NUW",
+      "project_convention": "OmegaTriad/Hgeom",
+      "forward_map": "R_NUW=-OmegaTriad/Hgeom",
+      "inverse_map": "OmegaTriad=-Hgeom R_NUW",
+      "composition_map": "sign/scale",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*Omega/H",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "Hgeom nonzero",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A10_PC_DYAD_ANGLE",
+      "raw_source_convention": "mPC->exp(+i chiPC)mPC",
+      "project_convention": "mProj->exp(-i chiProj)mProj",
+      "forward_map": "chiPC=-chiProj",
+      "inverse_map": "chiProj=-chiPC",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*I*sin(chi)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "same ordered dyad",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A11_COMPONENT_EB_ROTATION",
+      "raw_source_convention": "legacy component varpi",
+      "project_convention": "omegaScr_l=D_l psi",
+      "forward_map": "varpiComp_l=-omegaScr_l; t/eta versions include c,N",
+      "inverse_map": "omegaScr_l=-varpiComp_l",
+      "composition_map": "sign/scale",
+      "round_trip_residual": "Matrix([[0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*omegaScr",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "reference-dyad components",
+      "dimensions": "L^-1 or T^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A12_PASSIVE_DYAD_STOKES",
+      "raw_source_convention": "Stokes in rotated passive dyad",
+      "project_convention": "Q+iU has project spin -2",
+      "forward_map": "Q'=Qcos2chi+Usin2chi; U'=Ucos2chi-Qsin2chi; V'=V",
+      "inverse_map": "chi->-chi",
+      "composition_map": "Rot2 group law",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[2*U*sin(2*psi)], [-2*Q*sin(2*psi)]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "oriented orthonormal dyad",
+      "dimensions": "same as I",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A13_PORTSMOUTH_V_SIGN",
+      "raw_source_convention": "upper right U+i V_PB",
+      "project_convention": "upper right U-i VStokes",
+      "forward_map": "V_PB=-VStokes",
+      "inverse_map": "VStokes=-V_PB",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-2*V",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "same ordered dyad",
+      "dimensions": "same as I",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A14_SCREEN_ORIENTATION_REFLECTION",
+      "raw_source_convention": "q1<->q2",
+      "project_convention": "right-handed project dyad",
+      "forward_map": "(Q,U,V)->(-Q,U,-V)",
+      "inverse_map": "same reflection",
+      "composition_map": "reflection squared",
+      "round_trip_residual": "Matrix([[0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[-2*Q], [-2*V]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "real dyad swap",
+      "dimensions": "same as I",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A15_PROJECT_STANDARD_SPIN",
+      "raw_source_convention": "standard NP/Wigner spin",
+      "project_convention": "passive project spin",
+      "forward_map": "sStd=-sProj; _sYproj=_{-s}Ystd",
+      "inverse_map": "sProj=-sStd",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-(-1)**(1/5)*sqrt(15)/(4*sqrt(pi))",
+      "negative_detected": true,
+      "negative_numeric_witness": 0.5462742152960396,
+      "assumptions_constraint_ideal": "fixed WignerD phase",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Bianchi_Stage5_SpinConvention_Amendment.md"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A16_PROJECT_ETH",
+      "raw_source_convention": "standard spin-raising convention",
+      "project_convention": "ethProj=dtheta-i csc(theta)dphi-s cot(theta)",
+      "forward_map": "substitute sStd=-sProj",
+      "inverse_map": "reverse substitution",
+      "composition_map": "operator round trip",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "0.51031427234360768235799650237333811281465539685483 + 0.37076502150574094676546200787133258884916662482043*I",
+      "negative_detected": true,
+      "negative_numeric_witness": 0.63078313050504,
+      "assumptions_constraint_ideal": "project WignerD convention",
+      "dimensions": "angular derivative",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A17_PROJECT_HODGE_STAR",
+      "raw_source_convention": "starNYT:q1->q2,q2->-q1",
+      "project_convention": "starProj:q1->-q2,q2->q1",
+      "forward_map": "starProj=-starNYT",
+      "inverse_map": "starNYT=-starProj",
+      "composition_map": "sign involution, star^2=-1",
+      "round_trip_residual": "Matrix([[0, 0], [0, 0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[0, 2], [-2, 0]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 2.0,
+      "assumptions_constraint_ideal": "epsilon123=+1",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A18_PSTF_SIGNATURE_NORMALIZATION",
+      "raw_source_convention": "DeltaCh=(-1)^l DeltaProj",
+      "project_convention": "DeltaProj=4pi 2^l(l!)^2/(2l+1)!",
+      "forward_map": "DeltaProj=(-1)^l DeltaCh",
+      "inverse_map": "DeltaCh=(-1)^l DeltaProj",
+      "composition_map": "parity squared",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-8*pi/3",
+      "negative_detected": true,
+      "negative_numeric_witness": 8.377580409572783,
+      "assumptions_constraint_ideal": "integer l>=0",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A19_MAGNETIC_PSTF_INVERSION",
+      "raw_source_convention": "magnetic projection integral J_B",
+      "project_convention": "Bpol_A_l",
+      "forward_map": "B=-Mell^2 Delta_l^-1 J_B",
+      "inverse_map": "J_B=-Delta_l Mell^-2 B",
+      "composition_map": "sign/norm",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*Cnorm*J_B",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "l>=2",
+      "dimensions": "same as P_ab",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A20_TRANSPORT_TO_SKY",
+      "raw_source_convention": "propagation direction e",
+      "project_convention": "nSky=-e",
+      "forward_map": "Xsky=(-1)^lX; Esky=(-1)^lE; Bsky=(-1)^(l+1)B",
+      "inverse_map": "same parity factors",
+      "composition_map": "parity squared",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*XS",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "restore right-handed sky dyad separately",
+      "dimensions": "unchanged",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A21_COMMON_CMB_LEADING_MINUS",
+      "raw_source_convention": "common map aE,aB",
+      "project_convention": "project-native Epol,Bpol",
+      "forward_map": "aE=-Epol; aB=-Bpol",
+      "inverse_map": "Epol=-aE; Bpol=-aB",
+      "composition_map": "sign involution",
+      "round_trip_residual": "Matrix([[0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[2*Eproj], [2*Bproj]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "after A15 and A20",
+      "dimensions": "unchanged",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A22_FUTURE_PAST_RAY",
+      "raw_source_convention": "past-directed operator",
+      "project_convention": "future D_l",
+      "forward_map": "Dpast=-Dfuture",
+      "inverse_map": "Dfuture=-Dpast",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "2*Dfuture",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "positive energy magnitude retained",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A23_TIME_PARAMETERS",
+      "raw_source_convention": "lambda,t,eta",
+      "project_convention": "D_l",
+      "forward_map": "d/dt=cD_l; d/deta=cN_lapseD_l; d/dlambda=epsilonD_l/c",
+      "inverse_map": "inverse scale maps",
+      "composition_map": "dt=N_lapse deta",
+      "round_trip_residual": "Matrix([[0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "D_ell*(1 - c)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "nonzero c,epsilon,N",
+      "dimensions": "T^-1 or L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A24_PC_COMOVING_ENERGY",
+      "raw_source_convention": "epsilon_com=aVol Ephys,c=1",
+      "project_convention": "epsilonPhoton",
+      "forward_map": "epsilon_com=aVol Ephys",
+      "inverse_map": "Ephys=epsilon_com/aVol",
+      "composition_map": "multiplicative",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Ephys*aVol*sigmaEE*(1 - aVol)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "N_lapse=aVol in regression",
+      "dimensions": "energy",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A25_RADIATION_NORMALIZATION",
+      "raw_source_convention": "f and Jnu",
+      "project_convention": "Jeps and Finv",
+      "forward_map": "Jnu=hPlanck nu^3 f/c^2; Jeps=epsilon^3f/(hPlanck^3c^2); Finv=f/(hPlanck^3c^2)",
+      "inverse_map": "f=hPlanck^3c^2Finv",
+      "composition_map": "epsilon=hPlanck nu",
+      "round_trip_residual": "Matrix([[0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "epsilon**3*f*(hPlanck - 1)/(c**2*hPlanck**3)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "epsilon>0,hPlanck=2pi hbar",
+      "dimensions": "f dimensionless",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A26_SPECTRAL_BRIGHTNESS_WEIGHT",
+      "raw_source_convention": "spectral Jeps",
+      "project_convention": "bolometric Jhat",
+      "forward_map": "Rred(epsilon d_epsilon-3)->-4Rred",
+      "inverse_map": "not spectrally unique",
+      "composition_map": "integration by parts",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-Rred*J(Eps)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "[epsilon J]_0^infinity=0",
+      "dimensions": "Rred L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A27_THOMSON_RATE",
+      "raw_source_convention": "electron-rest rate",
+      "project_convention": "ray/proper/conformal/affine rates",
+      "forward_map": "kappa=n_e sigma_T; Gamma_t=ckappa; Gamma_eta=cNkappa; Gamma_lambda=epsilon kappa/c",
+      "inverse_map": "inverse scales",
+      "composition_map": "rate round trip",
+      "round_trip_residual": "Matrix([[0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "n_e*sigma_T*(1 - c)",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "cold non-tilted electrons",
+      "dimensions": "L^-1 or T^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A28_THOMSON_PREFACTOR",
+      "raw_source_convention": "3/(8pi) tensor gain",
+      "project_convention": "3(1+mu^2)/(16pi) scalar phase",
+      "forward_map": "take trace on f=(I/2)I2",
+      "inverse_map": "inverse only on unpolarized subspace",
+      "composition_map": "sphere integral=1",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "1",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "unpolarized coherency",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A29_INTRINSIC_EXTERNAL_SCREEN",
+      "raw_source_convention": "full omegaScr",
+      "project_convention": "gauge-invariant omegaExt",
+      "forward_map": "omegaExt=omegaScr-gamma_t/c-V.gamma",
+      "inverse_map": "omegaScr=omegaExt+gamma_t/c+V.gamma",
+      "composition_map": "gauge shifts cancel",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-dtchi - dvchi",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "spin-covariant derivative",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A30_WIGNER_COLUMN_ORDER",
+      "raw_source_convention": "source-dependent ordering",
+      "project_convention": "(l_out,L_geometry,l_in)",
+      "forward_map": "permute both 3j symbols consistently",
+      "inverse_map": "inverse permutation",
+      "composition_map": "permutation identity",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-sqrt(6)/(3*sqrt(pi))",
+      "negative_detected": true,
+      "negative_numeric_witness": 0.46065886596178063,
+      "assumptions_constraint_ideal": "same permutation in both 3j",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A31_GAUNT_PHASE_SPIN_FLIP",
+      "raw_source_convention": "standard/source phases",
+      "project_convention": "(-1)^(m-s), rows (-s,0,s),(-m,M,m')",
+      "forward_map": "apply A15+A30",
+      "inverse_map": "reverse adapters",
+      "composition_map": "G_-s=(-1)^(l+L+l')G_s",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-sqrt(6)/(3*sqrt(pi))",
+      "negative_detected": true,
+      "negative_numeric_witness": 0.46065886596178063,
+      "assumptions_constraint_ideal": "triangle and m rules",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A32_MGE_EQ71_SIGN_AMENDMENT",
+      "raw_source_convention": "printed -(l+2)",
+      "project_convention": "corrected +(l+2)",
+      "forward_map": "cProj=-cPrinted",
+      "inverse_map": "cPrinted=-cProj",
+      "composition_map": "sign involution",
+      "round_trip_residual": "0",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-2*ell - 4",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "vanishing energy boundary; Eq70/Eq93 checks",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Bianchi_Stage6_MGE_Eq71_Sign_Amendment.md"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A33_HARMONIC_AXIS_CHART",
+      "raw_source_convention": "Stage5/6 z-polar SolidY",
+      "project_convention": "Stage2/7 e1-polar branch chart",
+      "forward_map": "(e1,e2,e3)=(z,x,y)=Pcyc(x,y,z)",
+      "inverse_map": "(x,y,z)=Pcyc^T(e1,e2,e3)",
+      "composition_map": "Pcyc^3=I, det=+1",
+      "round_trip_residual": "Matrix([[0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "-A",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "same theta,phi after cyclic relabeling",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Stage2 e1-polar patch",
+        "Stage5 SolidY z-polar code",
+        "Stage7 Psi20/Psi22 formulas"
+      ],
+      "verdict": "PASS",
+      "note": "proper cyclic rotation; angle 2pi/3 about (1,1,1)"
+    },
+    {
+      "id": "A34_IMPROPER_ROTATION_PSEUDOTENSOR",
+      "raw_source_convention": "detR=-1 orthogonal frame",
+      "project_convention": "fixed epsilon123 project frame",
+      "forward_map": "aB'=RaB; nB'=det(R)RnBR^T",
+      "inverse_map": "use R^T and detR",
+      "composition_map": "pseudotensor round trip",
+      "round_trip_residual": "Matrix([[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Matrix([[0], [-2*n13], [2*n12], [2*n13], [0], [2*n11], [-2*n12], [-2*n11], [0], [0], [2*n23], [-2*n22], [-2*n23], [0], [-2*n12], [2*n22], [2*n12], [0], [0], [2*n33], [-2*n23], [-2*n33], [0], [-2*n13], [2*n23], [2*n13], [0]])",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "Bianchi epsilon decomposition",
+      "dimensions": "L^-1",
+      "source_artifacts": [
+        "Stage 1–7 durable reports/amendments"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    },
+    {
+      "id": "A35_FLRW_COORDINATE_VS_UNITARY",
+      "raw_source_convention": "invariant-frame scalar pullback",
+      "project_convention": "fixed-dOmega half-density map",
+      "forward_map": "P scalar; U_J=Jomega^-1/2P",
+      "inverse_map": "P^-1; U_J^-1=P^-1Jomega^1/2",
+      "composition_map": "Jacobian cancellation",
+      "round_trip_residual": "Matrix([[0], [0]])",
+      "round_trip_pass": true,
+      "unadapted_negative_test": "Use raw/source convention directly in the project formula.",
+      "negative_residual": "Jomega - 1",
+      "negative_detected": true,
+      "negative_numeric_witness": 1.0,
+      "assumptions_constraint_ideal": "Jomega>0",
+      "dimensions": "1",
+      "source_artifacts": [
+        "Bianchi_Stage7_FLRW_Equivalence_Amendment.md"
+      ],
+      "verdict": "PASS",
+      "note": ""
+    }
+  ],
+  "firewalls": [
+    {
+      "id": "F01_SYMBOL_NAMESPACE",
+      "rule": "No canonical symbol has two meanings.",
+      "negative_witness": "h and varpi had multiple meanings.",
+      "verdict": "PASS_AFTER_RENAME"
+    },
+    {
+      "id": "F02_JACOBI_IDEAL",
+      "rule": "Reduce geometry modulo nB.aB=0.",
+      "negative_witness": "pre-Jacobi Ricci antisymmetry",
+      "verdict": "PASS"
+    },
+    {
+      "id": "F03_CANONICAL_PHYSICAL_LAYER",
+      "rule": "Canonical branch fingerprints are dimensionless; physical ONF aB,nB are L^-1.",
+      "negative_witness": "identity substitution violates dimensions",
+      "verdict": "PASS"
+    },
+    {
+      "id": "F04_TRACE_N_CHANNEL",
+      "rule": "tr(nB) is absent from direction drift but present in screen transport.",
+      "negative_witness": "A_EB=-tr(nB)/3",
+      "verdict": "PASS"
+    },
+    {
+      "id": "F05_TRIAD_ROTATION",
+      "rule": "OmegaTriad is gauge rotation, not physical congruence vorticity.",
+      "negative_witness": "screen omission leaves E/B artifact",
+      "verdict": "PASS"
+    },
+    {
+      "id": "F06_COLD_THOMSON_SCOPE",
+      "rule": "Core collision is cold, non-tilted classical Thomson only.",
+      "negative_witness": "thermal/recoil/tilt require extensions",
+      "verdict": "PASS"
+    },
+    {
+      "id": "F07_SOURCE_REGIME",
+      "rule": "Approximate polarization hierarchies are regression sources, not exact authority.",
+      "negative_witness": "almost-FLRW terms cannot define nonlinear closure",
+      "verdict": "PASS"
+    }
+  ],
+  "amendments_absorbed": [
+    {
+      "name": "Stage 5 spin amendment",
+      "entries": [
+        "A15",
+        "A16",
+        "A31"
+      ],
+      "status": "ABSORBED"
+    },
+    {
+      "name": "Stage 6 MGE sign amendment",
+      "entries": [
+        "A32"
+      ],
+      "status": "ABSORBED_AS_SOURCE_CORRECTION"
+    },
+    {
+      "name": "Stage 7 FLRW equivalence amendment",
+      "entries": [
+        "A35"
+      ],
+      "status": "ABSORBED"
+    },
+    {
+      "name": "CC01 harmonic-axis amendment",
+      "entries": [
+        "A33"
+      ],
+      "status": "NEWLY_IDENTIFIED_AND_LOCKED"
+    },
+    {
+      "name": "CC01 varpi namespace amendment",
+      "entries": [
+        "A11",
+        "A29",
+        "F01"
+      ],
+      "status": "NEWLY_IDENTIFIED_AND_LOCKED"
+    }
+  ],
+  "validation_receipts": {
+    "wolfram_result_file": "Bianchi_CC01_Wolfram_Results.json",
+    "wolfram_result_sha256": "7e3822df4c8c3caf267704f2069e6e1ecad5c3de26d88aeafc58628c9040a5f9",
+    "sympy_result_file": "Bianchi_CC01_SymPy_Results.json",
+    "sympy_result_sha256": "34172cefdf2077589005383ccda7e805a58eea2871c7ed43c1a5d78552b2be9e",
+    "replay_script_file": "Bianchi_CC01_Convention_SSOT_Replay.wl",
+    "replay_script_sha256": "eff22c271b8822e53a503149a4fab1073aca556123f5cf302dc4bcb9a421a753",
+    "cross_engine_comparison_file": "Bianchi_CC01_CrossEngine_Comparison.json",
+    "cross_engine_comparison_sha256": "7ca7d42c6adf2d7a9ab278329edc3dd048eafb0e49e943a30dc209ffa49edb34"
+  },
+  "acceptance_summary": {
+    "adapter_ids": "35/35 exact",
+    "wolfram_round_trip": "35/35 PASS",
+    "sympy_round_trip": "35/35 PASS",
+    "wolfram_negative_tests": "35/35 detected",
+    "sympy_negative_tests": "35/35 detected",
+    "per_adapter_status_agreement": "35/35 round-trip and 35/35 negative detection"
+  }
+}

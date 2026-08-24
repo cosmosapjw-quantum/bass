@@ -1,0 +1,97 @@
+graph TD
+    classDef done fill:#dff0d8,stroke:#3c763d,color:#1a1a1a
+    classDef found fill:#d9edf7,stroke:#31708f,color:#1a1a1a
+    classDef thermo fill:#fcf8e3,stroke:#8a6d3b,color:#1a1a1a
+    classDef aniso fill:#f2dede,stroke:#a94442,color:#1a1a1a
+    classDef rays fill:#e8daef,stroke:#6c3483,color:#1a1a1a
+    classDef verify fill:#eeeeee,stroke:#555555,color:#1a1a1a
+
+    V11["v1.1 완료<br/>기하 · 물질 · 차트 · 감사엔진<br/>129 tests, audit 25/25"]:::done
+
+    %% ---------------- M8 기반
+    PR50["PR-50 thresholds v1.1 반영<br/>(부채 청산, 선행 없음)"]:::verify
+    PR28["PR-28 physical/chart<br/>tau ↔ (H, t, ℓ), IX D-경로"]:::found
+    PR29["PR-29 frame_transport<br/>dP/dtau=(I+Σ+Ω)P, a_i(tau)"]:::found
+    PR30["PR-30 matter/species<br/>공통 프로토콜 + Q^A, sum Q=0"]:::found
+    PR31["PR-31 units + initial<br/>CODATA, Ω_i0, 역적분 빌더"]:::found
+
+    %% ---------------- M9 열역사
+    PR32["PR-32 thermo/dof<br/>g_*(T), g_*s(T) 테이블"]:::thermo
+    PR33["PR-33 thermo/temperature<br/>T_γ(ℓ), T_ν, e± 소멸, N_eff"]:::thermo
+    PR34["PR-34 matter/neutrino<br/>질량 중성미자 FD 적분"]:::thermo
+    PR35["PR-35 matter/dark_energy<br/>Λ, CPL w(a), 상호작용 Q"]:::thermo
+    PR36["PR-36 thermo/recombination<br/>Saha + Peebles, z_*, z_drag"]:::thermo
+    PR37["PR-37 thermo/relics<br/>동결 Boltzmann, 이방성 효과"]:::thermo
+
+    %% ---------------- M10 이방성 고유
+    PR38["PR-38 matter/freestream<br/>Vlasov 특성곡선 → π_ab"]:::aniso
+    PR39["PR-39 matter/viscous<br/>Eckart · Israel–Stewart"]:::aniso
+    PR40["PR-40 matter/gauge_field<br/>전기섹터 + f(φ)²F²"]:::aniso
+    PR41["PR-41 analysis/no_hair<br/>Wald 검증 + 반례"]:::aniso
+    PR42["PR-42 physical/congruence<br/>vorticity, 가속도, CMB 쌍극"]:::aniso
+
+    %% ---------------- M11 광선/관측량
+    PR45["PR-45 rays/generate_weyl<br/>프레임 Riemann/Weyl 코드생성"]:::rays
+    PR43["PR-43 rays/geodesics<br/>(E, n̂) 전송, z(n̂)"]:::rays
+    PR44["PR-44 rays/optical<br/>Jacobi/Sachs → d_A(n̂,z)"]:::rays
+    PR46["PR-46 observables/cmb_pattern<br/>ΔT/T(n̂), a_lm, 사중극"]:::rays
+    PR47["PR-47 observables/distances<br/>r_s(방향), D_M/D_H/D_V, 이방 BAO"]:::rays
+    PR48["PR-48 observables/sn<br/>μ(z,n̂), 쌍극·사중극 분해"]:::rays
+
+    %% ---------------- M12 검증
+    PR49["PR-49 FLRW 극한 회귀<br/>CLASS/CAMB 기준값 대조"]:::verify
+    PR51["PR-51 대규모 스캔 통합<br/>광선 비용 반영"]:::verify
+    PR52["PR-52 보고서 v2.0"]:::verify
+
+    %% ---------------- 의존
+    V11 --> PR50
+    V11 --> PR28
+    V11 --> PR30
+    V11 --> PR45
+    V11 --> PR32
+
+    PR28 --> PR29
+    PR28 --> PR31
+    PR30 --> PR31
+    PR30 --> PR35
+    PR30 --> PR38
+    PR30 --> PR39
+    PR30 --> PR40
+    PR30 --> PR42
+
+    PR32 --> PR33
+    PR28 --> PR33
+    PR33 --> PR34
+    PR33 --> PR36
+    PR33 --> PR37
+    PR30 --> PR34
+
+    PR29 --> PR43
+    PR45 --> PR44
+    PR43 --> PR44
+    PR43 --> PR46
+    PR43 -.특성곡선 코드 공유.-> PR38
+    PR29 --> PR42
+
+    PR44 --> PR47
+    PR36 --> PR47
+    PR44 --> PR48
+
+    PR35 --> PR40
+    PR40 --> PR41
+
+    PR31 --> PR49
+    PR34 --> PR49
+    PR36 --> PR49
+    PR44 --> PR49
+    PR38 --> PR49
+    PR49 --> PR51
+    PR50 --> PR51
+    PR46 --> PR51
+    PR47 --> PR51
+    PR48 --> PR51
+    PR51 --> PR52
+    PR41 --> PR52
+    PR37 --> PR52
+    PR39 --> PR52
+    PR42 --> PR52
