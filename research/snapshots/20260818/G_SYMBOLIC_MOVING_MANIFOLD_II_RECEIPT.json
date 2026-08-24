@@ -1,0 +1,66 @@
+{
+  "stage": "G-SYMBOLIC-MOVING-MANIFOLD-II",
+  "status": "PASS_KATO_CONNECTION_RESTORES_TYPEII_STIFF_ORDER__LOWERING_NEXT",
+  "symbolic": {
+    "v2_prime": "-v2*(v2 - 1)*(v2 + 1)*(sqrt(3)*Sigma_m + Sigma_p - 3*gamma + 4)/(gamma*v2**2 - v2**2 - 1)",
+    "continuum_ir": "ir/moving_equilibrium_continuum_ir.json"
+  },
+  "bundle_compare": {
+    "scalar": {
+      "max_P_2norm": 3.4024271419824205e-09,
+      "max_Pdot_2norm": 6.913044898553301e-09,
+      "max_K_2norm": 6.872068996669053e-09,
+      "max_idempotency": 3.783447410980907e-16,
+      "max_Kato_identity": 2.2785534664073163e-17
+    },
+    "polarized": {
+      "max_P_2norm": 2.5685433683751816e-08,
+      "max_Pdot_2norm": 5.2119078960731725e-08,
+      "max_K_2norm": 5.182155077579097e-08,
+      "max_idempotency": 3.2016811410571575e-16,
+      "max_Kato_identity": 1.5719062075799714e-17
+    }
+  },
+  "slow_model_errors": {
+    "scalar": [
+      {"alpha": 100.0, "relative_error": 0.0012824579804860655},
+      {"alpha": 1000.0, "relative_error": 0.00013025764954913545},
+      {"alpha": 10000.0, "relative_error": 1.3394465880096658e-05}
+    ],
+    "polarized": [
+      {"alpha": 100.0, "relative_error": 0.0015215992175285158},
+      {"alpha": 1000.0, "relative_error": 0.00015605118642022533},
+      {"alpha": 10000.0, "relative_error": 1.599086617823769e-05}
+    ]
+  },
+  "orders": {
+    "scalar": {
+      "old_AEM2@1": 1.9933642682725252,
+      "Kato_AEM2@1": 1.9915272447999757,
+      "old_AEM2@1000": 1.5026650757537878,
+      "Kato_AEM2@1000": 2.0123403671517015,
+      "old_AEM2@100000": 1.4982659578871316,
+      "Kato_AEM2@100000": 2.0406522595094447
+    },
+    "polarized": {
+      "old_AEM2@1": 1.9949583085492935,
+      "Kato_AEM2@1": 1.9932826657823415,
+      "old_AEM2@1000": 1.5016768448407352,
+      "Kato_AEM2@1000": 2.007585833289924,
+      "old_AEM2@100000": 1.4982515677764512,
+      "Kato_AEM2@100000": 2.0407601453332336
+    }
+  },
+  "safety": [
+    {"alpha": 1000.0, "V0_leak": 4.219119142171663e-18, "physical_margin": 0.37258399577232537},
+    {"alpha": 100000.0, "V0_leak": 4.215225250331292e-18, "physical_margin": 0.3726448107184933}
+  ],
+  "decision": {
+    "Kato_connection": "PROMOTE for Type-II reference architecture",
+    "old_midpoint_AEM2": "REJECTED for moving equilibrium",
+    "Kato_AEM2": "PASS reference-level Type-II scalar+polarized time-dependent gate",
+    "production_code_modified": false,
+    "cross_branch_generalization": "BLOCKED"
+  },
+  "next": "G-SYMBOLIC-LOWERING-II with parallel G-DYN-MANIFOLD-CROSS"
+}

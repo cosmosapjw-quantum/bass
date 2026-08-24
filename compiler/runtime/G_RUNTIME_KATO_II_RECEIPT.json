@@ -1,0 +1,60 @@
+{
+  "stage": "G-RUNTIME-KATO-II",
+  "status": "PASS_REFERENCE_FULL_ARNOLDI_KATO_RUNTIME__ADAPTIVE_RESTART_OPEN",
+  "scope": {
+    "runtime": "matrix-free full-dimensional Arnoldi exponential action + augmented phi1 + Kato-AEM2",
+    "background": "source-derived tilted Type-II 5-state trajectory, gamma=1.3",
+    "opacity": "actual prior SahaHistory -> RateSchedule fixture, scaled by alpha",
+    "angular_grid": "Lebedev-26",
+    "claim_boundary": "adaptive/restarted m<n Krylov is not validated and fails closed with SubspaceTooSmall"
+  },
+  "fresh_verification": {
+    "python_compiler": "39 passed",
+    "rust_lib": "128 passed, 0 failed",
+    "rust_runtime_integration": "4 passed, 0 failed",
+    "rustfmt": "PASS (empty --check output)",
+    "orders": [
+      {
+        "alpha": 1.0,
+        "errors": [0.002354394711231387, 0.0005903517637918307, 0.0001485149908708786],
+        "orders": [1.995709454, 1.990966285]
+      },
+      {
+        "alpha": 1000.0,
+        "errors": [0.0014570001950704812, 0.0003553667196898122, 0.00008949139541933213],
+        "orders": [2.035620587, 1.989487699]
+      },
+      {
+        "alpha": 100000.0,
+        "errors": [0.0014404979386051036, 0.0003467025177451369, 0.0000850760320976562],
+        "orders": [2.054797377, 2.02687366]
+      }
+    ]
+  },
+  "backend": {
+    "projected_exponential": "Arnoldi basis + Pade13 scaling/squaring on projected small matrix",
+    "phi1": "augmented exponential identity",
+    "kato_step": "two Kato half-transports sandwiching midpoint AEM2 with A-K",
+    "small_subspace_policy": "fail_closed"
+  },
+  "negative_result": {
+    "attempt": "ad-hoc time-split/restarted m<n Krylov using residual/step-doubling acceptance",
+    "result": "error estimator/acceptance did not reliably meet requested tolerance",
+    "decision": "removed from accepted runtime; use phipm/KIOPS-class adaptive algorithm in separate gate"
+  },
+  "provenance": {
+    "pr5_head": "490c149ce2fc072dd7986978914057e215420ed4",
+    "formula_authority_sha256": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "rust": "1.94.1",
+    "runtime_source_sha256": "78dc3dc28cfade9ea0066b2033c16b28faf570d591b806590da54138b6b2eb0d",
+    "fixture_sha256": "5737dead724b86ead64cc25f9e00802973df1eb2abbdc92a5e7c095df1378ef1",
+    "runtime_test_sha256": "599aa392adffd59d85e54136296a596ff8ea0324df4c1efeccca751f7a98abf1"
+  },
+  "production_solver_modified": false,
+  "next": {
+    "primary": "G-KRYLOV-ADAPT",
+    "parallel": ["G-CONSERVATION-II", "G-QUAD-II"],
+    "production_migration": "BLOCKED"
+  }
+}

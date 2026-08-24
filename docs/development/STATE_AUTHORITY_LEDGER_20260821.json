@@ -1,0 +1,143 @@
+{
+  "schema": "bass-state-authority-ledger-v1",
+  "observed_at": "2026-08-21",
+  "critical_path_base": {
+    "branch": "agent/g-conservation-quad-ii",
+    "commit": "6a235df0b24841cf553ab141a17c143f74329233",
+    "pr": 7
+  },
+  "nodes": [
+    {
+      "node": "G-SYMBOLIC-LOWERING-II",
+      "pr": 5,
+      "branch": "agent/g-symbolic-lowering-ii",
+      "commit": "490c149ce2fc072dd7986978914057e215420ed4",
+      "lane": "CORE_MAINLINE",
+      "status": "DURABLE_VERIFIED",
+      "claim": "generated Type-II scalar background/JVP/projector/Kato/collision Rust authority"
+    },
+    {
+      "node": "G-RUNTIME-KATO-II",
+      "pr": 6,
+      "branch": "agent/g-runtime-kato-ii",
+      "commit": "572321702531d16b42aa8d5ba9641489fff74aa9",
+      "lane": "CORE_MAINLINE",
+      "status": "DURABLE_VERIFIED_REFERENCE_BACKEND",
+      "open_gaps": [
+        "independent uniformization auditor",
+        "durable old-AEM2 versus Kato-AEM2 comparison"
+      ]
+    },
+    {
+      "node": "G-CONSERVATION-II+G-QUAD-II",
+      "pr": 7,
+      "branch": "agent/g-conservation-quad-ii",
+      "commit": "6a235df0b24841cf553ab141a17c143f74329233",
+      "lane": "CORE_MAINLINE",
+      "status": "DURABLE_VERIFIED_SCALAR_GATE"
+    },
+    {
+      "node": "G-POL-RUNTIME-II",
+      "pr": 8,
+      "branch": "agent/g-pol-runtime-ii",
+      "commit": "9254f47f1ded7762014325093a3e294982671169",
+      "lane": "POLARIZED_REFERENCE_RND",
+      "status": "DURABLE_VERIFIED_REFERENCE"
+    },
+    {
+      "node": "G-KRYLOV-ADAPT",
+      "pr": 9,
+      "branch": "agent/g-krylov-adapt",
+      "commit": "0b6dcbf94ab2a4a70c9cfe7b6c4c484acc7786bb",
+      "lane": "OPTIONAL_NUMERICAL_BACKEND",
+      "status": "DURABLE_VERIFIED_RESIDUAL_CONTROLLED",
+      "forbidden_claim": "rigorous global forward-error bound or production speedup"
+    },
+    {
+      "node": "G-PRE-LIOUVILLE-SAFETY-II",
+      "pr": 10,
+      "branch": "agent/g-pre-liouville-safety-ii",
+      "commit": "c4bdd3ea0ca4db4fd8b975968063fa128c4a55d3",
+      "lane": "POLARIZED_REFERENCE_RND",
+      "status": "DURABLE_VERIFIED"
+    },
+    {
+      "node": "G-POL-LIOUVILLE-II-A",
+      "pr": 11,
+      "branch": "agent/g-pol-liouville-ii",
+      "commit": "7865ac7fee1f4d55cf302dc0bb6132afc87b7ea1",
+      "lane": "POLARIZED_REFERENCE_RND",
+      "status": "DURABLE_VERIFIED_RAY_AUTHORITY"
+    },
+    {
+      "node": "TEMP-B1-B2-APPLY",
+      "pr": 12,
+      "branch": "agent/g-pol-liouville-b1-b2-staging-20260821",
+      "commit": "7f6b92da492535b6f05368cdf6434a3a26d66de7",
+      "lane": "QUARANTINE",
+      "status": "TEMPORARY_NON_AUTHORITY_CLOSE_WITHOUT_MERGE"
+    },
+    {
+      "node": "G-POL-LIOUVILLE-II-B1",
+      "pr": 13,
+      "branch": "agent/g-pol-liouville-ii-b1",
+      "commit": "6067501f24bba03b317f5de19b5625c79b9e6467",
+      "lane": "POLARIZED_REFERENCE_RND",
+      "status": "DURABLE_PENDING_CONVENTION_RECONCILIATION",
+      "canonical_choice": "packed[8]=-V/2"
+    },
+    {
+      "node": "G-POL-LIOUVILLE-II-B2A",
+      "pr": 14,
+      "branch": "agent/g-pol-liouville-ii-b2a",
+      "commit": "1f7c007ef1edc99bc88ecc8ca999da261a040e1f",
+      "lane": "POLARIZED_REFERENCE_RND",
+      "status": "DURABLE_VERIFIED_TENSOR_REMAP_CORE",
+      "freeze": true
+    },
+    {
+      "node": "G-POL-LIOUVILLE-II-B2B",
+      "pr": null,
+      "branch": null,
+      "package_sha256": "7ce2056b21147752e7c7ee5cf0bc1a2e07759f9bc0e5a96c10e0ea3a60e72ce3",
+      "lane": "DEFERRED_REFERENCE",
+      "status": "LOCAL_DURABLE_REMOTE_CANONICAL_MISSING"
+    },
+    {
+      "node": "B2B-UPLOAD-STAGING",
+      "pr": null,
+      "branch": "agent/g-pol-liouville-ii-b2b-upload",
+      "lane": "QUARANTINE",
+      "status": "NON_AUTHORITY_PARTIAL_UPLOAD_DO_NOT_MERGE"
+    },
+    {
+      "node": "G-DYN-MANIFOLD-VI0",
+      "pr": null,
+      "lane": "CROSS_FAMILY_MAINLINE",
+      "status": "NEXT"
+    },
+    {
+      "node": "P-MIG-II-PREFLIGHT",
+      "pr": null,
+      "lane": "CORE_MAINLINE",
+      "status": "NEXT"
+    }
+  ],
+  "join_j1": {
+    "required": [
+      "G-DYN-MANIFOLD-VI0 PASS",
+      "P-MIG-II-PREFLIGHT PASS",
+      "B1 V convention reconciled",
+      "PR5-PR7 baseline unchanged",
+      "production owner and rollback boundary explicit"
+    ],
+    "unlocks": "G-PRODUCTION-MIGRATION-II-0"
+  },
+  "frozen_until_join": [
+    "G-POL-LIOUVILLE-II-C",
+    "B2B canonical promotion",
+    "observed-sky bridge",
+    "E/B or harmonic outputs",
+    "polarized production migration"
+  ]
+}
