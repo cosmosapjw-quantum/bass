@@ -92,7 +92,7 @@ jobs:
               > "$EVIDENCE_DIR/candidate_actual.sha256"
           )
 
-      - name: Restore the exact E4 archive and locate the authority host
+      - name: Restore the exact E4 archive and normalize the authority host layout
         run: |
           set -euo pipefail
           mkdir -p "$EVIDENCE_DIR" "$E4_EXTRACT"
@@ -103,35 +103,92 @@ jobs:
           unzip -q "$E4_ZIP" -d "$E4_EXTRACT"
 
           host_root=''
+          authority_root=''
+          host_layout=''
+
           while IFS= read -r owner; do
-            root="${owner%/source/bianchi/q/electron.py}"
-            required=(
-              source/bianchi/q/electron.py
-              source/bianchi/q/electron_rate.py
-              source/bianchi/q/electron_validity.py
-              source/bianchi/q/electron_trajectory.py
-              tests/test_electron_test_field.py
-              tests/test_electron_collision_rate.py
-              tests/test_electron_thomson_validity.py
-              tests/test_electron_trajectory_authority.py
+            case "$owner" in
+              */source/bianchi/q/electron.py)
+                candidate_authority_root="${owner%/source/bianchi/q/electron.py}"
+                candidate_module_root="$candidate_authority_root/source"
+                candidate_tests_root="$candidate_authority_root/tests"
+                candidate_layout='source-layout'
+                ;;
+              */bianchi/q/electron.py)
+                candidate_authority_root="${owner%/bianchi/q/electron.py}"
+                candidate_module_root="$candidate_authority_root"
+                candidate_tests_root="$candidate_authority_root/tests"
+                candidate_layout='repository-root-layout'
+                ;;
+              *)
+                continue
+                ;;
+            esac
+
+            required_modules=(
+              bianchi/q/electron.py
+              bianchi/q/electron_rate.py
+              bianchi/q/electron_validity.py
+              bianchi/q/electron_trajectory.py
             )
+            required_tests=(
+              test_electron_test_field.py
+              test_electron_collision_rate.py
+              test_electron_thomson_validity.py
+              test_electron_trajectory_authority.py
+            )
+
             ok=1
-            for rel in "${required[@]}"; do
-              [[ -f "$root/$rel" ]] || ok=0
+            for rel in "${required_modules[@]}"; do
+              [[ -f "$candidate_module_root/$rel" ]] || ok=0
             done
+            for rel in "${required_tests[@]}"; do
+              [[ -f "$candidate_tests_root/$rel" ]] || ok=0
+            done
+
             if [[ $ok -eq 1 ]]; then
-              host_root="$root"
+              authority_root="$candidate_authority_root"
+              host_layout="$candidate_layout"
+              normalized_root="$RUNNER_TEMP/bass8b2a-e4-host"
+              rm -rf "$normalized_root"
+              mkdir -p "$normalized_root"
+              ln -s "$candidate_module_root" "$normalized_root/source"
+              ln -s "$candidate_tests_root" "$normalized_root/tests"
+              host_root="$normalized_root"
               break
             fi
-          done < <(find "$E4_EXTRACT" -type f -path '*/source/bianchi/q/electron.py' -print | sort)
+          done < <(find "$E4_EXTRACT" -type f -path '*/bianchi/q/electron.py' -print | sort)
 
           [[ -n "$host_root" ]] || {
             echo 'No complete E1-E4 host root found in restored archive' >&2
-            find "$E4_EXTRACT" -maxdepth 5 -type f | sort | head -200 >&2
+            find "$E4_EXTRACT" -maxdepth 7 -type f | sort | head -200 >&2
             exit 1
           }
+
           printf '%s\n' "$host_root" > "$RUNNER_TEMP/bass8b2a-host-root.txt"
-          printf '%s\n' "${host_root#"$E4_EXTRACT"/}" > "$EVIDENCE_DIR/host_root_relative.txt"
+          printf '%s\n' "$host_layout" > "$EVIDENCE_DIR/host_layout.txt"
+          printf '%s\n' "${authority_root#"$E4_EXTRACT"/}" \
+            > "$EVIDENCE_DIR/authority_root_relative.txt"
+          {
+            printf 'source -> %s\n' "$(readlink "$host_root/source")"
+            printf 'tests  -> %s\n' "$(readlink "$host_root/tests")"
+          } > "$EVIDENCE_DIR/normalized_host_links.txt"
+
+          for path in \
+            "$host_root/source/bianchi/q/electron.py" \
+            "$host_root/source/bianchi/q/electron_rate.py" \
+            "$host_root/source/bianchi/q/electron_validity.py" \
+            "$host_root/source/bianchi/q/electron_trajectory.py" \
+            "$host_root/tests/test_electron_test_field.py" \
+            "$host_root/tests/test_electron_collision_rate.py" \
+            "$host_root/tests/test_electron_thomson_validity.py" \
+            "$host_root/tests/test_electron_trajectory_authority.py"; do
+            [[ -f "$path" ]] || {
+              echo "normalized host path missing: $path" >&2
+              exit 1
+            }
+          done
+
           sha256sum \
             "$host_root/source/bianchi/q/electron.py" \
             "$host_root/source/bianchi/q/electron_rate.py" \
