@@ -271,7 +271,9 @@ pub fn moments(g: &SphereGrid, f: &[f64]) -> (f64, [f64; 3], [f64; 6]) {
     let mut rho = 0.0;
     let mut q = [0.0; 3];
     let mut pi = [0.0; 6];
-    for (i, &fi) in f.iter().enumerate().take(g.len()) {
+    // Slice first so a too-short distribution keeps the historical fail-closed
+    // behavior; extra entries remain intentionally ignored.
+    for (i, &fi) in f[..g.len()].iter().enumerate() {
         let wf = g.w[i] * fi;
         let e = [g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]];
         rho += wf;
@@ -312,6 +314,14 @@ pub fn tail_energy(g: &SphereGrid, f: &[f64], l_cut: usize, l_max: usize) -> f64
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[should_panic]
+    fn moments_rejects_a_short_distribution() {
+        let g = SphereGrid::new(2, 4);
+        let short = vec![0.0; g.len() - 1];
+        let _ = moments(&g, &short);
+    }
 
     #[test]
     fn gl_weights_sum_and_exactness() {
