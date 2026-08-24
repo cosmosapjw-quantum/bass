@@ -1,0 +1,55 @@
+....F                                                                    [100%]
+=================================== FAILURES ===================================
+___ test_rate_jet_includes_paired_node_motion_and_matches_finite_difference ____
+
+    def test_rate_jet_includes_paired_node_motion_and_matches_finite_difference():
+        e_rest, w_rest = lebedev26()
+        tau = 0.37
+        density = 5.0
+        ddensity = 0.4
+        beta = np.array([0.11, -0.08, 0.05])
+        dbeta = np.array([0.013, -0.017, 0.009])
+        H = 2.7e-18
+        dH = -0.12e-18
+        auth = rate_dual.RateDualAuthority.frozen_project_authority()
+    
+        def evaluate(t: float):
+            dt = t - tau
+            return rate_dual.bind_direction_dependent_rate_dual(
+                electron_binding(
+                    tau=t,
+                    density=density + ddensity * dt,
+                    beta=beta + dbeta * dt,
+                    ddensity=ddensity,
+                    dbeta=dbeta,
+                ),
+                rate_dual.NormalHubbleRateJet(
+                    tau=t,
+                    H_normal_s=H + dH * dt,
+                    dH_normal_s_dtau=dH,
+                    derivative_side=DerivativeSide.INTERIOR,
+                    coordinate_sha256=H3,
+                    provenance=HashRef("normal-H", H2),
+                ),
+                e_rest=e_rest,
+                w_rest=w_rest,
+                authority=auth,
+            )
+    
+        out = evaluate(tau)
+        h = 2.0e-6
+        plus = evaluate(tau + h)
+        minus = evaluate(tau - h)
+        de_fd = (plus.e_normal - minus.e_normal) / (2.0 * h)
+        dq_fd = (plus.direction_factor - minus.direction_factor) / (2.0 * h)
+        dD_fd = (plus.doppler - minus.doppler) / (2.0 * h)
+        dnu_fd = (plus.nu_tau - minus.nu_tau) / (2.0 * h)
+    
+>       assert np.max(np.abs(out.de_normal_dtau - de_fd)) < 2e-9
+                             ^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RateDualBinding' object has no attribute 'de_normal_dtau'
+
+tests/test_direction_dependent_rate_dual.py:209: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_rate_jet_includes_paired_node_motion_and_matches_finite_difference - AttributeError: 'RateDualBinding' object has no attribute 'de_normal_dtau'
+1 failed, 4 passed in 0.08s

@@ -1,0 +1,22 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_________________ test_zero_tilt_returns_rest_grid_and_e2_rate _________________
+
+    def test_zero_tilt_returns_rest_grid_and_e2_rate():
+        e_rest, w_rest = lebedev26()
+        H = 2.0e-18
+>       hubble = rate_dual.NormalHubbleRateJet(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            tau=0.3,
+            H_normal_s=H,
+            dH_normal_s_dtau=0.0,
+            derivative_side=DerivativeSide.INTERIOR,
+            coordinate_sha256=H3,
+            provenance=HashRef("normal-H", H2),
+        )
+E       AttributeError: module 'direction_dependent_rate_dual' has no attribute 'NormalHubbleRateJet'
+
+tests/test_direction_dependent_rate_dual.py:67: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_zero_tilt_returns_rest_grid_and_e2_rate - AttributeError: module 'direction_dependent_rate_dual' has no attribute 'NormalHubbleRateJet'
+1 failed, 1 passed in 0.06s

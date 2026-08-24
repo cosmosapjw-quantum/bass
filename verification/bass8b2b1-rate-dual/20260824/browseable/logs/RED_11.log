@@ -1,0 +1,28 @@
+...............F                                                         [100%]
+=================================== FAILURES ===================================
+__________ test_rate_dual_receipt_retains_replayable_input_provenance __________
+
+    def test_rate_dual_receipt_retains_replayable_input_provenance():
+        e_rest, w_rest = lebedev26()
+        out = rate_dual.bind_direction_dependent_rate_dual(
+            electron_binding(density=4.2, beta=(0.08, -0.03, 0.05), ddensity=0.11),
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=2.4e-18,
+                dH_normal_s_dtau=-0.07e-18,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+        meta = out.authority_metadata()
+>       assert meta["coordinate_sha256"] == H3
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'coordinate_sha256'
+
+tests/test_direction_dependent_rate_dual.py:579: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_rate_dual_receipt_retains_replayable_input_provenance - KeyError: 'coordinate_sha256'

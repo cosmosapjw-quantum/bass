@@ -1,0 +1,35 @@
+................F                                                        [100%]
+=================================== FAILURES ===================================
+__ test_collision_off_receipt_retains_vacuum_reason_and_unpromoted_boundaries __
+
+    def test_collision_off_receipt_retains_vacuum_reason_and_unpromoted_boundaries():
+        e_rest, w_rest = lebedev26()
+        state = CollisionOff("exact-vacuum", H1)
+        binding = ElectronBindingCertificate(
+            state=state,
+            jet=None,
+            coordinate_sha256=H3,
+            binding_sha256=H4,
+            metadata={"direction_dependent_rate_bound": False},
+        )
+        out = rate_dual.bind_direction_dependent_rate_dual(
+            binding,
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=2.0e-18,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+>       meta = out.authority_metadata()
+               ^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'CollisionOffRateDualBinding' object has no attribute 'authority_metadata'
+
+tests/test_direction_dependent_rate_dual.py:618: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_collision_off_receipt_retains_vacuum_reason_and_unpromoted_boundaries - AttributeError: 'CollisionOffRateDualBinding' object has no attribute 'authority_metadata'

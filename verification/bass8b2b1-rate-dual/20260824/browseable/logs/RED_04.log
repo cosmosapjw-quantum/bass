@@ -1,0 +1,47 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_full_generator_left_dual_and_projector_scalar_cancellation ________
+
+    def test_full_generator_left_dual_and_projector_scalar_cancellation():
+        e_rest, w_rest = lebedev26()
+        beta = np.array([0.12, -0.16, 0.07])
+        beta *= 0.27 / np.linalg.norm(beta)
+        common = dict(
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+        out = rate_dual.bind_direction_dependent_rate_dual(
+            electron_binding(density=4.0, beta=beta),
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=2.5e-18,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            **common,
+        )
+        rescaled = rate_dual.bind_direction_dependent_rate_dual(
+            electron_binding(density=40.0, beta=beta),
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=8.0e-18,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            **common,
+        )
+        rng = np.random.default_rng(15)
+        y = rng.normal(size=9 * len(e_rest))
+>       cy = out.apply_full_generator(y)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RateDualBinding' object has no attribute 'apply_full_generator'
+
+tests/test_direction_dependent_rate_dual.py:158: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_full_generator_left_dual_and_projector_scalar_cancellation - AttributeError: 'RateDualBinding' object has no attribute 'apply_full_generator'
+1 failed, 3 passed in 0.07s

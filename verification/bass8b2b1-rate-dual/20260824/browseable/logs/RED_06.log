@@ -1,0 +1,74 @@
+.....FFF                                                                 [100%]
+=================================== FAILURES ===================================
+_____________ test_knot_side_and_coordinate_authorities_must_match _____________
+
+    def test_knot_side_and_coordinate_authorities_must_match():
+        e_rest, w_rest = lebedev26()
+        binding = electron_binding(side=DerivativeSide.LEFT)
+        auth = rate_dual.RateDualAuthority.frozen_project_authority()
+>       with pytest.raises(ValueError, match="same derivative side"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/test_direction_dependent_rate_dual.py:245: Failed
+_________ test_local_observer_boost_cannot_own_electron_collision_rate _________
+
+    def test_local_observer_boost_cannot_own_electron_collision_rate():
+        frozen = rate_dual.RateDualAuthority.frozen_project_authority()
+>       with pytest.raises(ValueError, match="electron_from_normal"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/test_direction_dependent_rate_dual.py:279: Failed
+___________ test_exact_vacuum_is_collision_off_and_has_no_projector ____________
+
+    def test_exact_vacuum_is_collision_off_and_has_no_projector():
+        e_rest, w_rest = lebedev26()
+        state = CollisionOff("exact-vacuum", H1)
+        binding = ElectronBindingCertificate(
+            state=state,
+            jet=None,
+            coordinate_sha256=H3,
+            binding_sha256=H4,
+            metadata={"direction_dependent_rate_bound": False},
+        )
+>       out = rate_dual.bind_direction_dependent_rate_dual(
+            binding,
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=2.0e-18,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+
+tests/test_direction_dependent_rate_dual.py:301: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+electron_binding = ElectronBindingCertificate(state=CollisionOff(reason='exact-vacuum', schedule_payload_sha256='111111111111111111111111...444444444444444444444444444444444444444444444444444', metadata=mappingproxy({'direction_dependent_rate_bound': False}))
+hubble_jet = NormalHubbleRateJet(tau=0.3, H_normal_s=2e-18, dH_normal_s_dtau=0.0, derivative_side=<DerivativeSide.INTERIOR: 'interi...enance=HashRef(source_id='normal-H', source_sha256='2222222222222222222222222222222222222222222222222222222222222222'))
+
+    def bind_direction_dependent_rate_dual(
+        electron_binding: Any,
+        hubble_jet: NormalHubbleRateJet,
+        *,
+        e_rest: np.ndarray,
+        w_rest: np.ndarray,
+        authority: RateDualAuthority,
+    ) -> RateDualBinding:
+        jet = getattr(electron_binding, "jet", None)
+        if jet is None:
+>           raise ValueError("positive-density rate binding requires an ElectronStateJet")
+E           ValueError: positive-density rate binding requires an ElectronStateJet
+
+source/direction_dependent_rate_dual.py:159: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_knot_side_and_coordinate_authorities_must_match - Failed: DID NOT RAISE <class 'ValueError'>
+FAILED tests/test_direction_dependent_rate_dual.py::test_local_observer_boost_cannot_own_electron_collision_rate - Failed: DID NOT RAISE <class 'ValueError'>
+FAILED tests/test_direction_dependent_rate_dual.py::test_exact_vacuum_is_collision_off_and_has_no_projector - ValueError: positive-density rate binding requires an ElectronStateJet
+3 failed, 5 passed in 0.09s

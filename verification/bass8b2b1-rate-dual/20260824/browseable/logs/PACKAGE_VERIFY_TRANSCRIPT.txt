@@ -1,0 +1,15 @@
+MANIFEST_PASS count=64
++ sha256sum -c audit/input_hashes.sha256
+inputs/bass8b2a/electron_state_binding.py: OK
+inputs/bass8b2b0/generic_vector_paired_carrier.py: OK
+inputs/bass8b2b0/exact_rate_multiplier_witness.py: OK
+inputs/bass8b2b0/DECISION.json: OK
++ /opt/pyvenv/bin/python -m py_compile source/direction_dependent_rate_dual.py source/exact_rate_dual_witness.py audit/run_rate_dual_numerical_audit.py tests/test_direction_dependent_rate_dual.py host_replay/test_exact_e2_rate_parity.py
++ /opt/pyvenv/bin/python -m pytest tests -q
+.................                                                        [100%]
+EXACT_SYMPY_PASS
+EXACT_WOLFRAM_RECEIPT_PASS
+RANDOMIZED_AUDIT_PASS cases=500
+PLOT_EVIDENCE_PRESENT count=4
+CLAIM_BOUNDARY_PASS
+BASS8B2B1_PACKAGE_VERIFY_PASS__EXACT_E2_HOST_PARITY_STILL_REQUIRED

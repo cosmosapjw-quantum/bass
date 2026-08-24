@@ -1,0 +1,46 @@
+{
+  "schema": "bass8b2b-carrier-choice-rate-dual-correction-v1",
+  "date": "2026-08-24",
+  "decision": "SELECT_GENERIC_VECTOR_PAIRED_REST_TO_NORMAL_PHYSICAL_SCREEN_BUNDLE__RATE_DUAL_BINDING_CRITICAL",
+  "status": {
+    "BASS-8B.2B.0": "PASS_BOUNDED_DECISION",
+    "BASS-8B.2B": "NOT_YET_PASSED"
+  },
+  "p0_correction": {
+    "global_scalar_rate": "does not change nonzero right/left kernels",
+    "direction_dependent_diagonal_rate": "preserves right kernel but changes left kernel and normalized projector",
+    "previous_e5_side_node_classification": "SUPERSEDED_FOR_ROW8_AND_FULL_PROJECTOR"
+  },
+  "carrier": {
+    "rest_grid": "fixed electron-rest quadrature",
+    "normal_grid": "inverse-aberrated moving paired grid",
+    "normal_weight": "w_i = w'_i D_i^2",
+    "physical_fiber": "Hermitian screen tensor, 4 real DOF per node",
+    "ambient_embedding": "rank-9 real tensor packing",
+    "equilibrium": "r_i = 0.5 D_i^-4 P(e_i)",
+    "reference_policy": "paired rest-to-normal",
+    "negative_control": "fixed-normal collocation"
+  },
+  "numerical_witness": {
+    "grid": "Lebedev-26",
+    "orientations": 3,
+    "speeds": 11,
+    "max_speed": 0.5,
+    "so3_probes": 30,
+    "max_right_null": 9.690270078462301e-16,
+    "max_left_null": 4.1855216120648364e-16,
+    "max_projector_idempotence": 6.661338147750939e-16,
+    "max_collision_rotation_residual": 8.881784197001252e-15,
+    "max_projector_rotation_residual": 3.9968028886505635e-15,
+    "nullity_values": [1],
+    "minimum_spectral_gap": 0.2147904457756587,
+    "claim_class": "DISCRETE_NUMERICAL_WITNESS_NOT_CONTINUUM_AUTHORITY"
+  },
+  "next": "BASS-8B.2B.1_DIRECTION_DEPENDENT_RATE_DUAL_BINDING",
+  "authority_state": {
+    "row7": "BLOCKED_NO_COMPLETE_PROJECTOR_AUTHORITY",
+    "row8": "BLOCKED_NO_PAIRED_LEFT_INVARIANT",
+    "BASS-3": "DO_NOT_START",
+    "Join-J1": "BLOCKED"
+  }
+}

@@ -1,0 +1,45 @@
+..............F                                                          [100%]
+=================================== FAILURES ===================================
+______ test_bound_authority_arrays_are_immutable_and_detached_from_inputs ______
+
+    def test_bound_authority_arrays_are_immutable_and_detached_from_inputs():
+        e_rest, w_rest = lebedev26()
+        beta = np.array([0.13, -0.04, 0.08])
+        dbeta = np.array([0.01, 0.002, -0.004])
+        out = rate_dual.bind_direction_dependent_rate_dual(
+            electron_binding(beta=beta, dbeta=dbeta),
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=2.0e-18,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+        frozen_names = (
+            "e_normal",
+            "de_normal_dtau",
+            "w_normal",
+            "beta",
+            "dbeta_dtau",
+            "doppler",
+            "ddoppler_dtau",
+            "direction_factor",
+            "ddirection_factor_dtau",
+            "nu_tau",
+            "dnu_tau_dtau",
+            "shape_left_node_weights",
+            "full_left_node_weights",
+        )
+>       assert all(not getattr(out, name).flags.writeable for name in frozen_names)
+E       assert False
+E        +  where False = all(<generator object test_bound_authority_arrays_are_immutable_and_detached_from_inputs.<locals>.<genexpr> at 0x7fc35b11a180>)
+
+tests/test_direction_dependent_rate_dual.py:554: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_bound_authority_arrays_are_immutable_and_detached_from_inputs - assert False
+ +  where False = all(<generator object test_bound_authority_arrays_are_immutable_and_detached_from_inputs.<locals>.<genexpr> at 0x7fc35b11a180>)

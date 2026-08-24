@@ -1,0 +1,46 @@
+{
+  "schema": "bass8b2b1-direction-dependent-rate-dual-decision-v2",
+  "date": "2026-08-24",
+  "decision": "BIND_E2_DIRECTION_DEPENDENT_RATE_TO_PAIRED_DUAL__PURE_PYTHON_EXACT_HOST_PARITY_REQUIRED",
+  "architecture": {
+    "frontend": "pure-python-numpy-scipy-sympy-pytest",
+    "backend": "rust-1.94.1-locked-offline-capable",
+    "jax_stack": "EXCLUDED_FROM_CURRENT_TARGET",
+    "legacy_jax_archives": "read-only authority; bounded NumPy slices loaded through isolated namespace"
+  },
+  "status": {
+    "local_candidate": "PASS",
+    "BASS-8B.2B.1": "CANDIDATE_GREEN__PURE_PYTHON_EXACT_E2_HOST_PARITY_REQUIRED",
+    "BASS-8B.2B.2": "BLOCKED",
+    "row7": "BLOCKED_NO_COMPLETE_PROJECTOR_AUTHORITY",
+    "row8": "BLOCKED_NO_PAIRED_LEFT_INVARIANT",
+    "BASS-3": "DO_NOT_START",
+    "Join-J1": "BLOCKED"
+  },
+  "factorization": {
+    "alpha": "n_e sigma_T c/H_normal",
+    "direction_factor": "q_i=1-beta_e.e_i",
+    "doppler": "D_i=gamma_e q_i",
+    "rate": "nu_i=alpha D_i",
+    "full_generator": "C_Q=(alpha gamma_e) C_q",
+    "full_left_node_weight": "w_i q_i/(4 pi)",
+    "shape_left_node_weight": "w_i q_i^2/(4 pi)"
+  },
+  "local_evidence": {
+    "physics_pytest": "17/17 PASS",
+    "pure_python_loader_pytest": "3/3 PASS",
+    "sympy": "PASS_EXACT_RATE_DUAL_WITNESS",
+    "wolfram": "PASS_EXACT_RATE_DUAL_WOLFRAM_WITNESS",
+    "random_cases": 500,
+    "plots": 4
+  },
+  "next": "BASS-8B.2B.1-R1_PURE_PYTHON_EXACT_E2_HOST_PARITY",
+  "nonclaims": [
+    "no moving projector differential completion",
+    "no authority row promotion",
+    "no VI0 classifier",
+    "no production runtime",
+    "no JAX development lane",
+    "no PR or merge"
+  ]
+}

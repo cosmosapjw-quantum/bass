@@ -1,0 +1,50 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+_____________ test_generic_rate_matches_e2_direction_factorization _____________
+
+    def test_generic_rate_matches_e2_direction_factorization():
+        e_rest, w_rest = lebedev26()
+        beta = np.array([0.17, -0.09, 0.11])
+        beta *= 0.23 / np.linalg.norm(beta)
+        H = 3.0e-18
+>       out = rate_dual.bind_direction_dependent_rate_dual(
+            electron_binding(density=5.0, beta=beta),
+            rate_dual.NormalHubbleRateJet(
+                tau=0.3,
+                H_normal_s=H,
+                dH_normal_s_dtau=0.0,
+                derivative_side=DerivativeSide.INTERIOR,
+                coordinate_sha256=H3,
+                provenance=HashRef("normal-H", H2),
+            ),
+            e_rest=e_rest,
+            w_rest=w_rest,
+            authority=rate_dual.RateDualAuthority.frozen_project_authority(),
+        )
+
+tests/test_direction_dependent_rate_dual.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+electron_binding = ElectronBindingCertificate(state=IndependentElectronState(proper_density_m3=5.0, beta_normal=(np.float64(0.17645582982...444444444444444444444444444444444444444444444444444', metadata=mappingproxy({'direction_dependent_rate_bound': False}))
+hubble_jet = NormalHubbleRateJet(tau=0.3, H_normal_s=3e-18, dH_normal_s_dtau=0.0, derivative_side=<DerivativeSide.INTERIOR: 'interi...enance=HashRef(source_id='normal-H', source_sha256='2222222222222222222222222222222222222222222222222222222222222222'))
+
+    def bind_direction_dependent_rate_dual(
+        electron_binding: Any,
+        hubble_jet: NormalHubbleRateJet,
+        *,
+        e_rest: np.ndarray,
+        w_rest: np.ndarray,
+        authority: RateDualAuthority,
+    ) -> RateDualBinding:
+        jet = getattr(electron_binding, "jet", None)
+        if jet is None:
+            raise ValueError("positive-density rate binding requires an ElectronStateJet")
+        beta = np.asarray(jet.beta_normal, dtype=float)
+        if beta.shape != (3,) or np.any(beta != 0.0):
+>           raise NotImplementedError("finite electron tilt is not bound yet")
+E           NotImplementedError: finite electron tilt is not bound yet
+
+source/direction_dependent_rate_dual.py:103: NotImplementedError
+=========================== short test summary info ============================
+FAILED tests/test_direction_dependent_rate_dual.py::test_generic_rate_matches_e2_direction_factorization - NotImplementedError: finite electron tilt is not bound yet
+1 failed, 2 passed in 0.07s
