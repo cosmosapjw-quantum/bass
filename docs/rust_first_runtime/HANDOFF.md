@@ -1,74 +1,33 @@
-# CODEX HANDOFF — BASS Rust-first runtime closure
+# RF-00 handoff
 
-Resume from the draft plan PR created by this package. Do not restart recovery,
-rerun inherited PASS suites, or execute Wolfram locally.
+## STATE
 
-## Fixed inputs
+- Repository: `https://github.com/cosmosapjw-quantum/bass`
+- Plan authority: `agent/architecture/rust-first-runtime-closure-20260824-r1` at `0cdcdbf20c867e9e29ef68ed1849f97d8af44ac4`; SPEC SHA-256 `dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa`.
+- RF-00 branch: `agent/architecture/rust-first-rf00-20260824-r1`; native implementation `4073f5a66910142545167b2987bfe350239fd7c9`, tree `f0d98afc9139281a04a0dece2221a055a85c2fb0`.
+- Draft PR: [#25](https://github.com/cosmosapjw-quantum/bass/pull/25), stacked on the plan branch, open/draft/unmerged. The live branch tip after this evidence-only commit is the delivery receipt head.
 
-- Repository: `https://github.com/cosmosapjw-quantum/bass`.
-- Plan base: PR #23 head `4c6150578d1e7fea43e0d32c01664c92094c8c05`.
-- Plan branch: `agent/architecture/rust-first-runtime-closure-20260824-r1`.
-- Required `docs/rust_first_runtime/SPEC.json` SHA-256:
-  `dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa`.
-- R5b: PR #21 `b810092755837ccfa96502aa7e132a50c3fcbd33`; closed contract.
-- Wolfram candidate: PR #22 `75f0b128634ec60b853519f9f6d530f113b54a81`;
-  reference only, never promote without a fresh Wolfram authority receipt.
-- Native r2: `61045b6e5a0d7b026437e0d3586df66706578161`;
-  archive SHA-256 `ef0f35b76ab4ef4877ed577afe391ed677a7a6767bcbc64db62dd853d757afca`.
-- Read `docs/rust_first_runtime/SPEC.json` as the machine authority.
-- Resolve the live open draft PR by the exact plan head branch, fetch its live head,
-  and verify the SPEC digest above before creating a child branch.
+## OUTCOME
 
-## Exactly one action
+- RF-00 is closed: supported routes fail closed through typed `rust_required`; explicit `python_oracle` propagates through nested calls; unmigrated routes remain visible `legacy_python_transitional`; RF-07 cutover was not performed.
+- Capability reporting binds the loaded distribution-owned extension and distinguishes actual from configured Rayon threads. Normal root installation requires the compatible native wheel.
+- One adversarial review found five RF-00 blockers; one repair-closeout fixed all five. Local focused proof, both focused GitHub jobs, pre-push restore, and fresh remote reconstructed restore pass.
+- Paired no-regression gate passes: chart ratio `1.03037` (95% upper `1.04135`) and cold import `1.00913` (upper `1.02041`) against ceiling `1.05`. This is not a speedup claim.
+- No physics, formula, tolerance, reference, grid, seed, solver, R5b, Wolfram, dependency, or Cargo.lock change was made.
 
-Execute work item `RF-00` (`Typed backend capability policy, unified packaging, and CI skeleton`) only.
+## EVIDENCE
 
-1. Create a fresh stacked branch from the plan PR head. Do not mutate PRs #21–#23.
-2. Replace ambient `HAVE_RUST` plus broad import-exception fallback with a typed
-   per-route capability matrix. Routes already supported natively use fail-closed
-   `rust_required`; inventoried unmigrated routes preserve current behavior through
-   a visible `legacy_python_transitional` state; `python_oracle` remains explicit.
-   Do not perform the global default cutover before RF-07.
-3. Preserve all public numerical results, formulae, tolerances, references, grids,
-   seeds, solver semantics, and the R5b state/operator/science contract.
-4. Add a capability report with extension version, ABI, Cargo.lock digest, build
-   profile, CPU dispatch variant, thread-pool size, and enabled optional features.
-5. Unify the install/build entry point so a normal installation either installs a
-   compatible `bianchi_rustcore` wheel or fails with an actionable error. Do not
-   download dependencies during tests and do not upgrade packages opportunistically.
-6. Add focused tests for policy selection, missing extension, ABI mismatch, explicit
-   oracle selection, no silent fallback, and unchanged supported Rust results.
-7. Run only changed-path proof. Reuse unchanged scientific, Wolfram, and native r2
-   receipts. Do not run the 1,849/full legacy collection for reassurance.
-8. Perform one independent adversarial change review. Fix only blockers in RF-00
-   scope, then rerun affected proof once.
-9. Commit atomically, push, and open a draft stacked PR. Do not merge or mark ready.
+- Machine index: `artifacts/rust_first_runtime/rf00/EVIDENCE.json`, SHA-256 `7c664203712411a2335058a481b4045060fc0b615fce8a8895d0bb27c77183fe`.
+- Raw digest index: `artifacts/rust_first_runtime/rf00/RAW_MANIFEST.sha256`, SHA-256 `6e8c5338b9f8d400af340cfb88a3e8eee417428776afa04d798d1a8418998194`.
+- Native r3: `artifact/native-repro-bundle-20260824-r3` at `3aef681d2901e77ce638be5925688929800a822a`; archive SHA-256 `1c45dd93b46dc43c6d8c503d3ff1034d60b36fc7aa73ebf19b40ae48b080cec9`; manifest at `repro/native/BASS-RF00-NATIVE-20260824T194934Z/BUNDLE_MANIFEST.json`.
+- r3 reuses exact r2 lock/config/vendor/licenses and unchanged wheelhouse inputs, but not the r2 native wheel or extension receipt.
+- R5b PR #21 is reused as closed. Wolfram PR #22 remains reference-only and unpromoted; no Wolfram was run locally.
 
-## Native artifact rule
+## BOUNDARIES AND ROLLBACK
 
-- If RF-00 changes no Cargo/Rust/generated/PyO3/wheel/ABI byte, record
-  `REUSED_NATIVE_R2_NO_R3` with a mechanical changed-path predicate.
-- If any such byte changes, build from the exact lock and pinned Rust toolchain,
-  run focused native proof plus `cargo test --locked --offline` from `_rustcore`,
-  build/import the wheel, and push a new immutable cargo bundle artifact branch with
-  Cargo.lock, vendor/config, toolchain identity, wheel, receipts, ordered parts, and
-  root SHA-256. Never claim r2 covers changed native bytes.
+- Do not merge or mark ready, promote formula authority, change tolerances/references/dependencies, or rerun inherited PASS without a changed precondition.
+- After fetching the verified live RF-00 branch, rollback the delivery with `git revert --no-edit origin/agent/architecture/rust-first-rf00-20260824-r1 4073f5a66910142545167b2987bfe350239fd7c9`; never rewrite or delete immutable r3 evidence.
 
-## Performance boundary
+## EXACTLY ONE NEXT ACTION
 
-RF-00 is an architecture boundary, not a speedup claim. Require no statistically
-supported regression in affected startup/call-overhead checks; do not apply Candidate
-B's 10% materiality gate. Do not run Candidate B unless resuming PR #23 itself.
-
-## Stop conditions
-
-Stop with a precise blocker if the base/head changed, authority hashes differ, the
-workspace is dirty in an overlapping path, exact native inputs are unavailable, or
-scientific behavior would need to change. Never change tolerance/reference/physics,
-merge, promote formula authority, use fast-math/reduced precision, or hide a fallback.
-
-## Required output
-
-Return: branch/head/tree, changed files, focused proof, reused receipts and predicates,
-native-bundle decision, draft PR URL, rollback command, and the next single work item
-from `SPEC.json`. Human closeout must reference machine evidence instead of copying it.
+Execute `RF-BENCH-00` — “Contention-controlled benchmark runner” — from `docs/rust_first_runtime/SPEC.json`; begin with the runner capability probe and accept only `RUNNER_VALIDATION_ONLY` evidence.

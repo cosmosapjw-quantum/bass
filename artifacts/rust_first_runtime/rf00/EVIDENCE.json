@@ -1,0 +1,283 @@
+{
+  "schema": "bass-rf00-evidence-index-v1",
+  "schema_version": 1,
+  "status": "RF00_PASS_DRAFT_UNMERGED",
+  "work_item": {
+    "id": "RF-00",
+    "title": "Typed backend capability policy, unified packaging, and CI skeleton",
+    "bounded_acceptance_sha256": "1cc6119537ec04c9c8832c705bb1b248e20b0b673aad9ce024a3fda68db9302f",
+    "scope": "RF-00 only"
+  },
+  "authority": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "plan_branch": "agent/architecture/rust-first-runtime-closure-20260824-r1",
+    "plan_head": "0cdcdbf20c867e9e29ef68ed1849f97d8af44ac4",
+    "plan_tree": "afda0c8d67668e363ac07c8e9bb95f78a506bc6c",
+    "plan_pr": "https://github.com/cosmosapjw-quantum/bass/pull/24",
+    "plan_pr_state_at_start": "OPEN_DRAFT_UNMERGED_CLEAN",
+    "plan_parent_pr": "https://github.com/cosmosapjw-quantum/bass/pull/23",
+    "plan_parent_head": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+    "spec_path": "docs/rust_first_runtime/SPEC.json",
+    "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa",
+    "historical_anchor": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+    "historical_anchor_ancestry": "PASS_ANCESTOR_OF_IMPLEMENTATION"
+  },
+  "delivery": {
+    "source_branch": "agent/architecture/rust-first-rf00-20260824-r1",
+    "implementation_commit": "4073f5a66910142545167b2987bfe350239fd7c9",
+    "implementation_tree": "f0d98afc9139281a04a0dece2221a055a85c2fb0",
+    "implementation_parent": "0cdcdbf20c867e9e29ef68ed1849f97d8af44ac4",
+    "source_receipt_head_binding": "SELF_REFERENCE_BOUNDARY_READ_LIVE_BRANCH_AFTER_THIS_EVIDENCE_COMMIT",
+    "draft_pr": {
+      "number": 25,
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/25",
+      "base": "agent/architecture/rust-first-runtime-closure-20260824-r1",
+      "head": "agent/architecture/rust-first-rf00-20260824-r1",
+      "state": "OPEN_DRAFT_UNMERGED"
+    },
+    "artifact": {
+      "branch": "artifact/native-repro-bundle-20260824-r3",
+      "head": "3aef681d2901e77ce638be5925688929800a822a",
+      "commit_url": "https://github.com/cosmosapjw-quantum/bass/commit/3aef681d2901e77ce638be5925688929800a822a",
+      "path": "repro/native/BASS-RF00-NATIVE-20260824T194934Z",
+      "bundle_manifest_sha256": "e353125261fc3874dc094d11a0fc134824a6f02e2b3ad20f762b1d4926dfcd49",
+      "bundle_manifest_sidecar_sha256": "4d49821c7a2ff1d49fb0ba7304acf751f7a315268889f6d6761881bbbeded6de",
+      "archive_sha256": "1c45dd93b46dc43c6d8c503d3ff1034d60b36fc7aa73ebf19b40ae48b080cec9",
+      "archive_size_bytes": 176525680,
+      "content_manifest_sha256": "826d2cf02bef131062b28ee53ce1dd6b3fcd2c0f14f66385ee7325fd9ac9d65b",
+      "part_count": 22,
+      "max_part_bytes": 8388608,
+      "remote_readback": "PASS_FRESH_SHALLOW_CLONE_REASSEMBLY_HASH_XZ_RESTORE"
+    }
+  },
+  "changed_paths": [
+    ".github/workflows/rf00-backend-policy.yml",
+    "README.md",
+    "_rustcore/README.md",
+    "_rustcore/src/lib.rs",
+    "benchmarks/bench_backend_policy.py",
+    "bianchi/analysis/mixmaster.py",
+    "bianchi/backend.py",
+    "bianchi/backend_policy.py",
+    "bianchi/matter/hierarchy.py",
+    "bianchi/matter/tilted_integrate.py",
+    "bianchi/matter/tilted_moments.py",
+    "bianchi/matter/tilted_rust.py",
+    "bianchi/matter/tilted_terms.py",
+    "bianchi/matter/type_v.py",
+    "bianchi/matter/type_v_coupled.py",
+    "bianchi/matter/viscous_derived.py",
+    "bianchi/q/polstate.py",
+    "bianchi/rays/_dispatch.py",
+    "bootstrap.sh",
+    "pyproject.toml",
+    "tests/test_backend_packaging.py",
+    "tests/test_backend_policy.py",
+    "tests/test_r5a_tilted_terms_rust.py",
+    "tests/test_r5c_quadrature_routing.py",
+    "tests/test_rf00_native_capability.py",
+    "tests/test_rf00_oracle_closure.py",
+    "tests/test_rf00_policy_adversarial.py"
+  ],
+  "implementation": {
+    "typed_policy": "Per-route immutable capability matrix with rust_required, legacy_python_transitional, and python_oracle states",
+    "supported_native_behavior": "FAIL_CLOSED_NO_SILENT_PYTHON_FALLBACK",
+    "transitional_behavior": "VISIBLE_STATIC_LEGACY_PYTHON_TRANSITIONAL",
+    "global_default_cutover": "NOT_PERFORMED_RESERVED_FOR_RF_07",
+    "capability_report": "Loaded distribution-owned shared object; extension/version/ABI/lock/profile/dispatch/feature provenance; actual and configured Rayon threads reported separately",
+    "normal_install": "Root package requires exactly bianchi-rustcore==0.1.0; documented resolver uses a hash-verified compatible wheel; failures are actionable",
+    "scientific_behavior_change": "NONE",
+    "tolerance_reference_formula_grid_seed_solver_change": "NONE"
+  },
+  "independent_review": {
+    "rounds": 1,
+    "reviewed_provisional_commit": "d95ba12331e8677f23b4f22bfd03328f1c5bf4c0",
+    "report": "raw/rf00_adversarial_review.md",
+    "report_sha256": "390a4919fbc0295b8565b3bfb5c8e7a97408a550475d732122b3437062bb72bf",
+    "initial_verdict": "BLOCKER",
+    "blockers": {
+      "B1": "Explicit Python oracle could re-enter Rust in nested moment, hierarchy, and transport calls",
+      "B2": "q.polstate.collide_modeb bypassed the typed route selector",
+      "B3": "A non-extension shadow could be accepted or falsely bound to unrelated installed bytes",
+      "B4": "The R5a USE_RUST toggle proof was vacuous after typed dispatch",
+      "B5": "Configured Rayon environment was mislabeled as actual pool size"
+    },
+    "repair_closeout": "ALL_FIVE_REPAIRED_ONCE_WITHIN_RF00_SCOPE",
+    "second_review_round": "NOT_RUN_BOUNDED_MAX_ONE"
+  },
+  "focused_proof": {
+    "raw_manifest": "RAW_MANIFEST.sha256",
+    "raw_manifest_sha256": "6e8c5338b9f8d400af340cfb88a3e8eee417428776afa04d798d1a8418998194",
+    "local": [
+      {
+        "lane": "cargo_fmt",
+        "result": "PASS",
+        "command": "cargo fmt --all -- --check",
+        "log": "raw/rf00_review_repair_cargo_fmt.log"
+      },
+      {
+        "lane": "cargo_clippy",
+        "result": "PASS",
+        "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+        "log": "raw/rf00_review_repair_cargo_clippy.log"
+      },
+      {
+        "lane": "cargo_workspace",
+        "result": "PASS",
+        "passed": 124,
+        "command": "cargo test --workspace --locked --offline",
+        "log": "raw/rf00_review_repair_cargo_test.log"
+      },
+      {
+        "lane": "offline_release_wheel",
+        "result": "PASS",
+        "command": "python -m maturin build --release --locked --out <outside-repo-dist>",
+        "log": "raw/rf00_review_repair_maturin_build.log"
+      },
+      {
+        "lane": "fresh_no_index_install",
+        "result": "PASS",
+        "log": "raw/rf00_review_repair_fresh_install.log"
+      },
+      {
+        "lane": "repair_affected_python",
+        "result": "PASS",
+        "passed": 74,
+        "log": "raw/rf00_review_repair_focused_python_final.log"
+      },
+      {
+        "lane": "workflow_packaging_selector",
+        "result": "PASS",
+        "passed": 5,
+        "log": "raw/rf00_review_repair_workflow_final.log"
+      },
+      {
+        "lane": "native_import_capability_call",
+        "result": "PASS",
+        "exports": 99,
+        "rayon_threads": 1,
+        "log": "raw/rf00_review_repair_native_import_capability.log"
+      },
+      {
+        "lane": "prepush_bundle_restore",
+        "changed_precondition": "Deterministic archive rather than build mirror",
+        "result": "PASS",
+        "cargo_passed": 124,
+        "focused_python_passed": 69,
+        "log": "raw/rf00_r3_restore_prepush.log"
+      }
+    ],
+    "remote": [
+      {
+        "lane": "github_focused_ci",
+        "commit": "4073f5a66910142545167b2987bfe350239fd7c9",
+        "result": "PASS",
+        "jobs": [
+          "https://github.com/cosmosapjw-quantum/bass/actions/runs/32770855423/job/97570626132",
+          "https://github.com/cosmosapjw-quantum/bass/actions/runs/32770855423/job/97570625853"
+        ]
+      },
+      {
+        "lane": "artifact_branch_readback",
+        "changed_precondition": "Fresh GitHub shallow clone and remote ordinary blobs",
+        "result": "PASS",
+        "log": "raw/rf00_r3_remote_readback_structure.log"
+      },
+      {
+        "lane": "remote_reconstructed_restore",
+        "changed_precondition": "Archive reconstructed solely from remote branch parts",
+        "result": "PASS",
+        "cargo_passed": 124,
+        "focused_python_passed": 69,
+        "log": "raw/rf00_r3_remote_restore.log"
+      }
+    ]
+  },
+  "performance_boundary": {
+    "claim": "NO_SPEEDUP_CLAIM_RF00",
+    "decision": "PASS_NO_STATISTICALLY_SUPPORTED_REGRESSION_ABOVE_5_PERCENT",
+    "baseline": "0cdcdbf20c867e9e29ef68ed1849f97d8af44ac4",
+    "candidate": "4073f5a66910142545167b2987bfe350239fd7c9",
+    "pairs_per_case": 30,
+    "chart_rhs_candidate_over_baseline": 1.0303681533929716,
+    "chart_rhs_bootstrap_95_ci": [1.0188405687582438, 1.0413493156219509],
+    "cold_import_candidate_over_baseline": 1.0091263118158824,
+    "cold_import_bootstrap_95_ci": [0.9969052817549814, 1.0204133876894426],
+    "ceiling": 1.05,
+    "output_hash_unchanged": true,
+    "native_module_sha256": "4b7550977a1fdb54ccbc853753adf0ed10c924dde8ca8b456392d700ec816ec2",
+    "receipt": "raw/rf00_paired_repair_final.json",
+    "receipt_sha256": "a977a979dc9439040c9f20d4eafc9e790342b5f3efbecb2a9942536206e562c5"
+  },
+  "native_closure": {
+    "decision": "NEW_IMMUTABLE_NATIVE_R3",
+    "reason": "_rustcore/src/lib.rs adds the PyO3 rayon_thread_pool_size export, changing extension and wheel bytes",
+    "unchanged_dependency_predicate": {
+      "Cargo_toml_blob": "66d12ed6c5ca001fd33876d1bfd8803e56bd2aac",
+      "Cargo_lock_blob": "7115b16bc9702d2e108e0de148085cb981476c70",
+      "native_pyproject_blob": "20236dc9042b757609c5f69fd5fdd91ac7e9fb16",
+      "Cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+      "network_fetch_or_vendor": "NOT_RUN"
+    },
+    "r2_reused": "Exact lock/config/vendor/licenses, 22 unchanged runtime wheelhouse inputs, and pinned toolchain identity",
+    "r2_not_current": "Native wheel, extension bytes, ABI/capability receipt",
+    "r3_wheel": {
+      "filename": "bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+      "sha256": "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917",
+      "size_bytes": 1049453,
+      "shared_object_sha256": "4b7550977a1fdb54ccbc853753adf0ed10c924dde8ca8b456392d700ec816ec2",
+      "soabi": "cpython-312-x86_64-linux-gnu",
+      "import_and_deterministic_call": "PASS"
+    },
+    "restore_script_sha256": "71c025a0fedb04dd607c39f2e6c81c5bf86d462cbafdba06e1223c51d7f816e7",
+    "reassembler_sha256": "8510e3ace35793443160b0f219c0ba63b4bbf1a66212ffc8b3f42b026cebaa53"
+  },
+  "reused_evidence": [
+    {
+      "closure": "R5b state/operator/science contract",
+      "receipt": "PR #21 @ b810092755837ccfa96502aa7e132a50c3fcbd33",
+      "predicate": "No R5b contract, formula, tolerance, reference, grid, seed, or solver input changed"
+    },
+    {
+      "closure": "Wolfram candidate",
+      "receipt": "PR #22 @ 75f0b128634ec60b853519f9f6d530f113b54a81",
+      "predicate": "No Wolfram source or authority edge changed and local Wolfram execution is out of scope",
+      "authority": "REFERENCE_ONLY_UNPROMOTED"
+    },
+    {
+      "closure": "Scientific and generated-source suites outside RF-00",
+      "receipt": "Inherited verified r2 and stacked recovery receipts",
+      "predicate": "No relevant formula, generated source, numerical contract, fixture, dependency, or toolchain input changed"
+    }
+  ],
+  "invalidated_or_rejected": [
+    "The pre-repair d95 native and performance receipts are retained as raw diagnostics but are not final evidence",
+    "The r2 wheel and extension receipt do not cover the RF-00 PyO3 change",
+    "No local result is represented as Wolfram project replay or formula authority"
+  ],
+  "deliberately_not_rerun": [
+    "The 1,849/full legacy collection",
+    "R5b closed trajectory contract",
+    "Background, classification, constraint, and E1-E4 suites",
+    "Wolfram/xAct",
+    "Unchanged generated-source provenance lanes",
+    "Network cargo vendor"
+  ],
+  "rollback": {
+    "implementation": "git revert --no-edit 4073f5a66910142545167b2987bfe350239fd7c9",
+    "artifact": "Immutable artifact branch is evidence; do not delete or rewrite it"
+  },
+  "next_work_item": {
+    "id": "RF-BENCH-00",
+    "title": "Contention-controlled benchmark runner",
+    "source": "docs/rust_first_runtime/SPEC.json",
+    "smallest_input": "Current RF-00 branch and the SPEC-defined benchmark runner capability probe",
+    "acceptance_gate": "RUNNER_VALIDATION_ONLY"
+  },
+  "boundaries": [
+    "Do not merge or mark the draft ready without user approval",
+    "Do not promote formula authority",
+    "Do not change physics, tolerances, references, dependencies, or Cargo.lock",
+    "Do not rerun inherited PASS lanes without a changed lane-relevant precondition"
+  ]
+}
