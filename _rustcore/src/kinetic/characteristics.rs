@@ -82,19 +82,13 @@ pub fn char_rhs_p(phat: &[f64; 3], mass: f64, bg: &Background) -> [f64; 3] {
     let ap = dot(&bg.a, phat);
     let mut out = [0.0; 3];
     for k in 0..3 {
-        out[k] = -bg.h * phat[k] - sp[k] + cr[k]
-            + (cn[k] + ap * phat[k] - p2 * bg.a[k]) / e;
+        out[k] = -bg.h * phat[k] - sp[k] + cr[k] + (cn[k] + ap * phat[k] - p2 * bg.a[k]) / e;
     }
     out
 }
 
 /// (dê/dt, dln p/dt) — 방향·크기 분해형 (Q5 가 쓰는 형태).
-pub fn char_rhs_split(
-    ehat: &[f64; 3],
-    lnp: f64,
-    mass: f64,
-    bg: &Background,
-) -> ([f64; 3], f64) {
+pub fn char_rhs_split(ehat: &[f64; 3], lnp: f64, mass: f64, bg: &Background) -> ([f64; 3], f64) {
     let p = lnp.exp();
     let e = (mass * mass + p * p).sqrt();
     let pe = p / e; // 무질량이면 정확히 1
@@ -106,8 +100,7 @@ pub fn char_rhs_split(
     let ae = dot(&bg.a, ehat);
     let mut de = [0.0; 3];
     for k in 0..3 {
-        de[k] = -(se[k] - ese * ehat[k]) + cr[k]
-            + pe * (cn[k] - (bg.a[k] - ae * ehat[k]));
+        de[k] = -(se[k] - ese * ehat[k]) + cr[k] + pe * (cn[k] - (bg.a[k] - ae * ehat[k]));
     }
     (de, -(bg.h + ese))
 }
@@ -161,11 +154,7 @@ pub fn integrate_characteristic(
             e[2] + 0.5 * h * k2e[2],
         ];
         let (k3e, k3l) = f(&e3, lp + 0.5 * h * k2l, &bh);
-        let e4 = [
-            e[0] + h * k3e[0],
-            e[1] + h * k3e[1],
-            e[2] + h * k3e[2],
-        ];
+        let e4 = [e[0] + h * k3e[0], e[1] + h * k3e[1], e[2] + h * k3e[2]];
         let (k4e, k4l) = f(&e4, lp + h * k3l, &b1);
         for j in 0..3 {
             e[j] += h / 6.0 * (k1e[j] + 2.0 * k2e[j] + 2.0 * k3e[j] + k4e[j]);
@@ -195,8 +184,7 @@ pub fn direction_map(
     let mut dl = vec![0.0; m];
     for i in 0..m {
         let e0 = [ehat[3 * i], ehat[3 * i + 1], ehat[3 * i + 2]];
-        let (e, d) =
-            integrate_characteristic(&e0, mass, lnp, bg0, bg1, dt, substeps, renormalize);
+        let (e, d) = integrate_characteristic(&e0, mass, lnp, bg0, bg1, dt, substeps, renormalize);
         eo[3 * i] = e[0];
         eo[3 * i + 1] = e[1];
         eo[3 * i + 2] = e[2];
@@ -277,7 +265,9 @@ mod tests {
         let run = |n: usize| integrate_characteristic(&e, 0.0, 0.0, &bg, &bg, 1.0, n, false).0;
         let r = [run(8), run(16), run(32), run(1024)];
         let err = |x: [f64; 3]| {
-            (0..3).map(|k| (x[k] - r[3][k]).abs()).fold(0.0f64, f64::max)
+            (0..3)
+                .map(|k| (x[k] - r[3][k]).abs())
+                .fold(0.0f64, f64::max)
         };
         let (e0, e1, e2) = (err(r[0]), err(r[1]), err(r[2]));
         let o1 = (e0 / e1).log2();

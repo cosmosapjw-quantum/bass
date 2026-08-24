@@ -19,7 +19,14 @@ use super::coeff_tables as t;
 pub(crate) fn block(op: &str, l: usize) -> (&'static [f64], usize, usize, usize) {
     let (min_l, max_l, off, data, l_in, k): (usize, usize, &[usize], &[f64], usize, usize) =
         match op {
-            "outer" => (t::OUTER_MIN_L, t::OUTER_MAX_L, &t::OUTER_OFF, &t::OUTER_DATA, l - 2, 5),
+            "outer" => (
+                t::OUTER_MIN_L,
+                t::OUTER_MAX_L,
+                &t::OUTER_OFF,
+                &t::OUTER_DATA,
+                l - 2,
+                5,
+            ),
             "c1" => (t::C1_MIN_L, t::C1_MAX_L, &t::C1_OFF, &t::C1_DATA, l, 5),
             "c2" => (t::C2_MIN_L, t::C2_MAX_L, &t::C2_OFF, &t::C2_DATA, l + 2, 5),
             "ov" => (t::OV_MIN_L, t::OV_MAX_L, &t::OV_OFF, &t::OV_DATA, l - 1, 3),
@@ -137,9 +144,20 @@ fn axpy(y: &mut [f64], a: f64, x: &[f64]) {
 /// signs 순서: [A, B, C, D, E, Omega, divcon, divfree].
 #[allow(clippy::too_many_arguments)]
 pub fn lhs_grid(
-    j: &[f64], dj: &[f64], l_max: usize, i_max: usize, h: f64, s5: &[f64],
-    w: &[f64], u3: &[f64], gamma: f64, v3: &[f64], c_pd: &[f64], c_dc: &[f64],
-    c_df: &[f64], signs: &[f64],
+    j: &[f64],
+    dj: &[f64],
+    l_max: usize,
+    i_max: usize,
+    h: f64,
+    s5: &[f64],
+    w: &[f64],
+    u3: &[f64],
+    gamma: f64,
+    v3: &[f64],
+    c_pd: &[f64],
+    c_dc: &[f64],
+    c_df: &[f64],
+    signs: &[f64],
 ) -> Vec<f64> {
     assert!(
         l_max <= t::L_KERNEL_MAX,
@@ -167,51 +185,97 @@ pub fn lhs_grid(
             axpy(y, h * (3.0 + n), slot(j, l, i, i_pad));
             axpy(y, h * (1.0 - n), slot(j, l, i + 1, i_pad));
             // div-con: s_dc·(Pc@J(l+1,i) + γ·cv(dJ(l+1,i), v3))
-            axpy(y, s_dc, &div_p_apply("cv", l, c_dc, slot(j, l + 1, i, i_pad)));
-            axpy(y, s_dc * gamma, &apply("cv", l, slot(dj, l + 1, i, i_pad), v3));
+            axpy(
+                y,
+                s_dc,
+                &div_p_apply("cv", l, c_dc, slot(j, l + 1, i, i_pad)),
+            );
+            axpy(
+                y,
+                s_dc * gamma,
+                &apply("cv", l, slot(dj, l + 1, i, i_pad), v3),
+            );
             if l >= 1 {
                 let cf = lr / (2.0 * lr + 1.0);
                 // div-free: s_df·(−cf)·(Pf@J(l−1,i+1) + γ·ov(dJ(l−1,i+1), v3))
-                axpy(y, s_df * (-cf),
-                     &div_p_apply("ov", l, c_df, slot(j, l - 1, i + 1, i_pad)));
-                axpy(y, s_df * (-cf) * gamma,
-                     &apply("ov", l, slot(dj, l - 1, i + 1, i_pad), v3));
+                axpy(
+                    y,
+                    s_df * (-cf),
+                    &div_p_apply("ov", l, c_df, slot(j, l - 1, i + 1, i_pad)),
+                );
+                axpy(
+                    y,
+                    s_df * (-cf) * gamma,
+                    &apply("ov", l, slot(dj, l - 1, i + 1, i_pad), v3),
+                );
                 // Ω: s_om·(−l)·rot(J(l,i), w)   (w = 카르테시안!)
                 axpy(y, s_om * (-lr), &apply("rot", l, slot(j, l, i, i_pad), w));
                 // D: s_d·cd·[(l+n+1)·ov(J(l−1,i),u3) + (2−n)·ov(J(l−1,i+1),u3)]
                 let cd = lr / (2.0 * lr + 1.0);
-                axpy(y, s_d * cd * (lr + n + 1.0),
-                     &apply("ov", l, slot(j, l - 1, i, i_pad), u3));
-                axpy(y, s_d * cd * (2.0 - n),
-                     &apply("ov", l, slot(j, l - 1, i + 1, i_pad), u3));
+                axpy(
+                    y,
+                    s_d * cd * (lr + n + 1.0),
+                    &apply("ov", l, slot(j, l - 1, i, i_pad), u3),
+                );
+                axpy(
+                    y,
+                    s_d * cd * (2.0 - n),
+                    &apply("ov", l, slot(j, l - 1, i + 1, i_pad), u3),
+                );
             }
             // E: s_e·[(n−2)·cv(J(l+1,i),u3) + (l−n)·cv(J(l+1,i−1),u3)]
-            axpy(y, s_e * (n - 2.0), &apply("cv", l, slot(j, l + 1, i, i_pad), u3));
+            axpy(
+                y,
+                s_e * (n - 2.0),
+                &apply("cv", l, slot(j, l + 1, i, i_pad), u3),
+            );
             if lr - n != 0.0 {
-                axpy(y, s_e * (lr - n),
-                     &apply("cv", l, slot(j, l + 1, i - 1, i_pad), u3));
+                axpy(
+                    y,
+                    s_e * (lr - n),
+                    &apply("cv", l, slot(j, l + 1, i - 1, i_pad), u3),
+                );
             }
             if l >= 1 {
                 // A: s_a·ca·[(2n+3)·c1(J(l,i),s5) + (2−2n)·c1(J(l,i+1),s5)]
                 let ca = lr / (2.0 * lr + 3.0);
-                axpy(y, s_a * ca * (2.0 * n + 3.0),
-                     &apply("c1", l, slot(j, l, i, i_pad), s5));
-                axpy(y, s_a * ca * (2.0 - 2.0 * n),
-                     &apply("c1", l, slot(j, l, i + 1, i_pad), s5));
+                axpy(
+                    y,
+                    s_a * ca * (2.0 * n + 3.0),
+                    &apply("c1", l, slot(j, l, i, i_pad), s5),
+                );
+                axpy(
+                    y,
+                    s_a * ca * (2.0 - 2.0 * n),
+                    &apply("c1", l, slot(j, l, i + 1, i_pad), s5),
+                );
             }
             // B: s_b·[(n−1)·c2(J(l+2,i),s5) + (l−n)·c2(J(l+2,i−1),s5)]
-            axpy(y, s_b * (n - 1.0), &apply("c2", l, slot(j, l + 2, i, i_pad), s5));
+            axpy(
+                y,
+                s_b * (n - 1.0),
+                &apply("c2", l, slot(j, l + 2, i, i_pad), s5),
+            );
             if lr - n != 0.0 {
-                axpy(y, s_b * (lr - n),
-                     &apply("c2", l, slot(j, l + 2, i - 1, i_pad), s5));
+                axpy(
+                    y,
+                    s_b * (lr - n),
+                    &apply("c2", l, slot(j, l + 2, i - 1, i_pad), s5),
+                );
             }
             if l >= 2 {
                 // C: s_c·cc·[(n−1)·outer(J(l−2,i+2),s5) − (l+n+1)·outer(J(l−2,i+1),s5)]
                 let cc = lr * (lr - 1.0) / (4.0 * lr * lr - 1.0);
-                axpy(y, s_c * cc * (n - 1.0),
-                     &apply("outer", l, slot(j, l - 2, i + 2, i_pad), s5));
-                axpy(y, s_c * cc * (-(lr + n + 1.0)),
-                     &apply("outer", l, slot(j, l - 2, i + 1, i_pad), s5));
+                axpy(
+                    y,
+                    s_c * cc * (n - 1.0),
+                    &apply("outer", l, slot(j, l - 2, i + 2, i_pad), s5),
+                );
+                axpy(
+                    y,
+                    s_c * cc * (-(lr + n + 1.0)),
+                    &apply("outer", l, slot(j, l - 2, i + 1, i_pad), s5),
+                );
             }
             o += n_l;
         }
@@ -222,7 +286,11 @@ pub fn lhs_grid(
 // ─────────────────────────────── 질량블록 (mass_blocks_canonical 미러)
 /// 반환: (diag(γI), up, down) — down 은 l=0 에서 빈 벡터.
 pub fn mass_blocks(
-    l: usize, gamma: f64, v3: &[f64], s_dc: f64, s_df: f64,
+    l: usize,
+    gamma: f64,
+    v3: &[f64],
+    s_dc: f64,
+    s_df: f64,
 ) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
     let n = 2 * l + 1;
     let mut diag = vec![0.0; n * n];
@@ -266,9 +334,18 @@ pub fn mass_blocks(
 // ─────────────────────────────── untilted RHS 격자 (hierarchy_rhs_coeff 미러)
 /// signs 순서: [A, B, C].
 pub fn rhs_grid(
-    j: &[f64], l_max: usize, i_max: usize, h: f64, s5: &[f64], signs: &[f64],
+    j: &[f64],
+    l_max: usize,
+    i_max: usize,
+    h: f64,
+    s5: &[f64],
+    signs: &[f64],
 ) -> Vec<f64> {
-    assert!(l_max <= t::L_KERNEL_MAX, "coeff 커널 벽: l_max ≤ {}", t::L_KERNEL_MAX);
+    assert!(
+        l_max <= t::L_KERNEL_MAX,
+        "coeff 커널 벽: l_max ≤ {}",
+        t::L_KERNEL_MAX
+    );
     let (l_pad, i_pad) = (l_max + 2, i_max + 2);
     assert_eq!(j.len(), grid_len(l_pad, i_pad), "j grid length");
     let (s_a, s_b, s_c) = (signs[0], signs[1], signs[2]);
@@ -284,22 +361,41 @@ pub fn rhs_grid(
             axpy(y, -h * (1.0 - n), slot(j, l, i + 1, i_pad));
             if l >= 1 {
                 let ca = lr / (2.0 * lr + 3.0);
-                axpy(y, -s_a * ca * (2.0 * n + 3.0),
-                     &apply("c1", l, slot(j, l, i, i_pad), s5));
-                axpy(y, -s_a * ca * (2.0 - 2.0 * n),
-                     &apply("c1", l, slot(j, l, i + 1, i_pad), s5));
+                axpy(
+                    y,
+                    -s_a * ca * (2.0 * n + 3.0),
+                    &apply("c1", l, slot(j, l, i, i_pad), s5),
+                );
+                axpy(
+                    y,
+                    -s_a * ca * (2.0 - 2.0 * n),
+                    &apply("c1", l, slot(j, l, i + 1, i_pad), s5),
+                );
             }
-            axpy(y, -s_b * (n - 1.0), &apply("c2", l, slot(j, l + 2, i, i_pad), s5));
+            axpy(
+                y,
+                -s_b * (n - 1.0),
+                &apply("c2", l, slot(j, l + 2, i, i_pad), s5),
+            );
             if lr - n != 0.0 {
-                axpy(y, -s_b * (lr - n),
-                     &apply("c2", l, slot(j, l + 2, i - 1, i_pad), s5));
+                axpy(
+                    y,
+                    -s_b * (lr - n),
+                    &apply("c2", l, slot(j, l + 2, i - 1, i_pad), s5),
+                );
             }
             if l >= 2 {
                 let cc = lr * (lr - 1.0) / (4.0 * lr * lr - 1.0);
-                axpy(y, -s_c * cc * (n - 1.0),
-                     &apply("outer", l, slot(j, l - 2, i + 2, i_pad), s5));
-                axpy(y, -s_c * cc * (-(lr + n + 1.0)),
-                     &apply("outer", l, slot(j, l - 2, i + 1, i_pad), s5));
+                axpy(
+                    y,
+                    -s_c * cc * (n - 1.0),
+                    &apply("outer", l, slot(j, l - 2, i + 2, i_pad), s5),
+                );
+                axpy(
+                    y,
+                    -s_c * cc * (-(lr + n + 1.0)),
+                    &apply("outer", l, slot(j, l - 2, i + 1, i_pad), s5),
+                );
             }
             o += n_l;
         }
@@ -365,7 +461,9 @@ mod tests {
     #[test]
     fn grid_len_matches_offsets() {
         let (l_pad, i_pad) = (5, 3);
-        assert_eq!(off(l_pad, i_pad, i_pad) + 2 * l_pad + 1,
-                   grid_len(l_pad, i_pad));
+        assert_eq!(
+            off(l_pad, i_pad, i_pad) + 2 * l_pad + 1,
+            grid_len(l_pad, i_pad)
+        );
     }
 }

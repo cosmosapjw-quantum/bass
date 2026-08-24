@@ -295,9 +295,24 @@ mod tests {
         let g3 = BianchiGroup::diag(0.0, 1.0, -1.0, [1.0, 0.0, 0.0]);
         assert_eq!(g3.classify().name, "III");
         // V / IV / VII_h
-        assert_eq!(BianchiGroup::diag(0.0, 0.0, 0.0, [1.0, 0.0, 0.0]).classify().name, "V");
-        assert_eq!(BianchiGroup::diag(0.0, 0.0, 1.0, [1.0, 0.0, 0.0]).classify().name, "IV");
-        assert_eq!(BianchiGroup::diag(0.0, 1.0, 1.0, [0.5, 0.0, 0.0]).classify().name, "VII_h");
+        assert_eq!(
+            BianchiGroup::diag(0.0, 0.0, 0.0, [1.0, 0.0, 0.0])
+                .classify()
+                .name,
+            "V"
+        );
+        assert_eq!(
+            BianchiGroup::diag(0.0, 0.0, 1.0, [1.0, 0.0, 0.0])
+                .classify()
+                .name,
+            "IV"
+        );
+        assert_eq!(
+            BianchiGroup::diag(0.0, 1.0, 1.0, [0.5, 0.0, 0.0])
+                .classify()
+                .name,
+            "VII_h"
+        );
     }
 
     #[test]

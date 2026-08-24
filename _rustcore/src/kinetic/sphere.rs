@@ -56,9 +56,9 @@ pub fn gauss_legendre(n: usize) -> (Vec<f64>, Vec<f64>) {
 pub struct SphereGrid {
     pub n_theta: usize,
     pub n_phi: usize,
-    pub ct: Vec<f64>,   // cos(theta), 길이 n_theta
+    pub ct: Vec<f64>, // cos(theta), 길이 n_theta
     pub st: Vec<f64>,
-    pub wt: Vec<f64>,   // GL 가중
+    pub wt: Vec<f64>, // GL 가중
     pub phi: Vec<f64>,
     pub ehat: Vec<f64>, // 3M
     pub w: Vec<f64>,    // M, 합 = 4 pi
@@ -84,7 +84,16 @@ impl SphereGrid {
                 w[i] = wx[it] * dphi;
             }
         }
-        SphereGrid { n_theta, n_phi, ct: x, st, wt: wx, phi, ehat, w }
+        SphereGrid {
+            n_theta,
+            n_phi,
+            ct: x,
+            st,
+            wt: wx,
+            phi,
+            ehat,
+            w,
+        }
     }
 
     pub fn len(&self) -> usize {

@@ -172,9 +172,15 @@ pub fn integrate_collisional(
     route: Route,
 ) -> (Vec<f64>, Vec<f64>, Vec<f64>, Vec<[f64; 9]>) {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let mut s = State::from_quadrature(a0, mass, l_max, i_max, dipole_eps, 2);
     let dt = t_end / nsteps as f64;
@@ -242,7 +248,12 @@ pub fn thomson_viscosity(
     h: f64,
     include_thomson_9_10: bool,
 ) -> (f64, f64, f64, f64) {
-    let d = 4.0 * h + (if include_thomson_9_10 { damping(2) } else { 1.0 }) * n_e_sigma_t;
+    let d = 4.0 * h
+        + (if include_thomson_9_10 {
+            damping(2)
+        } else {
+            1.0
+        }) * n_e_sigma_t;
     let tau_pi = 1.0 / d;
     let eta = (4.0 / 15.0) * rho * tau_pi;
     (eta, tau_pi, d, eta * n_e_sigma_t / rho)
@@ -260,9 +271,15 @@ pub fn tight_coupling_residual(
     i_max: usize,
 ) -> (f64, f64, f64) {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let mut s = State::from_quadrature(a_vec, mass, l_max, i_max, 0.0, 2);
     let rho = s.j[0][0][0];
@@ -286,9 +303,15 @@ pub fn free_streaming_limit_residual(
     sigma_diag: &[f64; 3],
 ) -> f64 {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let s = State::from_quadrature(a_vec, mass, 4, 2, 0.0, 2);
     let mut worst = 0.0f64;
@@ -344,8 +367,7 @@ mod tests {
 
     #[test]
     fn free_streaming_limit_is_exact() {
-        let r = free_streaming_limit_residual(0.0, &[1.0, 0.85, 1.18], 1.0,
-                                             &[0.05, -0.02, -0.03]);
+        let r = free_streaming_limit_residual(0.0, &[1.0, 0.85, 1.18], 1.0, &[0.05, -0.02, -0.03]);
         assert!(r == 0.0, "residual {r:e}");
     }
 
@@ -381,12 +403,42 @@ mod tests {
         // 충돌이 켜지면 π 가 무충돌보다 작아진다 (부호·크기 감각 확인).
         let a0 = [1.0, 0.85, 1.18];
         let sg = [0.05, -0.02, -0.03];
-        let (_, _, _, pi_free) = integrate_collisional(&a0, 0.0, 1.0, &sg, 0.0, 0.2, 200,
-                                                      4, 2, 0.0, Route::Analytic);
-        let (_, _, _, pi_coll) = integrate_collisional(&a0, 0.0, 1.0, &sg, 5.0, 0.2, 200,
-                                                      4, 2, 0.0, Route::Analytic);
-        let w_free = pi_free.last().unwrap().iter().fold(0.0f64, |a, b| a.max(b.abs()));
-        let w_coll = pi_coll.last().unwrap().iter().fold(0.0f64, |a, b| a.max(b.abs()));
+        let (_, _, _, pi_free) = integrate_collisional(
+            &a0,
+            0.0,
+            1.0,
+            &sg,
+            0.0,
+            0.2,
+            200,
+            4,
+            2,
+            0.0,
+            Route::Analytic,
+        );
+        let (_, _, _, pi_coll) = integrate_collisional(
+            &a0,
+            0.0,
+            1.0,
+            &sg,
+            5.0,
+            0.2,
+            200,
+            4,
+            2,
+            0.0,
+            Route::Analytic,
+        );
+        let w_free = pi_free
+            .last()
+            .unwrap()
+            .iter()
+            .fold(0.0f64, |a, b| a.max(b.abs()));
+        let w_coll = pi_coll
+            .last()
+            .unwrap()
+            .iter()
+            .fold(0.0f64, |a, b| a.max(b.abs()));
         assert!(w_coll < w_free, "coll {w_coll:e} !< free {w_free:e}");
     }
 

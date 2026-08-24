@@ -45,7 +45,11 @@ fn tdot0(x: &[f64], m_rows: usize, mat: &[f64], n: usize, transposed: bool) -> V
                 continue;
             }
             for c in 0..n {
-                let w = if transposed { mat[c * m_rows + a] } else { mat[a * n + c] };
+                let w = if transposed {
+                    mat[c * m_rows + a]
+                } else {
+                    mat[a * n + c]
+                };
                 out[j * n + c] += v * w;
             }
         }
@@ -73,7 +77,11 @@ pub fn to_tetrad(x: &[f64], n_ax: usize, edn: &[f64; 12]) -> Vec<f64> {
 
 /// ∂_t X^{μ…} = Σ(dX_A/dt)E…E + Σ X_A ∂_t(E…E)  — 둘째 항이 **사틀 회전항**.
 pub fn coord_time_derivative(
-    x: &[f64], dx: &[f64], r: usize, eup: &[f64; 12], deup: &[f64; 12],
+    x: &[f64],
+    dx: &[f64],
+    r: usize,
+    eup: &[f64; 12],
+    deup: &[f64; 12],
 ) -> Vec<f64> {
     let mut out = to_coord(dx, r, eup);
     for k in 0..r {
@@ -201,8 +209,12 @@ mod tests {
 
     fn toy_geo() -> Geo {
         let mut g = Geo {
-            eup: [0.0; 12], edn: [0.0; 12], deup: [0.0; 12], hmix: [0.0; 16],
-            uup: [1.0, 0.0, 0.0, 0.0], gam: [0.0; 64],
+            eup: [0.0; 12],
+            edn: [0.0; 12],
+            deup: [0.0; 12],
+            hmix: [0.0; 16],
+            uup: [1.0, 0.0, 0.0, 0.0],
+            gam: [0.0; 64],
         };
         for a in 0..3 {
             g.eup[a * 4 + a + 1] = 1.0;

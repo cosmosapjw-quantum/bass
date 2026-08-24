@@ -179,10 +179,12 @@ pub fn plan_step(
     k_rad: usize,
 ) -> TransportPlan {
     let m = sph.len();
-    assert!(sph.n_phi % 2 == 0, "n_phi 는 짝수 (극 반사가 phi+pi 를 격자점으로 보내야 한다)");
+    assert!(
+        sph.n_phi % 2 == 0,
+        "n_phi 는 짝수 (극 반사가 phi+pi 를 격자점으로 보내야 한다)"
+    );
     // 1. 역추적: t+dt 의 격자점에서 t 로 (배경은 bg1 -> bg0 순서)
-    let (eb, dlnp_back) =
-        direction_map(&sph.ehat, mass, lnp_ref, bg1, bg0, -dt, substeps, false);
+    let (eb, dlnp_back) = direction_map(&sph.ehat, mass, lnp_ref, bg1, bg0, -dt, substeps, false);
     let ln_s: Vec<f64> = dlnp_back.iter().map(|x| -x).collect();
 
     let s_ang = k_theta * k_phi;
@@ -403,7 +405,13 @@ mod tests {
     use super::*;
 
     fn bg_i(sig: [f64; 6]) -> Background {
-        Background { h: 1.0, sigma: sig, rot: [0.0; 3], n: [0.0; 6], a: [0.0; 3] }
+        Background {
+            h: 1.0,
+            sigma: sig,
+            rot: [0.0; 3],
+            n: [0.0; 6],
+            a: [0.0; 3],
+        }
     }
 
     #[test]
@@ -411,9 +419,15 @@ mod tests {
         let sph = SphereGrid::new(16, 32);
         let bg = bg_i([0.0; 6]);
         let plan = plan_step(&sph, None, &bg, &bg, 0.05, 0.0, 0.0, 4, 4, 4, 8);
-        let g: Vec<f64> = (0..sph.len()).map(|i| 1.0 + 0.1 * (i as f64).sin()).collect();
+        let g: Vec<f64> = (0..sph.len())
+            .map(|i| 1.0 + 0.1 * (i as f64).sin())
+            .collect();
         let out = apply_mode_a(&g, &plan, 0.0);
-        let e = g.iter().zip(&out).map(|(a, b)| (a - b).abs()).fold(0.0f64, f64::max);
+        let e = g
+            .iter()
+            .zip(&out)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0f64, f64::max);
         assert!(e < 1e-12, "{e}");
         assert!((plan.jac_min - 1.0).abs() < 1e-10, "{}", plan.jac_min);
     }
@@ -443,7 +457,9 @@ mod tests {
         };
         let plan = plan_step(&sph, None, &bg, &bg, 0.05, 0.0, 0.0, 4, 6, 6, 8);
         for i in 0..sph.len() {
-            let s: f64 = (0..plan.s_ang).map(|k| plan.ang_w[i * plan.s_ang + k]).sum();
+            let s: f64 = (0..plan.s_ang)
+                .map(|k| plan.ang_w[i * plan.s_ang + k])
+                .sum();
             assert!((s - 1.0).abs() < 1e-11, "i={i} s={s}");
         }
     }

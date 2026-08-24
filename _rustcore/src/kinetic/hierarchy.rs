@@ -53,8 +53,7 @@ impl State {
         let mut s = State::zeros(l_max, i_max);
         for l in 0..=l_max {
             for i in 0..=i_max + 2 {
-                s.j[l][i] =
-                    quad::j_moment(a_vec, mass, l, i as i32, dipole_eps, dipole_axis);
+                s.j[l][i] = quad::j_moment(a_vec, mass, l, i as i32, dipole_eps, dipole_axis);
             }
         }
         s
@@ -241,9 +240,15 @@ pub fn integrate(
     dipole_eps: f64,
 ) -> (Vec<f64>, Vec<f64>, Vec<f64>, Vec<[f64; 9]>) {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let mut s = State::from_quadrature(a0, mass, l_max, i_max, dipole_eps, 2);
     let dt = t_end / nsteps as f64;
@@ -281,8 +286,7 @@ pub fn integrate(
             for i in 0..=i_max {
                 for k in 0..s.j[l][i].len() {
                     s.j[l][i][k] += dt / 6.0
-                        * (k1[l][i][k] + 2.0 * k2[l][i][k] + 2.0 * k3[l][i][k]
-                            + k4[l][i][k]);
+                        * (k1[l][i][k] + 2.0 * k2[l][i][k] + 2.0 * k3[l][i][k] + k4[l][i][k]);
                 }
             }
         }
@@ -314,14 +318,26 @@ mod tests {
         );
         let pi_h = pis.last().unwrap();
         let worst = (0..9).fold(0.0f64, |a, k| a.max((pi_h[k] - pi_e[k]).abs()));
-        let scale = pi_e.iter().fold(0.0f64, |a, b| a.max(b.abs())).max(1e-8 * rho_e);
+        let scale = pi_e
+            .iter()
+            .fold(0.0f64, |a, b| a.max(b.abs()))
+            .max(1e-8 * rho_e);
         assert!(worst < 1e-6 * scale.max(1e-30) * 1e6, "pi {worst:e}");
     }
 
     #[test]
     fn isotropic_background_keeps_pi_zero() {
-        let (_, rhos, _, pis) = integrate(&[1.0, 1.0, 1.0], 0.5, 1.0,
-                                         &[0.0, 0.0, 0.0], 0.4, 20, 4, 2, 0.0);
+        let (_, rhos, _, pis) = integrate(
+            &[1.0, 1.0, 1.0],
+            0.5,
+            1.0,
+            &[0.0, 0.0, 0.0],
+            0.4,
+            20,
+            4,
+            2,
+            0.0,
+        );
         let rho0 = rhos[0];
         for pi in &pis {
             let w = pi.iter().fold(0.0f64, |a, b| a.max(b.abs()));

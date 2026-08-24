@@ -18,8 +18,14 @@ pub const GUARD_EPS: f64 = 1e-12;
 #[inline]
 fn safe(x: f64) -> f64 {
     if x.abs() < GUARD_EPS {
-        if x >= 0.0 { GUARD_EPS } else { -GUARD_EPS }
-    } else { x }
+        if x >= 0.0 {
+            GUARD_EPS
+        } else {
+            -GUARD_EPS
+        }
+    } else {
+        x
+    }
 }
 
 /// 차트 종류 (파라미터 포함).
@@ -142,7 +148,8 @@ pub fn aux_bt(y: &[f64], gamma: f64) -> (f64, f64, f64, f64, f64, f64, f64, f64,
     let gm = safe(1.0 - (gamma - 1.0) * v2s);
     let q = 2.0 * sigma2 + 0.5 * ((3.0 * gamma - 2.0) + (2.0 - gamma) * v2s) * omega / gp;
     // Sᵥ² = vᵀΣv  (전단행렬: 대각 (−2Σ₊, Σ₊+√3Σ₋, Σ₊−√3Σ₋), 비대각 √3·Σ_ij)
-    let sv2 = -2.0 * sp * v1 * v1 + (sp + SQRT3 * sm) * v2 * v2
+    let sv2 = -2.0 * sp * v1 * v1
+        + (sp + SQRT3 * sm) * v2 * v2
         + (sp - SQRT3 * sm) * v3 * v3
         + 2.0 * SQRT3 * (s12 * v1 * v2 + s13 * v1 * v3 + s23 * v2 * v3);
     let adv = a * v1;
@@ -178,30 +185,36 @@ pub fn rhs(chart: &Chart, y: &[f64], out: &mut [f64]) {
             let (v1, v2, v3) = (y[8], y[9], y[10]);
             let r3 = SQRT3;
             let g = gamma;
-            let t = (((3.0 * g - 4.0) - 2.0 * (g - 1.0) * adv) * (1.0 - v2s)
-                + (2.0 - g) * sv2) / gm;
+            let t =
+                (((3.0 * g - 4.0) - 2.0 * (g - 1.0) * adv) * (1.0 - v2s) + (2.0 - g) * sv2) / gm;
             // ★ 3(S12²+S13²) 는 프레임 회전항 (게이지 유지가 회전 3개를 전부 소모)
             out[0] = (q - 2.0) * sp + 3.0 * (s12 * s12 + s13 * s13) - 2.0 * n * n
                 + (g * om / (2.0 * gp)) * (-2.0 * v1 * v1 + v2 * v2 + v3 * v3);
             out[1] = (q - 2.0 - 2.0 * r3 * s23 * lam) * sm
-                + r3 * (s12 * s12 - s13 * s13) + 2.0 * a * n
+                + r3 * (s12 * s12 - s13 * s13)
+                + 2.0 * a * n
                 + (r3 * g * om / (2.0 * gp)) * (v2 * v2 - v3 * v3);
-            out[2] = (q - 2.0 - 3.0 * sp - r3 * sm) * s12
-                - r3 * (s23 + sm * lam) * s13 + (r3 * g * om / gp) * v1 * v2;
-            out[3] = (q - 2.0 - 3.0 * sp + r3 * sm) * s13
-                - r3 * (s23 - sm * lam) * s12 + (r3 * g * om / gp) * v1 * v3;
+            out[2] = (q - 2.0 - 3.0 * sp - r3 * sm) * s12 - r3 * (s23 + sm * lam) * s13
+                + (r3 * g * om / gp) * v1 * v2;
+            out[3] = (q - 2.0 - 3.0 * sp + r3 * sm) * s13 - r3 * (s23 - sm * lam) * s12
+                + (r3 * g * om / gp) * v1 * v3;
             out[4] = (q - 2.0) * s23 - 2.0 * r3 * n * n * lam
-                + 2.0 * r3 * lam * sm * sm + 2.0 * r3 * s12 * s13
+                + 2.0 * r3 * lam * sm * sm
+                + 2.0 * r3 * s12 * s13
                 + (r3 * g * om / gp) * v2 * v3;
             out[5] = (q + 2.0 * sp + 2.0 * r3 * s23 * lam) * n;
             out[6] = 2.0 * r3 * s23 * (1.0 - lam * lam);
             out[7] = (q + 2.0 * sp) * a;
-            out[8] = (t + 2.0 * sp) * v1 - 2.0 * r3 * s13 * v3 - 2.0 * r3 * s12 * v2
-                - a * (v2 * v2 + v3 * v3) - r3 * n * (v2 * v2 - v3 * v3);
+            out[8] = (t + 2.0 * sp) * v1
+                - 2.0 * r3 * s13 * v3
+                - 2.0 * r3 * s12 * v2
+                - a * (v2 * v2 + v3 * v3)
+                - r3 * n * (v2 * v2 - v3 * v3);
             out[9] = (t - sp - r3 * sm) * v2 - r3 * (s23 + sm * lam) * v3
-                + r3 * lam * n * v1 * v3 + (a + r3 * n) * v1 * v2;
-            out[10] = (t - sp + r3 * sm) * v3 - r3 * (s23 - sm * lam) * v2
-                - r3 * lam * n * v1 * v2 + (a - r3 * n) * v1 * v3;
+                + r3 * lam * n * v1 * v3
+                + (a + r3 * n) * v1 * v2;
+            out[10] = (t - sp + r3 * sm) * v3 - r3 * (s23 - sm * lam) * v2 - r3 * lam * n * v1 * v2
+                + (a - r3 * n) * v1 * v3;
         }
         Chart::ClassATilted { gamma } => {
             // F3: `charts.class_a_tilted.rhs` (경로 1) 성분별 미러 — 두 경로
@@ -212,8 +225,7 @@ pub fn rhs(chart: &Chart, y: &[f64], out: &mut [f64]) {
             let (v1, v2, v3) = (y[8], y[9], y[10]);
             let r3 = SQRT3;
             let s2t = sp * sp + sm * sm + s12 * s12 + s13 * s13 + s23 * s23;
-            let k = (n1 * n1 + n2 * n2 + n3 * n3
-                - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1)) / 12.0;
+            let k = (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1)) / 12.0;
             let om = 1.0 - s2t - k;
             let v2s = v1 * v1 + v2 * v2 + v3 * v3;
             let gp = safe(1.0 + (g - 1.0) * v2s);
@@ -221,7 +233,9 @@ pub fn rhs(chart: &Chart, y: &[f64], out: &mut [f64]) {
             let q = 2.0 * s2t + 0.5 * ((3.0 * g - 2.0) + (2.0 - g) * v2s) * om / gp;
             let (s1, s2c, s3c) = (-2.0 * sp, sp + r3 * sm, sp - r3 * sm);
             let (s12m, s13m, s23m) = (r3 * s12, r3 * s13, r3 * s23);
-            let sv2 = s1 * v1 * v1 + s2c * v2 * v2 + s3c * v3 * v3
+            let sv2 = s1 * v1 * v1
+                + s2c * v2 * v2
+                + s3c * v3 * v3
                 + 2.0 * (s12m * v1 * v2 + s13m * v1 * v3 + s23m * v2 * v3);
             // 게이지 회전 (n-대각 유지; 0/0 불변부분공간은 분자 0)
             let w12 = s12m * (n1 + n2) / safe(n1 - n2);
@@ -287,7 +301,8 @@ pub fn rhs(chart: &Chart, y: &[f64], out: &mut [f64]) {
             let q = deceleration(sigma2, omega, gamma);
             out[0] = (q - 2.0) * sp + 3.0 * s2 * s2 - 2.0 * nm * nm - 6.0 * a * a;
             out[1] = (q - 2.0) * sm - SQRT3 * s2 * s2 + 2.0 * SQRT3 * sx * sx
-                - 2.0 * SQRT3 * nm * nm + 2.0 * SQRT3 * a * a;
+                - 2.0 * SQRT3 * nm * nm
+                + 2.0 * SQRT3 * a * a;
             out[2] = (q - 3.0 * sp + SQRT3 * sm - 2.0) * s2;
             out[3] = (q - 2.0 * SQRT3 * sm - 2.0) * sx - 8.0 * nm * a;
             out[4] = (q + 2.0 * sp + 2.0 * SQRT3 * sm) * nm + 6.0 * sx * a;
@@ -298,18 +313,13 @@ pub fn rhs(chart: &Chart, y: &[f64], out: &mut [f64]) {
             let sv = [y[1], y[2], y[3]];
             let nv = [y[4], y[5], y[6]];
             let sigma2 = (sv[0] * sv[0] + sv[1] * sv[1] + sv[2] * sv[2]) / 6.0;
-            let omega = 1.0 - sigma2
-                - (nv[0] * nv[0] + nv[1] * nv[1] + nv[2] * nv[2]) / 12.0;
+            let omega = 1.0 - sigma2 - (nv[0] * nv[0] + nv[1] * nv[1] + nv[2] * nv[2]) / 12.0;
             let q = deceleration(sigma2, omega, gamma);
-            let f = (nv[0] * nv[1] * sv[2] + nv[0] * sv[1] * nv[2]
-                + sv[0] * nv[1] * nv[2]) / 6.0;
+            let f = (nv[0] * nv[1] * sv[2] + nv[0] * sv[1] * nv[2] + sv[0] * nv[1] * nv[2]) / 6.0;
             let s3 = [
-                (nv[0] * (2.0 * nv[0] - nv[1] - nv[2])
-                    - (nv[1] - nv[2]) * (nv[1] - nv[2])) / 3.0,
-                (nv[1] * (2.0 * nv[1] - nv[2] - nv[0])
-                    - (nv[2] - nv[0]) * (nv[2] - nv[0])) / 3.0,
-                (nv[2] * (2.0 * nv[2] - nv[0] - nv[1])
-                    - (nv[0] - nv[1]) * (nv[0] - nv[1])) / 3.0,
+                (nv[0] * (2.0 * nv[0] - nv[1] - nv[2]) - (nv[1] - nv[2]) * (nv[1] - nv[2])) / 3.0,
+                (nv[1] * (2.0 * nv[1] - nv[2] - nv[0]) - (nv[2] - nv[0]) * (nv[2] - nv[0])) / 3.0,
+                (nv[2] * (2.0 * nv[2] - nv[0] - nv[1]) - (nv[0] - nv[1]) * (nv[0] - nv[1])) / 3.0,
             ];
             let mut ds = [0.0f64; 3];
             for i in 0..3 {
@@ -333,12 +343,9 @@ pub fn omega(chart: &Chart, y: &[f64]) -> f64 {
         Chart::ClassB { gamma, kappa } => aux_b(y, gamma, kappa).3,
         Chart::ClassBTilted { gamma } => aux_bt(y, gamma).2,
         Chart::ClassATilted { .. } => {
-            let s2t = y[0] * y[0] + y[1] * y[1] + y[2] * y[2] + y[3] * y[3]
-                + y[4] * y[4];
+            let s2t = y[0] * y[0] + y[1] * y[1] + y[2] * y[2] + y[3] * y[3] + y[4] * y[4];
             let (n1, n2, n3) = (y[5], y[6], y[7]);
-            1.0 - s2t
-                - (n1 * n1 + n2 * n2 + n3 * n3
-                    - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1)) / 12.0
+            1.0 - s2t - (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1)) / 12.0
         }
         Chart::Exceptional { .. } => {
             let (sp, sm, s2, sx, nm, a) = (y[0], y[1], y[2], y[3], y[4], y[5]);
@@ -429,7 +436,10 @@ mod tests {
         let ex = Chart::Exceptional { gamma: 4.0 / 3.0 };
         rhs(&ex, &[0.0; 6], &mut out[..6]);
         assert!(out[..6].iter().all(|v| v.abs() < 1e-15));
-        let d = Chart::TypeIXD { gamma: 4.0 / 3.0, future: false };
+        let d = Chart::TypeIXD {
+            gamma: 4.0 / 3.0,
+            future: false,
+        };
         let y = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
         rhs(&d, &y, &mut out[..7]);
         assert!(out[..7].iter().all(|v| v.abs() < 1e-14), "{out:?}");
@@ -459,8 +469,14 @@ mod tests {
 
     #[test]
     fn type_ix_d_future_is_the_exact_negation() {
-        let p = Chart::TypeIXD { gamma: 1.0, future: false };
-        let f = Chart::TypeIXD { gamma: 1.0, future: true };
+        let p = Chart::TypeIXD {
+            gamma: 1.0,
+            future: false,
+        };
+        let f = Chart::TypeIXD {
+            gamma: 1.0,
+            future: true,
+        };
         let y = [0.4, 0.1, -0.3, 0.2, 1.1, 0.9, 1.3];
         let mut a = [0.0f64; 7];
         let mut b = [0.0f64; 7];

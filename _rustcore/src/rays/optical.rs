@@ -95,8 +95,7 @@ fn deriv(s: &OState, gamma: f64) -> OState {
     }
 
     // 배경
-    let hd = -s.h * s.h - s.sig.dot(&s.sig) / 3.0
-        - (s.rho + 3.0 * (gamma - 1.0) * s.rho) / 6.0;
+    let hd = -s.h * s.h - s.sig.dot(&s.sig) / 3.0 - (s.rho + 3.0 * (gamma - 1.0) * s.rho) / 6.0;
     OState {
         e: de_dl / e,
         nh: dn,
@@ -137,8 +136,8 @@ fn tidal(
             let alpha_b = sc[b][0];
             let ub = Vector3::new(sc[b][1], sc[b][2], sc[b][3]);
             let wb = alpha_b * kap - k0 * ub;
-            let val = wa.dot(&(m * wb)) + ua.dot(&(k_mat * ub)) * k_kap_k
-                - ua.dot(&kkap) * kkap.dot(&ub);
+            let val =
+                wa.dot(&(m * wb)) + ua.dot(&(k_mat * ub)) * k_kap_k - ua.dot(&kkap) * kkap.dot(&ub);
             t[(a, b)] = -val;
         }
     }
@@ -196,8 +195,7 @@ pub fn trace_optical_diag(
 
         // 기록 (스텝 **전** 상태)
         let kvec = Vector4::new(y.e, y.e * y.nh[0], y.e * y.nh[1], y.e * y.nh[2]);
-        let hd = -y.h * y.h - y.sig.dot(&y.sig) / 3.0
-            - (y.rho + 3.0 * (gamma - 1.0) * y.rho) / 6.0;
+        let hd = -y.h * y.h - y.sig.dot(&y.sig) / 3.0 - (y.rho + 3.0 * (gamma - 1.0) * y.rho) / 6.0;
         let sigd = -3.0 * y.h * y.sig;
         t_all.push(tidal(y.h, &y.sig, hd, &sigd, &kvec, &y.sc));
         es.push(y.e);

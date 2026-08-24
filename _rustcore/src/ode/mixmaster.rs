@@ -21,8 +21,7 @@
 //!   (u 는 씨앗이 정하는 양이라 적분기에 둔감하다: D1b §4 에서 rtol 1e−12 vs 1e−10
 //!   이 9자리까지 같음을 이미 쟀다).
 
-use crate::ode::charts::{aux_a, deceleration, rhs, s_minus, s_plus, Chart, K_COEFF_WE,
-                         SQRT3};
+use crate::ode::charts::{aux_a, deceleration, rhs, s_minus, s_plus, Chart, K_COEFF_WE, SQRT3};
 
 /// 튐 하나의 기록.
 #[derive(Clone, Copy, Debug)]
@@ -97,7 +96,10 @@ const E7: f64 = -1.0 / 40.0;
 
 /// 한 스텝 (DP54) — (y_next, 오차추정, k1 재사용용 k7).  RHS 는 클로저 (D3: 로그판 공유).
 fn dp54_step<F: Fn(&[f64; 5], &mut [f64; 5])>(
-    f_past: &F, y: &[f64; 5], h: f64, k1: &[f64; 5],
+    f_past: &F,
+    y: &[f64; 5],
+    h: f64,
+    k1: &[f64; 5],
 ) -> ([f64; 5], f64, [f64; 5]) {
     let mut t = [0.0f64; 5];
     let mut k2 = [0.0f64; 5];
@@ -141,7 +143,11 @@ fn dp54_step<F: Fn(&[f64; 5], &mut [f64; 5])>(
 
 /// 스텝 시작점에서 `s`(0..1) 만큼 간 상태 — 사건 이분법에 쓴다 (작은 스텝이라 싸다).
 fn state_at<F: Fn(&[f64; 5], &mut [f64; 5])>(
-    f_past: &F, y: &[f64; 5], h: f64, s: f64, k1: &[f64; 5],
+    f_past: &F,
+    y: &[f64; 5],
+    h: f64,
+    s: f64,
+    k1: &[f64; 5],
 ) -> [f64; 5] {
     dp54_step(f_past, y, h * s, k1).0
 }
@@ -165,8 +171,7 @@ fn aux_log(y: &[f64; 5], signs: &[f64; 3], gamma: f64) -> (f64, f64, f64, f64) {
     let n2 = signs[1] * y[3].exp();
     let n3 = signs[2] * y[4].exp();
     let sigma2 = sp * sp + sm * sm;
-    let k = K_COEFF_WE
-        * (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1));
+    let k = K_COEFF_WE * (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1));
     let omega = 1.0 - sigma2 - k;
     let q = deceleration(sigma2, omega, gamma);
     (n1, n2, n3, q)
@@ -190,8 +195,18 @@ fn f_past_log(y: &[f64; 5], signs: &[f64; 3], gamma: f64, out: &mut [f64; 5]) {
 /// 단조라 argmin 이 같다).  `report_n(y)` 은 Bounce.max_n 에 넣을 값.
 #[allow(clippy::too_many_arguments)]
 fn bounce_core<F, G, W, R, O>(
-    f_past: F, events: G, wallness: W, report_n: R, omega_of: O, y0: &[f64; 5],
-    n_bounce: usize, tau_max: f64, rtol: f64, atol: f64, h0: f64, h_max: f64,
+    f_past: F,
+    events: G,
+    wallness: W,
+    report_n: R,
+    omega_of: O,
+    y0: &[f64; 5],
+    n_bounce: usize,
+    tau_max: f64,
+    rtol: f64,
+    atol: f64,
+    h0: f64,
+    h_max: f64,
 ) -> Vec<Bounce>
 where
     F: Fn(&[f64; 5], &mut [f64; 5]),
@@ -285,7 +300,12 @@ where
 /// ★★ 튐 수열 (선형 N 표현 — R4 원판).
 #[allow(clippy::too_many_arguments)]
 pub fn bounce_sequence(
-    y0: &[f64; 5], gamma: f64, n_bounce: usize, tau_max: f64, rtol: f64, atol: f64,
+    y0: &[f64; 5],
+    gamma: f64,
+    n_bounce: usize,
+    tau_max: f64,
+    rtol: f64,
+    atol: f64,
     h0: f64,
 ) -> Vec<Bounce> {
     let chart = Chart::ClassA { gamma };
@@ -295,7 +315,13 @@ pub fn bounce_sequence(
         |y: &[f64; 5]| y[2].abs().max(y[3].abs()).max(y[4].abs()),
         |y: &[f64; 5]| y[2].abs().max(y[3].abs()).max(y[4].abs()),
         move |y: &[f64; 5]| aux_a(&y[..], gamma).2,
-        y0, n_bounce, tau_max, rtol, atol, h0, f64::INFINITY,
+        y0,
+        n_bounce,
+        tau_max,
+        rtol,
+        atol,
+        h0,
+        f64::INFINITY,
     )
 }
 
@@ -311,8 +337,14 @@ pub fn bounce_sequence(
 ///   묶어 **우연히** 안전했던 것 — 표현을 바꾸면 적분기의 보호막도 함께 사라진다.
 #[allow(clippy::too_many_arguments)]
 pub fn bounce_sequence_log(
-    y0: &[f64; 5], signs: &[f64; 3], gamma: f64, n_bounce: usize, tau_max: f64,
-    rtol: f64, atol: f64, h0: f64,
+    y0: &[f64; 5],
+    signs: &[f64; 3],
+    gamma: f64,
+    n_bounce: usize,
+    tau_max: f64,
+    rtol: f64,
+    atol: f64,
+    h0: f64,
 ) -> Vec<Bounce> {
     let sg = *signs;
     bounce_core(
@@ -326,18 +358,24 @@ pub fn bounce_sequence_log(
                 -(q + 2.0 * sp - 2.0 * SQRT3 * sm),
             ]
         },
-        |y: &[f64; 5]| y[2].max(y[3]).max(y[4]),        // max w (exp 는 단조)
+        |y: &[f64; 5]| y[2].max(y[3]).max(y[4]), // max w (exp 는 단조)
         |y: &[f64; 5]| y[2].max(y[3]).max(y[4]),
         move |y: &[f64; 5]| {
             let (sp, sm) = (y[0], y[1]);
             let n1 = sg[0] * y[2].exp();
             let n2 = sg[1] * y[3].exp();
             let n3 = sg[2] * y[4].exp();
-            let k = K_COEFF_WE
-                * (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1));
+            let k =
+                K_COEFF_WE * (n1 * n1 + n2 * n2 + n3 * n3 - 2.0 * (n1 * n2 + n2 * n3 + n3 * n1));
             1.0 - sp * sp - sm * sm - k
         },
-        y0, n_bounce, tau_max, rtol, atol, h0, 1.0,
+        y0,
+        n_bounce,
+        tau_max,
+        rtol,
+        atol,
+        h0,
+        1.0,
     )
 }
 
@@ -386,9 +424,13 @@ mod tests {
         let y = kasner_state(3.7, [1e-3, 1e-3, 1e-3]);
         let b_lin = bounce_sequence(&y, 2.0, 4, 90.0, 1e-11, 1e-13, 1e-3);
         let ylog = [y[0], y[1], y[2].ln(), y[3].ln(), y[4].ln()];
-        let b_log =
-            bounce_sequence_log(&ylog, &[1.0, 1.0, 1.0], 2.0, 4, 90.0, 1e-11, 1e-13, 1e-3);
-        assert!(b_log.len() >= b_lin.len(), "{} {}", b_log.len(), b_lin.len());
+        let b_log = bounce_sequence_log(&ylog, &[1.0, 1.0, 1.0], 2.0, 4, 90.0, 1e-11, 1e-13, 1e-3);
+        assert!(
+            b_log.len() >= b_lin.len(),
+            "{} {}",
+            b_log.len(),
+            b_lin.len()
+        );
         for (a, b) in b_lin.iter().zip(b_log.iter()) {
             assert!((a.u - b.u).abs() < 1e-4, "{} {}", a.u, b.u);
             assert!((a.tau - b.tau).abs() < 1e-3, "{} {}", a.tau, b.tau);
@@ -406,15 +448,17 @@ mod tests {
         let u0 = 2.0 + std::f64::consts::FRAC_1_SQRT_2;
         let y = kasner_state(u0, [1e-3, 1e-3, 1e-3]);
         let ylog = [y[0], y[1], y[2].ln(), y[3].ln(), y[4].ln()];
-        let b = bounce_sequence_log(&ylog, &[1.0, 1.0, 1.0], 2.0, 10, 8000.0,
-                                    1e-11, 1e-13, 1e-3);
+        let b = bounce_sequence_log(&ylog, &[1.0, 1.0, 1.0], 2.0, 10, 8000.0, 1e-11, 1e-13, 1e-3);
         assert!(b.len() >= 7, "{}", b.len());
         let deepest = b.iter().fold(0.0f64, |a, x| a.min(x.max_n));
         assert!(deepest < -700.0, "{deepest}");
         // 도입 두 에폭(2.7071, 1.7071) 뒤로는 주기점 {√2+1, √2} 근처에 끝까지 머문다
         for x in b.iter().skip(2) {
-            assert!((x.u - (1.0 + 2f64.sqrt())).abs() < 0.01
-                    || (x.u - 2f64.sqrt()).abs() < 0.01, "{}", x.u);
+            assert!(
+                (x.u - (1.0 + 2f64.sqrt())).abs() < 0.01 || (x.u - 2f64.sqrt()).abs() < 0.01,
+                "{}",
+                x.u
+            );
         }
     }
 

@@ -17,20 +17,12 @@ pub fn levi_civita(i: usize, j: usize, k: usize) -> f64 {
 /// COMMUTATOR 규약 회전행렬:  rotation_matrix(R) @ Y = R × Y  (= 표준 [R]_× 교차행렬).
 /// Python `conventions.rotation_matrix(R)` (COMMUTATOR = -eps_abc R_c) 와 동일.
 pub fn rotation_matrix_commutator(r: &Vector3<f64>) -> Matrix3<f64> {
-    Matrix3::new(
-        0.0, -r[2], r[1],
-        r[2], 0.0, -r[0],
-        -r[1], r[0], 0.0,
-    )
+    Matrix3::new(0.0, -r[2], r[1], r[2], 0.0, -r[0], -r[1], r[0], 0.0)
 }
 
 /// 독립 5성분에서 trace-free 대칭 3×3.  Python `tracefree_from_5` 와 동일 배치.
 pub fn tracefree_from_5(s00: f64, s11: f64, s01: f64, s02: f64, s12: f64) -> Matrix3<f64> {
-    Matrix3::new(
-        s00, s01, s02,
-        s01, s11, s12,
-        s02, s12, -s00 - s11,
-    )
+    Matrix3::new(s00, s01, s02, s01, s11, s12, s02, s12, -s00 - s11)
 }
 
 /// 3차원 접속 이중축약  P^a = A^a|x|² - (A·x)x^a + eps^a_bc x^b (Nx)^c.

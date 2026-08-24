@@ -141,11 +141,7 @@ fn sym_apply(m: &[f64; 6], v: &[f64; 3]) -> [f64; 3] {
 
 #[inline]
 fn mat3(v: &[f64; 6]) -> [[f64; 3]; 3] {
-    [
-        [v[0], v[3], v[4]],
-        [v[3], v[1], v[5]],
-        [v[4], v[5], v[2]],
-    ]
+    [[v[0], v[3], v[4]], [v[3], v[1], v[5]], [v[4], v[5], v[2]]]
 }
 
 #[inline]
@@ -168,11 +164,7 @@ fn mm(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
 }
 
 fn eps_mat(r: &[f64; 3]) -> [[f64; 3]; 3] {
-    [
-        [0.0, -r[2], r[1]],
-        [r[2], 0.0, -r[0]],
-        [-r[1], r[0], 0.0],
-    ]
+    [[0.0, -r[2], r[1]], [r[2], 0.0, -r[0]], [-r[1], r[0], 0.0]]
 }
 
 fn inv3(a: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
@@ -278,8 +270,7 @@ impl QState {
         let sw = mm(&sm, &w);
         for i in 0..3 {
             for j in 0..3 {
-                ds[i][j] = -(2.0 - q) * sm[i][j] - s3[(i, j)] + pim[i][j] + ws[i][j]
-                    - sw[i][j];
+                ds[i][j] = -(2.0 - q) * sm[i][j] - s3[(i, j)] + pim[i][j] + ws[i][j] - sw[i][j];
             }
         }
         let tr = (ds[0][0] + ds[1][1] + ds[2][2]) / 3.0;
@@ -395,17 +386,15 @@ impl QState {
         if self.is_mode_b() {
             let rad = self.rad.as_ref().unwrap().clone();
             self.lg = residual_step_mode_b(
-                sph, &rad, &self.m, &self.lg, &self.n6, &self.a3, dtau,
-                k_theta, k_phi, self.k_rad, sub, true, self.tail,
+                sph, &rad, &self.m, &self.lg, &self.n6, &self.a3, dtau, k_theta, k_phi, self.k_rad,
+                sub, true, self.tail,
             );
             return;
         }
         let m_ang = sph.len();
         let fr = Frame { m: self.m };
         let (_, mu0) = cm::phys_dirs(&fr, &sph.ehat);
-        let mut lnj: Vec<f64> = (0..m_ang)
-            .map(|i| self.lg[i] - 4.0 * mu0[i].ln())
-            .collect();
+        let mut lnj: Vec<f64> = (0..m_ang).map(|i| self.lg[i] - 4.0 * mu0[i].ln()).collect();
         let (qb, delta) = backtrace(&self.m, &sph.ehat, &self.n6, &self.a3, dtau, sub);
         let (idx, wts, jac) = build_stencils(sph, &qb, k_theta, k_phi);
         let s = k_theta * k_phi;
@@ -438,10 +427,10 @@ impl QState {
                 }
                 Some(v) => {
                     let (dd, ep) = aberration(&e, &v);
-                    let lwp: Vec<f64> =
-                        (0..dd.len()).map(|i| lw[i] - 2.0 * dd[i].ln()).collect();
-                    let lgp: Vec<f64> =
-                        (0..dd.len()).map(|i| self.lg[i] + 4.0 * dd[i].ln()).collect();
+                    let lwp: Vec<f64> = (0..dd.len()).map(|i| lw[i] - 2.0 * dd[i].ln()).collect();
+                    let lgp: Vec<f64> = (0..dd.len())
+                        .map(|i| self.lg[i] + 4.0 * dd[i].ln())
+                        .collect();
                     let o = cm::collide_exact_log(&lwp, &lgp, &ep, nu_dt, &act);
                     self.lg = (0..dd.len()).map(|i| o[i] - 4.0 * dd[i].ln()).collect();
                 }
@@ -502,7 +491,6 @@ impl QState {
         }
         traj
     }
-
 }
 
 /// ★ Mode B 충돌 — 공통 물리(정지계) 운동량 격자로 옮겨 정확 3항을 적용한다.
@@ -610,11 +598,7 @@ pub fn residual_field(
     a3: &[f64; 3],
 ) -> (Vec<f64>, Vec<f64>) {
     let n = qhat.len() / 3;
-    let mmat = [
-        [m[0], m[1], m[2]],
-        [m[3], m[4], m[5]],
-        [m[6], m[7], m[8]],
-    ];
+    let mmat = [[m[0], m[1], m[2]], [m[3], m[4], m[5]], [m[6], m[7], m[8]]];
     let minv = inv3(&mmat);
     let mut v = vec![0.0; 3 * n];
     let mut rad = vec![0.0; n];
@@ -781,11 +765,7 @@ fn extend_lnf(lnf: &[f64], p: &[f64], i: i64, tail: Tail) -> f64 {
 }
 
 /// ★ 앙상블 — **멤버 병렬** (rayon).  멤버 내부는 직렬 ⇒ 스레드 수 무관 비트 동일.
-pub fn run_ensemble(
-    sph: &SphereGrid,
-    states: Vec<QState>,
-    cfg: &Config,
-) -> Vec<Vec<f64>> {
+pub fn run_ensemble(sph: &SphereGrid, states: Vec<QState>, cfg: &Config) -> Vec<Vec<f64>> {
     states
         .into_par_iter()
         .map(|mut st| {
@@ -850,9 +830,19 @@ mod tests {
     #[test]
     fn evolution_is_deterministic() {
         let sph = SphereGrid::new(16, 32);
-        let cfg = Config { v_b: None, dtau: -0.002, nsteps: 100, nu: 1.0, kernel: Kernel::Thomson,
-                           k_theta: 6, k_phi: 6, sub: 2, keep_every: 0,
-                           nu_sched: Vec::new(), h_anchor: 0.0 };
+        let cfg = Config {
+            v_b: None,
+            dtau: -0.002,
+            nsteps: 100,
+            nu: 1.0,
+            kernel: Kernel::Thomson,
+            k_theta: 6,
+            k_phi: 6,
+            sub: 2,
+            keep_every: 0,
+            nu_sched: Vec::new(),
+            h_anchor: 0.0,
+        };
         let mut a = mk(&sph, [0.3, 0.3, 0.3, 0.0, 0.0, 0.0], [0.0; 3]);
         let mut b = a.clone();
         a.evolve(&sph, &cfg);
@@ -873,7 +863,9 @@ mod tests {
         let mut b = mk(&sph, [0.3, -0.2, 0.1, 0.0, 0.0, 0.0], [0.0; 3]);
         b.n_p = np_;
         b.rad = Some(rad.clone());
-        b.lg = (0..m_ang * np_).map(|k| ang[k / np_] + spec[k % np_]).collect();
+        b.lg = (0..m_ang * np_)
+            .map(|k| ang[k / np_] + spec[k % np_])
+            .collect();
         let fr = Frame { m: b.m };
         let (_, mu) = cm::phys_dirs(&fr, &sph.ehat);
         let lgb = b.ln_ghat(&mu);
@@ -882,7 +874,9 @@ mod tests {
         for j in 0..np_ {
             let wt: f64 = if j == 0 || j == np_ - 1 { 0.5 } else { 1.0 };
             let v = spec[j] + 4.0 * q[j].ln() + wt.ln();
-            if v > mx { mx = v; }
+            if v > mx {
+                mx = v;
+            }
         }
         let mut acc = 0.0;
         for j in 0..np_ {
@@ -906,14 +900,29 @@ mod tests {
         st.rad = Some(RadialGrid::new(-4.0, 4.0, np_));
         st.lg = (0..sph.len() * np_).map(|k| 0.01 * k as f64).collect();
         let before = st.lg.clone();
-        let cfg = Config { v_b: None, dtau: -0.005, nsteps: 50, nu: 0.0, kernel: Kernel::Thomson,
-                           k_theta: 4, k_phi: 4, sub: 2, keep_every: 0,
-                           nu_sched: Vec::new(), h_anchor: 0.0 };
+        let cfg = Config {
+            v_b: None,
+            dtau: -0.005,
+            nsteps: 50,
+            nu: 0.0,
+            kernel: Kernel::Thomson,
+            k_theta: 4,
+            k_phi: 4,
+            sub: 2,
+            keep_every: 0,
+            nu_sched: Vec::new(),
+            h_anchor: 0.0,
+        };
         st.evolve(&sph, &cfg);
         let d = (0..before.len())
             .map(|k| (st.lg[k] - before[k]).abs())
             .fold(0.0f64, f64::max);
-        assert!(d < 1e-13, "max diff {d}  first {} vs {}", st.lg[0], before[0]);
+        assert!(
+            d < 1e-13,
+            "max diff {d}  first {} vs {}",
+            st.lg[0],
+            before[0]
+        );
     }
 
     #[test]
@@ -926,7 +935,9 @@ mod tests {
         st.rad = Some(RadialGrid::new(-3.0, 3.0, np_));
         let ang: Vec<f64> = (0..m_ang).map(|i| 0.7 * sph.ehat[3 * i + 2]).collect();
         let off = [0.0, 1.3, -2.1, 0.5, 3.0, -0.4];
-        st.lg = (0..m_ang * np_).map(|k| ang[k / np_] + off[k % np_]).collect();
+        st.lg = (0..m_ang * np_)
+            .map(|k| ang[k / np_] + off[k % np_])
+            .collect();
         st.collide(&sph, 1.7, Kernel::Thomson);
         // 각 슬라이스가 (같은 연산) + (원래 오프셋) 이어야 한다
         for j in 1..np_ {
@@ -940,9 +951,19 @@ mod tests {
     #[test]
     fn ensemble_is_bitwise_identical_to_serial() {
         let sph = SphereGrid::new(12, 24);
-        let cfg = Config { v_b: None, dtau: -0.002, nsteps: 50, nu: 0.5, kernel: Kernel::Thomson,
-                           k_theta: 4, k_phi: 4, sub: 2, keep_every: 0,
-                           nu_sched: Vec::new(), h_anchor: 0.0 };
+        let cfg = Config {
+            v_b: None,
+            dtau: -0.002,
+            nsteps: 50,
+            nu: 0.5,
+            kernel: Kernel::Thomson,
+            k_theta: 4,
+            k_phi: 4,
+            sub: 2,
+            keep_every: 0,
+            nu_sched: Vec::new(),
+            h_anchor: 0.0,
+        };
         let mk_i = |i: usize| {
             let mut s = mk(&sph, [0.3, -0.2, 0.1, 0.0, 0.0, 0.0], [0.0; 3]);
             s.s6[0] = 0.2 + 0.01 * i as f64;
@@ -967,25 +988,51 @@ mod tests {
         st.ln_h = 0.5;
         let n = 4usize;
         let a_sched: Vec<f64> = (0..=n).map(|k| 1.0 + k as f64).collect();
-        let cfg = Config { v_b: None, dtau: -0.01, nsteps: n, nu: 0.0,
-                           kernel: Kernel::Thomson, k_theta: 4, k_phi: 4, sub: 2,
-                           keep_every: 0, nu_sched: a_sched.clone(), h_anchor: 2.0 };
+        let cfg = Config {
+            v_b: None,
+            dtau: -0.01,
+            nsteps: n,
+            nu: 0.0,
+            kernel: Kernel::Thomson,
+            k_theta: 4,
+            k_phi: 4,
+            sub: 2,
+            keep_every: 0,
+            nu_sched: a_sched.clone(),
+            h_anchor: 2.0,
+        };
         for k in 0..=n {
             let want = a_sched[k] / (2.0 * (0.5f64).exp());
             assert!((cfg.nu_at(k, 0.5) - want).abs() < 1e-14, "k={k}");
         }
         // h_anchor == 0 이면 sched 가 곧 nu (LCDM 모드)
-        let cfg0 = Config { h_anchor: 0.0, ..cfg };
+        let cfg0 = Config {
+            h_anchor: 0.0,
+            ..cfg
+        };
         assert!((cfg0.nu_at(2, 0.5) - 3.0).abs() < 1e-14);
         // 빈 sched 는 상수 nu (기존 경로)
-        let cfgc = Config { nu_sched: Vec::new(), nu: 7.0, ..cfg0 };
+        let cfgc = Config {
+            nu_sched: Vec::new(),
+            nu: 7.0,
+            ..cfg0
+        };
         assert!((cfgc.nu_at(3, 1.23) - 7.0).abs() < 1e-14);
         // 실제로 진화가 도는가 (h_anchor > 0 분기의 통합 시험)
-        let cfg2 = Config { v_b: None, dtau: -0.01, nsteps: n, nu: 0.0,
-                            kernel: Kernel::Thomson, k_theta: 4, k_phi: 4, sub: 2,
-                            keep_every: 0, nu_sched: a_sched, h_anchor: 2.0 };
+        let cfg2 = Config {
+            v_b: None,
+            dtau: -0.01,
+            nsteps: n,
+            nu: 0.0,
+            kernel: Kernel::Thomson,
+            k_theta: 4,
+            k_phi: 4,
+            sub: 2,
+            keep_every: 0,
+            nu_sched: a_sched,
+            h_anchor: 2.0,
+        };
         st.evolve(&sph, &cfg2);
         assert!(st.lg.iter().all(|v| v.is_finite()));
     }
-
 }

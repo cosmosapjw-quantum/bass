@@ -39,7 +39,11 @@ impl Damping {
         let mean = (rate[0] + rate[1] + rate[2]) / 3.0;
         let mx = rate.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
         let mn = rate.iter().cloned().fold(f64::INFINITY, f64::min);
-        Damping { per_component: rate, mean, anisotropy: mx - mn }
+        Damping {
+            per_component: rate,
+            mean,
+            anisotropy: mx - mn,
+        }
     }
 }
 
@@ -47,8 +51,16 @@ impl Damping {
 /// σ=0 등방팽창에서 (dπ_ab/dt)/π_ab 를 **정확 구적의 중앙차분**으로 측정.
 /// 계층 수식을 쓰지 않는다.  σ=0 이므로 ȧ_i = H a_i (모든 축이 같은 비율).
 pub fn route_a_damping(mass: f64, a_vec: &[f64; 3], h: f64, dt: f64) -> Damping {
-    let ap = [a_vec[0] * (1.0 + h * dt), a_vec[1] * (1.0 + h * dt), a_vec[2] * (1.0 + h * dt)];
-    let am = [a_vec[0] * (1.0 - h * dt), a_vec[1] * (1.0 - h * dt), a_vec[2] * (1.0 - h * dt)];
+    let ap = [
+        a_vec[0] * (1.0 + h * dt),
+        a_vec[1] * (1.0 + h * dt),
+        a_vec[2] * (1.0 + h * dt),
+    ];
+    let am = [
+        a_vec[0] * (1.0 - h * dt),
+        a_vec[1] * (1.0 - h * dt),
+        a_vec[2] * (1.0 - h * dt),
+    ];
     let pi_p = quad::moments(&ap, mass).2;
     let pi_m = quad::moments(&am, mass).2;
     let pi_0 = quad::moments(a_vec, mass).2;
@@ -115,9 +127,15 @@ pub fn route_b_damping_handset(h: f64, pi_diag: &[f64; 3]) -> Damping {
 /// π=0, σ≠0 상태에서 l=2 방정식의 σ-소스 계수 (dπ/dt / (ρσ)) — 계층만 사용.
 pub fn route_b_source(mass: f64, a_vec: &[f64; 3], h: f64, sigma_diag: &[f64; 3]) -> f64 {
     let sigma = [
-        sigma_diag[0], 0.0, 0.0,
-        0.0, sigma_diag[1], 0.0,
-        0.0, 0.0, sigma_diag[2],
+        sigma_diag[0],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[1],
+        0.0,
+        0.0,
+        0.0,
+        sigma_diag[2],
     ];
     let mut s = State::from_quadrature(a_vec, mass, 4, 2, 0.0, 2);
     let rho = s.j[0][0][0];
@@ -155,15 +173,24 @@ pub fn transport_coefficients(
 ) -> Option<Transport> {
     let rho = quad::j_moment(a_vec, mass, 0, 0, 0.0, 2)[0];
     let (damp, src) = if hierarchy_route {
-        (route_b_damping(mass, a_vec, h)?.mean,
-         route_b_source(mass, &[1.0, 1.0, 1.0], h, &[0.05, -0.02, -0.03]))
+        (
+            route_b_damping(mass, a_vec, h)?.mean,
+            route_b_source(mass, &[1.0, 1.0, 1.0], h, &[0.05, -0.02, -0.03]),
+        )
     } else {
-        (route_a_damping(mass, a_vec, h, 1e-5).mean, route_a_source(mass, 0.002))
+        (
+            route_a_damping(mass, a_vec, h, 1e-5).mean,
+            route_a_source(mass, 0.002),
+        )
     };
     let tau_pi = -1.0 / damp;
     let eta = -src * rho * tau_pi / 2.0;
     Some(Transport {
-        eta, tau_pi, rho, damping_rate: damp, source_coeff: src,
+        eta,
+        tau_pi,
+        rho,
+        damping_rate: damp,
+        source_coeff: src,
         eta_over_rho_h: eta * h / rho,
     })
 }
