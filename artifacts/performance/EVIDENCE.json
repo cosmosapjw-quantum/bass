@@ -1,0 +1,394 @@
+{
+  "schema": "bass-performance-evidence-v1",
+  "run_id": "BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd",
+  "assembly": {
+    "status": "PARTIAL_DELIVERY_BLOCKED_HOST_CONTENTION",
+    "created_utc": "2026-08-24T17:03:35Z",
+    "self_digest_included": false,
+    "human_document_digests_included": false,
+    "self_reference_boundary": "The metadata commit and remote PR readback are external delivery receipts because this file cannot contain the commit that contains itself."
+  },
+  "independent_review": {
+    "status": "BOUNDED_FINDINGS_REPAIRED",
+    "report_ref": "final_independent_review",
+    "repair_closeout": {
+      "F-01": "Harness and three existing Wolfram static receipts are now digest-bound and referenced without rerunning them.",
+      "F-02": "The contention claim is narrowed to the directly indexed final process snapshot; no retrospective full-interval claim remains.",
+      "F-03": "HANDOFF now states the delivery-worktree clean-state and external self-reference boundary."
+    },
+    "additional_review_wave": "NOT_AUTHORIZED_NOT_RUN"
+  },
+  "source": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "canonical_anchor": {
+      "branch": "agent/recovery/background-evolution-v87-integrated-20260824",
+      "commit": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+      "tree": "675213f191477b1f47c725892e9f4c804c623ab0"
+    },
+    "pr20_stack_base": {
+      "branch": "agent/recovery/native-repro-closeout-20260824-r2",
+      "commit": "f575e5c3b12701944f4745ef90f3bbcfe53facd6",
+      "tree": "1cbd9b6264ee3cf17019b81bbf0b3a180b70aea3",
+      "pr": 20
+    },
+    "r5b_contract": {
+      "branch": "agent/recovery/r5b-contract-20260824-r1",
+      "commit": "b810092755837ccfa96502aa7e132a50c3fcbd33",
+      "tree": "b1bd0422b8d4e50e0c63ad3cae9d77efedac7a9d",
+      "pr": 21
+    },
+    "benchmark_parent": {
+      "branch": "agent/recovery/measured-performance-20260824-r1",
+      "commit": "efb3a45986820659e5bcbec2677729f28616e736",
+      "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+      "harness_sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192"
+    },
+    "accepted_implementation": {
+      "status": "NO_ACCEPTED_PERFORMANCE_IMPLEMENTATION",
+      "accepted_tracked_changes": ["benchmarks/bench_bass_runtime.py"],
+      "pending_candidate": {
+        "id": "R5B-GEOMETRY-B-DIRECT_SCALAR_TETRAD",
+        "base_commit": "efb3a45986820659e5bcbec2677729f28616e736",
+        "base_tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+        "tracked_production": false,
+        "source_sha256": "8f1904ac6eaefd7de6a9a19083c22f6fcc535b0444063ed65f3038c2755a712e",
+        "test_sha256": "73534be3738c8982736369d1277e37936b6f851ec373d4faa47f7514a84a2662",
+        "source_ref": "geometry_b_pending_source",
+        "test_ref": "geometry_b_pending_test"
+      }
+    },
+    "metadata_receipt": {
+      "identity_source": "EXTERNAL_REMOTE_READBACK_AFTER_COMMIT",
+      "self_referential_commit_omitted": true
+    }
+  },
+  "environment": {
+    "measurement_host": {
+      "cpu": "AMD Ryzen 9 5900X",
+      "physical_cores": 12,
+      "logical_cpus": 24,
+      "os": "Ubuntu 24.04.4",
+      "kernel": "Linux 7.0.0-29-generic",
+      "glibc": "2.39",
+      "governor": "performance",
+      "driver": "amd-pstate-epp"
+    },
+    "python": {
+      "version": "3.12.3",
+      "soabi": "cpython-312-x86_64-linux-gnu"
+    },
+    "populations": {
+      "strict_1t": {
+        "affinity": [0],
+        "rayon_threads": 1,
+        "blas_openmp_threads": 1,
+        "python_workers": 1,
+        "pythonhashseed": 0
+      },
+      "physical_12t": {
+        "affinity": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        "rayon_threads": 12,
+        "blas_openmp_threads": 1,
+        "python_workers": 1,
+        "pythonhashseed": 0
+      }
+    }
+  },
+  "decisions": {
+    "r5b": {
+      "R5B-001": "PASS_STATE_OPERATOR_SCIENCE_CONTRACT",
+      "R5B-002": "PASS_STATE_OPERATOR_SCIENCE_CONTRACT",
+      "former_relative_error_of_error_comparator": "RETIRED_ILL_CONDITIONED_DIAGNOSTIC",
+      "semantic_defect": "NOT_FOUND",
+      "scientific_tolerance_reference_change": "NONE",
+      "backend_acceptance_observable": "REPLACED",
+      "pi_decision": "ACCEPTANCE_OBSERVABLE_CORRECTED"
+    },
+    "performance": {
+      "status": "BLOCKED_HOST_CONTENTION",
+      "blocker_ref": "geometry_b_host_contention_blocker",
+      "direct_blocker_snapshot_utc": "2026-08-24T17:00:01Z",
+      "quiet_precondition": "All unrelated high-CPU Rabbit/pytest processes absent, followed by two qualifying process/load snapshots ten seconds apart.",
+      "measurement_start_precondition_at_final_snapshot": "FAILED_HOST_CONTENTION",
+      "acceptance_threshold": "at least 10 percent affected-workload improvement with exact output identity, focused correctness, and memory gates",
+      "speedup_claim": "NONE"
+    },
+    "cargo_bundle": {
+      "status": "REUSED_NATIVE_R2_NO_R3_NO_ACCEPTED_NATIVE_CHANGE",
+      "reason": "Accepted changes are test, benchmark, evidence, and independent symbolic-candidate bytes; the unaccepted Python production candidate is preserved only as raw evidence. Cargo, Rust, generated Rust, PyO3, wheel, and native reproduction payload remain unchanged."
+    },
+    "wolfram_authority": {
+      "historical_formula_label": "3ecf0dbc8b47a8af83da81e9ed37823b6922e139e420c5bfa2e071b6bbabe361",
+      "historical_formula_status": "UNRESOLVED_REFERENCE_SOURCE_BYTES_ABSENT_NOT_DAG_PARENT",
+      "existing_workmode_receipt": "WOLFRAM-WORKMODE-20260824-R1_REUSED_ENVIRONMENT_PSTF_ONLY",
+      "candidate_status": "CANDIDATE_UNPROMOTED_FORMULA_BYTES_ABSENT"
+    }
+  },
+  "benchmark": {
+    "corpus": {
+      "schema": "bass-runtime-benchmark-v2",
+      "harness_ref": "benchmark_harness_source",
+      "corpus_identity_sha256": "54e465ffdda6a97c939d2f84144ee58522949fc724fcf5d3d8788fc5a443758a",
+      "corpus_file_sha256": "bfe3398cb7dc2ea245d699871779b88d47ac07a8ade4306e67251f53c51d95a6",
+      "weights": {
+        "r5b_tilted": 0.3,
+        "q_mode_a": 0.3,
+        "ray_map_final": 0.2,
+        "optical_map_final": 0.2
+      },
+      "small_control_included": true,
+      "warmups_same_process_per_observation": 3,
+      "samples_per_case_population": 15
+    },
+    "baseline": {
+      "status": "PASS_V2_REFROZEN_BASELINE_PROFILED",
+      "summary_ref": "baseline_summary",
+      "sample_refs": ["baseline_sample_1t", "baseline_sample_12t"],
+      "weighted_median_seconds": {
+        "strict_1t": 0.3124499165,
+        "physical_12t": 0.2974174922
+      },
+      "weighted_contribution_fraction_1t": {
+        "q_mode_a": 0.5497773941635861,
+        "r5b_tilted": 0.4351360740402055,
+        "ray_map_final": 0.009287150505607515,
+        "optical_map_final": 0.005799381290601178
+      },
+      "cross_population_outputs_identical": true,
+      "invalidated_populations": [
+        {"ref": "ref386", "status": "INVALID_INSTRUMENTATION"},
+        {"ref": "ref968", "status": "INVALID_WARMUP_ISOLATION"}
+      ]
+    },
+    "candidate": {
+      "status": "BLOCKED_HOST_CONTENTION_FOCUSED_PASS_TIMING_NOT_RUN",
+      "candidate_id": "R5B-GEOMETRY-B-DIRECT_SCALAR_TETRAD",
+      "correctness": "PASS_SCOPED_5_PLUS_REUSED_R5B_34",
+      "output_digest_identity": "PASS",
+      "paired_timing": "NOT_RUN_VALID_POPULATION"
+    },
+    "final_aggregate": {
+      "status": "NOT_RUN_NO_ACCEPTED_PERFORMANCE_IMPLEMENTATION",
+      "speedup_claim": "NONE"
+    }
+  },
+  "profiles": [
+    {
+      "lane": "q_mode_a",
+      "method": "cProfile",
+      "evidence_ref": "baseline_profile_q",
+      "total_seconds": 0.590821414,
+      "top_symbol": "bianchi_rustcore.qe_evolve",
+      "top_cumulative_seconds": 0.590445465,
+      "classification": "DOMINANT_NATIVE_BOUNDARY"
+    },
+    {
+      "lane": "r5b_tilted",
+      "method": "cProfile",
+      "evidence_ref": "baseline_profile_r5b",
+      "total_seconds": 0.480964066,
+      "hotspots": [
+        {"name": "geometry_rows", "calls": 1, "cumulative_seconds": 0.24106391, "geometry_evaluations": 600},
+        {"name": "th_integrate", "calls": 1, "cumulative_seconds": 0.200363962},
+        {"name": "kin_j_moment_tilted", "calls": 20, "cumulative_seconds": 0.036360856}
+      ]
+    },
+    {
+      "lane": "q_mode_a",
+      "method": "perf_record",
+      "status": "SYMBOL_ATTRIBUTION_BLOCKED",
+      "raw_binary_not_shipped": true,
+      "retry_authorized": false
+    }
+  ],
+  "experiments": [
+    {
+      "id": "Q-B1-WORKSPACE",
+      "closure": "native_q_mode_a",
+      "status": "REJECTED",
+      "reason": "BELOW_PREDECLARED_10_PERCENT_END_TO_END_THRESHOLD",
+      "correctness": "PASS_FMT_CLIPPY_9_RUST_25_PYTHON_EXACT_OUTPUT",
+      "paired": {
+        "strict_1t": {"evidence_ref": "q_b1_paired_1t", "candidate_over_baseline_median": 0.949259915231109},
+        "physical_12t": {"evidence_ref": "q_b1_paired_12t", "candidate_over_baseline_median": 0.9417076414317959}
+      },
+      "tracked_payload": "NOT_COMMITTED"
+    },
+    {
+      "id": "Q-B2-ALLOC_FREE_HELPERS",
+      "closure": "native_q_mode_a",
+      "status": "REJECTED",
+      "reason": "BELOW_PREDECLARED_10_PERCENT_END_TO_END_THRESHOLD",
+      "correctness": "PASS_FMT_CLIPPY_5_COMOVING_9_QEVOLVE_25_PYTHON_EXACT_OUTPUT",
+      "paired": {
+        "strict_1t": {"evidence_ref": "q_b2_paired_1t_clean", "candidate_over_baseline_median": 0.9507573715},
+        "physical_12t": {"evidence_ref": "q_b2_paired_12t_clean", "candidate_over_baseline_median": 0.9537614914811652}
+      },
+      "tracked_payload": "NOT_COMMITTED"
+    },
+    {
+      "id": "R5B-GEOMETRY-A-VECTORIZED",
+      "closure": "python_geometry_rows",
+      "status": "REJECTED_INVALID_OUTPUT_IDENTITY",
+      "reason": "Candidate versus baseline benchmark output digest differed; observed timing was also externally contaminated and is not acceptance evidence.",
+      "evidence_ref": "geometry_a_invalid_paired_1t",
+      "tracked_payload": "NOT_COMMITTED"
+    },
+    {
+      "id": "R5B-GEOMETRY-B-DIRECT_SCALAR_TETRAD",
+      "closure": "python_geometry_rows",
+      "status": "BLOCKED_HOST_CONTENTION",
+      "changed_precondition": "Exact Background fast path preserves scalar tetrad evaluations while avoiding unused geometry construction and packing.",
+      "pre_benchmark_correctness": {
+        "exact_600_rows": "PASS",
+        "nondefault_anisotropic_nonzero_dv_120_rows": "PASS",
+        "benchmark_output_digest": "df0dbd261448db54e2cc0426c07a28fbbfc1584473fcde4867c2250c779739a7",
+        "five_focused_tests": "PASS",
+        "r5b_contract_34": "PASS"
+      },
+      "candidate_payload_refs": ["geometry_b_pending_source", "geometry_b_pending_test"],
+      "blocker_ref": "geometry_b_host_contention_blocker",
+      "paired_measurement": "NOT_RUN_VALID_POPULATION",
+      "tracked_payload": "NOT_COMMITTED"
+    }
+  ],
+  "impact_closures": [
+    {
+      "id": "R5B_CONTRACT_TEST_ONLY",
+      "changed_inputs": ["tests/test_r5b_tilted_hier_rust.py"],
+      "newly_run": ["r5b_focused_contract_log", "r5b_focused_contract_junit"],
+      "result": "PASS_34",
+      "inherited_receipts": "Native wheel/backend and production solver bytes unchanged."
+    },
+    {
+      "id": "NATIVE_R2_UNCHANGED_CLOSURE",
+      "changed_inputs": [],
+      "reused": ["fmt", "clippy", "locked_offline_cargo", "wheel_import", "native_differential", "typeii_codegen_provenance"],
+      "predicate": "Cargo manifests/lock/config/vendor, Rust/generated/PyO3 source, wheel, ABI, and pinned tools remain unchanged."
+    },
+    {
+      "id": "SCIENTIFIC_REGRESSION_UNCHANGED_CLOSURE",
+      "changed_inputs": [],
+      "reused": ["background_classification_constraint", "E1_E4"],
+      "predicate": "Their source, fixtures, native closure, ABI, commands, and toolchain are unchanged."
+    },
+    {
+      "id": "WOLFRAM_ENVIRONMENT_RECEIPT",
+      "changed_inputs": [],
+      "reused": ["WOLFRAM-WORKMODE-20260824-R1"],
+      "predicate": "The new packet is an unpromoted candidate and does not alter or require rerun of the prior xAct/PSTF environment probe."
+    }
+  ],
+  "correctness": [
+    {"lane": "r5b_contract", "status": "PASS", "count": 34, "log_ref": "r5b_focused_contract_log", "junit_ref": "r5b_focused_contract_junit"},
+    {"lane": "geometry_candidate_b_prebenchmark", "status": "PASS_SCOPED_NOT_PERFORMANCE_ACCEPTANCE", "count": 5, "log_refs": ["geometry_b_rows_log", "geometry_b_focused_log", "geometry_b_contract_log"]},
+    {"lane": "wolfram_candidate_static", "status": "PASS_STATIC_ONLY_17", "log_refs": ["wolfram_static_pytest", "wolfram_selfcheck", "wolfram_pycompile"], "local_wolfram_commands": "NONE"}
+  ],
+  "delivery": {
+    "branches": [
+      {"name": "agent/recovery/r5b-contract-20260824-r1", "commit": "b810092755837ccfa96502aa7e132a50c3fcbd33", "status": "PUSHED_REMOTE_READBACK_PASS"},
+      {"name": "agent/recovery/generic-wolfram-candidate-20260824-r1", "commit": "75f0b128634ec60b853519f9f6d530f113b54a81", "status": "PUSHED_REMOTE_READBACK_PASS"},
+      {"name": "agent/recovery/measured-performance-20260824-r1", "commit": "efb3a45986820659e5bcbec2677729f28616e736", "status": "PUSHED_FROZEN_HARNESS_METADATA_COMMIT_SELF_REFERENCE_OMITTED"}
+    ],
+    "draft_prs": [
+      {"number": 21, "url": "https://github.com/cosmosapjw-quantum/bass/pull/21", "base": "agent/recovery/native-repro-closeout-20260824-r2", "state": "OPEN_DRAFT_UNMERGED_CLEAN"},
+      {"number": 22, "url": "https://github.com/cosmosapjw-quantum/bass/pull/22", "base": "agent/recovery/native-repro-closeout-20260824-r2", "state": "OPEN_DRAFT_UNMERGED_CLEAN"},
+      {"number": 23, "url": "https://github.com/cosmosapjw-quantum/bass/pull/23", "base": "agent/recovery/r5b-contract-20260824-r1", "state": "OPEN_DRAFT_UNMERGED_CLEAN"}
+    ],
+    "performance_pr": {"number": 23, "url": "https://github.com/cosmosapjw-quantum/bass/pull/23", "status": "OPEN_DRAFT_UNMERGED_CLEAN_PARTIAL_HOST_BLOCKED"},
+    "atlassian": {"target": "BASS-8", "issue_id": "10018", "comment_id": "10159", "status": "POINTER_COMMENT_ADDED_NO_STATUS_TRANSITION"}
+  },
+  "artifact": {
+    "decision": "REUSED_NATIVE_R2_NO_R3_NO_ACCEPTED_NATIVE_CHANGE",
+    "r2": {
+      "branch": "artifact/native-repro-bundle-20260824-r2",
+      "commit": "61045b6e5a0d7b026437e0d3586df66706578161",
+      "archive_sha256": "ef0f35b76ab4ef4877ed577afe391ed677a7a6767bcbc64db62dd853d757afca",
+      "wheel_sha256": "b58fe7400c51cf0016b877a681758ebb9896d07cfb3f80be7ca82df64b734d10",
+      "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+    }
+  },
+  "resume": {
+    "exactly_one_next_action": "After the quiet-host precondition is satisfied, run the frozen Candidate B paired 1T and 12T measurements and apply the predeclared acceptance gate.",
+    "quiet_precondition": {
+      "required": "No unrelated high-CPU Rabbit/pytest workload, then two process/load snapshots ten seconds apart.",
+      "postcondition": "Capture a process snapshot after each population before acceptance or commit."
+    },
+    "common": {
+      "python": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+      "baseline_harness": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/baseline-worktree/benchmarks/bench_bass_runtime.py",
+      "candidate_harness": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree/benchmarks/bench_bass_runtime.py",
+      "candidate_source_ref": "geometry_b_pending_source",
+      "candidate_test_ref": "geometry_b_pending_test",
+      "pairs": 15,
+      "warmups": 3,
+      "seed": 20260824,
+      "child_timeout_seconds": 120,
+      "acceptance": "Exact cross-ref output digest equality, candidate/baseline median <= 0.90 in both populations, and no memory-policy violation."
+    },
+    "commands": [
+      {
+        "population": "strict_1t",
+        "environment": {"PYTHONHASHSEED": "0", "RAYON_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "BLIS_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"},
+        "argv": ["taskset", "-c", "0", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/run_logged.sh", "geometry_candidate_b_paired_r5b_1t", "900", "--", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree/benchmarks/bench_bass_runtime.py", "--paired", "--case", "r5b_tilted", "--pairs", "15", "--warmups", "3", "--seed", "20260824", "--baseline-python", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "--baseline-harness", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/baseline-worktree/benchmarks/bench_bass_runtime.py", "--candidate-python", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "--candidate-harness", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree/benchmarks/bench_bass_runtime.py", "--child-timeout", "120", "--output", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/evidence/candidates/geometry_rows_direct_b/paired_r5b_1t.json"]
+      },
+      {
+        "population": "physical_12t",
+        "environment": {"PYTHONHASHSEED": "0", "RAYON_NUM_THREADS": "12", "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "BLIS_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"},
+        "argv": ["taskset", "-c", "0-11", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/run_logged.sh", "geometry_candidate_b_paired_r5b_12t", "900", "--", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree/benchmarks/bench_bass_runtime.py", "--paired", "--case", "r5b_tilted", "--pairs", "15", "--warmups", "3", "--seed", "20260824", "--baseline-python", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "--baseline-harness", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/baseline-worktree/benchmarks/bench_bass_runtime.py", "--candidate-python", "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python", "--candidate-harness", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree/benchmarks/bench_bass_runtime.py", "--child-timeout", "120", "--output", "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/evidence/candidates/geometry_rows_direct_b/paired_r5b_12t.json"]
+      }
+    ]
+  },
+  "wolfram": {
+    "branch": "agent/recovery/generic-wolfram-candidate-20260824-r1",
+    "commit": "75f0b128634ec60b853519f9f6d530f113b54a81",
+    "tree": "c71f46c9b472fd4aba9fba8627a611aec49eb697",
+    "pr": 22,
+    "manifest_sha256": "f162f8f94a1bab0bd7d2fdce08d94e307ffebdd1c11201e195e43779a3d05aad",
+    "handoff_nonblank_lines": 19,
+    "static_tests": "17_PASS",
+    "static_test_ref": "wolfram_static_pytest",
+    "selfcheck": "STATIC_PACKET_PASS_8_FIXTURES",
+    "selfcheck_ref": "wolfram_selfcheck",
+    "pycompile": "PASS",
+    "pycompile_ref": "wolfram_pycompile",
+    "local_execution": "NOT_RUN_FORBIDDEN",
+    "authority": "CANDIDATE_UNPROMOTED_FORMULA_BYTES_ABSENT"
+  },
+  "evidence_files": {
+    "benchmark_corpus": {"path": "raw/baseline/corpus_refrozen_v2.json", "sha256": "bfe3398cb7dc2ea245d699871779b88d47ac07a8ade4306e67251f53c51d95a6", "size_bytes": 4404, "media_type": "application/json", "scope": "baseline", "status": "PASS"},
+    "benchmark_harness_source": {"path": "../../benchmarks/bench_bass_runtime.py", "sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192", "size_bytes": 32572, "media_type": "text/x-python", "scope": "source", "status": "PASS_TRACKED"},
+    "r5b_focused_contract_log": {"path": "raw/r5b/focused_contract.log", "sha256": "a5783348dc0ec8b41c11a0200f1556a6c781db524e5ffee01ec1aeadb687a080", "size_bytes": 1385, "media_type": "text/plain", "scope": "correctness", "status": "PASS"},
+    "r5b_focused_contract_junit": {"path": "raw/r5b/focused_contract.junit.xml", "sha256": "351762816b59ec269bdb5520a43d1ffddd3cd5d7ca5f22fadb4e9089733c6ffa", "size_bytes": 16235, "media_type": "application/xml", "scope": "correctness", "status": "PASS"},
+    "r5b_remote_readback": {"path": "raw/r5b/remote_readback.log", "sha256": "1646206c9563082b00fd9079a12f4bfc81072b7cafab3eb2653c9ad583257f6e", "size_bytes": 2186, "media_type": "text/plain", "scope": "delivery", "status": "PASS"},
+    "baseline_summary": {"path": "raw/baseline/BASELINE_SUMMARY.json", "sha256": "e1345a9f805e4da832fd3ba6356908f3ac60297eb658f6f7cc82e84624853a9b", "size_bytes": 14328, "media_type": "application/json", "scope": "baseline", "status": "PASS"},
+    "baseline_sample_1t": {"path": "raw/baseline/sample_1t_all.json", "sha256": "890406bc50831a342f728364997566062315e24f8913a82371b28708a952635e", "size_bytes": 176406, "media_type": "application/json", "scope": "baseline", "status": "PASS"},
+    "baseline_sample_12t": {"path": "raw/baseline/sample_12t_all.json", "sha256": "7b6f08e397f4e4eac2aa6c735747b9986836132b6e779e83d635872f68f3086b", "size_bytes": 186495, "media_type": "application/json", "scope": "baseline", "status": "PASS"},
+    "baseline_profile_q": {"path": "raw/baseline/profiles/q_1t.prof", "sha256": "d7f7813cf712baecbe83ca6c4dc19214710dbb038ad4b17a50a53f36c3f8a8bd", "size_bytes": 7995, "media_type": "application/octet-stream", "scope": "baseline", "status": "PASS"},
+    "baseline_profile_r5b": {"path": "raw/baseline/profiles/r5b_1t.prof", "sha256": "dbf9029cb90ce7a11954ec8c0d1b72fbc99e6fc8f02616007644fb156bd26f7c", "size_bytes": 9387, "media_type": "application/octet-stream", "scope": "baseline", "status": "PASS"},
+    "q_b1_paired_1t": {"path": "raw/candidates/q/b1_paired_1t.json", "sha256": "b38ea8336ae2bea78986cf18b07ac5924509ae116b442874726169489dd692f4", "size_bytes": 102740, "media_type": "application/json", "scope": "candidate", "status": "PASS"},
+    "q_b1_paired_12t": {"path": "raw/candidates/q/b1_paired_12t.json", "sha256": "7ae3c8d0d1b319459a42a6932a68c7da895573735929ed1cfcf8dec287a304e1", "size_bytes": 109084, "media_type": "application/json", "scope": "candidate", "status": "PASS"},
+    "q_b1_focused_junit": {"path": "raw/candidates/q/b1_focused.junit.xml", "sha256": "4185e8ac0dfd3c9c1800effbbdc2ac0e50f13392fb7be21b9a5023e7e503ceb5", "size_bytes": 3074, "media_type": "application/xml", "scope": "candidate", "status": "PASS"},
+    "q_b2_paired_1t_clean": {"path": "raw/candidates/q/b2_paired_1t_clean.json", "sha256": "d620834bd4a5ec5e15c3cc44fd3889068b9fb05998bb4296adae01b2972150a8", "size_bytes": 102419, "media_type": "application/json", "scope": "candidate", "status": "PASS"},
+    "q_b2_paired_12t_clean": {"path": "raw/candidates/q/b2_paired_12t_clean.json", "sha256": "f581f1682404f4409dd45401c08ff93ecc0980f6f620dcdc100f902d9f5f1a4d", "size_bytes": 108792, "media_type": "application/json", "scope": "candidate", "status": "PASS"},
+    "q_b2_focused_junit": {"path": "raw/candidates/q/b2_focused.junit.xml", "sha256": "4451f2b935d89cd84db4dc1573450b48de16ca8e1e7b561825656945b6753e09", "size_bytes": 3075, "media_type": "application/xml", "scope": "candidate", "status": "PASS"},
+    "geometry_a_invalid_paired_1t": {"path": "raw/candidates/geometry/rejected_a_paired_1t.json", "sha256": "0ba5bb48bfda7e0ee286a2bdbbd22bebeca17765b09f57d83b48293489c8aeff", "size_bytes": 102894, "media_type": "application/json", "scope": "candidate", "status": "INVALIDATED"},
+    "geometry_b_digest_once": {"path": "raw/candidates/geometry/b_digest_once.json", "sha256": "0544a08856495fa7844164e74303f939bb60ebfbc938413b1e7cf5654c4b4232", "size_bytes": 2359, "media_type": "application/json", "scope": "candidate", "status": "PASS"},
+    "geometry_b_rows_log": {"path": "raw/candidates/geometry/b_exact_600_rows.log", "sha256": "311565ca0abe872a0b7ec1f9b3b6d37787f310ac30f12f7292a37f87c2a2d62b", "size_bytes": 741, "media_type": "text/plain", "scope": "correctness", "status": "PASS"},
+    "geometry_b_focused_log": {"path": "raw/candidates/geometry/b_focused.log", "sha256": "c33dcd3f35e0a9c15ef1f10b2c6adade9758350eda78bd1612b31a9b4b35e55d", "size_bytes": 798, "media_type": "text/plain", "scope": "correctness", "status": "PASS"},
+    "geometry_b_focused_junit": {"path": "raw/candidates/geometry/b_focused.junit.xml", "sha256": "83b64ff61f29100205c2fa04f19fb2fb75ab4b0b3332b3870b726703bd844123", "size_bytes": 934, "media_type": "application/xml", "scope": "correctness", "status": "PASS"},
+    "geometry_b_contract_log": {"path": "raw/candidates/geometry/b_r5b_contract_34.log", "sha256": "f1aaa05cd634f2b98df8f209856ef5d3144dce40db2dd9d42926fd47eb626984", "size_bytes": 1513, "media_type": "text/plain", "scope": "correctness", "status": "PASS"},
+    "geometry_b_contract_junit": {"path": "raw/candidates/geometry/b_r5b_contract_34.junit.xml", "sha256": "6f4261872c773a4970840da234f06529878a00ab2b84015f06845fbe1ee77eae", "size_bytes": 16235, "media_type": "application/xml", "scope": "correctness", "status": "PASS"},
+    "geometry_b_pending_source": {"path": "raw/candidates/geometry/pending_candidate/bianchi/matter/tilted_rust.py", "sha256": "8f1904ac6eaefd7de6a9a19083c22f6fcc535b0444063ed65f3038c2755a712e", "size_bytes": 10806, "media_type": "text/x-python", "scope": "pending_candidate", "status": "UNACCEPTED_EXACT_BYTES"},
+    "geometry_b_pending_test": {"path": "raw/candidates/geometry/pending_candidate/tests/test_r5b_geometry_rows_batch.py", "sha256": "73534be3738c8982736369d1277e37936b6f851ec373d4faa47f7514a84a2662", "size_bytes": 4652, "media_type": "text/x-python", "scope": "pending_candidate", "status": "UNACCEPTED_EXACT_BYTES"},
+    "geometry_b_host_contention_blocker": {"path": "raw/candidates/geometry/host_contention_blocker.log", "sha256": "fefc1a3365dbff9aec6901eb84ca5dda7a80b369050b500a2fb24d76d5bd88fd", "size_bytes": 1527, "media_type": "text/plain", "scope": "blocker", "status": "BLOCKED_HOST_CONTENTION"},
+    "wolfram_static_pytest": {"path": "raw/wolfram/static_pytest.log", "sha256": "f3df01a377e5141b4f90ff6e2435105a7285db658be5d59d0e6af727878a7ae2", "size_bytes": 509, "media_type": "text/plain", "scope": "symbolic_candidate", "status": "PASS_STATIC_17"},
+    "wolfram_selfcheck": {"path": "raw/wolfram/selfcheck.log", "sha256": "8cd3c138ed91bf7540c92b5d12905db86b374294fecb4f4fac996e2fc18a1195", "size_bytes": 480, "media_type": "text/plain", "scope": "symbolic_candidate", "status": "PASS_8_FIXTURES"},
+    "wolfram_pycompile": {"path": "raw/wolfram/pycompile.log", "sha256": "5beaacfd109c1fe78026c67d7d732ba09be77fc7c87ab2167e181d99125e2058", "size_bytes": 525, "media_type": "text/plain", "scope": "symbolic_candidate", "status": "PASS"},
+    "final_independent_review": {"path": "raw/review/FINAL_INDEPENDENT_REVIEW.md", "sha256": "d724a37de9d55bd6294ed2f2dbc0ad0528a5a2cfdc359be5810c96ebdc9a981f", "size_bytes": 4734, "media_type": "text/markdown", "scope": "review", "status": "BOUNDED_FINDINGS_REPAIRED"}
+  },
+  "baseline_auxiliary_files": {
+    "status": "NOT_SHIPPED_SUMMARY_SUFFICIENT",
+    "reason": "Cold, process-peak-memory, steady-control, and perfstat auxiliaries are summarized in baseline_summary; only evidence_files are delivery-bound."
+  }
+}

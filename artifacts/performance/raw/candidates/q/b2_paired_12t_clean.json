@@ -1,0 +1,2619 @@
+{
+  "baseline": {
+    "harness": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/baseline-worktree/benchmarks/bench_bass_runtime.py",
+    "python": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python"
+  },
+  "candidate": {
+    "harness": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-modea-workspace-experiment/benchmarks/bench_bass_runtime.py",
+    "python": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python"
+  },
+  "cases": {
+    "q_mode_a": {
+      "first_pair_order": [
+        "candidate",
+        "baseline"
+      ],
+      "order_seed": 20260824,
+      "paired_summary": {
+        "bootstrap_replicates": 10000,
+        "cross_ref_output_digest_equal": true,
+        "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+        "pairs": 15,
+        "wall_ratio_candidate_over_baseline_mad": 0.010438617522324667,
+        "wall_ratio_candidate_over_baseline_median": 0.9537614914811652,
+        "wall_ratio_candidate_over_baseline_p95": 0.9822315957672492,
+        "wall_ratio_median_bootstrap_95_ci": [
+          0.9430470827128976,
+          0.9605710230088411
+        ]
+      },
+      "pairs": [
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.571729881,
+              "ru_maxrss_kib": 188316,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.571858432
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 19,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.532699934,
+              "ru_maxrss_kib": 207464,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.532884437
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.931733589065288,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 0,
+          "rss_ratio_candidate_over_baseline": 1.1016801546337007,
+          "wall_ratio_candidate_over_baseline": 0.9318467774206047
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.559959329,
+              "ru_maxrss_kib": 188704,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.560053699
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.535324136,
+              "ru_maxrss_kib": 208224,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.535445992
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9560053887413669,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 1,
+          "rss_ratio_candidate_over_baseline": 1.1034424283534001,
+          "wall_ratio_candidate_over_baseline": 0.9560618793448947
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.561267975,
+              "ru_maxrss_kib": 188096,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.561364863
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.533266078,
+              "ru_maxrss_kib": 207960,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.535408189
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9501095764460817,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 2,
+          "rss_ratio_candidate_over_baseline": 1.105605648179653,
+          "wall_ratio_candidate_over_baseline": 0.9537614914811652
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.560560858,
+              "ru_maxrss_kib": 188504,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.560682784
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.533569433,
+              "ru_maxrss_kib": 208208,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.533686166
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9518492513082318,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 3,
+          "rss_ratio_candidate_over_baseline": 1.1045282858719179,
+          "wall_ratio_candidate_over_baseline": 0.951850460241704
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.57465043,
+              "ru_maxrss_kib": 188632,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.576469734
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.530830438,
+              "ru_maxrss_kib": 207420,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.530879024
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9237449591745714,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 4,
+          "rss_ratio_candidate_over_baseline": 1.09960134017558,
+          "wall_ratio_candidate_over_baseline": 0.9209139572971926
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.560386864,
+              "ru_maxrss_kib": 188784,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.560491752
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.549460928,
+              "ru_maxrss_kib": 207960,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.549662421
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9805028691750347,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 5,
+          "rss_ratio_candidate_over_baseline": 1.101576404780066,
+          "wall_ratio_candidate_over_baseline": 0.9806788753601497
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.577648261,
+              "ru_maxrss_kib": 188420,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.577757232
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.526620035,
+              "ru_maxrss_kib": 207448,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.526689511
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9116621143952514,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 6,
+          "rss_ratio_candidate_over_baseline": 1.1009871563528288,
+          "wall_ratio_candidate_over_baseline": 0.9116104166741094
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.560443977,
+              "ru_maxrss_kib": 188888,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.56052967
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.535580097,
+              "ru_maxrss_kib": 207624,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.535649788
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9556353872636942,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 7,
+          "rss_ratio_candidate_over_baseline": 1.0991910550167294,
+          "wall_ratio_candidate_over_baseline": 0.955613621666093
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.553177224,
+              "ru_maxrss_kib": 188836,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.553232208
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.531335334,
+              "ru_maxrss_kib": 208112,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.531418828
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9605155652612335,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 8,
+          "rss_ratio_candidate_over_baseline": 1.1020779936029148,
+          "wall_ratio_candidate_over_baseline": 0.9605710230088411
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.553226506,
+              "ru_maxrss_kib": 187856,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.553293102
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.532096143,
+              "ru_maxrss_kib": 207472,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.532182268
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9618052230490922,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 9,
+          "rss_ratio_candidate_over_baseline": 1.1044204071203474,
+          "wall_ratio_candidate_over_baseline": 0.9618451162255769
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.565759304,
+              "ru_maxrss_kib": 188400,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.566868405
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.535740357,
+              "ru_maxrss_kib": 208164,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.535853389
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9469404271608762,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 10,
+          "rss_ratio_candidate_over_baseline": 1.1049044585987262,
+          "wall_ratio_candidate_over_baseline": 0.9452870970997228
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.567891315,
+              "ru_maxrss_kib": 188528,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.568009429
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.535729183,
+              "ru_maxrss_kib": 207308,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.535816287
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9433656913735334,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 11,
+          "rss_ratio_candidate_over_baseline": 1.0996138504625308,
+          "wall_ratio_candidate_over_baseline": 0.9433228739588405
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.558505493,
+              "ru_maxrss_kib": 188224,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.558561687
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.538941306,
+              "ru_maxrss_kib": 207580,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.539405364
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9649704662797293,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 12,
+          "rss_ratio_candidate_over_baseline": 1.1028349200952057,
+          "wall_ratio_candidate_over_baseline": 0.9657041944590089
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.597449267,
+              "ru_maxrss_kib": 188236,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.597708867
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 20,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.586752292,
+              "ru_maxrss_kib": 207320,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.589254042
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.982095592729215,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair_index": 13,
+          "rss_ratio_candidate_over_baseline": 1.1013833698123632,
+          "wall_ratio_candidate_over_baseline": 0.9858546100504813
+        },
+        {
+          "baseline": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.569010992,
+              "ru_maxrss_kib": 188040,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.570583625
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "0b002e2de18de07f7c4d00e3fff120d239a0468ab1d8bd6bf6956570e5fd2ecf",
+              "module_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": false
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "candidate": {
+            "case": "q_mode_a",
+            "child_stderr_sha256": "61d6836bb62ae5de8df26847232e5d1848fa056fa22a93506765685f242cd82d",
+            "environment": {
+              "affinity": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "cpu_count": 24,
+              "machine": "x86_64",
+              "platform": "Linux-7.0.0-29-generic-x86_64-with-glibc2.39",
+              "python_executable": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/bin/python",
+              "python_executable_resolved": "/usr/bin/python3.12",
+              "python_version": "3.12.3",
+              "pythonhashseed": "0",
+              "thread_overrides": {
+                "BLIS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "RAYON_NUM_THREADS": "12"
+              }
+            },
+            "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+            "measurement": {
+              "allocated_blocks_delta": 21,
+              "instrumentation": "timing_only",
+              "process_cpu_seconds": 0.537967135,
+              "ru_maxrss_kib": 207704,
+              "threads_after": 46,
+              "threads_before": 46,
+              "tracemalloc_peak_bytes": null,
+              "wall_seconds": 0.538087223
+            },
+            "mode": "once",
+            "native_use": {
+              "fallback_forced": false,
+              "module_file_sha256": "e0b4ee9b8bfde90e4e139119112fc29c139b1247224af3d9a7411340358fe2cf",
+              "module_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+              "module_version": null,
+              "package_file_sha256": "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+              "package_path": "/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/q-b2-venv/lib/python3.12/site-packages/bianchi_rustcore/__init__.py",
+              "selected": true,
+              "symbol": "qe_evolve",
+              "symbol_available": true
+            },
+            "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+            "output_nbytes": 9416,
+            "output_summary": {
+              "state_width": 1177,
+              "trajectory_shape": [
+                0,
+                1177
+              ]
+            },
+            "schema_version": "bass-runtime-benchmark-v2",
+            "source": {
+              "branch": "agent/recovery/q-modea-workspace-experiment-20260824-r1",
+              "head": "efb3a45986820659e5bcbec2677729f28616e736",
+              "tree": "5fe6c47538c17c770738836634c01d1333de40e1",
+              "working_tree_dirty": true
+            },
+            "warmup": {
+              "calls_before_measurement": 3,
+              "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+              "output_digest_stable": true
+            },
+            "weight": 0.3
+          },
+          "cpu_ratio_candidate_over_baseline": 0.9454424300471158,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair_index": 14,
+          "rss_ratio_candidate_over_baseline": 1.1045734950010635,
+          "wall_ratio_candidate_over_baseline": 0.9430470827128976
+        }
+      ],
+      "population_summaries": {
+        "baseline": {
+          "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+          "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+          "output_digest_stable": true,
+          "process_cpu_median_seconds": 0.561267975,
+          "ru_maxrss_median_kib": 188420,
+          "ru_maxrss_p95_kib": 188851.6,
+          "samples": 15,
+          "wall_mad_seconds": 0.006644565999999963,
+          "wall_median_seconds": 0.561364863,
+          "wall_p95_seconds": 0.5837427224999999,
+          "warmups_per_observation": 3
+        },
+        "candidate": {
+          "input_identity_sha256": "ad5c592b25323ee8a2c1aaff38f0c9a4cf77e42e8975d2cd85b6b8dbbf593c99",
+          "output_digest": "fededddc214a01adb5777d5eef1dd04f0ce06f3b01db4cd65956b9f5529d3272",
+          "output_digest_stable": true,
+          "process_cpu_median_seconds": 0.535324136,
+          "ru_maxrss_median_kib": 207624,
+          "ru_maxrss_p95_kib": 208212.8,
+          "samples": 15,
+          "wall_mad_seconds": 0.0026412310000000216,
+          "wall_median_seconds": 0.535445992,
+          "wall_p95_seconds": 0.5615399072999999,
+          "warmups_per_observation": 3
+        }
+      }
+    }
+  },
+  "created_utc": "2026-08-24T15:32:27Z",
+  "mode": "paired",
+  "pairs_per_case": 15,
+  "requested_case": "q_mode_a",
+  "schema_version": "bass-runtime-benchmark-v2",
+  "seed": 20260824,
+  "warmups_per_observation_per_population": 3
+}

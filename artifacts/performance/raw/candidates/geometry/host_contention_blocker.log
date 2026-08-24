@@ -1,0 +1,19 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: geometry_candidate_b_host_contention_blocker
+CWD: /home/cosmosapjw/bass
+START_UTC: 2026-08-24T17:00:01Z
+TIMEOUT_SECONDS: 30
+COMMAND: bash -lc date\ -u\ +%Y-%m-%dT%H:%M:%SZ\;\ ps\ -p\ 633487\,633528\,989604\,989607\,914827\ -o\ pid\,ppid\,psr\,pcpu\,pmem\,etimes\,stat\,args\;\ cat\ /proc/loadavg
+--- COMBINED STDOUT+STDERR ---
+2026-08-24T17:00:01Z
+    PID    PPID PSR %CPU %MEM ELAPSED STAT COMMAND
+ 633487  425385   1  0.0  0.0    4804 Ss+  /home/cosmosapjw/.rustup/toolchains/1.94.1-x86_64-unknown-linux-gnu/bin/cargo test --locked --lib -- --nocapture
+ 633528  633487  16  142  0.1    4803 Sl+  /home/cosmosapjw/Dropbox/rabbit/rabbit-ode-r1c/native/rabbit_cpu/target/debug/deps/_rabbit_cpu-851e8c452d9ee845 --nocapture
+ 914827  391161  15 99.5  1.5    1904 Rsl  /home/cosmosapjw/Dropbox/personal_projects/urban_traffic_demo/.venv/bin/python -m pytest -q
+ 989604  989544  11 99.9  0.0    1485 Sl   /tmp/rabbit-r1c-paired.Fsv7a5/base/native/rabbit_cpu/target/debug/deps/_rabbit_cpu-851e8c452d9ee845 isotropic_boltzmann::tests::both_solvers_consume_the_classical_collision_action_to_an_flrw_event --exact --nocapture
+ 989607  989552   4 99.9  0.0    1485 Sl   /tmp/rabbit-r1c-paired.Fsv7a5/head/native/rabbit_cpu/target/debug/deps/_rabbit_cpu-851e8c452d9ee845 isotropic_boltzmann::tests::both_solvers_consume_the_classical_collision_action_to_an_flrw_event --exact --nocapture
+4.95 5.24 5.24 6/5443 1088189
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T17:00:01Z
+EXIT_CODE: 0

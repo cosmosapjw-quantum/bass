@@ -1,0 +1,13 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: geometry_candidate_b_focused_tests_nondefault
+CWD: /tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree
+START_UTC: 2026-08-24T16:13:03Z
+TIMEOUT_SECONDS: 600
+COMMAND: env PYTHONPATH=.:compiler RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 taskset -c 0 /tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python -m pytest -q --junitxml=/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/logs/geometry_candidate_b_focused_tests_nondefault.junit.xml tests/test_r5b_geometry_rows_batch.py
+--- COMBINED STDOUT+STDERR ---
+.....                                                                    [100%]
+5 passed in 1.50s
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T16:13:05Z
+EXIT_CODE: 0

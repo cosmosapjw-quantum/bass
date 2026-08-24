@@ -1,0 +1,13 @@
+RUN_ID: BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd
+LABEL: geometry_candidate_b_phase1_34case_contract
+CWD: /tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/geometry-experiment-worktree
+START_UTC: 2026-08-24T15:54:31Z
+TIMEOUT_SECONDS: 1800
+COMMAND: env PYTHONPATH=.:compiler RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 taskset -c 0 /tmp/BASS-NATIVE-DELTA-20260824T092016Z/env/venv-smoke-bff2852-final/bin/python -m pytest -q --junitxml=/tmp/BASS-R5B-PERF-WOLFRAM-20260824TJRWOjd/logs/geometry_candidate_b_phase1_34case_contract.junit.xml tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp tests/test_r5b_tilted_hier_rust.py::test_the_mass_matrix_matches_numpy tests/test_r5b_tilted_hier_rust.py::test_bit_exactness_is_lost_only_in_the_linear_solve tests/test_r5b_tilted_hier_rust.py::test_former_red_modes_match_on_common_state_operators tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle tests/test_r5b_tilted_hier_rust.py::test_the_triangular_truncation_matches tests/test_r5b_tilted_hier_rust.py::test_both_backends_meet_the_designated_exact_quadrature_gate tests/test_r5b_tilted_hier_rust.py::test_no_supported_mode_silently_falls_back_to_python
+--- COMBINED STDOUT+STDERR ---
+..................................                                       [100%]
+34 passed in 6.73s
+
+--- COMMAND RESULT ---
+END_UTC: 2026-08-24T15:54:38Z
+EXIT_CODE: 0
