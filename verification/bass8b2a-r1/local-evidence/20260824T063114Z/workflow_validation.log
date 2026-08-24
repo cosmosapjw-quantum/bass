@@ -1,0 +1,8 @@
+YAML_PARSE_PASS
+RUN_BLOCK_01 job=exact-host-replay step=2 name='Bind runner-local replay paths' exit=0
+RUN_BLOCK_02 job=exact-host-replay step=4 name='Install replay-only Python dependencies' exit=0
+RUN_BLOCK_03 job=exact-host-replay step=5 name='Reconstruct and hash-verify the exact 2A candidate inputs' exit=0
+RUN_BLOCK_04 job=exact-host-replay step=6 name='Restore the exact E4 archive and normalize the authority host layout' exit=0
+RUN_BLOCK_05 job=exact-host-replay step=7 name='Run exact E1-E4 host replay and no-owner-mutation gate' exit=0
+RUN_BLOCK_06 job=exact-host-replay step=8 name='Record failure context' exit=0
+BASH_N_ALL_RUN_BLOCKS_PASS count=6
