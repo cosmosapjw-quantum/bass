@@ -86,12 +86,12 @@ fn deriv(s: &OState, gamma: f64) -> OState {
 
     // 스크린 4-벡터 평행이동 (÷E 로 우주시간 매개화)
     let mut dsc = [Vector4::zeros(); 2];
-    for a in 0..2 {
+    for (a, dsc_a) in dsc.iter_mut().enumerate() {
         let alpha = s.sc[a][0];
         let u = Vector3::new(s.sc[a][1], s.sc[a][2], s.sc[a][3]);
         let d0 = -u.dot(&knh) * e / e; // = -(u·K n̂)
         let dsp = -alpha * knh * e / e; // = -α (K n̂)
-        dsc[a] = Vector4::new(d0, dsp[0], dsp[1], dsp[2]);
+        *dsc_a = Vector4::new(d0, dsp[0], dsp[1], dsp[2]);
     }
 
     // 배경

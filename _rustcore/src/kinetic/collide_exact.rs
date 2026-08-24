@@ -114,21 +114,6 @@ pub fn collide_exact_modeb(
     out
 }
 
-/// 등방화율 (l 별):  d ln |a_lm| / dt = nu (k_l - 1).
-pub fn isotropization_rates(l_max: usize, kernel: Kernel) -> Vec<f64> {
-    let act = kernel.active();
-    (0..=l_max)
-        .map(|l| {
-            let kl = act
-                .iter()
-                .find(|(a, _)| *a == l)
-                .map(|(_, k)| *k)
-                .unwrap_or(0.0);
-            kl - 1.0
-        })
-        .collect()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

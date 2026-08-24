@@ -94,7 +94,7 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
     let d = pstf::dim(l);
     let mut out = vec![0.0; d];
     let mut idx = [0usize; crate::kinetic::pstf::MAX_RANK];
-    for flat in 0..d {
+    for (flat, out_flat) in out.iter_mut().enumerate() {
         let mut r = flat;
         for k in (0..l).rev() {
             idx[k] = r % 3;
@@ -106,12 +106,12 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
         for a in 0..3 {
             // src = (a, idx[0..l-1])
             let mut src = a;
-            for k in 0..l - 1 {
-                src = src * 3 + idx[k];
+            for &idx_k in idx.iter().take(l - 1) {
+                src = src * 3 + idx_k;
             }
             acc += j[src] * sigma[b * 3 + a];
         }
-        out[flat] = acc;
+        *out_flat = acc;
     }
     out
 }
@@ -120,7 +120,7 @@ fn contract_one(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
 fn contract_two(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
     let d = pstf::dim(l);
     let mut out = vec![0.0; d];
-    for flat in 0..d {
+    for (flat, out_flat) in out.iter_mut().enumerate() {
         let mut acc = 0.0;
         for a in 0..3 {
             for b in 0..3 {
@@ -128,7 +128,7 @@ fn contract_two(j: &[f64], l: usize, sigma: &[f64; 9]) -> Vec<f64> {
                 acc += j[src] * sigma[a * 3 + b];
             }
         }
-        out[flat] = acc;
+        *out_flat = acc;
     }
     out
 }
@@ -180,8 +180,8 @@ pub fn rhs_one(s: &State, h: f64, sigma: &[f64; 9], l: usize, i: i32) -> Vec<f64
     if l + 2 <= s.l_max {
         let cb_prev = l as f64 - n; // = -2i  → i=0 에서 0 (아래로 닫힘)
         let mut tb = contract_two(s.get(l + 2, i), l, sigma);
-        for k in 0..d {
-            tb[k] *= n - 1.0;
+        for tb_k in tb.iter_mut().take(d) {
+            *tb_k *= n - 1.0;
         }
         if cb_prev != 0.0 {
             let tprev = contract_two(s.get(l + 2, i - 1), l, sigma);
@@ -256,10 +256,10 @@ pub fn integrate(
 
     let axpy = |base: &State, d: &Vec<Vec<Vec<f64>>>, c: f64| -> State {
         let mut o = base.clone();
-        for l in 0..=base.l_max {
-            for i in 0..=base.i_max {
-                for k in 0..o.j[l][i].len() {
-                    o.j[l][i][k] = base.j[l][i][k] + c * d[l][i][k];
+        for (l, d_l) in d.iter().enumerate().take(base.l_max + 1) {
+            for (i, d_i) in d_l.iter().enumerate().take(base.i_max + 1) {
+                for (k, &d_k) in d_i.iter().enumerate().take(o.j[l][i].len()) {
+                    o.j[l][i][k] = base.j[l][i][k] + c * d_k;
                 }
             }
         }

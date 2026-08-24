@@ -53,7 +53,7 @@ fn three_term_coeff(x: f64, lam: f64) -> f64 {
 pub fn collide(ehat: &[f64], w: &[f64], j: &[f64], x: f64) -> Vec<f64> {
     let n = w.len();
     debug_assert!(x >= 0.0, "nu*dt < 0 금지 (조용한 폴백 금지)");
-    if !(x > 0.0) {
+    if x.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
         return j.to_vec();
     }
     // 1. M = sum w J   (9 성분 축약)
@@ -220,7 +220,7 @@ mod tests {
 pub fn collide_modeb(ehat: &[f64], w: &[f64], j: &[f64], n_p: usize, x: f64) -> Vec<f64> {
     let n = w.len();
     debug_assert!(x >= 0.0, "nu*dt < 0 금지");
-    if !(x > 0.0) {
+    if x.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
         return j.to_vec();
     }
     let mut out = vec![0.0; n * n_p * 9];

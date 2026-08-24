@@ -1,5 +1,6 @@
 //! I3 · 결합 루프 전면화 (69차) — I1d `coupled_tilted.coupled_rhs` 의 항별 미러
 //! + RK4 루프.  R5b 교훈: 루프째로 (FFI 왕복 제거).  블록표는 J3 상수 재사용;
+//!
 //! U-기저 (l=1: 3×3, l=2: 9×5) 는 **Python U_basis 를 호출 인자로 캐리**
 //! (좌표-동일 — 재유도 0).
 //!
@@ -208,8 +209,8 @@ pub fn coupled_rhs(
         }
     }
     let tr = (ds[0][0] + ds[1][1] + ds[2][2]) / 3.0;
-    for a in 0..3 {
-        ds[a][a] -= tr;
+    for (a, row) in ds.iter_mut().enumerate() {
+        row[a] -= tr;
     }
     let ds5 = [
         -ds[0][0] / 2.0,
@@ -303,7 +304,7 @@ pub fn coupled_rhs(
             } else {
                 None
             };
-            let jp = if l + 1 <= l_max {
+            let jp = if l < l_max {
                 Some(lay.j_slice(y, l + 1))
             } else {
                 None

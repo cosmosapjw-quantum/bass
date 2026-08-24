@@ -6,7 +6,7 @@
 //!
 //! T_AB = -R_{a m b n} k^m k^n E_A^a E_B^b     (Python `weyl.tidal_matrix` 와 동일)
 
-use nalgebra::{Matrix2, Matrix3, Vector3, Vector4};
+use nalgebra::{Matrix2, Vector4};
 
 use crate::rays::riemann_gen;
 
@@ -14,45 +14,6 @@ use crate::rays::riemann_gen;
 /// 순서: H, n00,n01,n02,n11,n12,n22, a0,a1,a2, s00,s01,s02,s11,s12, R0,R1,R2, Hd,
 ///       sd00,sd01,sd02,sd11,sd12
 pub type Args24 = [f64; 24];
-
-/// (H, N(3x3 대칭), A, sigma(3x3 대칭 trace-free), R, Hd, sigmad) → 24-인자 배열.
-/// 대칭 성분만 취해 Python `_pack_args` 와 정확히 같은 순서로 채운다.
-pub fn pack_state(
-    h: f64,
-    n: &Matrix3<f64>,
-    a: &Vector3<f64>,
-    s: &Matrix3<f64>,
-    r: &Vector3<f64>,
-    hd: f64,
-    sd: &Matrix3<f64>,
-) -> Args24 {
-    [
-        h,
-        n[(0, 0)],
-        n[(0, 1)],
-        n[(0, 2)],
-        n[(1, 1)],
-        n[(1, 2)],
-        n[(2, 2)],
-        a[0],
-        a[1],
-        a[2],
-        s[(0, 0)],
-        s[(0, 1)],
-        s[(0, 2)],
-        s[(1, 1)],
-        s[(1, 2)],
-        r[0],
-        r[1],
-        r[2],
-        hd,
-        sd[(0, 0)],
-        sd[(0, 1)],
-        sd[(0, 2)],
-        sd[(1, 1)],
-        sd[(1, 2)],
-    ]
-}
 
 /// 일반유형 조석행렬 T_AB (스크린 4-벡터 2개).
 pub fn tidal_general(p: &Args24, k: &Vector4<f64>, sc: &[Vector4<f64>; 2]) -> Matrix2<f64> {
@@ -75,8 +36,7 @@ pub fn tidal_general(p: &Args24, k: &Vector4<f64>, sc: &[Vector4<f64>; 2]) -> Ma
                         continue;
                     }
                     let base = a * 64 + m * 16;
-                    for b in 0..4 {
-                        let eb = sc[bi][b];
+                    for (b, &eb) in sc[bi].iter().enumerate() {
                         if eb == 0.0 {
                             continue;
                         }

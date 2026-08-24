@@ -206,6 +206,24 @@ pub struct Record {
     pub qdot_naive: Vec<f64>,
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct EvolutionConfig {
+    pub mass: f64,
+    pub av: f64,
+    pub t_end: f64,
+    pub nsteps: usize,
+    pub do_project: bool,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct PushConfig {
+    pub mass: f64,
+    pub av: f64,
+    pub t: f64,
+    pub nsteps: usize,
+    pub measure: bool,
+}
+
 struct Stage {
     da: [f64; 3],
     acc: [f64; 3],
@@ -235,12 +253,15 @@ pub fn evolve(
     w0: &[f64],
     a0: &[f64; 3],
     da0: &[f64; 3],
-    mass: f64,
-    av: f64,
-    t_end: f64,
-    nsteps: usize,
-    do_project: bool,
+    config: EvolutionConfig,
 ) -> Record {
+    let EvolutionConfig {
+        mass,
+        av,
+        t_end,
+        nsteps,
+        do_project,
+    } = config;
     let n = p0.len();
     let mut a = *a0;
     let mut da = *da0;
@@ -325,8 +346,8 @@ pub fn evolve(
             .zip(w.par_iter_mut())
             .enumerate()
             .for_each(|(j, (pp, ww))| {
-                for c in 0..3 {
-                    pp[c] += dt / 6.0
+                for (c, pp_c) in pp.iter_mut().enumerate() {
+                    *pp_c += dt / 6.0
                         * (s1.dp[j][c] + 2.0 * s2s.dp[j][c] + 2.0 * s3.dp[j][c] + s4.dp[j][c]);
                 }
                 *ww += dt / 6.0 * (s1.dw[j] + 2.0 * s2s.dw[j] + 2.0 * s3.dw[j] + s4.dw[j]);
@@ -362,75 +383,6 @@ fn stage_state(p: &[[f64; 3]], w: &[f64], s: &Stage, c: f64, pa: &mut [[f64; 3]]
             }
             *ow = w[j] + c * s.dw[j];
         });
-}
-
-// ═══════════════════════════════════════ 단위시험 (Python 오라클과는 차등테스트)
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn toy() -> (Vec<[f64; 3]>, Vec<f64>) {
-        let mut p = vec![];
-        let mut w = vec![];
-        for i in 0..40 {
-            let t = i as f64 * 0.17;
-            p.push([t.cos() * (1.0 + t), t.sin() * 0.8, (0.3 * t).cos() * 0.6]);
-            w.push(0.01 + 0.001 * i as f64);
-        }
-        (p, w)
-    }
-
-    #[test]
-    fn pi_is_traceless() {
-        let (p, w) = toy();
-        let a = [1.0, 0.9, 1.2];
-        let (_, _, _, pi) = moments(&p, &w, &a, 0.6);
-        assert!((pi[0] + pi[4] + pi[8]).abs() < 1e-12);
-    }
-
-    #[test]
-    fn accelerations_invert_the_spatial_equations() {
-        let a = [1.1, 0.9, 1.3];
-        let h = [0.4, 0.2, 0.35];
-        let u = [0.5, -0.3, 0.2];
-        let av = 0.7;
-        let c = av * av / (a[0] * a[0]);
-        // G_ii = c − u_j − u_k − h_j h_k 로 물질을 역산
-        let g = [
-            c - u[1] - u[2] - h[1] * h[2],
-            c - u[0] - u[2] - h[0] * h[2],
-            c - u[0] - u[1] - h[0] * h[1],
-        ];
-        let p = (g[0] + g[1] + g[2]) / 3.0;
-        let pid = [g[0] - p, g[1] - p, g[2] - p];
-        let back = accelerations(&a, &h, av, p, &pid);
-        for i in 0..3 {
-            assert!((back[i] - u[i]).abs() < 1e-12, "{} {}", back[i], u[i]);
-        }
-    }
-
-    #[test]
-    fn projection_restores_both_constraints() {
-        let a = [1.0, 0.95, 1.05];
-        let mut da = [5.05, 4.68, 5.21];
-        let (rho, q1, av) = (73.0, 0.004, 0.7);
-        project(&a, &mut da, av, rho, q1, 6);
-        let h = [da[0] / a[0], da[1] / a[1], da[2] / a[2]];
-        let (f, c, _, _) = constraints(&a, &h, av, rho, q1);
-        assert!(f.abs() / rho < 1e-14, "F {}", f);
-        assert!(c.abs() / rho < 1e-14, "C {}", c);
-    }
-
-    #[test]
-    fn zero_a_kills_the_weight_drift() {
-        let (p, w) = toy();
-        let a = [1.0, 0.9, 1.2];
-        let mut dp = vec![[0.0; 3]; p.len()];
-        let mut dw = vec![0.0; w.len()];
-        kinetic_rhs(&p, &w, &a, 0.6, 0.0, &mut dp, &mut dw);
-        assert!(dw.iter().all(|x| *x == 0.0));
-        assert!(dp.iter().all(|v| v.iter().all(|x| *x == 0.0)));
-    }
 }
 
 // ═══════════════════════════════════════ R2 · 특성곡선 적분 (배경 처방)
@@ -509,12 +461,15 @@ pub fn push_nodes(
     w0: &[f64],
     a0: &[f64; 3],
     rate: &[f64; 3],
-    mass: f64,
-    av: f64,
-    t: f64,
-    nsteps: usize,
-    measure: bool,
+    config: PushConfig,
 ) -> (Vec<[f64; 3]>, Vec<f64>) {
+    let PushConfig {
+        mass,
+        av,
+        t,
+        nsteps,
+        measure,
+    } = config;
     let n = p0.len();
     let mut p = p0.to_vec();
     let mut w = w0.to_vec();
@@ -563,4 +518,73 @@ pub fn push_nodes(
             });
     }
     (p, w)
+}
+
+// ═══════════════════════════════════════ 단위시험 (Python 오라클과는 차등테스트)
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn toy() -> (Vec<[f64; 3]>, Vec<f64>) {
+        let mut p = vec![];
+        let mut w = vec![];
+        for i in 0..40 {
+            let t = i as f64 * 0.17;
+            p.push([t.cos() * (1.0 + t), t.sin() * 0.8, (0.3 * t).cos() * 0.6]);
+            w.push(0.01 + 0.001 * i as f64);
+        }
+        (p, w)
+    }
+
+    #[test]
+    fn pi_is_traceless() {
+        let (p, w) = toy();
+        let a = [1.0, 0.9, 1.2];
+        let (_, _, _, pi) = moments(&p, &w, &a, 0.6);
+        assert!((pi[0] + pi[4] + pi[8]).abs() < 1e-12);
+    }
+
+    #[test]
+    fn accelerations_invert_the_spatial_equations() {
+        let a = [1.1, 0.9, 1.3];
+        let h = [0.4, 0.2, 0.35];
+        let u = [0.5, -0.3, 0.2];
+        let av = 0.7;
+        let c = av * av / (a[0] * a[0]);
+        // G_ii = c − u_j − u_k − h_j h_k 로 물질을 역산
+        let g = [
+            c - u[1] - u[2] - h[1] * h[2],
+            c - u[0] - u[2] - h[0] * h[2],
+            c - u[0] - u[1] - h[0] * h[1],
+        ];
+        let p = (g[0] + g[1] + g[2]) / 3.0;
+        let pid = [g[0] - p, g[1] - p, g[2] - p];
+        let back = accelerations(&a, &h, av, p, &pid);
+        for i in 0..3 {
+            assert!((back[i] - u[i]).abs() < 1e-12, "{} {}", back[i], u[i]);
+        }
+    }
+
+    #[test]
+    fn projection_restores_both_constraints() {
+        let a = [1.0, 0.95, 1.05];
+        let mut da = [5.05, 4.68, 5.21];
+        let (rho, q1, av) = (73.0, 0.004, 0.7);
+        project(&a, &mut da, av, rho, q1, 6);
+        let h = [da[0] / a[0], da[1] / a[1], da[2] / a[2]];
+        let (f, c, _, _) = constraints(&a, &h, av, rho, q1);
+        assert!(f.abs() / rho < 1e-14, "F {}", f);
+        assert!(c.abs() / rho < 1e-14, "C {}", c);
+    }
+
+    #[test]
+    fn zero_a_kills_the_weight_drift() {
+        let (p, w) = toy();
+        let a = [1.0, 0.9, 1.2];
+        let mut dp = vec![[0.0; 3]; p.len()];
+        let mut dw = vec![0.0; w.len()];
+        kinetic_rhs(&p, &w, &a, 0.6, 0.0, &mut dp, &mut dw);
+        assert!(dw.iter().all(|x| *x == 0.0));
+        assert!(dp.iter().all(|v| v.iter().all(|x| *x == 0.0)));
+    }
 }

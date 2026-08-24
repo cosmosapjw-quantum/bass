@@ -28,7 +28,14 @@ pub struct Trajectory {
 
 /// 차트 배경 ODE 를 τ 격자에서 적분 (diffsol BDF).
 pub fn integrate(chart: Chart, y0: &[f64], t_eval: &[f64], rtol: f64, atol: f64) -> Trajectory {
-    integrate_whiplash(chart, y0, t_eval, rtol, atol, None).0
+    let trajectory = integrate_whiplash(chart, y0, t_eval, rtol, atol, None).0;
+    debug_assert_eq!(
+        trajectory.taus.len(),
+        trajectory.ys.len(),
+        "trajectory time/state length mismatch: {}",
+        trajectory.message
+    );
+    trajectory
 }
 
 /// F3 · 편타(whiplash) 문턱 감시 적분: G₋ = 1 − (γ−1)V² 가 `gap_eps` 아래로
@@ -77,13 +84,13 @@ pub fn integrate_whiplash(
                       out: &mut NalgebraVec<f64>| {
                     let nn = c_rhs.nstates();
                     let mut yy = [0.0f64; MAX_STATES];
-                    for i in 0..nn {
-                        yy[i] = y.get_index(i);
+                    for (i, yy_i) in yy.iter_mut().enumerate().take(nn) {
+                        *yy_i = y.get_index(i);
                     }
                     let mut o = [0.0f64; MAX_STATES];
                     charts::rhs(&c_rhs, &yy[..nn], &mut o[..nn]);
-                    for i in 0..nn {
-                        out.set_index(i, o[i]);
+                    for (i, &o_i) in o.iter().enumerate().take(nn) {
+                        out.set_index(i, o_i);
                     }
                 },
                 move |y: &NalgebraVec<f64>,
@@ -100,15 +107,15 @@ pub fn integrate_whiplash(
                     }
                     let mut o = [0.0f64; MAX_STATES];
                     charts::jac_mul(&c_jac, &yy[..nn], &vv[..nn], &mut o[..nn]);
-                    for i in 0..nn {
-                        out.set_index(i, o[i]);
+                    for (i, &o_i) in o.iter().enumerate().take(nn) {
+                        out.set_index(i, o_i);
                     }
                 },
             )
             .init(
                 move |_p: &NalgebraVec<f64>, _t: f64, out: &mut NalgebraVec<f64>| {
-                    for i in 0..n {
-                        out.set_index(i, y0v[i]);
+                    for (i, &y0_i) in y0v.iter().enumerate().take(n) {
+                        out.set_index(i, y0_i);
                     }
                 },
                 n,
@@ -128,16 +135,16 @@ pub fn integrate_whiplash(
         let mut col = 0;
         let push = |ys: &mut Vec<[f64; MAX_STATES]>, v: &NalgebraVec<f64>| {
             let mut row = [0.0f64; MAX_STATES];
-            for i in 0..n {
-                row[i] = v.get_index(i);
+            for (i, row_i) in row.iter_mut().enumerate().take(n) {
+                *row_i = v.get_index(i);
             }
             ys.push(row);
         };
         // G₋ 추출 (tilt 차트 전용)
         let row_of = |v: &NalgebraVec<f64>| -> [f64; MAX_STATES] {
             let mut row = [0.0f64; MAX_STATES];
-            for i in 0..n {
-                row[i] = v.get_index(i);
+            for (i, row_i) in row.iter_mut().enumerate().take(n) {
+                *row_i = v.get_index(i);
             }
             row
         };

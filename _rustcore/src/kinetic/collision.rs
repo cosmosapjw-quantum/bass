@@ -188,10 +188,10 @@ pub fn integrate_collisional(
 
     let axpy = |base: &State, d: &Vec<Vec<Vec<f64>>>, c: f64| -> State {
         let mut o = base.clone();
-        for l in 0..=base.l_max {
-            for i in 0..=base.i_max {
-                for k in 0..o.j[l][i].len() {
-                    o.j[l][i][k] = base.j[l][i][k] + c * d[l][i][k];
+        for (l, d_l) in d.iter().enumerate().take(base.l_max + 1) {
+            for (i, d_i) in d_l.iter().enumerate().take(base.i_max + 1) {
+                for (k, &d_k) in d_i.iter().enumerate().take(o.j[l][i].len()) {
+                    o.j[l][i][k] = base.j[l][i][k] + c * d_k;
                 }
             }
         }
@@ -393,8 +393,8 @@ mod tests {
     fn collision_damps_l2_by_nine_tenths() {
         let s = State::from_quadrature(&[1.0, 0.85, 1.18], 0.0, 4, 2, 0.0, 2);
         let c = collision_term(&s, 2, 0, 2.0, Route::Analytic);
-        for k in 0..9 {
-            assert!((c[k] + 2.0 * 0.9 * s.j[2][0][k]).abs() < 1e-15);
+        for (&c_k, &j_k) in c.iter().zip(&s.j[2][0]) {
+            assert!((c_k + 2.0 * 0.9 * j_k).abs() < 1e-15);
         }
     }
 

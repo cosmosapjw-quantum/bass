@@ -76,10 +76,10 @@ impl SphereGrid {
         for it in 0..n_theta {
             let s = (1.0 - x[it] * x[it]).max(0.0).sqrt();
             st[it] = s;
-            for ip in 0..n_phi {
+            for (ip, &phi_ip) in phi.iter().enumerate() {
                 let i = it * n_phi + ip;
-                ehat[3 * i] = s * phi[ip].cos();
-                ehat[3 * i + 1] = s * phi[ip].sin();
+                ehat[3 * i] = s * phi_ip.cos();
+                ehat[3 * i + 1] = s * phi_ip.sin();
                 ehat[3 * i + 2] = x[it];
                 w[i] = wx[it] * dphi;
             }
@@ -99,10 +99,6 @@ impl SphereGrid {
     pub fn len(&self) -> usize {
         self.n_theta * self.n_phi
     }
-
-    pub fn is_empty(&self) -> bool {
-        self.len() == 0
-    }
 }
 
 /// 완전정규화 결합 Legendre Pbar_l^m(x), m 고정, l = m..=l_max.
@@ -119,7 +115,7 @@ fn pbar_column(l_max: usize, m: usize, x: f64, s: f64) -> Vec<f64> {
         pmm *= -((2.0 * kk + 1.0) / (2.0 * kk)).sqrt() * s;
     }
     out[m] = pmm;
-    if m + 1 <= l_max {
+    if m < l_max {
         out[m + 1] = (2.0 * m as f64 + 3.0).sqrt() * x * pmm;
     }
     for l in (m + 2)..=l_max {
@@ -275,8 +271,8 @@ pub fn moments(g: &SphereGrid, f: &[f64]) -> (f64, [f64; 3], [f64; 6]) {
     let mut rho = 0.0;
     let mut q = [0.0; 3];
     let mut pi = [0.0; 6];
-    for i in 0..g.len() {
-        let wf = g.w[i] * f[i];
+    for (i, &fi) in f.iter().enumerate().take(g.len()) {
+        let wf = g.w[i] * fi;
         let e = [g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]];
         rho += wf;
         for k in 0..3 {
@@ -341,11 +337,11 @@ mod tests {
         let nc = n_coef(l_max);
         // <Y_k, Y_j> = delta
         let mut ys = vec![vec![0.0; g.len()]; nc];
-        for i in 0..g.len() {
-            let e = [g.ehat[3 * i], g.ehat[3 * i + 1], g.ehat[3 * i + 2]];
+        for (i, e) in g.ehat.chunks_exact(3).enumerate() {
+            let e = [e[0], e[1], e[2]];
             let y = ylm_at(l_max, &e);
-            for k in 0..nc {
-                ys[k][i] = y[k];
+            for (ys_k, &y_k) in ys.iter_mut().zip(&y) {
+                ys_k[i] = y_k;
             }
         }
         for k in 0..nc {

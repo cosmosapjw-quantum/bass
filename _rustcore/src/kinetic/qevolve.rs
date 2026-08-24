@@ -70,17 +70,17 @@ impl QState {
         let mut out = vec![0.0; m_ang];
         for i in 0..m_ang {
             let mut mx = f64::NEG_INFINITY;
-            for j in 0..np_ {
+            for (j, &q_j) in q.iter().enumerate().take(np_) {
                 let wt: f64 = if j == 0 || j == np_ - 1 { 0.5 } else { 1.0 };
-                let v = self.lg[i * np_ + j] + 4.0 * q[j].ln() + wt.ln();
+                let v = self.lg[i * np_ + j] + 4.0 * q_j.ln() + wt.ln();
                 if v > mx {
                     mx = v;
                 }
             }
             let mut acc = 0.0;
-            for j in 0..np_ {
+            for (j, &q_j) in q.iter().enumerate().take(np_) {
                 let wt: f64 = if j == 0 || j == np_ - 1 { 0.5 } else { 1.0 };
-                acc += (self.lg[i * np_ + j] + 4.0 * q[j].ln() + wt.ln() - mx).exp();
+                acc += (self.lg[i * np_ + j] + 4.0 * q_j.ln() + wt.ln() - mx).exp();
             }
             out[i] = mx + acc.ln() + rad.dlnp.ln() + 4.0 * mu[i].ln();
         }
@@ -177,9 +177,9 @@ fn inv3(a: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
         a[r0][c0] * a[r1][c1] - a[r0][c1] * a[r1][c0]
     };
     let mut o = [[0.0; 3]; 3];
-    for i in 0..3 {
-        for j in 0..3 {
-            o[i][j] = c(j, i) / d; // 전치 여인수 = 역행렬
+    for (i, row) in o.iter_mut().enumerate() {
+        for (j, o_ij) in row.iter_mut().enumerate() {
+            *o_ij = c(j, i) / d; // 전치 여인수 = 역행렬
         }
     }
     o
@@ -229,12 +229,7 @@ impl QState {
             pi[k] = 3.0 * om * pi_r[k];
         }
         let sm = mat3(&self.s6);
-        let mut s2 = 0.0;
-        for i in 0..3 {
-            for j in 0..3 {
-                s2 += sm[i][j] * sm[i][j];
-            }
-        }
+        let mut s2 = sm.iter().flatten().map(|v| v * v).sum::<f64>();
         s2 /= 6.0;
         (om, pi, 2.0 * s2 + om)
     }
@@ -243,12 +238,7 @@ impl QState {
         let g = BianchiGroup::new(self.n6, self.a3);
         let (k, _) = g.curvature();
         let sm = mat3(&self.s6);
-        let mut s2 = 0.0;
-        for i in 0..3 {
-            for j in 0..3 {
-                s2 += sm[i][j] * sm[i][j];
-            }
-        }
+        let mut s2 = sm.iter().flatten().map(|v| v * v).sum::<f64>();
         s2 /= 6.0;
         let (om, _, _) = self.sources(sph);
         s2 + k + om - 1.0
@@ -268,14 +258,14 @@ impl QState {
         let mut ds = [[0.0; 3]; 3];
         let ws = mm(&w, &sm);
         let sw = mm(&sm, &w);
-        for i in 0..3 {
-            for j in 0..3 {
-                ds[i][j] = -(2.0 - q) * sm[i][j] - s3[(i, j)] + pim[i][j] + ws[i][j] - sw[i][j];
+        for (i, ds_row) in ds.iter_mut().enumerate() {
+            for (j, ds_ij) in ds_row.iter_mut().enumerate() {
+                *ds_ij = -(2.0 - q) * sm[i][j] - s3[(i, j)] + pim[i][j] + ws[i][j] - sw[i][j];
             }
         }
         let tr = (ds[0][0] + ds[1][1] + ds[2][2]) / 3.0;
-        for i in 0..3 {
-            ds[i][i] -= tr;
+        for (i, ds_row) in ds.iter_mut().enumerate() {
+            ds_row[i] -= tr;
         }
         let sn = mm(&sm, &nm);
         let ns = mm(&nm, &sm);
@@ -289,12 +279,12 @@ impl QState {
         }
         let sa = sym_apply(&tmp.s6, &tmp.a3);
         let mut da = [0.0; 3];
-        for i in 0..3 {
+        for (i, da_i) in da.iter_mut().enumerate() {
             let mut wa = 0.0;
-            for j in 0..3 {
-                wa += w[i][j] * tmp.a3[j];
+            for (j, &w_ij) in w[i].iter().enumerate() {
+                wa += w_ij * tmp.a3[j];
             }
-            da[i] = q * tmp.a3[i] - sa[i] + wa;
+            *da_i = q * tmp.a3[i] - sa[i] + wa;
         }
         // 공변 프레임:  dM/dtau = -(I + Sigma - eps R) M
         let er = eps_mat(&tmp.rot);
@@ -328,8 +318,8 @@ impl QState {
             // ★ Mode B: 공변 프레임에서 f 는 자유흐름 하에 **정확히 불변**
             //   (H, Sigma, R 이 M 에 흡수되고 |q| 도 보존) ⇒ 도함수가 0.
             //   Mode A 의 4 dln mu 항은 반경적분을 미리 해버린 결과였다.
-            for k in 25..out.len() {
-                out[k] = 0.0;
+            for out_k in out.iter_mut().skip(25) {
+                *out_k = 0.0;
             }
         } else {
             for i in 0..m_ang {
@@ -1001,8 +991,8 @@ mod tests {
             nu_sched: a_sched.clone(),
             h_anchor: 2.0,
         };
-        for k in 0..=n {
-            let want = a_sched[k] / (2.0 * (0.5f64).exp());
+        for (k, &a_k) in a_sched.iter().enumerate().take(n + 1) {
+            let want = a_k / (2.0 * (0.5f64).exp());
             assert!((cfg.nu_at(k, 0.5) - want).abs() < 1e-14, "k={k}");
         }
         // h_anchor == 0 이면 sched 가 곧 nu (LCDM 모드)

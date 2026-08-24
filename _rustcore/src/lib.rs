@@ -22,6 +22,56 @@ mod thermo;
 use crate::core::conventions;
 use crate::rays::{geodesic, optical, tidal};
 
+type RayTraceOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray2<f64>>,
+    Bound<'py, PyArray2<f64>>,
+);
+type OpticalTraceOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray2<f64>>,
+    f64,
+    f64,
+    f64,
+);
+type Array1Pair<'py> = (Bound<'py, PyArray1<f64>>, Bound<'py, PyArray1<f64>>);
+type Array2Array1Pair<'py> = (Bound<'py, PyArray2<f64>>, Bound<'py, PyArray1<f64>>);
+type Array1Triple<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+);
+type MomentHistoryOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray2<f64>>,
+);
+type TiltedMomentsOutput<'py> = (
+    f64,
+    f64,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray2<f64>>,
+);
+type BounceSequenceOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<i64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+);
+type MassBlocksOutput<'py> = (
+    Bound<'py, PyArray2<f64>>,
+    Bound<'py, PyArray2<f64>>,
+    Option<Bound<'py, PyArray2<f64>>>,
+);
+type CoupledEvolutionOutput<'py> = (Bound<'py, PyArray1<f64>>, Option<Bound<'py, PyArray2<f64>>>);
+type GroupClassificationOutput = (String, String, Option<f64>, bool, (i32, i32, i32), i32);
+
 #[inline]
 fn to_vec3(a: &PyReadonlyArray1<f64>) -> PyResult<Vector3<f64>> {
     let s = a.as_slice()?;
@@ -105,17 +155,18 @@ fn trace_ray_diag<'py>(
     t0: f64,
     t_end: f64,
     nsteps: usize,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-    Bound<'py, PyArray2<f64>>,
-)> {
+) -> PyResult<RayTraceOutput<'py>> {
     let sig0 = to_vec3(&sigma0)?;
     let nh = to_vec3(&nhat)?;
-    let hist =
-        py.detach(|| geodesic::trace_ray_diag(h0, &sig0, omega0, gamma, &nh, t0, t_end, nsteps));
+    let config = geodesic::RayTraceConfig {
+        h0,
+        omega0,
+        gamma,
+        t0,
+        t_end,
+        nsteps,
+    };
+    let hist = py.detach(|| geodesic::trace_ray_diag(&sig0, &nh, &config));
     let m = hist.z.len();
     let nhs = Array2::from_shape_fn((m, 3), |(i, j)| hist.nh[i][j]).into_pyarray(py);
     let lnas = Array2::from_shape_fn((m, 3), |(i, j)| hist.lna[i][j]).into_pyarray(py);
@@ -153,9 +204,15 @@ fn trace_rays_batch<'py>(
         .into_iter()
         .map(|row| Vector3::new(row[0], row[1], row[2]))
         .collect();
-    let zs = py.detach(|| {
-        geodesic::trace_rays_batch_final_z(h0, &sig0, omega0, gamma, &dirs, t0, t_end, nsteps)
-    });
+    let config = geodesic::RayTraceConfig {
+        h0,
+        omega0,
+        gamma,
+        t0,
+        t_end,
+        nsteps,
+    };
+    let zs = py.detach(|| geodesic::trace_rays_batch_final_z(&sig0, &dirs, &config));
     Ok(Array1::from_vec(zs).into_pyarray(py))
 }
 
@@ -174,14 +231,7 @@ fn trace_optical_diag<'py>(
     t0: f64,
     t_end: f64,
     nsteps: usize,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-    f64,
-    f64,
-    f64,
-)> {
+) -> PyResult<OpticalTraceOutput<'py>> {
     let sig0 = to_vec3(&sigma0)?;
     let nh = to_vec3(&nhat)?;
     let r =
@@ -212,7 +262,7 @@ fn trace_optical_batch<'py>(
     t0: f64,
     t_end: f64,
     nsteps: usize,
-) -> PyResult<(Bound<'py, PyArray1<f64>>, Bound<'py, PyArray1<f64>>)> {
+) -> PyResult<Array1Pair<'py>> {
     let sig0 = to_vec3(&sigma0)?;
     let view = nhats.as_array();
     if view.ncols() != 3 {
@@ -396,7 +446,7 @@ fn integrate_batch<'py>(
     kappa: f64,
     rtol: f64,
     atol: f64,
-) -> PyResult<(Bound<'py, PyArray2<f64>>, Bound<'py, PyArray1<f64>>)> {
+) -> PyResult<Array2Array1Pair<'py>> {
     let c = make_chart(chart, gamma, kappa)?;
     let n = c.nstates();
     let view = y0s.as_array();
@@ -501,11 +551,7 @@ fn fd_rho_p_batch<'py>(
     a: PyReadonlyArray1<f64>,
     y0: f64,
     n_species: f64,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-)> {
+) -> PyResult<Array1Triple<'py>> {
     let av = a.as_slice()?.to_vec();
     let res: Vec<(f64, f64, f64)> = py.detach(|| {
         use rayon::prelude::*;
@@ -620,12 +666,7 @@ fn kin_integrate<'py>(
     l_max: usize,
     i_max: usize,
     dipole_eps: f64,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-)> {
+) -> PyResult<MomentHistoryOutput<'py>> {
     // ★ 계층 RHS 의 (B) 항은 `l + 2 <= l_max` 로 **단순절단**되므로 격자 밖 rank 를
     //   건드리지 않는다.  따라서 필요한 PSTF 한계는 l_max 자체다 (l_max+2 가 아니다).
     check_l(l_max)?;
@@ -753,12 +794,7 @@ fn kin_integrate_collisional<'py>(
     i_max: usize,
     dipole_eps: f64,
     route: &str,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-)> {
+) -> PyResult<MomentHistoryOutput<'py>> {
     let a = to_a3(&a0)?;
     let sg = to_a3(&sigma_diag)?;
     let r = to_route(route)?;
@@ -1025,12 +1061,7 @@ fn kin_moments_tilted<'py>(
     a_vec: PyReadonlyArray1<f64>,
     v: PyReadonlyArray1<f64>,
     mass: f64,
-) -> PyResult<(
-    f64,
-    f64,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-)> {
+) -> PyResult<TiltedMomentsOutput<'py>> {
     let a = to_a3(&a_vec)?;
     let vv = to_a3(&v)?;
     if vv[0] * vv[0] + vv[1] * vv[1] + vv[2] * vv[2] >= 1.0 {
@@ -1081,12 +1112,7 @@ fn tv_moments<'py>(
     w: PyReadonlyArray1<f64>,
     a_vec: PyReadonlyArray1<f64>,
     mass: f64,
-) -> PyResult<(
-    f64,
-    f64,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray2<f64>>,
-)> {
+) -> PyResult<TiltedMomentsOutput<'py>> {
     let nodes = to_nodes(&p)?;
     let ws = w.as_slice()?.to_vec();
     let a = to_a3(&a_vec)?;
@@ -1108,7 +1134,7 @@ fn tv_kinetic_rhs<'py>(
     a_vec: PyReadonlyArray1<f64>,
     mass: f64,
     a_curv: f64,
-) -> PyResult<(Bound<'py, PyArray2<f64>>, Bound<'py, PyArray1<f64>>)> {
+) -> PyResult<Array2Array1Pair<'py>> {
     let nodes = to_nodes(&p)?;
     let ws = w.as_slice()?.to_vec();
     let a = to_a3(&a_vec)?;
@@ -1161,7 +1187,19 @@ fn tv_evolve<'py>(
     let a = to_a3(&a0)?;
     let da = to_a3(&da0)?;
     let r = py.detach(|| {
-        kinetic::typev::evolve(&nodes, &ws, &a, &da, mass, a_curv, t_end, nsteps, project)
+        kinetic::typev::evolve(
+            &nodes,
+            &ws,
+            &a,
+            &da,
+            kinetic::typev::EvolutionConfig {
+                mass,
+                av: a_curv,
+                t_end,
+                nsteps,
+                do_project: project,
+            },
+        )
     });
     let d = pyo3::types::PyDict::new(py);
     let n = r.t.len();
@@ -1225,14 +1263,26 @@ fn tv_push_nodes<'py>(
     t: f64,
     nsteps: usize,
     measure: bool,
-) -> PyResult<(Bound<'py, PyArray2<f64>>, Bound<'py, PyArray1<f64>>)> {
+) -> PyResult<Array2Array1Pair<'py>> {
     let nodes = to_nodes(&p)?;
     let ws = w.as_slice()?.to_vec();
     let a = to_a3(&a0)?;
     let r = to_a3(&rate)?;
     let n = nodes.len();
     let (pp, ww) = py.detach(|| {
-        kinetic::typev::push_nodes(&nodes, &ws, &a, &r, mass, a_curv, t, nsteps, measure)
+        kinetic::typev::push_nodes(
+            &nodes,
+            &ws,
+            &a,
+            &r,
+            kinetic::typev::PushConfig {
+                mass,
+                av: a_curv,
+                t,
+                nsteps,
+                measure,
+            },
+        )
     });
     Ok((
         Array2::from_shape_fn((n, 3), |(i, j)| pp[i][j]).into_pyarray(py),
@@ -1255,14 +1305,7 @@ fn mx_bounce_sequence<'py>(
     rtol: f64,
     atol: f64,
     h0: f64,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<i64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-)> {
+) -> PyResult<BounceSequenceOutput<'py>> {
     let s = y0.as_slice()?;
     if s.len() != 5 {
         return Err(PyValueError::new_err("y0 must have length 5"));
@@ -1295,14 +1338,7 @@ fn mx_bounce_sequence_log<'py>(
     rtol: f64,
     atol: f64,
     h0: f64,
-) -> PyResult<(
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<i64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-    Bound<'py, PyArray1<f64>>,
-)> {
+) -> PyResult<BounceSequenceOutput<'py>> {
     let s = y0.as_slice()?;
     let sg = signs.as_slice()?;
     if s.len() != 5 || sg.len() != 3 {
@@ -1618,7 +1654,7 @@ fn th_force_and_matrix<'py>(
     mode_code: usize,
     jdot: bool,
     n_star: i32,
-) -> PyResult<(Bound<'py, PyArray1<f64>>, Bound<'py, PyArray1<f64>>)> {
+) -> PyResult<Array1Pair<'py>> {
     let cl = th_closure(mode_code, jdot, n_star)?;
     let (s, o, b) = (th_signs(&signs)?, th_mats(&ops)?, th_mats(&bases)?);
     th_check(&o, &b, l_max)?;
@@ -1714,11 +1750,7 @@ fn coeff_mass_blocks<'py>(
     v3: PyReadonlyArray1<f64>,
     s_dc: f64,
     s_df: f64,
-) -> PyResult<(
-    Bound<'py, PyArray2<f64>>,
-    Bound<'py, PyArray2<f64>>,
-    Option<Bound<'py, PyArray2<f64>>>,
-)> {
+) -> PyResult<MassBlocksOutput<'py>> {
     // cv 표는 l_out 인덱스 (l_in=l+1 제약은 생성범위에 이미 구움) — 벽은 l ≤ 11.
     if l > kinetic::coeff_tables::CV_MAX_L {
         return Err(PyValueError::new_err(format!(
@@ -1838,7 +1870,7 @@ fn cp_evolve<'py>(
     u2: PyReadonlyArray1<f64>,
     sigma_signs: PyReadonlyArray1<f64>,
     nu_bgk: f64,
-) -> PyResult<(Bound<'py, PyArray1<f64>>, Option<Bound<'py, PyArray2<f64>>>)> {
+) -> PyResult<CoupledEvolutionOutput<'py>> {
     if u1.len()? != 9 || u2.len()? != 45 || sigma_signs.len()? != 3 {
         return Err(PyValueError::new_err("u1(9)/u2(45)/signs(3) 길이"));
     }
@@ -1974,7 +2006,7 @@ fn _grp(n: &PyReadonlyArray1<f64>, a: &PyReadonlyArray1<f64>) -> PyResult<qgroup
 fn qg_classify(
     n: PyReadonlyArray1<f64>,
     a: PyReadonlyArray1<f64>,
-) -> PyResult<(String, String, Option<f64>, bool, (i32, i32, i32), i32)> {
+) -> PyResult<GroupClassificationOutput> {
     let g = _grp(&n, &a)?;
     let c = g.classify();
     let cls = match c.class {
@@ -2012,11 +2044,9 @@ fn qg_structure_constants<'py>(
     let g = _grp(&n, &a)?;
     let c = g.structure_constants();
     let mut v = Vec::with_capacity(27);
-    for k in 0..3 {
-        for i in 0..3 {
-            for j in 0..3 {
-                v.push(c[k][i][j]);
-            }
+    for plane in &c {
+        for row in plane {
+            v.extend_from_slice(row);
         }
     }
     Ok(Array1::from_vec(v).into_pyarray(py))
@@ -2161,8 +2191,20 @@ fn qc_direction_map<'py>(
     let bg0 = _bg(h0, &s0, &r0, &n0, &a0)?;
     let bg1 = _bg(h1, &s1, &r1, &n1, &a1)?;
     let ev = ehat.as_slice()?.to_vec();
-    let (eo, dl) =
-        py.detach(|| qchar::direction_map(&ev, mass, lnp, &bg0, &bg1, dt, substeps, renormalize));
+    let (eo, dl) = py.detach(|| {
+        qchar::direction_map(
+            &ev,
+            mass,
+            lnp,
+            &bg0,
+            &bg1,
+            qchar::CharacteristicStep {
+                dt,
+                substeps,
+                renormalize,
+            },
+        )
+    });
     let mut v = eo;
     v.extend_from_slice(&dl);
     Ok(Array1::from_vec(v).into_pyarray(py))
@@ -2532,7 +2574,7 @@ fn qx_kernel_eigenvalues<'py>(py: Python<'py>, l_max: usize) -> Bound<'py, PyArr
 // ═══════════════════════════════ Q5' · 공변 프레임 바인딩 (76차 정정 설계)
 use crate::kinetic::comoving as qcm;
 
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct QFrame {
     inner: qcm::Frame,
@@ -2710,26 +2752,28 @@ fn _qstate(
     })
 }
 
-fn _qcfg(
+struct QConfigArgs<'a> {
     dtau: f64,
     nsteps: usize,
     nu: f64,
-    kernel: &str,
+    kernel: &'a str,
     k_theta: usize,
     k_phi: usize,
     sub: usize,
     keep_every: usize,
-) -> PyResult<qev::Config> {
+}
+
+fn _qcfg(args: QConfigArgs<'_>) -> PyResult<qev::Config> {
     Ok(qev::Config {
         v_b: None,
-        dtau,
-        nsteps,
-        nu,
-        kernel: _kernel(kernel)?,
-        k_theta,
-        k_phi,
-        sub,
-        keep_every,
+        dtau: args.dtau,
+        nsteps: args.nsteps,
+        nu: args.nu,
+        kernel: _kernel(args.kernel)?,
+        k_theta: args.k_theta,
+        k_phi: args.k_phi,
+        sub: args.sub,
+        keep_every: args.keep_every,
         nu_sched: Vec::new(),
         h_anchor: 0.0,
     })
@@ -2808,7 +2852,16 @@ fn qe_evolve<'py>(
         _ => return Err(PyValueError::new_err("v_b 는 3성분")),
     };
     st.v_b = vb;
-    let mut cfg = _qcfg(dtau, nsteps, nu, kernel, k_theta, k_phi, sub, keep_every)?;
+    let mut cfg = _qcfg(QConfigArgs {
+        dtau,
+        nsteps,
+        nu,
+        kernel,
+        k_theta,
+        k_phi,
+        sub,
+        keep_every,
+    })?;
     cfg.v_b = vb;
     _attach_sched(&mut cfg, nu_sched, h_anchor)?;
     let out = py.detach(move || {
@@ -2869,7 +2922,16 @@ fn qe_ensemble<'py>(
             k_rad,
         )?);
     }
-    let cfg = _qcfg(dtau, nsteps, nu, kernel, k_theta, k_phi, sub, 0)?;
+    let cfg = _qcfg(QConfigArgs {
+        dtau,
+        nsteps,
+        nu,
+        kernel,
+        k_theta,
+        k_phi,
+        sub,
+        keep_every: 0,
+    })?;
     let out = py.detach(move || {
         let sph = qsph::SphereGrid::new(n_theta, n_phi);
         let res = qev::run_ensemble(&sph, sts, &cfg);
@@ -2885,8 +2947,7 @@ fn qe_ensemble<'py>(
 /// (Omega, Pi6, q, gauss) 진단.
 #[pyfunction]
 #[pyo3(signature=(n_theta, n_phi, state, rot, n_p=0, lnq_min=-5.0, lnq_max=5.0))]
-fn qe_diagnostics<'py>(
-    py: Python<'py>,
+fn qe_diagnostics(
     n_theta: usize,
     n_phi: usize,
     state: PyReadonlyArray1<f64>,
@@ -2894,7 +2955,7 @@ fn qe_diagnostics<'py>(
     n_p: usize,
     lnq_min: f64,
     lnq_max: f64,
-) -> PyResult<Bound<'py, PyArray1<f64>>> {
+) -> PyResult<Py<PyArray1<f64>>> {
     let st = _qstate(
         state.as_slice()?,
         rot.as_slice()?,
@@ -2912,7 +2973,9 @@ fn qe_diagnostics<'py>(
     v.extend_from_slice(&pi);
     v.push(q);
     v.push(g);
-    Ok(Array1::from_vec(v).into_pyarray(py))
+    Ok(Python::attach(|py| {
+        Array1::from_vec(v).into_pyarray(py).unbind()
+    }))
 }
 
 /// ★ Mode B 잔여 이류 (방향 스텐실 + 방향별 반경 시프트 결합).

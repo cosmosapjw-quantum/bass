@@ -596,18 +596,30 @@ fn closure(j: &Grid, c: Closure) -> Grid {
 /// (대각 / (div-con) l₀−1 / (div-free) l₀+1).  옛 판은 단위벡터마다 전 블록을 훑어
 /// 빈 블록에도 PSTF 를 때렸다 — l_max=3, i_max=3 에서 열당 16 블록 × 64 열이었다.
 /// 값은 그대로다 (건너뛴 블록은 pstf(0) = 0).
+struct MatvecContext<'a> {
+    g: &'a HGeo,
+    s: &'a Signs,
+    ir: Option<&'a [Vec<f64>]>,
+    ops: &'a [Vec<f64>],
+    l_max: usize,
+    i_max: usize,
+}
+
 fn matvec_column(
     src_l: usize,
     src_i: i32,
     src: &[f64],
-    g: &HGeo,
-    s: &Signs,
-    ir: Option<&[Vec<f64>]>,
-    ops: &[Vec<f64>],
-    l_max: usize,
-    i_max: usize,
+    ctx: &MatvecContext<'_>,
     mut emit: impl FnMut(usize, i32, Vec<f64>),
 ) {
+    let MatvecContext {
+        g,
+        s,
+        ir,
+        ops,
+        l_max,
+        i_max,
+    } = ctx;
     // 대각 (l₀, i₀) ← (l₀, i₀):  γ·P
     {
         let mut acc = vec![0.0; src.len()];
@@ -615,7 +627,7 @@ fn matvec_column(
         emit(src_l, src_i, pstf(&acc, src_l, ops));
     }
     // (div-con)  (l₀−1, i₀) ← (l₀, i₀)
-    if src_l >= 1 && src_l <= l_max {
+    if src_l >= 1 && src_l <= *l_max {
         let l = src_l - 1;
         let mut acc = vec![0.0; dim(l)];
         let c = contract_vec_first(src, src_l, &g.v);
@@ -623,7 +635,7 @@ fn matvec_column(
         emit(l, src_i, pstf(&acc, l, ops));
     }
     // (div-free)  (l₀+1, i₀−1) ← (l₀, i₀)   그리고 i₀ = i_max 의 비-닫힘 갈래
-    if src_l + 1 <= l_max {
+    if src_l < *l_max {
         let l = src_l + 1;
         let lf = l as f64;
         let coef = s.divfree * (-lf / (2.0 * lf + 1.0)) * g.gamma;
@@ -631,12 +643,12 @@ fn matvec_column(
         if src_i >= 1 {
             targets.push((src_i - 1, src.to_vec()));
         }
-        if src_i == i_max as i32 {
+        if src_i == *i_max as i32 {
             if let Some(rs) = ir {
                 // J̇ 닫힘이 켜졌을 때만
                 let r = &rs[src_l];
                 targets.push((
-                    i_max as i32,
+                    *i_max as i32,
                     src.iter().zip(r.iter()).map(|(&x, &y)| y * x).collect(),
                 ));
             }
@@ -751,13 +763,21 @@ fn solve(
         block_of[l * (i_max + 1) + i as usize] = bj;
     }
     let mut m = vec![0.0f64; n * n];
+    let matvec_ctx = MatvecContext {
+        g,
+        s,
+        ir,
+        ops,
+        l_max,
+        i_max,
+    };
     for (bi, &(l0, i0)) in keys.iter().enumerate() {
         let k0 = 2 * l0 + 1;
         for jcol in 0..k0 {
             let mut unit = vec![0.0; k0];
             unit[jcol] = 1.0;
             let src = to_tensor(&unit, l0, bases);
-            matvec_column(l0, i0, &src, g, s, ir, ops, l_max, i_max, |l1, i1, val| {
+            matvec_column(l0, i0, &src, &matvec_ctx, |l1, i1, val| {
                 let bj = block_of[l1 * (i_max + 1) + i1 as usize];
                 if bj == usize::MAX {
                     return;

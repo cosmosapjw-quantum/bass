@@ -48,17 +48,17 @@ pub(crate) fn apply(op: &str, l: usize, c: &[f64], s: &[f64]) -> Vec<f64> {
     assert_eq!(c.len(), n_in, "apply {op} l={l}: input length");
     assert_eq!(s.len(), k, "apply {op} l={l}: slot length");
     let mut out = vec![0.0; n_out];
-    for p in 0..n_out {
+    for (p, out_p) in out.iter_mut().enumerate() {
         let mut acc = 0.0;
-        for m in 0..n_in {
+        for (m, &cm) in c.iter().enumerate() {
             let base = p * n_in * k + m * k;
             let mut inner = 0.0;
             for (kk, sv) in s.iter().enumerate() {
                 inner += g[base + kk] * sv;
             }
-            acc += inner * c[m];
+            acc += inner * cm;
         }
-        out[p] = acc;
+        *out_p = acc;
     }
     out
 }
@@ -129,7 +129,7 @@ fn off(l: usize, i: usize, i_pad: usize) -> usize {
     o + i * (2 * l + 1)
 }
 
-fn slot<'a>(g: &'a [f64], l: usize, i: usize, i_pad: usize) -> &'a [f64] {
+fn slot(g: &[f64], l: usize, i: usize, i_pad: usize) -> &[f64] {
     let o = off(l, i, i_pad);
     &g[o..o + 2 * l + 1]
 }

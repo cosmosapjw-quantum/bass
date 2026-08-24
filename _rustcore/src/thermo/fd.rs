@@ -29,7 +29,7 @@ fn fermi_dirac(x: f64) -> f64 {
 pub fn gauss_legendre_nodes(n: usize) -> (Vec<f64>, Vec<f64>) {
     let mut x = vec![0.0; n];
     let mut w = vec![0.0; n];
-    let m = (n + 1) / 2;
+    let m = n.div_ceil(2);
     for i in 0..m {
         // Chebyshev 초기추정 후 Newton
         let mut z = (std::f64::consts::PI * (i as f64 + 0.75) / (n as f64 + 0.5)).cos();
@@ -102,6 +102,7 @@ pub fn p_integral(y: f64) -> f64 {
 }
 
 /// 수밀도 적분:  ∫ x² f dx  (무질량 기준값 3ζ(3)/2 형)
+#[cfg(test)]
 pub fn n_integral() -> f64 {
     integrate(|x| x * x * fermi_dirac(x))
 }

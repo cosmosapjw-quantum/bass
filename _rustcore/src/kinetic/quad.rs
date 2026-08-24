@@ -61,13 +61,6 @@ pub fn f_fermi_dirac(q: f64) -> f64 {
     1.0 / (q.min(700.0).exp() + 1.0)
 }
 
-/// 방향의존 분포 f(q, n̂) = f_FD(q)(1 + ε n̂_axis) — 홀수 l 다극을 켜는 시험용.
-/// ★ 등방 f₀ 는 f(p)=f(−p) 라서 홀수 l 이 항등적으로 0 이 되어 (A) 항군을 시험 못 한다.
-#[inline]
-pub fn f_dipole(q: f64, nh: &[f64; 3], eps: f64, axis: usize) -> f64 {
-    f_fermi_dirac(q) * (1.0 + eps * nh[axis])
-}
-
 /// flat 지표 → 성분 지표 테이블 (l 마다 1회 계산 후 캐시).
 /// ★ 최적화: 이전 판은 (반경×각도×flat) 삼중 내부루프에서 매번 나눗셈으로 분해해
 ///   구적이 numpy 대비 2배밖에 못 냈다.  테이블화 + Rayon 으로 개선.

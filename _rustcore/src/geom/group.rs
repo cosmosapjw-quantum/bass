@@ -60,6 +60,7 @@ impl BianchiGroup {
     }
 
     /// 대각 게이지 편의 생성자 (class A 관례).
+    #[cfg(test)]
     pub fn diag(n1: f64, n2: f64, n3: f64, a: [f64; 3]) -> Self {
         Self {
             n: [n1, n2, n3, 0.0, 0.0, 0.0],
@@ -82,6 +83,7 @@ impl BianchiGroup {
         [r[0], r[1], r[2]]
     }
 
+    #[cfg(test)]
     pub fn jacobi_norm(&self) -> f64 {
         let r = self.jacobi_residual();
         r.iter().fold(0.0f64, |m, x| m.max(x.abs()))

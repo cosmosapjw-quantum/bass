@@ -31,9 +31,6 @@ impl RadialGrid {
     pub fn len(&self) -> usize {
         self.ln_p.len()
     }
-    pub fn is_empty(&self) -> bool {
-        self.ln_p.is_empty()
-    }
     pub fn p(&self) -> Vec<f64> {
         self.ln_p.iter().map(|x| x.exp()).collect()
     }
@@ -112,12 +109,12 @@ pub fn apply_shift_log(
     let n = lnf.len();
     let p = g.p();
     let mut out = vec![0.0; n];
-    for i in 0..n {
+    for (i, out_i) in out.iter_mut().enumerate() {
         let mut v = 0.0;
         for (o, w) in st.0.iter().zip(st.1.iter()) {
             v += w * lnf_extend(lnf, &p, i as i64 + o, tail);
         }
-        out[i] = v;
+        *out_i = v;
     }
     out
 }
@@ -133,7 +130,7 @@ pub fn apply_shift_linear(
     let lnf: Vec<f64> = f.iter().map(|x| x.max(1e-300).ln()).collect();
     let p = g.p();
     let mut out = vec![0.0; n];
-    for i in 0..n {
+    for (i, out_i) in out.iter_mut().enumerate() {
         let mut v = 0.0;
         for (o, w) in st.0.iter().zip(st.1.iter()) {
             let j = i as i64 + o;
@@ -144,7 +141,7 @@ pub fn apply_shift_linear(
             };
             v += w * val;
         }
-        out[i] = v;
+        *out_i = v;
     }
     out
 }

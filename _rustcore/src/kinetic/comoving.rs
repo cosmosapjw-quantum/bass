@@ -149,25 +149,6 @@ pub fn ln_phys_weights(f: &Frame, w_com: &[f64], mu: &[f64]) -> Vec<f64> {
         .collect()
 }
 
-/// logsumexp 가중합:  ln( sum_i exp(lw_i + lg_i) * sgn ) — 부호 없는 양수합 전용.
-pub fn ln_weighted_sum(lw: &[f64], lg: &[f64]) -> f64 {
-    let mut mx = f64::NEG_INFINITY;
-    for i in 0..lw.len() {
-        let v = lw[i] + lg[i];
-        if v > mx {
-            mx = v;
-        }
-    }
-    if !mx.is_finite() {
-        return f64::NEG_INFINITY;
-    }
-    let mut s = 0.0;
-    for i in 0..lw.len() {
-        s += (lw[i] + lg[i] - mx).exp();
-    }
-    mx + s.ln()
-}
-
 /// 물리 프레임 모멘트를 **로그-스케일 분리형**으로 반환:
 ///     (ln rho,  q_a / rho,  pi_ab / rho)
 /// ★ rho 자체는 깊은 붕괴에서 double 범위를 넘는다 (ln rho ~ 900).  물리가

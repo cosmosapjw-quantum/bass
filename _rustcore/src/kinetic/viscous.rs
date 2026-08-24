@@ -23,7 +23,9 @@ use crate::kinetic::pstf;
 use crate::kinetic::quad;
 
 /// 무질량 무충돌 유도값 — 두 경로가 모두 재생산해야 한다.
+#[cfg(test)]
 pub const MASSLESS_DAMPING_RATE: f64 = 4.0; // 1/τ_π  (H 단위)
+#[cfg(test)]
 pub const MASSLESS_SOURCE_COEFF: f64 = -8.0 / 15.0; // dπ/dt = coeff·ρσ
 
 /// 감쇠 측정 결과 — (성분별, 평균, 이방성).
@@ -234,7 +236,7 @@ mod tests {
     #[test]
     fn route_a_massless_damping_is_minus_four() {
         let r = route_a_damping(0.0, &A, 1.0, 1e-5);
-        assert!((r.mean + 4.0).abs() < 1e-6, "{r:?}");
+        assert!((r.mean + MASSLESS_DAMPING_RATE).abs() < 1e-6, "{r:?}");
         assert!(r.anisotropy < 1e-6, "{r:?}");
     }
 
@@ -247,7 +249,7 @@ mod tests {
     #[test]
     fn route_b_handset_is_exactly_minus_four() {
         let r = route_b_damping_handset(1.0, &[0.1, -0.04, -0.06]);
-        assert!((r.mean + 4.0).abs() < 1e-12, "{r:?}");
+        assert!((r.mean + MASSLESS_DAMPING_RATE).abs() < 1e-12, "{r:?}");
     }
 
     #[test]
