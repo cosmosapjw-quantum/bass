@@ -1,0 +1,1398 @@
+{
+  "schema_version": "1.0.0",
+  "schema_id": "bass-rust-first-runtime-closure",
+  "package_id": "BASS-RUST-FIRST-RUNTIME-CLOSURE-20260824-R1",
+  "status": "DRAFT_PLAN_ONLY_NO_RUNTIME_CHANGE_NO_AUTHORITY_PROMOTION",
+  "goal": "Move every supported production numerical runtime path behind a Rust-required backend while retaining Python as a thin frontend and an explicit independent oracle.",
+  "audience": [
+    "BASS principal investigator",
+    "Codex implementation agents",
+    "numerical-physics reviewers",
+    "performance reviewers"
+  ],
+  "scope": {
+    "included": [
+      "adversarial condition audit of the PR23 starting point",
+      "complete dependency-connected Rust runtime migration",
+      "Python frontend and explicit Python/JAX oracle boundary",
+      "deterministic CPU vectorization, parallelism, and runtime-dispatched SIMD",
+      "optional transfer-inclusive JAX, PyTorch, or custom CUDA lanes",
+      "contention-controlled benchmark protocol",
+      "scientific, backend, portability, performance, and artifact acceptance contracts",
+      "legacy remote-ref and native-artifact lock",
+      "Codex work graph and handoff"
+    ],
+    "excluded": [
+      "runtime implementation in this package",
+      "merging or marking any PR ready",
+      "moving canonical or production authority",
+      "changing physics, formulas, tolerances, references, grids, seeds, or solver semantics",
+      "local Wolfram execution",
+      "promotion of the PR22 Wolfram candidate",
+      "dependency upgrades without a separate evidence-backed decision",
+      "GPU as a required or default backend",
+      "nightly Rust, fast-math, or reduced-precision authority paths"
+    ],
+    "production_numerical_runtime_definition": "All loops, integrator steps, linear algebra, quadrature, collision, moment, ray, optical, observable, event, ensemble, and checkpoint calculations reached by supported public production calls after Python input validation.",
+    "python_frontend_definition": "Configuration parsing, typed request construction, validation, orchestration, explicit oracle selection, result wrapping, plotting, reporting, and user-facing I/O with no production numerical inner loop."
+  },
+  "authority_lock": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "canonical_anchor": {
+      "branch": "agent/recovery/background-evolution-v87-integrated-20260824",
+      "commit": "0d1203da778c5e92fce4c9bbf24c8044c5b46018",
+      "tree": "675213f191477b1f47c725892e9f4c804c623ab0"
+    },
+    "native_closeout_base": {
+      "branch": "agent/recovery/native-repro-closeout-20260824-r2",
+      "commit": "f575e5c3b12701944f4745ef90f3bbcfe53facd6",
+      "pr": 20
+    },
+    "r5b_contract": {
+      "branch": "agent/recovery/r5b-contract-20260824-r1",
+      "commit": "b810092755837ccfa96502aa7e132a50c3fcbd33",
+      "tree": "b1bd0422b8d4e50e0c63ad3cae9d77efedac7a9d",
+      "pr": 21,
+      "status": "OPEN_DRAFT_UNMERGED_CLEAN",
+      "receipt": "PASS_34_STATE_OPERATOR_SCIENCE_CONTRACT",
+      "boundary": "No production physics, tolerance, reference, grid, seed, or RK4 change."
+    },
+    "wolfram_candidate": {
+      "branch": "agent/recovery/generic-wolfram-candidate-20260824-r1",
+      "commit": "75f0b128634ec60b853519f9f6d530f113b54a81",
+      "pr": 22,
+      "status": "OPEN_DRAFT_UNMERGED_CLEAN_STATIC_ONLY_UNPROMOTED",
+      "relationship_to_performance_head": "DIVERGED_FROM_COMMON_BASE_f575e5c3b12701944f4745ef90f3bbcfe53facd6",
+      "boundary": "Reference only. Never merge or consume as formula authority without a fresh Wolfram execution receipt and explicit promotion decision."
+    },
+    "performance_base": {
+      "branch": "agent/recovery/measured-performance-20260824-r1",
+      "commit": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+      "tree": "e097263a8d9657edee6976b138534634b1be4d48",
+      "parent": "efb3a45986820659e5bcbec2677729f28616e736",
+      "pr": 23,
+      "status": "OPEN_DRAFT_UNMERGED_CLEAN_PARTIAL_HOST_BLOCKED",
+      "evidence_path": "artifacts/performance/EVIDENCE.json",
+      "evidence_git_blob": "c5ef312dfa0b5530315799d21bc7272dcc57103c",
+      "evidence_sha256": "f4ab66fc575122460d554c152deca5ad6c57fd80cb85e0ee11c892318abc358a",
+      "handoff_git_blob": "cf3f44d8ae3085a5bcad17acaec9139ff6b0d3ff",
+      "handoff_sha256": "900df8eaa4819ef426d07038e24673fd5da6c31a03f9f1b2d3a3ba637c814aeb"
+    },
+    "native_r2": {
+      "branch": "artifact/native-repro-bundle-20260824-r2",
+      "commit": "61045b6e5a0d7b026437e0d3586df66706578161",
+      "archive_sha256": "ef0f35b76ab4ef4877ed577afe391ed677a7a6767bcbc64db62dd853d757afca",
+      "wheel_sha256": "b58fe7400c51cf0016b877a681758ebb9896d07cfb3f80be7ca82df64b734d10",
+      "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+      "ordered_part_count": 21,
+      "r3_exists": false
+    },
+    "legacy_archive_refs": [
+      {
+        "branch": "archive/pre-rust-first-runtime-20260824-r1",
+        "commit": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+        "purpose": "Frozen source, benchmark, R5b, and evidence starting point",
+        "status": "CREATED"
+      },
+      {
+        "branch": "archive/pre-rust-first-wolfram-20260824-r1",
+        "commit": "75f0b128634ec60b853519f9f6d530f113b54a81",
+        "purpose": "Frozen parallel generic-Wolfram candidate without authority promotion",
+        "status": "CREATED"
+      }
+    ],
+    "plan_delivery": {
+      "branch": "agent/architecture/rust-first-runtime-closure-20260824-r1",
+      "base_branch": "agent/recovery/measured-performance-20260824-r1",
+      "base_commit": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+      "pull_request": "RESOLVE_BY_HEAD_BRANCH_AND_REQUIRE_OPEN_DRAFT_UNMERGED",
+      "live_head_rule": "Resolve the branch immediately before starting a node; never assume the package commit embedded in a self-referential manifest."
+    },
+    "superseded_resume_rule": {
+      "old_action": "Run Candidate B quiet-host paired timing.",
+      "new_decision": "Archived as an optional PR23-local continuation; it no longer gates the PI-requested whole-runtime migration program.",
+      "candidate_b_status_preserved": "CORRECTNESS_PASS_PERFORMANCE_NOT_MEASURED"
+    }
+  },
+  "revalidation_policy": {
+    "rule": "NOT_RUN_NO_RELEVANT_CHANGE is valid evidence.",
+    "reused_without_rerun": [
+      "R5b 34-case focused receipt",
+      "native r2 Cargo, wheel, and differential receipts",
+      "background and scientific regression receipts",
+      "Wolfram static packet receipt",
+      "PR23 baseline and rejected-Q evidence"
+    ],
+    "new_checks_allowed_for_this_package": [
+      "JSON parsing and semantic validation",
+      "human-document line-budget check",
+      "cross-reference and hash verification",
+      "independent review of this package",
+      "GitHub remote readback of new refs and package bytes"
+    ],
+    "forbidden_reassurance_work": [
+      "full legacy pytest collection",
+      "Cargo build or test for docs-only package bytes",
+      "Wolfram execution",
+      "Candidate B timing",
+      "repeat review waves after a clean bounded review"
+    ]
+  },
+  "audit": {
+    "scope": "Repository architecture, backend dispatch, packaging, benchmark validity, documentation, CI surface, and migration readiness at PR23 head.",
+    "posture": "READ_ONLY_EVIDENCE_REUSE_BEFORE_PACKAGE_DELIVERY",
+    "overall_assessment": "AT_RISK_BUT_READY_FOR_CONTROLLED_MIGRATION",
+    "checklist": [
+      {
+        "category": "tooling_ci_drift",
+        "status": "RISKY",
+        "evidence": "The PR23 tree has no files under .github/workflows; native reproducibility is carried by a separate artifact branch.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "docs_vs_reality",
+        "status": "STALE",
+        "evidence": "README describes JAX+diffrax and 129 tests while the current tree has a large PyO3/Rust runtime and a much larger test surface; _rustcore README still describes a hybrid silent-fallback boundary.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "config_environment_rot",
+        "status": "RISKY",
+        "evidence": "Backend selection is import-availability driven and broad import exceptions collapse to Python without a production hard-fail policy.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "dependency_health",
+        "status": "MIXED",
+        "evidence": "Cargo.lock and requirements.lock exist, but the root Python project and _rustcore use separate build entry points and the root pyproject leaves several scientific dependencies unpinned.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "test_health_flakiness",
+        "status": "HEALTHY_WITH_ENVIRONMENT_GAP",
+        "evidence": "Existing focused and native receipts are strong; direct native consumers require the compatible wheel/vendor artifact, and performance evidence is host-contamination sensitive.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "package_release_health",
+        "status": "RISKY",
+        "evidence": "The extension has its own maturin project while the root project has no unified build backend guaranteeing a compatible native module.",
+        "confidence": "HIGH"
+      },
+      {
+        "category": "instruction_skill_drift",
+        "status": "STALE",
+        "evidence": "Legacy plan and status documents overlap current architecture; PR23 correctly narrowed reruns but historical docs retain old backend and test-count claims.",
+        "confidence": "MEDIUM"
+      }
+    ],
+    "findings": [
+      {
+        "id": "AUD-01",
+        "severity": "Watch",
+        "state": "BROKEN_FOR_ABSOLUTE_PERFORMANCE_CLAIMS",
+        "finding": "The existing taskset/process-snapshot procedure does not make performance independent of external CPU use.",
+        "evidence": "Candidate B remained unmeasured because unrelated host work persisted; task affinity alone does not prove exclusive cores or isolate shared cache, memory, power, thermal, IRQ, or VM-steal effects.",
+        "impact": "Absolute speedup and scaling claims can be biased or blocked; clean paired causal claims require a stronger runner contract.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-BENCH-00"
+      },
+      {
+        "id": "AUD-02",
+        "severity": "Watch",
+        "state": "RISKY",
+        "finding": "Supported production calls can silently select Python after any native import exception.",
+        "evidence": "bianchi/backend.py catches broad Exception at import and uses HAVE_RUST plus force_python flags; _rustcore README advertises quiet fallback.",
+        "impact": "ABI, packaging, or extension failures can become unexplained slowness and can hide which implementation produced a result.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-00"
+      },
+      {
+        "id": "AUD-03",
+        "severity": "Watch",
+        "state": "RISKY",
+        "finding": "Production numerical ownership is fragmented across Rust, NumPy/SciPy, JAX/diffrax, and repeated PyO3 entry points.",
+        "evidence": "Numerical modules remain under bianchi/charts, matter, q, rays, thermo, observables, analysis, integrate.py, and batch.py while parallel implementations exist under _rustcore/src.",
+        "impact": "FFI crossings, duplicated caches, incompatible threading, and backend drift limit optimization and make full-run provenance hard to state.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-01_TO_RF-07"
+      },
+      {
+        "id": "AUD-04",
+        "severity": "Watch",
+        "state": "RISKY",
+        "finding": "The PyO3 export/adapter surface is concentrated in a roughly 99 KB lib.rs despite domain modules existing below it.",
+        "evidence": "At PR23, _rustcore/src/lib.rs is 98,693 bytes and contains bindings for geometry, ODE, thermo, kinetic, tilted, Q, rays, and ensemble paths.",
+        "impact": "Ownership, review, compile isolation, and FFI safety become harder as the full runtime moves to Rust.",
+        "confidence": "HIGH",
+        "next_module": "refactoring",
+        "work_item": "RF-01"
+      },
+      {
+        "id": "AUD-05",
+        "severity": "Watch",
+        "state": "MISSING",
+        "finding": "No checked-in GitHub workflow proves Python, native wheel, locked Cargo, portable CPU, or benchmark-harness contracts.",
+        "evidence": "The .github/workflows directory is empty at PR23 head.",
+        "impact": "The migration cannot rely on repeatable PR-level proof and platform regressions may be discovered only in manual audits.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-00"
+      },
+      {
+        "id": "AUD-06",
+        "severity": "Watch",
+        "state": "STALE",
+        "finding": "Public setup and architecture documentation materially lags the current Rust runtime.",
+        "evidence": "Root README still describes JAX+diffrax and 129 tests; _rustcore README labels the project R0/R1 while its source exports much broader functionality.",
+        "impact": "Developers may install the wrong path, infer the wrong default backend, or repeat already completed work.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-00"
+      },
+      {
+        "id": "AUD-07",
+        "severity": "Watch",
+        "state": "RISKY",
+        "finding": "The Python and native package entry points do not guarantee one compatible installation unit.",
+        "evidence": "Root pyproject.toml declares Python dependencies while _rustcore/pyproject.toml separately owns maturin and module-name bianchi_rustcore.",
+        "impact": "A nominal Python install can omit or mismatch the required default backend.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-00"
+      },
+      {
+        "id": "AUD-08",
+        "severity": "Info",
+        "state": "UNKNOWN_UNMEASURED",
+        "finding": "GPU acceleration is an optional hypothesis, not established performance authority.",
+        "evidence": "Cargo declares an empty cuda feature and PR23 contains no accepted GPU implementation or transfer-inclusive measurement.",
+        "impact": "GPU work must not displace the portable CPU closure or be selected by default.",
+        "confidence": "HIGH",
+        "next_module": "context-survey",
+        "work_item": "RF-GPU-00"
+      },
+      {
+        "id": "AUD-09",
+        "severity": "Info",
+        "state": "HEALTHY",
+        "finding": "The R5b acceptance observable has already been corrected without weakening scientific authority.",
+        "evidence": "PR21 records 34 focused PASS under operator, direct-state, residual, independent-science, and no-fallback checks.",
+        "impact": "Do not reopen the retired error-of-error comparator or rerun R5b absent a changed closure.",
+        "confidence": "HIGH",
+        "next_module": "none",
+        "work_item": null
+      },
+      {
+        "id": "AUD-10",
+        "severity": "Info",
+        "state": "HEALTHY",
+        "finding": "The pre-migration source, symbolic candidate, and native reproduction payload are remotely pinned.",
+        "evidence": "Two archive refs were created at exact PR23 and PR22 heads and native r2 remains pinned by branch, commit, archive, wheel, and Cargo.lock digests.",
+        "impact": "Every migration phase has an explicit recovery source without duplicating raw evidence in human reports.",
+        "confidence": "HIGH",
+        "next_module": "none",
+        "work_item": null
+      },
+      {
+        "id": "AUD-11",
+        "severity": "Blocker",
+        "state": "INSUFFICIENT_COVERAGE",
+        "finding": "The PR23 performance corpus is not representative of the requested whole-runtime migration.",
+        "evidence": "The recorded corpus is dominated by the already coarse-call Q and R5b paths; it does not expose Python-owned geometry preparation, background, rays, thermo, observables, startup, allocation, or batch overhead as separate or end-to-end strata.",
+        "impact": "Optimizing against the legacy corpus can report a local win while leaving most supported production execution in Python or making unmeasured paths slower.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-BENCH-00"
+      },
+      {
+        "id": "AUD-12",
+        "severity": "Watch",
+        "state": "RISKY",
+        "finding": "Importing the top-level Python package eagerly initializes JAX policy even when Rust is the requested backend.",
+        "evidence": "bianchi/__init__.py imports JAX and enables x64 at import time at the audited head.",
+        "impact": "The Rust-default frontend pays optional accelerator startup and dependency cost, and backend selection is no longer an isolated capability decision.",
+        "confidence": "HIGH",
+        "next_module": "implementation",
+        "work_item": "RF-00"
+      }
+    ],
+    "checks_not_run": [
+      {
+        "check": "legacy Python tests",
+        "reason": "No relevant runtime byte changed."
+      },
+      {
+        "check": "Cargo fmt, clippy, test, wheel build",
+        "reason": "This delivery is docs and machine specification only; native r2 is unchanged."
+      },
+      {
+        "check": "Wolfram/xAct",
+        "reason": "PR22 is a static unpromoted candidate and local execution is forbidden."
+      },
+      {
+        "check": "Candidate B benchmark",
+        "reason": "The new PI scope supersedes PR23's local next action; no performance claim is made."
+      }
+    ]
+  },
+  "target_architecture": {
+    "name": "RUST_REQUIRED_NUMERICAL_RUNTIME_WITH_PYTHON_FRONTEND",
+    "principles": [
+      "One production source of numerical execution truth: Rust.",
+      "Python oracle is independent, explicit, slow, and never a silent fallback.",
+      "Symbolic/Wolfram/SymPy compilers remain offline formula authorities, not runtime dependencies.",
+      "Cross the FFI once per user-intent operation, never once per integrator step or angular node.",
+      "Use dependency-connected subsystem closures rather than isolated micro-hotspot patches.",
+      "Correctness, architecture closure, and performance materiality are separate decisions.",
+      "Portable scalar behavior remains available under every optimization.",
+      "No optimization may redefine a scientific invariant or acceptance observable."
+    ],
+    "backend_policy": {
+      "final_default": "rust_required_after_RF-07",
+      "rf00_transition": {
+        "already_native_supported_routes": "rust_required with typed fail-closed errors",
+        "not_yet_migrated_routes": "visible legacy_python_transitional capability state preserving current behavior without exception-driven fallback",
+        "global_default_cutover": "FORBIDDEN_BEFORE_RF-07",
+        "inventory_authority": "committed public-route capability matrix"
+      },
+      "modes": [
+        {
+          "name": "rust_required",
+          "use": "All supported production calls",
+          "missing_or_incompatible_native": "RAISE_ACTIONABLE_BACKEND_ERROR",
+          "silent_fallback": false
+        },
+        {
+          "name": "python_oracle",
+          "use": "Explicit differential tests, derivation audits, and debugging",
+          "selection": "EXPLICIT_CALLER_OPT_IN",
+          "production_default": false
+        },
+        {
+          "name": "legacy_python_transitional",
+          "use": "Only public routes explicitly inventoried as not yet migrated",
+          "selection": "STATIC_CAPABILITY_MATRIX_NOT_RUNTIME_EXCEPTION",
+          "warning": "VISIBLE_TRANSITIONAL_STATE",
+          "sunset": "RF-07",
+          "production_default": false
+        },
+        {
+          "name": "auto_diagnostic",
+          "use": "Interactive exploration only",
+          "selection": "EXPLICIT_CALLER_OPT_IN_AND_WARNING",
+          "production_default": false
+        }
+      ],
+      "replace": [
+        "ambient HAVE_RUST branching",
+        "force_python boolean proliferation",
+        "broad import Exception suppression",
+        "implicit backend choice based only on extension importability"
+      ],
+      "capability_receipt_fields": [
+        "backend_policy",
+        "extension_version",
+        "python_abi",
+        "rustc_version",
+        "cargo_lock_sha256",
+        "wheel_sha256",
+        "build_profile",
+        "cpu_arch",
+        "simd_variant",
+        "rayon_threads",
+        "optional_features",
+        "formula_manifest_sha256"
+      ]
+    },
+    "python_frontend": {
+      "owns": [
+        "public dataclasses and configuration validation",
+        "backend policy selection",
+        "bulk contiguous array preparation",
+        "one-call orchestration",
+        "typed result wrappers",
+        "plotting and reports",
+        "interactive notebooks",
+        "explicit Python/JAX oracle and differential harness",
+        "offline SymPy lowering and compiler tooling",
+        "lazy optional import of JAX, diffrax, SciPy, SymPy, and plotting stacks only when their explicit frontend or oracle path is selected"
+      ],
+      "must_not_own_in_rust_required_mode": [
+        "time-step loops",
+        "ray or angular-node loops",
+        "quadrature or moment loops",
+        "production linear solves or eigensolves",
+        "collision or Kato actions",
+        "per-member ensemble loops",
+        "production residual, constraint, or observable reductions",
+        "callbacks from Rust inner loops"
+      ],
+      "ffi_call_budget": "O(1) calls per public trajectory, batch, map, or ensemble operation; never proportional to steps, nodes, rays, modes, or species."
+    },
+    "rust_runtime": {
+      "crates_or_modules": [
+        "core: conventions, typed states, errors, capability receipt",
+        "geom: Lie algebra, frames, tetrads, connections, curvature, charts",
+        "background: RHS/JVP, constraints, events, ODE integration",
+        "matter: fluids, species, thermo, recombination, tilted transforms",
+        "kinetic: PSTF, quadrature, hierarchy, collision, Kato, polarization",
+        "rays: geodesic, optical, Weyl, map batches",
+        "observables: CMB, distances, supernova, reductions",
+        "runtime: plans, workspaces, thread pool, ensemble, checkpoint, output",
+        "python: thin PyO3 adapters only"
+      ],
+      "state_ownership": "Validated immutable configuration and mutable numerical state are created once in Rust and remain Rust-owned until coarse result extraction.",
+      "workspace_policy": "Preallocate and reuse scratch buffers, solver state, quadrature tables, coefficient tables, thread pools, and dispatch decisions. No allocation in declared inner loops.",
+      "error_policy": "Typed Rust errors cross PyO3 with domain context; panics never cross FFI; unsupported configurations fail closed."
+    },
+    "ffi": {
+      "technology": "PyO3 0.29 plus rust-numpy 0.29 at the locked baseline",
+      "rules": [
+        "Borrow contiguous NumPy input read-only without a copy when layout and dtype match.",
+        "Validate shape, dtype, alignment, finiteness, and aliasing once at entry.",
+        "Copy or reject explicitly when zero-copy preconditions fail; report which occurred.",
+        "Detach from Python for Rust-only work before Rayon or long integrator execution.",
+        "Return owned contiguous arrays or fill a validated writable output buffer.",
+        "Do not hold Python references, the GIL, or Python locks inside Rayon work.",
+        "Split lib.rs into domain binding modules with no numerical implementation in adapters."
+      ]
+    },
+    "data_layout": {
+      "default": "Contiguous f64 structure-of-arrays for wide independent lanes; compact array-of-structs only for small fixed state vectors when measurements and vectorization reports support it.",
+      "rules": [
+        "No Vec<Vec<T>> in production inner paths.",
+        "Use fixed-size arrays or nalgebra stack types for small known tensors.",
+        "Use flat aligned buffers with explicit shape metadata for grids and hierarchies.",
+        "Represent rank-l PSTF coefficients in the canonical 2*l+1 independent-component layout; do not expand to 3^l Cartesian storage in production inner loops.",
+        "Cache immutable basis, coefficient, quadrature, and generated-kernel data by exact manifest identity.",
+        "Make units, conventions, and state ordering typed or validated at the boundary.",
+        "Record peak resident memory and allocation counts for every migrated subsystem."
+      ]
+    },
+    "parallelism": {
+      "default_strategy": "Coarse deterministic parallelism across independent ensemble members, rays, modes, species, or grid tiles before inner-kernel parallelism.",
+      "thread_pool": "One explicitly constructed and owned Rayon ThreadPool per runtime context; do not rely on an ambient global pool for authority or benchmarks.",
+      "rules": [
+        "Pin or size the pool once before measurement.",
+        "Force OpenMP, BLAS, MKL, BLIS, NumExpr, and other nested pools to one thread unless they are the sole declared parallel owner.",
+        "Avoid nested Rayon parallel iterators; outer owner passes a serial inner policy.",
+        "Partition by stable indices and collect in stable order.",
+        "Use deterministic pairwise or compensated reductions where reductions affect accepted outputs.",
+        "Keep a serial Rust path for differential and portability checks.",
+        "Parallel work must be coarse enough to amortize pool and scheduling overhead."
+      ]
+    },
+    "simd": {
+      "portable_authority": "Stable scalar loops structured for LLVM autovectorization.",
+      "runtime_variants": [
+        "scalar",
+        "x86_64_avx2_fma when detected and accepted",
+        "x86_64_avx512 only as a separately measured optional variant",
+        "aarch64_neon when a supported runner exists"
+      ],
+      "dispatch": "Runtime feature detection with std::arch and per-function target_feature; cache the selected function pointer in the RuntimePlan.",
+      "proof": [
+        "Inspect emitted vectorization reports or assembly for claimed SIMD kernels.",
+        "Run scalar-versus-dispatched differential tests under the state/operator/residual/invariant contract.",
+        "Measure wall time plus instructions/cycles; fewer instructions without a clean wall-time result is mechanistic support only.",
+        "Retain scalar fallback on every supported target."
+      ],
+      "forbidden_authority": [
+        "nightly-only portable_simd",
+        "crate-wide target-cpu=native release artifacts",
+        "unconditional AVX2 or AVX-512",
+        "fast-math",
+        "f32 or mixed precision without a separate PI-approved scientific contract"
+      ]
+    },
+    "gpu_optional": {
+      "default": false,
+      "cpu_runtime_required": true,
+      "eligible_shapes": [
+        "large independent ray or optical maps",
+        "large angular/radial grids",
+        "large parameter or ensemble batches",
+        "fused collision, transform, or quadrature kernels with sufficient arithmetic intensity"
+      ],
+      "ineligible_by_default": [
+        "small five-state background solves",
+        "single short trajectories",
+        "branch-heavy event logic with low occupancy",
+        "workloads whose host-device transfer or compilation dominates"
+      ],
+      "lanes": [
+        {
+          "name": "jax_ffi",
+          "role": "Optional array-program frontend or typed XLA FFI bridge to accepted kernels",
+          "authority": "OPTIONAL_EXPERIMENTAL_UNTIL_TRANSFER_INCLUSIVE_ACCEPTANCE"
+        },
+        {
+          "name": "pytorch_extension",
+          "role": "Optional tensor interoperability for batched studies",
+          "authority": "OPTIONAL_EXPERIMENTAL_UNTIL_TRANSFER_INCLUSIVE_ACCEPTANCE"
+        },
+        {
+          "name": "custom_cuda",
+          "role": "Last resort for stable, high-arithmetic-intensity kernels after CPU and framework lanes establish the specification",
+          "authority": "OPTIONAL_EXPERIMENTAL_UNTIL_TRANSFER_INCLUSIVE_ACCEPTANCE"
+        }
+      ],
+      "acceptance": [
+        "f64 scientific contract passes against Rust CPU and independent oracle",
+        "compile, allocation, transfer, synchronization, and result-transfer time included for the declared user workload",
+        "warm steady-state and cold-start results reported separately",
+        "peak device and host memory recorded",
+        "CPU remains available and is never silently replaced",
+        "no new default dependency on JAX or PyTorch for CPU users"
+      ]
+    },
+    "symbolic_boundary": {
+      "runtime_dependency": false,
+      "formula_authority": "Existing promoted compiler/SymIR/generated-Rust chain only.",
+      "generic_wolfram_candidate": "PR22 remains a parallel type-ignorant Lie-algebra-driven candidate.",
+      "promotion_preconditions": [
+        "fresh Wolfram/xAct execution on the exact PR22 bytes",
+        "fixture and independent formula comparison",
+        "typed SymIR compatibility proof",
+        "generated Rust provenance and differential proof",
+        "explicit human authority promotion"
+      ],
+      "runtime_migration_blocking": false
+    }
+  },
+  "migration_matrix": [
+    {
+      "id": "M01",
+      "domain": "backend_policy_and_packaging",
+      "current_python": ["bianchi/backend.py", "root pyproject.toml"],
+      "current_rust": ["_rustcore/pyproject.toml", "_rustcore/Cargo.toml", "_rustcore/src/lib.rs"],
+      "current_state": "RUST_PREFERRED_WITH_SILENT_PYTHON_FALLBACK_AND_SPLIT_INSTALL",
+      "target": "RUST_REQUIRED_POLICY_UNIFIED_INSTALL_CAPABILITY_RECEIPT",
+      "work_item": "RF-00"
+    },
+    {
+      "id": "M02",
+      "domain": "runtime_core_and_ffi",
+      "current_python": ["bianchi/conventions.py", "bianchi/batch.py"],
+      "current_rust": ["_rustcore/src/core", "_rustcore/src/lib.rs"],
+      "current_state": "MIXED_AND_BINDING_MONOLITH",
+      "target": "OWNED_RUNTIME_PLAN_WORKSPACE_DOMAIN_BINDINGS",
+      "work_item": "RF-01"
+    },
+    {
+      "id": "M03",
+      "domain": "algebra_geometry_background_constraints",
+      "current_python": ["bianchi/algebra.py", "bianchi/charts", "bianchi/constraints.py", "bianchi/constraint_rates.py", "bianchi/integrate.py", "bianchi/routing.py"],
+      "current_rust": ["_rustcore/src/geom", "_rustcore/src/ode"],
+      "current_state": "PARTIAL_RUST_WITH_PYTHON_CHARTS_ROUTING_AND_ORACLES",
+      "target": "ALL_SUPPORTED_PRODUCTION_CHARTS_EVENTS_CONSTRAINTS_AND_BATCHES_IN_RUST",
+      "work_item": "RF-02"
+    },
+    {
+      "id": "M04",
+      "domain": "matter_thermo_tilted",
+      "current_python": ["bianchi/matter", "bianchi/thermo"],
+      "current_rust": ["_rustcore/src/kinetic", "_rustcore/src/thermo"],
+      "current_state": "BROAD_BUT_INCOMPLETE_DUPLICATE_IMPLEMENTATIONS",
+      "target": "PRODUCTION_SPECIES_THERMO_RECOMBINATION_TILTED_AND_MOMENTS_IN_RUST",
+      "work_item": "RF-03"
+    },
+    {
+      "id": "M05",
+      "domain": "boltzmann_collision_kato_polarization",
+      "current_python": ["bianchi/q", "bianchi/matter/collision*.py", "bianchi/matter/grid*.py"],
+      "current_rust": ["_rustcore/src/kinetic"],
+      "current_state": "MIXED_WITH_DOMINANT_NATIVE_Q_KERNEL_AND_PYTHON_ORCHESTRATION",
+      "target": "ONE_RUST_OWNED_END_TO_END_KINETIC_RUNTIME_PER_TRAJECTORY_OR_BATCH",
+      "work_item": "RF-04"
+    },
+    {
+      "id": "M06",
+      "domain": "rays_optics_observables",
+      "current_python": ["bianchi/rays", "bianchi/observables"],
+      "current_rust": ["_rustcore/src/rays"],
+      "current_state": "RAY_BATCHES_RUST_OBSERVABLE_ASSEMBLY_MIXED",
+      "target": "RUST_OWNS_FULL_MAP_AND_BATCH_OBSERVABLE_CLOSURE",
+      "work_item": "RF-05"
+    },
+    {
+      "id": "M07",
+      "domain": "analysis_ensemble_checkpoint_output",
+      "current_python": ["bianchi/analysis", "bianchi/batch.py", "scripts"],
+      "current_rust": ["selected ensemble functions in _rustcore/src/lib.rs"],
+      "current_state": "MOSTLY_PYTHON_OR_PARTIAL_RUST",
+      "target": "RUST_PRODUCTION_COMPUTE_WITH_PYTHON_PRESENTATION_AND_IO_WRAPPERS",
+      "work_item": "RF-06"
+    },
+    {
+      "id": "M08",
+      "domain": "default_cutover",
+      "current_python": ["per-function force_python and fallback branches"],
+      "current_rust": ["many independent PyO3 functions"],
+      "current_state": "HYBRID_DEFAULT",
+      "target": "RUST_REQUIRED_DEFAULT_ZERO_SILENT_FALLBACK_AND_EXPLICIT_ORACLE",
+      "work_item": "RF-07"
+    },
+    {
+      "id": "M09",
+      "domain": "gpu_optional",
+      "current_python": ["JAX dependencies and selected oracle code"],
+      "current_rust": ["empty Cargo cuda feature"],
+      "current_state": "UNIMPLEMENTED_UNMEASURED",
+      "target": "OPTIONAL_ACCEPTED_BATCH_ACCELERATOR_WITH_CPU_REFERENCE",
+      "work_item": "RF-GPU-00"
+    },
+    {
+      "id": "M10",
+      "domain": "generic_wolfram_equation_generator",
+      "current_python": ["compiler/SymIR and SymPy lowering authority retained from the promoted chain"],
+      "current_rust": ["generated Rust consumes promoted manifests only"],
+      "current_state": "PR22_STATIC_CANDIDATE_UNPROMOTED_NO_LOCAL_WOLFRAM_EXECUTION",
+      "target": "TYPE_IGNORANT_LIE_ALGEBRA_SPEC_TO_DETERMINISTIC_XACT_EQUATIONS_TO_TYPED_SYMIR_WITH_FRESH_DUAL_ORACLE_PROVENANCE",
+      "work_item": "WF-00"
+    }
+  ],
+  "work_graph": {
+    "execution_rule": "Each node migrates a dependency-connected production closure. Profiling prioritizes order and validates outcomes but does not reduce the declared closure to isolated hotspots.",
+    "branch_rule": "One atomic stacked draft PR per node; no merge or ready transition without explicit approval.",
+    "nodes": [
+      {
+        "id": "RF-00",
+        "title": "Typed backend capability policy, unified packaging, and CI skeleton",
+        "depends_on": [],
+        "mission": "Make backend identity explicit before moving numerical physics: fail closed on already native-supported routes, preserve not-yet-migrated routes through a visible static transitional state, and reserve the global Rust-default cutover for RF-07.",
+        "paths": ["bianchi/backend.py", "pyproject.toml", "_rustcore/pyproject.toml", "_rustcore/Cargo.toml", "README.md", ".github/workflows", "focused backend-policy tests"],
+        "deliverables": [
+          "BackendPolicy enum plus committed per-public-route capability matrix",
+          "rust_required for already native-supported routes, visible legacy_python_transitional for inventoried unmigrated routes, and explicit python_oracle",
+          "capability receipt",
+          "unified install/build contract",
+          "portable and native focused CI jobs without performance claims",
+          "updated setup and backend documentation"
+        ],
+        "acceptance": [
+          "already native-supported route cannot silently execute Python",
+          "unmigrated route preserves current behavior only through the visible static legacy_python_transitional state",
+          "missing extension and ABI mismatch produce actionable typed errors",
+          "explicit oracle still executes independent Python path",
+          "unchanged Rust-supported result contract passes focused tests",
+          "no relevant native byte means native r2 reuse predicate is recorded"
+        ],
+        "performance_gate": "NO_STATISTICALLY_SUPPORTED_REGRESSION_ABOVE_5_PERCENT_IN_AFFECTED_STARTUP_OR_CALL_OVERHEAD; no speedup claim and no global default cutover required",
+        "native_artifact": "R2_REUSE_IF_NO_NATIVE_BYTE_CHANGED_ELSE_NEW_BUNDLE"
+      },
+      {
+        "id": "RF-BENCH-00",
+        "title": "Contention-controlled benchmark runner",
+        "depends_on": ["RF-00"],
+        "mission": "Replace process-name quietness with topology-aware isolation, paired statistics, and sample-level contamination rejection.",
+        "paths": ["benchmarks", "benchmark protocol tests", "runner documentation"],
+        "deliverables": [
+          "runner capability probe",
+          "dedicated and controlled-shared claim levels",
+          "topology-derived 1T and 12T CPU sets",
+          "cgroup/perf/PSI/frequency/thermal evidence packet",
+          "balanced randomized AB/BA paired runner",
+          "paired bootstrap decision output",
+          "versioned whole-runtime-v1 corpus covering startup, geometry/background, matter/thermo, kinetic, rays/maps, observables, batch/ensemble, and end-to-end workloads",
+          "one committed representative holdout excluded from tuning"
+        ],
+        "acceptance": [
+          "contaminated samples are rejected before candidate visibility",
+          "runner refuses authority claims below CONTROLLED_SHARED_PAIRED",
+          "system-wide PSI is context only; cgroup and selected-CPU contamination drive rejection",
+          "no host mutation requiring privilege occurs without explicit authorization"
+        ],
+        "performance_gate": "RUNNER_VALIDATION_ONLY",
+        "native_artifact": "NO_NEW_NATIVE_BUNDLE_UNLESS_NATIVE_BENCHMARK_CODE_CHANGES"
+      },
+      {
+        "id": "RF-01",
+        "title": "Runtime object, data model, workspace, and modular PyO3 boundary",
+        "depends_on": ["RF-00"],
+        "mission": "Create the stable ownership and coarse-call substrate for every subsequent domain port.",
+        "paths": ["_rustcore/src/core", "_rustcore/src/runtime", "_rustcore/src/python", "_rustcore/src/lib.rs", "bianchi frontend wrappers"],
+        "deliverables": [
+          "RuntimePlan and reusable Workspace",
+          "owned configurable Rayon pool",
+          "domain binding modules",
+          "contiguous typed state and result buffers",
+          "allocation and FFI-call counters",
+          "scalar CPU dispatch baseline",
+          "in-place operator, Runge-Kutta stage, dense-solve, and stencil workspaces with no per-step allocation"
+        ],
+        "acceptance": [
+          "no production numerical implementation remains in binding adapters",
+          "GIL detached for Rust-only work",
+          "one runtime owns threading and caches",
+          "serial and configured-thread modes are deterministic under declared contract",
+          "no inner-loop allocation in designated fixture"
+        ],
+        "performance_gate": "NO_REGRESSION_ABOVE_5_PERCENT_AND_LOWER_OR_EQUAL_FFI_CALL_COUNT",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-02",
+        "title": "Geometry, algebra, charts, background, constraints, and events closure",
+        "depends_on": ["RF-01", "RF-BENCH-00"],
+        "mission": "Move the complete supported background dependency closure to Rust, including paths currently used to prepare R5b geometry.",
+        "paths": ["bianchi/algebra.py", "bianchi/charts", "bianchi/constraints.py", "bianchi/constraint_rates.py", "bianchi/integrate.py", "bianchi/routing.py", "_rustcore/src/geom", "_rustcore/src/ode"],
+        "deliverables": [
+          "all supported Bianchi classifications and chart RHS/JVP in Rust production path",
+          "constraint projection and residuals",
+          "events and chart transitions",
+          "background batches and geometry histories",
+          "Rust-owned evaluation of R5b geometry inputs so Python no longer packs a 142-float geometry payload at each Runge-Kutta stage or step",
+          "runtime-dispatched vector kernels where supported",
+          "Python oracle adapters only"
+        ],
+        "acceptance": [
+          "state, RHS/JVP, constraint, exact-solution, classification, and event contracts pass",
+          "R5b geometry inputs retain state/operator/science contract",
+          "no Python callback or numerical loop in rust_required background runs",
+          "scalar and SIMD variants satisfy identical scientific gates"
+        ],
+        "performance_gate": "AFFECTED_CLOSURE_NO_REGRESSION; MILESTONE_AGGREGATE_CI95_UPPER_RATIO_BELOW_0.90_IS_A_PUBLISHABLE_WIN_NOT_A_PORT_COMPLETION_PRECONDITION",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-03",
+        "title": "Matter, thermodynamics, recombination, species, and tilted closure",
+        "depends_on": ["RF-02"],
+        "mission": "Move every supported production matter and thermo loop to Rust while retaining independent Python oracle modules.",
+        "paths": ["bianchi/matter", "bianchi/thermo", "_rustcore/src/kinetic", "_rustcore/src/thermo"],
+        "deliverables": [
+          "fluid/species/exchange runtime",
+          "thermo and recombination interpolation/evolution",
+          "tilted transforms, moments, mass matrices, solves, and integration",
+          "cached quadrature/coefficient tables",
+          "bulk multi-species API"
+        ],
+        "acceptance": [
+          "R5b 34-case contract reruns only because its native closure changed",
+          "state/operator/backward-residual/independent-science gates pass",
+          "no error-of-error relative comparator is reintroduced",
+          "no silent Python fallback for supported modes",
+          "no tolerance/reference/physics change"
+        ],
+        "performance_gate": "AFFECTED_CLOSURE_NO_REGRESSION_AND_CUMULATIVE_MILESTONE_REPORT",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-04",
+        "title": "Boltzmann, collision, Kato, quadrature, and polarization closure",
+        "depends_on": ["RF-03"],
+        "mission": "Enter Rust once for complete kinetic trajectories or batches, including exact collision and moving-equilibrium logic.",
+        "paths": ["bianchi/q", "bianchi/matter/collision*.py", "bianchi/matter/grid*.py", "_rustcore/src/kinetic", "compiler/generated Rust inputs"],
+        "deliverables": [
+          "end-to-end Q-mode runtime",
+          "Kato AEM2 and Krylov actions",
+          "collision and polarization lanes",
+          "quadrature and limiter closure",
+          "persistent kinetic plan/workspace",
+          "deterministic batch scheduling"
+        ],
+        "acceptance": [
+          "P squared equals P within existing gate",
+          "K commutator/connection contract within existing gate",
+          "collision equilibrium null, positivity, conservation, and V=0 firewalls",
+          "stiff global order remains approximately two under existing authority",
+          "no Python numerical inner loop or per-step FFI"
+        ],
+        "performance_gate": "Q_AND_R5B_AFFECTED_CLOSURES_NO_REGRESSION; CUMULATIVE_END_TO_END_CI_REPORTED",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-05",
+        "title": "Rays, optical transport, maps, and observables closure",
+        "depends_on": ["RF-02", "RF-01"],
+        "mission": "Move the complete ray-to-observable production path to Rust and batch it across stable independent lanes.",
+        "paths": ["bianchi/rays", "bianchi/observables", "_rustcore/src/rays", "_rustcore/src/observables"],
+        "deliverables": [
+          "geodesic and optical batch plans",
+          "Weyl/tidal closure",
+          "CMB, distance, and supernova batch observables",
+          "SoA ray state and output buffers",
+          "coarse deterministic Rayon tiling"
+        ],
+        "acceptance": [
+          "ray/optical exact and differential contracts pass",
+          "map outputs satisfy existing scientific tolerances and invariants",
+          "one PyO3 call per declared map/batch",
+          "12T evidence identifies physical cores and demonstrates task-clock distribution before scaling claims"
+        ],
+        "performance_gate": "AFFECTED_CLOSURE_NO_REGRESSION_AND_TRANSFER_FREE_CPU_MILESTONE",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-06",
+        "title": "Ensemble, analysis compute, checkpoint, output, and recovery closure",
+        "depends_on": ["RF-04", "RF-05"],
+        "mission": "Keep complete long jobs in Rust while Python owns presentation and high-level I/O.",
+        "paths": ["bianchi/analysis", "bianchi/batch.py", "_rustcore/src/runtime", "Python result wrappers"],
+        "deliverables": [
+          "ensemble runner",
+          "production stability/statistics kernels",
+          "checkpoint/restart format with version and hashes",
+          "streamed bounded-memory results",
+          "cancellation and partial-failure reporting"
+        ],
+        "acceptance": [
+          "checkpoint roundtrip and interrupted-run recovery",
+          "stable output ordering independent of worker scheduling",
+          "bounded memory under declared large fixture",
+          "per-member failure isolation",
+          "Python presentation receives coarse immutable result batches"
+        ],
+        "performance_gate": "NO_REGRESSION_AND_END_TO_END_ENSEMBLE_THROUGHPUT_REPORT",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-07",
+        "title": "Default cutover and Python production-loop retirement",
+        "depends_on": ["RF-03", "RF-04", "RF-05", "RF-06"],
+        "mission": "Make Rust the only default numerical runtime and mechanically prove that Python is frontend/oracle only.",
+        "paths": ["public Python API", "backend dispatch", "packaging", "documentation", "production call-graph tests"],
+        "deliverables": [
+          "rust_required default across all supported APIs",
+          "explicit oracle namespace",
+          "static production allowlist",
+          "runtime FFI-call and Python-loop trace",
+          "deprecation path for force_python and implicit fallback",
+          "migration guide"
+        ],
+        "acceptance": [
+          "100 percent of supported production numerical API inventory maps to Rust",
+          "zero silent fallback paths",
+          "zero Python numerical loops in rust_required execution trace",
+          "unsupported modes fail with typed error",
+          "oracle remains independently runnable",
+          "public API compatibility or explicit documented migration"
+        ],
+        "performance_gate": "FINAL_CPU_1T_AND_12T_PRE_REGISTERED_HOLDOUT_EVALUATION",
+        "native_artifact": "NEW_NATIVE_BUNDLE_REQUIRED"
+      },
+      {
+        "id": "RF-GPU-00",
+        "title": "Optional transfer-inclusive GPU feasibility and implementation",
+        "depends_on": ["RF-04", "RF-05", "RF-BENCH-00"],
+        "mission": "Accelerate only large batch kernels for which transfer-inclusive evidence beats the accepted CPU runtime.",
+        "paths": ["optional JAX FFI", "optional PyTorch extension", "optional CUDA feature", "GPU benchmark corpus"],
+        "deliverables": [
+          "arithmetic-intensity and batch-threshold survey",
+          "one framework lane before any custom CUDA kernel",
+          "f64 differential proof",
+          "cold and warm transfer-inclusive benchmarks",
+          "optional packaging extras"
+        ],
+        "acceptance": [
+          "CPU remains default and required",
+          "no correctness or precision contract change",
+          "CI95 upper candidate/baseline ratio below 0.90 for the predeclared production batch",
+          "compile and transfer costs included",
+          "failure or absence falls back only when caller explicitly selected an optional auto policy"
+        ],
+        "performance_gate": "OPTIONAL_MATERIALITY_GATE_PER_PREDECLARED_GPU_WORKLOAD",
+        "native_artifact": "SEPARATE_GPU_ARTIFACT_REQUIRED_IF_ACCEPTED"
+      },
+      {
+        "id": "WF-00",
+        "title": "Generic Lie-algebra-driven Wolfram/xAct equation generator",
+        "lane": "PARALLEL_NON_RUNTIME_BLOCKING",
+        "depends_on": [],
+        "base_ref": "archive/pre-rust-first-wolfram-20260824-r1",
+        "mission": "Turn the PR22 static candidate into a deterministic, type-ignorant generator whose Bianchi type is supplied as a LieAlgebraSpec, while optimizing Wolfram execution without changing promoted formula authority.",
+        "inputs": [
+          "dimension",
+          "structure constants or class-A/class-B N_ab and A_a representation",
+          "frame, gauge, and convention hash",
+          "matter schema and requested equation family"
+        ],
+        "paths": ["PR22 Wolfram/xAct candidate", "generic fixtures", "typed SymIR bridge", "generated provenance manifests", "Wolfram performance receipts"],
+        "deliverables": [
+          "one validated LieAlgebraSpec schema and registry adapter for supported Bianchi types",
+          "sparse nonzero-component construction with memoized structural tensors",
+          "staged canonicalization and delayed expansion instead of repeated global simplification",
+          "parallel evaluation only for proven independent component families",
+          "deterministic equation and typed-SymIR fingerprints",
+          "fresh exact-byte Wolfram/xAct execution packet and timing profile",
+          "dual comparison against promoted formulas and independent Python/SymPy fixtures",
+          "separate candidate provenance with no automatic authority promotion"
+        ],
+        "acceptance": [
+          "all supported type fixtures are generated from data rather than type-specific equation branches except documented mathematical exceptions",
+          "fresh Wolfram/xAct execution succeeds on the exact candidate bytes and pinned xAct/tool identity",
+          "repeated generation is deterministic by canonical fingerprint",
+          "typed SymIR roundtrip and generated Rust differential proof pass for the changed formula closure",
+          "engine optimization is supported by same-host paired timing or reported without a speedup claim",
+          "promoted formula authority is unchanged until explicit human promotion"
+        ],
+        "performance_gate": "NO_SPEEDUP_CLAIM_WITHOUT_VALID_PAIRED_WOLFRAM_EVIDENCE; DETERMINISM_AND_FORMULA_EQUIVALENCE_PRECEDE_TIMING",
+        "native_artifact": "NEW_GENERATED_NATIVE_BUNDLE_ONLY_AFTER_EXPLICIT_FORMULA_PROMOTION_AND_NATIVE_BYTES_CHANGE"
+      },
+      {
+        "id": "RF-FINAL",
+        "title": "Whole-runtime adversarial closeout and immutable native bundle",
+        "depends_on": ["RF-07"],
+        "mission": "Prove architecture closure, scientific integrity, portability, performance, recovery, and artifact reproducibility without report accretion.",
+        "paths": ["all changed runtime closures", "artifact branch", "concise closeout"],
+        "deliverables": [
+          "final CPU wheel and exact Cargo bundle",
+          "portable scalar and runtime-dispatched wheel matrix",
+          "holdout benchmark receipt",
+          "legacy rollback proof",
+          "one EVIDENCE.json, one short closeout, one short handoff"
+        ],
+        "acceptance": [
+          "scientific contract green on all changed closures",
+          "rust_required default and zero silent fallback",
+          "portable scalar fallback green",
+          "1T and 12T controlled paired evidence valid or honestly blocked",
+          "legacy archive restore and native bundle verification",
+          "independent adversarial review has no blocker"
+        ],
+        "performance_gate": "PUBLISH_SPEEDUP_ONLY_WHEN_CLEAN_CI_SUPPORTS_IT; ARCHITECTURE_COMPLETION_IS_NOT_RELABELED_A_SPEEDUP_IF_ENVIRONMENT_BLOCKS_TIMING",
+        "native_artifact": "NEW_FINAL_NATIVE_BUNDLE_REQUIRED"
+      }
+    ]
+  },
+  "scientific_acceptance": {
+    "hierarchy": [
+      {
+        "level": "operator",
+        "requirements": ["RHS/JVP parity", "mass/operator parity", "linear-solve backward residual", "projector/connection identities"]
+      },
+      {
+        "level": "state",
+        "requirements": ["direct checkpoint and endpoint state parity under scale-aware floating-point budgets", "constraint and residual parity"]
+      },
+      {
+        "level": "independent_science",
+        "requirements": ["Rust and oracle independently satisfy exact, quadrature, conservation, positivity, convergence, and order gates"]
+      }
+    ],
+    "forbidden_comparators": [
+      "relative equality of near-zero cancellation-derived error scalars",
+      "bit-exact trajectory equality across different valid reduction or linear-solve orders",
+      "a speed threshold used as a substitute for scientific correctness"
+    ],
+    "floating_point_rule": "SIMD and parallel reductions may change low bits; validate primitive state, operators, residuals, invariants, and independent accuracy with predeclared scale-aware budgets.",
+    "tolerance_rule": "Reuse existing scientific tolerances. Any proposed tolerance or reference change is a separate PI decision and cannot be bundled with optimization.",
+    "no_fallback_rule": "Every supported rust_required test asserts that the Python oracle was not called."
+  },
+  "performance_protocol": {
+    "schema": "bass-contention-controlled-benchmark-v1",
+    "truth_boundary": "Literal independence from external CPU use is unavailable on a shared host. Exclusive cpusets reduce scheduler co-tenancy but do not isolate shared LLC, memory controller, power, thermal, firmware, IRQ, or hypervisor effects.",
+    "claim_levels": [
+      {
+        "name": "DEDICATED_BARE_METAL",
+        "requirements": ["exclusive host or self-hosted runner", "no unrelated workload", "zero VM steal", "topology and thermal controls"],
+        "allowed_claims": ["absolute same-host latency", "paired speedup", "scaling on recorded host"]
+      },
+      {
+        "name": "CONTROLLED_SHARED_PAIRED",
+        "requirements": ["valid cgroup-v2 isolated partition or equivalent exclusive physical-core allocation", "all contamination gates", "same-session paired design"],
+        "allowed_claims": ["same-session paired candidate effect"],
+        "forbidden_claims": ["contention-independent", "absolute cross-host latency authority"]
+      },
+      {
+        "name": "EXPLORATORY_ONLY",
+        "requirements": ["taskset or affinity without proven exclusivity"],
+        "allowed_claims": ["profiling hypothesis"],
+        "forbidden_claims": ["acceptance", "rejection", "speedup promotion", "scaling authority"]
+      }
+    ],
+    "promotion_minimum": "CONTROLLED_SHARED_PAIRED",
+    "corpora": {
+      "legacy_pr23": {
+        "status": "RETAINED_FOR_CONTINUITY_NOT_WHOLE_RUNTIME_AUTHORITY",
+        "limitation": "Q and R5b dominate the recorded runtime and already use coarse Rust calls, so this corpus is structurally blind to much of the remaining Python-owned production closure."
+      },
+      "whole_runtime_v1": {
+        "status": "REQUIRED_BEFORE_MIGRATION_SPEEDUP_CLAIMS",
+        "required_strata": [
+          "cold import and backend initialization",
+          "warm RuntimePlan construction",
+          "single and batched geometry/background trajectories",
+          "matter and thermodynamics evolution",
+          "kinetic hierarchy and Kato/collision evolution",
+          "ray, map, and observable batches",
+          "representative end-to-end production workflow",
+          "memory, allocation, FFI-call, and serialization overhead"
+        ],
+        "holdout": "Commit one representative end-to-end workload and its digest before candidate results; exclude it from tuning until milestone closeout."
+      }
+    },
+    "host_setup": {
+      "privileged_mutation_requires_explicit_authorization": true,
+      "preferred": "Dedicated bare-metal benchmark runner.",
+      "shared_fallback": "cgroup v2 isolated partition with exact effective exclusive cpuset and individual worker affinity.",
+      "if_unavailable": "BLOCKED_ENVIRONMENT; do not degrade to taskset and keep an authority claim.",
+      "topology": [
+        "Read physical package/core/thread-sibling topology.",
+        "Reserve every SMT sibling of a selected physical core from unrelated tasks or disable SMT on the runner.",
+        "Use one logical CPU per physical core for 1T and 12T authority strata unless a separate SMT experiment is declared.",
+        "Keep the 12T set on one NUMA node when the host exposes NUMA.",
+        "First-touch memory inside the selected cpuset."
+      ]
+    },
+    "build_preconditions": [
+      "same base and candidate inputs except declared candidate bytes",
+      "release build with exact lock, toolchain, dependencies, and flags",
+      "portable and native-fast artifacts identified separately",
+      "thread pool initialized before steady-state samples",
+      "all non-owner thread libraries forced to one thread",
+      "benchmark corpus and holdout digest committed before candidate results"
+    ],
+    "strata": [
+      {
+        "name": "strict_1t",
+        "threads": 1,
+        "placement": "one pinned physical core with its SMT sibling reserved"
+      },
+      {
+        "name": "physical_12t",
+        "threads": 12,
+        "placement": "twelve individually pinned physical cores with sibling reservation and fixed Rayon pool"
+      }
+    ],
+    "sample_duration": {
+      "steady_state_min_seconds": 2.0,
+      "method": "Batch multiple identical deterministic iterations inside one sample when the current workload is shorter; preserve one output digest and divide only timing, never scientific outputs.",
+      "startup": "Measure import, JIT, plan construction, allocation, and thread-pool creation separately when startup is a declared workload."
+    },
+    "paired_design": {
+      "unit": "paired_block",
+      "orders": ["AB", "BA"],
+      "schedule": "balanced randomized with committed seed",
+      "warmup": "both arms before collection",
+      "valid_pairs_target_per_stratum": 30,
+      "max_attempts_per_stratum": 90,
+      "statistic": "candidate_over_baseline ratio from paired log-ratios",
+      "interval": "paired bootstrap 95 percent confidence interval with committed seed",
+      "holdout": "one representative end-to-end workload is not used for tuning and is evaluated once at milestone closeout",
+      "optional_peeking": false
+    },
+    "sample_evidence": [
+      "wall_time_ns",
+      "task_clock",
+      "cycles",
+      "reference_cycles_when_available",
+      "instructions",
+      "branches",
+      "branch_misses",
+      "cache_references",
+      "cache_misses",
+      "context_switches",
+      "cpu_migrations",
+      "minor_faults",
+      "major_faults",
+      "perf_time_enabled_running",
+      "benchmark_cgroup_cpu_stat",
+      "benchmark_cgroup_cpu_psi_delta",
+      "selected_cpu_proc_stat_delta",
+      "selected_cpu_irq_delta",
+      "system_cpu_psi_context",
+      "effective_frequency_or_aperf_mperf",
+      "temperature",
+      "core_and_package_throttle_counter_delta",
+      "affinity_and_effective_cpuset",
+      "per_worker_task_clock"
+    ],
+    "contamination_gates": {
+      "calibration_rule": "Numeric defaults are calibrated and locked on the target runner before candidate results are viewed; they are never silently tuned afterward.",
+      "cpuset_partition_state": "isolated_valid_or_equivalent_exclusive",
+      "effective_cpuset_exact_match": true,
+      "cpu_migrations": 0,
+      "major_faults_after_warmup": 0,
+      "steal_time_delta": 0,
+      "thermal_throttle_event_delta": 0,
+      "perf_running_over_enabled_min": 0.95,
+      "benchmark_cgroup_cpu_psi_some_fraction_max_default": 0.001,
+      "external_busy_fraction_on_selected_cpus_max_default": 0.001,
+      "paired_effective_frequency_relative_delta_max_default": 0.005,
+      "involuntary_context_switches_max_per_worker_sample_default": 1,
+      "system_wide_cpu_psi": "CONTEXT_WARNING_ONLY_NOT_A_HARD_GATE"
+    },
+    "decision_rules": {
+      "correctness_precedes_timing": true,
+      "contaminated_sample": "DISCARD_BEFORE_CANDIDATE_DECISION",
+      "insufficient_clean_pairs": "BLOCKED_CONTAMINATED",
+      "candidate_b_legacy": {
+        "scope": "EXACT_PR23_LOCAL_RESUME_CONTRACT_NOT_REPLACED_BY_THIS_PROTOCOL",
+        "materiality_ratio": 0.9,
+        "pass": "Exact cross-ref output digest equality, candidate/baseline paired median at or below 0.90 in both PR23 populations, and no PR23 memory-policy violation.",
+        "measurement": "Use the exact PR23 harness, 15 pairs, 3 warmups, seed 20260824, populations, inputs, and recorded commands if and only if PR23 itself is resumed.",
+        "otherwise": "Apply the exact PR23 decision vocabulary; do not reinterpret Candidate B through the new bootstrap-CI milestone contract.",
+        "note": "Archived unchanged for Candidate B only. The controlled-shared protocol and CI rules govern new migration milestones."
+      },
+      "migration_patch": {
+        "completion": "Scientific and architecture acceptance can pass without a 10 percent local speedup.",
+        "no_regression": "CI95 upper candidate_over_baseline at or below 1.05 on affected workloads unless the node declares no timing claim and obtains explicit architectural acceptance.",
+        "speedup_claim": "Report only observed clean interval; do not force a positive label."
+      },
+      "milestone": {
+        "minimum_publishable_materiality": "CI95 upper candidate_over_baseline below 0.90 in both 1T and 12T declared aggregate strata.",
+        "architecture_completion": "Not blocked solely because the clean improvement is below 10 percent when the declared full runtime closure and no-regression gates pass.",
+        "scaling_claim": "Requires per-worker task-clock and physical-core placement evidence in addition to wall time."
+      },
+      "mechanistic_support_only": [
+        "fewer cycles or instructions without clean wall-time pass",
+        "profile changes from exploratory-only runs",
+        "exact output identity without timing",
+        "wall-time pass with failed contamination gates"
+      ]
+    },
+    "prior_evidence_interpretation": {
+      "baseline_1t_seconds": 0.3124499165,
+      "baseline_12t_seconds": 0.2974174922,
+      "twelve_thread_wall_reduction_fraction": 0.048113263,
+      "scaling_verdict": "NOT_ESTABLISHED",
+      "q_b1_improvement_fraction": {
+        "strict_1t": 0.050740084768891,
+        "physical_12t": 0.0582923585682041
+      },
+      "q_b2_improvement_fraction": {
+        "strict_1t": 0.0492426285,
+        "physical_12t": 0.0462425085188348
+      },
+      "q_verdict": "REJECTED_MATERIALITY_UNDER_PREDECLARED_10_PERCENT_GATE_NOT_CODE_FAILURE",
+      "candidate_b_verdict": "CORRECTNESS_PASS_TIMING_BLOCKED_CONTAMINATED_NEITHER_ACCEPTED_NOR_REJECTED"
+    }
+  },
+  "artifact_and_backup_policy": {
+    "legacy_backup_status": "SOURCE_AND_SYMBOLIC_REFS_PINNED_NATIVE_R2_PINNED",
+    "restore": {
+      "source_ref": "archive/pre-rust-first-runtime-20260824-r1",
+      "symbolic_candidate_ref": "archive/pre-rust-first-wolfram-20260824-r1",
+      "native_ref": "artifact/native-repro-bundle-20260824-r2",
+      "verification": [
+        "Resolve each branch to the exact commit in authority_lock.",
+        "Verify PR23 EVIDENCE.json SHA-256.",
+        "Reconstruct native r2 ordered parts and verify the archive root SHA-256.",
+        "Verify wheel and Cargo.lock SHA-256 before use.",
+        "Run restored Cargo commands from _rustcore root only when a restoration proof is actually required."
+      ]
+    },
+    "native_change_predicate": "Any change to Cargo manifests/lock/config/vendor, Rust source, generated Rust, PyO3 binding, ABI, build flags, toolchain, wheel, or native test fixture invalidates native-r2 reuse.",
+    "new_bundle_required_contents": [
+      "exact source commit and tree",
+      "Cargo.toml and Cargo.lock",
+      ".cargo/config.toml and exact vendor sources",
+      "pinned Rust toolchain identity and installer digest",
+      "release build flags and CPU portability class",
+      "wheel and wheelhouse required for the declared Python ABI",
+      "fmt, clippy, locked-offline Cargo, wheel import, differential, and changed-closure receipts",
+      "machine manifest with file sizes and SHA-256",
+      "ordered archive parts when host limits require them",
+      "root reconstructed archive SHA-256",
+      "short restore handoff"
+    ],
+    "push_rule": "Push accepted native bundles to a separate artifact branch; do not add vendor or wheel bytes to the source PR history.",
+    "reuse_rule": "If no native predicate input changed, record REUSED_NATIVE_R2_NO_R3 with the changed-path closure and do not rebuild for reassurance."
+  },
+  "risk_register": [
+    {
+      "id": "RISK-01",
+      "name": "FALSE_INDEPENDENCE_SHARED_RESOURCES",
+      "severity": "HIGH",
+      "trigger": "Shared-host benchmark described as independent of external CPU use.",
+      "mitigation": "Dedicated host for absolute claims; otherwise controlled paired claim only.",
+      "stop": "Claim level below CONTROLLED_SHARED_PAIRED."
+    },
+    {
+      "id": "RISK-02",
+      "name": "SMT_SIBLING_LEAKAGE",
+      "severity": "HIGH",
+      "trigger": "Selected logical CPU sibling is used by unrelated work.",
+      "mitigation": "Reserve the whole physical core or disable SMT on runner.",
+      "stop": "Topology or sibling reservation unproven."
+    },
+    {
+      "id": "RISK-03",
+      "name": "NESTED_THREAD_POOLS",
+      "severity": "HIGH",
+      "trigger": "Rayon and BLAS/OpenMP/JAX pools execute concurrently.",
+      "mitigation": "One parallel owner and explicit thread environment; custom owned Rayon pool.",
+      "stop": "Observed workers exceed declared topology."
+    },
+    {
+      "id": "RISK-04",
+      "name": "FP_REDUCTION_ORDER_CONTRACT_DRIFT",
+      "severity": "HIGH",
+      "trigger": "SIMD or parallel code is judged by bit equality or cancellation-derived error-of-error.",
+      "mitigation": "Primitive state/operator/residual/invariant/independent-science hierarchy.",
+      "stop": "Acceptance observable changed without PI decision."
+    },
+    {
+      "id": "RISK-05",
+      "name": "SILENT_FALLBACK",
+      "severity": "HIGH",
+      "trigger": "Missing, mismatched, or failing native module executes Python in supported production path.",
+      "mitigation": "rust_required default, typed error, no-fallback guard.",
+      "stop": "Any supported default path reaches oracle."
+    },
+    {
+      "id": "RISK-06",
+      "name": "FFI_CHATTER_AND_COPIES",
+      "severity": "HIGH",
+      "trigger": "Calls or copies scale with steps, rays, nodes, modes, or species.",
+      "mitigation": "Coarse API, contiguous buffers, persistent plan/workspace, counters.",
+      "stop": "Declared call/copy budget exceeded."
+    },
+    {
+      "id": "RISK-07",
+      "name": "GLOBAL_POOL_NONDETERMINISM",
+      "severity": "MEDIUM",
+      "trigger": "Ambient Rayon global-pool initialization or configuration changes run behavior.",
+      "mitigation": "Owned explicit ThreadPool inside RuntimePlan.",
+      "stop": "Pool identity or size is absent from capability receipt."
+    },
+    {
+      "id": "RISK-08",
+      "name": "TARGET_CPU_PORTABILITY",
+      "severity": "HIGH",
+      "trigger": "target-cpu=native or unconditional SIMD is published as the general wheel.",
+      "mitigation": "Portable scalar wheel plus runtime-dispatched variants and fallback tests.",
+      "stop": "Artifact cannot execute scalar path on minimum target."
+    },
+    {
+      "id": "RISK-09",
+      "name": "GPU_TRANSFER_AND_PRECISION_TRAP",
+      "severity": "MEDIUM",
+      "trigger": "Kernel-only GPU time or reduced precision is compared with end-to-end CPU f64.",
+      "mitigation": "Transfer-inclusive f64 user workload; cold and warm reported separately.",
+      "stop": "GPU proof excludes required compile/transfer/sync cost or changes precision."
+    },
+    {
+      "id": "RISK-10",
+      "name": "WINNERS_CURSE_TUNING",
+      "severity": "MEDIUM",
+      "trigger": "Many variants are tried against the same acceptance workload.",
+      "mitigation": "Pre-register candidate budget and hold out one milestone workload.",
+      "stop": "Unbounded candidate search or post-result threshold tuning."
+    },
+    {
+      "id": "RISK-11",
+      "name": "FORMULA_AUTHORITY_LEAK",
+      "severity": "HIGH",
+      "trigger": "PR22 generic candidate feeds production codegen without Wolfram receipt and promotion.",
+      "mitigation": "Keep divergent ref and typed provenance boundary; consume existing promoted formulas only.",
+      "stop": "Unpromoted formula bytes enter generated Rust."
+    },
+    {
+      "id": "RISK-12",
+      "name": "REPORT_ACCRETION",
+      "severity": "MEDIUM",
+      "trigger": "Machine evidence is copied into closeout, handoff, PR body, and ledgers.",
+      "mitigation": "One SPEC/EVIDENCE machine authority, short README, short HANDOFF, pointer-only PR body.",
+      "stop": "Human docs exceed budgets or repeat raw hash inventories."
+    }
+  ],
+  "governance": {
+    "status_vocabulary": [
+      "PASS",
+      "FAIL_CODE",
+      "REJECTED_MATERIALITY",
+      "BLOCKED_ENVIRONMENT",
+      "INCONCLUSIVE",
+      "NOT_RUN_NO_CHANGE",
+      "CANDIDATE_UNPROMOTED"
+    ],
+    "anti_accretion": {
+      "machine_authority": "SPEC.json for this plan and one EVIDENCE.json per implementation node.",
+      "human_surfaces": ["README.md", "HANDOFF.md"],
+      "readme_max_lines": 120,
+      "handoff_max_lines": 80,
+      "rule": "Machine-readable evidence must be referenced, not reproduced, in human closeout.",
+      "forbidden": [
+        "per-part archive hashes in human reports",
+        "full command transcripts in PR body",
+        "handoff recursively embedded in closeout",
+        "repeated PASS matrices",
+        "multiple next actions",
+        "reassurance reruns without changed-path justification"
+      ]
+    },
+    "review": {
+      "one_bounded_independent_review_per_node": true,
+      "additional_review_wave": "ONLY_AFTER_RELEVANT_BLOCKER_FIX",
+      "finding_classes": ["BLOCKER", "NON_BLOCKER"],
+      "merge_authority": "HUMAN_ONLY_EXPLICIT"
+    },
+    "delivery": {
+      "default_pr_state": "DRAFT",
+      "merge": false,
+      "mark_ready": false,
+      "authority_promotion": false,
+      "atomic_commits": true,
+      "stacked_prs": true,
+      "rollback": "Revert the node commit or reset a fresh worktree to the previous stacked head; archive refs remain untouched."
+    }
+  },
+  "sources": [
+    {
+      "id": "SRC-REPO-PR23-EVIDENCE",
+      "kind": "repository_primary",
+      "url": "https://github.com/cosmosapjw-quantum/bass/blob/4c6150578d1e7fea43e0d32c01664c92094c8c05/artifacts/performance/EVIDENCE.json"
+    },
+    {
+      "id": "SRC-LINUX-CGROUP-V2",
+      "kind": "official_documentation",
+      "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+      "supports": "exclusive and isolated cpuset partition semantics"
+    },
+    {
+      "id": "SRC-LINUX-CPU-ISOLATION",
+      "kind": "official_documentation",
+      "url": "https://docs.kernel.org/admin-guide/cpu-isolation.html",
+      "supports": "CPU isolation limitations and setup surface"
+    },
+    {
+      "id": "SRC-RUST-ARCH",
+      "kind": "official_documentation",
+      "url": "https://doc.rust-lang.org/std/arch/index.html",
+      "supports": "runtime feature detection and target-specific SIMD"
+    },
+    {
+      "id": "SRC-RUST-PORTABLE-SIMD",
+      "kind": "official_documentation",
+      "url": "https://doc.rust-lang.org/stable/core/simd/",
+      "supports": "portable_simd remains nightly-only"
+    },
+    {
+      "id": "SRC-PYO3-PARALLELISM",
+      "kind": "official_documentation",
+      "url": "https://pyo3.rs/main/parallelism",
+      "supports": "Python::detach for Rust-only parallel work"
+    },
+    {
+      "id": "SRC-RAYON-POOL",
+      "kind": "official_documentation",
+      "url": "https://docs.rs/rayon/1.12.0/rayon/struct.ThreadPoolBuilder.html",
+      "supports": "owned and configured Rayon thread pools"
+    },
+    {
+      "id": "SRC-JAX-FFI",
+      "kind": "official_documentation",
+      "url": "https://docs.jax.dev/en/latest/ffi.html",
+      "supports": "optional typed CPU and GPU FFI"
+    },
+    {
+      "id": "SRC-PYTORCH-EXTENSION",
+      "kind": "official_documentation",
+      "url": "https://docs.pytorch.org/docs/main/cpp_extension.html",
+      "supports": "optional C++ and CUDA extension integration"
+    }
+  ],
+  "next_action": {
+    "exactly_one": true,
+    "work_item": "RF-00",
+    "instruction": "Create a fresh stacked branch from the plan package head and implement the Rust-required backend-policy and unified packaging boundary without moving numerical physics or changing scientific authority.",
+    "handoff_path": "docs/rust_first_runtime/HANDOFF.md"
+  }
+}
