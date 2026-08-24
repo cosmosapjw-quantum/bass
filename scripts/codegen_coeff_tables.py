@@ -36,7 +36,15 @@ _OPS = [
 
 
 def fmt(vals):
-    return ", ".join(repr(float(v)) for v in vals)
+    """Serialize binary64 values with one representation for mathematical zero.
+
+    Linear-algebra backends may return either sign bit for an exact zero.  The
+    sign has no coefficient meaning here, so normalize both variants to +0.0
+    before emitting Rust and keep every nonzero binary64 unchanged.
+    """
+    return ", ".join(
+        repr(0.0 if float(v) == 0.0 else float(v)) for v in vals
+    )
 
 
 def generate() -> str:
