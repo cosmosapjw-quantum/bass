@@ -1,44 +1,49 @@
-# RF-BENCH-00 handoff
+# RF-01 handoff
 
 ## STATE
 
 - Repository: `https://github.com/cosmosapjw-quantum/bass`.
-- Branch: `agent/architecture/rust-first-rf-bench-00-20260825-r1`, stacked on
-  PR #25 head `980050fcb7cec466a94cdd0c5534254013901d51`.
-- Code head: `0ec0966f03ac3293157e78c8094c1e218c687a6b`, tree
-  `9ca6c3d464c9a9053889ef21eac255aeb79ebb94`.
-- Draft PR: [#26](https://github.com/cosmosapjw-quantum/bass/pull/26), open,
-  draft, and unmerged. Keep both stacked PRs draft and unmerged.
+- Stack base: draft PR #26 branch
+  `agent/architecture/rust-first-rf-bench-00-20260825-r1` at
+  `8a21642d6b42f882cf8e0233e8579fb2a267f491`.
+- RF-01 implementation: `agent/architecture/rust-first-rf01-20260825-r1` at
+  `dea69b0d82a3e157cc452c8dfd4a27b1dbb3bd49`, tree
+  `1bd251b0dfa098fa5d15790aec29c0355b23ab73`.
+- The enclosing closeout commit is resolved by the live branch and stacked draft
+  PR because a commit cannot embed its own hash.
 
 ## OUTCOME
 
-- The runner is read-only and fails closed below
-  `CONTROLLED_SHARED_PAIRED`; candidate resolution and statistics remain hidden
-  when host authority is insufficient.
-- Strict-1T and physical-12T selections bind execution CPUs plus reserved SMT
-  sibling evidence. AB/BA scheduling, contamination gates, duration floor,
-  pair/attempt limits, and deterministic bootstrap are frozen.
-- `whole-runtime-v1` has eight strata, 11 entries, and one default-off holdout;
-  future adapters remain typed blockers and make campaigns ineligible.
-- Final focused proof: 30 passed. Independent repair closeout:
-  `PASS_CODE_CONTRACT_ONLY`.
-- Current host: `EXPLORATORY_ONLY`; controlled request:
-  `BLOCKED_ENVIRONMENT`; performance: `NOT_RUN`.
+- `CODE_CONTRACT_PASS`; private-pool RuntimePlan, plan-bound Workspace, typed
+  buffer/GIL errors, counters, and two non-timed RF-01 corpus adapters are closed.
+- Native R4: `artifact/native-repro-bundle-20260825-r4` at
+  `b069e46eeb649b7b33e5ca30c3508d144fcd0e2c`, tree
+  `53da650f50cc140acf57a6e6044f0675bfb8b17c`.
+- Archive SHA-256 `1c587e04e93095d39ec821b2a7cb6824132d9c2ded635ee8c6101410490fabd3`;
+  fresh remote reassembly and offline restore PASS.
+- `PERFORMANCE_NOT_RUN_BLOCKED_ENVIRONMENT`; acceptance `NONE`; scientific
+  behavior change `NONE`; formula authority `UNCHANGED_UNPROMOTED`.
 
 ## EVIDENCE
 
-- Machine index: `artifacts/rust_first_runtime/rfbench00/EVIDENCE.json`.
-- Raw manifest: `artifacts/rust_first_runtime/rfbench00/RAW_MANIFEST.sha256`.
-- Native decision: `REUSED_NATIVE_R3_NO_R4_RF_BENCH_00`; immutable r3 head
-  `3aef681d2901e77ce638be5925688929800a822a`.
+- Sole authority: `artifacts/rust_first_runtime/rf01/EVIDENCE.json`, SHA-256
+  `bc04ef51412c59fcdd5f2ae87f8898531e99fab633b031fccc16e829268c768d`.
+- Raw remote receipts: `artifacts/rust_first_runtime/rf01/raw/`.
+- Reassemble after authenticated shallow clone:
+  `python repro/native/BASS-RF01-NATIVE-20260825T035620Z/reassemble_bundle.py --manifest repro/native/BASS-RF01-NATIVE-20260825T035620Z/BUNDLE_MANIFEST.json --output BASS_NATIVE_REPRO_BASS-RF01-NATIVE-20260825T035620Z.tar.xz`.
+- Run the reconstructed archive's `scripts/restore_and_verify.sh --help`, then use
+  its fail-closed `--repo-url/--source-commit/--expected-tree/--bundle/--dest/--python`
+  interface with pinned Rust 1.94.1 and Python 3.12.
 
 ## BOUNDARIES
 
-- No performance acceptance/rejection, speedup, no-regression, scaling,
-  formula-authority, full-suite, Wolfram, Cargo, or native-rebuild claim opened.
-- Do not merge, mark ready, promote formula authority, or rerun inherited PASS
-  lanes without a changed lane-relevant precondition.
+- Do not merge or mark ready; do not change dependencies, physics, formulae,
+  tolerances, references, scientific authority, or start RF-03+.
+- Do not rerun inherited PASS or RF-BENCH timing lanes without changed inputs and
+  a controlled host.
+- Roll back only the closeout commit with the command in `EVIDENCE.json`.
 
 ## EXACTLY ONE NEXT ACTION
 
-Execute RF-01: Runtime object, data model, workspace, and modular PyO3 boundary.
+Execute `RF-02` from the live RF-01 draft-PR head, preserving the RF-01 receipts
+and leaving RF-03+, SIMD, GPU, timing, and Wolfram work closed.
