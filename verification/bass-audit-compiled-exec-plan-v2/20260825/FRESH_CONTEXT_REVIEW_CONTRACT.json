@@ -1,0 +1,41 @@
+{
+  "fresh_context_required": true,
+  "pass_condition": {
+    "P0": 0,
+    "P1": 0,
+    "all_required_evidence_present": true,
+    "reviewer_did_not_modify": true
+  },
+  "required_output": {
+    "findings_fields": [
+      "severity",
+      "file",
+      "line",
+      "violated_invariant",
+      "reproducer",
+      "evidence"
+    ],
+    "format": "json",
+    "verdict_values": [
+      "PASS",
+      "FAIL_P0_P1",
+      "BLOCKED_BY_MISSING_EVIDENCE"
+    ]
+  },
+  "review_id": "BASS-AC-01-REVIEW",
+  "reviewer_may_modify": false,
+  "schema": "fresh-context-review/v1",
+  "trusted_inputs": [
+    "base_sha",
+    "final_sha",
+    "git_diff",
+    "compiled_contract",
+    "raw_verification_logs",
+    "machine_receipt"
+  ],
+  "untrusted_inputs": [
+    "implementer_summary",
+    "implementer_reasoning",
+    "success_claims_without_logs"
+  ]
+}

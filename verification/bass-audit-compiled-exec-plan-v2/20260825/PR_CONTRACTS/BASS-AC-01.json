@@ -1,0 +1,282 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_expected_hashes_to_fit_bytes": "forbidden",
+    "changing_tests_to_fit_implementation": "forbidden",
+    "guessing_across_spec_boundary": "forbidden",
+    "reviewer_may_fix": "false_first_pass",
+    "suppressing_failures": "forbidden",
+    "unresolved_spec_action": "BLOCKED_BY_UNRESOLVED_SPEC"
+  },
+  "base_sha": "f0fb24b55967e0dcbcc4d875c5a9b2677e680655",
+  "completion_evidence": {
+    "required": [
+      "git_base",
+      "git_head",
+      "git_status_porcelain",
+      "git_diff_name_status",
+      "git_diff_check",
+      "unit_test_log",
+      "negative_test_log",
+      "allowed_diff_log",
+      "machine_receipt_json",
+      "unresolved_blockers"
+    ]
+  },
+  "failure_modes": [
+    {
+      "id": "FM-01",
+      "required_detection": {
+        "receipt_code": "ARTIFACT_IDENTITY_COLLISION",
+        "test": "test_same_name_different_digest_is_p0"
+      },
+      "severity": "P0",
+      "trigger": "same filename is present with nonmatching size or sha256"
+    },
+    {
+      "id": "FM-02",
+      "required_detection": {
+        "receipt_code": "UNBOUND_HISTORICAL_EVIDENCE",
+        "test": "test_unbound_receipt_cannot_promote"
+      },
+      "severity": "P0",
+      "trigger": "receipt is used without exact subject digest/source manifest binding"
+    },
+    {
+      "id": "FM-03",
+      "required_detection": {
+        "receipt_code": "NON_PORTABLE_SIDECAR",
+        "test": "test_absolute_sidecar_path_rejected"
+      },
+      "severity": "P1",
+      "trigger": "sidecar path is absolute or escapes its directory"
+    },
+    {
+      "id": "FM-04",
+      "required_detection": {
+        "receipt_code": "CACHE_CONTAMINATION",
+        "test": "test_unmanifested_cache_fails_closed"
+      },
+      "severity": "P1",
+      "trigger": "unmanifested __pycache__/.pyc exists in verification tree"
+    },
+    {
+      "id": "FM-05",
+      "required_detection": {
+        "receipt_code": "FORBIDDEN_REFERENCE_MUTATION",
+        "test": "test_forbidden_diff_is_p0"
+      },
+      "severity": "P0",
+      "trigger": "expected digest/tolerance/golden/test is edited to make verification pass"
+    }
+  ],
+  "implementation": {
+    "ordered_steps": [
+      {
+        "action": "Write failing unit tests for FM-01 through FM-05 and missing-input classification.",
+        "files": [
+          "tests/verification/test_artifact_identity.py"
+        ],
+        "id": "STEP-01",
+        "must_preserve": [
+          "INV-01",
+          "INV-02",
+          "INV-03"
+        ]
+      },
+      {
+        "action": "Implement pure-stdlib JSON/sidecar verifier with deterministic exit codes and machine receipt.",
+        "files": [
+          "scripts/verify_artifact_identity.py"
+        ],
+        "id": "STEP-02",
+        "must_preserve": [
+          "INV-01",
+          "INV-02",
+          "INV-03",
+          "INV-04"
+        ]
+      },
+      {
+        "action": "Implement allowed-path diff firewall against exact base SHA.",
+        "files": [
+          "scripts/verify_allowed_diff.py"
+        ],
+        "id": "STEP-03",
+        "must_preserve": [
+          "INV-05"
+        ]
+      },
+      {
+        "action": "Document status codes, immutable identity tuple, receipt binding, cache policy, and supersession rules.",
+        "files": [
+          "docs/quality/ARTIFACT_IDENTITY_POLICY.md"
+        ],
+        "id": "STEP-04",
+        "must_preserve": [
+          "INV-01",
+          "INV-02",
+          "INV-03",
+          "INV-04"
+        ]
+      },
+      {
+        "action": "Seal command outputs and final receipt; do not include recovered or synthetic science artifacts as authority.",
+        "files": [
+          "verification/bass-ac-01/**"
+        ],
+        "id": "STEP-05",
+        "must_preserve": [
+          "INV-05"
+        ]
+      }
+    ]
+  },
+  "invariants": [
+    {
+      "id": "INV-01",
+      "mechanical_check": {
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0 -v",
+        "expect": "PASS"
+      },
+      "severity_if_violated": "P0",
+      "statement": "Artifact identity is the atomic tuple filename,size,sha256; filename alone never establishes identity."
+    },
+    {
+      "id": "INV-02",
+      "mechanical_check": {
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input -v",
+        "expect": "PASS"
+      },
+      "severity_if_violated": "P0",
+      "statement": "A missing artifact returns BLOCKED_INPUT_REQUIRED and cannot be labeled scientific PASS or FAIL."
+    },
+    {
+      "id": "INV-03",
+      "mechanical_check": {
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unbound_receipt_cannot_promote -v",
+        "expect": "PASS"
+      },
+      "severity_if_violated": "P0",
+      "statement": "Historical receipts cannot promote authority unless bound to the exact artifact digest and declared source manifest."
+    },
+    {
+      "id": "INV-04",
+      "mechanical_check": {
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_absolute_sidecar_path_rejected -v",
+        "expect": "PASS"
+      },
+      "severity_if_violated": "P1",
+      "statement": "Checksum sidecars are portable and contain basename-only paths."
+    },
+    {
+      "id": "INV-05",
+      "mechanical_check": {
+        "command": "python scripts/verify_allowed_diff.py --base f0fb24b55967e0dcbcc4d875c5a9b2677e680655 --contract verification/audit-compiled/ACTIVE_PR_CONTRACT.json",
+        "expect": "PASS"
+      },
+      "severity_if_violated": "P0",
+      "statement": "Only allowed paths change."
+    }
+  ],
+  "objective": {
+    "observable_success": "Synthetic and historical identity cases produce deterministic PASS/BLOCKED/P0 receipts; no file outside allowed_paths changes.",
+    "statement": "Add a pure-stdlib fail-closed artifact identity verifier and portable checksum policy without touching scientific authority bytes."
+  },
+  "pr_id": "BASS-AC-01",
+  "preconditions": [
+    {
+      "command": "git rev-parse HEAD",
+      "expect": "f0fb24b55967e0dcbcc4d875c5a9b2677e680655",
+      "id": "PRE-01"
+    },
+    {
+      "command": "test -z \"$(git status --porcelain)\"",
+      "expect": "exit=0",
+      "id": "PRE-02"
+    },
+    {
+      "command": "test -f verification/bass-close-00s-blocked-input-seal/20260825/README.md",
+      "expect": "exit=0",
+      "id": "PRE-03"
+    }
+  ],
+  "review_gate": {
+    "failure_action": "RETURN_TO_IMPLEMENTER_WITH_FINDINGS",
+    "fresh_context_required": true,
+    "pass_condition": {
+      "P0": 0,
+      "P1": 0
+    },
+    "reviewer_input": [
+      "base_sha",
+      "final_sha",
+      "git_diff",
+      "this_contract",
+      "verification_logs",
+      "machine_receipt_json"
+    ],
+    "reviewer_must_not_modify": true
+  },
+  "risk_class": "high",
+  "schema": "audit-compiled-pr/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/verify_artifact_identity.py",
+      "scripts/verify_allowed_diff.py",
+      "tests/verification/test_artifact_identity.py",
+      "docs/quality/ARTIFACT_IDENTITY_POLICY.md",
+      "verification/bass-ac-01/**"
+    ],
+    "forbidden_changes": [
+      "Do not change scientific source, tests, tolerances, golden outputs, expected hashes, or historical receipts.",
+      "Do not reconstruct or supersede the missing 2B.3 authority.",
+      "Do not add JAX/JAXlib/Equinox/Diffrax.",
+      "Do not create PR, merge, tag, classifier, runtime route, Rust lowering, or fitting code."
+    ],
+    "forbidden_paths": [
+      "verification/bass8b2*/**",
+      "verification/bass8b3*/**",
+      "checkpoints/**",
+      "source/**",
+      "tests/physics/**",
+      "**/*.zip",
+      "**/*.png"
+    ]
+  },
+  "task_id": "BASS-AC-01_ARTIFACT_IDENTITY_GUARD",
+  "verification": {
+    "full_relevant_suite": [
+      {
+        "command": "python -m unittest discover -s tests/verification -v",
+        "expect": "PASS"
+      },
+      {
+        "command": "git diff --check",
+        "expect": "exit=0"
+      }
+    ],
+    "negative": [
+      {
+        "command": "python scripts/verify_artifact_identity.py tests/fixtures/same_name_wrong_digest.json",
+        "expect": "exit=4 code=ARTIFACT_IDENTITY_COLLISION"
+      },
+      {
+        "command": "python scripts/verify_artifact_identity.py tests/fixtures/missing_artifact.json",
+        "expect": "exit=3 code=BLOCKED_INPUT_REQUIRED"
+      }
+    ],
+    "regression": [
+      {
+        "command": "python scripts/verify_allowed_diff.py --base f0fb24b55967e0dcbcc4d875c5a9b2677e680655 --contract verification/audit-compiled/ACTIVE_PR_CONTRACT.json",
+        "expect": "PASS"
+      }
+    ],
+    "targeted": [
+      {
+        "command": "python -m unittest tests.verification.test_artifact_identity -v",
+        "expect": "all PASS"
+      }
+    ]
+  }
+}

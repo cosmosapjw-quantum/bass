@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "base_sha": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "failure_modes": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "invariants": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "pr_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "risk_class": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "schema": {
+      "const": "audit-compiled-pr/v1"
+    }
+  },
+  "required": [
+    "schema",
+    "pr_id",
+    "base_sha",
+    "risk_class",
+    "objective",
+    "scope",
+    "preconditions",
+    "invariants",
+    "failure_modes",
+    "implementation",
+    "verification",
+    "completion_evidence",
+    "agent_policy",
+    "review_gate"
+  ],
+  "title": "audit-compiled-pr/v1 minimal schema",
+  "type": "object"
+}
