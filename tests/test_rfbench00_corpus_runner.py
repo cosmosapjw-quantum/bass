@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from benchmarks.rfbench.corpus import (
+    ADAPTER_PATH,
     CORPUS_PATH,
     REQUIRED_STRATA,
     describe,
@@ -61,7 +62,7 @@ def _config() -> dict:
         "contamination_limits": CONTAMINATION_LIMITS,
         "corpus_sha256": sha256_file(CORPUS_PATH),
         "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa",
-        "source_adapter_sha256": "a9f7a2f2bb516095b1f8bea7a09910fddf592752ae07796ff37a24b8200a1e71",
+        "source_adapter_sha256": sha256_file(ADAPTER_PATH),
         "common_build_identity": common_build,
         "common_build_identity_sha256": "9074e0eb08c0be1e069a0b1ee5ac2e50716903f51bee65af2401cf20eb08ddde",
     }
@@ -218,9 +219,9 @@ def test_registry_is_complete_but_future_owned_slots_fail_closed():
     assert set(registry["required_strata"]) == REQUIRED_STRATA
     assert len([item for item in registry["workloads"] if item["role"] == "holdout"]) == 1
     plan = next(item for item in registry["workloads"] if item["id"] == "runtime_plan_warm_construct")
-    assert plan["implementation_state"] == "BLOCKED_BY_RF01_NOT_EXECUTABLE"
-    assert plan["selector"] is None
-    with pytest.raises(RuntimeError, match="runtime_plan_warm_construct"):
+    assert plan["implementation_state"] == "EXECUTABLE_CURRENT"
+    assert plan["selector"] == "bianchi.runtime.RuntimePlan"
+    with pytest.raises(RuntimeError, match="geometry_class_a_single"):
         select_workloads(registry)
     with pytest.raises(PermissionError, match="milestone_closeout"):
         select_workloads(registry, roles=("holdout",))
@@ -237,7 +238,12 @@ def test_registry_is_complete_but_future_owned_slots_fail_closed():
             if item["implementation_state"] == "EXECUTABLE_CURRENT"] == [
         "startup_cold_backend_import",
         "startup_backend_initialization",
+        "runtime_plan_warm_construct",
+        "runtime_plan_memory_allocation_ffi_overhead",
     ]
+    assert registry["component_blockers"]["serialization"]["state"] == (
+        "BLOCKED_BY_RF06_NO_END_TO_END_SERIALIZATION_ADAPTER"
+    )
 
 
 def test_corpus_description_has_one_sealed_holdout_and_stable_digest():

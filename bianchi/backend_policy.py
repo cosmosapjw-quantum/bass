@@ -34,10 +34,10 @@ EXPECTED_CARGO_LOCK_SHA256 = (
 )
 REFERENCE_NATIVE_BUILD = MappingProxyType(
     {
-        "status": "rf00_r3_wheel_and_installed_payload_fingerprint",
-        "artifact_branch": "artifact/native-repro-bundle-20260824-r3",
+        "status": "rf01_r4_wheel_and_installed_payload_fingerprint",
+        "artifact_branch": "artifact/native-repro-bundle-20260825-r4",
         "wheel_sha256": (
-            "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917"
+            "c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482"
         ),
         "cargo_lock_sha256": EXPECTED_CARGO_LOCK_SHA256,
         "rustc_version": "1.94.1",
@@ -64,8 +64,8 @@ _REFERENCE_NATIVE_INSTALLED_FILES = (
     ),
     (
         "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
-        205_700,
-        "cbd8562bc688d58d93ca401543c3b5f7a673099fac3536c27a9116f1cdc82c26",
+        150_086,
+        "a6d303cea4a49d8cffd6bdaec74b8cfa746fbb8118896c4196e0cff4598546c7",
     ),
     (
         "bianchi_rustcore/__init__.py",
@@ -74,8 +74,8 @@ _REFERENCE_NATIVE_INSTALLED_FILES = (
     ),
     (
         "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
-        2_997_624,
-        "4b7550977a1fdb54ccbc853753adf0ed10c924dde8ca8b456392d700ec816ec2",
+        3_143_152,
+        "6bc27c610106996d7e3ba0c87c3df1e8e825b1f123dfbc8df71754b9c7ee4d7b",
     ),
 )
 
@@ -386,6 +386,12 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("q.transport.plan", "qt_plan_step", python_oracle_supported=False),
             _route("routing.ic_template", "chart_aux", python_oracle_supported=False),
             _route("routing.roundtrip", "integrate_background", python_oracle_supported=False),
+            _route(
+                "runtime.plan",
+                "RuntimePlan",
+                "Workspace",
+                python_oracle_supported=False,
+            ),
         )
     }
 )
@@ -522,7 +528,7 @@ def load_native() -> NativeLoadResult:
     if not callable(getattr(module, "rayon_thread_pool_size", None)):
         detail = (
             f"installed {NATIVE_MODULE_NAME!r} lacks the RF-00 runtime capability "
-            "symbol 'rayon_thread_pool_size'; install the documented RF-00 r3 wheel"
+            "symbol 'rayon_thread_pool_size'; install the documented RF-01 r4 wheel"
         )
         error = ImportError(detail)
         return NativeLoadResult(
@@ -833,7 +839,7 @@ def _installed_wheel_sha256() -> tuple[str | None, str]:
 
 @lru_cache(maxsize=8)
 def _installed_native_payload_matches(native_origin: str | None) -> tuple[bool, str]:
-    """Bind the loaded extension to the RF-00 r3 installed-file receipt."""
+    """Bind the loaded extension to the RF-01 r4 installed-file receipt."""
 
     if native_origin is None:
         return False, "loaded_native_extension_origin_unavailable"
@@ -866,7 +872,7 @@ def _installed_native_payload_matches(native_origin: str | None) -> tuple[bool, 
         return False, "loaded_or_distribution_native_extension_unresolvable"
     if loaded_path != owned_path:
         return False, "loaded_native_extension_not_distribution_owned"
-    return True, "rf00_r3_loaded_distribution_file_fingerprint"
+    return True, "rf01_r4_loaded_distribution_file_fingerprint"
 
 
 def _configured_threads() -> tuple[int | None, str]:
@@ -904,8 +910,15 @@ def _native_rayon_threads(load: NativeLoadResult) -> tuple[int | None, str]:
 
 def capability_report(
     policy: BackendPolicy | str = BackendPolicy.RUST_REQUIRED,
+    *,
+    probe_legacy_global_pool: bool = True,
 ) -> dict[str, Any]:
-    """Return runtime/build capabilities and installed-payload dispatch authority."""
+    """Return runtime/build capabilities and installed-payload dispatch authority.
+
+    ``probe_legacy_global_pool`` exists only for the explicit RF-00 diagnostic.
+    RuntimePlan construction disables it because a private plan pool is the sole
+    authoritative threading owner for RF-01 operations.
+    """
 
     selected_policy = _policy_value("capability_report", policy)
     load = load_native()
@@ -934,7 +947,11 @@ def capability_report(
         wheel_sha256 == REFERENCE_NATIVE_BUILD["wheel_sha256"]
     )
     configured_threads, thread_source = _configured_threads()
-    actual_threads, actual_thread_source = _native_rayon_threads(load)
+    if probe_legacy_global_pool:
+        actual_threads, actual_thread_source = _native_rayon_threads(load)
+    else:
+        actual_threads = None
+        actual_thread_source = "not_probed_runtimeplan_private_pool_authority"
     configured_build_profile = os.environ.get("BASS_RUST_BUILD_PROFILE")
     configured_cpu_variant = os.environ.get("BASS_RUST_CPU_DISPATCH")
     feature_text = os.environ.get("BASS_RUST_OPTIONAL_FEATURES", "")

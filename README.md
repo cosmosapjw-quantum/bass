@@ -78,12 +78,12 @@ bianchi/
 
 정상 설치 단위는 루트 `bianchi-solver`와 정확히 같은 버전의
 `bianchi-rustcore` 휠이다. 먼저 현재 Python/플랫폼에 맞는 검증된 로컬 휠의
-경로를 정한다. RF-00 native r3 CPython 3.12 Linux x86-64 휠의 SHA-256은
-`e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917`이다.
+경로를 정한다. RF-01 native r4 CPython 3.12 Linux x86-64 휠의 SHA-256은
+`c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482`이다.
 
 ```bash
 export BASS_NATIVE_WHEEL=/absolute/path/to/verified-native-wheel/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl
-printf '%s  %s\n' e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917 "$BASS_NATIVE_WHEEL" | sha256sum --check --strict
+printf '%s  %s\n' c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482 "$BASS_NATIVE_WHEEL" | sha256sum --check --strict
 python -m pip install --constraint requirements.lock "$BASS_NATIVE_WHEEL" .
 ```
 

@@ -1,0 +1,196 @@
+{
+  "artifact": {
+    "archive": {
+      "filename": "BASS_NATIVE_REPRO_BASS-RF01-NATIVE-20260825T035620Z.tar.xz",
+      "sha256": "1c587e04e93095d39ec821b2a7cb6824132d9c2ded635ee8c6101410490fabd3",
+      "size_bytes": 178065696
+    },
+    "branch": "artifact/native-repro-bundle-20260825-r4",
+    "bundle_manifest": {
+      "path": "repro/native/BASS-RF01-NATIVE-20260825T035620Z/BUNDLE_MANIFEST.json",
+      "sha256": "7d43cf84bfd2007790383171a2eec2bad3c173346ab1b9c89632c97f78f1132e"
+    },
+    "commit_url": "https://github.com/cosmosapjw-quantum/bass/commit/b069e46eeb649b7b33e5ca30c3508d144fcd0e2c",
+    "content_manifest_sha256": "201af017bf721924e8a7037ffb770c537f97242ac5f47d45e1cca35cf6a74c21",
+    "head": "b069e46eeb649b7b33e5ca30c3508d144fcd0e2c",
+    "part_count": 22,
+    "path": "repro/native/BASS-RF01-NATIVE-20260825T035620Z",
+    "remote_readback": {
+      "receipt_path": "artifacts/rust_first_runtime/rf01/raw/REMOTE_READBACK_RECEIPT.json",
+      "receipt_sha256": "150ae19f37d6ea7bffde4feee831046a581d2732f4557f20e1704e122b60e955",
+      "status": "PASS"
+    },
+    "restore": {
+      "receipt_path": "artifacts/rust_first_runtime/rf01/raw/REMOTE_RESTORE_RECEIPT.json",
+      "receipt_sha256": "298154283bff38262ccb08232cf5454aab329fd0796a186de4a00436f3ab49d5",
+      "status": "PASS"
+    },
+    "run_id": "BASS-RF01-NATIVE-20260825T035620Z",
+    "tree": "53da650f50cc140acf57a6e6044f0675bfb8b17c"
+  },
+  "authority": {
+    "base_evidence_sha256": "52cb9f03a3bf8af2c8606bcd620b1b731743c291e869bd6ce7cf4ea25f95ec03",
+    "machine_authority_role": "SOLE_RF01_SOURCE_CLOSEOUT_AUTHORITY",
+    "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa"
+  },
+  "base": {
+    "branch": "agent/architecture/rust-first-rf-bench-00-20260825-r1",
+    "commit": "8a21642d6b42f882cf8e0233e8579fb2a267f491",
+    "draft_pr": 26,
+    "tree": "2eed29ac882fc6905e493883e2cdb085dac51c97"
+  },
+  "claims": {
+    "code_contract": "CODE_CONTRACT_PASS",
+    "formula_authority": "UNCHANGED_UNPROMOTED",
+    "native_artifact_delivery": "PASS_IMMUTABLE_R4_REMOTE_READBACK_AND_RESTORE",
+    "native_decision": "NEW_IMMUTABLE_NATIVE_R4",
+    "performance": "PERFORMANCE_NOT_RUN_BLOCKED_ENVIRONMENT",
+    "performance_acceptance_claim": "NONE",
+    "scientific_behavior_change": "NONE"
+  },
+  "dependency_reuse": {
+    "cargo_config_sha256": "77e9219c27274120197571fd165cbe4121963b5ad3bc0b20b383c86ef0ce6c2b",
+    "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310",
+    "decision": "REUSE_EXACT_R3_DEPENDENCY_BYTES_NO_REFETCH_NO_VENDOR",
+    "predicate": "Cargo.toml, Cargo.lock, pyproject.toml, Cargo config, vendor and wheelhouse dependency identities are unchanged"
+  },
+  "delivery_ci_contract": {
+    "authoritative_verified_r4": {
+      "build_profile": "release",
+      "functional_output_sha256": "76d6d0db86a80c0ab01155dd3be2061cfe0c0874bd955b47502557fd1d70fc84",
+      "optional_features": [
+        "cpu",
+        "pyo3/extension-module"
+      ],
+      "provenance_state": "verified_installed_payload"
+    },
+    "classification": "TEST_LANE_PROVENANCE_MODE_MISMATCH_REPAIRED",
+    "differing_fields_only": [
+      "build_profile",
+      "optional_features"
+    ],
+    "failed_ci_observation": {
+      "job": "native-wheel-policy",
+      "log_sha256": "8dbc2084d5844b26f15657e2f0be8261ef7008c7e07ef45e88381e1fad94c375",
+      "observed_sha256": "7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f",
+      "run_id": 32809795997,
+      "url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32809795997"
+    },
+    "focused_local_closure": {
+      "static_corpus_contract": "PASS_11",
+      "unverified_development_adapter": "PASS_2",
+      "verified_r4_adapter": "PASS_2"
+    },
+    "live_head_check_authority": "GitHub checks attached to the live draft PR head; read back after the enclosing commit because a commit cannot embed its own check suite",
+    "native_payload_change": "NONE_TEST_AND_EVIDENCE_ONLY",
+    "unverified_development_source_build": {
+      "build_profile": null,
+      "functional_output_sha256": "7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f",
+      "optional_features": [],
+      "provenance_state": "unverified_development_payload",
+      "required_override_diagnostic": "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD"
+    }
+  },
+  "focused_proof": {
+    "cargo_fmt_check": "PASS",
+    "cargo_clippy_warnings_denied": "PASS",
+    "cargo_test_locked_offline": {
+      "passed": 128,
+      "status": "PASS"
+    },
+    "deterministic_fixed_configuration": "PASS_20_REPEATS",
+    "fresh_minimal_no_index_install": "PASS",
+    "gil_detach_and_typed_errors": "PASS",
+    "legacy_public_wrapper_compatibility": "PASS",
+    "one_thread_vs_configured_n_primitive_parity": "PASS_EXISTING_STATE_OPERATOR_TOLERANCE",
+    "private_rayon_pool_and_coexisting_plans": "PASS",
+    "python_focused_contract": {
+      "passed": 36,
+      "status": "PASS"
+    },
+    "remote_restore_focused_python": {
+      "passed": 34,
+      "status": "PASS"
+    },
+    "runtimeplan_real_corpus_adapters": "PASS_VERIFIED_R4_AND_EXPLICIT_DEVELOPMENT_PROVENANCE_MODES",
+    "workspace_growth_after_warmup": "PASS_ZERO_100_STEPS"
+  },
+  "implementation": {
+    "branch": "agent/architecture/rust-first-rf01-20260825-r1",
+    "commit": "dea69b0d82a3e157cc452c8dfd4a27b1dbb3bd49",
+    "commit_epoch": 1787627873,
+    "native_tree_object": "51abf8aab66a16fa837c77fa90b76b5394e2bb4c",
+    "normal_push_readback": "PASS",
+    "reviewed_predecessor_commit": "856b4deea99303fdb33ab8a9a7329cff4497cd24",
+    "reviewed_predecessor_tree": "a29c0d9e6e74d2ef82361c33d14443ae5eac8e94",
+    "tree": "1bd251b0dfa098fa5d15790aec29c0355b23ab73"
+  },
+  "native_wheel": {
+    "filename": "bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+    "pep_tag": "cp312-cp312-manylinux_2_34_x86_64",
+    "public_exports_sha256": "bbfba9286d8c6bb947e4c1f8046be33199638683342db7a0a113cd9a84abceaa",
+    "python_soabi": "cpython-312-x86_64-linux-gnu",
+    "sbom_sha256": "a6d303cea4a49d8cffd6bdaec74b8cfa746fbb8118896c4196e0cff4598546c7",
+    "sha256": "c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482",
+    "shared_object_sha256": "6bc27c610106996d7e3ba0c87c3df1e8e825b1f123dfbc8df71754b9c7ee4d7b",
+    "size_bytes": 1067883,
+    "status": "PASS_DETERMINISTIC_INSTALLED_PAYLOAD"
+  },
+  "next_action": {
+    "acceptance_gate": "Start only from the live RF-01 draft-PR head and preserve this evidence predicate",
+    "node": "RF-02",
+    "status": "READY_AFTER_RF01_CLOSEOUT"
+  },
+  "receipts": {
+    "artifact_internal_build_environment_sha256": "b368e91a397d02d86cb02b051ca6daecbe781f5922fa38e976a416b981b1cf90",
+    "artifact_internal_evidence_sha256": "df9a80afa1b55381ce6a13398d185faf03f501e9bf8d5f8ff233818c08736785",
+    "artifact_internal_test_matrix_sha256": "e0df752397c1dc3c72e49257f2e7b5b17dbef5c8d3a5ed720c0c78f0c8ab701b",
+    "deterministic_pair_sha256": "411fc17108b1aa72404ee7b3425237ede444ed1a425bb8068e2f47720c18e8be",
+    "export_manifest_sha256": "11e02b62d5037ab95751072fdc1ed66ab636e769e1990587b28267488287268f",
+    "independent_repair_closeout_sha256": "6172140ece189a61de1d75cd568a7a0582179659f3d79b7703802e041ee1cda0",
+    "independent_review_sha256": "d6a8cb0fdc33929cc4eba1eee64da88f3aedf8277402498a4be5b4032cb7e697",
+    "legacy_bindings": {
+      "path": "artifacts/rust_first_runtime/rf01/LEGACY_BINDINGS.json",
+      "sha256": "189c6aae45262fce24387c9fa926f4bde4b89ed6c575b67c1fe22951f577cb87"
+    }
+  },
+  "reused_evidence": [
+    {
+      "lanes": [
+        "RF-00 typed backend policy",
+        "R5b state/operator/science contract",
+        "background/classification/constraint",
+        "E1-E4",
+        "Wolfram xAct/PSTF environment probe"
+      ],
+      "predicate": "No lane-relevant physics, formula, tolerance, reference, fixture or Wolfram input changed",
+      "status": "REUSED_NOT_RERUN"
+    }
+  ],
+  "review": {
+    "bounded_independent_review": "REPAIR_REQUIRED_B1_B2_B3",
+    "post_review_delivery_reconciliation": "TEST_ONLY_CI_PROVENANCE_MODE_EXPECTATION_NO_SECOND_REVIEW",
+    "repair_closeout": "PASS",
+    "review_bridge": "PASS_REVIEWED_PREDECESSOR_PLUS_THREE_PATH_MECHANICAL_FINGERPRINT_PROPAGATION"
+  },
+  "rollback": {
+    "command": "git switch agent/architecture/rust-first-rf01-20260825-r1 && test \"$(git merge-base HEAD 8a21642d6b42f882cf8e0233e8579fb2a267f491)\" = 8a21642d6b42f882cf8e0233e8579fb2a267f491 && git revert --no-edit 8a21642d6b42f882cf8e0233e8579fb2a267f491..HEAD",
+    "scope": "entire RF-01 source stack back to the immutable PR-26 base; immutable R4 remains preserved evidence"
+  },
+  "schema": "bass-rf01-source-closeout-v1",
+  "source_delivery": {
+    "branch": "agent/architecture/rust-first-rf01-20260825-r1",
+    "draft_pr": {
+      "base_branch": "agent/architecture/rust-first-rf-bench-00-20260825-r1",
+      "expected_state": "OPEN_DRAFT_UNMERGED",
+      "head_branch": "agent/architecture/rust-first-rf01-20260825-r1",
+      "number": 27,
+      "readback_authority": "LIVE_GITHUB_PR",
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/27"
+    },
+    "final_closeout_commit_authority": "LIVE_REMOTE_BRANCH_AND_STACKED_DRAFT_PR_READBACK",
+    "self_reference_boundary": "This evidence file cannot embed the hash of the commit that contains itself; the live branch ref and draft PR are the authority for that enclosing commit.",
+    "status": "PASS_WITH_DECLARED_COMMIT_SELF_REFERENCE_BOUNDARY"
+  },
+  "status": "PASS_RF01_CODE_NATIVE_R4_AND_IMPLEMENTATION_DELIVERY"
+}

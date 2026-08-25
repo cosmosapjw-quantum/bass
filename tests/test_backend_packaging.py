@@ -17,8 +17,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_PROJECT = "bianchi-solver"
 NATIVE_PROJECT = "bianchi-rustcore"
-RF00_R3_WHEEL_SHA256 = (
-    "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917"
+RF01_R4_WHEEL_SHA256 = (
+    "c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482"
 )
 
 
@@ -71,7 +71,7 @@ def test_root_requires_exact_matching_native_distribution():
 def test_install_documentation_uses_one_root_resolver_and_verified_wheel():
     readme = _normalized_command_text("README.md")
 
-    assert RF00_R3_WHEEL_SHA256 in readme
+    assert RF01_R4_WHEEL_SHA256 in readme
     assert "sha256sum --check --strict" in readme
     assert re.search(
         r"python -m pip install --constraint requirements\.lock "
