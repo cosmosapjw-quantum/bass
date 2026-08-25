@@ -23,8 +23,6 @@ from bianchi import backend
 from bianchi.backend_policy import BackendPolicy, select_backend
 from bianchi.optional_dependencies import require_optional
 
-from bianchi.rays import geodesics as gd
-
 
 def _direction_grid(n_theta=24, n_phi=48):
     """구면 방향 격자 (θ,φ) 와 단위벡터 n̂, 사다리꼴 가중치."""

@@ -18,6 +18,8 @@ on:
       - "tests/test_backend_policy.py"
       - "tests/test_backend_packaging.py"
       - "tests/test_backend_integration.py"
+      - "tests/test_i3_rust_coupled.py"
+      - "tests/test_j3_coeff_kernel.py"
       - "tests/test_p8_polstate.py"
       - "tests/test_rf00_*.py"
       - "tests/test_pr01_scaffold.py"
@@ -122,6 +124,11 @@ jobs:
             tests/test_rf00_route_inventory.py \
             tests/test_rf00_native_capability.py \
             tests/test_rf00_oracle_closure.py \
+            tests/test_j3_coeff_kernel.py \
+            tests/test_i3_rust_coupled.py::test_rhs_parity \
+            tests/test_i3_rust_coupled.py::test_trajectory_parity_loop_whole \
+            tests/test_i3_rust_coupled.py::test_keep_trajectory_shape_and_head \
+            tests/test_i3_rust_coupled.py::test_input_guards \
             tests/test_r5a_tilted_terms_rust.py::test_typed_python_operator_never_calls_native_fallback \
             tests/test_r5b_tilted_hier_rust.py::test_the_numpy_oracle_is_still_reachable \
             tests/test_r1r2_typev_rust.py::test_the_python_oracle_is_still_reachable \

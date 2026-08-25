@@ -16,9 +16,9 @@ from __future__ import annotations
 import numpy as np
 
 from bianchi.backend_policy import require_native
-from bianchi.matter import pstf_coeff as PC
-from bianchi.matter import tilted_coeff as TC
-from bianchi.matter.hierarchy_coeff import SIGMA_SIGNS
+from bianchi.matter._coeff_contract import ClosedGeoBlocksContract, omega_vector
+from bianchi.matter._pstf_low_rank import sigma_to_c5, vec_to_c3
+from bianchi.matter.hierarchy import SIGMA_SIGNS
 from bianchi.matter.tilted import SIGNS
 
 L_KERNEL_MAX = 10
@@ -68,14 +68,14 @@ def lhs_grid(Jc, dJc, geo, cg, l_max, i_max, signs=None):
     if l_max > L_KERNEL_MAX:
         raise ValueError(f"coeff 커널 벽: l_max ≤ {L_KERNEL_MAX} "
                          "(c2 표 l_in=l+2 ≤ 12)")
-    if not isinstance(cg, TC.ClosedGeoBlocks):
+    if not isinstance(cg, ClosedGeoBlocksContract):
         raise TypeError("cg 는 ClosedGeoBlocks — 적합계수의 단일 진실원")
     cg._check_geo()                                    # R5a: 스테일 즉시 거부
     j = pack_grid(Jc, l_max + 2, i_max + 2)
     dj = pack_grid(dJc, l_max + 2, i_max + 2)
-    s5 = PC.sigma_to_c5(geo["sigma"])
-    w = TC._omega_vec(geo["omega"])                    # 카르테시안 (rot 축!)
-    u3 = PC.vec_to_c3(geo["udot"])                     # 정준 (cv/ov 축)
+    s5 = sigma_to_c5(geo["sigma"])
+    w = omega_vector(geo["omega"])                    # 카르테시안 (rot 축!)
+    u3 = vec_to_c3(geo["udot"])                       # 정준 (cv/ov 축)
     out = rust.coeff_lhs_grid(j, dj, l_max, i_max, float(geo["H"]), s5, w, u3,
                               cg.gamma, cg.v3, cg.c_pd, cg.c_dc, cg.c_df,
                               _signs_vec(signs, _SIGN_ORDER, SIGNS))
@@ -88,7 +88,7 @@ def mass_blocks(geo, l, signs=None):
     s = SIGNS if signs is None else signs
     v = np.asarray(geo["v"], float)
     gam = float(geo["gamma_lorentz"])
-    return rust.coeff_mass_blocks(l, gam, PC.vec_to_c3(v),
+    return rust.coeff_mass_blocks(l, gam, vec_to_c3(v),
                                   float(s["divcon"]), float(s["divfree"]))
 
 

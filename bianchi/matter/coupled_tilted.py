@@ -25,21 +25,29 @@ LIMITATIONS: 운동종 1개·무질량·i=0 (별칭)·단순절단; 종-프레�
 """
 from __future__ import annotations
 
+from functools import lru_cache
+
 import numpy as np
 
 from bianchi.backend_policy import require_native
 from bianchi.optional_dependencies import require_jax_x64
 
-_, jnp = require_jax_x64(feature=__name__)
 
-from bianchi.charts import class_a_tilted_multi as MM  # noqa: E402
-from bianchi.charts import general as G  # noqa: E402
-from bianchi.matter import exchange as EX  # noqa: E402
-from bianchi.matter import fluid as F  # noqa: E402
-from bianchi.matter import hierarchy_nterm as HN  # noqa: E402
-from bianchi.matter import pstf_coeff as PC  # noqa: E402
-from bianchi.matter.coupled_class_a import _AliasJ  # noqa: E402
-from bianchi.matter.hierarchy_coeff import hierarchy_rhs_coeff  # noqa: E402
+@lru_cache(maxsize=1)
+def _oracle_modules():
+    """Load JAX/SymPy-dependent oracle modules only for explicit Python work."""
+
+    _, jnp = require_jax_x64(feature=__name__)
+    from bianchi.charts import class_a_tilted_multi as MM
+    from bianchi.charts import general as G
+    from bianchi.matter import exchange as EX
+    from bianchi.matter import fluid as F
+    from bianchi.matter import hierarchy_nterm as HN
+    from bianchi.matter import pstf_coeff as PC
+    from bianchi.matter.coupled_class_a import _AliasJ
+    from bianchi.matter.hierarchy_coeff import hierarchy_rhs_coeff
+
+    return jnp, MM, G, EX, F, HN, PC, _AliasJ, hierarchy_rhs_coeff
 
 
 def jgrid_len(l_max):
@@ -75,6 +83,7 @@ def unpack(y, nc, l_max):
 
 def kinetic_sources(Jc, lnH, l_max):
     """(Ω_kin, q⃗_kin_chart(3, cart), π_kin_chart(3,3))."""
+    _, _, _, _, _, _, PC, _, _ = _oracle_modules()
     H2 = np.exp(2.0 * lnH)
     rho = float(np.asarray(Jc[(0, 0)]).reshape(1)[0])
     Om = rho / (3.0 * H2)
@@ -96,11 +105,13 @@ def _rot_term(c, l, w_cart, sign=-1.0):
     믿지 않고 핀으로)."""
     if l == 0:
         return np.zeros(1)
+    _, _, _, _, _, _, PC, _, _ = _oracle_modules()
     return sign * l * PC.apply_block(PC.rot_block(l), np.asarray(c, float),
                                      np.asarray(w_cart, float))
 
 
 def coupled_rhs(y, gammas, l_max, kappa=None, nterm_on=True):
+    jnp, MM, G, EX, F, HN, PC, _AliasJ, hierarchy_rhs_coeff = _oracle_modules()
     gammas = np.asarray(gammas, float)
     nc = gammas.shape[0]
     S5, N3, lnH, Om, V, Jc = unpack(y, nc, l_max)
@@ -189,6 +200,7 @@ def rk4_evolve(y0, gammas, l_max, tau, nsteps, kappa=None, nterm_on=True,
 def monitors(y, gammas, l_max):
     """Gauss (총) + 총 Codazzi (운동 q 포함) — 잔차."""
     from bianchi.conventions import codazzi_residual
+    jnp, MM, _, _, F, _, _, _, _ = _oracle_modules()
     gammas = np.asarray(gammas, float)
     nc = gammas.shape[0]
     S5, N3, lnH, Om, V, Jc = unpack(y, nc, l_max)
@@ -212,8 +224,10 @@ def monitors(y, gammas, l_max):
 def _u_tables():
     """U-기저 캐리 (좌표-동일): u1 = U₁ (3,3) row-major [a,m];
     u2 = U₂ (9,5) [pq,m] — from_ccoef/to_ccoef 양방향 (직교정규)."""
-    u1 = np.asarray(PC.U_basis(1), float)              # (3, 3) [flat-pq=a, m]
-    u2 = np.asarray(PC.U_basis(2), float)              # (9, 5)
+    from bianchi.matter._pstf_low_rank import u_basis
+
+    u1 = np.asarray(u_basis(1), float)                 # (3, 3) [flat-pq=a, m]
+    u2 = np.asarray(u_basis(2), float)                 # (9, 5)
     return np.ascontiguousarray(u1).ravel(), np.ascontiguousarray(u2).ravel()
 
 

@@ -736,13 +736,18 @@ def select_backend(
     load = load_native()
     module, missing_symbols = _native_if_compatible(capability, load)
     if requested is BackendPolicy.AUTO_DIAGNOSTIC:
+        fallback = (
+            "python_oracle"
+            if capability.python_oracle_supported
+            else "rust_required_fail_closed"
+        )
         warnings.warn(
             f"{route_id}: auto_diagnostic is interactive-only and selected "
-            f"{'rust_required' if module is not None else 'python_oracle'}",
+            f"{'rust_required' if module is not None else fallback}",
             RuntimeWarning,
             stacklevel=2,
         )
-        if module is None:
+        if module is None and capability.python_oracle_supported:
             return BackendSelection(
                 route_id, BackendPolicy.PYTHON_ORACLE, None, load.state
             )

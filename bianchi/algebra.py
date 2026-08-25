@@ -17,7 +17,7 @@ from typing import Optional
 
 import numpy as np
 
-from bianchi.conventions import EPS3
+from bianchi._core_constants import EPS3
 
 TOL = 1e-10
 

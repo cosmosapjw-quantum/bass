@@ -165,6 +165,15 @@ def test_auto_diagnostic_is_explicit_warned_and_non_production(monkeypatch):
     assert calls == [policy.NATIVE_MODULE_NAME]
 
 
+def test_auto_diagnostic_cannot_select_oracle_for_native_only_route(monkeypatch):
+    calls = _inject_native_import(monkeypatch, _missing_extension_error())
+
+    with pytest.warns(RuntimeWarning, match="rust_required_fail_closed"):
+        with pytest.raises(policy.MissingNativeExtensionError):
+            policy.select_backend("q.fast.evolve", policy="auto_diagnostic")
+    assert calls == [policy.NATIVE_MODULE_NAME]
+
+
 def test_static_transitional_route_never_probes_native(monkeypatch):
     calls = _inject_native_import(
         monkeypatch,

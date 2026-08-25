@@ -1,6 +1,7 @@
 """Focused RF-00 proofs for the minimal frontend and optional oracle seam."""
 from __future__ import annotations
 
+import ast
 from pathlib import Path
 import subprocess
 import sys
@@ -37,6 +38,29 @@ def _run_fresh(code: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def _backend_route_modules() -> tuple[str, ...]:
+    modules = set()
+    for path in sorted((ROOT / "bianchi").rglob("*.py")):
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        if not any(
+            isinstance(node, ast.Call)
+            and (
+                isinstance(node.func, ast.Name)
+                and node.func.id in {"select_backend", "require_native"}
+                or isinstance(node.func, ast.Attribute)
+                and node.func.attr in {"select_backend", "require_native"}
+            )
+            for node in ast.walk(tree)
+        ):
+            continue
+        relative = path.relative_to(ROOT).with_suffix("")
+        parts = list(relative.parts)
+        if parts[-1] == "__init__":
+            parts.pop()
+        modules.add(".".join(parts))
+    return tuple(sorted(modules))
+
+
 def test_minimal_top_level_import_does_not_touch_optional_stacks():
     roots = repr(sorted(OPTIONAL_ROOTS))
     completed = _run_fresh(
@@ -62,6 +86,41 @@ print(bianchi.__version__)
 """
     )
     assert completed.stdout.strip() == bianchi.__version__
+
+
+def test_backend_route_modules_do_not_import_optional_oracle_stacks():
+    modules = repr(_backend_route_modules())
+    roots = repr(sorted(OPTIONAL_ROOTS))
+    completed = _run_fresh(
+        f"""
+import importlib
+import sys
+
+OPTIONAL = set({roots})
+
+class RejectOptionalImports:
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.partition('.')[0] in OPTIONAL:
+            raise AssertionError(f'optional import attempted: {{fullname}}')
+        return None
+
+sys.meta_path.insert(0, RejectOptionalImports())
+for module_name in {modules}:
+    importlib.import_module(module_name)
+assert not OPTIONAL.intersection(sys.modules), sorted(OPTIONAL.intersection(sys.modules))
+print('BACKEND_ROUTE_IMPORTS_PASS')
+"""
+    )
+    assert completed.stdout.strip() == "BACKEND_ROUTE_IMPORTS_PASS"
+
+
+def test_dependency_light_pstf_basis_is_oracle_byte_identical():
+    from bianchi.matter._pstf_low_rank import u_basis
+    from bianchi.matter import pstf_coeff
+
+    for rank in (1, 2):
+        assert (u_basis(rank) == pstf_coeff.U_basis(rank)).all()
+        assert not u_basis(rank).flags.writeable
 
 
 def test_public_lazy_exports_preserve_conventions_and_algebra():

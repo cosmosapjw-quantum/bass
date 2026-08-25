@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.matter._coeff_contract import ClosedGeoBlocksContract, omega_vector
 from bianchi.matter import pstf_coeff as PC
 from bianchi.matter import tilted_terms as TT
 from bianchi.matter.hierarchy import L_MAX_SUPPORTED
@@ -33,9 +34,7 @@ def _omega_vec(W):
     ★ 반증 기록 (59차): 1차 추출부호 (+½[W₂₁−W₁₂,…]) 는 Ω-항 비율 정확 −1
     로 반증됐다 — geo 의 W 에 대해 ε·w_old = −W 였던 것.  부호 정정 후
     핀 |ε·w − W| ≤ 1e−18 이 시험에 있다."""
-    return -0.5 * np.array([W[2, 1] - W[1, 2],
-                            W[0, 2] - W[2, 0],
-                            W[1, 0] - W[0, 1]])
+    return omega_vector(W)
 
 
 class GeoMats:
@@ -191,7 +190,7 @@ def mass_blocks_for(geo, l, signs=None):
 
 
 # ═══════════════════════════════ J2c · 기하 3항의 닫힌 재구성 (임의 l)
-class ClosedGeoBlocks:
+class ClosedGeoBlocks(ClosedGeoBlocksContract):
     """기하 3항을 **합성형 항등**으로 닫아 임의 l 제공 (60차).
 
     측정 사슬 (audit 없이 시험이 직접 게이트):
