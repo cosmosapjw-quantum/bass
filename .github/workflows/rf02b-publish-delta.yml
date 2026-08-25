@@ -1,0 +1,155 @@
+name: Publish verified RF-02B R4 delta
+
+on:
+  push:
+    branches:
+      - "artifact/native-r4-delta-rf02b-20260826-r1"
+    paths:
+      - ".github/workflows/rf02b-publish-delta.yml"
+
+permissions:
+  actions: read
+  contents: write
+
+env:
+  RESTORE_RUN_ID: "32877249403"
+  SOURCE_COMMIT: "01d1bed4afb75c648c5f13652c7073a014f8f1ac"
+  R4_HEAD: "b069e46eeb649b7b33e5ca30c3508d144fcd0e2c"
+  R4_ARCHIVE_SHA256: "1c587e04e93095d39ec821b2a7cb6824132d9c2ded635ee8c6101410490fabd3"
+  CARGO_LOCK_SHA256: "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+
+jobs:
+  publish:
+    name: Publish content-addressed delta payload
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the R4-derived artifact branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: artifact/native-r4-delta-rf02b-20260826-r1
+          fetch-depth: 1
+      - name: Check out the frozen RF-02B source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          path: candidate
+      - name: Download the accepted offline-restore payload
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/rf02b-artifact"
+          gh run download "$RESTORE_RUN_ID" \
+            --repo cosmosapjw-quantum/bass \
+            --name "rf02b-r4-delta-$SOURCE_COMMIT" \
+            --dir "$RUNNER_TEMP/rf02b-artifact"
+      - name: Verify and assemble the durable delta package
+        env:
+          DOWNLOAD: ${{ runner.temp }}/rf02b-artifact
+          OUTPUT: repro/native/BASS-RF02B-R4-DELTA-20260826
+          RESTORE_WORKFLOW_COMMIT: aaccc063d4756e7b9b0ae7ae4a584e883ade3fcb
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import shutil
+          import zipfile
+
+          root = pathlib.Path.cwd()
+          source = root / "candidate"
+          download = pathlib.Path(os.environ["DOWNLOAD"])
+          output = root / os.environ["OUTPUT"]
+          delta_root = output / "delta"
+          delta_paths = [
+              "_rustcore/src/lib.rs",
+              "_rustcore/src/ode/charts.rs",
+              "bianchi/backend.py",
+              "bianchi/backend_policy.py",
+              "bianchi/geometry_identity.py",
+              "bianchi/scalar_charts.py",
+              "bianchi/symbolic/geometry_contract.py",
+              "tests/test_rf02b_scalar_ops.py",
+          ]
+
+          def sha256(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          receipt_path = next(download.rglob("RF02B_R4_DELTA_RESTORE.json"))
+          receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+          assert receipt["status"] == "PASS_R4_PLUS_RF02B_DELTA_OFFLINE"
+          assert receipt["source_commit"] == os.environ["SOURCE_COMMIT"]
+          assert receipt["r4"]["head"] == os.environ["R4_HEAD"]
+          assert receipt["r4"]["archive_sha256"] == os.environ["R4_ARCHIVE_SHA256"]
+          assert receipt["cargo_lock_sha256"] == os.environ["CARGO_LOCK_SHA256"]
+
+          wheel = next(download.rglob("bianchi_rustcore-*.whl"))
+          assert sha256(wheel) == receipt["wheel"]["sha256"]
+          with zipfile.ZipFile(wheel) as archive:
+              so_name = next(name for name in archive.namelist() if name.endswith(".so"))
+              assert hashlib.sha256(archive.read(so_name)).hexdigest() == receipt["shared_object"]["sha256"]
+
+          output.mkdir(parents=True, exist_ok=False)
+          source_hashes = {}
+          for relative in delta_paths:
+              src = source / relative
+              dst = delta_root / relative
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(src, dst)
+              source_hashes[relative] = sha256(dst)
+
+          payload_hashes = {}
+          for src in sorted(path for path in download.rglob("*") if path.is_file()):
+              relative = src.relative_to(download)
+              dst = output / relative
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(src, dst)
+              payload_hashes[str(relative)] = sha256(dst)
+
+          manifest = {
+              "schema": "bass-rf02b-r4-delta-package-v1",
+              "status": "PASS_IMMUTABLE_R4_DELTA",
+              "source": {
+                  "commit": os.environ["SOURCE_COMMIT"],
+                  "files": source_hashes,
+              },
+              "r4": {
+                  "head": os.environ["R4_HEAD"],
+                  "archive_sha256": os.environ["R4_ARCHIVE_SHA256"],
+                  "cargo_lock_sha256": os.environ["CARGO_LOCK_SHA256"],
+              },
+              "restore": {
+                  "run_id": int(os.environ["RESTORE_RUN_ID"]),
+                  "workflow_commit": os.environ["RESTORE_WORKFLOW_COMMIT"],
+              },
+              "payloads": payload_hashes,
+              "performance": "NOT_RUN",
+              "formula_authority": "UNCHANGED_UNPROMOTED",
+          }
+          (output / "DELTA_MANIFEST.json").write_text(
+              json.dumps(manifest, sort_keys=True, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          (output / "README_FIRST.md").write_text(
+              "# BASS RF-02B native R4 delta\n\n"
+              "This directory is a content-addressed delta over immutable native R4. "
+              "Verify `DELTA_MANIFEST.json`, reassemble R4 with its existing script, "
+              "then overlay `delta/` at the reconstructed source root. The included "
+              "wheel and restore receipt were produced by the pinned offline workflow.\n\n"
+              "No performance, Wolfram, formula-authority, solver, event, or integration "
+              "claim is made.\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Commit the immutable payload without retriggering verification
+        run: |
+          set -euo pipefail
+          git config user.name "cosmosapjw-quantum"
+          git config user.email "58155957+cosmosapjw-quantum@users.noreply.github.com"
+          git add repro/native/BASS-RF02B-R4-DELTA-20260826
+          git diff --cached --check
+          git commit -m "repro: preserve verified RF-02B R4 delta [skip ci]"
+          git push origin HEAD:artifact/native-r4-delta-rf02b-20260826-r1
