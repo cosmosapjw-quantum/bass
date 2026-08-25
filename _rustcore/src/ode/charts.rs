@@ -14,6 +14,9 @@ pub const S_COEFF_WE: f64 = 1.0 / 6.0;
 pub const MAX_STATES: usize = 11;
 /// tilt 유체의 0 나눗셈 가드 (`bianchi.matter.fluid.GUARD_EPS` 와 동일).
 pub const GUARD_EPS: f64 = 1e-12;
+/// Existing public routing boundary for the degenerate class-B `kappa = -9` chart.
+pub const KAPPA_EXCEPTIONAL: f64 = -9.0;
+pub const KAPPA_EXCEPTIONAL_TOL: f64 = 1e-9;
 
 #[inline]
 fn safe(x: f64) -> f64 {
@@ -395,6 +398,321 @@ pub fn codazzi(chart: &Chart, y: &[f64]) -> f64 {
     }
 }
 
+/// RF-02B production scalar-chart inventory.
+///
+/// Tilted charts are deliberately excluded here: their matter closure is owned by RF-03.
+/// The general 14/18-state tensor charts remain independent Python formula oracles.
+pub fn scalar_state_names(chart: &Chart) -> Option<&'static [&'static str]> {
+    match *chart {
+        Chart::ClassA { .. } => Some(&["Sigma_p", "Sigma_m", "N1", "N2", "N3"]),
+        Chart::ClassB { .. } => Some(&["Sigma_p", "Sigma_tilde", "Delta", "A_tilde", "N_p"]),
+        Chart::Exceptional { .. } => {
+            Some(&["Sigma_p", "Sigma_m", "Sigma_2", "Sigma_x", "N_m", "A"])
+        }
+        Chart::TypeIXD { .. } => Some(&["H", "S1", "S2", "S3", "N1", "N2", "N3"]),
+        Chart::ClassATilted { .. } | Chart::ClassBTilted { .. } => None,
+    }
+}
+
+/// Ordered live equality-constraint names used by the RF-02B pointwise projector.
+pub fn scalar_constraint_names(chart: &Chart) -> Option<&'static [&'static str]> {
+    match *chart {
+        Chart::ClassA { .. } => Some(&[]),
+        Chart::ClassB { .. } => Some(&["codazzi"]),
+        Chart::Exceptional { .. } => Some(&["g"]),
+        Chart::TypeIXD { .. } => Some(&["definition", "trace"]),
+        Chart::ClassATilted { .. } | Chart::ClassBTilted { .. } => None,
+    }
+}
+
+#[inline]
+fn check_scalar_buffers(
+    chart: &Chart,
+    y: &[f64],
+    other: Option<&[f64]>,
+    out_len: usize,
+) -> Result<usize, &'static str> {
+    let names = scalar_state_names(chart).ok_or("chart is outside RF-02B scalar closure")?;
+    let n = names.len();
+    if y.len() != n || other.is_some_and(|v| v.len() != n) || out_len < n {
+        return Err("scalar chart buffer length mismatch");
+    }
+    if !y.iter().all(|x| x.is_finite()) || other.is_some_and(|v| !v.iter().all(|x| x.is_finite())) {
+        return Err("scalar chart buffers must be finite");
+    }
+    Ok(n)
+}
+
+/// Exact algebraic directional derivative `J_rhs(y) * v` for the RF-02B scalar closure.
+///
+/// This is separate from [`jac_mul`], which remains the RF-02C-owned solver finite-
+/// difference callback.  Moving the BDF solver to this operator requires RF-02C event,
+/// restart, and convergence proof and is intentionally not done here.
+pub fn exact_jvp(chart: &Chart, y: &[f64], v: &[f64], out: &mut [f64]) -> Result<(), &'static str> {
+    let n = check_scalar_buffers(chart, y, Some(v), out.len())?;
+    if v.iter().all(|x| *x == 0.0) {
+        out[..n].fill(0.0);
+        return Ok(());
+    }
+    match *chart {
+        Chart::ClassA { gamma } => {
+            let (sp, sm, n1, n2, n3) = (y[0], y[1], y[2], y[3], y[4]);
+            let (dsp, dsm, dn1, dn2, dn3) = (v[0], v[1], v[2], v[3], v[4]);
+            let sigma2 = sp * sp + sm * sm;
+            let dsigma2 = 2.0 * (sp * dsp + sm * dsm);
+            let k = curvature_k_a(n1, n2, n3);
+            let dk = K_COEFF_WE
+                * (2.0 * (n1 * dn1 + n2 * dn2 + n3 * dn3)
+                    - 2.0 * (dn1 * n2 + n1 * dn2 + dn2 * n3 + n2 * dn3 + dn3 * n1 + n3 * dn1));
+            let om = 1.0 - sigma2 - k;
+            let dom = -dsigma2 - dk;
+            let matter = 0.5 * (3.0 * gamma - 2.0);
+            let q = 2.0 * sigma2 + matter * om;
+            let dq = 2.0 * dsigma2 + matter * dom;
+            let dsp_curv = S_COEFF_WE
+                * (2.0 * (n2 - n3) * (dn2 - dn3)
+                    - dn1 * (2.0 * n1 - n2 - n3)
+                    - n1 * (2.0 * dn1 - dn2 - dn3));
+            let dsm_curv =
+                ((dn3 - dn2) * (n1 - n2 - n3) + (n3 - n2) * (dn1 - dn2 - dn3)) / (2.0 * SQRT3);
+            out[0] = dq * sp + (q - 2.0) * dsp - dsp_curv;
+            out[1] = dq * sm + (q - 2.0) * dsm - dsm_curv;
+            out[2] = (dq - 4.0 * dsp) * n1 + (q - 4.0 * sp) * dn1;
+            out[3] =
+                (dq + 2.0 * dsp + 2.0 * SQRT3 * dsm) * n2 + (q + 2.0 * sp + 2.0 * SQRT3 * sm) * dn2;
+            out[4] =
+                (dq + 2.0 * dsp - 2.0 * SQRT3 * dsm) * n3 + (q + 2.0 * sp - 2.0 * SQRT3 * sm) * dn3;
+        }
+        Chart::ClassB { gamma, kappa } => {
+            let (sp, st, de, at, np) = (y[0], y[1], y[2], y[3], y[4]);
+            let (dsp, dst, dde, dat, dnp) = (v[0], v[1], v[2], v[3], v[4]);
+            let nt = n_tilde(np, at, kappa);
+            let dnt = (2.0 * np * dnp - kappa * dat) / 3.0;
+            let sigma2 = sp * sp + st;
+            let dsigma2 = 2.0 * sp * dsp + dst;
+            let om = 1.0 - sigma2 - nt - at;
+            let dom = -dsigma2 - dnt - dat;
+            let matter = 0.5 * (3.0 * gamma - 2.0);
+            let q = 2.0 * sigma2 + matter * om;
+            let dq = 2.0 * dsigma2 + matter * dom;
+            out[0] = dq * sp + (q - 2.0) * dsp - 2.0 * dnt;
+            out[1] = 2.0 * (dq * st + (q - 2.0) * dst)
+                - 4.0 * (dsp * at + sp * dat)
+                - 4.0 * (dde * np + de * dnp);
+            out[2] = 2.0 * ((dq + dsp) * de + (q + sp - 1.0) * dde)
+                + 2.0 * ((dst - dnt) * np + (st - nt) * dnp);
+            out[3] = 2.0 * ((dq + 2.0 * dsp) * at + (q + 2.0 * sp) * dat);
+            out[4] = (dq + 2.0 * dsp) * np + (q + 2.0 * sp) * dnp + 6.0 * dde;
+        }
+        Chart::Exceptional { gamma } => {
+            let (sp, sm, s2, sx, nm, a) = (y[0], y[1], y[2], y[3], y[4], y[5]);
+            let (dsp, dsm, ds2, dsx, dnm, da) = (v[0], v[1], v[2], v[3], v[4], v[5]);
+            let sigma2 = sp * sp + sm * sm + s2 * s2 + sx * sx;
+            let dsigma2 = 2.0 * (sp * dsp + sm * dsm + s2 * ds2 + sx * dsx);
+            let k = nm * nm + 4.0 * a * a;
+            let dk = 2.0 * nm * dnm + 8.0 * a * da;
+            let om = 1.0 - sigma2 - k;
+            let dom = -dsigma2 - dk;
+            let matter = 0.5 * (3.0 * gamma - 2.0);
+            let q = 2.0 * sigma2 + matter * om;
+            let dq = 2.0 * dsigma2 + matter * dom;
+            out[0] = dq * sp + (q - 2.0) * dsp + 6.0 * s2 * ds2 - 4.0 * nm * dnm - 12.0 * a * da;
+            out[1] = dq * sm + (q - 2.0) * dsm - 2.0 * SQRT3 * s2 * ds2 + 4.0 * SQRT3 * sx * dsx
+                - 4.0 * SQRT3 * nm * dnm
+                + 4.0 * SQRT3 * a * da;
+            out[2] = (dq - 3.0 * dsp + SQRT3 * dsm) * s2 + (q - 3.0 * sp + SQRT3 * sm - 2.0) * ds2;
+            out[3] = (dq - 2.0 * SQRT3 * dsm) * sx + (q - 2.0 * SQRT3 * sm - 2.0) * dsx
+                - 8.0 * (dnm * a + nm * da);
+            out[4] = (dq + 2.0 * dsp + 2.0 * SQRT3 * dsm) * nm
+                + (q + 2.0 * sp + 2.0 * SQRT3 * sm) * dnm
+                + 6.0 * (dsx * a + sx * da);
+            out[5] = (dq + 2.0 * dsp) * a + (q + 2.0 * sp) * da;
+        }
+        Chart::TypeIXD { gamma, future } => {
+            let h = y[0];
+            let dh = v[0];
+            let s = [y[1], y[2], y[3]];
+            let ds = [v[1], v[2], v[3]];
+            let nn = [y[4], y[5], y[6]];
+            let dn = [v[4], v[5], v[6]];
+            let sigma2 = (s[0] * s[0] + s[1] * s[1] + s[2] * s[2]) / 6.0;
+            let dsigma2 = (s[0] * ds[0] + s[1] * ds[1] + s[2] * ds[2]) / 3.0;
+            let n2 = nn[0] * nn[0] + nn[1] * nn[1] + nn[2] * nn[2];
+            let dn2 = 2.0 * (nn[0] * dn[0] + nn[1] * dn[1] + nn[2] * dn[2]);
+            let om = 1.0 - sigma2 - n2 / 12.0;
+            let dom = -dsigma2 - dn2 / 12.0;
+            let matter = 0.5 * (3.0 * gamma - 2.0);
+            let q = 2.0 * sigma2 + matter * om;
+            let dq = 2.0 * dsigma2 + matter * dom;
+            let f = (nn[0] * nn[1] * s[2] + nn[0] * s[1] * nn[2] + s[0] * nn[1] * nn[2]) / 6.0;
+            let df = (dn[0] * nn[1] * s[2]
+                + nn[0] * dn[1] * s[2]
+                + nn[0] * nn[1] * ds[2]
+                + dn[0] * s[1] * nn[2]
+                + nn[0] * ds[1] * nn[2]
+                + nn[0] * s[1] * dn[2]
+                + ds[0] * nn[1] * nn[2]
+                + s[0] * dn[1] * nn[2]
+                + s[0] * nn[1] * dn[2])
+                / 6.0;
+            let ds3 = [
+                (dn[0] * (2.0 * nn[0] - nn[1] - nn[2]) + nn[0] * (2.0 * dn[0] - dn[1] - dn[2])
+                    - 2.0 * (nn[1] - nn[2]) * (dn[1] - dn[2]))
+                    / 3.0,
+                (dn[1] * (2.0 * nn[1] - nn[2] - nn[0]) + nn[1] * (2.0 * dn[1] - dn[2] - dn[0])
+                    - 2.0 * (nn[2] - nn[0]) * (dn[2] - dn[0]))
+                    / 3.0,
+                (dn[2] * (2.0 * nn[2] - nn[0] - nn[1]) + nn[2] * (2.0 * dn[2] - dn[0] - dn[1])
+                    - 2.0 * (nn[0] - nn[1]) * (dn[0] - dn[1]))
+                    / 3.0,
+            ];
+            let mut d_raw = [0.0; 3];
+            for i in 0..3 {
+                let factor = (2.0 - q) * h - f;
+                let dfactor = -dq * h + (2.0 - q) * dh - df;
+                d_raw[i] = ds[i] * factor + s[i] * dfactor + ds3[i];
+            }
+            let mean = (d_raw[0] + d_raw[1] + d_raw[2]) / 3.0;
+            let sign = if future { -1.0 } else { 1.0 };
+            out[0] = sign * (dq * (1.0 - h * h) - 2.0 * q * h * dh - df * h - f * dh);
+            for i in 0..3 {
+                out[1 + i] = sign * (d_raw[i] - mean);
+                let factor = q * h + 2.0 * s[i] + f;
+                let dfactor = dq * h + q * dh + 2.0 * ds[i] + df;
+                out[4 + i] = sign * (-dn[i] * factor - nn[i] * dfactor);
+            }
+        }
+        Chart::ClassATilted { .. } | Chart::ClassBTilted { .. } => {
+            return Err("chart is outside RF-02B scalar closure");
+        }
+    }
+    Ok(())
+}
+
+/// Ordered live equality-constraint vector for pointwise RF-02B operators.
+pub fn constraint_values(chart: &Chart, y: &[f64], out: &mut [f64]) -> Result<usize, &'static str> {
+    let n = check_scalar_buffers(chart, y, None, y.len())?;
+    let m = scalar_constraint_names(chart)
+        .expect("checked scalar chart")
+        .len();
+    if out.len() < m {
+        return Err("constraint output buffer length mismatch");
+    }
+    match *chart {
+        Chart::ClassA { .. } => {}
+        Chart::ClassB { .. } | Chart::Exceptional { .. } => out[0] = codazzi(chart, y),
+        Chart::TypeIXD { .. } => {
+            out[0] = codazzi(chart, y);
+            out[1] = y[1] + y[2] + y[3];
+        }
+        Chart::ClassATilted { .. } | Chart::ClassBTilted { .. } => unreachable!(),
+    }
+    debug_assert_eq!(n, y.len());
+    Ok(m)
+}
+
+fn constraint_jacobian(
+    chart: &Chart,
+    y: &[f64],
+    jac: &mut [[f64; MAX_STATES]; 2],
+) -> Result<usize, &'static str> {
+    check_scalar_buffers(chart, y, None, y.len())?;
+    jac.fill([0.0; MAX_STATES]);
+    match *chart {
+        Chart::ClassA { .. } => Ok(0),
+        Chart::ClassB { kappa, .. } => {
+            let (sp, st, _de, at, np) = (y[0], y[1], y[2], y[3], y[4]);
+            jac[0][0] = -2.0 * sp * at;
+            jac[0][1] = n_tilde(np, at, kappa);
+            jac[0][2] = -2.0 * y[2];
+            jac[0][3] = -kappa * st / 3.0 - sp * sp;
+            jac[0][4] = 2.0 * st * np / 3.0;
+            Ok(1)
+        }
+        Chart::Exceptional { .. } => {
+            let (sp, sm, _s2, sx, nm, a) = (y[0], y[1], y[2], y[3], y[4], y[5]);
+            jac[0][0] = a;
+            jac[0][1] = SQRT3 * a;
+            jac[0][3] = -nm;
+            jac[0][4] = -sx;
+            jac[0][5] = sp + SQRT3 * sm;
+            Ok(1)
+        }
+        Chart::TypeIXD { .. } => {
+            let (h, n1, n2, n3) = (y[0], y[4], y[5], y[6]);
+            jac[0][0] = 2.0 * h;
+            jac[0][4] = (n2 + n3) / 6.0;
+            jac[0][5] = (n1 + n3) / 6.0;
+            jac[0][6] = (n1 + n2) / 6.0;
+            jac[1][1] = 1.0;
+            jac[1][2] = 1.0;
+            jac[1][3] = 1.0;
+            Ok(2)
+        }
+        Chart::ClassATilted { .. } | Chart::ClassBTilted { .. } => {
+            Err("chart is outside RF-02B scalar closure")
+        }
+    }
+}
+
+/// Fixed-contract Gauss-Newton point projection.
+///
+/// Only equality constraints are projected.  Physical-domain inequalities remain
+/// diagnostics, exactly as in the Python authority.  No integration route invokes this
+/// function implicitly.
+pub fn project_constraints(
+    chart: &Chart,
+    y: &[f64],
+    iters: usize,
+    damping: f64,
+    out: &mut [f64],
+) -> Result<(), &'static str> {
+    let n = check_scalar_buffers(chart, y, None, out.len())?;
+    if !damping.is_finite() || damping < 0.0 {
+        return Err("projection damping must be finite and non-negative");
+    }
+    out[..n].copy_from_slice(y);
+    let mut c = [0.0; 2];
+    let mut jac = [[0.0; MAX_STATES]; 2];
+    for _ in 0..iters {
+        let m = constraint_values(chart, &out[..n], &mut c)?;
+        if m == 0 || c[..m].iter().all(|x| *x == 0.0) {
+            break;
+        }
+        let jm = constraint_jacobian(chart, &out[..n], &mut jac)?;
+        debug_assert_eq!(m, jm);
+        let mut lambda = [0.0; 2];
+        if m == 1 {
+            let a00 = jac[0][..n].iter().map(|x| x * x).sum::<f64>() + damping;
+            if !a00.is_finite() || a00 <= 0.0 {
+                return Err("singular or non-finite projection system");
+            }
+            lambda[0] = c[0] / a00;
+        } else {
+            let a00 = jac[0][..n].iter().map(|x| x * x).sum::<f64>() + damping;
+            let a11 = jac[1][..n].iter().map(|x| x * x).sum::<f64>() + damping;
+            let a01 = jac[0][..n]
+                .iter()
+                .zip(&jac[1][..n])
+                .map(|(a, b)| a * b)
+                .sum::<f64>();
+            let det = a00 * a11 - a01 * a01;
+            if !det.is_finite() || det <= 0.0 {
+                return Err("singular or non-finite projection system");
+            }
+            lambda[0] = (a11 * c[0] - a01 * c[1]) / det;
+            lambda[1] = (-a01 * c[0] + a00 * c[1]) / det;
+        }
+        for j in 0..n {
+            out[j] -= (0..m).map(|i| jac[i][j] * lambda[i]).sum::<f64>();
+        }
+        if !out[..n].iter().all(|x| x.is_finite()) {
+            return Err("projection produced non-finite state");
+        }
+    }
+    Ok(())
+}
+
 /// 야코비안-벡터 곱 J·v (중심차분).  BDF/ESDIRK 의 Newton 반복용.
 /// FD 는 수렴률에만 영향을 주고 해의 정확도는 잔차가 결정하므로 안전하다.
 pub fn jac_mul(chart: &Chart, y: &[f64], v: &[f64], out: &mut [f64]) {
@@ -525,5 +843,209 @@ mod tests {
         for i in 0..5 {
             assert!((jv[i] - (fp[i] - fm[i]) / (2.0 * h)).abs() < 1e-5);
         }
+    }
+
+    #[test]
+    fn rf02b_scalar_schema_binds_every_packed_position() {
+        let cases = [
+            (
+                Chart::ClassA { gamma: 1.3 },
+                &["Sigma_p", "Sigma_m", "N1", "N2", "N3"][..],
+            ),
+            (
+                Chart::ClassB {
+                    gamma: 1.3,
+                    kappa: -1.0,
+                },
+                &["Sigma_p", "Sigma_tilde", "Delta", "A_tilde", "N_p"][..],
+            ),
+            (
+                Chart::Exceptional { gamma: 1.3 },
+                &["Sigma_p", "Sigma_m", "Sigma_2", "Sigma_x", "N_m", "A"][..],
+            ),
+            (
+                Chart::TypeIXD {
+                    gamma: 1.3,
+                    future: false,
+                },
+                &["H", "S1", "S2", "S3", "N1", "N2", "N3"][..],
+            ),
+        ];
+        for (chart, expected) in cases {
+            assert_eq!(scalar_state_names(&chart).unwrap(), expected);
+        }
+        assert!(scalar_state_names(&Chart::ClassATilted { gamma: 1.3 }).is_none());
+        assert!(scalar_state_names(&Chart::ClassBTilted { gamma: 1.3 }).is_none());
+    }
+
+    #[test]
+    fn rf02b_exact_jvp_is_linear_zero_exact_and_future_negated() {
+        let past = Chart::TypeIXD {
+            gamma: 1.2,
+            future: false,
+        };
+        let future = Chart::TypeIXD {
+            gamma: 1.2,
+            future: true,
+        };
+        let y = [0.4, 0.1, -0.3, 0.2, 1.1, 0.9, 1.3];
+        let v = [0.2, -0.1, 0.4, -0.3, 0.5, 0.7, -0.2];
+        let mut a = [0.0; 7];
+        let mut b = [0.0; 7];
+        exact_jvp(&past, &y, &v, &mut a).unwrap();
+        exact_jvp(&future, &y, &v, &mut b).unwrap();
+        for i in 0..7 {
+            assert_eq!(a[i], -b[i]);
+        }
+
+        let mut z = [1.0; 7];
+        exact_jvp(&past, &y, &[0.0; 7], &mut z).unwrap();
+        assert_eq!(z, [0.0; 7]);
+    }
+
+    #[test]
+    fn rf02b_constraint_vectors_are_signed_and_complete() {
+        let class_b = Chart::ClassB {
+            gamma: 1.3,
+            kappa: -1.0,
+        };
+        let yb = [0.2, 0.3, 0.07, 0.1, 0.4];
+        let mut values = [0.0; MAX_STATES];
+        let n = constraint_values(&class_b, &yb, &mut values).unwrap();
+        assert_eq!(n, 1);
+        assert_eq!(values[0], codazzi(&class_b, &yb));
+
+        let ix = Chart::TypeIXD {
+            gamma: 1.3,
+            future: false,
+        };
+        let yi = [0.5, 0.2, 0.1, -0.25, 0.8, 0.9, 1.0];
+        let n = constraint_values(&ix, &yi, &mut values).unwrap();
+        assert_eq!(n, 2);
+        assert_eq!(values[0], codazzi(&ix, &yi));
+        assert_eq!(values[1], yi[1] + yi[2] + yi[3]);
+    }
+
+    #[test]
+    fn rf02b_projection_is_noop_on_surface_and_repairs_off_surface() {
+        let c = Chart::Exceptional { gamma: 1.3 };
+        let good = [0.2, -0.1, 0.15, 0.02, 0.3, 0.02 * 0.3 / (0.2 - SQRT3 * 0.1)];
+        let mut projected = [0.0; 6];
+        project_constraints(&c, &good, 3, 1e-12, &mut projected).unwrap();
+        assert_eq!(projected, good);
+
+        let mut bad = good;
+        bad[3] += 0.04;
+        let before = codazzi(&c, &bad).abs();
+        project_constraints(&c, &bad, 3, 1e-12, &mut projected).unwrap();
+        let after = codazzi(&c, &projected).abs();
+        assert!(after < 1e-12, "{before} -> {after}");
+        assert!(after < before);
+    }
+
+    #[test]
+    fn rf02b_exact_jvp_matches_independent_central_differences_on_scalar_corpus() {
+        let cases: [(Chart, &[f64], &[f64]); 4] = [
+            (
+                Chart::ClassA { gamma: 1.3 },
+                &[0.21, -0.17, 0.31, 0.13, -0.29],
+                &[-0.31, -0.175, -0.04, 0.095, 0.23],
+            ),
+            (
+                Chart::ClassB {
+                    gamma: 1.25,
+                    kappa: -1.0,
+                },
+                &[0.19, 0.24, 0.08, 0.11, 0.37],
+                &[-0.31, -0.175, -0.04, 0.095, 0.23],
+            ),
+            (
+                Chart::Exceptional { gamma: 1.2 },
+                &[0.18, -0.09, 0.12, 0.05, 0.27, 0.08],
+                &[-0.31, -0.202, -0.094, 0.014, 0.122, 0.23],
+            ),
+            (
+                Chart::TypeIXD {
+                    gamma: 1.1,
+                    future: false,
+                },
+                &[0.43, 0.11, -0.27, 0.16, 0.91, 1.07, 0.83],
+                &[-0.31, -0.22, -0.13, -0.04, 0.05, 0.14, 0.23],
+            ),
+        ];
+        for (chart, y, v) in cases {
+            let n = y.len();
+            let mut exact = [0.0; MAX_STATES];
+            exact_jvp(&chart, y, v, &mut exact[..n]).unwrap();
+            let h = 1e-6;
+            let mut yp = [0.0; MAX_STATES];
+            let mut ym = [0.0; MAX_STATES];
+            for i in 0..n {
+                yp[i] = y[i] + h * v[i];
+                ym[i] = y[i] - h * v[i];
+            }
+            let mut fp = [0.0; MAX_STATES];
+            let mut fm = [0.0; MAX_STATES];
+            rhs(&chart, &yp[..n], &mut fp[..n]);
+            rhs(&chart, &ym[..n], &mut fm[..n]);
+            for i in 0..n {
+                let fd = (fp[i] - fm[i]) / (2.0 * h);
+                assert!(
+                    (exact[i] - fd).abs() < 2e-9,
+                    "{chart:?} [{i}] {} {fd}",
+                    exact[i]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn rf02b_off_surface_constraint_propagation_identities_hold() {
+        let class_b = Chart::ClassB {
+            gamma: 1.25,
+            kappa: -1.0,
+        };
+        let yb = [0.19, 0.24, 0.08, 0.11, 0.37];
+        let mut fb = [0.0; 5];
+        rhs(&class_b, &yb, &mut fb);
+        let mut jb = [[0.0; MAX_STATES]; 2];
+        constraint_jacobian(&class_b, &yb, &mut jb).unwrap();
+        let dc = jb[0][..5].iter().zip(fb).map(|(a, b)| a * b).sum::<f64>();
+        let q = aux_b(&yb, 1.25, -1.0).4;
+        assert!((dc - 4.0 * (q + yb[0] - 1.0) * codazzi(&class_b, &yb)).abs() < 2e-15);
+
+        let ex = Chart::Exceptional { gamma: 1.2 };
+        let ye = [0.18, -0.09, 0.12, 0.05, 0.27, 0.08];
+        let mut fe = [0.0; 6];
+        rhs(&ex, &ye, &mut fe);
+        let mut je = [[0.0; MAX_STATES]; 2];
+        constraint_jacobian(&ex, &ye, &mut je).unwrap();
+        let dg = je[0][..6].iter().zip(fe).map(|(a, b)| a * b).sum::<f64>();
+        let sigma2 = ye[0] * ye[0] + ye[1] * ye[1] + ye[2] * ye[2] + ye[3] * ye[3];
+        let om = 1.0 - sigma2 - ye[4] * ye[4] - 4.0 * ye[5] * ye[5];
+        let q = deceleration(sigma2, om, 1.2);
+        assert!((dg - 2.0 * (q + ye[0] - 1.0) * codazzi(&ex, &ye)).abs() < 2e-15);
+
+        let ix = Chart::TypeIXD {
+            gamma: 1.1,
+            future: false,
+        };
+        let check_definition_identity = |y: &[f64; 7]| {
+            let mut f = [0.0; 7];
+            rhs(&ix, y, &mut f);
+            let mut jac = [[0.0; MAX_STATES]; 2];
+            constraint_jacobian(&ix, y, &mut jac).unwrap();
+            let dg = jac[0][..7].iter().zip(f).map(|(a, b)| a * b).sum::<f64>();
+            let sigma2 = (y[1] * y[1] + y[2] * y[2] + y[3] * y[3]) / 6.0;
+            let om = 1.0 - sigma2 - (y[4] * y[4] + y[5] * y[5] + y[6] * y[6]) / 12.0;
+            let q = deceleration(sigma2, om, 1.1);
+            let ff = (y[4] * y[5] * y[3] + y[4] * y[2] * y[6] + y[1] * y[5] * y[6]) / 6.0;
+            dg + 2.0 * (q * y[0] + ff) * codazzi(&ix, y)
+        };
+        let trace_free = [0.43, 0.11, -0.27, 0.16, 0.91, 1.07, 0.83];
+        assert!(check_definition_identity(&trace_free).abs() < 2e-15);
+        let mut off_trace = trace_free;
+        off_trace[3] += 0.02;
+        assert!(check_definition_identity(&off_trace).abs() > 1e-8);
     }
 }

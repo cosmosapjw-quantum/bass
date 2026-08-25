@@ -234,6 +234,9 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("background.integrate", "integrate_background"),
             _route("background.integrate_batch", "integrate_batch"),
             _route("background.chart_rhs", "chart_rhs"),
+            _route("background.chart_jvp", "chart_jvp"),
+            _route("background.chart_constraints", "chart_constraints"),
+            _route("background.chart_project", "chart_project"),
             _route("kinetic.j_moment", "kin_j_moment"),
             _route("kinetic.moments", "kin_moments"),
             _route(

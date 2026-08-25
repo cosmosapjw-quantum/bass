@@ -16,23 +16,12 @@ from typing import Any
 import numpy as np
 
 from bianchi import algebra
+from bianchi.geometry_identity import CONVENTION, CONVENTION_HASH
 
 
 class GeometryContractError(ValueError):
     """Actionable failure at the RF-02A geometry boundary."""
 
-
-CONVENTION = {
-    "version": "rf02a-geometry-convention-v1",
-    "metric_signature": "(-,+,+,+)",
-    "units": "8*pi*G=c=1",
-    "structure_constants": (
-        "C^c_ab = eps_abd n^dc + a_a delta^c_b - a_b delta^c_a"
-    ),
-    "epsilon_orientation": "eps_123=+1",
-    "jacobi_constraint": "n^ab a_b=0",
-    "rotation": "Omega^b_a=eps_bag R_gen^g; R_comm=-R_gen",
-}
 
 STATE_SCHEMA = {
     "version": "rf02a-geometry-state-v1",
@@ -60,7 +49,6 @@ def _digest(value: Any) -> str:
     return hashlib.sha256(encoded.encode("ascii")).hexdigest()
 
 
-CONVENTION_HASH = _digest(CONVENTION)
 STATE_SCHEMA_HASH = _digest(STATE_SCHEMA)
 
 

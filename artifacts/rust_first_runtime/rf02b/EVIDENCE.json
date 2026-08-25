@@ -1,0 +1,156 @@
+{
+  "schema": "bass-rf02b-evidence-v1",
+  "status": "PASS_RF02B_CODE_AND_IMMUTABLE_R4_DELTA",
+  "source": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "base": {
+      "branch": "agent/architecture/rust-first-rf02a-20260825-r1",
+      "commit": "c66cf6d60e573dd1ec0c0550ce9a55a4ebaf220e",
+      "tree": "9d16ae2f9ee5766b8b0b910283517e574be63526",
+      "evidence_sha256": "773545ed8282ab7d869702ee34801515f4b3c972597799635879b354aedcf063"
+    },
+    "implementation": {
+      "branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+      "commit": "01d1bed4afb75c648c5f13652c7073a014f8f1ac",
+      "tree": "c1b1d07ffa995cdd73a1d9d6701030f2983b4ee6",
+      "pull_request": 32,
+      "pull_request_url": "https://github.com/cosmosapjw-quantum/bass/pull/32"
+    },
+    "closeout_ref_rule": "Resolve the live source branch and require the implementation commit to be its ancestor; a commit cannot embed its own final identity."
+  },
+  "scope": {
+    "included": [
+      "typed packed schemas for class_a, class_b, exceptional, type_ix_d, and type_ix_d_future",
+      "existing scalar RHS production routing",
+      "exact analytic pointwise JVP",
+      "ordered signed equality constraints",
+      "pointwise fixed-contract Gauss-Newton projection",
+      "explicit Python/JAX oracle and rust_required no-callback dispatch"
+    ],
+    "excluded": {
+      "class_a_tilted": "RF-03 owns tilted JVP, constraints, and projection; existing native RHS remains compatible",
+      "class_b_tilted": "RF-03 owns tilted JVP, constraints, and projection; existing native RHS remains compatible",
+      "general_and_general_matter": "tensor-formula and RF-03 lanes",
+      "solver_jvp_wiring_events_transitions_batches": "RF-02C",
+      "simd_gpu_timing_wolfram": "not started"
+    }
+  },
+  "contracts": {
+    "geometry_convention": "RF-02A hash unchanged",
+    "class_b_exceptional_route": "existing strict abs(kappa + 9) < 1e-9 boundary preserved",
+    "projection": {
+      "iterations": 3,
+      "damping": 1e-12,
+      "integration_wiring": "NONE"
+    },
+    "science_change": "NONE",
+    "physics_rhs_change": "NONE",
+    "tolerance_reference_grid_seed_change": "NONE",
+    "formula_authority": "UNCHANGED_UNPROMOTED"
+  },
+  "changed_paths": [
+    ".github/workflows/rf02b-scalar-operators.yml",
+    "_rustcore/src/lib.rs",
+    "_rustcore/src/ode/charts.rs",
+    "bianchi/backend.py",
+    "bianchi/backend_policy.py",
+    "bianchi/geometry_identity.py",
+    "bianchi/scalar_charts.py",
+    "bianchi/symbolic/geometry_contract.py",
+    "tests/test_rf02b_scalar_ops.py"
+  ],
+  "verification": {
+    "tdd_red": "Before implementation, the focused Rust test target failed with 10 missing scalar-operator symbols.",
+    "local": {
+      "targeted_rustfmt": "PASS",
+      "standalone_rust_chart_tests": "12 passed",
+      "rf02b_rust_tests": "6 passed",
+      "python_compile_and_minimal_dispatch": "PASS"
+    },
+    "pull_request_ci": {
+      "run_id": 32876197420,
+      "url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32876197420",
+      "typed_schema_and_python_oracle": "4 passed",
+      "rustfmt_clippy": "PASS",
+      "locked_offline_cargo": "6 passed; 128 filtered",
+      "native_and_affected_python": "29 passed",
+      "conclusion": "SUCCESS"
+    },
+    "relevant_automatic_checks": {
+      "rf00_backend_policy": "SUCCESS",
+      "rf02a_geometry_authority": "SUCCESS",
+      "rfbench_static_contract": "SUCCESS_NO_PERFORMANCE_WORKLOAD"
+    },
+    "r4_delta_restore": {
+      "accepted_run_id": 32877249403,
+      "accepted_run_url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32877249403",
+      "conclusion": "SUCCESS",
+      "cargo": "6 passed; 128 filtered",
+      "python": "22 passed; 23 expected unverified-development warnings",
+      "first_attempt": {
+        "run_id": 32876924846,
+        "classification": "HARNESS_FAILURE_NO_SOURCE_DEFECT",
+        "cause": "Cargo did not discover the exact R4 vendored source replacement and therefore could not resolve diffsol offline.",
+        "repair_commit": "aaccc063d4756e7b9b0ae7ae4a584e883ade3fcb"
+      }
+    },
+    "not_run_reused": [
+      "full pytest collection",
+      "inherited scientific and generated lanes",
+      "RF-BENCH performance workloads",
+      "Wolfram",
+      "RF-02C and later nodes"
+    ]
+  },
+  "independent_reviews": {
+    "formula_review": "PASS",
+    "code_review": "PASS_CODE_REVIEW",
+    "hostile_randomized_jvp": {
+      "cases": 250,
+      "maximum_scaled_error": 1.107e-10
+    },
+    "ix_off_trace_projection": "1.6e-1 to 1.735e-17",
+    "material_findings_repaired": [
+      "Preserved existing tilted native-first chart_rhs compatibility after the first review found a routing regression."
+    ]
+  },
+  "native_artifact": {
+    "decision": "NEW_IMMUTABLE_NATIVE_R4_DELTA_RF02B",
+    "branch": "artifact/native-r4-delta-rf02b-20260826-r1",
+    "base_r4": {
+      "head": "b069e46eeb649b7b33e5ca30c3508d144fcd0e2c",
+      "tree": "53da650f50cc140acf57a6e6044f0675bfb8b17c",
+      "archive_sha256": "1c587e04e93095d39ec821b2a7cb6824132d9c2ded635ee8c6101410490fabd3",
+      "cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+    },
+    "restore_workflow_commit": "aaccc063d4756e7b9b0ae7ae4a584e883ade3fcb",
+    "publish": {
+      "accepted_run_id": 32878266207,
+      "first_attempt_run_id": 32878142266,
+      "first_attempt_classification": "PACKAGING_HARNESS_FAILURE_NO_PAYLOAD_CHANGE",
+      "repair": "Restricted whitespace checking to generated metadata so exact source and log bytes remained unmodified."
+    },
+    "package_head": "eb01d5e9528704e9ff422a792709b3993b9123ab",
+    "package_tree": "86e0a8e39a339bb5ef2d7dcb779b6a3b93169961",
+    "package_path": "repro/native/BASS-RF02B-R4-DELTA-20260826",
+    "manifest_sha256": "68803f644eb4765b28d57d3ba9d4c1356bfae19d77eda64f452db599b9351310",
+    "wheel_sha256": "f1b5940ed453c744b3a285898f079b9a8b0e43f66d99937fd7fa632f49d8c3f6",
+    "shared_object_sha256": "8b130c76f9c4a91d3eac9c3a37dd8b4c91ba45476d578c3260d87647693fabdd",
+    "remote_readback": "PASS_HEAD_TREE_MANIFEST_AND_WHEEL_BLOB"
+  },
+  "performance": {
+    "workload": "NOT_RUN",
+    "claim": "NONE",
+    "reason": "RF-02B is a code-contract node and the controlled-host performance gate belongs to a later milestone."
+  },
+  "delivery_boundaries": {
+    "pull_requests_25_through_32": "KEEP_OPEN_DRAFT_UNMERGED",
+    "merge_or_ready_transition": "FORBIDDEN",
+    "authority_promotion": "FORBIDDEN"
+  },
+  "exactly_one_next_action": {
+    "id": "RF-02C",
+    "title": "Integration, events, transitions, batches, and geometry-history closure",
+    "rule": "Start only from the live RF-02B draft PR after verifying this evidence hash and the immutable R4 delta identity."
+  }
+}
