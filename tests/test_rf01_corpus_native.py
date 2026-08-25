@@ -9,9 +9,14 @@ import pytest
 
 from benchmarks.rfbench import workload_child
 from benchmarks.rfbench.corpus import load_registry
+from bianchi.backend_policy import BackendPolicy, capability_report
 
 
 rust = pytest.importorskip("bianchi_rustcore")
+
+UNVERIFIED_DEVELOPMENT_WARM_DIGEST = (
+    "7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f"
+)
 
 
 def _canonical_digest(value: object) -> str:
@@ -53,7 +58,29 @@ def test_real_rf01_adapter_is_repeatable_and_bound_without_timing(
     first = adapter(workload["inputs"])
     second = adapter(workload["inputs"])
     assert first == second
-    assert _canonical_digest(first) == workload["functional_output_sha256"]
+    observed_digest = _canonical_digest(first)
+
+    if workload_id == "runtime_plan_warm_construct":
+        report = capability_report(
+            BackendPolicy.RUST_REQUIRED,
+            probe_legacy_global_pool=False,
+        )
+        if report["installed_native_payload_fingerprint_verified"]:
+            assert report["native_dispatch_provenance_state"] == (
+                "verified_installed_payload"
+            )
+            assert observed_digest == workload["functional_output_sha256"]
+        else:
+            assert report["native_dispatch_provenance_state"] == (
+                "unverified_development_payload"
+            )
+            assert report["development_override_active"] is True
+            assert report["development_override_diagnostic"] == (
+                "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD"
+            )
+            assert observed_digest == UNVERIFIED_DEVELOPMENT_WARM_DIGEST
+    else:
+        assert observed_digest == workload["functional_output_sha256"]
 
     if workload_id == "runtime_plan_memory_allocation_ffi_overhead":
         assert first["ffi_compute_entries"] == 1

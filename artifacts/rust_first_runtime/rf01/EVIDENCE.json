@@ -54,6 +54,43 @@
     "decision": "REUSE_EXACT_R3_DEPENDENCY_BYTES_NO_REFETCH_NO_VENDOR",
     "predicate": "Cargo.toml, Cargo.lock, pyproject.toml, Cargo config, vendor and wheelhouse dependency identities are unchanged"
   },
+  "delivery_ci_contract": {
+    "authoritative_verified_r4": {
+      "build_profile": "release",
+      "functional_output_sha256": "76d6d0db86a80c0ab01155dd3be2061cfe0c0874bd955b47502557fd1d70fc84",
+      "optional_features": [
+        "cpu",
+        "pyo3/extension-module"
+      ],
+      "provenance_state": "verified_installed_payload"
+    },
+    "classification": "TEST_LANE_PROVENANCE_MODE_MISMATCH_REPAIRED",
+    "differing_fields_only": [
+      "build_profile",
+      "optional_features"
+    ],
+    "failed_ci_observation": {
+      "job": "native-wheel-policy",
+      "log_sha256": "8dbc2084d5844b26f15657e2f0be8261ef7008c7e07ef45e88381e1fad94c375",
+      "observed_sha256": "7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f",
+      "run_id": 32809795997,
+      "url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32809795997"
+    },
+    "focused_local_closure": {
+      "static_corpus_contract": "PASS_11",
+      "unverified_development_adapter": "PASS_2",
+      "verified_r4_adapter": "PASS_2"
+    },
+    "live_head_check_authority": "GitHub checks attached to the live draft PR head; read back after the enclosing commit because a commit cannot embed its own check suite",
+    "native_payload_change": "NONE_TEST_AND_EVIDENCE_ONLY",
+    "unverified_development_source_build": {
+      "build_profile": null,
+      "functional_output_sha256": "7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f",
+      "optional_features": [],
+      "provenance_state": "unverified_development_payload",
+      "required_override_diagnostic": "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD"
+    }
+  },
   "focused_proof": {
     "cargo_fmt_check": "PASS",
     "cargo_clippy_warnings_denied": "PASS",
@@ -75,7 +112,7 @@
       "passed": 34,
       "status": "PASS"
     },
-    "runtimeplan_real_corpus_adapters": "PASS_REPEATABLE_FUNCTIONAL_DIGESTS",
+    "runtimeplan_real_corpus_adapters": "PASS_VERIFIED_R4_AND_EXPLICIT_DEVELOPMENT_PROVENANCE_MODES",
     "workspace_growth_after_warmup": "PASS_ZERO_100_STEPS"
   },
   "implementation": {
@@ -132,16 +169,25 @@
   ],
   "review": {
     "bounded_independent_review": "REPAIR_REQUIRED_B1_B2_B3",
+    "post_review_delivery_reconciliation": "TEST_ONLY_CI_PROVENANCE_MODE_EXPECTATION_NO_SECOND_REVIEW",
     "repair_closeout": "PASS",
     "review_bridge": "PASS_REVIEWED_PREDECESSOR_PLUS_THREE_PATH_MECHANICAL_FINGERPRINT_PROPAGATION"
   },
   "rollback": {
-    "command": "git switch agent/architecture/rust-first-rf01-20260825-r1 && test \"$(git rev-parse HEAD^)\" = dea69b0d82a3e157cc452c8dfd4a27b1dbb3bd49 && git revert --no-edit \"$(git rev-parse HEAD)\"",
-    "scope": "second RF-01 source-closeout commit only"
+    "command": "git switch agent/architecture/rust-first-rf01-20260825-r1 && test \"$(git merge-base HEAD 8a21642d6b42f882cf8e0233e8579fb2a267f491)\" = 8a21642d6b42f882cf8e0233e8579fb2a267f491 && git revert --no-edit 8a21642d6b42f882cf8e0233e8579fb2a267f491..HEAD",
+    "scope": "entire RF-01 source stack back to the immutable PR-26 base; immutable R4 remains preserved evidence"
   },
   "schema": "bass-rf01-source-closeout-v1",
   "source_delivery": {
     "branch": "agent/architecture/rust-first-rf01-20260825-r1",
+    "draft_pr": {
+      "base_branch": "agent/architecture/rust-first-rf-bench-00-20260825-r1",
+      "expected_state": "OPEN_DRAFT_UNMERGED",
+      "head_branch": "agent/architecture/rust-first-rf01-20260825-r1",
+      "number": 27,
+      "readback_authority": "LIVE_GITHUB_PR",
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/27"
+    },
     "final_closeout_commit_authority": "LIVE_REMOTE_BRANCH_AND_STACKED_DRAFT_PR_READBACK",
     "self_reference_boundary": "This evidence file cannot embed the hash of the commit that contains itself; the live branch ref and draft PR are the authority for that enclosing commit.",
     "status": "PASS_WITH_DECLARED_COMMIT_SELF_REFERENCE_BOUNDARY"

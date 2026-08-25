@@ -9,13 +9,17 @@
 - RF-01 implementation: `agent/architecture/rust-first-rf01-20260825-r1` at
   `dea69b0d82a3e157cc452c8dfd4a27b1dbb3bd49`, tree
   `1bd251b0dfa098fa5d15790aec29c0355b23ab73`.
-- The enclosing closeout commit is resolved by the live branch and stacked draft
-  PR because a commit cannot embed its own hash.
+- Delivery: stacked draft PR #27, `https://github.com/cosmosapjw-quantum/bass/pull/27`.
+  Resolve its exact enclosing head/tree from the live draft PR before work because
+  a commit cannot embed its own hash.
 
 ## OUTCOME
 
 - `CODE_CONTRACT_PASS`; private-pool RuntimePlan, plan-bound Workspace, typed
   buffer/GIL errors, counters, and two non-timed RF-01 corpus adapters are closed.
+- The verified R4 warm-plan digest remains authoritative; source-built CI uses
+  the separately typed `UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD` digest. Runtime
+  architecture fields are identical and only verified build provenance differs.
 - Native R4: `artifact/native-repro-bundle-20260825-r4` at
   `b069e46eeb649b7b33e5ca30c3508d144fcd0e2c`, tree
   `53da650f50cc140acf57a6e6044f0675bfb8b17c`.
@@ -27,7 +31,7 @@
 ## EVIDENCE
 
 - Sole authority: `artifacts/rust_first_runtime/rf01/EVIDENCE.json`, SHA-256
-  `bc04ef51412c59fcdd5f2ae87f8898531e99fab633b031fccc16e829268c768d`.
+  `d2208e4f8dca8e13c04a12e1c14e2a97dabbba8fc96ef64895bd74a553f704be`.
 - Raw remote receipts: `artifacts/rust_first_runtime/rf01/raw/`.
 - Reassemble after authenticated shallow clone:
   `python repro/native/BASS-RF01-NATIVE-20260825T035620Z/reassemble_bundle.py --manifest repro/native/BASS-RF01-NATIVE-20260825T035620Z/BUNDLE_MANIFEST.json --output BASS_NATIVE_REPRO_BASS-RF01-NATIVE-20260825T035620Z.tar.xz`.
@@ -41,7 +45,8 @@
   tolerances, references, scientific authority, or start RF-03+.
 - Do not rerun inherited PASS or RF-BENCH timing lanes without changed inputs and
   a controlled host.
-- Roll back only the closeout commit with the command in `EVIDENCE.json`.
+- Roll back the RF-01 source stack only with the base-verifying revert command in
+  `EVIDENCE.json`; preserve immutable R4 as evidence.
 
 ## EXACTLY ONE NEXT ACTION
 
