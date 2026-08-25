@@ -1,0 +1,60 @@
+{
+  "base_commit": "d6a0b63fac09c3a6d0c9071206f0d51f01953341",
+  "base_tree": "de75fcc53b3bb21582ce09796ace27969d328e61",
+  "default_codex_launch": "WU-004",
+  "fresh_context_launch": "WU-001",
+  "plan_branch": "agent/audit/bass-post-seal-audit-compiled-exec-plan-v3-20260826",
+  "required_marker": "BASS_POST_SEAL_AUDIT_COMPILED_PLAN_V3_VERIFY_PASS",
+  "root": "verification/bass-post-seal-audit-compiled-exec-plan-v3/20260826",
+  "schema": "bass-post-seal-package-index-v1",
+  "work_units": [
+    {
+      "file": "WORK_UNITS/WU-000-CONTROL-PLANE-DAG-REPAIR.json",
+      "id": "WU-000",
+      "status": "READY",
+      "title": "Repair Jira BASS-8/BASS-9/BASS-10 dependency semantics"
+    },
+    {
+      "file": "WORK_UNITS/WU-001-BASS9-INDEPENDENT-REMOTE-REPLAY.json",
+      "id": "WU-001",
+      "status": "READY_FRESH_CONTEXT_ONLY",
+      "title": "BASS-9 fresh-context independent remote-content replay"
+    },
+    {
+      "file": "WORK_UNITS/WU-002-BASS10-ROWS7-8-R2.json",
+      "id": "WU-002",
+      "status": "BLOCKED_BY_WU-000_AND_WU-001",
+      "title": "BASS-10 fresh rows 7-8 R2 readjudication"
+    },
+    {
+      "file": "WORK_UNITS/WU-003-ROWS9-10-LEDGER.json",
+      "id": "WU-003",
+      "status": "BLOCKED_BY_WU-002_AND_UNRESOLVED_SPEC",
+      "title": "Resolve and close rows 9-10 normalization/supersession ledger"
+    },
+    {
+      "file": "WORK_UNITS/WU-004-AC01-IDENTITY-GUARD.json",
+      "id": "WU-004",
+      "status": "READY_PARALLEL",
+      "title": "Implement AC-01 artifact identity and allowed-diff guard"
+    },
+    {
+      "file": "WORK_UNITS/WU-004R-AC01-FRESH-REVIEW.json",
+      "id": "WU-004R",
+      "status": "BLOCKED_BY_WU-004",
+      "title": "Fresh-context read-only review of AC-01"
+    },
+    {
+      "file": "WORK_UNITS/WU-005-FINAL-ROWS1-10-READJUDICATION.json",
+      "id": "WU-005",
+      "status": "BLOCKED_BY_WU-002_WU-003_WU-004R",
+      "title": "Final rows 1-10 differential readjudication"
+    },
+    {
+      "file": "WORK_UNITS/WU-006-CONTROL-PLANE-SYNC.json",
+      "id": "WU-006",
+      "status": "BLOCKED_BY_WU-005",
+      "title": "Synchronize Jira and Confluence to the final bounded decision"
+    }
+  ]
+}
