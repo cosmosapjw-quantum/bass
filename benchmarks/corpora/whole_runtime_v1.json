@@ -1,11 +1,11 @@
 {
   "schema": "bass-whole-runtime-corpus-v1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "corpus_id": "BASS-WHOLE-RUNTIME-V1-20260825",
   "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa",
   "canonicalization": "RFC8259_JSON_SORT_KEYS_COMPACT_UTF8_NO_NAN",
   "source_command_argv_template": ["{python}", "{runner_root}/benchmarks/rfbench/workload_child.py", "--workload-id", "{workload_id}"],
-  "source_adapter_sha256": "a9f7a2f2bb516095b1f8bea7a09910fddf592752ae07796ff37a24b8200a1e71",
+  "source_adapter_sha256": "e07fbf602c61e02171d8621e72d028b7a5f7a9805fb90b1b78f314b536430f5e",
   "required_strata": [
     "cold import and backend initialization",
     "warm RuntimePlan construction",
@@ -31,6 +31,11 @@
       "state": "BLOCKED_BY_RF04_NO_PUBLIC_KATO_SELECTOR",
       "owner_node": "RF-04",
       "reason": "No production Kato selector exists at the RF-BENCH-00 head; Q Mode A is not a substitute."
+    },
+    "serialization": {
+      "state": "BLOCKED_BY_RF06_NO_END_TO_END_SERIALIZATION_ADAPTER",
+      "owner_node": "RF-06",
+      "reason": "RF-01 measures RuntimePlan memory, allocation, and FFI accounting only; RF-06 owns RunWriter/RunReader and end-to-end production serialization."
     }
   },
   "selection": {
@@ -86,21 +91,21 @@
       "strata": ["warm RuntimePlan construction"],
       "components": ["runtime_plan_construction"],
       "role": "tuning",
-      "selector": null,
-      "public_routes": [],
+      "selector": "bianchi.runtime.RuntimePlan",
+      "public_routes": ["runtime.plan"],
       "measurement_kind": "steady_state",
       "thread_strata": ["strict_1t", "physical_12t"],
-      "inputs": null,
-      "input_identity_sha256": null,
-      "output_contract": null,
-      "output_contract_sha256": null,
-      "correctness_comparator": {"kind": "BLOCKED_BY_OWNER_NODE_FROZEN_SCIENTIFIC_CONTRACT", "owner_node": "RF-01"},
+      "inputs": {"cpu_variant": "scalar", "fixture_schema": "bass-rf01-runtime-plan-v1", "fixture_size": 64, "require_finite": true},
+      "input_identity_sha256": "032f3a56148841aa0eb8fdbeb667d07c9e296079224937e00f8ba3dde38e52de",
+      "output_contract": {"bind_on": "first_controlled_baseline", "expected_sha256": null, "named_parts": ["runtime_schema", "plan_fingerprint", "thread_count", "private_pool_size", "cpu_variant", "workspace_capacities", "build_profile", "extension_version", "optional_features"]},
+      "output_contract_sha256": "6767e2cbb1fae2c972647ee3acac5bf241a53b791a5f8940a60afd91557e5193",
+      "functional_output_sha256": "76d6d0db86a80c0ab01155dd3be2061cfe0c0874bd955b47502557fd1d70fc84",
+      "correctness_comparator": {"kind": "EXACT_OUTPUT_DIGEST"},
       "warmup_iterations": 3,
       "minimum_duration_seconds": 2.0,
       "timeout_seconds": null,
-      "implementation_state": "BLOCKED_BY_RF01_NOT_EXECUTABLE",
-      "owner_node": "RF-01",
-      "blocking_reason": "Production RuntimePlan does not exist at the RF-BENCH-00 source head; q.transport.plan is not an equivalent substitute."
+      "implementation_state": "EXECUTABLE_CURRENT",
+      "owner_node": "RF-01"
     },
     {
       "id": "geometry_class_a_single",
@@ -235,25 +240,25 @@
       "blocking_reason": "This is a batch kernel, not the end-to-end workload; RF-06 owns its adapter and comparator."
     },
     {
-      "id": "overhead_memory_allocation_ffi_serialization",
+      "id": "runtime_plan_memory_allocation_ffi_overhead",
       "strata": ["memory, allocation, FFI-call, and serialization overhead"],
-      "components": ["memory", "allocation", "ffi_calls", "serialization"],
+      "components": ["memory", "allocation", "ffi_calls"],
       "role": "control",
-      "selector": "separate-memory-and-serialization-pass",
-      "public_routes": [],
+      "selector": "bianchi.runtime.RuntimePlan.run_fixture+counters",
+      "public_routes": ["runtime.plan"],
       "measurement_kind": "separate_overhead",
       "thread_strata": ["strict_1t"],
-      "inputs": {"memory_instrument": "tracemalloc_separate_from_timing", "serialization": "RunWriter_RunReader_tempdir_roundtrip", "ffi_counter": null},
-      "input_identity_sha256": "d0b9b3db2e4e37db94eff52b9fbefcb8a53cca06bc59f96e0bd4ef754b7fe8fc",
-      "output_contract": {"named_parts": ["reconstructed_arrays", "manifest", "allocation_receipt"], "expected_sha256": null, "bind_on": "first_controlled_baseline"},
-      "output_contract_sha256": "8a56827d41f85ef29c10c40cae1a6a086c505fdf3cdc543a2703fb9307bfba0c",
-      "correctness_comparator": {"kind": "BLOCKED_BY_OWNER_NODE_FROZEN_SCIENTIFIC_CONTRACT", "owner_node": "RF-01"},
+      "inputs": {"cpu_variant": "scalar", "fixture_schema": "bass-rf01-runtime-overhead-v1", "fixture_size": 64, "input_algorithm": "linspace_-0.25_0.75_f64_v1", "require_finite": true, "steps": 100},
+      "input_identity_sha256": "6dd00f4368f3c46ba9db2b1f41ed8ad0d8ea5aa7327bc5351358d0c085b7b418",
+      "output_contract": {"bind_on": "first_controlled_baseline", "expected_sha256": null, "named_parts": ["plan_fingerprint", "workspace_capacity_elements", "workspace_capacity_bytes", "input_bytes", "output_bytes", "ffi_compute_entries", "input_copies", "output_copies", "workspace_growth_events", "designated_rust_allocations", "result_digest"]},
+      "output_contract_sha256": "40d837378990b5b923ddb23d9893370d2b8054a384ecc2fe25c3d01a9c86d392",
+      "functional_output_sha256": "23a6d6e513fdc7d66de28c0df5b3ab298cd41350a8c7ab9dd7819ce7b01d1e68",
+      "correctness_comparator": {"kind": "EXACT_OUTPUT_DIGEST"},
       "warmup_iterations": 3,
       "minimum_duration_seconds": null,
       "timeout_seconds": 300,
-      "implementation_state": "PARTIAL_CURRENT_FFI_COUNTER_BLOCKED_BY_RF01",
-      "owner_node": "RF-01",
-      "blocking_reason": "Memory and serialization are executable controls; exact production FFI-call accounting awaits the RF-01 RuntimePlan counter."
+      "implementation_state": "EXECUTABLE_CURRENT",
+      "owner_node": "RF-01"
     },
     {
       "id": "holdout_q_saha_internal_e2e",

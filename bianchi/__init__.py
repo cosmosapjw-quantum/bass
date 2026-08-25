@@ -11,9 +11,9 @@ import importlib
 
 __version__ = "0.1.0"
 
-__all__ = ["conventions", "algebra", "__version__"]
+__all__ = ["conventions", "algebra", "runtime", "__version__"]
 
-_LAZY_PUBLIC_MODULES = frozenset({"conventions", "algebra"})
+_LAZY_PUBLIC_MODULES = frozenset({"conventions", "algebra", "runtime"})
 
 
 def __getattr__(name: str):

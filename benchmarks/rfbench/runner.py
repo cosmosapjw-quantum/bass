@@ -25,7 +25,7 @@ from .protocol import CONTAMINATION_LIMITS, evaluate_pair, sha256_json, summariz
 RUN_CONFIG_SCHEMA = "bass-rfbench-run-config-v1"
 RUN_RESULT_SCHEMA = "bass-rfbench-controlled-paired-result-v1"
 EXPECTED_SPEC_SHA256 = "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa"
-EXPECTED_ADAPTER_SHA256 = "a9f7a2f2bb516095b1f8bea7a09910fddf592752ae07796ff37a24b8200a1e71"
+EXPECTED_ADAPTER_SHA256 = "e07fbf602c61e02171d8621e72d028b7a5f7a9805fb90b1b78f314b536430f5e"
 
 _CLAIM_LEVEL_RANK = {
     ClaimLevel.EXPLORATORY_ONLY: 0,

@@ -218,9 +218,9 @@ def test_registry_is_complete_but_future_owned_slots_fail_closed():
     assert set(registry["required_strata"]) == REQUIRED_STRATA
     assert len([item for item in registry["workloads"] if item["role"] == "holdout"]) == 1
     plan = next(item for item in registry["workloads"] if item["id"] == "runtime_plan_warm_construct")
-    assert plan["implementation_state"] == "BLOCKED_BY_RF01_NOT_EXECUTABLE"
-    assert plan["selector"] is None
-    with pytest.raises(RuntimeError, match="runtime_plan_warm_construct"):
+    assert plan["implementation_state"] == "EXECUTABLE_CURRENT"
+    assert plan["selector"] == "bianchi.runtime.RuntimePlan"
+    with pytest.raises(RuntimeError, match="geometry_class_a_single"):
         select_workloads(registry)
     with pytest.raises(PermissionError, match="milestone_closeout"):
         select_workloads(registry, roles=("holdout",))
@@ -237,7 +237,12 @@ def test_registry_is_complete_but_future_owned_slots_fail_closed():
             if item["implementation_state"] == "EXECUTABLE_CURRENT"] == [
         "startup_cold_backend_import",
         "startup_backend_initialization",
+        "runtime_plan_warm_construct",
+        "runtime_plan_memory_allocation_ffi_overhead",
     ]
+    assert registry["component_blockers"]["serialization"]["state"] == (
+        "BLOCKED_BY_RF06_NO_END_TO_END_SERIALIZATION_ADAPTER"
+    )
 
 
 def test_corpus_description_has_one_sealed_holdout_and_stable_digest():

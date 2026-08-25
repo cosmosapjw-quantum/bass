@@ -202,7 +202,7 @@ def test_r2_capability_binds_loaded_so_to_distribution_owned_file(
     assert report["cargo_lock_binding_verified"]
     assert (
         report["provenance"]["cargo_lock_sha256"]
-        == "rf00_r3_loaded_distribution_file_fingerprint"
+        == "rf01_r4_loaded_distribution_file_fingerprint"
     )
 
 
