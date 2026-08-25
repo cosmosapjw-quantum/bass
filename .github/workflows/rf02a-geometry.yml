@@ -94,5 +94,9 @@ jobs:
           # that development provenance instead of masquerading as R4.
           BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"
         run: |
-          python -m pip install --no-index "$RUNNER_TEMP"/rf02a-wheel/bianchi_rustcore-*.whl .
+          # The checkout is the Python source under test via PYTHONPATH. Install
+          # only the already-built native wheel: adding "." would invoke PEP 517
+          # build isolation after PIP_NO_INDEX is set and try to resolve the
+          # pinned setuptools build dependency from a disabled index.
+          python -m pip install --no-index "$RUNNER_TEMP"/rf02a-wheel/bianchi_rustcore-*.whl
           python -m pytest -q tests/test_q1_group.py tests/test_rf00_route_inventory.py

@@ -9,6 +9,21 @@
     "implementation_tree": "9d164c81d2604bba09987d88b0c87ed105088310",
     "self_reference_boundary": "The final evidence commit is identified by remote branch readback; implementation identity above is the code authority."
   },
+  "remote_ci": {
+    "failed_run_url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32824389260",
+    "failed_job_url": "https://github.com/cosmosapjw-quantum/bass/actions/runs/32824389260/job/97729203880",
+    "failure_class": "OFFLINE_ROOT_BUILD_ISOLATION_HARNESS_ERROR",
+    "native_wheel_build": "PASS",
+    "focused_selector_execution": "NOT_REACHED",
+    "diagnostic": "PIP_NO_INDEX=1 root installation attempted to resolve setuptools==68.1.2 in a new PEP 517 build-isolation environment",
+    "repair": "Install only the already-built native wheel; exercise checkout Python through the existing PYTHONPATH=.",
+    "changed_precondition": "The proof step no longer asks pip to build the unchanged root Python project",
+    "local_repair_proof": {
+      "environment": "fresh Python 3.12 venv; requirements.lock installed during setup; no-index source-built native wheel install; explicit unverified-development provenance override",
+      "command_scope": "tests/test_q1_group.py tests/test_rf00_route_inventory.py",
+      "result": "44 passed"
+    }
+  },
   "scope": {
     "work_unit": "RF-02A_BIANCHI_IDENTITY_AND_GEOMETRY_AUTHORITY",
     "changed_paths": [
