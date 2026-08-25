@@ -222,6 +222,7 @@
   "schema": "audit-compiled-pr/v1",
   "scope": {
     "allowed_paths": [
+      "verification/audit-compiled/ACTIVE_PR_CONTRACT.json",
       "scripts/verify_artifact_identity.py",
       "scripts/verify_allowed_diff.py",
       "tests/verification/test_artifact_identity.py",
@@ -258,12 +259,12 @@
     ],
     "negative": [
       {
-        "command": "python scripts/verify_artifact_identity.py tests/fixtures/same_name_wrong_digest.json",
-        "expect": "exit=4 code=ARTIFACT_IDENTITY_COLLISION"
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0 -v",
+        "expect": "PASS and asserted code=ARTIFACT_IDENTITY_COLLISION"
       },
       {
-        "command": "python scripts/verify_artifact_identity.py tests/fixtures/missing_artifact.json",
-        "expect": "exit=3 code=BLOCKED_INPUT_REQUIRED"
+        "command": "python -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input -v",
+        "expect": "PASS and asserted code=BLOCKED_INPUT_REQUIRED"
       }
     ],
     "regression": [

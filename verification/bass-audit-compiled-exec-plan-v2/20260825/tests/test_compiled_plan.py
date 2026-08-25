@@ -25,4 +25,17 @@ class CompiledPlanTests(unittest.TestCase):
         self.assertEqual(r['pass_condition']['P0'],0)
         self.assertEqual(r['pass_condition']['P1'],0)
 
+    def test_handoff_contract_bootstrap_is_self_consistent(self):
+        c=json.loads((ROOT/'PR_CONTRACTS/BASS-AC-01.json').read_text())
+        allowed=set(c['scope']['allowed_paths'])
+        self.assertIn('verification/audit-compiled/ACTIVE_PR_CONTRACT.json', allowed)
+        for item in c['verification']['negative']:
+            self.assertNotIn('tests/fixtures/', item['command'])
+            self.assertIn('python -m unittest', item['command'])
+        h=(ROOT/'CODEX_HANDOFF.md').read_text()
+        self.assertIn('two', h.lower())
+        self.assertIn('bass-ac01-plan', h)
+        self.assertIn('bass-ac01-impl', h)
+        self.assertIn('e7837c0ecd92793c19ecc53c5559fd9f67cd4884a393eaf4c323fbbbebe46cca', h)
+
 if __name__=='__main__': unittest.main()
