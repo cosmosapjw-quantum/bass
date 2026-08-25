@@ -82,7 +82,28 @@ jobs:
           done
           wheelhouse="$(find "$extract" -type d -name wheelhouse -print -quit)"
           test -n "$wheelhouse"
-          printf '%s\n' "RF02B_REPO_ROOT=$repo_root" "RF02B_WHEELHOUSE=$wheelhouse" >> "$GITHUB_ENV"
+          diffsol_dir="$(find "$extract" -type d -name 'diffsol-0.16.1' -print -quit)"
+          test -n "$diffsol_dir"
+          test -f "$diffsol_dir/.cargo-checksum.json"
+          vendor_dir="$(dirname "$diffsol_dir")"
+          cargo_home="$RUNNER_TEMP/rf02b-cargo-home"
+          mkdir "$cargo_home"
+          VENDOR_DIR="$vendor_dir" CONFIG="$cargo_home/config.toml" python - <<'PY'
+          import json, os, pathlib
+          pathlib.Path(os.environ["CONFIG"]).write_text(
+              '[source.crates-io]\n'
+              'replace-with = "r4-vendored-sources"\n\n'
+              '[source.r4-vendored-sources]\n'
+              f'directory = {json.dumps(os.environ["VENDOR_DIR"])}\n\n'
+              '[net]\n'
+              'offline = true\n',
+              encoding="utf-8",
+          )
+          PY
+          printf '%s\n' \
+            "RF02B_REPO_ROOT=$repo_root" \
+            "RF02B_WHEELHOUSE=$wheelhouse" \
+            "RF02B_CARGO_HOME=$cargo_home" >> "$GITHUB_ENV"
       - name: Build and test only the RF-02B delta with R4 inputs offline
         shell: bash
         env:
@@ -91,6 +112,7 @@ jobs:
           BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"
         run: |
           set -euo pipefail
+          export CARGO_HOME="$RF02B_CARGO_HOME"
           python -m venv "$RUNNER_TEMP/rf02b-venv"
           py="$RUNNER_TEMP/rf02b-venv/bin/python"
           "$py" -m pip install --no-index --find-links "$RF02B_WHEELHOUSE" \
