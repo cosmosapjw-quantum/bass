@@ -1,5 +1,5 @@
 """
-Run the whole v1.1 audit and write manifest.json.
+Run the whole BASS audit and write manifest.json.
 
     cd audit && python run_all.py
 
@@ -7,6 +7,12 @@ Every check is deterministic (explicit seeds).  A rerun that exceeds the
 thresholds below is a regression, not noise.
 """
 import json, subprocess, sys, os
+
+GENERATOR = {
+    'name': 'BASS aggregate audit runner',
+    'version': 'rf02a-1.0',
+    'source': 'audit/run_all.py',
+}
 
 SCRIPTS = [
     ('einstein_frame.py', 'einstein_frame.json'),
@@ -133,6 +139,11 @@ THRESHOLDS = [
      'v1_constraint_gradient', '>', 1e-2),
     ('CS(II) constrained crosses 10/7', 'd_tilted_II.json',
      'constrained_threshold_scan.g=1.4286', '<', 1e-8),
+    # RF-02A: exact Jacobi-surface reduction, not the old raw component flag.
+    ('Bianchi identity reduced', 'r4_bianchi_constraints.json',
+     'bianchi_identity_reduced_vanishes', 'bool', True),
+    ('Bianchi mutation witness', 'r4_bianchi_constraints.json',
+     'mutation_witness.ndot_H_sign_flip.reduced_vanishes', 'bool', False),
 ]
 
 
@@ -176,14 +187,17 @@ def main():
             ok = val < bound
         elif cmp_ == '>':
             ok = val > bound
+        elif cmp_ == 'bool':
+            ok = bool(val) is bound
         else:                                   # '=' : coefficient gate
             ok = abs(val - bound) < 1e-9
         failed += (not ok)
         rows.append(dict(check=name, file=f, path=path, value=val,
-                         requirement=f'{cmp_} {bound:g}', ok=bool(ok)))
+                         requirement=f'{cmp_} {bound!s}', ok=bool(ok)))
 
     manifest = dict(
-        version='1.3',
+        version='1.5',
+        generator=GENERATOR,
         python=sys.version.split()[0],
         scripts=ran,
         checks=rows,

@@ -1,12 +1,90 @@
 {
+  "manifest_generator": {
+    "name": "BASS RF-02A geometry audit",
+    "version": "rf02a-1.0",
+    "source": "audit/r4_bianchi_constraints.py",
+    "reduction": "three exact nonzero-a kernel charts plus a=0 branch"
+  },
+  "convention_hash": "ac824b10e966f7cdb680d4a1a62ccfb414a9479e84f3d72231eeb4c88f649b33",
+  "state_schema_hash": "9fa370fa32a5e0d7af7e8d97263db947a579d80c793e2818212b339a4b15e0f1",
+  "type_registry": [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "IX",
+    "V",
+    "VI*_-1/9",
+    "VIII",
+    "VII_0",
+    "VII_h",
+    "VI_0",
+    "VI_h"
+  ],
+  "route_inventory": {
+    "q.group.classify": "native_required",
+    "q.group.jacobi_residual": "native_required",
+    "q.group.structure_constants": "native_required",
+    "q.group.ricci3": "native_required",
+    "q.group.curvature": "native_required",
+    "q.group.kappa": "native_required"
+  },
+  "unsupported_domains": {
+    "unknown_type": "fail_closed",
+    "tilted_geometry": "fail_closed_RF02B_owner"
+  },
   "bianchi_identity_components": [
     "0",
     "-2*a0(t)*a1(t)*n02(t) + 2*a0(t)*a2(t)*n01(t) - a0(t)*n00(t)**2 + a0(t)*n00(t)*n11(t) + a0(t)*n00(t)*n22(t) - 2*a0(t)*n01(t)**2 - 2*a0(t)*n02(t)**2 - 2*a1(t)**2*n12(t) + 2*a1(t)*a2(t)*n11(t) - 2*a1(t)*a2(t)*n22(t) - a1(t)*n00(t)*n01(t) - a1(t)*n01(t)*n11(t) + a1(t)*n01(t)*n22(t) - 2*a1(t)*n02(t)*n12(t) + 2*a2(t)**2*n12(t) - a2(t)*n00(t)*n02(t) - 2*a2(t)*n01(t)*n12(t) + a2(t)*n02(t)*n11(t) - a2(t)*n02(t)*n22(t)",
     "2*a0(t)**2*n02(t) + 2*a0(t)*a1(t)*n12(t) - 2*a0(t)*a2(t)*n00(t) + 2*a0(t)*a2(t)*n22(t) - a0(t)*n00(t)*n01(t) - a0(t)*n01(t)*n11(t) + a0(t)*n01(t)*n22(t) - 2*a0(t)*n02(t)*n12(t) - 2*a1(t)*a2(t)*n01(t) + a1(t)*n00(t)*n11(t) - 2*a1(t)*n01(t)**2 - a1(t)*n11(t)**2 + a1(t)*n11(t)*n22(t) - 2*a1(t)*n12(t)**2 - 2*a2(t)**2*n02(t) + a2(t)*n00(t)*n12(t) - 2*a2(t)*n01(t)*n02(t) - a2(t)*n11(t)*n12(t) - a2(t)*n12(t)*n22(t)",
     "-2*a0(t)**2*n01(t) + 2*a0(t)*a1(t)*n00(t) - 2*a0(t)*a1(t)*n11(t) - 2*a0(t)*a2(t)*n12(t) - a0(t)*n00(t)*n02(t) - 2*a0(t)*n01(t)*n12(t) + a0(t)*n02(t)*n11(t) - a0(t)*n02(t)*n22(t) + 2*a1(t)**2*n01(t) + 2*a1(t)*a2(t)*n02(t) + a1(t)*n00(t)*n12(t) - 2*a1(t)*n01(t)*n02(t) - a1(t)*n11(t)*n12(t) - a1(t)*n12(t)*n22(t) + a2(t)*n00(t)*n22(t) - 2*a2(t)*n02(t)**2 + a2(t)*n11(t)*n22(t) - 2*a2(t)*n12(t)**2 - a2(t)*n22(t)**2"
   ],
-  "bianchi_identity_vanishes": false,
+  "raw_bianchi_identity_vanishes": false,
+  "bianchi_identity_components_reduced": {
+    "0": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "1": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "2": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  "bianchi_identity_reduced_vanishes": true,
+  "bianchi_identity_vanishes": true,
+  "jacobi_reduction": {
+    "charts_checked": [
+      0,
+      1,
+      2
+    ],
+    "a_zero_branch": "raw components vanish identically",
+    "parameterization": "N=p*u*u.T+q*(u*v.T+v*u.T)+r*v*v.T with u\u00b7a=v\u00b7a=0",
+    "exact": true
+  },
   "constraint_propagation_is_linear_homogeneous": true,
   "propagation_matrix_M": "\u23a1-3\u22c5H(t)      -2\u22c5a\u2080(t)          -2\u22c5a\u2081(t)              -2\u22c5a\u2082(t)         \u23a4\n\u23a2                                                                      \u23a5\n\u23a2   0     -4\u22c5H(t) - s\u2080\u2080(t)   R\u2082(t) - s\u2080\u2081(t)        -R\u2081(t) - s\u2080\u2082(t)     \u23a5\n\u23a2                                                                      \u23a5\n\u23a2   0     -R\u2082(t) - s\u2080\u2081(t)   -4\u22c5H(t) - s\u2081\u2081(t)       R\u2080(t) - s\u2081\u2082(t)      \u23a5\n\u23a2                                                                      \u23a5\n\u23a3   0      R\u2081(t) - s\u2080\u2082(t)   -R\u2080(t) - s\u2081\u2082(t)   -4\u22c5H(t) + s\u2080\u2080(t) + s\u2081\u2081(t)\u23a6",
-  "M_depends_on_R": true
+  "M_depends_on_R": true,
+  "mutation_witness": {
+    "ndot_H_sign_flip": {
+      "reduced_vanishes": false,
+      "max_nonzero_component": 17.6,
+      "mutation": "replace ndot[n00] -H*n00 by +H*n00"
+    }
+  },
+  "aggregate_gate": {
+    "identity": true,
+    "mutation_witness": true,
+    "pass": true
+  }
 }
