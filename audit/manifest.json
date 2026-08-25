@@ -1,7 +1,13 @@
 {
-  "version": "1.4",
+  "version": "1.5",
+  "generator": {
+    "name": "BASS aggregate audit runner",
+    "version": "rf02a-1.0",
+    "source": "audit/run_all.py"
+  },
   "n_failed": 0,
-  "n_gates": 72,
+  "n_gates": 74,
+  "execution_scope": "72 inherited RF-01 aggregate gates plus two current RF-02A focused gates; full aggregate not rerun",
   "checks": [
     {
       "check": "S3 explicit, class A",
@@ -361,6 +367,22 @@
     {
       "check": "CS(II) constrained crosses 10/7",
       "value": -0.0,
+      "ok": true
+    },
+    {
+      "check": "Bianchi identity reduced",
+      "file": "r4_bianchi_constraints.json",
+      "path": "bianchi_identity_reduced_vanishes",
+      "value": true,
+      "requirement": "bool True",
+      "ok": true
+    },
+    {
+      "check": "Bianchi mutation witness",
+      "file": "r4_bianchi_constraints.json",
+      "path": "mutation_witness.ndot_H_sign_flip.reduced_vanishes",
+      "value": false,
+      "requirement": "bool False",
       "ok": true
     }
   ],
