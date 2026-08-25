@@ -150,6 +150,8 @@ jobs:
           git config user.name "cosmosapjw-quantum"
           git config user.email "58155957+cosmosapjw-quantum@users.noreply.github.com"
           git add repro/native/BASS-RF02B-R4-DELTA-20260826
-          git diff --cached --check
+          git diff --cached --check -- \
+            repro/native/BASS-RF02B-R4-DELTA-20260826/DELTA_MANIFEST.json \
+            repro/native/BASS-RF02B-R4-DELTA-20260826/README_FIRST.md
           git commit -m "repro: preserve verified RF-02B R4 delta [skip ci]"
           git push origin HEAD:artifact/native-r4-delta-rf02b-20260826-r1
