@@ -1,0 +1,78 @@
+{
+  "schema": "bass-rf02a-evidence-v1",
+  "status": "PASS_RF02A_CODE",
+  "source": {
+    "base_pr": 28,
+    "base_head": "fc8c02eda2b3e7dbc5eeca77af152e33caac9165",
+    "branch": "agent/architecture/rust-first-rf02a-20260825-r1",
+    "implementation_commit": "f7192686d8c3374b1973deee8a1dd337fbdb403b",
+    "implementation_tree": "9d164c81d2604bba09987d88b0c87ed105088310",
+    "self_reference_boundary": "The final evidence commit is identified by remote branch readback; implementation identity above is the code authority."
+  },
+  "scope": {
+    "work_unit": "RF-02A_BIANCHI_IDENTITY_AND_GEOMETRY_AUTHORITY",
+    "changed_paths": [
+      ".github/workflows/rf02a-geometry.yml",
+      "audit/manifest.json",
+      "audit/r4_bianchi_constraints.json",
+      "audit/r4_bianchi_constraints.py",
+      "audit/run_all.py",
+      "bianchi/symbolic/geometry_contract.py",
+      "tests/test_rf02a_geometry_authority.py"
+    ],
+    "prohibited_work": ["RF-02B+", "timing", "SIMD", "GPU", "Wolfram", "full_suite"]
+  },
+  "detector": {
+    "raw_bianchi_identity_vanishes": false,
+    "reduced_bianchi_identity_vanishes": true,
+    "reduction_charts": [0, 1, 2],
+    "a_zero_branch": "raw components vanish identically",
+    "mutation": "ndot[n00] -H*n00 -> +H*n00",
+    "mutation_reduced_vanishes": false,
+    "aggregate_gate": "fail_closed_boolean_rows_in_audit/run_all.py",
+    "report_path": "audit/r4_bianchi_constraints.json",
+    "report_sha256": "c2b8d2bd867fa026a71316c3a5c1d8d6124d03e5f646910cdc0317fc17e21505"
+  },
+  "geometry_contract": {
+    "convention_hash": "ac824b10e966f7cdb680d4a1a62ccfb414a9479e84f3d72231eeb4c88f649b33",
+    "state_schema_hash": "9fa370fa32a5e0d7af7e8d97263db947a579d80c793e2818212b339a4b15e0f1",
+    "native_required_routes": [
+      "q.group.classify",
+      "q.group.jacobi_residual",
+      "q.group.structure_constants",
+      "q.group.ricci3",
+      "q.group.curvature",
+      "q.group.kappa"
+    ],
+    "unknown_type": "fail_closed",
+    "tilted_route": "fail_closed_RF02B_owner"
+  },
+  "focused_proof": [
+    {
+      "command": "PYTHONPATH=.:audit python -m pytest -q tests/test_rf02a_geometry_authority.py tests/test_q1_group.py tests/test_rf00_route_inventory.py",
+      "result": "50 passed",
+      "log_sha256": "342d243accc9953ccd620e28259dcf393c4070d340822a317f994cfc64b35f0b"
+    },
+    {
+      "command": "PYTHONPATH=.:audit python audit/r4_bianchi_constraints.py",
+      "result": "exit 0; aggregate_gate.pass=true",
+      "log_sha256": "1fed3ed7f31727006a3c1db533e3ab69544ec993ab860ce44fb8e15f89bdd7f9"
+    }
+  ],
+  "inherited": {
+    "native_artifact": "REUSED_NATIVE_R4_NO_NATIVE_BYTE_CHANGE",
+    "r4_branch": "artifact/native-repro-bundle-20260825-r4",
+    "r4_head": "b069e46eeb649b7b33e5ca30c3508d144fcd0e2c",
+    "r4_archive_sha256": "1c587e04e93095d39ec821b2a7cb6824132d9c2ded635ee8c6101410490fabd3",
+    "native_predicate": "_rustcore/Cargo.toml, Cargo.lock, config, vendor, _rustcore/src/geom, PyO3 and wheel bytes unchanged"
+  },
+  "review": {
+    "status": "PASS_NONBLOCKING",
+    "review_path": "artifacts/rust_first_runtime/rf02a/REVIEW.json",
+    "review_sha256": "c591feb5614d9ed76357482faac6914194ece98df2f61c4249357af515a4275f"
+  },
+  "scientific_behavior_change": "NONE",
+  "formula_authority": "UNCHANGED_UNPROMOTED",
+  "performance": "NOT_RUN_BY_CONTRACT",
+  "next_action": "RF-02B"
+}
