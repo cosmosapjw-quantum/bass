@@ -24,6 +24,7 @@ from bianchi.backend_policy import (
     select_backend,
 )
 from bianchi.optional_dependencies import require_jax_x64
+from bianchi.scalar_charts import require_scalar_chart
 
 
 def available() -> bool:
@@ -100,7 +101,47 @@ def optical_batch(model, nhats, t0, t_end, nsteps=4000, force_python=False,
 
 
 # ════════════════════════════════ 배경 ODE (R2/R3)
-_CHART_MODULES = {"class_a": "bianchi.charts.class_a", "class_b": "bianchi.charts.class_b"}
+_CHART_MODULES = {
+    "class_a": "bianchi.charts.class_a",
+    "class_b": "bianchi.charts.class_b",
+}
+
+_KAPPA_EXCEPTIONAL = -9.0
+_KAPPA_EXCEPTIONAL_TOL = 1e-9
+
+
+def _validate_scalar_parameters(chart, gamma, kappa):
+    """Apply existing public routing domains without changing their tolerance."""
+
+    if not (np.isfinite(gamma) and np.isfinite(kappa)):
+        raise ValueError("RF-02B scalar chart parameters must be finite")
+    if chart == "class_b" and abs(float(kappa) - _KAPPA_EXCEPTIONAL) < _KAPPA_EXCEPTIONAL_TOL:
+        raise ValueError(
+            "class_b is degenerate near kappa = -9; use the exceptional chart"
+        )
+
+
+def _scalar_state(chart, y, gamma, kappa, *, feature):
+    """Load one explicit Python scalar oracle after fail-closed schema validation."""
+
+    import importlib
+
+    spec = require_scalar_chart(chart)
+    arr = np.asarray(y, dtype=float)
+    if arr.shape != (spec.nstates,):
+        raise ValueError(
+            f"{chart} RF-02B scalar state must have shape ({spec.nstates},), got {arr.shape}"
+        )
+    if not np.isfinite(arr).all():
+        raise ValueError(f"{chart} RF-02B scalar state must be finite")
+    _, jnp = require_jax_x64(feature=feature)
+    mod = importlib.import_module(spec.module)
+    state_type = getattr(mod, spec.state_class)
+    state = state_type.from_array(jnp.asarray(arr))
+    args = {"gamma": gamma}
+    if chart == "class_b":
+        args["kappa"] = kappa
+    return spec, mod, state_type, state, args, jnp
 
 
 def integrate_background(chart, y0, t_eval, gamma, kappa=0.0,
@@ -159,6 +200,9 @@ def integrate_batch(chart, y0s, t_eval, gamma, kappa=0.0,
 def chart_rhs(chart, y, gamma, kappa=0.0, force_python=False, *, policy=None):
     """차트 RHS 단일 평가 (진단·차등테스트용)."""
     y = np.asarray(y, float)
+    _validate_scalar_parameters(chart, gamma, kappa)
+    if y.ndim != 1 or not np.isfinite(y).all():
+        raise ValueError(f"{chart} chart state must be a finite one-dimensional array")
     native = _native_for(
         "background.chart_rhs", policy=policy, force_python=force_python
     )
@@ -166,12 +210,166 @@ def chart_rhs(chart, y, gamma, kappa=0.0, force_python=False, *, policy=None):
     if native_rhs is not None:
         return np.asarray(native_rhs(
             chart, y, float(gamma), float(kappa)))
-    import importlib
-    _, jnp = require_jax_x64(feature="background.chart_rhs python_oracle")
-    mod = importlib.import_module(_CHART_MODULES[chart])
-    State = mod.StateA if chart == "class_a" else mod.StateB
-    args = {"gamma": gamma} if chart == "class_a" else {"gamma": gamma, "kappa": kappa}
-    return np.asarray(mod.rhs(0.0, State.from_array(jnp.asarray(y)), args).as_array())
+    spec = require_scalar_chart(chart)
+    if y.shape != (spec.nstates,):
+        raise ValueError(
+            f"{chart} RF-02B scalar state must have shape ({spec.nstates},)"
+        )
+    spec, mod, _state_type, state, args, _jnp = _scalar_state(
+        chart,
+        y,
+        gamma,
+        kappa,
+        feature="background.chart_rhs python_oracle",
+    )
+    return np.asarray(getattr(mod, spec.rhs_function)(0.0, state, args).as_array())
+
+
+def chart_jvp(chart, y, tangent, gamma, kappa=0.0, force_python=False, *, policy=None):
+    """Exact pointwise directional derivative ``J_rhs(y) @ tangent``."""
+
+    spec = require_scalar_chart(chart)
+    _validate_scalar_parameters(chart, gamma, kappa)
+    y = np.asarray(y, float)
+    tangent = np.asarray(tangent, float)
+    expected = (spec.nstates,)
+    if y.shape != expected or tangent.shape != expected:
+        raise ValueError(
+            f"{chart} RF-02B state/tangent must both have shape {expected}"
+        )
+    if not (np.isfinite(y).all() and np.isfinite(tangent).all()):
+        raise ValueError(f"{chart} RF-02B state/tangent must be finite")
+    native = _native_for(
+        "background.chart_jvp", policy=policy, force_python=force_python
+    )
+    if native is not None:
+        return np.asarray(
+            native.chart_jvp(chart, y, tangent, float(gamma), float(kappa))
+        )
+
+    spec, mod, _state_type, state, args, jnp = _scalar_state(
+        chart,
+        y,
+        gamma,
+        kappa,
+        feature="background.chart_jvp python_oracle",
+    )
+    import jax
+
+    rhs_function = getattr(mod, spec.rhs_function)
+
+    def packed_rhs(values):
+        packed_state = getattr(mod, spec.state_class).from_array(values)
+        return rhs_function(0.0, packed_state, args).as_array()
+
+    _, jvp = jax.jvp(packed_rhs, (jnp.asarray(y),), (jnp.asarray(tangent),))
+    return np.asarray(jvp)
+
+
+def _oracle_constraint_values(spec, mod, state, args, jnp):
+    if not spec.constraint_names:
+        return jnp.empty((0,), dtype=jnp.float64)
+    values = mod.constraints(state, args)
+    return jnp.stack([jnp.asarray(values[name]) for name in spec.constraint_names])
+
+
+def chart_constraints(chart, y, gamma, kappa=0.0, force_python=False, *, policy=None):
+    """Return the ordered live equality constraints as a named mapping."""
+
+    spec = require_scalar_chart(chart)
+    _validate_scalar_parameters(chart, gamma, kappa)
+    y = np.asarray(y, float)
+    if y.shape != (spec.nstates,) or not np.isfinite(y).all():
+        raise ValueError(
+            f"{chart} RF-02B scalar state must be finite with shape ({spec.nstates},)"
+        )
+    native = _native_for(
+        "background.chart_constraints", policy=policy, force_python=force_python
+    )
+    if native is not None:
+        values = np.asarray(
+            native.chart_constraints(chart, y, float(gamma), float(kappa)), float
+        )
+    else:
+        spec, mod, _state_type, state, args, jnp = _scalar_state(
+            chart,
+            y,
+            gamma,
+            kappa,
+            feature="background.chart_constraints python_oracle",
+        )
+        values = np.asarray(_oracle_constraint_values(spec, mod, state, args, jnp), float)
+    if values.shape != (len(spec.constraint_names),):
+        raise RuntimeError(
+            f"{chart} constraint payload shape {values.shape} violates schema "
+            f"({len(spec.constraint_names)},)"
+        )
+    return dict(zip(spec.constraint_names, values, strict=True))
+
+
+def chart_project(
+    chart,
+    y,
+    gamma,
+    kappa=0.0,
+    iters=3,
+    damping=1e-12,
+    force_python=False,
+    *,
+    policy=None,
+):
+    """Pointwise fixed-contract Gauss-Newton projection; never invoked implicitly."""
+
+    spec = require_scalar_chart(chart)
+    _validate_scalar_parameters(chart, gamma, kappa)
+    y = np.asarray(y, float)
+    if y.shape != (spec.nstates,) or not np.isfinite(y).all():
+        raise ValueError(
+            f"{chart} RF-02B scalar state must be finite with shape ({spec.nstates},)"
+        )
+    if not isinstance(iters, (int, np.integer)) or int(iters) < 0:
+        raise ValueError("projection iters must be a non-negative integer")
+    if not np.isfinite(damping) or float(damping) < 0.0:
+        raise ValueError("projection damping must be finite and non-negative")
+    native = _native_for(
+        "background.chart_project", policy=policy, force_python=force_python
+    )
+    if native is not None:
+        return np.asarray(
+            native.chart_project(
+                chart,
+                y,
+                float(gamma),
+                float(kappa),
+                int(iters),
+                float(damping),
+            )
+        )
+    if not spec.constraint_names:
+        return y.copy()
+
+    spec, mod, state_type, state, args, jnp = _scalar_state(
+        chart,
+        y,
+        gamma,
+        kappa,
+        feature="background.chart_project python_oracle",
+    )
+    from bianchi.constraints import gauss_newton_project
+
+    def cfn(candidate, call_args):
+        return _oracle_constraint_values(spec, mod, candidate, call_args, jnp)
+
+    projected = gauss_newton_project(
+        cfn,
+        lambda candidate: candidate.as_array(),
+        state_type.from_array,
+        state,
+        args,
+        iters=int(iters),
+        damping=float(damping),
+    )
+    return np.asarray(projected.as_array())
 
 
 # ════════════════════════════════ 운동론 계층 (H2/H3/H4)

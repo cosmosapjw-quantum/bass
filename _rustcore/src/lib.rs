@@ -376,6 +376,125 @@ fn chart_aux(
     ))
 }
 
+fn make_scalar_chart(chart: &str, gamma: f64, kappa: f64) -> PyResult<ode::charts::Chart> {
+    if !gamma.is_finite() || !kappa.is_finite() {
+        return Err(PyValueError::new_err(
+            "RF-02B scalar chart parameters must be finite",
+        ));
+    }
+    if chart == "class_b"
+        && (kappa - ode::charts::KAPPA_EXCEPTIONAL).abs() < ode::charts::KAPPA_EXCEPTIONAL_TOL
+    {
+        return Err(PyValueError::new_err(
+            "class_b is degenerate near kappa = -9; use the exceptional chart",
+        ));
+    }
+    let c = make_chart(chart, gamma, kappa)?;
+    if ode::charts::scalar_state_names(&c).is_none() {
+        return Err(PyValueError::new_err(format!(
+            "'{chart}' is outside the RF-02B scalar chart closure"
+        )));
+    }
+    Ok(c)
+}
+
+/// Cross-language packed-state and live-constraint schema receipt.
+#[pyfunction]
+#[pyo3(signature = (chart, gamma, kappa = 0.0))]
+fn scalar_chart_schema(
+    chart: &str,
+    gamma: f64,
+    kappa: f64,
+) -> PyResult<(Vec<String>, Vec<String>)> {
+    let c = make_scalar_chart(chart, gamma, kappa)?;
+    let states = ode::charts::scalar_state_names(&c)
+        .expect("make_scalar_chart checked the closure")
+        .iter()
+        .map(|name| (*name).to_owned())
+        .collect();
+    let constraints = ode::charts::scalar_constraint_names(&c)
+        .expect("make_scalar_chart checked the closure")
+        .iter()
+        .map(|name| (*name).to_owned())
+        .collect();
+    Ok((states, constraints))
+}
+
+#[inline]
+fn to_scalar_yn(
+    a: &PyReadonlyArray1<f64>,
+    c: &ode::charts::Chart,
+) -> PyResult<[f64; ode::charts::MAX_STATES]> {
+    let out = to_yn(a, c)?;
+    let n = c.nstates();
+    if !out[..n].iter().all(|x| x.is_finite()) {
+        return Err(PyValueError::new_err(
+            "RF-02B scalar chart buffers must be finite",
+        ));
+    }
+    Ok(out)
+}
+
+/// Exact algebraic scalar-chart JVP, deliberately not wired into the RF-02C solver yet.
+#[pyfunction]
+#[pyo3(signature = (chart, y, tangent, gamma, kappa = 0.0))]
+fn chart_jvp<'py>(
+    py: Python<'py>,
+    chart: &str,
+    y: PyReadonlyArray1<f64>,
+    tangent: PyReadonlyArray1<f64>,
+    gamma: f64,
+    kappa: f64,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let c = make_scalar_chart(chart, gamma, kappa)?;
+    let yy = to_scalar_yn(&y, &c)?;
+    let vv = to_scalar_yn(&tangent, &c)?;
+    let n = c.nstates();
+    let mut out = [0.0f64; ode::charts::MAX_STATES];
+    ode::charts::exact_jvp(&c, &yy[..n], &vv[..n], &mut out[..n]).map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out[..n].to_vec()).into_pyarray(py))
+}
+
+/// Ordered live equality constraints for the scalar-chart schema.
+#[pyfunction]
+#[pyo3(signature = (chart, y, gamma, kappa = 0.0))]
+fn chart_constraints<'py>(
+    py: Python<'py>,
+    chart: &str,
+    y: PyReadonlyArray1<f64>,
+    gamma: f64,
+    kappa: f64,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let c = make_scalar_chart(chart, gamma, kappa)?;
+    let yy = to_scalar_yn(&y, &c)?;
+    let n = c.nstates();
+    let mut out = [0.0f64; ode::charts::MAX_STATES];
+    let m =
+        ode::charts::constraint_values(&c, &yy[..n], &mut out).map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out[..m].to_vec()).into_pyarray(py))
+}
+
+/// Pointwise Gauss-Newton scalar projection.  No integration route calls this implicitly.
+#[pyfunction]
+#[pyo3(signature = (chart, y, gamma, kappa = 0.0, iters = 3, damping = 1e-12))]
+fn chart_project<'py>(
+    py: Python<'py>,
+    chart: &str,
+    y: PyReadonlyArray1<f64>,
+    gamma: f64,
+    kappa: f64,
+    iters: usize,
+    damping: f64,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let c = make_scalar_chart(chart, gamma, kappa)?;
+    let yy = to_scalar_yn(&y, &c)?;
+    let n = c.nstates();
+    let mut out = [0.0f64; ode::charts::MAX_STATES];
+    ode::charts::project_constraints(&c, &yy[..n], iters, damping, &mut out[..n])
+        .map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out[..n].to_vec()).into_pyarray(py))
+}
+
 /// 단일 궤적 적분 (diffsol BDF).  반환 (ys[M,5], ok).
 #[pyfunction]
 #[pyo3(signature = (chart, y0, t_eval, gamma, kappa = 0.0, rtol = 1e-10, atol = 1e-12))]
@@ -3125,6 +3244,10 @@ fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(trace_optical_batch, m)?)?;
     m.add_function(wrap_pyfunction!(chart_rhs, m)?)?;
     m.add_function(wrap_pyfunction!(chart_aux, m)?)?;
+    m.add_function(wrap_pyfunction!(scalar_chart_schema, m)?)?;
+    m.add_function(wrap_pyfunction!(chart_jvp, m)?)?;
+    m.add_function(wrap_pyfunction!(chart_constraints, m)?)?;
+    m.add_function(wrap_pyfunction!(chart_project, m)?)?;
     m.add_function(wrap_pyfunction!(integrate_background, m)?)?;
     m.add_function(wrap_pyfunction!(integrate_background_whiplash, m)?)?;
     m.add_function(wrap_pyfunction!(integrate_batch, m)?)?;
