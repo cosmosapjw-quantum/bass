@@ -1,0 +1,204 @@
+name: BASS-9 fresh-context independent remote content replay
+
+on:
+  push:
+    branches:
+      - agent/verify/bass-9-fresh-context-independent-replay-20260826
+    paths:
+      - .github/workflows/bass9-fresh-context-independent-replay.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bass-9-fresh-context-independent-replay-20260826
+  cancel-in-progress: false
+
+jobs:
+  independent-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONHASHSEED: "0"
+      TZ: UTC
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      FROZEN_COMMIT: d6a0b63fac09c3a6d0c9071206f0d51f01953341
+      FROZEN_TREE: de75fcc53b3bb21582ce09796ace27969d328e61
+      FROZEN_PARENT: f0fb24b55967e0dcbcc4d875c5a9b2677e680655
+      SEAL_ROOT: verification/bass-close-00r-fresh-2b3-reproduction/20260825
+      CAPSULE: BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz
+
+    steps:
+      - name: Checkout frozen seal bytes
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: d6a0b63fac09c3a6d0c9071206f0d51f01953341
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Set up Python 3.13.5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: 3.13.5
+
+      - name: Install frozen replay environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            numpy==2.3.5 scipy==1.17.0 sympy==1.14.0 matplotlib==3.10.8 \
+            pytest==9.0.2 Pillow==12.3.0 contourpy==1.3.3 cycler==0.12.1 \
+            fonttools==4.63.0 kiwisolver==1.5.0 packaging==25.0 \
+            pyparsing==3.3.2 python-dateutil==2.9.0.post0 six==1.17.0 \
+            mpmath==1.3.0 pluggy==1.6.0 iniconfig==2.3.0 Pygments==2.20.0
+
+      - name: Verify frozen Git identity and remote part blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          E="$RUNNER_TEMP/bass9-evidence"
+          N="$RUNNER_TEMP/bass9-numerical"
+          M="$RUNNER_TEMP/mpl"
+          mkdir -p "$E" "$N" "$M"
+          echo "EVIDENCE_DIR=$E" >> "$GITHUB_ENV"
+          echo "NUMERICAL_OUT=$N" >> "$GITHUB_ENV"
+          echo "MPLCONFIGDIR=$M" >> "$GITHUB_ENV"
+          test "$(git rev-parse HEAD)" = "$FROZEN_COMMIT"
+          test "$(git rev-parse HEAD^{tree})" = "$FROZEN_TREE"
+          test "$(git rev-parse HEAD^)" = "$FROZEN_PARENT"
+          test "$(git show -s --format=%s HEAD)" = \
+            'verify: seal fresh BASS-8B.2B.3 reproduction under distinct identity'
+          mapfile -t paths < <(git diff-tree --no-commit-id --name-only -r HEAD)
+          test "${#paths[@]}" = 16
+          printf '%s\n' "${paths[@]}" | tee "$E/seal_paths.txt"
+          ! printf '%s\n' "${paths[@]}" | \
+            grep -Ev '^verification/bass-close-00r-fresh-2b3-reproduction/20260825/'
+          archive="$SEAL_ROOT/archive"
+          cat > "$E/expected_git_blobs.tsv" <<'EOF'
+          d6cd70d606d76bb8a9a19b20bcaade85d9203a7b 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part000
+          85bdca196b5a6636e120e9ca6d62a214dac608d8 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part001
+          9a1d18b67b007541dc75129e3c9e6b79e1bd3f14 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part002
+          fb4ea3f90d8691d70551c4368f133b797d795212 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part003
+          983e3824063ed52c13ec2205964811b184146fda 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part004
+          c2a68864cc72534b7bde9692cce408c3b13c99ad 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part005
+          3e6f5614721bcaed0233868f0c39580a607249aa 8192 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part006
+          53b5edf5a100c5baad1a11d4f06aa2487e633610 6740 BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.part007
+          EOF
+          while read -r blob size file; do
+            test "$(git hash-object "$archive/$file")" = "$blob"
+            test "$(stat -c %s "$archive/$file")" = "$size"
+            printf 'GIT_BLOB_PASS %s %s %s\n' "$blob" "$size" "$file"
+          done < "$E/expected_git_blobs.tsv" | tee "$E/git_blob_checks.log"
+          (cd "$archive" && sha256sum -c PARTS.sha256) | tee "$E/parts_sha256.log"
+
+      - name: Restore capsule and run sealed replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash "$SEAL_ROOT/restore_content_capsule.sh" | tee "$EVIDENCE_DIR/restore.log"
+          C="$SEAL_ROOT/archive/restored/BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825"
+          test -d "$C"
+          echo "CONTENT_ROOT=$C" >> "$GITHUB_ENV"
+          test "$(stat -c %s "$SEAL_ROOT/archive/$CAPSULE")" = 64084
+          test "$(sha256sum "$SEAL_ROOT/archive/$CAPSULE" | cut -d' ' -f1)" = \
+            74fdeff2dca6a4b35ec32d9235e8a16bb33158beb12b89606573e4d341fc2bdf
+          (cd "$C" && bash run_content_replay.sh) | tee "$EVIDENCE_DIR/content_replay.log"
+          grep -Fq BASS8B2B3_FRESH_CONTENT_IDENTITY_PASS "$EVIDENCE_DIR/content_replay.log"
+          grep -Eq '53 passed in [0-9.]+s' "$EVIDENCE_DIR/content_replay.log"
+          grep -Eq '14 passed in [0-9.]+s' "$EVIDENCE_DIR/content_replay.log"
+
+      - name: Independently regenerate exact and numerical evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          S="$CONTENT_ROOT/source_snapshot"
+          export PYTHONPATH="$S/audit:$S/source:$S/inputs/bass8b2a:$S/inputs/bass8b2b0:$S/inputs/bass8b2b1:$S/inputs/bass8b2b2"
+          python "$S/source/exact_projector_kato_witness.py" \
+            > "$EVIDENCE_DIR/sympy_exact.json"
+          python "$S/audit/run_fresh_projector_left_kato_numerical_audit.py" \
+            --random-cases 500 --finite-difference-cases 80 --so3-cases 120 \
+            --seed 2026082501 --output-root "$NUMERICAL_OUT" \
+            | tee "$EVIDENCE_DIR/numerical.log"
+          cmp "$S/audit/fresh_projector_left_kato_numerical_audit.json" \
+              "$NUMERICAL_OUT/audit/fresh_projector_left_kato_numerical_audit.json"
+          for f in null_kato_identity_residuals.png projector_left_fd_convergence.png \
+                   projector_left_mutations.png projector_left_so3_covariance.png; do
+            cmp "$S/figures/$f" "$NUMERICAL_OUT/figures/$f"
+          done
+
+      - name: Validate claim boundary and write BASS-9 receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, platform
+          from pathlib import Path
+          C=Path(os.environ['CONTENT_ROOT']); S=C/'source_snapshot'
+          E=Path(os.environ['EVIDENCE_DIR']); N=Path(os.environ['NUMERICAL_OUT'])
+          ident=json.loads((C/'CONTENT_IDENTITY.json').read_text())
+          decision=json.loads((S/'DECISION.json').read_text())
+          exact=json.loads((E/'sympy_exact.json').read_text())
+          num=json.loads((N/'audit/fresh_projector_left_kato_numerical_audit.json').read_text())
+          wolfram=json.loads((S/'audit/fresh_wolfram_exact_receipt.json').read_text())
+          xact=json.loads((S/'audit/fresh_xact_screen_receipt.json').read_text())
+          sha=lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+          assert ident['status']=='PASS_FRESH_REPRODUCTION_CONTENT_IDENTITY'
+          assert ident['content_digest_sha256']=='c9ea848447c9709f56aaa3ef43a8dbfc06682d476125b1b570beeeb2c3a39aaf'
+          assert exact['status']=='PASS_EXACT_PROJECTOR_LEFT_KATO_SYMPY' and all(exact['checks'].values())
+          assert wolfram['status']=='PASS_EXACT_PROJECTOR_LEFT_KATO_WOLFRAM'
+          assert xact['status']=='PASS_XACT_SCREEN_PROJECTOR_GEOMETRY'
+          assert wolfram['source_sha256']==sha(S/'source/exact_projector_kato_witness.wl')
+          assert xact['source_sha256']==sha(S/'source/xact_screen_projector_witness.wl')
+          assert num['status']=='PASS_FRESH_PROJECTOR_LEFT_KATO_NUMERICAL_AUDIT'
+          assert num['randomized']['cases']==500 and num['finite_difference']['cases']==80 and num['so3']['cases']==120
+          assert num['failures']==[]
+          assert all(v['detected_cases']==500 for v in num['randomized']['mutation_detections'].values())
+          for key in ('historical_artifact_recovered','authority_row_promoted','runtime_wired','rust_lowered','classifier_authorized'):
+              assert decision[key] is False
+          assert decision['rows_7_8']=='PARTIAL_PENDING_FRESH_INDEPENDENT_READJUDICATION'
+          caches=[p for p in C.rglob('*') if p.name in {'__pycache__','.pytest_cache','.mypy_cache','.ruff_cache'} or p.suffix=='.pyc']
+          assert not caches, caches[:10]
+          receipt={
+            'schema':'bass-9-independent-remote-content-replay-v1',
+            'verdict':'PASS_INDEPENDENT_REMOTE_CONTENT_REPLAY',
+            'github':{'repository':os.environ['GITHUB_REPOSITORY'],'run_id':os.environ['GITHUB_RUN_ID'],'run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],'harness_commit':os.environ['GITHUB_SHA'],'frozen_commit':os.environ['FROZEN_COMMIT'],'frozen_tree':os.environ['FROZEN_TREE'],'frozen_parent':os.environ['FROZEN_PARENT']},
+            'independence':{'surface':'fresh GitHub-hosted ubuntu-24.04 VM','primary_receipt_consumed':False,'frozen_repository_bytes_only':True,'semantic_R2_performed':False},
+            'capsule':{'size_bytes':64084,'sha256':'74fdeff2dca6a4b35ec32d9235e8a16bb33158beb12b89606573e4d341fc2bdf','content_digest_sha256':ident['content_digest_sha256'],'git_blobs':'8/8 PASS','parts':'8/8 PASS'},
+            'gates':{'content_identity':ident['status'],'core':'53/53 PASS','controls':'14/14 PASS','sympy':exact['status'],'wolfram_binding':wolfram['status'],'xact_binding':xact['status'],'randomized':500,'finite_difference':80,'so3':120,'mutations':'5x500/500','figures':'4/4 byte-identical'},
+            'numerical_envelope':{'maximum_identity_residual':num['randomized']['maximum_identity_residual'],'maximum_fd_error':max(num['finite_difference']['maximum_relative_errors'].values()),'maximum_so3_error':num['so3']['maximum_all_channels'],'minimum_mutation_defect':min(v['minimum_defect'] for v in num['randomized']['mutation_detections'].values()),'minimum_physical_gap':num['physical_spectrum']['minimum_gap']},
+            'claim_boundary':{k:False for k in ('historical_artifact_recovered','authority_row_promoted','runtime_wired','rust_lowered','classifier_authorized')},
+            'authority_state':{'rows_1_6':'COMPLETE','rows_7_8':decision['rows_7_8'],'rows_9_10':'PARTIAL','next_node':'BASS-8B.3R2_FRESH_2B3_REPRODUCTION_READJUDICATION'},
+            'environment':{'python':platform.python_version(),'runner_os':os.environ.get('RUNNER_OS'),'runner_arch':os.environ.get('RUNNER_ARCH'),'image_os':os.environ.get('ImageOS'),'image_version':os.environ.get('ImageVersion')}
+          }
+          p=E/'BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_RECEIPT.json'
+          p.write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          (E/'BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_RECEIPT.json.sha256').write_text(f'{sha(p)}  {p.name}\n')
+          (E/'VERDICT.txt').write_text('PASS_INDEPENDENT_REMOTE_CONTENT_REPLAY\n')
+          print(json.dumps(receipt,indent=2,sort_keys=True))
+          print('PASS_INDEPENDENT_REMOTE_CONTENT_REPLAY')
+          PY
+          sha256sum "$EVIDENCE_DIR"/* | sort > "$EVIDENCE_DIR/EVIDENCE_FILES.sha256"
+          tar --sort=name --mtime='UTC 2026-08-26' --owner=0 --group=0 --numeric-owner \
+            -czf "$RUNNER_TEMP/BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_EVIDENCE_20260826.tar.gz" \
+            -C "$EVIDENCE_DIR" .
+          sha256sum "$RUNNER_TEMP/BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_EVIDENCE_20260826.tar.gz" \
+            > "$RUNNER_TEMP/BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_EVIDENCE_20260826.tar.gz.sha256"
+
+      - name: Upload immutable BASS-9 evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: BASS9-independent-remote-content-replay-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_EVIDENCE_20260826.tar.gz
+            ${{ runner.temp }}/BASS9_INDEPENDENT_REMOTE_CONTENT_REPLAY_EVIDENCE_20260826.tar.gz.sha256
+            ${{ runner.temp }}/bass9-evidence/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
