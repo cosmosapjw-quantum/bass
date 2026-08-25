@@ -16,10 +16,11 @@ from __future__ import annotations
 
 from typing import Callable
 
-import equinox as eqx
-import jax
-import jax.numpy as jnp
-import lineax as lx
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
+lx = require_optional("lineax", feature=__name__)
 
 
 def gauss_newton_project(constraint_fn, pack, unpack, y, args,

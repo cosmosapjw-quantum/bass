@@ -20,13 +20,14 @@ Mixmaster (Bianchi VIII/IX) 궤적은 Kasner 원 (Ω = 0, N = 0, Σ₊²+Σ₋²
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi import integrate as itg
 from bianchi.charts import class_a as ca
 from bianchi.conventions import SQRT3
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature=__name__)
 
 
 # ═══════════════════════════════════════ 1. Kasner 좌표

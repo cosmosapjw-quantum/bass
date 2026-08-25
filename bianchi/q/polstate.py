@@ -30,6 +30,12 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import (
+    BackendPolicy,
+    BackendPolicyError,
+    require_native,
+    select_backend,
+)
 from bianchi.q import polarization as PL
 from bianchi.q.coupled import mat3
 
@@ -161,7 +167,7 @@ class PolQState:
             return self
         N6, A3 = np.asarray(self.st.N6, float), np.asarray(self.st.A3, float)
         if np.any(N6) or np.any(A3):
-            import bianchi_rustcore as R
+            rust = require_native("q.polstate.residual_step")
             from bianchi.q import comoving as CM
             from bianchi.q.residual import _backtrace
             n = len(self.st.qhat)
@@ -170,9 +176,9 @@ class PolQState:
             qb, _ = _backtrace(self.st.M, self.st.qhat, N6, A3, dtau, substeps)
             e_back, _ = CM.phys(fr, qb)
             dev = self.Jhat - unpolarized_shape(e_now)      # tr = 0
-            plan = R.qt_plan_from_points(self.st.sph,
-                                         np.ascontiguousarray(qb.ravel()),
-                                         np.zeros(n), int(k_theta), int(k_phi))
+            plan = rust.qt_plan_from_points(self.st.sph,
+                                            np.ascontiguousarray(qb.ravel()),
+                                            np.zeros(n), int(k_theta), int(k_phi))
             flat = dev.reshape(n, 9)
             out = np.stack([np.asarray(plan.apply_mode_a(
                 np.ascontiguousarray(flat[:, k]), 0.0)) for k in range(9)], axis=1)
@@ -263,14 +269,30 @@ def collide_modeb(e, w, J, n_p, x, backend="rust"):
 
     Thomson 핵은 **에너지 교환이 없으므로** 반경 슬라이스마다 같은 연산자다 —
     Mode A 커널을 n_p 번 부르는 것과 **정확히** 같아야 한다 (게이트).
-    `backend='python'` 은 참조 구현 (비트급 대조 대상)."""
+    `backend='python'` 은 참조 구현 (비트급 대조 대상).  두 legacy 별칭은
+    각각 명시적 ``rust_required`` / ``python_oracle`` 정책으로 정규화된다."""
     J = np.asarray(J, float).reshape(len(w), int(n_p), 3, 3)
-    if backend == "python":
+    if not isinstance(backend, (str, BackendPolicy)):
+        raise BackendPolicyError(
+            "q.polstate.collide_modeb",
+            f"backend {backend!r} is not a backend policy; use 'rust', 'python', or a "
+            "typed BackendPolicy value",
+        )
+    aliases = {
+        "rust": BackendPolicy.RUST_REQUIRED,
+        "python": BackendPolicy.PYTHON_ORACLE,
+    }
+    selection = select_backend(
+        "q.polstate.collide_modeb", policy=aliases.get(backend, backend)
+    )
+    if selection.policy is BackendPolicy.PYTHON_ORACLE:
         out = np.empty_like(J)
         for jj in range(int(n_p)):
             out[:, jj] = PL.collide(e, w, J[:, jj], float(x))
         return out
-    import bianchi_rustcore as R
+    R = selection.native_module
+    if R is None:  # select_backend is fail-closed; this guards its return contract.
+        raise AssertionError("rust_required selection returned no native module")
     flat = PL.pack9(J.reshape(-1, 3, 3)).ravel()
     o = np.asarray(R.qp_collide_modeb(
         np.ascontiguousarray(np.asarray(e, float).ravel()),

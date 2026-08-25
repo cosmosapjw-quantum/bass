@@ -7,10 +7,12 @@ from __future__ import annotations
 
 from typing import Callable
 
-import jax
-import jax.numpy as jnp
 import numpy as np
-import optimistix as optx
+
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+optx = require_optional("optimistix", feature=__name__)
 
 
 # ---------------------------------------------------------------- 고정점

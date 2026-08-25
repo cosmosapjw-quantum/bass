@@ -21,7 +21,7 @@ from bianchi.matter import tilted_terms as TT
 from bianchi.matter.hierarchy_coeff import hierarchy_rhs_coeff
 from bianchi.matter.tilted_coeff import equation_lhs_coeff
 
-pytestmark = pytest.mark.skipif(CK._R is None, reason="rustcore 없음")
+pytest.importorskip("bianchi_rustcore")
 
 
 @pytest.fixture(scope="module")

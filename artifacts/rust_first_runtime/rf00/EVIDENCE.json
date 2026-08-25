@@ -1,0 +1,252 @@
+{
+  "schema": "bass-rf00-contract-repair-evidence-v2",
+  "schema_version": 2,
+  "status": "RF00_CONTRACT_REPAIR_PASS_DRAFT_UNMERGED",
+  "work_item": {
+    "id": "RF-00",
+    "scope": "one bounded contract-repair pass only",
+    "bounded_acceptance_sha256": "926dd5e64f07356fed26b46a633d3050de7a38827f80cf088c9a101fef456349",
+    "rf_bench_00_started": false
+  },
+  "authority": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "source_branch": "agent/architecture/rust-first-rf00-20260824-r1",
+    "start_head": "4fd541967341f81999a5d1b7147dbb04849ade22",
+    "start_tree": "01fbfff1f3f05a64436f41b644960886709a491e",
+    "start_pr": "https://github.com/cosmosapjw-quantum/bass/pull/25",
+    "start_pr_state": "OPEN_DRAFT_UNMERGED_CLEAN",
+    "spec_path": "docs/rust_first_runtime/SPEC.json",
+    "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa"
+  },
+  "delivery": {
+    "implementation_commit": "8101fc47c4bccdcb2bfb0b17c5d27a9231f33a91",
+    "implementation_tree": "24771914743935caf8eb516e5a7cfdd3fb96d810",
+    "review_repair_commit": "8f531540a0483541d088e222b1622ec9bc25ffd7",
+    "review_repair_tree": "d14ede2b55e7e6d00f7aff767f7951f4b8012c02",
+    "final_receipt_head": "SELF_REFERENCE_BOUNDARY_READ_LIVE_BRANCH_AND_PR25",
+    "draft_pr": {
+      "number": 25,
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/25",
+      "state_required": "OPEN_DRAFT_UNMERGED",
+      "base": "agent/architecture/rust-first-runtime-closure-20260824-r1",
+      "head": "agent/architecture/rust-first-rf00-20260824-r1"
+    }
+  },
+  "contract": {
+    "route_inventory": {
+      "total_public_compute_routes": 72,
+      "supported": {"native_required": 72},
+      "explicit_oracle": {"python_oracle": 34, "unsupported": 38},
+      "outside_native_domain": {
+        "legacy_python_transitional": 10,
+        "unsupported": 62
+      },
+      "global_default_cutover": "NOT_PERFORMED_RESERVED_FOR_RF_07",
+      "direct_native_imports": "ZERO_STATIC_PRODUCTION_OCCURRENCES",
+      "import_time_native_probes": "ZERO_IN_TYPED_PRODUCTION_ROUTES"
+    },
+    "python_oracle_propagation": "TRANSITIVE_INITIAL_EXACT_REFERENCE_TILTED_TYPEV_MIXMASTER_CMB_RAY",
+    "native_dispatch": {
+      "production_policy": "FAIL_CLOSED_REQUIRES_VERIFIED_INSTALLED_PAYLOAD",
+      "unverified_source_build_default": "REJECTED_TYPED_ERROR",
+      "development_override": "BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1",
+      "override_visibility": "TYPED_WARNING_AND_BACKEND_SELECTION_DIAGNOSTIC"
+    },
+    "aud_12": {
+      "package_root": "LAZY_NO_JAX_INITIALIZATION",
+      "base_dependencies": ["bianchi-rustcore==0.1.0", "numpy"],
+      "optional_extra": "python-oracle",
+      "optional_dependency_loader": "TYPED_ACTIONABLE_ERRORS",
+      "backend_route_module_imports_without_optional_stack": 25,
+      "low_rank_pstf_native_basis": "BYTE_IDENTICAL_TO_EXISTING_SYMPY_ORACLE"
+    },
+    "scientific_behavior_change": "NONE",
+    "tolerance_reference_formula_grid_seed_solver_change": "NONE"
+  },
+  "performance_receipt": {
+    "evidence_class": "EXPLORATORY_ONLY",
+    "acceptance_claim": "NONE",
+    "benchmark_rerun_for_reclassification": "NOT_RUN",
+    "reason": "Affinity alone did not establish exclusive cpuset or cgroup control, effective CPU-set and SMT isolation, migrations, pressure or steal, frequency or throttling, and perf running-ratio metadata",
+    "chart_rhs_candidate_over_baseline": 1.0303681533929716,
+    "chart_rhs_bootstrap_95_ci": [1.0188405687582438, 1.0413493156219509],
+    "cold_import_candidate_over_baseline": 1.0091263118158824,
+    "cold_import_bootstrap_95_ci": [0.9969052817549814, 1.0204133876894426],
+    "receipt": "raw/rf00_paired_repair_final.json",
+    "receipt_sha256": "2b67853ac024356f7c7e3269d624acb8966c612504becfb8cda67410421db667",
+    "log": "raw/rf00_paired_repair_final.log",
+    "log_sha256": "c2e99615a2934e36043ad268291ee29150a4a4d7ed420dc31a6350e0fa3736f4",
+    "normalized_sample_payload_unchanged_by_reclassification": true
+  },
+  "independent_review": {
+    "rounds": 1,
+    "reviewed_commit": "8101fc47c4bccdcb2bfb0b17c5d27a9231f33a91",
+    "initial_verdict": "BLOCKED_REPAIR_REQUIRED",
+    "report": "raw/rf00_contract_repair_adversarial_review.md",
+    "report_sha256": "b64b983d0852597330c6171415353a15aa0306ddd77c2555d66ba62bc7074083",
+    "confirmed_blockers": [
+      "human and machine summaries still claimed a timing PASS",
+      "five typed native-route imports crossed optional JAX or SymPy before selection",
+      "auto_diagnostic could report an impossible Python oracle on a native-only route"
+    ],
+    "repair_closeout": "ALL_CONFIRMED_BLOCKERS_REPAIRED_ONCE",
+    "second_review_round": "NOT_RUN_BOUNDED_MAX_ONE"
+  },
+  "focused_proof": {
+    "raw_manifest": "RAW_MANIFEST.sha256",
+    "raw_manifest_sha256": "2cc23c593a01067d9fe640217e93dd93d16d1dd529ef0d905e557d06600b13eb",
+    "receipts": [
+      {
+        "lane": "initial_transitive_oracle_and_route_focus",
+        "changed_precondition": "RF-00 implementation changed typed propagation",
+        "result": "PASS",
+        "passed": 39,
+        "log": "raw/rf00_contract_initial_oracle_route.log",
+        "sha256": "dd14e0dd4a28c780f515e7ed8905e7c895d598141125766a8fcea4e6a3127384"
+      },
+      {
+        "lane": "review_baseline_optional_import_diagnostic",
+        "changed_precondition": "independent review identified a minimal-install import risk",
+        "result": "FAIL_EXPECTED_LOCALIZATION",
+        "failing_modules": 5,
+        "log": "raw/rf00_contract_review_baseline_import_fail.log",
+        "sha256": "17373ff3481410783877f712e04ee6c42f6bed7acf0f4c57341218995b304506"
+      },
+      {
+        "lane": "repair_policy_packaging_optional_route",
+        "changed_precondition": "optional import graph, low-rank basis seam, and native-only diagnostic changed",
+        "result": "PASS",
+        "passed": 65,
+        "log": "raw/rf00_contract_repair_policy_optional.log",
+        "sha256": "67bdec94cbd04052d393b6a7132976e5c8bcd0da439bc6449f0a4f3e360e5ee0",
+        "junit": "raw/rf00_contract_repair_policy_optional.junit.xml",
+        "junit_sha256": "729e48de6ec00db088f25fb644d0b0efedfd8d4ca3943f981de91058bee56ae0"
+      },
+      {
+        "lane": "repair_affected_native_wrapper_and_lazy_oracle_routes",
+        "changed_precondition": "dependency-light PSTF projection and lazy Mixmaster, routing, and CMB imports changed",
+        "result": "PASS",
+        "passed": 31,
+        "log": "raw/rf00_contract_repair_affected_routes.log",
+        "sha256": "5656de1f09cf02461eda697a79419dcd1f12ebd45525aefa66a4853cacf4ee49",
+        "junit": "raw/rf00_contract_repair_affected_routes.junit.xml",
+        "junit_sha256": "f00b200b9ed0d25cc72c3796236a1d9b48d6102e9354516776277ad8d8c7e6b9"
+      },
+      {
+        "lane": "fresh_minimal_no_index_install_and_native_smoke",
+        "changed_precondition": "dependency metadata and backend route import graph changed",
+        "result": "PASS",
+        "installed": [
+          "bianchi-solver==0.1.0",
+          "bianchi-rustcore==0.1.0",
+          "numpy==2.4.4"
+        ],
+        "optional_frontend_packages_present": false,
+        "backend_route_modules_imported": 25,
+        "verified_r3_native_dispatch": true,
+        "log": "raw/rf00_contract_repair_fresh_minimal.log",
+        "sha256": "f9a5aa53cc2ae21d026570cf8075dac7f7ba854c55927aea8e08c6d426374484"
+      },
+      {
+        "lane": "static_diff_compile_and_native_path_predicate",
+        "result": "PASS",
+        "git_diff_check": "PASS",
+        "python_compile": "PASS",
+        "rust_changed": false
+      }
+    ],
+    "remote_ci": "SELF_REFERENCE_BOUNDARY_READ_LIVE_PR25_CHECKS_AFTER_PUSH"
+  },
+  "ci_contract": {
+    "workflow": ".github/workflows/rf00-backend-policy.yml",
+    "trigger_closure": [
+      "all bianchi package paths",
+      "packaging metadata and README paths",
+      "requirements.lock",
+      "bootstrap.sh",
+      "Cargo manifest, lock, native pyproject and Rust source paths",
+      "backend policy and route-focused tests"
+    ],
+    "focused_route_families": [
+      "tilted",
+      "Type-V",
+      "mixmaster",
+      "ray",
+      "R5c",
+      "coupled coefficient wrappers"
+    ],
+    "full_suite": "NOT_RUN"
+  },
+  "native_closure": {
+    "decision": "REUSED_NATIVE_R3_NO_R4_CONTRACT_REPAIR",
+    "predicate": "git diff 4fd541967341f81999a5d1b7147dbb04849ade22..8f531540a0483541d088e222b1622ec9bc25ffd7 -- _rustcore is empty",
+    "object_identity": {
+      "Cargo_toml_blob": "66d12ed6c5ca001fd33876d1bfd8803e56bd2aac",
+      "Cargo_lock_blob": "7115b16bc9702d2e108e0de148085cb981476c70",
+      "native_pyproject_blob": "20236dc9042b757609c5f69fd5fdd91ac7e9fb16",
+      "native_src_tree": "a88dc5e636c5d33912432922771a7ddb8184ee65",
+      "Cargo_lock_sha256": "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+    },
+    "artifact_branch": "artifact/native-repro-bundle-20260824-r3",
+    "artifact_head": "3aef681d2901e77ce638be5925688929800a822a",
+    "archive_sha256": "1c45dd93b46dc43c6d8c503d3ff1034d60b36fc7aa73ebf19b40ae48b080cec9",
+    "wheel_sha256": "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917",
+    "cargo_fmt_clippy_test": "NOT_RERUN_RUST_UNCHANGED",
+    "new_bundle": false
+  },
+  "reused_evidence": [
+    {
+      "closure": "native r3 Cargo, wheel, ABI, restore, and remote readback",
+      "predicate": "Cargo manifests, lock, config, vendor, Rust/generated/PyO3 sources, wheel, ABI and native payload bytes are unchanged"
+    },
+    {
+      "closure": "R5b state/operator/science contract",
+      "receipt": "PR #21 @ b810092755837ccfa96502aa7e132a50c3fcbd33",
+      "predicate": "No R5b contract, physics, tolerance, reference, grid, seed, or solver input changed"
+    },
+    {
+      "closure": "Wolfram candidate",
+      "receipt": "PR #22 @ 75f0b128634ec60b853519f9f6d530f113b54a81",
+      "predicate": "No Wolfram bytes or authority edge changed; no local Wolfram execution",
+      "authority": "REFERENCE_ONLY_UNPROMOTED"
+    },
+    {
+      "closure": "background, classification, constraint, E1-E4, generated provenance, and full collection",
+      "predicate": "No lane-relevant scientific source, fixture, generator, dependency, toolchain, or numerical contract changed"
+    }
+  ],
+  "deliberately_not_rerun": [
+    "the affinity-only benchmark",
+    "the 1849-test or full legacy collection",
+    "R5b closed trajectory contract",
+    "background, classification, constraint, and E1-E4 suites",
+    "Wolfram/xAct",
+    "unchanged generated-source provenance lanes",
+    "Cargo fmt, clippy, tests, vendor, wheel build, and artifact readback"
+  ],
+  "rollback": {
+    "command": "git fetch origin agent/architecture/rust-first-rf00-20260824-r1 && git revert --no-edit $(git rev-parse origin/agent/architecture/rust-first-rf00-20260824-r1) 8f531540a0483541d088e222b1622ec9bc25ffd7 8101fc47c4bccdcb2bfb0b17c5d27a9231f33a91",
+    "artifact": "Immutable r3 evidence is reused and must not be rewritten or deleted"
+  },
+  "next_action": {
+    "id": "RF-BENCH-00",
+    "title": "Contention-controlled benchmark runner",
+    "smallest_input": "current PR #25 head and the SPEC RF-BENCH-00 runner contract",
+    "required_controls": [
+      "controlled cpuset or cgroup",
+      "effective CPU set",
+      "SMT isolation",
+      "migration counters",
+      "CPU pressure and steal",
+      "frequency and throttling",
+      "perf running ratio"
+    ],
+    "unavailable_controls_policy": "EXPLORATORY_ONLY_NO_ACCEPTANCE_CLAIM"
+  },
+  "boundaries": [
+    "Do not merge or mark PR #25 ready without user approval",
+    "Do not promote formula authority",
+    "Do not change physics, tolerances, references, dependencies, or Cargo.lock",
+    "Do not rerun inherited PASS lanes without a changed lane-relevant precondition"
+  ]
+}

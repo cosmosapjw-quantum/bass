@@ -34,7 +34,7 @@ def _outer_vec_last(J, w, l):
     return pstf(T) if l >= 2 else T
 
 
-def equation_lhs(J, dJ, geo, l, i, signs=None):
+def equation_lhs(J, dJ, geo, l, i, signs=None, backend=None):
     """식 (12) 좌변 (tilted 전 항).  0 이어야 한다."""
     s = TL.SIGNS if signs is None else signs
     n = l + 2 * i
@@ -48,16 +48,19 @@ def equation_lhs(J, dJ, geo, l, i, signs=None):
         return dJ[(ll, ii)]
 
     # ⊥J̇  (사틀 회전항 포함)
-    out = TT.perp_dot(g(l, i), dg(l, i), geo)
+    out = TT.perp_dot(g(l, i), dg(l, i), geo, backend=backend)
     # H 항
     out = out + H * ((3.0 + n) * g(l, i) + (1.0 - n) * g(l, i + 1))
     # (div-con)  D^a J^(i)_{a A_l}
-    out = out + s["divcon"] * TT.div_contracted(g(l + 1, i), dg(l + 1, i), geo)
+    out = out + s["divcon"] * TT.div_contracted(
+        g(l + 1, i), dg(l + 1, i), geo, backend=backend
+    )
     # (div-free) −(l/(2l+1)) D_{⟨a_l} J^(i+1)_{A_{l−1}⟩}
     if l >= 1:
         cf = l / (2.0 * l + 1.0)
-        out = out + s["divfree"] * (-cf * TT.div_free_index(g(l - 1, i + 1),
-                                                            dg(l - 1, i + 1), geo, l))
+        out = out + s["divfree"] * (-cf * TT.div_free_index(
+            g(l - 1, i + 1), dg(l - 1, i + 1), geo, l, backend=backend
+        ))
     # (Ω) −l J^(i)_{a⟨A_{l−1}} ω_{a_l⟩}{}^a
     if l >= 1:
         tO = _contract_one(g(l, i), omg)
@@ -91,5 +94,4 @@ def equation_lhs(J, dJ, geo, l, i, signs=None):
               - (l + n + 1.0) * _outer_sigma(g(l - 2, i + 1), sig))
         out = out + s["C"] * cc * tC
     return pstf(out) if l >= 2 else out
-
 

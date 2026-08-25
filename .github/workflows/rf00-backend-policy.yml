@@ -1,0 +1,146 @@
+name: RF-00 backend policy
+
+on:
+  pull_request:
+    paths:
+      - "bianchi/**"
+      - "benchmarks/bench_backend_policy.py"
+      - "bootstrap.sh"
+      - "requirements.lock"
+      - "README.md"
+      - "pyproject.toml"
+      - "_rustcore/README.md"
+      - "_rustcore/pyproject.toml"
+      - "_rustcore/Cargo.toml"
+      - "_rustcore/Cargo.lock"
+      - "_rustcore/src/**"
+      - "scripts/demo.py"
+      - "tests/test_backend_policy.py"
+      - "tests/test_backend_packaging.py"
+      - "tests/test_backend_integration.py"
+      - "tests/test_i3_rust_coupled.py"
+      - "tests/test_j3_coeff_kernel.py"
+      - "tests/test_p8_polstate.py"
+      - "tests/test_rf00_*.py"
+      - "tests/test_pr01_scaffold.py"
+      - "tests/test_r5a_tilted_terms_rust.py"
+      - "tests/test_r5b_tilted_hier_rust.py"
+      - "tests/test_r1r2_typev_rust.py"
+      - "tests/test_r4_mixmaster_rust.py"
+      - "tests/test_r5c_quadrature_routing.py"
+      - ".github/workflows/rf00-backend-policy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rf00-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  RUST_TOOLCHAIN: "1.94.1"
+  MATURIN_VERSION: "1.14.1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  RAYON_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+
+jobs:
+  policy-portable:
+    name: Portable policy (extension absent/injected)
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Select CPython
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Setup exact Python inputs
+        run: python -m pip install --requirement requirements.lock
+      - name: Prove typed portable policy
+        env:
+          PIP_NO_INDEX: "1"
+          CARGO_NET_OFFLINE: "true"
+          PYTHONPATH: "."
+        run: >-
+          python -m pytest -q
+          tests/test_backend_policy.py
+          tests/test_backend_packaging.py
+          tests/test_rf00_optional_dependencies.py
+          tests/test_rf00_policy_adversarial.py
+          tests/test_rf00_route_inventory.py
+
+  native-wheel-policy:
+    name: Native wheel and supported-route policy
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Select CPython
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Setup pinned Rust and Python inputs
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --no-self-update
+          rustup override set "$RUST_TOOLCHAIN"
+          python -m pip install --requirement requirements.lock "maturin==$MATURIN_VERSION"
+          cargo fetch --manifest-path _rustcore/Cargo.toml --locked
+      - name: Build locked native wheel and resolve root package
+        shell: bash
+        run: |
+          wheel_dir="$RUNNER_TEMP/rf00-wheels"
+          mkdir -p "$wheel_dir"
+          (cd _rustcore && CARGO_NET_OFFLINE=true python -m maturin build \
+            --release --locked --offline --out "$wheel_dir")
+          mapfile -t native_wheels < <(find "$wheel_dir" -maxdepth 1 -type f \
+            -name 'bianchi_rustcore-0.1.0-*.whl' -print)
+          if [[ ${#native_wheels[@]} -ne 1 ]]; then
+            printf 'expected exactly one compatible native wheel; found %d\n' \
+              "${#native_wheels[@]}" >&2
+            exit 2
+          fi
+          python -m pip install --constraint requirements.lock \
+            "${native_wheels[0]}" .
+      - name: Prove native policy and unchanged supported results
+        env:
+          PIP_NO_INDEX: "1"
+          CARGO_NET_OFFLINE: "true"
+          # This job builds from source and therefore must never masquerade as
+          # the immutable verified r3 installed payload.
+          BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"
+        run: |
+          python -m pytest -q \
+            tests/test_backend_policy.py \
+            tests/test_backend_packaging.py \
+            tests/test_rf00_policy_adversarial.py \
+            tests/test_rf00_route_inventory.py \
+            tests/test_rf00_native_capability.py \
+            tests/test_rf00_oracle_closure.py \
+            tests/test_j3_coeff_kernel.py \
+            tests/test_i3_rust_coupled.py::test_rhs_parity \
+            tests/test_i3_rust_coupled.py::test_trajectory_parity_loop_whole \
+            tests/test_i3_rust_coupled.py::test_keep_trajectory_shape_and_head \
+            tests/test_i3_rust_coupled.py::test_input_guards \
+            tests/test_r5a_tilted_terms_rust.py::test_typed_python_operator_never_calls_native_fallback \
+            tests/test_r5b_tilted_hier_rust.py::test_the_numpy_oracle_is_still_reachable \
+            tests/test_r1r2_typev_rust.py::test_the_python_oracle_is_still_reachable \
+            tests/test_r4_mixmaster_rust.py::test_the_rust_path_is_the_default_and_the_oracle_is_still_reachable \
+            tests/test_backend_integration.py::test_backend_j_moment_both_paths \
+            tests/test_backend_integration.py::test_backend_hierarchy_integrate_both_paths \
+            tests/test_backend_integration.py::test_backend_transport_coefficients_both_routes \
+            tests/test_backend_integration.py::test_backend_viscous_cross_validate_both_paths \
+            tests/test_p8_polstate.py::test_p9c_modeb_rust_matches_python_and_mode_a \
+            tests/test_p8_polstate.py::test_p9c_modeb_zero_x_is_identity_and_rejects_negative \
+            tests/test_backend_integration.py::test_ray_batch_paths_agree \
+            tests/test_backend_integration.py::test_legacy_dispatch_alias \
+            tests/test_r5c_quadrature_routing.py::test_the_dispatch_matches_the_numpy_oracle \
+            tests/test_r5c_quadrature_routing.py::test_the_plain_moment_dispatch_matches_too \
+            tests/test_r5c_quadrature_routing.py::test_the_audit_grid_is_pinned_to_python

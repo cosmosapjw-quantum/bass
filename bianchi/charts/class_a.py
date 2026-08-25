@@ -13,11 +13,12 @@ LIMITATIONS
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax.numpy as jnp
-
 from bianchi.conventions import K_COEFF_WE, S_COEFF_WE, SQRT3
 from bianchi.charts.base import deceleration
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 name = "class_a"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
@@ -97,7 +98,6 @@ def constraints(y: StateA, args):
 
 def omega_identity_residual(y: StateA, args):
     """오라클 A 의 런타임 버전: Omega' - [2q-(3g-2)]Omega."""
-    import jax
     gamma = args["gamma"]
     f = lambda v: aux(StateA.from_array(v), gamma)["Omega"]
     v = y.as_array()

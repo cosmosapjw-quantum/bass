@@ -15,26 +15,16 @@ from __future__ import annotations
 
 import numpy as np
 
-from bianchi.matter import pstf_coeff as PC
-from bianchi.matter import tilted_coeff as TC
-from bianchi.matter.hierarchy_coeff import SIGMA_SIGNS
+from bianchi.backend_policy import require_native
+from bianchi.matter._coeff_contract import ClosedGeoBlocksContract, omega_vector
+from bianchi.matter._pstf_low_rank import sigma_to_c5, vec_to_c3
+from bianchi.matter.hierarchy import SIGMA_SIGNS
 from bianchi.matter.tilted import SIGNS
-
-try:
-    import bianchi_rustcore as _R
-except ImportError:                                    # pragma: no cover
-    _R = None
 
 L_KERNEL_MAX = 10
 
 #: lib.rs 와 고정 합의된 부호 순서.
 _SIGN_ORDER = ("A", "B", "C", "D", "E", "Omega", "divcon", "divfree")
-
-
-def _require_rust():
-    if _R is None:
-        raise RuntimeError("bianchi_rustcore 없음 — coeff_kernel 은 Rust 전용 "
-                           "(무언 폴백 금지, R5b 회귀시험 교훈)")
 
 
 def grid_offsets(l_pad, i_pad):
@@ -74,40 +64,40 @@ def lhs_grid(Jc, dJc, geo, cg, l_max, i_max, signs=None):
     """tilted 좌변 전 격자 — `equation_lhs_coeff(gm=cg)` 의 1호출 Rust 판.
 
     cg: `ClosedGeoBlocks` (적합계수·γ·v3 의 단일 진실원 — R5a 가드 상속)."""
-    _require_rust()
+    rust = require_native("coeff_kernel.lhs_grid")
     if l_max > L_KERNEL_MAX:
         raise ValueError(f"coeff 커널 벽: l_max ≤ {L_KERNEL_MAX} "
                          "(c2 표 l_in=l+2 ≤ 12)")
-    if not isinstance(cg, TC.ClosedGeoBlocks):
+    if not isinstance(cg, ClosedGeoBlocksContract):
         raise TypeError("cg 는 ClosedGeoBlocks — 적합계수의 단일 진실원")
     cg._check_geo()                                    # R5a: 스테일 즉시 거부
     j = pack_grid(Jc, l_max + 2, i_max + 2)
     dj = pack_grid(dJc, l_max + 2, i_max + 2)
-    s5 = PC.sigma_to_c5(geo["sigma"])
-    w = TC._omega_vec(geo["omega"])                    # 카르테시안 (rot 축!)
-    u3 = PC.vec_to_c3(geo["udot"])                     # 정준 (cv/ov 축)
-    out = _R.coeff_lhs_grid(j, dj, l_max, i_max, float(geo["H"]), s5, w, u3,
-                            cg.gamma, cg.v3, cg.c_pd, cg.c_dc, cg.c_df,
-                            _signs_vec(signs, _SIGN_ORDER, SIGNS))
+    s5 = sigma_to_c5(geo["sigma"])
+    w = omega_vector(geo["omega"])                    # 카르테시안 (rot 축!)
+    u3 = vec_to_c3(geo["udot"])                       # 정준 (cv/ov 축)
+    out = rust.coeff_lhs_grid(j, dj, l_max, i_max, float(geo["H"]), s5, w, u3,
+                              cg.gamma, cg.v3, cg.c_pd, cg.c_dc, cg.c_df,
+                              _signs_vec(signs, _SIGN_ORDER, SIGNS))
     return unpack_grid(np.asarray(out), l_max, i_max)
 
 
 def mass_blocks(geo, l, signs=None):
     """`mass_blocks_for` 의 Rust 판 — (γI, up, down|None)."""
-    _require_rust()
+    rust = require_native("coeff_kernel.mass_blocks")
     s = SIGNS if signs is None else signs
     v = np.asarray(geo["v"], float)
     gam = float(geo["gamma_lorentz"])
-    return _R.coeff_mass_blocks(l, gam, PC.vec_to_c3(v),
-                                float(s["divcon"]), float(s["divfree"]))
+    return rust.coeff_mass_blocks(l, gam, vec_to_c3(v),
+                                  float(s["divcon"]), float(s["divfree"]))
 
 
 def rhs_grid(Jc, H, s5, l_max, i_max, signs=None):
     """untilted `hierarchy_rhs_coeff` 전 격자의 1호출 Rust 판."""
-    _require_rust()
+    rust = require_native("coeff_kernel.rhs_grid")
     if l_max > L_KERNEL_MAX:
         raise ValueError(f"coeff 커널 벽: l_max ≤ {L_KERNEL_MAX}")
     j = pack_grid(Jc, l_max + 2, i_max + 2)
-    out = _R.coeff_rhs_grid(j, l_max, i_max, float(H), np.asarray(s5, float),
-                            _signs_vec(signs, ("A", "B", "C"), SIGMA_SIGNS))
+    out = rust.coeff_rhs_grid(j, l_max, i_max, float(H), np.asarray(s5, float),
+                              _signs_vec(signs, ("A", "B", "C"), SIGMA_SIGNS))
     return unpack_grid(np.asarray(out), l_max, i_max)

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
 from bianchi.q.group import pack_n
 
 SYM = ((0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2))
@@ -69,19 +70,16 @@ def rhs_split_ref(ehat, lnp, mass, bg: Background):
 
 
 # ───────────────────────────────────────────────── Rust 면
-def _rc():
-    import bianchi_rustcore as R
-    return R
-
-
 def rhs_p(phat, mass, bg: Background):
     h, s, r, n, a = bg.args()
-    return np.asarray(_rc().qc_rhs_p(np.asarray(phat, float), mass, h, s, r, n, a))
+    rust = require_native("q.characteristics.rhs_p")
+    return np.asarray(rust.qc_rhs_p(np.asarray(phat, float), mass, h, s, r, n, a))
 
 
 def rhs_split(ehat, lnp, mass, bg: Background):
     h, s, r, n, a = bg.args()
-    v = np.asarray(_rc().qc_rhs_split(np.asarray(ehat, float), lnp, mass, h, s, r, n, a))
+    rust = require_native("q.characteristics.rhs_split")
+    v = np.asarray(rust.qc_rhs_split(np.asarray(ehat, float), lnp, mass, h, s, r, n, a))
     return v[:3], float(v[3])
 
 
@@ -93,7 +91,8 @@ def direction_map(ehat, dt, bg0: Background, bg1: Background = None,
     E = np.ascontiguousarray(np.asarray(ehat, float).reshape(-1, 3)).ravel()
     h0, s0, r0, n0, a0 = bg0.args()
     h1, s1, r1, n1, a1 = bg1.args()
-    out = np.asarray(_rc().qc_direction_map(
+    rust = require_native("q.characteristics.direction_map")
+    out = np.asarray(rust.qc_direction_map(
         E, mass, lnp, h0, s0, r0, n0, a0, h1, s1, r1, n1, a1,
         dt, int(substeps), bool(renormalize)))
     m = E.size // 3

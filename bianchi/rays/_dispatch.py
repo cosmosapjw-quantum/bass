@@ -7,6 +7,6 @@ R1 광선 디스패치 — `bianchi.backend` 로 통합됨 (하위호환 재노�
 from __future__ import annotations
 
 from bianchi.backend import (  # noqa: F401
-    HAVE_RUST, available, name as backend, info,
+    available, name as backend, info,
     ray_final_z_batch, optical_batch,
 )

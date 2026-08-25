@@ -44,11 +44,15 @@ from functools import lru_cache
 from itertools import permutations
 
 import numpy as np
-import sympy as sp
-from sympy.physics.wigner import gaunt as _cx_gaunt
-from sympy.physics.wigner import real_gaunt as _real_gaunt
 
+from bianchi.matter._pstf_low_rank import u_basis as _low_rank_u_basis
 from bianchi.matter.hierarchy import L_MAX_SUPPORTED
+from bianchi.optional_dependencies import require_optional
+
+sp = require_optional("sympy", feature=__name__)
+_wigner = require_optional("sympy.physics.wigner", feature=__name__, dependency="sympy")
+_cx_gaunt = _wigner.gaunt
+_real_gaunt = _wigner.real_gaunt
 
 _x, _y, _z, _w = sp.symbols("x y z w", real=True)
 
@@ -103,6 +107,8 @@ def canonical_tensor(l, m):
 @lru_cache(maxsize=None)
 def U_basis(l):
     """Frobenius-정규직교 정준 기저 (3^l, 2l+1) — 열 m = −l..l.  l ≤ 6."""
+    if l in (1, 2):
+        return _low_rank_u_basis(l)
     cols = [canonical_tensor(l, m).ravel() / np.sqrt(D_norm(l))
             for m in range(-l, l + 1)]
     B = np.stack(cols, axis=1)

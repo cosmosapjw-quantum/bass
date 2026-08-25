@@ -15,7 +15,9 @@ from __future__ import annotations
 from functools import lru_cache
 from itertools import product
 
-import sympy as sp
+from bianchi.optional_dependencies import require_optional
+
+sp = require_optional("sympy", feature=__name__)
 
 I3 = range(3)
 I4 = range(4)

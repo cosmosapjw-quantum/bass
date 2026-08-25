@@ -28,7 +28,7 @@ J_moment          numpy 18.4 ms → rust 2.7 ms   (6.8배)
 
 ★ f₀ 인식 규칙: Rust 커널은 f₀ 콜백을 받지 않는다.  페르미-디랙과, base 가 기본인
   `f_dipole(eps, axis)` (반환 클로저에 `_rust_dipole` 표식) 만 라우팅하고 나머지는
-  numpy 폴백 — **조용히 다른 분포를 적분하는 것보다 느린 쪽이 낫다**.
+  visible transitional numpy 경로 — **조용히 다른 분포를 적분하는 것보다 느린 쪽이 낫다**.
 """
 import time
 
@@ -38,9 +38,12 @@ import pytest
 from bianchi.matter import freestream as fs
 from bianchi.matter import hierarchy as HH
 from bianchi.matter import tilted_moments as TM
+from bianchi.backend_policy import load_native
 
-pytestmark = pytest.mark.skipif(TM._RC is None,
-                                reason="bianchi_rustcore 없음 (numpy 폴백만)")
+pytestmark = pytest.mark.skipif(
+    not load_native().available,
+    reason="compatible bianchi_rustcore extension unavailable",
+)
 
 A = np.array([1.05, 0.93, 1.22])
 V = np.array([0.08, -0.05, 0.12])
@@ -108,16 +111,16 @@ def test_mixing_backends_would_break_the_pair():
 
 # ═══════════════════════════════════════ f₀ 인식 규칙
 def test_a_custom_f0_falls_back_to_numpy():
-    """★★ 알아볼 수 없는 f₀ 는 폴백 — 조용히 페르미-디랙을 적분하면 안 된다.
+    """★★ 알아볼 수 없는 f₀ 는 visible transitional — 조용히 다른 값을 적분하면 안 된다.
 
-    폴백이면 두 호출이 **비트-동일**해야 한다 (같은 numpy 경로).
+    두 호출은 **비트-동일**해야 한다 (같은 numpy 경로).
     """
     def custom(q):
         return fs.f_fermi_dirac(q) * (1.0 + 0.1 * np.tanh(q))
     a = HH.J_moment(A, 0.7, 2, 0, custom)
     b = HH.J_moment(A, 0.7, 2, 0, custom, backend="python")
     assert np.array_equal(np.asarray(a), np.asarray(b))
-    # 그리고 페르미-디랙과는 실제로 다른 값이다 (폴백이 무의미하지 않다)
+    # 그리고 페르미-디랙과는 실제로 다른 값이다 (transition이 무의미하지 않다)
     c = HH.J_moment(A, 0.7, 2, 0, backend="python")
     assert not np.allclose(np.asarray(a), np.asarray(c), rtol=1e-6)
 
@@ -136,7 +139,7 @@ def test_the_default_dipole_is_marked():
 
 
 def test_out_of_range_l_falls_back():
-    """★ l > 5 (Rust codegen 한계) 는 폴백 — 예외가 아니라 값이 나와야 한다."""
+    """★ l > 5는 visible transitional 경로이며 기존 값을 보존한다."""
     r = HH.J_moment(A, 0.0, 6, 0)
     p = HH.J_moment(A, 0.0, 6, 0, backend="python")
     assert np.array_equal(np.asarray(r), np.asarray(p))

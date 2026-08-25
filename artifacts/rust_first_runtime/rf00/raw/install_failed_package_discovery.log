@@ -1,0 +1,48 @@
+Collecting setuptools==68.1.2
+  Downloading setuptools-68.1.2-py3-none-any.whl.metadata (6.2 kB)
+Collecting wheel==0.42.0
+  Downloading wheel-0.42.0-py3-none-any.whl.metadata (2.2 kB)
+Downloading setuptools-68.1.2-py3-none-any.whl (805 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 805.1/805.1 kB 1.1 MB/s eta 0:00:00
+Downloading wheel-0.42.0-py3-none-any.whl (65 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.4/65.4 kB 1.3 MB/s eta 0:00:00
+Saved /tmp/BASS-RF00-20260824T181805Z/rf00-install-retry1-BRbuc7/build-wheelhouse/setuptools-68.1.2-py3-none-any.whl
+Saved /tmp/BASS-RF00-20260824T181805Z/rf00-install-retry1-BRbuc7/build-wheelhouse/wheel-0.42.0-py3-none-any.whl
+Successfully downloaded setuptools wheel
+Looking in links: /tmp/BASS-RF00-20260824T181805Z/rf00-install-retry1-BRbuc7/build-wheelhouse
+Processing /tmp/BASS-RF00-20260824T181805Z/rf00-install-retry1-BRbuc7/build-wheelhouse/setuptools-68.1.2-py3-none-any.whl
+Processing /tmp/BASS-RF00-20260824T181805Z/rf00-install-retry1-BRbuc7/build-wheelhouse/wheel-0.42.0-py3-none-any.whl
+Installing collected packages: wheel, setuptools
+Successfully installed setuptools-68.1.2 wheel-0.42.0
+Processing /tmp/BASS-RF00-20260824T181805Z/worktree
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [14 lines of output]
+      error: Multiple top-level packages discovered in a flat-layout: ['repro', 'audit', 'report', 'bianchi', 'runtime', 'compiler', 'research', 'generated', 'artifacts', 'provenance'].
+      
+      To avoid accidental inclusion of unwanted files or directories,
+      setuptools will not proceed with this build.
+      
+      If you are trying to create a single distribution with multiple packages
+      on purpose, you should not rely on automatic discovery.
+      Instead, consider the following options:
+      
+      1. set up custom discovery (`find` directive with `include` or `exclude`)
+      2. use a `src-layout`
+      3. explicitly set `py_modules` or `packages` with a list of names
+      
+      To find more information, look for "package discovery" on setuptools docs.
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.

@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, select_backend
 from bianchi.matter import tilted_closure as TC
 from bianchi.matter import tilted_equation as TE
 from bianchi.matter import tilted_mass as TMass
@@ -117,17 +118,18 @@ def closure(J, l_max, i_max, mode="ratio", n_star=None):
     return out
 
 
-def initial_state(bg, mass, l_max, i_max, t=0.0):
+def initial_state(bg, mass, l_max, i_max, t=0.0, backend=None):
     """t=0 의 정확 구적 초기조건 (tilted 사틀 성분)."""
     a, v = bg.a(t), bg.v(t)
     return {(l, i): np.atleast_1d(np.asarray(
-        TM.J_moment_tilted(a, v, mass, l, i), float)).reshape((3,) * l)
+        TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ).reshape((3,) * l)
         for l in range(l_max + 1) for i in range(-1, i_max + 1)}
 
 
 # ═══════════════════════════════════════ RHS (질량행렬 해)
 def rhs(J, bg, t, l_max, i_max, signs=None, mode="ratio", jdot_closure=True,
-        n_star=None):
+        n_star=None, backend=None):
     """J̇ = M⁻¹F — 매 스텝 PSTF 좌표에서 선형해.
 
     `jdot_closure=True` 면 (div-free) 가 요구하는 **격자 밖 J̇** 을 버리지 않고
@@ -136,7 +138,9 @@ def rhs(J, bg, t, l_max, i_max, signs=None, mode="ratio", jdot_closure=True,
     geo = bg.geometry(t)
     Jc = closure(J, l_max, i_max, mode, n_star)
     zero = {k: np.zeros(np.asarray(Jc[k]).shape) for k in Jc}
-    F = {(l, i): -np.asarray(TE.equation_lhs(Jc, zero, geo, l, i, signs), float)
+    F = {(l, i): -np.asarray(
+        TE.equation_lhs(Jc, zero, geo, l, i, signs, backend=backend), float
+    )
          for l in range(l_max + 1) for i in range(i_max + 1)}
     ir = (TC.jdot_ratio(Jc, l_max, i_max, mode)
           if (jdot_closure and n_star is None) else None)
@@ -164,13 +168,20 @@ def integrate(bg, mass, t_end, nsteps=40, l_max=3, i_max=1, signs=None,
     ★ R5b: 기본 경로면 Rust 커널이 루프 전체를 돌린다.  `backend="python"` 이
       오라클로 남아 있다 (차등시험이 이걸 쓴다).
     """
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+    child_backend = (BackendPolicy.RUST_REQUIRED if selected.uses_rust
+                     else BackendPolicy.PYTHON_ORACLE)
     keys, _, _ = TMass.layout(l_max, i_max, n_star)
-    J = {k: v for k, v in initial_state(bg, mass, l_max, i_max).items()
+    J = {k: v for k, v in initial_state(
+        bg, mass, l_max, i_max, backend=child_backend
+    ).items()
          if k in keys}
     dt = t_end / nsteps
-    if backend != "python" and rust_available(mode, jdot_closure, n_star):
+    if selected.uses_rust:
         ts, js = TR.integrate(bg, J, t_end, nsteps, l_max, i_max, signs, mode,
-                              jdot_closure, n_star, set(keys))
+                              jdot_closure, n_star, set(keys),
+                              _native_module=selected.native_module)
         return {"t": ts, "J": js}
     hist = {"t": [0.0], "J": [dict(J)]}
 
@@ -180,10 +191,14 @@ def integrate(bg, mass, t_end, nsteps=40, l_max=3, i_max=1, signs=None,
     for step in range(nsteps):
         t = step * dt
         jc = jdot_closure
-        k1 = rhs(J, bg, t, l_max, i_max, signs, mode, jc, n_star)
-        k2 = rhs(axpy(J, k1, 0.5 * dt), bg, t + 0.5 * dt, l_max, i_max, signs, mode, jc, n_star)
-        k3 = rhs(axpy(J, k2, 0.5 * dt), bg, t + 0.5 * dt, l_max, i_max, signs, mode, jc, n_star)
-        k4 = rhs(axpy(J, k3, dt), bg, t + dt, l_max, i_max, signs, mode, jc, n_star)
+        k1 = rhs(J, bg, t, l_max, i_max, signs, mode, jc, n_star,
+                 backend=child_backend)
+        k2 = rhs(axpy(J, k1, 0.5 * dt), bg, t + 0.5 * dt, l_max, i_max,
+                 signs, mode, jc, n_star, backend=child_backend)
+        k3 = rhs(axpy(J, k2, 0.5 * dt), bg, t + 0.5 * dt, l_max, i_max,
+                 signs, mode, jc, n_star, backend=child_backend)
+        k4 = rhs(axpy(J, k3, dt), bg, t + dt, l_max, i_max,
+                 signs, mode, jc, n_star, backend=child_backend)
         J = {k: J[k] + dt / 6.0 * (np.asarray(k1[k], float)
                                    + 2 * np.asarray(k2[k], float)
                                    + 2 * np.asarray(k3[k], float)
@@ -200,17 +215,24 @@ def trajectory_error(bg, mass, t_end=0.2, nsteps=40, l_max=3, i_max=1,
 
     반환 dict(rho, q, pi) — 각각 |적분 − 정확|/ρ′(T).
     """
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend("tilted.trajectory_error", policy=policy, mode=mode)
+    child_backend = (BackendPolicy.RUST_REQUIRED if selected.uses_rust
+                     else BackendPolicy.PYTHON_ORACLE)
     hist = integrate(bg, mass, t_end, nsteps, l_max, i_max, mode=mode,
-                     jdot_closure=jdot_closure, n_star=n_star, backend=backend)
+                     jdot_closure=jdot_closure, n_star=n_star,
+                     backend=child_backend)
     T = hist["t"][-1]
     J = hist["J"][-1]
     aT, vT = bg.a(T), bg.v(T)
-    rho_e = TM.J_moment_tilted(aT, vT, mass, 0, 0)
+    rho_e = TM.J_moment_tilted(aT, vT, mass, 0, 0, backend=child_backend)
     out = {}
     for name, (l, i) in (("rho", (0, 0)), ("q", (1, 0)), ("pi", (2, 0))):
         if l > l_max:
             continue
-        ex = np.atleast_1d(np.asarray(TM.J_moment_tilted(aT, vT, mass, l, i), float))
+        ex = np.atleast_1d(np.asarray(
+            TM.J_moment_tilted(aT, vT, mass, l, i, backend=child_backend), float
+        ))
         got = np.atleast_1d(np.asarray(J[(l, i)], float)).ravel()
         out[name] = float(np.abs(got - ex.ravel()).max() / rho_e)
     return out

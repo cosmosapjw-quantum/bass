@@ -31,13 +31,9 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, select_backend
 from bianchi.matter import freestream as fs
 from bianchi.matter.hierarchy import pstf, rust_f0_args
-
-try:                                        # R5c · Rust 보정구적 (없으면 numpy)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
 
 
 # ═══════════════════════════════════════ boost 대수
@@ -97,14 +93,23 @@ def J_moment_tilted(a_vec, v, mass, l, i, f0=fs.f_fermi_dirac, *, backend=None):
       만족하므로 (numpy 쌍: 이 파일 §2 시험, Rust 쌍: cargo 게이트) **둘을 함께**
       갈아끼워도 위 불변식은 유지된다 — 한쪽만 바꾸면 깨진다.
     """
-    if backend != "python" and _RC is not None and 0 <= l <= 5 and i >= -1:
-        args = rust_f0_args(f0)
-        if args is not None:
-            flat = np.asarray(_RC.kin_j_moment_tilted(
-                np.ascontiguousarray(np.asarray(a_vec, float)),
-                np.ascontiguousarray(np.asarray(v, float)), float(mass),
-                int(l), int(i), float(args[0]), int(args[1])))
-            return float(flat[0]) if l == 0 else flat.reshape((3,) * l)
+    args = rust_f0_args(f0)
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend(
+        "tilted_moments.J_moment_tilted",
+        policy=policy,
+        l=l,
+        i=i,
+        f0_supported=args is not None,
+    )
+    if selected.uses_rust:
+        rc = selected.native_module
+        assert rc is not None and args is not None
+        flat = np.asarray(rc.kin_j_moment_tilted(
+            np.ascontiguousarray(np.asarray(a_vec, float)),
+            np.ascontiguousarray(np.asarray(v, float)), float(mass),
+            int(l), int(i), float(args[0]), int(args[1])))
+        return float(flat[0]) if l == 0 else flat.reshape((3,) * l)
     a = np.asarray(a_vec, float)
     if a.shape != (3,):
         raise ValueError("a_vec must be shape (3,)")
@@ -135,10 +140,25 @@ def J_moment_tilted(a_vec, v, mass, l, i, f0=fs.f_fermi_dirac, *, backend=None):
 
 def moments_tilted(a_vec, v, mass, f0=fs.f_fermi_dirac, *, backend=None):
     """tilted 관측자가 보는 (ρ′, p′, q′_A, π′_AB) = (J′^(0), J′^(1)/3, J′^(0)_a, J′^(0)_ab)."""
-    rho = J_moment_tilted(a_vec, v, mass, 0, 0, f0, backend=backend)
-    p = J_moment_tilted(a_vec, v, mass, 0, 1, f0, backend=backend) / 3.0
-    q = np.asarray(J_moment_tilted(a_vec, v, mass, 1, 0, f0, backend=backend), float)
-    pi = np.asarray(J_moment_tilted(a_vec, v, mass, 2, 0, f0, backend=backend), float)
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend(
+        "tilted_moments.moments_tilted",
+        policy=policy,
+        f0_supported=rust_f0_args(f0) is not None,
+    )
+    child_policy = (
+        BackendPolicy.RUST_REQUIRED
+        if selected.uses_rust
+        else BackendPolicy.PYTHON_ORACLE
+    )
+    rho = J_moment_tilted(a_vec, v, mass, 0, 0, f0, backend=child_policy)
+    p = J_moment_tilted(a_vec, v, mass, 0, 1, f0, backend=child_policy) / 3.0
+    q = np.asarray(
+        J_moment_tilted(a_vec, v, mass, 1, 0, f0, backend=child_policy), float
+    )
+    pi = np.asarray(
+        J_moment_tilted(a_vec, v, mass, 2, 0, f0, backend=child_policy), float
+    )
     return rho, p, q, pi
 
 

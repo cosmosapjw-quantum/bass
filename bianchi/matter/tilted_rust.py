@@ -26,13 +26,7 @@ import numpy as np
 from bianchi.matter import tilted as TL
 from bianchi.matter import tilted_mass as TMass
 from bianchi.matter.hierarchy import pstf_operator
-
-try:                                        # R5b · Rust 계층 커널
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
-
-USE_RUST = _RC is not None and hasattr(_RC, "th_integrate")
+from bianchi.backend_policy import load_native, select_backend
 
 _GEO_LEN = 142
 _SIGN_ORDER = ("A", "B", "C", "D", "E", "Omega", "divcon", "divfree")
@@ -48,8 +42,32 @@ MODE_CODE = {"frozen": 0, "ratio": 1, "ratio_scalar": 2, "zero": 3,
 
 
 def available(mode="ratio"):
-    """Rust 계층 커널이 이 모드에서 쓸 수 있는가."""
-    return USE_RUST and mode in MODE_CODE
+    """진단용 Rust 계층 가용성 (실제 dispatch 권한은 capability matrix)."""
+    load = load_native()
+    return bool(
+        mode in MODE_CODE
+        and load.available
+        and load.module is not None
+        and hasattr(load.module, "th_integrate")
+    )
+
+
+class _LazyRustAvailability:
+    """Historical bool-like diagnostic without probing native code at import time."""
+
+    def __bool__(self):
+        return available()
+
+    def __repr__(self):
+        return repr(available())
+
+
+# Historical test/diagnostic compatibility only. Numerical dispatch never reads it.
+USE_RUST = _LazyRustAvailability()
+
+
+def _native(route_id, mode="ratio"):
+    return select_backend(route_id, mode=mode).native_module
 
 
 def pack_geo(geo):
@@ -131,11 +149,12 @@ def _cfg(mode, jdot_closure, n_star):
 
 
 def integrate(bg, J0, t_end, nsteps, l_max, i_max, signs=None, mode="ratio",
-              jdot_closure=True, n_star=None, keys=None):
+              jdot_closure=True, n_star=None, keys=None, *, _native_module=None):
     """RK4 적분 (Rust) → (t 목록, J dict 목록).  `J0` 는 이미 걸러진 상태 dict."""
     dt = t_end / nsteps
     ops, bases = ops_and_bases(l_max)
-    hist = _RC.th_integrate(
+    native = _native_module or _native("tilted.integrate", mode)
+    hist = native.th_integrate(
         np.ascontiguousarray(pack_state(J0, l_max, i_max)),
         np.ascontiguousarray(geometry_rows(bg, nsteps, dt)),
         int(nsteps), float(dt), pack_signs(signs), ops, bases,
@@ -149,10 +168,11 @@ def rhs(J, geo, l_max, i_max, signs=None, mode="ratio", jdot_closure=True,
         n_star=None, keys=None):
     """한 스텝 J̇ (Rust) — 차등시험용."""
     ops, bases = ops_and_bases(l_max)
-    flat = _RC.th_rhs(np.ascontiguousarray(pack_state(J, l_max, i_max)),
-                      np.ascontiguousarray(pack_geo(geo)), pack_signs(signs),
-                      ops, bases, int(l_max), int(i_max),
-                      *_cfg(mode, jdot_closure, n_star))
+    native = _native("tilted.rhs", mode)
+    flat = native.th_rhs(np.ascontiguousarray(pack_state(J, l_max, i_max)),
+                         np.ascontiguousarray(pack_geo(geo)), pack_signs(signs),
+                         ops, bases, int(l_max), int(i_max),
+                         *_cfg(mode, jdot_closure, n_star))
     return unpack_state(flat, l_max, i_max, keys)
 
 
@@ -161,7 +181,8 @@ def force_and_matrix(J, geo, l_max, i_max, signs=None, mode="ratio",
     """한 스텝의 (F 평탄벡터, M) — 포트의 어느 층까지 정확히 같은지 가르는 진단."""
     from bianchi.matter import tilted_mass as _TMass
     ops, bases = ops_and_bases(l_max)
-    f, m = _RC.th_force_and_matrix(
+    native = _native("tilted.force_and_matrix", mode)
+    f, m = native.th_force_and_matrix(
         np.ascontiguousarray(pack_state(J, l_max, i_max)),
         np.ascontiguousarray(pack_geo(geo)), pack_signs(signs), ops, bases,
         int(l_max), int(i_max), *_cfg(mode, jdot_closure, n_star))

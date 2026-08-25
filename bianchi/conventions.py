@@ -18,18 +18,15 @@ import enum
 from dataclasses import dataclass
 from typing import Literal
 
-import jax.numpy as jnp
 import numpy as np
 
-# ---------------------------------------------------------------- 기본 상수
-SQRT3 = float(np.sqrt(3.0))
+from bianchi._core_constants import EPS3, SQRT3
+from bianchi.optional_dependencies import require_jax_x64
 
+_, jnp = require_jax_x64(feature=__name__)
+
+# ---------------------------------------------------------------- 기본 상수
 #: Levi-Civita eps_{abc}, eps_123 = +1
-EPS3 = np.zeros((3, 3, 3))
-for _i in range(3):
-    for _j in range(3):
-        for _k in range(3):
-            EPS3[_i, _j, _k] = (_i - _j) * (_j - _k) * (_k - _i) / 2
 EPS3_J = jnp.asarray(EPS3)
 
 

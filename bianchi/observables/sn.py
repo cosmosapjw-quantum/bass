@@ -16,10 +16,12 @@ FLRW 극한(Σ=0, v=0): 등방 μ(z), 모든 다극 진폭 0.
 from __future__ import annotations
 
 import numpy as np
-from scipy.integrate import quad
 
 from bianchi.physical import units as U
 from bianchi.observables import distances as D
+from bianchi.optional_dependencies import require_optional
+
+quad = require_optional("scipy.integrate", feature=__name__, dependency="scipy").quad
 
 _5_OVER_LN10 = 5.0 / np.log(10.0)
 
@@ -98,12 +100,15 @@ def decompose_dipole_quadrupole(z, Sigma, v=None, H0=67.4, Om=0.315, Or=9.24e-5,
     nx = np.sin(T) * np.cos(P); ny = np.sin(T) * np.sin(P); nz = np.cos(T)
     nhats = np.stack([nx.ravel(), ny.ravel(), nz.ravel()], axis=-1)
     resid = hubble_map(z, nhats, Sigma, v, H0, Om, Or).reshape(T.shape)
-    try:
-        from scipy.special import sph_harm_y
-        Y = lambda l, m: sph_harm_y(l, m, T, P)
-    except ImportError:
-        from scipy.special import sph_harm
-        Y = lambda l, m: sph_harm(m, l, P, T)
+    special = require_optional(
+        "scipy.special",
+        feature=f"{__name__}.decompose_dipole_quadrupole",
+        dependency="scipy",
+    )
+    if hasattr(special, "sph_harm_y"):
+        Y = lambda l, m: special.sph_harm_y(l, m, T, P)
+    else:
+        Y = lambda l, m: special.sph_harm(m, l, P, T)
     dOm = np.sin(T) * (th[1] - th[0]) * (ph[1] - ph[0])
     mono = np.sum(resid * dOm) / np.sum(dOm)
     r0 = resid - mono

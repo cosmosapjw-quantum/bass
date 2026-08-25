@@ -23,15 +23,29 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, load_native, select_backend
 from bianchi.matter.hierarchy import pstf
 from bianchi.matter.tilted import _geometry
 
-try:                                        # R5a · Rust 텐서 커널 (없으면 numpy)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
+def available():
+    """진단용 Rust tensor-kernel 가용성; dispatch는 정적 route matrix를 쓴다."""
+    load = load_native()
+    return bool(load.available and load.module is not None
+                and hasattr(load.module, "tt_perp_dot"))
 
-USE_RUST = _RC is not None
+
+class _LazyRustAvailability:
+    """Historical bool-like diagnostic without probing native code at import time."""
+
+    def __bool__(self):
+        return available()
+
+    def __repr__(self):
+        return repr(available())
+
+
+# Historical test/diagnostic compatibility only. Numerical dispatch never reads it.
+USE_RUST = _LazyRustAvailability()
 
 
 _RC_KEYS = ("eup", "edn", "deup", "hmix", "uup", "G")
@@ -61,6 +75,11 @@ def _rc_call(fn, X, dX, geo, out_rank):
     r = np.asarray(X).ndim
     v = np.asarray(fn(x, d, r, *_rc_geo(geo)))
     return v.reshape((3,) * out_rank) if out_rank else float(v[0])
+
+
+def _selection(route_id, backend):
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    return select_backend(route_id, policy=policy)
 
 
 # ═══════════════════════════════════════ 사틀 ↔ 좌표 변환
@@ -121,8 +140,10 @@ def perp_dot(X, dX, geo, backend=None):
 
     ★ R5a: Rust 커널이 있으면 그쪽으로 간다 (`backend="python"` 이 오라클).
     """
-    if backend != "python" and USE_RUST:
-        return _rc_call(_RC.tt_perp_dot, X, dX, geo, np.asarray(X).ndim)
+    selected = _selection("tilted_terms.perp_dot", backend)
+    if selected.uses_rust:
+        return _rc_call(selected.native_module.tt_perp_dot, X, dX, geo,
+                        np.asarray(X).ndim)
     eup, edn, deup = geo["eup"], geo["edn"], geo["deup"]
     hmix, uup, G = geo["hmix"], geo["uup"], geo["G"]
     Xc = to_coord(X, eup)
@@ -140,8 +161,9 @@ def spatial_derivative(X, dX, geo, backend=None):
     ★ tilted 에서 이게 0 이 아니다: E_B^t = γ v_B 이므로 균질 양도 공간구배를 갖는다
       (균질성은 *법선* 합동의 초곡면에 대한 것이므로).
     """
-    if backend != "python" and USE_RUST:
-        return _rc_call(_RC.tt_spatial_derivative, X, dX, geo,
+    selected = _selection("tilted_terms.spatial_derivative", backend)
+    if selected.uses_rust:
+        return _rc_call(selected.native_module.tt_spatial_derivative, X, dX, geo,
                         np.asarray(X).ndim + 1)
     eup, edn, deup, G = geo["eup"], geo["edn"], geo["deup"], geo["G"]
     Xc = to_coord(X, eup)
@@ -154,10 +176,11 @@ def spatial_derivative(X, dX, geo, backend=None):
 
 def div_contracted(X_next, dX_next, geo, backend=None):
     """D^a J_{a A_l} — rank l+1 을 받아 rank l 반환 (div-con 항)."""
-    if backend != "python" and USE_RUST:
-        return _rc_call(_RC.tt_div_contracted, X_next, dX_next, geo,
+    selected = _selection("tilted_terms.div_contracted", backend)
+    if selected.uses_rust:
+        return _rc_call(selected.native_module.tt_div_contracted, X_next, dX_next, geo,
                         np.asarray(X_next).ndim - 1)
-    DX = spatial_derivative(X_next, dX_next, geo, backend)   # (B, a, A₁…A_l)
+    DX = spatial_derivative(X_next, dX_next, geo, backend="python")
     return np.einsum("bb...->...", DX)
 
 
@@ -167,11 +190,12 @@ def div_free_index(X_prev, dX_prev, geo, l, backend=None):
     ★ PSTF 는 Python 에 남겼다 — R3 에서 고정 행렬로 굳혀 이미 행렬곱 한 번이라
       포트 표면을 넓힐 이유가 없다.
     """
-    if backend != "python" and USE_RUST:
-        T = _rc_call(_RC.tt_div_free_raw, X_prev, dX_prev, geo,
+    selected = _selection("tilted_terms.div_free_index", backend)
+    if selected.uses_rust:
+        T = _rc_call(selected.native_module.tt_div_free_raw, X_prev, dX_prev, geo,
                      np.asarray(X_prev).ndim + 1)
     else:
-        DY = spatial_derivative(X_prev, dX_prev, geo, backend)
+        DY = spatial_derivative(X_prev, dX_prev, geo, backend="python")
         T = np.moveaxis(DY, 0, -1)                     # (A₁…A_{l−1}, a_l)
     return pstf(T) if l >= 2 else T
 

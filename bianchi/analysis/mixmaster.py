@@ -19,37 +19,59 @@ D1 은 Bianchi II 로 **한 번의 튐**을 오라클로 삼아 Kasner 사상을
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
+from functools import lru_cache
+
 import numpy as np
 
-from bianchi import integrate as itg
-from bianchi.analysis import kasner as K
-from bianchi.charts import class_a as ca
-from bianchi.conventions import SQRT3
+from bianchi._core_constants import SQRT3
+from bianchi.backend_policy import (
+    BackendPolicy,
+    ROUTE_CAPABILITIES,
+    load_native,
+    select_backend,
+)
+from bianchi.optional_dependencies import require_jax_x64
 
-try:                                        # R4 · Rust 커널 (없으면 diffrax 오라클)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
+
+@lru_cache(maxsize=1)
+def _oracle_modules():
+    """Load the optional Python oracle only after that path is selected."""
+
+    jax, jnp = require_jax_x64(feature=__name__)
+    from bianchi import integrate as itg
+    from bianchi.analysis import kasner as K
+    from bianchi.charts import class_a as ca
+
+    return itg, K, ca, jax, jnp
 
 
 def rust_available():
-    return _RC is not None
+    """진단용 native capability; 실행 경로 선택 권한은 없다."""
+    load = load_native()
+    capability = ROUTE_CAPABILITIES["mixmaster.bounce_sequence"]
+    return bool(
+        load.available
+        and load.module is not None
+        and all(hasattr(load.module, symbol) for symbol in capability.required_symbols)
+    )
 
 
 def rhs_past(t, y, args):
     """τ̃ = −τ 로 뒤집은 RHS — **특이점 쪽**으로 굴린다 (모듈 수준: jit 캐시 안정)."""
+    _, _, ca, jax, _ = _oracle_modules()
     return jax.tree.map(lambda x: -x, ca.rhs(t, y, args))
 
 
 def past_wall_rates(y, gamma=2.0):
     """d ln N_i/dτ̃ = −(d ln N_i/dτ) — 특이점 쪽 성장률."""
+    _, K, _, _, _ = _oracle_modules()
     return -K.wall_rates(y, gamma)
 
 
 def past_bounce_event(wall=0):
     """★★ 특이점 쪽 튐 — τ̃ 기준 성장률이 0 을 **아래로** 지나는 순간 (N_i 극대)."""
+    itg, _, ca, _, _ = _oracle_modules()
+
     def cond(t, y, args, **kw):
         a = ca.aux(y, args["gamma"])
         q, Sp, Sm = a["q"], y.Sigma_p, y.Sigma_m
@@ -66,6 +88,7 @@ def rhs_past_log_np(y, signs, gamma=2.0):
     상태 y = (Σ₊, Σ₋, w₁, w₂, w₃), N_i = s_i·e^{w_i}.  선형 RHS 와의 항등
     dw/dτ = (dN/dτ)/N 은 시험이 확인한다 (표현을 바꿔도 물리는 같아야 한다).
     """
+    _, _, ca, _, _ = _oracle_modules()
     y = np.asarray(y, float)
     sp, sm = y[0], y[1]
     n = np.asarray(signs, float) * np.exp(y[2:5])
@@ -84,6 +107,7 @@ def mixmaster_ic(u0=3.7, seed=1e-6, kind="IX", perm=(0, 1, 2)):
 
     ★ D1 의 반증 기록 (a): 벽을 켜면 Σ²=1 은 더 이상 Ω=0 이 아니다.
     """
+    _, K, ca, _, _ = _oracle_modules()
     p = K.u_to_exponents(u0)
     Sp, Sm = K.sigma_from_exponents(p[list(perm)])
     n = np.array([seed, seed, seed if kind == "IX" else -seed], float)
@@ -92,10 +116,12 @@ def mixmaster_ic(u0=3.7, seed=1e-6, kind="IX", perm=(0, 1, 2)):
 
 
 def _last(sol):
+    _, _, _, jax, jnp = _oracle_modules()
     return jax.tree.map(lambda x: x[-1] if jnp.ndim(x) else x, sol.ys)
 
 
 def _pick(sol, j):
+    _, _, ca, _, _ = _oracle_modules()
     return ca.StateA(sol.ys.Sigma_p[j], sol.ys.Sigma_m[j], sol.ys.N1[j],
                      sol.ys.N2[j], sol.ys.N3[j])
 
@@ -112,7 +138,11 @@ def bounce_sequence(y0, args, n_bounce=8, span=40.0, push=1e-2, n_probe=41,
     `push` 는 이벤트 직후 같은 근을 다시 잡지 않도록 τ̃ 를 조금 넘기는 양이다.
     반환 [(τ̃_bounce, 벽, u_epoch, τ̃_epoch, maxN_epoch, Ω)] .
     """
-    if backend != "python" and _RC is not None:
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend("mixmaster.bounce_sequence", policy=policy)
+    if selected.uses_rust:
+        rc = selected.native_module
+        assert rc is not None
         # ★ R4: 세 벽을 **한 번의 적분**으로 감시한다 (되감기·중복 적분 없음).
         v = np.array([float(y0.Sigma_p), float(y0.Sigma_m), float(y0.N1),
                       float(y0.N2), float(y0.N3)], float)
@@ -123,17 +153,18 @@ def bounce_sequence(y0, args, n_bounce=8, span=40.0, push=1e-2, n_probe=41,
             sg[sg == 0.0] = 1.0
             ylog = np.array([v[0], v[1], *np.log(np.maximum(np.abs(v[2:5]),
                                                             1e-300))])
-            tau, w, u, te, mx, om = _RC.mx_bounce_sequence_log(
+            tau, w, u, te, mx, om = rc.mx_bounce_sequence_log(
                 ylog, sg, float(args["gamma"]), int(n_bounce), tm, float(rtol),
                 float(atol), 1e-3)
         else:
-            tau, w, u, te, mx, om = _RC.mx_bounce_sequence(
+            tau, w, u, te, mx, om = rc.mx_bounce_sequence(
                 v, float(args["gamma"]), int(n_bounce), tm, float(rtol),
                 float(atol), 1e-3)
         return [(float(tau[i]), int(w[i]), float(u[i]), float(te[i]),
                  float(mx[i]), float(om[i])) for i in range(len(tau))]
     if walls == "log":
         raise NotImplementedError("walls='log' 는 Rust 커널 전용 (D3)")
+    itg, K, ca, _, jnp = _oracle_modules()
     cfg = itg.SolverConfig(rtol=rtol, atol=atol, max_steps=200000)
     y, t = y0, 0.0
     rows = []
@@ -171,6 +202,7 @@ _SEQ_CACHE: dict = {}
 
 def u_sequence(u0=3.7, n_bounce=5, seed=1e-3, kind="IX", **kw):
     """★★ u 수열 + BKL 예측 + 오차.  (같은 인자는 캐시 — 시험이 여러 번 부른다.)"""
+    _, K, _, _, _ = _oracle_modules()
     key = (float(u0), int(n_bounce), float(seed), kind,
            tuple(sorted((k, str(v)) for k, v in kw.items())))
     if key in _SEQ_CACHE:
@@ -238,6 +270,7 @@ def bkl_tracking(u0=3.7, n_bounce=12, seed=1e-3, tau_max=3000.0, **kw):
 
     ★ Rust 커널이 생기고서야 잴 수 있게 된 양이다 — Python 판은 튐 4번에서 끊겼다.
     """
+    _, K, _, _, _ = _oracle_modules()
     r = u_sequence(u0=u0, n_bounce=n_bounce, seed=seed, tau_max=tau_max, **kw)
     u = r["u"]
     v, drift = [u[0] if u else float(u0)], []
@@ -274,20 +307,26 @@ def type_VIII_also_bounces(u0=3.7, n_bounce=4, **kw):
     return u_sequence(u0=u0, n_bounce=n_bounce, kind="VIII", **kw)
 
 
-def type_II_bounces_once(u0=3.7, seed=1e-3, span=20.0):
+def type_II_bounces_once(u0=3.7, seed=1e-3, span=20.0, backend=None):
     """★ 대조군 — 벽이 하나(Bianchi II)면 튐도 **한 번**뿐이다."""
+    _, K, ca, _, _ = _oracle_modules()
     p = K.u_to_exponents(u0)
     Sp, Sm = K.sigma_from_exponents(p)
     Sp, Sm = K._project_to_vacuum(Sp, Sm, seed)
     y0 = ca.StateA.of(Sp, Sm, seed, 0.0, 0.0)
-    return len(bounce_sequence(y0, {"gamma": 2.0}, n_bounce=2, span=span))
+    return len(bounce_sequence(
+        y0, {"gamma": 2.0}, n_bounce=2, span=span, backend=backend
+    ))
 
 
-def type_I_never_bounces(u0=3.7, span=20.0):
+def type_I_never_bounces(u0=3.7, span=20.0, backend=None):
     """★ 대조군 — 벽이 없으면(N = 0) 튐이 0 번."""
+    _, K, ca, _, _ = _oracle_modules()
     Sp, Sm = K.sigma_from_exponents(K.u_to_exponents(u0))
     y0 = ca.StateA.of(Sp, Sm, 0.0, 0.0, 0.0)
-    return len(bounce_sequence(y0, {"gamma": 2.0}, n_bounce=1, span=span))
+    return len(bounce_sequence(
+        y0, {"gamma": 2.0}, n_bounce=1, span=span, backend=backend
+    ))
 
 
 def report():

@@ -46,6 +46,8 @@ from functools import lru_cache
 
 import numpy as np
 
+from bianchi.optional_dependencies import require_optional
+
 # ═══════════════════════════════════════ 확정 부호 (H5-b)
 #: `out -= SIGN * (논문 대괄호식)` 규약.  +1 = 논문 부호 그대로, −1 = 뒤집힘.
 SIGNS = dict(A=+1.0, B=-1.0, C=-1.0, D=+1.0, E=-1.0, Omega=+1.0,
@@ -60,7 +62,7 @@ def _tetrad_fn():
     ★ 이 네 묶음만 기호로 만든다 — 각 성분이 작은 닫힌형이라 즉시 컴파일된다.
       나머지(접속·축약·발산)는 numpy 에서 지표계산으로 처리한다.
     """
-    import sympy as sp
+    sp = require_optional("sympy", feature=f"{__name__}._tetrad_fn")
 
     names = ["a1", "a2", "a3", "v1", "v2", "v3"]
     S = {n: sp.Symbol(n, real=True) for n in names}

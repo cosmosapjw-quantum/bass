@@ -26,12 +26,13 @@ from __future__ import annotations
 
 from typing import Protocol, Sequence, runtime_checkable
 
-import equinox as eqx
-import jax.numpy as jnp
-
 from bianchi.matter.fluid import (TiltedFluid, sources as _fluid_sources, dOmega as _fluid_dOmega,
                                   dv_general as _fluid_dv, G_plus, _safe)
 from bianchi.matter.components import ScalarField, MagneticField
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+_, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 
 class Ctx(eqx.Module):

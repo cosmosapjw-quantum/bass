@@ -23,9 +23,11 @@ from __future__ import annotations
 from functools import lru_cache
 
 import numpy as np
-import sympy as sp
 
 from bianchi.matter import pstf_coeff as PC
+from bianchi.optional_dependencies import require_optional
+
+sp = require_optional("sympy", feature=__name__)
 
 CART_TO_CANON = (2, 0, 1)
 L_ORACLE_MAX = 6

@@ -7,8 +7,10 @@ from __future__ import annotations
 
 from typing import Protocol
 
-import equinox as eqx
-import jax.numpy as jnp
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+_, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 
 class Chart(Protocol):

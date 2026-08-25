@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
+
 KERNELS = ("thomson", "bgk", "bgk_cons")
 ACTIVE = {"thomson": ((0, 1.0), (2, 0.1)),
           "bgk": ((0, 1.0),),
@@ -16,8 +18,8 @@ ACTIVE = {"thomson": ((0, 1.0), (2, 0.1)),
 
 
 def kernel_eigenvalues(l_max=6):
-    import bianchi_rustcore as R
-    return np.asarray(R.qx_kernel_eigenvalues(l_max))
+    rust = require_native("q.collide.kernel_eigenvalues")
+    return np.asarray(rust.qx_kernel_eigenvalues(l_max))
 
 
 def kernel_eigenvalues_ref(l_max=6):
@@ -33,15 +35,15 @@ def kernel_eigenvalues_ref(l_max=6):
 
 
 def collide(sph, f, nu_dt, kernel="thomson"):
-    import bianchi_rustcore as R
-    return np.asarray(R.qx_collide(sph, np.ascontiguousarray(f, float),
-                                   float(nu_dt), kernel))
+    rust = require_native("q.collide.collide")
+    return np.asarray(rust.qx_collide(sph, np.ascontiguousarray(f, float),
+                                      float(nu_dt), kernel))
 
 
 def collide_modeb(sph, f, n_p, nu_dt, kernel="thomson"):
-    import bianchi_rustcore as R
-    return np.asarray(R.qx_collide_modeb(sph, np.ascontiguousarray(f, float),
-                                         int(n_p), float(nu_dt), kernel))
+    rust = require_native("q.collide.collide_modeb")
+    return np.asarray(rust.qx_collide_modeb(sph, np.ascontiguousarray(f, float),
+                                            int(n_p), float(nu_dt), kernel))
 
 
 def collide_ref(sph, f, nu_dt, kernel="thomson"):

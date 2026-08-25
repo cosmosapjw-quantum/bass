@@ -10,12 +10,14 @@ from __future__ import annotations
 
 import numpy as np
 
+from bianchi.backend_policy import require_native
+
 SQ2 = np.sqrt(2.0)
 
 
 def sphere(n_theta=24, n_phi=48):
-    import bianchi_rustcore as R
-    return R.QSphere(n_theta, n_phi)
+    rust = require_native("q.sphere.sphere")
+    return rust.QSphere(n_theta, n_phi)
 
 
 def nodes(sph):

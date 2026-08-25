@@ -14,9 +14,11 @@ import os
 import pickle
 
 import numpy as np
-import sympy as sp
-import jax
-import jax.numpy as jnp
+
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+sp = require_optional("sympy", feature=__name__)
 
 _ETA = np.diag([-1.0, 1.0, 1.0, 1.0])
 _ETA_J = jnp.asarray(_ETA)

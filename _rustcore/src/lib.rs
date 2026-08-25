@@ -106,6 +106,16 @@ fn mat3_to_py<'py>(py: Python<'py>, m: &Matrix3<f64>) -> Bound<'py, PyArray2<f64
 }
 
 // ─────────────────────────────── 규약 패리티
+/// Return the size of the Rayon registry active for this call.
+///
+/// Outside a Rayon worker this is the initialized global pool size; inside a
+/// worker it is that worker's pool size. This is runtime introspection, not an
+/// estimate derived from environment variables or the host CPU count.
+#[pyfunction]
+fn rayon_thread_pool_size() -> usize {
+    rayon::current_num_threads()
+}
+
 #[pyfunction]
 fn rotation_matrix<'py>(
     py: Python<'py>,
@@ -3099,6 +3109,7 @@ fn qp_kcal_eigenvalues<'py>(
 
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;
     m.add_function(wrap_pyfunction!(qp_kcal_eigenvalues, m)?)?;
@@ -3212,4 +3223,12 @@ fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(qm_moments_log, m)?)?;
     m.add_function(wrap_pyfunction!(qm_collide_log, m)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod runtime_capability_tests {
+    #[test]
+    fn rayon_registry_has_at_least_one_thread() {
+        assert!(super::rayon_thread_pool_size() >= 1);
+    }
 }

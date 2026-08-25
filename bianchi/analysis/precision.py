@@ -31,6 +31,7 @@ import numpy as np
 
 from bianchi.analysis import gauss_map as G
 from bianchi.analysis import mixmaster as MX
+from bianchi.optional_dependencies import require_jax_x64, require_optional
 
 #: 선형 f64 가 벽을 표현할 수 있는 절대 바닥 ln(최소 정규수)
 LINEAR_FLOOR = float(np.log(np.finfo(np.float64).tiny))          # ≈ −708.4
@@ -84,7 +85,7 @@ def log_rhs_identity(n=200, seed=3, gamma=2.0):
     무작위 상태에서 두 RHS 를 대조한다 (Σ̇ 은 그대로, 벽은 로그미분).  이게 기계
     정밀도로 맞으면 로그 커널의 물리는 선형 커널과 같고, 다른 것은 표현뿐이다.
     """
-    import jax.numpy as jnp
+    _, jnp = require_jax_x64(feature=f"{__name__}.log_rhs_identity")
 
     from bianchi.charts import class_a as ca
     rng = np.random.default_rng(seed)
@@ -115,7 +116,10 @@ def shadow_horizon(eps, n_orbit=300, n_era=40, seed=17, thresh=0.1):
     50자리, 시험궤도는 스텝마다 ε 정밀도로 반올림.  D1c 황금비 대조군에서 실측한
     이탈(f64, 37 **스텝** — λ_궤도 = 2lnφ)과 같은 기전의 앙상블판이다.
     """
-    from mpmath import mp, mpf
+    mpmath = require_optional(
+        "mpmath", feature=f"{__name__}.shadow_horizon", dependency="mpmath"
+    )
+    mp, mpf = mpmath.mp, mpmath.mpf
     mp.dps = 50
     rng = np.random.default_rng(seed)
     lam = G.LYAPUNOV

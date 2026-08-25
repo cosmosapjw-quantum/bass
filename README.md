@@ -1,7 +1,8 @@
 # bianchi-solver
 
 모든 Bianchi 유형(I–IX, class A/B, 예외형 VI\*₋₁/₉)과 tilted 모델의
-배경 우주론 solver. JAX + diffrax.
+배경 우주론 solver. 지원 완료된 생산 경로는 `bianchi_rustcore`를 사용하고,
+Python/JAX + diffrax 구현은 명시적 오라클 또는 아직 이식되지 않은 경로로 유지한다.
 
 ## 원칙
 
@@ -73,13 +74,58 @@ bianchi/
 ❌ γ=6/7 은 tilt 임계값이 아니다 (단조함수 존재조건). `thresholds.FORBIDDEN` 참조.
 ⚠️ ar5iv HTML 은 관련 논문 두 편을 본문 중간에서 자른다 — **PDF 로 볼 것**.
 
+## 설치
+
+정상 설치 단위는 루트 `bianchi-solver`와 정확히 같은 버전의
+`bianchi-rustcore` 휠이다. 먼저 현재 Python/플랫폼에 맞는 검증된 로컬 휠의
+경로를 정한다. RF-00 native r3 CPython 3.12 Linux x86-64 휠의 SHA-256은
+`e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917`이다.
+
+```bash
+export BASS_NATIVE_WHEEL=/absolute/path/to/verified-native-wheel/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl
+printf '%s  %s\n' e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917 "$BASS_NATIVE_WHEEL" | sha256sum --check --strict
+python -m pip install --constraint requirements.lock "$BASS_NATIVE_WHEEL" .
+```
+
+이 기본 resolver 진입점은 생산용 Rust-first 최소 프론트엔드만 설치한다:
+정확히 일치하는 native 휠과 NumPy가 필수이고 JAX/diffrax/SciPy/SymPy는 로드하지
+않는다. 로컬 휠이 없거나 현재
+Python/ABI/플랫폼과 맞지 않으면 pip가 설치를 실패시킨다. 다른 버전의 native
+배포본이나 Python-only 설치로 조용히 진행하지 않는다. 소스에서 native 휠을
+복구해야 할 때만 아래 `_rustcore/README.md`의 고정 도구·`--locked` 절차 또는
+`bootstrap.sh` 복구 helper를 사용한다.
+
+독립 Python 오라클이나 기호/과학 프론트엔드가 필요한 환경만 같은 resolver에
+`python-oracle` extra를 명시한다. 이 extra는 JAX/diffrax/equinox/optimistix/lineax,
+SciPy, SymPy, mpmath를 설치하며 생산 native fallback을 허용하지 않는다.
+
+```bash
+python -m pip install --constraint requirements.lock "$BASS_NATIVE_WHEEL" '.[python-oracle]'
+```
+
+직접 JAX 오라클 코드를 작성할 때는 배열이나 JAX companion package를 만들기 전에
+x64 로더를 명시적으로 호출한다. 실패하면 설치/구성 정보를 포함한
+`OptionalDependencyError` 계열 예외가 발생하며 float32로 계속하지 않는다.
+
+```python
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature="interactive_python_oracle")
+```
+
 ## 실행
 
 ```bash
-pip install -e .
-PYTHONPATH=. pytest tests/ -q      # 129 tests (v1.1)
 PYTHONPATH=. python scripts/demo.py
 ```
+
+`bianchi.backend.capability_report()`는 선택 policy, extension/distribution 버전,
+Python ABI, Cargo.lock digest, build profile, CPU dispatch, thread-pool 크기와 optional
+features를 보고한다. native 지원 경로의 missing/ABI mismatch는 typed error이며
+Python 오라클로 자동 폴백하지 않는다.
+
+전체 과거 회귀군은 설치 smoke test가 아니다. 변경 경로에 해당하는 검증 명령은
+각 작업의 evidence/CI receipt를 따른다.
 
 ## v1.1 감사 재현 (외부검토 대응)
 

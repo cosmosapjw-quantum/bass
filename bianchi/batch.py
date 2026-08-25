@@ -20,12 +20,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-import equinox as eqx
-import jax
-import jax.numpy as jnp
 import numpy as np
 
 from bianchi import integrate as itg
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 
 # ---------------------------------------------------------------- 난이도 추정
@@ -102,7 +103,7 @@ def run_scan(rhs, states, args, plan: BatchPlan, cfg=None, ts=None,
 
     반환: dict(results, stragglers, steps)
     """
-    import diffrax as dfx
+    dfx = require_optional("diffrax", feature=f"{__name__}.run_scan")
     cfg = cfg or itg.SolverConfig()
     retry_cfg = retry_cfg or itg.SolverConfig(rtol=cfg.rtol*10, atol=cfg.atol*10,
                                               max_steps=cfg.max_steps*8)

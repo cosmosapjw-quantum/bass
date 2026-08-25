@@ -15,12 +15,12 @@ from __future__ import annotations
 
 from typing import Sequence
 
-import equinox as eqx
-import jax
-import jax.numpy as jnp
-
 from bianchi.matter.fluid import (TiltedFluid, G_plus, G_minus, _safe, sources,
                                   dOmega, dV2, T_coefficient)
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 
 # ================================================================ PR-18 다중 유체

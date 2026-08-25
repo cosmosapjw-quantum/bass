@@ -24,10 +24,11 @@ LIMITATIONS
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax.numpy as jnp
-
 from bianchi.charts.base import deceleration
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 name = "class_b"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
@@ -114,7 +115,6 @@ def constraints(y: StateB, args):
 
 def codazzi_propagation_residual(y: StateB, args):
     """C' = 4(q + Sigma_+ - 1) C 의 잔차 (런타임 오라클 F)."""
-    import jax
     gamma, kappa = args["gamma"], args["kappa"]
     f = lambda v: codazzi(StateB.from_array(v), kappa)
     v = y.as_array()

@@ -29,6 +29,8 @@ from functools import lru_cache
 
 import numpy as np
 
+from bianchi.optional_dependencies import require_optional
+
 
 # ═══════════════════════════════════════ 1. 구면 격자
 @lru_cache(maxsize=32)
@@ -107,7 +109,7 @@ def _stf_lambdified(l):
 
     ★ `hierarchy.pstf` (최소제곱 사영) 와 **완전히 다른 구성**이다.
     """
-    import sympy as sp
+    sp = require_optional("sympy", feature=f"{__name__}._stf_lambdified")
     x = sp.symbols("x0 x1 x2", real=True)
     r = sp.sqrt(sum(v ** 2 for v in x))
     dfact = 1

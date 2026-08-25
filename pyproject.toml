@@ -1,12 +1,30 @@
+[build-system]
+requires = ["setuptools==68.1.2", "wheel==0.42.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "bianchi-solver"
 version = "0.1.0"
 description = "Bianchi background cosmology solver (all types, tilted)"
 requires-python = ">=3.11"
 dependencies = [
-  "jax>=0.10.2", "diffrax>=0.7.2", "equinox>=0.13.8",
-  "optimistix>=0.1.0", "lineax>=0.1.1", "sympy>=1.14", "numpy", "scipy",
+  "bianchi-rustcore==0.1.0",
+  "numpy",
 ]
+
+[project.optional-dependencies]
+python-oracle = [
+  "jax>=0.10.2", "diffrax>=0.7.2", "equinox>=0.13.8",
+  "optimistix>=0.1.0", "lineax>=0.1.1", "scipy", "sympy>=1.14",
+  "mpmath>=1.3.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["bianchi*", "audit*"]
+
+[tool.setuptools.package-data]
+"bianchi.matter" = ["gaunt_tables.npz"]
+"bianchi.generated" = ["riemann_frame.pkl"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

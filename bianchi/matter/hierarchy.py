@@ -38,12 +38,8 @@ from math import factorial
 
 import numpy as np
 
+from bianchi.backend_policy import BackendPolicy, select_backend
 from bianchi.matter import freestream as fs
-
-try:                                        # R5c · Rust 정확구적 (없으면 numpy)
-    import bianchi_rustcore as _RC
-except Exception:                           # pragma: no cover
-    _RC = None
 
 #: 계층에서 실제로 쓰는 최대 다극 차수의 안전 상한 (3^l 저장이므로).
 L_MAX_SUPPORTED = 6
@@ -202,13 +198,22 @@ def J_moment(a_vec, mass, l, i, f0=fs.f_fermi_dirac, *, backend=None):
       `backend="python"` 이 numpy 오라클이다.  두 경로는 차등테스트로 1e−12 에 묶여
       있고, v=0 비트-정확 쌍(J ↔ J′)은 **Rust 쌍끼리도** 성립한다 (cargo 게이트).
     """
-    if backend != "python" and _RC is not None and 0 <= l <= 5 and i >= -1:
-        args = rust_f0_args(f0)
-        if args is not None:
-            flat = np.asarray(_RC.kin_j_moment(
-                np.ascontiguousarray(np.asarray(a_vec, float)), float(mass),
-                int(l), int(i), float(args[0]), int(args[1])))
-            return float(flat[0]) if l == 0 else flat.reshape((3,) * l)
+    args = rust_f0_args(f0)
+    policy = BackendPolicy.PYTHON_ORACLE if backend == "python" else backend
+    selected = select_backend(
+        "hierarchy.J_moment",
+        policy=policy,
+        l=l,
+        i=i,
+        f0_supported=args is not None,
+    )
+    if selected.uses_rust:
+        rc = selected.native_module
+        assert rc is not None and args is not None
+        flat = np.asarray(rc.kin_j_moment(
+            np.ascontiguousarray(np.asarray(a_vec, float)), float(mass),
+            int(l), int(i), float(args[0]), int(args[1])))
+        return float(flat[0]) if l == 0 else flat.reshape((3,) * l)
     a = np.asarray(a_vec, float)
     if a.shape != (3,):
         raise ValueError("a_vec must be shape (3,)")
@@ -499,7 +504,8 @@ def hierarchy_state_rhs(J, H, sigma, l_max, i_max, i_min=0, signs=None):
 
 
 def integrate_hierarchy(a0, mass, H, sigma_diag, t_end, nsteps=200,
-                        l_max=4, i_max=3, f0=fs.f_fermi_dirac, i_min=0):
+                        l_max=4, i_max=3, f0=fs.f_fermi_dirac, i_min=0, *,
+                        backend=None):
     """계층을 RK4 로 적분 (H, σ 상수 배경).  반환 dict(t, a, J_hist, exact_hist).
 
     배경: ȧ_i = (H+σ_i)a_i 이므로 a_i(t) = a_i(0) exp((H+σ_i)t) — 정확.
@@ -510,7 +516,7 @@ def integrate_hierarchy(a0, mass, H, sigma_diag, t_end, nsteps=200,
     sigma = np.diag(sig_d)
     dt = t_end / nsteps
     keys = [(l, i) for l in range(l_max + 1) for i in range(i_min, i_max + 1)]
-    J = {k: J_moment(a0, mass, k[0], k[1], f0) for k in keys}
+    J = {k: J_moment(a0, mass, k[0], k[1], f0, backend=backend) for k in keys}
 
     def axpy(base, d, c):
         return {k: base[k] + c * np.asarray(d[k]) for k in keys}
@@ -522,9 +528,9 @@ def integrate_hierarchy(a0, mass, H, sigma_diag, t_end, nsteps=200,
         ts.append(t)
         Js.append({k: (float(J[k]) if np.ndim(J[k]) == 0 else np.array(J[k]))
                    for k in keys})
-        Es.append(dict(rho=J_moment(a_t, mass, 0, 0, f0),
-                       p=J_moment(a_t, mass, 0, 1, f0) / 3.0,
-                       pi=J_moment(a_t, mass, 2, 0, f0)))
+        Es.append(dict(rho=J_moment(a_t, mass, 0, 0, f0, backend=backend),
+                       p=J_moment(a_t, mass, 0, 1, f0, backend=backend) / 3.0,
+                       pi=J_moment(a_t, mass, 2, 0, f0, backend=backend)))
         if s == nsteps:
             break
         k1 = hierarchy_state_rhs(J, H, sigma, l_max, i_max, i_min)

@@ -19,9 +19,11 @@ FLRW 극한(Σ→0): 표준 ΛCDM 값 (r_s≈147 Mpc, D_V(0.5)/r_s 등) 재현.
 from __future__ import annotations
 
 import numpy as np
-from scipy.integrate import quad
 
 from bianchi.physical import units as U
+from bianchi.optional_dependencies import require_optional
+
+quad = require_optional("scipy.integrate", feature=__name__, dependency="scipy").quad
 
 
 # ---------------------------------------------------------------- 배경 H(z)
@@ -219,12 +221,15 @@ def alcock_paczynski_quadrupole(z, Sigma, r_s=None, H0=67.4, Om=0.315,
     Hpar = Hz_iso * (1.0 + proj)
     FAP = DM / (U.C_LIGHT_KM_S / Hpar)
     # ℓ=2 파워
-    try:
-        from scipy.special import sph_harm_y
-        Y = lambda l, m: sph_harm_y(l, m, T, P)
-    except ImportError:
-        from scipy.special import sph_harm
-        Y = lambda l, m: sph_harm(m, l, P, T)
+    special = require_optional(
+        "scipy.special",
+        feature=f"{__name__}.alcock_paczynski_quadrupole",
+        dependency="scipy",
+    )
+    if hasattr(special, "sph_harm_y"):
+        Y = lambda l, m: special.sph_harm_y(l, m, T, P)
+    else:
+        Y = lambda l, m: special.sph_harm(m, l, P, T)
     dOm = np.sin(T) * (th[1] - th[0]) * (ph[1] - ph[0])
     resid = FAP - np.sum(FAP * dOm) / np.sum(dOm)
     C2 = sum(abs(np.sum(resid * np.conj(Y(2, m)) * dOm)) ** 2 for m in range(-2, 3)) / 5.0

@@ -19,7 +19,6 @@ PR-43 · 널 측지선 전송과 방향 의존 적색이동.
 from __future__ import annotations
 
 import numpy as np
-import jax.numpy as jnp
 
 from bianchi.conventions import EPS3
 from bianchi.rays.frame import P_double

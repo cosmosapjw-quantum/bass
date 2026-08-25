@@ -24,10 +24,10 @@ H'2 · 성분간 운동량 교환 — n-프레임 순수 운동량 모형 (Thoms
 """
 from __future__ import annotations
 
-import jax
-import jax.numpy as jnp
-
 from bianchi.matter.fluid import G_minus, G_plus, _safe
+from bianchi.optional_dependencies import require_jax_x64
+
+jax, jnp = require_jax_x64(feature=__name__)
 
 
 def validate_kappa(kappa, nc):

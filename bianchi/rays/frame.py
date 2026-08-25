@@ -13,10 +13,11 @@ PR-43/45 지원 · 프레임 접속과 3차원 접속의 이중축약 P^a.
 """
 from __future__ import annotations
 
-import jax.numpy as jnp
-
 from bianchi.conventions import EPS3_J
 from bianchi.charts.general import _connection as _connection3
+from bianchi.optional_dependencies import require_jax_x64
+
+_, jnp = require_jax_x64(feature=__name__)
 
 
 def P_double(N, A, x):

@@ -18,11 +18,12 @@ LIMITATIONS
 """
 from __future__ import annotations
 
-import equinox as eqx
-import jax.numpy as jnp
-
 from bianchi.conventions import SQRT3
 from bianchi.charts.base import deceleration
+from bianchi.optional_dependencies import require_jax_x64, require_optional
+
+jax, jnp = require_jax_x64(feature=__name__)
+eqx = require_optional("equinox", feature=__name__)
 
 name = "exceptional_VI"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
@@ -90,7 +91,6 @@ def constraints(y: StateE, args):
 
 def g_propagation_residual(y: StateE, args):
     """g' = 2(q + Sigma_+ - 1) g  — 항등적으로 성립해야 한다."""
-    import jax
     v = y.as_array()
     dg = jnp.dot(jax.grad(lambda w: g_constraint(StateE.from_array(w)))(v),
                  rhs(0.0, y, args).as_array())
@@ -100,7 +100,6 @@ def g_propagation_residual(y: StateE, args):
 
 def omega_identity_residual(y: StateE, args):
     """Omega' - [2q-(3g-2)]Omega = -4 A g  (구속면 위에서 0)."""
-    import jax
     gamma = args["gamma"]
     v = y.as_array()
     dOm = jnp.dot(jax.grad(lambda w: aux(StateE.from_array(w), gamma)["Omega"])(v),
