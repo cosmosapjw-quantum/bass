@@ -72,7 +72,12 @@ def _host(level: ClaimLevel) -> dict:
         "schema": "bass-rfbench-host-capability-v1",
         "claim_level": level.value,
         "blockers": ["synthetic_control_gap"] if level is ClaimLevel.EXPLORATORY_ONLY else [],
-        "strata": {"strict_1t": [0], "physical_12t": list(range(12))},
+        "strata": {
+            "strict_1t": [0],
+            "strict_1t_smt_siblings": [0, 12],
+            "physical_12t": list(range(12)),
+            "physical_12t_smt_siblings": list(range(24)),
+        },
     }
     import hashlib
     import json
@@ -105,7 +110,7 @@ def _metrics(*, contaminated: bool = False) -> dict:
         "cgroup_exclusive_cpuset_before": [0, 12],
         "cgroup_exclusive_cpuset_after": [0, 12],
         "expected_cpuset": [0, 12],
-        "selected_cpu_evidence_set": [0],
+        "selected_cpu_evidence_set": [0, 12],
         "worker_affinities": [[0]],
         "expected_worker_affinities": [[0]],
         "worker_count": 1,
@@ -132,8 +137,8 @@ def _metrics(*, contaminated: bool = False) -> dict:
         "effective_frequency_hz": 4_000_000_000.0,
         "benchmark_cgroup_cpu_stat_delta": {"usage_usec": 1},
         "benchmark_cgroup_cpu_psi_delta_us": 0,
-        "selected_cpu_proc_stat_delta": {"0": [1] * 10},
-        "selected_cpu_irq_delta": {"0": 0},
+        "selected_cpu_proc_stat_delta": {"0": [1] * 10, "12": [1] * 10},
+        "selected_cpu_irq_delta": {"0": 0, "12": 0},
         "temperature_max_millicelsius": 50_000,
         "cgroup_procs_before": [123],
         "cgroup_procs_after": [123],
@@ -149,8 +154,13 @@ class _Collector:
         self.warmup_calls = 0
         self.contracts: list[dict] = []
 
-    def preflight(self, source, workload, cpu_set, worker_count, run_contract):
+    def preflight(
+        self, source, workload, execution_cpu_set, evidence_cpu_set,
+        worker_count, run_contract,
+    ):
         self.preflight_calls += 1
+        assert execution_cpu_set == (0,)
+        assert evidence_cpu_set == (0, 12)
         self.contracts.append(dict(run_contract))
         return {
             "status": "PASS",
@@ -160,8 +170,13 @@ class _Collector:
             "wall_time_ns": 250_000_000,
         }
 
-    def warmup(self, source, workload, cpu_set, worker_count, run_contract):
+    def warmup(
+        self, source, workload, execution_cpu_set, evidence_cpu_set,
+        worker_count, run_contract,
+    ):
         self.warmup_calls += 1
+        assert execution_cpu_set == (0,)
+        assert evidence_cpu_set == (0, 12)
         self.contracts.append(dict(run_contract))
         return {
             "status": "PASS",
@@ -170,7 +185,12 @@ class _Collector:
             "input_identity_sha256": workload["input_identity_sha256"],
         }
 
-    def observe(self, source, workload, cpu_set, worker_count, run_contract):
+    def observe(
+        self, source, workload, execution_cpu_set, evidence_cpu_set,
+        worker_count, run_contract,
+    ):
+        assert execution_cpu_set == (0,)
+        assert evidence_cpu_set == (0, 12)
         self.contracts.append(dict(run_contract))
         contaminated = source.head == "2" * 40 and self.candidate_failures > 0
         if contaminated:

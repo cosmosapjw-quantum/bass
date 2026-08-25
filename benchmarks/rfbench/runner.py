@@ -37,19 +37,22 @@ _CLAIM_LEVEL_RANK = {
 class Collector(Protocol):
     def preflight(
         self, source: "ResolvedSource", workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]: ...
 
     def observe(
         self, source: "ResolvedSource", workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]: ...
 
     def warmup(
         self, source: "ResolvedSource", workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]: ...
 
@@ -369,10 +372,17 @@ def run_protocol(
             "corpus": corpus_receipt,
         }
 
-    cpu_set_raw = live_host_probe.get("strata", {}).get(config["stratum"], [])
-    if not isinstance(cpu_set_raw, list) or not cpu_set_raw:
+    strata = live_host_probe.get("strata", {})
+    execution_cpu_set_raw = strata.get(config["stratum"], [])
+    evidence_cpu_set_raw = strata.get(f"{config['stratum']}_smt_siblings", [])
+    if not isinstance(execution_cpu_set_raw, list) or not execution_cpu_set_raw:
         raise RuntimeError("host probe does not provide the requested CPU stratum")
-    cpu_set = tuple(int(value) for value in cpu_set_raw)
+    if not isinstance(evidence_cpu_set_raw, list) or not evidence_cpu_set_raw:
+        raise RuntimeError("host probe does not provide the stratum SMT reservation")
+    execution_cpu_set = tuple(int(value) for value in execution_cpu_set_raw)
+    evidence_cpu_set = tuple(int(value) for value in evidence_cpu_set_raw)
+    if not set(execution_cpu_set).issubset(evidence_cpu_set):
+        raise RuntimeError("execution CPUs are outside the reserved SMT evidence set")
     worker_count = 1 if config["stratum"] == "strict_1t" else 12
 
     # Baseline identity and preflight are resolved before candidate identity.
@@ -384,7 +394,8 @@ def run_protocol(
         "minimum_duration_seconds": workload.get("minimum_duration_seconds"),
     }
     preflight = dict(collector.preflight(
-        baseline, workload, cpu_set, worker_count, calibration_contract,
+        baseline, workload, execution_cpu_set, evidence_cpu_set, worker_count,
+        calibration_contract,
     ))
     baseline_output_digest = preflight.get("output_digest")
     baseline_input_digest = preflight.get("input_identity_sha256")
@@ -444,6 +455,8 @@ def run_protocol(
     }
     calibration = {
         "limits": config.get("contamination_limits"),
+        "execution_cpu_set": list(execution_cpu_set),
+        "evidence_cpu_set": list(evidence_cpu_set),
         "calibration_contract": calibration_contract,
         "sample_contract": sample_contract,
         "baseline_preflight_sha256": sha256_json(preflight),
@@ -455,7 +468,8 @@ def run_protocol(
     candidate = resolver(config["candidate"])
     candidate_warmup = dict(
         collector.warmup(
-            candidate, workload, cpu_set, worker_count, warmup_contract,
+            candidate, workload, execution_cpu_set, evidence_cpu_set, worker_count,
+            warmup_contract,
         )
     )
     warmup_reasons = list(candidate_warmup.get("reasons", []))
@@ -495,7 +509,8 @@ def run_protocol(
         for arm in arm_order:
             source = baseline if arm == "baseline" else candidate
             observations[arm] = collector.observe(
-                source, workload, cpu_set, worker_count, sample_contract,
+                source, workload, execution_cpu_set, evidence_cpu_set,
+                worker_count, sample_contract,
             )
         pair = evaluate_pair(
             pair_index=attempt,

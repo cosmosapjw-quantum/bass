@@ -357,7 +357,8 @@ def _last_json_line(raw: str) -> dict[str, Any]:
 
 def _normalize_child(
     payload: Mapping[str, Any], *, workload_id: str, mode: str,
-    repetitions: int, warmup_iterations: int, cpu_set: tuple[int, ...],
+    repetitions: int, warmup_iterations: int,
+    execution_cpu_set: tuple[int, ...],
     worker_count: int,
 ) -> tuple[int, int, str, str, list[list[int]], list[int]]:
     if payload.get("schema") != "bass-rfbench-child-observation-v1":
@@ -393,11 +394,12 @@ def _normalize_child(
         raise RuntimeError("benchmark child worker affinity receipt is invalid")
     canonical_masks = [sorted(set(mask)) for mask in worker_affinities]
     if worker_count == 1:
-        affinity_valid = canonical_masks == [list(cpu_set)]
+        affinity_valid = canonical_masks == [list(execution_cpu_set)]
     else:
         affinity_valid = (
             all(len(mask) == 1 for mask in canonical_masks)
-            and sorted(mask[0] for mask in canonical_masks) == sorted(cpu_set)
+            and sorted(mask[0] for mask in canonical_masks)
+            == sorted(execution_cpu_set)
         )
     if not affinity_valid:
         raise RuntimeError("benchmark child worker affinity does not match the stratum")
@@ -555,15 +557,25 @@ class CommandCollector:
 
     def _collect(
         self, source: ResolvedSource, workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> dict[str, Any]:
         mode, repetitions, warmups, minimum = _run_fields(run_contract, workload)
-        if not cpu_set or len(set(cpu_set)) != len(cpu_set):
-            raise ValueError("requested cpu_set must be non-empty and unique")
-        if worker_count < 1 or worker_count > len(cpu_set):
-            raise ValueError("worker_count is incompatible with the requested cpu_set")
-        evidence_cpus = set(cpu_set)
+        if (
+            not execution_cpu_set
+            or len(set(execution_cpu_set)) != len(execution_cpu_set)
+        ):
+            raise ValueError("execution_cpu_set must be non-empty and unique")
+        if not evidence_cpu_set or len(set(evidence_cpu_set)) != len(evidence_cpu_set):
+            raise ValueError("evidence_cpu_set must be non-empty and unique")
+        if not set(execution_cpu_set).issubset(evidence_cpu_set):
+            raise ValueError("execution CPUs must be inside the evidence CPU set")
+        if worker_count < 1 or worker_count > len(execution_cpu_set):
+            raise ValueError(
+                "worker_count is incompatible with the execution CPU set"
+            )
+        evidence_cpus = set(evidence_cpu_set)
         before = _snapshot(
             proc_root=self.proc_root, sys_root=self.sys_root,
             cgroup_path=self.cgroup_path, cpus=evidence_cpus,
@@ -585,7 +597,7 @@ class CommandCollector:
         })
 
         def pin_child() -> None:
-            os.sched_setaffinity(0, set(cpu_set))
+            os.sched_setaffinity(0, set(execution_cpu_set))
 
         with tempfile.TemporaryDirectory(prefix="bass-rfbench-perf-") as temp:
             temp_path = Path(temp)
@@ -636,7 +648,8 @@ class CommandCollector:
             ) = _normalize_child(
                 child, workload_id=str(workload["id"]), mode=mode,
                 repetitions=repetitions, warmup_iterations=warmups,
-                cpu_set=cpu_set, worker_count=worker_count,
+                execution_cpu_set=execution_cpu_set,
+                worker_count=worker_count,
             )
             perf = _parse_perf(perf_path)
             if perf_path.exists() and perf_path.stat().st_size > _OUTPUT_LIMIT_BYTES:
@@ -711,8 +724,8 @@ class CommandCollector:
         if not isinstance(expected_cpuset, list):
             expected_cpuset = None
         expected_affinities = (
-            [list(cpu_set)] if worker_count == 1
-            else [[cpu] for cpu in cpu_set]
+            [list(execution_cpu_set)] if worker_count == 1
+            else [[cpu] for cpu in execution_cpu_set]
         )
         metrics = {
             "cpuset_partition": live_partition,
@@ -729,7 +742,7 @@ class CommandCollector:
                 "cgroup_exclusive_effective_cpus"
             ],
             "expected_cpuset": expected_cpuset,
-            "selected_cpu_evidence_set": list(cpu_set),
+            "selected_cpu_evidence_set": list(evidence_cpu_set),
             "cgroup_procs_before": before["cgroup_procs"],
             "cgroup_procs_after": after["cgroup_procs"],
             "expected_cgroup_procs": [os.getpid()],
@@ -816,13 +829,15 @@ class CommandCollector:
 
     def preflight(
         self, source: ResolvedSource, workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]:
         if run_contract.get("mode") != "calibrate":
             raise ValueError("preflight requires a calibrate run contract")
         observation = self._collect(
-            source, workload, cpu_set, worker_count, run_contract
+            source, workload, execution_cpu_set, evidence_cpu_set, worker_count,
+            run_contract,
         )
         reasons = sample_contamination_reasons(observation["metrics"])
         expected = workload.get("output_contract", {}).get("expected_sha256")
@@ -842,24 +857,28 @@ class CommandCollector:
 
     def observe(
         self, source: ResolvedSource, workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]:
         if run_contract.get("mode") != "sample":
             raise ValueError("observe requires a sample run contract")
         return self._collect(
-            source, workload, cpu_set, worker_count, run_contract
+            source, workload, execution_cpu_set, evidence_cpu_set, worker_count,
+            run_contract,
         )
 
     def warmup(
         self, source: ResolvedSource, workload: Mapping[str, Any],
-        cpu_set: tuple[int, ...], worker_count: int,
+        execution_cpu_set: tuple[int, ...], evidence_cpu_set: tuple[int, ...],
+        worker_count: int,
         run_contract: Mapping[str, Any],
     ) -> Mapping[str, Any]:
         if run_contract.get("mode") != "warmup":
             raise ValueError("warmup requires a warmup run contract")
         observation = self._collect(
-            source, workload, cpu_set, worker_count, run_contract
+            source, workload, execution_cpu_set, evidence_cpu_set, worker_count,
+            run_contract,
         )
         reasons = sample_contamination_reasons(observation["metrics"])
         return {
