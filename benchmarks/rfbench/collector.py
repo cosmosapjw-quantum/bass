@@ -155,21 +155,60 @@ def _frequency(sys_root: Path, cpus: set[int]) -> dict[int, int] | None:
     return values if set(values) == cpus else None
 
 
-def _throttle(sys_root: Path, cpus: set[int]) -> int | None:
-    values: list[int] = []
-    for cpu in sorted(cpus):
-        root = sys_root / f"devices/system/cpu/cpu{cpu}/thermal_throttle"
-        paths = sorted(root.glob("*_throttle_count"))
-        if not paths:
+def _read_throttle_counter(path: Path) -> int | None:
+    raw = _read(path)
+    try:
+        return None if raw is None else int(raw)
+    except ValueError:
+        return None
+
+
+def _throttle(
+    sys_root: Path, cpus: set[int], topology: list[Mapping[str, Any]],
+) -> dict[str, dict[str, int]] | None:
+    """Read one complete core and package counter per selected topology unit."""
+
+    records = [item for item in topology if item.get("cpu") in cpus]
+    if {item.get("cpu") for item in records} != cpus:
+        return None
+    core_groups: dict[tuple[int, int], list[int]] = {}
+    package_groups: dict[int, list[int]] = {}
+    for item in records:
+        package, core, cpu = item.get("package"), item.get("core"), item.get("cpu")
+        if any(isinstance(value, bool) or not isinstance(value, int)
+               for value in (package, core, cpu)):
             return None
-        for path in paths:
-            raw = _read(path)
-            try:
-                if raw is not None:
-                    values.append(int(raw))
-            except ValueError:
-                return None
-    return sum(values) if values else None
+        core_groups.setdefault((package, core), []).append(cpu)
+        package_groups.setdefault(package, []).append(cpu)
+
+    core_values: dict[str, int] = {}
+    for (package, core), group_cpus in sorted(core_groups.items()):
+        value = None
+        for cpu in sorted(group_cpus):
+            value = _read_throttle_counter(
+                sys_root / f"devices/system/cpu/cpu{cpu}/thermal_throttle/"
+                "core_throttle_count"
+            )
+            if value is not None:
+                break
+        if value is None:
+            return None
+        core_values[f"{package}:{core}"] = value
+
+    package_values: dict[str, int] = {}
+    for package, group_cpus in sorted(package_groups.items()):
+        value = None
+        for cpu in sorted(group_cpus):
+            value = _read_throttle_counter(
+                sys_root / f"devices/system/cpu/cpu{cpu}/thermal_throttle/"
+                "package_throttle_count"
+            )
+            if value is not None:
+                break
+        if value is None:
+            return None
+        package_values[str(package)] = value
+    return {"core": core_values, "package": package_values}
 
 
 def _temperature(sys_root: Path) -> int | None:
@@ -188,7 +227,8 @@ def _temperature(sys_root: Path) -> int | None:
 
 
 def _snapshot(
-    *, proc_root: Path, sys_root: Path, cgroup_path: Path, cpus: set[int]
+    *, proc_root: Path, sys_root: Path, cgroup_path: Path, cpus: set[int],
+    topology: list[Mapping[str, Any]],
 ) -> dict[str, Any]:
     return {
         "monotonic_ns": time.monotonic_ns(),
@@ -198,7 +238,7 @@ def _snapshot(
         "proc_cpu": _proc_cpu(_read(proc_root / "stat"), cpus),
         "irq": _irq_totals(_read(proc_root / "interrupts"), cpus),
         "frequency_hz": _frequency(sys_root, cpus),
-        "throttle_count": _throttle(sys_root, cpus),
+        "throttle_counts": _throttle(sys_root, cpus, topology),
         "temperature_millicelsius": _temperature(sys_root),
         "cgroup_partition": _read(cgroup_path / "cpuset.cpus.partition"),
         "cgroup_effective_cpus": _cpu_list(
@@ -257,6 +297,28 @@ def _counter_delta(
     if any(after[cpu] < before[cpu] for cpu in cpus):
         return None
     return {str(cpu): after[cpu] - before[cpu] for cpu in sorted(cpus)}
+
+
+def _throttle_delta(
+    before: Mapping[str, Mapping[str, int]] | None,
+    after: Mapping[str, Mapping[str, int]] | None,
+) -> dict[str, Any] | None:
+    if before is None or after is None or set(before) != {"core", "package"}:
+        return None
+    if set(after) != {"core", "package"}:
+        return None
+    result: dict[str, Any] = {}
+    for kind in ("core", "package"):
+        left, right = before[kind], after[kind]
+        if not left or set(left) != set(right):
+            return None
+        if any(right[key] < left[key] for key in left):
+            return None
+        result[kind] = {key: right[key] - left[key] for key in sorted(left)}
+    result["total"] = sum(
+        value for kind in ("core", "package") for value in result[kind].values()
+    )
+    return result
 
 
 def _parse_perf(path: Path) -> dict[str, Any]:
@@ -551,6 +613,12 @@ class CommandCollector:
         if not isinstance(relative, str):
             raise ValueError("host probe has no cgroup path")
         self.cgroup_path = sys_root / "fs/cgroup" / relative.lstrip("/")
+        topology = host_probe.get("topology")
+        if not isinstance(topology, list) or any(
+            not isinstance(item, Mapping) for item in topology
+        ):
+            raise ValueError("host probe has no topology receipt")
+        self.topology = topology
         self.perf = shutil.which("perf")
         if self.perf is None:
             raise ValueError("perf is required for controlled collection")
@@ -579,6 +647,7 @@ class CommandCollector:
         before = _snapshot(
             proc_root=self.proc_root, sys_root=self.sys_root,
             cgroup_path=self.cgroup_path, cpus=evidence_cpus,
+            topology=self.topology,
         )
         environment = os.environ.copy()
         environment.update({
@@ -627,6 +696,7 @@ class CommandCollector:
             after = _snapshot(
                 proc_root=self.proc_root, sys_root=self.sys_root,
                 cgroup_path=self.cgroup_path, cpus=evidence_cpus,
+                topology=self.topology,
             )
             stdout_bytes = stdout_path.read_bytes()
             stderr_bytes = stderr_path.read_bytes()
@@ -690,7 +760,12 @@ class CommandCollector:
             if usage_delta is not None:
                 external_busy = max(0.0, busy_usec - usage_delta) / total_usec
         running_ratio = perf["minimum_running_ratio"]
-        throttle_delta = _delta_number(before["throttle_count"], after["throttle_count"])
+        throttle_receipt = _throttle_delta(
+            before["throttle_counts"], after["throttle_counts"]
+        )
+        throttle_delta = (
+            None if throttle_receipt is None else throttle_receipt["total"]
+        )
         irq_delta = _counter_delta(before["irq"], after["irq"], evidence_cpus)
         cycles = _event_value(perf, "cycles")
         task_clock_ms = _event_value(perf, "task-clock")
@@ -785,8 +860,9 @@ class CommandCollector:
             "temperature_millicelsius_before": temperatures[0],
             "temperature_millicelsius_after": temperatures[1],
             "temperature_max_millicelsius": temperature_max,
-            "thermal_throttle_count_before": before["throttle_count"],
-            "thermal_throttle_count_after": after["throttle_count"],
+            "thermal_throttle_counts_before": before["throttle_counts"],
+            "thermal_throttle_counts_after": after["throttle_counts"],
+            "thermal_throttle_count_delta": throttle_receipt,
             "benchmark_cgroup_cpu_psi_some_total_us_before": before[
                 "cgroup_cpu_psi_some_total_us"
             ],

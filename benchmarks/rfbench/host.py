@@ -246,9 +246,31 @@ def _interface_availability(sys_root: Path, topology: list[CpuTopology]) -> dict
         path / "cpufreq/scaling_cur_freq" for path in cpu_paths
         if (path / "cpufreq/scaling_cur_freq").is_file()
     ]
-    throttle_paths: list[Path] = []
-    for path in cpu_paths:
-        throttle_paths.extend(sorted((path / "thermal_throttle").glob("*_throttle_count")))
+    core_groups: dict[tuple[int, int], list[int]] = {}
+    package_groups: dict[int, list[int]] = {}
+    for record in topology:
+        core_groups.setdefault((record.package, record.core), []).append(record.cpu)
+        package_groups.setdefault(record.package, []).append(record.cpu)
+    core_throttle_paths: dict[tuple[int, int], Path] = {}
+    for key, cpus in core_groups.items():
+        for cpu in sorted(cpus):
+            path = (
+                sys_root / f"devices/system/cpu/cpu{cpu}/thermal_throttle/"
+                "core_throttle_count"
+            )
+            if path.is_file():
+                core_throttle_paths[key] = path
+                break
+    package_throttle_paths: dict[int, Path] = {}
+    for package, cpus in package_groups.items():
+        for cpu in sorted(cpus):
+            path = (
+                sys_root / f"devices/system/cpu/cpu{cpu}/thermal_throttle/"
+                "package_throttle_count"
+            )
+            if path.is_file():
+                package_throttle_paths[package] = path
+                break
     thermal_paths = sorted((sys_root / "class/thermal").glob("thermal_zone*/temp"))
     thermal_paths.extend(sorted((sys_root / "class/hwmon").glob("hwmon*/temp*_input")))
     return {
@@ -261,8 +283,18 @@ def _interface_availability(sys_root: Path, topology: list[CpuTopology]) -> dict
             "path_count": len(thermal_paths),
         },
         "throttling": {
-            "available": bool(throttle_paths),
-            "path_count": len(throttle_paths),
+            "available": (
+                bool(core_groups)
+                and set(core_throttle_paths) == set(core_groups)
+                and bool(package_groups)
+                and set(package_throttle_paths) == set(package_groups)
+            ),
+            "core_counter_complete": set(core_throttle_paths) == set(core_groups),
+            "package_counter_complete": (
+                set(package_throttle_paths) == set(package_groups)
+            ),
+            "core_counter_count": len(core_throttle_paths),
+            "package_counter_count": len(package_throttle_paths),
         },
     }
 

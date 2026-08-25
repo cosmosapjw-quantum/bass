@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import os
 
+from benchmarks.rfbench.collector import _throttle, _throttle_delta
 from benchmarks.rfbench.host import ClaimLevel, parse_cpu_list, probe_host
 
 
@@ -12,7 +13,9 @@ def _put(path: Path, value: str) -> None:
     path.write_text(value, encoding="utf-8")
 
 
-def _controlled_roots(tmp_path: Path, *, throttle: bool = True) -> tuple[Path, Path]:
+def _controlled_roots(
+    tmp_path: Path, *, throttle: bool = True, package_throttle: bool = True,
+) -> tuple[Path, Path]:
     proc = tmp_path / "proc"
     sys = tmp_path / "sys"
     cgroup = sys / "fs/cgroup/bench"
@@ -43,8 +46,10 @@ def _controlled_roots(tmp_path: Path, *, throttle: bool = True) -> tuple[Path, P
         _put(root / "topology/thread_siblings_list", f"{cpu % 12},{cpu % 12 + 12}\n")
         _put(root / "cache/index3/shared_cpu_list", "0-23\n")
         _put(root / "cpufreq/scaling_cur_freq", "4200000\n")
-        if throttle:
+        if throttle and cpu < 12:
             _put(root / "thermal_throttle/core_throttle_count", "0\n")
+        if throttle and package_throttle and cpu == 0:
+            _put(root / "thermal_throttle/package_throttle_count", "0\n")
     _put(sys / "class/hwmon/hwmon0/temp1_input", "55000\n")
     return proc, sys
 
@@ -121,6 +126,41 @@ def test_missing_throttle_signal_forces_exploratory_only(tmp_path):
     assert report["claim_level"] == ClaimLevel.EXPLORATORY_ONLY
     assert report["acceptance_claim_allowed"] is False
     assert "throttle_counter_unavailable" in report["blockers"]
+
+
+def test_core_only_throttle_signal_cannot_authorize_a_controlled_claim(tmp_path):
+    proc, sys = _controlled_roots(tmp_path, package_throttle=False)
+    report = probe_host(
+        proc_root=proc, sys_root=sys, affinity=range(24), perf_probe=_perf_ok,
+    )
+    assert report["claim_level"] == ClaimLevel.EXPLORATORY_ONLY
+    assert report["interfaces"]["throttling"] == {
+        "available": False,
+        "core_counter_complete": True,
+        "package_counter_complete": False,
+        "core_counter_count": 12,
+        "package_counter_count": 0,
+    }
+    assert "throttle_counter_unavailable" in report["blockers"]
+
+
+def test_collector_requires_complete_core_and_package_throttle_receipts(tmp_path):
+    proc, sys = _controlled_roots(tmp_path)
+    report = probe_host(
+        proc_root=proc, sys_root=sys, affinity=range(24), perf_probe=_perf_ok,
+    )
+    before = _throttle(sys, {0, 12}, report["topology"])
+    assert before == {"core": {"0:0": 0}, "package": {"0": 0}}
+    after = {"core": {"0:0": 2}, "package": {"0": 3}}
+    assert _throttle_delta(before, after) == {
+        "core": {"0:0": 2}, "package": {"0": 3}, "total": 5,
+    }
+
+    package_path = (
+        sys / "devices/system/cpu/cpu0/thermal_throttle/package_throttle_count"
+    )
+    package_path.unlink()
+    assert _throttle(sys, {0, 12}, report["topology"]) is None
 
 
 def test_affinity_without_delegated_cpuset_is_never_authority(tmp_path):
