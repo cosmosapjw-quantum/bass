@@ -90,6 +90,9 @@ jobs:
           PYTHONPATH: .
           PIP_NO_INDEX: "1"
           CARGO_NET_OFFLINE: "true"
+          # This job intentionally builds from source; the policy must expose
+          # that development provenance instead of masquerading as R4.
+          BASS_ALLOW_UNVERIFIED_NATIVE_DEV: "1"
         run: |
           python -m pip install --no-index "$RUNNER_TEMP"/rf02a-wheel/bianchi_rustcore-*.whl .
           python -m pytest -q tests/test_q1_group.py tests/test_rf00_route_inventory.py
