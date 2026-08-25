@@ -1,105 +1,58 @@
 # BASS Rust-first runtime closure
 
-Status: `DRAFT_PLAN_ONLY / NO_RUNTIME_CHANGE / NO_AUTHORITY_PROMOTION`
+Status: `RF-BENCH-00 RUNNER VALIDATION PASS / HOST EXPLORATORY_ONLY /
+PERFORMANCE NOT RUN / DRAFT UNMERGED`
 
-This package converts the current recovery/performance state into one executable
-program for a Rust-default numerical runtime with a thin Python frontend. The
-machine authority is `SPEC.json`; this file is only its short human index.
+`SPEC.json` remains the machine authority. Detailed receipts and exact digests
+are indexed by `artifacts/rust_first_runtime/rfbench00/EVIDENCE.json` rather
+than repeated here.
 
-## Audited starting point
+## Current delivery
 
-- Performance base: PR #23 head `4c6150578d1e7fea43e0d32c01664c92094c8c05`,
-  tree `e097263a8d9657edee6976b138534634b1be4d48`.
-- R5b contract: PR #21 head `b810092755837ccfa96502aa7e132a50c3fcbd33`;
-  34-case receipt reused. The ill-conditioned error-of-error comparator remains retired.
-- Wolfram generic candidate: PR #22 head
-  `75f0b128634ec60b853519f9f6d530f113b54a81`; static-only and unpromoted.
-- Native reproduction: `artifact/native-repro-bundle-20260824-r2` at
-  `61045b6e5a0d7b026437e0d3586df66706578161`; archive SHA-256
-  `ef0f35b76ab4ef4877ed577afe391ed677a7a6767bcbc64db62dd853d757afca`.
-- Existing PR #23 evidence SHA-256:
-  `f4ab66fc575122460d554c152deca5ad6c57fd80cb85e0ee11c892318abc358a`.
+- RF-BENCH-00 is stacked from PR #25 head
+  `980050fcb7cec466a94cdd0c5534254013901d51` in draft PR #26.
+- Runner implementation and bounded repairs end at
+  `0ec0966f03ac3293157e78c8094c1e218c687a6b`, tree
+  `9ca6c3d464c9a9053889ef21eac255aeb79ebb94`.
+- Neither PR may be merged or marked ready without approval.
 
-No inherited PASS was rerun. No Wolfram command, benchmark, Cargo build, dependency
-change, tolerance change, reference change, merge, ready-for-review transition, or
-formula-authority promotion was performed for this package.
+## Validated contract
 
-## Adversarial verdict
+- The read-only probe emits only `DEDICATED_BARE_METAL`,
+  `CONTROLLED_SHARED_PAIRED`, or `EXPLORATORY_ONLY`; missing evidence fails
+  closed and no privileged host mutation is performed.
+- Topology-derived strict-1T and physical-12T strata reserve SMT siblings and
+  use one logical CPU per physical core on one NUMA node where available.
+- The runner freezes balanced seeded AB/BA pairs, 30 valid pairs within 90
+  attempts, a two-second steady-state floor, a deterministic 10,000-replicate
+  paired bootstrap, and rejection before candidate-statistics visibility.
+- `whole-runtime-v1` covers all eight required strata with 11 entries and one
+  sealed, default-off holdout. Nine future-node or partial adapters remain
+  explicit, so a whole-runtime performance campaign is not yet eligible.
+- CI runs only the three RF-BENCH focused files and static corpus/config
+  validation. It never probes the host, runs a workload, or builds native code.
 
-`AT_RISK_BUT_READY_FOR_CONTROLLED_MIGRATION`.
+## Current host boundary
 
-The repository already contains substantial Rust compute coverage and an older
-Rust-core/Python-frontend plan. The remaining problem is architectural closure:
-production numerical work is split across Rust, Python/NumPy/SciPy, and JAX;
-backend import failures silently select Python; the PyO3 surface is concentrated in
-a large `lib.rs`; there is no checked-in GitHub workflow; current human docs are
-materially behind the code; and the benchmark host evidence cannot support an
-external-contention-independent claim.
+This session is `EXPLORATORY_ONLY`. The controlled request returned
+`BLOCKED_ENVIRONMENT` before candidate resolution or statistics visibility.
+Isolation/exclusive-cpuset, PMU running/event capacity, and complete thermal
+counter evidence are insufficient here. No workload, timing sample, or holdout
+ran.
 
-Candidate B is correctness-qualified but performance-unmeasured. The frozen 10%
-materiality rule remains valid for that candidate only. It is not a universal gate
-for the full migration: architecture-enabling steps use correctness plus no-regression,
-while cumulative milestones use pre-registered end-to-end performance gates.
+RF-BENCH-00 therefore makes no acceptance, rejection, speedup, no-regression,
+scaling, or contention-independent claim. The old affinity-only receipt remains
+historical exploratory evidence and was not rerun.
 
-The legacy PR #23 timing corpus remains useful for continuity, but Q and R5b already
-cross a coarse Rust boundary and dominate it. It therefore cannot certify the whole
-runtime. `RF-BENCH-00` freezes a broader `whole-runtime-v1` corpus and holdout before
-any migration speedup result is inspected.
+## Native and review boundary
 
-## Chosen architecture
+Native object identities are unchanged from RF-00, so the decision is
+`REUSED_NATIVE_R3_NO_R4_RF_BENCH_00`; Cargo, wheel, ABI, and restore lanes were
+not rerun. The final 30 focused checks pass. The bounded independent repair
+closeout passes for code and contract only; it does not promote host authority
+or supply performance evidence.
 
-- Python owns configuration, validation, orchestration, result objects, plotting,
-  and an explicit slow oracle. Optional JAX/diffrax/SciPy/SymPy stacks load lazily.
-- Rust owns every production numerical loop from validated input through completed
-  trajectories, batches, moments, rays, collisions, observables, and checkpoints.
-- RF-00 first installs a typed capability matrix: already native-supported routes
-  are fail-closed Rust, while unmigrated routes remain visibly transitional rather
-  than exception-driven fallbacks. RF-07 performs the global `rust_required` cutover.
-  `python_oracle` is always explicit.
-- Calls cross PyO3 at coarse operation boundaries using contiguous typed buffers,
-  persistent plans/workspaces, GIL detachment, and no Python callback in inner loops.
-- Parallelism is deterministic and coarse first (ensembles/rays/modes), with one
-  owned Rayon pool and explicit prevention of nested BLAS/OpenMP oversubscription.
-- Stable scalar/autovectorized code is the portable authority. Target-specific
-  `std::arch` variants use runtime dispatch and keep scalar fallback. Nightly
-  `portable_simd`, global `target-cpu=native`, fast-math, and reduced precision are
-  not authority paths.
-- GPU support is optional and batch-driven. JAX, PyTorch, or a custom CUDA kernel is
-  admitted only when transfer-inclusive f64 evidence beats the Rust CPU path; the
-  CPU backend remains mandatory and authoritative.
+## Exactly one next action
 
-The Wolfram/xAct lane is separate and non-blocking. `WF-00` starts from the archived
-PR #22 bytes and turns a `LieAlgebraSpec` into deterministic equations and typed
-SymIR, with sparse/memoized/staged evaluation and fresh Wolfram evidence before any
-formula-authority decision.
-
-## Performance evidence classes
-
-Literal independence from other CPU use is not claimed on a shared host.
-
-- `DEDICATED_BARE_METAL`: absolute and paired claims allowed.
-- `CONTROLLED_SHARED_PAIRED`: valid isolated cgroup-v2 partition plus contamination
-  rejection; same-session paired claims only.
-- `EXPLORATORY_ONLY`: affinity/taskset without proven exclusivity; no promotion.
-
-The new protocol selects physical cores from topology, reserves SMT siblings,
-prevents nested pools, balances randomized `AB/BA` pairs, records wall time and PMU
-counters, rejects steal/thermal/migration/PSI/external-work contamination, and uses a
-paired bootstrap confidence interval. A contaminated sample is discarded, not
-explained away. A shared-host run is never described as contention-independent.
-
-## Delivery surfaces
-
-- `SPEC.json`: sole machine-readable audit, architecture, DAG, benchmark contract,
-  acceptance rules, risk register, and exact legacy lock.
-- `HANDOFF.md`: short Codex resume prompt.
-- `README.md`: this human index.
-
-Machine evidence is referenced, not reproduced. Raw logs, archive-part hashes, and
-legacy PASS matrices remain in their existing authority artifacts.
-
-## Next action
-
-Execute work item `RF-00` from `SPEC.json`: create the Rust-required backend-policy
-and packaging boundary on a fresh stacked branch, without moving numerical physics.
-Do not start subsystem ports until its API/error/no-silent-fallback contract passes.
+Execute `RF-01`: Runtime object, data model, workspace, and modular PyO3
+boundary.

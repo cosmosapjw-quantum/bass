@@ -1,0 +1,238 @@
+{
+  "schema": "bass-rf-bench-00-runner-evidence-v1",
+  "schema_version": 1,
+  "status": "RF_BENCH_00_RUNNER_VALIDATION_PASS_HOST_BLOCKED_ENVIRONMENT_DRAFT_UNMERGED",
+  "work_item": {
+    "id": "RF-BENCH-00",
+    "title": "Contention-controlled benchmark runner",
+    "gate": "RUNNER_VALIDATION_ONLY",
+    "bounded_contract_sha256": "bf2fd0db5d80147eb7f47dd369d6beec0b0a87201419adc9eef12f87e88b0916",
+    "acceptance_sha256": "d0831e22056294774ac10b878eeaa2d0a033150532c769430bbe7e9644c25523"
+  },
+  "authority": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "source_branch": "agent/architecture/rust-first-rf-bench-00-20260825-r1",
+    "base_branch": "agent/architecture/rust-first-rf00-20260824-r1",
+    "base_head": "980050fcb7cec466a94cdd0c5534254013901d51",
+    "base_tree": "c3cfb880a6222069b3eaf2525554561c0c1cb0f3",
+    "base_pr": {
+      "number": 25,
+      "state": "OPEN_DRAFT_UNMERGED",
+      "head": "980050fcb7cec466a94cdd0c5534254013901d51"
+    },
+    "spec_path": "docs/rust_first_runtime/SPEC.json",
+    "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa"
+  },
+  "delivery": {
+    "implementation_commits": [
+      "008b5258c7bd5e72812a0a44a2484877ffaca66a",
+      "ab2263b3b10eea1e9c0f9d878bccffe1549b90d6",
+      "0ec0966f03ac3293157e78c8094c1e218c687a6b"
+    ],
+    "code_head": "0ec0966f03ac3293157e78c8094c1e218c687a6b",
+    "code_tree": "9ca6c3d464c9a9053889ef21eac255aeb79ebb94",
+    "receipt_commit_binding": "COMMIT_CONTAINING_THIS_FILE; live branch and PR readback are authoritative",
+    "draft_pr": {
+      "number": 26,
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/26",
+      "base": "agent/architecture/rust-first-rf00-20260824-r1",
+      "head": "agent/architecture/rust-first-rf-bench-00-20260825-r1",
+      "required_state": "OPEN_DRAFT_UNMERGED"
+    }
+  },
+  "claim_audit": {
+    "runner_contract": {
+      "status": "VALIDATED",
+      "evidence_type": "FOCUSED_TEST_AND_INDEPENDENT_REVIEW"
+    },
+    "current_host_authority": {
+      "status": "BLOCKED_ENVIRONMENT",
+      "observed_claim_level": "EXPLORATORY_ONLY"
+    },
+    "whole_runtime_campaign": {
+      "status": "BLOCKED_BY_FUTURE_WORKLOAD_ADAPTERS"
+    },
+    "performance_result": {
+      "status": "NOT_RUN",
+      "acceptance_claim": "NONE"
+    },
+    "scientific_behavior_change": "NONE"
+  },
+  "runner_contract": {
+    "host_probe": "READ_ONLY_FAIL_CLOSED",
+    "claim_levels": [
+      "DEDICATED_BARE_METAL",
+      "CONTROLLED_SHARED_PAIRED",
+      "EXPLORATORY_ONLY"
+    ],
+    "promotion_minimum": "CONTROLLED_SHARED_PAIRED",
+    "topology_strata": [
+      "strict_1t_with_reserved_smt_siblings",
+      "physical_12t_one_logical_cpu_per_core_one_numa_with_reserved_smt_siblings"
+    ],
+    "paired_design": {
+      "schedule": "BALANCED_SEEDED_AB_BA",
+      "valid_pairs_target": 30,
+      "max_attempts": 90,
+      "steady_state_minimum_seconds": 2.0,
+      "bootstrap_replicates": 10000,
+      "candidate_visibility": "ONLY_AFTER_COMPLETE_PAIR_CONTAMINATION_PASS"
+    },
+    "privileged_host_mutation": "NONE",
+    "physics_formula_tolerance_reference_grid_seed_solver_change": "NONE"
+  },
+  "host_capability": {
+    "receipt": "raw/HOST_CAPABILITY.json",
+    "file_sha256": "d937deb8c86ec017f65adefe1496711ad594f4cf00e7c64907d5f3e9c2625827",
+    "canonical_receipt_sha256": "6352362c72031c14a947aed344dd4fcbf52348e8885aa117656816f74eee3d01",
+    "observed_claim_level": "EXPLORATORY_ONLY",
+    "authority_eligible": false,
+    "acceptance_claim_allowed": false,
+    "privileged_mutation_performed": false,
+    "blocker_count": 8,
+    "blocker_details": "SEE_RAW_RECEIPT"
+  },
+  "blocked_authority_proof": {
+    "receipt": "raw/BLOCKED_AUTHORITY_RESULT.json",
+    "file_sha256": "68f1847512acc8193f22ee748171ca6e9e23d47eddf9854ef909211cdfb50962",
+    "status": "BLOCKED_ENVIRONMENT",
+    "requested_claim_level": "CONTROLLED_SHARED_PAIRED",
+    "observed_claim_level": "EXPLORATORY_ONLY",
+    "acceptance_claim": "NONE",
+    "candidate_resolved": false,
+    "candidate_statistics_visible": false,
+    "workload_executed": false
+  },
+  "performance": {
+    "campaign": "NOT_RUN",
+    "benchmark_workload": "NOT_RUN",
+    "holdout": "NOT_RUN",
+    "acceptance_claim": "NONE",
+    "rejection_claim": "NONE",
+    "no_regression_claim": "NONE",
+    "speedup_claim": "NONE",
+    "scaling_claim": "NONE",
+    "timing_samples": [],
+    "ratios": [],
+    "confidence_intervals": []
+  },
+  "corpus": {
+    "path": "benchmarks/corpora/whole_runtime_v1.json",
+    "sha256": "e26b9cddfa1a75a0fd6561cc80ca4f6b7706c190201c36cb24a7cb564054ab13",
+    "description_receipt": "raw/CORPUS_DESCRIPTION.json",
+    "description_receipt_sha256": "317e94a3500df9f829f88bc73198aa7a0d2bc0f132fdc4e2944ce5ced7019d99",
+    "required_strata_covered": 8,
+    "workload_count": 11,
+    "executable_current_count": 2,
+    "blocked_or_partial_count": 9,
+    "campaign_eligible": false,
+    "holdout": {
+      "id": "holdout_q_saha_internal_e2e",
+      "input_identity_sha256": "5bcdb317f42dacbd41f3841f3bfef0890631081313804ba0ac9be527b052c205",
+      "default_selected": false,
+      "tuning_access": "FORBIDDEN",
+      "executed": false,
+      "expected_output_digest": "DEFERRED_TO_FIRST_AUTHORIZED_MILESTONE_CLOSEOUT"
+    }
+  },
+  "focused_proof": {
+    "receipt": "raw/rfbench00_focused_final.junit.xml",
+    "receipt_sha256": "5be63dfa8ced2b0d371068b3f6a4b7a1cef75ce255c3441e2778db03c66ecd77",
+    "source_head": "0ec0966f03ac3293157e78c8094c1e218c687a6b",
+    "selectors": [
+      "tests/test_rfbench00_host.py",
+      "tests/test_rfbench00_protocol.py",
+      "tests/test_rfbench00_corpus_runner.py"
+    ],
+    "result": "PASS",
+    "tests": 30,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 0.340,
+    "static_cli_validation": {
+      "receipt": "raw/CONFIG_VALIDATION.json",
+      "receipt_sha256": "c33f03cc8ccff7851d20f7b022000aaaf57e86d9967e306b48288b6a5dd13f12",
+      "status": "PASS_STATIC_ONLY",
+      "candidate_resolved": false,
+      "workload_executed": false
+    },
+    "full_python_collection": "NOT_RUN",
+    "remote_ci": "READ_LIVE_FROM_DRAFT_PR_26"
+  },
+  "independent_review": {
+    "receipt": "raw/REVIEW_RECEIPT.json",
+    "receipt_sha256": "af37c71c20dd1198899ee510d0b232f69f04aeaa6c21ebd9fc4d10cbe0d05b21",
+    "rounds": 1,
+    "status": "PASS_CODE_CONTRACT_ONLY",
+    "formal_review_sha256": "ce57b30915486bd297b50f9eee4a2b8e73d3c1d36511969ef01a769c7d73f922",
+    "repair_closeout_sha256": "281cafe6d2600de963d21890c5a1cf468a4962c8150dcf94bcaad603e10da764",
+    "unresolved_rf_bench_00_blockers": 0,
+    "performance_authority": "NONE"
+  },
+  "ci_contract": {
+    "workflow": ".github/workflows/rfbench00-runner.yml",
+    "workflow_sha256": "98e75cb00ba6a09af5c37b01c340e6a4b682f549b733d53ebd0d1a6df7be22ad",
+    "focused_selectors": [
+      "tests/test_rfbench00_host.py",
+      "tests/test_rfbench00_protocol.py",
+      "tests/test_rfbench00_corpus_runner.py"
+    ],
+    "static_cli_modes": [
+      "--describe-corpus",
+      "--validate-config"
+    ],
+    "executes_probe": false,
+    "executes_workload": false,
+    "executes_benchmark": false,
+    "builds_native": false,
+    "full_suite": false
+  },
+  "native_closure": {
+    "receipt": "raw/NATIVE_REUSE.json",
+    "receipt_sha256": "2c783dc7ff55679d501dd202c56a93563c9b8e8d9f79e1b09637f4dab69f0db9",
+    "decision": "REUSED_NATIVE_R3_NO_R4_RF_BENCH_00",
+    "path_predicate_result": "EMPTY",
+    "artifact_branch": "artifact/native-repro-bundle-20260824-r3",
+    "artifact_head": "3aef681d2901e77ce638be5925688929800a822a",
+    "archive_sha256": "1c45dd93b46dc43c6d8c503d3ff1034d60b36fc7aa73ebf19b40ae48b080cec9",
+    "wheel_sha256": "e050974a78e5e02dc5ce8b77aa1dff5bf2bd62d2f52cb2cdcccf8b49d57f3917",
+    "new_bundle": false,
+    "cargo_fmt_clippy_test_wheel_and_restore": "NOT_RERUN_NATIVE_INPUTS_UNCHANGED"
+  },
+  "raw_receipts": {
+    "manifest": "RAW_MANIFEST.sha256",
+    "manifest_sha256": "58c1327b28e500f847f57c659cc4fccac3d51d1232b2d670e5a1d00c76bae799",
+    "entries": 7
+  },
+  "reused_evidence": [
+    {
+      "closure": "RF-00 verified native r3 artifact and installed-payload provenance",
+      "source": "artifacts/rust_first_runtime/rf00/EVIDENCE.json",
+      "source_sha256": "7445b266ff46c5008d7f443f50c2a2d498e905163c027353c1f6a0f5dadd5960",
+      "predicate": "native build inputs, PyO3 source, ABI inputs, and installed-payload contract are unchanged"
+    }
+  ],
+  "deliberately_not_run": [
+    "any performance workload or timing campaign",
+    "the RF-00 affinity-only exploratory benchmark",
+    "the full Python collection",
+    "unchanged scientific receipts and suites",
+    "Wolfram/xAct",
+    "Cargo fmt, clippy, test, vendor, wheel, ABI, restore, and native artifact readback"
+  ],
+  "rollback": {
+    "command": "git revert 0ec0966f03ac3293157e78c8094c1e218c687a6b ab2263b3b10eea1e9c0f9d878bccffe1549b90d6 008b5258c7bd5e72812a0a44a2484877ffaca66a",
+    "boundary": "preserve PR 25 and immutable native r3 refs"
+  },
+  "next_action": {
+    "id": "RF-01",
+    "title": "Runtime object, data model, workspace, and modular PyO3 boundary"
+  },
+  "boundaries": [
+    "Keep PR 25 and PR 26 draft and unmerged",
+    "Do not make a performance acceptance, rejection, speedup, no-regression, or scaling claim",
+    "Do not run the sealed holdout during RF-BENCH-00",
+    "Do not mutate host controls or promote formula authority",
+    "Do not rerun unchanged predecessor evidence"
+  ]
+}
