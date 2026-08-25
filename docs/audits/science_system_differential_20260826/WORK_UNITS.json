@@ -1,0 +1,1774 @@
+{
+  "schema": "bass-audit-compiled-work-graph/v2",
+  "package_id": "BASS-SCIENCE-SYSTEM-DIFFERENTIAL-20260826",
+  "current_state": "CURRENT_STATE.json",
+  "exact_next_action": "RF-02C",
+  "gate_policy": {
+    "count": "NON_INCREASING",
+    "decision": "RF-02D is absorbed into RF-02C background execution boundary; SIMD/Rayon/SoA are implementation strategies or optional candidates, not mandatory micro-gates.",
+    "mandatory_runtime_path": [
+      "RF-02C",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-PERF-01",
+      "RF-FINAL"
+    ],
+    "parallel": [
+      "SCI-AUTH-04",
+      "RF-BENCH-COMP-01",
+      "WF-00",
+      "LEGACY-SEAL-00"
+    ],
+    "optional_nonblocking": [
+      "RF-GPU-00"
+    ]
+  },
+  "reuse_registry": {
+    "RF00": {
+      "source": "artifacts/rust_first_runtime/rf00/EVIDENCE.json",
+      "predicate": "policy/import/packaging/runtime-plan bytes unchanged",
+      "dependency_paths": ["bianchi/backend_policy.py", "bianchi/__init__.py", "pyproject.toml", "bootstrap.sh", ".github/workflows/rf00*.yml"]
+    },
+    "RF01": {
+      "source": "artifacts/rust_first_runtime/rf01/EVIDENCE.json",
+      "predicate": "runtime object/workspace/PyO3 substrate bytes unchanged",
+      "dependency_paths": ["_rustcore/src/runtime/**", "_rustcore/src/python/**", "bianchi/runtime/**", "bianchi/backend_policy.py"]
+    },
+    "RF02A": {
+      "source": "artifacts/rust_first_runtime/rf02a/EVIDENCE.json",
+      "sha256": "773545ed8282ab7d869702ee34801515f4b3c972597799635879b354aedcf063",
+      "predicate": "algebra/geometry detector/convention bytes unchanged",
+      "dependency_paths": ["bianchi/algebra.py", "bianchi/geometry_identity.py", "bianchi/symbolic/geometry_contract.py", "audit/r4_bianchi_constraints.py", "audit/r4_bianchi_constraints.json", "audit/manifest.json"]
+    },
+    "RF02B_POINTWISE": {
+      "source": "artifacts/rust_first_runtime/rf02b/EVIDENCE.json",
+      "sha256": "917158579bede0c2fa59a36dee7b0979c533a7b12c28b5ca66d294a317d13021",
+      "classification": "DEV_MODE_POINTWISE_CODE_CONTRACT_ONLY",
+      "predicate": "pointwise chart source/schema/oracle bytes unchanged",
+      "dependency_paths": ["_rustcore/src/ode/charts.rs", "_rustcore/src/python/**", "_rustcore/src/lib.rs", "bianchi/physical/**", "tests/rust_first_runtime/test_rf02b*"]
+    },
+    "R4_BASE": {
+      "source": "artifact/native-repro-bundle-20260825-r4@b069e46eeb649b7b33e5ca30c3508d144fcd0e2c",
+      "predicate": "dependency lock/vendor/toolchain/base-wheel bytes unchanged; not authority for RF02B routes",
+      "dependency_paths": ["_rustcore/Cargo.lock", "_rustcore/Cargo.toml", "_rustcore/.cargo/**", "_rustcore/vendor/**", "rust-toolchain*", "pyproject.toml"]
+    },
+    "R5B": {
+      "source": "PR #21 @ b810092755837ccfa96502aa7e132a50c3fcbd33",
+      "predicate": "geometry/matter/tilt/kinetic semantics unchanged",
+      "dependency_paths": ["_rustcore/src/kinetic/**", "_rustcore/src/ode/**", "bianchi/matter/**", "bianchi/tilt/**", "tests/test_r5b_tilted_hier_rust.py"]
+    },
+    "FORMULA_CORE": {
+      "source": "scoped formula-core claim policy",
+      "predicate": "formula authority bytes unchanged",
+      "dependency_paths": ["provenance/formula_core/**", "compiler/wsc*/**", "compiler/symir/**"]
+    },
+    "PR22_STATIC_REFERENCE": {
+      "source": "PR #22 @ 75f0b128634ec60b853519f9f6d530f113b54a81",
+      "classification": "STATIC_ONLY_UNPROMOTED",
+      "predicate": "candidate bytes unchanged",
+      "dependency_paths": ["wolfram/**", "compiler/wolfram/**", "artifacts/wolfram/**"]
+    },
+    "GENERATED_TYPEII": {
+      "source": "generated/rust/typeii/manifest.json and its bound validation receipts",
+      "predicate": "formula, compiler, generated Type-II and runtime specialization bytes unchanged",
+      "dependency_paths": ["provenance/formula_core/**", "compiler/**", "generated/rust/typeii/**", "runtime/rust/typeii/**"]
+    },
+    "THERMO_HISTORICAL": {
+      "source": "compiler/validation/typeii_fixture_authority.json and runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json",
+      "classification": "HISTORICAL_SURROGATE_REFERENCE_ONLY",
+      "predicate": "fixture and provenance bytes unchanged; reuse never promotes original SahaHistory authority",
+      "dependency_paths": ["compiler/validation/typeii_fixture_authority.json", "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json", "runtime/rust/typeii/tests/**"]
+    },
+    "RF_BENCH_00": {
+      "source": "artifacts/rust_first_runtime/rfbench00/EVIDENCE.json",
+      "classification": "STATIC_CODE_CONTRACT_ONLY",
+      "predicate": "benchmark runner/protocol/corpus bytes unchanged; no timing receipt is reused",
+      "dependency_paths": ["benchmarks/rust_first/**", "tests/rfbench/**", ".github/workflows/rfbench*.yml"]
+    },
+    "KATO": {
+      "source": "existing Type-II Kato runtime and scoped receipts",
+      "predicate": "Kato formulas, generated code, controller and runtime bytes unchanged",
+      "dependency_paths": ["runtime/rust/typeii/**", "generated/rust/typeii/**", "_rustcore/src/kato/**", "_rustcore/src/kinetic/**"]
+    },
+    "CONSERVATION_QUAD": {
+      "source": "compiler/validation/G_CONSERVATION_QUAD_II_RECEIPT.json",
+      "predicate": "collision, weights, nodes, route policy and acceptance semantics unchanged",
+      "dependency_paths": ["compiler/validation/G_CONSERVATION_QUAD_II_RECEIPT.json", "_rustcore/src/kinetic/**", "generated/rust/typeii/**", "bianchi/kinetic/**"]
+    },
+    "POLARIZATION": {
+      "source": "bounded Type-II polarized collision/Kato receipts",
+      "predicate": "polarization convention, collision, Kato and capability-route bytes unchanged",
+      "dependency_paths": ["_rustcore/src/polarization/**", "bianchi/polarization/**", "runtime/rust/typeii/**", "generated/rust/typeii/**"]
+    },
+    "LIOUVILLE": {
+      "source": "bounded Type-II Liouville ray receipts",
+      "predicate": "ray equations, frame convention and Type-II geometry bytes unchanged",
+      "dependency_paths": ["_rustcore/src/rays/**", "bianchi/rays/**", "runtime/rust/typeii/**"]
+    },
+    "STOKES": {
+      "source": "bounded local Stokes sign/convention receipts",
+      "predicate": "screen, basis, sign and polarization convention bytes unchanged",
+      "dependency_paths": ["_rustcore/src/polarization/**", "bianchi/polarization/**", "bianchi/conventions/**"]
+    },
+    "REMAP_B2A": {
+      "source": "bounded B2A remap core receipt",
+      "predicate": "B2A mapping, convention and route bytes unchanged; never reused as B2B/full-output authority",
+      "dependency_paths": ["bianchi/remap/**", "_rustcore/src/observables/**", "provenance/**/B2A*"]
+    },
+    "QUARANTINED_2B3_CANDIDATE": {
+      "source": "prior BASS-CLOSE quarantine evidence",
+      "classification": "QUARANTINED_NOT_FINAL",
+      "predicate": "reference identity only; never authorizes final 2B.3 completeness",
+      "dependency_paths": ["provenance/legacy/**", "artifacts/legacy/2b3/**"]
+    },
+    "R4_BASE_DELTAS": {
+      "source": "R4 base plus exact predecessor content-addressed delta manifests",
+      "predicate": "every predecessor delta manifest and restore receipt resolves with unchanged lock/vendor/toolchain base",
+      "dependency_paths_from": "each predecessor EVIDENCE.json#/native_authority and #/changed_paths"
+    },
+    "RF02C": {
+      "source": "RF-02C EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-02C declared dependency paths and scientific/native authority hashes unchanged",
+      "dependency_paths_from": "RF-02C EVIDENCE.json#/changed_paths"
+    },
+    "SCI_AUTH_04": {
+      "source": "SCI-AUTH-04 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "typed authority manifests and validator bytes unchanged",
+      "dependency_paths_from": "SCI-AUTH-04 EVIDENCE.json#/changed_paths"
+    },
+    "RF_BENCH_COMP": {
+      "source": "RF-BENCH-COMP-01 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "comparator, corpus, holdout and attestation bytes unchanged",
+      "dependency_paths_from": "RF-BENCH-COMP-01 EVIDENCE.json#/changed_paths"
+    },
+    "RF03": {
+      "source": "RF-03 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-03 declared dependency paths and authority hashes unchanged",
+      "dependency_paths_from": "RF-03 EVIDENCE.json#/changed_paths"
+    },
+    "RF04": {
+      "source": "RF-04 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-04 declared dependency paths and route/authority hashes unchanged",
+      "dependency_paths_from": "RF-04 EVIDENCE.json#/changed_paths"
+    },
+    "RF05": {
+      "source": "RF-05 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-05 declared dependency paths and capability/convention hashes unchanged",
+      "dependency_paths_from": "RF-05 EVIDENCE.json#/changed_paths"
+    },
+    "RF06": {
+      "source": "RF-06 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-06 declared dependency paths and checkpoint/output schema hashes unchanged",
+      "dependency_paths_from": "RF-06 EVIDENCE.json#/changed_paths"
+    },
+    "RF07": {
+      "source": "RF-07 EVIDENCE.json resolved from its exact terminal head",
+      "predicate": "RF-07 route inventory, ABI, scalar/SIMD and wheel manifests unchanged",
+      "dependency_paths_from": "RF-07 EVIDENCE.json#/changed_paths"
+    },
+    "RF_PERF": {
+      "source": "RF-PERF-01 EVIDENCE.json resolved from its terminal state",
+      "predicate": "candidate, comparator, corpus, host controls and raw sample digests unchanged",
+      "dependency_paths_from": "RF-PERF-01 EVIDENCE.json#/identity_closure"
+    }
+  },
+  "work_units": [
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-02C",
+      "title": "Verified background execution closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "runtime_parent_branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+        "runtime_parent_head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+        "runtime_parent_tree": "40ae99f9e7465d6332e98b65a5269a1f71eadfb5",
+        "runtime_parent_pull_request": 32,
+        "package_overlay_branch": "agent/audit/science-system-differential-20260826-r1",
+        "rule": "Resolve the live package-overlay head, verify its sole parent is runtime_parent_head and MANIFEST.sha256 passes, then branch RF-02C from that package-overlay head."
+      },
+      "dependencies": [],
+      "objective": "Make Rust own verified non-tilted scalar background execution from public typed routes through trajectories, events, transitions, histories and independent batches, without changing physics.",
+      "risk_ids": [
+        "P0-NATIVE-PROVENANCE-BINDING",
+        "P0-STATE-CONVENTION",
+        "P0-EVENT-SEMANTICS",
+        "P1-PROJECTION-POSTCONDITION",
+        "P1-COMPOSITE-RECEIPT",
+        "P1-JVP-RECEIPT",
+        "P1-PARALLEL-SEMANTICS",
+        "P1-ARTIFACT-IDENTITY"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/src/ode/**",
+          "_rustcore/src/runtime/**",
+          "_rustcore/src/python/**",
+          "_rustcore/src/lib.rs",
+          "bianchi/backend_policy.py",
+          "bianchi/q/**",
+          "bianchi/physical/**",
+          "bianchi/runtime/**",
+          "audit/manifest.json",
+          "tests/rf02c/**",
+          "tools/audit/**",
+          "tools/native/**",
+          ".github/workflows/rf02c*.yml",
+          "artifacts/rust_first_runtime/rf02c/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "semantic_path_rules": {
+          "_rustcore/src/lib.rs": "registration and import wiring only; domain adapter bodies must move to modules",
+          "bianchi/backend_policy.py": "provenance/capability binding only; no numerical formula or fallback-policy weakening",
+          "audit/manifest.json": "generated only by the deterministic composer; no hand-edited inherited results"
+        },
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "Verify exact source head/tree and RF02B EVIDENCE SHA from CURRENT_STATE.json; PR #32 stays draft/unmerged.",
+        "Demonstrate once that the RF02B delta is rejected without BASS_ALLOW_UNVERIFIED_NATIVE_DEV and accepted only with it; record as the starting RED, not as a repeated blocker.",
+        "Freeze current formulas, tolerances, references, grids, seeds, state order, public APIs and supported chart labels.",
+        "Resolve current public q.group bypass, native hash exposure, routing-threshold fingerprint and owner-string drift before solver wiring.",
+        "Move domain PyO3 adapter bodies out of lib.rs before adding trajectory APIs."
+      ],
+      "invariants": [
+        "Default verified dispatch accepts the exact new payload without a development override and rejects any tampered wheel/SO/SBOM.",
+        "Public geometry routes reject non-finite/Jacobi-invalid input and compare native convention/state/routing fingerprints.",
+        "Projection succeeds only with explicit final residual, convergence and supported physical-domain postconditions; otherwise typed failure.",
+        "RHS/JVP/constraint semantics and existing error budgets remain unchanged.",
+        "Events preserve root direction, priority, terminal/accepted-state, transition and restart semantics.",
+        "One O(1) FFI call owns each trajectory/batch; no Python inner-step callback or repeated 142-float pack.",
+        "Scalar trajectory is serial; Rayon/parallelism is only across independent members with deterministic ordering and failure isolation."
+      ],
+      "failure_modes": [
+        "Any need for development override at completion => BLOCKED_P0_NATIVE_PROVENANCE.",
+        "Any public-route hash/domain bypass => BLOCKED_P0_STATE_CONVENTION.",
+        "Projection without a mechanical postcondition => BLOCKED_P1_PROJECTION.",
+        "Event/restart mismatch or hidden member failure => BLOCKED_P0_SEMANTICS.",
+        "Formula/tolerance/reference change => STOP_SCOPE_VIOLATION.",
+        "Native-byte change without content-addressed delta and remote restore => BLOCKED_REPRODUCIBILITY."
+      ],
+      "ordered_steps": [
+        "Create the single RF-02C branch from the verified package-overlay head; record changed-path allowlist.",
+        "Bind RF02B payload fingerprints/SBOM/install manifest to verified default dispatch; add tamper negatives; persist the exact restore recipe.",
+        "Route q.group and all public geometry calls through verified typed dispatch; expose and compare convention/state/routing hashes from the binary; reject invalid inputs.",
+        "Add deterministic composite-receipt composer and content-address the prior randomized JVP detector with seed/domain/scale/threshold/log.",
+        "Add fail-closed projection and physical-domain postconditions before any integrator uses projection.",
+        "Refactor PyO3 domain adapters out of lib.rs, leaving registration only.",
+        "Implement Rust-owned integration, events, transitions, restart, geometry history and independent-batch execution with GIL released.",
+        "Create one frozen hostile corpus covering exact solutions, convergence, chart boundaries, events, restarts and 1T/NT deterministic batches.",
+        "Run only the primary detector and changed-path closure; build native delta only because native bytes changed.",
+        "Freeze implementation, perform one fresh review, repair only P0/P1 delta, push one stacked draft PR, and remote-read back exact evidence."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf02c/test_background_execution_contract.py",
+        "negative": "pytest -q tests/rf02c/test_background_execution_contract.py -k 'tamper or unverified or invalid or mutation or hostile or restart or failure_isolation'",
+        "regression": "python tools/audit/select_changed_tests.py --changed-paths artifacts/rust_first_runtime/rf02c/changed_paths.json --run",
+        "integration": "fresh no-index install without BASS_ALLOW_UNVERIFIED_NATIVE_DEV plus public typed-route and native-call closure",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "EVIDENCE.json with exact base/head/tree, changed paths, primary detector results and separate code/science/native/performance states",
+        "content-addressed R4 delta and durable restore recipe if native bytes change",
+        "randomized JVP detector source/seed/domain/scale/threshold/log digest",
+        "short HANDOFF.md and rollback commit list"
+      ],
+      "reuse_evidence_ids": [
+        "RF00",
+        "RF01",
+        "RF02A",
+        "RF02B_POINTWISE",
+        "R4_BASE",
+        "R5B"
+      ],
+      "invalidation_predicate": "Rerun a reused receipt only if changed_paths intersects its declared formula/generated/native/ABI/state/semantic dependency set.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF02C",
+        "scientific_equivalence": "PASS_SCOPED_BACKGROUND_EXECUTION",
+        "native_reproducibility": "VERIFIED_DEFAULT_DISPATCH_AND_REMOTE_RESTORE",
+        "performance_claim": "NONE",
+        "authority_promotion": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_NATIVE_PROVENANCE",
+        "BLOCKED_P0_STATE_CONVENTION",
+        "BLOCKED_P0_SEMANTICS",
+        "BLOCKED_P1_PROJECTION",
+        "BLOCKED_BY_UNRESOLVED_SPEC",
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "rollback": "Revert the RF-02C implementation/evidence commits on its stacked branch; prior draft PRs and R4 base remain untouched."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "SCI-AUTH-04",
+      "title": "Formula and thermodynamics authority normalization",
+      "kind": "parallel_authority_only",
+      "terminal_dimension": "formula_authority",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+        "head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+        "tree": "40ae99f9e7465d6332e98b65a5269a1f71eadfb5",
+        "pull_request": 32
+      },
+      "dependencies": [],
+      "objective": "Split domain-specific provenance identities and mechanically reconcile generated manifests with scoped claim policies without changing coefficients or runtime behavior.",
+      "risk_ids": [
+        "P0-FORMULA-SCOPE"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "provenance/**",
+          "generated/**/manifest*.json",
+          "compiler/validation/*authority*.json",
+          "tools/authority/**",
+          "tests/authority/**",
+          "artifacts/authority/sci_auth_04/**",
+          "docs/authority/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "Exact source identity verified.",
+        "All coefficient/source/generated-code blobs are frozen; this node may edit manifests and validators only.",
+        "Surrogate thermodynamics remains explicitly historical/reference-only."
+      ],
+      "invariants": [
+        "Background, collision, projector, Kato and thermodynamics each have typed authority IDs and included/excluded scope.",
+        "Claim policy and generated manifest cross-check fail closed.",
+        "Missing historical authority cannot be relabeled as fresh."
+      ],
+      "failure_modes": [
+        "Any coefficient/generated source change => BLOCKED_BY_UNRESOLVED_SPEC.",
+        "Any manifest whose scope exceeds claim policy => FAIL_P0_FORMULA_SCOPE."
+      ],
+      "ordered_steps": [
+        "Inventory authority labels and domains.",
+        "Define typed manifest schema.",
+        "Implement cross-manifest scope verifier and hostile overbroad-label fixtures.",
+        "Run validator only.",
+        "Fresh review and push a parallel draft PR; no promotion."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "python tools/authority/verify_formula_scope.py",
+        "negative": "pytest -q tests/authority -k 'overclaim or surrogate or missing'",
+        "regression": "changed manifest/validator tests only",
+        "integration": "CHANGED_PATH_CLOSURE_ONLY",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "typed authority map",
+        "validator result",
+        "separate unresolved authority list",
+        "short handoff"
+      ],
+      "reuse_evidence_ids": [
+        "FORMULA_CORE",
+        "GENERATED_TYPEII",
+        "THERMO_HISTORICAL"
+      ],
+      "invalidation_predicate": "No scientific receipt rerun; any formula/generated byte drift is a scope violation for this unit.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_SCI_AUTH_04_VALIDATOR",
+        "formula_authority": "TYPED_BUT_NOT_AUTO_PROMOTED",
+        "scientific_equivalence": "UNCHANGED",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_BY_UNRESOLVED_SPEC",
+        "BLOCKED_P0_FORMULA_SCOPE"
+      ],
+      "rollback": "Revert authority-only commit; no runtime/native artifact changes."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-BENCH-COMP-01",
+      "title": "Science comparator and benchmark attestation repair",
+      "kind": "parallel_no_timing",
+      "terminal_dimension": "performance_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+        "head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+        "tree": "40ae99f9e7465d6332e98b65a5269a1f71eadfb5",
+        "pull_request": 32
+      },
+      "dependencies": [],
+      "objective": "Replace exact executable digest acceptance with a pre-frozen scale-aware scientific comparator and trustworthy host-attestation contract; do not run performance workloads.",
+      "risk_ids": [
+        "P0-BENCH-COMPARATOR",
+        "P1-BENCH-ATTESTATION"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "benchmarks/rust_first/**",
+          "tests/rfbench/**",
+          ".github/workflows/rfbench*.yml",
+          "artifacts/rust_first_runtime/rfbench_comp_01/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "No timing candidate or result is visible to comparator design.",
+        "R5b operator/state/independent-science hierarchy is the acceptance model.",
+        "Current performance state remains NONE/EXPLORATORY_ONLY."
+      ],
+      "invariants": [
+        "Comparator separately evaluates operator/state/residual/invariant/scientific accuracy with scale-aware mixed bounds.",
+        "Reference, comparator, corpus and holdout identities freeze before candidate tuning.",
+        "Candidate-controlled self-attestation cannot create a dedicated-host claim.",
+        "Legitimate low-bit SIMD/parallel differences may pass science equivalence; meaningful mutations fail."
+      ],
+      "failure_modes": [
+        "Any timing workload => STOP_SCOPE_VIOLATION.",
+        "Exact digest retained as science equivalence => FAIL_P0_COMPARATOR.",
+        "Holdout leak or self-attestation => FAIL_P1_ATTESTATION."
+      ],
+      "ordered_steps": [
+        "Specify metrics and numerical budgets from existing contracts, without weakening tolerances.",
+        "Implement comparator, mutation corpus and holdout separation.",
+        "Implement host claim-level verifier.",
+        "Freeze comparator/reference/corpus identities.",
+        "Run static/focused tests only; fresh review; push draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rfbench/test_science_comparator_contract.py",
+        "negative": "pytest -q tests/rfbench -k 'mutation or holdout or self_attestation or low_bit'",
+        "regression": "RF-BENCH runner static selectors only",
+        "integration": "CHANGED_PATH_CLOSURE_ONLY",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "frozen comparator/reference/corpus/holdout identities",
+        "mutation sensitivity receipt",
+        "attestation schema",
+        "explicit NO_TIMING_RUN"
+      ],
+      "reuse_evidence_ids": [
+        "R5B",
+        "RF_BENCH_00"
+      ],
+      "invalidation_predicate": "R5b reruns only if comparator semantics or its underlying operator/state/science bytes change.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_COMPARATOR_AND_ATTESTATION",
+        "performance_claim": "NONE",
+        "timing": "NOT_RUN"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_COMPARATOR",
+        "BLOCKED_P1_ATTESTATION",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert comparator-contract commit; no performance result exists."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-03",
+      "title": "Matter, thermodynamics and tilted safety closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-02C evidence; refuse any other base.",
+        "predecessor": "RF-02C"
+      },
+      "dependencies": [
+        "RF-02C"
+      ],
+      "objective": "Move supported matter/thermodynamics/tilted execution into Rust with stable physical-domain handling and sealed capability authority.",
+      "risk_ids": [
+        "P0-ELECTRON-DOMAIN-CERTIFICATE",
+        "P0-THERMODYNAMICS-SURROGATE"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/src/matter/**",
+          "_rustcore/src/thermo/**",
+          "_rustcore/src/tilt/**",
+          "bianchi/matter/**",
+          "bianchi/thermo/**",
+          "bianchi/tilt/**",
+          "tests/rf03/**",
+          ".github/workflows/rf03*.yml",
+          "artifacts/rust_first_runtime/rf03/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-02C verified default dispatch and trajectory closure PASS.",
+        "Thermodynamics model/authority ID resolved or unit stops before production claim.",
+        "R5b dependency-byte invalidation predicate evaluated."
+      ],
+      "invariants": [
+        "Near-null Lorentz operations are conditioned and fail closed outside the physical domain.",
+        "ColdThomsonCertificate cannot be publicly forged.",
+        "Actual thermodynamics and surrogate opacity have distinct typed authorities.",
+        "R5b uses operator/state/independent-science parity; no relative error-of-error comparator.",
+        "Python has no production inner loop or callback."
+      ],
+      "failure_modes": [
+        "Unknown thermodynamics model => BLOCKED_BY_UNRESOLVED_SPEC.",
+        "Domain crossing or forgeable certificate => BLOCKED_P0.",
+        "Silent surrogate substitution => BLOCKED_P0."
+      ],
+      "ordered_steps": [
+        "Freeze matter/thermo public contracts and corpora.",
+        "Implement hostile Lorentz/certificate RED tests.",
+        "Define typed thermodynamics authority and forbid surrogate substitution.",
+        "Move supported execution to Rust with modular PyO3 adapters.",
+        "Run changed-path/R5b closure only if invalidated.",
+        "Build content-addressed native delta, fresh review and draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf03/test_matter_thermo_tilt_contract.py",
+        "negative": "pytest -q tests/rf03 -k 'near_null or certificate or surrogate or invalid'",
+        "regression": "R5b 34-case selector only if dependency bytes changed",
+        "integration": "fresh no-index verified native call",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "domain/certificate receipt",
+        "thermodynamics authority map",
+        "changed-path invalidation decision",
+        "native delta if changed"
+      ],
+      "reuse_evidence_ids": [
+        "RF02C",
+        "R5B",
+        "THERMO_HISTORICAL"
+      ],
+      "invalidation_predicate": "R5b reruns only on geometry/matter/tilt/kinetic dependency drift; historical thermo is never upgraded by reuse.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF03",
+        "scientific_equivalence": "PASS_SCOPED_MATTER_TILT",
+        "thermodynamics_authority": "EXPLICIT_ACTUAL_OR_EXPLICIT_REFERENCE_ONLY",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_DOMAIN",
+        "BLOCKED_P0_CERTIFICATE",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert RF-03 commits and delta; RF-02C remains authority."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-04",
+      "title": "Kinetic, collision, Kato, quadrature and polarization closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-03 evidence; refuse any other base.",
+        "predecessor": "RF-03"
+      },
+      "dependencies": [
+        "RF-03",
+        "SCI-AUTH-04"
+      ],
+      "objective": "Move supported kinetic execution to modular Rust while preserving route-specific invariants and accurately scoped numerical certificates.",
+      "risk_ids": [
+        "P0-RATE-DUAL",
+        "P1-QUAD-ROUTE-SCOPE",
+        "P1-KRYLOV-CERT-SCOPE"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/src/kinetic/**",
+          "_rustcore/src/collision/**",
+          "_rustcore/src/kato/**",
+          "_rustcore/src/polarization/**",
+          "bianchi/kinetic/**",
+          "bianchi/polarization/**",
+          "tests/rf04/**",
+          ".github/workflows/rf04*.yml",
+          "artifacts/rust_first_runtime/rf04/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-03 PASS.",
+        "SCI-AUTH-04 typed manifests PASS without coefficient changes.",
+        "Actual versus surrogate thermodynamics state is explicit."
+      ],
+      "invariants": [
+        "Direction-dependent rate preserves the right kernel and the inverse-transpose transformed left invariant.",
+        "P^2=P and moving-equilibrium connection/commutator identities hold.",
+        "Conservation, positivity and equilibrium-null claims are route-specific.",
+        "Fixed-grid and paired/AP-corrected quadrature capabilities are distinct.",
+        "Krylov certificate is explicitly projected-residual scoped and handles hostile non-normal corpus.",
+        "I/Q/U/V capability is explicit and unsupported lanes fail closed."
+      ],
+      "failure_modes": [
+        "Rate-dual mutation survives => BLOCKED_P0.",
+        "Quadrature route conflation => BLOCKED_P1.",
+        "Global forward-error overclaim => BLOCKED_P1.",
+        "Surrogate used as production thermodynamics => BLOCKED_P0."
+      ],
+      "ordered_steps": [
+        "Freeze route matrix and existing scientific contracts.",
+        "Create paired-invariant/quadrature/certificate mutation corpus.",
+        "Move matrix-free collision, exponential/phi actions, Kato and supported polarization paths to modular Rust.",
+        "Use SoA/vectorizable layout and parallelize independent angular/batch work only; preserve scalar portable route and no fast-math.",
+        "Run changed-path closure; native delta; fresh review; draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf04/test_kinetic_contract.py",
+        "negative": "pytest -q tests/rf04 -k 'mutation or nonnormal or unsupported or fixed_grid'",
+        "regression": "existing Type-II/Kato/conservation/quadrature/polarized selectors only when invalidated",
+        "integration": "fresh verified trajectory/batch native call",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "route capability matrix",
+        "invariant/certificate receipts",
+        "invalidation map",
+        "native delta"
+      ],
+      "reuse_evidence_ids": [
+        "RF03",
+        "GENERATED_TYPEII",
+        "KATO",
+        "CONSERVATION_QUAD",
+        "POLARIZATION"
+      ],
+      "invalidation_predicate": "Rerun only receipts whose formula/generated/runtime/route bytes changed.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF04",
+        "scientific_equivalence": "PASS_SCOPED_KINETIC_ROUTES",
+        "formula_authority": "UNCHANGED_TYPED",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_RATE_DUAL",
+        "BLOCKED_P1_QUAD_ROUTE",
+        "BLOCKED_P1_CERT_SCOPE",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert RF-04 commits/delta; prior scientific receipts remain referenced."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-05",
+      "title": "Rays, optics, remapping and observable capability closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-04 evidence; refuse any other base.",
+        "predecessor": "RF-04"
+      },
+      "dependencies": [
+        "RF-04"
+      ],
+      "objective": "Move supported ray/optical/remapping/observable execution to Rust and expose an exact fail-closed capability matrix.",
+      "risk_ids": [
+        "P0-OUTPUT-OVERCLAIM"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/src/rays/**",
+          "_rustcore/src/optics/**",
+          "_rustcore/src/observables/**",
+          "bianchi/rays/**",
+          "bianchi/observables/**",
+          "bianchi/remap/**",
+          "tests/rf05/**",
+          ".github/workflows/rf05*.yml",
+          "artifacts/rust_first_runtime/rf05/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-04 PASS.",
+        "Observer/frame/global-tilt/local-boost conventions frozen.",
+        "Existing Liouville, Stokes and B2A receipts classified by exact scope."
+      ],
+      "invariants": [
+        "Ray and optical exact/differential corpora remain acceptable.",
+        "Frame and boost roundtrips are explicit.",
+        "Deterministic anisotropy is not narrated as a stochastic signal.",
+        "T/Q/U/V, alm, E/B, spectra, covariance and likelihood capability is route-explicit; absent routes return typed errors."
+      ],
+      "failure_modes": [
+        "Unsupported output fabricated or silently zeroed => BLOCKED_P0.",
+        "Convention drift => BLOCKED_BY_UNRESOLVED_SPEC.",
+        "B2A evidence relabeled as B2B/full output => BLOCKED_P0."
+      ],
+      "ordered_steps": [
+        "Freeze capability matrix.",
+        "Create unsupported-output and convention mutation tests.",
+        "Move supported routes to Rust using batched layouts; keep Python as API/config/oracle.",
+        "Run changed-path closure; native delta; fresh review; draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf05/test_ray_observable_contract.py",
+        "negative": "pytest -q tests/rf05 -k 'unsupported or convention or mutation or roundtrip'",
+        "regression": "Liouville/Stokes/remap selectors only if invalidated",
+        "integration": "verified native supported and unsupported-route calls",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "capability matrix",
+        "route/convention receipts",
+        "invalidation map",
+        "native delta"
+      ],
+      "reuse_evidence_ids": [
+        "RF04",
+        "LIOUVILLE",
+        "STOKES",
+        "REMAP_B2A"
+      ],
+      "invalidation_predicate": "Rerun a bounded route receipt only when its implementation/convention bytes change.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF05",
+        "scientific_equivalence": "PASS_SUPPORTED_RAY_OUTPUT_ROUTES",
+        "full_map_claim": "ONLY_IF_CAPABILITY_MATRIX_PROVES_IT",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_OUTPUT_OVERCLAIM",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert RF-05 commits/delta; no absent capability is promoted."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-06",
+      "title": "Ensemble, checkpoint and output firewall closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-05 evidence; refuse any other base.",
+        "predecessor": "RF-05"
+      },
+      "dependencies": [
+        "RF-05"
+      ],
+      "objective": "Provide deterministic bounded-memory ensembles, versioned checkpoints and strict data/inference firewalls.",
+      "risk_ids": [
+        "P1-CHECKPOINT"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/src/ensemble/**",
+          "_rustcore/src/checkpoint/**",
+          "_rustcore/src/output/**",
+          "bianchi/ensemble/**",
+          "bianchi/checkpoint/**",
+          "bianchi/output/**",
+          "tests/rf06/**",
+          ".github/workflows/rf06*.yml",
+          "artifacts/rust_first_runtime/rf06/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-05 PASS.",
+        "Capability matrix frozen.",
+        "Checkpoint schema version and code/formula/config identity fields specified."
+      ],
+      "invariants": [
+        "Scheduling-independent stable ordering and per-member failure isolation.",
+        "Bounded memory with no hidden Python numerical callback.",
+        "Restart equivalence and rejection of corrupt/mismatched code/formula/config/convention.",
+        "Fitting/inference entrypoints reject absent data, covariance or convention receipts."
+      ],
+      "failure_modes": [
+        "Mismatch accepted => BLOCKED_P1_CHECKPOINT.",
+        "Failure hidden or ordering nondeterministic => BLOCKED_P1.",
+        "Inference without receipts => BLOCKED_P0."
+      ],
+      "ordered_steps": [
+        "Freeze ensemble/checkpoint/output contract.",
+        "Create corruption/mismatch/failure-isolation corpus.",
+        "Implement Rust execution and versioned checkpoint.",
+        "Wire strict Python frontend/firewall.",
+        "Run changed-path closure; native delta; fresh review; draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf06/test_ensemble_checkpoint_contract.py",
+        "negative": "pytest -q tests/rf06 -k 'corrupt or mismatch or failure or unsupported'",
+        "regression": "supported RF05 routes only when invalidated",
+        "integration": "restart equivalence and bounded-memory integration",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "checkpoint schema/receipts",
+        "failure-isolation receipt",
+        "capability firewall result",
+        "native delta"
+      ],
+      "reuse_evidence_ids": [
+        "RF05"
+      ],
+      "invalidation_predicate": "RF05 receipts rerun only if route output semantics change.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF06",
+        "checkpoint": "PASS_VERSIONED_RESTART",
+        "inference_firewall": "PASS_FAIL_CLOSED",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P1_CHECKPOINT",
+        "BLOCKED_P0_OUTPUT_OVERCLAIM"
+      ],
+      "rollback": "Revert RF-06 commits/delta; prior runtime remains usable."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-07",
+      "title": "Global Rust-default cutover and portability closure",
+      "kind": "mandatory",
+      "terminal_dimension": "code_contract",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-06 evidence; refuse any other base.",
+        "predecessor": "RF-06"
+      },
+      "dependencies": [
+        "RF-06"
+      ],
+      "objective": "Make Rust the default for every declared supported public numerical route, leaving Python as frontend and explicit oracle only.",
+      "risk_ids": [
+        "P0-SILENT-FALLBACK",
+        "P1-ABI-PORTABILITY",
+        "P1-SIMD-PORTABILITY"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "_rustcore/**",
+          "bianchi/**",
+          "pyproject.toml",
+          "bootstrap.sh",
+          ".github/workflows/rf07*.yml",
+          "tests/rf07/**",
+          "tools/release/**",
+          "artifacts/rust_first_runtime/rf07/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-06 PASS.",
+        "Supported public route inventory and platform/ABI scope frozen.",
+        "All earlier native deltas compose cleanly."
+      ],
+      "invariants": [
+        "Every supported production numerical route is Rust-owned.",
+        "No silent Python fallback, inner numerical loop or callback.",
+        "Unsupported routes return typed errors.",
+        "Portable scalar path works; SIMD dispatch is runtime-safe with forced scalar differential.",
+        "Wheel/ABI capability matrix matches published install declarations."
+      ],
+      "failure_modes": [
+        "Any silent fallback or Python inner loop => BLOCKED_P0.",
+        "Declared platform without verified wheel/scalar path => BLOCKED_P1.",
+        "Fast-math or unsupported-CPU crash => BLOCKED_P1."
+      ],
+      "ordered_steps": [
+        "Generate public route/call-graph inventory.",
+        "Create fallback/callback tracer and portability negatives.",
+        "Complete cutover and modularize remaining bindings.",
+        "Verify scalar and dispatched paths; no timing claim.",
+        "Build composite native delta, fresh review, draft PR."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rf07/test_rust_default_cutover.py",
+        "negative": "pytest -q tests/rf07 -k 'fallback or callback or unsupported_cpu or abi'",
+        "regression": "changed public-route closure only",
+        "integration": "fresh minimal/no-index install across the declared capability matrix",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "public route ownership map",
+        "call-graph trace",
+        "wheel/ABI/SIMD capability matrix",
+        "native delta"
+      ],
+      "reuse_evidence_ids": [
+        "RF06",
+        "R4_BASE_DELTAS"
+      ],
+      "invalidation_predicate": "Only changed public routes and platform artifacts invalidate earlier receipts.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_RF07",
+        "rust_default": "PASS_SUPPORTED_ROUTES",
+        "portability": "PASS_DECLARED_MATRIX",
+        "performance_claim": "NONE"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0_SILENT_FALLBACK",
+        "BLOCKED_P1_PORTABILITY",
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "rollback": "Revert RF-07 cutover commits/delta; Python oracle routes remain explicit."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-PERF-01",
+      "title": "Controlled end-to-end performance acceptance",
+      "kind": "mandatory",
+      "terminal_dimension": "performance_claim",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-07 evidence; refuse any other base.",
+        "predecessor": "RF-07"
+      },
+      "dependencies": [
+        "RF-07",
+        "RF-BENCH-COMP-01"
+      ],
+      "objective": "Measure end-to-end 1T/12T and optional vector/parallel candidates with causal host controls, without allowing environment noise or speed to override science.",
+      "risk_ids": [
+      ],
+      "scope": {
+        "allowed_paths": [
+          "benchmarks/rust_first/**",
+          "artifacts/performance/rfperf01/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, formula-authority promotion or publication claim; a benchmark claim is allowed only at the host level mechanically accepted by this unit",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-07 PASS.",
+        "Comparator/reference/corpus/holdout identities pre-frozen by RF-BENCH-COMP-01.",
+        "Candidate frozen before holdout reveal.",
+        "Host claim level independently verified."
+      ],
+      "invariants": [
+        "Science comparator passes before timing.",
+        "Dedicated host permits authoritative absolute claim; controlled shared host permits paired causal claim only; otherwise EXPLORATORY_ONLY.",
+        "AB/BA pairing, cpuset/cgroup, PSI, frequency, thermal, IRQ and steal metadata recorded.",
+        "Cold/warm compile, transfer, synchronization and return costs are included where applicable."
+      ],
+      "failure_modes": [
+        "Ineligible host => BLOCKED_ENVIRONMENT, not code failure.",
+        "Comparator failure => REJECT_CANDIDATE.",
+        "Missing attestation => EXPLORATORY_ONLY.",
+        "Speedup below frozen gate => REJECT_CANDIDATE without retry theatre."
+      ],
+      "ordered_steps": [
+        "Verify frozen identities and host level.",
+        "Run science comparator once.",
+        "Run recorded AB/BA paired 1T/12T workload once with predefined repeats.",
+        "Apply bootstrap/CI gate and classify claim level.",
+        "Do not retune/retry unchanged candidate; write machine evidence and short result."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "python benchmarks/rust_first/run_controlled.py --frozen-spec artifacts/performance/rfperf01/SPEC.json",
+        "negative": "python benchmarks/rust_first/verify_attestation.py --evidence artifacts/performance/rfperf01/EVIDENCE.json",
+        "regression": "science comparator before timing",
+        "integration": "AB/BA paired workload",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "environment/attestation metadata",
+        "raw samples and analysis digest",
+        "comparator result",
+        "claim classification"
+      ],
+      "reuse_evidence_ids": [
+        "RF07",
+        "RF_BENCH_COMP"
+      ],
+      "invalidation_predicate": "Any candidate/comparator/reference/corpus/host-control change invalidates the timing claim.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "performance_contract": "PASS",
+        "performance_claim": "ACCEPTED_AT_RECORDED_HOST_LEVEL_OR_EXPLORATORY_ONLY",
+        "code_contract": "UNCHANGED"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_ENVIRONMENT",
+        "REJECT_CANDIDATE",
+        "BLOCKED_P0_COMPARATOR"
+      ],
+      "rollback": "Performance evidence can be reverted independently; runtime code is unchanged."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "WF-00",
+      "title": "Pinned Wolfram/xAct generic-generator candidate",
+      "kind": "parallel_optional_authority",
+      "terminal_dimension": "formula_authority",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+        "head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+        "tree": "40ae99f9e7465d6332e98b65a5269a1f71eadfb5",
+        "pull_request": 32
+      },
+      "dependencies": [],
+      "objective": "Evaluate the type-ignorant Lie-algebra-driven generator under an exact Wolfram/xAct engine receipt without blocking the Rust runtime critical path.",
+      "risk_ids": [
+        "P0-WOLFRAM-PROMOTION"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "wolfram/**",
+          "compiler/wolfram/**",
+          "tools/authority/verify_wolfram_receipt.py",
+          "tests/wolfram/**",
+          "artifacts/wolfram/wf00/**",
+          "docs/authority/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "Exact PR #22 candidate bytes resolved.",
+        "Pinned Wolfram engine and xAct identities available; otherwise stop unresolved.",
+        "Human formula-authority promotion is explicitly separate."
+      ],
+      "invariants": [
+        "Lie algebra/group/generator input deterministically produces scoped formulas/SymIR fingerprints.",
+        "Jacobi/convention checks precede generation.",
+        "Property/parameter fixtures supplement fixed examples.",
+        "Generated Rust differentially matches scoped formulas.",
+        "No static packet is promoted as engine execution."
+      ],
+      "failure_modes": [
+        "No engine or byte mismatch => UNRESOLVED_UNPROMOTED.",
+        "Nondeterminism or failed differential => REJECT_CANDIDATE.",
+        "No human decision => remains Candidate."
+      ],
+      "ordered_steps": [
+        "Resolve exact candidate and engine identities.",
+        "Run one pinned headless generation packet.",
+        "Verify receipt, properties and generated-Rust differential.",
+        "Optimize Wolfram only by sparse components, memoization and staged canonicalization with deterministic fingerprints.",
+        "Fresh review; push reference draft; request explicit human promotion separately."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "python tools/authority/verify_wolfram_receipt.py artifacts/wolfram/wf00/RECEIPT.json",
+        "negative": "pytest -q tests/wolfram -k 'jacobi or mutation or nondeterminism or scope'",
+        "regression": "candidate-specific static/self-check plus exact engine receipt",
+        "integration": "generated-Rust differential",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "exact engine/xAct/candidate identities",
+        "formula/SymIR fingerprints",
+        "property fixture results",
+        "explicit unpromoted status"
+      ],
+      "reuse_evidence_ids": [
+        "PR22_STATIC_REFERENCE"
+      ],
+      "invalidation_predicate": "Engine/candidate/xAct bytes or generator semantics change requires a new exact receipt.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_WF00_CANDIDATE",
+        "formula_authority": "CANDIDATE_PENDING_HUMAN_PROMOTION",
+        "runtime_blocking": false
+      },
+      "blocked_outcomes": [
+        "UNRESOLVED_UNPROMOTED",
+        "REJECT_CANDIDATE",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert candidate/reference commit; runtime DAG unaffected."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "LEGACY-SEAL-00",
+      "title": "Final 2B.3 legacy authority seal",
+      "kind": "parallel_blocked_input",
+      "terminal_dimension": "legacy_backup_completeness",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "branch": "agent/architecture/rust-first-rf02b-20260826-r1",
+        "head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+        "tree": "40ae99f9e7465d6332e98b65a5269a1f71eadfb5",
+        "pull_request": 32
+      },
+      "dependencies": [],
+      "objective": "Close legacy backup identity only from exact final bytes or a complete frozen rebuild corpus.",
+      "risk_ids": [
+        "P0-BASS-CLOSE-IDENTITY"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "provenance/legacy/**",
+          "tools/authority/verify_legacy_seal.py",
+          "tests/authority/test_legacy_seal.py",
+          "artifacts/legacy/2b3/**",
+          "docs/authority/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "Exact declared final archive is supplied, or PI approves a fully specified frozen rebuild corpus.",
+        "Expected identity is immutable."
+      ],
+      "invariants": [
+        "No smaller/earlier candidate is relabeled final.",
+        "Expected hash is never edited to match available input.",
+        "Runtime completion and legacy completeness remain separate dimensions."
+      ],
+      "failure_modes": [
+        "Input absent => BLOCKED_INPUT_REQUIRED.",
+        "Identity mismatch => QUARANTINE_MISMATCH.",
+        "Reconstruction incomplete => BLOCKED_INPUT_REQUIRED."
+      ],
+      "ordered_steps": [
+        "Verify input identity before extraction.",
+        "Reconstruct/compare frozen corpus.",
+        "Run legacy seal verifier.",
+        "Fresh review; record only the resulting completeness state."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "python tools/authority/verify_legacy_seal.py INPUT_MANIFEST.json",
+        "negative": "pytest -q tests/authority/test_legacy_seal.py -k 'mismatch or relabel or missing'",
+        "regression": "identity checks only",
+        "integration": "CHANGED_PATH_CLOSURE_ONLY",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "input identity",
+        "rebuild manifest if used",
+        "seal verdict"
+      ],
+      "reuse_evidence_ids": [
+        "QUARANTINED_2B3_CANDIDATE"
+      ],
+      "invalidation_predicate": "Any input/corpus/expected-identity change requires explicit human authority; never auto-update.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "legacy_backup_completeness": "PASS_EXACT_OR_APPROVED_FROZEN_REBUILD",
+        "runtime_code": "UNCHANGED"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_INPUT_REQUIRED",
+        "QUARANTINE_MISMATCH"
+      ],
+      "rollback": "Remove only new seal metadata; quarantined input remains untouched."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-GPU-00",
+      "title": "Optional GPU batch acceleration",
+      "kind": "optional_nonblocking",
+      "terminal_dimension": "optional_performance",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-05 evidence; refuse any other base.",
+        "predecessor": "RF-05"
+      },
+      "dependencies": [
+        "RF-04",
+        "RF-05",
+        "RF-BENCH-COMP-01"
+      ],
+      "objective": "Evaluate large-batch JAX/PyTorch or custom CUDA acceleration only where transfer-inclusive f64 execution is advantageous, retaining CPU Rust authority.",
+      "risk_ids": [
+        "P1-GPU-AUTHORITY"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "gpu/**",
+          "bianchi/gpu/**",
+          "tests/rfgpu/**",
+          "benchmarks/rust_first/gpu/**",
+          "artifacts/performance/rfgpu00/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "CPU RF-04/RF-05 scientific routes PASS.",
+        "Comparator frozen.",
+        "GPU route explicitly selected; CPU remains default authority."
+      ],
+      "invariants": [
+        "f64 differential proof passes.",
+        "Cold/warm compile, transfer, sync and return included.",
+        "No implicit GPU fallback or authority promotion.",
+        "Framework lane evaluated before custom CUDA unless profiling proves need."
+      ],
+      "failure_modes": [
+        "No eligible GPU => NOT_ATTEMPTED_NONBLOCKING.",
+        "Science mismatch => REJECT_CANDIDATE.",
+        "Transfer-inclusive regression => REJECT_CANDIDATE."
+      ],
+      "ordered_steps": [
+        "Select only large-batch candidates from architecture evidence.",
+        "Implement explicit optional framework route.",
+        "Run f64 comparator and transfer-inclusive controlled measurement if eligible.",
+        "Consider custom CUDA only after a profiled framework limitation.",
+        "Record optional capability; do not block CPU closure."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "pytest -q tests/rfgpu/test_optional_gpu_contract.py",
+        "negative": "pytest -q tests/rfgpu -k 'implicit or mismatch or fallback'",
+        "regression": "CPU authority route",
+        "integration": "transfer-inclusive optional path",
+        "full_suite": "NOT_RUN",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "explicit selection policy",
+        "f64 differential",
+        "transfer-inclusive samples if eligible",
+        "nonblocking classification"
+      ],
+      "reuse_evidence_ids": [
+        "RF04",
+        "RF05",
+        "RF_BENCH_COMP"
+      ],
+      "invalidation_predicate": "GPU evidence never invalidates CPU authority; GPU code/hardware/framework drift invalidates only GPU claim.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "gpu_capability": "OPTIONAL_ACCEPTED_OR_NOT_ATTEMPTED",
+        "cpu_authority": "RETAINED"
+      },
+      "blocked_outcomes": [
+        "NOT_ATTEMPTED_NONBLOCKING",
+        "REJECT_CANDIDATE",
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "rollback": "Remove optional GPU route/evidence; CPU path unchanged."
+    },
+    {
+      "schema": "audit-compiled-work-unit/v1",
+      "id": "RF-FINAL",
+      "title": "One final differential/composite closure",
+      "kind": "mandatory",
+      "terminal_dimension": "multi_dimension_closeout",
+      "authority_and_base": {
+        "repository": "cosmosapjw-quantum/bass",
+        "rule": "Resolve exact clean draft head/tree from RF-07 evidence; refuse any other base.",
+        "predecessor": "RF-07"
+      },
+      "dependencies": [
+        "RF-07",
+        "RF-PERF-01"
+      ],
+      "objective": "Perform one composite verification of changed runtime domains and report independent code, science, authority, native, performance and legacy states.",
+      "risk_ids": [
+        "P0-CURRENT-STATE"
+      ],
+      "scope": {
+        "allowed_paths": [
+          "tests/final/**",
+          "tools/audit/**",
+          "tools/native/**",
+          ".github/workflows/rf-final*.yml",
+          "artifacts/rust_first_runtime/final/**",
+          "docs/rust_first_runtime/**"
+        ],
+        "forbidden_paths": [
+          "all paths outside allowed_paths"
+        ],
+        "forbidden_semantic_changes": [
+          "no tolerance, reference, grid, seed, equation coefficient, sign convention, formula-authority or scientific-claim change unless the work unit explicitly owns an authority-only manifest repair",
+          "no silent Python fallback and no hidden test failure",
+          "no merge, ready transition, authority promotion, benchmark claim or publication claim",
+          "no inherited PASS rerun unless a recorded invalidation predicate is true",
+          "no full-suite reassurance run before RF-FINAL"
+        ]
+      },
+      "preconditions": [
+        "RF-07 complete.",
+        "RF-PERF-01 terminal state recorded even if BLOCKED_ENVIRONMENT/REJECT_CANDIDATE.",
+        "Optional WF-00/GPU and blocked LEGACY states are read, not silently promoted."
+      ],
+      "invariants": [
+        "Exactly one full composite verification.",
+        "Final native bundle reconstructs from base+deltas and fresh remote restore.",
+        "All claim dimensions remain separate.",
+        "One fresh-context review and one short handoff.",
+        "Machine evidence referenced, not duplicated."
+      ],
+      "failure_modes": [
+        "Cross-domain failure => repair affected domain only and rerun final once.",
+        "Restore mismatch => BLOCKED_REPRODUCIBILITY.",
+        "Any overpromotion => BLOCKED_P0.",
+        "Legacy/performance environment blockers do not masquerade as code failure or PASS."
+      ],
+      "ordered_steps": [
+        "Resolve all exact predecessor heads and manifests.",
+        "Generate changed-domain selector inventory and run one final composite closure.",
+        "Assemble one immutable final native bundle and remote restore.",
+        "Run one final differential audit against this package, one fresh review and rollback proof.",
+        "Push final draft PR and concise handoff; do not merge or promote without explicit approval."
+      ],
+      "verification": {
+        "detector_status": "MUST_CREATE_OR_VERIFY_THEN_RUN_IN_THIS_UNIT",
+        "primary": "python tools/audit/run_final_composite.py --spec docs/audits/science_system_differential_20260826/WORK_UNITS.json",
+        "negative": "pytest -q tests/final -k 'overclaim or mismatch or fallback'",
+        "regression": "one cross-domain selector set",
+        "integration": "fresh remote native restore",
+        "full_suite": "ONE_FINAL_COMPOSITE_ONLY",
+        "unchanged_receipts": "REUSE_BY_HASH_AND_INVALIDATION_PREDICATE"
+      },
+      "evidence_requirements": [
+        "single EVIDENCE.json",
+        "final native manifest",
+        "review verdict",
+        "rollback proof",
+        "short HANDOFF.md"
+      ],
+      "reuse_evidence_ids": [
+        "RF02C",
+        "SCI_AUTH_04",
+        "RF_BENCH_COMP",
+        "RF03",
+        "RF04",
+        "RF05",
+        "RF06",
+        "RF07",
+        "RF_PERF"
+      ],
+      "invalidation_predicate": "Final rerun only after an actual P0/P1 repair delta; no unchanged reassurance retry.",
+      "agent_policy": {
+        "execution": "Follow ordered_steps; do not start a successor or optional lane.",
+        "ambiguity": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "questions": "Do not ask for preferences already fixed by this package. Ask only when an external input or scientific authority decision is truly required.",
+        "reporting": "Reference machine evidence; do not reproduce manifest rows, hashes, command transcripts or the handoff recursively.",
+        "review": "One independent fresh-context review after implementation freeze. Re-review only the repaired P0/P1 delta.",
+        "commits": "One reviewable implementation commit plus at most one evidence/closeout repair commit; use content-addressed native delta when native bytes change."
+      },
+      "review_gate": {
+        "timing": "AFTER_IMPLEMENTATION_FREEZE_BEFORE_PUSH",
+        "mode": "READ_ONLY_FRESH_CONTEXT",
+        "required_verdicts": [
+          "PASS",
+          "PASS_WITH_NONBLOCKING_FINDINGS",
+          "BLOCKED_P0_P1"
+        ],
+        "repair_rule": "Repair only verified P0/P1 findings, rerun affected closure, then one differential re-review.",
+        "forbidden": "No serial review theatre and no duplicate whole-project audit."
+      },
+      "success_state": {
+        "code_contract": "PASS_OR_EXPLICIT_BLOCKER",
+        "scientific_equivalence": "PASS_SCOPED_OR_EXPLICIT_BLOCKER",
+        "formula_authority": "SEPARATE",
+        "native_reproducibility": "SEPARATE",
+        "performance_claim": "SEPARATE",
+        "legacy_backup_completeness": "SEPARATE",
+        "production_readiness": "EXPLICIT_NOT_INFERRED"
+      },
+      "blocked_outcomes": [
+        "BLOCKED_P0",
+        "BLOCKED_REPRODUCIBILITY",
+        "BLOCKED_BY_UNRESOLVED_SPEC"
+      ],
+      "rollback": "Revert final evidence/packaging commit; domain branches remain independently reviewable."
+    }
+  ],
+  "E_fresh_context_review_contract": {
+    "schema": "bass-fresh-review-contract/v1",
+    "trigger": "Each unit after implementation freeze; once only.",
+    "reviewer_context": [
+      "unit contract",
+      "exact base/head/tree",
+      "changed paths",
+      "diff",
+      "primary detector evidence",
+      "reused-receipt invalidation decisions"
+    ],
+    "required_checks": [
+      "scope compliance",
+      "P0/P1 detector effectiveness",
+      "claim-state separation",
+      "failure visibility",
+      "rollback feasibility",
+      "evidence pointer integrity"
+    ],
+    "output": "machine-readable PASS, PASS_WITH_NONBLOCKING_FINDINGS, or BLOCKED_P0_P1 with exact finding IDs",
+    "exclusions": [
+      "no full project re-audit",
+      "no inherited suite rerun",
+      "no stylistic accretion",
+      "no second reviewer unless a repaired P0/P1 delta exists"
+    ]
+  },
+  "F_final_differential_audit_contract": {
+    "schema": "bass-final-differential-audit/v1",
+    "baseline": "this package at exact source head",
+    "compare": "RF-FINAL frozen candidate",
+    "checks": [
+      "every baseline open threat is controlled, explicitly blocked or still scoped out",
+      "no claim promoted beyond evidence",
+      "all changed paths owned by one unit",
+      "all reused receipts satisfy invalidation predicates",
+      "one-next-action and acyclic DAG",
+      "native restore and rollback proof",
+      "separate terminal dimensions"
+    ],
+    "run_policy": "One final composite; unchanged deterministic failure is not retried.",
+    "human_closeout_limit": "Verdict, blockers, refs, exactly one next action; machine evidence only by reference."
+  },
+  "package_validation": [
+    "python docs/audits/science_system_differential_20260826/validate_package.py --root docs/audits/science_system_differential_20260826 --live"
+  ]
+}

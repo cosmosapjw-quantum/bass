@@ -1,0 +1,103 @@
+{
+  "schema": "bass-independent-package-review/v1",
+  "package_id": "BASS-SCIENCE-SYSTEM-DIFFERENTIAL-20260826",
+  "review_mode": "ONE_FRESH_CONTEXT_REVIEW_PLUS_ONE_REPAIRED_P0_P1_DIFFERENTIAL",
+  "initial_review": {
+    "verdict": "BLOCKED_P0_P1",
+    "snapshot_sha256": {
+      "AUDIT.json": "73b34bfd4997c652c8219a90dbdc6d88ba96856b5b0c7121751045d915868503",
+      "CURRENT_STATE.json": "4fd28664ebce87c46599ef1fcb4090f317f72fc01c19301eb505e7d354def70d",
+      "HANDOFF.md": "2dfda989c0c0c04d996236ddc385649761f0adc35806994071af46b400a1cb6f",
+      "README.md": "3294dc31c4aacc5d406d8305c4887dc775c447421ecd57c302905f88463bd01b",
+      "WORK_UNITS.json": "9a25dd427a48afd9a04cd25544020080b907bc55267bb1b5d88ddc9ea24b0055"
+    },
+    "findings": [
+      {
+        "id": "FRESH-P0-001",
+        "severity": "P0",
+        "finding": "Review artifact and final-byte manifest absent."
+      },
+      {
+        "id": "FRESH-P0-002",
+        "severity": "P0",
+        "finding": "Package-control threats claimed controlled without an executable live/DAG/reuse validator."
+      },
+      {
+        "id": "FRESH-P1-003",
+        "severity": "P1",
+        "finding": "Reuse IDs and dependency invalidation sets were unresolved."
+      },
+      {
+        "id": "FRESH-P1-004",
+        "severity": "P1",
+        "finding": "Active allowed-path and changed-selector contracts contained non-executable annotations/placeholders."
+      },
+      {
+        "id": "FRESH-NB-005",
+        "severity": "NONBLOCKING",
+        "finding": "Handoff duplicated machine constraints and was longer than necessary."
+      }
+    ]
+  },
+  "repairs": [
+    {
+      "finding_id": "FRESH-P0-001",
+      "status": "REPAIRED",
+      "change": "Added this review artifact and final inventory/digest manifest."
+    },
+    {
+      "finding_id": "FRESH-P0-002",
+      "status": "REPAIRED",
+      "change": "Added validate_package.py; it fail-closes live authority inputs, JSON, claim states, schemas, DAG, one-next-action, allowlists, threat ownership, reuse resolution, RF-02C safety order and manifest."
+    },
+    {
+      "finding_id": "FRESH-P1-003",
+      "status": "REPAIRED",
+      "change": "Resolved every reuse ID to a registry entry with source, predicate and concrete dependency paths or predecessor-evidence path source."
+    },
+    {
+      "finding_id": "FRESH-P1-004",
+      "status": "REPAIRED",
+      "change": "Made _rustcore/src/lib.rs a literal path, moved its registration-only restriction to semantic_path_rules, and named select_changed_tests.py --run as the RF-02C selector mechanism."
+    },
+    {
+      "finding_id": "FRESH-NB-005",
+      "status": "REPAIRED",
+      "change": "Reduced HANDOFF.md to verdict, machine references, one next action and successor."
+    }
+  ],
+  "differential_review": {
+    "verdict": "PASS",
+    "scope": "Only repairs to FRESH-P0-001, FRESH-P0-002, FRESH-P1-003, FRESH-P1-004 and FRESH-NB-005.",
+    "repaired_findings": [
+      {
+        "id": "DIFF-P0-001",
+        "disposition": "REPAIRED",
+        "finding": "The first validator revision trusted package-declared live identities instead of resolving Git refs and PR state independently. Live validation now resolves and compares remote branch, tree, evidence bytes and draft/unmerged PR state."
+      },
+      {
+        "id": "DIFF-P1-002",
+        "disposition": "REPAIRED",
+        "finding": "Audit and manifest paths were not closed by the package allowlist. They are now explicit allowed paths and semantic rules are independently checked."
+      },
+      {
+        "id": "FINAL-P0-001",
+        "disposition": "REPAIRED",
+        "finding": "Package inventory was initially top-level only and live validation did not enumerate the remote subtree. Local validation now rejects subdirectories and recursively compares exact inventory; live validation uses recursive git tree enumeration and byte hashes every admitted file."
+      }
+    ],
+    "residual_findings": [],
+    "reviewed_payload_sha256": {
+      "AUDIT.json": "8862bca4c7135dddafc6b566c5eb7c08630faf27ea7e8afec687063903d55918",
+      "CURRENT_STATE.json": "4fd28664ebce87c46599ef1fcb4090f317f72fc01c19301eb505e7d354def70d",
+      "HANDOFF.md": "3456f3148a191f5b58c3178919341fab93c9fa0c9e77ff6c7d02705f8eb49158",
+      "README.md": "3294dc31c4aacc5d406d8305c4887dc775c447421ecd57c302905f88463bd01b",
+      "WORK_UNITS.json": "56eaf0b30353e7cffd69ff0307eed0df9ef5d78a054ac0323a7353404311a955",
+      "validate_package.py": "63a4165bac5c2c381f0dd867c9926fe25cde1635c871eb1450f70b197470426c"
+    }
+  },
+  "actions_not_performed": [
+    "No project tests, Cargo, Wolfram, benchmark or inherited PASS lane run.",
+    "No runtime/science/formula/native bytes changed."
+  ]
+}
