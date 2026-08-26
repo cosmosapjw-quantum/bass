@@ -14,7 +14,7 @@ permissions:
 env:
   PYTHON_VERSION: "3.12"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
-  RF02B_ARTIFACT_ID: "9574184597"
+  RF02B_ARTIFACT_ID: "9574570565"
   RF02B_WHEEL_SHA256: "f1b5940ed453c744b3a285898f079b9a8b0e43f66d99937fd7fa632f49d8c3f6"
 
 jobs:
@@ -66,9 +66,12 @@ jobs:
           mapfile -t wheels < <(find "$restore" -type f -name 'bianchi_rustcore-*.whl' -print)
           [[ "${#wheels[@]}" -eq 1 ]]
           observed="$(sha256sum "${wheels[0]}" | awk '{print $1}')"
-          [[ "$observed" == "$RF02B_WHEEL_SHA256" ]]
           printf '%s  %s\n' "$observed" "${wheels[0]}" \
             | tee artifacts/rust_first_runtime/rf02c/RF02B_WHEEL_SHA256.log
+          if [[ "$observed" != "$RF02B_WHEEL_SHA256" ]]; then
+            echo "RF-02B wheel SHA mismatch: expected $RF02B_WHEEL_SHA256, observed $observed" >&2
+            exit 1
+          fi
           printf 'RF02B_WHEEL=%s\n' "${wheels[0]}" >> "$GITHUB_ENV"
           python -m pip install --no-index --force-reinstall "${wheels[0]}"
 
