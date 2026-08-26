@@ -1,0 +1,24 @@
+{
+  "schema": "bass-spec-correction-v1",
+  "id": "AC01-FINAL-SHA-SELF-REFERENCE-20260826",
+  "severity": "P0",
+  "observed_status": "BLOCKED_BY_UNRESOLVED_SPEC",
+  "predecessor_plan_commit": "45f3a90364231b5172196f19d0965b13c9134c33",
+  "predecessor_contract_sha256": "88a21f1255d2a11bbb5ac2cd12abbb2d444c163dc2dceb8a0f4d9ec2e28ba01c",
+  "trigger": "RECEIPT.json is required inside the sole implementation commit and is also required to contain that same commit final_sha.",
+  "consequence": "No ordinary bounded Git execution can produce the required evidence without fabricating provenance or adding an unauthorized second binding step.",
+  "repair": "Split pre-commit receipt from post-push attestation; implementation branch remains one commit, attestation is a separate one-file child commit.",
+  "does_not_change": [
+    "AC-01 code objective",
+    "A/B/C/D identity semantics",
+    "negative tests",
+    "science/runtime boundaries",
+    "implementation base"
+  ],
+  "accepted_predecessor_evidence": {
+    "active_contract_sha256": "88a21f1255d2a11bbb5ac2cd12abbb2d444c163dc2dceb8a0f4d9ec2e28ba01c",
+    "red_log_sha256": "2da7607e2cda6129d51ee2002ac32f9a74fa1542de4e7cf73bddad0f606aeea6",
+    "green_log_sha256": "245bba44e09a9e227b705172fa444ec919148d0e4aba2b88651b0c0abd29e048",
+    "required_green_rerun": true
+  }
+}

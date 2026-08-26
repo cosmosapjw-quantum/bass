@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass-work-unit-precommit-evidence-v2.schema.json",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "work_unit_id",
+    "verdict",
+    "base_sha",
+    "target_branch",
+    "contract_sha256",
+    "binding_mode",
+    "evidence_keys",
+    "commands",
+    "invariants",
+    "unresolved_blockers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bass-work-unit-precommit-evidence-v2"
+    },
+    "work_unit_id": {
+      "const": "WU-004-R3"
+    },
+    "verdict": {
+      "enum": [
+        "PASS_PRECOMMIT",
+        "BLOCKED_BY_UNRESOLVED_SPEC",
+        "BLOCKED_BY_P0",
+        "BLOCKED_BY_P1"
+      ]
+    },
+    "base_sha": {
+      "const": "d6a0b63fac09c3a6d0c9071206f0d51f01953341"
+    },
+    "target_branch": {
+      "const": "agent/guard/bass-ac-01-artifact-identity-20260826"
+    },
+    "contract_sha256": {
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "binding_mode": {
+      "const": "separate_post_push_attestation"
+    },
+    "evidence_keys": {
+      "type": "array"
+    },
+    "commands": {
+      "type": "array"
+    },
+    "invariants": {
+      "type": "object"
+    },
+    "unresolved_blockers": {
+      "type": "array"
+    }
+  },
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "final_sha"
+        ]
+      },
+      {
+        "required": [
+          "attestation_commit_sha"
+        ]
+      }
+    ]
+  }
+}

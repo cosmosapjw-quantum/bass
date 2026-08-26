@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass-post-push-binding-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "work_unit_id",
+    "repository",
+    "implementation_branch",
+    "attestation_branch",
+    "subject_sha",
+    "subject_tree",
+    "subject_parent",
+    "subject_commit_message",
+    "receipt_path",
+    "receipt_blob_sha",
+    "receipt_sha256",
+    "diff_firewall_path",
+    "diff_firewall_blob_sha",
+    "diff_firewall_sha256",
+    "remote_readback",
+    "verdict",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bass-post-push-binding-v1"
+    },
+    "work_unit_id": {
+      "const": "WU-004-R3"
+    },
+    "repository": {
+      "const": "cosmosapjw-quantum/bass"
+    },
+    "implementation_branch": {
+      "const": "agent/guard/bass-ac-01-artifact-identity-20260826"
+    },
+    "attestation_branch": {
+      "const": "agent/evidence/bass-ac-01-post-push-binding-20260826"
+    },
+    "subject_sha": {
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "subject_tree": {
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "subject_parent": {
+      "const": "d6a0b63fac09c3a6d0c9071206f0d51f01953341"
+    },
+    "subject_commit_message": {
+      "const": "guard: add fail-closed BASS artifact identity verification"
+    },
+    "receipt_path": {
+      "const": "verification/bass-ac-01/20260826/RECEIPT.json"
+    },
+    "receipt_blob_sha": {
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "receipt_sha256": {
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "diff_firewall_path": {
+      "const": "verification/bass-ac-01/20260826/DIFF_FIREWALL.log"
+    },
+    "diff_firewall_blob_sha": {
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "diff_firewall_sha256": {
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "remote_readback": {
+      "type": "object"
+    },
+    "verdict": {
+      "const": "BOUND_FOR_FRESH_REVIEW"
+    },
+    "claim_boundary": {
+      "type": "object"
+    }
+  }
+}

@@ -1,4 +1,68 @@
-": "verification/bass-ac-01/20260826/POST_PUSH_BINDING.json",
+{
+  "schema": "audit-compiled-work-unit/v1",
+  "id": "WU-004-R3",
+  "title": "Complete AC-01 with non-self-referential Git provenance binding",
+  "status": "READY_RESUME_EXISTING_WORKTREE",
+  "supersedes": {
+    "work_unit": "WU-004",
+    "scope": "completion receipt and final-SHA binding semantics only",
+    "predecessor_contract_sha256": "88a21f1255d2a11bbb5ac2cd12abbb2d444c163dc2dceb8a0f4d9ec2e28ba01c",
+    "preserved": [
+      "objective",
+      "base",
+      "implementation branch",
+      "tests",
+      "identity classes",
+      "allowed implementation paths",
+      "one implementation commit"
+    ]
+  },
+  "authority": {
+    "base": {
+      "sha": "d6a0b63fac09c3a6d0c9071206f0d51f01953341",
+      "type": "fixed",
+      "source_branch": "agent/verify/bass-close-00r-fresh-2b3-reproduction-20260825"
+    },
+    "plan_branch": "agent/audit/bass-ac01-nonselfreferential-binding-r3-20260826",
+    "implementation_branch": "agent/guard/bass-ac-01-artifact-identity-20260826",
+    "attestation_branch": "agent/evidence/bass-ac-01-post-push-binding-20260826",
+    "upstream_dependencies": []
+  },
+  "objective": {
+    "statement": "Finish the already GREEN AC-01 implementation and bind its final Git identity without making a commit contain its own SHA.",
+    "observable_success": "One implementation commit plus one separate one-file attestation commit pass remote readback and make WU-004R target resolution mechanical.",
+    "non_goals": [
+      "change scientific/runtime code",
+      "alter expected hashes/tolerances/goldens",
+      "rows adjudication",
+      "authority promotion",
+      "PR/merge/tag",
+      "active-line bridge",
+      "WU-004R in same context"
+    ]
+  },
+  "risk": {
+    "class": "high",
+    "P0_failure_modes": [
+      "FM-SELF-SHA-001",
+      "FM-001",
+      "FM-011",
+      "FM-012"
+    ],
+    "P1_failure_modes": [
+      "FM-014"
+    ]
+  },
+  "scope": {
+    "allowed_implementation_paths": [
+      "verification/audit-compiled/ACTIVE_WORK_UNIT.json",
+      "scripts/verify_artifact_identity.py",
+      "scripts/verify_allowed_diff.py",
+      "tests/verification/test_artifact_identity.py",
+      "docs/quality/ARTIFACT_IDENTITY_POLICY.md",
+      "verification/bass-ac-01/20260826/**"
+    ],
+    "attestation_allowed_path": "verification/bass-ac-01/20260826/POST_PUSH_BINDING.json",
     "forbidden_paths": [
       "verification/bass-close-00r-fresh-2b3-reproduction/**",
       "verification/bass8b*/**",
@@ -169,4 +233,34 @@
       "precommit_receipt_sha256",
       "diff_firewall_sha256",
       "attestation_commit_sha",
-      "attestation_remote_ref_sha"
+      "attestation_remote_ref_sha",
+      "post_push_binding_blob_sha",
+      "post_push_binding_sha256",
+      "unresolved_blockers"
+    ]
+  },
+  "review_gate": {
+    "fresh_context_required": true,
+    "first_pass_read_only": true,
+    "review_target_source": "POST_PUSH_BINDING.json.subject_sha",
+    "pass_condition": {
+      "P0": 0,
+      "P1": 0,
+      "evidence_complete": true,
+      "reviewer_did_not_modify": true
+    }
+  },
+  "agent_policy": {
+    "ask_user_questions": false,
+    "guessing_across_spec_boundary": "forbidden",
+    "suppressing_failures": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "unresolved_spec_action": "BLOCKED_BY_UNRESOLVED_SPEC"
+  },
+  "allowed_verdicts": [
+    "PASS_BOUND_FOR_FRESH_REVIEW",
+    "BLOCKED_BY_UNRESOLVED_SPEC",
+    "BLOCKED_BY_P0",
+    "BLOCKED_BY_P1"
+  ]
+}
