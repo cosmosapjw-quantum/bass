@@ -1,0 +1,273 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_reference_outputs_without_authority": "forbidden",
+    "changing_tests_to_fit_implementation": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "guessing_across_spec_boundary": "forbidden",
+    "suppressing_failures": "forbidden",
+    "unresolved_spec_action": "BLOCKED_BY_UNRESOLVED_SPEC"
+  },
+  "allowed_verdicts": [
+    "PASS_INDEPENDENT_REMOTE_CONTENT_REPLAY",
+    "BLOCKED_REMOTE_BYTE_OR_CONTENT_MISMATCH",
+    "BLOCKED_REPLAY_GATE_FAILURE"
+  ],
+  "authority": {
+    "base": {
+      "sha": "d6a0b63fac09c3a6d0c9071206f0d51f01953341",
+      "source_branch": "agent/verify/bass-close-00r-fresh-2b3-reproduction-20260825",
+      "tree": "de75fcc53b3bb21582ce09796ace27969d328e61",
+      "type": "fixed"
+    },
+    "branch": "agent/verify/bass-9-independent-remote-content-replay-20260826",
+    "planning_contract_root": "verification/bass-post-seal-audit-compiled-exec-plan-v3/20260826",
+    "upstream_dependencies": []
+  },
+  "commit_policy": {
+    "commit_count": 1,
+    "commit_message": "verify: record independent BASS-9 remote-content replay",
+    "main_mutation": "forbidden",
+    "merge": "forbidden",
+    "pr": "forbidden",
+    "push": "ordinary non-force push",
+    "tag": "forbidden"
+  },
+  "completion_evidence": {
+    "required": [
+      "context_attestation",
+      "input_inventory",
+      "base_sha",
+      "final_sha",
+      "remote_blob_ledger",
+      "parts_and_capsule_hash_log",
+      "restore_log",
+      "replay_log",
+      "verdict_json",
+      "git_status_porcelain",
+      "git_diff_name_status",
+      "git_diff_check",
+      "cache_scan",
+      "unresolved_blockers"
+    ]
+  },
+  "failure_modes": [
+    "FM-001",
+    "FM-002",
+    "FM-003",
+    "FM-004",
+    "FM-005",
+    "FM-006",
+    "FM-008",
+    "FM-012",
+    "FM-014"
+  ],
+  "id": "WU-001",
+  "implementation": {
+    "ordered_steps": [
+      {
+        "action": "Copy the active work-unit contract byte-identically and record its SHA-256.",
+        "files": [
+          "verification/audit-compiled/ACTIVE_WORK_UNIT.json"
+        ],
+        "id": "STEP-001",
+        "must_preserve": [
+          "INV-014"
+        ]
+      },
+      {
+        "action": "Inventory the 16 sealed paths and independently verify the eight part blobs by git hash-object and byte size.",
+        "files": [
+          "verification/bass-9-independent-remote-content-replay/20260826/REMOTE_BLOB_LEDGER.json"
+        ],
+        "id": "STEP-002",
+        "must_preserve": [
+          "INV-001",
+          "INV-004"
+        ]
+      },
+      {
+        "action": "Copy the sealed directory to a fresh external temporary root; run restore_content_capsule.sh there with bytecode disabled.",
+        "files": [
+          "verification/bass-9-independent-remote-content-replay/20260826/restore.log"
+        ],
+        "id": "STEP-003",
+        "must_preserve": [
+          "INV-003",
+          "INV-004",
+          "INV-012"
+        ]
+      },
+      {
+        "action": "Run run_content_replay.sh in the restored temporary root and preserve raw logs and exit codes.",
+        "files": [
+          "verification/bass-9-independent-remote-content-replay/20260826/replay.log"
+        ],
+        "id": "STEP-004",
+        "must_preserve": [
+          "INV-006",
+          "INV-008"
+        ]
+      },
+      {
+        "action": "Write a verdict JSON using only one allowed verdict; retain all five claim-boundary booleans false.",
+        "files": [
+          "verification/bass-9-independent-remote-content-replay/20260826/VERDICT.json"
+        ],
+        "id": "STEP-005",
+        "must_preserve": [
+          "INV-002",
+          "INV-005",
+          "INV-014"
+        ]
+      },
+      {
+        "action": "Run the allowed-diff and cache scans, then commit/push the evidence only on a complete PASS or explicit BLOCKED verdict.",
+        "files": [
+          "verification/bass-9-independent-remote-content-replay/20260826/EVIDENCE_BUNDLE.json"
+        ],
+        "id": "STEP-006",
+        "must_preserve": [
+          "INV-012",
+          "INV-014"
+        ]
+      }
+    ]
+  },
+  "invariants": [
+    "INV-001",
+    "INV-002",
+    "INV-003",
+    "INV-004",
+    "INV-005",
+    "INV-006",
+    "INV-008",
+    "INV-012",
+    "INV-014"
+  ],
+  "jira_key": "BASS-9",
+  "objective": {
+    "non_goals": [
+      "rows 7-8 adjudication",
+      "source repair",
+      "authority promotion",
+      "runtime/Rust/classifier/fitting",
+      "PR/merge/tag"
+    ],
+    "observable_success": "A verdict-only evidence commit derived from remote bytes, with all required exact/numerical/figure gates and no row promotion.",
+    "statement": "Independently restore and replay the frozen GitHub content capsule without inheriting the primary verdict."
+  },
+  "preconditions": [
+    {
+      "check": "Fresh context attestation",
+      "command": "record context_id, input inventory, and no-primary-receipt attestation",
+      "expect": "no prior primary verdict/receipt supplied",
+      "id": "PRE-001"
+    },
+    {
+      "check": "Exact base",
+      "command": "git rev-parse HEAD",
+      "expect": "d6a0b63fac09c3a6d0c9071206f0d51f01953341",
+      "id": "PRE-002"
+    },
+    {
+      "check": "Exact sealed source identity",
+      "command": "git show -s --format='%T%n%P%n%B' HEAD",
+      "expect": "de75fcc53b3bb21582ce09796ace27969d328e61\\nf0fb24b55967e0dcbcc4d875c5a9b2677e680655\\nverify: seal fresh BASS-8B.2B.3 reproduction under distinct identity",
+      "id": "PRE-003"
+    },
+    {
+      "check": "Clean worktree",
+      "command": "test -z \"$(git status --porcelain)\"",
+      "expect": "exit=0",
+      "id": "PRE-004"
+    }
+  ],
+  "review_gate": {
+    "first_pass_read_only": true,
+    "fresh_context_required": true,
+    "pass_condition": {
+      "P0": 0,
+      "P1": 0,
+      "evidence_complete": true
+    },
+    "reviewer_mode": true
+  },
+  "risk": {
+    "P0_failure_modes": [
+      "FM-001",
+      "FM-002",
+      "FM-003",
+      "FM-004",
+      "FM-005",
+      "FM-006",
+      "FM-008",
+      "FM-012"
+    ],
+    "P1_failure_modes": [
+      "FM-014"
+    ],
+    "class": "critical"
+  },
+  "schema": "audit-compiled-work-unit/v1",
+  "scope": {
+    "allowed_paths": [
+      "verification/audit-compiled/ACTIVE_WORK_UNIT.json",
+      "verification/bass-9-independent-remote-content-replay/20260826/**"
+    ],
+    "forbidden_changes": [
+      "Do not read or cite the primary replay receipt or its verdict as evidence.",
+      "Do not edit or regenerate files inside the sealed source directory.",
+      "Do not adjudicate rows 7-10 or write promotion language.",
+      "Do not change hashes, tolerances, goldens, tests, or expected numerical envelopes."
+    ],
+    "forbidden_paths": [
+      "verification/bass-close-00r-fresh-2b3-reproduction/**",
+      "verification/bass8b3*/**",
+      "source/**",
+      "tests/**",
+      "docs/**",
+      "**/*.zip"
+    ]
+  },
+  "status": "READY_FRESH_CONTEXT_ONLY",
+  "title": "BASS-9 fresh-context independent remote-content replay",
+  "verification": {
+    "full_relevant_suite": [],
+    "integration": [],
+    "negative": [
+      {
+        "command": "scan input inventory and evidence for PRIMARY_REMOTE_CONTENT_REPLAY_RECEIPT or prior PASS verdict",
+        "expect": "zero matches"
+      },
+      {
+        "command": "scan verdict for authority_row_promoted=true or historical_artifact_recovered=true",
+        "expect": "zero matches"
+      }
+    ],
+    "regression": [
+      {
+        "command": "git diff --name-status d6a0b63fac09c3a6d0c9071206f0d51f01953341..HEAD",
+        "expect": "only active contract and WU-001 evidence paths"
+      }
+    ],
+    "targeted": [
+      {
+        "command": "git hash-object <each-part> and stat -c %s <each-part>",
+        "expect": "8/8 match frozen Git tree"
+      },
+      {
+        "command": "sha256sum -c PARTS.sha256 && sha256sum -c BASS8B2B3_FRESH_CONTENT_REPRODUCTION_20260825.tar.xz.sha256",
+        "expect": "all PASS"
+      },
+      {
+        "command": "./restore_content_capsule.sh",
+        "expect": "BASS8B2B3_FRESH_REMOTE_CONTENT_RESTORE_PASS"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 ./run_content_replay.sh",
+        "expect": "core 53/53; controls 14/14; exact gates; 500/80/120; five mutations; four figures"
+      }
+    ]
+  }
+}
