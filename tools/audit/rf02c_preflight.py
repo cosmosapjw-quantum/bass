@@ -9,6 +9,7 @@ compiled path allowlist before implementation begins.
 from __future__ import annotations
 
 import argparse
+import ast
 import fnmatch
 import hashlib
 from importlib import abc as importlib_abc
@@ -121,6 +122,47 @@ def _runtime_import_firewall(modules: list[str]) -> dict[str, Any]:
     }
 
 
+def _direct_import_modules(path: Path) -> list[str]:
+    tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    modules: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            modules.update(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            modules.add(node.module)
+    return sorted(modules)
+
+
+def _static_import_closure(root: Path, rules: dict[str, Any]) -> dict[str, Any]:
+    files: dict[str, Any] = {}
+    passed = True
+    for rel, rule in sorted(rules.items()):
+        observed = _direct_import_modules(root / rel)
+        observed_set = set(observed)
+        required = sorted(set(rule.get("required_direct_imports", [])))
+        missing = sorted(set(required) - observed_set)
+        prefixes = sorted(set(rule.get("forbidden_direct_import_prefixes", [])))
+        forbidden = sorted(
+            module
+            for module in observed
+            if any(
+                module == prefix or module.startswith(prefix + ".")
+                for prefix in prefixes
+            )
+        )
+        file_passed = not missing and not forbidden
+        passed = passed and file_passed
+        files[rel] = {
+            "observed_direct_imports": observed,
+            "required_direct_imports": required,
+            "missing_required_imports": missing,
+            "forbidden_direct_import_prefixes": prefixes,
+            "forbidden_imports_observed": forbidden,
+            "passed": file_passed,
+        }
+    return {"passed": passed, "files": files}
+
+
 def _quarantine_proof(root: Path, owner_text: str) -> dict[str, Any]:
     path = root / QUARANTINE_REL
     if not path.is_file():
@@ -158,6 +200,9 @@ def _quarantine_proof(root: Path, owner_text: str) -> dict[str, Any]:
     runtime = _runtime_import_firewall(
         list(record.get("runtime_import_firewall_modules", []))
     )
+    static_closure = _static_import_closure(
+        root, dict(record.get("static_import_closure", {}))
+    )
     symbolic_init = (root / "bianchi/symbolic/__init__.py").read_text(
         encoding="utf-8"
     )
@@ -188,6 +233,7 @@ def _quarantine_proof(root: Path, owner_text: str) -> dict[str, Any]:
         and not forbidden_hits
         and symbolic_export_absent
         and runtime["passed"]
+        and static_closure["passed"]
     )
     return {
         "present": True,
@@ -207,6 +253,7 @@ def _quarantine_proof(root: Path, owner_text: str) -> dict[str, Any]:
         "forbidden_route_token_hits": forbidden_hits,
         "symbolic_export_absent": symbolic_export_absent,
         "runtime_import_firewall": runtime,
+        "static_import_closure": static_closure,
         "claim_boundary": record.get("claim_boundary"),
     }
 
@@ -259,7 +306,7 @@ def main() -> int:
         status = "PASS_PREFLIGHT_SCOPE"
 
     report = {
-        "schema": "bass-rf02c-preflight/v2",
+        "schema": "bass-rf02c-preflight/v3",
         "status": status,
         "stop_code": STOP_CODE if conflict else 0,
         "repository": "cosmosapjw-quantum/bass",

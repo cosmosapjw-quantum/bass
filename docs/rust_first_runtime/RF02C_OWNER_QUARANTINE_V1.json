@@ -24,18 +24,43 @@
   ],
   "runtime_import_firewall_modules": [
     "bianchi.geometry_identity",
-    "bianchi.backend_policy",
-    "bianchi.backend",
-    "bianchi.q.group"
+    "bianchi.backend_policy"
   ],
+  "static_import_closure": {
+    "bianchi/backend.py": {
+      "required_direct_imports": [
+        "bianchi.backend_policy"
+      ],
+      "forbidden_direct_import_prefixes": [
+        "bianchi.symbolic"
+      ]
+    },
+    "bianchi/q/group.py": {
+      "required_direct_imports": [
+        "bianchi.backend_policy"
+      ],
+      "forbidden_direct_import_prefixes": [
+        "bianchi.symbolic"
+      ]
+    },
+    "bianchi/symbolic/__init__.py": {
+      "required_direct_imports": [
+        "bianchi.symbolic"
+      ],
+      "forbidden_direct_import_prefixes": [
+        "bianchi.symbolic.geometry_contract"
+      ]
+    }
+  },
   "proof_requirements": [
     "Every pinned git blob is unchanged.",
     "The stale token remains present, so quarantine cannot be confused with a silent wording repair.",
     "No pinned public-route source contains a forbidden route token.",
-    "Importing the frozen RF-02C public-route modules under an import firewall does not attempt to load bianchi.symbolic.geometry_contract.",
+    "Dependency-light identity modules import under a runtime firewall without loading bianchi.symbolic.geometry_contract.",
+    "NumPy-bearing public wrappers satisfy the pinned AST direct-import closure and do not import bianchi.symbolic.",
     "bianchi.symbolic.__init__ does not export geometry_contract.",
     "Public route identity remains sourced from bianchi.geometry_identity and bianchi.backend_policy."
   ],
-  "invalidation_predicate": "Invalidate on any owner/public-route blob change, removal of the stale token, appearance of a forbidden route token, runtime firewall hit, package-overlay head change, or direct public export of geometry_contract.",
+  "invalidation_predicate": "Invalidate on any owner/public-route blob change, removal of the stale token, appearance of a forbidden route token, AST import-closure drift, runtime firewall hit, package-overlay head change, or direct public export of geometry_contract.",
   "claim_boundary": "This quarantine resolves process exposure only. It does not correct the stale direct-import error text or change scientific authority."
 }
