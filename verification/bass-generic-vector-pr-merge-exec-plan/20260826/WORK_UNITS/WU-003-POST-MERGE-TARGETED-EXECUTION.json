@@ -1,0 +1,142 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_reference_outputs_without_authority": "forbidden",
+    "changing_tests_to_fit_implementation": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "guessing_across_spec_boundary": "forbidden",
+    "suppressing_failures": "forbidden"
+  },
+  "authority": {
+    "base_sha": "RESOLVE_FROM_WU-002_MERGE_SHA",
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "upstream_dependencies": [
+      "WU-002: MERGED_READY_FOR_POST_MERGE_EXECUTION"
+    ]
+  },
+  "completion_evidence": {
+    "required": [
+      "merged active SHA",
+      "three targeted Python test results",
+      "two native unit test results",
+      "public export absence",
+      "clean status",
+      "PR result comment"
+    ]
+  },
+  "failure_modes": [
+    {"id": "FM-003", "severity": "P0"},
+    {"id": "FM-004", "severity": "P0"},
+    {"id": "FM-005", "severity": "P0"},
+    {"id": "FM-008", "severity": "P1"},
+    {"id": "FM-009", "severity": "P1"},
+    {"id": "FM-010", "severity": "P1"}
+  ],
+  "final_states": [
+    "PASS_INTEGRATED_DEFAULT_OFF_GENERIC_VECTOR_HOST_PARITY",
+    "FAILED_POST_MERGE_TARGETED_EXECUTION",
+    "BLOCKED_BY_BUILD_ENVIRONMENT"
+  ],
+  "id": "WU-003",
+  "implementation": {
+    "ordered_steps": [
+      {
+        "action": "Create a detached clean worktree at the merged active branch tip and build the native extension with the project Rust toolchain.",
+        "files": [],
+        "id": "STEP-201",
+        "must_preserve": ["no working-tree mutation outside build artifacts", "no source edits"]
+      },
+      {
+        "action": "Run only default-off, generic non-collinear, and exact-vacuum Python tests.",
+        "files": ["tests/test_bass3_generic_vector_host_parity.py"],
+        "id": "STEP-202",
+        "must_preserve": ["typed numerical identity", "frozen oracle bytes"]
+      },
+      {
+        "action": "Run the two native generic_vector unit tests.",
+        "files": ["_rustcore/src/kinetic/generic_vector.rs"],
+        "id": "STEP-203",
+        "must_preserve": ["no full Rust suite"]
+      },
+      {
+        "action": "Post a compact result comment to the PR and stop.",
+        "files": [],
+        "id": "STEP-204",
+        "must_preserve": ["no new commit", "no downstream authorization"]
+      }
+    ]
+  },
+  "invariants": [
+    {
+      "id": "INV-201",
+      "mechanical_check": {
+        "command": "pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'route_is_default_off'",
+        "expect": "1 passed"
+      },
+      "severity_if_violated": "P0",
+      "statement": "The route remains default-off and absent from public exports after merge."
+    },
+    {
+      "id": "INV-202",
+      "mechanical_check": {
+        "command": "pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'generic_non_collinear'",
+        "expect": "1 passed"
+      },
+      "severity_if_violated": "P0",
+      "statement": "The merged generic non-collinear case satisfies oracle parity and all invariants."
+    },
+    {
+      "id": "INV-203",
+      "mechanical_check": {
+        "command": "pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'exact_vacuum'",
+        "expect": "1 passed"
+      },
+      "severity_if_violated": "P0",
+      "statement": "Exact vacuum returns collision off and no projector."
+    }
+  ],
+  "objective": {
+    "non_goals": ["no full suite", "no historical replay", "no symbolic or figure rerun", "no new evidence commit"],
+    "observable_success": "The merged branch passes default-off, generic non-collinear, exact-vacuum, and native unit checks without changing public exposure.",
+    "statement": "Execute the merged default-off path on the active branch with the smallest checks capable of detecting merge or registration damage."
+  },
+  "preconditions": [
+    {
+      "command": "git ls-remote origin refs/heads/agent/architecture/rust-first-rf02c-20260826-r1",
+      "expect": "WU-002 merge SHA",
+      "id": "PRE-201"
+    },
+    {
+      "command": "git status --porcelain",
+      "expect": "",
+      "id": "PRE-202"
+    }
+  ],
+  "review_gate": {"fresh_context_required": false, "pass_condition": {"P0": 0, "P1": 0}},
+  "risk": {
+    "P0_failure_modes": ["FM-003", "FM-004", "FM-005"],
+    "P1_failure_modes": ["FM-008", "FM-009", "FM-010"],
+    "class": "medium"
+  },
+  "schema": "audit-compiled-work-unit/v1",
+  "scope": {
+    "allowed_paths": [],
+    "forbidden_changes": [
+      "read-only execution only",
+      "do not regenerate or commit evidence",
+      "do not repair in the merged branch during this work unit"
+    ],
+    "forbidden_paths": ["**"]
+  },
+  "title": "Post-merge targeted native execution",
+  "verification": {
+    "full_relevant_suite": [],
+    "integration": ["merged native module registration and explicit opt-in call"],
+    "negative": ["exact-vacuum no-projector assertion"],
+    "regression": [],
+    "targeted": [
+      "python -m pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'route_is_default_off or generic_non_collinear or exact_vacuum'",
+      "cd _rustcore && cargo test --release generic_vector -- --nocapture"
+    ]
+  }
+}

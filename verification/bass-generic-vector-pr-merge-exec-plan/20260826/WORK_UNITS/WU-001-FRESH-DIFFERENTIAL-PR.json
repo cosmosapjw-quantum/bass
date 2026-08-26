@@ -1,0 +1,211 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_reference_outputs_without_authority": "forbidden",
+    "changing_tests_to_fit_implementation": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "guessing_across_spec_boundary": "forbidden",
+    "suppressing_failures": "forbidden"
+  },
+  "authority": {
+    "base_sha": "445e50184823e58401a8212ceaaf736e72bb35f2",
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "implementation_branch": "agent/integration/bass-generic-vector-host-parity-20260826",
+    "implementation_sha": "a979af6b022eb832215a2342a01fe6b85374b914",
+    "upstream_dependencies": []
+  },
+  "completion_evidence": {
+    "required": [
+      "resolved base SHA",
+      "resolved head SHA",
+      "exact 12-path diff",
+      "git diff --check",
+      "fresh-review findings",
+      "executed test commands and outputs",
+      "PR number and URL if created",
+      "unresolved blockers"
+    ]
+  },
+  "failure_modes": [
+    {"id": "FM-001", "severity": "P0"},
+    {"id": "FM-002", "severity": "P0"},
+    {"id": "FM-003", "severity": "P0"},
+    {"id": "FM-004", "severity": "P0"},
+    {"id": "FM-005", "severity": "P0"},
+    {"id": "FM-006", "severity": "P1"},
+    {"id": "FM-009", "severity": "P1"},
+    {"id": "FM-010", "severity": "P1"}
+  ],
+  "final_states": [
+    "PR_CREATED_READY_FOR_USER_MERGE_APPROVAL",
+    "BLOCKED_BY_P0",
+    "BLOCKED_BY_P1",
+    "BLOCKED_BY_REF_MOVEMENT",
+    "BLOCKED_PR_CREATION_AUTH"
+  ],
+  "id": "WU-001",
+  "implementation": {
+    "ordered_steps": [
+      {
+        "action": "Create a detached isolated worktree at the exact implementation SHA; do not reuse the implementer worktree.",
+        "files": [],
+        "id": "STEP-001",
+        "must_preserve": ["remote branch tips", "working-tree isolation"]
+      },
+      {
+        "action": "Perform a read-only diff review using the finding schema in FRESH_CONTEXT_REVIEW_CONTRACT.json.",
+        "files": [
+          "_rustcore/src/kinetic/generic_vector.rs",
+          "_rustcore/src/kinetic/mod.rs",
+          "_rustcore/src/lib.rs",
+          "_rustcore/src/python/generic_vector.rs",
+          "_rustcore/src/python/mod.rs",
+          "artifacts/rust_first_runtime/bass3/EXECUTION_EVIDENCE.json",
+          "artifacts/rust_first_runtime/bass3/GREEN.log",
+          "artifacts/rust_first_runtime/bass3/RED.log",
+          "artifacts/rust_first_runtime/bass3/RED_ENVIRONMENT_ATTEMPT.log",
+          "tests/oracles/bass3_generic_vector_oracle.py",
+          "tests/test_bass3_generic_vector_host_parity.py",
+          "tools/audit/run_bass3_generic_vector_host_parity.py"
+        ],
+        "id": "STEP-002",
+        "must_preserve": ["no edits", "typed-identity classification", "claim boundaries"]
+      },
+      {
+        "action": "Build the native extension in the isolated environment and run only the targeted parity, mutation, and native unit tests.",
+        "files": ["tests/test_bass3_generic_vector_host_parity.py", "_rustcore/src/kinetic/generic_vector.rs"],
+        "id": "STEP-003",
+        "must_preserve": ["Rust 1.94.1 when the provided environment script is available", "no full suite"]
+      },
+      {
+        "action": "If P0=P1=0, create the PR with the exact title, base, head, and body template; otherwise stop with findings and do not create a PR.",
+        "files": [],
+        "id": "STEP-004",
+        "must_preserve": ["base/head SHA", "merge method recommendation=merge commit"]
+      }
+    ]
+  },
+  "invariants": [
+    {
+      "id": "INV-001",
+      "mechanical_check": {
+        "command": "git diff --name-only 445e50184823e58401a8212ceaaf736e72bb35f2..a979af6b022eb832215a2342a01fe6b85374b914",
+        "expect": [
+          "_rustcore/src/kinetic/generic_vector.rs",
+          "_rustcore/src/kinetic/mod.rs",
+          "_rustcore/src/lib.rs",
+          "_rustcore/src/python/generic_vector.rs",
+          "_rustcore/src/python/mod.rs",
+          "artifacts/rust_first_runtime/bass3/EXECUTION_EVIDENCE.json",
+          "artifacts/rust_first_runtime/bass3/GREEN.log",
+          "artifacts/rust_first_runtime/bass3/RED.log",
+          "artifacts/rust_first_runtime/bass3/RED_ENVIRONMENT_ATTEMPT.log",
+          "tests/oracles/bass3_generic_vector_oracle.py",
+          "tests/test_bass3_generic_vector_host_parity.py",
+          "tools/audit/run_bass3_generic_vector_host_parity.py"
+        ]
+      },
+      "severity_if_violated": "P0",
+      "statement": "The changed path set is exactly the frozen 12-path list."
+    },
+    {
+      "id": "INV-002",
+      "mechanical_check": {
+        "command": "pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'route_is_default_off'",
+        "expect": "1 passed"
+      },
+      "severity_if_violated": "P0",
+      "statement": "The route remains explicit opt-in and absent from public Python exports."
+    },
+    {
+      "id": "INV-003",
+      "mechanical_check": {
+        "command": "pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'frozen_oracle'",
+        "expect": "1 passed"
+      },
+      "severity_if_violated": "P0",
+      "statement": "The immutable oracle and input bytes remain hard-bound."
+    },
+    {
+      "id": "INV-004",
+      "mechanical_check": {
+        "command": "run targeted parity, six mutation tests, and native generic_vector unit tests",
+        "expect": "7 parity PASS; 6/6 mutations PASS; 2 native tests PASS"
+      },
+      "severity_if_violated": "P0",
+      "statement": "All bounded physics identities and hostile mutations remain detected."
+    }
+  ],
+  "objective": {
+    "non_goals": ["no code modification", "no repair in the first review pass", "no merge", "no full repository suite"],
+    "observable_success": "An open PR targets the frozen RF-02C branch from the frozen implementation branch and records PASS_WITH_NO_P0_P1.",
+    "statement": "Independently review the exact 12-path one-commit delta, rerun only the affected tests, and create the PR if and only if P0=P1=0."
+  },
+  "preconditions": [
+    {
+      "command": "git ls-remote origin refs/heads/agent/architecture/rust-first-rf02c-20260826-r1",
+      "expect": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "id": "PRE-001"
+    },
+    {
+      "command": "git ls-remote origin refs/heads/agent/integration/bass-generic-vector-host-parity-20260826",
+      "expect": "a979af6b022eb832215a2342a01fe6b85374b914",
+      "id": "PRE-002"
+    },
+    {
+      "command": "git merge-base 445e50184823e58401a8212ceaaf736e72bb35f2 a979af6b022eb832215a2342a01fe6b85374b914",
+      "expect": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "id": "PRE-003"
+    },
+    {
+      "command": "git rev-list --count 445e50184823e58401a8212ceaaf736e72bb35f2..a979af6b022eb832215a2342a01fe6b85374b914",
+      "expect": "1",
+      "id": "PRE-004"
+    },
+    {
+      "command": "gh pr list --repo cosmosapjw-quantum/bass --head agent/integration/bass-generic-vector-host-parity-20260826 --state all --json number,state,headRefOid,baseRefName",
+      "expect": "no existing open PR for the frozen head",
+      "id": "PRE-005"
+    }
+  ],
+  "review_gate": {"fresh_context_required": true, "pass_condition": {"P0": 0, "P1": 0}},
+  "risk": {
+    "P0_failure_modes": ["FM-001", "FM-002", "FM-003", "FM-004", "FM-005"],
+    "P1_failure_modes": ["FM-006", "FM-009", "FM-010"],
+    "class": "high"
+  },
+  "schema": "audit-compiled-work-unit/v1",
+  "scope": {
+    "allowed_paths": [
+      "_rustcore/src/kinetic/generic_vector.rs",
+      "_rustcore/src/kinetic/mod.rs",
+      "_rustcore/src/lib.rs",
+      "_rustcore/src/python/generic_vector.rs",
+      "_rustcore/src/python/mod.rs",
+      "artifacts/rust_first_runtime/bass3/EXECUTION_EVIDENCE.json",
+      "artifacts/rust_first_runtime/bass3/GREEN.log",
+      "artifacts/rust_first_runtime/bass3/RED.log",
+      "artifacts/rust_first_runtime/bass3/RED_ENVIRONMENT_ATTEMPT.log",
+      "tests/oracles/bass3_generic_vector_oracle.py",
+      "tests/test_bass3_generic_vector_host_parity.py",
+      "tools/audit/run_bass3_generic_vector_host_parity.py"
+    ],
+    "forbidden_changes": [
+      "read-only review: no repository file changes",
+      "do not change tolerances, goldens, oracle hashes, or expected paths",
+      "do not create a review branch or evidence commit"
+    ],
+    "forbidden_paths": ["**"]
+  },
+  "title": "Fresh differential review and pull-request creation",
+  "verification": {
+    "full_relevant_suite": [],
+    "integration": ["default-off probe", "generic non-collinear case", "exact-vacuum no-projector case"],
+    "negative": ["six hostile mutation regressions in tests/test_bass3_generic_vector_host_parity.py"],
+    "regression": ["cd _rustcore && cargo test --release generic_vector -- --nocapture"],
+    "targeted": [
+      "python -m pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'not mutation'",
+      "python -m pytest -q tests/test_bass3_generic_vector_host_parity.py -k 'mutation'"
+    ]
+  }
+}

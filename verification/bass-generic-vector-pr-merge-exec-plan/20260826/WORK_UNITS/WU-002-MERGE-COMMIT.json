@@ -1,0 +1,134 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_reference_outputs_without_authority": "forbidden",
+    "changing_tests_to_fit_implementation": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "guessing_across_spec_boundary": "forbidden",
+    "suppressing_failures": "forbidden"
+  },
+  "authority": {
+    "base_sha": "445e50184823e58401a8212ceaaf736e72bb35f2",
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "implementation_branch": "agent/integration/bass-generic-vector-host-parity-20260826",
+    "implementation_sha": "a979af6b022eb832215a2342a01fe6b85374b914",
+    "upstream_dependencies": [
+      "WU-001: PR_CREATED_READY_FOR_USER_MERGE_APPROVAL"
+    ]
+  },
+  "completion_evidence": {
+    "required": [
+      "PR number",
+      "approval evidence",
+      "merge method",
+      "merge SHA",
+      "merge tree",
+      "merge parents",
+      "active branch tip"
+    ]
+  },
+  "failure_modes": [
+    {"id": "FM-001", "severity": "P0"},
+    {"id": "FM-002", "severity": "P0"},
+    {"id": "FM-006", "severity": "P1"},
+    {"id": "FM-007", "severity": "P1"}
+  ],
+  "final_states": [
+    "MERGED_READY_FOR_POST_MERGE_EXECUTION",
+    "READY_FOR_USER_MERGE_APPROVAL",
+    "BLOCKED_BY_REF_MOVEMENT",
+    "BLOCKED_BY_MERGE_CONFLICT"
+  ],
+  "id": "WU-002",
+  "implementation": {
+    "ordered_steps": [
+      {
+        "action": "Resolve PR and revalidate exact base/head identities and approval.",
+        "files": [],
+        "id": "STEP-101",
+        "must_preserve": ["PR head SHA", "base branch", "review verdict"]
+      },
+      {
+        "action": "Merge through GitHub using merge_method=merge and expected head SHA.",
+        "files": [],
+        "id": "STEP-102",
+        "must_preserve": ["implementation commit identity", "no force push"]
+      },
+      {
+        "action": "Read back merge SHA, tree, parents, message, and active branch tip.",
+        "files": [],
+        "id": "STEP-103",
+        "must_preserve": ["no post-merge edits"]
+      }
+    ]
+  },
+  "invariants": [
+    {
+      "id": "INV-101",
+      "mechanical_check": {
+        "command": "PUT /repos/cosmosapjw-quantum/bass/pulls/<PR>/merge with merge_method=merge and sha=a979af6b022eb832215a2342a01fe6b85374b914",
+        "expect": "merged=true"
+      },
+      "severity_if_violated": "P1",
+      "statement": "Merge method is merge commit and the expected head SHA is supplied."
+    },
+    {
+      "id": "INV-102",
+      "mechanical_check": {
+        "command": "git show --no-patch --format=%P <merge_sha>",
+        "expect": [
+          "445e50184823e58401a8212ceaaf736e72bb35f2",
+          "a979af6b022eb832215a2342a01fe6b85374b914"
+        ]
+      },
+      "severity_if_violated": "P0",
+      "statement": "The merge commit parents include the reviewed base and implementation candidate."
+    }
+  ],
+  "objective": {
+    "non_goals": ["no squash or rebase merge", "no automatic approval", "no code repair during merge"],
+    "observable_success": "The active RF-02C branch tip is a merge commit whose parents bind the previous base and implementation head.",
+    "statement": "After explicit user approval, merge the reviewed PR with a merge commit while guarding the frozen head SHA."
+  },
+  "preconditions": [
+    {
+      "command": "read PR head OID, base branch, mergeability, and fresh-review verdict",
+      "expect": {
+        "base_branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+        "fresh_review": "PASS_WITH_NO_P0_P1",
+        "head_oid": "a979af6b022eb832215a2342a01fe6b85374b914"
+      },
+      "id": "PRE-101"
+    },
+    {
+      "command": "inspect current remote base tip",
+      "expect": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "id": "PRE-102"
+    },
+    {
+      "command": "verify explicit user message authorizes merge commit for this PR",
+      "expect": "MERGE_APPROVED",
+      "id": "PRE-103"
+    }
+  ],
+  "review_gate": {"fresh_context_required": false, "pass_condition": {"P0": 0, "P1": 0}},
+  "risk": {
+    "P0_failure_modes": ["FM-001", "FM-002"],
+    "P1_failure_modes": ["FM-006", "FM-007"],
+    "class": "high"
+  },
+  "schema": "audit-compiled-work-unit/v1",
+  "scope": {
+    "allowed_paths": [],
+    "forbidden_changes": ["no file edits", "no branch force-push", "no merge without explicit user approval"],
+    "forbidden_paths": ["**"]
+  },
+  "title": "Explicitly approved merge-commit integration",
+  "verification": {
+    "full_relevant_suite": [],
+    "integration": [],
+    "negative": ["refuse absent approval", "refuse head movement", "refuse squash/rebase"],
+    "regression": [],
+    "targeted": ["merge SHA/tree/parent readback"]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-26",
+  "default_codex_launch": "WU-001",
+  "implementation": {
+    "base_branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "base_sha": "445e50184823e58401a8212ceaaf736e72bb35f2",
+    "changed_path_count": 12,
+    "head_branch": "agent/integration/bass-generic-vector-host-parity-20260826",
+    "head_sha": "a979af6b022eb832215a2342a01fe6b85374b914",
+    "head_tree": "86cdac8dc695c4e6c012294c73eaedf4a55cc1ce"
+  },
+  "plan_base": "445e50184823e58401a8212ceaaf736e72bb35f2",
+  "plan_base_tree": "2cc70721694eaad097973cb11d32dea3a980f49e",
+  "plan_branch": "agent/audit/bass-generic-vector-pr-merge-exec-plan-20260826",
+  "process_budget": {
+    "fresh_reviews": 1,
+    "full_repository_suites": 0,
+    "historical_replays": 0,
+    "new_evidence_commits": 0,
+    "repair_cycles_without_new_P0_P1": 0
+  },
+  "repository": "cosmosapjw-quantum/bass",
+  "required_package_marker": "PASS_BASS_GENERIC_VECTOR_PR_MERGE_PACKAGE",
+  "root": "verification/bass-generic-vector-pr-merge-exec-plan/20260826",
+  "schema": "bass-generic-vector-pr-merge-package-index-v1",
+  "work_units": [
+    {
+      "file": "WORK_UNITS/WU-001-FRESH-DIFFERENTIAL-PR.json",
+      "id": "WU-001",
+      "status": "READY_FRESH_CONTEXT_ONLY",
+      "title": "Fresh differential review and pull-request creation"
+    },
+    {
+      "file": "WORK_UNITS/WU-002-MERGE-COMMIT.json",
+      "id": "WU-002",
+      "status": "BLOCKED_BY_WU-001_AND_EXPLICIT_USER_APPROVAL",
+      "title": "Explicitly approved merge-commit integration"
+    },
+    {
+      "file": "WORK_UNITS/WU-003-POST-MERGE-TARGETED-EXECUTION.json",
+      "id": "WU-003",
+      "status": "BLOCKED_BY_WU-002",
+      "title": "Post-merge targeted native execution"
+    }
+  ]
+}

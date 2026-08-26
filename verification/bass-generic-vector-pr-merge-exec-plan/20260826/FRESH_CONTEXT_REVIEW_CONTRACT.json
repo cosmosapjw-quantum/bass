@@ -1,0 +1,40 @@
+{
+  "first_pass_mode": "READ_ONLY",
+  "inputs": {
+    "base_sha": "445e50184823e58401a8212ceaaf736e72bb35f2",
+    "canonical_execution_evidence": "artifacts/rust_first_runtime/bass3/EXECUTION_EVIDENCE.json",
+    "contract": "WORK_UNITS/WU-001-FRESH-DIFFERENTIAL-PR.json",
+    "final_sha": "a979af6b022eb832215a2342a01fe6b85374b914",
+    "implementation_reasoning": "not authority and must not be supplied as evidence",
+    "repository": "cosmosapjw-quantum/bass"
+  },
+  "pass_condition": {
+    "P0": 0,
+    "P1": 0
+  },
+  "required_finding_schema": {
+    "current_task_blocking": "true|false",
+    "explanation": "why this is a defect",
+    "file": "repository path",
+    "line_or_symbol": "location",
+    "reproducer": "command or minimal evidence",
+    "severity": "P0|P1|P2|P3",
+    "violated_invariant": "INV-ID or precise invariant"
+  },
+  "review_questions": [
+    "Does the diff preserve q_i in the paired left dual and apply q_i exactly once in the rate?",
+    "Does global_rate equal alpha*gamma while node_rate equals alpha*D_i?",
+    "Are a^T r=1, P=r a^T, K=[Pdot,P], and [K,P]=Pdot implemented consistently?",
+    "Does exact vacuum avoid selecting a nontrivial projector?",
+    "Is the route truly default-off and absent from public bianchi exports?",
+    "Can any test pass by changing the oracle, carrier bytes, tolerances, or goldens?",
+    "Is every numerical comparison typed as scientific/numerical identity rather than raw byte identity?",
+    "Does the diff contain only the frozen 12 paths and one commit?"
+  ],
+  "schema": "fresh-context-differential-review/v1",
+  "triage": {
+    "P0_or_P1": "block PR creation; return findings only",
+    "P2": "record as nonblocking backlog unless it invalidates a current invariant",
+    "P3": "ignore for merge decision"
+  }
+}
