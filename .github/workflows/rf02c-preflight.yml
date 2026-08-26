@@ -110,14 +110,18 @@ jobs:
 
       - name: Evaluate RF-02C precondition versus compiled allowlist
         id: scope
+        env:
+          PYTHONPATH: .
         shell: bash
         run: |
+          set +e
           set -uo pipefail
           python tools/audit/rf02c_preflight.py \
             --root . \
             --output artifacts/rust_first_runtime/rf02c/PREFLIGHT.json \
             | tee artifacts/rust_first_runtime/rf02c/PREFLIGHT.log
           rc=${PIPESTATUS[0]}
+          set -e
           printf 'exit_code=%s\n' "$rc" >> "$GITHUB_OUTPUT"
           exit 0
 
