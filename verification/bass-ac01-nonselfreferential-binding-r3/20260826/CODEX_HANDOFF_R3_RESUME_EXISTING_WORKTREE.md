@@ -103,9 +103,7 @@ It MUST NOT contain `final_sha` or `attestation_commit_sha`.
 Validate:
 
 ```bash
-python3 "$R3_ROOT/scripts/verify_precommit_receipt.py" \
-  --contract "$ACTIVE" \
-  --receipt "$EVID/RECEIPT.json"
+python3 "$R3_ROOT/scripts/verify_precommit_receipt.py"   --contract "$ACTIVE"   --receipt "$EVID/RECEIPT.json"
 ```
 
 ## 6. Final diff firewall and implementation commit
@@ -156,11 +154,7 @@ Push `agent/evidence/bass-ac-01-post-push-binding-20260826` normally.
 Run:
 
 ```bash
-python3 "$R3_ROOT/scripts/verify_post_push_binding.py" \
-  --repo "$REPO" \
-  --binding "$ATTEST_WT/verification/bass-ac-01/20260826/POST_PUSH_BINDING.json" \
-  --implementation-branch "$IMPL_BRANCH" \
-  --attestation-branch "$ATTEST_BRANCH"
+python3 "$R3_ROOT/scripts/verify_post_push_binding.py"   --repo "$REPO"   --binding "$ATTEST_WT/verification/bass-ac-01/20260826/POST_PUSH_BINDING.json"   --implementation-branch "$IMPL_BRANCH"   --attestation-branch "$ATTEST_BRANCH"
 ```
 
 Require `PASS_POST_PUSH_BINDING`.
