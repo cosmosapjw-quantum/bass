@@ -1,0 +1,108 @@
+CHECK: targeted_module
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity -v
+test_absolute_sidecar_path_rejected (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_absolute_sidecar_path_rejected) ... ok
+test_distinct_container_can_pass_content_identity (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_distinct_container_can_pass_content_identity) ... ok
+test_forbidden_diff_is_p0 (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_forbidden_diff_is_p0) ... ok
+test_missing_artifact_is_blocked_input (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input) ... ok
+test_same_name_different_digest_is_p0 (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0) ... ok
+test_unbound_receipt_cannot_promote (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unbound_receipt_cannot_promote) ... ok
+test_unmanifested_cache_fails_closed (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unmanifested_cache_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.311s
+
+OK
+EXIT_STATUS=0
+
+CHECK: identity_self_test
+COMMAND: python3 scripts/verify_artifact_identity.py --self-test
+PASS_AC01_SELF_TEST
+EXIT_STATUS=0
+
+CHECK: negative_ARTIFACT_IDENTITY_COLLISION
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0 -v
+test_same_name_different_digest_is_p0 (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+OK
+EXIT_STATUS=0
+
+CHECK: negative_BLOCKED_INPUT_REQUIRED
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input -v
+test_missing_artifact_is_blocked_input (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+OK
+EXIT_STATUS=0
+
+CHECK: negative_UNBOUND_HISTORICAL_EVIDENCE
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unbound_receipt_cannot_promote -v
+test_unbound_receipt_cannot_promote (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unbound_receipt_cannot_promote) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.041s
+
+OK
+EXIT_STATUS=0
+
+CHECK: negative_NON_PORTABLE_SIDECAR
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_absolute_sidecar_path_rejected -v
+test_absolute_sidecar_path_rejected (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_absolute_sidecar_path_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.046s
+
+OK
+EXIT_STATUS=0
+
+CHECK: negative_CACHE_CONTAMINATION
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unmanifested_cache_fails_closed -v
+test_unmanifested_cache_fails_closed (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_unmanifested_cache_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.043s
+
+OK
+EXIT_STATUS=0
+
+CHECK: negative_FORBIDDEN_REFERENCE_MUTATION
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_forbidden_diff_is_p0 -v
+test_forbidden_diff_is_p0 (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_forbidden_diff_is_p0) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.060s
+
+OK
+EXIT_STATUS=0
+
+CHECK: classification_PASS_CONTENT_EQUIVALENCE
+COMMAND: python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_distinct_container_can_pass_content_identity -v
+test_distinct_container_can_pass_content_identity (tests.verification.test_artifact_identity.ArtifactIdentityTests.test_distinct_container_can_pass_content_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.078s
+
+OK
+EXIT_STATUS=0
+
+CHECK: verification_discovery
+COMMAND: python3 -m unittest discover -s tests/verification -v
+test_absolute_sidecar_path_rejected (test_artifact_identity.ArtifactIdentityTests.test_absolute_sidecar_path_rejected) ... ok
+test_distinct_container_can_pass_content_identity (test_artifact_identity.ArtifactIdentityTests.test_distinct_container_can_pass_content_identity) ... ok
+test_forbidden_diff_is_p0 (test_artifact_identity.ArtifactIdentityTests.test_forbidden_diff_is_p0) ... ok
+test_missing_artifact_is_blocked_input (test_artifact_identity.ArtifactIdentityTests.test_missing_artifact_is_blocked_input) ... ok
+test_same_name_different_digest_is_p0 (test_artifact_identity.ArtifactIdentityTests.test_same_name_different_digest_is_p0) ... ok
+test_unbound_receipt_cannot_promote (test_artifact_identity.ArtifactIdentityTests.test_unbound_receipt_cannot_promote) ... ok
+test_unmanifested_cache_fails_closed (test_artifact_identity.ArtifactIdentityTests.test_unmanifested_cache_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.339s
+
+OK
+EXIT_STATUS=0
+
+GREEN_LOG_SHA256_PRE_FINAL=83c5193ecdc7824648e1110f17a9f5a6d593e71f01d9e7b8f40b4399a498a85d

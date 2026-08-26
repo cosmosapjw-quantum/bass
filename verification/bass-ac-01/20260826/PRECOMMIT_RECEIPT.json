@@ -1,0 +1,151 @@
+{
+  "schema": "bass-ac01-precommit-receipt/v1",
+  "contract_id": "BASS-AC01-NONSELFREF-SUCCESSOR-R3-20260826",
+  "base_sha": "d6a0b63fac09c3a6d0c9071206f0d51f01953341",
+  "implementation_branch": "agent/guard/bass-ac-01-artifact-identity-20260826",
+  "expected_commit_message": "guard: add fail-closed BASS artifact identity verification",
+  "expected_changed_paths": [
+    "docs/quality/ARTIFACT_IDENTITY_POLICY.md",
+    "scripts/verify_allowed_diff.py",
+    "scripts/verify_artifact_identity.py",
+    "tests/verification/test_artifact_identity.py",
+    "verification/audit-compiled/ACTIVE_WORK_UNIT.json",
+    "verification/bass-ac-01/20260826/RED.log",
+    "verification/bass-ac-01/20260826/GREEN.log",
+    "verification/bass-ac-01/20260826/PRECOMMIT_RECEIPT.json",
+    "verification/bass-ac-01/20260826/DIFF_FIREWALL.log"
+  ],
+  "successor_authority": {
+    "branch": "agent/audit/bass-ac01-nonselfref-successor-r3-20260826",
+    "ref_sha": "ea2cf07484c5dd35a6fa84c40808c0331b1b8fa3",
+    "contract_path": "verification/bass-ac01-nonselfref-successor-r3/20260826/SUCCESSOR_PACKAGE.json",
+    "contract_sha256": "86779d2b5d07cb196c9613126b643bd813a1c891a961baf3569cd13813b5d79f"
+  },
+  "payload_manifest": {
+    "algorithm": "sha256",
+    "included": [
+      {
+        "path": "docs/quality/ARTIFACT_IDENTITY_POLICY.md",
+        "size_bytes": 3506,
+        "sha256": "cbd5d6c9e36456af9e96aac0b04236798f3e5eff34971bfecbd10ce8346d7971"
+      },
+      {
+        "path": "scripts/verify_allowed_diff.py",
+        "size_bytes": 6343,
+        "sha256": "6063313eea00d01d5bdf09ab09a11e02803715fa634280fcbd80bf8a05fda0e1"
+      },
+      {
+        "path": "scripts/verify_artifact_identity.py",
+        "size_bytes": 17482,
+        "sha256": "b48dd4fcd9ae3cc575c5b27857763aaed3c701e564b267aad02bca12e9b4003c"
+      },
+      {
+        "path": "tests/verification/test_artifact_identity.py",
+        "size_bytes": 11530,
+        "sha256": "4e08fd81e6d2b9b12ff06348a5d503b5a7eb188ac84f491817fdc08c90c50152"
+      },
+      {
+        "path": "verification/audit-compiled/ACTIVE_WORK_UNIT.json",
+        "size_bytes": 6296,
+        "sha256": "86779d2b5d07cb196c9613126b643bd813a1c891a961baf3569cd13813b5d79f"
+      },
+      {
+        "path": "verification/bass-ac-01/20260826/RED.log",
+        "size_bytes": 11598,
+        "sha256": "122688e1cf9c8a1fa371a5214bec56310652411284c10ab56470a5b3ae73c9be"
+      },
+      {
+        "path": "verification/bass-ac-01/20260826/GREEN.log",
+        "size_bytes": 5616,
+        "sha256": "245bba44e09a9e227b705172fa444ec919148d0e4aba2b88651b0c0abd29e048"
+      },
+      {
+        "path": "verification/bass-ac-01/20260826/DIFF_FIREWALL.log",
+        "size_bytes": 530,
+        "sha256": "6e81ed256d8f164f9c75f9fe093dcb1c8a479f6792173546c6c839778c5568bd"
+      }
+    ],
+    "excluded": {
+      "path": "verification/bass-ac-01/20260826/PRECOMMIT_RECEIPT.json",
+      "reason": "EXPLICIT_SELF_REFERENCE_EXCLUSION",
+      "required_by": "BASS-AC01-NONSELFREF-SUCCESSOR-R3-20260826"
+    }
+  },
+  "test_summary": {
+    "preserved_red_log": "INITIAL_SEVEN_RED_PLUS_R3_SUCCESSOR_SCHEMA_RED",
+    "preserved_green_log": "TARGETED_7_PASS_SELF_TEST_PASS_DISCOVERY_7_PASS",
+    "r3_successor_regression": {
+      "command": "python3 -m unittest tests.verification.test_artifact_identity.ArtifactIdentityTests.test_forbidden_diff_is_p0 -v",
+      "result": "PASS"
+    },
+    "final_read_only_revalidation": "REQUIRED_AFTER_RECEIPT_FREEZE"
+  },
+  "negative_test_classifications": [
+    {
+      "test": "test_same_name_different_digest_is_p0",
+      "identity_class": "A",
+      "code": "ARTIFACT_IDENTITY_COLLISION",
+      "disposition": "P0_HARD_BLOCKING_BYTE_IDENTITY",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_missing_artifact_is_blocked_input",
+      "identity_class": "A",
+      "code": "BLOCKED_INPUT_REQUIRED",
+      "disposition": "BLOCKED_MISSING_IMMUTABLE_INPUT",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_unbound_receipt_cannot_promote",
+      "identity_class": "A",
+      "code": "UNBOUND_HISTORICAL_EVIDENCE",
+      "disposition": "P0_PROMOTION_BLOCKED",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_absolute_sidecar_path_rejected",
+      "identity_class": "D",
+      "code": "NON_PORTABLE_SIDECAR",
+      "disposition": "P1_PACKAGING_PORTABILITY_BLOCK",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_unmanifested_cache_fails_closed",
+      "identity_class": "B",
+      "code": "CACHE_CONTAMINATION",
+      "disposition": "P0_DETERMINISTIC_EVIDENCE_BLOCK",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_forbidden_diff_is_p0",
+      "identity_class": "REFERENCE_MUTATION",
+      "code": "FORBIDDEN_REFERENCE_MUTATION",
+      "disposition": "P0_DIFF_BLOCK",
+      "scientific_integrity_failure": false
+    },
+    {
+      "test": "test_distinct_container_can_pass_content_identity",
+      "identity_class": "C",
+      "code": "BLOCKED_CONTENT_CRITERIA_REQUIRED_OR_PASS_CONTENT_EQUIVALENCE",
+      "disposition": "PASS_ONLY_WITH_EXPLICIT_SCIENTIFIC_CONTENT_CRITERIA",
+      "scientific_integrity_failure": false
+    }
+  ],
+  "claim_boundary": {
+    "historical_artifact_recovered": false,
+    "authority_row_promoted": false,
+    "runtime_wired": false,
+    "rust_lowered": false,
+    "classifier_authorized": false,
+    "solver_authorized": false,
+    "fitting_authorized": false,
+    "active_line_integrated": false,
+    "wu004r_executed": false
+  },
+  "final_identity_binding": {
+    "mode": "SEPARATE_REMOTE_ATTESTATION_BRANCH",
+    "branch": "agent/verify/bass-ac-01-remote-attestation-20260826",
+    "path": "verification/bass-ac-01/20260826/REMOTE_ATTESTATION.json",
+    "resolution": "POST_PUSH_REMOTE_READBACK_THEN_WU004R_FRESH_CONTEXT"
+  }
+}
