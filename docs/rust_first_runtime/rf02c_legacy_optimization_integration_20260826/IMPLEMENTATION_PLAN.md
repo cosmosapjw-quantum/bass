@@ -156,7 +156,7 @@ Performance and authority promotion remain `NONE`. Keep this PR draft and
 unmerged. Do not start RF-03+, timing, GPU, Wolfram, or full-suite reassurance.
 EOF
 
-gh pr create   --repo cosmosapjw-quantum/bass   --draft   --base agent/audit/science-system-differential-20260826-r1   --head agent/architecture/rust-first-rf02c-20260826-r1   --title "runtime: close verified RF-02C background execution"  --body-file /tmp/rf02c-pr-body.md 
+gh pr create   --repo cosmosapjw-quantum/bass   --draft   --base agent/audit/science-system-differential-20260826-r1   --head agent/architecture/rust-first-rf02c-20260826-r1   --title "runtime: close verified RF-02C background execution"   --body-file /tmp/rf02c-pr-body.md
 ```
 
 Expected: one open draft PR whose base is the PR #33 branch.
