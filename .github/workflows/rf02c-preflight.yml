@@ -19,7 +19,7 @@ env:
 
 jobs:
   ordered-preflight:
-    name: Package identity, starting RED, and scope closure
+    name: Package identity, starting RED, scope, and V2 semantics closure
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -124,6 +124,25 @@ jobs:
           set -e
           printf 'exit_code=%s\n' "$rc" >> "$GITHUB_OUTPUT"
           exit 0
+
+      - name: Validate callback-free V2 execution semantics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/audit/rf02c_semantics_v2.py \
+            --contract docs/rust_first_runtime/RF02C_EXECUTION_CONTRACT_V2.json \
+            --v1 docs/rust_first_runtime/RF02C_EXECUTION_CONTRACT_V1.json \
+            --output artifacts/rust_first_runtime/rf02c/SEMANTICS_V2_VALIDATION.json \
+            | tee artifacts/rust_first_runtime/rf02c/SEMANTICS_V2_VALIDATION.log
+
+      - name: Run exact multiple and tangential root oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/audit/rf02c_event_root_oracle_v2.py \
+            --self-test \
+            --output artifacts/rust_first_runtime/rf02c/EVENT_ROOT_ORACLE_V2.json \
+            | tee artifacts/rust_first_runtime/rf02c/EVENT_ROOT_ORACLE_V2.log
 
       - name: Preserve bounded preflight evidence
         if: always()
