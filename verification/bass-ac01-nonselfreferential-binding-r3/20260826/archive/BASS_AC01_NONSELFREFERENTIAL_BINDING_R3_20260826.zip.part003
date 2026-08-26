@@ -1,0 +1,172 @@
+": "verification/bass-ac-01/20260826/POST_PUSH_BINDING.json",
+    "forbidden_paths": [
+      "verification/bass-close-00r-fresh-2b3-reproduction/**",
+      "verification/bass8b*/**",
+      "checkpoints/**",
+      "source/**",
+      "tests/physics/**",
+      "**/*.zip",
+      "**/*.png"
+    ],
+    "forbidden_changes": [
+      "scientific source/tests/tolerances/goldens/expected hashes/sealed content",
+      "JAX/JAXlib/Equinox/Diffrax",
+      "runtime/Rust/solver/classifier/fitting",
+      "history merge/rebase"
+    ]
+  },
+  "preconditions": [
+    {
+      "id": "PRE-R3-001",
+      "check": "Existing implementation worktree exact base",
+      "expect": "d6a0b63fac09c3a6d0c9071206f0d51f01953341"
+    },
+    {
+      "id": "PRE-R3-002",
+      "check": "Existing implementation branch",
+      "expect": "agent/guard/bass-ac-01-artifact-identity-20260826"
+    },
+    {
+      "id": "PRE-R3-003",
+      "check": "Implementation index has no staged entries",
+      "expect": "empty"
+    },
+    {
+      "id": "PRE-R3-004",
+      "check": "Only the reported AC-01 candidate paths are untracked before successor files",
+      "expect": "exact or explicitly narrower set"
+    },
+    {
+      "id": "PRE-R3-005",
+      "check": "Remote implementation and attestation branches absent",
+      "expect": "both empty"
+    },
+    {
+      "id": "PRE-R3-006",
+      "check": "Predecessor RED/GREEN/contract hashes",
+      "expect": {
+        "contract": "88a21f1255d2a11bbb5ac2cd12abbb2d444c163dc2dceb8a0f4d9ec2e28ba01c",
+        "red": "2da7607e2cda6129d51ee2002ac32f9a74fa1542de4e7cf73bddad0f606aeea6",
+        "green": "245bba44e09a9e227b705172fa444ec919148d0e4aba2b88651b0c0abd29e048"
+      }
+    }
+  ],
+  "invariants": [
+    "INV-001",
+    "INV-002",
+    "INV-011",
+    "INV-012",
+    "INV-014",
+    "INV-SELF-SHA-001"
+  ],
+  "failure_modes": [
+    {
+      "id": "FM-SELF-SHA-001",
+      "severity": "P0",
+      "trigger": "A tracked file in a commit is required to contain the resulting commit object ID.",
+      "required_detection": "successor package regression rejects final_sha in precommit receipt and requires separate attestation."
+    }
+  ],
+  "implementation": {
+    "ordered_steps": [
+      {
+        "id": "STEP-R3-001",
+        "action": "Verify reported worktree state and predecessor evidence hashes; do not delete or recreate existing implementation files."
+      },
+      {
+        "id": "STEP-R3-002",
+        "action": "Replace ACTIVE_WORK_UNIT.json with this successor contract and add SPEC_CORRECTION.json under the AC-01 evidence directory."
+      },
+      {
+        "id": "STEP-R3-003",
+        "action": "Rerun all targeted, negative, self-test, and tests/verification GREEN checks."
+      },
+      {
+        "id": "STEP-R3-004",
+        "action": "Generate PRECOMMIT RECEIPT.json using bass-work-unit-precommit-evidence-v2; final_sha is forbidden."
+      },
+      {
+        "id": "STEP-R3-005",
+        "action": "Generate DIFF_FIREWALL.log after the full candidate path set exists, stage only allowed paths, rerun staged firewall and git diff --check."
+      },
+      {
+        "id": "STEP-R3-006",
+        "action": "Create exactly one implementation commit with the frozen message and push normally."
+      },
+      {
+        "id": "STEP-R3-007",
+        "action": "Resolve local/remote implementation head equality; generate POST_PUSH_BINDING.json in a new attestation worktree based on the implementation SHA."
+      },
+      {
+        "id": "STEP-R3-008",
+        "action": "Commit exactly one attestation file on the separate evidence branch, push normally, and verify parent/path/content binding."
+      },
+      {
+        "id": "STEP-R3-009",
+        "action": "Stop and report both SHAs. Do not execute WU-004R."
+      }
+    ]
+  },
+  "commit_policy": {
+    "implementation": {
+      "branch": "agent/guard/bass-ac-01-artifact-identity-20260826",
+      "count_from_base": 1,
+      "message": "guard: add fail-closed BASS artifact identity verification",
+      "push": "ordinary non-force"
+    },
+    "attestation": {
+      "branch": "agent/evidence/bass-ac-01-post-push-binding-20260826",
+      "parent": "implementation final SHA",
+      "commit_count": 1,
+      "changed_paths": [
+        "verification/bass-ac-01/20260826/POST_PUSH_BINDING.json"
+      ],
+      "message": "evidence: bind AC-01 implementation head for fresh review",
+      "push": "ordinary non-force"
+    },
+    "pr": "forbidden",
+    "merge": "forbidden",
+    "tag": "forbidden",
+    "main_mutation": "forbidden"
+  },
+  "receipt_policy": {
+    "in_commit_schema": "bass-work-unit-precommit-evidence-v2",
+    "in_commit_forbidden_fields": [
+      "final_sha",
+      "attestation_commit_sha"
+    ],
+    "post_push_schema": "bass-post-push-binding-v1",
+    "review_target_field": "post_push_binding.subject_sha",
+    "attestation_commit_sha_is_external_readback": true
+  },
+  "verification": {
+    "targeted": [
+      "python -m unittest tests.verification.test_artifact_identity -v",
+      "python scripts/verify_artifact_identity.py --self-test"
+    ],
+    "regression": [
+      "python -m unittest discover -s tests/verification -v",
+      "python scripts/verify_allowed_diff.py --base d6a0b63fac09c3a6d0c9071206f0d51f01953341 --contract verification/audit-compiled/ACTIVE_WORK_UNIT.json",
+      "git diff --check"
+    ],
+    "binding": [
+      "python scripts/verify_precommit_receipt.py --contract ... --receipt ...",
+      "python scripts/verify_post_push_binding.py --repo ... --binding ... --implementation-branch ... --attestation-branch ..."
+    ],
+    "expected": [
+      "7/7 PASS",
+      "PASS_AC01_SELF_TEST",
+      "PASS_ALLOWED_DIFF",
+      "PASS_PRECOMMIT_RECEIPT",
+      "PASS_POST_PUSH_BINDING"
+    ]
+  },
+  "completion_evidence": {
+    "required": [
+      "implementation_final_sha",
+      "implementation_tree_sha",
+      "implementation_remote_ref_sha",
+      "precommit_receipt_sha256",
+      "diff_firewall_sha256",
+      "attestation_commit_sha",
+      "attestation_remote_ref_sha"
