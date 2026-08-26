@@ -8,6 +8,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+import sys
 from typing import Any
 
 
@@ -124,6 +125,9 @@ def _validated_jvp_receipt(root: Path, path: Path) -> dict[str, Any]:
         raise RuntimeError("JVP receipt lacks normalized wheel filename")
     if "wheel_direct_url" in native_identity or "file://" in json.dumps(native_identity):
         raise RuntimeError("JVP receipt contains ephemeral native installation provenance")
+    root_text = str(root)
+    if root_text not in sys.path:
+        sys.path.insert(0, root_text)
     from bianchi.q.geometry_identity import geometry_route_identity
 
     expected_execution_identity = geometry_route_identity()

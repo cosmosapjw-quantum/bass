@@ -223,6 +223,37 @@ pub(crate) fn chart_project<'py>(
     Ok(Array1::from_vec(out[..n].to_vec()).into_pyarray(py))
 }
 
+fn history_completed(history: &GeometryHistory) -> bool {
+    history.failure.is_none()
+        && matches!(
+            history.status,
+            TrajectoryStatus::Completed | TrajectoryStatus::CompletedAtTransition
+        )
+}
+
+fn requested_history_rows(
+    history: &GeometryHistory,
+    requested_taus: &[f64],
+    nstates: usize,
+) -> Vec<Vec<f64>> {
+    let mut rows = Vec::with_capacity(requested_taus.len());
+    for requested_tau in requested_taus {
+        let Some(sample) = history
+            .samples
+            .iter()
+            .rev()
+            .find(|sample| sample.tau_bits == requested_tau.to_bits())
+        else {
+            break;
+        };
+        if sample.state.len() != nstates {
+            break;
+        }
+        rows.push(sample.state.clone());
+    }
+    rows
+}
+
 /// 단일 궤적 적분 (diffsol BDF).  반환 (ys[M,5], ok).
 #[pyfunction]
 #[pyo3(signature = (chart, y0, t_eval, gamma, kappa = 0.0, rtol = 1e-10, atol = 1e-12))]
@@ -238,12 +269,32 @@ pub(crate) fn integrate_background<'py>(
     atol: f64,
 ) -> PyResult<(Bound<'py, PyArray2<f64>>, bool)> {
     let c = make_chart(chart, gamma, kappa)?;
-    let y0a = to_yn(&y0, &c)?;
     let n = c.nstates();
     let ts = t_eval.as_slice()?.to_vec();
     if ts.len() < 2 {
         return Err(PyValueError::new_err("t_eval needs >= 2 points"));
     }
+
+    if crate::ode::charts::scalar_state_names(&c).is_some() {
+        let y0a = to_scalar_yn(&y0, &c)?;
+        let request = make_background_request(
+            chart,
+            y0a[..n].to_vec(),
+            ts.clone(),
+            gamma,
+            kappa,
+            rtol,
+            atol,
+            "off",
+        )?;
+        let history = py.detach(move || integrate_background_history_native(request));
+        let rows = requested_history_rows(&history, &ts, n);
+        let ok = history_completed(&history) && rows.len() == ts.len();
+        let ys = Array2::from_shape_fn((rows.len(), n), |(i, j)| rows[i][j]).into_pyarray(py);
+        return Ok((ys, ok));
+    }
+
+    let y0a = to_yn(&y0, &c)?;
     let tr = py.detach(|| crate::ode::solve::integrate(c, &y0a[..], &ts, rtol, atol));
     let m = tr.ys.len();
     let ys = Array2::from_shape_fn((m, n), |(i, j)| tr.ys[i][j]).into_pyarray(py);
@@ -325,6 +376,45 @@ pub(crate) fn integrate_batch<'py>(
         })
         .collect();
     let ts = t_eval.as_slice()?.to_vec();
+
+    if crate::ode::charts::scalar_state_names(&c).is_some() {
+        if !inits
+            .iter()
+            .all(|state| state[..n].iter().all(|value| value.is_finite()))
+        {
+            return Err(PyValueError::new_err(
+                "RF-02C scalar batch states must be finite",
+            ));
+        }
+        let mut requests = Vec::with_capacity(inits.len());
+        for initial in &inits {
+            requests.push(make_background_request(
+                chart,
+                initial[..n].to_vec(),
+                ts.clone(),
+                gamma,
+                kappa,
+                rtol,
+                atol,
+                "off",
+            )?);
+        }
+        let histories = py.detach(move || integrate_background_batch(requests, 1));
+        let mut final_states = vec![vec![f64::NAN; n]; histories.len()];
+        let mut success = vec![0.0; histories.len()];
+        for (member_index, history) in histories.iter().enumerate() {
+            let rows = requested_history_rows(history, &ts, n);
+            if history_completed(history) && rows.len() == ts.len() {
+                final_states[member_index].copy_from_slice(&rows[rows.len() - 1]);
+                success[member_index] = 1.0;
+            }
+        }
+        let ys = Array2::from_shape_fn((histories.len(), n), |(i, j)| final_states[i][j])
+            .into_pyarray(py);
+        let ok = Array1::from_vec(success).into_pyarray(py);
+        return Ok((ys, ok));
+    }
+
     let res = py.detach(|| crate::ode::solve::integrate_batch(c, &inits, &ts, rtol, atol));
     let k = res.len();
     let ys = Array2::from_shape_fn((k, n), |(i, j)| res[i].0[j]).into_pyarray(py);

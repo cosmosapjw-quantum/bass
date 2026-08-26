@@ -22,9 +22,10 @@ from bianchi.q import group as q_group
 RF02B_WHEEL_SHA256 = "f1b5940ed453c744b3a285898f079b9a8b0e43f66d99937fd7fa632f49d8c3f6"
 RF02B_SHARED_OBJECT_SHA256 = "8b130c76f9c4a91d3eac9c3a37dd8b4c91ba45476d578c3260d87647693fabdd"
 RF02B_SBOM_SHA256 = "af5a2b91780776ff550c17ae39aa37405889dab9350d6f8045a91a2fab15bb3c"
-RF02C_WHEEL_SHA256 = "fc1b263e94a0d9e8e5458cc9d8fc0cadfd2f4549110ac2a775c0d652bdaf1629"
-RF02C_SHARED_OBJECT_SHA256 = "ed4babb5f1d8d3ebef104f8d4bb209271aa9d577b7a8d72606208eacdfdb5478"
-RF02C_SBOM_SHA256 = "7fb53a1096e8f1afa104121621a36d7b2e449b0535640abd9145f874a5e8ef4b"
+RF02C_WHEEL_SHA256 = "e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84"
+RF02C_SHARED_OBJECT_SHA256 = "c06aab689bfc2b97c592823122ddad359db1f1ffbc220415eecfe03965a4119d"
+RF02C_SBOM_SHA256 = "dd7e2ffea618935e8d1ea0a3f8b678fed31c0a1a313e606b359d8d8b1f7fc299"
+RF02C_PREIMPLEMENTATION_HEAD = "445e50184823e58401a8212ceaaf736e72bb35f2"
 
 
 def _extension_suffix() -> str:
@@ -136,7 +137,7 @@ def test_provenance_rf02c_receipt_uses_the_built_payload_identities():
         "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json"
     ]
     assert (shared_object.size, shared_object.sha256) == (
-        3_771_016,
+        3_779_640,
         RF02C_SHARED_OBJECT_SHA256,
     )
     assert (sbom.size, sbom.sha256) == (205_916, RF02C_SBOM_SHA256)
@@ -586,7 +587,7 @@ def test_projection_postcondition_core_is_checked_and_raw_candidate_is_unchanged
     charts_path = root / "_rustcore/src/ode/charts.rs"
     current = charts_path.read_text()
     base = subprocess.run(
-        ["git", "show", "HEAD:_rustcore/src/ode/charts.rs"],
+        ["git", "show", f"{RF02C_PREIMPLEMENTATION_HEAD}:_rustcore/src/ode/charts.rs"],
         cwd=root,
         text=True,
         capture_output=True,
@@ -893,3 +894,73 @@ def test_rf02c_verified_public_routes_execute_trajectory_and_batch_without_overr
         "bass-rf02c-native-background-execution-v2"
     )
     assert report["production_native_dispatch_permitted"] is True
+
+
+def test_rf02c_default_public_legacy_shapes_use_the_history_execution_path():
+    from bianchi import backend
+
+    h0 = 0.8
+    n0 = np.sqrt(2.0 * (1.0 - h0 * h0))
+    y0 = np.asarray([h0, 0.0, 0.0, 0.0, n0, n0, n0])
+    times = np.asarray([0.0, 4.0])
+    history = _integrate_history("type_ix_d_future", y0, times, 1.0)
+
+    states, ok = backend.integrate_background(
+        "type_ix_d_future", y0, times, 1.0, policy="rust_required"
+    )
+
+    assert ok is True
+    assert states.shape == (2, 7)
+    assert len(history["events"]) == 1
+    assert np.array_equal(states[-1], np.asarray(history["samples"][-1]["state"]))
+
+    y0s = np.asarray(
+        [
+            [0.3, 0.0, 0.0, 0.0, 0.0],
+            [0.2, 0.0, 0.0, 0.0, 0.0],
+        ]
+    )
+    batch_states, batch_ok = backend.integrate_batch(
+        "class_a", y0s, np.asarray([0.0, 0.1]), 1.0, policy="rust_required"
+    )
+    histories = _rf02c_native_entrypoint("integrate_background_batch_history")(
+        "class_a", y0s, np.asarray([0.0, 0.1]), 1.0, 0.0, threads=1
+    )
+    assert batch_ok.tolist() == [True, True]
+    assert np.array_equal(
+        batch_states,
+        np.asarray([member["samples"][-1]["state"] for member in histories]),
+    )
+
+
+def test_rf02c_restart_rejects_mutated_state_order_before_solver_construction():
+    h0 = 0.8
+    n0 = np.sqrt(2.0 * (1.0 - h0 * h0))
+    first = _integrate_history(
+        "type_ix_d_future",
+        [h0, 0.0, 0.0, 0.0, n0, n0, n0],
+        [0.0, 3.8],
+        1.0,
+    )
+    first["state_names"] = ["tampered"] * 7
+
+    restarted = _rf02c_native_entrypoint("restart_background_history")(first, 4.0)
+
+    assert restarted["status"] == "FAILED_AFTER_ACCEPTED_PREFIX"
+    assert restarted["failure"]["code"] == "RESTART_IDENTITY_MISMATCH"
+
+
+def test_rf02c_initial_recollapse_has_one_root_sample_and_no_duplicate_bytes():
+    n0 = np.sqrt(2.0)
+    result = _integrate_history(
+        "type_ix_d_future",
+        [0.0, 0.0, 0.0, 0.0, n0, n0, n0],
+        [0.0, 0.1],
+        1.0,
+    )
+
+    assert len(result["events"]) == 1
+    event = result["events"][0]
+    assert event["sample_index"] == 0
+    assert result["samples"][0]["sample_kind"] == "event_root"
+    assert sum(sample["tau_bits"] == event["tau_bits"] for sample in result["samples"]) == 1

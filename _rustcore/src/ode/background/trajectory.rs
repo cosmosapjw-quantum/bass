@@ -898,25 +898,48 @@ fn append_root_records(
     latches: &mut [RuntimeLatch],
 ) -> Result<(usize, EventLatchRecord), ExecutionError> {
     let event = &registry[selected.winner.event_index];
-    let sample_index = history.samples.len();
-    let root_sample = make_sample(
-        request,
-        registry,
-        sample_index,
-        segment_id,
-        phase.clone(),
-        SampleKind::EventRoot,
-        selected.winner.tau,
-        selected.state.clone(),
-        true,
-    )?;
-    let raw_margin = root_sample.raw_margin(event.margin_id).ok_or_else(|| {
+    let reuses_initial_root = history.samples.first().is_some_and(|sample| {
+        matches!(
+            sample.sample_kind,
+            SampleKind::Initial | SampleKind::EventRoot
+        ) && sample.segment_id == segment_id
+            && &sample.phase == phase
+            && sample.tau_bits == selected.winner.tau_bits
+            && sample.state.len() == selected.state.len()
+            && sample
+                .state
+                .iter()
+                .zip(&selected.state)
+                .all(|(stored, selected)| stored.to_bits() == selected.to_bits())
+    });
+    let sample_index = if reuses_initial_root {
+        history.samples[0].sample_kind = SampleKind::EventRoot;
+        0
+    } else {
+        history.samples.len()
+    };
+    if !reuses_initial_root {
+        let root_sample = make_sample(
+            request,
+            registry,
+            sample_index,
+            segment_id,
+            phase.clone(),
+            SampleKind::EventRoot,
+            selected.winner.tau,
+            selected.state.clone(),
+            true,
+        )?;
+        append_sample(history, root_sample)?;
+    }
+    let stored_root = &history.samples[sample_index];
+    let raw_margin = stored_root.raw_margin(event.margin_id).ok_or_else(|| {
         ExecutionError::new(
             FailureCode::HistoryInvariantViolation,
             "selected root sample is missing its raw margin",
         )
     })?;
-    let certificate_margin = root_sample
+    let certificate_margin = stored_root
         .certificate_margin(event.margin_id)
         .ok_or_else(|| {
             ExecutionError::new(
@@ -930,7 +953,6 @@ fn append_root_records(
             "selected root AST value changed before storage",
         ));
     }
-    append_sample(history, root_sample)?;
 
     let event_sequence = history.events.len();
     let epsilon_g = f64::from_bits(selected.winner.epsilon_bits);
@@ -1825,6 +1847,25 @@ fn restart_impl(
             "restart route/native/registry/chart identity mismatch",
         ));
     }
+    let chart = chart_from_history(previous)?;
+    let expected_state_names = charts::scalar_state_names(&chart).ok_or_else(|| {
+        ExecutionError::new(
+            FailureCode::RestartIdentityMismatch,
+            "restart chart has no frozen scalar state schema",
+        )
+    })?;
+    if previous.state_names.len() != expected_state_names.len()
+        || previous
+            .state_names
+            .iter()
+            .zip(expected_state_names)
+            .any(|(observed, expected)| observed != expected)
+    {
+        return Err(ExecutionError::new(
+            FailureCode::RestartIdentityMismatch,
+            "restart ordered state schema mismatch",
+        ));
+    }
     let transition = previous.transitions.last().ok_or_else(|| {
         ExecutionError::new(
             FailureCode::RestartIdentityMismatch,
@@ -1899,7 +1940,6 @@ fn restart_impl(
         ));
     }
 
-    let chart = chart_from_history(previous)?;
     let request = BackgroundRequest {
         chart,
         chart_label: "type_ix_d_future",
@@ -2344,5 +2384,51 @@ mod trajectory_tests {
             let scale = 1.0e-12 + 1.0e-10 * actual.abs().max(expected.abs()).max(1.0);
             assert!((actual - expected).abs() / scale <= 32.0);
         }
+    }
+
+    #[test]
+    fn rf02c_restart_rejects_mutated_ordered_state_schema() {
+        let h0 = 0.8;
+        let n0 = (2.0f64 * (1.0 - h0 * h0)).sqrt();
+        let mut first = integrate_background(type_ix_request(
+            1.0,
+            vec![h0, 0.0, 0.0, 0.0, n0, n0, n0],
+            vec![0.0, 3.8],
+        ));
+        first.state_names.fill("tampered".to_owned());
+
+        let restarted = restart_background(&first, 4.0);
+
+        assert_eq!(
+            restarted.status,
+            TrajectoryStatus::FailedAfterAcceptedPrefix
+        );
+        assert_eq!(
+            restarted.failure.as_ref().map(|failure| failure.code),
+            Some(FailureCode::RestartIdentityMismatch)
+        );
+    }
+
+    #[test]
+    fn rf02c_initial_recollapse_reuses_the_unique_initial_root_sample() {
+        let n = 2.0f64.sqrt();
+        let history = integrate_background(type_ix_request(
+            1.0,
+            vec![0.0, 0.0, 0.0, 0.0, n, n, n],
+            vec![0.0, 0.1],
+        ));
+
+        assert_eq!(history.status, TrajectoryStatus::Completed);
+        assert_eq!(history.events.len(), 1);
+        assert_eq!(history.events[0].sample_index, 0);
+        assert_eq!(history.samples[0].sample_kind, SampleKind::EventRoot);
+        assert_eq!(
+            history
+                .samples
+                .iter()
+                .filter(|sample| sample.tau_bits == 0.0f64.to_bits())
+                .count(),
+            1
+        );
     }
 }

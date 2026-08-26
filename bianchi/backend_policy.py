@@ -145,7 +145,7 @@ RF02B_R4_DELTA_NATIVE_PAYLOAD = _NativePayloadReceipt(
 
 RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
     identity="bass-rf02c-native-background-execution-v2",
-    wheel_sha256="fc1b263e94a0d9e8e5458cc9d8fc0cadfd2f4549110ac2a775c0d652bdaf1629",
+    wheel_sha256="e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84",
     installed_files=_receipt_files(
         (
             (
@@ -161,7 +161,7 @@ RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
             (
                 "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
                 205_916,
-                "7fb53a1096e8f1afa104121621a36d7b2e449b0535640abd9145f874a5e8ef4b",
+                "dd7e2ffea618935e8d1ea0a3f8b678fed31c0a1a313e606b359d8d8b1f7fc299",
             ),
             (
                 "bianchi_rustcore/__init__.py",
@@ -170,8 +170,8 @@ RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
             ),
             (
                 "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
-                3_771_016,
-                "ed4babb5f1d8d3ebef104f8d4bb209271aa9d577b7a8d72606208eacdfdb5478",
+                3_779_640,
+                "c06aab689bfc2b97c592823122ddad359db1f1ffbc220415eecfe03965a4119d",
             ),
         )
     ),
