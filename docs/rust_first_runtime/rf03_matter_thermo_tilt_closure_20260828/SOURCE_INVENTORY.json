@@ -1,0 +1,140 @@
+{
+  "absent_at_base": [
+    "_rustcore/src/matter/",
+    "_rustcore/src/tilt/",
+    "bianchi/tilt/",
+    "tests/rf03/",
+    "artifacts/rust_first_runtime/rf03/",
+    ".github/workflows/rf03*.yml"
+  ],
+  "base": {
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+    "pull_request": 36,
+    "repository": "cosmosapjw-quantum/bass",
+    "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e"
+  },
+  "current_route_contract": {
+    "tilted.force_and_matrix": {
+      "outside_native_domain": "legacy_python_transitional",
+      "required_symbols": [
+        "th_force_and_matrix"
+      ],
+      "supported_modes": [
+        "frozen",
+        "ratio",
+        "ratio_scalar",
+        "zero",
+        "phys_sqrt",
+        "phys_5w",
+        "phys_interp"
+      ]
+    },
+    "tilted.integrate": {
+      "outside_native_domain": "legacy_python_transitional",
+      "required_symbols": [
+        "th_integrate"
+      ],
+      "supported_modes": [
+        "frozen",
+        "ratio",
+        "ratio_scalar",
+        "zero",
+        "phys_sqrt",
+        "phys_5w",
+        "phys_interp"
+      ],
+      "transitional_reason": "unported closure mode"
+    },
+    "tilted.rhs": {
+      "outside_native_domain": "legacy_python_transitional",
+      "required_symbols": [
+        "th_rhs"
+      ],
+      "supported_modes": [
+        "frozen",
+        "ratio",
+        "ratio_scalar",
+        "zero",
+        "phys_sqrt",
+        "phys_5w",
+        "phys_interp"
+      ]
+    }
+  },
+  "excluded_from_rf03": [
+    "recombination and reionization implementation",
+    "collisional photon hierarchy changes",
+    "generic-vector legacy/backup optimization adoption",
+    "performance qualification or benchmark promotion",
+    "new EOS families not already supported by exact current source authority"
+  ],
+  "package_id": "BASS-RF03-MATTER-THERMO-TILT-CLOSURE-20260828-R1",
+  "physical_anchors": {
+    "density_domain": "rho >= 0",
+    "finite_boost_domain": "|v| < 1",
+    "metric_signature": "(-,+,+,+)",
+    "temperature_caveat": "do not double-count direction dependence; tilted species require the existing Gamma-aware convention rather than blindly reusing the non-tilted relation",
+    "temperature_mean_scale_relation": "g_*s(T) T^3 ell^3 = constant for the existing non-tilted local-equilibrium reference",
+    "tilt_normalization": "u^a u_a = -1"
+  },
+  "reality_map": [
+    {
+      "git_blob_sha1": "3d50866e6d492762135086bb980c893f636c8d3a",
+      "path": "_rustcore/src/lib.rs",
+      "rf03_rule": "registration/import wiring only after adapter extraction",
+      "role": "crate root; currently declares thermo and contains existing th_* PyO3 surface",
+      "state": "IMPLEMENTED_AND_USED"
+    },
+    {
+      "git_blob_sha1": "695301b3280771dc410f2c5bb454cedfda44e11f",
+      "path": "_rustcore/src/thermo/mod.rs",
+      "role": "existing native thermo module root",
+      "state": "IMPLEMENTED_AND_USED"
+    },
+    {
+      "git_blob_sha1": "801f432538c63dbd23395885e94214288e48e4cf",
+      "path": "_rustcore/src/thermo/dof.rs",
+      "role": "native thermodynamic degrees-of-freedom kernel",
+      "state": "IMPLEMENTED_AND_USED"
+    },
+    {
+      "git_blob_sha1": "a714b8d6cf1515e064f72ae6f25725dc09f50279",
+      "path": "_rustcore/src/thermo/dof_table.rs",
+      "role": "native tabulated degrees-of-freedom data",
+      "state": "IMPLEMENTED_AND_USED"
+    },
+    {
+      "git_blob_sha1": "9c1a4ef4dd1743cab30e3ebf3212edbff5d28062",
+      "path": "_rustcore/src/thermo/fd.rs",
+      "role": "native Fermi-Dirac integral substrate",
+      "state": "IMPLEMENTED_AND_USED"
+    },
+    {
+      "git_blob_sha1": "e447ce30f80c173e69764150c329b911809af5bd",
+      "path": "bianchi/matter/tilted_rust.py",
+      "role": "current public Rust tilted integration/force wrapper; Python still supplies geometry, PSTF operators and bases",
+      "state": "IMPLEMENTED_BUT_PARTIALLY_MIGRATED"
+    },
+    {
+      "git_blob_sha1": "4b792b04df072446a5d046524ea5323e4237d7e4",
+      "path": "bianchi/thermo/temperature.py",
+      "role": "entropy-conserving temperature/mean-scale relation and neutrino-temperature reference",
+      "state": "PYTHON_REFERENCE_AND_ACTIVE_PATH"
+    },
+    {
+      "git_blob_sha1": "f88d7a9459e9b40f87a6d5711d6a64e9a839eb37",
+      "path": "bianchi/thermo/history_api.py",
+      "role": "thermodynamic history public API",
+      "state": "PYTHON_REFERENCE_AND_ACTIVE_PATH"
+    },
+    {
+      "git_blob_sha1": "a8b690b9f5d7494fd3822ddaae5343ad83d23831",
+      "path": "bianchi/backend_policy.py",
+      "rf03_rule": "route capability changes only after native RED/GREEN; no fallback weakening",
+      "role": "current route inventory; tilted.integrate/rhs/force_and_matrix use th_* with explicit native-domain and transitional fallback",
+      "state": "IMPLEMENTED_AND_USED"
+    }
+  ],
+  "schema": "bass-rf03-source-inventory/v1"
+}
