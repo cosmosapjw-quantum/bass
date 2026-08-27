@@ -34,9 +34,8 @@ PKG_REF="origin/agent/plans/rf02c-legacy-optimization-integration-20260826-r1"
 PKG_PATH="docs/rust_first_runtime/rf02c_legacy_optimization_integration_20260826"
 PKG_TMP="$(mktemp -d)"
 
-for f in   README.md   CURRENT_STATE.json   WORK_UNITS.json   ACCEPTANCE_MATRIX.json   IMPLEMENTATION_PLAN.md   CODEX_HANDOFF.md   validate_package.py   MANIFEST.sha256
+for f in README.md CURRENT_STATE.json WORK_UNITS.json ACCEPTANCE_MATRIX.json IMPLEMENTATION_PLAN.md CODEX_HANDOFF.md validate_package.py MANIFEST.sha256
 do
-  mkdir -p "$PKG_TMP/$(dirname "$f")"
   git show "$PKG_REF:$PKG_PATH/$f" > "$PKG_TMP/$f"
 done
 
@@ -63,21 +62,57 @@ bounded-review repair commit: 8770c76
 Never run `git reset`, `git clean`, `git stash`, branch switching, amend,
 rebase, squash, or force-push.
 
-## Authorized mutation
+## Corrected BASS-11 dirty-path authority
+
+The observed blocker established that the already-generated native delta lives
+under the RF-02C evidence subtree. Do not move or regenerate it merely to fit
+an old path assumption.
 
 Exactly one evidence-only third commit is authorized. Its parent must be
 `8770c766581f5ad6fa65712e33631fc3da98810c`.
 
-Allowed dirty paths are:
+Allowed dirty paths are exactly:
 
 ```text
 artifacts/rust_first_runtime/rf02c/EVIDENCE.json
 artifacts/rust_first_runtime/rf02c/changed_paths.json
-repro/native/**
+artifacts/rust_first_runtime/rf02c/native_delta/**
 ```
 
-Use the union of tracked unstaged, staged, and untracked paths. Do not repeat
-the earlier `git diff --name-only` mistake that omits untracked files.
+`repro/native/**` is stale package policy and is explicitly forbidden for this
+closeout.
+
+Build the complete dirty-path set from tracked unstaged, staged, and untracked
+paths:
+
+```bash
+{
+  git diff --name-only
+  git diff --cached --name-only
+  git ls-files --others --exclude-standard
+} | sed '/^$/d' | sort -u > /tmp/rf02c-terminal-dirty-paths.txt
+
+python - <<'PY'
+from pathlib import Path
+paths = [p for p in Path('/tmp/rf02c-terminal-dirty-paths.txt').read_text().splitlines() if p]
+exact = {
+    'artifacts/rust_first_runtime/rf02c/EVIDENCE.json',
+    'artifacts/rust_first_runtime/rf02c/changed_paths.json',
+}
+prefix = 'artifacts/rust_first_runtime/rf02c/native_delta/'
+bad = [p for p in paths if p not in exact and not p.startswith(prefix)]
+native = [p for p in paths if p.startswith(prefix)]
+if bad or not exact.issubset(paths) or not native:
+    raise SystemExit(
+        f'dirty-path closure failure: missing={sorted(exact-set(paths))} '
+        f'native_count={len(native)} bad={bad}'
+    )
+print('\n'.join(paths))
+PY
+```
+
+Expected for the reported preserved worktree: the two exact JSON files plus
+the five already-generated files under `native_delta/**`, with no other path.
 
 The commit message is:
 
@@ -92,16 +127,18 @@ test, performance, or authority byte may change.
 
 Follow Task 1 in `IMPLEMENTATION_PLAN.md` exactly.
 
-After the commit:
+After the dirty-path gate passes:
 
-1. verify the parent and clean worktree;
-2. push by ordinary fast-forward;
-3. open one draft PR from
-   `agent/architecture/rust-first-rf02c-20260826-r1` to
-   `agent/audit/science-system-differential-20260826-r1` if absent;
-4. read back exact head/tree, PR number/base/head/draft state, changed paths,
+1. verify the bounded-review commit still has implementation commit `80ab514` as parent;
+2. stage exactly `/tmp/rf02c-terminal-dirty-paths.txt`;
+3. create the single authorized evidence-only commit;
+4. verify its parent is exactly `8770c766...` and the worktree is clean;
+5. push by ordinary fast-forward;
+6. open one draft PR from `agent/architecture/rust-first-rf02c-20260826-r1`
+   to `agent/audit/science-system-differential-20260826-r1` if absent;
+7. read back exact head/tree, PR number/base/head/draft state, changed paths,
    workflow run, and artifact identity;
-5. stop.
+8. stop.
 
 Reuse the reported targeted GREEN evidence if controlling bytes are unchanged:
 
@@ -126,7 +163,8 @@ the evidence-only commit did not alter their controlling bytes.
 `BLOCK_NOW` only for:
 
 - local or remote identity mismatch;
-- dirty path outside the authorized closure;
+- dirty path outside the corrected authorized closure;
+- missing native-delta files under the corrected prefix;
 - staged source/test/workflow mutation;
 - evidence/native digest mismatch;
 - non-fast-forward remote movement;
