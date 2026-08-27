@@ -2,6 +2,17 @@
 
 use pyo3::prelude::*;
 
+use super::background::{
+    chart_aux, chart_constraints, chart_jvp, chart_project, chart_project_checked, chart_rhs,
+    integrate_background, integrate_background_batch_history, integrate_background_history,
+    integrate_background_whiplash, integrate_batch, restart_background_history,
+    scalar_chart_schema,
+};
+use super::geometry::{
+    qg_classify, qg_curvature, qg_geometry_identity, qg_jacobi, qg_kappa, qg_ricci3,
+    qg_structure_constants, rf02c_execution_identity,
+};
+
 use super::runtime::{
     InvalidBufferError, PlanMismatchError, PoolConstructionError, PyRuntimePlan, PyWorkspace,
     RuntimeConfigError, RuntimePanicError, UnsupportedCapabilityError, WorkspaceBusyError,
@@ -26,5 +37,37 @@ pub fn register_runtime(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add("RuntimePanicError", py.get_type::<RuntimePanicError>())?;
     module.add_class::<PyRuntimePlan>()?;
     module.add_class::<PyWorkspace>()?;
+    Ok(())
+}
+
+pub fn register_geometry(module: &Bound<'_, PyModule>) -> PyResult<()> {
+    module.add_function(wrap_pyfunction!(qg_classify, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_jacobi, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_structure_constants, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_ricci3, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_curvature, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_kappa, module)?)?;
+    module.add_function(wrap_pyfunction!(rf02c_execution_identity, module)?)?;
+    module.add_function(wrap_pyfunction!(qg_geometry_identity, module)?)?;
+    Ok(())
+}
+
+pub fn register_background(module: &Bound<'_, PyModule>) -> PyResult<()> {
+    module.add_function(wrap_pyfunction!(chart_rhs, module)?)?;
+    module.add_function(wrap_pyfunction!(chart_aux, module)?)?;
+    module.add_function(wrap_pyfunction!(scalar_chart_schema, module)?)?;
+    module.add_function(wrap_pyfunction!(chart_jvp, module)?)?;
+    module.add_function(wrap_pyfunction!(chart_constraints, module)?)?;
+    module.add_function(wrap_pyfunction!(chart_project, module)?)?;
+    module.add_function(wrap_pyfunction!(chart_project_checked, module)?)?;
+    module.add_function(wrap_pyfunction!(integrate_background, module)?)?;
+    module.add_function(wrap_pyfunction!(integrate_background_whiplash, module)?)?;
+    module.add_function(wrap_pyfunction!(integrate_batch, module)?)?;
+    module.add_function(wrap_pyfunction!(integrate_background_history, module)?)?;
+    module.add_function(wrap_pyfunction!(restart_background_history, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        integrate_background_batch_history,
+        module
+    )?)?;
     Ok(())
 }

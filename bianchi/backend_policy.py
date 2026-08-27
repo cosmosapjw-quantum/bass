@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 from functools import lru_cache
+import base64
+import csv
 import hashlib
 import importlib
 from importlib import machinery
@@ -30,7 +32,7 @@ NATIVE_DISTRIBUTION_NAME = "bianchi-rustcore"
 EXPECTED_EXTENSION_VERSION = "0.1.0"
 DEVELOPMENT_OVERRIDE_ENV = "BASS_ALLOW_UNVERIFIED_NATIVE_DEV"
 EXPECTED_CARGO_LOCK_SHA256 = (
-    "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+    "18b62b9b792058ab789521d1c69764bed7915b550cd4fc389e848a6ec02c07ed"
 )
 REFERENCE_NATIVE_BUILD = MappingProxyType(
     {
@@ -39,7 +41,9 @@ REFERENCE_NATIVE_BUILD = MappingProxyType(
         "wheel_sha256": (
             "c912ac94adef60b724af3ba892d7865d0148c77fa578be6c28ef021cce3b7482"
         ),
-        "cargo_lock_sha256": EXPECTED_CARGO_LOCK_SHA256,
+        "cargo_lock_sha256": (
+            "d500208e9353ade1cb74693918598846628219e6e7bd2e2bce9ec85e29eb6310"
+        ),
         "rustc_version": "1.94.1",
         "build_profile": "release",
         "cpu_arch": "x86_64",
@@ -77,6 +81,107 @@ _REFERENCE_NATIVE_INSTALLED_FILES = (
         3_143_152,
         "6bc27c610106996d7e3ba0c87c3df1e8e825b1f123dfbc8df71754b9c7ee4d7b",
     ),
+)
+
+
+@dataclass(frozen=True)
+class _NativeInstalledFile:
+    """One immutable wheel-owned file in a trusted installed-payload receipt."""
+
+    relative_path: str
+    size: int
+    sha256: str
+
+
+@dataclass(frozen=True)
+class _NativePayloadReceipt:
+    """A payload archive identity plus its immutable installed-file manifest."""
+
+    identity: str
+    wheel_sha256: str
+    installed_files: tuple[_NativeInstalledFile, ...]
+    require_wheel_archive_hash: bool = True
+
+
+def _receipt_files(
+    entries: tuple[tuple[str, int, str], ...],
+) -> tuple[_NativeInstalledFile, ...]:
+    return tuple(_NativeInstalledFile(*entry) for entry in entries)
+
+
+RF02B_R4_DELTA_NATIVE_PAYLOAD = _NativePayloadReceipt(
+    identity="rf02b_r4_delta_installed_payload",
+    wheel_sha256="f1b5940ed453c744b3a285898f079b9a8b0e43f66d99937fd7fa632f49d8c3f6",
+    installed_files=_receipt_files(
+        (
+            (
+                "bianchi_rustcore-0.1.0.dist-info/METADATA",
+                210,
+                "49324bfc75b7eade2973357d9be08074dcacad314bd58eada90bca87b4e0dd0c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/WHEEL",
+                109,
+                "c0053d72faa7b329ed4dfa6f979194fb32238ecafd12a729d8bf45b3e1e2e29c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
+                205_826,
+                "af5a2b91780776ff550c17ae39aa37405889dab9350d6f8045a91a2fab15bb3c",
+            ),
+            (
+                "bianchi_rustcore/__init__.py",
+                147,
+                "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+            ),
+            (
+                "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+                3_336_944,
+                "8b130c76f9c4a91d3eac9c3a37dd8b4c91ba45476d578c3260d87647693fabdd",
+            ),
+        )
+    ),
+)
+
+RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
+    identity="bass-rf02c-native-background-execution-v2",
+    wheel_sha256="e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84",
+    installed_files=_receipt_files(
+        (
+            (
+                "bianchi_rustcore-0.1.0.dist-info/METADATA",
+                210,
+                "49324bfc75b7eade2973357d9be08074dcacad314bd58eada90bca87b4e0dd0c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/WHEEL",
+                109,
+                "c0053d72faa7b329ed4dfa6f979194fb32238ecafd12a729d8bf45b3e1e2e29c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
+                205_916,
+                "dd7e2ffea618935e8d1ea0a3f8b678fed31c0a1a313e606b359d8d8b1f7fc299",
+            ),
+            (
+                "bianchi_rustcore/__init__.py",
+                147,
+                "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+            ),
+            (
+                "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+                3_779_640,
+                "c06aab689bfc2b97c592823122ddad359db1f1ffbc220415eecfe03965a4119d",
+            ),
+        )
+    ),
+)
+
+# RF-01 stays dynamically derived from the legacy compatibility seam below so
+# existing focused injection tests can replace its installed-file fingerprint.
+_TRUSTED_NATIVE_PAYLOADS = (
+    RF02C_V2_NATIVE_PAYLOAD,
+    RF02B_R4_DELTA_NATIVE_PAYLOAD,
 )
 
 
@@ -126,6 +231,10 @@ class BackendPolicyError(BackendError):
 
 class UnverifiedNativePayloadError(BackendError):
     """A loadable native module is not the verified installed payload."""
+
+
+class NativeCapabilityIdentityError(BackendError):
+    """The verified native payload does not attest the frozen RF-02C identity."""
 
 
 class UnverifiedNativeDevelopmentWarning(RuntimeWarning):
@@ -231,12 +340,31 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
         for capability in (
             _route("ray.final_z_batch", "trace_rays_batch"),
             _route("ray.optical_batch", "trace_optical_batch"),
-            _route("background.integrate", "integrate_background"),
-            _route("background.integrate_batch", "integrate_batch"),
-            _route("background.chart_rhs", "chart_rhs"),
-            _route("background.chart_jvp", "chart_jvp"),
-            _route("background.chart_constraints", "chart_constraints"),
-            _route("background.chart_project", "chart_project"),
+            _route("background.integrate", "integrate_background", "rf02c_execution_identity"),
+            _route("background.integrate_batch", "integrate_batch", "rf02c_execution_identity"),
+            _route(
+                "background.integrate_history",
+                "integrate_background_history",
+                "rf02c_execution_identity",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "background.restart_history",
+                "restart_background_history",
+                "rf02c_execution_identity",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "background.integrate_batch_history",
+                "integrate_background_batch_history",
+                "rf02c_execution_identity",
+                python_oracle_supported=False,
+            ),
+            _route("background.chart_rhs", "chart_rhs", "rf02c_execution_identity"),
+            _route("background.chart_jvp", "chart_jvp", "rf02c_execution_identity"),
+            _route("background.chart_constraints", "chart_constraints", "rf02c_execution_identity"),
+            _route("background.chart_project", "chart_project", "rf02c_execution_identity"),
+            _route("background.chart_project_checked", "chart_project_checked", "rf02c_execution_identity"),
             _route("kinetic.j_moment", "kin_j_moment"),
             _route("kinetic.moments", "kin_moments"),
             _route(
@@ -374,12 +502,13 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("q.fast.diagnostics", "qe_diagnostics", python_oracle_supported=False),
             _route("q.fast.ensemble", "qe_ensemble", python_oracle_supported=False),
             _route("q.fast.residual_mode_b", "qe_residual_mode_b", python_oracle_supported=False),
-            _route("q.group.classify", "qg_classify", python_oracle_supported=False),
-            _route("q.group.jacobi_residual", "qg_jacobi", python_oracle_supported=False),
-            _route("q.group.structure_constants", "qg_structure_constants", python_oracle_supported=False),
-            _route("q.group.ricci3", "qg_ricci3", python_oracle_supported=False),
-            _route("q.group.curvature", "qg_curvature", python_oracle_supported=False),
-            _route("q.group.kappa", "qg_kappa", python_oracle_supported=False),
+            _route("q.group.classify", "qg_classify", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.jacobi_residual", "qg_jacobi", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.structure_constants", "qg_structure_constants", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.ricci3", "qg_ricci3", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.curvature", "qg_curvature", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.kappa", "qg_kappa", "rf02c_execution_identity", python_oracle_supported=False),
+            _route("q.group.roundtrip", "rf02c_execution_identity", python_oracle_supported=False),
             _route("q.modeb.evolve", "qe_evolve", python_oracle_supported=False),
             _route("q.modeb.diagnostics", "qe_diagnostics", python_oracle_supported=False),
             _route("q.polstate.residual_step", "qt_plan_from_points", python_oracle_supported=False),
@@ -664,6 +793,26 @@ def _unverified_payload_error(
     )
 
 
+def _verify_rf02c_execution_identity(route_id: str, module: ModuleType) -> None:
+    """Compare the binary identity for every RF-02C-owned public route."""
+
+    if not (route_id.startswith("background.") or route_id.startswith("q.group.")):
+        return
+    from bianchi.q.geometry_identity import (
+        GeometryRouteIdentityError,
+        validate_native_geometry_identity,
+    )
+
+    try:
+        validate_native_geometry_identity(module.rf02c_execution_identity())
+    except (AttributeError, GeometryRouteIdentityError, TypeError, UnicodeError) as exc:
+        raise NativeCapabilityIdentityError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the RF-02C "
+            f"execution identity mismatch was detected: {exc}",
+        ) from exc
+
+
 def select_backend(
     route_id: str,
     *,
@@ -744,6 +893,8 @@ def select_backend(
 
     load = load_native()
     module, missing_symbols = _native_if_compatible(capability, load)
+    rf02b_development_compatibility = False
+    resolved_override: bool | None = None
     if requested is BackendPolicy.AUTO_DIAGNOSTIC:
         fallback = (
             "python_oracle"
@@ -766,11 +917,32 @@ def select_backend(
     if load.state is NativeLoadState.INCOMPATIBLE_EXTENSION:
         _incompatible_error(route_id, load)
     if module is None:
-        _incompatible_error(route_id, load, missing_symbols)
+        resolved_override = _development_override(route_id, development_override)
+        if (
+            resolved_override
+            and load.module is not None
+            and missing_symbols == ("rf02c_execution_identity",)
+        ):
+            candidate_origin = _native_extension_origin(load.module)
+            matched_payload, _matched_reason = _verified_native_payload_receipt(
+                candidate_origin
+            )
+            if (
+                matched_payload is not None
+                and matched_payload.identity == RF02B_R4_DELTA_NATIVE_PAYLOAD.identity
+            ):
+                module = load.module
+                rf02b_development_compatibility = True
+        if module is None:
+            _incompatible_error(route_id, load, missing_symbols)
 
     native_origin = _native_extension_origin(module)
     payload_verified, payload_reason = _installed_native_payload_matches(native_origin)
-    override = _development_override(route_id, development_override)
+    override = (
+        resolved_override
+        if resolved_override is not None
+        else _development_override(route_id, development_override)
+    )
     diagnostic = None
     if not payload_verified:
         if not override:
@@ -784,6 +956,19 @@ def select_backend(
             UnverifiedNativeDevelopmentWarning,
             stacklevel=2,
         )
+    if rf02b_development_compatibility:
+        diagnostic = (
+            "RF02B_DEVELOPMENT_ONLY_NATIVE_PAYLOAD:"
+            f"route={route_id};missing=rf02c_execution_identity;"
+            f"origin={native_origin or 'unavailable'}"
+        )
+        warnings.warn(
+            diagnostic,
+            UnverifiedNativeDevelopmentWarning,
+            stacklevel=2,
+        )
+    else:
+        _verify_rf02c_execution_identity(route_id, module)
     return BackendSelection(
         route_id,
         BackendPolicy.RUST_REQUIRED,
@@ -840,42 +1025,112 @@ def _installed_wheel_sha256() -> tuple[str | None, str]:
     return value.lower(), "installed_distribution_direct_url"
 
 
-@lru_cache(maxsize=8)
-def _installed_native_payload_matches(native_origin: str | None) -> tuple[bool, str]:
-    """Bind the loaded extension to the RF-01 r4 installed-file receipt."""
+def _trusted_native_payloads() -> tuple[_NativePayloadReceipt, ...]:
+    """Return the legacy RF-01 receipt plus later immutable payload receipts."""
+
+    legacy = _NativePayloadReceipt(
+        identity="rf01_r4_loaded_distribution_file_fingerprint",
+        wheel_sha256=REFERENCE_NATIVE_BUILD["wheel_sha256"],
+        installed_files=_receipt_files(_REFERENCE_NATIVE_INSTALLED_FILES),
+        # RF-01 predates the PEP 610 archive-hash requirement.  Preserve that
+        # compatibility seam while RF-02B requires the archive identity.
+        require_wheel_archive_hash=False,
+    )
+    return (legacy, *_TRUSTED_NATIVE_PAYLOADS)
+
+
+def _record_digest(sha256_hex: str) -> str:
+    return base64.urlsafe_b64encode(bytes.fromhex(sha256_hex)).decode().rstrip("=")
+
+
+def _record_covers_install_manifest(
+    distribution: metadata.Distribution, receipt: _NativePayloadReceipt
+) -> tuple[bool, str]:
+    record_paths = [
+        item.relative_path
+        for item in receipt.installed_files
+        if ".dist-info/" in item.relative_path
+    ]
+    if not record_paths:
+        return False, "install_manifest_has_no_dist_info_path"
+    record_relative = record_paths[0].split(".dist-info/", 1)[0] + ".dist-info/RECORD"
+    try:
+        record_path = Path(distribution.locate_file(record_relative))
+        rows = list(csv.reader(record_path.read_text(encoding="utf-8").splitlines()))
+    except (OSError, UnicodeDecodeError, csv.Error):
+        return False, "installed_record_unreadable"
+    observed = {row[0]: row[1:] for row in rows if len(row) == 3}
+    for item in receipt.installed_files:
+        row = observed.get(item.relative_path)
+        expected_hash = f"sha256={_record_digest(item.sha256)}"
+        if row is None:
+            return False, f"installed_record_missing:{item.relative_path}"
+        if row != [expected_hash, str(item.size)]:
+            return False, f"installed_record_mismatch:{item.relative_path}"
+    return True, "installed_record_matches_manifest"
+
+
+def _verified_native_payload_receipt(
+    native_origin: str | None,
+) -> tuple[_NativePayloadReceipt | None, str]:
+    """Bind a loaded extension to one immutable wheel archive and install manifest."""
 
     if native_origin is None:
-        return False, "loaded_native_extension_origin_unavailable"
-
+        return None, "loaded_native_extension_origin_unavailable"
     try:
         distribution = metadata.distribution(NATIVE_DISTRIBUTION_NAME)
     except metadata.PackageNotFoundError:
-        return False, "distribution_unavailable"
+        return None, "distribution_unavailable"
 
-    distribution_native_path: Path | None = None
-    for relative, expected_size, expected_sha256 in _REFERENCE_NATIVE_INSTALLED_FILES:
-        path = Path(distribution.locate_file(relative))
+    wheel_sha256, wheel_source = _installed_wheel_sha256()
+    for receipt in _trusted_native_payloads():
+        if receipt.require_wheel_archive_hash and wheel_sha256 != receipt.wheel_sha256:
+            continue
+
+        distribution_native_path: Path | None = None
+        files_match = True
+        for item in receipt.installed_files:
+            path = Path(distribution.locate_file(item.relative_path))
+            try:
+                if not path.is_file() or path.stat().st_size != item.size:
+                    files_match = False
+                    break
+                observed_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
+            except OSError:
+                files_match = False
+                break
+            if observed_sha256 != item.sha256:
+                files_match = False
+                break
+            if any(item.relative_path.endswith(suffix) for suffix in machinery.EXTENSION_SUFFIXES):
+                distribution_native_path = path
+        if not files_match:
+            continue
+        record_matches, record_reason = _record_covers_install_manifest(distribution, receipt)
+        if not record_matches:
+            return None, record_reason
+        if distribution_native_path is None:
+            return None, "distribution_native_extension_not_in_install_manifest"
         try:
-            if not path.is_file() or path.stat().st_size != expected_size:
-                return False, f"installed_file_size_mismatch:{relative}"
-            observed_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
-        except OSError:
-            return False, f"installed_file_unreadable:{relative}"
-        if observed_sha256 != expected_sha256:
-            return False, f"installed_file_sha256_mismatch:{relative}"
-        if any(relative.endswith(suffix) for suffix in machinery.EXTENSION_SUFFIXES):
-            distribution_native_path = path
+            loaded_path = Path(native_origin).resolve(strict=True)
+            owned_path = distribution_native_path.resolve(strict=True)
+        except (OSError, RuntimeError):
+            return None, "loaded_or_distribution_native_extension_unresolvable"
+        if loaded_path != owned_path:
+            return None, "loaded_native_extension_not_distribution_owned"
+        return receipt, receipt.identity
 
-    if distribution_native_path is None:
-        return False, "distribution_native_extension_not_in_reference_fingerprint"
-    try:
-        loaded_path = Path(native_origin).resolve(strict=True)
-        owned_path = distribution_native_path.resolve(strict=True)
-    except (OSError, RuntimeError):
-        return False, "loaded_or_distribution_native_extension_unresolvable"
-    if loaded_path != owned_path:
-        return False, "loaded_native_extension_not_distribution_owned"
-    return True, "rf01_r4_loaded_distribution_file_fingerprint"
+    if wheel_sha256 is None:
+        return None, f"installed_wheel_sha256_unavailable:{wheel_source}"
+    return None, "installed_wheel_or_manifest_does_not_match_trusted_payload"
+
+
+@lru_cache(maxsize=8)
+def _installed_native_payload_matches(native_origin: str | None) -> tuple[bool, str]:
+    """Compatibility seam returning a fail-closed immutable-payload verdict."""
+
+    receipt, reason = _verified_native_payload_receipt(native_origin)
+    return receipt is not None, reason
 
 
 def _configured_threads() -> tuple[int | None, str]:
@@ -930,24 +1185,28 @@ def capability_report(
     native_origin = (
         _native_extension_origin(load.module) if load.module is not None else None
     )
-    payload_matches_reference, payload_source = _installed_native_payload_matches(
-        native_origin
-    )
-    reference_bound = (
+    matched_payload, payload_source = _verified_native_payload_receipt(native_origin)
+    payload_bound = (
         load.available
         and version == EXPECTED_EXTENSION_VERSION
-        and payload_matches_reference
+        and matched_payload is not None
+    )
+    legacy_reference_bound = (
+        payload_bound
+        and matched_payload is not None
+        and matched_payload.identity
+        == "rf01_r4_loaded_distribution_file_fingerprint"
     )
     development_override_raw = os.environ.get(DEVELOPMENT_OVERRIDE_ENV)
     development_override_active = development_override_raw == "1"
-    if reference_bound:
+    if payload_bound:
         native_dispatch_provenance_state = "verified_installed_payload"
     elif load.available:
         native_dispatch_provenance_state = "unverified_development_payload"
     else:
         native_dispatch_provenance_state = "native_unavailable"
-    exact_reference_wheel_observed = (
-        wheel_sha256 == REFERENCE_NATIVE_BUILD["wheel_sha256"]
+    exact_matched_wheel_observed = (
+        matched_payload is not None and wheel_sha256 == matched_payload.wheel_sha256
     )
     configured_threads, thread_source = _configured_threads()
     if probe_legacy_global_pool:
@@ -967,10 +1226,12 @@ def capability_report(
         if load.module is not None
         else []
     )
-    reference_native_build = dict(REFERENCE_NATIVE_BUILD)
-    reference_native_build["optional_features"] = list(
-        REFERENCE_NATIVE_BUILD["optional_features"]
-    )
+    reference_native_build = None
+    if legacy_reference_bound:
+        reference_native_build = dict(REFERENCE_NATIVE_BUILD)
+        reference_native_build["optional_features"] = list(
+            REFERENCE_NATIVE_BUILD["optional_features"]
+        )
     return {
         "backend_policy": selected_policy.value,
         "extension_state": load.state.value,
@@ -980,45 +1241,51 @@ def capability_report(
         "native_shared_object_origin": native_origin,
         "python_abi": sysconfig.get_config_var("SOABI") or "unknown",
         "rustc_version": (
-            REFERENCE_NATIVE_BUILD["rustc_version"] if reference_bound else None
+            REFERENCE_NATIVE_BUILD["rustc_version"] if legacy_reference_bound else None
         ),
         "cargo_lock_sha256": (
-            REFERENCE_NATIVE_BUILD["cargo_lock_sha256"] if reference_bound else None
+            REFERENCE_NATIVE_BUILD["cargo_lock_sha256"] if legacy_reference_bound else None
         ),
         "wheel_sha256": wheel_sha256,
         "build_profile": (
-            REFERENCE_NATIVE_BUILD["build_profile"] if reference_bound else None
+            REFERENCE_NATIVE_BUILD["build_profile"] if legacy_reference_bound else None
         ),
         "cpu_arch": (
-            REFERENCE_NATIVE_BUILD["cpu_arch"] if reference_bound
+            REFERENCE_NATIVE_BUILD["cpu_arch"] if legacy_reference_bound
             else (platform.machine() or "unknown")
         ),
         "simd_variant": (
-            REFERENCE_NATIVE_BUILD["simd_variant"] if reference_bound else None
+            REFERENCE_NATIVE_BUILD["simd_variant"] if legacy_reference_bound else None
         ),
         "rayon_threads": actual_threads,
         "optional_features": (
             list(REFERENCE_NATIVE_BUILD["optional_features"])
-            if reference_bound else []
+            if legacy_reference_bound else []
         ),
         "formula_manifest_sha256": (
             REFERENCE_NATIVE_BUILD["formula_manifest_sha256"]
-            if reference_bound else None
+            if legacy_reference_bound else None
         ),
-        "cargo_lock_binding_verified": reference_bound,
-        "installed_native_build_verified": reference_bound,
-        "installed_native_payload_fingerprint_verified": reference_bound,
-        "production_native_dispatch_permitted": reference_bound,
+        "cargo_lock_binding_verified": legacy_reference_bound,
+        "installed_native_build_verified": payload_bound,
+        "installed_native_payload_fingerprint_verified": payload_bound,
+        "matched_native_payload_identity": (
+            matched_payload.identity if matched_payload is not None else None
+        ),
+        "matched_native_payload_wheel_sha256": (
+            matched_payload.wheel_sha256 if matched_payload is not None else None
+        ),
+        "production_native_dispatch_permitted": payload_bound,
         "native_dispatch_provenance_state": native_dispatch_provenance_state,
         "development_override_environment": DEVELOPMENT_OVERRIDE_ENV,
         "development_override_active": development_override_active,
         "development_override_value_valid": development_override_raw in (None, "1"),
         "development_override_diagnostic": (
             None
-            if reference_bound or not development_override_active
+            if payload_bound or not development_override_active
             else "UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD"
         ),
-        "exact_native_wheel_archive_observed": exact_reference_wheel_observed,
+        "exact_native_wheel_archive_observed": exact_matched_wheel_observed,
         "expected_cargo_lock_sha256": EXPECTED_CARGO_LOCK_SHA256,
         "configured_build_profile": configured_build_profile,
         "cpu_dispatch_variant": configured_cpu_variant,
@@ -1038,33 +1305,33 @@ def capability_report(
             "python_abi": "runtime_sysconfig",
             "rustc_version": (
                 payload_source
-                if reference_bound else "not_exposed_by_installed_extension"
+                if legacy_reference_bound else "not_exposed_by_installed_extension"
             ),
             "cargo_lock_sha256": (
                 payload_source
-                if reference_bound else "source_contract_expected_unverified"
+                if legacy_reference_bound else "source_contract_expected_unverified"
             ),
             "wheel_sha256": wheel_source,
             "build_profile": (
                 payload_source
-                if reference_bound else "not_exposed_by_installed_extension"
+                if legacy_reference_bound else "not_exposed_by_installed_extension"
             ),
             "cpu_arch": (
                 payload_source
-                if reference_bound else "runtime_platform_not_build_target_attestation"
+                if legacy_reference_bound else "runtime_platform_not_build_target_attestation"
             ),
             "simd_variant": (
                 payload_source
-                if reference_bound else "not_exposed_by_installed_extension"
+                if legacy_reference_bound else "not_exposed_by_installed_extension"
             ),
             "rayon_threads": actual_thread_source,
             "optional_features": (
                 payload_source
-                if reference_bound else "not_exposed_by_installed_extension"
+                if legacy_reference_bound else "not_exposed_by_installed_extension"
             ),
             "formula_manifest_sha256": (
                 payload_source
-                if reference_bound else "not_exposed_by_installed_extension"
+                if legacy_reference_bound else "not_exposed_by_installed_extension"
             ),
             "expected_cargo_lock_sha256": "source_contract_reference_only",
             "configured_build_profile": (
