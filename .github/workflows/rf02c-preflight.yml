@@ -81,13 +81,18 @@ jobs:
           set -euo pipefail
           env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV PYTHONPATH=. python - <<'PY' \
             | tee artifacts/rust_first_runtime/rf02c/STARTING_RED.log
-          from bianchi.backend_policy import UnverifiedNativePayloadError, require_native
+          from bianchi.backend_policy import IncompatibleNativeExtensionError, require_native
 
           try:
               require_native("background.chart_rhs")
-          except UnverifiedNativePayloadError as exc:
-              print("EXPECTED_STARTING_RED=UNVERIFIED_NATIVE_REJECTED")
-              print(type(exc).__name__)
+          except IncompatibleNativeExtensionError as exc:
+              cause = exc.__cause__
+              assert "rf02c_execution_identity" in str(exc)
+              assert cause is not None
+              assert "rf02c_execution_identity" in str(cause)
+              print("EXPECTED_STARTING_RED=RF02C_EXECUTION_IDENTITY_REJECTED")
+              print(f"{type(exc).__name__}: {exc}")
+              print(f"cause={type(cause).__name__}: {cause}")
           else:
               raise SystemExit("RF-02B wheel was unexpectedly accepted by default dispatch")
           PY
@@ -101,11 +106,39 @@ jobs:
           set -euo pipefail
           python -W always - <<'PY' \
             | tee artifacts/rust_first_runtime/rf02c/STARTING_OVERRIDE.log
-          from bianchi.backend_policy import require_native
+          import warnings
 
-          native = require_native("background.chart_rhs")
-          assert callable(getattr(native, "chart_rhs", None))
+          from bianchi.backend_policy import (
+              BackendPolicy,
+              NativeLoadState,
+              UnverifiedNativeDevelopmentWarning,
+              select_backend,
+          )
+
+          with warnings.catch_warnings(record=True) as caught:
+              warnings.simplefilter("always", UnverifiedNativeDevelopmentWarning)
+              selected = select_backend(
+                  "background.chart_rhs",
+                  policy="rust_required",
+              )
+          development_warnings = [
+              item
+              for item in caught
+              if issubclass(item.category, UnverifiedNativeDevelopmentWarning)
+          ]
+          assert len(development_warnings) == 1
+          assert selected.route_id == "background.chart_rhs"
+          assert selected.policy is BackendPolicy.RUST_REQUIRED
+          assert selected.load_state is NativeLoadState.AVAILABLE
+          assert selected.native_module is not None
+          assert callable(getattr(selected.native_module, "chart_rhs", None))
+          assert selected.installed_payload_verified is True
+          assert selected.development_override is True
+          assert selected.diagnostic is not None
+          assert selected.diagnostic.startswith("RF02B_DEVELOPMENT_ONLY_NATIVE_PAYLOAD:")
+          assert str(development_warnings[0].message) == selected.diagnostic
           print("EXPECTED_DEVELOPMENT_OVERRIDE=ACCEPTED_WITH_DIAGNOSTIC")
+          print(selected.diagnostic)
           PY
 
       - name: Evaluate RF-02C precondition versus compiled allowlist
