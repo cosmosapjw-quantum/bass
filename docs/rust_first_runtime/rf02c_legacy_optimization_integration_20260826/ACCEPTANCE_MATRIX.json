@@ -1,1 +1,90 @@
-{"audit_policy":{"dual_audit":"PHYS_MATH_THEN_PHYS_MATH_CODE_ONLY_FOR_STAGES_THAT_CHANGE_PHYSICS_OR_NUMERICAL_CODE","full_suite":"NOT_DEFAULT; REQUIRE_A_DISTINCT_UNCOVERED_FAILURE_MODE","journal_grade_final_code_audit":"DEFERRED_UNTIL_THE_FINAL_INTEGRATED_SOLVER_CODE_OUTPUTS_AND_BENCHMARKS_EXIST","plot_crag":"REQUIRED_ONLY_WHEN_NUMERICAL_OR_PERFORMANCE_BEHAVIOR_IS_CLAIM_BEARING"},"dimensions":["identity","code_contract","physics_semantics","numerical_behavior","native_reproducibility","performance","integration","claim"],"matrix":{"BASS-11":{"claim":["PASS_RF02C","PASS_SCOPED_BACKGROUND_EXECUTION"],"code_contract":"REUSE_REPORTED_TARGETED_GREEN_IF_CONTROLLING_BYTES_UNCHANGED","identity":"EXACT_REMOTE_READBACK_REQUIRED","integration":"DRAFT_PR_ONLY","native_reproducibility":"TERMINAL_DELTA_AND_NO_INDEX_RESTORE_IDENTITIES_REQUIRED","numerical_behavior":"NO_CHANGE_ALLOWED","performance":"NOT_RUN","physics_semantics":"NO_CHANGE_ALLOWED"},"BASS-12":{"claim":["EXPLORATORY","NONAUTHORITATIVE"],"code_contract":"FOCUSED_LEGACY_CONTRACT","identity":"EXACT_LEGACY_BRANCH_AND_PAYLOAD_FREEZE_REQUIRED","integration":"NONE","native_reproducibility":"ONLY_IF_CANDIDATE_CHANGES_NATIVE_BYTES","numerical_behavior":"EXACT_OUTPUT_IDENTITY_REQUIRED","performance":"QUIET_HOST_PREDECLARED_GATE","physics_semantics":"LEGACY_SCOPE_ONLY"},"BASS-13":{"claim":["NO_PROMOTION"],"code_contract":"READ_ONLY_COMPARISON","identity":"BASS_11_AND_BASS_12_TERMINAL_IDENTITIES_REQUIRED","integration":"NONE","native_reproducibility":"NOT_APPLICABLE","numerical_behavior":"NO_NEW_RUN_REQUIRED_UNLESS_A_SPECIFIC_MISSING_INPUT_IS_IDENTIFIED","performance":"LEGACY_RESULT_IS_MOTIVATION_ONLY","physics_semantics":"COMPATIBILITY_DECISION"},"BASS-14":{"claim":["PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE"],"code_contract":"FOCUSED_RF02C_GREEN_REQUIRED","identity":"BRANCH_FROM_FROZEN_RF02C_TERMINAL_HEAD","integration":"CANDIDATE_BRANCH_ONLY","native_reproducibility":"REGENERATE_ONLY_IF_NATIVE_BYTES_CHANGE","numerical_behavior":"AFFECTED_COMPARATORS_AND_DETERMINISM_REQUIRED","performance":"NOT_CLAIMED","physics_semantics":"SAME_EQUATIONS_TOLERANCES_OUTPUTS_AND_STATE_ORDER"},"BASS-15":{"claim":["EXACT_MEASURED_WORKLOAD_AND_HOST_ONLY"],"code_contract":"AFFECTED_RF02C_GREEN","identity":"FULL_SOURCE_BINARY_INPUT_HOST_COMMAND_BINDING","integration":"STACKED_DRAFT_PR_THEN_EXPLICIT_MERGE_APPROVAL","native_reproducibility":"REQUIRED_IF_NATIVE_BYTES_CHANGE","numerical_behavior":"OUTPUT_AND_TRAJECTORY_PARITY_REQUIRED","performance":"PREDECLARED_QUIET_HOST_AND_RESOURCE_GATE","physics_semantics":"SAME_PHYSICS_REQUIRED"}},"package_id":"BASS-RF02C-LEGACY-OPT-INTEGRATION-20260826-R1","schema":"bass-rf02c-legacy-optimization-acceptance-matrix/v1","stop_policy":{"block_now":["wrong branch/head/tree or destructive mutation risk","false PASS or silent skipped execution","locked equation/sign/normalization/state-order violation","output or restart/history corruption","uncontrolled native/provenance mismatch","automatic scientific or performance promotion"],"claims":"FAIL_CLOSED","progress":"CONTINUE_EXPLORATORY_WITH_EXPLICIT_LABEL_UNLESS_A_CONCRETE_BLOCK_NOW_DEFECT_EXISTS"}}
+{
+  "dimensions": [
+    "identity",
+    "code_contract",
+    "physics_semantics",
+    "numerical_behavior",
+    "native_reproducibility",
+    "performance",
+    "integration",
+    "claim"
+  ],
+  "matrix": {
+    "BASS-11": {
+      "claim": [
+        "PASS_RF02C",
+        "PASS_SCOPED_BACKGROUND_EXECUTION"
+      ],
+      "code_contract": "REPRODUCED_RF02C_RF00_RF02B_FAILURES_MUST_CLOSE",
+      "identity": "CURRENT_C777_SOURCE_COMMIT_THEN_TERMINAL_EVIDENCE_COMMIT",
+      "integration": "PR36_DRAFT_ONLY",
+      "native_reproducibility": "INTEGRATED_WHEEL_DOUBLE_BUILD_AND_DELTA_REBIND",
+      "numerical_behavior": "NO_CHANGE_ALLOWED",
+      "performance": "NOT_RUN",
+      "physics_semantics": "NO_CHANGE_ALLOWED"
+    },
+    "BASS-12": {
+      "claim": [
+        "EXPLORATORY",
+        "NONAUTHORITATIVE"
+      ],
+      "code_contract": "FOCUSED_LEGACY_CONTRACT",
+      "identity": "EXACT_LEGACY_BRANCH_AND_PAYLOAD_FREEZE_REQUIRED",
+      "integration": "NONE",
+      "native_reproducibility": "ONLY_IF_CANDIDATE_CHANGES_NATIVE_BYTES",
+      "numerical_behavior": "EXACT_OUTPUT_IDENTITY_REQUIRED",
+      "performance": "QUIET_HOST_PREDECLARED_GATE",
+      "physics_semantics": "LEGACY_SCOPE_ONLY"
+    },
+    "BASS-13": {
+      "claim": [
+        "NO_PROMOTION"
+      ],
+      "code_contract": "READ_ONLY_COMPARISON",
+      "identity": "BASS_11_AND_BASS_12_TERMINAL_IDENTITIES_REQUIRED",
+      "integration": "NONE",
+      "native_reproducibility": "NOT_APPLICABLE",
+      "numerical_behavior": "NO_NEW_RUN_UNLESS_SPECIFIC_MISSING_INPUT",
+      "performance": "LEGACY_RESULT_IS_MOTIVATION_ONLY",
+      "physics_semantics": "COMPATIBILITY_DECISION"
+    },
+    "BASS-14": {
+      "claim": [
+        "PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE"
+      ],
+      "code_contract": "FOCUSED_RF02C_GREEN_REQUIRED",
+      "identity": "BRANCH_FROM_FROZEN_RF02C_TERMINAL_HEAD",
+      "integration": "CANDIDATE_BRANCH_ONLY",
+      "native_reproducibility": "REGENERATE_ONLY_IF_NATIVE_BYTES_CHANGE",
+      "numerical_behavior": "AFFECTED_COMPARATORS_AND_DETERMINISM_REQUIRED",
+      "performance": "NOT_CLAIMED",
+      "physics_semantics": "SAME_EQUATIONS_TOLERANCES_OUTPUTS_AND_STATE_ORDER"
+    },
+    "BASS-15": {
+      "claim": [
+        "EXACT_MEASURED_WORKLOAD_AND_HOST_ONLY"
+      ],
+      "code_contract": "AFFECTED_RF02C_GREEN",
+      "identity": "FULL_SOURCE_BINARY_INPUT_HOST_COMMAND_BINDING",
+      "integration": "STACKED_DRAFT_PR_THEN_EXPLICIT_MERGE_APPROVAL",
+      "native_reproducibility": "REQUIRED_IF_NATIVE_BYTES_CHANGE",
+      "numerical_behavior": "OUTPUT_AND_TRAJECTORY_PARITY_REQUIRED",
+      "performance": "PREDECLARED_QUIET_HOST_AND_RESOURCE_GATE",
+      "physics_semantics": "SAME_PHYSICS_REQUIRED"
+    }
+  },
+  "package_id": "BASS-RF02C-LEGACY-OPT-INTEGRATION-20260826-R1",
+  "schema": "bass-rf02c-legacy-optimization-acceptance-matrix/v1",
+  "stop_policy": {
+    "block_now": [
+      "wrong branch/head/tree or destructive mutation risk",
+      "false PASS or silent skipped execution",
+      "locked equation/sign/normalization/state-order violation",
+      "output or restart/history corruption",
+      "uncontrolled native/provenance mismatch",
+      "automatic scientific or performance promotion"
+    ],
+    "claims": "FAIL_CLOSED",
+    "progress": "CONTINUE_UNLESS_CONCRETE_BLOCK_NOW_DEFECT"
+  }
+}

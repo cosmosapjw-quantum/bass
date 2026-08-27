@@ -1,4 +1,4 @@
-# Codex Handoff — Execute BASS-11 Only
+# Codex Handoff — BASS-11 Post-Closeout Reconciliation
 
 ```text
 PROCESS_DRIFT_DETECTED
@@ -6,72 +6,147 @@ STOPPING META-WORK
 RETURNING TO USER OBJECTIVE
 ```
 
-## Task
+## Execute one node only
 
-Close the already-implemented and reviewed RF-02C lane by committing only its
-already-generated terminal evidence/native delta, pushing by ordinary
-fast-forward, opening one stacked draft PR, and reading back exact remote
-identity.
+Execute BASS-11 only. Do not execute BASS-12–15, RF-03+, timing, GPU, Wolfram,
+the full suite, merge, or ready transition.
 
-Do not execute BASS-12, BASS-13, BASS-14, BASS-15, RF-03+, performance,
-Wolfram, GPU, full-suite reassurance, merge, or ready transition in this run.
-
-## Package authority
+## Required live identity
 
 ```text
 repository: cosmosapjw-quantum/bass
-package branch: agent/plans/rf02c-legacy-optimization-integration-20260826-r1
-package path: docs/rust_first_runtime/rf02c_legacy_optimization_integration_20260826
-package base at compilation: 445e50184823e58401a8212ceaaf736e72bb35f2
+branch: agent/architecture/rust-first-rf02c-20260826-r1
+required HEAD: c777ebb68c82aa8b9898f92159c2346a6e8ef892
+required tree: 524a541261c0384eedd79267671215dccd9c7147
+required PR: #36, open/draft
+required ancestor: a94dbe08a7a79a199f26eb33efab1155d2674d64
 ```
 
-Read the package without switching or cleaning the dirty RF-02C worktree:
+The branch moved after the original evidence commit because PR #35 merged
+default-off generic-vector native bytes. Do not reset to `a94dbe08...` and do
+not rewrite that ancestry.
+
+Require a clean worktree, then source Rust:
 
 ```bash
 git fetch origin
-
-PKG_REF="origin/agent/plans/rf02c-legacy-optimization-integration-20260826-r1"
-PKG_PATH="docs/rust_first_runtime/rf02c_legacy_optimization_integration_20260826"
-PKG_TMP="$(mktemp -d)"
-
-for f in README.md CURRENT_STATE.json WORK_UNITS.json ACCEPTANCE_MATRIX.json IMPLEMENTATION_PLAN.md CODEX_HANDOFF.md validate_package.py MANIFEST.sha256
-do
-  git show "$PKG_REF:$PKG_PATH/$f" > "$PKG_TMP/$f"
-done
-
-(
-  cd "$PKG_TMP"
-  sha256sum -c MANIFEST.sha256
-  python validate_package.py
-)
+test "$(git branch --show-current)" = \
+  agent/architecture/rust-first-rf02c-20260826-r1
+git merge --ff-only origin/agent/architecture/rust-first-rf02c-20260826-r1
+test "$(git rev-parse HEAD)" = \
+  c777ebb68c82aa8b9898f92159c2346a6e8ef892
+test "$(git rev-parse HEAD^{tree})" = \
+  524a541261c0384eedd79267671215dccd9c7147
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor \
+  a94dbe08a7a79a199f26eb33efab1155d2674d64 HEAD
+source /mnt/data/rust_1_94_1_env.sh
 ```
 
-## Required worktree identity
+## Why two commits are mandatory
 
-Continue in the existing intentionally dirty RF-02C worktree:
+One new commit is not authorized as a substitute. Commit 1 changes
+source/workflow/test/native bytes. A content-addressed delta can bind that
+source only after Commit 1 has an immutable SHA. Commit 2 performs the
+deterministic evidence rebind. Do not amend, squash, rebase, or force-push.
+
+## Commit 1 — exact scope
+
+Message:
 
 ```text
-branch: agent/architecture/rust-first-rf02c-20260826-r1
-required local HEAD: 8770c766581f5ad6fa65712e33631fc3da98810c
-required local tree: bb7fce7af4fb9ec2557320e9516595046372f025
-required remote HEAD before push: 445e50184823e58401a8212ceaaf736e72bb35f2
-implementation commit: 80ab514
-bounded-review repair commit: 8770c76
+fix(rf02c): reconcile post-closeout CI and native identity
 ```
 
-Never run `git reset`, `git clean`, `git stash`, branch switching, amend,
-rebase, squash, or force-push.
+Allowed paths are exactly:
 
-## Corrected BASS-11 dirty-path authority
+```text
+.github/workflows/rf02c-preflight.yml
+bianchi/backend_policy.py
+tests/test_backend_policy.py
+tests/test_rf00_policy_adversarial.py
+tests/test_rf00_route_inventory.py
+_rustcore/src/python/mod.rs
+_rustcore/src/ode/background/events.rs
+_rustcore/src/ode/background/exact.rs
+_rustcore/src/ode/background/history.rs
+_rustcore/src/ode/background/type_ix_dae.rs
+_rustcore/src/ode/background/trajectory.rs
+_rustcore/src/ode/charts.rs
+_rustcore/src/lib.rs
+```
 
-The observed blocker established that the already-generated native delta lives
-under the RF-02C evidence subtree. Do not move or regenerate it merely to fit
-an old path assumption.
+No path outside this list is authorized.
 
-Exactly one evidence-only third commit is authorized. Its parent must be
-`8770c766581f5ad6fa65712e33631fc3da98810c`.
+### Required behavior
 
-Allowed dirty paths are exactly:
+RF-02C preflight:
+- restore/hash the historical RF-02B wheel only as a compatibility negative;
+- expect `IncompatibleNativeExtensionError` caused by missing
+  `rf02c_execution_identity`;
+- prove `BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1` does not bypass the missing
+  mandatory capability identity;
+- execute the scope detector with `if: always()` or an equivalent independent
+  step and always publish its exit code;
+- do not treat the historical wheel as the terminal RF-02C payload.
+
+RF-00 Python:
+- update synthetic background-route fixtures to expose the canonical identity
+  returned by `bianchi.q.geometry_identity.geometry_route_identity()`;
+- update only the detector/test seam needed to recognize literal q.group route
+  IDs delegated through `_native_geometry_route`;
+- do not relax production `rf02c_execution_identity`, payload, or route checks.
+
+Rust:
+- apply `cargo fmt`;
+- make semantics-neutral Clippy rewrites;
+- use precise local lint expectations for deliberately retained closed-AST,
+  typed-error, or test-contract items rather than deleting/renaming them;
+- do not alter equations, coefficients, tolerances, state order, root
+  selection, transition/restart/history bytes, or public typed error strings.
+
+Native identity:
+- build the current integrated wheel;
+- update `RF02C_V2_NATIVE_PAYLOAD` in `bianchi/backend_policy.py` to the exact
+  wheel/SBOM/SO/installed-file identities;
+- perform a second locked/offline build and require identical normalized
+  content and installed-file identities.
+
+## Focused verification
+
+Run the failing surface first, then the directly affected integration proof:
+
+```bash
+pytest -q tests/test_backend_policy.py \
+  tests/test_rf00_policy_adversarial.py \
+  tests/test_rf00_route_inventory.py
+
+cd _rustcore
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --locked --offline -- -D warnings
+cargo test --lib --locked --offline rf02b_
+cargo test --release --locked --offline rf02c_
+```
+
+Run the exact PR #35 focused generic-vector commands from its committed
+evidence. Run the existing RF-02C primary/hostile selectors only where their
+controlling bytes changed. Perform one fresh no-index/no-override install and
+exercise one production trajectory and one deterministic batch.
+
+Do not run the full suite or RF-BENCH.
+
+Commit only after these checks are GREEN and the diff is confined to the exact
+Commit-1 allowlist.
+
+## Commit 2 — exact evidence rebind
+
+Message:
+
+```text
+chore(rf02c): rebind terminal evidence after CI closure
+```
+
+Allowed paths:
 
 ```text
 artifacts/rust_first_runtime/rf02c/EVIDENCE.json
@@ -79,100 +154,20 @@ artifacts/rust_first_runtime/rf02c/changed_paths.json
 artifacts/rust_first_runtime/rf02c/native_delta/**
 ```
 
-`repro/native/**` is stale package policy and is explicitly forbidden for this
-closeout.
+The parent must be exactly Commit 1. Regenerate the native delta and evidence
+so they bind Commit 1's SHA/tree and the integrated wheel/SO/content/restore
+identities. No source, test, workflow, Cargo, formula, or performance byte may
+change.
 
-Build the complete dirty-path set from tracked unstaged, staged, and untracked
-paths:
+## Delivery
 
-```bash
-{
-  git diff --name-only
-  git diff --cached --name-only
-  git ls-files --others --exclude-standard
-} | sed '/^$/d' | sort -u > /tmp/rf02c-terminal-dirty-paths.txt
+Ordinary fast-forward push to the same RF-02C branch. Do not open another PR;
+update/read PR #36. Wait for and inspect the terminal RF-02C, RF-00, and RF-02B
+runs. RF-BENCH success is reused and must not be rerun for reassurance.
 
-python - <<'PY'
-from pathlib import Path
-paths = [p for p in Path('/tmp/rf02c-terminal-dirty-paths.txt').read_text().splitlines() if p]
-exact = {
-    'artifacts/rust_first_runtime/rf02c/EVIDENCE.json',
-    'artifacts/rust_first_runtime/rf02c/changed_paths.json',
-}
-prefix = 'artifacts/rust_first_runtime/rf02c/native_delta/'
-bad = [p for p in paths if p not in exact and not p.startswith(prefix)]
-native = [p for p in paths if p.startswith(prefix)]
-if bad or not exact.issubset(paths) or not native:
-    raise SystemExit(
-        f'dirty-path closure failure: missing={sorted(exact-set(paths))} '
-        f'native_count={len(native)} bad={bad}'
-    )
-print('\n'.join(paths))
-PY
-```
-
-Expected for the reported preserved worktree: the two exact JSON files plus
-the five already-generated files under `native_delta/**`, with no other path.
-
-The commit message is:
-
-```text
-chore(rf02c): bind terminal evidence and native delta
-```
-
-No implementation, formula, tolerance, reference, state-order, public-route,
-test, performance, or authority byte may change.
-
-## Execution
-
-Follow Task 1 in `IMPLEMENTATION_PLAN.md` exactly.
-
-After the dirty-path gate passes:
-
-1. verify the bounded-review commit still has implementation commit `80ab514` as parent;
-2. stage exactly `/tmp/rf02c-terminal-dirty-paths.txt`;
-3. create the single authorized evidence-only commit;
-4. verify its parent is exactly `8770c766...` and the worktree is clean;
-5. push by ordinary fast-forward;
-6. open one draft PR from `agent/architecture/rust-first-rf02c-20260826-r1`
-   to `agent/audit/science-system-differential-20260826-r1` if absent;
-7. read back exact head/tree, PR number/base/head/draft state, changed paths,
-   workflow run, and artifact identity;
-8. stop.
-
-Reuse the reported targeted GREEN evidence if controlling bytes are unchanged:
-
-```text
-Rust RF-02C selector: 49 passed
-Python primary: 40 passed
-hostile/negative: 13 passed, 27 deselected
-native-delta tooling: 5 passed
-randomized JVP: 250 PASS
-changed-path closure: 45/45
-fresh no-index/no-override production trajectory and batch: verified
-Type-IX root error: 1.869836729895269e-9
-root budget: 2.84536516942666e-9
-restart time/state bytes: identical
-```
-
-Do not rerun those lanes for reassurance. Run only checks needed to prove that
-the evidence-only commit did not alter their controlling bytes.
-
-## Block policy
-
-`BLOCK_NOW` only for:
-
-- local or remote identity mismatch;
-- dirty path outside the corrected authorized closure;
-- missing native-delta files under the corrected prefix;
-- staged source/test/workflow mutation;
-- evidence/native digest mismatch;
-- non-fast-forward remote movement;
-- PR base/head mismatch;
-- false success or destructive behavior.
-
-Do not stop for style, publication-grade concerns, another audit, or possible
-future hardening.
+BASS-11 may emit `PASS_RF02C_REMOTE_CLOSEOUT` only after all three previously
+failing workflows are GREEN at the terminal head and terminal evidence binds
+the exact source/native identities.
 
 ## Final report
 
@@ -187,10 +182,6 @@ BLOCKERS
 NEXT
 ```
 
-`NEXT` must contain exactly one action. On success, it is:
-
-```text
-Update BASS-11 with the terminal RF-02C remote head/tree, draft PR, workflow,
-and artifact identities; then wait for BASS-12's exact terminal candidate
-identity before opening BASS-13.
-```
+On success, NEXT contains exactly one action: update Jira BASS-11 with terminal
+head/tree, PR #36, workflow, artifact, wheel, SO, delta, and restore identities;
+then wait for BASS-12 before opening BASS-13.

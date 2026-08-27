@@ -1,6 +1,5 @@
 {
   "atlassian_tracking": {
-    "cloud": "cosmosapjw.atlassian.net",
     "dependency_edges": [
       [
         "BASS-11",
@@ -19,148 +18,98 @@
         "BASS-15"
       ]
     ],
-    "issues": [
-      {
-        "key": "BASS-11",
-        "role": "RF02C_CLOSEOUT_AND_REMOTE_FREEZE",
-        "state": "IN_PROGRESS",
-        "url": "https://cosmosapjw.atlassian.net/browse/BASS-11"
-      },
-      {
-        "key": "BASS-12",
-        "role": "LEGACY_OPTIMIZATION_LANE_FREEZE",
-        "state": "IN_PROGRESS",
-        "url": "https://cosmosapjw.atlassian.net/browse/BASS-12"
-      },
-      {
-        "key": "BASS-13",
-        "role": "READ_ONLY_ADOPTION_GATE",
-        "state": "TO_DO",
-        "url": "https://cosmosapjw.atlassian.net/browse/BASS-13"
-      },
-      {
-        "key": "BASS-14",
-        "role": "RF02C_NATIVE_REIMPLEMENTATION",
-        "state": "TO_DO",
-        "url": "https://cosmosapjw.atlassian.net/browse/BASS-14"
-      },
-      {
-        "key": "BASS-15",
-        "role": "REQUALIFICATION_AND_INTEGRATION",
-        "state": "TO_DO",
-        "url": "https://cosmosapjw.atlassian.net/browse/BASS-15"
-      }
-    ]
+    "issues": {
+      "BASS-11": "IN_PROGRESS",
+      "BASS-12": "IN_PROGRESS",
+      "BASS-13": "TO_DO",
+      "BASS-14": "TO_DO",
+      "BASS-15": "TO_DO"
+    }
   },
   "claim_boundary": {
-    "adoption_gate": [
-      "NO_PERFORMANCE_OR_COMPATIBILITY_PROMOTION"
-    ],
-    "formula_authority_promotion": "NONE",
-    "integration": [
-      "MEASURED_WORKLOAD_AND_HOST_ONLY_AFTER_BASS_15"
-    ],
-    "legacy_lane": [
-      "EXPLORATORY",
-      "NONAUTHORITATIVE"
-    ],
-    "rf02c_closeout": [
+    "after_source_ci_commit": "NO_TERMINAL_CLAIM_UNTIL_EVIDENCE_REBIND",
+    "after_terminal_evidence_commit_and_remote_green": [
       "PASS_RF02C",
       "PASS_SCOPED_BACKGROUND_EXECUTION"
-    ]
+    ],
+    "current": "BLOCKED_REMOTE_IDENTITY_OR_EVIDENCE_MISMATCH",
+    "formula_authority_promotion": "NONE",
+    "performance_claim": "NONE"
   },
   "current_action": {
     "id": "BASS-11",
-    "reason": "RF-02C implementation, targeted verification, native delta, and bounded review are reported complete; only ancestry-correct evidence delivery remains.",
-    "title": "Commit the already-generated RF-02C terminal evidence as one evidence-only third commit, push, open the stacked draft PR, and read back exact remote identity."
-  },
-  "forbidden": [
-    "amend, squash, rebase, or falsely rebind the RF-02C terminal delta",
-    "merge or mark ready without explicit approval",
-    "direct cherry-pick of legacy bytes into RF-02C by ancestry alone",
-    "performance claim from the legacy lane as evidence for RF-02C",
-    "full-suite, Wolfram, GPU, timing, or RF-03+ reassurance outside the owning work unit",
-    "new permanent gate without replacing an existing gate"
-  ],
-  "guidance_compilation": {
-    "adaptive_development_protocol": {
-      "applied_rules": [
-        "reconstruct contract and actual code path before accepting an optimization",
-        "use minimal patches and targeted falsification tests",
-        "do not treat smoke tests as validation",
-        "separate physics, code, numerical, and performance claims"
-      ],
-      "sha256": "8e1140b4922b7556970998465e0ce9126bf644bc108d9b78a73a2bb48027a1dc"
-    },
-    "final_code_audit": "DEFERRED_UNTIL_POST_INTEGRATION_FINAL_CODE_AND_OUTPUTS_EXIST",
-    "formula_scope_boundary": "The formula SSOT does not establish solver construction, numerical evolution, optimization, likelihood, or inference authority.",
-    "progress_first_override": [
-      "no recursive contract, audit, evidence-schema, or reviewer loops",
-      "fail closed on claims, not on exploratory progress",
-      "reuse unchanged PASS evidence",
-      "run only checks that can falsify changed behavior"
-    ],
-    "research_executor": {
-      "applied_rules": [
-        "reconstruct the DAG before execution",
-        "execute exactly one admissible next node",
-        "do not jump over unverified predecessors",
-        "update completed, blocked, and newly opened nodes after each stage"
-      ],
-      "sha256": "8c6d7bd933cd7a80057a10816e692c10816a41d560129b3e8470983d2be2f4a9"
-    }
-  },
-  "package_delivery": {
-    "base_branch": "agent/architecture/rust-first-rf02c-20260826-r1",
-    "base_head_at_compilation": "445e50184823e58401a8212ceaaf736e72bb35f2",
-    "base_tree_at_compilation": "2cc70721694eaad097973cb11d32dea3a980f49e",
-    "branch": "agent/plans/rf02c-legacy-optimization-integration-20260826-r1",
-    "mutation_class": "DOCUMENTATION_AND_MACHINE_EXECUTION_PACKAGE_ONLY",
-    "self_commit_identity": "EXTERNAL_REMOTE_READBACK"
+    "reason": "The a94dbe08 evidence closeout was valid for its source tree, but PR #35 subsequently merged native generic-vector bytes into the same RF-02C branch at c777ebb6. Current RF-00/RF-02B failures and the stale RF-02C preflight are reproduced. A single additional commit cannot both change source/native bytes and bind a content-addressed delta to the resulting source commit.",
+    "title": "Reconcile the post-closeout native merge, close reproduced CI incompatibilities, then rebind terminal RF-02C evidence in a second commit."
   },
   "package_id": "BASS-RF02C-LEGACY-OPT-INTEGRATION-20260826-R1",
+  "package_revision": "R2_POST_CLOSEOUT_NATIVE_MERGE_RECONCILIATION_20260827",
   "precedence": [
     "live GitHub refs and exact committed evidence bytes",
     "terminal BASS-11 and BASS-12 remote readbacks",
-    "this machine package",
+    "this machine package revision",
     "Atlassian lifecycle tracking",
     "human narrative and local-only reports"
   ],
   "repository": "cosmosapjw-quantum/bass",
-  "resolved_date_kst": "2026-08-26",
+  "reproduced_failures": {
+    "rf00": {
+      "root_causes": [
+        "seven synthetic policy/route tests do not model the new mandatory RF-02C identity or centralized q.group route seam",
+        "cargo fmt rejects _rustcore/src/python/mod.rs module ordering",
+        "cargo clippy -D warnings exposes RF-02C lint/dead-code surface"
+      ],
+      "run_at_current_head": 33042625526
+    },
+    "rf02b": {
+      "root_cause": "RF-02B Python schema remains compatible; the Rust job is blocked by the same RF-02C clippy surface.",
+      "run_at_current_head": 33042625527
+    },
+    "rf02c_preflight": {
+      "root_cause": "The final RF-02C policy requires rf02c_execution_identity before payload verification. The historical RF-02B wheel lacks that symbol, so the correct current result is IncompatibleNativeExtensionError rather than the historical UnverifiedNativePayloadError. The workflow also skipped the scope detector after the failing step, leaving its exit code unset.",
+      "run": 33041799038
+    },
+    "rf_bench": {
+      "result": "SUCCESS_REUSED_NO_REPAIR_REQUIRED",
+      "run_at_current_head": 33042625518
+    }
+  },
+  "resolved_date_kst": "2026-08-27",
   "schema": "bass-rf02c-legacy-optimization-current-state/v1",
   "source_authority": {
     "legacy_performance_anchor": {
       "branch": "agent/recovery/measured-performance-20260824-r1",
-      "candidate_status": "FOCUSED_CORRECTNESS_GREEN__PAIRED_TIMING_BLOCKED_HOST_CONTENTION",
       "head": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
       "pull_request": 23,
       "speedup_claim": "NONE",
       "state": "OPEN_DRAFT_UNMERGED",
       "tree": "e097263a8d9657edee6976b138534634b1be4d48"
     },
-    "rf02c_remote_precloseout": {
+    "post_closeout_native_merge": {
+      "claim_boundary": "NO_RF02C_PERFORMANCE_OR_SCIENTIFIC_PROMOTION",
+      "effect": "Adds default-off generic-vector native source/bindings/tests/evidence and therefore changes the native build content after the a94 evidence commit.",
+      "merge_commit": "c777ebb68c82aa8b9898f92159c2346a6e8ef892",
+      "pull_request": 35,
+      "title": "BASS-3: integrate default-off generic-vector native host parity"
+    },
+    "rf02c_current_remote": {
       "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
-      "head": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "head": "c777ebb68c82aa8b9898f92159c2346a6e8ef892",
+      "pull_request": 36,
       "stack_base_branch": "agent/audit/science-system-differential-20260826-r1",
       "stack_base_pull_request": 33,
-      "state": "REMOTE_PRE_CLOSEOUT_HEAD",
-      "tree": "2cc70721694eaad097973cb11d32dea3a980f49e"
+      "state": "OPEN_DRAFT_UNMERGED",
+      "tree": "524a541261c0384eedd79267671215dccd9c7147"
     },
-    "rf02c_reported_local_closeout": {
-      "authority_promotion": "NONE",
-      "bounded_review_repair_commit": "8770c76",
-      "claim_ceiling_reported": [
-        "PASS_RF02C",
-        "PASS_SCOPED_BACKGROUND_EXECUTION"
-      ],
-      "classification": "USER_REPORTED_LOCAL_UNPUSHED_CANDIDATE",
-      "dirty_state": "ONLY_FINAL_EVIDENCE_CHANGED_PATHS_AND_NATIVE_DELTA_REPORTED",
-      "head": "8770c766581f5ad6fa65712e33631fc3da98810c",
-      "implementation_commit": "80ab514",
-      "performance_claim": "NONE",
-      "remote_authority": false,
-      "tree": "bb7fce7af4fb9ec2557320e9516595046372f025"
+    "rf02c_pre_merge_evidence_closeout": {
+      "classification": "VALID_PRE_POSTCLOSEOUT_MERGE_SLICE_NOT_CURRENT_TERMINAL",
+      "head": "a94dbe08a7a79a199f26eb33efab1155d2674d64",
+      "native_delta_manifest_sha256": "ea4f75292dca1158b7e3dfbf78be3a723e4f303b54febb25a7d78cf0b80d63e4",
+      "preflight_artifact_digest": "sha256:87a8bbe894cf3a1404fa6f8f2e9337078012c65b2928b65265568364f9a71898",
+      "preflight_artifact_id": 9634137750,
+      "preflight_run": 33041799038,
+      "pull_request": 36,
+      "tree": "c38c1fae8fa599d27531bf8cdc148d7ef9e27991",
+      "wheel_sha256": "e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84"
     }
   }
 }
