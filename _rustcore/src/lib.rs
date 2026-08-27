@@ -2811,6 +2811,7 @@ fn qp_kcal_eigenvalues<'py>(
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     python::register::register_runtime(m)?;
+    python::generic_vector::register_generic_vector(m)?;
     m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;
