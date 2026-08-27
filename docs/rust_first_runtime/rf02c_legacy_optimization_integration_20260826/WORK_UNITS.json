@@ -1,1 +1,251 @@
-{"current_state":"CURRENT_STATE.json","exact_next_action":"BASS-11","finding_triage":["BLOCK_NOW","FIX_SOON","BACKLOG","IGNORE"],"gate_policy":{"count":"NON_INCREASING","plot_policy":{"BASS-11":"NOT_APPLICABLE","BASS-12":"REQUIRED_ONLY_IF_A_PERFORMANCE_ACCEPTANCE_OR_REJECTION_IS_EMITTED","BASS-13":"NOT_APPLICABLE_READ_ONLY","BASS-14":"REQUIRED_ONLY_IF_NUMERICAL_OUTPUT_BEHAVIOR_IS_AFFECTED","BASS-15":"REQUIRED_FOR_ANY_PERFORMANCE_CLAIM"},"review_limit":"implementation -> one bounded verification/review -> at most one reproduced P0/P1 repair"},"package_id":"BASS-RF02C-LEGACY-OPT-INTEGRATION-20260826-R1","schema":"bass-rf02c-legacy-optimization-work-graph/v1","status_vocabulary":["NOT_ATTEMPTED","RUNNING","COMPLETED","DEFERRED","ERROR"],"work_units":[{"allowed_actions":["verify current local/remote identities and dirty-path closure","stage exactly the already-generated evidence/delta bytes","create exactly one evidence-only commit","ordinary fast-forward push","open one draft PR with base agent/audit/science-system-differential-20260826-r1","read back exact head/tree, PR base/head, changed paths, workflow, and artifact identities"],"dependencies":[],"entry":{"branch":"agent/architecture/rust-first-rf02c-20260826-r1","dirty_path_policy":{"allowed_prefixes":["repro/native/"],"exact_files":["artifacts/rust_first_runtime/rf02c/EVIDENCE.json","artifacts/rust_first_runtime/rf02c/changed_paths.json"],"union_command":"printf '%s\\n' \"$(git diff --name-only)\" \"$(git diff --cached --name-only)\" \"$(git ls-files --others --exclude-standard)\" | sed '/^$/d' | sort -u"},"required_local_head":"8770c766581f5ad6fa65712e33631fc3da98810c","required_local_tree":"bb7fce7af4fb9ec2557320e9516595046372f025","required_parent_chain":["80ab514","8770c766581f5ad6fa65712e33631fc3da98810c","ONE_NEW_EVIDENCE_ONLY_COMMIT"],"required_remote_head_before_push":"445e50184823e58401a8212ceaaf736e72bb35f2"},"forbidden_actions":["modify implementation, formulas, tolerances, references, state order, public route, or tests","amend, squash, rebase, or force-push","regenerate verified source or native bytes unless an actual digest mismatch is reproduced","run full suite, Wolfram, timing, GPU, performance, or RF-03+"],"id":"BASS-11","jira":"BASS-11","kind":"MANDATORY_CURRENT","objective":"Preserve the already-verified RF-02C implementation ancestry, commit only the generated terminal evidence/native delta, push by ordinary fast-forward, open one stacked draft PR, and freeze exact remote identity.","opens":["BASS-13"],"required_evidence":["third commit parent is exactly 8770c766581f5ad6fa65712e33631fc3da98810c","third commit changed paths satisfy dirty_path_policy","ordinary push advances remote from 445e50184823e58401a8212ceaaf736e72bb35f2","draft PR targets agent/audit/science-system-differential-20260826-r1","remote workflow and artifact readback bind the terminal head"],"state":"IN_PROGRESS","terminal_verdicts":["PASS_RF02C_REMOTE_CLOSEOUT","BLOCKED_REMOTE_IDENTITY_OR_EVIDENCE_MISMATCH"],"title":"RF-02C terminal evidence closeout and remote freeze"},{"allowed_actions":["use a separate worktree or physical host/time window","freeze exact branch/head/tree/parent and candidate bytes","run focused legacy correctness and exact output identity checks","run only the predeclared quiet-host paired measurement when its host predicate passes","preserve exact candidate evidence"],"dependencies":[],"entry":{"durable_anchor_branch":"agent/recovery/measured-performance-20260824-r1","durable_anchor_head":"4c6150578d1e7fea43e0d32c01664c92094c8c05","durable_anchor_pull_request":23,"durable_anchor_tree":"e097263a8d9657edee6976b138534634b1be4d48","live_candidate_identity":"MUST_BE_RESOLVED_TO_REMOTE_BRANCH_HEAD_TREE_PARENT_AND_PAYLOAD_DIGESTS_BEFORE_VERDICT"},"forbidden_actions":["switch or modify the RF-02C worktree","run concurrently with RF-02C compilation/tests on the same physical host","cherry-pick into RF-02C","post-hoc tune the candidate inside the acceptance run","promote formula, runtime, or general performance authority"],"id":"BASS-12","jira":"BASS-12","kind":"PARALLEL_MANDATORY_FOR_ADOPTION","objective":"Preserve the exact live optimization branch/candidate, validate it against the legacy contract, and emit one bounded accept/reject/block verdict without touching RF-02C.","opens":["BASS-13"],"state":"IN_PROGRESS","terminal_verdicts":["ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW","REJECTED_LEGACY_CANDIDATE","BLOCKED_HOST_OR_ENVIRONMENT"],"title":"Freeze the separate legacy/backed-up optimization candidate and bounded outcome"},{"dependencies":["BASS-11","BASS-12"],"dependency_predicates":{"BASS-11":["PASS_RF02C_REMOTE_CLOSEOUT"],"BASS-12":["ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW"]},"forbidden_actions":["code mutation","cherry-pick","performance promotion","merge or authority promotion"],"id":"BASS-13","jira":"BASS-13","kind":"CONDITIONAL_READ_ONLY","objective":"Determine whether the accepted legacy mechanism still addresses a real RF-02C hotspot and can be reimplemented without semantic or ownership drift.","opens":["BASS-14"],"required_comparison":["equations, signs, normalization, units, state order, chart/family support","public typed dispatch and provenance","Rust/Python ownership boundary","trajectory, event, transition, restart, history, and deterministic batch semantics where affected","dependency and ABI implications","whether the measured legacy hotspot still exists in RF-02C"],"state":"NOT_ATTEMPTED","terminal_verdicts":["REIMPLEMENT_ON_RF02C","REJECT_AS_OBSOLETE_OR_INCOMPATIBLE","DEFER_WITH_EXPLICIT_MISSING_INPUT"],"title":"Read-only RF-02C adoption gate"},{"branch_rule":"branch from the exact frozen RF-02C terminal head; never base the implementation branch on the legacy branch","dependencies":["BASS-13"],"dependency_predicates":{"BASS-13":["REIMPLEMENT_ON_RF02C"]},"execution_order":["reconstruct affected equation/code/output contract","write focused RED tests","implement minimal RF-02C-native change","run targeted correctness, negative, determinism, and integration checks","perform one bounded review and at most one reproduced P0/P1 repair","freeze branch/head/tree and changed paths"],"forbidden_actions":["mechanical cherry-pick without proven byte and semantic identity","change formulas, tolerances, references, state order, event/restart/history semantics, or claim gates","claim speedup","run full suite, Wolfram, RF-03+, or unrelated refactor"],"id":"BASS-14","jira":"BASS-14","kind":"CONDITIONAL_IMPLEMENTATION","objective":"Create a dedicated branch from the exact BASS-11 terminal RF-02C head and rederive the mechanism in RF-02C ownership without inheriting legacy code authority.","opens":["BASS-15"],"state":"NOT_ATTEMPTED","terminal_verdicts":["PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE","REJECTED_NO_SEMANTIC_PARITY","BLOCKED_BY_REPRODUCED_IMPLEMENTATION_DEFECT"],"title":"Reimplement the selected mechanism on the frozen RF-02C runtime"},{"claim_boundary":"Any accepted performance statement is limited to the exact measured workload and host.","delivery":["ordinary fast-forward push of one candidate branch","one stacked draft PR targeting the current/frozen RF-02C branch","exact remote readback","integration only after all gates pass and explicit merge approval"],"dependencies":["BASS-14"],"dependency_predicates":{"BASS-14":["PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE"]},"id":"BASS-15","jira":"BASS-15","kind":"CONDITIONAL_QUALIFICATION_AND_INTEGRATION","objective":"Prove focused same-physics parity, run bounded quiet-host performance qualification against the frozen RF-02C baseline, and deliver one stacked draft integration PR.","required_checks":["affected RF-02C correctness and hostile negatives","output identity or the predeclared RF-02C numerical comparator","trajectory/event/restart/history invariance where affected","1-thread versus N-thread deterministic identity where affected","quiet-host paired performance and memory/resource gate","exact identity binding for branch, commit, tree, binary, inputs, host, affinity, threads, and commands"],"state":"NOT_ATTEMPTED","terminal_verdicts":["PASS_RF02C_OPTIMIZATION_REQUALIFICATION","REJECTED_NO_CORRECTNESS_PARITY","REJECTED_NO_MEASURED_BENEFIT","BLOCKED_HOST_OR_ENVIRONMENT"],"title":"Requalify and integrate the RF-02C-native optimization candidate"}]}
+{
+  "schema": "bass-rf02c-legacy-optimization-work-graph/v1",
+  "package_id": "BASS-RF02C-LEGACY-OPT-INTEGRATION-20260826-R1",
+  "current_state": "CURRENT_STATE.json",
+  "exact_next_action": "BASS-11",
+  "status_vocabulary": [
+    "NOT_ATTEMPTED",
+    "RUNNING",
+    "COMPLETED",
+    "DEFERRED",
+    "ERROR"
+  ],
+  "finding_triage": [
+    "BLOCK_NOW",
+    "FIX_SOON",
+    "BACKLOG",
+    "IGNORE"
+  ],
+  "gate_policy": {
+    "count": "NON_INCREASING",
+    "review_limit": "implementation -> one bounded verification/review -> at most one reproduced P0/P1 repair",
+    "plot_policy": {
+      "BASS-11": "NOT_APPLICABLE",
+      "BASS-12": "REQUIRED_ONLY_IF_A_PERFORMANCE_ACCEPTANCE_OR_REJECTION_IS_EMITTED",
+      "BASS-13": "NOT_APPLICABLE_READ_ONLY",
+      "BASS-14": "REQUIRED_ONLY_IF_NUMERICAL_OUTPUT_BEHAVIOR_IS_AFFECTED",
+      "BASS-15": "REQUIRED_FOR_ANY_PERFORMANCE_CLAIM"
+    }
+  },
+  "work_units": [
+    {
+      "id": "BASS-11",
+      "jira": "BASS-11",
+      "kind": "MANDATORY_CURRENT",
+      "state": "IN_PROGRESS",
+      "title": "RF-02C terminal evidence closeout and remote freeze",
+      "objective": "Preserve the already-verified RF-02C implementation ancestry, commit only the generated terminal evidence/native delta, push by ordinary fast-forward, open one stacked draft PR, and freeze exact remote identity.",
+      "dependencies": [],
+      "opens": [
+        "BASS-13"
+      ],
+      "entry": {
+        "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+        "required_local_head": "8770c766581f5ad6fa65712e33631fc3da98810c",
+        "required_local_tree": "bb7fce7af4fb9ec2557320e9516595046372f025",
+        "required_remote_head_before_push": "445e50184823e58401a8212ceaaf736e72bb35f2",
+        "required_parent_chain": [
+          "80ab514",
+          "8770c766581f5ad6fa65712e33631fc3da98810c",
+          "ONE_NEW_EVIDENCE_ONLY_COMMIT"
+        ],
+        "dirty_path_policy": {
+          "exact_files": [
+            "artifacts/rust_first_runtime/rf02c/EVIDENCE.json",
+            "artifacts/rust_first_runtime/rf02c/changed_paths.json"
+          ],
+          "allowed_prefixes": [
+            "artifacts/rust_first_runtime/rf02c/native_delta/"
+          ],
+          "required_native_delta_prefix": "artifacts/rust_first_runtime/rf02c/native_delta/",
+          "forbidden_stale_prefixes": [
+            "repro/native/"
+          ],
+          "union_command": "{ git diff --name-only; git diff --cached --name-only; git ls-files --others --exclude-standard; } | sed '/^$/d' | sort -u"
+        }
+      },
+      "allowed_actions": [
+        "verify current local/remote identities and dirty-path closure",
+        "stage exactly the already-generated evidence/delta bytes",
+        "create exactly one evidence-only commit",
+        "ordinary fast-forward push",
+        "open one draft PR with base agent/audit/science-system-differential-20260826-r1",
+        "read back exact head/tree, PR base/head, changed paths, workflow, and artifact identities"
+      ],
+      "forbidden_actions": [
+        "modify implementation, formulas, tolerances, references, state order, public route, or tests",
+        "amend, squash, rebase, or force-push",
+        "move or regenerate native-delta bytes merely to satisfy a package-path typo",
+        "regenerate verified source or native bytes unless an actual digest mismatch is reproduced",
+        "run full suite, Wolfram, timing, GPU, performance, or RF-03+"
+      ],
+      "required_evidence": [
+        "third commit parent is exactly 8770c766581f5ad6fa65712e33631fc3da98810c",
+        "third commit changed paths satisfy dirty_path_policy including artifacts/rust_first_runtime/rf02c/native_delta/**",
+        "ordinary push advances remote from 445e50184823e58401a8212ceaaf736e72bb35f2",
+        "draft PR targets agent/audit/science-system-differential-20260826-r1",
+        "remote workflow and artifact readback bind the terminal head"
+      ],
+      "terminal_verdicts": [
+        "PASS_RF02C_REMOTE_CLOSEOUT",
+        "BLOCKED_REMOTE_IDENTITY_OR_EVIDENCE_MISMATCH"
+      ]
+    },
+    {
+      "id": "BASS-12",
+      "jira": "BASS-12",
+      "kind": "PARALLEL_MANDATORY_FOR_ADOPTION",
+      "state": "IN_PROGRESS",
+      "title": "Freeze the separate legacy/backed-up optimization candidate and bounded outcome",
+      "objective": "Preserve the exact live optimization branch/candidate, validate it against the legacy contract, and emit one bounded accept/reject/block verdict without touching RF-02C.",
+      "dependencies": [],
+      "opens": [
+        "BASS-13"
+      ],
+      "entry": {
+        "durable_anchor_branch": "agent/recovery/measured-performance-20260824-r1",
+        "durable_anchor_head": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+        "durable_anchor_tree": "e097263a8d9657edee6976b138534634b1be4d48",
+        "durable_anchor_pull_request": 23,
+        "live_candidate_identity": "MUST_BE_RESOLVED_TO_REMOTE_BRANCH_HEAD_TREE_PARENT_AND_PAYLOAD_DIGESTS_BEFORE_VERDICT"
+      },
+      "allowed_actions": [
+        "use a separate worktree or physical host/time window",
+        "freeze exact branch/head/tree/parent and candidate bytes",
+        "run focused legacy correctness and exact output identity checks",
+        "run only the predeclared quiet-host paired measurement when its host predicate passes",
+        "preserve exact candidate evidence"
+      ],
+      "forbidden_actions": [
+        "switch or modify the RF-02C worktree",
+        "run concurrently with RF-02C compilation/tests on the same physical host",
+        "cherry-pick into RF-02C",
+        "post-hoc tune the candidate inside the acceptance run",
+        "promote formula, runtime, or general performance authority"
+      ],
+      "terminal_verdicts": [
+        "ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW",
+        "REJECTED_LEGACY_CANDIDATE",
+        "BLOCKED_HOST_OR_ENVIRONMENT"
+      ]
+    },
+    {
+      "id": "BASS-13",
+      "jira": "BASS-13",
+      "kind": "CONDITIONAL_READ_ONLY",
+      "state": "NOT_ATTEMPTED",
+      "title": "Read-only RF-02C adoption gate",
+      "objective": "Determine whether the accepted legacy mechanism still addresses a real RF-02C hotspot and can be reimplemented without semantic or ownership drift.",
+      "dependencies": [
+        "BASS-11",
+        "BASS-12"
+      ],
+      "dependency_predicates": {
+        "BASS-11": [
+          "PASS_RF02C_REMOTE_CLOSEOUT"
+        ],
+        "BASS-12": [
+          "ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW"
+        ]
+      },
+      "opens": [
+        "BASS-14"
+      ],
+      "required_comparison": [
+        "equations, signs, normalization, units, state order, chart/family support",
+        "public typed dispatch and provenance",
+        "Rust/Python ownership boundary",
+        "trajectory, event, transition, restart, history, and deterministic batch semantics where affected",
+        "dependency and ABI implications",
+        "whether the measured legacy hotspot still exists in RF-02C"
+      ],
+      "forbidden_actions": [
+        "code mutation",
+        "cherry-pick",
+        "performance promotion",
+        "merge or authority promotion"
+      ],
+      "terminal_verdicts": [
+        "REIMPLEMENT_ON_RF02C",
+        "REJECT_AS_OBSOLETE_OR_INCOMPATIBLE",
+        "DEFER_WITH_EXPLICIT_MISSING_INPUT"
+      ]
+    },
+    {
+      "id": "BASS-14",
+      "jira": "BASS-14",
+      "kind": "CONDITIONAL_IMPLEMENTATION",
+      "state": "NOT_ATTEMPTED",
+      "title": "Reimplement the selected mechanism on the frozen RF-02C runtime",
+      "objective": "Create a dedicated branch from the exact BASS-11 terminal RF-02C head and rederive the mechanism in RF-02C ownership without inheriting legacy code authority.",
+      "dependencies": [
+        "BASS-13"
+      ],
+      "dependency_predicates": {
+        "BASS-13": [
+          "REIMPLEMENT_ON_RF02C"
+        ]
+      },
+      "opens": [
+        "BASS-15"
+      ],
+      "branch_rule": "branch from the exact frozen RF-02C terminal head; never base the implementation branch on the legacy branch",
+      "execution_order": [
+        "reconstruct affected equation/code/output contract",
+        "write focused RED tests",
+        "implement minimal RF-02C-native change",
+        "run targeted correctness, negative, determinism, and integration checks",
+        "perform one bounded review and at most one reproduced P0/P1 repair",
+        "freeze branch/head/tree and changed paths"
+      ],
+      "forbidden_actions": [
+        "mechanical cherry-pick without proven byte and semantic identity",
+        "change formulas, tolerances, references, state order, event/restart/history semantics, or claim gates",
+        "claim speedup",
+        "run full suite, Wolfram, RF-03+, or unrelated refactor"
+      ],
+      "terminal_verdicts": [
+        "PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE",
+        "REJECTED_NO_SEMANTIC_PARITY",
+        "BLOCKED_BY_REPRODUCED_IMPLEMENTATION_DEFECT"
+      ]
+    },
+    {
+      "id": "BASS-15",
+      "jira": "BASS-15",
+      "kind": "CONDITIONAL_QUALIFICATION_AND_INTEGRATION",
+      "state": "NOT_ATTEMPTED",
+      "title": "Requalify and integrate the RF-02C-native optimization candidate",
+      "objective": "Prove focused same-physics parity, run bounded quiet-host performance qualification against the frozen RF-02C baseline, and deliver one stacked draft integration PR.",
+      "dependencies": [
+        "BASS-14"
+      ],
+      "dependency_predicates": {
+        "BASS-14": [
+          "PASS_RF02C_NATIVE_OPTIMIZATION_CANDIDATE"
+        ]
+      },
+      "required_checks": [
+        "affected RF-02C correctness and hostile negatives",
+        "output identity or the predeclared RF-02C numerical comparator",
+        "trajectory/event/restart/history invariance where affected",
+        "1-thread versus N-thread deterministic identity where affected",
+        "quiet-host paired performance and memory/resource gate",
+        "exact identity binding for branch, commit, tree, binary, inputs, host, affinity, threads, and commands"
+      ],
+      "delivery": [
+        "ordinary fast-forward push of one candidate branch",
+        "one stacked draft PR targeting the current/frozen RF-02C branch",
+        "exact remote readback",
+        "integration only after all gates pass and explicit merge approval"
+      ],
+      "claim_boundary": "Any accepted performance statement is limited to the exact measured workload and host.",
+      "terminal_verdicts": [
+        "PASS_RF02C_OPTIMIZATION_REQUALIFICATION",
+        "REJECTED_NO_CORRECTNESS_PARITY",
+        "REJECTED_NO_MEASURED_BENEFIT",
+        "BLOCKED_HOST_OR_ENVIRONMENT"
+      ]
+    }
+  ]
+}
