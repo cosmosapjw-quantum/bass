@@ -14,7 +14,6 @@ pub mod collide_exact;
 pub mod collision;
 pub mod comoving;
 pub mod coupled;
-pub mod generic_vector;
 pub mod grid_collide;
 pub mod hierarchy;
 pub mod pol_collide;

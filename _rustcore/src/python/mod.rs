@@ -2,6 +2,5 @@
 
 pub mod background;
 pub mod geometry;
-pub mod generic_vector;
 pub mod register;
 pub mod runtime;
