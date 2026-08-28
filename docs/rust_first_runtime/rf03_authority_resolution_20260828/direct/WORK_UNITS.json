@@ -1,0 +1,97 @@
+{
+  "schema": "bass-rf03-authority-direct-work-units/v1",
+  "package_id": "BASS-RF03-AUTHORITY-DIRECT-HANDOFF-20260828-R2",
+  "exact_next_action": "RF03-AUTH-01",
+  "work_units": [
+    {
+      "id": "RF03-AUTH-01",
+      "kind": "MANDATORY_AUTHORITY_REPAIR",
+      "dependencies": [
+        "RF-02C"
+      ],
+      "objective": "Land the source-bound gamma-law/thermodynamics authority declaration and executable verifier without production numerical implementation.",
+      "allowed_paths": [
+        "provenance/authority/rf03/RF03_AUTHORITY.json",
+        "tools/authority/verify_thermodynamics_authority.py",
+        "tests/rf03/test_authority_contract.py"
+      ],
+      "allowed_prefixes": [
+        "artifacts/rust_first_runtime/rf03/authority/"
+      ],
+      "required_tests": [
+        "python tools/authority/verify_thermodynamics_authority.py",
+        "pytest -q tests/rf03/test_authority_contract.py"
+      ],
+      "terminal": [
+        "PASS_RF03_AUTHORITY",
+        "BLOCKED_SOURCE_AUTHORITY_MISMATCH"
+      ],
+      "claim": "NO_PASS_RF03"
+    },
+    {
+      "id": "RF03-RED-02",
+      "kind": "MANDATORY_GENUINE_RED",
+      "dependencies": [
+        "RF03-AUTH-01"
+      ],
+      "predicate": "PASS_RF03_AUTHORITY",
+      "objective": "Write failing tests against the frozen model/state/force/JVP/route contracts; do not invent APIs outside the contract.",
+      "terminal": [
+        "RED_CONFIRMED",
+        "BLOCKED_CONTRACT_INCONSISTENCY"
+      ]
+    },
+    {
+      "id": "RF03-IMPL-03",
+      "kind": "MANDATORY_IMPLEMENTATION",
+      "dependencies": [
+        "RF03-RED-02"
+      ],
+      "predicate": "RED_CONFIRMED",
+      "objective": "Implement corrected RF-03 under the unaffected R1 scope plus this R2 authority override.",
+      "requirements": [
+        "native explicit model selection",
+        "no silent fallback",
+        "force/JVP parity",
+        "Omega and timelike-tilt domain",
+        "T_gamma invariance",
+        "RF-02C coupled trajectory",
+        "1-thread/N-thread determinism"
+      ]
+    },
+    {
+      "id": "RF03-AUDIT-04",
+      "kind": "MANDATORY_BOUNDED_AUDIT",
+      "dependencies": [
+        "RF03-IMPL-03"
+      ],
+      "objective": "Run targeted tests, four bounded figures, hostile mutations, PHYS-MATH and PHYS-MATH-CODE audits, then at most one bounded repair pass."
+    },
+    {
+      "id": "RF03-EVIDENCE-05",
+      "kind": "MANDATORY_TERMINAL_EVIDENCE",
+      "dependencies": [
+        "RF03-AUDIT-04"
+      ],
+      "objective": "Build reproducible native payload/delta, bind receipts to exact source commit, push draft implementation PR, and stop without merge.",
+      "terminal": [
+        "PASS_RF03",
+        "BLOCKED_RF03_DEFECT"
+      ]
+    }
+  ],
+  "commit_roles": [
+    "AUTHORITY_ONLY",
+    "IMPLEMENTATION_AND_TARGETED_TESTS",
+    "TERMINAL_EVIDENCE"
+  ],
+  "forbidden": [
+    "merge or ready transition",
+    "full repository suite unless a targeted failure requires expansion",
+    "timing/performance claim",
+    "Wolfram or GPU",
+    "new EOS family",
+    "tilted-temperature formula",
+    "reuse BASS-12 through BASS-15 optimization bytes"
+  ]
+}

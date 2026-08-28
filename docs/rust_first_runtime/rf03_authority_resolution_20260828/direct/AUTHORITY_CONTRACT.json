@@ -1,0 +1,105 @@
+{
+  "schema": "bass-rf03-authority-direct-contract/v1",
+  "package_id": "BASS-RF03-AUTHORITY-DIRECT-HANDOFF-20260828-R2",
+  "revision": "R2_EXPLICIT_GAMMA_LAW_SPLIT_THERMO_DIRECT",
+  "repository": "cosmosapjw-quantum/bass",
+  "source_base": {
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+    "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e",
+    "pull_request": 36,
+    "state": "OPEN_DRAFT_UNMERGED"
+  },
+  "r1_package": {
+    "branch": "agent/plans/rf03-matter-thermo-tilt-closure-20260828-r1",
+    "head": "b7cda09d337906c17821a2b815032c985ff86bdf",
+    "pull_request": 37,
+    "state": "OPEN_DRAFT_UNMERGED"
+  },
+  "implementation": {
+    "branch": "agent/architecture/rust-first-rf03-20260828-r2",
+    "exact_next_action": "RF03-AUTH-01"
+  },
+  "blocker_adjudication": {
+    "prior_verdict": "BLOCKED_UNRESOLVED_EOS_OR_MODEL_AUTHORITY",
+    "prior_stop": "CORRECT_UNDER_R1_WORDING",
+    "root_cause": "R1 conflated the selected explicit gamma-law model with a forbidden implicit constant-w fallback and demanded a tilted-temperature law absent from source.",
+    "resolution": "Bind existing gamma-law source as the only RF-03 production matter model; reject only hidden/default fallback; keep tilted temperature uncoupled and undefined.",
+    "no_new_eos": true,
+    "no_tilted_temperature_invention": true
+  },
+  "production_matter_authority": {
+    "model_id": "explicit_gamma_law_tilted_perfect_fluid_v1",
+    "source": "bianchi/matter/fluid.py:TiltedFluid",
+    "composition_source": "bianchi/matter/species.py:FluidSpecies",
+    "equation_of_state": "p = (gamma - 1) rho",
+    "caller_must_supply": [
+      "model_id",
+      "gamma",
+      "Omega",
+      "v[3]"
+    ],
+    "state_order": [
+      "Omega",
+      "v1",
+      "v2",
+      "v3"
+    ],
+    "force": "[dOmega, dv1, dv2, dv3] returned by TiltedFluid.rhs at fixed context and gamma",
+    "jvp": "directional derivative of that exact force with respect to the state order at fixed context and gamma",
+    "certification_domain": {
+      "gamma": "0 < gamma <= 2",
+      "Omega": "Omega >= 0",
+      "tilt": "v_i v^i < 1"
+    },
+    "forbidden": [
+      "missing or unknown model silently selects hard-coded w",
+      "hidden default gamma",
+      "automatic Python fallback",
+      "surrogate EOS substitution",
+      "state reordering",
+      "finite-difference formula promoted as production JVP authority"
+    ]
+  },
+  "thermodynamics_boundary": {
+    "native_auxiliary_sources": [
+      "_rustcore/src/thermo/dof.rs",
+      "_rustcore/src/thermo/dof_table.rs",
+      "_rustcore/src/thermo/fd.rs"
+    ],
+    "non_tilted_entropy_source": "bianchi/thermo/temperature.py",
+    "T_gamma_role": "exogenous context only; no feedback into RF-03 gamma-law force or JVP",
+    "tilted_temperature_formula": "UNDEFINED_AND_NOT_AUTHORIZED",
+    "historical_typeii": "SURROGATE_REFERENCE_ONLY",
+    "historical_sources": [
+      "compiler/validation/typeii_fixture_authority.json",
+      "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json"
+    ]
+  },
+  "r2_scope_extension": {
+    "authorized_exact_paths": [
+      "provenance/authority/rf03/RF03_AUTHORITY.json",
+      "tools/authority/verify_thermodynamics_authority.py",
+      "tests/rf03/test_authority_contract.py"
+    ],
+    "authorized_prefixes": [
+      "artifacts/rust_first_runtime/rf03/authority/"
+    ],
+    "purpose": "Authority declaration, executable verifier, contract tests, and receipts only.",
+    "after_authority": "Resume the unaffected R1 RF-03 source/test/evidence scope in the same Codex run."
+  },
+  "claim_boundary": {
+    "current": "NO_PASS_RF03_CLAIM",
+    "authority_terminal": "PASS_RF03_AUTHORITY",
+    "full_terminal": "PASS_RF03",
+    "performance": "NONE",
+    "scientific_promotion": "NONE"
+  },
+  "github_smoke": {
+    "pull_request": 38,
+    "merge_commit": "b4406b6d835fe8b71bf94615eb2b066b991ee48d",
+    "temporary_base": "mock/github-import-push-pr-merge-base-20260828-r1",
+    "canonical_main_entry_and_exit": "d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9",
+    "result": "PASS_ISOLATED_EXPECTED_HEAD_MERGE"
+  }
+}
