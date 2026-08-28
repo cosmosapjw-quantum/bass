@@ -18,7 +18,7 @@ class RF03ModelSelectionError(ValueError):
 
 
 def _require_model_id(model_id):
-    if model_id != MODEL_ID or not isinstance(model_id, str):
+    if not isinstance(model_id, str) or model_id != MODEL_ID:
         raise RF03ModelSelectionError(
             f"model_id must be supplied exactly as {MODEL_ID!r}"
         )

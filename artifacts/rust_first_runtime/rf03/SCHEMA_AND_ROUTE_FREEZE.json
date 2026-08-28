@@ -41,6 +41,46 @@
     "sha256": "fa4df23fab778cbe085b84cf8b74f29ad2a5544c964ee1045c60cc8c62d15e33",
     "status": "HISTORICAL_CORRECT_UNDER_R1_WORDING"
   },
+  "inherited_thermodynamics": {
+    "native_sources": [
+      "_rustcore/src/thermo/dof.rs",
+      "_rustcore/src/thermo/dof_table.rs",
+      "_rustcore/src/thermo/fd.rs"
+    ],
+    "native_symbols": [
+      "fd_rho_p",
+      "fd_rho_p_batch",
+      "g_star",
+      "g_star_s"
+    ],
+    "new_tilted_temperature_formula": "NONE",
+    "rf03_change": "NONE; existing native thermodynamic references remain inherited and T_gamma stays exogenous"
+  },
+  "inherited_tilt_closure": {
+    "adapter_owner": "_rustcore/src/python/rf03_tilt.rs",
+    "modes": [
+      "frozen",
+      "ratio",
+      "ratio_scalar",
+      "zero",
+      "phys_sqrt",
+      "phys_5w",
+      "phys_interp"
+    ],
+    "native_numerical_owner": "_rustcore/src/kinetic/tilted_hier.rs",
+    "native_symbols": [
+      "th_integrate",
+      "th_rhs",
+      "th_force_and_matrix"
+    ],
+    "route_ids": [
+      "tilted.integrate",
+      "tilted.rhs",
+      "tilted.force_and_matrix",
+      "tilted.trajectory_error"
+    ],
+    "rf03_change": "adapter relocation only; inherited numerical formulas and seven-mode mapping are unchanged"
+  },
   "model": {
     "equation_of_state": "p = (gamma - 1) rho",
     "id": "explicit_gamma_law_tilted_perfect_fluid_v1",

@@ -16,7 +16,7 @@ use super::rf03_matter::{
     rf03_matter_force, rf03_matter_force_jvp, rf03_matter_integrate, rf03_matter_integrate_history,
     RF03DomainError, RF03InputError, RF03ModelError,
 };
-use super::rf03_tilt::rf03_tilt_invariants;
+use super::rf03_tilt::{rf03_tilt_invariants, th_force_and_matrix, th_integrate, th_rhs};
 
 use super::runtime::{
     InvalidBufferError, PlanMismatchError, PoolConstructionError, PyRuntimePlan, PyWorkspace,
@@ -87,5 +87,8 @@ pub fn register_rf03(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(rf03_matter_integrate, module)?)?;
     module.add_function(wrap_pyfunction!(rf03_matter_integrate_history, module)?)?;
     module.add_function(wrap_pyfunction!(rf03_tilt_invariants, module)?)?;
+    module.add_function(wrap_pyfunction!(th_integrate, module)?)?;
+    module.add_function(wrap_pyfunction!(th_rhs, module)?)?;
+    module.add_function(wrap_pyfunction!(th_force_and_matrix, module)?)?;
     Ok(())
 }

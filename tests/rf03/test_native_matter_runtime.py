@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -219,6 +220,22 @@ def test_model_selector_rejects_before_any_numeric_coercion() -> None:
             q=poison,
         )
 
+    class MustNotCompare:
+        def __eq__(self, _other):
+            raise AssertionError("model equality preceded the string type check")
+
+    with pytest.raises(gamma_law_rust.RF03ModelSelectionError):
+        gamma_law_rust.force(
+            model_id=MustNotCompare(),
+            gamma=poison,
+            state=poison,
+            Sigma=poison,
+            N=poison,
+            A=poison,
+            R=poison,
+            q=poison,
+        )
+
 
 def test_zero_tilt_known_limit_and_invariants() -> None:
     native = _native()
@@ -373,18 +390,29 @@ def test_rf02c_background_history_composes_with_native_matter_without_callback()
     np.testing.assert_array_equal(matter[:, 1:], np.zeros((len(times), 3)))
 
 
-def test_one_thread_and_four_thread_trajectory_bytes_are_identical() -> None:
+def test_one_thread_and_four_thread_states_failure_codes_and_order_are_identical() -> None:
     code = r'''
 import json
 import numpy as np
 import bianchi_rustcore as native
 z3=np.zeros(3, dtype=np.float64); z33=np.zeros((3,3), dtype=np.float64)
-r=native.rf03_matter_integrate(
-    "explicit_gamma_law_tilted_perfect_fluid_v1", 1.4,
-    np.array([0.3,0.1,-0.04,0.02], dtype=np.float64),
-    z33,z33,z3,z3,0.35,0.4,160,None)
-states=np.asarray(r["states"], dtype=np.float64)
-print(json.dumps({"pool":native.rayon_thread_pool_size(),"status":r["status"],"hex":states.tobytes().hex()}))
+model="explicit_gamma_law_tilted_perfect_fluid_v1"
+def run(state, gamma, q, t_end, nsteps):
+    result=native.rf03_matter_integrate(
+        model,gamma,np.array(state,dtype=np.float64),z33,z33,z3,z3,q,t_end,nsteps,None)
+    states=np.asarray(result["states"], dtype=np.float64)
+    return {
+        "status":result["status"],
+        "terminal_index":result["terminal_index"],
+        "terminal_detail":result["terminal_detail"],
+        "shape":list(states.shape),
+        "hex":states.tobytes().hex(),
+    }
+print(json.dumps({
+    "pool":native.rayon_thread_pool_size(),
+    "complete":run([0.3,0.1,-0.04,0.02],1.4,0.35,0.4,160),
+    "domain":run([0.2,0.9,0.0,0.0],2.0,0.0,1.0,20),
+}, sort_keys=True))
 '''
 
     def run(threads: int):
@@ -404,5 +432,48 @@ print(json.dumps({"pool":native.rayon_thread_pool_size(),"status":r["status"],"h
     four = run(4)
     assert one["pool"] == 1
     assert four["pool"] == 4
-    assert one["status"] == four["status"] == "COMPLETE"
-    assert one["hex"] == four["hex"]
+    assert one["complete"] == four["complete"]
+    assert one["domain"] == four["domain"]
+    assert one["complete"]["status"] == "COMPLETE"
+    assert one["domain"]["status"] == "RF03_DOMAIN_TERMINATION"
+    assert one["domain"]["terminal_detail"] is not None
+
+
+def test_rf03_tilt_adapters_are_owned_outside_root_lib() -> None:
+    root = Path(__file__).resolve().parents[2]
+    root_lib = (root / "_rustcore/src/lib.rs").read_text(encoding="utf-8")
+    tilt_adapter = (root / "_rustcore/src/python/rf03_tilt.rs").read_text(
+        encoding="utf-8"
+    )
+    for symbol in ("th_integrate", "th_rhs", "th_force_and_matrix"):
+        assert f"fn {symbol}" not in root_lib
+        assert f"fn {symbol}" in tilt_adapter
+
+
+def test_rf03_freeze_inventories_inherited_closure_and_thermo_scope() -> None:
+    root = Path(__file__).resolve().parents[2]
+    freeze = json.loads(
+        (root / "artifacts/rust_first_runtime/rf03/SCHEMA_AND_ROUTE_FREEZE.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert freeze["inherited_tilt_closure"]["modes"] == [
+        "frozen",
+        "ratio",
+        "ratio_scalar",
+        "zero",
+        "phys_sqrt",
+        "phys_5w",
+        "phys_interp",
+    ]
+    assert freeze["inherited_tilt_closure"]["native_symbols"] == [
+        "th_integrate",
+        "th_rhs",
+        "th_force_and_matrix",
+    ]
+    assert freeze["inherited_thermodynamics"]["new_tilted_temperature_formula"] == "NONE"
+    assert freeze["inherited_thermodynamics"]["native_sources"] == [
+        "_rustcore/src/thermo/dof.rs",
+        "_rustcore/src/thermo/dof_table.rs",
+        "_rustcore/src/thermo/fd.rs",
+    ]
