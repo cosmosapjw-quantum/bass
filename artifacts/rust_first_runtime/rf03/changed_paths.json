@@ -1,11 +1,22 @@
 {
-  "schema": "bass-rf03-changed-paths/v1",
+  "schema": "bass-rf03-changed-paths/v2",
   "base_commit": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
   "allowed_path_sources": [
     "/tmp/bass-rf03-r4.TxQxOk/r1_context/WORK_UNITS.json#/work_units/0/scope/compiled_allowed_paths",
     "/tmp/bass-rf03-r4.TxQxOk/r1_context/WORK_UNITS.json#/work_units/0/scope/run_local_user_authorized_integration_extension",
-    "/tmp/bass-rf03-r4.TxQxOk/authority/AUTHORITY_CONTRACT.json#/r2_scope_extension"
+    "/tmp/bass-rf03-r4.TxQxOk/authority/AUTHORITY_CONTRACT.json#/r2_scope_extension",
+    "user request 2026-08-28: bounded post-terminal PR #45 CI compatibility closeout"
   ],
+  "post_terminal_ci_extension": {
+    "classification": "WORKFLOW_ONLY_COMPATIBILITY_CLOSURE",
+    "authorized_exact_paths": [
+      ".github/workflows/rf00-backend-policy.yml",
+      ".github/workflows/rf02b-scalar-operators.yml"
+    ],
+    "reason": "RF-00 and RF-02B Python/oracle jobs passed; their Rust jobs stopped only because strict clippy warnings were branch-sensitive. RF-03 source/native bytes remain frozen.",
+    "native_bytes_changed": false,
+    "formula_or_tolerance_changed": false
+  },
   "r2_authority_exact_paths": [
     "provenance/authority/rf03/RF03_AUTHORITY.json",
     "tests/rf03/test_authority_contract.py",
@@ -14,8 +25,10 @@
   "r2_authority_prefixes": [
     "artifacts/rust_first_runtime/rf03/authority/"
   ],
-  "changed_path_count": 52,
+  "changed_path_count": 54,
   "changed_paths": [
+    ".github/workflows/rf00-backend-policy.yml",
+    ".github/workflows/rf02b-scalar-operators.yml",
     "_rustcore/src/lib.rs",
     "_rustcore/src/matter/eos.rs",
     "_rustcore/src/matter/force.rs",
@@ -72,5 +85,5 @@
   "outside_allowlist": [],
   "forbidden_cargo_manifest_changes": [],
   "rf02c_artifact_mutations": [],
-  "closure": "PASS"
+  "closure": "PASS_WITH_EXPLICIT_POST_TERMINAL_CI_EXTENSION"
 }
