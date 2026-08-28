@@ -1,0 +1,58 @@
+{
+  "authority_inventory_policy": {
+    "base_head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+    "prefixes": [
+      "provenance/**",
+      "generated/**/manifest*.json",
+      "compiler/validation/*authority*.json",
+      "tools/authority/**",
+      "tests/authority/**"
+    ],
+    "rule": "Inventory and type existing labels; coefficient/generated-source bytes are immutable."
+  },
+  "compiled_work_graph_blob_sha1": "026afd0348d29b0afa90d30fcf8a11b9cf1187dd",
+  "python_oracle_policy": {
+    "allowed_prefixes": [
+      "bianchi/kinetic/**",
+      "bianchi/polarization/**"
+    ],
+    "local_freeze_command": "git ls-tree -r --full-tree 6e53664d56694f7a7ad5f65be262302d5c8866b2 -- bianchi/kinetic bianchi/polarization",
+    "rule": "Freeze exact existing paths and blobs before RED. Python may remain API/config/oracle, never a production inner loop or silent fallback."
+  },
+  "rust": {
+    "dedicated_owner_paths_absent_at_intake": [
+      "_rustcore/src/collision",
+      "_rustcore/src/kato",
+      "_rustcore/src/polarization"
+    ],
+    "files": {
+      "characteristics.rs": "75bf226d838cdf89b2c3ba0023c29a10a278ccdc",
+      "coeff_hier.rs": "b5bf4e748deebb8779c85a037c607d99f19cf4eb",
+      "coeff_tables.rs": "b293c60388fe1ef4f805da470781685f71410f80",
+      "collide_exact.rs": "a8b2389f289c235a58d4f3b382af4cab84aa4522",
+      "collision.rs": "31823dad2463d6be72406664ecdd11aa51540ea3",
+      "comoving.rs": "a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84",
+      "coupled.rs": "c04da90b8cabab5db0d9880c81fa7645b194ea74",
+      "grid_collide.rs": "71f3bef4ee3d29bfaf438180311c76756778bcc2",
+      "hierarchy.rs": "053c1ae2f627b18a42902dc97695df3b26365417",
+      "mod.rs": "2c7c8e5bf7fb7d1ddd566eca4f3f05b2069d9c25",
+      "pol_collide.rs": "afcac634c356490ff9af6f30bd1a88217393c211",
+      "pstf.rs": "c11162b6a5bd4808eca043b777761c20c9b96e1e",
+      "pstf_gen.rs": "0b69c295a9f5509847d0a2677be661db698e0db2",
+      "qevolve.rs": "0ed0b6556c8ba43fae43981c20345e223a9ec8b6",
+      "quad.rs": "265223bd4d7043a2d1d7d0b37046a0947d0e4ee8",
+      "radial.rs": "ec946fced75e80201d516d1368c77eee87afd5b2",
+      "sphere.rs": "f04c624659efa3a8ebe2166ed176c0f8df815f48",
+      "tilted_hier.rs": "dcb3bba17e7cc73606d56f873f7bef4f86ce74c3",
+      "tilted_terms.rs": "0794a23845ab419161d04bce436e95bc01302f2f",
+      "transport.rs": "8d36dd5b62e578c59f3df087359942eed14cfac2",
+      "typev.rs": "db32de73e944679436aa5a2fec1290be19ed92e6",
+      "viscous.rs": "32c16fe1630e7b771027a1ae7d90dfb34f5e886d"
+    },
+    "interpretation": "Substantial kinetic/collision/quadrature/polarization code already exists under _rustcore/src/kinetic. RF-04 must adjudicate and modularize only production ownership gaps; it must not rewrite working Rust code merely to satisfy directory names.",
+    "kinetic_tree": "de19a1472a69d8ef3879a30dd67d1d90df193e07"
+  },
+  "schema": "bass-rf04-source-inventory/v1",
+  "source_head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+  "source_tree": "bb743717e8115821d72268d8384dc5cc7cc11975"
+}

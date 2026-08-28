@@ -1,0 +1,174 @@
+{
+  "amendment": {
+    "allowlist_delta": {
+      "additions": [
+        "_rustcore/src/lib.rs",
+        "_rustcore/src/python/mod.rs",
+        "_rustcore/src/python/register.rs",
+        "_rustcore/src/python/rf04_typeii.rs",
+        "bianchi/backend_policy.py"
+      ],
+      "amended_allowed_paths": [
+        "_rustcore/src/kinetic/**",
+        "_rustcore/src/collision/**",
+        "_rustcore/src/kato/**",
+        "_rustcore/src/polarization/**",
+        "bianchi/kinetic/**",
+        "bianchi/polarization/**",
+        "tests/rf04/**",
+        ".github/workflows/rf04*.yml",
+        "artifacts/rust_first_runtime/rf04/**",
+        "docs/rust_first_runtime/**",
+        "_rustcore/src/lib.rs",
+        "_rustcore/src/python/mod.rs",
+        "_rustcore/src/python/register.rs",
+        "_rustcore/src/python/rf04_typeii.rs",
+        "bianchi/backend_policy.py"
+      ],
+      "removals": [],
+      "semantic_rules": {
+        "_rustcore/src/lib.rs": "Registration only: add exactly python::register::register_rf04(m)?; no RF-04 adapter or numerical body.",
+        "_rustcore/src/python/mod.rs": "Module declaration only for rf04_typeii; no numerical body.",
+        "_rustcore/src/python/register.rs": "Import/register RF04 exceptions and the three frozen RF04 symbols; no numerical formula, route fallback, or capability broadening.",
+        "_rustcore/src/python/rf04_typeii.rs": "PyO3 validation/marshalling/result serialization only; one O(1) call into modular Rust execution; no physics formula or Python callback.",
+        "bianchi/backend_policy.py": "Add the three frozen route IDs, required symbols, identity/hash comparison, and final content-addressed native payload receipt only. Do not weaken existing payload verification or add fallback."
+      }
+    },
+    "amendment_id": "BASS-RF04-ROUTE-REGISTRATION-AMENDMENT-20260828-A1",
+    "base_package": {
+      "branch": "agent/plans/rf04-sci-auth-intake-20260828-r1",
+      "head": "0ac2608689bbc9e35bf7414a41cf08e8512bff9f",
+      "package_id": "BASS-RF04-SCI-AUTH-INTAKE-20260828-R1",
+      "path": "docs/rust_first_runtime/rf04_sci_auth_intake_20260828",
+      "pull_request": 47,
+      "tree": "55ddbe6d5927b91d40c2c1f353fd414bc654e188"
+    },
+    "blocker": {
+      "classification": "BLOCKED_SOURCE_CONTRACT_ROUTE_REGISTRATION_GAP",
+      "owner_blobs": {
+        "_rustcore/src/lib.rs": "870a770402c325b6aa5975deab31cc1612a5328f",
+        "_rustcore/src/python/register.rs": "f67c6e5eeb5621f2858c44bb485088227bb27644",
+        "bianchi/backend_policy.py": "b501f8eead693d493efd23544eb4776f9b5c54a6"
+      },
+      "retained_intake_root": "/tmp/bass-rf04-intake-20260828.cDFXIM",
+      "retained_path": "/tmp/bass-rf04-intake-20260828.cDFXIM/RF04_INTAKE_00_BLOCKER.json",
+      "retained_sci_auth_worktree": "/tmp/bass-sci-auth-04-20260828.0312rE/worktree",
+      "sha256": "e8793fe2fdf83e5ab2430e36714f3d445efff4790f5f17fc8188a90ee14929d8"
+    },
+    "claim_boundary": {
+      "blocker_contract_state": "RESOLVED_BY_AMENDMENT_NOT_IMPLEMENTATION",
+      "current": "NO_PASS_RF04",
+      "inherited": [
+        "PASS_RF03",
+        "PASS_SCI_AUTH_04_VALIDATOR"
+      ],
+      "merge_or_ready": "FORBIDDEN",
+      "performance": "NONE",
+      "scientific_promotion": "NONE"
+    },
+    "classification": "EXACT_PINNED_SOURCE_CONTRACT_AMENDMENT",
+    "exact_next_action": "RF04-RED-01",
+    "public_route_schema": {
+      "file_sha256": "be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097",
+      "git_blob_sha1": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+      "path": "docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json",
+      "publication_commit": "cef7809237ba848bfb39e01c168bf4d720ab6c3e",
+      "schema_id": "bass-rf04-typeii-public-route/v1"
+    },
+    "required_genuine_red": [
+      "missing rf04_typeii_execution_identity_v1",
+      "missing rf04_typeii_trajectory_v1",
+      "missing rf04_typeii_batch_v1",
+      "backend route absent or identity mismatch",
+      "qe_evolve/qe_ensemble substitution rejected",
+      "rate-dual mutation detected",
+      "projector/connection mutation detected",
+      "quadrature route conflation detected",
+      "nonnormal global-error overclaim detected",
+      "unsupported carrier/route fails closed"
+    ],
+    "reuse": {
+      "do_not_rerun": [
+        "RF-03",
+        "SCI-AUTH-04",
+        "RF04-INTAKE-00"
+      ],
+      "required_retained_evidence": [
+        "/tmp/bass-rf04-intake-20260828.cDFXIM/RF04_INTAKE_00_BLOCKER.json",
+        "/tmp/bass-sci-auth-04-20260828.0312rE/worktree/artifacts/authority/sci_auth_04/VALIDATION.json"
+      ],
+      "rule": "Reuse exact retained checkpoints by digest. If either retained checkpoint is absent or mismatched, stop; do not rerun or synthesize replacement evidence."
+    },
+    "rf03_checkpoint": {
+      "branch": "agent/architecture/rust-first-rf03-20260828-r2",
+      "evidence_sha256": "4a760f899de414af0527f736ba0942fd9e3df905e64262fed4d8692ccde2f1e6",
+      "head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+      "pull_request": 45,
+      "tree": "bb743717e8115821d72268d8384dc5cc7cc11975"
+    },
+    "sci_auth_04_checkpoint": {
+      "authority_ids": {
+        "background": "SCI-AUTH-04-BACKGROUND-V1",
+        "collision": "SCI-AUTH-04-COLLISION-V1",
+        "kato": "SCI-AUTH-04-KATO-V1",
+        "projector": "SCI-AUTH-04-PROJECTOR-V1",
+        "thermodynamics": "SCI-AUTH-04-THERMODYNAMICS-V1"
+      },
+      "authority_manifest_blob_sha1": "c96e500b563b0b090e2164e676c3351c28948392",
+      "branch": "agent/authority/sci-auth-04-20260828-r1",
+      "head": "1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86",
+      "implementation_commit": "6de607a1ac2a76de2c098e706b6a59d0b258c284",
+      "manifest_sha256": "9c646d7fa43463484e832349f0a4ae9c3728dc1d68a2370504facdc41aad9b9f",
+      "pull_request": 48,
+      "terminal": "PASS_SCI_AUTH_04_VALIDATOR",
+      "tree": "37edaaea720a3197881b94bc39413787db091432",
+      "validation_blob_sha1": "7d446bc4cd8e7f1eadb10bb855f3a65f8c18c03c",
+      "validation_sha256": "d0d72dfaeb1bdef29353e05809619b2393176eca52f770a1d193115dad15033c"
+    }
+  },
+  "claims": [
+    "PASS_RF03",
+    "PASS_SCI_AUTH_04_VALIDATOR",
+    "NO_PASS_RF04"
+  ],
+  "delivery": {
+    "codex_prompt": "BASS_RF04_ROUTE_REGISTRATION_CODEX_HANDOFF_20260828_A1.md",
+    "full_package": "BASS_RF04_ROUTE_REGISTRATION_AMENDMENT_DELIVERY_20260828_A1.zip",
+    "pin_policy": "Use the exact PR #47 final remote commit/tree readback after this pointer update."
+  },
+  "execution_handoff": {
+    "first_mutation": "WRITE_AND_RETAIN_RF04_REGISTRATION_AND_SCHEMA_RED",
+    "mismatch_terminal": "BLOCKED_RETAINED_CHECKPOINT_MISSING_OR_CHANGED",
+    "new_native_symbols": [
+      "rf04_typeii_execution_identity_v1",
+      "rf04_typeii_trajectory_v1",
+      "rf04_typeii_batch_v1"
+    ],
+    "new_route_ids": [
+      "kinetic.typeii.execution_identity_v1",
+      "kinetic.typeii.trajectory_v1",
+      "kinetic.typeii.batch_v1"
+    ],
+    "rf04_base_head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+    "rf04_branch": "agent/architecture/rust-first-rf04-20260828-r1",
+    "stop_boundaries": [
+      "NO_TIMING",
+      "NO_GPU",
+      "NO_WOLFRAM",
+      "NO_FULL_SUITE",
+      "NO_RF05_PLUS",
+      "NO_MERGE",
+      "NO_READY",
+      "NO_SCIENTIFIC_OR_PERFORMANCE_PROMOTION"
+    ]
+  },
+  "normalization": {
+    "canonical_schema_commit": "cef7809237ba848bfb39e01c168bf4d720ab6c3e",
+    "compact_duplicate_commit": "18ef6d0b9a7870728f1545ec08da996b1a750376",
+    "reason": "A compact duplicate under the same schema_id was not retained as authority.",
+    "resolution": "CANONICAL_DETAILED_SCHEMA_ONLY"
+  },
+  "repository": "cosmosapjw-quantum/bass",
+  "schema": "bass-rf04-current-package-pointer/v5",
+  "status": "READY_RF04_WITH_ROUTE_REGISTRATION_AMENDMENT_A1"
+}
