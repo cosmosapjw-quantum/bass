@@ -3,8 +3,8 @@
 Local artifact: `BASS12_TARGET_DERIVED_HARNESS_RETRY_R2_20260828.zip`
 
 ```text
-size     18326
-SHA-256  3e4b3cb2480e8d649adda81a030cd0f668f58b09d1cc5d2e752301e68c1ada2f
+size     17464
+SHA-256  175e010021d42e954b829cb9e5653e94d2cb6c946812526f3c4bbb0cecb2342d
 ```
 
 Verify the ZIP, its internal manifest, package verifier, and eight package tests. Then follow the extracted `CODEX_HANDOFF.md` once.
