@@ -143,6 +143,40 @@ RF02B_R4_DELTA_NATIVE_PAYLOAD = _NativePayloadReceipt(
     ),
 )
 
+RF03_NATIVE_PAYLOAD = _NativePayloadReceipt(
+    identity="bass-rf03-native-matter-thermo-tilt-v1",
+    wheel_sha256="ce4021ceaaa387acf4a4dad000016b9650b54bf115808a30d1e6bf52a6c9d114",
+    installed_files=_receipt_files(
+        (
+            (
+                "bianchi_rustcore-0.1.0.dist-info/METADATA",
+                210,
+                "49324bfc75b7eade2973357d9be08074dcacad314bd58eada90bca87b4e0dd0c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/WHEEL",
+                109,
+                "c0053d72faa7b329ed4dfa6f979194fb32238ecafd12a729d8bf45b3e1e2e29c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
+                205_867,
+                "ab1ab5e2d778f62f8476e55e30eb27202d4994b5bd582bc3da7093651423dc85",
+            ),
+            (
+                "bianchi_rustcore/__init__.py",
+                147,
+                "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+            ),
+            (
+                "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+                3_834_016,
+                "1af2918fb9bc12c2ed02a227ed26010d24a7f9ca72ed35a1b4da4ab0c59a9bed",
+            ),
+        )
+    ),
+)
+
 RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
     identity="bass-rf02c-native-background-execution-v2",
     wheel_sha256="e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84",
@@ -180,6 +214,7 @@ RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
 # RF-01 stays dynamically derived from the legacy compatibility seam below so
 # existing focused injection tests can replace its installed-file fingerprint.
 _TRUSTED_NATIVE_PAYLOADS = (
+    RF03_NATIVE_PAYLOAD,
     RF02C_V2_NATIVE_PAYLOAD,
     RF02B_R4_DELTA_NATIVE_PAYLOAD,
 )
@@ -384,6 +419,26 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("tilted.j_moment", "kin_j_moment_tilted"),
             _route("tilted.moments", "kin_moments_tilted"),
             _route("tilted.boost_shell_residual", "kin_boost_shell_residual"),
+            _route(
+                "matter.gamma_law.force",
+                "rf03_matter_force",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.force_jvp",
+                "rf03_matter_force_jvp",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.integrate",
+                "rf03_matter_integrate",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.integrate_history",
+                "rf03_matter_integrate_history",
+                python_oracle_supported=False,
+            ),
             _route("observable.cmb_pattern_diag", "trace_rays_batch"),
             _route(
                 "mixmaster.bounce_sequence",

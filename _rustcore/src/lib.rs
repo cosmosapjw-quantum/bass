@@ -15,11 +15,13 @@ use pyo3::prelude::*;
 mod core;
 mod geom;
 mod kinetic;
+mod matter;
 mod ode;
 mod python;
 mod rays;
 mod runtime;
 mod thermo;
+mod tilt;
 
 use crate::core::conventions;
 use crate::rays::{geodesic, optical, tidal};
@@ -1264,234 +1266,6 @@ tilted_fn!(
 );
 tilted_fn!(tt_div_contracted, kinetic::tilted_terms::div_contracted, -1);
 tilted_fn!(tt_div_free_raw, kinetic::tilted_terms::div_free_raw, 1);
-
-// ─────────────────────────────── R5b · tilted 계층 전체 (좌변 + 질량행렬 + RK4)
-//
-// 기하 한 시각을 **평탄 142 벡터**로 받는다 (Python `bianchi.matter.tilted_rust` 가 싼다):
-//   [0..12) eup  [12..24) edn  [24..36) deup  [36..52) hmix  [52..56) uup
-//   [56..120) Γ  [120] H  [121..130) σ  [130..139) ω  [139..142) u̇
-const TH_GEO_LEN: usize = 142;
-
-fn th_geo(row: &[f64]) -> PyResult<kinetic::tilted_hier::HGeo> {
-    if row.len() != TH_GEO_LEN {
-        return Err(PyValueError::new_err(format!(
-            "geo row must be {TH_GEO_LEN} long, got {}",
-            row.len()
-        )));
-    }
-    let mut g = kinetic::tilted_terms::Geo {
-        eup: [0.0; 12],
-        edn: [0.0; 12],
-        deup: [0.0; 12],
-        hmix: [0.0; 16],
-        uup: [0.0; 4],
-        gam: [0.0; 64],
-    };
-    g.eup.copy_from_slice(&row[0..12]);
-    g.edn.copy_from_slice(&row[12..24]);
-    g.deup.copy_from_slice(&row[24..36]);
-    g.hmix.copy_from_slice(&row[36..52]);
-    g.uup.copy_from_slice(&row[52..56]);
-    g.gam.copy_from_slice(&row[56..120]);
-    let mut h = kinetic::tilted_hier::HGeo {
-        base: g,
-        h: row[120],
-        sigma: [0.0; 9],
-        omega: [0.0; 9],
-        udot: [0.0; 3],
-        gamma: 1.0,
-        v: [0.0; 3],
-    };
-    h.sigma.copy_from_slice(&row[121..130]);
-    h.omega.copy_from_slice(&row[130..139]);
-    h.udot.copy_from_slice(&row[139..142]);
-    Ok(h.finish())
-}
-
-fn th_geos(geos: &PyReadonlyArray2<f64>) -> PyResult<Vec<kinetic::tilted_hier::HGeo>> {
-    let a = geos.as_array();
-    if a.shape()[1] != TH_GEO_LEN {
-        return Err(PyValueError::new_err(format!(
-            "geo rows must be {TH_GEO_LEN} long, got {}",
-            a.shape()[1]
-        )));
-    }
-    (0..a.shape()[0])
-        .map(|k| {
-            let row: Vec<f64> = (0..TH_GEO_LEN).map(|c| a[[k, c]]).collect();
-            th_geo(&row)
-        })
-        .collect()
-}
-
-/// 닫힘 설정: `mode_code` 는 `tilted_closure.MODES` 순서, `n_star < 0` 이면 없음.
-fn th_closure(
-    mode_code: usize,
-    jdot: bool,
-    n_star: i32,
-) -> PyResult<kinetic::tilted_hier::Closure> {
-    let mode = kinetic::tilted_hier::Mode::from_code(mode_code)
-        .ok_or_else(|| PyValueError::new_err(format!("unknown mode code {mode_code}")))?;
-    Ok(kinetic::tilted_hier::Closure {
-        mode,
-        jdot,
-        n_star: if n_star < 0 { None } else { Some(n_star) },
-    })
-}
-
-fn th_signs(s: &PyReadonlyArray1<f64>) -> PyResult<kinetic::tilted_hier::Signs> {
-    let v = s.as_slice()?;
-    if v.len() != 8 {
-        return Err(PyValueError::new_err(
-            "signs must be [A, B, C, D, E, Omega, divcon, divfree]",
-        ));
-    }
-    Ok(kinetic::tilted_hier::Signs {
-        a: v[0],
-        b: v[1],
-        c: v[2],
-        d: v[3],
-        e: v[4],
-        omega: v[5],
-        divcon: v[6],
-        divfree: v[7],
-    })
-}
-
-fn th_mats(v: &[PyReadonlyArray1<f64>]) -> PyResult<Vec<Vec<f64>>> {
-    v.iter().map(|x| Ok(x.as_slice()?.to_vec())).collect()
-}
-
-/// ★ V16 적대적 감사 수확: ops/bases 가 l_max 보다 짧으면 `pstf`/`to_coef` 의
-///   `ops[l]` 인덱싱이 **Rust 패닉**으로 FFI 를 넘었다 (PanicException + 백트레이스).
-///   R2 의 `check_l` 과 같은 관례로 경계에서 ValueError 로 막는다.
-fn th_check(ops: &[Vec<f64>], bases: &[Vec<f64>], l_max: usize) -> PyResult<()> {
-    if ops.len() < l_max + 1 || bases.len() < l_max + 1 {
-        return Err(PyValueError::new_err(format!(
-            "ops/bases must have l_max+1 = {} entries (got {}, {})",
-            l_max + 1,
-            ops.len(),
-            bases.len()
-        )));
-    }
-    for l in 0..=l_max {
-        let d = 3usize.pow(l as u32);
-        if l >= 2 && ops[l].len() != d * d {
-            return Err(PyValueError::new_err(format!(
-                "ops[{l}] must be flat ({d},{d}), got {}",
-                ops[l].len()
-            )));
-        }
-        if bases[l].len() != d * (2 * l + 1) {
-            return Err(PyValueError::new_err(format!(
-                "bases[{l}] must be flat ({d},{}), got {}",
-                2 * l + 1,
-                bases[l].len()
-            )));
-        }
-    }
-    Ok(())
-}
-
-/// tilted 계층 RK4 적분 — 반환 (nsteps+1, state_len) 이력.
-#[pyfunction]
-#[allow(clippy::too_many_arguments)]
-fn th_integrate<'py>(
-    py: Python<'py>,
-    j0: PyReadonlyArray1<f64>,
-    geos: PyReadonlyArray2<f64>,
-    nsteps: usize,
-    dt: f64,
-    signs: PyReadonlyArray1<f64>,
-    ops: Vec<PyReadonlyArray1<f64>>,
-    bases: Vec<PyReadonlyArray1<f64>>,
-    l_max: usize,
-    i_max: usize,
-    mode_code: usize,
-    jdot: bool,
-    n_star: i32,
-) -> PyResult<Bound<'py, PyArray2<f64>>> {
-    let cl = th_closure(mode_code, jdot, n_star)?;
-    let n = kinetic::tilted_hier::Grid::state_len(l_max, i_max);
-    let flat = j0.as_slice()?;
-    if flat.len() != n {
-        return Err(PyValueError::new_err(format!("j0 must be {n} long")));
-    }
-    let g = th_geos(&geos)?;
-    if g.len() != 3 * nsteps {
-        return Err(PyValueError::new_err("geos must hold 3 rows per step"));
-    }
-    let (s, o, b) = (th_signs(&signs)?, th_mats(&ops)?, th_mats(&bases)?);
-    th_check(&o, &b, l_max)?;
-    let grid = kinetic::tilted_hier::Grid::from_state(l_max, i_max, flat);
-    let hist = py.detach(|| kinetic::tilted_hier::integrate(&grid, &g, nsteps, dt, &s, &o, &b, cl));
-    Ok(Array2::from_shape_vec((nsteps + 1, n), hist)
-        .map_err(|e| PyValueError::new_err(e.to_string()))?
-        .into_pyarray(py))
-}
-
-/// 한 스텝의 J̇ (평탄 상태벡터) — 차등시험용.
-#[pyfunction]
-#[allow(clippy::too_many_arguments)]
-fn th_rhs<'py>(
-    py: Python<'py>,
-    j0: PyReadonlyArray1<f64>,
-    geo: PyReadonlyArray1<f64>,
-    signs: PyReadonlyArray1<f64>,
-    ops: Vec<PyReadonlyArray1<f64>>,
-    bases: Vec<PyReadonlyArray1<f64>>,
-    l_max: usize,
-    i_max: usize,
-    mode_code: usize,
-    jdot: bool,
-    n_star: i32,
-) -> PyResult<Bound<'py, PyArray1<f64>>> {
-    let cl = th_closure(mode_code, jdot, n_star)?;
-    let (s, o, b) = (th_signs(&signs)?, th_mats(&ops)?, th_mats(&bases)?);
-    th_check(&o, &b, l_max)?;
-    let g = th_geo(geo.as_slice()?)?;
-    let nst = kinetic::tilted_hier::Grid::state_len(l_max, i_max);
-    if j0.as_slice()?.len() != nst {
-        return Err(PyValueError::new_err(format!("j0 must be {nst} long")));
-    }
-    let grid = kinetic::tilted_hier::Grid::from_state(l_max, i_max, j0.as_slice()?);
-    let out = py.detach(|| kinetic::tilted_hier::rhs(&grid, &g, &s, &o, &b, cl));
-    let mut flat = Vec::new();
-    out.flatten_state(&mut flat);
-    Ok(Array1::from_vec(flat).into_pyarray(py))
-}
-
-/// 한 스텝의 (F, M) — 포트가 **어디까지** Python 과 같은지 가리는 진단.
-#[pyfunction]
-#[allow(clippy::too_many_arguments)]
-fn th_force_and_matrix<'py>(
-    py: Python<'py>,
-    j0: PyReadonlyArray1<f64>,
-    geo: PyReadonlyArray1<f64>,
-    signs: PyReadonlyArray1<f64>,
-    ops: Vec<PyReadonlyArray1<f64>>,
-    bases: Vec<PyReadonlyArray1<f64>>,
-    l_max: usize,
-    i_max: usize,
-    mode_code: usize,
-    jdot: bool,
-    n_star: i32,
-) -> PyResult<Array1Pair<'py>> {
-    let cl = th_closure(mode_code, jdot, n_star)?;
-    let (s, o, b) = (th_signs(&signs)?, th_mats(&ops)?, th_mats(&bases)?);
-    th_check(&o, &b, l_max)?;
-    let g = th_geo(geo.as_slice()?)?;
-    let nst = kinetic::tilted_hier::Grid::state_len(l_max, i_max);
-    if j0.as_slice()?.len() != nst {
-        return Err(PyValueError::new_err(format!("j0 must be {nst} long")));
-    }
-    let grid = kinetic::tilted_hier::Grid::from_state(l_max, i_max, j0.as_slice()?);
-    let (f, m) = py.detach(|| kinetic::tilted_hier::force_and_matrix(&grid, &g, &s, &o, &b, cl));
-    Ok((
-        Array1::from_vec(f).into_pyarray(py),
-        Array1::from_vec(m).into_pyarray(py),
-    ))
-}
 
 // ═══════════════════════════════ J3 · 계수공간 계층 커널 바인딩
 /// tilted 좌변 전 격자 1호출.  signs = [A,B,C,D,E,Ω,divcon,divfree].
@@ -2811,6 +2585,7 @@ fn qp_kcal_eigenvalues<'py>(
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     python::register::register_runtime(m)?;
+    python::register::register_rf03(m)?;
     m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;
@@ -2874,10 +2649,6 @@ fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(tt_spatial_derivative, m)?)?;
     m.add_function(wrap_pyfunction!(tt_div_contracted, m)?)?;
     m.add_function(wrap_pyfunction!(tt_div_free_raw, m)?)?;
-    // R5b · tilted 계층 전체
-    m.add_function(wrap_pyfunction!(th_integrate, m)?)?;
-    m.add_function(wrap_pyfunction!(th_rhs, m)?)?;
-    m.add_function(wrap_pyfunction!(th_force_and_matrix, m)?)?;
     // J3 · 계수공간 계층 커널
     m.add_function(wrap_pyfunction!(coeff_lhs_grid, m)?)?;
     m.add_function(wrap_pyfunction!(coeff_mass_blocks, m)?)?;

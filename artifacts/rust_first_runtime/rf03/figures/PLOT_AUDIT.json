@@ -1,0 +1,114 @@
+{
+  "schema": "bass-rf03-bounded-plot-audit/v1",
+  "source_commit": "f99282a5f6dcdbd2bbdf9bcc294fdea80e3482ed",
+  "source_tree": "21d763318e2824d07a481a6696377153f1d7bd22",
+  "native_wheel_sha256": "ce4021ceaaa387acf4a4dad000016b9650b54bf115808a30d1e6bf52a6c9d114",
+  "environment": {
+    "python": "3.12.13",
+    "matplotlib": "3.10.8",
+    "jax_platform": "cpu"
+  },
+  "evidence_category": "deterministic_generated_scientific_diagnostic",
+  "readback": {
+    "performed": true,
+    "method": "visual inspection of all four final PNG files at original resolution",
+    "figure_count": 4,
+    "extra_png_count": 0,
+    "overall_legibility": "PASS",
+    "notes": [
+      "Axes, units or normalization, titles, and legends are visible without clipping.",
+      "Force and JVP residual markers remain distinguishable where the two series overlap.",
+      "The explicit 1e-18 display floor is identified in the legend; unfloored residuals remain in PLOT_DATA.json.",
+      "Native and expected cooling curves overlap by design and are distinguishable by line style; the hostile sign-flip curve is separated.",
+      "Normalization residual, density margin, tilt margin, and hostile Gamma-omission residual occupy separable logarithmic bands.",
+      "Temperature and entropy-invariant residual use separate aligned panels, avoiding scale or curve overlap."
+    ]
+  },
+  "figures": {
+    "native_oracle_force_jvp_residual.png": {
+      "intent": "Compare native force and analytic fixed-context state JVP against the frozen current-source JAX oracle over a bounded state-scale sweep with nonsymmetric Sigma and N.",
+      "units": "dimensionless normalized dynamical variables; maximum absolute residual",
+      "observed_behavior": {
+        "state_scale_min": 0.0001,
+        "state_scale_max": 1.0,
+        "max_force_abs_residual": 1.3877787807814457e-17,
+        "max_jvp_abs_residual": 1.3877787807814457e-17
+      },
+      "interpretation": "The native route agrees with the declared source oracle to floating-point roundoff across the plotted domain. Exact overlap and raw zero residuals are disclosed rather than promoted as exact real-arithmetic equality.",
+      "claim_effect": "SURVIVES_NARROWLY: supports only source-parity for the explicit gamma-law model and sampled certified domain."
+    },
+    "log_density_vs_log_mean_scale.png": {
+      "intent": "Check the zero-tilt gamma=4/3 cooling limit using rho/H0^2 = 3 (H/H0)^2 Omega and ell/ell0 = exp(tau), and expose an expansion-term sign mutation.",
+      "units": "log dimensionless ell/ell0 and log dimensionless rho/H0^2",
+      "observed_behavior": {
+        "native_slope": -3.9999999999996745,
+        "expected_minus_3_gamma_slope": -4.0,
+        "slope_abs_residual": 3.255173908200959e-13,
+        "hostile_sign_flip_slope": -6.000000000000149
+      },
+      "interpretation": "The native zero-tilt trajectory has the expected local cooling slope. Reversing the +2q expansion term produces a clearly distinct slope and force residual.",
+      "claim_effect": "SURVIVES_NARROWLY: verifies this normalized zero-tilt known limit, not a general background solution or performance claim."
+    },
+    "tilt_normalization_and_domain_margin.png": {
+      "intent": "Read finite-boost normalization together with positive density and subluminal-tilt margins along one deterministic native trajectory.",
+      "units": "dimensionless integration time, invariant residual, and physical-domain margins",
+      "observed_behavior": {
+        "trajectory_status": "COMPLETE",
+        "max_u_norm_abs_residual": 4.440892098500626e-16,
+        "min_density_margin": 0.13503859174226254,
+        "min_tilt_margin": 0.9559,
+        "gamma_omission_signal_min": 0.026267878326708485,
+        "gamma_omission_signal_max": 0.04409999999999999
+      },
+      "interpretation": "The sampled trajectory remains inside Omega>=0 and |v|<1 while u^a u_a+1 remains at roundoff. Omitting the Lorentz Gamma normalization produces the nonzero |v|^2 residual shown separately.",
+      "claim_effect": "SURVIVES_NARROWLY: supports normalization and domain preservation for the bounded trajectory; it does not certify every initial condition."
+    },
+    "entropy_temperature_invariant.png": {
+      "intent": "Check the existing exogenous mean-scale temperature relation through g_*s(T) T^3 ell^3 over the declared QCD-transition-spanning regime.",
+      "units": "T in GeV; ell/ell0 and normalized entropy invariant dimensionless",
+      "observed_behavior": {
+        "ell_over_ell0_min": 0.3,
+        "ell_over_ell0_max": 3.0,
+        "temperature_gev_min": 0.09222910644370592,
+        "temperature_gev_max": 0.577385404225724,
+        "max_normalized_invariant_abs_residual": 2.0279800061473452e-10
+      },
+      "interpretation": "The residual is consistent with the existing brentq solve in log10(T) using xtol=1e-10. This diagnostic reads the established exogenous temperature utility and does not feed T_gamma into RF-03 force or JVP.",
+      "claim_effect": "NARROWS: coupling remains NONE; no tilted-temperature formula or new thermodynamic authority is inferred."
+    }
+  },
+  "hostile_mutations": [
+    {
+      "name": "expansion_term_sign_flip",
+      "detected": true,
+      "signal": "initial dOmega maximum absolute difference 1.0 and cooling slope -6 instead of -4"
+    },
+    {
+      "name": "normalization_gamma_omission",
+      "detected": true,
+      "signal": "u^a u_a+1 becomes |v|^2, bounded below by 0.026267878326708485 on the sampled trajectory"
+    },
+    {
+      "name": "superluminal_tilt_input",
+      "detected": true,
+      "signal": "native RF03DomainError at |v|^2=1"
+    },
+    {
+      "name": "silent_constant_w_fallback_attempt",
+      "detected": true,
+      "signal": "RF03ModelSelectionError before any numeric coercion"
+    }
+  ],
+  "all_hostile_mutations_detected": true,
+  "numerical_findings": [],
+  "surviving_claim": "Bounded parity, known-limit, normalization, physical-domain, deterministic-trajectory, and exogenous entropy evidence for explicit_gamma_law_tilted_perfect_fluid_v1 only.",
+  "rejected_or_excluded_claims": [
+    "new EOS authority",
+    "tilted-temperature coupling or formula",
+    "T_gamma influence on gamma-law force or JVP",
+    "general cosmological or observational validity",
+    "performance, GPU, or full-suite readiness",
+    "PASS_RF03 based on plots alone"
+  ],
+  "result": "PASS_BOUNDED_FIGURE_READBACK"
+}

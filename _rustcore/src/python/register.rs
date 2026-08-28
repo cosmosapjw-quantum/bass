@@ -12,6 +12,11 @@ use super::geometry::{
     qg_classify, qg_curvature, qg_geometry_identity, qg_jacobi, qg_kappa, qg_ricci3,
     qg_structure_constants, rf02c_execution_identity,
 };
+use super::rf03_matter::{
+    rf03_matter_force, rf03_matter_force_jvp, rf03_matter_integrate, rf03_matter_integrate_history,
+    RF03DomainError, RF03InputError, RF03ModelError,
+};
+use super::rf03_tilt::{rf03_tilt_invariants, th_force_and_matrix, th_integrate, th_rhs};
 
 use super::runtime::{
     InvalidBufferError, PlanMismatchError, PoolConstructionError, PyRuntimePlan, PyWorkspace,
@@ -69,5 +74,21 @@ pub fn register_background(module: &Bound<'_, PyModule>) -> PyResult<()> {
         integrate_background_batch_history,
         module
     )?)?;
+    Ok(())
+}
+
+pub fn register_rf03(module: &Bound<'_, PyModule>) -> PyResult<()> {
+    let py = module.py();
+    module.add("RF03ModelError", py.get_type::<RF03ModelError>())?;
+    module.add("RF03DomainError", py.get_type::<RF03DomainError>())?;
+    module.add("RF03InputError", py.get_type::<RF03InputError>())?;
+    module.add_function(wrap_pyfunction!(rf03_matter_force, module)?)?;
+    module.add_function(wrap_pyfunction!(rf03_matter_force_jvp, module)?)?;
+    module.add_function(wrap_pyfunction!(rf03_matter_integrate, module)?)?;
+    module.add_function(wrap_pyfunction!(rf03_matter_integrate_history, module)?)?;
+    module.add_function(wrap_pyfunction!(rf03_tilt_invariants, module)?)?;
+    module.add_function(wrap_pyfunction!(th_integrate, module)?)?;
+    module.add_function(wrap_pyfunction!(th_rhs, module)?)?;
+    module.add_function(wrap_pyfunction!(th_force_and_matrix, module)?)?;
     Ok(())
 }

@@ -1,0 +1,1698 @@
+FFFFFFFFFFFF.FFFFFFFFFFFFFFFFFFFFFF.FF.                                  [100%]
+=================================== FAILURES ===================================
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg0] _______________
+
+cfg = (3, 1, 1.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg1] _______________
+
+cfg = (3, 2, 1.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg2] _______________
+
+cfg = (3, 3, 0.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg3] _______________
+
+cfg = (2, 2, 2.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg4] _______________
+
+cfg = (3, 1, 1.0, 4)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______________ test_the_l0_force_blocks_are_bit_identical[cfg5] _______________
+
+cfg = (3, 2, 4.0, 6)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_l0_force_blocks_are_bit_identical(cfg):
+        """★★ **가장 결정적** — numpy 축약 커널을 전혀 타지 않는 l=0 블록이 마지막
+        비트까지 같다.  항 조립·부호·결합순서를 전부 맞췄다는 뜻이다.
+        """
+        l_max, i_max, mass, n_star = cfg
+>       exact0, _ = _force_gaps(l_max, i_max, mass, n_star)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg0] ____________
+
+cfg = (3, 1, 1.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg1] ____________
+
+cfg = (3, 2, 1.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg2] ____________
+
+cfg = (3, 3, 0.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg3] ____________
+
+cfg = (2, 2, 2.0, None)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg4] ____________
+
+cfg = (3, 1, 1.0, 4)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+____________ test_the_remaining_force_blocks_match_to_one_ulp[cfg5] ____________
+
+cfg = (3, 2, 4.0, 6)
+
+    @pytest.mark.parametrize("cfg", [(3, 1, 1.0, None), (3, 2, 1.0, None),
+                                     (3, 3, 0.0, None), (2, 2, 2.0, None),
+                                     (3, 1, 1.0, 4), (3, 2, 4.0, 6)])
+    def test_the_remaining_force_blocks_match_to_one_ulp(cfg):
+        """★ 나머지는 1 ulp — `einsum`/`@` 의 합 순서 때문이다.  크기를 고정한다."""
+        l_max, i_max, mass, n_star = cfg
+>       _, worst = _force_gaps(l_max, i_max, mass, n_star)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:161: in _force_gaps
+    bg, J, keys = _state(l_max, i_max, mass, n_star)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+______________________ test_the_mass_matrix_matches_numpy ______________________
+
+    def test_the_mass_matrix_matches_numpy():
+        """★★ 질량행렬을 **성분별로** 대조한다 (PSTF 기저를 Python 것으로 받았기에 가능)."""
+>       bg, J, _ = _state()
+                   ^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_____________ test_bit_exactness_is_lost_only_in_the_linear_solve ______________
+
+request = <FixtureRequest for <Function test_bit_exactness_is_lost_only_in_the_linear_solve>>
+
+    def test_bit_exactness_is_lost_only_in_the_linear_solve(request):
+        """★★ **분해 시험** — 같은 (M, F) 를 두 선형해에 넣으면 차가 전 경로 차와 같은 크기다.
+    
+        ⇒ 남는 불일치의 정체는 항 조립이 아니라 LAPACK `dgesv` 대 Rust 부분추축 LU 의
+          합 순서다.  cond(M) ≈ 1.4 라 증폭도 없다.
+        """
+>       bg, J, keys = _state()
+                      ^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:236: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+________ test_former_red_modes_match_on_common_state_operators[frozen] _________
+
+mode = 'frozen'
+request = <FixtureRequest for <Function test_former_red_modes_match_on_common_state_operators[frozen]>>
+
+    @pytest.mark.parametrize("mode", ["frozen", "ratio_scalar"])
+    def test_former_red_modes_match_on_common_state_operators(mode, request):
+        """Primitive F/M/RHS parity at 0, N/2, N on identical Python states.
+    
+        The fixture's dimensionless background has |H|=1, which supplies the explicit
+        inverse-time scale.  These gates compare like-dimensioned quantities only.
+        """
+        bg = TI.Background()
+        nsteps = 10
+        python_history = TI.integrate(bg, MASS, 0.2, nsteps, L_MAX, I_MAX,
+                                      mode=mode, jdot_closure=True, backend="python")
+        omega_ref = abs(float(bg.H))
+        assert np.isfinite(omega_ref) and omega_ref > 0.0
+        keys, _, _ = TMass.layout(L_MAX, I_MAX)
+        diagnostics = []
+        for checkpoint in (0, nsteps // 2, nsteps):
+            time_value = float(python_history["t"][checkpoint])
+            common_state = python_history["J"][checkpoint]
+            rho_scale = abs(float(np.asarray(common_state[(0, 0)], float)))
+            assert np.isfinite(rho_scale) and rho_scale > 0.0
+            geo = bg.geometry(time_value)
+>           force_rust, matrix_rust = TR.force_and_matrix(
+                common_state, geo, L_MAX, I_MAX, mode=mode, jdot_closure=True)
+
+tests/test_r5b_tilted_hier_rust.py:292: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_rust.py:184: in force_and_matrix
+    native = _native("tilted.force_and_matrix", mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_rust.py:70: in _native
+    return select_backend(route_id, mode=mode).native_module
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.force_and_matrix'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.force_and_matrix' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_____ test_former_red_modes_match_on_common_state_operators[ratio_scalar] ______
+
+mode = 'ratio_scalar'
+request = <FixtureRequest for <Function test_former_red_modes_match_on_common_state_operators[ratio_scalar]>>
+
+    @pytest.mark.parametrize("mode", ["frozen", "ratio_scalar"])
+    def test_former_red_modes_match_on_common_state_operators(mode, request):
+        """Primitive F/M/RHS parity at 0, N/2, N on identical Python states.
+    
+        The fixture's dimensionless background has |H|=1, which supplies the explicit
+        inverse-time scale.  These gates compare like-dimensioned quantities only.
+        """
+        bg = TI.Background()
+        nsteps = 10
+        python_history = TI.integrate(bg, MASS, 0.2, nsteps, L_MAX, I_MAX,
+                                      mode=mode, jdot_closure=True, backend="python")
+        omega_ref = abs(float(bg.H))
+        assert np.isfinite(omega_ref) and omega_ref > 0.0
+        keys, _, _ = TMass.layout(L_MAX, I_MAX)
+        diagnostics = []
+        for checkpoint in (0, nsteps // 2, nsteps):
+            time_value = float(python_history["t"][checkpoint])
+            common_state = python_history["J"][checkpoint]
+            rho_scale = abs(float(np.asarray(common_state[(0, 0)], float)))
+            assert np.isfinite(rho_scale) and rho_scale > 0.0
+            geo = bg.geometry(time_value)
+>           force_rust, matrix_rust = TR.force_and_matrix(
+                common_state, geo, L_MAX, I_MAX, mode=mode, jdot_closure=True)
+
+tests/test_r5b_tilted_hier_rust.py:292: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_rust.py:184: in force_and_matrix
+    native = _native("tilted.force_and_matrix", mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_rust.py:70: in _native
+    return select_backend(route_id, mode=mode).native_module
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.force_and_matrix'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.force_and_matrix' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+___________ test_the_trajectory_matches_the_numpy_oracle[True-ratio] ___________
+
+mode = 'ratio', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-ratio]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________ test_the_trajectory_matches_the_numpy_oracle[True-frozen] ___________
+
+mode = 'frozen', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-frozen]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______ test_the_trajectory_matches_the_numpy_oracle[True-ratio_scalar] ________
+
+mode = 'ratio_scalar', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-ratio_scalar]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_________ test_the_trajectory_matches_the_numpy_oracle[True-phys_sqrt] _________
+
+mode = 'phys_sqrt', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-phys_sqrt]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________ test_the_trajectory_matches_the_numpy_oracle[True-phys_5w] __________
+
+mode = 'phys_5w', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-phys_5w]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+________ test_the_trajectory_matches_the_numpy_oracle[True-phys_interp] ________
+
+mode = 'phys_interp', jdot = True
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[True-phys_interp]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________ test_the_trajectory_matches_the_numpy_oracle[False-ratio] ___________
+
+mode = 'ratio', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-ratio]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________ test_the_trajectory_matches_the_numpy_oracle[False-frozen] __________
+
+mode = 'frozen', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-frozen]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______ test_the_trajectory_matches_the_numpy_oracle[False-ratio_scalar] _______
+
+mode = 'ratio_scalar', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-ratio_scalar]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+________ test_the_trajectory_matches_the_numpy_oracle[False-phys_sqrt] _________
+
+mode = 'phys_sqrt', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-phys_sqrt]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_________ test_the_trajectory_matches_the_numpy_oracle[False-phys_5w] __________
+
+mode = 'phys_5w', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-phys_5w]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_______ test_the_trajectory_matches_the_numpy_oracle[False-phys_interp] ________
+
+mode = 'phys_interp', jdot = False
+request = <FixtureRequest for <Function test_the_trajectory_matches_the_numpy_oracle[False-phys_interp]>>
+
+    @pytest.mark.parametrize("mode", ["ratio", "frozen", "ratio_scalar",
+                                      "phys_sqrt", "phys_5w", "phys_interp"])
+    @pytest.mark.parametrize("jdot", [True, False])
+    def test_the_trajectory_matches_the_numpy_oracle(mode, jdot, request):
+        """★★ 모드 × J̇ 닫힘 전 조합에서 전체 상태 이력이 직접 일치한다."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, I_MAX, mode=mode,
+                                    jdot_closure=jdot)
+
+tests/test_r5b_tilted_hier_rust.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________________ test_the_triangular_truncation_matches[2] ___________________
+
+n_star = 2
+request = <FixtureRequest for <Function test_the_triangular_truncation_matches[2]>>
+
+    @pytest.mark.parametrize("n_star", [2, 3, 4])
+    def test_the_triangular_truncation_matches(n_star, request):
+        """★ L1 의 삼각 절단 l + 2i ≤ n_* — 상태공간 자체가 줄어드는 경로."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, 1, n_star=n_star)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:359: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________________ test_the_triangular_truncation_matches[3] ___________________
+
+n_star = 3
+request = <FixtureRequest for <Function test_the_triangular_truncation_matches[3]>>
+
+    @pytest.mark.parametrize("n_star", [2, 3, 4])
+    def test_the_triangular_truncation_matches(n_star, request):
+        """★ L1 의 삼각 절단 l + 2i ≤ n_* — 상태공간 자체가 줄어드는 경로."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, 1, n_star=n_star)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:359: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+__________________ test_the_triangular_truncation_matches[4] ___________________
+
+n_star = 4
+request = <FixtureRequest for <Function test_the_triangular_truncation_matches[4]>>
+
+    @pytest.mark.parametrize("n_star", [2, 3, 4])
+    def test_the_triangular_truncation_matches(n_star, request):
+        """★ L1 의 삼각 절단 l + 2i ≤ n_* — 상태공간 자체가 줄어드는 경로."""
+        bg = TI.Background()
+>       rust_history = TI.integrate(bg, MASS, 0.2, 10, L_MAX, 1, n_star=n_star)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:359: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+______ test_both_backends_meet_the_designated_exact_quadrature_gate[0.0] _______
+
+mass = 0.0
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7dac0e0f41d0>
+request = <FixtureRequest for <Function test_both_backends_meet_the_designated_exact_quadrature_gate[0.0]>>
+
+    @pytest.mark.parametrize("mass", [0.0, 1.0])
+    def test_both_backends_meet_the_designated_exact_quadrature_gate(
+            mass, monkeypatch, request):
+        """Independent physical-accuracy gate; native execution is fail-closed."""
+        assert TR.USE_RUST
+        assert TI.rust_available("ratio", jdot_closure=True, n_star=None)
+        bg = TI.Background()
+    
+        def unexpected_python_rhs(*_args, **_kwargs):
+            raise AssertionError("native exact-quadrature lane fell back to TI.rhs")
+    
+        with monkeypatch.context() as native_guard:
+            native_guard.setattr(TI, "rhs", unexpected_python_rhs)
+>           rust_errors = TI.trajectory_error(
+                bg, mass, t_end=0.2, nsteps=20, l_max=2, i_max=2, backend=None)
+
+tests/test_r5b_tilted_hier_rust.py:387: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:219: in trajectory_error
+    selected = select_backend("tilted.trajectory_error", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.trajectory_error'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.trajectory_error' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+______ test_both_backends_meet_the_designated_exact_quadrature_gate[1.0] _______
+
+mass = 1.0
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7dac0e108a10>
+request = <FixtureRequest for <Function test_both_backends_meet_the_designated_exact_quadrature_gate[1.0]>>
+
+    @pytest.mark.parametrize("mass", [0.0, 1.0])
+    def test_both_backends_meet_the_designated_exact_quadrature_gate(
+            mass, monkeypatch, request):
+        """Independent physical-accuracy gate; native execution is fail-closed."""
+        assert TR.USE_RUST
+        assert TI.rust_available("ratio", jdot_closure=True, n_star=None)
+        bg = TI.Background()
+    
+        def unexpected_python_rhs(*_args, **_kwargs):
+            raise AssertionError("native exact-quadrature lane fell back to TI.rhs")
+    
+        with monkeypatch.context() as native_guard:
+            native_guard.setattr(TI, "rhs", unexpected_python_rhs)
+>           rust_errors = TI.trajectory_error(
+                bg, mass, t_end=0.2, nsteps=20, l_max=2, i_max=2, backend=None)
+
+tests/test_r5b_tilted_hier_rust.py:387: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:219: in trajectory_error
+    selected = select_backend("tilted.trajectory_error", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.trajectory_error'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.trajectory_error' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+________________ test_the_history_keys_match_the_python_layout _________________
+
+    def test_the_history_keys_match_the_python_layout():
+        """★ 이력 dict 의 키가 절단 뒤에도 Python 배치와 같다 (삼각절단이면 줄어든다)."""
+        bg = TI.Background()
+        for n_star in (None, 3):
+            keys, _, _ = TMass.layout(L_MAX, 1, n_star)
+>           h = TI.integrate(bg, MASS, 0.05, 2, L_MAX, 1, n_star=n_star)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:408: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+_____________ test_no_supported_mode_silently_falls_back_to_python _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7dac0e0f76e0>
+
+    def test_no_supported_mode_silently_falls_back_to_python(monkeypatch):
+        """★★ **회귀** — 대조군이 조용히 Python 으로 돌아가면 벽시계가 그대로다.
+    
+        처음 판이 정확히 그랬다 (1260 스텝 중 310 스텝만 Rust).
+        """
+        for mode in TC.MODES:
+            assert TI.rust_available(mode), mode
+        assert TI.rust_available("ratio", jdot_closure=False)
+        assert TI.rust_available("ratio", n_star=3)
+    
+        def unexpected_python_rhs(*_args, **_kwargs):
+            raise AssertionError("a supported native configuration called TI.rhs")
+    
+        monkeypatch.setattr(TI, "rhs", unexpected_python_rhs)
+        bg = TI.Background()
+        for mode in TC.MODES:
+>           TI.integrate(bg, MASS, 0.01, 1, 2, 1, mode=mode)
+
+tests/test_r5b_tilted_hier_rust.py:444: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+bianchi/matter/tilted_integrate.py:172: in integrate
+    selected = select_backend("tilted.integrate", policy=policy, mode=mode)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted.integrate'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted.integrate' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+________ test_state_packing_round_trips_including_the_truncated_blocks _________
+
+    def test_state_packing_round_trips_including_the_truncated_blocks():
+        """★ 절단으로 빠진 블록을 0 으로 채우고 되읽을 때 떨어뜨린다."""
+>       _, J, keys = _state(L_MAX, 1, MASS, n_star=3)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_r5b_tilted_hier_rust.py:451: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_r5b_tilted_hier_rust.py:71: in _state
+    J = {k: v for k, v in TI.initial_state(bg, mass, l_max, i_max).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_integrate.py:125: in initial_state
+    TM.J_moment_tilted(a, v, mass, l, i, backend=backend), float)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bianchi/matter/tilted_moments.py:98: in J_moment_tilted
+    selected = select_backend(
+bianchi/backend_policy.py:969: in select_backend
+    _unverified_payload_error(route_id, native_origin, payload_reason)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+route_id = 'tilted_moments.J_moment_tilted'
+native_origin = '/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'
+reason = 'installed_wheel_or_manifest_does_not_match_trusted_payload'
+
+    def _unverified_payload_error(
+        route_id: str, native_origin: str | None, reason: str
+    ) -> NoReturn:
+        origin = native_origin or "unavailable"
+>       raise UnverifiedNativePayloadError(
+            route_id,
+            f"route {route_id!r} refuses native dispatch because the loaded payload "
+            f"is not the verified installed RF-00 artifact ({reason}; origin={origin!r}). "
+            f"Install the documented immutable native wheel. For an intentional local "
+            f"source-build experiment only, set {DEVELOPMENT_OVERRIDE_ENV}=1 and retain "
+            "the emitted development diagnostic; this is not production provenance.",
+        )
+E       bianchi.backend_policy.UnverifiedNativePayloadError: route 'tilted_moments.J_moment_tilted' refuses native dispatch because the loaded payload is not the verified installed RF-00 artifact (installed_wheel_or_manifest_does_not_match_trusted_payload; origin='/tmp/bass-rf03-r4.TxQxOk/venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so'). Install the documented immutable native wheel. For an intentional local source-build experiment only, set BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1 and retain the emitted development diagnostic; this is not production provenance.
+
+bianchi/backend_policy.py:806: UnverifiedNativePayloadError
+=========================== short test summary info ============================
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg0]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg1]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg2]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg3]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg4]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_l0_force_blocks_are_bit_identical[cfg5]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg0]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg1]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg2]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg3]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg4]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_remaining_force_blocks_match_to_one_ulp[cfg5]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_mass_matrix_matches_numpy
+FAILED tests/test_r5b_tilted_hier_rust.py::test_bit_exactness_is_lost_only_in_the_linear_solve
+FAILED tests/test_r5b_tilted_hier_rust.py::test_former_red_modes_match_on_common_state_operators[frozen]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_former_red_modes_match_on_common_state_operators[ratio_scalar]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-ratio]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-frozen]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-ratio_scalar]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-phys_sqrt]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-phys_5w]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[True-phys_interp]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-ratio]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-frozen]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-ratio_scalar]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-phys_sqrt]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-phys_5w]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_trajectory_matches_the_numpy_oracle[False-phys_interp]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_triangular_truncation_matches[2]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_triangular_truncation_matches[3]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_triangular_truncation_matches[4]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_both_backends_meet_the_designated_exact_quadrature_gate[0.0]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_both_backends_meet_the_designated_exact_quadrature_gate[1.0]
+FAILED tests/test_r5b_tilted_hier_rust.py::test_the_history_keys_match_the_python_layout
+FAILED tests/test_r5b_tilted_hier_rust.py::test_no_supported_mode_silently_falls_back_to_python
+FAILED tests/test_r5b_tilted_hier_rust.py::test_state_packing_round_trips_including_the_truncated_blocks
+36 failed, 3 passed in 2.76s

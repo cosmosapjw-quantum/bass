@@ -1,0 +1,42 @@
+{
+  "schema": "bass-rf03-native-restore-verification/v1",
+  "status": "PASS_LOCAL_NO_INDEX_RESTORE_AND_PRODUCTION_DISPATCH",
+  "source": {
+    "implementation_commit": "f99282a5f6dcdbd2bbdf9bcc294fdea80e3482ed",
+    "implementation_tree": "21d763318e2824d07a481a6696377153f1d7bd22"
+  },
+  "selected_payload": {
+    "identity": "bass-rf03-native-matter-thermo-tilt-v1",
+    "wheel_sha256": "ce4021ceaaa387acf4a4dad000016b9650b54bf115808a30d1e6bf52a6c9d114",
+    "shared_object_sha256": "1af2918fb9bc12c2ed02a227ed26010d24a7f9ca72ed35a1b4da4ab0c59a9bed",
+    "trusted_receipt": "bianchi.backend_policy.RF03_NATIVE_PAYLOAD"
+  },
+  "delta_verification": {
+    "command": "python -P tools/native/verify_content_addressed_delta.py --delta-root artifacts/rust_first_runtime/rf03/native_delta",
+    "status": "PASS",
+    "network": "NOT_USED"
+  },
+  "fresh_restore": {
+    "venv": "/tmp/bass-rf03-r4.TxQxOk/native-repro/restore-venv",
+    "command": "python -m pip install --no-index --no-deps --no-cache-dir --force-reinstall rf02c-wheel/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+    "working_directory": "artifacts/rust_first_runtime/rf03/native_delta",
+    "development_override": false,
+    "distribution_version": "0.1.0",
+    "required_rf03_symbols_present": true,
+    "rf02c_identity_matches_geometry": true,
+    "observed_shared_object_sha256": "1af2918fb9bc12c2ed02a227ed26010d24a7f9ca72ed35a1b4da4ab0c59a9bed",
+    "status": "PASS"
+  },
+  "production_wrapper": {
+    "venv": "/tmp/bass-rf03-r4.TxQxOk/venv",
+    "development_override": false,
+    "route": "matter.gamma_law.force",
+    "model_id": "explicit_gamma_law_tilted_perfect_fluid_v1",
+    "installed_payload_verified": true,
+    "matched_payload_identity": "bass-rf03-native-matter-thermo-tilt-v1",
+    "matched_wheel_sha256": "ce4021ceaaa387acf4a4dad000016b9650b54bf115808a30d1e6bf52a6c9d114",
+    "zero_tilt_smoke_force": [-0.25, 0.0, 0.0, 0.0],
+    "status": "PASS"
+  },
+  "scope_note": "The fresh venv proves offline wheel restoration and direct native capability. The locked task venv plus source tree separately proves fail-closed production-wrapper admission without the development override."
+}
