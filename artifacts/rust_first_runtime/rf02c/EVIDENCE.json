@@ -1,0 +1,379 @@
+{
+  "schema": "bass-rf02c-evidence-v1",
+  "status": "PASS_RF02C",
+  "source": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "base": {
+      "branch": "agent/audit/science-system-differential-20260826-r1",
+      "commit": "b759a42911a7433212c1828bd7625d66f3af2d20",
+      "tree": "b9d97f222a42aa3ab0575a95b76d9be5c5348dae"
+    },
+    "preimplementation": {
+      "commit": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "tree": "2cc70721694eaad097973cb11d32dea3a980f49e"
+    },
+    "initial_implementation": {
+      "commit": "80ab51433388bc78eaf15a369fce0bb9a3947c8a",
+      "tree": "89120c74d7e847f45608bade1dfca20672a807d7"
+    },
+    "implementation": {
+      "commit": "8770c766581f5ad6fa65712e33631fc3da98810c",
+      "tree": "bb7fce7af4fb9ec2557320e9516595046372f025",
+      "includes_bounded_review_repairs": true
+    },
+    "lane_isolation_revert": {
+      "commit": "2d26cd47b87fde6ea86cd60a2ef3a761200d553e",
+      "tree": "c38c1fae8fa599d27531bf8cdc148d7ef9e27991",
+      "parent": "c777ebb68c82aa8b9898f92159c2346a6e8ef892",
+      "effect": "restored RF-02C lane isolation after the premature PR #35 merge; tree is byte-identical to evidence commit a94dbe08a7a79a199f26eb33efab1155d2674d64"
+    },
+    "closeout_ref_rule": "Resolve the live branch and require the implementation commit to remain an ancestor; the evidence commit cannot embed its own identity."
+  },
+  "contracts": {
+    "execution_contract_v2": {
+      "path": "docs/rust_first_runtime/RF02C_EXECUTION_CONTRACT_V2.json",
+      "sha256": "804826b9d5ce2f3333de0558447e351a8050dc8147d268e8a6055b6c5669e51c"
+    },
+    "inherited_preflight": {
+      "run_id": 32930186481,
+      "head": "445e50184823e58401a8212ceaaf736e72bb35f2",
+      "conclusion": "success",
+      "artifact_id": 9592925310,
+      "artifact_name": "rf02c-preflight-445e50184823e58401a8212ceaaf736e72bb35f2",
+      "artifact_digest": "sha256:7cb7d75a2b22e2bf5ac65e0241b3d4c2a5194a36c10e5c071affe39e3e128ecb",
+      "reuse_boundary": "pre-source-mutation receipt only; changed native/source identities were re-proved by the scoped checks below"
+    },
+    "user_authorized_scope_exception": {
+      "cargo_manifest_paths": [
+        "_rustcore/Cargo.toml",
+        "_rustcore/Cargo.lock"
+      ],
+      "direct_dependencies": [
+        "num-bigint = \"=0.4.8\"",
+        "num-rational = \"=0.4.2\"",
+        "num-traits = \"=0.2.19\""
+      ],
+      "lockfile_effect": "root bianchi_rustcore direct dependency edges only; no third-party package version, source, or checksum change",
+      "type_ix_numerical_mechanism": "TYPE_IX_INDEX1_DAE_BDF_WITH_CERTIFICATE_LOCAL_REPLAY",
+      "authority_effect": "solver construction only; no equation, coefficient, state-order, chart-label, tolerance, root-budget, formula-authority, or scientific-reference change"
+    },
+    "rf02b_development_compatibility": {
+      "payload_receipt": "RF02B_R4_DELTA_NATIVE_PAYLOAD",
+      "default_dispatch": {
+        "result": "IncompatibleNativeExtensionError",
+        "reason_contains": "rf02c_execution_identity"
+      },
+      "explicit_development_dispatch": {
+        "override": "BASS_ALLOW_UNVERIFIED_NATIVE_DEV=1",
+        "result": "accepted only for the exact matched RF02B_R4_DELTA_NATIVE_PAYLOAD receipt",
+        "warning": "UnverifiedNativeDevelopmentWarning",
+        "diagnostic_prefix": "RF02B_DEVELOPMENT_ONLY_NATIVE_PAYLOAD:"
+      },
+      "all_other_missing_identity_payloads": "IncompatibleNativeExtensionError",
+      "runtime_semantics_source_unchanged": "bianchi/backend_policy.py"
+    },
+    "ci_compatibility_scope_exception": {
+      "authority": "BASS RF-02C compatibility-closure handoff 2026-08-28",
+      "paths": [
+        ".github/workflows/rf00-backend-policy.yml",
+        ".github/workflows/rf02b-scalar-operators.yml",
+        "tests/test_backend_policy.py",
+        "tests/test_rf00_policy_adversarial.py",
+        "tests/test_rf00_route_inventory.py"
+      ],
+      "effect": "CI, synthetic test fixtures, route-inventory tests, and bounded evidence only",
+      "production_runtime_effect": "NONE",
+      "native_or_scientific_authority_effect": "NONE"
+    }
+  },
+  "changed_paths": {
+    "index": "artifacts/rust_first_runtime/rf02c/changed_paths.json",
+    "closure": "PASS",
+    "closure_rule": "original RF-02C allowed_paths union {_rustcore/Cargo.toml, _rustcore/Cargo.lock} union the five paths in contracts.ci_compatibility_scope_exception",
+    "outside_allowlist": [],
+    "missing_repository_selector": "tools/audit/select_changed_tests.py is absent from all local refs; a bounded run-local closure and the mapped focused selectors were used without adding a permanent gate"
+  },
+  "component_status": {
+    "verified_native_provenance_and_default_dispatch": "COMPLETED",
+    "public_typed_route_closure": "COMPLETED",
+    "deterministic_receipts": "COMPLETED",
+    "checked_projection": "COMPLETED",
+    "pyo3_ownership_refactor": "COMPLETED",
+    "exact_polynomial_and_event_substrate": "COMPLETED",
+    "rust_owned_trajectory": "COMPLETED",
+    "type_ix_dae_and_certificate_local_replay": "COMPLETED",
+    "transition_restart_history": "COMPLETED",
+    "independent_batch": "COMPLETED",
+    "targeted_verification": "COMPLETED",
+    "native_delta_and_restore": "COMPLETED",
+    "bounded_review": "COMPLETED",
+    "remote_push_and_draft_pr": "DEFERRED"
+  },
+  "verification": {
+    "tdd_red": {
+      "selector": "cargo test --release rf02c_type_ix_dae",
+      "result": "0 passed; 5 failed; 171 filtered",
+      "cause": "five intentional unimplemented Type-IX DAE primitive failures before implementation"
+    },
+    "commands": [
+      {
+        "command": "source /home/cosmosapjw/Desktop/rust_1_94_1_env.sh && cd _rustcore && cargo check --offline",
+        "result": "PASS; rustc 1.94.1 and cargo 1.94.1; exact authorized root dependency-edge update"
+      },
+      {
+        "command": "source /home/cosmosapjw/Desktop/rust_1_94_1_env.sh && cd _rustcore && cargo check --locked --offline",
+        "result": "PASS"
+      },
+      {
+        "command": "source /home/cosmosapjw/Desktop/rust_1_94_1_env.sh && cd _rustcore && cargo test --release rf02c_",
+        "result": "49 passed; 0 failed; 134 filtered"
+      },
+      {
+        "command": "source /tmp/bass-rf02c-impl-20260826.OmZBkv/venv/bin/activate && env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -m pytest -q tests/rf02c/test_background_execution_contract.py",
+        "result": "40 passed"
+      },
+      {
+        "command": "source /tmp/bass-rf02c-impl-20260826.OmZBkv/venv/bin/activate && env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -m pytest -q tests/rf02c/test_background_execution_contract.py -k 'tamper or unverified or invalid or mutation or hostile or restart or failure_isolation'",
+        "result": "13 passed; 27 deselected"
+      },
+      {
+        "command": "source /tmp/bass-rf02c-impl-20260826.OmZBkv/venv/bin/activate && env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -m pytest -q tests/rf02c/test_rf02c_native_delta_tool.py",
+        "result": "5 passed"
+      },
+      {
+        "command": "source /tmp/bass-rf02c-impl-20260826.OmZBkv/venv/bin/activate && env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -P tools/native/verify_content_addressed_delta.py --delta-root artifacts/rust_first_runtime/rf02c/native_delta",
+        "result": "PASS"
+      },
+      {
+        "command": "fresh venv; cd artifacts/rust_first_runtime/rf02c/native_delta; env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -m pip install --no-index --no-deps --no-cache-dir --force-reinstall rf02c-wheel/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+        "result": "PASS; public typed trajectory and batch completed; payload fingerprint verified; production dispatch permitted; development override inactive"
+      },
+      {
+        "command": "bounded run-local changed-path closure over RF-02C allowed_paths union {_rustcore/Cargo.toml, _rustcore/Cargo.lock}",
+        "result": "PASS; historical RF-02C implementation closure had 45 actual paths; 45 indexed paths; zero outside, missing, or extra paths"
+      }
+    ],
+    "compatibility_closeout": {
+      "status": "PASS_LOCAL_REMOTE_PENDING",
+      "scope": "workflow, synthetic-test-fixture, route-inventory, and evidence compatibility only",
+      "commands": [
+        {
+          "command": "python -m pytest -q tests/test_backend_policy.py tests/test_backend_packaging.py tests/test_rf00_optional_dependencies.py tests/test_rf00_policy_adversarial.py tests/test_rf00_route_inventory.py",
+          "result": "PASS; 63 passed; 2 skipped"
+        },
+        {
+          "command": "cargo fmt --all -- --check; cargo clippy --workspace --all-targets --locked --offline; cargo test --workspace --locked --offline; cargo test --lib --locked --offline rf02b_",
+          "result": "PASS; clippy warnings remained visible and nonblocking; workspace 183 passed; rf02b_ 6 passed"
+        },
+        {
+          "command": "python -m pytest -q tests/rf02c/test_background_execution_contract.py -k 'rf02b_payload_is_development_only or provenance or public_geometry_route or public_background_route'",
+          "result": "PASS; 19 passed; 21 deselected"
+        },
+        {
+          "command": "bounded base-to-worktree changed-path comparison against b759a42911a7433212c1828bd7625d66f3af2d20",
+          "result": "PASS; 50 actual paths; 50 unique indexed paths; zero missing or extra paths"
+        }
+      ],
+      "rust_environment": {
+        "requested_selector": "/mnt/data/rust_1_94_1_env.sh",
+        "requested_selector_status": "ABSENT",
+        "used_selector": "/home/cosmosapjw/Desktop/rust_1_94_1_env.sh",
+        "verified_versions": "rustc 1.94.1; cargo 1.94.1"
+      },
+      "identity_preservation": {
+        "comparison_head": "2d26cd47b87fde6ea86cd60a2ef3a761200d553e",
+        "native_delta_regenerated": false,
+        "unchanged_fields": [
+          "/native_artifact/delta_manifest_sha256",
+          "/native_artifact/content_manifest_sha256",
+          "/native_artifact/restore_receipt_sha256",
+          "/native_artifact/wheel/sha256",
+          "/native_artifact/shared_object/sha256",
+          "/native_artifact/normalized_content_identity",
+          "/native_artifact/cargo_lock_sha256"
+        ]
+      },
+      "production_source_changed": false,
+      "runtime_semantics_changed": false,
+      "native_or_scientific_authority_changed": false
+    },
+    "remote_closeout": {
+      "status": "DEFERRED_PENDING_POST_PUSH",
+      "required_workflows": [
+        "RF-02C ordered preflight",
+        "RF-00 backend policy",
+        "RF-02B scalar operators"
+      ],
+      "identity_rule": "Record final run and RF-02C artifact IDs, name, and digest only after the closeout commit is pushed and those identities exist; do not predeclare them in this commit."
+    },
+    "python_environment": "/tmp/bass-rf02c-impl-20260826.OmZBkv/venv",
+    "requested_rust_env_path": "/mnt/data/rust_1_94_1_env.sh was absent; the installed exact-version environment at /home/cosmosapjw/Desktop/rust_1_94_1_env.sh was used",
+    "owner_quarantine": {
+      "status": "PASS",
+      "record_sha256": "d2df4e029609965f23155b32301b063d86f05f4dbb04dc522e84fff544ad199e",
+      "owner_blob_unchanged": true,
+      "stale_token_present": true,
+      "forbidden_token_hits": [],
+      "ast_import_closure": "PASS",
+      "runtime_import_firewall": "PASS",
+      "public_export_absent": true
+    },
+    "receipts": {
+      "randomized_jvp": {
+        "path": "artifacts/rust_first_runtime/rf02c/receipt_jvp.json",
+        "sha256": "3bd4e5bfb7bb0811c07fb8387bcc3916abf7808ec814bf830fa670db30143719",
+        "cases": 250,
+        "status": "PASS",
+        "canonical_result_sha256": "0e8925af892bd11c114656c65c4fdd2c5477fc18190d5fac27c7a95cba4a28b0"
+      },
+      "composite": {
+        "path": "artifacts/rust_first_runtime/rf02c/receipt.json",
+        "sha256": "d058d360bb2fd71d41c1fcf095c520fe07a1b76c9419171ae64c324b503fb15e",
+        "status": "PASS",
+        "canonical_result_sha256": "b545d9d8ea00d16293b19c133d0ed3656f62fe9a7337befad0be23b1b137aaab"
+      }
+    }
+  },
+  "native_artifact": {
+    "delta_root": "artifacts/rust_first_runtime/rf02c/native_delta",
+    "delta_manifest_sha256": "ea4f75292dca1158b7e3dfbf78be3a723e4f303b54febb25a7d78cf0b80d63e4",
+    "restore_receipt_sha256": "9ce79f9178708c5863d614f8d714a48c1a5567484c68b682d7f6b60a58c335b2",
+    "content_manifest_sha256": "22d8f5bad0377e4f606e9619d060fbe039cdc6c6bdcd30f58c1e953a83aba3f3",
+    "normalized_content_identity": "f0eb74ff52d1100b9550dab06c27c02bfbb5ff7cd4763a4d1d8b529b0ba2d5c1",
+    "wheel": {
+      "sha256": "e28638b5c66f96d3723b4324d140df87200c208e87e48211308c4b543fe52f84",
+      "size": 1360648
+    },
+    "shared_object": {
+      "sha256": "c06aab689bfc2b97c592823122ddad359db1f1ffbc220415eecfe03965a4119d",
+      "size": 3779640
+    },
+    "sbom": {
+      "sha256": "dd7e2ffea618935e8d1ea0a3f8b678fed31c0a1a313e606b359d8d8b1f7fc299",
+      "size": 205916
+    },
+    "wheel_record_sha256": "66307f7fbebda3c9a8ccb074ce6bbec307243810ea584c4716b6f24cc3803da9",
+    "cargo_lock_sha256": "18b62b9b792058ab789521d1c69764bed7915b550cd4fc389e848a6ec02c07ed",
+    "default_dispatch": {
+      "installed_payload_fingerprint_verified": true,
+      "production_native_dispatch_permitted": true,
+      "development_override_active": false,
+      "matched_payload_identity": "bass-rf02c-native-background-execution-v2"
+    }
+  },
+  "numerical_results": {
+    "checked_projection": {
+      "chart": "class_b",
+      "accepted": true,
+      "iterations": 2,
+      "normalized_residual_history": [
+        990099.0099009922,
+        5752.0063818927065,
+        0.24323805386923045
+      ],
+      "final_constraint": 2.4567043440792274e-11
+    },
+    "trajectory_oracles_max_normalized_error": {
+      "class_a_flat_dust": 0.08462757447509064,
+      "class_b_equilibrium": 3.908784633071824e-09,
+      "exceptional_equilibrium": 0.0,
+      "exceptional_dynamic_differential": 0.1201902645066132,
+      "type_ix_static": 1.5590681818466155e-06
+    },
+    "type_ix_recollapse": {
+      "tau": 3.5467064636531616,
+      "tau_bits": "400c5fa7a36f3796",
+      "oracle_tau": 3.546706461783325,
+      "absolute_error": 1.869836729895269e-09,
+      "budget": 2.84536516942666e-09,
+      "within_budget": true,
+      "definition_constraint": 4.424016708526324e-12,
+      "trace_constraint": -1.0339757656912846e-25,
+      "normalized_constraint_residual": 0.031062874452887503,
+      "event_raw_margin": 4.87890977618477e-19,
+      "epsilon_g": 1.01e-10,
+      "root_state_sha256": "6c7719c9951e81f81824a724ed765254689f898bc28d3a3ade4efdae38bdf361",
+      "transition_id": "type_ix_expanding_to_contracting",
+      "root_sample_count": 1,
+      "restart_tau_bits_identical": true,
+      "restart_state_bytes_identical": true,
+      "restart_epsilon_g_bits_identical": true
+    },
+    "type_ix_initial_recollapse": {
+      "tau_bits": "0000000000000000",
+      "event_sample_index": 0,
+      "sample_kind": "event_root",
+      "byte_identical_duplicate_count": 0
+    },
+    "public_route_adapter": {
+      "type_ix_requested_state_shape": [
+        2,
+        7
+      ],
+      "history_final_state_byte_identical": true,
+      "verified_default_dispatch": true
+    },
+    "batch": {
+      "statuses": [
+        "COMPLETED",
+        "FAILED",
+        "COMPLETED"
+      ],
+      "input_order_preserved": true,
+      "failure_isolated": true,
+      "one_thread_many_thread_byte_identical": true
+    }
+  },
+  "bounded_review": {
+    "status": "COMPLETED_REPAIRED",
+    "authority": "HOST_CODEX_ONLY",
+    "findings": [
+      {
+        "classification": "BLOCK_NOW",
+        "defect": "default public scalar integrate_background and integrate_batch bypassed the RF-02C history execution path",
+        "reproduced": true
+      },
+      {
+        "classification": "BLOCK_NOW",
+        "defect": "restart accepted an ordered state schema mismatch",
+        "reproduced": true
+      },
+      {
+        "classification": "FIX_SOON",
+        "defect": "an initial Type-IX recollapse root was stored as duplicate initial and event-root samples",
+        "reproduced": true
+      },
+      {
+        "classification": "BLOCK_NOW",
+        "defect": "the first differential review observed a stale pre-repair native delta and EVIDENCE identity closure",
+        "reproduced": true
+      }
+    ],
+    "repairs": [
+      "RF-02C scalar legacy-shaped adapters now translate the Rust-owned history path and retain tilted charts on their existing route",
+      "restart compares the stored ordered state names to the compiled chart schema before solver construction",
+      "an initial root reuses and reclassifies the byte-identical initial sample",
+      "the native delta, restore receipt, normalized content manifest, payload pins, receipts, and this evidence were regenerated from review-repair commit 8770c766581f5ad6fa65712e33631fc3da98810c"
+    ],
+    "differential_re_review": "exactly one bounded differential re-review; all three source repairs were GREEN and its sole stale-artifact P1 was then closed mechanically without a second review"
+  },
+  "claim_state": {
+    "code_contract": "PASS_RF02C",
+    "scientific_equivalence": "PASS_SCOPED_BACKGROUND_EXECUTION",
+    "native_reproducibility": "VERIFIED_DEFAULT_DISPATCH_AND_REMOTE_RESTORE",
+    "performance_claim": "NONE",
+    "authority_promotion": "NONE"
+  },
+  "skipped": [
+    "full repository Python suite",
+    "full Cargo tests and Cargo reassurance lanes",
+    "unchanged historical campaigns",
+    "Wolfram",
+    "timing",
+    "GPU execution",
+    "performance benchmarks",
+    "RF-03 and later work units",
+    "merge and ready transition"
+  ]
+}

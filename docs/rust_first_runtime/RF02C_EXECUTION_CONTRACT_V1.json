@@ -1,0 +1,474 @@
+{
+  "schema": "bass-rf02c-execution-semantics/v1",
+  "contract_id": "RF02C-EXECUTION-SEMANTICS-20260826-V1",
+  "base": {
+    "repository": "cosmosapjw-quantum/bass",
+    "package_overlay_head": "b759a42911a7433212c1828bd7625d66f3af2d20",
+    "package_overlay_pull_request": 33,
+    "required_runtime_parent_head": "0563c080e54fcd90d6160bec35e4f20d240d8d2e",
+    "rf02b_evidence_sha256": "917158579bede0c2fa59a36dee7b0979c533a7b12c28b5ca66d294a317d13021"
+  },
+  "authority": {
+    "dimension": "code_contract",
+    "formula_authority_change": false,
+    "scientific_claim_change": false,
+    "performance_claim": "NONE",
+    "rule": "This contract freezes fail-closed execution semantics only. It does not change equations, coefficients, state order, supported chart labels, references, grids, seeds, or scientific authority.",
+    "existing_defaults_reused": {
+      "background_rtol": 1e-10,
+      "background_atol": 1e-12,
+      "raw_projection_iterations": 3,
+      "projection_damping": 1e-12,
+      "event_root_rtol": 1e-10,
+      "event_root_atol": 1e-12,
+      "class_b_exceptional_routing_tolerance": 1e-09
+    }
+  },
+  "scope": {
+    "owned_charts": [
+      "class_a",
+      "class_b",
+      "exceptional",
+      "type_ix_d",
+      "type_ix_d_future"
+    ],
+    "excluded": [
+      "tilted charts and matter closure (RF-03)",
+      "general tensor charts",
+      "kinetic, collision, ray, observable, inference, timing, GPU, and RF-03+ lanes"
+    ],
+    "state_and_constraint_order_source": "bianchi/scalar_charts.py@package_overlay_head"
+  },
+  "projection": {
+    "raw_candidate_route": {
+      "name": "chart_project",
+      "role": "RF-02B pointwise parity candidate only",
+      "solver_admissible": false,
+      "backward_compatibility": "Keep its existing signature and numerical update. Do not interpret a returned finite vector as successful projection."
+    },
+    "checked_route": {
+      "name": "chart_project_checked",
+      "required_before_any_solver_uses_projection": true,
+      "algorithm": "Repeated one-step calls to the unchanged Gauss-Newton candidate; no clamping, line search, hidden fallback, or inequality projection.",
+      "max_iterations": 8,
+      "damping": 1e-12,
+      "acceptance_tolerances": {
+        "rtol": "Bind to the caller's already-selected background solver rtol.",
+        "atol": "Bind to the caller's already-selected background solver atol.",
+        "no_new_scientific_tolerance": true
+      },
+      "constraint_scaling": {
+        "formula": "scale_i = atol + rtol * max(1, abs(c_i(y_initial)))",
+        "normalized_residual": "R_k = max_i abs(c_i(y_k)) / scale_i; R_k = 0 when the chart has no equality constraints.",
+        "accepted": "R_final <= 1"
+      },
+      "monotonicity": {
+        "formula": "R_(k+1) <= R_k + 64*eps_f64*max(1,R_k)",
+        "failure": "PROJECTION_NON_MONOTONE",
+        "rule": "Do not rescue a non-monotone candidate with backtracking in RF-02C."
+      },
+      "convergence": {
+        "success": "Finite candidate, all iteration records finite, normalized equality residual accepted, and physical-domain predicate accepted.",
+        "zero_iteration": "Allowed only when the input already satisfies all postconditions.",
+        "exhaustion_failure": "PROJECTION_NOT_CONVERGED"
+      },
+      "domain_slack": {
+        "formula": "delta_domain = atol + rtol * max(1, norm_inf(y_final))",
+        "rule": "Inequalities are checked but never projected or clipped."
+      },
+      "physical_predicates": {
+        "class_a": [
+          "Omega >= -delta_domain"
+        ],
+        "class_b": [
+          "abs(kappa + 9) >= 1e-9",
+          "Sigma_tilde >= -delta_domain",
+          "N_tilde = (N_p^2 - kappa*A_tilde)/3 >= -delta_domain",
+          "A_tilde >= -delta_domain",
+          "Omega >= -delta_domain"
+        ],
+        "exceptional": [
+          "Omega >= -delta_domain"
+        ],
+        "type_ix_d": [
+          "Omega >= -delta_domain",
+          "abs(H_bar) <= 1 + delta_domain",
+          "N1*N2 >= -delta_domain",
+          "N1*N3 >= -delta_domain",
+          "N2*N3 >= -delta_domain"
+        ],
+        "type_ix_d_future": [
+          "same predicates as type_ix_d"
+        ]
+      },
+      "typed_failures": [
+        "PROJECTION_INVALID_INPUT",
+        "PROJECTION_SINGULAR",
+        "PROJECTION_NONFINITE",
+        "PROJECTION_NON_MONOTONE",
+        "PROJECTION_NOT_CONVERGED",
+        "PROJECTION_PHYSICAL_DOMAIN"
+      ],
+      "certificate_fields": [
+        "chart",
+        "state_schema_hash",
+        "rtol",
+        "atol",
+        "damping",
+        "iterations_attempted",
+        "constraint_names",
+        "initial_constraints",
+        "final_constraints",
+        "normalized_residual_history",
+        "domain_margins",
+        "accepted",
+        "failure_code"
+      ]
+    }
+  },
+  "integration": {
+    "default_projection_mode": "off",
+    "allowed_projection_modes": [
+      "off",
+      "checked_initial",
+      "checked_chunk_boundary"
+    ],
+    "rule": "Projection is never silently inserted. Any enabled projection mode must call chart_project_checked and stop on a typed failure.",
+    "rhs_jvp_constraint_semantics": "UNCHANGED",
+    "single_trajectory_execution": "serial, one O(1) FFI call, no Python inner-step callback",
+    "accepted_sample_checks": [
+      "finite state",
+      "state shape and schema hash",
+      "equality residual certificate",
+      "physical-domain margins"
+    ]
+  },
+  "events": {
+    "event_definition": {
+      "required_fields": [
+        "id",
+        "name",
+        "root_function",
+        "direction",
+        "priority",
+        "terminal",
+        "transition_id"
+      ],
+      "direction": {
+        "-1": "root function decreases through zero in the actual integration direction",
+        "0": "either direction",
+        "1": "root function increases through zero in the actual integration direction"
+      }
+    },
+    "root_tolerances": {
+      "rtol": 1e-10,
+      "atol": 1e-12,
+      "tie_formula": "tau_tie = atol + rtol*max(1,abs(tau_a),abs(tau_b))"
+    },
+    "selection_order": [
+      "Locate every armed event root in the accepted solver step by dense interpolation.",
+      "Choose the earliest root in the actual integration direction.",
+      "Treat roots separated by at most tau_tie as simultaneous.",
+      "For simultaneous roots choose lower numeric priority, then stable declaration order."
+    ],
+    "endpoint_and_direction_rules": [
+      "A finite armed event with a root at the initial point fires at the initial point.",
+      "A restarted event is latched at the left endpoint and cannot immediately refire.",
+      "NaN or infinite event values are typed failures, never 'no event'.",
+      "Strict sign change is not required when an endpoint is within the root tolerance."
+    ],
+    "builtin_priority": {
+      "0-19": "physical-domain boundary events in fixed predicate order",
+      "20": "type_ix_recollapse",
+      "100+": "user events in declaration order"
+    },
+    "builtin_events": {
+      "all_charts": [
+        "one terminal boundary event per physical-domain margin"
+      ],
+      "type_ix_d_future": [
+        {
+          "id": "type_ix_recollapse",
+          "root": "H_bar",
+          "direction": -1,
+          "priority": 20,
+          "terminal": true,
+          "transition_id": "type_ix_expanding_to_contracting"
+        }
+      ]
+    },
+    "root_sample": {
+      "state": "dense-interpolated state at the selected root; no projection or epsilon nudge",
+      "validation": "must pass finite, equality-residual, and physical-domain checks",
+      "history": "append exactly once after all requested samples strictly before the root"
+    },
+    "status_semantics": {
+      "COMPLETED": {
+        "accepted": true,
+        "reached_requested_end": true
+      },
+      "EVENT_TERMINATED": {
+        "accepted": true,
+        "reached_requested_end": false
+      },
+      "TRANSITION_REQUIRED": {
+        "accepted": true,
+        "reached_requested_end": false
+      },
+      "DOMAIN_BOUNDARY": {
+        "accepted": true,
+        "reached_requested_end": false,
+        "scope": "valid trajectory prefix only"
+      },
+      "FAILED": {
+        "accepted": false,
+        "reached_requested_end": false
+      }
+    }
+  },
+  "transitions": {
+    "allowed": [
+      {
+        "id": "type_ix_expanding_to_contracting",
+        "from_chart": "type_ix_d_future",
+        "to_chart": "type_ix_d_future",
+        "state_map": "identity; preserve every f64 state component exactly",
+        "metadata_map": "phase: expanding -> contracting",
+        "scientific_effect": "none"
+      }
+    ],
+    "forbidden_automatic_transitions": [
+      "class_a <-> type_ix_d",
+      "class_b <-> exceptional",
+      "any family relabeling",
+      "any state reconstruction not explicitly frozen above"
+    ],
+    "unsupported_behavior": "return UNSUPPORTED_TRANSITION rather than guess"
+  },
+  "restart": {
+    "source": "exact accepted event root sample and event tau",
+    "state_mutation": "forbidden",
+    "time_nudge": "forbidden",
+    "event_latch": "the triggering event is suppressed only at the restart left endpoint and rearmed after its root function leaves the zero neighborhood",
+    "history_continuity": [
+      "route identity, state schema hash, parameters, and tolerances must match",
+      "the restart initial tau/state must be byte-identical to the previous terminal root",
+      "concatenation removes the duplicate restart-initial sample",
+      "event and transition sequence numbers continue monotonically"
+    ],
+    "mismatch_failure": "RESTART_IDENTITY_MISMATCH"
+  },
+  "history": {
+    "schema": "bass-background-geometry-history/v1",
+    "top_level_fields": [
+      "route_identity",
+      "native_identity",
+      "chart",
+      "phase",
+      "parameters",
+      "solver_tolerances",
+      "state_names",
+      "samples",
+      "events",
+      "transitions",
+      "status",
+      "failure"
+    ],
+    "sample_fields": [
+      "tau",
+      "state",
+      "Omega",
+      "equality_constraints",
+      "normalized_constraint_residual",
+      "domain_margins"
+    ],
+    "type_ix_additional_sample_fields": [
+      "H_bar",
+      "Sigma2",
+      "definition",
+      "trace"
+    ],
+    "separation_rule": "This is normalized geometry history only. H(tau), cosmic time, mean scale factor, thermodynamics, rays, and observables remain separate adapters."
+  },
+  "batch": {
+    "parallelism": "only across independent members; each member trajectory is serial",
+    "ordering": "result order exactly equals input order",
+    "failure_isolation": "each member returns a complete typed result; one failure cannot erase or relabel another member",
+    "one_thread_vs_many_threads": "same build and inputs must produce byte-identical member states, statuses, event records, and ordering",
+    "forbidden": [
+      "shared reductions that affect a member trajectory",
+      "Python inner-step callbacks",
+      "NaN-only failure signaling without a typed member status"
+    ]
+  },
+  "trajectory_oracles": [
+    {
+      "id": "ORACLE-CLASS-A-FLAT-DUST",
+      "chart": "class_a",
+      "parameters": {
+        "gamma": 1.0,
+        "tau0": 0.0,
+        "Sigma_p0": 0.3,
+        "Sigma_m0": 0.0,
+        "N1": 0.0,
+        "N2": 0.0,
+        "N3": 0.0
+      },
+      "exact": [
+        "u0 = Sigma_p0^2",
+        "u(tau) = u0*exp(-3*tau)/(1-u0+u0*exp(-3*tau))",
+        "Sigma_p(tau) = sqrt(u(tau))",
+        "Omega(tau) = 1-u(tau)"
+      ]
+    },
+    {
+      "id": "ORACLE-CLASS-B-EQUILIBRIUM",
+      "chart": "class_b",
+      "parameters": {
+        "gamma": 1.3,
+        "kappa": 4.0
+      },
+      "state": [
+        -0.4,
+        0.24,
+        0.0,
+        0.36,
+        "sqrt(2.16)"
+      ],
+      "exact": [
+        "RHS = 0",
+        "Codazzi = 0",
+        "Omega = 0"
+      ]
+    },
+    {
+      "id": "ORACLE-EXCEPTIONAL-EQUILIBRIUM",
+      "chart": "exceptional",
+      "parameters": {
+        "gamma": "4/3"
+      },
+      "state": [
+        -0.5,
+        "1/(2*sqrt(3))",
+        0.0,
+        0.0,
+        0.0,
+        "1/sqrt(12)"
+      ],
+      "exact": [
+        "RHS = 0",
+        "g = 0",
+        "Sigma2 = 1/3",
+        "K = 1/3",
+        "Omega = 1/3",
+        "q = 1"
+      ]
+    },
+    {
+      "id": "ORACLE-TYPE-IX-STATIC",
+      "chart": "type_ix_d",
+      "parameters": {
+        "gamma": "2/3"
+      },
+      "state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        "sqrt(2)",
+        "sqrt(2)",
+        "sqrt(2)"
+      ],
+      "exact": [
+        "RHS = 0",
+        "definition = 0",
+        "trace = 0",
+        "Omega = 1/2",
+        "q = 0"
+      ]
+    },
+    {
+      "id": "ORACLE-TYPE-IX-RECOLLAPSE",
+      "chart": "type_ix_d_future",
+      "parameters": {
+        "gamma": 1.0,
+        "H_bar0": 0.8,
+        "S1": 0.0,
+        "S2": 0.0,
+        "S3": 0.0,
+        "N1=N2=N3": "sqrt(2*(1-H_bar0^2))"
+      },
+      "exact": [
+        "isotropy and definition are preserved",
+        "dH_bar/dtau = -(1-H_bar^4)/4",
+        "tau_root - tau0 = log((1+H_bar0)/(1-H_bar0)) + 2*atan(H_bar0)",
+        "selected event = type_ix_recollapse",
+        "root state has H_bar = 0 within the frozen event-root tolerance"
+      ],
+      "tau_root_offset_numeric": 3.546706461783325
+    },
+    {
+      "id": "ORACLE-EXCEPTIONAL-DYNAMIC-DIFFERENTIAL",
+      "chart": "exceptional",
+      "parameters": {
+        "gamma": 1.2
+      },
+      "state": [
+        -0.4,
+        0.1,
+        0.05,
+        -0.05669872981077808,
+        0.6,
+        0.15
+      ],
+      "requirements": [
+        "initial g = 0",
+        "initial Omega > 0",
+        "Rust trajectory compared at shared requested samples to the independent Python exceptional chart",
+        "g and Omega diagnostics remain within the checked execution contract"
+      ]
+    }
+  ],
+  "verification": {
+    "primary": "pytest -q tests/rf02c/test_background_execution_contract.py",
+    "negative_selector": "pytest -q tests/rf02c/test_background_execution_contract.py -k 'tamper or unverified or invalid or mutation or hostile or restart or failure_isolation'",
+    "trajectory_comparator": {
+      "formula": "E = max_j abs(y_rust_j-y_oracle_j)/(atol+rtol*max(1,abs(y_rust_j),abs(y_oracle_j)))",
+      "budget": 32.0,
+      "scope": "code-contract differential budget, not a global scientific forward-error theorem"
+    },
+    "root_comparator": {
+      "formula": "abs(tau_rust-tau_oracle) <= 8*(event_atol+event_rtol*max(1,abs(tau_oracle)))"
+    },
+    "restart_comparator": {
+      "formula": "same E as trajectory comparator",
+      "budget": 32.0
+    },
+    "exact_oracle_rule": "Evaluate exact fixed points and closed-form trajectories with a 64*eps_f64 algebraic slack before integration comparison.",
+    "required_groups": [
+      "verified native provenance and tamper negatives",
+      "public route/hash/domain negatives",
+      "checked projection success and each typed failure",
+      "exact and differential trajectory oracles",
+      "event direction, earliest-root, tie priority, terminal and root-sample semantics",
+      "Type-IX transition and restart continuity",
+      "geometry-history schema and identity closure",
+      "single-member vs batch and one-thread vs many-thread determinism",
+      "member failure isolation",
+      "composite receipt and randomized JVP receipt"
+    ],
+    "full_suite": "NOT_RUN",
+    "cargo": "NOT_RUN_FOR_REASSURANCE",
+    "wolfram": "NOT_RUN",
+    "timing": "NOT_RUN",
+    "gpu": "NOT_RUN",
+    "success_claim": "PASS_SCOPED_BACKGROUND_EXECUTION only"
+  },
+  "stop_rules": [
+    "Any equation, coefficient, state order, chart-label, scientific-authority, reference, grid, seed, or existing solver-tolerance change => STOP_SCOPE_VIOLATION.",
+    "Any need for a transition outside the single frozen Type-IX identity/phase transition => BLOCKED_BY_UNRESOLVED_SPEC.",
+    "Any projection candidate that cannot satisfy the checked postconditions without changing the frozen Gauss-Newton update => BLOCKED_P1_PROJECTION.",
+    "Any event/restart/history ambiguity not resolved by this contract => BLOCKED_P0_SEMANTICS.",
+    "Do not start RF-03+, merge, mark ready, or make performance/publication/inference claims."
+  ]
+}

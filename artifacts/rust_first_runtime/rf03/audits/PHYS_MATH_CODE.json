@@ -1,0 +1,174 @@
+{
+  "schema": "bass-rf03-phys-math-code-audit/v1",
+  "audit_id": "RF03-AUDIT-04-PHYS-MATH-CODE",
+  "audit_order": "2_of_2",
+  "review_round": "1_of_1",
+  "predecessor": {
+    "artifact": "artifacts/rust_first_runtime/rf03/audits/PHYS_MATH.json",
+    "result": "PASS_PHYS_MATH"
+  },
+  "candidate": {
+    "commit": "dfd78a8d59a85ce264aa836e51fbb382777853fd",
+    "tree": "156e6a84a6e17b6538b9d24ff986aa6c5a0301f6"
+  },
+  "equation_to_code_map": [
+    {
+      "equation": "exact model selection and p=(gamma-1)*rho",
+      "rust_owner": "_rustcore/src/matter/eos.rs:GammaLawModel",
+      "adapter": "_rustcore/src/python/rf03_matter.rs:model_from_python",
+      "status": "MATCH"
+    },
+    {
+      "equation": "[dOmega,dv1,dv2,dv3] with G_plus, G_minus, -Sigma*v, R cross v, and -P",
+      "rust_owner": "_rustcore/src/matter/force.rs:force",
+      "oracle": "bianchi/matter/fluid.py:sources,dOmega,dv_general",
+      "status": "MATCH"
+    },
+    {
+      "equation": "fixed-context directional derivative in [Omega,v1,v2,v3]",
+      "rust_owner": "_rustcore/src/matter/force.rs:force_jvp",
+      "oracle": "jax.jvp of the frozen source force",
+      "status": "MATCH"
+    },
+    {
+      "equation": "Omega>=0, finite state, and v_i v^i<1",
+      "rust_owner": "_rustcore/src/matter/state.rs:MatterState::validate",
+      "adapter_errors": "RF03DomainError and RF03InputError",
+      "status": "MATCH"
+    },
+    {
+      "equation": "u^a u_a=-1 with signature (-,+,+,+)",
+      "rust_owner": "_rustcore/src/tilt/invariants.rs:tilt_invariants",
+      "status": "MATCH"
+    },
+    {
+      "equation": "deterministic fixed-context and precomputed-context-history RK4",
+      "rust_owner": "_rustcore/src/matter/integrate.rs",
+      "adapter": "_rustcore/src/python/rf03_matter.rs",
+      "status": "MATCH"
+    }
+  ],
+  "route_ownership": {
+    "public_adapter": "bianchi/matter/gamma_law_rust.py",
+    "policy": "RUST_REQUIRED",
+    "routes": {
+      "matter.gamma_law.force": "rf03_matter_force",
+      "matter.gamma_law.force_jvp": "rf03_matter_force_jvp",
+      "matter.gamma_law.integrate": "rf03_matter_integrate",
+      "matter.gamma_law.integrate_history": "rf03_matter_integrate_history"
+    },
+    "python_oracle_supported": false,
+    "silent_fallback": "NONE",
+    "T_gamma": "validated finite when present, otherwise ignored by force/JVP and trajectory",
+    "native_payload_admission": "PENDING_RF03_EVIDENCE_05_BY_DESIGN"
+  },
+  "native_oracle_and_sensitivity": {
+    "bounded_scale_sweep": {
+      "max_force_abs_residual": 1.3877787807814457e-17,
+      "max_jvp_abs_residual": 1.3877787807814457e-17
+    },
+    "source_guard_branches": [
+      {
+        "case": "G_plus_clamped",
+        "G_plus": 5.100364575127969e-13,
+        "force_max_abs_residual": 0.0,
+        "jvp_max_abs_residual": 2.9802322387695312e-08,
+        "jvp_max_relative_residual": 4.84018827e-16,
+        "interpretation": "large absolute JVP scale from the declared 1e-12 source guard; relative parity remains at roundoff"
+      },
+      {
+        "case": "G_minus_clamped",
+        "G_minus": 5.000444502911705e-13,
+        "force_max_abs_residual": 0.0,
+        "jvp_max_abs_residual": 1.3877787807814457e-17
+      }
+    ],
+    "RF02C_composition": "native class-A context history and zero-tilt matter agree in Omega within 2e-8 with byte-identical hot/cold T_gamma trajectories",
+    "thread_probe": {
+      "rayon_threads": [
+        1,
+        4
+      ],
+      "complete_states_status_order_equal": true,
+      "domain_states_status_order_equal": true,
+      "domain_status": "RF03_DOMAIN_TERMINATION",
+      "domain_terminal_index": 1
+    }
+  },
+  "test_boundary": {
+    "rf03_collected_tests": 23,
+    "covered": [
+      "exact symbols and typed errors",
+      "single and seeded nonsymmetric source/JVP parity",
+      "T_gamma bitwise invariance",
+      "model/domain rejection",
+      "zero-tilt limit and invariants",
+      "no source-oracle callback",
+      "cooling and typed domain terminal",
+      "RF-02C context-history composition",
+      "complete-trajectory 1/4-thread byte identity"
+    ],
+    "directly_invalidated_RF02C_tests": "PASS before audit; must be rerun after any repair touching registration"
+  },
+  "findings": [
+    {
+      "id": "PMC-P1-01",
+      "classification": "FIX_SOON",
+      "severity": "P1",
+      "component": "bianchi/matter/gamma_law_rust.py:_require_model_id",
+      "reproduction": "A non-string HostileId whose __eq__ raises is compared to MODEL_ID before isinstance is evaluated, leaking AssertionError instead of RF03ModelSelectionError.",
+      "required_repair": "perform the string type check before equality and add a regression using a hostile comparison object"
+    },
+    {
+      "id": "PMC-P1-02",
+      "classification": "FIX_SOON",
+      "severity": "P1",
+      "component": "_rustcore/src/lib.rs legacy th_* PyO3 bodies",
+      "reproduction": "th_geo, th_geos, th_closure, th_signs, th_mats, th_check, th_integrate, th_rhs, and th_force_and_matrix remain in lib.rs although the binding R1 architecture step requires existing th_* bodies to move under the RF-03 adapter module and leave lib.rs as wiring.",
+      "required_repair": "mechanically extract the unchanged th_* adapters to _rustcore/src/python/rf03_tilt.rs and register them through register_rf03"
+    },
+    {
+      "id": "PMC-P1-03",
+      "classification": "FIX_SOON",
+      "severity": "P1",
+      "component": "tests/rf03/test_native_matter_runtime.py determinism proof",
+      "reproduction": "the permanent 1/4-thread test serializes only a COMPLETE trajectory, while the frozen requirement includes failure codes and ordering. A direct probe shows the domain-terminal trajectory is already identical, but that evidence is not regression-bound.",
+      "required_repair": "parameterize the subprocess proof over COMPLETE and RF03_DOMAIN_TERMINATION and compare state bytes, status, terminal index, terminal detail, and order"
+    },
+    {
+      "id": "PMC-P1-04",
+      "classification": "FIX_SOON",
+      "severity": "P1",
+      "component": "artifacts/rust_first_runtime/rf03/SCHEMA_AND_ROUTE_FREEZE.json",
+      "reproduction": "the freeze says unaffected R1 scope remains binding but inventories only the new gamma-law symbols; it omits the seven already-native tilted closure modes and existing native thermodynamic references that R1 keeps in scope.",
+      "required_repair": "add inherited closure-mode, th_* route, native-thermo, and no-new-temperature-formula inventory without changing their bytes or authority"
+    }
+  ],
+  "downstream_gates_not_findings": [
+    {
+      "id": "PMC-GATE-01",
+      "detail": "The exact RF-03 trusted native payload receipt is intentionally unavailable until RF03-EVIDENCE-05 builds the clean pinned wheel. Production use without development override remains unclaimed until that gate."
+    },
+    {
+      "id": "PMC-GATE-02",
+      "detail": "Figure dependencies are requirements.lock plus externally installed matplotlib==3.10.8; terminal evidence must record the exact bounded figure environment."
+    }
+  ],
+  "finding_counts": {
+    "BLOCK_NOW": 0,
+    "FIX_SOON": 4,
+    "BACKLOG": 0,
+    "IGNORE": 0,
+    "P0": 0,
+    "P1": 4,
+    "P2": 0,
+    "P3": 0
+  },
+  "repair_policy": {
+    "authorized_repair_passes": 1,
+    "used_before_this_audit": 0,
+    "action": "ONE_TARGETED_REPAIR_PASS_THEN_ONE_DIFFERENTIAL_CLOSEOUT"
+  },
+  "claim_boundary": "No PASS_RF03 claim is admitted while the P1 findings or native evidence gates remain open.",
+  "result": "REPAIR_REQUIRED_P1"
+}

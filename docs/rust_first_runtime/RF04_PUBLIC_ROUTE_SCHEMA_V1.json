@@ -1,0 +1,458 @@
+{
+  "authority_binding": {
+    "authority_ids": {
+      "background": "SCI-AUTH-04-BACKGROUND-V1",
+      "collision": "SCI-AUTH-04-COLLISION-V1",
+      "kato": "SCI-AUTH-04-KATO-V1",
+      "projector": "SCI-AUTH-04-PROJECTOR-V1",
+      "thermodynamics": "SCI-AUTH-04-THERMODYNAMICS-V1"
+    },
+    "formula_authority": "TYPED_BUT_NOT_AUTO_PROMOTED",
+    "manifest_sha256": "9c646d7fa43463484e832349f0a4ae9c3728dc1d68a2370504facdc41aad9b9f",
+    "sci_auth_head": "1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86",
+    "sci_auth_tree": "37edaaea720a3197881b94bc39413787db091432",
+    "thermodynamics": "SURROGATE_REFERENCE_ONLY_NOT_PRODUCTION_PROMOTION"
+  },
+  "backend_policy_registration": [
+    {
+      "python_oracle_supported": false,
+      "required_symbols": [
+        "rf04_typeii_execution_identity_v1"
+      ],
+      "route_id": "kinetic.typeii.execution_identity_v1"
+    },
+    {
+      "python_oracle_supported": false,
+      "required_symbols": [
+        "rf04_typeii_trajectory_v1",
+        "rf04_typeii_execution_identity_v1"
+      ],
+      "route_id": "kinetic.typeii.trajectory_v1"
+    },
+    {
+      "python_oracle_supported": false,
+      "required_symbols": [
+        "rf04_typeii_batch_v1",
+        "rf04_typeii_execution_identity_v1"
+      ],
+      "route_id": "kinetic.typeii.batch_v1"
+    }
+  ],
+  "backend_route_ids": {
+    "batch": "kinetic.typeii.batch_v1",
+    "identity": "kinetic.typeii.execution_identity_v1",
+    "trajectory": "kinetic.typeii.trajectory_v1"
+  },
+  "background_state": {
+    "order": [
+      "Sigma_p",
+      "Sigma_m",
+      "Sigma_13",
+      "N1",
+      "v2"
+    ],
+    "shape": [
+      5
+    ],
+    "source": "generated/rust/typeii/typeii_background.rs",
+    "source_blob_sha1": "3616990750099e0088a180ce8612ddbf597e9414"
+  },
+  "batch_request": {
+    "certificate_policy_id": {
+      "caller_override": false,
+      "value": "rf04_projected_residual_only_v1"
+    },
+    "initial_radiation_batch": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE"
+      ],
+      "shape": [
+        "B",
+        "D"
+      ]
+    },
+    "shared_plan": true
+  },
+  "batch_result": {
+    "container": "mapping",
+    "failure_isolation": true,
+    "fields": {
+      "execution_identity": {
+        "dtype": "canonical_json_utf8"
+      },
+      "final_radiation": {
+        "dtype": "float64",
+        "failure_row_fill": "ALL_NAN",
+        "shape": [
+          "B",
+          "D"
+        ]
+      },
+      "member_completed_steps": {
+        "dtype": "int64",
+        "shape": [
+          "B"
+        ]
+      },
+      "member_error_code": {
+        "dtype": "tuple[str|null]",
+        "shape": [
+          "B"
+        ]
+      },
+      "member_status": {
+        "dtype": "int32",
+        "shape": [
+          "B"
+        ],
+        "success_code": 0
+      },
+      "route_id": {
+        "dtype": "str",
+        "value": "kinetic.typeii.batch_v1"
+      },
+      "schema_id": {
+        "dtype": "str",
+        "value": "bass-rf04-typeii-public-route/v1"
+      }
+    },
+    "full_history": false,
+    "ordering": "INPUT_MEMBER_ORDER",
+    "whole_call_failure": "ONLY_COMMON_SCHEMA_OR_PLAN_VALIDATION_FAILURE"
+  },
+  "carriers": {
+    "polarized_rank9_v1": {
+      "physical_subspace": "J=P(e)JP(e) FOUR_REAL_DIMENSIONAL_SCREEN_SUBSPACE",
+      "public_input_policy": "reject_nonphysical_v1",
+      "silent_projection": false,
+      "storage_order": [
+        "sym_11",
+        "sym_22",
+        "sym_33",
+        "sym_12",
+        "sym_13",
+        "sym_23",
+        "anti_23",
+        "anti_31",
+        "anti_12"
+      ],
+      "storage_per_node": 9
+    },
+    "scalar_intensity_v1": {
+      "physical_policy": "FINITE_VALUES_REQUIRED",
+      "storage_per_node": 1
+    }
+  },
+  "common_request": {
+    "background_mid": {
+      "dtype": "float64",
+      "order": [
+        "Sigma_p",
+        "Sigma_m",
+        "Sigma_13",
+        "N1",
+        "v2"
+      ],
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE"
+      ],
+      "shape": [
+        "K",
+        5
+      ]
+    },
+    "background_q1": {
+      "dtype": "float64",
+      "order": [
+        "Sigma_p",
+        "Sigma_m",
+        "Sigma_13",
+        "N1",
+        "v2"
+      ],
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE"
+      ],
+      "shape": [
+        "K",
+        5
+      ]
+    },
+    "background_q3": {
+      "dtype": "float64",
+      "order": [
+        "Sigma_p",
+        "Sigma_m",
+        "Sigma_13",
+        "N1",
+        "v2"
+      ],
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE"
+      ],
+      "shape": [
+        "K",
+        5
+      ]
+    },
+    "carrier": {
+      "allowed": [
+        "scalar_intensity_v1",
+        "polarized_rank9_v1"
+      ],
+      "dtype": "enum"
+    },
+    "directions": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "UNIT_NORM_WITHIN_EXISTING_1E_MINUS_10_GUARD"
+      ],
+      "shape": [
+        "M",
+        3
+      ]
+    },
+    "gamma": {
+      "dtype": "float64",
+      "requirements": [
+        "FINITE",
+        "ACCEPTED_BY_EXISTING_TYPEII_GENERATED_BACKGROUND_DOMAIN_GUARD",
+        "NO_CLIPPING"
+      ]
+    },
+    "opacity_mid": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "NONNEGATIVE"
+      ],
+      "shape": [
+        "K"
+      ]
+    },
+    "opacity_scale": {
+      "dtype": "float64",
+      "requirements": [
+        "FINITE",
+        "NONNEGATIVE"
+      ]
+    },
+    "quadrature_route": {
+      "allowed": [
+        "paired_rest_to_normal_reference_v1",
+        "fixed_grid_raw_v1",
+        "fixed_grid_ap_corrected_v1"
+      ],
+      "dtype": "enum"
+    },
+    "step_size": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "STRICTLY_POSITIVE"
+      ],
+      "shape": [
+        "K"
+      ]
+    },
+    "tilt_axis": {
+      "allowed": [
+        0,
+        1,
+        2
+      ],
+      "dtype": "uint8"
+    },
+    "weights": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "STRICTLY_POSITIVE"
+      ],
+      "shape": [
+        "M"
+      ]
+    }
+  },
+  "exceptions": [
+    "RF04InputError",
+    "RF04CapabilityError",
+    "RF04PhysicalDomainError",
+    "RF04CertificateError",
+    "RF04MemberError"
+  ],
+  "execution_identity_result": {
+    "certificate_scope": "PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR",
+    "required_fields": [
+      "identity_schema",
+      "public_route_schema_sha256",
+      "sci_auth_head",
+      "sci_auth_tree",
+      "sci_auth_manifest_sha256",
+      "authority_ids",
+      "source_owner_blob_sha1",
+      "carrier_capabilities",
+      "quadrature_capabilities",
+      "certificate_scope",
+      "physical_guard_fingerprint",
+      "route_capability_fingerprint",
+      "native_payload_identity"
+    ],
+    "return_type": "canonical_json_utf8"
+  },
+  "forbidden_equivalences": [
+    "qe_evolve IS NOT kinetic.typeii.trajectory_v1",
+    "qe_ensemble IS NOT kinetic.typeii.batch_v1",
+    "qx_* AND qp_* POINTWISE KERNELS ARE NOT TRAJECTORY/BATCH ROUTES",
+    "PYTHON_ORACLE IS NOT PRODUCTION_FALLBACK",
+    "PROJECTED_RESIDUAL CERTIFICATE IS NOT GLOBAL_FORWARD_ERROR_CERTIFICATE",
+    "FIXED_GRID_RAW IS NOT FIXED_GRID_AP_CORRECTED",
+    "B2A_OR_OTHER_REFERENCE_RECEIPTS DO_NOT PROMOTE THIS ROUTE"
+  ],
+  "native_registration": {
+    "adapter_owner": "_rustcore/src/python/rf04_typeii.rs",
+    "module_declaration_owner": "_rustcore/src/python/mod.rs",
+    "pymodule_owner": "_rustcore/src/lib.rs",
+    "registration_owner": "_rustcore/src/python/register.rs",
+    "required_hook": "python::register::register_rf04(m)?",
+    "route_inventory_owner": "bianchi/backend_policy.py"
+  },
+  "native_symbols": {
+    "batch": "rf04_typeii_batch_v1",
+    "identity": "rf04_typeii_execution_identity_v1",
+    "trajectory": "rf04_typeii_trajectory_v1"
+  },
+  "public_python_routes": {
+    "batch": "bianchi.kinetic.typeii_batch_v1",
+    "identity": "bianchi.kinetic.typeii_execution_identity_v1",
+    "trajectory": "bianchi.kinetic.typeii_trajectory_v1"
+  },
+  "quadrature_routes": {
+    "fixed_grid_ap_corrected_v1": {
+      "ap_correction": true,
+      "classification": "OPT_IN_DISCRETE_AP_CORRECTION",
+      "continuum_formula_change": false
+    },
+    "fixed_grid_raw_v1": {
+      "ap_correction": false,
+      "classification": "FIXED_GRID_UNCORRECTED"
+    },
+    "paired_rest_to_normal_reference_v1": {
+      "ap_correction": false,
+      "classification": "REFERENCE_DISCRETIZATION"
+    }
+  },
+  "schema": "bass-rf04-public-route-schema/v1",
+  "schema_id": "bass-rf04-typeii-public-route/v1",
+  "scope": {
+    "background_integration": "CALLER_SUPPLIES_PER_STEP_Q1_MID_Q3_BACKGROUND_SAMPLES",
+    "bianchi_family": "TYPE_II_ALIGNED_REFERENCE_LANE_ONLY",
+    "callbacks": false,
+    "claim": "CALLABLE_NATIVE_ROUTE_SCHEMA_NOT_SCIENTIFIC_PROMOTION",
+    "performance_claim": "NONE",
+    "python_fallback": false,
+    "python_inner_loop": false
+  },
+  "shape_symbols": {
+    "B": "number of independent batch members, B >= 1",
+    "D": "M for scalar_intensity_v1; 9*M for polarized_rank9_v1",
+    "K": "number of trajectory steps, K >= 1",
+    "M": "number of angular nodes, M >= 1"
+  },
+  "trajectory_request": {
+    "certificate_policy_id": {
+      "caller_override": false,
+      "value": "rf04_projected_residual_only_v1"
+    },
+    "initial_radiation": {
+      "dtype": "float64",
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE"
+      ],
+      "shape": [
+        "D"
+      ]
+    }
+  },
+  "trajectory_result": {
+    "container": "mapping",
+    "failure": "RAISE_TYPED_EXCEPTION_AT_FIRST_FAILED_STEP_WITH_STEP_INDEX; NO_PARTIAL_SUCCESS_OBJECT",
+    "fields": {
+      "diagnostics": {
+        "carrier_specific_arrays": {
+          "polarized_rank9_v1": {
+            "minimum_coherency_eigenvalue": [
+              "K+1"
+            ],
+            "screen_leakage": [
+              "K+1"
+            ]
+          },
+          "scalar_intensity_v1": {}
+        },
+        "container": "mapping",
+        "required_arrays": {
+          "equilibrium_null_residual": [
+            "K"
+          ],
+          "left_invariant_drift": [
+            "K"
+          ],
+          "positivity_margin": [
+            "K+1"
+          ],
+          "projected_residual_estimate": [
+            "K"
+          ],
+          "projector_idempotence_residual": [
+            "K"
+          ],
+          "right_kernel_residual": [
+            "K"
+          ]
+        }
+      },
+      "execution_identity": {
+        "dtype": "canonical_json_utf8"
+      },
+      "radiation_history": {
+        "dtype": "float64",
+        "semantics": "ROW_0_IS_INPUT; ROW_i_IS_ACCEPTED_STATE_AFTER_STEP_i",
+        "shape": [
+          "K+1",
+          "D"
+        ]
+      },
+      "route_id": {
+        "dtype": "str",
+        "value": "kinetic.typeii.trajectory_v1"
+      },
+      "schema_id": {
+        "dtype": "str",
+        "value": "bass-rf04-typeii-public-route/v1"
+      }
+    }
+  },
+  "typed_failure_codes": [
+    "RF04_SCHEMA_MISMATCH",
+    "RF04_UNSUPPORTED_CAPABILITY",
+    "RF04_INVALID_GRID",
+    "RF04_INVALID_BACKGROUND",
+    "RF04_NONPHYSICAL_CARRIER",
+    "RF04_KRYLOV_CERTIFICATE_FAILURE",
+    "RF04_NUMERICAL_DOMAIN",
+    "RF04_MEMBER_FAILURE"
+  ],
+  "version": 1
+}

@@ -1,0 +1,127 @@
+{
+  "authority_override": {
+    "authority_head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
+    "authority_tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4",
+    "effect": "R2 resolves only the obsolete R1 EOS and tilted-temperature ambiguity; unaffected R1 implementation scope remains binding",
+    "transport": "DIRECT_TEXT_FILES"
+  },
+  "base": {
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+    "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e"
+  },
+  "domain": {
+    "Omega": "finite and Omega >= 0",
+    "gamma": "finite and 0 < gamma <= 2",
+    "tilt": "all v_i finite and v_i v^i < 1"
+  },
+  "equation_map": {
+    "force": {
+      "native_owner": "_rustcore/src/matter/force.rs",
+      "python_owner": "bianchi/matter/fluid.py",
+      "python_symbols": [
+        "sources",
+        "dOmega",
+        "dv_general"
+      ]
+    },
+    "jvp": {
+      "definition": "exact directional derivative of force with respect to [Omega,v1,v2,v3] at fixed Sigma,N,A,R,q,gamma",
+      "finite_difference_production_authority": "FORBIDDEN",
+      "native_owner": "_rustcore/src/matter/force.rs"
+    },
+    "tilt_invariants": {
+      "metric_signature": "(-,+,+,+)",
+      "native_owner": "_rustcore/src/tilt/invariants.rs",
+      "normalization": "u^a u_a = -1"
+    }
+  },
+  "historical_blocker": {
+    "preserved_path": "/tmp/bass-rf03-20260828.4M5fCz/worktree/artifacts/rust_first_runtime/rf03/SCHEMA_AND_ROUTE_FREEZE.json",
+    "sha256": "fa4df23fab778cbe085b84cf8b74f29ad2a5544c964ee1045c60cc8c62d15e33",
+    "status": "HISTORICAL_CORRECT_UNDER_R1_WORDING"
+  },
+  "inherited_thermodynamics": {
+    "native_sources": [
+      "_rustcore/src/thermo/dof.rs",
+      "_rustcore/src/thermo/dof_table.rs",
+      "_rustcore/src/thermo/fd.rs"
+    ],
+    "native_symbols": [
+      "fd_rho_p",
+      "fd_rho_p_batch",
+      "g_star",
+      "g_star_s"
+    ],
+    "new_tilted_temperature_formula": "NONE",
+    "rf03_change": "NONE; existing native thermodynamic references remain inherited and T_gamma stays exogenous"
+  },
+  "inherited_tilt_closure": {
+    "adapter_owner": "_rustcore/src/python/rf03_tilt.rs",
+    "modes": [
+      "frozen",
+      "ratio",
+      "ratio_scalar",
+      "zero",
+      "phys_sqrt",
+      "phys_5w",
+      "phys_interp"
+    ],
+    "native_numerical_owner": "_rustcore/src/kinetic/tilted_hier.rs",
+    "native_symbols": [
+      "th_integrate",
+      "th_rhs",
+      "th_force_and_matrix"
+    ],
+    "route_ids": [
+      "tilted.integrate",
+      "tilted.rhs",
+      "tilted.force_and_matrix",
+      "tilted.trajectory_error"
+    ],
+    "rf03_change": "adapter relocation only; inherited numerical formulas and seven-mode mapping are unchanged"
+  },
+  "model": {
+    "equation_of_state": "p = (gamma - 1) rho",
+    "id": "explicit_gamma_law_tilted_perfect_fluid_v1",
+    "selection": "CALLER_EXPLICIT_ONLY"
+  },
+  "native_api": {
+    "errors": [
+      "RF03ModelError",
+      "RF03DomainError",
+      "RF03InputError"
+    ],
+    "symbols": [
+      "rf03_matter_force",
+      "rf03_matter_force_jvp",
+      "rf03_matter_integrate",
+      "rf03_matter_integrate_history",
+      "rf03_tilt_invariants"
+    ]
+  },
+  "production_route": {
+    "fallback": "NONE",
+    "python_adapter": "bianchi/matter/gamma_law_rust.py",
+    "python_oracle": "EXPLICIT_VALIDATION_ONLY",
+    "python_selector_error": "RF03ModelSelectionError",
+    "route_ids": [
+      "matter.gamma_law.force",
+      "matter.gamma_law.force_jvp",
+      "matter.gamma_law.integrate",
+      "matter.gamma_law.integrate_history"
+    ]
+  },
+  "schema": "bass-rf03-schema-and-route-freeze/v2",
+  "state_order": [
+    "Omega",
+    "v1",
+    "v2",
+    "v3"
+  ],
+  "thermodynamics": {
+    "T_gamma_force_role": "EXOGENOUS_NO_FEEDBACK",
+    "T_gamma_jvp_role": "EXOGENOUS_NO_FEEDBACK",
+    "tilted_temperature_formula": "UNDEFINED_AND_NOT_AUTHORIZED"
+  }
+}
