@@ -1,0 +1,78 @@
+{
+  "claim_boundary": {
+    "after_source_only": "NO_TERMINAL_CLAIM",
+    "after_targeted_remote_green": [
+      "PASS_RF03"
+    ],
+    "authority_promotion": "NONE",
+    "current": "READY_TO_EXECUTE_RF03",
+    "performance_claim": "NONE"
+  },
+  "current_action": {
+    "id": "RF-03",
+    "implementation_branch": "agent/architecture/rust-first-rf03-20260828-r1",
+    "package_branch": "agent/plans/rf03-matter-thermo-tilt-closure-20260828-r1",
+    "reason": "RF-02C is remotely closed and RF-03 is the next mandatory core-runtime node; the backup optimization lane is unrelated and must not delay or contaminate this work.",
+    "title": "Implement native matter, thermodynamics and tilt closure from the frozen RF-02C terminal head"
+  },
+  "lane_firewall": {
+    "forbidden_dependencies": [
+      "BASS-12",
+      "BASS-13",
+      "BASS-14",
+      "BASS-15"
+    ],
+    "forbidden_inputs": [
+      "legacy candidate branches or backup optimization payloads",
+      "timing or speedup receipts",
+      "local-only files not present at the frozen RF-02C head"
+    ],
+    "worktree": "separate worktree or clone from the exact RF-02C terminal head"
+  },
+  "package_id": "BASS-RF03-MATTER-THERMO-TILT-CLOSURE-20260828-R1",
+  "package_revision": "R1_RF02C_TERMINAL_BASE",
+  "precedence": [
+    "live GitHub RF-02C terminal ref and exact committed evidence",
+    "compiled RF-03 work unit in docs/audits/science_system_differential_20260826/WORK_UNITS.json",
+    "this package manifest and machine work unit",
+    "source-code reality at the exact RF-02C terminal tree",
+    "narrative summaries"
+  ],
+  "repository": "cosmosapjw-quantum/bass",
+  "resolved_date_kst": "2026-08-28",
+  "schema": "bass-rf03-current-state/v1",
+  "source_authority": {
+    "compiled_next_node": {
+      "id": "RF-03",
+      "source": "docs/audits/science_system_differential_20260826/WORK_UNITS.json#/work_units[id=RF-03]",
+      "title": "Matter, thermodynamics and tilt closure"
+    },
+    "legacy_optimization_lane": {
+      "classification": "PARALLEL_EXPLORATORY_NONAUTHORITATIVE",
+      "dependency_of_rf03": false,
+      "jira": "BASS-12",
+      "may_be_cherry_picked_into_rf03": false,
+      "may_block_rf03": false
+    },
+    "rf02c_terminal": {
+      "artifact": {
+        "digest": "sha256:95d85ae6150a69d8946871f72608993648ccda87ed85aecb76dee5c55332aa57",
+        "id": 9657828008
+      },
+      "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+      "claim_ceiling": [
+        "PASS_RF02C",
+        "PASS_SCOPED_BACKGROUND_EXECUTION"
+      ],
+      "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+      "pull_request": 36,
+      "state": "OPEN_DRAFT_UNMERGED",
+      "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e",
+      "workflows": {
+        "rf00_backend_policy": 33099529556,
+        "rf02b_scalar_operators": 33099529601,
+        "rf02c_preflight": 33099525722
+      }
+    }
+  }
+}
