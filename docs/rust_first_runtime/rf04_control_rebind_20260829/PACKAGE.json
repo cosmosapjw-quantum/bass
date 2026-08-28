@@ -1,0 +1,79 @@
+{
+  "checkpoints": {
+    "rf03": {
+      "claim": "PASS_RF03",
+      "head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+      "tree": "bb743717e8115821d72268d8384dc5cc7cc11975"
+    },
+    "sci_auth_04": {
+      "claim": "PASS_SCI_AUTH_04_VALIDATOR",
+      "consumption": "CHECKPOINT_ONLY_NO_SOURCE_TRANSPLANT",
+      "evidence_head": "1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86",
+      "tree": "37edaaea720a3197881b94bc39413787db091432",
+      "validation_sha256": "d0d72dfaeb1bdef29353e05809619b2393176eca52f770a1d193115dad15033c"
+    }
+  },
+  "claims": [
+    "PASS_RF03",
+    "PASS_SCI_AUTH_04_VALIDATOR",
+    "NO_PASS_RF04"
+  ],
+  "control_authority": {
+    "branch": "agent/plans/rf04-sci-auth-intake-20260828-r1",
+    "head": "f18e491f19f45accc8c87eb56b4a24f15a8a3d6c",
+    "pr": 47,
+    "state": "OPEN_DRAFT_UNMERGED",
+    "tree": "3fd8201a3cb15bf8d882dd28d37bf0c31e8af7e0"
+  },
+  "execution": {
+    "base_head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+    "base_tree": "bb743717e8115821d72268d8384dc5cc7cc11975",
+    "branch": "agent/architecture/rust-first-rf04-20260828-r1",
+    "exact_next_action": "RF04-RED-01"
+  },
+  "forbidden": [
+    "rerun RF-03",
+    "rerun SCI-AUTH-04",
+    "rerun RF04-INTAKE-00",
+    "import Candidate B",
+    "timing/GPU/Wolfram/full-suite",
+    "RF-05+",
+    "merge/ready",
+    "scientific/performance promotion"
+  ],
+  "frozen_blobs": {
+    "pointer": {
+      "blob_sha1": "aff7c4270dd9481020836a1d1ad7420dd4f47fb7",
+      "path": "docs/rust_first_runtime/RF04_CURRENT_PACKAGE.json",
+      "sha256": "9d709c9ad1c98bde95c2a8861727364740cb29d51e813d45402d123402e3a85b"
+    },
+    "schema": {
+      "blob_sha1": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+      "path": "docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json",
+      "sha256": "be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097"
+    }
+  },
+  "identity_decision": {
+    "disposition": "HARD_BLOCK_STALE_HANDOFF_ONLY",
+    "intended_head": "f18e491f19f45accc8c87eb56b4a24f15a8a3d6c",
+    "intended_tree": "3fd8201a3cb15bf8d882dd28d37bf0c31e8af7e0",
+    "object_class": "CLASS_1_IMMUTABLE_CONTROL_INPUT",
+    "required_identity": "EXACT_GIT_COMMIT_AND_TREE",
+    "scientific_integrity_failure": false,
+    "stale_handoff_head": "695908d8501be141b163641cbe61e334d2189358"
+  },
+  "legacy_optimization": {
+    "BASS_13_15": "CLOSED_NOT_OPENED",
+    "candidate_import": "FORBIDDEN",
+    "physical_12t_ratio": 0.9326669311,
+    "pr": 34,
+    "pr_state": "CLOSED_UNMERGED",
+    "raw_receipts": "LOCAL_ONLY_NOT_GITHUB_CUSTODY",
+    "required_maximum": 0.9,
+    "strict_1t_ratio": 0.9407976462,
+    "verdict": "REJECTED_LEGACY_CANDIDATE"
+  },
+  "package_id": "BASS-RF04-CONTROL-REBIND-20260829-R1",
+  "repository": "cosmosapjw-quantum/bass",
+  "schema": "bass-rf04-control-rebind/v1"
+}
