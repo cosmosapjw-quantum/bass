@@ -68,6 +68,13 @@ def test_overclaim_is_rejected(tmp_path: Path) -> None:
     _assert_rejected(_run(_mutated_manifest(tmp_path, mutate)), "OVERBROAD_SCOPE")
 
 
+def test_overclaim_top_level_promotion_is_rejected(tmp_path: Path) -> None:
+    def mutate(payload: dict[str, object]) -> None:
+        payload["scientific_promotion"] = True
+
+    _assert_rejected(_run(_mutated_manifest(tmp_path, mutate)), "OVERBROAD_SCOPE")
+
+
 def test_surrogate_promotion_is_rejected(tmp_path: Path) -> None:
     def mutate(payload: dict[str, object]) -> None:
         surrogate = payload["domains"]["thermodynamics"]["authorities"][0]

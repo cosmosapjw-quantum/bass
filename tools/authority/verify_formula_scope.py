@@ -29,6 +29,19 @@ REQUIRED_DOMAINS = {
     "thermodynamics",
 }
 
+EXPECTED_TOP_LEVEL_KEYS = {
+    "schema",
+    "work_unit",
+    "source_base",
+    "claim_boundary",
+    "formula_authority_label",
+    "domains",
+    "unresolved_authorities",
+    "historical_manifest_bindings",
+    "frozen_trees",
+    "document_bindings",
+}
+
 EXPECTED_SCOPES = {
     "background": {
         "included_scope": {
@@ -381,6 +394,15 @@ def unique_strings(value: object, label: str, *, nonempty: bool) -> list[str]:
 
 
 def verify_manifest_semantics(manifest: dict[str, object]) -> None:
+    extra_keys = set(manifest) - EXPECTED_TOP_LEVEL_KEYS
+    if extra_keys:
+        fail("OVERBROAD_SCOPE", f"unexpected top-level fields: {sorted(extra_keys)}")
+    missing_keys = EXPECTED_TOP_LEVEL_KEYS - set(manifest)
+    if missing_keys:
+        fail(
+            "MANIFEST_CLAIM_MISMATCH",
+            f"missing top-level fields: {sorted(missing_keys)}",
+        )
     if manifest.get("schema") != "bass-scientific-authority-scope/v1":
         fail("MANIFEST_CLAIM_MISMATCH", "unexpected schema")
     if manifest.get("work_unit") != "SCI-AUTH-04":
