@@ -1,0 +1,163 @@
+{
+  "authority_package_head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
+  "authority_sha256": "dd337b73a24c5947479b9b560d11c2f9a83ca66679d3fe8c2e796c74650f9d74",
+  "base_head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+  "checks": {
+    "authority_semantics": "PASS",
+    "explicit_gamma_and_state": "PASS",
+    "historical_typeii_surrogate_only": "PASS",
+    "source_blob_identity": "PASS",
+    "t_gamma_force_invariance": "PASS",
+    "t_gamma_jvp_invariance": "PASS"
+  },
+  "claim": "NO_PASS_RF03",
+  "prior_blocker_freeze": {
+    "availability": "AVAILABLE",
+    "content": {
+      "actual_state_and_shape_inventory": {
+        "existing_coupled_carrier": {
+          "flat_order": "Sigma5[5], N3[3], lnH, each (Omega,v[3]), then i=0 PSTF coefficients for l=0..l_max",
+          "model_limit": "massless kinetic carrier plus gamma-law fluids",
+          "owners": [
+            "bianchi/matter/coupled_tilted.py",
+            "_rustcore/src/kinetic/coupled.rs"
+          ]
+        },
+        "fermi_dirac_kernel": {
+          "call_shape": "(a,y0,n_species)->(rho,p,w)",
+          "limit": "not an approved perfect-fluid state schema, force/JVP route, or public production model authority",
+          "owner": "_rustcore/src/thermo/fd.rs",
+          "units": "dimensionless species-temperature normalization"
+        },
+        "gamma_law_tilted_fluid": {
+          "eos": "p_hat=(gamma-1)*rho_hat, hence w=gamma-1 is constant",
+          "fields": [
+            "gamma",
+            "Omega",
+            "v[3]"
+          ],
+          "normal_to_rest_density": "rho_hat=Omega*(1-|v|^2)/(1+(gamma-1)|v|^2)",
+          "owner": "bianchi/matter/fluid.py",
+          "types": [
+            "scalar float",
+            "scalar float",
+            "length-3 float vector"
+          ],
+          "units": "dimensionless Hubble-normalized density and orthonormal-frame velocity"
+        },
+        "temperature_reference": {
+          "call_shape": "temperature_of_ell(ell,T0_GeV,ell0=1.0)",
+          "interpolation": "g_*s is linear in log10(T/GeV) with constant endpoint extrapolation",
+          "limit": "declared only for non-tilted local equilibrium",
+          "owner": "bianchi/thermo/temperature.py",
+          "units": "ell dimensionless; temperature GeV"
+        },
+        "tilted_hierarchy": {
+          "moment_identification": "rho=J(0,0), p=J(0,1)/3, q=J(1,0), pi=J(2,0)",
+          "native_state_order": "l major, then i=0..i_max, then 3^l row-major tensor components",
+          "owners": [
+            "bianchi/matter/tilted_integrate.py",
+            "bianchi/matter/tilted_rust.py",
+            "_rustcore/src/kinetic/tilted_hier.rs"
+          ],
+          "pstf_coordinate_order": "2*l+1 coefficients per retained (l,i) block",
+          "python_shape": "dict keyed by (l,i), scalar at l=0 and row-major tensor shape (3,)*l for l>0"
+        }
+      },
+      "authority_conflict": {
+        "compiled_ambiguity_rule": "If an unresolved scientific choice changes equations, tolerances, references, capability scope or authority, stop as BLOCKED_BY_UNRESOLVED_SPEC instead of guessing.",
+        "compiled_precondition": "Thermodynamics model/authority ID resolved or unit stops before production claim.",
+        "current_perfect_fluid_authority": "the only executable perfect-fluid EOS is gamma-law and therefore constant-w",
+        "current_thermodynamics_receipt": "THERMO_HISTORICAL is classified HISTORICAL_SURROGATE_REFERENCE_ONLY and never promotes original SahaHistory authority",
+        "missing_authority": "no exact production thermodynamics model/authority ID, state order, force, analytic JVP, or tilted Gamma-temperature formula is supplied by the frozen source or package",
+        "package_constant_w_rule": "constant-w may remain only as an explicit test/oracle reference; production default may not select it silently",
+        "package_model_rule": "no new EOS or species family",
+        "why_fermi_dirac_is_not_substituted": "promoting the existing (a,y0,n_species)->(rho,p,w) kernel into a new perfect-fluid production state and route would invent a schema and model authority"
+      },
+      "base": {
+        "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+        "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+        "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e"
+      },
+      "closure_modes": [
+        "frozen",
+        "ratio",
+        "ratio_scalar",
+        "zero",
+        "phys_sqrt",
+        "phys_5w",
+        "phys_interp"
+      ],
+      "current_route_inventory": {
+        "tilted.force_and_matrix": {
+          "explicit_oracle_state": "python_oracle",
+          "outside_native_domain_state": "legacy_python_transitional",
+          "required_symbols": [
+            "th_force_and_matrix"
+          ],
+          "supported_state": "native_required"
+        },
+        "tilted.integrate": {
+          "explicit_oracle_state": "python_oracle",
+          "outside_native_domain_state": "legacy_python_transitional",
+          "required_symbols": [
+            "th_integrate"
+          ],
+          "supported_state": "native_required"
+        },
+        "tilted.rhs": {
+          "explicit_oracle_state": "python_oracle",
+          "outside_native_domain_state": "legacy_python_transitional",
+          "required_symbols": [
+            "th_rhs"
+          ],
+          "supported_state": "native_required"
+        }
+      },
+      "package_id": "BASS-RF03-MATTER-THERMO-TILT-CLOSURE-20260828-R1",
+      "preserved_conventions": {
+        "density_domain": "rho >= 0",
+        "directional_redshift": "not multiplied into the mean-scale temperature relation",
+        "finite_boost_domain": "all state components finite and |v| < 1",
+        "mean_scale": "ell=(a1*a2*a3)^(1/3)",
+        "metric_signature": "(-,+,+,+)",
+        "non_tilted_entropy_reference": "g_*s(T) T^3 ell^3 = constant",
+        "tilt_normalization": "u^a u_a = -1",
+        "tilted_temperature_caveat": "current prose requires a Gamma-aware convention but the frozen executable source does not define the required formula"
+      },
+      "schema": "bass-rf03-schema-and-route-freeze/v1",
+      "scope_conflict": {
+        "detector_path_authorized": false,
+        "detector_status": "absent at the frozen base",
+        "native_delta_builder": "the existing RF-02C builder is RF-02C-schema-specific; no RF-03 builder exists within the authorized paths",
+        "open_detector": "python tools/authority/verify_thermodynamics_authority.py"
+      },
+      "source_blobs": {
+        "_rustcore/src/kinetic/coupled.rs": "c04da90b8cabab5db0d9880c81fa7645b194ea74",
+        "_rustcore/src/kinetic/tilted_hier.rs": "dcb3bba17e7cc73606d56f873f7bef4f86ce74c3",
+        "_rustcore/src/lib.rs": "3d50866e6d492762135086bb980c893f636c8d3a",
+        "_rustcore/src/thermo/dof.rs": "801f432538c63dbd23395885e94214288e48e4cf",
+        "_rustcore/src/thermo/dof_table.rs": "a714b8d6cf1515e064f72ae6f25725dc09f50279",
+        "_rustcore/src/thermo/fd.rs": "9c1a4ef4dd1743cab30e3ebf3212edbff5d28062",
+        "bianchi/backend_policy.py": "a8b690b9f5d7494fd3822ddaae5343ad83d23831",
+        "bianchi/matter/fluid.py": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+        "bianchi/matter/tilted_integrate.py": "4323853146dd1539b757bc3daf7b1f575bedc763",
+        "bianchi/matter/tilted_rust.py": "e447ce30f80c173e69764150c329b911809af5bd",
+        "bianchi/thermo/temperature.py": "4b792b04df072446a5d046524ea5323e4237d7e4"
+      },
+      "status": "BLOCKED_UNRESOLVED_EOS_OR_MODEL_AUTHORITY",
+      "terminal_reason": "The package stop conditions require stopping when approved EOS/model/formula authority cannot be resolved from current source or implementation requires a path outside the exact scope union. Both conditions are present before numerical implementation."
+    },
+    "sha256": "fa4df23fab778cbe085b84cf8b74f29ad2a5544c964ee1045c60cc8c62d15e33"
+  },
+  "schema": "bass-rf03-authority-verification/v1",
+  "source_blobs": {
+    "bianchi/matter/fluid.py": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+    "bianchi/matter/species.py": "60a683fcdc639ae790cf6f3c723182d26940d21f",
+    "bianchi/matter/tilt_admissibility.py": "c384a87c1722bd3c6b9b7e02ea71efe7ec88b676",
+    "bianchi/thermo/temperature.py": "4b792b04df072446a5d046524ea5323e4237d7e4",
+    "compiler/validation/typeii_fixture_authority.json": "b71372faa7dde85e928802c08c831299ebe99bcd",
+    "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json": "dfee51903025b4c9d3f62f63581271bd3b6a98cb"
+  },
+  "terminal": "PASS_RF03_AUTHORITY"
+}

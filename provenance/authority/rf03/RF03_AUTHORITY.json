@@ -1,0 +1,105 @@
+{
+  "schema": "bass-rf03-production-authority/v1",
+  "authority_package": {
+    "branch": "agent/plans/rf03-authority-resolution-20260828-r2",
+    "head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
+    "package_id": "BASS-RF03-AUTHORITY-DIRECT-HANDOFF-20260828-R2",
+    "tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4"
+  },
+  "claim_boundary": {
+    "authority_terminal_on_verifier_pass": "PASS_RF03_AUTHORITY",
+    "current": "NO_PASS_RF03",
+    "performance": "NONE",
+    "scientific_promotion": "NONE"
+  },
+  "production_matter_authority": {
+    "caller_must_supply": [
+      "model_id",
+      "gamma",
+      "Omega",
+      "v"
+    ],
+    "certification_domain": {
+      "Omega": "finite and Omega >= 0",
+      "gamma": "finite and 0 < gamma <= 2",
+      "tilt": "all v_i finite and v_i v^i < 1"
+    },
+    "equation_of_state": "p = (gamma - 1) rho",
+    "force": {
+      "fixed_context": [
+        "Sigma",
+        "N",
+        "A",
+        "R",
+        "q",
+        "gamma"
+      ],
+      "python_owner": "bianchi/matter/fluid.py",
+      "python_symbols": [
+        "sources",
+        "dOmega",
+        "dv_general"
+      ],
+      "state_order": [
+        "Omega",
+        "v1",
+        "v2",
+        "v3"
+      ]
+    },
+    "jvp": {
+      "definition": "directional derivative of the exact source force with respect to [Omega,v1,v2,v3] at fixed context and gamma",
+      "finite_difference_authority": "FORBIDDEN",
+      "state_order": [
+        "Omega",
+        "v1",
+        "v2",
+        "v3"
+      ]
+    },
+    "model_id": "explicit_gamma_law_tilted_perfect_fluid_v1",
+    "python_composition_owner": "bianchi/matter/species.py:FluidSpecies",
+    "python_source_owner": "bianchi/matter/fluid.py:TiltedFluid",
+    "selection": {
+      "hidden_default_gamma": "FORBIDDEN",
+      "missing_model_id": "TYPED_FAILURE",
+      "python_fallback": "FORBIDDEN",
+      "silent_constant_w_fallback": "FORBIDDEN",
+      "surrogate_eos_substitution": "FORBIDDEN",
+      "unknown_model_id": "TYPED_FAILURE"
+    },
+    "state_order": [
+      "Omega",
+      "v1",
+      "v2",
+      "v3"
+    ]
+  },
+  "source_base": {
+    "branch": "agent/architecture/rust-first-rf02c-20260826-r1",
+    "head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
+    "tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e"
+  },
+  "source_blobs": {
+    "bianchi/matter/fluid.py": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+    "bianchi/matter/species.py": "60a683fcdc639ae790cf6f3c723182d26940d21f",
+    "bianchi/matter/tilt_admissibility.py": "c384a87c1722bd3c6b9b7e02ea71efe7ec88b676",
+    "bianchi/thermo/temperature.py": "4b792b04df072446a5d046524ea5323e4237d7e4",
+    "compiler/validation/typeii_fixture_authority.json": "b71372faa7dde85e928802c08c831299ebe99bcd",
+    "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json": "dfee51903025b4c9d3f62f63581271bd3b6a98cb"
+  },
+  "thermodynamics_boundary": {
+    "T_gamma_force_role": "EXOGENOUS_NO_FEEDBACK",
+    "T_gamma_jvp_role": "EXOGENOUS_NO_FEEDBACK",
+    "historical_typeii": {
+      "classification": "SURROGATE_REFERENCE_ONLY",
+      "paths": [
+        "compiler/validation/typeii_fixture_authority.json",
+        "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json"
+      ],
+      "production_promotion": "FORBIDDEN"
+    },
+    "non_tilted_entropy_reference": "bianchi/thermo/temperature.py",
+    "tilted_temperature_formula": "UNDEFINED_AND_NOT_AUTHORIZED"
+  }
+}
