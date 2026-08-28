@@ -1,0 +1,309 @@
+FFFFFFFFFFFFF                                                            [100%]
+=================================== FAILURES ===================================
+_____________________ test_rf03_native_symbols_are_present _____________________
+
+    def test_rf03_native_symbols_are_present() -> None:
+        native = _native()
+        required = {
+            "rf03_matter_force",
+            "rf03_matter_force_jvp",
+            "rf03_matter_integrate",
+            "rf03_tilt_invariants",
+            "RF03ModelError",
+            "RF03DomainError",
+            "RF03InputError",
+        }
+>       assert required <= set(dir(native))
+E       AssertionError: assert {'RF03DomainE...tegrate', ...} <= {'InvalidBuff...QRadial', ...}
+E         
+E         Extra items in the left set:
+E         'rf03_matter_force'
+E         'RF03DomainError'
+E         'RF03ModelError'
+E         'rf03_tilt_invariants'
+E         'rf03_matter_integrate'
+E         'rf03_matter_force_jvp'
+E         'RF03InputError'
+
+tests/rf03/test_native_matter_runtime.py:55: AssertionError
+___________________ test_force_matches_frozen_python_source ____________________
+
+    def test_force_matches_frozen_python_source() -> None:
+        state = np.array([0.37, 0.13, -0.08, 0.04], dtype=np.float64)
+        sigma, n, a, r, q = _context()
+    
+        observed = np.asarray(
+>           _native().rf03_matter_force(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                MODEL_ID, 1.31, state, sigma, n, a, r, q, 2.7255
+            ),
+            dtype=np.float64,
+        )
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'rf03_matter_force'
+
+tests/rf03/test_native_matter_runtime.py:63: AttributeError
+_____________ test_analytic_jvp_matches_jax_directional_derivative _____________
+
+    def test_analytic_jvp_matches_jax_directional_derivative() -> None:
+        import jax
+        import jax.numpy as jnp
+    
+        from bianchi.matter.fluid import TiltedFluid, dOmega, dv_general, sources
+    
+        state = np.array([0.42, -0.11, 0.06, 0.09], dtype=np.float64)
+        direction = np.array([0.07, 0.03, -0.02, 0.04], dtype=np.float64)
+        sigma, n, a, r, q = _context()
+    
+        def oracle(x):
+            fluid = TiltedFluid.of(1.27, x[0], x[1:])
+            src = sources(fluid, sigma, a)
+            return jnp.concatenate(
+                (jnp.atleast_1d(dOmega(fluid, src, q)), dv_general(fluid, src, sigma, n, a, r))
+            )
+    
+        expected_force, expected_jvp = jax.jvp(
+            oracle, (jnp.asarray(state),), (jnp.asarray(direction),)
+        )
+>       force, jvp = _native().rf03_matter_force_jvp(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            MODEL_ID, 1.27, state, direction, sigma, n, a, r, q, 1.0e4
+        )
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'rf03_matter_force_jvp'
+
+tests/rf03/test_native_matter_runtime.py:92: AttributeError
+------------------------------ Captured log call -------------------------------
+WARNING  jax._src.xla_bridge:xla_bridge.py:891 An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+_________________ test_t_gamma_is_read_only_for_force_and_jvp __________________
+
+    def test_t_gamma_is_read_only_for_force_and_jvp() -> None:
+        state = np.array([0.29, 0.08, 0.03, -0.05], dtype=np.float64)
+        direction = np.array([-0.03, 0.04, 0.01, 0.02], dtype=np.float64)
+        sigma, n, a, r, q = _context()
+        native = _native()
+    
+>       cold = native.rf03_matter_force_jvp(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            MODEL_ID, 1.4, state, direction, sigma, n, a, r, q, 1.0e-9
+        )
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'rf03_matter_force_jvp'
+
+tests/rf03/test_native_matter_runtime.py:106: AttributeError
+_ test_model_and_physical_domain_fail_typed[constant_w-1.2-state0-RF03ModelError] _
+
+model_id = 'constant_w', gamma = 1.2, state = [0.3, 0.0, 0.0, 0.0]
+error_name = 'RF03ModelError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03ModelError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+__ test_model_and_physical_domain_fail_typed[None-1.2-state1-RF03ModelError] ___
+
+model_id = None, gamma = 1.2, state = [0.3, 0.0, 0.0, 0.0]
+error_name = 'RF03ModelError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03ModelError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+_ test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-0.0-state2-RF03DomainError] _
+
+model_id = 'explicit_gamma_law_tilted_perfect_fluid_v1', gamma = 0.0
+state = [0.3, 0.0, 0.0, 0.0], error_name = 'RF03DomainError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03DomainError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+_ test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-2.01-state3-RF03DomainError] _
+
+model_id = 'explicit_gamma_law_tilted_perfect_fluid_v1', gamma = 2.01
+state = [0.3, 0.0, 0.0, 0.0], error_name = 'RF03DomainError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03DomainError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+_ test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state4-RF03DomainError] _
+
+model_id = 'explicit_gamma_law_tilted_perfect_fluid_v1', gamma = 1.2
+state = [-0.1, 0.0, 0.0, 0.0], error_name = 'RF03DomainError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03DomainError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+_ test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state5-RF03DomainError] _
+
+model_id = 'explicit_gamma_law_tilted_perfect_fluid_v1', gamma = 1.2
+state = [0.3, 1.0, 0.0, 0.0], error_name = 'RF03DomainError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03DomainError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+_ test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state6-RF03DomainError] _
+
+model_id = 'explicit_gamma_law_tilted_perfect_fluid_v1', gamma = 1.2
+state = [0.3, nan, 0.0, 0.0], error_name = 'RF03DomainError'
+
+    @pytest.mark.parametrize(
+        ("model_id", "gamma", "state", "error_name"),
+        [
+            ("constant_w", 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (None, 1.2, [0.3, 0.0, 0.0, 0.0], "RF03ModelError"),
+            (MODEL_ID, 0.0, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 2.01, [0.3, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [-0.1, 0.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, 1.0, 0.0, 0.0], "RF03DomainError"),
+            (MODEL_ID, 1.2, [0.3, np.nan, 0.0, 0.0], "RF03DomainError"),
+        ],
+    )
+    def test_model_and_physical_domain_fail_typed(model_id, gamma, state, error_name) -> None:
+        sigma, n, a, r, q = _context()
+        native = _native()
+>       error_type = getattr(native, error_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'RF03DomainError'
+
+tests/rf03/test_native_matter_runtime.py:132: AttributeError
+__________________ test_zero_tilt_known_limit_and_invariants ___________________
+
+    def test_zero_tilt_known_limit_and_invariants() -> None:
+        native = _native()
+        state = np.array([0.25, 0.0, 0.0, 0.0], dtype=np.float64)
+        zero3 = np.zeros(3, dtype=np.float64)
+        zero33 = np.zeros((3, 3), dtype=np.float64)
+        q = 0.37
+        gamma = 4.0 / 3.0
+    
+        force = np.asarray(
+>           native.rf03_matter_force(
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+                MODEL_ID, gamma, state, zero33, zero33, zero3, zero3, q, None
+            )
+        )
+E       AttributeError: module 'bianchi_rustcore' has no attribute 'rf03_matter_force'
+
+tests/rf03/test_native_matter_runtime.py:149: AttributeError
+___________ test_production_python_adapter_never_calls_source_oracle ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7e25e83cb410>
+
+    def test_production_python_adapter_never_calls_source_oracle(monkeypatch) -> None:
+        from bianchi.matter import fluid
+>       from bianchi.matter import gamma_law_rust
+E       ImportError: cannot import name 'gamma_law_rust' from 'bianchi.matter' (/tmp/bass-rf03-r4.TxQxOk/worktree/bianchi/matter/__init__.py)
+
+tests/rf03/test_native_matter_runtime.py:165: ImportError
+=========================== short test summary info ============================
+FAILED tests/rf03/test_native_matter_runtime.py::test_rf03_native_symbols_are_present
+FAILED tests/rf03/test_native_matter_runtime.py::test_force_matches_frozen_python_source
+FAILED tests/rf03/test_native_matter_runtime.py::test_analytic_jvp_matches_jax_directional_derivative
+FAILED tests/rf03/test_native_matter_runtime.py::test_t_gamma_is_read_only_for_force_and_jvp
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[constant_w-1.2-state0-RF03ModelError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[None-1.2-state1-RF03ModelError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-0.0-state2-RF03DomainError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-2.01-state3-RF03DomainError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state4-RF03DomainError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state5-RF03DomainError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_model_and_physical_domain_fail_typed[explicit_gamma_law_tilted_perfect_fluid_v1-1.2-state6-RF03DomainError]
+FAILED tests/rf03/test_native_matter_runtime.py::test_zero_tilt_known_limit_and_invariants
+FAILED tests/rf03/test_native_matter_runtime.py::test_production_python_adapter_never_calls_source_oracle
+13 failed in 1.62s

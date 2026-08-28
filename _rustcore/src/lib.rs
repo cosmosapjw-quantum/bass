@@ -15,11 +15,13 @@ use pyo3::prelude::*;
 mod core;
 mod geom;
 mod kinetic;
+mod matter;
 mod ode;
 mod python;
 mod rays;
 mod runtime;
 mod thermo;
+mod tilt;
 
 use crate::core::conventions;
 use crate::rays::{geodesic, optical, tidal};
@@ -2811,6 +2813,7 @@ fn qp_kcal_eigenvalues<'py>(
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     python::register::register_runtime(m)?;
+    python::register::register_rf03(m)?;
     m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;

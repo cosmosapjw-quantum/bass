@@ -384,6 +384,26 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("tilted.j_moment", "kin_j_moment_tilted"),
             _route("tilted.moments", "kin_moments_tilted"),
             _route("tilted.boost_shell_residual", "kin_boost_shell_residual"),
+            _route(
+                "matter.gamma_law.force",
+                "rf03_matter_force",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.force_jvp",
+                "rf03_matter_force_jvp",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.integrate",
+                "rf03_matter_integrate",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "matter.gamma_law.integrate_history",
+                "rf03_matter_integrate_history",
+                python_oracle_supported=False,
+            ),
             _route("observable.cmb_pattern_diag", "trace_rays_batch"),
             _route(
                 "mixmaster.bounce_sequence",
