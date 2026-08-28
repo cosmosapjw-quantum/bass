@@ -1,0 +1,145 @@
+{
+  "schema": "bass-rf03-phys-math-audit/v1",
+  "audit_id": "RF03-AUDIT-04-PHYS-MATH",
+  "audit_order": "1_of_2",
+  "review_round": "1_of_1",
+  "candidate": {
+    "commit": "dfd78a8d59a85ce264aa836e51fbb382777853fd",
+    "tree": "156e6a84a6e17b6538b9d24ff986aa6c5a0301f6"
+  },
+  "authority": {
+    "package_head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
+    "package_tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4",
+    "production_model_id": "explicit_gamma_law_tilted_perfect_fluid_v1",
+    "authority_blob": "221c14d917f429b2ba0d1f328b49b943ee182eaa",
+    "frozen_python_force_blob": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+    "frozen_temperature_blob": "4b792b04df072446a5d046524ea5323e4237d7e4"
+  },
+  "scope": {
+    "included": [
+      "definitions and state order",
+      "EOS and gamma domain",
+      "force signs and denominator roles",
+      "four-velocity normalization",
+      "known limits and invariant boundaries",
+      "regularity, positivity, and finite-boost domain",
+      "units and entropy-temperature reference",
+      "hidden assumptions and special cases",
+      "four bounded diagnostics and hostile mathematical mutations"
+    ],
+    "excluded_until_phase_2": [
+      "equation-to-Rust mapping",
+      "PyO3 route ownership",
+      "backend trust receipt",
+      "test implementation sufficiency"
+    ]
+  },
+  "definitions": {
+    "metric_signature": "(-,+,+,+)",
+    "state_order": [
+      "Omega",
+      "v1",
+      "v2",
+      "v3"
+    ],
+    "equation_of_state": "p=(gamma-1)*rho",
+    "certification_domain": "0<gamma<=2, Omega>=0, v_i v^i<1, all values finite",
+    "lorentz_factor": "Gamma=(1-v_i v^i)^(-1/2)",
+    "G_plus": "1+(gamma-1)*v_i v^i",
+    "G_minus": "1-(gamma-1)*v_i v^i",
+    "force_denominator_roles": "G_plus controls dOmega; G_minus controls tilt",
+    "rotation_term": "+(R cross v)",
+    "connection_term": "-[A*V2-(A dot v)*v+v cross (N*v)]",
+    "temperature_coupling": "NONE; T_gamma is exogenous read-only context"
+  },
+  "checks": [
+    {
+      "id": "PM-01",
+      "topic": "denominator positivity",
+      "evidence": "For gamma>=1, G_plus>=1; for 0<gamma<1 and V2<1, G_plus>gamma>0. For gamma<=1, G_minus>=1; for 1<gamma<=2 and V2<1, G_minus>2-gamma>=0, with strict positivity also at gamma=2 because V2<1.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-02",
+      "topic": "zero-tilt known limit",
+      "evidence": "At v=0 every velocity-force term vanishes and dOmega=Omega*(2*q-(3*gamma-2)). With gamma=4/3, q=1/2, H/H0=exp(-(1+q)*tau), and ell/ell0=exp(tau), rho/H0^2=3*(H/H0)^2*Omega has slope -4=-3*gamma. The measured slope residual is 3.255173908200959e-13.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-03",
+      "topic": "density positivity boundary",
+      "evidence": "The exact force has dOmega=Omega*F, so Omega=0 is an invariant mathematical boundary and positive exact solutions cannot cross it before a singularity. Numerical boundary handling is deferred to the code audit.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-04",
+      "topic": "tilt invariant boundaries",
+      "evidence": "Contracting dv with 2v cancels v dot (R cross v), v dot [v cross (N v)], and the paired A terms. The source d(V2)/dt contains both V2 and 1-V2 factors, so V=0 and the excluded limiting surface V=1 are invariant in exact arithmetic.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-05",
+      "topic": "four-velocity normalization",
+      "evidence": "For u^a=Gamma*(1,v) and signature (-,+,+,+), u^a u_a=Gamma^2*(-1+V2)=-1. The bounded trajectory measured max |u^a u_a+1|=4.440892098500626e-16; omitting Gamma exposes residual V2 in [0.026267878326708485,0.04409999999999999].",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-06",
+      "topic": "sign and orientation sensitivity",
+      "evidence": "The declared source uses -Sigma*v, +(R cross v), and subtracts P=A*V2-(A dot v)*v+v cross (N v). A nonsymmetric-context force/JVP sweep preserves operand order and has maxima 1.3877787807814457e-17 for both force and JVP. Flipping the +2*q expansion term gives an initial dOmega discrepancy 1.0 and slope -6 instead of -4.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-07",
+      "topic": "units and entropy reference",
+      "evidence": "Omega, v, Sigma/H, N/H, A/H, R/H, q, tau, and ell/ell0 are dimensionless in the normalized system. The separate non-tilted reference uses T in GeV and conserves g_*s(T)*T^3*ell^3; its normalized residual is at most 2.0279800061473452e-10 over T=[0.09222910644370592,0.577385404225724] GeV.",
+      "result": "PASS"
+    },
+    {
+      "id": "PM-08",
+      "topic": "thermodynamic authority boundary",
+      "evidence": "No tilted-temperature relation exists in the pinned source. The entropy curve is explicitly a non-tilted exogenous reference, and neither it nor T_gamma is mathematical input to the authorized gamma-law force/JVP.",
+      "result": "PASS"
+    }
+  ],
+  "limitations_not_defects": [
+    {
+      "id": "PM-LIM-01",
+      "classification": "IGNORE",
+      "severity": "P3",
+      "detail": "The frozen source clips |G_plus| or |G_minus| below 1e-12. This preserves the exact selected source behavior but does not authorize a new gamma->0, gamma->2, or V->1 limiting theorem."
+    },
+    {
+      "id": "PM-LIM-02",
+      "classification": "IGNORE",
+      "severity": "P3",
+      "detail": "Nonsymmetric Sigma and N are used only as an operator-orientation diagnostic. No claim that they are a physical RF-02C background is made."
+    },
+    {
+      "id": "PM-LIM-03",
+      "classification": "IGNORE",
+      "severity": "P3",
+      "detail": "At Omega=0 the formal tilt coordinate can continue to evolve although the absent species has no observable velocity. This is inherited source behavior and no zero-density tilt interpretation is claimed."
+    },
+    {
+      "id": "PM-LIM-04",
+      "classification": "IGNORE",
+      "severity": "P3",
+      "detail": "The authority permits 0<gamma<1, where pressure is negative and additional stability assumptions may be needed. RF-03 claims source-exact dynamics only, not perturbative or microphysical stability."
+    }
+  ],
+  "findings": [],
+  "finding_counts": {
+    "BLOCK_NOW": 0,
+    "FIX_SOON": 0,
+    "BACKLOG": 0,
+    "IGNORE": 4,
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 4
+  },
+  "claim_boundary": "PASS_PHYS_MATH is bounded equation/domain evidence only and is neither PASS_RF03_AUTHORITY nor PASS_RF03.",
+  "result": "PASS_PHYS_MATH",
+  "next": "PHYS_MATH_CODE"
+}

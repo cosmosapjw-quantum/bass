@@ -12,6 +12,11 @@ import pytest
 
 
 MODEL_ID = "explicit_gamma_law_tilted_perfect_fluid_v1"
+RF03_WHEEL_SHA256 = "ce4021ceaaa387acf4a4dad000016b9650b54bf115808a30d1e6bf52a6c9d114"
+RF03_SHARED_OBJECT_SHA256 = (
+    "1af2918fb9bc12c2ed02a227ed26010d24a7f9ca72ed35a1b4da4ab0c59a9bed"
+)
+RF03_SBOM_SHA256 = "ab1ab5e2d778f62f8476e55e30eb27202d4994b5bd582bc3da7093651423dc85"
 
 
 def _native():
@@ -30,6 +35,26 @@ def _context():
     a = np.array([0.04, -0.03, 0.02], dtype=np.float64)
     r = np.array([-0.02, 0.01, 0.03], dtype=np.float64)
     return sigma, n, a, r, 0.41
+
+
+def test_rf03_payload_receipt_binds_the_selected_native_build() -> None:
+    from bianchi import backend_policy as policy
+
+    receipt = policy.RF03_NATIVE_PAYLOAD
+    assert receipt.identity == "bass-rf03-native-matter-thermo-tilt-v1"
+    assert receipt.wheel_sha256 == RF03_WHEEL_SHA256
+    fingerprints = {item.relative_path: item for item in receipt.installed_files}
+    shared_object = fingerprints[
+        "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so"
+    ]
+    sbom = fingerprints[
+        "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json"
+    ]
+    assert (shared_object.size, shared_object.sha256) == (
+        3_834_016,
+        RF03_SHARED_OBJECT_SHA256,
+    )
+    assert (sbom.size, sbom.sha256) == (205_867, RF03_SBOM_SHA256)
 
 
 def _oracle_force(gamma: float, state: np.ndarray) -> np.ndarray:
