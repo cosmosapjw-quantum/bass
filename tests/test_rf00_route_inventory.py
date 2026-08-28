@@ -35,16 +35,12 @@ DIRECT_NATIVE_ROUTES = {
     "q.fast.evolve": ("qe_evolve",),
     "q.fast.reduce_det": ("qe_reduce_det",),
     "q.fast.residual_mode_b": ("qe_residual_mode_b",),
-    "q.group.classify": ("qg_classify", "rf02c_execution_identity"),
-    "q.group.curvature": ("qg_curvature", "rf02c_execution_identity"),
-    "q.group.jacobi_residual": ("qg_jacobi", "rf02c_execution_identity"),
-    "q.group.kappa": ("qg_kappa", "rf02c_execution_identity"),
-    "q.group.ricci3": ("qg_ricci3", "rf02c_execution_identity"),
-    "q.group.roundtrip": ("rf02c_execution_identity",),
-    "q.group.structure_constants": (
-        "qg_structure_constants",
-        "rf02c_execution_identity",
-    ),
+    "q.group.classify": ("qg_classify",),
+    "q.group.curvature": ("qg_curvature",),
+    "q.group.jacobi_residual": ("qg_jacobi",),
+    "q.group.kappa": ("qg_kappa",),
+    "q.group.ricci3": ("qg_ricci3",),
+    "q.group.structure_constants": ("qg_structure_constants",),
     "q.modeb.diagnostics": ("qe_diagnostics",),
     "q.modeb.evolve": ("qe_evolve",),
     "q.polstate.residual_step": ("qt_plan_from_points",),
@@ -81,11 +77,10 @@ def test_each_repaired_native_wrapper_uses_a_literal_registered_route():
             if not isinstance(node, ast.Call) or not node.args:
                 continue
             fn = node.func
-            selector_names = {"require_native", "_native_geometry_route"}
             is_require = (
-                isinstance(fn, ast.Name) and fn.id in selector_names
+                isinstance(fn, ast.Name) and fn.id == "require_native"
             ) or (
-                isinstance(fn, ast.Attribute) and fn.attr in selector_names
+                isinstance(fn, ast.Attribute) and fn.attr == "require_native"
             )
             if is_require and isinstance(node.args[0], ast.Constant):
                 observed.add(node.args[0].value)

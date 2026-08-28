@@ -80,18 +80,7 @@ jobs:
         run: |
           rustfmt --check --config skip_children=true src/lib.rs
           rustfmt --check src/ode/charts.rs
-          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
-          case "$branch" in
-            agent/architecture/rust-first-rf02c-20260826-r1|agent/architecture/rust-first-rf03-20260828-r2)
-              # Both closeout branches preserve reviewed native bytes. Clippy
-              # remains visible; rustfmt, compilation, tests, and wheel build
-              # remain blocking.
-              cargo clippy --lib --tests --locked --offline
-              ;;
-            *)
-              cargo clippy --lib --tests --locked --offline -- -D warnings
-              ;;
-          esac
+          cargo clippy --lib --tests --locked --offline -- -D warnings
           cargo test --lib --locked --offline rf02b_
           python -m maturin build --release --locked --offline --out "$RUNNER_TEMP/rf02b-wheel"
       - name: Preserve the candidate wheel for immutable R4 delta assembly

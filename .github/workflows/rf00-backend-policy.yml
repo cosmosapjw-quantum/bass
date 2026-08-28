@@ -105,18 +105,7 @@ jobs:
           CARGO_NET_OFFLINE: "true"
         run: |
           cargo fmt --all -- --check
-          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
-          case "$branch" in
-            agent/architecture/rust-first-rf02c-20260826-r1|agent/architecture/rust-first-rf03-20260828-r2)
-              # Both closeout branches preserve reviewed native bytes. Clippy
-              # remains visible; rustfmt, compilation, tests, and wheel build
-              # remain blocking.
-              cargo clippy --workspace --all-targets --locked --offline
-              ;;
-            *)
-              cargo clippy --workspace --all-targets --locked --offline -- -D warnings
-              ;;
-          esac
+          cargo clippy --workspace --all-targets --locked --offline -- -D warnings
           cargo test --workspace --locked --offline
       - name: Build locked native wheel and resolve root package
         shell: bash

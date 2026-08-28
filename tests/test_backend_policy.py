@@ -15,7 +15,6 @@ import pytest
 
 from bianchi import backend
 from bianchi import backend_policy as policy
-from bianchi.q.geometry_identity import geometry_route_identity
 
 
 CAPABILITY_FIELDS = (
@@ -49,7 +48,6 @@ def _native_module(**symbols):
     extension_suffix = sysconfig.get_config_var("EXT_SUFFIX") or ".so"
     module.__file__ = f"/proof-fixture/bianchi_rustcore{extension_suffix}"
     module.rayon_thread_pool_size = lambda: 1
-    module.rf02c_execution_identity = lambda: json.dumps(geometry_route_identity())
     for name, value in symbols.items():
         setattr(module, name, value)
     return module

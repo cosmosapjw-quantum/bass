@@ -1,9 +1,7 @@
 """Adversarial closure for RF-00 native identity and Mode-B routing."""
 from __future__ import annotations
 
-import base64
 import hashlib
-import json
 from pathlib import Path
 import sysconfig
 from types import ModuleType, SimpleNamespace
@@ -12,7 +10,6 @@ import numpy as np
 import pytest
 
 from bianchi import backend_policy as policy
-from bianchi.q.geometry_identity import geometry_route_identity
 from bianchi.q import polstate
 
 
@@ -70,7 +67,6 @@ def _native_module(**symbols):
     module = ModuleType(policy.NATIVE_MODULE_NAME)
     module.__file__ = f"/proof/bianchi_rustcore{_extension_suffix()}"
     module.rayon_thread_pool_size = lambda: 1
-    module.rf02c_execution_identity = lambda: json.dumps(geometry_route_identity())
     for name, value in symbols.items():
         setattr(module, name, value)
     return module
@@ -153,52 +149,12 @@ def test_r2_capability_binds_loaded_so_to_distribution_owned_file(
     owned.write_bytes(payload)
     shadow.write_bytes(payload)
     digest = hashlib.sha256(payload).hexdigest()
-    metadata_relative = "bianchi_rustcore-0.1.0.dist-info/METADATA"
-    metadata_path = tmp_path / "distribution" / metadata_relative
-    metadata_path.parent.mkdir(parents=True)
-    metadata_payload = b"Name: bianchi-rustcore\nVersion: 0.1.0\n"
-    metadata_path.write_bytes(metadata_payload)
-    metadata_digest = hashlib.sha256(metadata_payload).hexdigest()
-    wheel_digest = hashlib.sha256(b"synthetic-r2-wheel").hexdigest()
-
-    def record_digest(value: str) -> str:
-        return base64.urlsafe_b64encode(bytes.fromhex(value)).decode().rstrip("=")
-
-    record_relative = "bianchi_rustcore-0.1.0.dist-info/RECORD"
-    record_path = tmp_path / "distribution" / record_relative
-    record_path.write_text(
-        "\n".join(
-            (
-                f"{relative},sha256={record_digest(digest)},{len(payload)}",
-                f"{metadata_relative},sha256={record_digest(metadata_digest)},{len(metadata_payload)}",
-            )
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
-    receipt = policy._NativePayloadReceipt(
-        identity="rf01_r4_loaded_distribution_file_fingerprint",
-        wheel_sha256=wheel_digest,
-        installed_files=(
-            policy._NativeInstalledFile(relative, len(payload), digest),
-            policy._NativeInstalledFile(
-                metadata_relative,
-                len(metadata_payload),
-                metadata_digest,
-            ),
-        ),
-    )
 
     class Distribution:
         def locate_file(self, name):
             return tmp_path / "distribution" / name
 
-        def read_text(self, name):
-            if name == "direct_url.json":
-                return json.dumps(
-                    {"archive_info": {"hashes": {"sha256": wheel_digest}}}
-                )
+        def read_text(self, _name):
             return None
 
     monkeypatch.setattr(policy.metadata, "distribution", lambda _name: Distribution())
@@ -209,8 +165,8 @@ def test_r2_capability_binds_loaded_so_to_distribution_owned_file(
     )
     monkeypatch.setattr(
         policy,
-        "_TRUSTED_NATIVE_PAYLOADS",
-        (receipt,),
+        "_REFERENCE_NATIVE_INSTALLED_FILES",
+        ((relative, len(payload), digest),),
     )
 
     active = {"origin": shadow}
