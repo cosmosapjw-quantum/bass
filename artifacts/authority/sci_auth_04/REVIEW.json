@@ -1,0 +1,29 @@
+{
+  "schema": "bass-sci-auth-04-review-evidence/v1",
+  "work_unit": "SCI-AUTH-04",
+  "implementation_commit": "6de607a1ac2a76de2c098e706b6a59d0b258c284",
+  "implementation_tree": "24ccc089f44efef9f24d36c4c432e12384bd6fee",
+  "fresh_context_review": {
+    "mode": "READ_ONLY_P0_P1",
+    "initial_verdict": "BLOCKED_P0_P1",
+    "reproduced_finding": "An unknown top-level scientific_promotion=true field was ignored and received PASS.",
+    "severity": "P1"
+  },
+  "repair": {
+    "budget_used": 1,
+    "budget_max": 1,
+    "scope": [
+      "tools/authority/verify_formula_scope.py",
+      "tests/authority/test_formula_scope.py"
+    ],
+    "change": "Require the exact top-level schema and reject added claim-bearing fields.",
+    "hostile_result": "OVERBROAD_SCOPE"
+  },
+  "differential_re_review": {
+    "mode": "READ_ONLY_REPAIRED_DELTA_ONLY",
+    "verdict": "PASS_DIFFERENTIAL",
+    "canonical_validator": "PASS_SCI_AUTH_04_VALIDATOR",
+    "focused_tests": "6 passed"
+  },
+  "remaining_p0_p1": []
+}
