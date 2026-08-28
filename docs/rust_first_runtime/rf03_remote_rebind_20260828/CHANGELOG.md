@@ -1,54 +1,49 @@
-# RF-03 Remote Rebind Change Log
+# R4 changes against bootstrap 5c25431474fc10a151a2cef8a95c6b77d0e807f8
 
-## Observed failure
+## Reproduced defects
 
-The previous local handoff pinned:
+1. R3 used `text=True` and `.stdout.strip()` for both metadata and file content.
+   This removes final newlines and can convert CRLF to LF. The required raw
+   digest then fails although the Git blob is unchanged. The old validator was
+   imported byte-for-byte (blob cb96f7d65ef45e43456e40264fadc1d1c5cc94ad).
+2. After a diagnostic raw-only repair, the next child invocation fails with
+   `FAIL: R1 package moved`. The immutable R2 validator compares the moving R1
+   branch tip to historical b7cda09d..., but publishing the earlier bootstrap
+   already advanced that branch to 5c254314.... Both defects were reproduced
+   with real Git subprocesses in explicitly synthetic repositories.
 
-```text
-ref: b7cda09d337906c17821a2b815032c985ff86bdf
-transport: ZIP + sidecar
-```
+## Repair
 
-That tree contains the historical R1 package but not the R2 ZIP/sidecar. Codex
-correctly stopped rather than guessing.
+Split raw byte reads from metadata-line decoding. Use `git cat-file blob`
+without text conversions, `write_bytes`, and the original six raw hashes.
+Use `sys.executable` for the unchanged original R2 offline checker.
 
-## Root cause
+Explicitly supersede ONLY R2's live identity-check entry with the R4 equivalent:
+exact RF-02C branch/head/tree, exact R2 branch/head/tree/index, all six source
+blob identities, and historical R1 commit b7cda09d... / tree 1eba9fc7....
+R1's moving branch is no longer mistaken for its historical input object.
+This is not a skipped gate or a normalized expected digest. R2's original
+manifest, semantic checker, source hashes, authority contract and bytes remain
+unchanged. Do not edit or rewrite the frozen R2 package to make a test pass.
 
-The durable R2 authority package exists on a different branch and uses a
-different canonical transport:
+Materialization now retains an explicitly requested NEW directory. Existing
+paths are refused, not deleted. No trap removes the handoff before it is read.
+The prompt names the immutable R1 context path and overrides all old bootstrap
+and nested-live commands. Source/implementation scope stays unchanged.
 
-```text
-branch: agent/plans/rf03-authority-resolution-20260828-r2
-head:   55335d3817a82da7e0f9bf24ef7632a2533645d3
-tree:   7c02689430d01abdf998c5b7ab1c5a6eb48859f4
-PR:     #39
-format: DIRECT_TEXT_FILES
-index:  docs/rust_first_runtime/rf03_authority_resolution_20260828/PACKAGE_INDEX.json
-path:   docs/rust_first_runtime/rf03_authority_resolution_20260828/direct
-```
+## Verification boundaries
 
-`PACKAGE_INDEX.json` explicitly marks the intermediate multipart/ZIP transport
-as `NONCANONICAL_DO_NOT_EXECUTE`.
+16 unittest methods passed, including nine raw-byte edge cases, full synthetic
+Git intake, advanced historical branch, mutated digest, wrong source/tree/index,
+original R2 semantic rejection, interpreter selection, and preservation checks.
+The original failure and raw-only follow-on failure are stored in evidence/.
+The source-code tests use synthetic source bytes and do not certify physics.
+No authenticated production-clone `--live`, RF03-AUTH-01, native build, or
+RF-03 implementation was run here. Remote publication is recorded separately
+by the exact delivery receipt after the commit exists.
 
-## Corrections in this package
+## Unchanged boundaries
 
-1. Rebind execution to the exact immutable R2 head/tree.
-2. Use `git show` to materialize six direct text files; do not download,
-   assemble, or search for a ZIP.
-3. Verify every direct file against the SHA-256 values in the R2 package index.
-4. Run the R2 package's own manifest and offline/live validator.
-5. Create a new isolated RF-03 R2 worktree from the exact RF-02C terminal base.
-6. Preserve the prior blocker worktree and the canonical root's unrelated
-   untracked files.
-7. Continue from `RF03-AUTH-01` to genuine RED and implementation in the same
-   run when authority validation passes.
-8. Preserve `NO PASS_RF03 CLAIM` until full terminal proof.
-
-## Not changed
-
-- RF-02C source, evidence, PR #36, or branch.
-- R2 authority contract or scientific meaning.
-- Production Rust/Python source.
-- EOS, coefficients, signs, tolerances, state order, or tilted-temperature
-  boundary.
-- PR #37 or PR #39 merge/ready state.
+No main/RF-02C/R2-authority source mutation, EOS or temperature-law change,
+production implementation, tolerance change, scientific promotion, performance
+claim, BASS-12--15 optimization import, or non-mock merge/ready transition.

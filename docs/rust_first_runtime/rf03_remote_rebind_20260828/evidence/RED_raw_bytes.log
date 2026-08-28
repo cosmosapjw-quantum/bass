@@ -1,0 +1,28 @@
+test_live_with_advanced_legacy_ref (__main__.LiveRegression.test_live_with_advanced_legacy_ref) ... FAIL
+
+======================================================================
+FAIL: test_live_with_advanced_legacy_ref (__main__.LiveRegression.test_live_with_advanced_legacy_ref)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/rf03_validator_repair_20260828_r4/package/tests/test_validate_rebind.py", line 143, in test_live_with_advanced_legacy_ref
+    self.mod.validate_live(self.fx.repo)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/mnt/data/rf03_validator_repair_20260828_r4/old_bootstrap/validate_rebind.py", line 115, in validate_live
+    fail("remote direct file digest mismatch: " + name)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/rf03_validator_repair_20260828_r4/old_bootstrap/validate_rebind.py", line 33, in fail
+    raise SystemExit("FAIL: " + message)
+SystemExit: FAIL: remote direct file digest mismatch: WORK_UNITS.json
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/data/rf03_validator_repair_20260828_r4/package/tests/test_validate_rebind.py", line 145, in test_live_with_advanced_legacy_ref
+    self.fail(str(exc))
+    ~~~~~~~~~^^^^^^^^^^
+AssertionError: FAIL: remote direct file digest mismatch: WORK_UNITS.json
+
+----------------------------------------------------------------------
+Ran 1 test in 0.063s
+
+FAILED (failures=1)

@@ -1,0 +1,28 @@
+test_live_with_advanced_legacy_ref (__main__.LiveRegression.test_live_with_advanced_legacy_ref) ... FAIL
+
+======================================================================
+FAIL: test_live_with_advanced_legacy_ref (__main__.LiveRegression.test_live_with_advanced_legacy_ref)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/rf03_validator_repair_20260828_r4/package/tests/test_validate_rebind.py", line 143, in test_live_with_advanced_legacy_ref
+    self.mod.validate_live(self.fx.repo)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/mnt/data/rf03_validator_repair_20260828_r4/old_bootstrap/diagnostic_raw_only.py", line 124, in validate_live
+    fail("direct package validator: " + result.stderr.strip())
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/rf03_validator_repair_20260828_r4/old_bootstrap/diagnostic_raw_only.py", line 33, in fail
+    raise SystemExit("FAIL: " + message)
+SystemExit: FAIL: direct package validator: FAIL: R1 package moved
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/data/rf03_validator_repair_20260828_r4/package/tests/test_validate_rebind.py", line 145, in test_live_with_advanced_legacy_ref
+    self.fail(str(exc))
+    ~~~~~~~~~^^^^^^^^^^
+AssertionError: FAIL: direct package validator: FAIL: R1 package moved
+
+----------------------------------------------------------------------
+Ran 1 test in 0.874s
+
+FAILED (failures=1)

@@ -1,37 +1,33 @@
 {
+  "schema": "bass-rf03-current-package-pointer/v2",
+  "repository": "cosmosapjw-quantum/bass",
+  "status": "R4_VALIDATOR_REPAIR_REQUIRED",
+  "claim": "NO_PASS_RF03_CLAIM",
   "bootstrap_rebind": {
     "branch": "agent/plans/rf03-matter-thermo-tilt-closure-20260828-r1",
     "path": "docs/rust_first_runtime/rf03_remote_rebind_20260828",
-    "purpose": "Correct the observed R1/ZIP state divergence and point Codex to the immutable R2 direct package."
+    "package_id": "BASS-RF03-REMOTE-REBIND-20260828-R4",
+    "supersedes_head": "5c25431474fc10a151a2cef8a95c6b77d0e807f8",
+    "pin_note": "Use the external exact delivery receipt for this bootstrap commit/tree; no self-referential hash."
   },
   "canonical_authority_package": {
     "branch": "agent/plans/rf03-authority-resolution-20260828-r2",
-    "direct_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/direct",
     "head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
-    "index_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/PACKAGE_INDEX.json",
+    "tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4",
     "pull_request": 39,
     "transport": "DIRECT_TEXT_FILES",
-    "tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4"
+    "index_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/PACKAGE_INDEX.json",
+    "direct_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/direct"
   },
-  "claim": "NO_PASS_RF03_CLAIM",
+  "validation_entry": "validate_rebind.py --live --repo REPO --materialize NEW_DIRECTORY",
+  "original_r2_offline_checker": "RUN_UNCHANGED",
+  "original_r2_live_checker": "SUPERSEDED_BY_COMPLETE_R4_IDENTITY_CHECKS",
   "implementation": {
+    "base_branch": "agent/architecture/rust-first-rf02c-20260826-r1",
     "base_head": "dfa17457d402bd441d3fdf786c2d79c529512ee5",
     "base_tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e",
     "branch": "agent/architecture/rust-first-rf03-20260828-r2",
-    "exact_next_action": "RF03-AUTH-01"
-  },
-  "repository": "cosmosapjw-quantum/bass",
-  "schema": "bass-rf03-current-package-pointer/v1",
-  "status": "R2_DIRECT_PACKAGE_REQUIRED",
-  "supersedes": [
-    {
-      "branch": "agent/plans/rf03-matter-thermo-tilt-closure-20260828-r1",
-      "head": "b7cda09d337906c17821a2b815032c985ff86bdf",
-      "reason": "Historical R1 scientific package is context only, not current execution authority."
-    },
-    {
-      "reason": "R2 PACKAGE_INDEX marks it noncanonical and non-executable.",
-      "transport": "ZIP_OR_MULTIPART_BINARY"
-    }
-  ]
+    "exact_next_action": "RF03-AUTH-01",
+    "pull_request_base": "agent/architecture/rust-first-rf02c-20260826-r1"
+  }
 }

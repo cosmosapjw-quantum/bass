@@ -1,6 +1,17 @@
 {
+  "schema": "bass-rf03-remote-rebind/v2",
+  "package_id": "BASS-RF03-REMOTE-REBIND-20260828-R4",
+  "repository": "cosmosapjw-quantum/bass",
+  "revision": "R4_RAW_BYTES_AND_HISTORICAL_R1_PIN",
+  "supersedes_bootstrap_head": "5c25431474fc10a151a2cef8a95c6b77d0e807f8",
   "canonical_authority_package": {
     "branch": "agent/plans/rf03-authority-resolution-20260828-r2",
+    "head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
+    "tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4",
+    "pull_request": 39,
+    "transport": "DIRECT_TEXT_FILES",
+    "index_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/PACKAGE_INDEX.json",
+    "index_blob": "5b358d41d7023e71a4e60fd9bff4f643f9827e4a",
     "direct_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/direct",
     "files_sha256": {
       "AUTHORITY_CONTRACT.json": "81f2207bcbfa8ee01713c0b099383ab70bd9d929fd3d0a16813c4da3b3906ab5",
@@ -9,20 +20,26 @@
       "README.md": "e61a5845de87b80127a3b92155c1e9afab95b9cc8d1c2f6cb9ab07dd08964c4a",
       "WORK_UNITS.json": "cfd27422c2c9353a97bd257a5de33a4a2a5781e3ad39266c1bc3bd6b65b4fd82",
       "validate_package.py": "caf503153085c8ad2900dd80ef26aa905b8cb8bf7e8541ebd51a7736466c80f8"
-    },
-    "head": "55335d3817a82da7e0f9bf24ef7632a2533645d3",
-    "index_path": "docs/rust_first_runtime/rf03_authority_resolution_20260828/PACKAGE_INDEX.json",
-    "pull_request": 39,
-    "state": "OPEN_DRAFT_UNMERGED",
-    "transport": "DIRECT_TEXT_FILES",
-    "tree": "7c02689430d01abdf998c5b7ab1c5a6eb48859f4"
+    }
   },
-  "claim_boundary": {
-    "authority_terminal": "PASS_RF03_AUTHORITY",
-    "current": "NO_PASS_RF03_CLAIM",
-    "full_terminal": "PASS_RF03",
-    "performance": "NONE",
-    "scientific_promotion": "NONE"
+  "validator_repair": {
+    "raw_reader": "git cat-file blob; subprocess binary stdout; Path.write_bytes",
+    "raw_normalization": "NONE",
+    "r2_offline_checker": "RUN_UNCHANGED",
+    "r2_live_replacement": "R4_EQUIVALENT_IDENTITY_CHECKS_WITH_HISTORICAL_R1_PIN",
+    "historical_r1_head": "b7cda09d337906c17821a2b815032c985ff86bdf",
+    "historical_r1_tree": "1eba9fc7f4ba8832545c403ca4ce92d81bcb8915",
+    "moving_r1_branch_role": "NOT_AN_AUTHORITY_PIN; bootstrap publication may advance it",
+    "source_blobs": {
+      "bianchi/matter/fluid.py": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+      "bianchi/matter/species.py": "60a683fcdc639ae790cf6f3c723182d26940d21f",
+      "bianchi/matter/tilt_admissibility.py": "c384a87c1722bd3c6b9b7e02ea71efe7ec88b676",
+      "bianchi/thermo/temperature.py": "4b792b04df072446a5d046524ea5323e4237d7e4",
+      "compiler/validation/typeii_fixture_authority.json": "b71372faa7dde85e928802c08c831299ebe99bcd",
+      "runtime/rust/typeii/tests/FIXTURE_PROVENANCE.json": "dfee51903025b4c9d3f62f63581271bd3b6a98cb"
+    },
+    "child_interpreter": "sys.executable",
+    "authority_contract_and_original_file_hashes_changed": false
   },
   "implementation": {
     "base_branch": "agent/architecture/rust-first-rf02c-20260826-r1",
@@ -30,28 +47,20 @@
     "base_tree": "9fc67fb0ba10e091e25a14d7e1fac88b77a0241e",
     "branch": "agent/architecture/rust-first-rf03-20260828-r2",
     "exact_next_action": "RF03-AUTH-01",
-    "worktree_rule": "Use a new isolated worktree. Do not use the canonical root with pre-existing untracked files."
+    "pull_request_base": "agent/architecture/rust-first-rf02c-20260826-r1"
+  },
+  "claim_boundary": {
+    "current": "NO_PASS_RF03_CLAIM",
+    "bootstrap_validation": "IDENTITY_ONLY",
+    "authority_terminal": "PASS_RF03_AUTHORITY",
+    "full_terminal": "PASS_RF03",
+    "performance": "NONE",
+    "scientific_promotion": "NONE"
   },
   "local_only_remaining": [
-    "fetch and byte-verify the exact R2 direct package",
-    "create or safely resume the exact RF-03 R2 implementation worktree",
-    "land RF03-AUTH-01 authority declaration/verifier/test/receipt",
-    "run authority verifier and focused test",
-    "continue in the same run to genuine RED, implementation, bounded proof/audit, native evidence, push, and one draft implementation PR"
-  ],
-  "observed_blocker": {
-    "cause": "The prior handoff pinned the historical R1 head and expected a ZIP/sidecar that do not exist at that tree.",
-    "preserved_local_state": "Canonical tracked/staged state was clean; existing untracked files and prior RF-03 worktree were preserved.",
-    "verdict": "BLOCKED_BY_STATE_DIVERGENCE"
-  },
-  "package_id": "BASS-RF03-REMOTE-REBIND-20260828-R3",
-  "repository": "cosmosapjw-quantum/bass",
-  "revision": "R3_EXACT_R2_DIRECT_TEXT_REBIND",
-  "schema": "bass-rf03-remote-rebind/v1",
-  "superseded_inputs": {
-    "forbidden_transport": "ZIP_OR_MULTIPART_BINARY",
-    "r1_branch": "agent/plans/rf03-matter-thermo-tilt-closure-20260828-r1",
-    "r1_head": "b7cda09d337906c17821a2b815032c985ff86bdf",
-    "rule": "Do not search for, assemble, or execute a ZIP/sidecar from the R1 tree."
-  }
+    "authenticated production-clone intake using this R4 validator",
+    "isolated R2 implementation worktree from exact RF-02C base",
+    "RF03-AUTH-01 then genuine RF-03 RED, implementation, bounded audits and native evidence",
+    "ordinary push and one draft implementation PR; no merge or ready transition"
+  ]
 }
