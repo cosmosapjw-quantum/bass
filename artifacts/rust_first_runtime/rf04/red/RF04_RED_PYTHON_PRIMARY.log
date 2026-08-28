@@ -1,0 +1,167 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+__________ test_rf04_frozen_native_symbols_and_typed_exceptions_exist __________
+
+    def test_rf04_frozen_native_symbols_and_typed_exceptions_exist() -> None:
+>       native = _native()
+                 ^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_kinetic_contract.py:46: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x71d5a4ac00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+________ test_rf04_execution_identity_is_canonical_and_authority_bound _________
+
+    def test_rf04_execution_identity_is_canonical_and_authority_bound() -> None:
+>       raw = _native().rf04_typeii_execution_identity_v1()
+              ^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_kinetic_contract.py:46: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x71d5a4ac00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+______________ test_rf04_backend_routes_are_native_only_and_exact ______________
+
+    def test_rf04_backend_routes_are_native_only_and_exact() -> None:
+        from bianchi import backend_policy
+    
+        for route_id, symbols in ROUTES.items():
+>           capability = backend_policy.ROUTE_CAPABILITIES[route_id]
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'kinetic.typeii.execution_identity_v1'
+
+tests/rf04/test_kinetic_contract.py:153: KeyError
+____________ test_rf04_public_python_routes_are_thin_native_owners _____________
+
+    def test_rf04_public_python_routes_are_thin_native_owners() -> None:
+>       from bianchi import kinetic
+E       ImportError: cannot import name 'kinetic' from 'bianchi' (/tmp/bass-rf04-20260829.VJ09sG/worktree/bianchi/__init__.py)
+
+tests/rf04/test_kinetic_contract.py:163: ImportError
+_____ test_rf04_scalar_trajectory_has_exact_schema_and_bounded_diagnostics _____
+
+    def test_rf04_scalar_trajectory_has_exact_schema_and_bounded_diagnostics() -> None:
+>       result = _trajectory(np.ones(6, dtype=np.float64))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_kinetic_contract.py:84: in _trajectory
+    return _native().rf04_typeii_trajectory_v1(
+           ^^^^^^^^^
+tests/rf04/test_kinetic_contract.py:46: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x71d5a4ac00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_____________ test_rf04_polarized_iq_uv_capability_stays_physical ______________
+
+    def test_rf04_polarized_iq_uv_capability_stays_physical() -> None:
+        directions, _ = _six_point_grid()
+        initial = _physical_unpolarized_state(directions)
+>       result = _trajectory(initial, carrier="polarized_rank9_v1")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_kinetic_contract.py:84: in _trajectory
+    return _native().rf04_typeii_trajectory_v1(
+           ^^^^^^^^^
+tests/rf04/test_kinetic_contract.py:46: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x71d5a4ac00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+___________ test_rf04_batch_preserves_input_order_and_success_shape ____________
+
+    def test_rf04_batch_preserves_input_order_and_success_shape() -> None:
+>       native = _native()
+                 ^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_kinetic_contract.py:46: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x71d5a4ac00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_frozen_native_symbols_and_typed_exceptions_exist
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_execution_identity_is_canonical_and_authority_bound
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_backend_routes_are_native_only_and_exact
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_public_python_routes_are_thin_native_owners
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_scalar_trajectory_has_exact_schema_and_bounded_diagnostics
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_polarized_iq_uv_capability_stays_physical
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_batch_preserves_input_order_and_success_shape
+7 failed in 0.17s

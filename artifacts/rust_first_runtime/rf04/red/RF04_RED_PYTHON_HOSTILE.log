@@ -1,0 +1,267 @@
+FFFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+_____________________ test_rate_dual_mutation_is_detected ______________________
+
+    def test_rate_dual_mutation_is_detected() -> None:
+        directions, weights = _six_point_grid()
+        v = 0.1
+        axis = 1
+        right = _scalar_equilibrium(directions, v, axis)
+>       result = _trajectory(right, "scalar_intensity_v1", "fixed_grid_ap_corrected_v1", v=v)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_mutations.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:24: in _trajectory
+    return _native().rf04_typeii_trajectory_v1(
+           ^^^^^^^^^
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+________________ test_projector_connection_mutation_is_detected ________________
+
+    def test_projector_connection_mutation_is_detected() -> None:
+>       result = _trajectory(
+            np.asarray([0.2, 0.3, 0.5, 0.7, 0.9, 1.1]),
+            "scalar_intensity_v1",
+            "paired_rest_to_normal_reference_v1",
+        )
+
+tests/rf04/test_mutations.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:24: in _trajectory
+    return _native().rf04_typeii_trajectory_v1(
+           ^^^^^^^^^
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+____________ test_fixed_grid_route_conflation_mutation_is_detected _____________
+
+    def test_fixed_grid_route_conflation_mutation_is_detected() -> None:
+        directions, _ = _six_point_grid()
+        equilibrium = _scalar_equilibrium(directions, 0.1, 1)
+>       raw = _trajectory(equilibrium, "scalar_intensity_v1", "fixed_grid_raw_v1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_mutations.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:24: in _trajectory
+    return _native().rf04_typeii_trajectory_v1(
+           ^^^^^^^^^
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+__________ test_nonnormal_global_error_overclaim_mutation_is_detected __________
+
+    def test_nonnormal_global_error_overclaim_mutation_is_detected() -> None:
+>       identity = json.loads(_native().rf04_typeii_execution_identity_v1())
+                              ^^^^^^^^^
+
+tests/rf04/test_mutations.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_ test_unsupported_carrier_or_route_fails_closed[stokes4_silent_projection-paired_rest_to_normal_reference_v1] _
+
+carrier = 'stokes4_silent_projection'
+route = 'paired_rest_to_normal_reference_v1'
+
+    @pytest.mark.parametrize(
+        "carrier,route",
+        [
+            ("stokes4_silent_projection", "paired_rest_to_normal_reference_v1"),
+            ("scalar_intensity_v1", "fixed_grid_claimed_ap_without_correction"),
+        ],
+    )
+    def test_unsupported_carrier_or_route_fails_closed(carrier: str, route: str) -> None:
+        initial = np.ones(6 if carrier == "scalar_intensity_v1" else 24)
+>       with pytest.raises(_native().RF04CapabilityError) as error:
+                           ^^^^^^^^^
+
+tests/rf04/test_mutations.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_ test_unsupported_carrier_or_route_fails_closed[scalar_intensity_v1-fixed_grid_claimed_ap_without_correction] _
+
+carrier = 'scalar_intensity_v1'
+route = 'fixed_grid_claimed_ap_without_correction'
+
+    @pytest.mark.parametrize(
+        "carrier,route",
+        [
+            ("stokes4_silent_projection", "paired_rest_to_normal_reference_v1"),
+            ("scalar_intensity_v1", "fixed_grid_claimed_ap_without_correction"),
+        ],
+    )
+    def test_unsupported_carrier_or_route_fails_closed(carrier: str, route: str) -> None:
+        initial = np.ones(6 if carrier == "scalar_intensity_v1" else 24)
+>       with pytest.raises(_native().RF04CapabilityError) as error:
+                           ^^^^^^^^^
+
+tests/rf04/test_mutations.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+___________ test_forbidden_legacy_substitution_mutation_is_detected ____________
+
+    def test_forbidden_legacy_substitution_mutation_is_detected() -> None:
+>       adapter = Path("_rustcore/src/python/rf04_typeii.rs").read_text(encoding="utf-8")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_mutations.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/pathlib.py:1029: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('_rustcore/src/python/rf04_typeii.rs'), mode = 'r'
+buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '_rustcore/src/python/rf04_typeii.rs'
+
+/usr/lib/python3.12/pathlib.py:1015: FileNotFoundError
+___ test_polarized_nonphysical_member_fails_closed_without_silent_projection ___
+
+    def test_polarized_nonphysical_member_fails_closed_without_silent_projection() -> None:
+        directions, _ = _six_point_grid()
+        physical = _physical_unpolarized_state(directions)
+        nonphysical = physical.copy()
+        nonphysical[0] += 0.25
+>       with pytest.raises(_native().RF04PhysicalDomainError) as error:
+                           ^^^^^^^^^
+
+tests/rf04/test_mutations.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/rf04/test_mutations.py:18: in _native
+    return importlib.import_module("bianchi_rustcore")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'bianchi_rustcore', import_ = <function _gcd_import at 0x7f2f6afa40e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'bianchi_rustcore'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/rf04/test_mutations.py::test_rate_dual_mutation_is_detected - Mo...
+FAILED tests/rf04/test_mutations.py::test_projector_connection_mutation_is_detected
+FAILED tests/rf04/test_mutations.py::test_fixed_grid_route_conflation_mutation_is_detected
+FAILED tests/rf04/test_mutations.py::test_nonnormal_global_error_overclaim_mutation_is_detected
+FAILED tests/rf04/test_mutations.py::test_unsupported_carrier_or_route_fails_closed[stokes4_silent_projection-paired_rest_to_normal_reference_v1]
+FAILED tests/rf04/test_mutations.py::test_unsupported_carrier_or_route_fails_closed[scalar_intensity_v1-fixed_grid_claimed_ap_without_correction]
+FAILED tests/rf04/test_mutations.py::test_forbidden_legacy_substitution_mutation_is_detected
+FAILED tests/rf04/test_mutations.py::test_polarized_nonphysical_member_fails_closed_without_silent_projection
+8 failed, 7 deselected in 0.17s

@@ -28,3 +28,6 @@ pub mod tilted_terms;
 pub mod transport;
 pub mod typev;
 pub mod viscous;
+
+#[cfg(test)]
+mod rf04_contract_tests;

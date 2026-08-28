@@ -1,0 +1,108 @@
+{
+  "base": {
+    "head": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+    "tree": "bb743717e8115821d72268d8384dc5cc7cc11975"
+  },
+  "blocker": {
+    "classification": "BLOCKED_SOURCE_CONTRACT_POLARIZED_TRAJECTORY_REMAPPING_UNDERSPECIFIED",
+    "gate": "RF04-GREEN-02",
+    "reason": "The frozen public schema requires a successful polarized_rank9_v1 trajectory on a fixed D=9*M history, but it supplies no characteristic substep policy, angular remap stencil/weights, remap option identity, evolved-direction state, or final-direction result. The frozen polarized Liouville donor explicitly stops before angular remapping and collision composition and requires a substeps argument. The frozen remap donor requires caller-selected source stencil weights and RemapOptions. Selecting any of those missing values would invent a grid, tolerance, or composition contract forbidden by the handoff.",
+    "scientific_result_invalidated": false,
+    "smallest_authority_needed": [
+      "Freeze the polarized characteristic substep policy or policy ID.",
+      "Freeze the per-step Lagrangian-to-target angular remap stencil construction and weights, or explicitly change the result to carry evolved directions.",
+      "Freeze the RemapOptions identity or explicitly bind the existing donor default.",
+      "Freeze the Liouville/remap/collision/Kato composition order for polarized_rank9_v1.",
+      "State whether unsupported polarized trajectory is allowed despite polarized_rank9_v1 being listed as an allowed trajectory carrier."
+    ],
+    "unsafe_substitutions_rejected": [
+      "componentwise reuse of the scalar transport law for rank-9 polarization",
+      "silent omission of angular remapping or screen transport",
+      "ad-hoc fixed substep count",
+      "ad-hoc nearest-neighbor or convex stencil",
+      "silent projection of nonphysical rank-9 input",
+      "Python, qe_evolve, qe_ensemble, qx_*, or qp_* production fallback"
+    ]
+  },
+  "claim": "NO_PASS_RF04",
+  "control": {
+    "head": "f18e491f19f45accc8c87eb56b4a24f15a8a3d6c",
+    "tree": "3fd8201a3cb15bf8d882dd28d37bf0c31e8af7e0"
+  },
+  "donor_evidence": {
+    "polarized_liouville": {
+      "blob_sha1": "e068187cdd52aff72b3958565e36e597a80b6a7a",
+      "path": "runtime/rust/typeii/typeii_polarized_liouville.rs",
+      "scope_statement_lines": [
+        3,
+        5
+      ],
+      "transport_typeii_characteristic_line": 558,
+      "requires_substeps": true
+    },
+    "polarized_remap": {
+      "blob_sha1": "6ecaf7e9067c125ab06812e520bb741c830a32ed",
+      "path": "runtime/rust/typeii/typeii_polarized_remap.rs",
+      "remap_convex_packed_line": 359,
+      "requires_options": true,
+      "requires_stencil_weights": true
+    },
+    "polarized_runtime_physical": {
+      "blob_sha1": "03684d7a9ef76be3bb06841af86bb5822574bab3",
+      "scope": "checked collision and Kato actions only"
+    }
+  },
+  "identity_classification": {
+    "donor_sources": "CLASS_1_IMMUTABLE_SOURCE_INPUT_BYTE_IDENTITY_REQUIRED",
+    "public_schema": "CLASS_1_IMMUTABLE_CONTROL_INPUT_BYTE_IDENTITY_REQUIRED",
+    "scientific_output": "NOT_PRODUCED"
+  },
+  "local_router": {
+    "authority": "EXPLORATORY_NONAUTHORITATIVE",
+    "receipt_path": "/tmp/bass-rf04-control-rebind.324HuT/artifacts/local-runtime/route-bass-rf04-engine-coder-20260829.json",
+    "receipt_sha256": "b57ea6bc12fbbc9a6c00fffecf568bf21bf25f130395b6007a4b213c50194aa8",
+    "used_for_claim": false
+  },
+  "package": {
+    "head": "6163a9f124f3160a0c5d8a43f5cd4d10574c7bd1",
+    "tree": "ab86886efa0c2ec1cec0be93523b76829a156e11"
+  },
+  "public_schema": {
+    "blob_sha1": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+    "carrier_allows_polarized_rank9_v1": true,
+    "missing_request_or_result_fields": [
+      "characteristic_substeps_or_policy_id",
+      "angular_remap_stencil",
+      "angular_remap_weights",
+      "remap_options_or_identity",
+      "direction_history_or_final_directions"
+    ],
+    "path": "docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json",
+    "sha256": "be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097"
+  },
+  "red": {
+    "exit_codes": {
+      "python_hostile": 1,
+      "python_primary": 1,
+      "rust_rf04_selector": 101
+    },
+    "logs": {
+      "RF04_RED_EXIT_CODES.txt": "75b092f896d54610393f0286ced971af03ee3b2dabfe53edae1947116db02433",
+      "RF04_RED_PYTHON_HOSTILE.log": "dd2b6519cfba840b0f438a0ad883e30c92919be50a146cc50b9aa7f8460468e8",
+      "RF04_RED_PYTHON_PRIMARY.log": "21fe569fd5a648676f57b1b3808b7a5e91cd7da7a7909fafdc575a1263134fb4",
+      "RF04_RED_RUST.log": "b5998d65e0b20380c8ca087a820f64c64378489ff160bf1a1e0aaf90206f30b7"
+    },
+    "status": "PASS_RF04_RED_01_GENUINE_RED_ONLY"
+  },
+  "reproduction": {
+    "commands": [
+      "git rev-parse 6e53664d56694f7a7ad5f65be262302d5c8866b2:runtime/rust/typeii/typeii_polarized_liouville.rs",
+      "git rev-parse 6e53664d56694f7a7ad5f65be262302d5c8866b2:runtime/rust/typeii/typeii_polarized_remap.rs",
+      "rg -n -C 3 'deliberately stops|pub fn transport_typeii_characteristic' runtime/rust/typeii/typeii_polarized_liouville.rs",
+      "rg -n -C 4 'pub fn remap_convex_packed|stencil|weights' runtime/rust/typeii/typeii_polarized_remap.rs"
+    ],
+    "schema_audit": "Parse frozen schema SHA-256 be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097; assert polarized_rank9_v1 is allowed and D=9*M, then search combined common_request/trajectory_request/trajectory_result fields for remap, stencil, substep, direction_history, final_directions, angular_transport, or screen_basis. The result is empty."
+  },
+  "schema": "bass-rf04-source-contract-blocker/v1",
+  "worktree": "/tmp/bass-rf04-20260829.VJ09sG/worktree"
+}
