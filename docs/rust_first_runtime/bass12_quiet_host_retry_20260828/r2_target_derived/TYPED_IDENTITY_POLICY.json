@@ -1,0 +1,85 @@
+{
+  "candidate_id": "R5B-GEOMETRY-B-DIRECT_SCALAR_TETRAD",
+  "candidate_payload": {
+    "source_path": "bianchi/matter/tilted_rust.py",
+    "source_sha256": "8f1904ac6eaefd7de6a9a19083c22f6fcc535b0444063ed65f3038c2755a712e",
+    "test_path": "tests/test_r5b_geometry_rows_batch.py",
+    "test_sha256": "73534be3738c8982736369d1277e37936b6f851ec373d4faa47f7514a84a2662"
+  },
+  "case": "r5b_tilted",
+  "frozen_target": {
+    "anchor_commit": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+    "anchor_tree": "e097263a8d9657edee6976b138534634b1be4d48",
+    "base_commit": "efb3a45986820659e5bcbec2677729f28616e736",
+    "harness_path": "benchmarks/bench_bass_runtime.py",
+    "target_derived_harness_sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192"
+  },
+  "hard_blockers": [
+    "candidate source/test byte mismatch",
+    "target Git object unavailable",
+    "baseline or candidate harness differs from target object",
+    "native environment cannot be attributed consistently across paired runs",
+    "actual quiet-host preflight failure",
+    "malformed benchmark evidence",
+    "scientific input/output digest failure",
+    "speed or memory gate failure"
+  ],
+  "measurement": {
+    "child_timeout_seconds": 120,
+    "memory_ratio_max": 1.1,
+    "pairs": 15,
+    "physical_12t": {
+      "affinity": "0-11",
+      "rayon_threads": 12,
+      "wall_ratio_max": 0.9
+    },
+    "seed": 20260824,
+    "strict_1t": {
+      "affinity": "0",
+      "rayon_threads": 1,
+      "wall_ratio_max": 0.9
+    },
+    "warmups_per_observation": 3
+  },
+  "native_environment": {
+    "historical_hashes_required": false,
+    "historical_module_sha256": "0b002e2d9bdfe6f8b2918cbc31919ec23f84406065a8660c4c446c8b23d4c16a",
+    "historical_package_sha256": "372239087de751a508fb9c461eadaea8127d434b72b6c99ed6a7210fed61afb5",
+    "required_relation": "one nonempty module identity and one nonempty package identity, identical across the 1T and 12T paired runs; frozen input/output identity must pass"
+  },
+  "nonblockers": [
+    "retired plan harness checksum mismatch",
+    "canonical checkout untracked inventory",
+    "worktree branch-name or HEAD differences outside the detached target worktrees",
+    "historical native module/package hash mismatch by itself",
+    "absolute paths",
+    "log whitespace",
+    "archive/container metadata"
+  ],
+  "repository": "cosmosapjw-quantum/bass",
+  "retired_plan_metadata": {
+    "disposition": "PROVENANCE_BINDING_REPAIRED_NONBLOCKING",
+    "must_not_be_used_as_gate": true,
+    "stale_harness_sha256": "06eaae3d5ca70b06f8f05233e5531e11419c16691b1f323514ef806ba5537c1a"
+  },
+  "schema": "bass12-target-derived-retry-policy/v2",
+  "scientific_identity": {
+    "cross_ref_output_digest_equal": true,
+    "input_identity_sha256": "aa13724ff0596e4a0eb53d7516069b281100b01425d7e456cfda4f83352e8d28",
+    "output_digest": "df0dbd261448db54e2cc0426c07a28fbbfc1584473fcde4867c2250c779739a7"
+  },
+  "typed_identity": {
+    "candidate_source_and_test": "BYTE_IDENTITY_HARD_BLOCK",
+    "logs_paths_archives": "CLASS_4_NONSCIENTIFIC",
+    "native_binary_build": "PROVENANCE_CONTEXT; CONSISTENCY_PLUS_SCIENTIFIC_OUTPUT_CONTROLS_ADMISSION",
+    "retired_expected_harness_sha": "CLASS_4_PLAN_METADATA_NONBLOCKING",
+    "scientific_output": "CONTENT_AND_SCIENTIFIC_IDENTITY",
+    "target_harness": "DERIVE_FROM_IMMUTABLE_GIT_OBJECT_THEN_BYTE_COMPARE_BASELINE_AND_CANDIDATE",
+    "timing": "STATISTICAL_NUMERICAL_ACCEPTANCE"
+  },
+  "verdicts": [
+    "ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW",
+    "REJECTED_LEGACY_CANDIDATE",
+    "BLOCKED_HOST_OR_ENVIRONMENT"
+  ]
+}

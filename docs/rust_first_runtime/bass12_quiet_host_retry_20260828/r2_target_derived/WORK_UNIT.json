@@ -1,0 +1,122 @@
+{
+  "agent_policy": {
+    "ask_user_questions": false,
+    "changing_frozen_thresholds": "forbidden",
+    "claiming_unexecuted_work": "forbidden",
+    "guessing_across_spec_boundary": "forbidden"
+  },
+  "authority": {
+    "base_sha": "efb3a45986820659e5bcbec2677729f28616e736",
+    "branch": "agent/recovery/measured-performance-20260824-r1",
+    "legacy_anchor": "4c6150578d1e7fea43e0d32c01664c92094c8c05",
+    "upstream_dependencies": [
+      "R1 false blocker diagnosis"
+    ]
+  },
+  "completion_evidence": {
+    "required": [
+      "identity receipt",
+      "host receipt",
+      "paired outputs or explicit NOT_RUN",
+      "adjudication",
+      "skipped checks"
+    ]
+  },
+  "id": "BASS-12R2",
+  "implementation": {
+    "ordered_steps": [
+      "verify package",
+      "derive target identity and reconstruct worktrees",
+      "record current native environment without historical-hash blocking",
+      "run one quiet-host preflight",
+      "conditionally run 1T and 12T once",
+      "machine adjudicate and stop"
+    ]
+  },
+  "invariants": [
+    {
+      "id": "INV-TYPED",
+      "severity_if_violated": "P0",
+      "statement": "The stale R1 digest is never used as an admission gate."
+    },
+    {
+      "id": "INV-CANDIDATE",
+      "severity_if_violated": "P0",
+      "statement": "Candidate source/test retain exact frozen bytes."
+    },
+    {
+      "id": "INV-TARGET",
+      "severity_if_violated": "P0",
+      "statement": "Baseline and candidate harness bytes equal the immutable target Git object."
+    },
+    {
+      "id": "INV-NOTRUN",
+      "severity_if_violated": "P0",
+      "statement": "A failed host gate yields timing NOT_RUN, never acceptance or rejection."
+    },
+    {
+      "id": "INV-ONE-SHOT",
+      "severity_if_violated": "P1",
+      "statement": "Each paired population runs at most once."
+    }
+  ],
+  "objective": {
+    "non_goals": [
+      "new candidate",
+      "new governance family",
+      "PR mutation",
+      "RF-02C port",
+      "model/prover/full-suite rerun"
+    ],
+    "observable_success": "one real quiet-host receipt and, if authorized, one 1T plus one 12T result with a terminal candidate verdict.",
+    "statement": "Repair the single stale metadata gate and execute one quiet-host paired timing attempt."
+  },
+  "preconditions": [
+    {
+      "expect": "derive harness from exact target object and compare both worktrees",
+      "id": "PRE-TARGET"
+    },
+    {
+      "expect": "exactly one two-snapshot quiet-host gate",
+      "id": "PRE-HOST"
+    }
+  ],
+  "review_gate": {
+    "fresh_context_required": false,
+    "reason": "one targeted repair/retry after an observed false blocker; no new review layer"
+  },
+  "risk": {
+    "P0_failure_modes": [
+      "wrong candidate bytes",
+      "different physics/input/output silently compared",
+      "unexecuted timing reported as result"
+    ],
+    "P1_failure_modes": [
+      "historical build hash misused as scientific gate",
+      "repeat-until-pass timing",
+      "host contention ignored"
+    ],
+    "class": "high"
+  },
+  "schema": "audit-compiled-work-unit/v1",
+  "title": "Target-derived Candidate B paired timing retry",
+  "verification": {
+    "full_relevant_suite": [],
+    "integration": [
+      "actual paired benchmark only"
+    ],
+    "negative": [
+      "stale digest nonblocking",
+      "target-copy mismatch hard-blocking",
+      "native inconsistency blocking",
+      "scientific mismatch rejection"
+    ],
+    "regression": [],
+    "targeted": [
+      "package tests",
+      "target-identity receipt",
+      "quiet-host receipt",
+      "paired adjudicator"
+    ]
+  }
+}

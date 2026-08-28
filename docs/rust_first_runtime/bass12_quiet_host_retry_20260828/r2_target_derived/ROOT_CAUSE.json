@@ -1,0 +1,39 @@
+{
+  "causal_chain": [
+    "R1 package hard-coded a harness digest not derived from the frozen target Git object.",
+    "Exact target Git object and independently reconstructed baseline/candidate worktrees agreed with one another.",
+    "The generic frozen-input gate compared them to the stale plan digest and stopped before host sampling.",
+    "The stop token collapsed a plan/provenance defect into a host/environment verdict."
+  ],
+  "correct_diagnosis": "PLAN_METADATA_MISMATCH_NONBLOCKING",
+  "execution_reached": {
+    "candidate_identity": true,
+    "paired_12t": false,
+    "paired_1t": false,
+    "quiet_host_snapshots": false
+  },
+  "facts": {
+    "candidate_source_sha256": "8f1904ac6eaefd7de6a9a19083c22f6fcc535b0444063ed65f3038c2755a712e",
+    "candidate_test_sha256": "73534be3738c8982736369d1277e37936b6f851ec373d4faa47f7514a84a2662",
+    "fresh_baseline_harness_sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192",
+    "fresh_candidate_harness_sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192",
+    "stale_plan_harness_sha256": "06eaae3d5ca70b06f8f05233e5531e11419c16691b1f323514ef806ba5537c1a",
+    "target_git_object_harness_sha256": "06eaae3dfeb986ba1a569469761912ed64a39f039275dbdb640fe15e306dd192"
+  },
+  "not_causes": [
+    "local LLM use",
+    "worktree contamination",
+    "canonical checkout mutation",
+    "measured host contention",
+    "candidate scientific-output disagreement"
+  ],
+  "observed_terminal_token": "BLOCKED_HOST_OR_ENVIRONMENT",
+  "repair": [
+    "derive harness bytes from the frozen target Git object",
+    "require baseline and candidate copies to equal that object",
+    "record the retired digest as provenance metadata only",
+    "treat historical native binary hashes as record-only when both populations use one attributable environment and frozen scientific digests pass",
+    "continue immediately to the one quiet-host preflight and paired timing"
+  ],
+  "schema": "bass12-r1-root-cause-v1"
+}

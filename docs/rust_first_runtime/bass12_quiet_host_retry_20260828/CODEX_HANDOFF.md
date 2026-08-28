@@ -1,58 +1,31 @@
-# Codex handoff — BASS-12R1 quiet-host retry
+# Codex handoff — BASS-12R2 target-derived retry
 
-Repository: `~/bass`
+The previous R1 archive is preserved as historical evidence but is no longer the
+active execution package. Its benchmark-harness checksum was stale and caused a
+false `BLOCKED_HOST_OR_ENVIRONMENT` before any host snapshot or timing run.
 
-Fetch this exact plan branch:
-
-```text
-agent/plans/bass12-quiet-host-retry-20260828-r1
-```
-
-The package root is:
+Active package:
 
 ```text
 docs/rust_first_runtime/bass12_quiet_host_retry_20260828/
+r2_target_derived/
 ```
 
-Materialize and verify it in a new temporary directory:
+Read `r2_target_derived/ROOT_CAUSE.json`, then materialize, verify, and execute
+`r2_target_derived/CODEX_HANDOFF.md`.
 
-```bash
-set -euo pipefail
-cd ~/bass
-git fetch origin agent/plans/bass12-quiet-host-retry-20260828-r1
-PLAN_WT="$(mktemp -d /tmp/bass12-retry-plan.XXXXXX)"
-rmdir "$PLAN_WT"
-git worktree add --detach "$PLAN_WT" \
-  origin/agent/plans/bass12-quiet-host-retry-20260828-r1
-cd "$PLAN_WT/docs/rust_first_runtime/bass12_quiet_host_retry_20260828"
-./UNPACK_AND_VERIFY.sh /tmp/bass12-retry-materialized
-```
-
-Require both markers:
+Required package markers:
 
 ```text
-PASS_BASS12_QUIET_HOST_RETRY_HANDOFF
-PASS_BASS12_QUIET_HOST_RETRY_GITHUB_PACKAGE
+PASS_BASS12_TARGET_DERIVED_RETRY_R2
+8 tests / OK
 ```
 
-Then read and execute exactly:
+The immutable Candidate B source/test bytes and scientific input/output digests
+remain hard-bound. The benchmark harness is derived from the frozen target Git
+object. The retired R1 harness checksum and historical native-build hashes are
+provenance metadata, not scientific admission gates.
 
-```text
-/tmp/bass12-retry-materialized/
-BASS12_QUIET_HOST_RETRY_HANDOFF_20260828/CODEX_HANDOFF.md
-```
-
-Execute only work unit `BASS-12R1`.
-
-This is a local-only measurement retry. Do not commit, push, create or update a
-PR, merge, tag, mutate RF-02C, update Jira/Confluence, start BASS-13, or tune
-Candidate B. Do not kill or renice unrelated processes. If the two-snapshot
-quiet-host gate fails, timing is `NOT_RUN` and Candidate B is not rejected.
-
-Stop immediately after exactly one of:
-
-```text
-ACCEPTED_LEGACY_CANDIDATE_FOR_RF02C_ADOPTION_REVIEW
-REJECTED_LEGACY_CANDIDATE
-BLOCKED_HOST_OR_ENVIRONMENT
-```
+Execute exactly one quiet-host preflight. Only if it passes, execute one strict
+1T population and one physical 12T population. Do not create another planning,
+audit, or review package.
