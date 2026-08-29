@@ -1,20 +1,32 @@
-# RF-04 polarized authority-resolution package
+# RF-04 polarized authority resolution
 
-This package consumes the completed real-donor P1–P5 source differential.
-The measured result was non-uniqueness, not a solver failure. It therefore
-makes formerly hidden route choices explicit:
+This package consumes the completed real-donor P1–P5 experiment. The experiment
+established **non-uniqueness**, not a solver defect:
 
-1. two outer characteristic half-panels bound to q1/mid/q3;
-2. a required content-addressed caller-supplied convex CSR remap plan;
-3. `minimum_transport_dot` derived from the active positive-weight support;
-4. palindromic `K(q1)/2 → C(mid)/2 → G_h → C(mid)/2 → K(q3)/2`;
-5. fixed-Eulerian accepted history with per-step geometry receipts.
+- two outer-panel counts converge at order two;
+- three convex builders are admissible but numerically distinct;
+- both tested free support constants pass;
+- two composition families remain admissible at the measured order;
+- fixed and evolved histories both pass local physical/restart checks but differ.
+
+The package therefore does not tune thresholds until one candidate wins.
+Instead it removes hidden choices from the route:
+
+1. q1/mid/q3 fixes a two-half outer profile;
+2. remap weights become an explicit content-addressed caller plan;
+3. the support bound is derived from the plan;
+4. a palindromic endpoint-Kato/midpoint-collision/geometric composition is
+   authorized as a route-design decision;
+5. public history remains fixed Eulerian, with transient geometry bound by
+   per-step receipts.
 
 Existing formula authority is unchanged. `PASS_RF04_SCALAR_RAW_SLICE_PROOF`
-is retained and the current full claim remains `NO_PASS_RF04`.
+remains valid; full polarized science is still `NO_PASS_RF04`.
 
-Exact next action: `RF04-POL-EVIDENCE-00`.
+Exact next action:
 
-The ZIP contains machine-readable decisions, route-schema delta, measured
-candidate register, work units, acceptance matrix, implementation plan,
-validator and Codex handoff.
+```text
+RF04-POL-EVIDENCE-00
+```
+
+The preserved local probe manifest is `c05a78d373f3fd87c028e8535404c2b4723aff56c533163d3822355cf3987ea1`.
