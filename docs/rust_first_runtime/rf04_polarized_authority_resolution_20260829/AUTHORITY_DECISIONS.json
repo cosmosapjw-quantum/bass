@@ -1,0 +1,97 @@
+{
+  "authority_class": "USER_REQUESTED_ROUTE_DESIGN_AUTHORIZATION_SEPARATE_FROM_EXISTING_FORMULA_AUTHORITY",
+  "decisions": {
+    "P1": {
+      "decision": "For one public step h, use two outer characteristic half-panels: q1→mid over h/2 and mid→q3 over h/2. Each half-panel invokes the existing implicit-midpoint donor with public substeps=1 and retains its source-owned fixed-point bisection up to MAX_MIDPOINT_BISECTIONS=8.",
+      "id": "two_half_q1_mid_q3_profile_v1",
+      "required_falsifiers": [
+        "q1/mid/q3 knot mutation changes the expected trajectory",
+        "forward-then-reverse returns the input within the preregistered norm",
+        "2/4/8/16/32 outer-step refinement shows second order"
+      ],
+      "status": "RESOLVED",
+      "why_not_candidate_tuning": "The decision follows the public q1/mid/q3 data model and time-reversal symmetry; the smaller reported panel-16 error is corroborating, not the authority source."
+    },
+    "P2": {
+      "decision": "The native trajectory does not choose among the three admissible builders. A caller/preprocessor supplies a serialized content-addressed CSR remap plan. Runtime owns validation and execution only.",
+      "id": "caller_supplied_content_addressed_convex_remap_plan_v1",
+      "plan_fields": [
+        "schema_id",
+        "direction_grid_sha256",
+        "target_offsets[M+1]",
+        "source_indices[S]",
+        "weights[S]",
+        "builder_id",
+        "builder_version",
+        "plan_sha256",
+        "minimum_transport_dot"
+      ],
+      "row_requirements": [
+        "nonempty",
+        "indices in [0,M)",
+        "finite nonnegative weights",
+        "sum(weights)=1 within existing weight_tolerance",
+        "all M target rows present",
+        "inactive entries represented by absence, not tiny signed weights"
+      ],
+      "scientific_rule": "Different valid plans are different numerical inputs and must produce different execution identities; they are never silently equated.",
+      "status": "RESOLVED_BY_INTERFACE_OWNERSHIP_NOT_ALGORITHM_SELECTION"
+    },
+    "P3": {
+      "decision": "For each serialized plan, compute d_min=min(source_direction·target_direction) over strictly positive-weight entries. Serialize minimum_transport_dot as the immediate binary64 predecessor of d_min. Runtime recomputes d_min with the source dot implementation and verifies the one-ULP downward rule.",
+      "id": "active_support_next_down_v1",
+      "rejected": [
+        "free constant 0.75",
+        "free constant 0.80",
+        "historical antipodal-only default for a narrower stencil"
+      ],
+      "status": "RESOLVED_DERIVED_NOT_SELECTED"
+    },
+    "P4": {
+      "G_h": "fixed-Eulerian semi-Lagrangian geometric pullback: backtrace every target direction through q3→mid→q1 with the two-half profile, apply the serialized convex source plan at the backtraced source, common-screen remap there, then apply the characteristic spatial transport and bolometric factor to the fixed target direction.",
+      "decision": [
+        "Y1 = exp[(h/2) K(q1)] Y0",
+        "Y2 = exp[(h/2) opacity_scale opacity_mid C(mid)] Y1",
+        "Y3 = G_h[q1,mid,q3,remap_plan] Y2",
+        "Y4 = exp[(h/2) opacity_scale opacity_mid C(mid)] Y3",
+        "Y5 = exp[(h/2) K(q3)] Y4"
+      ],
+      "id": "palindromic_k_c_g_c_k_v1",
+      "required_falsifiers": [
+        "forward/reverse symmetry",
+        "second-order composed convergence",
+        "K-sign mutant",
+        "collision/geometry order mutant",
+        "stage-collapse mutant"
+      ],
+      "separation": [
+        "geometric screen transport belongs only to G_h",
+        "equilibrium-projector Kato belongs only to K",
+        "collision belongs only to C",
+        "no operator is inferred from a diagnostic alias"
+      ],
+      "status": "RESOLVED",
+      "why_this_order": "It is the minimal palindromic second-order extension compatible with endpoint Kato data q1/q3, midpoint opacity/collision data, the existing scalar endpoint-Kato precedent, and one full geometric pullback."
+    },
+    "P5": {
+      "decision": "Every accepted public radiation_history row is represented on the unchanged caller direction grid and its canonical screen carrier. Backtraced/evolved directions are transient step data, not public state.",
+      "evolved_lagrangian": "A future distinct route/schema only; unsupported by the current public history shape and therefore not an RF-04 v2 alias.",
+      "id": "fixed_eulerian_history_with_geometry_receipts_v1",
+      "per_step_geometry_receipt": [
+        "input_direction_grid_sha256",
+        "remap_plan_sha256",
+        "backtrace_direction_sha256",
+        "spatial_transport_sha256",
+        "maximum_screen_leakage",
+        "minimum_coherency_eigenvalue",
+        "outer_panel_count=2",
+        "internal_bisection_count"
+      ],
+      "restart": "Restart state is fixed-grid radiation, accepted step index, source plan identities, background cursor and geometry-receipt chain head. No transient Lagrangian direction is silently promoted to state.",
+      "status": "RESOLVED"
+    }
+  },
+  "schema": "bass-rf04-polarized-authority-decisions/v1",
+  "scientific_equivalence": "NOT_YET_EARNED",
+  "source_formula_authority": "UNCHANGED"
+}
