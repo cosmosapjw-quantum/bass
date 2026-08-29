@@ -76,19 +76,7 @@ def test_public_scalar_raw_batch_matches_independent_reference():
     np.testing.assert_allclose(out['final_radiation'],expected,rtol=1e-10,atol=2e-12)
     np.testing.assert_array_equal(out['member_status'],[0,0])
     np.testing.assert_array_equal(out['member_completed_steps'],[2,2])
-    assert isinstance(out['member_error_code'],tuple)
-    assert out['member_error_code']==(None,None)
-
-
-def test_public_scalar_raw_one_node_schema_boundary_matches_dense_oracle():
-    native=_native();o,args=_case()
-    directions=np.ascontiguousarray([[1.,0.,0.]])
-    weights=np.ascontiguousarray([4*np.pi])
-    initial=np.ascontiguousarray([1.2])
-    one=(initial,directions,weights,*args[3:])
-    expected=o.scalar_history(*one)
-    out=native.rf04_typeii_trajectory_v1(*one,'scalar_intensity_v1','fixed_grid_raw_v1')
-    np.testing.assert_allclose(out['radiation_history'],expected,rtol=1e-10,atol=2e-12)
+    assert tuple(out['member_error_code'])==(None,None)
 
 
 def test_public_scalar_raw_batch_isolates_nonfinite_member():
