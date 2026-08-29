@@ -76,9 +76,7 @@ python3 -m pytest -q tests/rf04/test_polarized_authority_package.py
 - [ ] Commit.
 
 ```bash
-git add artifacts/rust_first_runtime/rf04/polarized_source_probe \
-  artifacts/rust_first_runtime/rf04/polarized_authority \
-  tests/rf04/test_polarized_authority_package.py
+git add artifacts/rust_first_runtime/rf04/polarized_source_probe   artifacts/rust_first_runtime/rf04/polarized_authority   tests/rf04/test_polarized_authority_package.py
 git commit -m "chore(rf04): import measured polarized source-probe evidence"
 ```
 
@@ -124,8 +122,7 @@ pub struct RemapPlanV1 {
 - [ ] Run RED.
 
 ```bash
-cargo test --manifest-path _rustcore/Cargo.toml --offline --locked \
-  rf04_polarized_v2_ -- --nocapture
+cargo test --manifest-path _rustcore/Cargo.toml --offline --locked   rf04_polarized_v2_ -- --nocapture
 python3 -m pytest -q tests/rf04/test_polarized_route_v2.py
 ```
 
@@ -163,8 +160,7 @@ Expected: numerical/schema assertion failures, not import collection failure.
 - [ ] Run focused tests and independent geometric reference comparisons.
 
 ```bash
-cargo test --manifest-path _rustcore/Cargo.toml --offline --locked \
-  rf04_polarized_v2_geometry_ -- --nocapture
+cargo test --manifest-path _rustcore/Cargo.toml --offline --locked   rf04_polarized_v2_geometry_ -- --nocapture
 ```
 
 - [ ] Commit.
