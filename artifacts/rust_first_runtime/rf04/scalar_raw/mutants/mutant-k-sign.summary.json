@@ -1,0 +1,49 @@
+{
+  "classification": "DIFFERENTIAL_REREVIEW_COMPILED_NATIVE_NUMERICAL_MUTANT_KILLED",
+  "mutation_id": "RF04_SCALAR_RAW_CENTRAL_K_SIGN_AFTER_P1_REPAIR",
+  "base_commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+  "base_tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+  "changed_paths": [
+    "runtime/rust/typeii/typeii_krylov_adapt.rs"
+  ],
+  "mutation": "central K subtraction a[i] -= k[i] changed to a[i] += k[i]",
+  "base_source_sha256": "06a2c2d68f17020ceb16ce554f41a2347d5992682477f07774f7737430d55859",
+  "mutated_source_sha256": "42634f722e721150175b0db3cd311570cfc9140877b7bd5661890a0726c587c4",
+  "cargo_lock_sha256": "18b62b9b792058ab789521d1c69764bed7915b550cd4fc389e848a6ec02c07ed",
+  "diff": {
+    "path": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-k-sign-repair.diff",
+    "sha256": "957fd441cfc1becf9a09667a4e311c032712c477f9f59d1c0eec343b2de7f55d"
+  },
+  "wheel": {
+    "path": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-k-sign-repair-evidence/wheels/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+    "sha256": "9dd7504f765f00087e377c8daf52f7aeeafde8c341ef731dadaaa3360ead204d"
+  },
+  "installed_native": {
+    "path": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-k-sign-repair-evidence/proof-venv/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "bb1d89a94c468b6da1fa9c07184c0d46e9bf9cdb8cfcb9af051305a97e4dac5d",
+    "size_bytes": 4018344,
+    "trajectory_symbol_callable": true
+  },
+  "test": {
+    "selector": "tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle",
+    "oracle_changed": false,
+    "thresholds_changed": false,
+    "exit_code": 1,
+    "result": "4 failed",
+    "failure_type": "numpy.testing.assert_allclose numerical state-array assertion",
+    "native_function_reached": "rf04_typeii_trajectory_v1",
+    "identity_import_link_or_digest_failure": false,
+    "cases": [
+      {"opacity_scale": 0.0, "h_factor": 1.0, "max_absolute_difference": 0.00067098},
+      {"opacity_scale": 0.0, "h_factor": 4.0, "max_absolute_difference": 0.00262052},
+      {"opacity_scale": 1.0, "h_factor": 1.0, "max_absolute_difference": 0.00067088},
+      {"opacity_scale": 1.0, "h_factor": 4.0, "max_absolute_difference": 0.00261895}
+    ]
+  },
+  "logs": {
+    "build_log_sha256": "dc741b185c50006b32f735b361cdb37a00d7ab8e7b074915343133c6fe8342cc",
+    "install_log_sha256": "70c095abb1c3a77f49c629d16168c09b14b4acbee0db8d8d78b1b8dde6bb2d2d",
+    "native_import_sha256": "72b7ac487987501cb583dba6a45dfec48e35103ff6680a7bea2d5c3041622a7f",
+    "pytest_log_sha256": "3430866918bf742db3cef52d2cf7a4a551b60eb58c9e50137518ae4a32ff9b81"
+  }
+}

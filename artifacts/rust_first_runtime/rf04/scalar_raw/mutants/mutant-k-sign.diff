@@ -1,0 +1,13 @@
+diff --git a/runtime/rust/typeii/typeii_krylov_adapt.rs b/runtime/rust/typeii/typeii_krylov_adapt.rs
+index cf826f5..7da38d1 100644
+--- a/runtime/rust/typeii/typeii_krylov_adapt.rs
++++ b/runtime/rust/typeii/typeii_krylov_adapt.rs
+@@ -1211,7 +1211,7 @@ pub fn kato_aem2_step_adaptive(
+         };
+         let k = km(x);
+         for i in 0..a.len() {
+-            a[i] -= k[i];
++            a[i] += k[i];
+         }
+         a
+     };

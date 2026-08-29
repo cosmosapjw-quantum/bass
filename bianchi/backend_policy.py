@@ -211,9 +211,44 @@ RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
     ),
 )
 
+RF04_SCALAR_RAW_NATIVE_PAYLOAD = _NativePayloadReceipt(
+    identity="bass-rf04-scalar-raw-native-v1",
+    wheel_sha256="99bd0596642dd31ca82080fb24306cd9bf3f6dd1ad3f68a1380f77378e266302",
+    installed_files=_receipt_files(
+        (
+            (
+                "bianchi_rustcore-0.1.0.dist-info/METADATA",
+                210,
+                "49324bfc75b7eade2973357d9be08074dcacad314bd58eada90bca87b4e0dd0c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/WHEEL",
+                109,
+                "c0053d72faa7b329ed4dfa6f979194fb32238ecafd12a729d8bf45b3e1e2e29c",
+            ),
+            (
+                "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
+                205_925,
+                "37dc6c0ddb48d6bbe93f6ef700055ded95f2e9ef2e58886d3814c3d990c61de9",
+            ),
+            (
+                "bianchi_rustcore/__init__.py",
+                147,
+                "372239081d35fb39ffbe0d5c46e32c2e749b754245ec0e1cb036750fe223b591",
+            ),
+            (
+                "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
+                4_018_344,
+                "5d5b8197518d8637b14e0c78b871802ed64f6506c7a95128f31bd52044a98633",
+            ),
+        )
+    ),
+)
+
 # RF-01 stays dynamically derived from the legacy compatibility seam below so
 # existing focused injection tests can replace its installed-file fingerprint.
 _TRUSTED_NATIVE_PAYLOADS = (
+    RF04_SCALAR_RAW_NATIVE_PAYLOAD,
     RF03_NATIVE_PAYLOAD,
     RF02C_V2_NATIVE_PAYLOAD,
     RF02B_R4_DELTA_NATIVE_PAYLOAD,
@@ -416,6 +451,23 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("kinetic.thomson_stiffness", "kin_stiffness_ratio"),
             _route("kinetic.transport_coefficients", "kin_transport_coefficients"),
             _route("kinetic.viscous_cross_validate", "kin_cross_validate"),
+            _route(
+                "kinetic.typeii.execution_identity_v1",
+                "rf04_typeii_execution_identity_v1",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "kinetic.typeii.trajectory_v1",
+                "rf04_typeii_trajectory_v1",
+                "rf04_typeii_execution_identity_v1",
+                python_oracle_supported=False,
+            ),
+            _route(
+                "kinetic.typeii.batch_v1",
+                "rf04_typeii_batch_v1",
+                "rf04_typeii_execution_identity_v1",
+                python_oracle_supported=False,
+            ),
             _route("tilted.j_moment", "kin_j_moment_tilted"),
             _route("tilted.moments", "kin_moments_tilted"),
             _route("tilted.boost_shell_residual", "kin_boost_shell_residual"),

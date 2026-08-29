@@ -1,0 +1,53 @@
+{
+  "schema": "bass-rf04-scalar-raw-phys-math-code-audit/v1",
+  "review_round": 1,
+  "initial_subject": {
+    "commit": "3d87ebf2f93da22ae24b679d67bb826e522697ad",
+    "tree": "0055a41f552301e3eeb2fa1d273b78b89d271037"
+  },
+  "initial_disposition": "TWO_REPRODUCED_P1",
+  "findings": [
+    {
+      "severity": "P1",
+      "finding": "frozen M>=1 schema rejected the one-node scalar grid",
+      "reproduction": "../raw/review_repair_red.log",
+      "repair": "admit one node while preserving donor option validation and active-basis clipping"
+    },
+    {
+      "severity": "P1",
+      "finding": "member_error_code was a list instead of frozen tuple[str|null]",
+      "reproduction": "../raw/review_repair_red.log",
+      "repair": "marshal with PyTuple and assert the concrete public type"
+    },
+    {
+      "severity": "P3",
+      "finding": "an added raw log was initially absent from the generated manifest",
+      "repair": "regenerate the complete final manifest"
+    },
+    {
+      "severity": "P1_PROVENANCE",
+      "finding": "repair regressions initially changed an immutable delivery payload test and made validate_handoff fail",
+      "reproduction": "validate_handoff.py reported payload digest mismatch for tests/rf04/test_public_dense_differential.py",
+      "repair": "restore exact c8f1627 payload bytes and move both regressions to tests/rf04/test_scalar_raw_review_repairs.py"
+    }
+  ],
+  "repair_commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+  "repair_tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+  "verified_before_repair": [
+    "native ownership and no Python production loop/fallback",
+    "capability closure and common-plan/member isolation",
+    "no state clipping or signed-Krylov physical-state misuse",
+    "state/operator-derived diagnostics",
+    "independent dense oracle and real compiled numerical mutants",
+    "deterministic ordering and native receipt mechanisms"
+  ],
+  "differential_rereview": {
+    "code_defects": "REPAIRED",
+    "payload_reconciliation_commit": "5338b46bdb810d6e8670a3b23ceab06040d098d3",
+    "payload_reconciliation_tree": "f70eaeb668aefd39163acdbd38bb2d0f1ca28e79",
+    "handoff_validator": "PASS_PAYLOAD_CHECK_ONLY_WITH_12_IMMUTABLE_FILES_AND_18_SOURCE_BLOBS",
+    "receipt_readback": "DIFFERENTIAL_REREVIEW_PASS_NO_P0_P1",
+    "inventory": "56_OF_56_MANIFEST_ENTRIES_AND_16_JSON_ARTIFACTS_VERIFIED_BEFORE_TERMINAL_STATUS_SEAL",
+    "claim_ceiling": "SCALAR_RAW_SLICE_ONLY_NO_PASS_RF04"
+  }
+}

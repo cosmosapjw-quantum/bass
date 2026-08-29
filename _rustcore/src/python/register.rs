@@ -17,6 +17,11 @@ use super::rf03_matter::{
     RF03DomainError, RF03InputError, RF03ModelError,
 };
 use super::rf03_tilt::{rf03_tilt_invariants, th_force_and_matrix, th_integrate, th_rhs};
+use super::rf04_typeii::{
+    rf04_typeii_batch_v1, rf04_typeii_execution_identity_v1, rf04_typeii_trajectory_v1,
+    RF04CapabilityError, RF04CertificateError, RF04InputError, RF04MemberError,
+    RF04PhysicalDomainError,
+};
 
 use super::runtime::{
     InvalidBufferError, PlanMismatchError, PoolConstructionError, PyRuntimePlan, PyWorkspace,
@@ -90,5 +95,24 @@ pub fn register_rf03(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(th_integrate, module)?)?;
     module.add_function(wrap_pyfunction!(th_rhs, module)?)?;
     module.add_function(wrap_pyfunction!(th_force_and_matrix, module)?)?;
+    Ok(())
+}
+
+pub fn register_rf04(module: &Bound<'_, PyModule>) -> PyResult<()> {
+    let py = module.py();
+    module.add("RF04InputError", py.get_type::<RF04InputError>())?;
+    module.add("RF04CapabilityError", py.get_type::<RF04CapabilityError>())?;
+    module.add(
+        "RF04PhysicalDomainError",
+        py.get_type::<RF04PhysicalDomainError>(),
+    )?;
+    module.add(
+        "RF04CertificateError",
+        py.get_type::<RF04CertificateError>(),
+    )?;
+    module.add("RF04MemberError", py.get_type::<RF04MemberError>())?;
+    module.add_function(wrap_pyfunction!(rf04_typeii_execution_identity_v1, module)?)?;
+    module.add_function(wrap_pyfunction!(rf04_typeii_trajectory_v1, module)?)?;
+    module.add_function(wrap_pyfunction!(rf04_typeii_batch_v1, module)?)?;
     Ok(())
 }

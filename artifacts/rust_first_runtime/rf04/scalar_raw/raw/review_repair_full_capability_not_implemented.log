@@ -1,0 +1,170 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+________ test_rf04_execution_identity_is_canonical_and_authority_bound _________
+
+    def test_rf04_execution_identity_is_canonical_and_authority_bound() -> None:
+        raw = _native().rf04_typeii_execution_identity_v1()
+        assert isinstance(raw, str)
+        assert raw == json.dumps(json.loads(raw), sort_keys=True, separators=(",", ":"))
+        identity = json.loads(raw)
+        assert identity["identity_schema"] == "bass-rf04-typeii-execution-identity/v1"
+        assert identity["public_route_schema_sha256"] == SCHEMA_SHA256
+        assert identity["sci_auth_head"] == SCI_AUTH_HEAD
+        assert identity["sci_auth_tree"] == SCI_AUTH_TREE
+        assert identity["sci_auth_manifest_sha256"] == SCI_AUTH_MANIFEST_SHA256
+        assert identity["certificate_scope"] == "PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR"
+>       assert set(identity["carrier_capabilities"]) == {
+            "scalar_intensity_v1",
+            "polarized_rank9_v1",
+        }
+E       AssertionError: assert {'scalar_intensity_v1'} == {'polarized_r...intensity_v1'}
+E         
+E         Extra items in the right set:
+E         'polarized_rank9_v1'
+E         Use -v to get more diff
+
+tests/rf04/test_kinetic_contract.py:325: AssertionError
+____ test_rf04_scalar_trajectory_has_exact_schema_and_observable_invariants ____
+
+    def test_rf04_scalar_trajectory_has_exact_schema_and_observable_invariants() -> None:
+        directions, _ = _angular_grid()
+        initial = _anisotropic_scalar_state(directions)
+>       result = _trajectory(initial)
+                 ^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:439: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+initial = array([1.05      , 1.05      , 0.95      , 0.95      , 1.        ,
+       1.        , 0.91      , 1.04      , 1.04    ...9      , 1.04666667, 1.07333333,
+       1.01333333, 0.86666667, 0.86666667, 1.01333333, 1.07333333,
+       1.04666667])
+carrier = 'scalar_intensity_v1'
+quadrature_route = 'paired_rest_to_normal_reference_v1', v = 0.08
+
+    def _trajectory(
+        initial: np.ndarray,
+        *,
+        carrier: str = "scalar_intensity_v1",
+        quadrature_route: str = "paired_rest_to_normal_reference_v1",
+        v: float = 0.08,
+    ):
+>       return _native().rf04_typeii_trajectory_v1(
+            *_route_arguments(initial, v=v),
+            carrier,
+            quadrature_route,
+        )
+E       bianchi_rustcore.RF04CapabilityError: RF04_UNSUPPORTED_CAPABILITY: unsupported RF-04 slice combination ScalarIntensity/PairedRestToNormalReference
+
+tests/rf04/test_kinetic_contract.py:175: RF04CapabilityError
+______ test_rf04_polarized_iq_uv_path_preserves_realizability_and_screen _______
+
+    def test_rf04_polarized_iq_uv_path_preserves_realizability_and_screen() -> None:
+        directions, _ = _angular_grid()
+        initial = _physical_polarized_state(directions)
+        initial_matrices = initial.reshape(-1, 9)
+        assert np.max(np.abs(initial_matrices[:, 3:6])) > 1.0e-3
+        assert np.max(np.abs(initial_matrices[:, 6:9])) > 1.0e-3
+>       result = _trajectory(initial, carrier="polarized_rank9_v1")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/rf04/test_kinetic_contract.py:475: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+initial = array([ 0.        ,  0.5192    ,  0.3608    ,  0.        ,  0.        ,
+        0.        ,  0.        ,  0.        , ...864957,  0.32449442,  0.37280472, -0.15016963, -0.19847993,
+       -0.17432478, -0.01394598, -0.01394598, -0.01394598])
+carrier = 'polarized_rank9_v1'
+quadrature_route = 'paired_rest_to_normal_reference_v1', v = 0.08
+
+    def _trajectory(
+        initial: np.ndarray,
+        *,
+        carrier: str = "scalar_intensity_v1",
+        quadrature_route: str = "paired_rest_to_normal_reference_v1",
+        v: float = 0.08,
+    ):
+>       return _native().rf04_typeii_trajectory_v1(
+            *_route_arguments(initial, v=v),
+            carrier,
+            quadrature_route,
+        )
+E       bianchi_rustcore.RF04CapabilityError: RF04_UNSUPPORTED_CAPABILITY: unsupported RF-04 slice combination PolarizedRank9/PairedRestToNormalReference
+
+tests/rf04/test_kinetic_contract.py:175: RF04CapabilityError
+___ test_rf04_batch_rows_equal_individual_native_trajectories_in_input_order ___
+
+    def test_rf04_batch_rows_equal_individual_native_trajectories_in_input_order() -> None:
+        native = _native()
+        directions, weights = _angular_grid()
+        q1, mid, q3, opacity, step_size = _background()
+        first = _anisotropic_scalar_state(directions)
+        second = np.ascontiguousarray(0.75 + 0.31 * first[::-1])
+        initial = np.ascontiguousarray(np.stack((first, second)), dtype=np.float64)
+>       result = native.rf04_typeii_batch_v1(
+            initial,
+            directions,
+            weights,
+            q1,
+            mid,
+            q3,
+            opacity,
+            step_size,
+            1.3,
+            1.0,
+            1,
+            "scalar_intensity_v1",
+            "paired_rest_to_normal_reference_v1",
+        )
+E       bianchi_rustcore.RF04CapabilityError: RF04_UNSUPPORTED_CAPABILITY: unsupported RF-04 slice combination ScalarIntensity/PairedRestToNormalReference
+
+tests/rf04/test_kinetic_contract.py:503: RF04CapabilityError
+____________ test_fixed_grid_route_conflation_mutation_is_detected _____________
+
+    def test_fixed_grid_route_conflation_mutation_is_detected() -> None:
+        """A route dispatcher that aliases raw and AP-corrected output must fail."""
+    
+        directions, _ = _angular_grid()
+        equilibrium = _scalar_equilibrium(directions, 0.1, 1)
+        raw = _trajectory(equilibrium, "scalar_intensity_v1", "fixed_grid_raw_v1")
+>       corrected = _trajectory(
+            equilibrium, "scalar_intensity_v1", "fixed_grid_ap_corrected_v1"
+        )
+
+tests/rf04/test_mutations.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+initial = array([0.9801    , 0.9801    , 0.66942149, 1.49382716, 0.9801    ,
+       0.9801    , 0.74573041, 0.74573041, 1.314215...1421555, 0.78300195, 0.78300195,
+       1.24330649, 1.24330649, 0.78300195, 0.78300195, 1.24330649,
+       1.24330649])
+carrier = 'scalar_intensity_v1', route = 'fixed_grid_ap_corrected_v1', v = 0.1
+
+    def _trajectory(initial, carrier, route, *, v=0.1):
+        directions, weights = _angular_grid()
+        q1, mid, q3, opacity, step_size = _background(v=v, steps=1)
+>       return _native().rf04_typeii_trajectory_v1(
+            np.ascontiguousarray(initial, dtype=np.float64),
+            directions,
+            weights,
+            q1,
+            mid,
+            q3,
+            opacity,
+            step_size,
+            1.3,
+            1.0,
+            1,
+            carrier,
+            route,
+        )
+E       bianchi_rustcore.RF04CapabilityError: RF04_UNSUPPORTED_CAPABILITY: unsupported RF-04 slice combination ScalarIntensity/FixedGridApCorrected
+
+tests/rf04/test_mutations.py:36: RF04CapabilityError
+=========================== short test summary info ============================
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_execution_identity_is_canonical_and_authority_bound
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_scalar_trajectory_has_exact_schema_and_observable_invariants
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_polarized_iq_uv_path_preserves_realizability_and_screen
+FAILED tests/rf04/test_kinetic_contract.py::test_rf04_batch_rows_equal_individual_native_trajectories_in_input_order
+FAILED tests/rf04/test_mutations.py::test_fixed_grid_route_conflation_mutation_is_detected
+5 failed in 0.08s

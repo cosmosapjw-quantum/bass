@@ -1,0 +1,53 @@
+{
+  "classification": "DIFFERENTIAL_REREVIEW_COMPILED_NATIVE_NUMERICAL_MUTANT_KILLED",
+  "implementation_commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+  "implementation_tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+  "mutation": {
+    "path": "generated/rust/typeii/typeii_collision.rs",
+    "original": "out[i] = qout * d[i].powi(-4) * (gain - gp[i]);",
+    "mutant": "out[i] = d[i].powi(-4) * (gain - gp[i]);",
+    "original_blob_sha1": "c85616da3a8ce437b59aa8c1ce5adc17904ca50d",
+    "mutant_blob_sha1": "1ec0e272ca7aaf47a1b56b19fc39f5e8460b482f",
+    "mutant_file_sha256": "6bcfe4fd06facc576b561ae355bf155ac3a058ec310392c239e8148a122b5246",
+    "diff_path": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair.diff",
+    "diff_sha256": "2c7a1ae399aed02c04c36ff802add6ffa36e175508f73cb124f706ee1b829d19"
+  },
+  "unchanged_reference_for_this_rereview": {
+    "test_blob_sha1": "d71a67eb371e64b1d1a9964d73775408058f6087",
+    "test_sha256": "ae01f3c6fa1f15ab3b2b65d6f358594b0997311916bb4b2367a10066126fe4cc",
+    "oracle_blob_sha1": "28a1734123f12d36ad1948eb92ebd4623b239f68",
+    "oracle_sha256": "95dd8b708bde8209bbcedb027f3f08b2aeb34c83af0ef153e345a3c529daa016"
+  },
+  "compiled_artifact": {
+    "wheel": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair-evidence/wheels/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl",
+    "wheel_sha256": "f3ccd9cec891507f9a0ea4d14cc6e5b729c3ec378524f557dc768605bda7cd0c",
+    "native_extension_sha256": "1e028129d39b9ba3963637a5e557eb4c6599520bb5fbba22f3c50a11172337be",
+    "native_extension_size_bytes": 4018184
+  },
+  "case": {
+    "pytest_node": "tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle[1.0-1.0]",
+    "opacity_scale": 1.0,
+    "opacity_mid": [0.18, 0.195],
+    "axis": 1,
+    "mid_velocity": [0.0825, 0.08850000000000001],
+    "direction_rate_ranges": [[0.9175, 1.0825], [0.9115, 1.0885]]
+  },
+  "result": {
+    "build_exit_code": 0,
+    "pytest_exit_code": 1,
+    "failure_kind": "NUMERICAL_ARRAY_ASSERTION",
+    "mismatched_elements": "44 / 78",
+    "max_absolute_difference": 1.17829028e-05,
+    "max_relative_difference": 1.18889129e-05,
+    "native_import_succeeded": true,
+    "native_trajectory_call_succeeded": true,
+    "identity_or_digest_gate_failed": false,
+    "link_or_import_failed": false
+  },
+  "logs": {
+    "build": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair-evidence/build.log",
+    "test": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair-evidence/test.log",
+    "case_parameters": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair-evidence/case-parameters.txt",
+    "toolchain": "/tmp/bass-rf04-scalar-proof.SzAsUr/mutant-rate-repair-evidence/toolchain.txt"
+  }
+}

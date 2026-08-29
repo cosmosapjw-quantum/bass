@@ -1,0 +1,42 @@
+{
+  "schema": "bass-rf04-scalar-raw-single-repair-closeout/v1",
+    "repair_budget": {
+        "allowed": 1,
+        "used": 1,
+        "reason": "one focused pass repaired the two code P1s and reconciled their tests with the immutable delivery payload before evidence commit"
+  },
+  "red": {
+    "log": "../raw/review_repair_red.log",
+    "observed": [
+      "M=1 raised RF04InputError despite frozen M>=1 schema",
+      "member_error_code runtime type was list"
+    ]
+  },
+    "repair": {
+    "commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+    "tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+    "changed_paths": [
+      "_rustcore/src/kinetic/rf04_typeii.rs",
+            "_rustcore/src/kinetic/rf04_contract_tests.rs",
+            "_rustcore/src/python/rf04_typeii.rs",
+            "bianchi/backend_policy.py"
+        ]
+    },
+    "payload_reconciliation": {
+        "commit": "5338b46bdb810d6e8670a3b23ceab06040d098d3",
+        "tree": "f70eaeb668aefd39163acdbd38bb2d0f1ca28e79",
+        "result": "IMMUTABLE_DELIVERY_TEST_RESTORED_BYTE_IDENTICAL",
+        "regression_path": "tests/rf04/test_scalar_raw_review_repairs.py"
+    },
+    "green": {
+        "rust": "6_PASS",
+        "public_dense_differential": "6_PASS",
+        "review_repair_regressions": "2_PASS",
+    "applicable_selectors": "11_PASS",
+    "production_route": "PASS_WITH_VERIFIED_PAYLOAD_AND_NO_DEVELOPMENT_OVERRIDE",
+        "fresh_no_index_restore": "6_PUBLIC_PLUS_2_REPAIR_REGRESSIONS_PASS",
+    "second_build": "SHARED_OBJECT_BYTE_IDENTITY_AND_NORMALIZED_CONTENT_IDENTITY",
+    "compiled_mutants": "3_KILLED_BY_NUMERICAL_STATE_ARRAY_ASSERTIONS_ON_REPAIR_COMMIT"
+  },
+  "claim": "PASS_RF04_SCALAR_RAW_SLICE_PROOF_AND_NO_PASS_RF04"
+}

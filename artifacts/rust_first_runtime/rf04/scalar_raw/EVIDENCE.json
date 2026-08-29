@@ -1,0 +1,206 @@
+{
+  "schema": "bass-rf04-scalar-raw-slice-evidence/v1",
+    "generated_at_utc": "2026-08-29T04:12:43Z",
+  "status": {
+    "slice": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
+    "full_rf04": "NO_PASS_RF04",
+    "claim_ceiling": "PARTIAL_SOURCE_BOUND_REFERENCE_SLICE_NOT_FULL_RF04"
+  },
+  "delivery": {
+    "branch": "agent/plans/rf04-external-review-resume-20260829-r1",
+    "commit": "c8f1627bee2f59651c5a7d6bbf869baee4711c3e",
+    "tree": "9aa9702ca60f27f1da470b61c582b8b8707cb3e6",
+    "source_fixes": "d43e4e9039f8cd9303340ed216e76a650138adef"
+  },
+    "implementation": {
+        "commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+        "tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+        "parent": "c8f1627bee2f59651c5a7d6bbf869baee4711c3e",
+        "validated_branch_checkpoint": "5338b46bdb810d6e8670a3b23ceab06040d098d3",
+        "validated_branch_tree": "f70eaeb668aefd39163acdbd38bb2d0f1ca28e79",
+        "delivery_payload_reconciliation": "immutable public differential restored; repair regressions moved to an allowed new test file",
+        "owner": "_rustcore/src/kinetic/rf04_typeii.rs",
+    "owner_blob_sha1": "71508ebb9b3a5abd3bc403d6a24502ad9de09d39",
+    "owner_sha256": "7b4eb733c7bb12dcbb921041d3c9af91c6af18bb07d2cfb8f78e7e23e7f9fc3c",
+    "adapter_blob_sha1": "d781276f47f56fbe9f20c863370248f22aeb1961",
+    "backend_policy_blob_sha1": "6011823af7d9550a77144bcede6b2c0f883b256c"
+  },
+  "supported_combination": [
+    "scalar_intensity_v1",
+    "fixed_grid_raw_v1"
+  ],
+  "execution_profile": {
+    "id": "rf04-scalar-fixed-node-raw-slice/v1",
+    "sha256": "56ef82909ed00e3bfe40080e03d11a264b895f7da28dc5d24d51c5ae2c7f7de3",
+    "certificate_scope": "PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR",
+    "native_payload_identity": "bass-rf04-scalar-raw-native-v1"
+  },
+  "tests": {
+    "handoff_payload": {
+      "result": "PASS",
+      "count": 27,
+      "log": "raw/handoff_tests.log"
+    },
+    "rust_red": {
+      "result": "EXPECTED_BEHAVIORAL_RED",
+      "selected": 3,
+      "failed": 2,
+      "reason": "owner returned RF04_KRYLOV_CERTIFICATE_FAILURE before donor integration",
+      "log": "raw/rust_red.log",
+      "sha256": "2802ebf21df5a6f72758fb61df61d47caec1960223bb36ac96cc701d97027f35"
+    },
+    "rust_green": {
+      "command": "cargo test --manifest-path _rustcore/Cargo.toml --offline --locked rf04_scalar_raw -- --nocapture",
+      "result": "PASS",
+      "passed": 6,
+      "selected_zero": false,
+      "log": "raw/review_repair_rust.log",
+      "sha256": "42ae78594e7cca4af5e6c4d6825917fb8b74bef12a683ed478fcd66a49263bb5"
+    },
+        "public_dense_differential": {
+      "command": "env -u BASS_ALLOW_UNVERIFIED_NATIVE_DEV python -m pytest -q tests/rf04/test_public_dense_differential.py",
+      "result": "PASS",
+            "passed": 6,
+      "native_calls": true,
+      "oracle": "tests/rf04/rf04_dense_oracle.py",
+      "rtol": 1e-10,
+      "atol": 2e-12,
+      "log": "raw/review_repair_public.log",
+            "sha256": "8997e5bddbfe00cc0ac8250bc28e9f2edee615efaa59641a1e47ed0919b1fd2a",
+      "pristine_error_budget": {
+        "global_max_abs": 1.5543122344752192e-15,
+        "global_max_relative_scaled": 1.4348507693355984e-15,
+        "rationale": "frozen cross-language dense-expm versus adaptive-Krylov threshold, not a global forward-error certificate",
+        "log": "raw/pristine_error_budget.log",
+        "sha256": "0ebf59edef0d87a7e29b2510af4eadb68df1d37366517afc433d40b0fc65a6bb"
+            }
+        },
+        "review_repair_regressions": {
+            "result": "PASS",
+            "passed": 2,
+            "scope": "M=1 frozen schema boundary and tuple member_error_code",
+            "log": "raw/review_repair_regressions.log",
+            "sha256": "fa665775964cf05a4b8c9ca6f3bb541d55819b03a8e9277e22b2aa4799804700"
+        },
+        "production_identity": {
+      "result": "PASS_PRODUCTION_NATIVE_IDENTITY",
+      "development_override": false,
+      "installed_payload_verified": true,
+      "log": "raw/review_repair_production.log",
+      "sha256": "261a6372e1a0e34987c6ad7c9e66b627cd6724733032a114f39b952168a309ec",
+      "trajectory_result": "PASS_REPAIR_PRODUCTION_ROUTE"
+    },
+    "applicable_retained_selectors": {
+      "result": "PASS",
+      "passed": 11,
+      "log": "raw/review_repair_applicable.log",
+      "sha256": "a4ba6a0b833ef7026d4d291578c1a66aa7b84a732bb259d96dc88bdb89ae3418"
+    },
+    "separate_process_determinism": {
+      "result": "PASS_SEPARATE_PROCESS_THREAD_IDENTITY",
+      "threads": [1, 4],
+      "array_byte_identity": true,
+      "npy_sha256": "48098aea7f42e51746642018d248c201a18613c086b931415c2412e4fa3d3f04",
+      "log": "raw/review_repair_determinism.log",
+      "sha256": "b6b2f5bca1dbfac32f2b911fa508f2f8580f67a8149b6492c141c4cdb90042b4"
+    },
+    "full_capability_selectors": {
+      "result": "NOT_IMPLEMENTED_EXPECTED_FAIL_CLOSED",
+      "selected": 5,
+      "failed": 5,
+      "exit_code": 1,
+      "log": "raw/review_repair_full_capability_not_implemented.log",
+      "sha256": "f87a9f480dde19259849560fde3d9c41dd5e0a5c6e3abec50a94abfa6c8521dc"
+    }
+  },
+  "compiled_native_mutations": [
+    {
+      "id": "RF04_SCALAR_RAW_CENTRAL_K_SIGN",
+      "result": "KILLED_NUMERICAL_STATE_ARRAY_ASSERTION",
+      "cases_failed": 4,
+      "summary": "mutants/mutant-k-sign.summary.json",
+      "summary_sha256": "7f0bde42b3f2213c4555cff5e33c3ce7b9f6a37c9dfe51c65eddb0bac7f4a0eb",
+      "diff": "mutants/mutant-k-sign.diff",
+      "diff_sha256": "957fd441cfc1becf9a09667a4e311c032712c477f9f59d1c0eec343b2de7f55d"
+    },
+    {
+      "id": "RF04_SCALAR_RAW_DIRECTION_RATE_REMOVED",
+      "result": "KILLED_NUMERICAL_STATE_ARRAY_ASSERTION",
+      "case": "nonzero opacity, nonzero tilt, nonconstant qout",
+      "summary": "mutants/mutant-rate.summary.json",
+      "summary_sha256": "987a5ad083b14de61bb4a2d649310249e195c5ec042bda9041e0de563aa474b1",
+      "diff": "mutants/mutant-rate.diff",
+      "diff_sha256": "2c7a1ae399aed02c04c36ff802add6ffa36e175508f73cb124f706ee1b829d19"
+    },
+    {
+      "id": "RF04_SCALAR_RAW_STAGE_COLLAPSE",
+      "result": "KILLED_NUMERICAL_STATE_ARRAY_ASSERTION",
+      "cases_failed": 4,
+      "summary": "mutants/mutant-stage-collapse.summary.json",
+      "summary_sha256": "8d2e93d6efeee08d758485bd5d435fcaf4f73a6ad02e8eb43e445a5d9b73c60f",
+      "diff": "mutants/mutant-stage-collapse.diff",
+      "diff_sha256": "a7d94f5518d00bbd7667e57eade5d8721e39d781e8570c432fd252c6a2941598"
+    }
+  ],
+  "native_artifact": {
+    "wheel_sha256": "99bd0596642dd31ca82080fb24306cd9bf3f6dd1ad3f68a1380f77378e266302",
+    "shared_object_sha256": "5d5b8197518d8637b14e0c78b871802ed64f6506c7a95128f31bd52044a98633",
+    "normalized_content_sha256": "acb2fd9a32e532e9d3cc90b3e747ba0a2a60930d1b48e70c32f5c6320d6231d0",
+    "delta_manifest": "native_delta/DELTA_MANIFEST.json",
+    "restore_receipt": "native_delta/RF02C_NATIVE_RESTORE.json",
+    "second_build": {
+      "wheel_sha256": "ba0affe5dcb9e5c54bbfd7d324bd3680f7d16bf7dca47577fc0fccf508b2b5fd",
+      "shared_object_byte_identity": true,
+      "normalized_content_identity": true,
+      "archive_mismatch_disposition": "PACKAGING_ONLY_MISMATCH_CLASS_4_SBOM_BUILD_METADATA_AND_RECORD"
+    }
+  },
+    "restore": {
+        "result": "PASS_FRESH_NOINDEX_RESTORE",
+        "development_override": false,
+        "public_differential_passed": 6,
+        "review_repair_regressions_passed": 2,
+        "retained_installed_native_unchanged": true,
+        "logs": [
+            "raw/review_repair_delta_verify.json",
+            "raw/review_repair_restore_install.log",
+            "raw/review_repair_restore_route.log",
+            "raw/review_repair_restore_public.log",
+            "raw/review_repair_restore_regressions.log",
+            "raw/retained_native_pre_restore.log",
+            "raw/retained_native_post_restore.log"
+        ]
+  },
+  "local_router": {
+    "authority": "EXPLORATORY_NONAUTHORITATIVE",
+    "first_attempt": "DESTRUCTIVE_PATH_RISK_REJECTED_BEFORE_INFERENCE",
+    "second_attempt": "RETURN_RESULT_RESPONSE_CONFIRMED",
+    "model": "qwen3.6-35b-a3b",
+    "adoption": "NO_GUESSED_SYMBOLS_ADOPTED; HOST_CODEX_VERIFIED_IMPLEMENTATION",
+    "route_receipt": "local_router/ROUTE_RECEIPT.json",
+    "route_receipt_sha256": "83ac9e996762ac62f50eed3c40ddbe2d2a91795155707cb2d56711bfad028ed6"
+  },
+    "reviews": {
+        "phys_math": "PASS_NO_P0_P1_WITH_P2_TOLERANCE_EVIDENCE_ADDED",
+        "phys_math_code": "SINGLE_REPAIR_PASS_CLOSED",
+        "differential_rereview": "DIFFERENTIAL_REREVIEW_PASS_NO_P0_P1",
+        "repair_commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8"
+    },
+  "deferred_full_polarized_contract": [
+    "backtrace/forward-characteristic substep policy using current implicit-midpoint donor",
+    "convex stencil construction and nonnegative weights for accepted caller grids",
+    "source-bound RemapOptions and meaningful minimum_transport_dot",
+    "Liouville/remap/collision/Kato composition including subtraction or representation change semantics",
+    "fixed-grid or evolved-grid history with explicit screen/direction association"
+  ],
+  "not_run": [
+    "old A2",
+    "old RF03/SCI-AUTH/intake/RED replay",
+    "full repository suite",
+    "timing or performance",
+    "GPU",
+    "Wolfram",
+    "RF05+",
+    "merge or ready transition"
+  ]
+}

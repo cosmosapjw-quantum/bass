@@ -22,6 +22,7 @@ pub mod pstf_gen;
 pub mod qevolve;
 pub mod quad;
 pub mod radial;
+pub mod rf04_typeii;
 pub mod sphere;
 pub mod tilted_hier;
 pub mod tilted_terms;

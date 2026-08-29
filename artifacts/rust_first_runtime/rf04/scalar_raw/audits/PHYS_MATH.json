@@ -1,0 +1,37 @@
+{
+  "schema": "bass-rf04-scalar-raw-phys-math-audit/v1",
+  "review_round": 1,
+  "initial_subject": {
+    "commit": "3d87ebf2f93da22ae24b679d67bb826e522697ad",
+    "tree": "0055a41f552301e3eeb2fa1d273b78b89d271037"
+  },
+  "initial_disposition": "PHYS_MATH_AUDIT_PASS_NO_P0_P1",
+  "findings": [
+    {
+      "severity": "P2",
+      "finding": "pristine differential error magnitude and threshold rationale were not recorded",
+      "repair": "evidence-only error budget added without changing tolerance or promoting a forward-error claim",
+      "evidence": "../raw/pristine_error_budget.log"
+    },
+    {
+      "severity": "P3",
+      "finding": "compiled mutation coverage is specific rather than exhaustive",
+      "disposition": "claims remain limited to the three named sensitivities"
+    }
+  ],
+  "verified": [
+    "K_q1 half then A_mid-K_mid/collision then K_q3 half ordering",
+    "stage-consistent K cancellation",
+    "dimensionless opacity and qout direction rate",
+    "state and propagation-direction conventions",
+    "raw-null, midpoint-left-drift and projected-residual claim meanings",
+    "scalar/raw-only capability ceiling"
+  ],
+  "differential_rereview": {
+    "subject_commit": "9a6ce45e6060c2b7e4807396b94845e0b8b4c1e8",
+    "subject_tree": "dc0234be4bb5d1e70b9375c3ba2393aa59eb1ec3",
+    "scope": "M=1 nominal donor option floor versus active one-dimensional basis",
+    "disposition": "DIFFERENTIAL_REREVIEW_PASS_NO_P0_P1",
+    "reason": "donor clips active Arnoldi capacity to state dimension one while the augmented phi action honestly has dimension two; native history matches the independent dense oracle"
+  }
+}
