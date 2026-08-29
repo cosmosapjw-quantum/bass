@@ -17,6 +17,12 @@ pub struct RemapOptions {
     pub weight_tolerance: f64,
     /// Fail when dot(from,to) <= -1 + this margin.
     pub antipodal_margin: f64,
+    /// Smallest source/target dot product supported by the caller's stencil.
+    ///
+    /// The default reproduces the historical antipodal-only guard exactly.
+    /// Callers with a narrower interpolation support must opt into a stricter
+    /// bound rather than merely inspecting `minimum_transport_dot` afterward.
+    pub minimum_transport_dot: f64,
 }
 
 impl Default for RemapOptions {
@@ -26,6 +32,7 @@ impl Default for RemapOptions {
             screen_tolerance: 2.0e-12,
             weight_tolerance: 2.0e-13,
             antipodal_margin: 1.0e-10,
+            minimum_transport_dot: -1.0 + 1.0e-10,
         }
     }
 }
@@ -65,12 +72,45 @@ pub enum RemapError {
         source: Option<usize>,
         dot: f64,
     },
-    NonPhysicalSource {
+    ScreenTransversalityViolation {
         source: usize,
         leakage: f64,
+        intensity: f64,
         tolerance: f64,
     },
-    NonFiniteArithmetic,
+    NonRealizableSource {
+        source: usize,
+        minimum_eigenvalue: f64,
+        intensity: f64,
+        tolerance: f64,
+    },
+    TransportSupportViolation {
+        source: Option<usize>,
+        dot: f64,
+        minimum_dot: f64,
+    },
+    TransportArithmeticNonFinite {
+        source: Option<usize>,
+        stage: &'static str,
+    },
+    TransportMapDefect {
+        source: Option<usize>,
+        map_defect: f64,
+        orthogonality_defect: f64,
+        determinant_defect: f64,
+        tolerance: f64,
+    },
+    OutputScreenTransversalityViolation {
+        leakage: f64,
+        intensity: f64,
+        tolerance: f64,
+    },
+    NonRealizableOutput {
+        minimum_eigenvalue: f64,
+        intensity: f64,
+        tolerance: f64,
+    },
+    AccumulationArithmeticNonFinite,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -146,8 +186,15 @@ fn mat_vec(a: &Mat3, x: [f64; 3]) -> [f64; 3] {
 }
 
 #[inline]
-fn max_abs_matrix(a: &Mat3) -> f64 {
-    a.iter().flatten().map(|x| x.abs()).fold(0.0, f64::max)
+fn trace(a: &Mat3) -> f64 {
+    a[0][0] + a[1][1] + a[2][2]
+}
+
+#[inline]
+fn determinant(a: &Mat3) -> f64 {
+    a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+        - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+        + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0])
 }
 
 #[inline]
@@ -180,6 +227,7 @@ fn validate_options(options: RemapOptions) -> Result<(), RemapError> {
         options.screen_tolerance,
         options.weight_tolerance,
         options.antipodal_margin,
+        options.minimum_transport_dot,
     ]
     .iter()
     .all(|x| x.is_finite());
@@ -188,6 +236,8 @@ fn validate_options(options: RemapOptions) -> Result<(), RemapError> {
         || !(options.screen_tolerance > 0.0 && options.screen_tolerance <= 1.0e-6)
         || !(options.weight_tolerance > 0.0 && options.weight_tolerance <= 1.0e-6)
         || !(options.antipodal_margin > 0.0 && options.antipodal_margin < 1.0)
+        || !(options.minimum_transport_dot >= -1.0 + options.antipodal_margin
+            && options.minimum_transport_dot <= 1.0)
     {
         return Err(RemapError::InvalidOptions);
     }
@@ -241,6 +291,150 @@ fn screen_leakage(m: &Mat3, e: [f64; 3]) -> f64 {
     out
 }
 
+fn tangent_frame(e: [f64; 3]) -> ([f64; 3], [f64; 3]) {
+    let mut axis = 0usize;
+    if e[1].abs() < e[axis].abs() {
+        axis = 1;
+    }
+    if e[2].abs() < e[axis].abs() {
+        axis = 2;
+    }
+    let mut seed = [0.0; 3];
+    seed[axis] = 1.0;
+    let parallel = dot(seed, e);
+    let mut u = [
+        seed[0] - parallel * e[0],
+        seed[1] - parallel * e[1],
+        seed[2] - parallel * e[2],
+    ];
+    let u_norm = norm(u);
+    u = scale(u, 1.0 / u_norm);
+    (u, cross(e, u))
+}
+
+#[inline]
+fn bilinear(left: [f64; 3], matrix: &Mat3, right: [f64; 3]) -> f64 {
+    dot(left, mat_vec(matrix, right))
+}
+
+fn minimum_screen_eigenvalue(m: &Mat3, e: [f64; 3]) -> f64 {
+    let (u, v) = tangent_frame(e);
+    let a = bilinear(u, m, u);
+    let d = bilinear(v, m, v);
+    let uv = bilinear(u, m, v);
+    let vu = bilinear(v, m, u);
+    let symmetric = 0.5 * (uv + vu);
+    let antisymmetric = 0.5 * (uv - vu);
+    let discriminant =
+        ((a - d) * (a - d) + 4.0 * (symmetric * symmetric + antisymmetric * antisymmetric)).sqrt();
+    0.5 * (a + d - discriminant)
+}
+
+fn validate_source_coherency(
+    m: &Mat3,
+    e: [f64; 3],
+    source: usize,
+    options: RemapOptions,
+) -> Result<(f64, f64), RemapError> {
+    let physical = project_matrix(m, e);
+    if !physical.iter().flatten().all(|value| value.is_finite()) {
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source: Some(source),
+            stage: "source_screen_projection",
+        });
+    }
+    let leakage = screen_leakage(m, e);
+    let intensity = trace(&physical);
+    let minimum_eigenvalue = minimum_screen_eigenvalue(&physical, e);
+    if !leakage.is_finite() || !intensity.is_finite() || !minimum_eigenvalue.is_finite() {
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source: Some(source),
+            stage: "source_coherency_metrics",
+        });
+    }
+
+    // Homogeneous acceptance: tolerances scale with the physical screen trace,
+    // never with a unit-dependent max(1) floor. Exact vacuum is accepted only
+    // when it is exactly transverse and positive semidefinite; every non-zero
+    // zero-trace state therefore fails closed below.
+    let tolerance = if intensity > 0.0 {
+        options.screen_tolerance * intensity
+    } else {
+        0.0
+    };
+    if leakage > tolerance {
+        return Err(RemapError::ScreenTransversalityViolation {
+            source,
+            leakage,
+            intensity,
+            tolerance,
+        });
+    }
+    if intensity < 0.0 || minimum_eigenvalue < -tolerance {
+        return Err(RemapError::NonRealizableSource {
+            source,
+            minimum_eigenvalue,
+            intensity,
+            tolerance,
+        });
+    }
+    Ok((leakage, intensity))
+}
+
+fn validate_output_coherency(
+    m: &Mat3,
+    e: [f64; 3],
+    options: RemapOptions,
+) -> Result<(f64, f64), RemapError> {
+    let leakage = screen_leakage(m, e);
+    let intensity = trace(m);
+    let minimum_eigenvalue = minimum_screen_eigenvalue(m, e);
+    if !leakage.is_finite() || !intensity.is_finite() || !minimum_eigenvalue.is_finite() {
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source: None,
+            stage: "output_coherency_metrics",
+        });
+    }
+    let tolerance = if intensity > 0.0 {
+        options.screen_tolerance * intensity
+    } else {
+        0.0
+    };
+    if leakage > tolerance {
+        return Err(RemapError::OutputScreenTransversalityViolation {
+            leakage,
+            intensity,
+            tolerance,
+        });
+    }
+    if intensity < 0.0 || minimum_eigenvalue < -tolerance {
+        return Err(RemapError::NonRealizableOutput {
+            minimum_eigenvalue,
+            intensity,
+            tolerance,
+        });
+    }
+    Ok((leakage, intensity))
+}
+
+fn validate_transport_support(
+    c: f64,
+    source: Option<usize>,
+    options: RemapOptions,
+) -> Result<(), RemapError> {
+    if c <= -1.0 + options.antipodal_margin {
+        return Err(RemapError::AntipodalTransport { source, dot: c });
+    }
+    if c < options.minimum_transport_dot {
+        return Err(RemapError::TransportSupportViolation {
+            source,
+            dot: c,
+            minimum_dot: options.minimum_transport_dot,
+        });
+    }
+    Ok(())
+}
+
 /// Minimal proper rotation from `from` to `to`.
 ///
 /// Acting on tangent vectors, this is Levi-Civita parallel transport along the
@@ -255,19 +449,17 @@ pub fn parallel_transport_matrix(
     let from = validate_direction(from, None, options)?;
     let to = validate_direction(to, None, options)?;
     let c = dot(from, to).clamp(-1.0, 1.0);
-    if c <= -1.0 + options.antipodal_margin {
-        return Err(RemapError::AntipodalTransport {
-            source: None,
-            dot: c,
-        });
-    }
+    validate_transport_support(c, None, options)?;
     let a = cross(from, to);
     let s = norm(a);
     if s <= 32.0 * f64::EPSILON && c > 0.0 {
         return Ok(identity());
     }
     if !(s > 0.0 && s.is_finite()) {
-        return Err(RemapError::NonFiniteArithmetic);
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source: None,
+            stage: "rotation_axis",
+        });
     }
     let [x, y, z] = scale(a, 1.0 / s);
     let one_minus_c = 1.0 - c;
@@ -289,14 +481,30 @@ pub fn parallel_transport_matrix(
         ],
     ];
     if !r.iter().flatten().all(|x| x.is_finite()) {
-        return Err(RemapError::NonFiniteArithmetic);
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source: None,
+            stage: "rotation_matrix",
+        });
     }
     let mapped = mat_vec(&r, from);
     let map_defect = (0..3)
         .map(|i| (mapped[i] - to[i]).abs())
         .fold(0.0, f64::max);
-    if map_defect > 32.0 * options.direction_tolerance.max(f64::EPSILON) {
-        return Err(RemapError::NonFiniteArithmetic);
+    let gram = mm(&transpose(&r), &r);
+    let orthogonality_defect = (0..3)
+        .flat_map(|i| (0..3).map(move |j| (gram[i][j] - if i == j { 1.0 } else { 0.0 }).abs()))
+        .fold(0.0, f64::max);
+    let determinant_defect = (determinant(&r) - 1.0).abs();
+    let tolerance = 32.0 * options.direction_tolerance.max(f64::EPSILON);
+    if map_defect > tolerance || orthogonality_defect > tolerance || determinant_defect > tolerance
+    {
+        return Err(RemapError::TransportMapDefect {
+            source: None,
+            map_defect,
+            orthogonality_defect,
+            determinant_defect,
+            tolerance,
+        });
     }
     Ok(r)
 }
@@ -309,18 +517,42 @@ fn transport_validated(
     source: Option<usize>,
 ) -> Result<(Mat3, f64, f64), RemapError> {
     let c = dot(from, to).clamp(-1.0, 1.0);
-    if c <= -1.0 + options.antipodal_margin {
-        return Err(RemapError::AntipodalTransport { source, dot: c });
-    }
+    validate_transport_support(c, source, options)?;
     let r = parallel_transport_matrix(from, to, options).map_err(|err| match err {
         RemapError::AntipodalTransport { dot, .. } => {
             RemapError::AntipodalTransport { source, dot }
         }
+        RemapError::TransportSupportViolation {
+            dot, minimum_dot, ..
+        } => RemapError::TransportSupportViolation {
+            source,
+            dot,
+            minimum_dot,
+        },
+        RemapError::TransportArithmeticNonFinite { stage, .. } => {
+            RemapError::TransportArithmeticNonFinite { source, stage }
+        }
+        RemapError::TransportMapDefect {
+            map_defect,
+            orthogonality_defect,
+            determinant_defect,
+            tolerance,
+            ..
+        } => RemapError::TransportMapDefect {
+            source,
+            map_defect,
+            orthogonality_defect,
+            determinant_defect,
+            tolerance,
+        },
         other => other,
     })?;
     let transported = mm(&mm(&r, m), &transpose(&r));
     if !transported.iter().flatten().all(|x| x.is_finite()) {
-        return Err(RemapError::NonFiniteArithmetic);
+        return Err(RemapError::TransportArithmeticNonFinite {
+            source,
+            stage: "transported_coherency",
+        });
     }
     Ok((transported, c, screen_leakage(m, from)))
 }
@@ -343,17 +575,11 @@ pub fn transport_packed_to_direction(
         }
     }
     let m = unpack9(packed);
-    let leakage = screen_leakage(&m, from);
-    let tolerance = options.screen_tolerance * max_abs_matrix(&m).max(1.0);
-    if leakage > tolerance {
-        return Err(RemapError::NonPhysicalSource {
-            source: 0,
-            leakage,
-            tolerance,
-        });
-    }
+    validate_source_coherency(&m, from, 0, options)?;
     let (transported, _, _) = transport_validated(&m, from, to, options, Some(0))?;
-    Ok(pack9(&project_matrix(&transported, to)))
+    let projected = project_matrix(&transported, to);
+    validate_output_coherency(&projected, to, options)?;
+    Ok(pack9(&projected))
 }
 
 pub fn remap_convex_packed(
@@ -376,6 +602,7 @@ pub fn remap_convex_packed(
     }
     let target = validate_direction(target_direction, None, options)?;
     let mut weight_sum = 0.0_f64;
+    let mut weight_compensation = 0.0_f64;
     for (index, weight) in weights.iter().copied().enumerate() {
         if !weight.is_finite() {
             return Err(RemapError::NonFiniteWeight { index });
@@ -386,8 +613,15 @@ pub fn remap_convex_packed(
                 value: weight,
             });
         }
-        weight_sum += weight;
+        let tentative = weight_sum + weight;
+        if weight_sum.abs() >= weight.abs() {
+            weight_compensation += (weight_sum - tentative) + weight;
+        } else {
+            weight_compensation += (weight - tentative) + weight_sum;
+        }
+        weight_sum = tentative;
     }
+    weight_sum += weight_compensation;
     if !weight_sum.is_finite() || (weight_sum - 1.0).abs() > options.weight_tolerance {
         return Err(RemapError::WeightSum { sum: weight_sum });
     }
@@ -407,15 +641,7 @@ pub fn remap_convex_packed(
             }
         }
         let m = unpack9(&source_states[index]);
-        let leakage = screen_leakage(&m, direction);
-        let tolerance = options.screen_tolerance * max_abs_matrix(&m).max(1.0);
-        if leakage > tolerance {
-            return Err(RemapError::NonPhysicalSource {
-                source: index,
-                leakage,
-                tolerance,
-            });
-        }
+        let (leakage, _) = validate_source_coherency(&m, direction, index, options)?;
         let (transported, transport_dot, _) =
             transport_validated(&m, direction, target, options, Some(index))?;
         max_input_screen_leakage = max_input_screen_leakage.max(leakage);
@@ -429,10 +655,10 @@ pub fn remap_convex_packed(
     }
 
     if !accum.iter().flatten().all(|x| x.is_finite()) {
-        return Err(RemapError::NonFiniteArithmetic);
+        return Err(RemapError::AccumulationArithmeticNonFinite);
     }
     let projected = project_matrix(&accum, target);
-    let output_screen_leakage = screen_leakage(&projected, target);
+    let (output_screen_leakage, _) = validate_output_coherency(&projected, target, options)?;
     Ok(RemapOutput {
         packed: pack9(&projected),
         diagnostics: RemapDiagnostics {

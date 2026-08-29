@@ -64,6 +64,18 @@ pub enum PhysicalCarrierError {
         max_leakage: f64,
         tolerance: f64,
     },
+    ScreenTransversalityViolation {
+        node: usize,
+        leakage: f64,
+        intensity: f64,
+        tolerance: f64,
+    },
+    NonRealizableScreenState {
+        node: usize,
+        minimum_eigenvalue: f64,
+        intensity: f64,
+        tolerance: f64,
+    },
     OperatorDimensionMismatch {
         expected: usize,
         actual: usize,
@@ -335,6 +347,88 @@ fn bilinear(left: [f64; 3], matrix: &Mat3, right: [f64; 3]) -> f64 {
     value
 }
 
+fn screen_intensity_and_minimum_eigenvalue(direction: [f64; 3], matrix: &Mat3) -> (f64, f64) {
+    let (u, v) = tangent_frame(direction);
+    let a = bilinear(u, matrix, u);
+    let d = bilinear(v, matrix, v);
+    let uv = bilinear(u, matrix, v);
+    let vu = bilinear(v, matrix, u);
+    let symmetric = 0.5 * (uv + vu);
+    let antisymmetric = 0.5 * (uv - vu);
+    let discriminant =
+        ((a - d) * (a - d) + 4.0 * (symmetric * symmetric + antisymmetric * antisymmetric)).sqrt();
+    (a + d, 0.5 * (a + d - discriminant))
+}
+
+/// Validate a physical coherency state, separately from the signed linear
+/// carrier accepted by collision/Kato operator probes.
+///
+/// `ScreenInputPolicy` intentionally governs only the geometric `J=PJP`
+/// carrier. Production state-bearing routes must call this validator (or
+/// `enforce_realizable_screen_state`) before accepting a coherency state. The
+/// tolerance is homogeneous in intensity: each node is compared with its own
+/// screen trace, never with a unit-dependent absolute floor. Exact vacuum is
+/// accepted; every non-zero zero-trace state fails closed as either transverse
+/// leakage or a negative screen eigenvalue.
+pub fn validate_realizable_screen_state(
+    directions: &[[f64; 3]],
+    state: &[f64],
+    tolerance: f64,
+) -> Result<(), PhysicalCarrierError> {
+    validate_directions(directions)?;
+    validate_state(directions, state)?;
+    validate_tolerance("coherency_tolerance", tolerance)?;
+    let projected = project_screen_state_unchecked(directions, state);
+    validate_screen_projection(&projected)?;
+
+    for (node, &direction) in directions.iter().enumerate() {
+        let start = 9 * node;
+        let end = start + 9;
+        let physical = unpack9(&projected[start..end]);
+        let (intensity, minimum_eigenvalue) =
+            screen_intensity_and_minimum_eigenvalue(direction, &physical);
+        if !intensity.is_finite() || !minimum_eigenvalue.is_finite() {
+            return Err(PhysicalCarrierError::CoherencyDiagnosticNonFinite { node });
+        }
+        let leakage = checked_max_screen_leakage(&state[start..end], &projected[start..end])?;
+        let absolute_tolerance = if intensity > 0.0 {
+            tolerance * intensity
+        } else {
+            0.0
+        };
+        if leakage > absolute_tolerance {
+            return Err(PhysicalCarrierError::ScreenTransversalityViolation {
+                node,
+                leakage,
+                intensity,
+                tolerance: absolute_tolerance,
+            });
+        }
+        if intensity < 0.0 || minimum_eigenvalue < -absolute_tolerance {
+            return Err(PhysicalCarrierError::NonRealizableScreenState {
+                node,
+                minimum_eigenvalue,
+                intensity,
+                tolerance: absolute_tolerance,
+            });
+        }
+    }
+    Ok(())
+}
+
+/// Apply the explicit geometric input policy and then require a realizable
+/// positive-semidefinite screen coherency state.
+pub fn enforce_realizable_screen_state(
+    directions: &[[f64; 3]],
+    state: &[f64],
+    policy: ScreenInputPolicy,
+    tolerance: f64,
+) -> Result<Vec<f64>, PhysicalCarrierError> {
+    let physical = enforce_screen_state(directions, state, policy)?;
+    validate_realizable_screen_state(directions, &physical, tolerance)?;
+    Ok(physical)
+}
+
 /// Minimum eigenvalue of the physical two-by-two Hermitian coherency matrix.
 /// This is a diagnostic for tested states, not a generic positivity theorem.
 pub fn minimum_coherency_eigenvalue(
@@ -347,17 +441,7 @@ pub fn minimum_coherency_eigenvalue(
     let mut minimum = f64::INFINITY;
     for (node, &direction) in directions.iter().enumerate() {
         let matrix = unpack9(&physical[9 * node..9 * node + 9]);
-        let (u, v) = tangent_frame(direction);
-        let a = bilinear(u, &matrix, u);
-        let d = bilinear(v, &matrix, v);
-        let uv = bilinear(u, &matrix, v);
-        let vu = bilinear(v, &matrix, u);
-        let symmetric = 0.5 * (uv + vu);
-        let antisymmetric = 0.5 * (uv - vu);
-        let discriminant = ((a - d) * (a - d)
-            + 4.0 * (symmetric * symmetric + antisymmetric * antisymmetric))
-            .sqrt();
-        let eigenvalue = 0.5 * (a + d - discriminant);
+        let (_, eigenvalue) = screen_intensity_and_minimum_eigenvalue(direction, &matrix);
         if !eigenvalue.is_finite() {
             return Err(PhysicalCarrierError::CoherencyDiagnosticNonFinite { node });
         }

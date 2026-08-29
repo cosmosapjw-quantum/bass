@@ -6,7 +6,8 @@
 //! The physical tensor carrier is inherited from `typeii_physical_guard`.
 
 use super::typeii_physical_guard::{
-    enforce_screen_state, max_screen_leakage, minimum_coherency_eigenvalue, project_screen_state,
+    enforce_realizable_screen_state, enforce_screen_state, max_screen_leakage,
+    minimum_coherency_eigenvalue, project_screen_state, validate_realizable_screen_state,
     PhysicalCarrierError, ScreenInputPolicy,
 };
 
@@ -14,6 +15,17 @@ pub type Mat3 = [[f64; 3]; 3];
 
 pub const TYPEII_DIAGONAL_GAUGE_TOLERANCE: f64 = 1e-12;
 pub const GEOMETRIC_TENSOR_TOLERANCE: f64 = 1e-10;
+/// Numerical control only: a failed implicit-midpoint fixed point may be
+/// bisected this many times before the characteristic fails closed.
+pub const MAX_MIDPOINT_BISECTIONS: usize = 8;
+
+#[inline]
+fn coherency_tolerance(input_policy: ScreenInputPolicy) -> f64 {
+    match input_policy {
+        ScreenInputPolicy::Reject { tolerance } => tolerance,
+        ScreenInputPolicy::Project => GEOMETRIC_TENSOR_TOLERANCE,
+    }
+}
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct HomogeneousRayBackground {
@@ -92,6 +104,13 @@ pub enum PolarizedLiouvilleError {
     MidpointDidNotConverge {
         substep: usize,
         residual: f64,
+        bisections: usize,
+    },
+    TransportRotationContractViolation {
+        substep: usize,
+        orthogonality_defect: f64,
+        determinant_defect: f64,
+        tolerance: f64,
     },
     DegenerateTypeIIGauge {
         n1: f64,
@@ -276,12 +295,6 @@ fn validate_background(
 }
 
 #[inline]
-fn normalize(direction: [f64; 3]) -> [f64; 3] {
-    let norm = dot(direction, direction).sqrt();
-    scale(direction, 1.0 / norm)
-}
-
-#[inline]
 fn checked_normalize(direction: [f64; 3]) -> Result<[f64; 3], PolarizedLiouvilleError> {
     let norm_squared = dot(direction, direction);
     if !norm_squared.is_finite() || norm_squared <= 0.0 {
@@ -405,6 +418,132 @@ fn congruence(rotation: &Mat3, matrix: &Mat3) -> Mat3 {
     mm(&mm(rotation, matrix), &transpose(rotation))
 }
 
+fn enforce_rotation_contract(
+    rotation: &Mat3,
+    substep: usize,
+) -> Result<(), PolarizedLiouvilleError> {
+    let orthogonality_defect = orthogonality_defect(rotation);
+    let determinant_defect = (determinant3(rotation) - 1.0).abs();
+    if !orthogonality_defect.is_finite()
+        || !determinant_defect.is_finite()
+        || orthogonality_defect > GEOMETRIC_TENSOR_TOLERANCE
+        || determinant_defect > GEOMETRIC_TENSOR_TOLERANCE
+    {
+        return Err(
+            PolarizedLiouvilleError::TransportRotationContractViolation {
+                substep,
+                orthogonality_defect,
+                determinant_defect,
+                tolerance: GEOMETRIC_TENSOR_TOLERANCE,
+            },
+        );
+    }
+    Ok(())
+}
+
+#[allow(clippy::too_many_arguments)]
+fn advance_midpoint_interval<F>(
+    direction: &mut [f64; 3],
+    matrix: &mut Mat3,
+    spatial_transport: &mut Mat3,
+    log_energy_shift: &mut f64,
+    screen_connection_integral: &mut f64,
+    step: f64,
+    fraction_left: f64,
+    fraction_right: f64,
+    substep: usize,
+    bisection_depth: usize,
+    background_at_fraction: &F,
+) -> Result<(), PolarizedLiouvilleError>
+where
+    F: Fn(f64) -> HomogeneousRayBackground,
+{
+    let fraction_mid = 0.5 * (fraction_left + fraction_right);
+    let background_mid = background_at_fraction(fraction_mid);
+    validate_background(&background_mid, substep + 2)?;
+    let h = step * (fraction_right - fraction_left);
+
+    // Lie-group implicit midpoint.  The fixed point
+    // e_m = exp[(h/2) Omega(e_m)] e_n makes the accepted rotation
+    // self-adjoint under h -> -h for the same midpoint background.
+    let first = liouville_coefficients(*direction, &background_mid)?;
+    let half_rotation = rotation_from_vector(scale(first.transport_angular_velocity, 0.5 * h));
+    enforce_rotation_contract(&half_rotation, substep)?;
+    let mut direction_mid = checked_normalize(mat_vec(&half_rotation, *direction))?;
+    let mut residual = f64::INFINITY;
+    for _ in 0..32 {
+        let midpoint_trial = liouville_coefficients(direction_mid, &background_mid)?;
+        let trial_rotation =
+            rotation_from_vector(scale(midpoint_trial.transport_angular_velocity, 0.5 * h));
+        enforce_rotation_contract(&trial_rotation, substep)?;
+        let candidate = checked_normalize(mat_vec(&trial_rotation, *direction))?;
+        residual = candidate
+            .iter()
+            .zip(direction_mid)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0, f64::max);
+        direction_mid = candidate;
+        if residual <= 8e-15 {
+            break;
+        }
+    }
+    if residual > 2e-13 {
+        if bisection_depth >= MAX_MIDPOINT_BISECTIONS {
+            return Err(PolarizedLiouvilleError::MidpointDidNotConverge {
+                substep,
+                residual,
+                bisections: bisection_depth,
+            });
+        }
+        advance_midpoint_interval(
+            direction,
+            matrix,
+            spatial_transport,
+            log_energy_shift,
+            screen_connection_integral,
+            step,
+            fraction_left,
+            fraction_mid,
+            substep,
+            bisection_depth + 1,
+            background_at_fraction,
+        )?;
+        advance_midpoint_interval(
+            direction,
+            matrix,
+            spatial_transport,
+            log_energy_shift,
+            screen_connection_integral,
+            step,
+            fraction_mid,
+            fraction_right,
+            substep,
+            bisection_depth + 1,
+            background_at_fraction,
+        )?;
+        return Ok(());
+    }
+
+    let midpoint = liouville_coefficients(direction_mid, &background_mid)?;
+    let rotation = rotation_from_vector(scale(midpoint.transport_angular_velocity, h));
+    enforce_rotation_contract(&rotation, substep)?;
+    *direction = checked_normalize(mat_vec(&rotation, *direction))?;
+    *spatial_transport = mm(&rotation, spatial_transport);
+    enforce_rotation_contract(spatial_transport, substep)?;
+
+    let delta_log_energy = h * midpoint.log_energy_rate;
+    let bolometric_factor = (4.0 * delta_log_energy).exp();
+    *matrix = congruence(&rotation, matrix);
+    for row in matrix {
+        for value in row {
+            *value *= bolometric_factor;
+        }
+    }
+    *log_energy_shift += delta_log_energy;
+    *screen_connection_integral += h * midpoint.screen_connection_rate;
+    Ok(())
+}
+
 /// Instantaneous bolometric tensor RHS in the tetrad representation.
 pub fn polarized_bolometric_rhs(
     direction: [f64; 3],
@@ -453,59 +592,34 @@ where
     validate_background(&background_at_fraction(0.0), 0)?;
     validate_background(&background_at_fraction(1.0), 1)?;
     let mut direction = checked_normalize(direction)?;
-    let physical = enforce_screen_state(&[direction], coherency, input_policy)
-        .map_err(PolarizedLiouvilleError::Carrier)?;
+    let physical = enforce_realizable_screen_state(
+        &[direction],
+        coherency,
+        input_policy,
+        coherency_tolerance(input_policy),
+    )
+    .map_err(PolarizedLiouvilleError::Carrier)?;
     let mut matrix = unpack9(&physical);
     let mut spatial_transport = identity3();
-    let h = step / substeps as f64;
     let mut log_energy_shift = 0.0;
     let mut screen_connection_integral = 0.0;
 
     for substep in 0..substeps {
-        let fraction_mid = (substep as f64 + 0.5) / substeps as f64;
-        let background_mid = background_at_fraction(fraction_mid);
-        validate_background(&background_mid, substep + 2)?;
-
-        // Lie-group implicit midpoint.  The fixed point
-        // e_m = exp[(h/2) Omega(e_m)] e_n makes the accepted rotation
-        // self-adjoint under h -> -h for the same midpoint background.
-        let first = liouville_coefficients(direction, &background_mid)?;
-        let half_rotation = rotation_from_vector(scale(first.transport_angular_velocity, 0.5 * h));
-        let mut direction_mid = normalize(mat_vec(&half_rotation, direction));
-        let mut residual = f64::INFINITY;
-        for _ in 0..32 {
-            let midpoint_trial = liouville_coefficients(direction_mid, &background_mid)?;
-            let trial_rotation =
-                rotation_from_vector(scale(midpoint_trial.transport_angular_velocity, 0.5 * h));
-            let candidate = normalize(mat_vec(&trial_rotation, direction));
-            residual = candidate
-                .iter()
-                .zip(direction_mid)
-                .map(|(a, b)| (a - b).abs())
-                .fold(0.0, f64::max);
-            direction_mid = candidate;
-            if residual <= 8e-15 {
-                break;
-            }
-        }
-        if residual > 2e-13 {
-            return Err(PolarizedLiouvilleError::MidpointDidNotConverge { substep, residual });
-        }
-        let midpoint = liouville_coefficients(direction_mid, &background_mid)?;
-        let rotation = rotation_from_vector(scale(midpoint.transport_angular_velocity, h));
-        direction = normalize(mat_vec(&rotation, direction));
-        spatial_transport = mm(&rotation, &spatial_transport);
-
-        let delta_log_energy = h * midpoint.log_energy_rate;
-        let bolometric_factor = (4.0 * delta_log_energy).exp();
-        matrix = congruence(&rotation, &matrix);
-        for row in &mut matrix {
-            for value in row {
-                *value *= bolometric_factor;
-            }
-        }
-        log_energy_shift += delta_log_energy;
-        screen_connection_integral += h * midpoint.screen_connection_rate;
+        let fraction_left = substep as f64 / substeps as f64;
+        let fraction_right = (substep + 1) as f64 / substeps as f64;
+        advance_midpoint_interval(
+            &mut direction,
+            &mut matrix,
+            &mut spatial_transport,
+            &mut log_energy_shift,
+            &mut screen_connection_integral,
+            step,
+            fraction_left,
+            fraction_right,
+            substep,
+            0,
+            &background_at_fraction,
+        )?;
     }
 
     let packed = pack9(&matrix).to_vec();
@@ -514,10 +628,15 @@ where
     }
     let coherency =
         project_screen_state(&[direction], &packed).map_err(PolarizedLiouvilleError::Carrier)?;
+    validate_realizable_screen_state(&[direction], &coherency, coherency_tolerance(input_policy))
+        .map_err(PolarizedLiouvilleError::Carrier)?;
     let leakage =
         max_screen_leakage(&[direction], &coherency).map_err(PolarizedLiouvilleError::Carrier)?;
     let minimum_eigenvalue = minimum_coherency_eigenvalue(&[direction], &coherency)
         .map_err(PolarizedLiouvilleError::Carrier)?;
+    let transport_orthogonality_defect = orthogonality_defect(&spatial_transport);
+    let transport_determinant_defect = (determinant3(&spatial_transport) - 1.0).abs();
+    enforce_rotation_contract(&spatial_transport, substeps - 1)?;
     Ok(PolarizedCharacteristicResult {
         direction,
         coherency,
@@ -525,8 +644,8 @@ where
         log_bolometric_shift: 4.0 * log_energy_shift,
         screen_connection_integral,
         spatial_transport,
-        transport_orthogonality_defect: orthogonality_defect(&spatial_transport),
-        transport_determinant_defect: (determinant3(&spatial_transport) - 1.0).abs(),
+        transport_orthogonality_defect,
+        transport_determinant_defect,
         max_screen_leakage: leakage,
         minimum_coherency_eigenvalue: minimum_eigenvalue,
     })

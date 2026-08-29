@@ -1,3 +1,7 @@
+use bianchi_rustcore::generated::typeii_physical_guard::{
+    enforce_realizable_screen_state, validate_realizable_screen_state, PhysicalCarrierError,
+    ScreenInputPolicy,
+};
 use bianchi_rustcore::generated::typeii_polarized_remap::{
     parallel_transport_matrix, remap_convex_packed, transport_packed_to_direction, Mat3,
     RemapError, RemapOptions,
@@ -209,7 +213,10 @@ fn antipodal_and_nonphysical_inputs_fail_closed() {
     bad[2] = 0.1; // longitudinal zz component
     let err =
         transport_packed_to_direction(&bad, [0.0, 0.0, 1.0], [1.0, 0.0, 0.0], opts).unwrap_err();
-    assert!(matches!(err, RemapError::NonPhysicalSource { .. }));
+    assert!(matches!(
+        err,
+        RemapError::ScreenTransversalityViolation { .. }
+    ));
 }
 
 #[test]
@@ -386,4 +393,100 @@ fn tolerated_roundoff_leakage_is_removed_on_output() {
     assert!(out.diagnostics.output_screen_leakage < 3.0e-16);
     let expected = unpolarized(target, 1.0);
     assert!(max_abs9(&out.packed, &expected) < 2.0e-13);
+}
+
+#[test]
+fn low_intensity_longitudinal_leakage_is_not_hidden_by_an_absolute_scale_floor() {
+    // Production defect: max(trace, 1) makes the transversality tolerance depend
+    // on the caller's intensity units and accepts a mostly-longitudinal faint state.
+    let opts = RemapOptions::default();
+    let source = [0.0, 0.0, 1.0];
+    let mut state = unpolarized(source, 1.0e-15);
+    state[2] = 1.0e-13;
+
+    assert!(
+        transport_packed_to_direction(&state, source, source, opts).is_err(),
+        "trace-normalized transversality must reject leakage larger than the source intensity"
+    );
+}
+
+#[test]
+fn nonrealizable_screen_coherency_fails_closed() {
+    // Production defect: a transverse but indefinite coherency matrix (I=0,
+    // Q=1) used to pass because remap checked only J=PJP.
+    let opts = RemapOptions::default();
+    let source = [0.0, 0.0, 1.0];
+    let indefinite = packed_from_stokes(source, 0.0, [0.0, 1.0, 0.0, 0.0]);
+
+    assert!(
+        transport_packed_to_direction(&indefinite, source, source, opts).is_err(),
+        "a negative screen-coherency eigenvalue must be rejected"
+    );
+}
+
+#[test]
+fn compensated_weight_sum_accepts_a_large_exactly_uniform_convex_stencil() {
+    // Production defect: linear summation drifts by more than the frozen
+    // weight tolerance for a large, exactly uniform non-negative stencil.
+    let opts = RemapOptions::default();
+    let count = 50_000usize;
+    let direction = [0.0, 0.0, 1.0];
+    let directions = vec![direction; count];
+    let states = vec![[0.0; 9]; count];
+    let weights = vec![1.0 / count as f64; count];
+
+    let out = remap_convex_packed(&directions, &states, &weights, direction, opts)
+        .expect("compensated summation should accept the uniform convex stencil");
+    assert_eq!(out.packed, [0.0; 9]);
+    assert!((out.diagnostics.weight_sum - 1.0).abs() <= opts.weight_tolerance);
+}
+
+#[test]
+fn explicit_transport_support_bound_is_enforced_without_changing_the_default() {
+    // Production defect: minimum_transport_dot was diagnostic-only, so a
+    // stencil could accept transport outside its declared support.
+    let from = [0.0, 0.0, 1.0];
+    let to = normalize([1.0, 0.0, 1.0]);
+    parallel_transport_matrix(from, to, RemapOptions::default())
+        .expect("the historical antipodal-only default must remain accepted");
+
+    let opts = RemapOptions {
+        minimum_transport_dot: 0.8,
+        ..RemapOptions::default()
+    };
+    let err = parallel_transport_matrix(from, to, opts).unwrap_err();
+    assert!(matches!(
+        err,
+        RemapError::TransportSupportViolation {
+            source: None,
+            dot,
+            minimum_dot,
+        } if (dot - 2.0_f64.sqrt().recip()).abs() < 2.0e-15
+            && (minimum_dot - 0.8).abs() < f64::EPSILON
+    ));
+}
+
+#[test]
+fn carrier_projection_and_state_realizability_are_separate_contracts() {
+    // Production defect: a transverse but indefinite screen state could be
+    // reported as physical because only the carrier projection was checked.
+    let direction = [0.0, 0.0, 1.0];
+    let indefinite = packed_from_stokes(direction, 0.0, [0.0, 1.0, 0.0, 0.0]);
+    assert!(matches!(
+        validate_realizable_screen_state(&[direction], &indefinite, 2.0e-12),
+        Err(PhysicalCarrierError::NonRealizableScreenState { node: 0, .. })
+    ));
+    assert!(matches!(
+        enforce_realizable_screen_state(
+            &[direction],
+            &indefinite,
+            ScreenInputPolicy::Project,
+            2.0e-12,
+        ),
+        Err(PhysicalCarrierError::NonRealizableScreenState { node: 0, .. })
+    ));
+
+    let exact_vacuum = [0.0; 9];
+    validate_realizable_screen_state(&[direction], &exact_vacuum, 2.0e-12)
+        .expect("exact transverse vacuum has an unambiguous PSD limit");
 }

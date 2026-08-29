@@ -73,6 +73,60 @@ def projector(v,e,w,axis=1):
     Pv=(np.outer(rv,a)+np.outer(r,av))/den-P*(denv/den)
     return P,Pv
 
+
+def _off_equilibrium_field(e):
+    """Smooth analytic perturbation that is not a collision equilibrium mode."""
+    e=np.asarray(e,float)
+    return np.exp(.37*e[:,0]-.21*e[:,1]+.19*e[:,2])*(1+.13*e[:,0]*e[:,1])
+
+
+def _continuum_collision_action(eval_e,quad_e,quad_w,v,axis=1):
+    """Independent high-order quadrature of the continuum collision action."""
+    eval_e=np.asarray(eval_e,float);quad_e=np.asarray(quad_e,float)
+    ep_eval,D_eval=aberrate(eval_e,v,axis)
+    ep_quad,D_quad=aberrate(quad_e,v,axis)
+    rest_weights=np.asarray(quad_w,float)/D_quad**2
+    cosine=ep_eval@ep_quad.T
+    kernel=(3/(16*PI))*(1+cosine*cosine)
+    integral=kernel@(rest_weights*D_quad**4*_off_equilibrium_field(quad_e))
+    q_eval=1-v*eval_e[:,axis]
+    return q_eval*D_eval**-4*(integral-D_eval**4*_off_equilibrium_field(eval_e))
+
+
+def ap_consistency_refinement(velocity:float,axis:int=1):
+    """Compare raw and AP-corrected discrete actions away from equilibrium.
+
+    The reference integral uses a separate GL32x64 grid, while each tested
+    action is evaluated on its own GL3x6, GL4x8, or GL5x10 grid.  This checks
+    that the well-balanced projection converges to the same continuum action;
+    exact equilibrium annihilation alone is not used as evidence.
+    """
+    reference_e,reference_w=product_grid(32,64)
+    raw_errors=[];ap_errors=[];raw_ap_differences=[]
+    for n_theta,n_phi in ((3,6),(4,8),(5,10)):
+        e,w=product_grid(n_theta,n_phi)
+        state=_off_equilibrium_field(e)
+        collision,_,_=collision_matrix(e,w,velocity,axis)
+        raw=collision@state
+        equilibrium_projector,_=projector(velocity,e,w,axis)
+        complement=np.eye(len(e))-equilibrium_projector
+        corrected=complement@collision@complement@state
+        reference=_continuum_collision_action(
+            e,reference_e,reference_w,velocity,axis
+        )
+        reference_norm=np.sqrt(np.dot(w,reference*reference))
+        def relative(error):
+            return float(np.sqrt(np.dot(w,error*error))/reference_norm)
+        raw_errors.append(relative(raw-reference))
+        ap_errors.append(relative(corrected-reference))
+        raw_ap_differences.append(relative(corrected-raw))
+    return {
+        'grids':['GL3x6','GL4x8','GL5x10'],
+        'raw_relative_errors':raw_errors,
+        'ap_relative_errors':ap_errors,
+        'raw_ap_relative_differences':raw_ap_differences,
+    }
+
 def kato_endpoint_orders(schedule_path:Path):
     s=json.loads(schedule_path.read_text());dt=float(s['dt']);T=float(s['T'])
     ts=np.arange(len(s['v2']))*dt

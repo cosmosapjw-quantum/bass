@@ -8,7 +8,10 @@ ODE is compared only after the coordinate result has been constructed.
 
 from __future__ import annotations
 
+import argparse
+import ast
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -22,6 +25,35 @@ E0 = np.array(
     [0.4514616300345193, -0.39320851648167815, 0.8009803113515666],
     dtype=float,
 )
+
+RUST_GOLDEN_TOLERANCES = {
+    "direction_max_abs": 3.0e-10,
+    "log_energy_abs": 5.0e-11,
+    "spatial_transport_max_abs": 3.0e-10,
+}
+
+
+def observer_energy_factor(
+    propagation_direction: np.ndarray, observer_velocity: np.ndarray
+) -> float:
+    """Return E_observer/E for future-directed p=E(1,e), signature (-,+,+,+).
+
+    This fixes `e` as the photon propagation direction and `observer_velocity`
+    as the observer's tetrad three-velocity.  It deliberately makes no sky-line-
+    of-sight or Stokes Q/U convention.
+    """
+    e = np.asarray(propagation_direction, dtype=float)
+    velocity = np.asarray(observer_velocity, dtype=float)
+    if e.shape != (3,) or velocity.shape != (3,):
+        raise ValueError("propagation direction and observer velocity must have shape (3,)")
+    norm = float(np.linalg.norm(e))
+    speed_squared = float(velocity @ velocity)
+    if not np.isfinite(norm) or abs(norm - 1.0) > 2.0e-13:
+        raise ValueError("propagation direction must be a finite unit vector")
+    if not np.isfinite(speed_squared) or not 0.0 <= speed_squared < 1.0:
+        raise ValueError("observer velocity must be finite and subluminal")
+    gamma = 1.0 / np.sqrt(1.0 - speed_squared)
+    return float(gamma * (1.0 - velocity @ e))
 
 
 def scale_factors(t: float) -> np.ndarray:
@@ -142,8 +174,11 @@ def coordinate_oracle() -> dict[str, object]:
     w1 /= np.linalg.norm(w1)
     w2 -= np.dot(w2, e1) * e1 + np.dot(w2, w1) * w1
     w2 /= np.linalg.norm(w2)
-    if np.dot(np.cross(w1, w2), e1) < 0.0:
-        w2 = -w2
+    screen_handedness = float(np.dot(np.cross(w1, w2), e1))
+    if screen_handedness <= 0.0:
+        raise RuntimeError(
+            "coordinate parallel transport reversed the oriented photon screen"
+        )
     initial_frame = np.column_stack([u0, v0, E0])
     final_frame = np.column_stack([w1, w2, e1])
     rotation = final_frame @ initial_frame.T
@@ -236,8 +271,176 @@ def compute_receipt() -> dict[str, object]:
     }
 
 
+def _mask_rust_comments_and_strings(source: str) -> str:
+    """Mask non-executable Rust text while preserving line structure.
+
+    This is a deliberately small lexer for evidence extraction, not a Rust
+    parser.  It handles nested block comments plus escaped and raw strings so a
+    commented/string decoy cannot shadow the declaration compiled by rustc.
+    """
+    masked = list(source)
+    length = len(source)
+
+    def blank(start: int, end: int) -> None:
+        for index in range(start, end):
+            if masked[index] != "\n":
+                masked[index] = " "
+
+    index = 0
+    while index < length:
+        if source.startswith("//", index):
+            end = source.find("\n", index + 2)
+            end = length if end < 0 else end
+            blank(index, end)
+            index = end
+            continue
+        if source.startswith("/*", index):
+            start = index
+            depth = 1
+            index += 2
+            while index < length and depth:
+                if source.startswith("/*", index):
+                    depth += 1
+                    index += 2
+                elif source.startswith("*/", index):
+                    depth -= 1
+                    index += 2
+                else:
+                    index += 1
+            if depth:
+                raise ValueError("unterminated Rust block comment")
+            blank(start, index)
+            continue
+
+        raw_start = index
+        if source.startswith("br", index):
+            raw_marker = index + 2
+        elif source.startswith("r", index):
+            raw_marker = index + 1
+        else:
+            raw_marker = -1
+        if raw_marker >= 0:
+            marker = raw_marker
+            while marker < length and source[marker] == "#":
+                marker += 1
+            if marker < length and source[marker] == '"':
+                hashes = marker - raw_marker
+                terminator = '"' + "#" * hashes
+                end = source.find(terminator, marker + 1)
+                if end < 0:
+                    raise ValueError("unterminated Rust raw string")
+                end += len(terminator)
+                blank(raw_start, end)
+                index = end
+                continue
+
+        if source[index] == '"':
+            start = index
+            index += 1
+            escaped = False
+            while index < length:
+                character = source[index]
+                index += 1
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == '"':
+                    break
+            else:
+                raise ValueError("unterminated Rust string")
+            blank(start, index)
+            continue
+        index += 1
+    return "".join(masked)
+
+
+def _extract_rust_constant(source: str, name: str) -> object:
+    executable = _mask_rust_comments_and_strings(source)
+    matches = list(
+        re.finditer(
+            rf"^\s*const\s+{re.escape(name)}\s*:[^=]+?=\s*(.*?);",
+            executable,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+    )
+    if not matches:
+        raise ValueError(f"missing Rust coordinate-oracle constant {name}")
+    if len(matches) != 1:
+        raise ValueError(f"duplicate Rust coordinate-oracle constant {name}")
+    return ast.literal_eval(matches[0].group(1))
+
+
+def rust_golden_errors(receipt: dict[str, object], rust_source: str) -> dict[str, float]:
+    """Compare Rust golden literals to the numerical coordinate-oracle state."""
+    coordinate = receipt["coordinate"]
+    rust_direction = np.asarray(
+        _extract_rust_constant(rust_source, "COORDINATE_ORACLE_DIRECTION"),
+        dtype=float,
+    )
+    rust_log_energy = float(
+        _extract_rust_constant(rust_source, "COORDINATE_ORACLE_LOG_ENERGY_SHIFT")
+    )
+    rust_transport = np.asarray(
+        _extract_rust_constant(rust_source, "COORDINATE_ORACLE_SPATIAL_TRANSPORT"),
+        dtype=float,
+    )
+    if rust_direction.shape != (3,) or rust_transport.shape != (3, 3):
+        raise ValueError("Rust coordinate-oracle constants have invalid shapes")
+    return {
+        "direction_max_abs": float(
+            np.max(np.abs(rust_direction - np.asarray(coordinate["direction"])))
+        ),
+        "log_energy_abs": abs(rust_log_energy - float(coordinate["log_energy_shift"])),
+        "spatial_transport_max_abs": float(
+            np.max(
+                np.abs(
+                    rust_transport - np.asarray(coordinate["spatial_transport"])
+                )
+            )
+        ),
+    }
+
+
+def format_rust_golden(receipt: dict[str, object]) -> str:
+    """Render copy/paste Rust literals from the independent numerical oracle."""
+    coordinate = receipt["coordinate"]
+    direction = json.dumps(coordinate["direction"])
+    log_energy = repr(float(coordinate["log_energy_shift"]))
+    transport = json.dumps(coordinate["spatial_transport"])
+    return "\n".join(
+        [
+            f"const COORDINATE_ORACLE_DIRECTION: [f64; 3] = {direction};",
+            f"const COORDINATE_ORACLE_LOG_ENERGY_SHIFT: f64 = {log_energy};",
+            "const COORDINATE_ORACLE_SPATIAL_TRANSPORT: [[f64; 3]; 3] = "
+            f"{transport};",
+        ]
+    )
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--print-rust-golden", action="store_true")
+    modes.add_argument("--check-rust-golden", type=Path)
+    args = parser.parse_args()
     receipt = compute_receipt()
+    if args.print_rust_golden:
+        print(format_rust_golden(receipt))
+        return
+    if args.check_rust_golden is not None:
+        errors = rust_golden_errors(receipt, args.check_rust_golden.read_text())
+        print(json.dumps(errors, sort_keys=True))
+        failed = [
+            name
+            for name, error in errors.items()
+            if error > RUST_GOLDEN_TOLERANCES[name]
+        ]
+        if failed:
+            raise SystemExit(
+                "Rust coordinate-oracle golden mismatch: " + ", ".join(failed)
+            )
+        return
     output = Path(__file__).with_name("typeii_polarized_liouville_coordinate_oracle.json")
     output.write_text(json.dumps(receipt, sort_keys=True, indent=2) + "\n")
     print(json.dumps(receipt, sort_keys=True, indent=2))

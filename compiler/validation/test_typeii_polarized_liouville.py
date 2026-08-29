@@ -6,6 +6,8 @@ screen-tensor transport identities using an independent NumPy route.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 
@@ -168,6 +170,91 @@ def test_independent_coordinate_bianchi_ii_oracle() -> None:
     assert abs(coordinate["null_residual"]) < 2e-11
     assert coordinate["orthogonality_defect"] < 3e-12
     assert coordinate["determinant_defect"] < 3e-12
+
+
+def test_propagation_direction_and_boost_dipole_sign_anchor() -> None:
+    from compiler.validation.typeii_polarized_liouville_coordinate_oracle import (
+        observer_energy_factor,
+    )
+
+    # e is future-directed photon propagation, not the observer's sky line of
+    # sight.  A +x observer chases a +x photon and measures the smaller energy.
+    speed = 0.1
+    velocity = np.array([speed, 0.0, 0.0])
+    forward = observer_energy_factor(np.array([1.0, 0.0, 0.0]), velocity)
+    backward = observer_energy_factor(np.array([-1.0, 0.0, 0.0]), velocity)
+    assert forward < backward
+    bolometric_ratio = forward**-4 / backward**-4
+    expected_ratio = ((1.0 + speed) / (1.0 - speed)) ** 4
+    assert abs(bolometric_ratio - expected_ratio) < 3e-15
+
+
+def test_coordinate_oracle_preserves_oriented_basis_free_screen() -> None:
+    from compiler.validation.typeii_polarized_liouville_coordinate_oracle import (
+        E0,
+        compute_receipt,
+        tangent_frame,
+    )
+
+    coordinate = compute_receipt()["coordinate"]
+    final_direction = np.asarray(coordinate["direction"])
+    rotation = np.asarray(coordinate["spatial_transport"])
+    first, second = tangent_frame(E0)
+    final_first = rotation @ first
+    final_second = rotation @ second
+    np.testing.assert_allclose(rotation @ E0, final_direction, rtol=0.0, atol=3e-12)
+    handedness = float(np.dot(np.cross(final_first, final_second), final_direction))
+    assert handedness > 1.0 - 4e-12
+
+
+def test_rust_coordinate_golden_is_numerically_bound_to_generator() -> None:
+    from compiler.validation.typeii_polarized_liouville_coordinate_oracle import (
+        RUST_GOLDEN_TOLERANCES,
+        compute_receipt,
+        rust_golden_errors,
+    )
+
+    root = Path(__file__).resolve().parents[2]
+    rust_source = (
+        root / "runtime/rust/typeii/tests/typeii_polarized_liouville_unit.rs"
+    ).read_text()
+    errors = rust_golden_errors(compute_receipt(), rust_source)
+    for name, error in errors.items():
+        assert error <= RUST_GOLDEN_TOLERANCES[name], f"{name}={error}"
+
+
+def test_rust_golden_parser_ignores_commented_declarations() -> None:
+    from compiler.validation.typeii_polarized_liouville_coordinate_oracle import (
+        compute_receipt,
+        format_rust_golden,
+        rust_golden_errors,
+    )
+
+    receipt = compute_receipt()
+    golden = format_rust_golden(receipt)
+    commented_correct = "\n".join(f"// {line}" for line in golden.splitlines())
+    block_commented_correct = f"/*\n{golden}\n*/"
+    string_embedded_correct = f'const DECOY: &str = r#"\n{golden}\n"#;'
+    live_wrong = """
+const COORDINATE_ORACLE_DIRECTION: [f64; 3] = [0.0, 0.0, 0.0];
+const COORDINATE_ORACLE_LOG_ENERGY_SHIFT: f64 = 0.0;
+const COORDINATE_ORACLE_SPATIAL_TRANSPORT: [[f64; 3]; 3] =
+    [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]];
+"""
+    decoys = "\n".join(
+        (commented_correct, block_commented_correct, string_embedded_correct)
+    )
+    errors = rust_golden_errors(receipt, decoys + live_wrong)
+    assert errors["direction_max_abs"] > 0.4
+    assert errors["log_energy_abs"] > 0.08
+    assert errors["spatial_transport_max_abs"] > 0.9
+
+    try:
+        rust_golden_errors(receipt, live_wrong + live_wrong)
+    except ValueError as error:
+        assert "duplicate Rust coordinate-oracle constant" in str(error)
+    else:
+        raise AssertionError("duplicate live Rust golden declarations were accepted")
 
 
 def _levi_civita() -> np.ndarray:

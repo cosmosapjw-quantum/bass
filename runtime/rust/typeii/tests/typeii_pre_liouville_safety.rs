@@ -516,6 +516,153 @@ fn paired_rest_to_normal_grid_remains_the_reference_lane() {
     assert!(norm2(&difference) < 3e-13);
 }
 
+fn gauss_legendre(order: usize) -> (Vec<f64>, Vec<f64>) {
+    let mut nodes = vec![0.0; order];
+    let mut weights = vec![0.0; order];
+    for root in 0..order.div_ceil(2) {
+        let mut z = (std::f64::consts::PI * (root as f64 + 0.75) / (order as f64 + 0.5)).cos();
+        let mut derivative = 0.0;
+        for _ in 0..32 {
+            let mut p_nm2 = 0.0;
+            let mut p_nm1 = 1.0;
+            for degree in 1..=order {
+                let p_n = ((2 * degree - 1) as f64 * z * p_nm1 - (degree - 1) as f64 * p_nm2)
+                    / degree as f64;
+                p_nm2 = p_nm1;
+                p_nm1 = p_n;
+            }
+            derivative = order as f64 * (z * p_nm1 - p_nm2) / (z * z - 1.0);
+            let next = z - p_nm1 / derivative;
+            if (next - z).abs() <= 2.0e-15 {
+                z = next;
+                break;
+            }
+            z = next;
+        }
+        let weight = 2.0 / ((1.0 - z * z) * derivative * derivative);
+        nodes[root] = -z;
+        nodes[order - 1 - root] = z;
+        weights[root] = weight;
+        weights[order - 1 - root] = weight;
+    }
+    (nodes, weights)
+}
+
+fn product_sphere_grid(n_theta: usize, n_phi: usize) -> (Vec<[f64; 3]>, Vec<f64>) {
+    let (z_nodes, z_weights) = gauss_legendre(n_theta);
+    let mut directions = Vec::with_capacity(n_theta * n_phi);
+    let mut weights = Vec::with_capacity(n_theta * n_phi);
+    for (&z, &z_weight) in z_nodes.iter().zip(&z_weights) {
+        let radius = (1.0 - z * z).max(0.0).sqrt();
+        for azimuth in 0..n_phi {
+            let phi = 2.0 * std::f64::consts::PI * azimuth as f64 / n_phi as f64;
+            directions.push([radius * phi.cos(), radius * phi.sin(), z]);
+            weights.push(z_weight * 2.0 * std::f64::consts::PI / n_phi as f64);
+        }
+    }
+    (directions, weights)
+}
+
+fn off_equilibrium_field(direction: [f64; 3]) -> f64 {
+    (0.37 * direction[0] - 0.21 * direction[1] + 0.19 * direction[2]).exp()
+        * (1.0 + 0.13 * direction[0] * direction[1])
+}
+
+fn continuum_collision_action(
+    evaluation_directions: &[[f64; 3]],
+    quadrature_directions: &[[f64; 3]],
+    quadrature_weights: &[f64],
+    velocity: f64,
+) -> Vec<f64> {
+    evaluation_directions
+        .iter()
+        .map(|&evaluation_direction| {
+            let (evaluation_rest, evaluation_doppler) = aberrate_y(evaluation_direction, velocity);
+            let mut integral = 0.0;
+            for (&quadrature_direction, &quadrature_weight) in
+                quadrature_directions.iter().zip(quadrature_weights)
+            {
+                let (quadrature_rest, quadrature_doppler) =
+                    aberrate_y(quadrature_direction, velocity);
+                let cosine = dot3(evaluation_rest, quadrature_rest);
+                let kernel = 3.0 * (1.0 + cosine * cosine) / (16.0 * std::f64::consts::PI);
+                let rest_weight = quadrature_weight / quadrature_doppler.powi(2);
+                integral += kernel
+                    * rest_weight
+                    * quadrature_doppler.powi(4)
+                    * off_equilibrium_field(quadrature_direction);
+            }
+            let rate = 1.0 - velocity * evaluation_direction[1];
+            rate * evaluation_doppler.powi(-4)
+                * (integral
+                    - evaluation_doppler.powi(4) * off_equilibrium_field(evaluation_direction))
+        })
+        .collect()
+}
+
+fn weighted_relative_error(weights: &[f64], got: &[f64], expected: &[f64]) -> f64 {
+    let numerator = weights
+        .iter()
+        .zip(got)
+        .zip(expected)
+        .map(|((&weight, &got), &expected)| weight * (got - expected).powi(2))
+        .sum::<f64>()
+        .sqrt();
+    let denominator = weights
+        .iter()
+        .zip(expected)
+        .map(|(&weight, &expected)| weight * expected * expected)
+        .sum::<f64>()
+        .sqrt();
+    numerator / denominator
+}
+
+#[test]
+fn ap_correction_converges_to_the_raw_continuum_action_off_equilibrium() {
+    let velocity = 0.1;
+    let (reference_directions, reference_weights) = product_sphere_grid(24, 48);
+    let mut raw_errors = Vec::new();
+    let mut corrected_errors = Vec::new();
+    let mut raw_corrected_differences = Vec::new();
+
+    for (n_theta, n_phi) in [(3, 6), (4, 8), (5, 10)] {
+        let (directions, weights) = product_sphere_grid(n_theta, n_phi);
+        let state = directions
+            .iter()
+            .copied()
+            .map(off_equilibrium_field)
+            .collect::<Vec<_>>();
+        let raw =
+            typeii_collision::collision_generator_apply(&directions, &weights, velocity, 1, &state);
+        let corrected =
+            collision_generator_apply_ap(&directions, &weights, velocity, 1, &state).unwrap();
+        let reference = continuum_collision_action(
+            &directions,
+            &reference_directions,
+            &reference_weights,
+            velocity,
+        );
+        raw_errors.push(weighted_relative_error(&weights, &raw, &reference));
+        corrected_errors.push(weighted_relative_error(&weights, &corrected, &reference));
+        raw_corrected_differences.push(weighted_relative_error(&weights, &corrected, &raw));
+    }
+
+    for errors in [&raw_errors, &corrected_errors, &raw_corrected_differences] {
+        assert!(
+            errors[0] > errors[1] && errors[1] > errors[2],
+            "errors={errors:?}"
+        );
+    }
+    assert!(
+        corrected_errors[2] < 2.0e-9,
+        "corrected={corrected_errors:?}"
+    );
+    assert!(
+        raw_corrected_differences[2] < 2.0e-9,
+        "raw-ap={raw_corrected_differences:?}"
+    );
+}
+
 fn cone_state(directions: &[[f64; 3]], boundary: bool) -> Vec<f64> {
     let mut state = Vec::with_capacity(9 * directions.len());
     for (node, &direction) in directions.iter().enumerate() {

@@ -5,6 +5,7 @@ use bianchi_rustcore::generated::typeii_polarized_liouville::{
     liouville_coefficients, polarized_bolometric_rhs, transport_characteristic,
     transport_characteristic_profile, transport_typeii_characteristic,
     typeii_background_from_state, HomogeneousRayBackground, PolarizedLiouvilleError,
+    MAX_MIDPOINT_BISECTIONS,
 };
 
 fn max_abs(a: &[f64], b: &[f64]) -> f64 {
@@ -380,6 +381,202 @@ fn time_dependent_characteristic_is_second_order() {
     assert!(e16 / e32 > 3.6, "e16={e16} e32={e32}");
 }
 
+fn curved_background(fraction: f64) -> HomogeneousRayBackground {
+    let f2 = fraction * fraction;
+    let sigma_00 = -0.18 + 0.07 * fraction + 0.09 * f2;
+    let sigma_11 = 0.11 - 0.05 * fraction + 0.03 * f2;
+    HomogeneousRayBackground {
+        expansion: 0.7 + 0.2 * fraction + 0.12 * f2,
+        shear: [
+            [
+                sigma_00,
+                0.03 + 0.02 * f2,
+                0.08 - 0.13 * fraction + 0.04 * f2,
+            ],
+            [0.03 + 0.02 * f2, sigma_11, -0.04 + 0.06 * fraction],
+            [
+                0.08 - 0.13 * fraction + 0.04 * f2,
+                -0.04 + 0.06 * fraction,
+                -sigma_00 - sigma_11,
+            ],
+        ],
+        structure_n: [
+            [0.65 + 0.2 * f2, 0.02 * fraction, -0.03 + 0.01 * f2],
+            [0.02 * fraction, -0.12 + 0.04 * fraction, 0.05 - 0.02 * f2],
+            [-0.03 + 0.01 * f2, 0.05 - 0.02 * f2, 0.31 - 0.06 * fraction],
+        ],
+        class_b_a: [0.04 - 0.03 * fraction, -0.02 + 0.04 * f2, 0.01 * fraction],
+        triad_rotation: [0.06 + 0.03 * f2, -0.09 + 0.07 * fraction, 0.04 - 0.02 * f2],
+    }
+}
+
+fn externally_piecewise_linear_solution(
+    panels: usize,
+    direction: [f64; 3],
+    state: &[f64],
+) -> ([f64; 3], Vec<f64>, f64, f64) {
+    let total_step = 0.7;
+    let mut direction = direction;
+    let mut state = state.to_vec();
+    let mut log_energy = 0.0;
+    let mut screen_connection = 0.0;
+    for panel in 0..panels {
+        let left = panel as f64 / panels as f64;
+        let right = (panel + 1) as f64 / panels as f64;
+        let result = transport_characteristic(
+            direction,
+            &curved_background(left),
+            &curved_background(right),
+            total_step / panels as f64,
+            64,
+            &state,
+            ScreenInputPolicy::Reject { tolerance: 1e-12 },
+        )
+        .unwrap();
+        direction = result.direction;
+        state = result.coherency;
+        log_energy += result.log_energy_shift;
+        screen_connection += result.screen_connection_integral;
+    }
+    (direction, state, log_energy, screen_connection)
+}
+
+fn external_background_error(
+    coarse: &([f64; 3], Vec<f64>, f64, f64),
+    reference: &bianchi_rustcore::generated::typeii_polarized_liouville::PolarizedCharacteristicResult,
+) -> f64 {
+    max_abs(&coarse.0, &reference.direction)
+        .max(max_abs(&coarse.1, &reference.coherency))
+        .max((coarse.2 - reference.log_energy_shift).abs())
+        .max((coarse.3 - reference.screen_connection_integral).abs())
+}
+
+#[test]
+fn external_background_panel_refinement_is_second_order() {
+    // Break caught: refining only internal substeps while retaining one endpoint
+    // lerp can hide the dominant external background-reconstruction error.
+    let direction = normalize3([0.29, -0.51, 0.81]);
+    let state = physical_coherency(direction, 0.82, 0.33, -0.06, 0.025);
+    let reference = transport_characteristic_profile(
+        direction,
+        0.7,
+        8192,
+        &state,
+        ScreenInputPolicy::Reject { tolerance: 1e-13 },
+        curved_background,
+    )
+    .unwrap();
+    let e1 = external_background_error(
+        &externally_piecewise_linear_solution(1, direction, &state),
+        &reference,
+    );
+    let e2 = external_background_error(
+        &externally_piecewise_linear_solution(2, direction, &state),
+        &reference,
+    );
+    let e4 = external_background_error(
+        &externally_piecewise_linear_solution(4, direction, &state),
+        &reference,
+    );
+    assert!(e1 / e2 > 3.4, "e1={e1} e2={e2}");
+    assert!(e2 / e4 > 3.4, "e2={e2} e4={e4}");
+}
+
+#[test]
+fn noncontractive_coarse_midpoint_is_boundedly_subdivided() {
+    // Break caught: a valid finite characteristic was rejected solely because
+    // one coarse implicit-midpoint fixed point missed the 32-iteration bound.
+    let direction = [0.0, 0.0, 1.0];
+    let state = [1.0, 0.5, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0];
+    let strong = scaled_test_background(2.0);
+    let coarse = transport_characteristic(
+        direction,
+        &strong,
+        &strong,
+        1.0,
+        1,
+        &state,
+        ScreenInputPolicy::Reject { tolerance: 1e-13 },
+    )
+    .unwrap();
+    let explicit_halves = transport_characteristic(
+        direction,
+        &strong,
+        &strong,
+        1.0,
+        2,
+        &state,
+        ScreenInputPolicy::Reject { tolerance: 1e-13 },
+    )
+    .unwrap();
+    assert!(characteristic_error(&coarse, &explicit_halves) < 2e-13);
+}
+
+fn scaled_test_background(factor: f64) -> HomogeneousRayBackground {
+    let base = test_background();
+    let scale = |value: f64| factor * value;
+    HomogeneousRayBackground {
+        expansion: 0.2,
+        shear: base.shear.map(|row| row.map(scale)),
+        structure_n: base.structure_n.map(|row| row.map(scale)),
+        class_b_a: base.class_b_a.map(scale),
+        triad_rotation: base.triad_rotation.map(scale),
+    }
+}
+
+#[test]
+fn midpoint_subdivision_budget_is_finite_and_fail_closed() {
+    let error = transport_characteristic(
+        [0.0, 0.0, 1.0],
+        &scaled_test_background(1.0e6),
+        &scaled_test_background(1.0e6),
+        1.0,
+        1,
+        &[1.0, 0.5, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0],
+        ScreenInputPolicy::Reject { tolerance: 1e-13 },
+    )
+    .unwrap_err();
+    assert!(matches!(
+        error,
+        PolarizedLiouvilleError::MidpointDidNotConverge {
+            bisections: MAX_MIDPOINT_BISECTIONS,
+            ..
+        }
+    ));
+}
+
+#[test]
+fn positive_screen_twist_has_right_handed_basis_free_sign() {
+    // Break caught: reversing the SO(3) generator sign leaves direction fixed
+    // but reverses the physical tensor rotation.  No Q/U or E/B convention is
+    // introduced: the assertion is directly on the rank-9 spatial carrier.
+    let direction = [0.0, 0.0, 1.0];
+    let state = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    let solve = |omega| {
+        let background = HomogeneousRayBackground {
+            triad_rotation: [0.0, 0.0, omega],
+            ..HomogeneousRayBackground::zero()
+        };
+        transport_characteristic(
+            direction,
+            &background,
+            &background,
+            0.4,
+            1,
+            &state,
+            ScreenInputPolicy::Reject { tolerance: 1e-14 },
+        )
+        .unwrap()
+    };
+    let positive = solve(0.7);
+    let negative = solve(-0.7);
+    assert!(positive.coherency[3] > 0.0);
+    assert!(negative.coherency[3] < 0.0);
+    assert!((positive.coherency[3] + negative.coherency[3]).abs() < 3e-14);
+    assert!(max_abs(&positive.direction, &direction) < 1e-14);
+    assert!(max_abs(&negative.direction, &direction) < 1e-14);
+}
+
 #[test]
 fn invalid_substeps_and_longitudinal_input_fail_closed() {
     let e = [0.0, 0.0, 1.0];
@@ -402,6 +599,25 @@ fn invalid_substeps_and_longitudinal_input_fail_closed() {
     )
     .unwrap_err();
     assert!(matches!(err, PolarizedLiouvilleError::Carrier(_)));
+}
+
+#[test]
+fn transverse_but_indefinite_coherency_fails_closed() {
+    let direction = [0.0, 0.0, 1.0];
+    let zero = HomogeneousRayBackground::zero();
+    // Screen block diag(1, -1) has zero trace and a negative eigenvalue.
+    let state = [1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    let error = transport_characteristic(
+        direction,
+        &zero,
+        &zero,
+        0.1,
+        1,
+        &state,
+        ScreenInputPolicy::Project,
+    )
+    .unwrap_err();
+    assert!(matches!(error, PolarizedLiouvilleError::Carrier(_)));
 }
 
 fn unpack9(p: &[f64]) -> [[f64; 3]; 3] {
@@ -526,6 +742,34 @@ fn exact_type_i_boundary_with_off_diagonal_shear_requires_an_explicit_gauge_choi
     assert_eq!(regular.triad_rotation, [0.0; 3]);
 }
 
+// Generated from the independent coordinate-metric oracle, not from the Rust
+// tetrad implementation.  Regenerate the literals from the repository root:
+//   python3 compiler/validation/typeii_polarized_liouville_coordinate_oracle.py \
+//     --print-rust-golden
+// Validate their numerical (not byte-serialization) identity:
+//   python3 compiler/validation/typeii_polarized_liouville_coordinate_oracle.py \
+//     --check-rust-golden runtime/rust/typeii/tests/typeii_polarized_liouville_unit.rs
+const COORDINATE_ORACLE_DIRECTION: [f64; 3] =
+    [0.4473748161534887, -0.44457736075982984, 0.7760198091359887];
+const COORDINATE_ORACLE_LOG_ENERGY_SHIFT: f64 = -0.08016379273330285;
+const COORDINATE_ORACLE_SPATIAL_TRANSPORT: [[f64; 3]; 3] = [
+    [
+        0.9961054721833895,
+        0.08026238004918093,
+        0.036494364429974196,
+    ],
+    [
+        -0.07953498528196087,
+        0.9966115429613207,
+        -0.0209670825928151,
+    ],
+    [
+        -0.03805357279553649,
+        0.01798284696861173,
+        0.9991138788008092,
+    ],
+];
+
 #[test]
 fn independent_coordinate_bianchi_ii_oracle_matches_direction_redshift_and_screen_rotation() {
     let t0 = 1.0_f64;
@@ -557,24 +801,15 @@ fn independent_coordinate_bianchi_ii_oracle_matches_direction_redshift_and_scree
         },
     )
     .unwrap();
-    let expected_direction = [
-        0.44737481615347646,
-        -0.44457736075975385,
-        0.7760198091360392,
-    ];
-    let expected_rotation = [
-        [0.9961054721833931, 0.08026238004914772, 0.03649436442994044],
-        [
-            -0.07953498528193127,
-            0.9966115429613247,
-            -0.020967082592734967,
-        ],
-        [-0.038053572795495816, 0.0179828469685358, 0.999113878800812],
-    ];
-    assert!(max_abs(&result.direction, &expected_direction) < 3e-10);
-    assert!((result.log_energy_shift + 0.08016379273330249).abs() < 5e-11);
+    assert!(max_abs(&result.direction, &COORDINATE_ORACLE_DIRECTION) < 3e-10);
+    assert!((result.log_energy_shift - COORDINATE_ORACLE_LOG_ENERGY_SHIFT).abs() < 5e-11);
     for i in 0..3 {
-        assert!(max_abs(&result.spatial_transport[i], &expected_rotation[i]) < 3e-10);
+        assert!(
+            max_abs(
+                &result.spatial_transport[i],
+                &COORDINATE_ORACLE_SPATIAL_TRANSPORT[i],
+            ) < 3e-10
+        );
     }
     assert!(result.transport_orthogonality_defect < 2e-13);
     assert!(result.transport_determinant_defect < 2e-13);

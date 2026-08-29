@@ -26,3 +26,17 @@ def test_fixed_low_order_grid_exposes_expected_finite_boost_quadrature_defect():
 def test_kato_parallel_transport_hits_endpoint_manifold_at_second_order():
     r=result();assert r['kato_endpoint']['order']>1.95
     assert r['kato_endpoint']['endpoint_manifold_defect'][-1]<5e-10
+
+
+def test_fixed_grid_ap_correction_converges_to_the_same_off_equilibrium_action():
+    """Catch an AP projector that fixes equilibrium but distorts perturbations."""
+    refinement = v.ap_consistency_refinement(velocity=0.1)
+    raw = refinement["raw_relative_errors"]
+    corrected = refinement["ap_relative_errors"]
+    raw_ap = refinement["raw_ap_relative_differences"]
+
+    assert len(raw) == len(corrected) == len(raw_ap) == 3
+    assert raw[0] > raw[1] > raw[2]
+    assert corrected[0] > corrected[1] > corrected[2]
+    assert corrected[-1] < 2.0e-9
+    assert raw_ap[-1] < 2.0e-9
