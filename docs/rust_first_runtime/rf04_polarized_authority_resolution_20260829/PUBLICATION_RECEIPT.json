@@ -1,16 +1,42 @@
 {
-  "schema": "bass-rf04-polarized-authority-resolution-publication/v1",
+  "schema": "bass-rf04-polarized-authority-resolution-publication/v2",
   "repository": "cosmosapjw-quantum/bass",
   "package_id": "BASS-RF04-POLARIZED-AUTHORITY-RESOLUTION-20260829-R1",
   "package_branch": "agent/plans/rf04-polarized-authority-resolution-20260829-r1",
-  "immutable_package_commit": "87ebe289530646f94566bbdb3efd9b7e18c37eb5",
-  "immutable_package_tree": "ff66a34593ef0323a9a935d03866a31873b25165",
-  "package_path": "docs/rust_first_runtime/rf04_polarized_authority_resolution_20260829",
-  "package_zip": {
-    "filename": "BASS_RF04_POLARIZED_AUTHORITY_RESOLUTION_20260829_R1.zip",
-    "git_blob_sha1": "4ad46dbdff0c68db8b1b7648dee309fe9e220aec",
-    "sha256": "cc32807d6ffbb5767dae3dc229ceff05bac67fb6bf89c598783ddddea38ae7cd",
-    "size_bytes": 21857
+  "authoritative_transport": "DIRECT_TEXT_PAYLOAD",
+  "direct_package": {
+    "commit": "a083f8c2f489364d7ad866dac2eeff03de24f2e2",
+    "tree": "b480ca5f0cca08d75b406dec3874000ff37743e0",
+    "path": "docs/rust_first_runtime/rf04_polarized_authority_resolution_20260829",
+    "manifest_sha256": "07a8baa8ad2b432b821a300ca2f3a47c2f0cf1f0d008082be8aa39fcb6a6dc4c",
+    "manifest_entries": 10,
+    "remote_exact_blob_readback": "PASS_11_OF_11_INCLUDING_MANIFEST",
+    "git_blob_sha1": {
+      "README.md": "e4387325cdd56048ffa1cc8a385e4b33888ffd61",
+      "PACKAGE.json": "26b64837b7915d5f275ab30a7d5f6f411bb25584",
+      "MEASURED_CANDIDATES.json": "33f8b560ccf7a88fe1a2b35392498ba80dbe62b0",
+      "AUTHORITY_DECISIONS.json": "70d9575ae6dc4e8c5c1e1f60f549094fe53c1daa",
+      "PUBLIC_ROUTE_SCHEMA_DELTA_V2.json": "333fe95fe5a0159490f6ae095aeff11b649d1d32",
+      "WORK_UNITS.json": "692645d30b92da127def90f14156db3495814590",
+      "ACCEPTANCE_MATRIX.json": "74e0768ea52abd91644be17405ccd47b78b50b10",
+      "IMPLEMENTATION_PLAN.md": "8b88815a9c5b12b799219c5c7f93a1524c97585d",
+      "CODEX_HANDOFF.md": "44c2e742896cee26f6356bb8cd4aa2bc33e086e3",
+      "validate_package.py": "6c2c19ca358e5591a620970c146dc7490b01abe8",
+      "MANIFEST.sha256": "11514cd330cf59c67df7fb2714cdbdc5dcc70727"
+    },
+    "offline_validation": "PASS_ON_EXACT_LOCAL_PREIMAGE",
+    "live_validation": "REQUIRED_ON_LOCAL_AUTHENTICATED_CLONE_BEFORE_IMPLEMENTATION"
+  },
+  "invalid_remote_zip_transport": {
+    "status": "PACKAGING_TRANSPORT_FAILED_TRUNCATED_DO_NOT_USE",
+    "expected_local_sha256": "cc32807d6ffbb5767dae3dc229ceff05bac67fb6bf89c598783ddddea38ae7cd",
+    "expected_local_size_bytes": 21857,
+    "observed_remote_git_blob_sha1": "4ad46dbdff0c68db8b1b7648dee309fe9e220aec",
+    "observed_remote_size_bytes": 6905,
+    "sidecar_replaced_with_fail_closed_notice": true,
+    "result_validity": "UNCHANGED",
+    "provenance_validity": "DIRECT_TEXT_REBOUND",
+    "packaging_validity": "FAILED_FOR_REMOTE_ZIP_ONLY"
   },
   "base": {
     "branch": "agent/plans/rf04-full-polarized-source-map-20260829-r1",
@@ -56,6 +82,10 @@
     "changed_path_count": 1,
     "target": "mock/rf04-pol-authority-20260829-r1-base",
     "main_or_science_mutation": false
+  },
+  "pull_request": {
+    "number": 63,
+    "state": "OPEN_DRAFT_UNMERGED"
   },
   "claims": [
     "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
