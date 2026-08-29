@@ -5,4 +5,5 @@ pub mod geometry;
 pub mod register;
 pub mod rf03_matter;
 pub mod rf03_tilt;
+pub mod rf04_typeii;
 pub mod runtime;
