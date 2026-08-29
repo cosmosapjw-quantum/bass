@@ -1,0 +1,144 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_________ test_public_scalar_raw_history_matches_dense_oracle[0.0-1.0] _________
+
+h_factor = 1.0, opacity_scale = 0.0
+
+    @pytest.mark.parametrize('h_factor',[1.,4.])
+    @pytest.mark.parametrize('opacity_scale',[0.,1.])
+    def test_public_scalar_raw_history_matches_dense_oracle(h_factor,opacity_scale):
+        native=_native();o,args=_case(h_factor,opacity_scale)
+        expected=o.scalar_history(*args)
+        out=native.rf04_typeii_trajectory_v1(*args,'scalar_intensity_v1','fixed_grid_raw_v1')
+        actual=np.asarray(out['radiation_history'])
+        assert actual.shape==expected.shape and np.isfinite(actual).all()
+        np.testing.assert_array_equal(actual[0],args[0])
+>       np.testing.assert_allclose(actual,expected,rtol=1e-10,atol=2e-12)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-10, atol=2e-12
+E       
+E       Mismatched elements: 52 / 78 (66.7%)
+E       First 5 mismatches are at indices:
+E        [1, 0]: 0.9984518021901337 (ACTUAL), 0.9984205767648004 (DESIRED)
+E        [1, 1]: 0.9984518021901337 (ACTUAL), 0.9984205767648003 (DESIRED)
+E        [1, 2]: 0.9959080014622446 (ACTUAL), 0.9957337673362672 (DESIRED)
+E        [1, 3]: 0.9954302717213566 (ACTUAL), 0.9957326785354008 (DESIRED)
+E        [1, 4]: 0.9962947700179562 (ACTUAL), 0.9962635784388042 (DESIRED)
+E       Max absolute difference among violations: 0.00067098
+E       Max relative difference among violations: 0.00067711
+E        ACTUAL: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+E        DESIRED: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+
+tests/rf04/test_public_dense_differential.py:45: AssertionError
+_________ test_public_scalar_raw_history_matches_dense_oracle[0.0-4.0] _________
+
+h_factor = 4.0, opacity_scale = 0.0
+
+    @pytest.mark.parametrize('h_factor',[1.,4.])
+    @pytest.mark.parametrize('opacity_scale',[0.,1.])
+    def test_public_scalar_raw_history_matches_dense_oracle(h_factor,opacity_scale):
+        native=_native();o,args=_case(h_factor,opacity_scale)
+        expected=o.scalar_history(*args)
+        out=native.rf04_typeii_trajectory_v1(*args,'scalar_intensity_v1','fixed_grid_raw_v1')
+        actual=np.asarray(out['radiation_history'])
+        assert actual.shape==expected.shape and np.isfinite(actual).all()
+        np.testing.assert_array_equal(actual[0],args[0])
+>       np.testing.assert_allclose(actual,expected,rtol=1e-10,atol=2e-12)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-10, atol=2e-12
+E       
+E       Mismatched elements: 52 / 78 (66.7%)
+E       First 5 mismatches are at indices:
+E        [1, 0]: 0.9938213206163777 (ACTUAL), 0.9936972902353988 (DESIRED)
+E        [1, 1]: 0.9938213206163777 (ACTUAL), 0.9936972902353987 (DESIRED)
+E        [1, 2]: 0.9837339107669357 (ACTUAL), 0.9830447957891311 (DESIRED)
+E        [1, 3]: 0.9818443466932909 (ACTUAL), 0.9830403300164583 (DESIRED)
+E        [1, 4]: 0.9852618918078282 (ACTUAL), 0.9851384030227686 (DESIRED)
+E       Max absolute difference among violations: 0.00262052
+E       Max relative difference among violations: 0.00271748
+E        ACTUAL: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+E        DESIRED: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+
+tests/rf04/test_public_dense_differential.py:45: AssertionError
+_________ test_public_scalar_raw_history_matches_dense_oracle[1.0-1.0] _________
+
+h_factor = 1.0, opacity_scale = 1.0
+
+    @pytest.mark.parametrize('h_factor',[1.,4.])
+    @pytest.mark.parametrize('opacity_scale',[0.,1.])
+    def test_public_scalar_raw_history_matches_dense_oracle(h_factor,opacity_scale):
+        native=_native();o,args=_case(h_factor,opacity_scale)
+        expected=o.scalar_history(*args)
+        out=native.rf04_typeii_trajectory_v1(*args,'scalar_intensity_v1','fixed_grid_raw_v1')
+        actual=np.asarray(out['radiation_history'])
+        assert actual.shape==expected.shape and np.isfinite(actual).all()
+        np.testing.assert_array_equal(actual[0],args[0])
+>       np.testing.assert_allclose(actual,expected,rtol=1e-10,atol=2e-12)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-10, atol=2e-12
+E       
+E       Mismatched elements: 52 / 78 (66.7%)
+E       First 5 mismatches are at indices:
+E        [1, 0]: 0.9984509345832442 (ACTUAL), 0.9984197109558022 (DESIRED)
+E        [1, 1]: 0.9984505137288345 (ACTUAL), 0.9984192901013926 (DESIRED)
+E        [1, 2]: 0.9958658632120959 (ACTUAL), 0.9956916422695978 (DESIRED)
+E        [1, 3]: 0.9954844596672072 (ACTUAL), 0.9957868459972262 (DESIRED)
+E        [1, 4]: 0.9962936812809101 (ACTUAL), 0.9962624914961313 (DESIRED)
+E       Max absolute difference among violations: 0.00067088
+E       Max relative difference among violations: 0.00067692
+E        ACTUAL: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+E        DESIRED: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+
+tests/rf04/test_public_dense_differential.py:45: AssertionError
+_________ test_public_scalar_raw_history_matches_dense_oracle[1.0-4.0] _________
+
+h_factor = 4.0, opacity_scale = 1.0
+
+    @pytest.mark.parametrize('h_factor',[1.,4.])
+    @pytest.mark.parametrize('opacity_scale',[0.,1.])
+    def test_public_scalar_raw_history_matches_dense_oracle(h_factor,opacity_scale):
+        native=_native();o,args=_case(h_factor,opacity_scale)
+        expected=o.scalar_history(*args)
+        out=native.rf04_typeii_trajectory_v1(*args,'scalar_intensity_v1','fixed_grid_raw_v1')
+        actual=np.asarray(out['radiation_history'])
+        assert actual.shape==expected.shape and np.isfinite(actual).all()
+        np.testing.assert_array_equal(actual[0],args[0])
+>       np.testing.assert_allclose(actual,expected,rtol=1e-10,atol=2e-12)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-10, atol=2e-12
+E       
+E       Mismatched elements: 52 / 78 (66.7%)
+E       First 5 mismatches are at indices:
+E        [1, 0]: 0.9938166043406271 (ACTUAL), 0.9936926024927856 (DESIRED)
+E        [1, 1]: 0.9938149331287036 (ACTUAL), 0.9936909312808616 (DESIRED)
+E        [1, 2]: 0.9835680285698695 (ACTUAL), 0.9828791214190671 (DESIRED)
+E        [1, 3]: 0.9820595970023611 (ACTUAL), 0.983255257336267 (DESIRED)
+E        [1, 4]: 0.9852579750998823 (ACTUAL), 0.9851345146228072 (DESIRED)
+E       Max absolute difference among violations: 0.00261895
+E       Max relative difference among violations: 0.00271447
+E        ACTUAL: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+E        DESIRED: array([[1.      , 1.      , 1.      , 1.      , 1.      , 1.      ,
+E               0.935   , 1.065   , 1.065   , 0.935   , 1.045   , 0.955   ,
+E               0.955   , 1.045   , 1.09    , 0.91    , 0.91    , 1.09    ,...
+
+tests/rf04/test_public_dense_differential.py:45: AssertionError
+=========================== short test summary info ============================
+FAILED tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle[0.0-1.0]
+FAILED tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle[0.0-4.0]
+FAILED tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle[1.0-1.0]
+FAILED tests/rf04/test_public_dense_differential.py::test_public_scalar_raw_history_matches_dense_oracle[1.0-4.0]
+4 failed in 0.47s

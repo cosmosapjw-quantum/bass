@@ -1,0 +1,13 @@
+diff --git a/generated/rust/typeii/typeii_collision.rs b/generated/rust/typeii/typeii_collision.rs
+index c85616d..1ec0e27 100644
+--- a/generated/rust/typeii/typeii_collision.rs
++++ b/generated/rust/typeii/typeii_collision.rs
+@@ -65,7 +65,7 @@ pub fn collision_generator_apply(
+         }
+         let gain = pref * (i0 + quad);
+         let qout = 1.0 - v * directions[i][axis];
+-        out[i] = qout * d[i].powi(-4) * (gain - gp[i]);
++        out[i] = d[i].powi(-4) * (gain - gp[i]);
+         debug_assert!((d[i] - gamma * qout).abs() < 1e-12);
+     }
+     out

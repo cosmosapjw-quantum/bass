@@ -1,0 +1,238 @@
+   Compiling bianchi_rustcore v0.1.0 (/tmp/bass-rf04-native-slice.fhxMnS/worktree/_rustcore)
+warning: constant `FORMULA_AUTHORITY_SHA256` is never used
+ --> src/kinetic/../../../generated/rust/typeii/typeii_background.rs:4:11
+  |
+4 | pub const FORMULA_AUTHORITY_SHA256: &str =
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variant `CallerDividedResidualEstimate` is never constructed
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:43:5
+   |
+37 | pub enum AdaptiveKrylovTargetSemantics {
+   |          ----------------------------- variant in this enum
+...
+43 |     CallerDividedResidualEstimate { divisor: f64 },
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `AdaptiveKrylovTargetSemantics` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `requested` and `floor` are never read
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:176:9
+    |
+175 |     ToleranceBelowArithmeticFloor {
+    |     ----------------------------- fields in this variant
+176 |         requested: f64,
+    |         ^^^^^^^^^
+177 |         floor: f64,
+    |         ^^^^^
+    |
+    = note: `AdaptiveKrylovError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: field `field` is never read
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:180:9
+    |
+179 |     InvalidKatoDomain {
+    |     ----------------- field in this variant
+180 |         field: &'static str,
+    |         ^^^^^
+    |
+    = note: `AdaptiveKrylovError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: field `error_ratio` is never read
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:195:9
+    |
+194 |     DidNotConverge {
+    |     -------------- field in this variant
+195 |         error_ratio: f64,
+    |         ^^^^^^^^^^^
+    |
+    = note: `AdaptiveKrylovError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: field `source` is never read
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:199:9
+    |
+198 |     KatoSubactionFailed {
+    |     ------------------- field in this variant
+199 |         source: Box<AdaptiveKrylovError>,
+    |         ^^^^^^
+    |
+    = note: `AdaptiveKrylovError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: variants `InvalidResidualBudgetDivisor` and `SingularPadeSolve` are never constructed
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:172:5
+    |
+170 | pub enum AdaptiveKrylovError {
+    |          ------------------- variants in this enum
+171 |     InvalidOptions,
+172 |     InvalidResidualBudgetDivisor {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+193 |     SingularPadeSolve,
+    |     ^^^^^^^^^^^^^^^^^
+    |
+    = note: `AdaptiveKrylovError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `adaptive_expm_action_with_residual_budget_divisor` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:685:8
+    |
+685 | pub fn adaptive_expm_action_with_residual_budget_divisor<F>(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `adaptive_phi1_action` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_krylov_adapt.rs:951:8
+    |
+951 | pub fn adaptive_phi1_action<F>(
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `KrylovOptions` is never constructed
+ --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:7:12
+  |
+7 | pub struct KrylovOptions {
+  |            ^^^^^^^^^^^^^
+
+warning: associated function `full` is never used
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:14:12
+   |
+13 | impl KrylovOptions {
+   | ------------------ associated function in this implementation
+14 |     pub fn full(n: usize) -> Self {
+   |            ^^^^
+
+warning: variants `OperatorDimensionMismatch`, `SingularPadeSolve`, `KrylovDidNotConverge`, and `SubspaceTooSmall` are never constructed
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:26:5
+   |
+24 | pub enum RuntimeError {
+   |          ------------ variants in this enum
+25 |     DimensionMismatch,
+26 |     OperatorDimensionMismatch,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+27 |     SingularPadeSolve,
+   |     ^^^^^^^^^^^^^^^^^
+28 |     KrylovDidNotConverge { estimate: f64 },
+   |     ^^^^^^^^^^^^^^^^^^^^
+29 |     SubspaceTooSmall { requested: usize, dimension: usize },
+   |     ^^^^^^^^^^^^^^^^
+   |
+   = note: `RuntimeError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `dot` is never used
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:32:4
+   |
+32 | fn dot(a: &[f64], b: &[f64]) -> f64 {
+   |    ^^^
+
+warning: function `norm2` is never used
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:36:4
+   |
+36 | fn norm2(a: &[f64]) -> f64 {
+   |    ^^^^^
+
+warning: function `matrix_one_norm` is never used
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:40:4
+   |
+40 | fn matrix_one_norm(a: &DMatrix<f64>) -> f64 {
+   |    ^^^^^^^^^^^^^^^
+
+warning: function `expm_pade13` is never used
+  --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:46:4
+   |
+46 | fn expm_pade13(a: &DMatrix<f64>) -> Result<DMatrix<f64>, RuntimeError> {
+   |    ^^^^^^^^^^^
+
+warning: function `arnoldi_once` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:102:4
+    |
+102 | fn arnoldi_once<F>(
+    |    ^^^^^^^^^^^^
+
+warning: function `expm_action_split` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:168:4
+    |
+168 | fn expm_action_split<F>(
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `expm_action` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:191:8
+    |
+191 | pub fn expm_action<F>(
+    |        ^^^^^^^^^^^
+
+warning: function `phi1_action` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:203:8
+    |
+203 | pub fn phi1_action<F>(
+    |        ^^^^^^^^^^^
+
+warning: function `kato_aem2_step` is never used
+   --> src/kinetic/../../../runtime/rust/typeii/typeii_runtime.rs:265:8
+    |
+265 | pub fn kato_aem2_step(
+    |        ^^^^^^^^^^^^^^
+
+warning: variant `Neg` is never constructed
+  --> src/ode/background/events.rs:26:5
+   |
+19 | pub(crate) enum EventExpression {
+   |                 --------------- variant in this enum
+...
+26 |     Neg(Box<EventExpression>),
+   |     ^^^
+   |
+   = note: `EventExpression` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `coefficients` and `mul` are never used
+   --> src/ode/background/exact.rs:88:19
+    |
+ 61 | impl ExactPolynomial {
+    | -------------------- methods in this implementation
+...
+ 88 |     pub(crate) fn coefficients(&self) -> &[BigRational] {
+    |                   ^^^^^^^^^^^^
+...
+157 |     pub(crate) fn mul(&self, rhs: &Self) -> Self {
+    |                   ^^^
+
+warning: associated items `from_bytes` and `as_bytes` are never used
+  --> src/ode/background/history.rs:38:19
+   |
+28 | impl StateDigest {
+   | ---------------- associated items in this implementation
+...
+38 |     pub(crate) fn from_bytes(bytes: [u8; 32]) -> Self {
+   |                   ^^^^^^^^^^
+...
+42 |     pub(crate) fn as_bytes(&self) -> &[u8; 32] {
+   |                   ^^^^^^^^
+
+warning: method `freeze_epsilon` is never used
+   --> src/ode/background/history.rs:337:19
+    |
+336 | impl EventRecord {
+    | ---------------- method in this implementation
+337 |     pub(crate) fn freeze_epsilon(&mut self, epsilon_g: f64) {
+    |                   ^^^^^^^^^^^^^^
+
+warning: method `as_str` is never used
+   --> src/ode/background/history.rs:367:19
+    |
+366 | impl AllowedRearmSide {
+    | --------------------- method in this implementation
+367 |     pub(crate) fn as_str(self) -> &'static str {
+    |                   ^^^^^^
+
+warning: `bianchi_rustcore` (lib test) generated 26 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.96s
+     Running unittests src/lib.rs (/tmp/bass-rf04-scalar-proof.SzAsUr/target/debug/deps/bianchi_rustcore-19049eac26c6cf05)
+
+running 6 tests
+test kinetic::rf04_contract_tests::rf04_scalar_raw_executor_rejects_known_but_unimplemented_combinations ... ok
+test python::rf04_typeii::tests::rf04_scalar_raw_identity_is_canonical_and_partial ... ok
+test kinetic::rf04_contract_tests::rf04_scalar_raw_one_node_schema_boundary_matches_dense_fixture ... ok
+test kinetic::rf04_contract_tests::rf04_scalar_raw_owner_matches_independent_dense_fixture ... ok
+test kinetic::rf04_contract_tests::rf04_scalar_raw_batch_isolates_invalid_member_after_shared_plan_validation ... ok
+test kinetic::rf04_contract_tests::rf04_scalar_raw_serial_and_independent_parallel_batches_are_bit_identical ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 199 filtered out; finished in 0.03s
+
