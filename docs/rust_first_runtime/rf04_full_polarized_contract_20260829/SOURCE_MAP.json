@@ -1,0 +1,67 @@
+{
+  "schema": "bass-rf04-full-polarized-source-map/v1",
+  "source_head": "50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda",
+  "source_tree": "b32fcc26ca51dcaca9e9225d48b03fe9e02988ed",
+  "owners": {
+    "scalar_raw_public_owner": {
+      "path": "_rustcore/src/kinetic/rf04_typeii.rs",
+      "blob_sha1": "71508ebb9b3a5abd3bc403d6a24502ad9de09d39",
+      "status": "PASS_RF04_SCALAR_RAW_SLICE_PROOF_REUSE_ONLY"
+    },
+    "polarized_collision_and_kato_actions": {
+      "path": "runtime/rust/typeii/typeii_polarized_runtime.rs",
+      "blob_sha1": "a852431274c206cc81b063f9501e46a524bd3765",
+      "facts": [
+        "frozen_collision_step exists",
+        "frozen_kato_step exists",
+        "equilibrium-projector Kato is an actual separate action"
+      ]
+    },
+    "checked_polarized_collision_and_kato": {
+      "path": "runtime/rust/typeii/typeii_polarized_runtime_physical.rs",
+      "blob_sha1": "03684d7a9ef76be3bb06841af86bb5822574bab3",
+      "facts": [
+        "adaptive checked collision action exists",
+        "adaptive checked Kato action exists",
+        "raw and discrete-AP collision policies are distinct"
+      ]
+    },
+    "convex_common_screen_remap": {
+      "path": "runtime/rust/typeii/typeii_polarized_remap.rs",
+      "blob_sha1": "5f7a1e580df3855f07f567fb3baa0e339d52c82e",
+      "facts": [
+        "source states are parallel transported to one target screen before accumulation",
+        "weights must be finite, nonnegative and sum to one",
+        "minimum_transport_dot is an active support guard",
+        "the module is a remap core and does not construct the public trajectory stencil"
+      ]
+    },
+    "polarized_liouville_characteristic": {
+      "path": "runtime/rust/typeii/typeii_polarized_liouville.rs",
+      "blob_sha1": "da6fade06f717ab938b0ec4c712ab239e78c998a",
+      "facts": [
+        "bounded implicit-midpoint characteristic transport exists",
+        "failed midpoint solves may bisect up to MAX_MIDPOINT_BISECTIONS=8",
+        "screen SO(3) transport and realizability checks exist",
+        "the module explicitly stops before angular remapping, collision composition and observables"
+      ]
+    },
+    "pre_liouville_safety_tests": {
+      "path": "runtime/rust/typeii/tests/typeii_pre_liouville_safety.rs",
+      "blob_sha1": "6936d2a7116bc9b431c884c7f53b68681983d483",
+      "status": "SOURCE_BOUND_TEST_AUTHORITY_NOT_A_PUBLIC_COMPOSITION_CONTRACT"
+    },
+    "external_review_contract": {
+      "path": "docs/rust_first_runtime/rf04_external_review_resume_20260829/CONTRACT.json",
+      "blob_sha1": "a6cdf5c3c0b32fa09083f13439ddd16743d19e3a",
+      "remaining_contract_count": 5
+    }
+  },
+  "derivation_rules": [
+    "Do not infer a public composition merely because all primitive actions exist.",
+    "Do not choose a stencil family unless source/tests establish nonnegative partition-of-unity and coverage.",
+    "Derive minimum_transport_dot from accepted stencil support, not from the historical antipodal default alone.",
+    "Keep geometric screen transport and equilibrium-projector Kato as distinct operators.",
+    "Bind every history row to the direction grid and screen frame that define its packed rank-9 carrier."
+  ]
+}
