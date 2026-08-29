@@ -1,0 +1,195 @@
+{
+  "allowed_new_paths": [
+    "bianchi/kinetic/**",
+    "tests/rf04/**",
+    "_rustcore/src/kinetic/**",
+    "_rustcore/src/python/rf04_typeii.rs",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/**",
+    "artifacts/rust_first_runtime/rf04/**"
+  ],
+  "authority": {
+    "a1_schema_blob": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+    "a1_schema_id": "bass-rf04-typeii-public-route/v1",
+    "a1_schema_sha256": "be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097",
+    "consumption": "CHECKPOINT_ONLY_NO_SCI_AUTH_SOURCE_TRANSPLANT",
+    "control_commit": "f18e491f19f45accc8c87eb56b4a24f15a8a3d6c",
+    "control_tree": "3fd8201a3cb15bf8d882dd28d37bf0c31e8af7e0",
+    "rf03_commit": "6e53664d56694f7a7ad5f65be262302d5c8866b2",
+    "rf03_tree": "bb743717e8115821d72268d8384dc5cc7cc11975",
+    "sci_auth_head": "1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86",
+    "sci_auth_manifest_sha256": "9c646d7fa43463484e832349f0a4ae9c3728dc1d68a2370504facdc41aad9b9f",
+    "sci_auth_tree": "37edaaea720a3197881b94bc39413787db091432"
+  },
+  "delivery_paths": [
+    "bianchi/kinetic/__init__.py",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/CODEX_HANDOFF.md",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/CONTRACT.json",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/EVIDENCE.json",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/REVIEW_RECONCILIATION.md",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/check_oracle_mutations.py",
+    "docs/rust_first_runtime/rf04_external_review_resume_20260829/validate_handoff.py",
+    "tests/rf04/rf04_dense_oracle.py",
+    "tests/rf04/test_dense_oracle.py",
+    "tests/rf04/test_handoff_payload.py",
+    "tests/rf04/test_public_dense_differential.py",
+    "tests/rf04/test_thin_dispatch.py"
+  ],
+  "donor_edit_policy": "READ_OR_LINK_PINNED_SOURCES; NO_FORMULA_OR_TOLERANCE_EDITS_IN_GENERATED_OR_RUNTIME_DONORS",
+  "identity_policy": "IMMUTABLE_COMMIT_TREE_BLOB_CHECK; NO_MUTABLE_BRANCH_TIP_EQUALITY; ZIP_TRANSPORT_NOT_SCIENTIFIC_AUTHORITY",
+  "next_action": "RF04-GREEN-02A_SCALAR_RAW_NATIVE_ORACLE",
+  "package_id": "BASS-RF04-EXTERNAL-REVIEW-RESUME-20260829-R1",
+  "profile": {
+    "adaptive_options": {
+      "m_init": 12,
+      "m_max": 20,
+      "m_min": 8,
+      "max_rejects": 4096,
+      "max_substeps": 4096,
+      "small_dimension_rule": "MIN_EACH_BASIS_SIZE_WITH_STATE_DIMENSION; KEEP_DONOR_AUGMENTED_OPTIONS_FOR_PHI1",
+      "tol": 1e-11
+    },
+    "adaptive_options_source": "runtime/rust/typeii/tests/typeii_pre_liouville_safety.rs::adaptive_options",
+    "angular_state": "FIXED_CALLER_DIRECTIONS_AND_WEIGHTS_NO_ANGULAR_ADVECTION",
+    "background_order": [
+      "Sigma_p",
+      "Sigma_m",
+      "Sigma_13",
+      "N1",
+      "v2"
+    ],
+    "batch_validation": "COMMON_PLAN_ERRORS_ABORT_CALL; MEMBER_STATE_ERRORS_ISOLATED_ALL_NAN_ROW; INPUT_ORDER",
+    "certificate_scope": "PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR",
+    "classification": "PARTIAL_SOURCE_BOUND_REFERENCE_SLICE_NOT_FULL_RF04",
+    "composition": [
+      "exp(h*K_q1/2)",
+      "Aeff=A_mid-K_mid",
+      "C=opacity_scale*opacity_mid*C_raw_mid",
+      "Ymid=exp(h*C/2)*Ym+(h/2)*phi1(h*C/2)*Aeff*exp(h*C/2)*Ym",
+      "Ytilde=exp(h*C)*Ym+h*phi1(h*C)*Aeff*Ymid",
+      "exp(h*K_q3/2)*Ytilde"
+    ],
+    "conventions": {
+      "beta": "electron_velocity_divided_by_c",
+      "direction": "FUTURE_PHOTON_PROPAGATION_NOT_SKY_LINE_OF_SIGHT",
+      "metric_signature": "-+++",
+      "opacity": "DIMENSIONLESS_RATE_PER_TAU",
+      "time": "DIMENSIONLESS_TAU",
+      "v2": "ALIGNED_BETA_COMPONENT_NOT_SPEED_SQUARED"
+    },
+    "diagnostic_reference": "tests/rf04/rf04_dense_oracle.py::scalar_diagnostics",
+    "diagnostic_semantics": {
+      "equilibrium_null_residual": "ALIAS_OF_RIGHT_KERNEL_RESIDUAL_NOT_INDEPENDENT_EVIDENCE",
+      "left_invariant_drift": "FULL_STEP_MIDPOINT_LEFT_COVECTOR_DRIFT_INCLUDES_TRANSPORT",
+      "positivity_margin": "MINIMUM_SCALAR_INTENSITY_PER_ACCEPTED_HISTORY_ROW",
+      "projected_residual_estimate": "MAX_ACCEPTED_PROJECTED_RESIDUAL_TARGET_RATIO_NOT_FORWARD_ERROR",
+      "projector_idempotence_residual": "MAX_ABS_P_SQUARED_MINUS_P",
+      "right_kernel_residual": "NORM_INF_C_RAW_R_OVER_NORM_INF_R"
+    },
+    "execution_profile_id": "rf04-scalar-fixed-node-raw-slice/v1",
+    "full_rf04_tests": "KEEP_ORIGINAL_TEST_KINETIC_CONTRACT_AND_TEST_MUTATIONS_UNWEAKENED; PARTIAL_SLICE_DOES_NOT_SATISFY_FULL_CAPABILITY_GATE",
+    "liouville_scope": "DIAGONAL_BOLOMETRIC_TRANSPORT_ONLY_NOT_FULL_ANGULAR_LIOUVILLE",
+    "native_identity_required_fields": [
+      "execution_profile_id",
+      "execution_profile_sha256",
+      "supported_combinations",
+      "diagnostic_semantics",
+      "public_route_schema_sha256",
+      "sci_auth_head",
+      "sci_auth_tree",
+      "sci_auth_manifest_sha256",
+      "source_owner_blob_sha1",
+      "native_payload_identity",
+      "certificate_scope"
+    ],
+    "native_owner": "_rustcore/src/kinetic/rf04_typeii.rs",
+    "native_runtime_fallback": false,
+    "public_array_tolerances": {
+      "atol": 2e-12,
+      "meaning": "DIFFERENTIAL_TEST_THRESHOLD_NOT_A_GLOBAL_ERROR_BOUND",
+      "rtol": 1e-10
+    },
+    "public_symbol_names": [
+      "rf04_typeii_execution_identity_v1",
+      "rf04_typeii_trajectory_v1",
+      "rf04_typeii_batch_v1"
+    ],
+    "reference_step": "runtime/rust/typeii/typeii_runtime.rs::kato_aem2_step",
+    "residual_stat_source": "AdaptiveKrylovStats.max_accepted_error_ratio; retain target_semantics and real action ledger",
+    "state_acceptance": "FINITE_AND_NONNEGATIVE; NO_CLIPPING; SIGNED_KRYLOV_BASIS_VECTORS_ARE_NOT_RADIATION_STATES",
+    "step_owner": "runtime/rust/typeii/typeii_krylov_adapt.rs::kato_aem2_step_adaptive",
+    "supported_combinations": [
+      [
+        "scalar_intensity_v1",
+        "fixed_grid_raw_v1"
+      ]
+    ],
+    "test_only_python_oracle": true,
+    "unsupported_combinations": "RF04CapabilityError/RF04_UNSUPPORTED_CAPABILITY; DO_NOT_ADVERTISE"
+  },
+  "profile_sha256": "56ef82909ed00e3bfe40080e03d11a264b895f7da28dc5d24d51c5ae2c7f7de3",
+  "prohibited": [
+    "run old A2",
+    "restart old RF04 intake or RED",
+    "silently switch to legacy PolQState/qe_evolve/qe_ensemble",
+    "pretend screen transport equals equilibrium-projector Kato",
+    "pretend convex remap accepts generic 6x6 Lagrange weights",
+    "claim full angular transport for scalar diagonal reference",
+    "fake zero diagnostics or advertise unimplemented capabilities",
+    "timing/GPU/Wolfram/full suite/RF05+",
+    "Candidate B/BASS13-15",
+    "merge/ready/scientific/performance promotion"
+  ],
+  "registration_only_existing_paths": [
+    "_rustcore/src/lib.rs",
+    "_rustcore/src/python/mod.rs",
+    "_rustcore/src/python/register.rs",
+    "bianchi/backend_policy.py"
+  ],
+  "remaining_polarized_contract": [
+    "backtrace/forward-characteristic substep policy using current implicit-midpoint donor",
+    "convex stencil construction and nonnegative weights for accepted caller grids",
+    "source-bound RemapOptions and meaningful minimum_transport_dot",
+    "Liouville/remap/collision/Kato composition including subtraction or representation change semantics",
+    "fixed-grid or evolved-grid history with explicit screen/direction association"
+  ],
+  "repository": "cosmosapjw-quantum/bass",
+  "review": {
+    "filename": "Pasted markdown(20260829-020002).md",
+    "sha256": "5d91a9eae593a8f96be090a67ddfe773dcf60a55054fdd249764ba481690079d"
+  },
+  "source": {
+    "blob_sha1": {
+      "_rustcore/Cargo.toml": "dadf23f15e03a3d4dbc33164d212710d541ddfba",
+      "_rustcore/src/kinetic/mod.rs": "f7f29f63c35e0e64bbfc80be55f8f69bf5229544",
+      "_rustcore/src/kinetic/rf04_contract_tests.rs": "1c85fd001cfdb4dde37febe0dc91d2ceff05c5b4",
+      "bianchi/backend_policy.py": "b501f8eead693d493efd23544eb4776f9b5c54a6",
+      "compiler/validation/typeii_conservation_quad.py": "702f9acb64e81e1102b8f46da23c2f0f09445214",
+      "generated/rust/typeii/typeii_background.rs": "3616990750099e0088a180ce8612ddbf597e9414",
+      "generated/rust/typeii/typeii_collision.rs": "c85616da3a8ce437b59aa8c1ce5adc17904ca50d",
+      "generated/rust/typeii/typeii_kato.rs": "9c8d49b6d42daf28734b4d439ca50f6535ee3519",
+      "generated/rust/typeii/typeii_polarized.rs": "557fc72d893b87bb9aaf55c7d4c85533bf5e0312",
+      "runtime/rust/typeii/tests/typeii_pre_liouville_safety.rs": "6936d2a7116bc9b431c884c7f53b68681983d483",
+      "runtime/rust/typeii/typeii_krylov_adapt.rs": "cf826f5fe6c8778e96934eab47c04477a1c08c5b",
+      "runtime/rust/typeii/typeii_physical_guard.rs": "a2fa999a42dc010f804be0b844da1c8d313bb38b",
+      "runtime/rust/typeii/typeii_polarized_liouville.rs": "da6fade06f717ab938b0ec4c712ab239e78c998a",
+      "runtime/rust/typeii/typeii_polarized_remap.rs": "5f7a1e580df3855f07f567fb3baa0e339d52c82e",
+      "runtime/rust/typeii/typeii_polarized_runtime.rs": "a852431274c206cc81b063f9501e46a524bd3765",
+      "runtime/rust/typeii/typeii_polarized_runtime_physical.rs": "03684d7a9ef76be3bb06841af86bb5822574bab3",
+      "runtime/rust/typeii/typeii_runtime.rs": "71b8a11ea998e91a4be7f95875eca31442e831dc",
+      "tests/rf04/test_kinetic_contract.py": "8e984ef758747453ef77f6309f47f76567b85bb2"
+    },
+    "branch": "agent/fix/rf04-external-review-20260829-r1",
+    "change_count": 15,
+    "commit": "d43e4e9039f8cd9303340ed216e76a650138adef",
+    "parent": "4508cb3af776d2a058d71bbe8b95f9bfe62b35ed",
+    "tree": "27f37630c42c5c39e705a84202d687363260d908"
+  },
+  "supersession": {
+    "A2_execution": "WITHDRAWN_WRONG_DONOR_AND_KATO_SEMANTICS",
+    "A2_pr": 53,
+    "old_4508_RED": "RETAIN_BOUNDARY_ABSENCE_ONLY_NOT_PHYSICS_PROOF",
+    "old_archive_bytes": "PRESERVE_NOT_REQUIRED_FOR_RESUME",
+    "resume_source": "d43e4e9039f8cd9303340ed216e76a650138adef"
+  },
+  "terminal_ceiling": "PASS_RF04_SCALAR_RAW_SLICE_PROOF_AND_NO_PASS_RF04"
+}
