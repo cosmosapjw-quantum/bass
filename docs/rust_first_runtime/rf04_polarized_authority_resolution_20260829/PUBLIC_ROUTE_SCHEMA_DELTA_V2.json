@@ -1,0 +1,64 @@
+{
+  "base_schema": {
+    "commit": "f18e491f19f45accc8c87eb56b4a24f15a8a3d6c",
+    "public_route_schema_blob": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+    "public_route_schema_path": "docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json",
+    "public_route_schema_sha256": "be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097",
+    "tree": "3fd8201a3cb15bf8d882dd28d37bf0c31e8af7e0"
+  },
+  "compatibility": {
+    "new_schema_id": "bass-rf04-typeii-polarized-route/v2",
+    "polarized_on_v1": "CONTINUES_FAIL_CLOSED",
+    "scalar_v1": "UNCHANGED_AND_RETAINED"
+  },
+  "identity_required_fields": [
+    "route_schema_sha256",
+    "authority_decisions_sha256",
+    "remap_plan_sha256",
+    "direction_grid_sha256",
+    "composition_id",
+    "history_representation_id",
+    "source_owner_blob_sha1",
+    "native_payload_identity"
+  ],
+  "new_native_symbols": {
+    "batch": "rf04_typeii_polarized_batch_v2",
+    "identity": "rf04_typeii_polarized_execution_identity_v2",
+    "trajectory": "rf04_typeii_polarized_trajectory_v2"
+  },
+  "new_python_routes": {
+    "batch": "bianchi.kinetic.typeii_polarized_batch_v2",
+    "identity": "bianchi.kinetic.typeii_polarized_execution_identity_v2",
+    "trajectory": "bianchi.kinetic.typeii_polarized_trajectory_v2"
+  },
+  "new_routes": {
+    "batch": "kinetic.typeii.polarized_batch_v2",
+    "identity": "kinetic.typeii.polarized_execution_identity_v2",
+    "trajectory": "kinetic.typeii.polarized_trajectory_v2"
+  },
+  "request_addition": {
+    "carrier": "polarized_rank9_v1",
+    "quadrature_routes": [
+      "fixed_grid_raw_v1",
+      "fixed_grid_ap_corrected_v1",
+      "paired_rest_to_normal_reference_v1"
+    ],
+    "remap_plan": [
+      "schema_id",
+      "direction_grid_sha256",
+      "target_offsets[M+1]",
+      "source_indices[S]",
+      "weights[S]",
+      "builder_id",
+      "builder_version",
+      "plan_sha256",
+      "minimum_transport_dot"
+    ]
+  },
+  "result": {
+    "failure": "FIRST_FAILED_STEP_TYPED_EXCEPTION_NO_PARTIAL_SUCCESS; BATCH_MEMBER_ISOLATION_RETAINS_SHARED_PLAN_FAILURE_AS_WHOLE_CALL_FAILURE",
+    "geometry_receipts": "K_CANONICAL_JSON_OR_STRUCTURED_ROWS",
+    "radiation_history": "FIXED_EULERIAN_ROWS_K_PLUS_1_BY_9M"
+  },
+  "schema": "bass-rf04-polarized-route-delta/v2"
+}
