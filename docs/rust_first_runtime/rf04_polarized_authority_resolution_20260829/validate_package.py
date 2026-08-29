@@ -90,8 +90,7 @@ def live(repoarg):
   if git(repo,"rev-parse",SOURCE+":"+path)!=blob: fail("source blob "+path)
  for path,blob in SOURCE_MAP_BLOBS.items():
   if git(repo,"rev-parse",BASE+":"+path)!=blob: fail("source-map blob "+path)
- if git(repo,"rev-parse",CONTROL+":docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json") != \
-    "a5a503f96c8d85af265be67ac04fd3ff983d9b33":
+ if git(repo,"rev-parse",CONTROL+":docs/rust_first_runtime/RF04_PUBLIC_ROUTE_SCHEMA_V1.json") !=     "a5a503f96c8d85af265be67ac04fd3ff983d9b33":
   fail("public route schema blob")
 
 if __name__=="__main__":
