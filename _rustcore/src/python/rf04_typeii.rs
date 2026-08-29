@@ -5,7 +5,7 @@ use numpy::{IntoPyArray, PyReadonlyArray1, PyReadonlyArray2, PyUntypedArrayMetho
 use pyo3::create_exception;
 use pyo3::exceptions::{PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
-use pyo3::types::{PyAny, PyDict, PyList};
+use pyo3::types::{PyAny, PyDict, PyList, PyTuple};
 
 use crate::kinetic::rf04_typeii::{
     parse_carrier, parse_quadrature_route, require_supported, scalar_raw_batch,
@@ -19,7 +19,7 @@ create_exception!(bianchi_rustcore, RF04PhysicalDomainError, PyValueError);
 create_exception!(bianchi_rustcore, RF04CertificateError, PyRuntimeError);
 create_exception!(bianchi_rustcore, RF04MemberError, PyRuntimeError);
 
-const EXECUTION_IDENTITY: &str = r#"{"authority_ids":{"background":"SCI-AUTH-04-BACKGROUND-V1","collision":"SCI-AUTH-04-COLLISION-V1","kato":"SCI-AUTH-04-KATO-V1","projector":"SCI-AUTH-04-PROJECTOR-V1","thermodynamics":"SCI-AUTH-04-THERMODYNAMICS-V1"},"carrier_capabilities":["scalar_intensity_v1"],"certificate_scope":"PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR","diagnostic_semantics":{"equilibrium_null_residual":"ALIAS_OF_RIGHT_KERNEL_RESIDUAL_NOT_INDEPENDENT_EVIDENCE","left_invariant_drift":"FULL_STEP_MIDPOINT_LEFT_COVECTOR_DRIFT_INCLUDES_TRANSPORT","positivity_margin":"MINIMUM_SCALAR_INTENSITY_PER_ACCEPTED_HISTORY_ROW","projected_residual_estimate":"MAX_ACCEPTED_PROJECTED_RESIDUAL_TARGET_RATIO_NOT_FORWARD_ERROR","projector_idempotence_residual":"MAX_ABS_P_SQUARED_MINUS_P","right_kernel_residual":"NORM_INF_C_RAW_R_OVER_NORM_INF_R"},"execution_profile_id":"rf04-scalar-fixed-node-raw-slice/v1","execution_profile_sha256":"56ef82909ed00e3bfe40080e03d11a264b895f7da28dc5d24d51c5ae2c7f7de3","identity_schema":"bass-rf04-typeii-execution-identity/v1","native_payload_identity":"bass-rf04-scalar-raw-native-v1","physical_guard_fingerprint":"6bf35989f4c3e9eb2dc453b1db4a6898f1a06191d05f88acdd4f782439ae4483","public_route_schema_sha256":"be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097","quadrature_capabilities":["fixed_grid_raw_v1"],"route_capability_fingerprint":"dfd0556a86c1f3f98ff6f25960436a18335c92f9b32e9bcbd9d41c03253e8282","sci_auth_head":"1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86","sci_auth_manifest_sha256":"9c646d7fa43463484e832349f0a4ae9c3728dc1d68a2370504facdc41aad9b9f","sci_auth_tree":"37edaaea720a3197881b94bc39413787db091432","source_owner_blob_sha1":"e1b2016d1a3694d6552eef78450853df32f22163","supported_combinations":[["scalar_intensity_v1","fixed_grid_raw_v1"]]}"#;
+const EXECUTION_IDENTITY: &str = r#"{"authority_ids":{"background":"SCI-AUTH-04-BACKGROUND-V1","collision":"SCI-AUTH-04-COLLISION-V1","kato":"SCI-AUTH-04-KATO-V1","projector":"SCI-AUTH-04-PROJECTOR-V1","thermodynamics":"SCI-AUTH-04-THERMODYNAMICS-V1"},"carrier_capabilities":["scalar_intensity_v1"],"certificate_scope":"PROJECTED_RESIDUAL_ONLY_NOT_GLOBAL_FORWARD_ERROR","diagnostic_semantics":{"equilibrium_null_residual":"ALIAS_OF_RIGHT_KERNEL_RESIDUAL_NOT_INDEPENDENT_EVIDENCE","left_invariant_drift":"FULL_STEP_MIDPOINT_LEFT_COVECTOR_DRIFT_INCLUDES_TRANSPORT","positivity_margin":"MINIMUM_SCALAR_INTENSITY_PER_ACCEPTED_HISTORY_ROW","projected_residual_estimate":"MAX_ACCEPTED_PROJECTED_RESIDUAL_TARGET_RATIO_NOT_FORWARD_ERROR","projector_idempotence_residual":"MAX_ABS_P_SQUARED_MINUS_P","right_kernel_residual":"NORM_INF_C_RAW_R_OVER_NORM_INF_R"},"execution_profile_id":"rf04-scalar-fixed-node-raw-slice/v1","execution_profile_sha256":"56ef82909ed00e3bfe40080e03d11a264b895f7da28dc5d24d51c5ae2c7f7de3","identity_schema":"bass-rf04-typeii-execution-identity/v1","native_payload_identity":"bass-rf04-scalar-raw-native-v1","physical_guard_fingerprint":"6bf35989f4c3e9eb2dc453b1db4a6898f1a06191d05f88acdd4f782439ae4483","public_route_schema_sha256":"be2c73e07e5a8179c10ec4aab058915b79b1d7ab87fc624d65e5e0d34d94d097","quadrature_capabilities":["fixed_grid_raw_v1"],"route_capability_fingerprint":"dfd0556a86c1f3f98ff6f25960436a18335c92f9b32e9bcbd9d41c03253e8282","sci_auth_head":"1298c2ef8cc8eaca8edcd99332653c8a1cbc1c86","sci_auth_manifest_sha256":"9c646d7fa43463484e832349f0a4ae9c3728dc1d68a2370504facdc41aad9b9f","sci_auth_tree":"37edaaea720a3197881b94bc39413787db091432","source_owner_blob_sha1":"71508ebb9b3a5abd3bc403d6a24502ad9de09d39","supported_combinations":[["scalar_intensity_v1","fixed_grid_raw_v1"]]}"#;
 
 pub(crate) fn map_rf04_error(error: Rf04Error) -> PyErr {
     let message = error.to_string();
@@ -157,13 +157,7 @@ fn batch_to_python<'py>(py: Python<'py>, result: ScalarBatch) -> PyResult<Bound<
     let flat = result.final_radiation.into_iter().flatten().collect();
     let final_radiation =
         Array2::from_shape_vec((rows, columns), flat).expect("validated RF-04 batch output shape");
-    let error_codes = PyList::empty(py);
-    for code in result.member_error_code {
-        match code {
-            Some(code) => error_codes.append(code)?,
-            None => error_codes.append(py.None())?,
-        }
-    }
+    let error_codes = PyTuple::new(py, result.member_error_code)?;
     let output = PyDict::new(py);
     output.set_item("schema_id", SCHEMA_ID)?;
     output.set_item("route_id", BATCH_ROUTE_ID)?;

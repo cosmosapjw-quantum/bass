@@ -213,7 +213,7 @@ RF02C_V2_NATIVE_PAYLOAD = _NativePayloadReceipt(
 
 RF04_SCALAR_RAW_NATIVE_PAYLOAD = _NativePayloadReceipt(
     identity="bass-rf04-scalar-raw-native-v1",
-    wheel_sha256="9a106340df7f34df527702cc0b87306274ecada6a9cd9f9ab4f2665a3e6a781a",
+    wheel_sha256="99bd0596642dd31ca82080fb24306cd9bf3f6dd1ad3f68a1380f77378e266302",
     installed_files=_receipt_files(
         (
             (
@@ -229,7 +229,7 @@ RF04_SCALAR_RAW_NATIVE_PAYLOAD = _NativePayloadReceipt(
             (
                 "bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json",
                 205_925,
-                "496e481750810c76b5b15ddddaa28d4510646a03afa9ba53818d80f942a4565e",
+                "37dc6c0ddb48d6bbe93f6ef700055ded95f2e9ef2e58886d3814c3d990c61de9",
             ),
             (
                 "bianchi_rustcore/__init__.py",
@@ -238,8 +238,8 @@ RF04_SCALAR_RAW_NATIVE_PAYLOAD = _NativePayloadReceipt(
             ),
             (
                 "bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so",
-                4_016_896,
-                "e79701ff5ebc081c46d017f9fb28e4d8331458eb573a59b898c98dd5d2b54812",
+                4_018_344,
+                "5d5b8197518d8637b14e0c78b871802ed64f6506c7a95128f31bd52044a98633",
             ),
         )
     ),

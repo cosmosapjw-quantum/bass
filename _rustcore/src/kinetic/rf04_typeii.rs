@@ -204,10 +204,10 @@ fn validate_common_plan(
     opacity_scale: f64,
     axis: usize,
 ) -> Result<(), Rf04Error> {
-    if directions.len() < 2 || directions.len() != weights.len() {
+    if directions.is_empty() || directions.len() != weights.len() {
         return Err(Rf04Error::Input {
             code: "RF04_INVALID_GRID",
-            detail: "directions and weights must share at least two nodes".to_string(),
+            detail: "directions and weights must share at least one node".to_string(),
         });
     }
     if axis >= 3 {
@@ -339,7 +339,12 @@ fn validate_scalar_state(values: &[f64], dimension: usize) -> Result<(), Rf04Err
 }
 
 fn adaptive_options(dimension: usize) -> AdaptiveKrylovOptions {
-    let m_max = 20.min(dimension);
+    // The donor's option validator has a nominal floor of two, while its
+    // Arnoldi implementation clips the active basis to `y.len()`.  Preserve
+    // that donor floor for the frozen M=1 public schema; the actual one-state
+    // Krylov basis remains clipped to dimension one.
+    let option_dimension = dimension.max(2);
+    let m_max = 20.min(option_dimension);
     let m_min = 8.min(m_max);
     let m_init = 12.min(m_max).max(m_min);
     AdaptiveKrylovOptions {

@@ -213,6 +213,32 @@ fn rf04_scalar_raw_owner_matches_independent_dense_fixture() {
 }
 
 #[test]
+fn rf04_scalar_raw_one_node_schema_boundary_matches_dense_fixture() {
+    // Defect caught: the frozen schema permits M=1 even though the donor's
+    // nominal Krylov option floor is two; its active basis must still clip to one.
+    let directions = vec![[1.0, 0.0, 0.0]];
+    let weights = vec![4.0 * std::f64::consts::PI];
+    let initial = vec![1.2];
+    let result = scalar_raw_trajectory(
+        &initial,
+        &directions,
+        &weights,
+        &[[0.25, 0.05, 1.0 / 30.0, 0.8, 0.08]],
+        &[[0.253, 0.048, 1.0 / 30.0 + 0.0015, 0.794, 0.0825]],
+        &[[0.257, 0.046, 1.0 / 30.0 + 0.0035, 0.787, 0.0855]],
+        &[0.18],
+        &[8.0e-4],
+        1.3,
+        1.0,
+        1,
+    )
+    .expect("one-node scalar route must satisfy the frozen public schema");
+    assert_eq!(result.radiation_history[0], initial);
+    assert!((result.radiation_history[1][0] - 1.1981890444967072).abs() < 2.0e-12);
+    assert!(result.diagnostics.projected_residual_estimate[0].is_finite());
+}
+
+#[test]
 fn rf04_scalar_raw_executor_rejects_known_but_unimplemented_combinations() {
     // Defect caught: parsing a known A1 enum is mistaken for executable capability.
     let error = require_supported(
