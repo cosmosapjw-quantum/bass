@@ -22,6 +22,7 @@ pub mod pstf_gen;
 pub mod qevolve;
 pub mod quad;
 pub mod radial;
+pub mod rf04_polarized_v2;
 pub mod rf04_typeii;
 pub mod sphere;
 pub mod tilted_hier;
@@ -32,3 +33,6 @@ pub mod viscous;
 
 #[cfg(test)]
 mod rf04_contract_tests;
+
+#[cfg(test)]
+mod rf04_polarized_v2_tests;
