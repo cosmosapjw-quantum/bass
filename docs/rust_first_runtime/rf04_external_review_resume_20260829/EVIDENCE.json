@@ -1,0 +1,92 @@
+{
+  "claims": [
+    "NO_PASS_RF04"
+  ],
+  "host_verified": {
+    "dispatch_tests_passed": 5,
+    "full_RF04": "NOT_PASSED",
+    "native_build": "NOT_RUN",
+    "native_public_tests": "6_BOUNDARY_FAILURES_MISSING_NATIVE_NOT_MUTATION_PROOF",
+    "offline_total_passed": 27,
+    "oracle_tests_passed": 19,
+    "payload_tests": "3_PASSED"
+  },
+  "local_only_remaining": [
+    "native Rust owner/adapter/registration",
+    "isolated native build and payload receipt",
+    "actual native public-array comparison",
+    "compiled native mutation assertion failures",
+    "native serial-parallel determinism",
+    "full polarized trajectory contract"
+  ],
+  "logs_in_delivery_not_repository": {
+    "DISPATCH_RED.log": "6eb5f1c5e54281aacd9603ebdd10fa3f220211f872a4dc864f35cffa916dace1",
+    "OFFLINE_FINAL.log": "c4fd646741eec3df4615e14cafc10dfd6c7524a8d48bbbbc72af87bc99b48829",
+    "OFFLINE_GREEN.log": "8bf157c502c9d8e22d147e4c7e3b637462d1823ca42c4cb614507762498b3352",
+    "ORACLE_GREEN.log": "70e2fde983e6c77304072a431785ef41f35c169a1796879290ccec488c8f8911",
+    "ORACLE_GREEN_01.log": "1539d5620775664f1f78bf25a149ddd8cfa5afd0e122c07bd35e89c3fdfeac9f",
+    "ORACLE_MUTANT_kato_added_instead_of_subtracted.log": "9e29c2cc232921b80b9c1e0e5d28dec439c15254acbae4886f485466c16a200c",
+    "ORACLE_MUTANT_normal_frame_rate_removed.log": "c1f1e45f64fbc8287fd7c8dc34fc07e67626290782389314e9322cf45d09daa2",
+    "ORACLE_MUTANT_polarized_thomson_gain_halved.log": "97f1937d57daf7d9f83f6dd8bd71ba1524f2bca1d5755050bc6150a6b0fb749a",
+    "ORACLE_RED.log": "b3f718b8a54aac7e6e68552488ce886d40af63bfb12c8204524c6ab342e12f6b",
+    "PUBLIC_BOUNDARY_RED.log": "881010245706f311bbf8f488a91438703d7145c58ecbe8fa7a2f124bfd6a5590"
+  },
+  "main_unchanged": "d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9",
+  "mock_roundtrip": {
+    "changed_paths": 1,
+    "expected_head_enforced": true,
+    "head": "d655e2110015b16520415fdca6a10d7d424b8e97",
+    "merge": "349356f67ff9d287ec29bfb731eaf2a67807868b",
+    "pr": 54,
+    "target": "mock/rf04-review-resume-20260829-base",
+    "terminal_readback": "CLOSED_MERGED"
+  },
+  "reference_mutations": {
+    "mutations": [
+      {
+        "assertion_failures": 1,
+        "collection_or_runtime_errors": 0,
+        "exit_code": 1,
+        "log_sha256": "c1f1e45f64fbc8287fd7c8dc34fc07e67626290782389314e9322cf45d09daa2",
+        "mutation": "normal_frame_rate_removed",
+        "result": "KILLED_ORACLE_MUTANT",
+        "selector": "test_paired_grid_conserves_independent_rate_dual_not_naive_weights"
+      },
+      {
+        "assertion_failures": 1,
+        "collection_or_runtime_errors": 0,
+        "exit_code": 1,
+        "log_sha256": "9e29c2cc232921b80b9c1e0e5d28dec439c15254acbae4886f485466c16a200c",
+        "mutation": "kato_added_instead_of_subtracted",
+        "result": "KILLED_ORACLE_MUTANT",
+        "selector": "test_scalar_aem2_converges_to_A_plus_C_without_extra_K"
+      },
+      {
+        "assertion_failures": 1,
+        "collection_or_runtime_errors": 0,
+        "exit_code": 1,
+        "log_sha256": "97f1937d57daf7d9f83f6dd8bd71ba1524f2bca1d5755050bc6150a6b0fb749a",
+        "mutation": "polarized_thomson_gain_halved",
+        "result": "KILLED_ORACLE_MUTANT",
+        "selector": "test_rank9_rest_collision_and_complex_hermitian_psd"
+      }
+    ],
+    "native_mutation_claim": false,
+    "scope": "TEST_ONLY_PYTHON_ORACLE_MUTANTS_NOT_NATIVE",
+    "source_sha256": "95dd8b708bde8209bbcedb027f3f08b2aeb34c83af0ef153e345a3c529daa016"
+  },
+  "scope": "HOST_TEST_ORACLE_AND_DISPATCH_PROOF_NOT_NATIVE_RF04",
+  "source_readback": "GITHUB_COMMIT_TREE_PARENT_AND_15_PATHS_VERIFIED",
+  "source_revision": "d43e4e9039f8cd9303340ed216e76a650138adef",
+  "user_reported_not_rerun": {
+    "coordinate_golden_reported_error": 0.0,
+    "minimal_crate_rust_checks": 85,
+    "python_science_checks": 39
+  },
+  "versions": {
+    "numpy": "2.3.5",
+    "pytest": "9.0.2",
+    "python": "3.13.5",
+    "scipy": "1.17.0"
+  }
+}
