@@ -1,0 +1,55 @@
+{
+  "schema": "bass-rf04-polarized-history-association-probe/v1",
+  "source_head": "50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda",
+  "source_tree": "b32fcc26ca51dcaca9e9225d48b03fe9e02988ed",
+  "real_donors_called": [
+    "frozen_collision_step",
+    "frozen_kato_step",
+    "transport_characteristic",
+    "remap_convex_packed",
+    "transport_packed_to_direction"
+  ],
+  "candidates": {
+    "fixed_eulerian": {
+      "restart_max_abs": 0.0,
+      "permutation_max_abs": 2.220446049250313e-16,
+      "screen_leakage": 5.551115123125783e-17,
+      "minimum_coherency_eigenvalue": 0.30768270190380853,
+      "observable": 1.0754979150490989,
+      "association": "state row is explicitly associated with the original fixed direction"
+    },
+    "evolved_lagrangian": {
+      "restart_max_abs": 0.0,
+      "permutation_max_abs": 2.0816681711721685e-16,
+      "screen_leakage": 1.1102230246251565e-16,
+      "minimum_coherency_eigenvalue": 0.30781910815577107,
+      "observable_after_one_source_remap_to_fixed": 1.0755457175083119,
+      "maximum_direction_shift": 0.018067351193077785,
+      "association": "state row is explicitly associated with evolved direction and accumulated spatial transport"
+    }
+  },
+  "candidate_difference": {
+    "state_max_abs_after_remap_to_fixed": 0.00022548640722408475,
+    "observable_absolute": 0.00004780245921298887
+  },
+  "counterexamples": {
+    "multi_parent_lineage": {
+      "parent_traces": [1.4, 2.6],
+      "child_trace": 2.0000000000000004,
+      "minimum_transport_dot": 0.9901515035589251,
+      "meaning": "The convex child cannot be the proper-rotation image of either single parent because proper rotations preserve trace."
+    },
+    "direction_association": {
+      "same_packed_bytes_screen_leakage_for_z": 0.0,
+      "same_packed_bytes_screen_leakage_for_x": 0.7,
+      "meaning": "Rank-9 bytes do not identify a physical screen state without their associated direction."
+    }
+  },
+  "restart_identity_types": {
+    "byte_identity": "NOT_REQUIRED_OR_TESTED",
+    "numerical_state_identity": "TESTED_EXACTLY_FOR_IN_MEMORY_RESTART",
+    "semantic_history_identity": "BOTH_CANDIDATES_SELF_CONSISTENT_BUT_MUTUALLY_DIFFERENT"
+  },
+  "transaction_semantics": "NO_SOURCE_OWNED_POLARIZED_HISTORY_OR_TRANSACTION_TYPE_FOUND",
+  "disposition": "NONUNIQUE_MEASURED_CANDIDATES"
+}
