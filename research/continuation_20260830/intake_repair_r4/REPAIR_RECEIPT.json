@@ -1,5 +1,5 @@
 {
-  "schema": "bass-rf04-immutable-payload-intake-repair/v1",
+  "schema": "bass-rf04-immutable-payload-intake-repair/v2",
   "repository": "cosmosapjw-quantum/bass",
   "pull_request": 66,
   "classification": "PACKAGE_PROVENANCE_FAILURE_NOT_SCIENTIFIC_DEFECT",
@@ -31,7 +31,7 @@
     ]
   },
   "superseding_payload": {
-    "status": "PASS_IMMUTABLE_PAYLOAD_INTAKE_ONLY",
+    "status": "PASS_REMOTE_RAW_OBJECT_PAYLOAD_CLOSURE_ONLY",
     "commit": "16f5811beb7d73fae800ff90caf30f69deebc9fd",
     "tree": "85a9164e01ea77d312b185809b3698363c750526",
     "parent": "989f9c38ba625f1de74941fd3e5f51bdd753d1bd",
@@ -42,15 +42,46 @@
     "payload_files_changed": false,
     "manifest_lines_changed": 2
   },
+  "superseded_locator_candidate": {
+    "commit": "0a9f726df916c3ddcf74b3a0bd17ba4c529f5a8d",
+    "tree": "80b0238f04ebfb92441aaa52428bdaf45e282154",
+    "status": "SUPERSEDED_PRE_FINAL_PATH_BOUNDARY_AUDIT",
+    "do_not_execute": true,
+    "reason": [
+      "ambient Git routing was not fully isolated",
+      "linked-worktree Git metadata was not fully protected",
+      "path replacement and cleanup boundaries were incomplete"
+    ],
+    "dependent_publication_commit": "53ac002bdc541f04d4eac6930c4ae1bcf53f1935",
+    "dependent_execution_handoff_commit": "a0e30307af87af2d13cdbed80ce5a3a03fd94af3",
+    "dependent_execution_handoff_status": "EVIDENCE_ONLY_NOT_EXECUTABLE"
+  },
   "locator": {
     "canonical": "FETCH_AND_VALIDATE.py",
     "compatibility_wrapper": "FETCH_AND_VALIDATE.sh",
     "raw_git_objects_only": true,
     "git_replacement_objects_disabled": true,
+    "git_lazy_fetch_disabled": true,
     "working_tree_bytes_used": false,
     "network_or_dependency_install": false,
-    "fixture_tests": 15,
+    "all_registered_worktrees_protected": true,
+    "git_metadata_roots_protected": true,
+    "fd_relative_materialization": true,
+    "parent_and_root_identity_rechecked": true,
+    "source_repository_rebound_before_receipt": true,
+    "default_temp_selection_nonprobing": true,
+    "secure_destination_namespace_required": true,
+    "failure_cleanup_performed": false,
+    "partial_output_path_reported": true,
+    "same_euid_concurrent_mutator_out_of_scope": true,
+    "unsupported_platforms_fail_closed": true,
+    "source_sha256": "ff43cecdc03846a4b73b2acf3b618236444614f0d124f467ddb98e3bb405524f",
+    "tests_sha256": "694c1079fd7d48f7a053c2ff214a55a663989938674698c5c5de5ab438e9d0a7",
+    "fixture_tests": 30,
     "fixture_tests_status": "PASS",
+    "optimized_fixture_tests": 30,
+    "optimized_fixture_tests_status": "PASS",
+    "independent_code_audit": "PASS_NO_P0_P1_P2",
     "exact_host_authenticated_clone_run": "DEFERRED_LOCAL"
   },
   "instruction_precedence": {

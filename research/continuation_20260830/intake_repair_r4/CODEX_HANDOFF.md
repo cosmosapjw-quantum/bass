@@ -6,8 +6,11 @@
 Historical package status:
 BLOCKED_IMMUTABLE_PAYLOAD_MANIFEST_MISMATCH
 
-Superseding delivery status:
-PASS_IMMUTABLE_PAYLOAD_INTAKE_ONLY
+Published repair status:
+PASS_REMOTE_RAW_OBJECT_PAYLOAD_CLOSURE_ONLY
+
+Exact-host locator execution:
+DEFERRED_LOCAL
 
 Scientific status:
 PASS_RF04_SCALAR_RAW_SLICE_PROOF retained
@@ -20,7 +23,7 @@ implementation worktree until the raw-object intake below passes.
 
 ## Instruction precedence
 
-This `intake_repair_r4/CODEX_HANDOFF.md` and the final v2
+This `intake_repair_r4/CODEX_HANDOFF.md` and the final hardened
 `REMOTE_PUBLICATION.json` supersede only the intake and local-execution
 instructions in the manifest-covered historical `continuation_20260830/
 CODEX_HANDOFF.md`.  That older file is retained byte-identically as evidence of
@@ -30,6 +33,13 @@ fallback that starts from the remote delivery when the local RED evidence is
 missing.  Non-conflicting scientific prohibitions in the immutable contract
 remain binding.  On any other conflict, stop and report the exact fields rather
 than choosing one silently.
+
+They also supersede every execution instruction and locator pin under
+`execution_handoff_r1/**` at commits `53ac002bdc541f04d4eac6930c4ae1bcf53f1935`
+and `a0e30307af87af2d13cdbed80ce5a3a03fd94af3`.  That package correctly retained
+`NO_PASS_RF04` and the missing-local-evidence gate, but it depended on the
+pre-final `0a9f726...` locator and its 15-test receipt.  Preserve it as evidence;
+do not execute its `LOCAL_ONLY_PROMPT.md`, ZIP, status, or validation matrix.
 
 ## Exact remote authority
 
@@ -58,6 +68,13 @@ SHA-256 af2ed1220c76d36bd82e5362b1f4a5fb0bb8061eb6470129458333c533b320de
 18 entries, 18 raw-byte matches
 ```
 
+The first published locator-bundle commit
+`0a9f726df916c3ddcf74b3a0bd17ba4c529f5a8d` is a superseded pre-final
+candidate.  Its path-boundary audit found ambient Git routing, linked-worktree
+metadata, and path-replacement gaps.  Do not execute or cite its locator/ZIP as
+the final artifact.  Use the bytes at the final PR #66 head and require their
+hashes to match the final `REMOTE_PUBLICATION.json`.
+
 The old payload remains immutable evidence of failure.  Never relabel
 `4538ac92...` or `989f9c38...` as valid intake.  The successor changes only the
 two false manifest digests; the two payload files themselves are unchanged.
@@ -73,11 +90,13 @@ From a machine with the authenticated BASS clone and all pinned objects:
 
 ```sh
 python3 FETCH_AND_VALIDATE.py /absolute/path/to/bass --validate-only
-
-intake_parent=$(mktemp -d)
-python3 FETCH_AND_VALIDATE.py /absolute/path/to/bass \
-  --out "$intake_parent/payload"
+python3 FETCH_AND_VALIDATE.py /absolute/path/to/bass
 ```
+
+The second command creates a fresh private destination and reports its exact
+`materialized_root` in JSON.  To select a location yourself, pass a new,
+nonexistent `--out` below an already-existing trusted parent; do not pre-create
+the output directory.
 
 Expected status:
 
@@ -88,15 +107,36 @@ scientific_claim = NO_PASS_RF04
 next_action = BASS-LOCAL-01_NATIVE_TELEMETRY_PARITY
 ```
 
-The locator uses `git --no-replace-objects`, validates exact commit/tree and
-single-parent ancestry, rejects non-regular tree modes and unsafe paths, reads
-bytes with `git cat-file`, checks manifest/contract closure, and refuses to
-overwrite or materialize inside the source clone.  It does not check out a
-branch, install dependencies, modify the clone, apply a patch, or access the
-network.  A later mutable branch tip does not invalidate the pinned payload.
-It also requires the contract's repository, base commit/tree, current claim,
-exact next action, and `scientific_promotion=false` to agree with the locator
-specification.
+The locator scrubs ambient Git routing/config variables, sets
+`GIT_NO_LAZY_FETCH=1`, invokes Git with both `--no-lazy-fetch` and
+`--no-replace-objects`, and validates exact
+commit/tree and single-parent
+ancestry, rejects non-regular tree modes and unsafe paths, reads bytes with
+`git cat-file`, and checks manifest/contract closure.  It protects the current
+and every other registered worktree plus per-worktree and common Git metadata.
+Materialization fails closed unless directory-FD and no-follow primitives are
+available.  Ambient `TMPDIR`, `TEMP`, or `TMP` is selected without Python's
+write/delete probe and is opened and checked before any destination is made.
+The source worktree, Git directory, and common Git directory identities are
+bound during validation and checked again after all writes.  Creation, writing,
+and hashing stay anchored to retained directory/file descriptors; public
+parent/root identities are rechecked before PASS.  Parent namespaces must be
+owned by root or the current effective UID, and group/world-writable ancestors
+must be sticky.
+
+The threat model assumes no hostile process running under the same effective
+UID during intake; run it without concurrent same-user filesystem mutation.
+On any failure after destination creation, the locator performs no recursive or
+pathname-based cleanup.  It returns `STOP_INVALID` with the requested partial
+path; a private `0700` partial may remain there (or at its displaced inode after
+a detected rename) and must never be used as accepted output.  Remove it only
+after manual identity inspection.
+
+The locator does not check out a branch, install dependencies, modify the
+clone, apply a patch, or access the network.  A later mutable branch tip does
+not invalidate the pinned payload.  It also requires the contract's
+repository, base commit/tree, current claim, exact next action, and
+`scientific_promotion=false` to agree with the locator specification.
 
 On any locator error, return `STOP_INVALID` with the first exact mismatch.  Do
 not manually reconstruct extraction and do not substitute `verify_payload.py`:
@@ -173,7 +213,8 @@ For the bounded geometry-prefix test, do not use `mktemp -u`, do not run Python
 with optimization, and disable Git replacement objects:
 
 ```sh
-tmp_root=$(mktemp -d)
+trusted_tmp=/absolute/path/to/existing/trusted-temp-parent
+tmp_root=$(mktemp -d -p "$trusted_tmp" bass-geometry.XXXXXXXX)
 PYTHONOPTIMIZE= GIT_NO_REPLACE_OBJECTS=1 \
 python3 check_geometry_core.py \
   --repo /absolute/path/to/new/worktree \

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from contextlib import redirect_stderr, redirect_stdout
 import hashlib
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -10,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -300,6 +303,67 @@ class FetchAndValidateTests(unittest.TestCase):
                 self.fixture.repo,
             )
 
+    def test_validated_payload_cannot_be_materialized_with_another_repository(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        other_parent = self.root / "other-repository"
+        other_parent.mkdir()
+        other = GitFixture(other_parent)
+        destination = self.root / "cross-repository-output"
+        with self.assertRaisesRegex(MODULE.IntakeError, "repository binding mismatch"):
+            MODULE.materialize(validated, destination, other.repo)
+        self.assertFalse(destination.exists())
+
+    def test_repository_path_replacement_after_validation_is_rejected(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        displaced = self.root / "displaced-validated-repository"
+        other_parent = self.root / "replacement-repository"
+        other_parent.mkdir()
+        other = GitFixture(other_parent)
+        original_path = self.fixture.repo
+        original_path.rename(displaced)
+        other.repo.rename(original_path)
+        destination = self.root / "replaced-repository-output"
+        with self.assertRaisesRegex(MODULE.IntakeError, "repository binding mismatch"):
+            MODULE.materialize(validated, destination, original_path)
+        self.assertFalse(destination.exists())
+
+    def test_repository_path_replacement_during_materialization_is_rejected(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        displaced = self.root / "displaced-during-materialization"
+        other_parent = self.root / "replacement-during-materialization"
+        other_parent.mkdir()
+        other = GitFixture(other_parent)
+        source_path = self.fixture.repo
+        destination = self.root / "source-swap-partial"
+        original_write = MODULE._write_materialized_records
+
+        def write_then_replace(root_fd: int, payload: object) -> None:
+            original_write(root_fd, payload)
+            source_path.rename(displaced)
+            other.repo.rename(source_path)
+
+        with mock.patch.object(
+            MODULE, "_write_materialized_records", side_effect=write_then_replace
+        ):
+            with self.assertRaisesRegex(MODULE.IntakeError, "repository binding mismatch"):
+                MODULE.materialize(validated, destination, source_path)
+
+        self.assertTrue(destination.is_dir())
+        self.assertEqual(destination.stat().st_mode & 0o777, 0o700)
+
+    def test_validate_only_rechecks_repository_binding_before_receipt(self) -> None:
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+        with mock.patch.object(MODULE, "SPEC", self.fixture.spec), mock.patch.object(
+            MODULE,
+            "_bound_materialization_layout",
+            side_effect=MODULE.IntakeError("injected repository binding mismatch"),
+        ), redirect_stdout(stdout), redirect_stderr(stderr):
+            result = MODULE.main([str(self.fixture.repo), "--validate-only"])
+        self.assertEqual(result, 2)
+        self.assertEqual(stdout.getvalue(), "")
+        self.assertIn("repository binding mismatch", stderr.getvalue())
+
     def test_repo_subdirectory_input_still_protects_full_repo_root(self) -> None:
         subdirectory = self.fixture.repo / self.fixture.prefix
         validated = MODULE.validate_payload(subdirectory, self.fixture.spec)
@@ -309,6 +373,268 @@ class FetchAndValidateTests(unittest.TestCase):
                 self.fixture.repo / "outside-input-subdirectory",
                 subdirectory,
             )
+
+    def test_non_ascii_repository_path_is_supported(self) -> None:
+        unicode_parent = self.root / "저장소"
+        unicode_parent.mkdir()
+        unicode_fixture = GitFixture(unicode_parent)
+        validated = MODULE.validate_payload(unicode_fixture.repo, unicode_fixture.spec)
+        destination = self.root / "unicode-materialized"
+        result = MODULE.materialize(validated, destination, unicode_fixture.repo)
+        self.assertEqual(result["status"], "PASS_IMMUTABLE_PAYLOAD_INTAKE_ONLY")
+
+    def test_ambient_git_routing_cannot_replace_supplied_repository(self) -> None:
+        decoy_parent = self.root / "decoy-fixture"
+        decoy_parent.mkdir()
+        decoy = GitFixture(decoy_parent)
+        injected = {
+            "GIT_DIR": str(decoy.repo / ".git"),
+            "GIT_WORK_TREE": str(decoy.repo),
+            "GIT_COMMON_DIR": str(decoy.repo / ".git"),
+            "GIT_OBJECT_DIRECTORY": str(decoy.repo / ".git" / "objects"),
+            "GIT_ALTERNATE_OBJECT_DIRECTORIES": str(self.fixture.repo / ".git" / "objects"),
+            "GIT_INDEX_FILE": str(decoy.repo / ".git" / "index"),
+            "GIT_PREFIX": "injected/",
+            "GIT_NAMESPACE": "injected",
+            "GIT_SHALLOW_FILE": str(decoy.repo / ".git" / "shallow"),
+            "GIT_REPLACE_REF_BASE": "refs/injected/",
+            "GIT_CONFIG_PARAMETERS": "'core.bare=false'",
+            "GIT_CONFIG_SYSTEM": str(decoy.repo / "system.gitconfig"),
+            "GIT_CONFIG_GLOBAL": str(decoy.repo / "global.gitconfig"),
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "core.bare",
+            "GIT_CONFIG_VALUE_0": "false",
+        }
+        with mock.patch.dict(os.environ, injected, clear=False):
+            git_env = MODULE._git_environment()
+            self.assertEqual(
+                {key for key in git_env if key.startswith("GIT_")},
+                {
+                    "GIT_CONFIG_GLOBAL",
+                    "GIT_CONFIG_NOSYSTEM",
+                    "GIT_NO_LAZY_FETCH",
+                    "GIT_NO_REPLACE_OBJECTS",
+                    "GIT_OPTIONAL_LOCKS",
+                    "GIT_TERMINAL_PROMPT",
+                },
+            )
+            self.assertEqual(git_env["GIT_NO_LAZY_FETCH"], "1")
+            self.assertEqual(
+                MODULE._git_argv(Path("/validated/repo"), "cat-file", "blob", "abc")[:4],
+                ["git", "--no-replace-objects", "--no-lazy-fetch", "-C"],
+            )
+            self.assertEqual(
+                MODULE._repository_root(self.fixture.repo),
+                self.fixture.repo.resolve(strict=True),
+            )
+            validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        self.assertEqual(validated.spec.payload_commit, self.fixture.payload[0])
+
+    def test_linked_worktree_git_metadata_roots_are_protected(self) -> None:
+        linked = self.root / "linked"
+        linked_two = self.root / "linked-two"
+        self.fixture.git("worktree", "add", "-q", "--detach", str(linked), self.fixture.payload[0])
+        self.fixture.git("worktree", "add", "-q", "--detach", str(linked_two), self.fixture.terminal[0])
+        validated = MODULE.validate_payload(linked, self.fixture.spec)
+        git_dir = Path(
+            self.fixture.git("-C", str(linked), "rev-parse", "--absolute-git-dir")
+        ).resolve(strict=True)
+        common_dir = Path(
+            self.fixture.git(
+                "-C",
+                str(linked),
+                "rev-parse",
+                "--path-format=absolute",
+                "--git-common-dir",
+            )
+        ).resolve(strict=True)
+        protected_roots = (
+            linked.resolve(strict=True),
+            linked_two.resolve(strict=True),
+            self.fixture.repo.resolve(strict=True),
+            git_dir,
+            common_dir,
+        )
+        for protected in protected_roots:
+            with self.subTest(protected=protected), self.assertRaisesRegex(
+                MODULE.IntakeError, "source repository|protected Git path"
+            ):
+                MODULE.materialize(validated, protected / "do-not-write-here", linked)
+
+        for protected in protected_roots:
+            with self.subTest(tmpdir=protected):
+                old_tmpdir = tempfile.tempdir
+                tempfile.tempdir = str(protected)
+                try:
+                    with self.assertRaisesRegex(
+                        MODULE.IntakeError, "source repository|protected Git path"
+                    ):
+                        MODULE.materialize(validated, None, linked)
+                finally:
+                    tempfile.tempdir = old_tmpdir
+
+        unsafe_alias = self.root / "unsafe-tmp-alias"
+        unsafe_alias.symlink_to(common_dir, target_is_directory=True)
+        old_tmpdir = tempfile.tempdir
+        tempfile.tempdir = None
+        try:
+            with mock.patch.dict(
+                os.environ,
+                {
+                    "TMPDIR": str(unsafe_alias),
+                    "TEMP": str(unsafe_alias),
+                    "TMP": str(unsafe_alias),
+                },
+                clear=False,
+            ):
+                before = set(common_dir.glob("bass-rf04-intake-*"))
+                with self.assertRaisesRegex(MODULE.IntakeError, "protected Git path"):
+                    MODULE.materialize(validated, None, linked)
+                self.assertEqual(
+                    set(common_dir.glob("bass-rf04-intake-*")),
+                    before,
+                )
+        finally:
+            tempfile.tempdir = old_tmpdir
+
+    def test_materialization_fails_closed_without_dir_fd_support(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        with mock.patch.object(MODULE.os, "supports_dir_fd", set()):
+            with self.assertRaisesRegex(MODULE.IntakeError, "unsupported"):
+                MODULE.materialize(
+                    validated,
+                    self.root / "unsupported-platform",
+                    self.fixture.repo,
+                )
+
+    def test_opened_parent_inode_inside_protected_worktree_is_rejected(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        intended_parent = self.root / "intended-parent"
+        intended_parent.mkdir()
+        moved_parent = self.root / "moved-intended-parent"
+        original = MODULE._open_stable_directory
+        attacked = False
+
+        def replace_parent(path: Path) -> tuple[Path, int]:
+            nonlocal attacked
+            if not attacked:
+                attacked = True
+                intended_parent.rename(moved_parent)
+                self.fixture.repo.rename(intended_parent)
+            return original(path)
+
+        with mock.patch.object(
+            MODULE, "_open_stable_directory", side_effect=replace_parent
+        ):
+            with self.assertRaisesRegex(MODULE.IntakeError, "protected Git path"):
+                MODULE.materialize(
+                    validated,
+                    intended_parent / "do-not-write-here",
+                    self.fixture.repo,
+                )
+        self.assertFalse((intended_parent / "do-not-write-here").exists())
+
+    def test_parent_path_replacement_prevents_success_receipt(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        public_parent = self.root / "public-parent"
+        public_parent.mkdir()
+        destination = public_parent / "materialized"
+        moved_parent = self.root / "moved-public-parent"
+        replacement_marker = public_parent / "attacker-marker"
+        original = MODULE._write_materialized_records
+
+        def replace_parent(root_fd: int, payload: object) -> None:
+            public_parent.rename(moved_parent)
+            public_parent.mkdir()
+            replacement_marker.write_text("preserve", encoding="utf-8")
+            original(root_fd, payload)
+
+        with mock.patch.object(
+            MODULE, "_write_materialized_records", side_effect=replace_parent
+        ):
+            with self.assertRaisesRegex(MODULE.IntakeError, "parent identity changed"):
+                MODULE.materialize(validated, destination, self.fixture.repo)
+
+        self.assertEqual(replacement_marker.read_text(encoding="utf-8"), "preserve")
+        self.assertTrue(
+            (moved_parent / "materialized" / self.fixture.manifest_path).is_file()
+        )
+        self.assertFalse(destination.exists())
+
+    def test_creation_error_never_removes_replacement_root_directory(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        destination = self.root / "creation-error-root"
+        diverted = self.root / "diverted-creation-root"
+
+        def replace_root(_descriptor: int, _mode: int) -> None:
+            destination.rename(diverted)
+            destination.mkdir()
+            raise OSError("injected fchmod failure")
+
+        with mock.patch.object(MODULE.os, "fchmod", side_effect=replace_root):
+            with self.assertRaisesRegex(
+                MODULE.IntakeError,
+                "partial output.*creation-error-root.*injected fchmod failure",
+            ):
+                MODULE.materialize(validated, destination, self.fixture.repo)
+
+        self.assertTrue(destination.is_dir())
+        self.assertTrue(diverted.is_dir())
+
+    def test_post_write_failure_leaves_private_partial_without_cleanup(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        destination = self.root / "post-write-partial"
+
+        with mock.patch.object(
+            MODULE,
+            "_assert_public_parent_identity",
+            side_effect=MODULE.IntakeError("injected post-write failure"),
+        ):
+            with self.assertRaisesRegex(
+                MODULE.IntakeError,
+                "partial output.*post-write-partial.*injected post-write failure",
+            ):
+                MODULE.materialize(validated, destination, self.fixture.repo)
+
+        self.assertTrue(destination.is_dir())
+        self.assertEqual(destination.stat().st_mode & 0o777, 0o700)
+        self.assertTrue((destination / self.fixture.manifest_path).is_file())
+
+    def test_insecure_writable_destination_namespace_is_rejected(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        insecure_parent = self.root / "insecure-parent"
+        insecure_parent.mkdir(mode=0o777)
+        insecure_parent.chmod(0o777)
+        destination = insecure_parent / "do-not-create"
+        with self.assertRaisesRegex(MODULE.IntakeError, "insecure destination namespace"):
+            MODULE.materialize(validated, destination, self.fixture.repo)
+        self.assertFalse(destination.exists())
+
+    def test_path_replacement_cannot_redirect_writes_or_cleanup(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        destination = self.root / "materialized-race"
+        diverted = self.root / "diverted-owned-root"
+        replacement_marker = destination / "attacker-marker"
+        trap = self.root / "trap"
+        trap.mkdir()
+        original = MODULE._write_materialized_records
+
+        def replace_path(root_fd: int, payload: object) -> None:
+            destination.rename(diverted)
+            destination.mkdir()
+            replacement_marker.write_text("preserve", encoding="utf-8")
+            original(root_fd, payload)
+
+        with mock.patch.object(
+            MODULE, "_write_materialized_records", side_effect=replace_path
+        ):
+            with self.assertRaisesRegex(MODULE.IntakeError, "destination identity changed"):
+                MODULE.materialize(validated, destination, self.fixture.repo)
+
+        self.assertEqual(replacement_marker.read_text(encoding="utf-8"), "preserve")
+        self.assertEqual(list(trap.iterdir()), [])
+        self.assertTrue(diverted.is_dir())
+        self.assertTrue((diverted / self.fixture.manifest_path).is_file())
 
     def test_symlink_parent_cannot_redirect_output_into_source_repo(self) -> None:
         validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
@@ -333,6 +659,75 @@ class FetchAndValidateTests(unittest.TestCase):
                 MODULE.materialize(validated, None, self.fixture.repo)
         finally:
             tempfile.tempdir = old_tmpdir
+
+    def test_ambient_temp_candidates_never_probe_or_mutate_protected_repo(self) -> None:
+        validated = MODULE.validate_payload(self.fixture.repo, self.fixture.spec)
+        audit_state: dict[str, object] = {"active": False, "writes": []}
+
+        def audit(event: str, args: tuple[object, ...]) -> None:
+            if not audit_state["active"]:
+                return
+            is_write_open = (
+                event == "open"
+                and len(args) >= 3
+                and isinstance(args[2], int)
+                and bool(
+                    args[2]
+                    & (
+                        os.O_WRONLY
+                        | os.O_RDWR
+                        | os.O_CREAT
+                        | os.O_TRUNC
+                        | os.O_APPEND
+                    )
+                )
+            )
+            if is_write_open:
+                try:
+                    audited_path = Path(os.fsdecode(os.fspath(args[0]))).resolve()
+                except (TypeError, ValueError, OSError):
+                    audited_path = None
+                is_write_open = audited_path is not None and (
+                    audited_path == self.fixture.repo
+                    or audited_path.is_relative_to(self.fixture.repo)
+                )
+            if is_write_open or event in {
+                "os.mkdir",
+                "os.remove",
+                "os.rmdir",
+                "os.rename",
+            }:
+                writes = audit_state["writes"]
+                assert isinstance(writes, list)
+                writes.append((event, args))
+
+        sys.addaudithook(audit)
+
+        for variable in ("TMPDIR", "TEMP", "TMP"):
+            with self.subTest(variable=variable):
+                writes: list[tuple[str, tuple[object, ...]]] = []
+                audit_state["writes"] = writes
+
+                old_tmpdir = tempfile.tempdir
+                tempfile.tempdir = None
+                try:
+                    with mock.patch.dict(os.environ, {}, clear=False):
+                        for candidate in ("TMPDIR", "TEMP", "TMP"):
+                            os.environ.pop(candidate, None)
+                        os.environ[variable] = str(self.fixture.repo)
+                        audit_state["active"] = True
+                        try:
+                            with self.assertRaisesRegex(
+                                MODULE.IntakeError, "inside source repository"
+                            ):
+                                MODULE.materialize(
+                                    validated, None, self.fixture.repo
+                                )
+                        finally:
+                            audit_state["active"] = False
+                finally:
+                    tempfile.tempdir = old_tmpdir
+                self.assertEqual(writes, [])
 
 
 if __name__ == "__main__":

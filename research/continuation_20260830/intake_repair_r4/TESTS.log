@@ -1,23 +1,43 @@
-RED
+INITIAL RED
 command: python3 -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -v
 result: exit 1
 reason: FileNotFoundError for absent FETCH_AND_VALIDATE.py
 
+PATH-BOUNDARY RED
+command: python3 -m unittest -v bass_intake_repair/intake_repair_r4/tests/test_fetch_and_validate.py
+result: exit 1
+observed: ambient GIT_DIR/GIT_WORK_TREE redirected the supplied clone; linked-worktree gitdir/common-dir outputs and TMPDIR were accepted; FD-relative writer was absent
+
+ANCESTRY/CLEANUP RED
+command: focused unittest methods for protected-parent inode substitution, public-parent replacement, registered-main-worktree output, and nested cleanup replacement
+result: exit 1
+observed: protected worktree inode could replace an apparently safe parent; stale output path could receive PASS; another registered worktree was writable; cleanup could remove a replacement child directory
+
+SOURCE-BINDING/TEMP-PROBE RED
+command: focused unittest methods for cross-repository materialization, source replacement after validation and during writes, validate-only rebinding, and ambient TMPDIR/TEMP/TMP audit events
+result: exit 1
+observed: the validated source identity was not bound through the final receipt; tempfile.gettempdir() could create/delete a probe inside a protected ambient temp candidate; failure cleanup had an unsafe pathname race
+
 GREEN
-command: python3 -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -v
+command: python3 -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -q
 result: exit 0
-tests: 15 passed
-coverage: pinned commit/tree and raw-parent chain; raw committed blobs despite dirty worktree; historical bad manifest; manifest blob pin; contract repository/base/claim/next-action/promotion binding; traversal, duplicate, and backslash paths; regular-file mode and executable-mode preservation; replacement-ref and graft immunity; mutable branch-tip advance; existing destination; canonical full repository root from subdirectory input; explicit, temporary, or symlink-redirected destination inside source repository
+tests: 30 passed
+coverage: pinned commit/tree and raw-parent chain; raw committed blobs despite dirty worktree; historical bad manifest; manifest blob pin; contract repository/base/claim/next-action/promotion binding; traversal, duplicate, and backslash paths; regular-file mode and executable-mode preservation; replacement-ref and graft immunity; explicit environment and Git-argv lazy-fetch disablement; mutable branch-tip advance; existing destination; canonical full repository root from subdirectory input; non-ASCII repository paths; ambient Git routing/config scrub; validation-time repository binding; cross-repository rejection; source replacement after validation and during materialization; validate-only rebinding; current/main/other registered worktrees; per-worktree/common Git metadata; explicit output and non-probing ambient TMPDIR/TEMP/TMP selection including symlink aliases; protected-parent inode ancestry; secure namespace ownership/sticky-bit checks; public parent and root-name identity replacement; FD-relative write/hash and post-write verification; no destructive failure cleanup; partial-path error surfacing; unsupported-platform fail-close
 
 HARDENED
 command: PYTHONDONTWRITEBYTECODE=1 python3 -O -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -q
 result: exit 0
-tests: 15 passed under optimized Python
+tests: 30 passed under optimized Python
 
 STATIC
-Python AST parse: PASS
+Python AST/bytecode parse: PASS
 POSIX shell syntax: PASS
 REPAIR_RECEIPT.json parse: PASS
+
+INDEPENDENT CODE AUDIT
+result: PASS_NO_P0_P1_P2
+FETCH_AND_VALIDATE.py SHA-256: ff43cecdc03846a4b73b2acf3b618236444614f0d124f467ddb98e3bb405524f
+tests/test_fetch_and_validate.py SHA-256: 694c1079fd7d48f7a053c2ff214a55a663989938674698c5c5de5ab438e9d0a7
 
 environment:
 Python 3.12.13

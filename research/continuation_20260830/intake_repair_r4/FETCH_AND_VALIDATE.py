@@ -19,7 +19,8 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
-import shutil
+import secrets
+import stat
 import subprocess
 import sys
 import tempfile
@@ -73,6 +74,26 @@ class ValidatedPayload:
     spec: IntakeSpec
     manifest_bytes: bytes
     files: dict[str, PayloadFile]
+    source_layout: RepositoryLayout
+
+
+@dataclass(frozen=True)
+class ProtectedRoot:
+    label: str
+    path: Path
+    identity: tuple[int, int]
+
+
+@dataclass(frozen=True)
+class RepositoryLayout:
+    worktree: Path
+    git_dir: Path
+    common_git_dir: Path
+    worktree_identity: tuple[int, int]
+    git_dir_identity: tuple[int, int]
+    common_git_dir_identity: tuple[int, int]
+    protected_roots: tuple[ProtectedRoot, ...]
+
 
 
 SPEC = IntakeSpec(
@@ -134,11 +155,36 @@ SPEC = IntakeSpec(
 )
 
 
-def _git(repo: Path, *args: str) -> bytes:
-    env = os.environ.copy()
+def _git_environment() -> dict[str, str]:
+    # No ambient Git routing or injected config may change what ``-C repo``
+    # means.  The commands below are local, read-only object queries and need
+    # none of the GIT_* variables inherited from a caller.
+    env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
     env["GIT_NO_REPLACE_OBJECTS"] = "1"
+    env["GIT_NO_LAZY_FETCH"] = "1"
+    env["GIT_OPTIONAL_LOCKS"] = "0"
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    env["GIT_CONFIG_NOSYSTEM"] = "1"
+    env["GIT_CONFIG_GLOBAL"] = os.devnull
+    env["LC_ALL"] = "C"
+    return env
+
+
+def _git_argv(repo: Path, *args: str) -> list[str]:
+    return [
+        "git",
+        "--no-replace-objects",
+        "--no-lazy-fetch",
+        "-C",
+        str(repo),
+        *args,
+    ]
+
+
+def _git(repo: Path, *args: str) -> bytes:
+    env = _git_environment()
     proc = subprocess.run(
-        ["git", "--no-replace-objects", "-C", str(repo), *args],
+        _git_argv(repo, *args),
         env=env,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
@@ -158,17 +204,94 @@ def _decode_ascii(data: bytes, label: str) -> str:
         raise IntakeError(f"non-ASCII {label}") from exc
 
 
-def _repository_root(repo: Path | str) -> Path:
+def _decode_git_path(data: bytes, label: str) -> str:
+    if not data.endswith(b"\n"):
+        raise IntakeError(f"unterminated {label}")
+    raw = data[:-1]
+    if not raw or b"\x00" in raw or b"\n" in raw or b"\r" in raw:
+        raise IntakeError(f"ambiguous {label}")
+    return os.fsdecode(raw)
+
+
+def _repository_layout(repo: Path | str) -> RepositoryLayout:
     candidate = Path(repo).expanduser().resolve(strict=True)
     if not candidate.is_dir():
         raise IntakeError(f"repository path is not a directory: {candidate}")
-    top = _decode_ascii(
+    top = _decode_git_path(
         _git(candidate, "rev-parse", "--show-toplevel"), "repository root"
-    ).strip()
+    )
     root = Path(top).resolve(strict=True)
     if not root.is_dir():
         raise IntakeError(f"invalid repository root: {root}")
-    return root
+    if candidate != root and not candidate.is_relative_to(root):
+        raise IntakeError(
+            "supplied repository path was redirected outside its resolved worktree"
+        )
+    git_dir_text = _decode_git_path(
+        _git(root, "rev-parse", "--absolute-git-dir"), "Git directory"
+    )
+    common_dir_text = _decode_git_path(
+        _git(
+            root,
+            "rev-parse",
+            "--path-format=absolute",
+            "--git-common-dir",
+        ),
+        "common Git directory",
+    )
+    git_dir = Path(git_dir_text).resolve(strict=True)
+    common_git_dir = Path(common_dir_text).resolve(strict=True)
+    if not git_dir.is_dir() or not common_git_dir.is_dir():
+        raise IntakeError("invalid Git metadata directory")
+
+    raw_worktrees = _git(root, "worktree", "list", "--porcelain", "-z")
+    worktrees: list[Path] = [root]
+    for field in raw_worktrees.split(b"\x00"):
+        if not field.startswith(b"worktree "):
+            continue
+        candidate_path = Path(os.fsdecode(field[len(b"worktree ") :]))
+        try:
+            worktree = candidate_path.resolve(strict=True)
+        except FileNotFoundError:
+            continue
+        if worktree.is_dir() and worktree not in worktrees:
+            worktrees.append(worktree)
+
+    protected: list[ProtectedRoot] = []
+    seen_identities: set[tuple[int, int]] = set()
+    candidates = [("source repository", root)]
+    candidates.extend(
+        ("registered Git worktree", worktree)
+        for worktree in worktrees
+        if worktree != root
+    )
+    candidates.extend(
+        (("Git directory", git_dir), ("common Git directory", common_git_dir))
+    )
+    for label, protected_path in candidates:
+        protected_stat = os.stat(protected_path, follow_symlinks=False)
+        if not stat.S_ISDIR(protected_stat.st_mode):
+            raise IntakeError(f"invalid protected repository path: {protected_path}")
+        identity = (protected_stat.st_dev, protected_stat.st_ino)
+        if identity in seen_identities:
+            continue
+        seen_identities.add(identity)
+        protected.append(ProtectedRoot(label, protected_path, identity))
+
+    identities = {item.path: item.identity for item in protected}
+    return RepositoryLayout(
+        root,
+        git_dir,
+        common_git_dir,
+        identities[root],
+        identities[git_dir],
+        identities[common_git_dir],
+        tuple(protected),
+    )
+
+
+def _repository_root(repo: Path | str) -> Path:
+    return _repository_layout(repo).worktree
 
 
 def _canonical_payload_path(path: str, allowed_prefix: str) -> None:
@@ -293,7 +416,8 @@ def _validate_contract(
 
 
 def validate_payload(repo: Path | str, spec: IntakeSpec = SPEC) -> ValidatedPayload:
-    source = _repository_root(repo)
+    source_layout = _repository_layout(repo)
+    source = source_layout.worktree
     _git(source, "rev-parse", "--git-dir")
 
     for pin in spec.objects:
@@ -359,54 +483,410 @@ def validate_payload(repo: Path | str, spec: IntakeSpec = SPEC) -> ValidatedPayl
         raise IntakeError("invalid CONTRACT.json") from exc
     _validate_contract(contract, set(files), spec)
 
-    return ValidatedPayload(spec=spec, manifest_bytes=manifest_bytes, files=files)
+    return ValidatedPayload(
+        spec=spec,
+        manifest_bytes=manifest_bytes,
+        files=files,
+        source_layout=source_layout,
+    )
 
 
-def _safe_destination(destination: Path | str, source_repo: Path) -> Path:
-    raw = Path(destination).expanduser()
-    if not raw.name or raw == Path(raw.anchor):
-        raise IntakeError(f"unsafe destination: {raw}")
-    absolute = Path(os.path.abspath(raw))
-    if absolute.exists() or absolute.is_symlink():
-        raise IntakeError(f"destination already exists: {absolute}")
-    unresolved_parent = absolute.parent
-    if unresolved_parent.is_symlink():
-        raise IntakeError(f"unsafe destination parent symlink: {unresolved_parent}")
-    parent = unresolved_parent.resolve(strict=True)
-    if not parent.is_dir():
-        raise IntakeError(f"unsafe destination parent: {parent}")
-    resolved_destination = parent / absolute.name
-    if resolved_destination.exists() or resolved_destination.is_symlink():
-        raise IntakeError(f"destination already exists: {resolved_destination}")
-    source = source_repo.resolve(strict=True)
-    if resolved_destination == source or resolved_destination.is_relative_to(source):
-        raise IntakeError("destination must not be inside source repository")
-    return resolved_destination
+def _same_or_beneath(path: Path, root: Path) -> bool:
+    return path == root or path.is_relative_to(root)
 
 
-def _write_exclusive(path: Path, data: bytes, mode: int) -> None:
-    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+def _reject_protected_destination(path: Path, layout: RepositoryLayout) -> None:
+    for protected in layout.protected_roots:
+        if _same_or_beneath(path, protected.path):
+            if protected.label == "source repository":
+                raise IntakeError("destination must not be inside source repository")
+            raise IntakeError(
+                "destination must not be inside protected Git path: "
+                f"{protected.label}"
+            )
+
+
+def _require_secure_materialization_support() -> None:
+    missing: list[str] = []
+    if not hasattr(os, "geteuid"):
+        missing.append("geteuid")
+    if not hasattr(os, "O_DIRECTORY"):
+        missing.append("O_DIRECTORY")
+    if not hasattr(os, "O_NOFOLLOW"):
+        missing.append("O_NOFOLLOW")
+    for function in (os.open, os.mkdir, os.stat):
+        if function not in os.supports_dir_fd:
+            missing.append(f"dir_fd:{function.__name__}")
+    if os.stat not in os.supports_follow_symlinks:
+        missing.append("follow_symlinks:stat")
+    if missing:
+        raise IntakeError(
+            "secure fd-relative materialization is unsupported: " + ", ".join(missing)
+        )
+
+
+def _directory_flags() -> int:
+    _require_secure_materialization_support()
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    if hasattr(os, "O_CLOEXEC"):
+        flags |= os.O_CLOEXEC
+    return flags
+
+
+def _open_stable_directory(path: Path) -> tuple[Path, int]:
+    """Open a canonical directory and prove the retained fd names that inode."""
+
+    canonical = path.resolve(strict=True)
+    before = os.stat(canonical, follow_symlinks=False)
+    if not stat.S_ISDIR(before.st_mode):
+        raise IntakeError(f"unsafe destination parent: {canonical}")
+    descriptor = os.open(canonical, _directory_flags())
+    try:
+        opened = os.fstat(descriptor)
+        after = os.stat(canonical, follow_symlinks=False)
+        expected = (before.st_dev, before.st_ino)
+        if (opened.st_dev, opened.st_ino) != expected or (
+            after.st_dev,
+            after.st_ino,
+        ) != expected:
+            raise IntakeError("destination parent identity changed while opening")
+        return canonical, descriptor
+    except Exception:
+        os.close(descriptor)
+        raise
+
+
+def _assert_fd_outside_protected(
+    directory_fd: int, layout: RepositoryLayout
+) -> None:
+    protected = {
+        root.identity: root.label
+        for root in layout.protected_roots
+    }
+    current_fd = os.dup(directory_fd)
+    seen: set[tuple[int, int]] = set()
+    try:
+        for _ in range(4096):
+            current_stat = os.fstat(current_fd)
+            identity = (current_stat.st_dev, current_stat.st_ino)
+            if identity in protected:
+                if protected[identity] == "source repository":
+                    raise IntakeError(
+                        "destination parent is inside source repository "
+                        "(protected Git path)"
+                    )
+                raise IntakeError(
+                    "destination parent is inside a protected Git path: "
+                    f"{protected[identity]}"
+                )
+            if identity in seen:
+                raise IntakeError("cycle while checking destination parent ancestry")
+            seen.add(identity)
+            parent_fd = os.open("..", _directory_flags(), dir_fd=current_fd)
+            parent_stat = os.fstat(parent_fd)
+            parent_identity = (parent_stat.st_dev, parent_stat.st_ino)
+            if parent_identity == identity:
+                os.close(parent_fd)
+                return
+            os.close(current_fd)
+            current_fd = parent_fd
+        raise IntakeError("destination parent ancestry exceeds safety limit")
+    finally:
+        os.close(current_fd)
+
+
+def _assert_namespace_stable(directory_fd: int) -> None:
+    """Reject namespaces another unprivileged UID can rename during intake."""
+
+    trusted_owners = {0, os.geteuid()}
+    current_fd = os.dup(directory_fd)
+    seen: set[tuple[int, int]] = set()
+    try:
+        for _ in range(4096):
+            current_stat = os.fstat(current_fd)
+            identity = (current_stat.st_dev, current_stat.st_ino)
+            if current_stat.st_uid not in trusted_owners:
+                raise IntakeError(
+                    "insecure destination namespace: untrusted directory owner"
+                )
+            writable_by_others = stat.S_IMODE(current_stat.st_mode) & 0o022
+            sticky = current_stat.st_mode & stat.S_ISVTX
+            if writable_by_others and not sticky:
+                raise IntakeError(
+                    "insecure destination namespace: writable non-sticky directory"
+                )
+            if identity in seen:
+                raise IntakeError("cycle while checking destination namespace")
+            seen.add(identity)
+            parent_fd = os.open("..", _directory_flags(), dir_fd=current_fd)
+            parent_stat = os.fstat(parent_fd)
+            parent_identity = (parent_stat.st_dev, parent_stat.st_ino)
+            if parent_identity == identity:
+                os.close(parent_fd)
+                return
+            os.close(current_fd)
+            current_fd = parent_fd
+        raise IntakeError("destination namespace exceeds safety limit")
+    finally:
+        os.close(current_fd)
+
+
+def _assert_public_parent_identity(path: Path, parent_fd: int) -> None:
+    expected_stat = os.fstat(parent_fd)
+    expected = (expected_stat.st_dev, expected_stat.st_ino)
+    check_fd: int | None = None
+    try:
+        _, check_fd = _open_stable_directory(path)
+        current_stat = os.fstat(check_fd)
+        if (current_stat.st_dev, current_stat.st_ino) != expected:
+            raise IntakeError("destination parent identity changed during materialization")
+    except (FileNotFoundError, NotADirectoryError, OSError) as exc:
+        raise IntakeError(
+            "destination parent identity changed during materialization"
+        ) from exc
+    finally:
+        if check_fd is not None:
+            os.close(check_fd)
+
+
+def _named_identity(parent_fd: int, name: str) -> tuple[int, int, int] | None:
+    try:
+        current = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+    except FileNotFoundError:
+        return None
+    return current.st_dev, current.st_ino, current.st_mode
+
+
+def _temporary_parent_candidate() -> Path:
+    """Select the ambient temporary parent without probing or writing to it."""
+
+    raw: object = tempfile.tempdir
+    if raw is None:
+        raw = next(
+            (
+                value
+                for key in ("TMPDIR", "TEMP", "TMP")
+                if (value := os.environ.get(key))
+            ),
+            "/tmp",
+        )
+    try:
+        decoded = os.fsdecode(os.fspath(raw))
+    except (TypeError, ValueError) as exc:
+        raise IntakeError("invalid temporary destination parent") from exc
+    if not decoded or "\x00" in decoded:
+        raise IntakeError("invalid temporary destination parent")
+    return Path(decoded).expanduser()
+
+
+def _create_destination(
+    destination: Path | str | None, layout: RepositoryLayout
+) -> tuple[Path, int, int, str, tuple[int, int]]:
+    if destination is None:
+        # tempfile.gettempdir() probes candidates by creating and deleting a
+        # file.  An attacker-controlled TMPDIR could therefore mutate a
+        # protected repository before our ancestry checks.  Select the path
+        # without probing; the retained directory fd is checked before mkdir.
+        raw_parent = _temporary_parent_candidate()
+        parent, parent_fd = _open_stable_directory(raw_parent)
+        try:
+            _assert_fd_outside_protected(parent_fd, layout)
+            _assert_namespace_stable(parent_fd)
+            for _ in range(128):
+                name = f"bass-rf04-intake-{secrets.token_hex(8)}"
+                root = parent / name
+                _reject_protected_destination(root, layout)
+                try:
+                    os.mkdir(name, 0o700, dir_fd=parent_fd)
+                except FileExistsError:
+                    continue
+                break
+            else:
+                raise IntakeError("could not allocate a unique temporary destination")
+        except Exception:
+            os.close(parent_fd)
+            raise
+    else:
+        raw = Path(destination).expanduser()
+        absolute = Path(os.path.abspath(raw))
+        if absolute.name in {"", ".", ".."} or absolute == Path(absolute.anchor):
+            raise IntakeError(f"unsafe destination: {raw}")
+        parent, parent_fd = _open_stable_directory(absolute.parent)
+        name = absolute.name
+        root = parent / name
+        try:
+            _assert_fd_outside_protected(parent_fd, layout)
+            _assert_namespace_stable(parent_fd)
+            _reject_protected_destination(root, layout)
+            if _named_identity(parent_fd, name) is not None:
+                raise IntakeError(f"destination already exists: {root}")
+            os.mkdir(name, 0o700, dir_fd=parent_fd)
+        except FileExistsError as exc:
+            os.close(parent_fd)
+            raise IntakeError(f"destination already exists: {root}") from exc
+        except Exception:
+            os.close(parent_fd)
+            raise
+
+    root_fd: int | None = None
+    identity: tuple[int, int] | None = None
+    try:
+        root_fd = os.open(name, _directory_flags(), dir_fd=parent_fd)
+        opened = os.fstat(root_fd)
+        identity = (opened.st_dev, opened.st_ino)
+        os.fchmod(root_fd, 0o700)
+        named = _named_identity(parent_fd, name)
+        if (
+            not stat.S_ISDIR(opened.st_mode)
+            or named is None
+            or named[:2] != identity
+            or not stat.S_ISDIR(named[2])
+        ):
+            raise IntakeError("destination identity changed while creating")
+        return root, parent_fd, root_fd, name, identity
+    except Exception as exc:
+        if root_fd is not None:
+            os.close(root_fd)
+        os.close(parent_fd)
+        raise IntakeError(
+            "materialization failed after destination creation; do not use any "
+            f"partial output; requested path: {root}; cause: {exc}"
+        ) from exc
+
+
+def _open_or_create_child(parent_fd: int, name: str) -> int:
+    try:
+        os.mkdir(name, 0o700, dir_fd=parent_fd)
+    except FileExistsError:
+        pass
+    child_fd = os.open(name, _directory_flags(), dir_fd=parent_fd)
+    child_stat = os.fstat(child_fd)
+    if not stat.S_ISDIR(child_stat.st_mode):
+        os.close(child_fd)
+        raise IntakeError(f"materialized path component is not a directory: {name}")
+    os.fchmod(child_fd, 0o700)
+    return child_fd
+
+
+def _open_parent_for_path(root_fd: int, path: str) -> tuple[int, str]:
+    parts = path.split("/")
+    current_fd = os.dup(root_fd)
+    try:
+        for component in parts[:-1]:
+            next_fd = _open_or_create_child(current_fd, component)
+            os.close(current_fd)
+            current_fd = next_fd
+        return current_fd, parts[-1]
+    except Exception:
+        os.close(current_fd)
+        raise
+
+
+def _write_exclusive_at(
+    root_fd: int, path: str, data: bytes, mode: int, expected_sha256: str
+) -> None:
+    parent_fd, name = _open_parent_for_path(root_fd, path)
+    flags = os.O_RDWR | os.O_CREAT | os.O_EXCL
     if hasattr(os, "O_NOFOLLOW"):
         flags |= os.O_NOFOLLOW
-    descriptor = os.open(path, flags, mode)
+    if hasattr(os, "O_CLOEXEC"):
+        flags |= os.O_CLOEXEC
+    descriptor: int | None = None
     try:
-        with os.fdopen(descriptor, "wb", closefd=False) as stream:
-            stream.write(data)
-            stream.flush()
-            os.fsync(stream.fileno())
-            os.fchmod(stream.fileno(), mode)
+        descriptor = os.open(name, flags, mode, dir_fd=parent_fd)
+        view = memoryview(data)
+        while view:
+            written = os.write(descriptor, view)
+            if written <= 0:
+                raise IntakeError(f"short write while materializing: {path}")
+            view = view[written:]
+        os.fchmod(descriptor, mode)
+        os.fsync(descriptor)
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        digest = hashlib.sha256()
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+        if digest.hexdigest() != expected_sha256:
+            raise IntakeError(f"post-write payload verification failed: {path}")
     finally:
-        os.close(descriptor)
+        if descriptor is not None:
+            os.close(descriptor)
+        os.close(parent_fd)
 
 
-def _cleanup_owned_directory(path: Path, identity: tuple[int, int]) -> None:
-    try:
-        stat = path.lstat()
-    except FileNotFoundError:
-        return
-    if path.is_symlink() or not path.is_dir() or (stat.st_dev, stat.st_ino) != identity:
-        return
-    shutil.rmtree(path)
+def _write_materialized_records(
+    root_fd: int, validated: ValidatedPayload
+) -> None:
+    records = [
+        (
+            validated.spec.manifest_path,
+            validated.manifest_bytes,
+            0o644,
+            validated.spec.manifest_sha256,
+        )
+    ]
+    records.extend(
+        (
+            payload.path,
+            payload.data,
+            0o755 if payload.mode == "100755" else 0o644,
+            payload.sha256,
+        )
+        for payload in validated.files.values()
+    )
+    paths = [record[0] for record in records]
+    if len(paths) != len(set(paths)):
+        raise IntakeError("materialization path collision")
+    for path, data, mode, expected_digest in records:
+        _write_exclusive_at(root_fd, path, data, mode, expected_digest)
+    os.fsync(root_fd)
+
+
+def _assert_destination_identity(
+    parent_fd: int, name: str, identity: tuple[int, int]
+) -> None:
+    named = _named_identity(parent_fd, name)
+    if named is None or named[:2] != identity or not stat.S_ISDIR(named[2]):
+        raise IntakeError("destination identity changed during materialization")
+
+
+def _bound_materialization_layout(
+    validated: ValidatedPayload, source_repo: Path | str
+) -> RepositoryLayout:
+    expected = validated.source_layout
+    current = _repository_layout(source_repo)
+    expected_core = (
+        expected.worktree_identity,
+        expected.git_dir_identity,
+        expected.common_git_dir_identity,
+    )
+    current_core = (
+        current.worktree_identity,
+        current.git_dir_identity,
+        current.common_git_dir_identity,
+    )
+    if current_core != expected_core:
+        raise IntakeError("validated source repository binding mismatch")
+
+    protected: list[ProtectedRoot] = []
+    seen: set[tuple[int, int]] = set()
+    for item in (*expected.protected_roots, *current.protected_roots):
+        if item.identity in seen:
+            continue
+        seen.add(item.identity)
+        protected.append(item)
+    return RepositoryLayout(
+        current.worktree,
+        current.git_dir,
+        current.common_git_dir,
+        current.worktree_identity,
+        current.git_dir_identity,
+        current.common_git_dir_identity,
+        tuple(protected),
+    )
 
 
 def materialize(
@@ -414,53 +894,41 @@ def materialize(
     destination: Path | str | None,
     source_repo: Path | str,
 ) -> dict[str, object]:
-    source = _repository_root(source_repo)
-    if destination is None:
-        root = Path(tempfile.mkdtemp(prefix="bass-rf04-intake-")).resolve(strict=True)
-        if root == source or root.is_relative_to(source):
-            identity = (root.lstat().st_dev, root.lstat().st_ino)
-            _cleanup_owned_directory(root, identity)
-            raise IntakeError("temporary destination resolved inside source repository")
-    else:
-        root = _safe_destination(destination, source)
-        try:
-            root.mkdir(mode=0o700)
-        except FileExistsError as exc:
-            raise IntakeError(f"destination already exists: {root}") from exc
-    stat = root.lstat()
-    identity = (stat.st_dev, stat.st_ino)
+    _require_secure_materialization_support()
+    layout = _bound_materialization_layout(validated, source_repo)
+    root, parent_fd, root_fd, name, identity = _create_destination(
+        destination, layout
+    )
     try:
-        manifest_target = root / validated.spec.manifest_path
-        manifest_target.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
-        _write_exclusive(manifest_target, validated.manifest_bytes, 0o644)
-        for payload in validated.files.values():
-            target = root / payload.path
-            target.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
-            _write_exclusive(
-                target,
-                payload.data,
-                0o755 if payload.mode == "100755" else 0o644,
-            )
-        if hashlib.sha256(manifest_target.read_bytes()).hexdigest() != validated.spec.manifest_sha256:
-            raise IntakeError("post-write manifest verification failed")
-        for payload in validated.files.values():
-            actual = hashlib.sha256((root / payload.path).read_bytes()).hexdigest()
-            if actual != payload.sha256:
-                raise IntakeError(f"post-write payload verification failed: {payload.path}")
-    except Exception:
-        _cleanup_owned_directory(root, identity)
-        raise
-
-    return receipt(validated, source, root)
+        _write_materialized_records(root_fd, validated)
+        # The public source path is not retained by fd.  Rebind it after all
+        # writes so a repository path swap during materialization cannot
+        # produce a PASS receipt naming a different clone.
+        final_layout = _bound_materialization_layout(validated, source_repo)
+        _assert_fd_outside_protected(parent_fd, final_layout)
+        _assert_namespace_stable(parent_fd)
+        _assert_public_parent_identity(root.parent, parent_fd)
+        _assert_destination_identity(parent_fd, name, identity)
+        os.fsync(parent_fd)
+        result = receipt(validated, final_layout, root)
+        return result
+    except Exception as exc:
+        raise IntakeError(
+            "materialization failed after destination creation; do not use any "
+            f"partial output; requested path: {root}; cause: {exc}"
+        ) from exc
+    finally:
+        os.close(root_fd)
+        os.close(parent_fd)
 
 
 def receipt(
-    validated: ValidatedPayload, source_repo: Path, output: Path | None
+    validated: ValidatedPayload, source_layout: RepositoryLayout, output: Path | None
 ) -> dict[str, object]:
     return {
         "status": "PASS_IMMUTABLE_PAYLOAD_INTAKE_ONLY",
         "repository": validated.spec.repository,
-        "source_repo": str(source_repo),
+        "source_repo": str(source_layout.worktree),
         "payload_commit": validated.spec.payload_commit,
         "payload_tree": validated.spec.payload_tree,
         "manifest_blob_sha1": validated.spec.manifest_blob_sha1,
@@ -498,11 +966,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         parser.error("--validate-only and --out are mutually exclusive")
     try:
         validated = validate_payload(args.repo, SPEC)
-        source = _repository_root(args.repo)
         if args.validate_only:
-            result = receipt(validated, source, None)
+            layout = _bound_materialization_layout(validated, args.repo)
+            result = receipt(validated, layout, None)
         else:
-            result = materialize(validated, args.out, source)
+            result = materialize(validated, args.out, args.repo)
     except (IntakeError, OSError) as exc:
         print(f"STOP_INVALID: {exc}", file=sys.stderr)
         return 2
