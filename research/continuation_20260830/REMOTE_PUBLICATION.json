@@ -1,5 +1,5 @@
 {
-  "schema": "bass-rf04-research-continuation-publication/v1",
+  "schema": "bass-rf04-research-continuation-publication/v2",
   "repository": "cosmosapjw-quantum/bass",
   "pull_request": {
     "number": 66,
@@ -8,13 +8,36 @@
     "base_head": "2aaad1d72064ddeb60b27a0ec15536d0a2ec6a28"
   },
   "immutable_payload": {
-    "commit": "4538ac92fcf5cf70a4d73e2cb3e53125a49590ba",
-    "tree": "982173d6e3fa1760c58cd547545c2b17f37c7a11",
+    "commit": "16f5811beb7d73fae800ff90caf30f69deebc9fd",
+    "tree": "85a9164e01ea77d312b185809b3698363c750526",
     "path": "research/continuation_20260830",
-    "manifest_blob_sha1": "d7bce97da558a21ac23572e334c941cdad4641e6",
+    "manifest_blob_sha1": "32473fb754c9b6b84e5e5980c551860297f1054a",
+    "manifest_sha256": "af2ed1220c76d36bd82e5362b1f4a5fb0bb8061eb6470129458333c533b320de",
     "manifest_entries": 18,
+    "manifest_validation": "18_OF_18_RAW_GIT_BLOBS_PASS",
     "validator": "research/continuation_20260830/verify_payload.py"
   },
+  "intake_locator": {
+    "commit": "0a9f726df916c3ddcf74b3a0bd17ba4c529f5a8d",
+    "tree": "80b0238f04ebfb92441aaa52428bdaf45e282154",
+    "path": "research/continuation_20260830/intake_repair_r4",
+    "canonical": "FETCH_AND_VALIDATE.py",
+    "compatibility_wrapper": "FETCH_AND_VALIDATE.sh",
+    "fixture_tests": 15,
+    "fixture_tests_status": "PASS",
+    "exact_host_authenticated_clone_run": "DEFERRED_LOCAL"
+  },
+  "superseded_publication_bindings": [
+    {
+      "payload_commit": "4538ac92fcf5cf70a4d73e2cb3e53125a49590ba",
+      "payload_tree": "982173d6e3fa1760c58cd547545c2b17f37c7a11",
+      "terminal_commit": "989f9c38ba625f1de74941fd3e5f51bdd753d1bd",
+      "terminal_tree": "f101c0560fa9b719892365561d7b2d0f2a1054ed",
+      "manifest_blob_sha1": "d7bce97da558a21ac23572e334c941cdad4641e6",
+      "status": "BLOCKED_IMMUTABLE_PAYLOAD_MANIFEST_MISMATCH",
+      "reason": "2_OF_18_MANIFEST_DIGESTS_DID_NOT_MATCH_RAW_GIT_BLOBS"
+    }
+  ],
   "claims": {
     "retained": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
     "current": "NO_PASS_RF04",
@@ -24,6 +47,6 @@
   },
   "exact_next_action": "BASS-LOCAL-01_NATIVE_TELEMETRY_PARITY",
   "next_after_telemetry": "BASS-LOCAL-02_SOURCE_BOUND_PHYSICAL_GENERATOR_DIFFERENTIAL",
-  "scope": "REMOTE_METADATA_ONLY_NOT_PART_OF_IMMUTABLE_MANIFEST",
+  "scope": "REMOTE_METADATA_ONLY_NOT_PART_OF_IMMUTABLE_MANIFEST; CORRECTED_SUCCESSOR_BINDING_DOES_NOT_PROMOTE_SCIENTIFIC_STATUS",
   "merge_or_ready_authorized": false
 }
