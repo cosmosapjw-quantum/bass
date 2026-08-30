@@ -1,52 +1,159 @@
 {
-  "schema": "bass-rf04-research-continuation-publication/v2",
+  "schema": "bass-rf04-remote-publication/v4",
   "repository": "cosmosapjw-quantum/bass",
+  "classification": "PACKAGE_PROVENANCE_REPAIR_NOT_SCIENTIFIC_PROMOTION",
   "pull_request": {
     "number": 66,
-    "state_at_binding": "OPEN_DRAFT_UNMERGED",
+    "url": "https://github.com/cosmosapjw-quantum/bass/pull/66",
     "base_branch": "agent/plans/rf04-polarized-authority-resolution-20260829-r1",
-    "base_head": "2aaad1d72064ddeb60b27a0ec15536d0a2ec6a28"
+    "base_commit": "2aaad1d72064ddeb60b27a0ec15536d0a2ec6a28",
+    "base_tree": "5b9a15c4a378a28e9592ede5a208e8cafc45c482",
+    "head_branch": "agent/continuation/research-followthrough-20260830-r2",
+    "state_at_locator_readback": "OPEN_DRAFT_UNMERGED_MERGEABLE",
+    "merge_or_ready_authorized": false
   },
-  "immutable_payload": {
+  "historical_invalid_payload": {
+    "status": "BLOCKED_IMMUTABLE_PAYLOAD_MANIFEST_MISMATCH",
+    "commit": "4538ac92fcf5cf70a4d73e2cb3e53125a49590ba",
+    "tree": "982173d6e3fa1760c58cd547545c2b17f37c7a11",
+    "terminal_commit": "989f9c38ba625f1de74941fd3e5f51bdd753d1bd",
+    "terminal_tree": "f101c0560fa9b719892365561d7b2d0f2a1054ed",
+    "manifest_entries": 18,
+    "passed": 16,
+    "failed": 2,
+    "fetch_and_validate_sh": "ABSENT_NOT_EXECUTED",
+    "expected_digests_reachable": false,
+    "immutable_evidence_only": true
+  },
+  "superseding_payload": {
+    "status": "PASS_REMOTE_RAW_OBJECT_PAYLOAD_CLOSURE_ONLY",
     "commit": "16f5811beb7d73fae800ff90caf30f69deebc9fd",
     "tree": "85a9164e01ea77d312b185809b3698363c750526",
-    "path": "research/continuation_20260830",
+    "parent": "989f9c38ba625f1de74941fd3e5f51bdd753d1bd",
     "manifest_blob_sha1": "32473fb754c9b6b84e5e5980c551860297f1054a",
     "manifest_sha256": "af2ed1220c76d36bd82e5362b1f4a5fb0bb8061eb6470129458333c533b320de",
     "manifest_entries": 18,
-    "manifest_validation": "18_OF_18_RAW_GIT_BLOBS_PASS",
-    "validator": "research/continuation_20260830/verify_payload.py"
+    "raw_git_blob_matches": 18,
+    "payload_file_bytes_changed": false,
+    "manifest_digest_lines_changed": 2
   },
-  "intake_locator": {
-    "commit": "0a9f726df916c3ddcf74b3a0bd17ba4c529f5a8d",
-    "tree": "80b0238f04ebfb92441aaa52428bdaf45e282154",
-    "path": "research/continuation_20260830/intake_repair_r4",
-    "canonical": "FETCH_AND_VALIDATE.py",
-    "compatibility_wrapper": "FETCH_AND_VALIDATE.sh",
-    "fixture_tests": 15,
-    "fixture_tests_status": "PASS",
-    "exact_host_authenticated_clone_run": "DEFERRED_LOCAL"
-  },
-  "superseded_publication_bindings": [
+  "superseded_publication_chain": [
     {
-      "payload_commit": "4538ac92fcf5cf70a4d73e2cb3e53125a49590ba",
-      "payload_tree": "982173d6e3fa1760c58cd547545c2b17f37c7a11",
-      "terminal_commit": "989f9c38ba625f1de74941fd3e5f51bdd753d1bd",
-      "terminal_tree": "f101c0560fa9b719892365561d7b2d0f2a1054ed",
-      "manifest_blob_sha1": "d7bce97da558a21ac23572e334c941cdad4641e6",
-      "status": "BLOCKED_IMMUTABLE_PAYLOAD_MANIFEST_MISMATCH",
-      "reason": "2_OF_18_MANIFEST_DIGESTS_DID_NOT_MATCH_RAW_GIT_BLOBS"
+      "commit": "0a9f726df916c3ddcf74b3a0bd17ba4c529f5a8d",
+      "tree": "80b0238f04ebfb92441aaa52428bdaf45e282154",
+      "status": "SUPERSEDED_PRE_FINAL_LOCATOR_DO_NOT_EXECUTE"
+    },
+    {
+      "commit": "53ac002bdc541f04d4eac6930c4ae1bcf53f1935",
+      "tree": "3b8be8331630c566c81bd90bb005dfcfc2b45c87",
+      "status": "SUPERSEDED_PUBLICATION_METADATA_EVIDENCE_ONLY"
+    },
+    {
+      "commit": "a0e30307af87af2d13cdbed80ce5a3a03fd94af3",
+      "tree": "6fa32e022305ae25184f1239cec0665a6c7a96b9",
+      "status": "SUPERSEDED_EXECUTION_HANDOFF_EVIDENCE_ONLY"
     }
   ],
+  "preserved_late_blocker_receipts": [
+    {
+      "commit": "dc10d24835141147674c60327cfb29f1a3ba6cb1",
+      "tree": "461e980ea4d21c5da6571a6b734cd4d6c06ddd7d",
+      "message": "docs(rf04): add reproduced nonfinite receipt blocker"
+    },
+    {
+      "commit": "5c024e48bcd3931201ab8ebd83830f760bbfdd39",
+      "tree": "82aa35c99f0a41aae582f12d07d2bb62ed7546bd",
+      "message": "docs(rf04): add nonfinite adapter boundary blocker"
+    }
+  ],
+  "canonical_locator": {
+    "status": "PASS_REMOTE_LOCATOR_BYTE_READBACK_ONLY",
+    "commit": "4b816641e18fcf01e32f6d108c742c831f15b77b",
+    "tree": "e83c674346b0451752f8674a6bd51484611f618c",
+    "parent": "5c024e48bcd3931201ab8ebd83830f760bbfdd39",
+    "directory": "research/continuation_20260830/intake_repair_r4",
+    "locator_manifest": {
+      "blob_sha1": "29ca685e08726035637698de3c29a6b5369b48a1",
+      "sha256": "07469cd82c05e0797cd42db02d7551b5ed656f9ceb13301ce4a9a7fcfb3bf527",
+      "entries": 6,
+      "matches": 6
+    },
+    "archive": {
+      "path": "research/continuation_20260830/intake_repair_r4/BASS_RF04_INTAKE_REPAIR_HANDOFF_R4.zip",
+      "blob_sha1": "5017bc8814ca021eef7f4f69d38224a21600fabc",
+      "sha256": "74436fdb191df6f601c58214b9e94c4f67fbf0a4dd290607b780eda598f506d8",
+      "bytes": 27463,
+      "members": 7,
+      "crc": "PASS",
+      "member_bytes_match": true
+    },
+    "files": {
+      "CODEX_HANDOFF.md": {
+        "blob_sha1": "f26de7a395fef3af4afa1b3e8576375771deb2cb",
+        "sha256": "061a27578619e723e726cc031dde2d5499a083197678eab03d036ab60aa409fa"
+      },
+      "FETCH_AND_VALIDATE.py": {
+        "blob_sha1": "35e0024734491b7dcd4eb264b23c7e3171439995",
+        "sha256": "ff43cecdc03846a4b73b2acf3b618236444614f0d124f467ddb98e3bb405524f"
+      },
+      "FETCH_AND_VALIDATE.sh": {
+        "blob_sha1": "50a8e82a5ccca6bf87f48741c2007bfdd116e276",
+        "sha256": "daa4aab1571f05030290ad3d216d44bf0e49fd8d34c86cb5d31c8674057fba4a"
+      },
+      "REPAIR_RECEIPT.json": {
+        "blob_sha1": "e4c8412a0d56d81fbf39cf355230938fd851207c",
+        "sha256": "088f27af65d09ab4f4c14deaef6c4a5046edb16639003d9ac0a91fe784cafccc"
+      },
+      "TESTS.log": {
+        "blob_sha1": "bb45056d56406874e52981fd84a62e2b2d1af84c",
+        "sha256": "310b96d668355ea168d9f4130c3e8ea906ac9274ddfd48c11c5aa462d38e1ede"
+      },
+      "tests/test_fetch_and_validate.py": {
+        "blob_sha1": "3e9628d283cef5aeed4f79b14d797341820b2844",
+        "sha256": "694c1079fd7d48f7a053c2ff214a55a663989938674698c5c5de5ab438e9d0a7"
+      }
+    },
+    "fixture_tests": {
+      "normal": "30_PASS",
+      "python_optimized": "30_PASS"
+    },
+    "independent_audit": "PASS_NO_P0_P1_P2",
+    "exact_host_authenticated_clone_intake": "DEFERRED_LOCAL"
+  },
+  "mock_push_pr_merge": {
+    "pull_request": 67,
+    "url": "https://github.com/cosmosapjw-quantum/bass/pull/67",
+    "head": "bec5df0cc4eb4ccba18ffd369e20e2a80fe6f358",
+    "merge_commit": "8f6371518605cc28df6b7a9fb0744e2529ad7066",
+    "changed_files": 1,
+    "scope": "DISPOSABLE_MOCK_BASE_ONLY",
+    "state": "CLOSED_MERGED",
+    "main_was_not_merge_target": true
+  },
+  "terminal_publication_receipt": {
+    "path": "research/continuation_20260830/REMOTE_PUBLICATION.json",
+    "commit_rule": "DIRECT_CHILD_OF_CANONICAL_LOCATOR",
+    "self_referential_commit_pin": false
+  },
+  "local_evidence_gate": {
+    "source_probe_commit": "148d590bd45ebcc5e4f2ac8a778c30d26d5f9f31",
+    "genuine_red_commit": "d3df4ceb140a9810b0d5219e0e9e748c388a977d",
+    "genuine_red_tree": "208dc7e2f5981db9d6af2eac7a5455829e431c9e",
+    "missing_action": "BLOCKED_BY_MISSING_LOCAL_EVIDENCE",
+    "remote_fallback_forbidden": true
+  },
   "claims": {
     "retained": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
     "current": "NO_PASS_RF04",
     "telemetry_patch_applied_to_production": false,
-    "full_polarized_native_proof": false,
+    "native_carrier_pyo3_proof": false,
+    "physical_generator_differential": false,
     "performance": "NONE"
   },
   "exact_next_action": "BASS-LOCAL-01_NATIVE_TELEMETRY_PARITY",
   "next_after_telemetry": "BASS-LOCAL-02_SOURCE_BOUND_PHYSICAL_GENERATOR_DIFFERENTIAL",
-  "scope": "REMOTE_METADATA_ONLY_NOT_PART_OF_IMMUTABLE_MANIFEST; CORRECTED_SUCCESSOR_BINDING_DOES_NOT_PROMOTE_SCIENTIFIC_STATUS",
+  "local_02_maximum_claim": "SCOPED_FROZEN_PHYSICAL_OPERATOR_PROOF",
+  "unsafe_kato_composition_forbidden": true,
+  "main_observed_unchanged": "d9e5ba7577ccb05b648b11ea7ac991bf6e09d8b9",
   "merge_or_ready_authorized": false
 }
