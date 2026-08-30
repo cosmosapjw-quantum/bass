@@ -26,11 +26,19 @@ Counters use checked arithmetic. Failure is typed and returns no fabricated
 successful receipt or partial API-owned telemetry/history. Callback-owned
 external side effects are outside that transactionality claim.
 
-All fields of a successful returned receipt must be finite. A focused scratch
-RED currently shows the pre-existing baseline can return `Ok` with a nonfinite
-`log_bolometric_shift` for finite extreme inputs. This is not introduced by the
-telemetry patch; it remains a blocking owner-boundary finding to reproduce and
-classify in the authenticated worktree.
+All fields of a successful returned receipt and every successful derived
+background must be finite. Focused scratch REDs show the pre-existing baseline
+can return `Ok` with a nonfinite `log_bolometric_shift` for finite extreme
+transport inputs and can return a nonfinite derived background from finite
+Type-II state. Neither defect is introduced by the telemetry patch; both remain
+blocking owner-boundary findings to reproduce and classify in the authenticated
+worktree.
+
+Split/leaf/depth telemetry certifies adaptive work only. It is not a local
+truncation-error estimator or an integration-accuracy certificate. Likewise,
+the present `max_screen_leakage` is evaluated after screen projection and must
+not be described as raw transport leakage without a separately authorized
+pre-projection diagnostic contract.
 
 ## Physical-route constraints
 

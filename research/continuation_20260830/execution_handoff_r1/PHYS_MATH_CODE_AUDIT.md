@@ -21,6 +21,9 @@ handoff/receipt may be published; the production source may not.
 | PASS static / CONCERN dynamic | Numerical safety | The patch does not reorder existing arithmetic or callbacks, but full old-field bit parity through the actual carrier is unproved. |
 | PASS, scoped | Native smoke | The Rust 1.94.1 test artifact executes four owner tests successfully. |
 | FAIL, pre-existing | Finite output boundary | A focused RED returns `Ok` with nonfinite `log_bolometric_shift` from finite inputs. The telemetry patch does not alter the responsible baseline arithmetic. |
+| FAIL, pre-existing | Finite background boundary | A focused RED returns `Ok` with a nonfinite derived background from finite Type-II state. The telemetry patch does not alter the adapter arithmetic. |
+| CONCERN | Leakage diagnostic semantics | The reported maximum is evaluated after screen projection and is not demonstrated to measure raw transport leakage. |
+| CONCERN | Split diagnostic semantics | Fixed-point split counts measure computational work; no truncation-error estimator makes them an accuracy certificate. |
 | FAIL | Genuine RED/TDD | No retained RED log from `d3df4ce…`; scratch tests cannot substitute for it. |
 | FAIL | Owner acceptance matrix | Independent depth, callback fractions/order, second-child failure, post-recursion failures, full result parity, mutation evidence, and failure-history atomicity are missing. |
 | CONCERN | Generated owner coverage | The module is compiled, but the tests call the guard and Liouville donor rather than generated polarized-kernel functions. |
@@ -44,9 +47,9 @@ handoff/receipt may be published; the production source may not.
 3. Create a new non-force linked worktree at `d3df4ce…`.
 4. Inspect that commit and execute its recorded native/PyO3 RED selectors;
    selector names cannot be stated safely until the commit is recovered.
-5. Reproduce `NONFINITE_RECEIPT_FINDING.md` against the baseline and patched
-   donor, classify it under the local contract, and retain the raw log. Do not
-   clamp or invent a public error variant/mapping.
+5. Reproduce both cases in `NONFINITE_RECEIPT_FINDING.md` against the baseline
+   and patched donor, classify them under the local contract, and retain both
+   raw logs. Do not clamp or invent a public error variant/mapping.
 6. Copy only the three authorized payload tools, harden the geometry validator,
    and apply the frozen donor patch.
 7. Run pinned `cargo fmt --check`, offline/locked native tests, the production

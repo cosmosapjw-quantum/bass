@@ -37,11 +37,23 @@
     "local_02": "NOT_STARTED_GATE_CLOSED",
     "implementation_source_pushed": false
   },
-  "late_boundary_finding": {
-    "status": "REPRODUCED_PREEXISTING_NONFINITE_RECEIPT_RED",
+  "late_boundary_findings": {
+    "status": "TWO_REPRODUCED_PREEXISTING_NONFINITE_BOUNDARY_REDS",
     "introduced_by_telemetry_patch": false,
-    "reproduction_exit": 101,
-    "raw_log_sha256": "326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b",
+    "cases": [
+      {
+        "case": "FINITE_TRANSPORT_INPUT_RETURNS_OK_WITH_NONFINITE_LOG_BOLOMETRIC_SHIFT",
+        "reproduction_exit": 101,
+        "raw_log": "NONFINITE_RECEIPT_RED.log",
+        "raw_log_sha256": "326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b"
+      },
+      {
+        "case": "FINITE_TYPEII_STATE_RETURNS_OK_WITH_NONFINITE_DERIVED_BACKGROUND",
+        "reproduction_exit": 101,
+        "raw_log": "NONFINITE_BACKGROUND_RED.log",
+        "raw_log_sha256": "cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756"
+      }
+    ],
     "production_fix": "DEFERRED_TO_AUTHENTICATED_LOCAL_EVIDENCE_WORKTREE"
   },
   "scientific_claims": {

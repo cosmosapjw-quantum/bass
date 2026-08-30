@@ -1,19 +1,19 @@
-# Reproduced pre-existing nonfinite-receipt finding
+# Reproduced pre-existing nonfinite-boundary findings
 
 ## Classification
 
 ```text
-REPRODUCED_PREEXISTING_BOUNDARY_DEFECT
+TWO_REPRODUCED_PREEXISTING_BOUNDARY_DEFECTS
 NOT_INTRODUCED_BY_TELEMETRY_PATCH
 DO_NOT_FIX_OUTSIDE_THE_AUTHENTICATED_LOCAL_EVIDENCE_WORKTREE
 ```
 
-An independent late PHYS-MATH read found that finite inputs can return an
-otherwise successful `PolarizedCharacteristicResult` containing a nonfinite
-energy scalar. The telemetry patch does not touch the relevant pre-existing
-arithmetic or validation boundary.
+An independent late PHYS-MATH read found two source-owned boundaries where
+finite inputs can return an otherwise successful result containing nonfinite
+derived values. The telemetry patch does not touch either relevant
+pre-existing arithmetic or validation boundary.
 
-## Minimal reproduction
+## 1. Nonfinite transport receipt
 
 With a zero geometry background except `expansion = 1.0`, finite
 `step = 1.0e308`, one root panel, and a valid screen projector, the tensor scale
@@ -43,7 +43,7 @@ Result: exit `101`, one intended test failure. Raw log SHA-256:
 326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b
 ```
 
-## Provenance and scope
+### Provenance and scope
 
 The baseline donor already contains the same `4.0 * log_energy_shift`
 construction and lacks a final scalar-finiteness gate. The immutable telemetry
@@ -61,3 +61,48 @@ returned scalar and the real Python error mapping. Do not silently clamp,
 saturate, fabricate a receipt, or invent a new public error schema from this
 document.
 
+## 2. Nonfinite derived Type-II background
+
+`typeii_background_from_state` validates that its five input state values are
+finite before constructing the background, but does not revalidate the derived
+fields after multiplication and addition. With finite state
+`[f64::MAX, 0.0, 0.0, 1.0, 0.0]`, a derived shear component overflows and the
+adapter returns `Ok` with a nonfinite background.
+
+The scratch regression test failed exactly at:
+
+```text
+assertion failed: values.into_iter().all(f64::is_finite)
+```
+
+Command:
+
+```sh
+cargo test --lib --locked --offline \
+  finite_typeii_state_does_not_return_a_nonfinite_background \
+  -- --nocapture --test-threads=1
+```
+
+Result: exit `101`, one intended test failure. Raw log SHA-256:
+
+```text
+cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756
+```
+
+This adapter path is present independently of the immutable telemetry delta,
+so the observed failure is also pre-existing rather than a telemetry
+regression. Direct callers can receive invalid success even though a later
+transport boundary may reject the derived values.
+
+After the preserved-chain gate passes, reproduce this second RED through its
+source-owned seam against both baseline and candidate. A fix must use the
+existing authorized error boundary and validate all returned background fields;
+do not clamp overflowing values or infer a new public/PyO3 error contract.
+
+## Related semantic concerns, not reproduced defects
+
+- `max_screen_leakage` is computed after screen projection, so current evidence
+  supports only a post-projection residual, not raw transport leakage.
+- Split/leaf/depth telemetry is driven by midpoint fixed-point convergence and
+  measures adaptive work; without a truncation-error estimate it is not an
+  integration-accuracy certificate.

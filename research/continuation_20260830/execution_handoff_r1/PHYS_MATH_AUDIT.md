@@ -10,10 +10,11 @@ NO_PASS_RF04
 ```
 
 No P0/P1 mathematical defect was reproduced in the counter implementation.
-A late audit did reproduce a separate, pre-existing owner-boundary defect:
-finite inputs can return `Ok` with a nonfinite bolometric log shift. The
-telemetry patch does not touch that arithmetic. Provenance and missing boundary
-evidence still prevent a production fix on this host.
+A late audit did reproduce two separate, pre-existing owner-boundary defects:
+finite transport inputs can return `Ok` with a nonfinite bolometric log shift,
+and finite Type-II state can return `Ok` with a nonfinite derived background.
+The telemetry patch does not touch either arithmetic path. Provenance and
+missing boundary evidence still prevent a production fix on this host.
 
 | Classification | Boundary | Finding |
 |---|---|---|
@@ -32,6 +33,9 @@ evidence still prevent a production fix on this host.
 | FAIL | Public/PyO3 schema | Serialization, exhaustive consumers, registration, Python success mapping, and Python error mapping are absent and must not be inferred. |
 | PASS, sandbox only | Owner smoke | Four prebuilt owner tests pass, but source-to-binary provenance, genuine RED ancestry, and durable build/test logs are absent. |
 | FAIL, pre-existing | Finite-result scalar contract | A Rust RED with finite `step=1e308` and `expansion=1` returns `Ok` while `log_bolometric_shift` is `-inf`. Baseline and candidate share the same arithmetic; this is not introduced by telemetry. |
+| FAIL, pre-existing | Finite-background contract | A Rust RED with finite Type-II state `[f64::MAX, 0, 0, 1, 0]` returns `Ok` with a nonfinite derived background. Baseline and candidate share this adapter path; telemetry does not alter it. |
+| CONCERN | Leakage interpretation | Leakage is evaluated after `project_screen_state`, so it is a post-projection residual rather than demonstrated raw transport leakage. |
+| CONCERN | Accuracy interpretation | Subdivision is driven by midpoint fixed-point convergence without a truncation-error estimate; split telemetry is not an accuracy certificate. |
 | FAIL | Complete LOCAL-01 | Mandatory acceptance items and the preserved-chain gate are incomplete. |
 | N/A | LOCAL-02 physics | Not evaluated because LOCAL-01 is a strict prerequisite. |
 
@@ -50,7 +54,8 @@ evidence still prevent a production fix on this host.
 - Geometry test source: `36abcf023c7869092e3e28948178c0ca90eaaa7090e31fca733195e5147e4c89`.
 - Unhardened validator: `83d3eb258d9dafd6cefe5fd7d26a73a9822977a46c60306f7c192c9cdf9a395d`.
 - Nonfinite-receipt RED log: `326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b`.
+- Nonfinite-background RED log: `cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756`.
 
-The counter identities remain intact. The reproduced nonfinite-receipt defect
-must be carried into the authenticated worktree and classified/fixed at its
-source-owned public boundary before LOCAL-01 can pass.
+The counter identities remain intact. Both reproduced nonfinite-boundary
+defects must be carried into the authenticated worktree and classified/fixed
+at their source-owned public boundaries before LOCAL-01 can pass.

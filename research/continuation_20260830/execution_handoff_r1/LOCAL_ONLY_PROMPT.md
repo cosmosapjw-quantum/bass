@@ -119,17 +119,24 @@ versions, environment flags, source blobs, and SHA-256 for every log. A valid
 RED must fail on the intended missing telemetry/schema assertion, not on import,
 collection, linker, dependency, or unrelated compilation failure.
 
-### Reproduce the late pre-existing boundary RED
+### Reproduce the two late pre-existing boundary REDs
 
-Read `NONFINITE_RECEIPT_FINDING.md` and verify its log hash. In the genuine
-worktree, add the focused regression through the source-owned test seam and run
-it against both the baseline and patched donor. The observed scratch failure is
-finite input returning `Ok` with `log_bolometric_shift = -inf`; the immutable
-telemetry patch does not touch the responsible arithmetic. Classify severity
-under the project contract. If a fix is authorized, return a typed failure or a
-fully finite result through the existing source-owned API and real PyO3 mapping.
-Do not clamp, saturate, fabricate a receipt, or invent a public error schema.
-Retain RED and GREEN logs separately.
+Read `NONFINITE_RECEIPT_FINDING.md` and verify both raw-log hashes. In the
+genuine worktree, add focused regressions through source-owned test seams and
+run them against both the baseline and patched donor. The two scratch failures
+are:
+
+1. finite transport input returning `Ok` with
+   `log_bolometric_shift = -inf`;
+2. finite Type-II state `[f64::MAX, 0, 0, 1, 0]` returning `Ok` with a
+   nonfinite derived background.
+
+The immutable telemetry patch does not touch either responsible arithmetic
+path. Classify both severities under the project contract. If a fix is
+authorized, return a typed failure or a fully finite result through the
+existing source-owned API and real PyO3 mapping. Do not clamp, saturate,
+fabricate a receipt, or invent a public error schema. Retain each RED and GREEN
+log separately.
 
 ## 6. Harden the geometry validator locally
 
@@ -178,6 +185,11 @@ The acceptance matrix is all-or-nothing:
     source-reviewed and marked unexecuted;
 12. no dependency, Cargo lock, equation, tolerance, accepted-interval, or
     background-order change.
+
+Also preserve the semantic boundary: split counts certify adaptive work, not
+truncation accuracy, and the current `max_screen_leakage` is computed after
+screen projection, so it must not be promoted as a bound on raw transported
+longitudinal leakage without a separately authorized definition and test.
 
 Failed calls expose no fabricated success receipt. Callback-owned external
 side effects are not transactional; scope transactionality to the returned

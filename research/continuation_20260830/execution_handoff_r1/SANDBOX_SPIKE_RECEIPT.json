@@ -40,11 +40,21 @@
     "post-recursion failure transactionality",
     "safely reachable overflow execution or explicit source-only disposition"
   ],
-  "late_reproduced_preexisting_defect": {
-    "case": "FINITE_INPUT_RETURNS_OK_WITH_NONFINITE_LOG_BOLOMETRIC_SHIFT",
-    "introduced_by_telemetry_patch": false,
-    "exit": 101,
-    "log_sha256": "326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b"
-  },
+  "late_reproduced_preexisting_defects": [
+    {
+      "case": "FINITE_TRANSPORT_INPUT_RETURNS_OK_WITH_NONFINITE_LOG_BOLOMETRIC_SHIFT",
+      "introduced_by_telemetry_patch": false,
+      "exit": 101,
+      "log": "NONFINITE_RECEIPT_RED.log",
+      "log_sha256": "326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b"
+    },
+    {
+      "case": "FINITE_TYPEII_STATE_RETURNS_OK_WITH_NONFINITE_DERIVED_BACKGROUND",
+      "introduced_by_telemetry_patch": false,
+      "exit": 101,
+      "log": "NONFINITE_BACKGROUND_RED.log",
+      "log_sha256": "cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756"
+    }
+  ],
   "conclusion": "BLOCKED_BY_MISSING_LOCAL_EVIDENCE; NO_PASS_RF04"
 }
