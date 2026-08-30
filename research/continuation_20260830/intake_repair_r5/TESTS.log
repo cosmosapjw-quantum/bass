@@ -1,0 +1,109 @@
+R5 GIT-2.43 COMPATIBILITY REPAIR EVIDENCE
+date: 2026-08-30 UTC
+scope: immutable locator compatibility and intake safety only
+scientific status: NO_PASS_RF04
+
+R4 EXACT-HOST RED (EXTERNAL REPORT REPRODUCED AGAINST EXACT R4 BYTES)
+git: /usr/bin/git version 2.43.0
+command: python3 -m unittest discover -s tests -v
+result: exit 1
+tests: 30 total; 2 PASS; 5 FAIL; 23 ERROR
+first incompatibility: FETCH_AND_VALIDATE.py invoked unsupported global option --no-lazy-fetch
+optimized 30-test gate: NOT_RUN
+canonical 18-file intake: NOT_RUN
+classification: STOP_INVALID execution-environment compatibility; not a scientific failure
+
+R5 TDD RED/GREEN — PRIMARY COMPATIBILITY
+1. Git 2.43 complete-repository test
+   RED: unknown option --no-lazy-fetch
+   GREEN: global option selected only when the bound Git capability probe accepts it
+2. Real Git 2.43 promisor differential and environment-stripping wrapper
+   RED: environment-only assertion was not behavioral proof
+   GREEN: private guarded/control local-file differential required before source payload reads
+3. Process-environment injection inventory
+   RED: ambient routing/process variables reached child construction
+   GREEN: explicit minimal environment with production transport denial
+4. Modern Git redundant CLI guard
+   RED: forced removal of the supported CLI guard defeated the CLI-only test oracle
+   GREEN: supported Git retains --no-lazy-fetch in addition to GIT_NO_LAZY_FETCH=1
+5. Bound executable replacement and same-inode rewrite
+   RED: disabling runtime checks allowed the malicious replacement to execute
+   GREEN: canonical path/stat binding before and after calls plus SHA-256 proof
+6. Post-probe lazy-fetch-guard loss
+   RED: source promisor fetched the target when both lazy-fetch guards were stripped
+   GREEN: production protocol.allow=never and GIT_ALLOW_PROTOCOL=none kept the object absent
+
+R5 TDD RED/GREEN — INDEPENDENT-REVIEW REPAIRS
+focused RED command: 13 review-targeted unittest methods
+RED result: 3 FAIL, 3 ERROR, 7 PASS
+reproduced:
+- ordinary failed probe retained a private directory
+- cleanup failure left the capability cache verified
+- remote.probe.uploadpack interpreted an unquoted helper path as a shell command
+- non-ASCII helper path failed ASCII decoding
+- object-store filename inventory missed same-path content mutation
+- invalid first ambient temp candidate prevented a safe later candidate
+GREEN result: 13/13 PASS
+additional targeted coverage: control wrong bytes; guarded stdout; alternate/shared object stores;
+second guarded lookup exposure; protected-root identity; Git/helper digest mismatch; fixed-stat
+content-drift hashing; metacharacter/quote/non-ASCII helper paths; zero probe-directory leak
+
+FINAL FOUR-LANE MATRIX — ALL COMMANDS EXIT 0, ZERO SKIPS
+
+lane: Git 2.43.0 normal
+preflight: PATH=/usr/bin:/bin git --version
+preflight result: git version 2.43.0
+python: /usr/bin/python3 --version -> Python 3.12.3
+command: PATH=/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest -v tests.test_fetch_and_validate
+result: Ran 56 tests in 15.991s; OK; zero skips
+raw publisher log: /tmp/bass-r5-git243-normal-final.log
+
+lane: Git 2.43.0 optimized
+preflight: PATH=/usr/bin:/bin git --version
+preflight result: git version 2.43.0
+python: /usr/bin/python3 --version -> Python 3.12.3
+command: PATH=/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -O -m unittest -v tests.test_fetch_and_validate
+result: Ran 56 tests in 16.203s; OK; zero skips
+raw publisher log: /tmp/bass-r5-git243-optimized-final.log
+
+lane: Git 2.51.1 normal
+preflight: PATH=/usr/local/bin:/usr/bin:/bin git --version
+preflight result: git version 2.51.1
+python: /usr/bin/python3 --version -> Python 3.12.3
+command: PATH=/usr/local/bin:/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest -v tests.test_fetch_and_validate
+result: Ran 56 tests in 16.671s; OK; zero skips
+raw publisher log: /tmp/bass-r5-git251-normal-final.log
+
+lane: Git 2.51.1 optimized
+preflight: PATH=/usr/local/bin:/usr/bin:/bin git --version
+preflight result: git version 2.51.1
+python: /usr/bin/python3 --version -> Python 3.12.3
+command: PATH=/usr/local/bin:/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -O -m unittest -v tests.test_fetch_and_validate
+result: Ran 56 tests in 16.819s; OK; zero skips
+raw publisher log: /tmp/bass-r5-git251-optimized-final.log
+
+STATIC AND STRUCTURE
+/usr/bin/python3 -m py_compile FETCH_AND_VALIDATE.py tests/test_fetch_and_validate.py: PASS
+bash -n FETCH_AND_VALIDATE.sh: PASS
+/usr/bin/python3 -m json.tool REPAIR_RECEIPT.json: PASS
+test method count: 56
+skipTest/decorator scan: zero
+
+INDEPENDENT CODE/TEST RE-REVIEW
+result: PASS_SOURCE_AND_TESTS
+closed: Git/helper digest proof; control/guarded/store/root failure branches; cleanup/cache ordering;
+shell-quoted non-ASCII helper command; object-store path/stat/size/SHA-256 inventory; zero-skip suite
+accepted residual: trusted Git subprocess runtime/output are not internally bounded
+
+FINAL SOURCE IDENTITIES
+FETCH_AND_VALIDATE.py SHA-256: 635234203aa84ccdc6c2b153eb86ba5d60cd3f8adec530f0e9605c0a207ffb34
+tests/test_fetch_and_validate.py SHA-256: 0e871d8d0730e1c3419e74f86e0a5165d0fbb6f403ebce9fafb2dd331d5c9c6e
+FETCH_AND_VALIDATE.sh SHA-256: daa4aab1571f05030290ad3d216d44bf0e49fd8d34c86cb5d31c8674057fba4a
+
+NOT EXECUTED BY PUBLISHER
+- authenticated exact-host BASS clone intake using the final R5 bundle
+- canonical 18-file materialization on that host
+- telemetry patch application
+- native carrier/PyO3 parity and nonfinite-boundary gates
+- physical-generator differential
+- PHYS-MATH or PHYS-MATH-CODE implementation audits
