@@ -19,7 +19,8 @@
 | PyO3 success/error mapping | NOT_YET_TESTABLE | Exact symbol and receipt schema are intentionally not inferred. |
 | Serialization and exhaustive consumers | NOT_YET_TESTABLE | Requires the genuine schema/native RED diff. |
 | Counter overflow behavior | CONCERN | Checked arithmetic is visible in the donor patch, but safe execution or a formal source-only disposition remains local. |
-| PHYS-MATH audit | FAIL | Counter algebra passes, but provenance, hardened-prefix, independent-depth, carrier/PyO3, and failure-transaction evidence remain blocking. |
+| Finite returned scalar contract | FAIL | Focused Rust RED exits 101: finite inputs return `Ok` with `log_bolometric_shift = -inf`. This is present in the baseline and not introduced by telemetry. |
+| PHYS-MATH audit | FAIL | Counter algebra passes, but the pre-existing nonfinite-receipt RED plus provenance, hardened-prefix, independent-depth, carrier/PyO3, and failure-transaction evidence remain blocking. |
 | PHYS-MATH-CODE audit | FAIL | Independent review says the scratch production delta is not push-ready and must not substitute for the genuine RED chain. |
 | LOCAL-01 | FAIL | Gate result is `BLOCKED_BY_MISSING_LOCAL_EVIDENCE`; this is not a scientific defect and earns no telemetry-parity promotion. |
 | LOCAL-02 | NOT_STARTED | LOCAL-01 is an explicit prerequisite. |

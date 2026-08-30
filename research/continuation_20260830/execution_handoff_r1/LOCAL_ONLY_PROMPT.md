@@ -119,6 +119,18 @@ versions, environment flags, source blobs, and SHA-256 for every log. A valid
 RED must fail on the intended missing telemetry/schema assertion, not on import,
 collection, linker, dependency, or unrelated compilation failure.
 
+### Reproduce the late pre-existing boundary RED
+
+Read `NONFINITE_RECEIPT_FINDING.md` and verify its log hash. In the genuine
+worktree, add the focused regression through the source-owned test seam and run
+it against both the baseline and patched donor. The observed scratch failure is
+finite input returning `Ok` with `log_bolometric_shift = -inf`; the immutable
+telemetry patch does not touch the responsible arithmetic. Classify severity
+under the project contract. If a fix is authorized, return a typed failure or a
+fully finite result through the existing source-owned API and real PyO3 mapping.
+Do not clamp, saturate, fabricate a receipt, or invent a public error schema.
+Retain RED and GREEN logs separately.
+
 ## 6. Harden the geometry validator locally
 
 Before accepting its output as evidence, make an allowlisted validator-only
@@ -196,4 +208,3 @@ paths, and CI. Do not merge or mark ready.
 The final report must include intake JSON, RED/GREEN/native/PyO3/failure logs,
 source identities, validation matrix, both audits, remote readback, retained
 `PASS_RF04_SCALAR_RAW_SLICE_PROOF`, and current `NO_PASS_RF04`.
-

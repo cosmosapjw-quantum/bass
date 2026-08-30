@@ -46,7 +46,12 @@ the spike did not originate at the genuine local RED commit, did not exercise
 the specified result carrier or PyO3 schema, and used the unhardened prefix
 validator. It cannot satisfy LOCAL-01 and must not be pushed as implementation.
 
+A late independent audit also reproduced a pre-existing owner-boundary defect:
+finite inputs can return `Ok` with `log_bolometric_shift = -inf`. The immutable
+telemetry patch does not touch that arithmetic. See
+`NONFINITE_RECEIPT_FINDING.md` and `NONFINITE_RECEIPT_RED.log`. No fix is pushed
+without the genuine local evidence worktree and authorized public error schema.
+
 Read `LOCAL_ONLY_PROMPT.md` on the machine that contains the preserved local
 Git objects. Stop immediately if either object or the exact RED tree is absent.
 Do not begin LOCAL-02 until every LOCAL-01 acceptance item passes.
-

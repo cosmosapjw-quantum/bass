@@ -10,8 +10,10 @@ NO_PASS_RF04
 ```
 
 No P0/P1 mathematical defect was reproduced in the counter implementation.
-The decisive blockers are provenance and missing boundary evidence, not a
-demonstrated scientific error.
+A late audit did reproduce a separate, pre-existing owner-boundary defect:
+finite inputs can return `Ok` with a nonfinite bolometric log shift. The
+telemetry patch does not touch that arithmetic. Provenance and missing boundary
+evidence still prevent a production fix on this host.
 
 | Classification | Boundary | Finding |
 |---|---|---|
@@ -29,6 +31,7 @@ demonstrated scientific error.
 | PASS / NOT_YET_TESTABLE | Overflow | Checked additions return `DiagnosticCounterOverflow`; runtime propagation remains unexecuted. |
 | FAIL | Public/PyO3 schema | Serialization, exhaustive consumers, registration, Python success mapping, and Python error mapping are absent and must not be inferred. |
 | PASS, sandbox only | Owner smoke | Four prebuilt owner tests pass, but source-to-binary provenance, genuine RED ancestry, and durable build/test logs are absent. |
+| FAIL, pre-existing | Finite-result scalar contract | A Rust RED with finite `step=1e308` and `expansion=1` returns `Ok` while `log_bolometric_shift` is `-inf`. Baseline and candidate share the same arithmetic; this is not introduced by telemetry. |
 | FAIL | Complete LOCAL-01 | Mandatory acceptance items and the preserved-chain gate are incomplete. |
 | N/A | LOCAL-02 physics | Not evaluated because LOCAL-01 is a strict prerequisite. |
 
@@ -46,4 +49,8 @@ demonstrated scientific error.
 - Geometry test log: `4ccc8e29ed6264f5b6f37ed7bb405a1488bf4bcad12335a9580dcecc4e1eb4e5`.
 - Geometry test source: `36abcf023c7869092e3e28948178c0ca90eaaa7090e31fca733195e5147e4c89`.
 - Unhardened validator: `83d3eb258d9dafd6cefe5fd7d26a73a9822977a46c60306f7c192c9cdf9a395d`.
+- Nonfinite-receipt RED log: `326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b`.
 
+The counter identities remain intact. The reproduced nonfinite-receipt defect
+must be carried into the authenticated worktree and classified/fixed at its
+source-owned public boundary before LOCAL-01 can pass.

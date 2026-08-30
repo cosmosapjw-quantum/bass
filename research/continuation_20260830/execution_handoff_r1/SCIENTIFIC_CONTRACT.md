@@ -26,6 +26,12 @@ Counters use checked arithmetic. Failure is typed and returns no fabricated
 successful receipt or partial API-owned telemetry/history. Callback-owned
 external side effects are outside that transactionality claim.
 
+All fields of a successful returned receipt must be finite. A focused scratch
+RED currently shows the pre-existing baseline can return `Ok` with a nonfinite
+`log_bolometric_shift` for finite extreme inputs. This is not introduced by the
+telemetry patch; it remains a blocking owner-boundary finding to reproduce and
+classify in the authenticated worktree.
+
 ## Physical-route constraints
 
 Do not use uncompensated `K/2-C/2-G-C/2-K/2`: if `G` already contains the
@@ -40,4 +46,3 @@ boundary/remap rule, opacity/electron state, and owner blobs. Missing authority
 is a blocker, not permission to choose a representation. The maximum LOCAL-02
 conclusion is `SCOPED_FROZEN_PHYSICAL_OPERATOR_PROOF`; it still does not promote
 the overall `NO_PASS_RF04` status.
-
