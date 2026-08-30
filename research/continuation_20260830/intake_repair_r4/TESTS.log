@@ -1,0 +1,31 @@
+RED
+command: python3 -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -v
+result: exit 1
+reason: FileNotFoundError for absent FETCH_AND_VALIDATE.py
+
+GREEN
+command: python3 -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -v
+result: exit 0
+tests: 15 passed
+coverage: pinned commit/tree and raw-parent chain; raw committed blobs despite dirty worktree; historical bad manifest; manifest blob pin; contract repository/base/claim/next-action/promotion binding; traversal, duplicate, and backslash paths; regular-file mode and executable-mode preservation; replacement-ref and graft immunity; mutable branch-tip advance; existing destination; canonical full repository root from subdirectory input; explicit, temporary, or symlink-redirected destination inside source repository
+
+HARDENED
+command: PYTHONDONTWRITEBYTECODE=1 python3 -O -m unittest discover -s bass_intake_repair/intake_repair_r4/tests -q
+result: exit 0
+tests: 15 passed under optimized Python
+
+STATIC
+Python AST parse: PASS
+POSIX shell syntax: PASS
+REPAIR_RECEIPT.json parse: PASS
+
+environment:
+Python 3.12.13
+git version 2.51.1
+Linux 6.18.35 x86_64
+
+not executed:
+- authenticated exact-host BASS clone intake
+- telemetry patch application
+- production native crate/carrier/PyO3 tests
+- physical-generator differential
