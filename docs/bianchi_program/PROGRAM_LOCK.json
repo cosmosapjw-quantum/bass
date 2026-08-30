@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "policy_version": "1.0.0",
+  "status": "DECLARED",
+  "scientific_authority_effect": "NONE",
+  "authority": {
+    "symbolic": "Wolfram Language plus exact-pinned xAct",
+    "numerical": "existing owning-repository Rust/Python/C runtime",
+    "cross_repository": "immutable artifacts plus explicit reviewed adapters"
+  },
+  "wolfram_runtime": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "xact": {
+      "version": "1.3.0",
+      "release_date": "2025-12-29",
+      "download_url": "https://xact.es/download/xAct_1.3.0.tgz",
+      "archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+      "installation_mode": "ephemeral_per_run",
+      "path_rule": "extract xAct/ under a fresh parent; prepend the parent to $Path; load xAct/xTensor/Kernel/init.m"
+    },
+    "capability_gate": {
+      "gate_id": "XACT-XTENSOR-HEADLESS-CAPABILITY-001",
+      "status": "PASS",
+      "extracted_entry_count": 693,
+      "xact_package_loaded": true,
+      "manifold_q": true,
+      "covd_q": true,
+      "riemann_xtensor_q": true,
+      "claim_boundary": "CAPABILITY_ONLY_NO_TENSOR_OR_PHYSICS_AUDIT"
+    },
+    "reduced_identity_gate": {
+      "gate_id": "WL-REDUCED-BIANCHI-CONSISTENCY-001",
+      "status": "PASS",
+      "exact_residual": "0",
+      "expression_sha256": "53105b882c69123bf7fcecce3221e416f8e143143a6c110c0017e0a995c03596",
+      "claim_boundary": "REDUCED_ALGEBRA_ONLY"
+    }
+  },
+  "repositories": [
+    {
+      "name": "bass",
+      "url": "https://github.com/cosmosapjw-quantum/bass",
+      "role": "geometry_background_einstein_boltzmann_contract_registry_and_orchestrator",
+      "policy_base": {
+        "branch": "agent/continuation/research-followthrough-20260830-r2",
+        "commit": "e660451975f3fa3bd3d9a7b5ebf5d73cc544f1ac",
+        "tree": "ce31de19cc27672b157367e277201aaf7ff6a6c3"
+      },
+      "atlassian_issue": "BASS-17",
+      "existing_claim_boundary": "NO_PASS_RF04"
+    },
+    {
+      "name": "rec_bianchi",
+      "url": "https://github.com/cosmosapjw-quantum/rec_bianchi",
+      "role": "primordial_recombination_provider",
+      "policy_base": {
+        "branch": "agent/fix/rec-local02-momentum-scale-20260830-r1",
+        "commit": "37a943347bf319af998230bb77c6f89827feddff",
+        "tree": "da1b3062bd3e115df9b55c7fef933b8f8379cd7a"
+      },
+      "atlassian_issue": "BASS-19",
+      "existing_claim_boundary": "NO_PASS_REC_PHYSICAL_SPLIT"
+    },
+    {
+      "name": "rei_bianchi",
+      "url": "https://github.com/cosmosapjw-quantum/rei_bianchi",
+      "role": "astrophysical_reionization_thermochemistry_opacity_provider",
+      "policy_base": {
+        "branch": "agent/handoff/rei-local-01-prompt-only-v2-20260830-r1",
+        "commit": "6d18f28bced2f9dd1cc77da777c936e4b1b4665f",
+        "tree": "5ed1ab1ad9e224ff8daf0c0a34a5850174b0079a"
+      },
+      "atlassian_issue": "BASS-18",
+      "existing_claim_boundary": "REC_SPLICE_AND_BIANCHI_FEEDBACK_UNAUTHORIZED"
+    }
+  ],
+  "program_flow": [
+    "bass_background_contract",
+    "rec_primordial_history",
+    "rei_reionization_opacity_and_optional_matter_source",
+    "bass_composition_transport_and_observable_solve"
+  ],
+  "dependencies": [
+    {
+      "producer": "rec_bianchi",
+      "consumer": "rei_bianchi",
+      "jira_relation": "BASS-19 blocks BASS-18"
+    },
+    {
+      "producer": "rec_bianchi",
+      "consumer": "bass",
+      "jira_relation": "BASS-19 blocks BASS-17"
+    },
+    {
+      "producer": "rei_bianchi",
+      "consumer": "bass",
+      "jira_relation": "BASS-18 blocks BASS-17"
+    }
+  ],
+  "promotion_levels": [
+    "DECLARED",
+    "SYMBOLIC_VERIFIED",
+    "IMPLEMENTATION_PARITY",
+    "CROSS_REPO_COMPATIBLE",
+    "SCIENCE_VALIDATED"
+  ],
+  "claims": {
+    "authorized": [
+      "TRI_REPOSITORY_POLICY_DECLARED",
+      "WOLFRAM_XACT_HEADLESS_CAPABILITY_PASS",
+      "WL_REDUCED_BIANCHI_CONSISTENCY_PASS"
+    ],
+    "withheld": [
+      "REPOSITORY_SPECIFIC_TENSOR_AUDIT",
+      "GENERATED_FORMULA_PROMOTION",
+      "NUMERICAL_PARITY",
+      "REC_PROVIDER_EXPORT",
+      "REI_REC_SPLICE",
+      "REI_BIANCHI_FEEDBACK",
+      "BASS_RF04_PROMOTION",
+      "CROSS_REPOSITORY_COMPATIBILITY",
+      "SCIENCE_VALIDITY"
+    ]
+  },
+  "atlassian": {
+    "site": "https://cosmosapjw.atlassian.net",
+    "project_key": "BASS",
+    "epic_key": "BASS-16",
+    "repository_issue_keys": [
+      "BASS-17",
+      "BASS-19",
+      "BASS-18"
+    ],
+    "confluence_page_id": "19464193",
+    "confluence_url": "https://cosmosapjw.atlassian.net/wiki/spaces/BA/pages/19464193",
+    "native_github_dvcs_integration": "NOT_CONFIGURED_OR_VERIFIED_BY_AVAILABLE_SCOPE"
+  }
+}
