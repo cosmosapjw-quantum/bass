@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "classification": "WOLFRAM_XACT_THREAD_CAPABILITY_RECEIPT",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "receipt_generated_utc": "2026-08-30T13:14:43Z",
+  "execution_transport": "connected_wolfram_language_evaluator_in_thread",
+  "status": "PASS",
+  "source": {
+    "path": "docs/bianchi_program/verify_wolfram_xact_capability.wl",
+    "sha256": "9684a1853f5e5bbee472d5c317f4ece0f15f7491a7f284261e55fb45ced0f754"
+  },
+  "environment": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "front_end_required": false
+  },
+  "xact": {
+    "download_url": "https://xact.es/download/xAct_1.3.0.tgz",
+    "archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+    "attached_archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+    "extracted_entry_count": 693,
+    "version": "1.3.0",
+    "release_date": "2025-12-29",
+    "package_loaded": true,
+    "installation_mode": "ephemeral_per_run",
+    "install_parent_added_to_path": "/tmp/UserTemporaryFiles/public/20260830/e12/e1204b80-b7ed-4cbe-9b30-bb3289f1d757/xact-thread-b2753dbe-7f3a-4ed0-ae7a-7da9bb0d2f5f",
+    "path_prefix_matches": true,
+    "xtensor_init_file": "/tmp/UserTemporaryFiles/public/20260830/e12/e1204b80-b7ed-4cbe-9b30-bb3289f1d757/xact-thread-b2753dbe-7f3a-4ed0-ae7a-7da9bb0d2f5f/xAct/xTensor/Kernel/init.m",
+    "xtensor_init_exists": true,
+    "path_is_execution_specific": true
+  },
+  "gates": [
+    {
+      "gate_id": "XACT-XTENSOR-HEADLESS-CAPABILITY-001",
+      "manifold_q": true,
+      "covd_q": true,
+      "riemann_xtensor_q": true,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "WL-REDUCED-BIANCHI-CONSISTENCY-001",
+      "exact_residual": "0",
+      "status": "PASS"
+    }
+  ],
+  "messages": {
+    "unexpected": [],
+    "notes": [
+      "xAct package banners and definition notices were emitted",
+      "the evaluator is stateless, so the script recreates and records the install path on every run"
+    ]
+  },
+  "claim_boundary": {
+    "authorized": [
+      "WOLFRAM_XACT_HEADLESS_CAPABILITY_PASS",
+      "WL_REDUCED_BIANCHI_CONSISTENCY_PASS"
+    ],
+    "withheld": [
+      "REPOSITORY_SPECIFIC_TENSOR_AUDIT",
+      "GENERATED_FORMULA_PROMOTION",
+      "NUMERICAL_PARITY",
+      "CROSS_REPOSITORY_COMPATIBILITY",
+      "SCIENCE_VALIDITY"
+    ]
+  }
+}
