@@ -193,10 +193,11 @@ N_root = input/root subinterval count
 L = N_root + S
 ```
 
-No existing numerical result field, accepted interval, callback order, or
-background-call order may change.  Failed calls remain typed errors and expose
-no fabricated success receipt or partial telemetry.  Overflow is a typed
-failure, never saturation.
+On the ordinary telemetry-parity corpus, no existing numerical result field,
+accepted interval, callback order, or background-call order may change.  This
+invariant excludes only the two explicitly named pre-existing nonfinite cases
+below.  Failed calls remain typed errors and expose no fabricated success
+receipt or partial telemetry.  Overflow is a typed failure, never saturation.
 
 For a successful call, the independently expected background-callback count is
 
@@ -208,6 +209,54 @@ when the existing two endpoint samples are included.  Callback-owned external
 side effects are not transactional and need not roll back on error; restrict
 the no-partial-state claim to the returned top-level result, carrier/history,
 and telemetry owned by this API.
+
+Split, accepted-leaf, and depth counters certify adaptive work only.  They are
+not a truncation-error estimator or an integration-accuracy certificate.  The
+current `max_screen_leakage` is evaluated after screen projection and must not
+be described as raw transport leakage without a separately authorized
+pre-projection diagnostic contract.
+
+### Mandatory pre-existing nonfinite-boundary REDs
+
+The late evidence commits `dc10d24835141147674c60327cfb29f1a3ba6cb1`
+and `5c024e48bcd3931201ab8ebd83830f760bbfdd39` reproduce two
+source-owned boundary defects that predate and are not modified by the
+telemetry patch.  Their old execution prompt is superseded, but these facts are
+mandatory LOCAL-01 gates:
+
+1. Finite transport inputs (`expansion=1.0`, `step=1.0e308`, one root panel,
+   valid screen projector) return `Ok` while `log_bolometric_shift=-inf`.
+   The focused scratch test exited 101 at the intended finiteness assertion;
+   its raw log SHA-256 is
+   `326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b`.
+2. Finite Type-II state `[f64::MAX, 0.0, 0.0, 1.0, 0.0]` returns `Ok` with a
+   nonfinite derived background.  The focused scratch test exited 101 at the
+   intended all-fields-finite assertion; its raw log SHA-256 is
+   `cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756`.
+
+After the preserved-chain gate succeeds, recreate both focused tests through
+their source-owned seams and run them separately against the verified baseline
+and patched donor.  The published scratch logs establish provenance but do not
+replace authenticated-host RED logs.  Every scalar in a successful returned
+receipt and every field in a successful derived background must be finite.
+Candidate behavior must be either a fully finite success or an existing,
+authorized typed failure carried through the real result carrier and PyO3
+error mapping.  Do not clamp, saturate, fabricate a success receipt, or invent
+a public error variant or Python mapping.  If the public error authority is
+ambiguous, stop with the measured authority blocker.
+
+For these two cases only, the finite-success-or-authorized-typed-error rule is
+the sole permitted behavioral exception to numerical/callback/bit parity.  A
+typed failure may end callbacks at the source-owned rejection point; compare
+all unaffected fields and callback history up to that point.  No other parity
+waiver follows from these defects.  Keep any authorized boundary repair in a
+separate safety-boundary commit above the byte-frozen telemetry delta, with its
+own RED/GREEN evidence and public-schema review; do not relabel that repair as
+telemetry-only behavior.
+
+Retain baseline RED and candidate GREEN/error logs separately with exit codes
+and SHA-256 values.  `FAIL` or `UNTESTED` for either case keeps LOCAL-01 failed
+and LOCAL-02 closed.
 
 For the bounded geometry-prefix test, do not use `mktemp -u`, do not run Python
 with optimization, and disable Git replacement objects:
@@ -231,12 +280,16 @@ The minimum acceptance matrix is:
 
 - no split, nested/nonuniform split, and multiple root panels;
 - `L=N_root+S` and independently checked maximum depth;
-- bit parity of all pre-existing result fields and numerical arrays;
+- bit parity of all pre-existing result fields and numerical arrays on the
+  ordinary telemetry-parity corpus, excluding only the two named safety cases;
 - callback fractions, ordering, and call counts;
 - first child succeeds then second child fails;
 - failures after recursion in carrier/projection/realizability paths;
 - exhaustive enum matches, struct destructuring, serialization, and Python
   success/error mapping;
+- both pre-existing nonfinite-boundary REDs reproduced on the baseline and
+  resolved on the candidate as finite success or an authorized typed failure,
+  including the real carrier/PyO3 mapping;
 - no partial telemetry/history on any failure;
 - overflow behavior executed if safely reachable, otherwise explicitly marked
   source-reviewed and unexecuted.
@@ -248,8 +301,11 @@ Treat the new fields and error variant as an API/schema change even if all
 pre-existing numerical fields are bit-identical: audit exhaustive Rust matches,
 serialized receipts, adapter registration, and Python-visible mappings.
 
-Passing LOCAL-01 permits a scoped telemetry-parity statement only.  The claim
-remains `NO_PASS_RF04`.
+Passing LOCAL-01 requires every matrix item above, including both nonfinite
+boundary cases and separation of any safety-boundary delta from the telemetry
+delta.  It permits a scoped ordinary-corpus telemetry-parity statement plus a
+separately named boundary-safety result only.  The claim remains
+`NO_PASS_RF04`.
 
 ## BASS-LOCAL-02_SOURCE_BOUND_PHYSICAL_GENERATOR_DIFFERENTIAL
 

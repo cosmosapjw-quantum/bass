@@ -39,6 +39,15 @@ result: PASS_NO_P0_P1_P2
 FETCH_AND_VALIDATE.py SHA-256: ff43cecdc03846a4b73b2acf3b618236444614f0d124f467ddb98e3bb405524f
 tests/test_fetch_and_validate.py SHA-256: 694c1079fd7d48f7a053c2ff214a55a663989938674698c5c5de5ab438e9d0a7
 
+HANDOFF INSTRUCTION AUDIT
+initial result: BLOCK
+observed: two preserved pre-existing nonfinite-boundary REDs were not mandatory LOCAL-01 gates, so the old matrix could unlock LOCAL-02 while they remained unresolved
+repair: both cases are now required against baseline and candidate; every successful receipt/background field must be finite; real carrier/PyO3 typed-error mapping is required; FAIL or UNTESTED keeps LOCAL-02 closed
+reaudit result: BLOCK
+observed: the named safety cases required behavior changes but the ordinary numerical/callback/bit-parity rules were still written as universal
+repair: parity is now scoped to the ordinary corpus; only the two named safety cases may change to finite success or authorized typed failure; unaffected fields/calls are compared to the rejection point; any repair is a separate safety-boundary commit
+final result: PASS
+
 environment:
 Python 3.12.13
 git version 2.51.1

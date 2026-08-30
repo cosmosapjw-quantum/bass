@@ -89,6 +89,32 @@
     "historical_manifest_covered_handoff": "EVIDENCE_ONLY_NOT_EXECUTABLE",
     "conflict_policy": "STOP_AND_REPORT"
   },
+  "mandatory_local_01_preexisting_boundary_reds": [
+    {
+      "case": "FINITE_TRANSPORT_INPUT_RETURNS_OK_WITH_NONFINITE_LOG_BOLOMETRIC_SHIFT",
+      "evidence_commit": "dc10d24835141147674c60327cfb29f1a3ba6cb1",
+      "introduced_by_telemetry_patch": false,
+      "scratch_exit": 101,
+      "scratch_log_sha256": "326f26db8342c464453dfae148f6dc1dff7e332dba07cc635cda84120580066b"
+    },
+    {
+      "case": "FINITE_TYPEII_STATE_RETURNS_OK_WITH_NONFINITE_DERIVED_BACKGROUND",
+      "evidence_commit": "5c024e48bcd3931201ab8ebd83830f760bbfdd39",
+      "introduced_by_telemetry_patch": false,
+      "scratch_exit": 101,
+      "scratch_log_sha256": "cff06d701f4d581fbdb7f3ddd6c0e305ddc10e6e10297fd57f3f164c41ae8756"
+    }
+  ],
+  "nonfinite_boundary_acceptance": {
+    "baseline_and_candidate_required": true,
+    "successful_receipt_and_background_fields_must_be_finite": true,
+    "authorized_typed_failure_and_real_pyo3_mapping_allowed": true,
+    "clamp_saturate_or_fabricate_forbidden": true,
+    "sole_parity_exceptions_are_the_two_named_cases": true,
+    "unaffected_fields_and_callbacks_compared_to_rejection_point": true,
+    "separate_safety_boundary_commit_required": true,
+    "fail_or_untested_keeps_local_02_closed": true
+  },
   "claims": {
     "retained": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
     "current": "NO_PASS_RF04",
