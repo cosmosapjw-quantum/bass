@@ -1,0 +1,114 @@
+{
+  "schema": "bass.rf04.math-authority.v1",
+  "date": "2026-08-31",
+  "repository": "cosmosapjw-quantum/bass",
+  "stack_base": {
+    "pr": 68,
+    "branch": "policy/wolfram-trirepo-20260830-r1",
+    "head": "289a2d31d6fae38122191be73ec9c9d28acaf4d7",
+    "tree": "83512674b4b664b9f2cd532439a640bd508a7298"
+  },
+  "scientific_base": {
+    "pr": 66,
+    "branch": "agent/continuation/research-followthrough-20260830-r2",
+    "head": "e660451975f3fa3bd3d9a7b5ebf5d73cc544f1ac"
+  },
+  "scientific_status": {
+    "retained": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
+    "overall": "NO_PASS_RF04",
+    "maximum_after_local02": "SCOPED_FROZEN_PHYSICAL_OPERATOR_PROOF"
+  },
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "orientation": "epsilon_123=+1",
+    "photon_momentum": "p^a=(epsilon_gamma/c)(n^a+e^a)",
+    "future_photon_direction": "e",
+    "observed_sky_output_direction": "n_hat_obs=-e",
+    "physical_length_parameter": "s=c*t",
+    "rate_dimensions": "H,sigma,aB,nB,Omega,kappa have dimension L^-1"
+  },
+  "carrier": {
+    "per_node_storage": 9,
+    "storage_order": ["S11", "S22", "S33", "S12", "S13", "S23", "A23", "A31", "A12"],
+    "conceptual_tensor": "F=S+iA with S^T=S, A^T=-A, and F=P(e) F P(e)",
+    "physical_real_dimension_per_node": 4,
+    "screen_orientation": "v=e cross u and u cross v=e",
+    "stokes": {
+      "I": "uFu+vFv",
+      "Q": "uFu-vFv",
+      "U": "2 u S v",
+      "V": "-2 u A v",
+      "packed_circular_vector": "(A23,A31,A12)=-(V/2)*(e1,e2,e3)"
+    }
+  },
+  "geometric_generator": {
+    "q_sigma": "e.sigma.e",
+    "R": "-H-q_sigma",
+    "s_shear": "-sigma.e+q_sigma*e",
+    "W": "Omega+aB cross e+nB.e-(tr(nB)/2)e+e cross s_shear",
+    "V_direction": "W cross e",
+    "V_expanded": "(q_sigma+aB.e)e-sigma.e-aB+Omega cross e-e cross (nB.e)",
+    "omega_screen": "e.W=e.Omega+e.nB.e-tr(nB)/2",
+    "A_on_fixed_chart": "-V.D_S2(F)+[hat(W),F]+4R F",
+    "dimensionless_time_adapter": "A_tau=(ds/dtau) A_s and C_tau=(ds/dtau) C_s"
+  },
+  "finite_tilt_collision": {
+    "electron_four_velocity": "u_e=gamma(n+v)",
+    "q": "1-v.e",
+    "D": "gamma*q",
+    "energy": "epsilon_prime=D*epsilon",
+    "solid_angle": "dOmega_prime=D^-2 dOmega",
+    "boost_map": "B_v(F)=D^4 S_v F S_v^T",
+    "screen_map_identities": ["S_v^T S_v=P(e)", "S_v S_v^T=P(e_prime)"],
+    "proper_opacity": {
+      "definition": "kappa_rest=n_rest*sigma_T",
+      "operator": "C=kappa_rest M_D B_v^-1 T_Th B_v",
+      "loss": "-kappa_rest D F"
+    },
+    "normal_density_opacity": {
+      "definition": "kappa_n=n_n*sigma_T=gamma*kappa_rest",
+      "operator": "C=kappa_n q D^-4 S_v^T T_Th[B_v F] S_v",
+      "loss": "-kappa_n q F"
+    },
+    "required_binding": "runtime opacity must explicitly choose kappa_rest or kappa_n",
+    "equilibrium": "F_eq=(1/2) D^-4 P(e)"
+  },
+  "quadrature_and_conservation": {
+    "boosted_weights": "w_prime_i=w_i/D_i^2",
+    "collision_left_functional": "ell_v(y)=sum_i w_i q_i tr(y_i)/(4*pi)",
+    "collision_invariant": "ell_v(C y)=0",
+    "constant_preserving_remap": "R*1=1",
+    "conservative_remap": "w_out^T R=w_in^T",
+    "positive_scalar_remap": "R_ij>=0",
+    "positive_polarized_remap": "F_out_i=sum_j r_ij U_ij F_j U_ij^dagger with r_ij>=0",
+    "forbidden": "exact positive inverse for nontrivial dissipative mixing"
+  },
+  "kato": {
+    "projector": "P^2=P",
+    "generator": "K=[Pdot,P]",
+    "identity": "Pdot=[K,P]",
+    "moving_coordinates": "z_dot=U^-1(L-K)U z for U_dot=K U",
+    "rank_one_source_projector": "P_v y=r_v ell_v(y)/ell_v(r_v)",
+    "forbidden": "uncompensated extra K split"
+  },
+  "differential_and_splitting": {
+    "first_gate": "lim_h_to_0 (Phi_h(y)-y)/h=(A+C)y",
+    "strang": "exp(hA/2) exp(hC) exp(hA/2)",
+    "log_strang_cubic": "-[A,[A,C]]/24-[C,[A,C]]/12"
+  },
+  "floating_support": {
+    "binary64_u": "2^-53",
+    "gamma3": "3u/(1-3u)",
+    "dot_bound": "abs(fl(x.y)-x.y)<=gamma3 sum_i abs(x_i y_i)+delta_input",
+    "interval": ["mu_lo=nextDown(mu_hat-Delta_mu)", "mu_hi=nextUp(mu_hat+Delta_mu)"]
+  },
+  "leakage": {
+    "pre_projection": "(||(I-P)F_raw||_F+||F_raw(I-P)||_F)/max(||F_raw||_F,epsilon_scale)",
+    "post_projection": "F_post=P F_raw P has exact algebraic transversality",
+    "current_claim": "existing max_screen_leakage is post-projection only"
+  },
+  "closed_formula_blockers": ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10"],
+  "deferred_hybrid": ["q1/q3 source trajectory", "high-l closure/truncation"],
+  "excluded_coding_numerics": ["authenticated LOCAL-01 telemetry", "finite-output typed failures", "PyO3 mapping", "actual remap", "dense oracle/native differential", "trajectory", "convergence", "AP/stiff", "performance", "GPU", "RF05"],
+  "prohibitions": ["no PASS_RF04 promotion", "no local boost substituted for global tilt", "no uncompensated K/2-C/2-G-C/2-K/2", "no row sums as weighted conservation", "no exact reversal of dissipative remap", "no one-nextDown rigorous-bound claim", "no source-absent q1/q3 closure"]
+}

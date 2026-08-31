@@ -1,0 +1,32 @@
+{
+  "schema": "bass.rf04.wolfram-receipt.v1",
+  "date": "2026-08-31",
+  "status": "PASS_EXACT_SYMBOLIC_FORMULA_CHECKS_ONLY",
+  "execution": {
+    "tool": "WolframLanguageEvaluator",
+    "mode": "plugin-assisted exact symbolic cells",
+    "note": "The committed replay script reconstructs the passed exact cells. It was not executed as a native repository checkout or an xAct end-to-end replay."
+  },
+  "checks": {
+    "direction_flow_residual": [0, 0, 0],
+    "direction_tangency_residual": 0,
+    "screen_rate_residual": 0,
+    "stokes_commutator": {"dI": 0, "dQ": "2 U", "dU": "-2 Q", "dV": 0, "d(Q+iU)": "-2 i (Q+iU)"},
+    "aberration": {"unit_direction_residual": 0, "solid_angle_jacobian_residual": 0, "inverse_aberration_residual": 0, "inverse_doppler_residual": 0},
+    "screen_map": {
+      "S_transpose_S_minus_P": [[0,0,0],[0,0,0],[0,0,0]],
+      "S_S_transpose_minus_Pprime": [[0,0,0],[0,0,0],[0,0,0]],
+      "S_e": [0,0,0]
+    },
+    "kato_test_projector": {"P2_minus_P": [[0,0],[0,0]], "Pdot_minus_commutator_K_P": [[0,0],[0,0]]},
+    "strang_bch_cubic_residual": [[0,0],[0,0]],
+    "remap_counterexample": {
+      "R_one": [1,1],
+      "wT_R_minus_wT": ["1/2","-1/2"],
+      "positive_mixing_inverse": [["3/2","-1/2"],["-1/2","3/2"]]
+    },
+    "binary64_gamma3": {"exact": "3/(2^53-3)", "decimal": "3.330669073875470729e-16"},
+    "projection": {"post_projection_left_leakage": "0 algebraically", "post_projection_right_leakage": "0 algebraically"}
+  },
+  "claim_boundary": ["no production code execution", "no native operator parity", "no xAct tensor promotion", "no numerical convergence claim", "no RF04 promotion"]
+}
