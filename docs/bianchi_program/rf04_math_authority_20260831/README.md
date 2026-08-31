@@ -11,6 +11,6 @@ Read in order:
 5. `WOLFRAM_RECEIPT.json`
 6. `IMPLEMENTATION_HANDOFF.md`
 7. `PACKAGE_LOCK.json`
-8. `MANIFEST.sha256`
+8. `GIT_BLOB_MANIFEST.json`
 
-No production source is changed.
+The repository uses Git blob identity. The separately downloadable ZIP uses SHA-256 identity. No production source is changed.
