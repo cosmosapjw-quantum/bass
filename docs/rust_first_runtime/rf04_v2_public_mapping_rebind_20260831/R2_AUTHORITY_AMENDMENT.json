@@ -1,0 +1,63 @@
+{
+  "schema": "bass-rf04-v2-public-mapping-r2-authority/v1",
+  "amendment_id": "RF04-V2-PUBLIC-MAPPING-R2-20260831",
+  "authority": {
+    "kind": "USER_APPROVED_PUBLIC_CONTRACT_AMENDMENT",
+    "approval": "B_RECOMMENDATION_APPROVED",
+    "scope": "RF04_LOCAL01_PUBLIC_BOUNDARY_ONLY",
+    "does_not_promote": [
+      "LOCAL01",
+      "LOCAL02",
+      "SCIENCE",
+      "IMPLEMENTATION_PARITY"
+    ]
+  },
+  "parent_authority": {
+    "package_commit": "a69b0516274648788e151046cc0233651e39e4b7",
+    "package_tree": "20693644149adbb3a5f310e72fe6de435308bc4e",
+    "mapping_path": "docs/rust_first_runtime/rf04_v2_public_mapping_rebind_20260831/V2_PUBLIC_MAPPING.json",
+    "mapping_git_blob_sha1": "f9d22a6bcbec9604e885d781415e1946179bed4c"
+  },
+  "decisions": {
+    "contextual_execution_identity": {
+      "native_symbol": "rf04_typeii_polarized_execution_identity_v2",
+      "python_symbol": "bianchi.kinetic.typeii_polarized_execution_identity_v2",
+      "argument_order": [
+        "directions",
+        "weights",
+        "remap_plan"
+      ],
+      "rule": "The identity symbol is invocation-contextual. It derives direction_grid_sha256 and remap_plan_sha256 from validated caller inputs and returns the same canonical JSON UTF-8 identity carried by trajectory and batch results for that invocation.",
+      "forbidden": [
+        "zero_argument_identity_for_dynamic_fields",
+        "mutable_process_global_invocation_state"
+      ]
+    },
+    "native_payload_and_installation_evidence": {
+      "runtime_native_payload_identity": "bass-rf04-polarized-v2-native-local01/v1",
+      "rule": "The runtime field is a static logical payload identifier analogous to the scalar-v1 identifier. The exact installed wheel SHA-256 is recorded only in the immutable LOCAL-01 evidence receipt and is never read from mutable state or serialized as a per-call runtime identity field."
+    },
+    "carrier_policy": {
+      "input_policy": "ScreenInputPolicy::Reject { tolerance: 1e-10 }",
+      "tolerance_binary64_hex": "3ddb7cdfd9d7bdbb",
+      "input_screen_rule": "Reject when the absolute maximum packed-component leakage from the screen projection exceeds 1e-10; no input projection is permitted.",
+      "realizability_rule": "Use the final donor's existing per-node realizability rule with tolerance 1e-10: for positive intensity I use absolute tolerance 1e-10*I, otherwise use 1e-10. Reject negative coherency eigenvalues below minus that tolerance."
+    },
+    "geometry_receipts": {
+      "rule": "Use the versioned canonical byte codecs and receipt hash chain in V2_PUBLIC_MAPPING.json. Every accepted outer step has one receipt; no aggregate, codec, or chain field is inferred by a caller."
+    },
+    "diagnostics": {
+      "rule": "For each accepted outer step, raw_pre_projection_screen_leakage is measured on the complete raw step state immediately before the final screen projection, and post_projection_screen_leakage is measured on the stored accepted state immediately after that projection."
+    },
+    "batch_failure_contract": {
+      "rule": "0 is the only success member_status. 1 is the only isolated typed-member-failure member_status. Common schema, grid, plan, and route failures raise the existing whole-call exception; member_error_code carries the exact finite code table in V2_PUBLIC_MAPPING.json."
+    }
+  },
+  "required_local_proof": [
+    "The local implementation must prove the contextual identity exactly matches the identity carried in a trajectory and batch generated from identical directions, weights, and remap_plan.",
+    "The local implementation must prove an identity call cannot obtain dynamic plan/grid values from mutable process-global state.",
+    "The local implementation must prove deterministic geometry receipt bytes and hash-chain heads against fixed test vectors.",
+    "The local implementation must prove Reject-mode carrier failure, raw/post diagnostic timing, common-call failure, and isolated member failure through PyO3.",
+    "The exact installed wheel SHA-256 must be recorded in evidence and must not occur in a runtime execution_identity value."
+  ]
+}

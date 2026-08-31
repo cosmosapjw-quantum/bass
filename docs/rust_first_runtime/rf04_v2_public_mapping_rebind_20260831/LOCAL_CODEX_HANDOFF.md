@@ -1,11 +1,13 @@
 # outcome
 
-Produce one separate local implementation branch and draft PR that exposes the authorized RF04 polarized-v2 identity, trajectory, and batch public routes against the final donor while leaving PR #70 unchanged and retaining NO_PASS_RF04 unless the unresolved LOCAL-01 evidence is complete.
+Produce one separate local implementation branch and draft PR that exposes the authorized contextual RF04 polarized-v2 identity, trajectory, and batch public routes against the final donor while leaving PR #70 unchanged and retaining NO_PASS_RF04 unless the unresolved LOCAL-01 evidence is complete.
 
 # success_criteria
 
 - The local checkout proves the exact authority base, final donor blob 693e9fff0d44f2b8e40966ceb8da3c348d830bd4, package manifest, and inherited v1/v2 authority files before editing source.
-- The three v2 native symbols, Python wrappers, registration, backend policy, serialized execution identity, typed-error mapping, and result carriers match V2_PUBLIC_MAPPING.json exactly.
+- The three v2 native symbols, Python wrappers, registration, backend policy, contextual serialized execution identity, typed-error mapping, and result carriers match V2_PUBLIC_MAPPING.json exactly.
+- The direct contextual identity and trajectory/batch identities are byte-identical for identical validated directions, weights, and remap_plan; the exact wheel SHA-256 is recorded only in the locked-wheel evidence receipt.
+- The implementation proves the specified Reject carrier policy, deterministic geometry receipt codecs and chain heads, raw/post projection diagnostic timing, and exact common-call versus isolated-member batch failure table.
 - Focused RED-to-GREEN tests prove v1 remains unchanged, v2 raw-route success/error behavior, common-plan whole-call failure, batch-member isolation, no partial trajectory result, and the two mandatory nonfinite cases through PyO3.
 - The implementation runs the repository-prescribed affected Rust and Python checks, builds the locked wheel, records a durable receipt, and receives one PHYS-MATH and one PHYS-MATH-CODE audit with no unresolved P0 or P1 defect.
 - The resulting implementation is published only as a new draft PR stacked on the authority branch and reports LOCAL-01 status from fresh evidence without starting LOCAL-02.
@@ -38,7 +40,7 @@ Produce one separate local implementation branch and draft PR that exposes the a
 
 - A fail-closed authority receipt containing parent commit/tree, every inherited blob identity, this package manifest result, and the final donor SHA-1/SHA-256 pair.
 - Focused RED logs recorded before each new public-boundary implementation slice and GREEN logs after it.
-- Affected Rust/PyO3/Python test logs, locked-wheel SHA-256, clean-wheel symbol readback, and an explicit common-failure versus member-failure acceptance matrix.
+- Affected Rust/PyO3/Python test logs, locked-wheel SHA-256, clean-wheel symbol readback, deterministic geometry receipt/chain test vectors, and an explicit common-failure versus member-failure acceptance matrix.
 - One PHYS-MATH audit and one PHYS-MATH-CODE audit that identify no unresolved P0 or P1 defect, or an explicit STOP_INVALID receipt if either audit finds one.
 - Remote draft-PR readback proving parent, head, tree, changed-path allowlist, and no merge or force update.
 
