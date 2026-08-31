@@ -345,7 +345,7 @@ pub fn typeii_background_from_state(
     } else {
         sqrt3 * sigma_13
     };
-    Ok(HomogeneousRayBackground {
+    let background = HomogeneousRayBackground {
         expansion: 1.0,
         shear: [
             [-2.0 * sigma_p, 0.0, sqrt3 * sigma_13],
@@ -356,7 +356,9 @@ pub fn typeii_background_from_state(
         class_b_a: [0.0; 3],
         // Co-rotating diagonal-n Type-II adapter: Omega_2 = Sigma_13(tensor).
         triad_rotation: [0.0, triad_rotation_y, 0.0],
-    })
+    };
+    validate_background(&background, 0)?;
+    Ok(background)
 }
 
 pub fn liouville_coefficients(
@@ -666,11 +668,26 @@ where
     let transport_orthogonality_defect = orthogonality_defect(&spatial_transport);
     let transport_determinant_defect = (determinant3(&spatial_transport) - 1.0).abs();
     enforce_rotation_contract(&spatial_transport, substeps - 1)?;
+    let log_bolometric_shift = 4.0 * log_energy_shift;
+    let scalar_outputs = [
+        log_energy_shift,
+        log_bolometric_shift,
+        screen_connection_integral,
+        transport_orthogonality_defect,
+        transport_determinant_defect,
+        leakage,
+        minimum_eigenvalue,
+    ];
+    if let Some(index) = scalar_outputs.iter().position(|value| !value.is_finite()) {
+        return Err(PolarizedLiouvilleError::NonFiniteOutput {
+            index: packed.len() + index,
+        });
+    }
     Ok(PolarizedCharacteristicResult {
         direction,
         coherency,
         log_energy_shift,
-        log_bolometric_shift: 4.0 * log_energy_shift,
+        log_bolometric_shift,
         screen_connection_integral,
         spatial_transport,
         transport_orthogonality_defect,
