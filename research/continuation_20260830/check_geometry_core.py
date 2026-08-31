@@ -14,6 +14,16 @@ BASE='50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda'
 OLD='da6fade06f717ab938b0ec4c712ab239e78c998a'
 NEW='e4d0f9c44fc26740d3a1cad6938b522fe514ae37'
 def blob(b):return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+def read_baseline(repo):
+ return subprocess.check_output(['git','--no-replace-objects','show',BASE+':'+REL],cwd=repo)
+def require_source_identities(old,new):
+ old_blob=blob(old);new_blob=blob(new)
+ if old_blob!=OLD or new_blob!=NEW:
+  raise ValueError(
+   'immutable numerical input mismatch: '
+   f'baseline expected={OLD} observed={old_blob}; '
+   f'candidate expected={NEW} observed={new_blob}'
+  )
 def prefix(text):
  x=text.split('/// Instantaneous bolometric tensor RHS')[0]
  a=x.index('use super::typeii_physical_guard::{');b=x.index('\n};',a)+3
@@ -57,9 +67,9 @@ mod original;mod candidate;
 '''
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--repo',type=Path,default=ROOT);ap.add_argument('--baseline',type=Path);ap.add_argument('--candidate',type=Path);ap.add_argument('--rustc',default='rustc');ap.add_argument('--out',type=Path,required=True);a=ap.parse_args()
- old=a.baseline.read_bytes() if a.baseline else subprocess.check_output(['git','show',BASE+':'+REL],cwd=a.repo)
+ old=a.baseline.read_bytes() if a.baseline else read_baseline(a.repo)
  new=(a.candidate or a.repo/REL).read_bytes()
- assert blob(old)==OLD and blob(new)==NEW,'immutable numerical input mismatch'
+ require_source_identities(old,new)
  a.out.mkdir(parents=True,exist_ok=False)
  for name,text in [('original.rs',prefix(old.decode())+wrapper(False)),('candidate.rs',prefix(new.decode())+wrapper(True)),('test.rs',TEST)]: (a.out/name).write_text(text)
  build=subprocess.run([a.rustc,'--edition=2021','--test','test.rs','-o','tests'],cwd=a.out,capture_output=True,text=True)

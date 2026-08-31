@@ -1,0 +1,45 @@
+{
+  "schema": "bass-rf04-polarized-remap-support-probe/v1",
+  "source_head": "50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda",
+  "donor_blob": "5f7a1e580df3855f07f567fb3baa0e339d52c82e",
+  "candidate_count": 12,
+  "predeclared_bounds": [
+    {
+      "minimum_transport_dot": 0.75,
+      "accepted_real_donor_calls": 12
+    },
+    {
+      "minimum_transport_dot": 0.8,
+      "accepted_real_donor_calls": 12
+    },
+    {
+      "minimum_transport_dot": 0.999999999999,
+      "accepted_real_donor_calls": 0,
+      "rejected_real_donor_calls": 12,
+      "error": "TransportSupportViolation"
+    }
+  ],
+  "hostile_mutations": [
+    {
+      "id": "negative_weight",
+      "input": [1.1, -0.1],
+      "outcome": "REJECTED",
+      "error": "NegativeWeight { index: 1, value: -0.1 }"
+    },
+    {
+      "id": "exact_antipode",
+      "dot": -1.0,
+      "outcome": "REJECTED",
+      "error": "AntipodalTransport { source: Some(0), dot: -1.0 }"
+    }
+  ],
+  "field_units": {
+    "direction_tolerance": "absolute unit-vector norm defect",
+    "screen_tolerance": "trace-relative screen leakage factor",
+    "weight_tolerance": "absolute defect in sum(weights)=1",
+    "antipodal_margin": "dimensionless direction dot-product margin",
+    "minimum_transport_dot": "dimensionless source-target cosine lower bound"
+  },
+  "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+  "reason": "Two distinct predeclared support bounds and three distinct convex algorithms are accepted; no production stencil owner or execution-profile binding selects one."
+}

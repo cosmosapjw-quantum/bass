@@ -1,0 +1,179 @@
+{
+  "schema": "bass-rf04-local01-validation/v1",
+  "recorded_at_utc": "2026-08-31T10:15:59Z",
+  "repository": "cosmosapjw-quantum/bass",
+  "work_unit": "BASS-LOCAL-01_NATIVE_TELEMETRY_PARITY",
+  "status": "BLOCKED_BY_MISSING_AUTHORIZED_V2_PUBLIC_MAPPING",
+  "claims": {
+    "retained": "PASS_RF04_SCALAR_RAW_SLICE_PROOF",
+    "current": "NO_PASS_RF04",
+    "local01": "NOT_PASS",
+    "local02": "NOT_RUN"
+  },
+  "authority": {
+    "pr66_head": "e660451975f3fa3bd3d9a7b5ebf5d73cc544f1ac",
+    "r5_locator": "57ec56393de43eb78d758222f78478aea8b14517",
+    "r5_publication_v6": "cb9b2c84c593733e6f8944b417d3876a2aad9407",
+    "r3_execution_handoff": "e660451975f3fa3bd3d9a7b5ebf5d73cc544f1ac",
+    "formula_authority_pr69_head": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207"
+  },
+  "intake": {
+    "status": "PASS_IMMUTABLE_PAYLOAD_INTAKE_ONLY",
+    "payload_commit": "16f5811beb7d73fae800ff90caf30f69deebc9fd",
+    "payload_tree": "85a9164e01ea77d312b185809b3698363c750526",
+    "manifest_blob_sha1": "32473fb754c9b6b84e5e5980c551860297f1054a",
+    "manifest_sha256": "af2ed1220c76d36bd82e5362b1f4a5fb0bb8061eb6470129458333c533b320de",
+    "manifest_entries": 18,
+    "normal_tests": "56/56 PASS under umask 0077",
+    "optimized_tests": "56/56 PASS under umask 0077",
+    "initial_host_umask_result": "EXPECTED_WRITABLE_DIRECTORY_DEFENSE_FAILURE_RETAINED",
+    "next_action_at_intake": "BASS-LOCAL-01_NATIVE_TELEMETRY_PARITY"
+  },
+  "local_chain": {
+    "source_probe_commit": "148d590bd45ebcc5e4f2ac8a778c30d26d5f9f31",
+    "genuine_red_commit": "d3df4ceb140a9810b0d5219e0e9e748c388a977d",
+    "genuine_red_tree": "208dc7e2f5981db9d6af2eac7a5455829e431c9e",
+    "dual_ancestry_merge_commit": "b2f1a732474b93afc1d68c8a8d0e865d51d14cc1",
+    "dual_ancestry_merge_tree": "386ed57fe2171b08b3ecb0bfca2341c8ad8a1abe",
+    "reviewed_head": "c27643051bf3f1baca257b87cb0264bae9d61da6",
+    "reviewed_tree": "80d3487b4cac8ae7fa833b17a49caa75c49a7124"
+  },
+  "source_identity": {
+    "old_donor_git_blob": "da6fade06f717ab938b0ec4c712ab239e78c998a",
+    "frozen_telemetry_git_blob": "e4d0f9c44fc26740d3a1cad6938b522fe514ae37",
+    "frozen_telemetry_sha256": "ae38f315e84314ed7fef5360ac7f3a44c8f140c5d27d4ddb3a0a539bcef70cab",
+    "final_rebound_git_blob": "693e9fff0d44f2b8e40966ceb8da3c348d830bd4",
+    "final_rebound_sha256": "f1f624d47b35208d339e6ea298f023d70012e54c80357973a65dc63c9491de6e",
+    "safety_delta_separate_from_frozen_patch": true
+  },
+  "toolchain": {
+    "rustc": "1.94.1",
+    "cargo": "1.94.1",
+    "python": "3.12.13",
+    "maturin": "1.14.1",
+    "cargo_mode": "offline locked",
+    "wheel_sha256": "d621b51b43b1c26b9ee26093ff88f9713d5e3d8c78af25fc396ed9211607d317"
+  },
+  "acceptance_matrix": [
+    {
+      "id": "L01-01",
+      "requirement": "no split",
+      "status": "PASS",
+      "scope": "actual Rust donor owner test and frozen geometry-prefix corpus"
+    },
+    {
+      "id": "L01-02",
+      "requirement": "nested nonuniform split",
+      "status": "PASS",
+      "scope": "actual Rust donor owner test and frozen geometry-prefix corpus"
+    },
+    {
+      "id": "L01-03",
+      "requirement": "multiple root panels",
+      "status": "PASS",
+      "scope": "actual Rust donor owner test"
+    },
+    {
+      "id": "L01-04",
+      "requirement": "L equals N_root plus S and independently checked maximum accepted-leaf depth",
+      "status": "PASS",
+      "scope": "actual donor geometry prefix; counters are adaptive-work telemetry only"
+    },
+    {
+      "id": "L01-05",
+      "requirement": "independent callback count 2 plus N_root plus 2S and exact callback fractions and order",
+      "status": "UNTESTED",
+      "reason": "geometry-prefix evidence checks internal background-call parity but not the complete final-rebound carrier/public callback contract"
+    },
+    {
+      "id": "L01-06",
+      "requirement": "bit parity of every pre-existing result field and numerical array on the ordinary corpus",
+      "status": "UNTESTED",
+      "reason": "90 frozen geometry-prefix successes preserve their compared output and call sequence, but the authorized result carrier and public v2 route are absent"
+    },
+    {
+      "id": "L01-07",
+      "requirement": "first child succeeds and second child fails",
+      "status": "UNTESTED",
+      "reason": "no source-owned focused carrier seam was authorized or present"
+    },
+    {
+      "id": "L01-08",
+      "requirement": "failures after recursion in carrier projection and realizability paths",
+      "status": "UNTESTED",
+      "reason": "public v2 carrier and mappings are absent"
+    },
+    {
+      "id": "L01-09",
+      "requirement": "no partial returned telemetry or history on every failure",
+      "status": "UNTESTED",
+      "reason": "bounded donor midpoint failure returns only a typed error, but carrier and history closure cannot be exercised"
+    },
+    {
+      "id": "L01-10",
+      "requirement": "exhaustive enum matches struct destructuring serialization adapter registration and Python success/error mapping",
+      "status": "FAIL",
+      "reason": "all three polarized v2 native symbols and their authorized public mapping are absent; v1 remains present and fail-closed"
+    },
+    {
+      "id": "L01-11",
+      "requirement": "counter overflow typed rather than saturated",
+      "status": "PASS",
+      "execution": "SOURCE_REVIEWED_UNEXECUTED",
+      "reason": "split and accepted-leaf additions use checked u64 arithmetic; depth is bounded to eight; safe runtime overflow is not reachable"
+    },
+    {
+      "id": "L01-12",
+      "requirement": "no dependency Cargo lock equation tolerance accepted-interval or background-order change",
+      "status": "PASS",
+      "scope": "changed-path and frozen geometry-prefix differential; only the two named safety cases have authorized behavior changes"
+    },
+    {
+      "id": "L01-NF-01",
+      "requirement": "finite transport input resolves through real result carrier and PyO3 as finite success or existing typed failure",
+      "status": "FAIL",
+      "donor_level": "PASS_EXISTING_NONFINITE_OUTPUT_ERROR",
+      "reason": "the donor no longer returns a nonfinite success, but no authorized polarized v2 carrier or PyO3 mapping exists"
+    },
+    {
+      "id": "L01-NF-02",
+      "requirement": "finite Type-II state resolves through real result carrier and PyO3 as finite success or existing typed failure",
+      "status": "FAIL",
+      "donor_level": "PASS_EXISTING_NONFINITE_BACKGROUND_ERROR",
+      "reason": "the donor no longer returns a nonfinite success, but no authorized polarized v2 carrier or PyO3 mapping exists"
+    }
+  ],
+  "scoped_results": {
+    "genuine_red": "PASS_INTENDED_ASSERTION_FAILURE",
+    "frozen_telemetry_patch": "PASS_EXACT_BYTE_IDENTITY",
+    "validator_hardening": "PASS_NORMAL_AND_OPTIMIZED_UNIT_GATES",
+    "geometry_prefix": "PASS_ACTUAL_DONOR_PREFIX_NOT_CARRIER_OR_PYO3",
+    "native_owner_tests": "6/6 PASS",
+    "named_nonfinite_boundaries": "PASS_AT_DONOR_TYPED_ERROR_LEVEL",
+    "production_wheel_build_install": "PASS",
+    "public_v1_readback": "PASS_PRESENT_AND_FAIL_CLOSED",
+    "public_v2_readback": "FAIL_MISSING_THREE_SYMBOLS",
+    "local_router": "DEFER_RESOURCE_BUSY_HOST_CODEX_CONTINUE"
+  },
+  "blocker": {
+    "classification": "BLOCKED_BY_MISSING_AUTHORIZED_V2_PUBLIC_MAPPING",
+    "measured_fact": "The rebuilt production wheel contains all three v1 RF04 symbols and none of the three v2 symbols.",
+    "authority_boundary": "R5 forbids inferring a PyO3 symbol receipt schema or error mapping. The retained v2 module reserves registration until an authorized owner exists, and PR69 does not supply that owner or the remaining representation bindings.",
+    "consequence": "LOCAL-01 is not complete and LOCAL-02 remains closed."
+  },
+  "evidence": {
+    "raw_manifest": "RAW_MANIFEST.sha256",
+    "r5_materialization_log_sha256": "11133058717a314318bfbdf090f639e70f95b58a05530ef0d0a8ed6b8aaf1fb6",
+    "genuine_rust_red_sha256": "1b2ee916c64a2a6d628448ac665177e2af047c179b490d0818da71e945332181",
+    "genuine_python_red_sha256": "05a58a384f15a780c28db50f9043ae6920177804d10e16ced5b8b9231105ffcc",
+    "baseline_nonfinite_receipt_sha256": "8265ff70605ec428ce5e1aa4bee66cef543a1f51e92c5520e56ed2c97fb6852b",
+    "baseline_nonfinite_background_sha256": "36ffa685daf7098940dbb6c9046aafe392761e372d0f5d17b0c0e2a8917fb338",
+    "safety_green_receipt_sha256": "c55e5a79eb60dbe22231a88df3a405762653fd959a58a302adda8ff133f97607",
+    "safety_green_background_sha256": "56c1dc92c293e65e78a836d843fff645c142452e04af295f3cd9c4f76d61f570",
+    "geometry_prefix_log_sha256": "754b822ff133c74a5e466957154232a79eaf2d207ba5c733aecda808cc5587f4",
+    "geometry_prefix_receipt_sha256": "52ae679256dff242574cc55f85adbaf07b3dd2fa43139dc37b6dad8cc0e21c18",
+    "native_owner_log_sha256": "13070574957de4b64c8130ddb093fdcc22b8c0a067fdedfe97291a4e798e9168",
+    "public_v2_blocker_log_sha256": "05a58a384f15a780c28db50f9043ae6920177804d10e16ced5b8b9231105ffcc",
+    "local_router_receipt_sha256": "65a8257e2e291a01c740b03afaf4e2d428b76a1c68f73597cd82cd0e086bb6f8"
+  }
+}

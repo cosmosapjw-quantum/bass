@@ -1,0 +1,221 @@
+{
+  "schema": "bass-rf04-polarized-source-probe-results/v1",
+  "generated_at_utc": "2026-08-29T07:00:52Z",
+  "work_unit": "RF04-POL-01_EXECUTABLE_SOURCE_DIFFERENTIAL",
+  "identity": {
+    "repository": "cosmosapjw-quantum/bass",
+    "source_head": "50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda",
+    "source_tree": "b32fcc26ca51dcaca9e9225d48b03fe9e02988ed",
+    "immutable_package_commit": "25e3f321e16ff7695566e5ba739ba86caa87bb59",
+    "immutable_package_tree": "f7d142adabd1bcb8e5c7df4a32371ebf2deafddd",
+    "publication_receipt_commit": "062c5e470b52ddf9e99fddf36a8d0da6ac6aeba0",
+    "publication_receipt_tree": "47be1229178054854d3679684c5dcd412d8e484a",
+    "package_zip_sha256": "6a6dafeb85fc472338725e026d3692cc02490e39db3e4589cbfa843fe4289722"
+  },
+  "intake": {
+    "package_sha256": "PASS",
+    "zip_crc": "PASS",
+    "manifest": "PASS",
+    "offline_validator": "PASS",
+    "live_validator": "PASS",
+    "source_identity": "PASS",
+    "scalar_raw_proof": {
+      "disposition": "REUSED_NOT_RERUN",
+      "reason": "No declared scalar/raw proof dependency blob changed.",
+      "claim": "PASS_RF04_SCALAR_RAW_SLICE_PROOF"
+    },
+    "fetch_helper": {
+      "disposition": "TRANSPORT_CONVENIENCE_ABSENT",
+      "required_identity_level": "CONTENT_IDENTITY",
+      "action": "Ran the fully specified equivalent extraction, byte, CRC, manifest, offline, and live checks without changing source or package bytes."
+    }
+  },
+  "probe_execution": {
+    "real_rust_donor_required": true,
+    "real_rust_donor_executed_for_all_probes": true,
+    "python_role": "INDEPENDENT_REFERENCE_AND_EVIDENCE_TRANSFORM_ONLY",
+    "production_python_loop_or_fallback": false,
+    "host_replay_matched_retained_probe_output": true,
+    "raw_evidence_sha256": {
+      "P1_REAL_DONOR.log": "5bd6f10fd92a2fa96ed414cc49ac7c8bbbb62e5c81af376e208c001739922861",
+      "P2_P3_REAL_DONOR.log": "138233a9ffbc984286d5b497918a3f15b609525778e40e1a805eb9892763e28e",
+      "P2_LEGACY_STENCIL.log": "dd15a36a905301b84ccb0a392dd588703340bd5284065f8d4c36cc328c2fe282",
+      "P4_P5_BUILD.log": "43d9166325b69071bc3d5348c247162dd959acf03437a323751dbd3460c6efbd",
+      "P4_P5_REAL_DONOR.log": "18f4912fde636578bb22c7c89a0c4bee2aafc3a60122711ab2bfcfd26ed975e9",
+      "P4_DENSE_REFERENCE.log": "69b36ac4ec5b29e667806734724d1cb6b4741857abfc628f4ceb87ae57ae2345"
+    }
+  },
+  "probes": [
+    {
+      "id": "P1_CHARACTERISTIC_SUBSTEP",
+      "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+      "source_observations": {
+        "source_fixture_error_vs_inner_16": {
+          "1": 6.686741160777387e-10,
+          "2": 1.6520573797862426e-10,
+          "4": 3.933880998729933e-11,
+          "8": 7.869205287391878e-12,
+          "16": 0.0
+        },
+        "source_fixture_max_screen_leakage": 2.220446049250313e-16,
+        "source_fixture_minimum_coherency_eigenvalue": 0.1457704541212798,
+        "internal_bisection_fail_closed_count": 8,
+        "successful_internal_bisection_count": "NOT_EXPOSED"
+      },
+      "measured_candidates": [
+        {
+          "policy": "source_panels_inner_1",
+          "error_at_panels_16": 4.67562821322709e-05,
+          "asymptotic_refinement_ratio": 3.99847,
+          "order": "SECOND_ORDER"
+        },
+        {
+          "policy": "source_panels_inner_2",
+          "error_at_panels_16": 3.91091654097786e-05,
+          "asymptotic_refinement_ratio": 3.99992,
+          "order": "SECOND_ORDER"
+        }
+      ],
+      "counterexample": "Increasing inner substeps while retaining one endpoint-linear background interval plateaus near 1.03e-2 against the curved callback; subdividing the supplied background interval yields two distinct convergent policies, and the donor exposes no source selector between them."
+    },
+    {
+      "id": "P2_CONVEX_STENCIL",
+      "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+      "measured_candidates": {
+        "grids": [
+          "Lebedev26",
+          "GL4x8",
+          "GL6x12",
+          "GL8x16"
+        ],
+        "algorithms": [
+          "nearest1",
+          "inverse_chord4",
+          "tangent_triangle_max_support"
+        ],
+        "accepted_real_donor_calls": 12,
+        "all_convex_constant_screen_realizability_checks": "PASS",
+        "minimum_observed_transport_dot": 0.8149603492807146,
+        "maximum_observed_transport_dot": 0.9987216731718571,
+        "angular_moment_error_range": [
+          0.011543905358607796,
+          0.3938970263273502
+        ]
+      },
+      "counterexample": "All three algorithms satisfy the donor's convex remap contract on all four grids while producing different moment and nonconstant-profile errors. The repository has no production polarized stencil owner selecting one. The existing 6x6 Lagrange stencil has 16 negative weights on both GL6x12 and GL8x16 and is rejected by the real donor."
+    },
+    {
+      "id": "P3_REMAP_OPTIONS_SUPPORT",
+      "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+      "field_units": {
+        "direction_tolerance": "absolute unit-vector norm defect",
+        "screen_tolerance": "trace-relative screen leakage factor",
+        "weight_tolerance": "absolute sum(weights)-1 defect",
+        "antipodal_margin": "dimensionless direction-dot margin",
+        "minimum_transport_dot": "dimensionless source-target cosine lower bound"
+      },
+      "measured_candidates": [
+        {
+          "minimum_transport_dot": 0.75,
+          "accepted_real_donor_calls": 12
+        },
+        {
+          "minimum_transport_dot": 0.8,
+          "accepted_real_donor_calls": 12
+        }
+      ],
+      "hostile_mutations": {
+        "minimum_transport_dot_0.999999999999": "12_OF_12_REJECTED_TRANSPORT_SUPPORT_VIOLATION",
+        "negative_weight": "REJECTED_NEGATIVE_WEIGHT",
+        "exact_antipode": "REJECTED_ANTIPODAL_TRANSPORT"
+      },
+      "counterexample": "Both preregistered support bounds 0.75 and 0.80 accept every measured candidate, but no execution-profile identity or source owner declares which bound is production authority."
+    },
+    {
+      "id": "P4_COMPOSITION",
+      "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+      "independent_reference": {
+        "implementation": "independent NumPy formula plus SciPy DOP853",
+        "rtol": 2e-13,
+        "atol": 2e-15,
+        "nfev": 26,
+        "note": "Reference integration settings only; not admitted as new production tolerances."
+      },
+      "small_step_derivative_errors": {
+        "collision": 9.016239976844531e-09,
+        "geometry": 8.204110404919085e-09,
+        "representation_geometry": 5.530734398240256e-09,
+        "composed": 3.946741232441209e-08
+      },
+      "measured_candidates": [
+        {
+          "ordering": "collision_outer",
+          "error_at_steps_64": 1.4652202220966082e-06,
+          "last_refinement_ratio": 1.990051859582775,
+          "observed_global_order": "FIRST_ORDER"
+        },
+        {
+          "ordering": "geometry_outer",
+          "error_at_steps_64": 7.328001693784891e-07,
+          "last_refinement_ratio": 1.9905728836438765,
+          "observed_global_order": "FIRST_ORDER"
+        }
+      ],
+      "compiled_action_mutations": {
+        "central_k_sign_error": 0.046676392123049915,
+        "stage_collapse_error": 2.343754945721699e-05,
+        "endpoint_reverse_error": 2.236150383505553e-05
+      },
+      "counterexample": "Both source-backed orderings converge only at first order against the independent dense reference. The Kato-sign mutation is strongly separated, but stage-collapse and endpoint-order mutations differ only weakly relative to the pristine first-order error; the source does not uniquely admit either ordering or a higher-order full composition."
+    },
+    {
+      "id": "P5_HISTORY_ASSOCIATION",
+      "disposition": "NONUNIQUE_MEASURED_CANDIDATES",
+      "measured_candidates": {
+        "fixed_eulerian": {
+          "restart_max_abs": 0.0,
+          "permutation_max_abs": 2.220446049250313e-16,
+          "minimum_coherency_eigenvalue": 0.30768270190380853,
+          "observable": 1.0754979150490989
+        },
+        "evolved_lagrangian": {
+          "restart_max_abs": 0.0,
+          "permutation_max_abs": 2.0816681711721685e-16,
+          "minimum_coherency_eigenvalue": 0.30781910815577107,
+          "observable_after_remap_to_fixed": 1.0755457175083118,
+          "maximum_direction_shift": 0.018067351193077785
+        },
+        "state_max_abs_difference_after_common_remap": 0.00022548640722408475,
+        "observable_absolute_difference": 4.780245921298887e-05
+      },
+      "counterexamples": {
+        "multi_parent_lineage": "Parent traces 1.4 and 2.6 produce convex child trace 2.0, so the child cannot be assigned either parent's proper-rotation lineage.",
+        "direction_association": "The same packed rank-9 bytes have screen leakage 0.0 for z but 0.7 for x; bytes without direction association do not identify a physical screen state."
+      },
+      "transaction_semantics": "NO_SOURCE_OWNED_POLARIZED_HISTORY_OR_TRANSACTION_TYPE_FOUND"
+    }
+  ],
+  "acceptance_gates": {
+    "A0_IDENTITY": "PASS",
+    "A1_PROBES": "PASS",
+    "A2_UNIQUENESS": "FAIL_NONUNIQUE_MEASURED_CANDIDATES",
+    "A3_RED_GREEN": "NOT_RUN_BY_A2_GATE",
+    "A4_PHYSICS": "NOT_RUN_BY_A2_GATE",
+    "A5_DELIVERY": "NOT_RUN_BY_A2_GATE"
+  },
+  "conditional_actions_not_run": [
+    "POLARIZED_SOURCE_CONTRACT.json",
+    "genuine composed RED",
+    "full polarized trajectory/batch/history implementation",
+    "full targeted proof and compiled production mutants",
+    "PHYS-MATH and PHYS-MATH-CODE audits",
+    "native restore",
+    "commit, push, stacked draft PR, remote readback"
+  ],
+  "claims": {
+    "PASS_RF04_SCALAR_RAW_SLICE_PROOF": true,
+    "PASS_RF04": false
+  },
+  "terminal": "BLOCKED_RF04_POLARIZED_AUTHORITY_DECISION_WITH_MEASURED_CANDIDATES",
+  "minimum_decision_needed": "Source authority must select or supply a unique P1 outer-background subdivision policy, P2 stencil owner, P3 serialized support bound, P4 composition/order contract, and P5 direction-associated history/transaction representation."
+}

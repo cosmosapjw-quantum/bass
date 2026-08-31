@@ -22,6 +22,7 @@ pub mod pstf_gen;
 pub mod qevolve;
 pub mod quad;
 pub mod radial;
+pub mod rf04_polarized_v2;
 pub mod rf04_typeii;
 pub mod sphere;
 pub mod tilted_hier;
@@ -31,4 +32,22 @@ pub mod typev;
 pub mod viscous;
 
 #[cfg(test)]
+#[path = "../../../generated/rust/typeii/typeii_polarized.rs"]
+mod typeii_polarized;
+
+#[cfg(test)]
+#[path = "../../../runtime/rust/typeii/typeii_physical_guard.rs"]
+mod typeii_physical_guard;
+
+#[cfg(test)]
+#[path = "../../../runtime/rust/typeii/typeii_polarized_liouville.rs"]
+mod typeii_polarized_liouville;
+
+#[cfg(test)]
 mod rf04_contract_tests;
+
+#[cfg(test)]
+mod rf04_polarized_v2_tests;
+
+#[cfg(test)]
+mod rf04_telemetry_owner_tests;

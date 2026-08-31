@@ -98,6 +98,8 @@ pub enum PolarizedLiouvilleError {
         tolerance: f64,
     },
     NonFiniteCoefficient,
+    /// A diagnostic count could not be represented; never saturate a receipt.
+    DiagnosticCounterOverflow,
     NonFiniteOutput {
         index: usize,
     },
@@ -134,6 +136,19 @@ pub struct PolarizedCharacteristicResult {
     pub transport_determinant_defect: f64,
     pub max_screen_leakage: f64,
     pub minimum_coherency_eigenvalue: f64,
+    /// Actual binary split events in this successful call, not recursion depth.
+    pub internal_bisection_count: u64,
+    /// Maximum depth among successful leaves; initial panels have depth zero.
+    pub max_internal_bisection_depth: usize,
+    /// Accepted leaves. For success: leaves = input substeps + split events.
+    pub accepted_subinterval_count: u64,
+}
+
+#[derive(Default)]
+struct CharacteristicWork {
+    split_events: u64,
+    accepted_leaves: u64,
+    max_depth: usize,
 }
 
 #[inline]
@@ -330,7 +345,7 @@ pub fn typeii_background_from_state(
     } else {
         sqrt3 * sigma_13
     };
-    Ok(HomogeneousRayBackground {
+    let background = HomogeneousRayBackground {
         expansion: 1.0,
         shear: [
             [-2.0 * sigma_p, 0.0, sqrt3 * sigma_13],
@@ -341,7 +356,9 @@ pub fn typeii_background_from_state(
         class_b_a: [0.0; 3],
         // Co-rotating diagonal-n Type-II adapter: Omega_2 = Sigma_13(tensor).
         triad_rotation: [0.0, triad_rotation_y, 0.0],
-    })
+    };
+    validate_background(&background, 0)?;
+    Ok(background)
 }
 
 pub fn liouville_coefficients(
@@ -453,6 +470,7 @@ fn advance_midpoint_interval<F>(
     fraction_right: f64,
     substep: usize,
     bisection_depth: usize,
+    work: &mut CharacteristicWork,
     background_at_fraction: &F,
 ) -> Result<(), PolarizedLiouvilleError>
 where
@@ -495,6 +513,10 @@ where
                 bisections: bisection_depth,
             });
         }
+        work.split_events = work
+            .split_events
+            .checked_add(1)
+            .ok_or(PolarizedLiouvilleError::DiagnosticCounterOverflow)?;
         advance_midpoint_interval(
             direction,
             matrix,
@@ -506,6 +528,7 @@ where
             fraction_mid,
             substep,
             bisection_depth + 1,
+            work,
             background_at_fraction,
         )?;
         advance_midpoint_interval(
@@ -519,6 +542,7 @@ where
             fraction_right,
             substep,
             bisection_depth + 1,
+            work,
             background_at_fraction,
         )?;
         return Ok(());
@@ -541,6 +565,11 @@ where
     }
     *log_energy_shift += delta_log_energy;
     *screen_connection_integral += h * midpoint.screen_connection_rate;
+    work.accepted_leaves = work
+        .accepted_leaves
+        .checked_add(1)
+        .ok_or(PolarizedLiouvilleError::DiagnosticCounterOverflow)?;
+    work.max_depth = work.max_depth.max(bisection_depth);
     Ok(())
 }
 
@@ -603,6 +632,7 @@ where
     let mut spatial_transport = identity3();
     let mut log_energy_shift = 0.0;
     let mut screen_connection_integral = 0.0;
+    let mut work = CharacteristicWork::default();
 
     for substep in 0..substeps {
         let fraction_left = substep as f64 / substeps as f64;
@@ -618,6 +648,7 @@ where
             fraction_right,
             substep,
             0,
+            &mut work,
             &background_at_fraction,
         )?;
     }
@@ -637,17 +668,35 @@ where
     let transport_orthogonality_defect = orthogonality_defect(&spatial_transport);
     let transport_determinant_defect = (determinant3(&spatial_transport) - 1.0).abs();
     enforce_rotation_contract(&spatial_transport, substeps - 1)?;
+    let log_bolometric_shift = 4.0 * log_energy_shift;
+    let scalar_outputs = [
+        log_energy_shift,
+        log_bolometric_shift,
+        screen_connection_integral,
+        transport_orthogonality_defect,
+        transport_determinant_defect,
+        leakage,
+        minimum_eigenvalue,
+    ];
+    if let Some(index) = scalar_outputs.iter().position(|value| !value.is_finite()) {
+        return Err(PolarizedLiouvilleError::NonFiniteOutput {
+            index: packed.len() + index,
+        });
+    }
     Ok(PolarizedCharacteristicResult {
         direction,
         coherency,
         log_energy_shift,
-        log_bolometric_shift: 4.0 * log_energy_shift,
+        log_bolometric_shift,
         screen_connection_integral,
         spatial_transport,
         transport_orthogonality_defect,
         transport_determinant_defect,
         max_screen_leakage: leakage,
         minimum_coherency_eigenvalue: minimum_eigenvalue,
+        internal_bisection_count: work.split_events,
+        max_internal_bisection_depth: work.max_depth,
+        accepted_subinterval_count: work.accepted_leaves,
     })
 }
 
