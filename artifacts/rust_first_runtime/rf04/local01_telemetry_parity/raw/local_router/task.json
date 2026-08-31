@@ -1,0 +1,58 @@
+{
+  "schema": "cuhg-delegated-task/v1",
+  "task_id": "bass-rf04-local01-baseline-test-seam-20260831",
+  "verifier_tier": "E_general",
+  "goal": "Replace only the HOST_FROZEN_LOCAL_CANDIDATE_SLOT marker with Rust test code. Reuse the exact two named nonfinite-boundary regression bodies from research/continuation_20260830/execution_handoff_r2/SANDBOX_LATE_RED_REPRODUCER.rs: finite_inputs_do_not_return_a_nonfinite_energy_receipt and finite_typeii_state_does_not_return_a_nonfinite_background. Include only the imports and projector_state helper those two tests need. Import the real sibling modules typeii_physical_guard and typeii_polarized_liouville. Do not add telemetry assertions, production functions, public symbols, error variants, tolerances, formulas, or alternative behavior. Return only replacement Rust source for the marker, not Markdown and not the surrounding file.",
+  "scientific_contract": {
+    "assumptions": [
+      "This is a mechanical test-seam transcription from an exact retained diagnostic source into the authenticated BASS owner crate; it is not a scientific derivation."
+    ],
+    "units": [
+      "Preserve the retained finite transport input exactly: expansion 1.0 and step 1.0e308."
+    ],
+    "conventions": [
+      "Use ScreenInputPolicy::Reject with tolerance 1.0e-13 and the exact rank-nine projector packing from the retained reproducer."
+    ],
+    "boundary_conditions": [
+      "Preserve the Type-II state exactly as [f64::MAX, 0.0, 0.0, 1.0, 0.0].",
+      "Each test accepts an existing typed Err and fails only when Ok contains a nonfinite returned field."
+    ]
+  },
+  "verification_limits": [
+    "The local result is exploratory and nonauthoritative until Host Codex reviews it, wires the real modules, and executes the exact focused Cargo selectors.",
+    "Rustfmt syntax/style checking does not establish that the tests reach the donor or reproduce the intended RED."
+  ],
+  "context_complete": true,
+  "target": {
+    "path": "_rustcore/src/kinetic/rf04_telemetry_owner_tests.rs",
+    "old": "// HOST_FROZEN_LOCAL_CANDIDATE_SLOT\n"
+  },
+  "context_paths": [
+    "_rustcore/src/kinetic/rf04_telemetry_owner_tests.rs",
+    "runtime/rust/typeii/typeii_physical_guard.rs",
+    "runtime/rust/typeii/typeii_polarized_liouville.rs",
+    "research/continuation_20260830/execution_handoff_r2/SANDBOX_LATE_RED_REPRODUCER.rs"
+  ],
+  "frozen_paths": [
+    "runtime/rust/typeii/typeii_physical_guard.rs",
+    "runtime/rust/typeii/typeii_polarized_liouville.rs",
+    "research/continuation_20260830/execution_handoff_r2/SANDBOX_LATE_RED_REPRODUCER.rs"
+  ],
+  "validators": [
+    {
+      "id": "rustfmt-test-seam",
+      "argv": [
+        "/home/cosmosapjw/.cargo/bin/rustfmt",
+        "--edition",
+        "2021",
+        "--check",
+        "_rustcore/src/kinetic/rf04_telemetry_owner_tests.rs"
+      ],
+      "timeout_seconds": 30
+    }
+  ],
+  "max_local_attempts": 2,
+  "output_budget": 4096,
+  "phase": "general",
+  "known_local_limit": false
+}

@@ -1,0 +1,27 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_________________ test_rf04_polarized_v2_native_symbols_exist __________________
+
+    def test_rf04_polarized_v2_native_symbols_exist() -> None:
+        missing = [name for name in V2_SYMBOLS if not hasattr(bianchi_rustcore, name)]
+>       assert not missing, f"missing RF-04 polarized v2 native symbols: {missing}"
+E       AssertionError: missing RF-04 polarized v2 native symbols: ['rf04_typeii_polarized_execution_identity_v2', 'rf04_typeii_polarized_trajectory_v2', 'rf04_typeii_polarized_batch_v2']
+E       assert not ['rf04_typeii_polarized_execution_identity_v2', 'rf04_typeii_polarized_trajectory_v2', 'rf04_typeii_polarized_batch_v2']
+
+tests/rf04/test_polarized_route_v2.py:47: AssertionError
+_____________ test_rf04_polarized_v2_v1_route_remains_fail_closed ______________
+
+    def test_rf04_polarized_v2_v1_route_remains_fail_closed() -> None:
+>       assert hasattr(bianchi_rustcore, "rf04_typeii_trajectory_v1"), (
+            "retained scalar-v1 native build is unavailable; this would be an "
+            "import/packaging failure rather than the required capability RED"
+        )
+E       AssertionError: retained scalar-v1 native build is unavailable; this would be an import/packaging failure rather than the required capability RED
+E       assert False
+E        +  where False = hasattr(bianchi_rustcore, 'rf04_typeii_trajectory_v1')
+
+tests/rf04/test_polarized_route_v2.py:51: AssertionError
+=========================== short test summary info ============================
+FAILED tests/rf04/test_polarized_route_v2.py::test_rf04_polarized_v2_native_symbols_exist
+FAILED tests/rf04/test_polarized_route_v2.py::test_rf04_polarized_v2_v1_route_remains_fail_closed
+2 failed in 0.04s
