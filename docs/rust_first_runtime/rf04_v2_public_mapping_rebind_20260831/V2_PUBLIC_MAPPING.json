@@ -1,0 +1,361 @@
+{
+  "schema": "bass-rf04-polarized-v2-public-mapping/v1",
+  "schema_id": "bass-rf04-typeii-polarized-public-route/v2",
+  "route_design_schema_id": "bass-rf04-typeii-polarized-route/v2",
+  "scope": "CONCRETE_PYO3_AND_SERIALIZATION_MAPPING_FOR_LOCAL01_ONLY",
+  "common_request_inheritance": {
+    "source_schema_id": "bass-rf04-typeii-public-route/v1",
+    "source_git_blob_sha1": "a5a503f96c8d85af265be67ac04fd3ff983d9b33",
+    "rule": "directions, weights, background_q1, background_mid, background_q3, opacity_mid, step_size, gamma, opacity_scale, tilt_axis, C-contiguity, finite checks, Type-II domain guard, and existing exception classes are byte-for-byte semantic inheritances from v1."
+  },
+  "symbols": {
+    "identity": {
+      "native": "rf04_typeii_polarized_execution_identity_v2",
+      "python": "bianchi.kinetic.typeii_polarized_execution_identity_v2",
+      "route_id": "kinetic.typeii.polarized_execution_identity_v2",
+      "arguments": [],
+      "return": "canonical_json_utf8"
+    },
+    "trajectory": {
+      "native": "rf04_typeii_polarized_trajectory_v2",
+      "python": "bianchi.kinetic.typeii_polarized_trajectory_v2",
+      "route_id": "kinetic.typeii.polarized_trajectory_v2",
+      "argument_order": [
+        "initial_radiation",
+        "directions",
+        "weights",
+        "background_q1",
+        "background_mid",
+        "background_q3",
+        "opacity_mid",
+        "step_size",
+        "gamma",
+        "opacity_scale",
+        "tilt_axis",
+        "carrier",
+        "quadrature_route",
+        "remap_plan"
+      ],
+      "return": "mapping"
+    },
+    "batch": {
+      "native": "rf04_typeii_polarized_batch_v2",
+      "python": "bianchi.kinetic.typeii_polarized_batch_v2",
+      "route_id": "kinetic.typeii.polarized_batch_v2",
+      "argument_order": [
+        "initial_radiation_batch",
+        "directions",
+        "weights",
+        "background_q1",
+        "background_mid",
+        "background_q3",
+        "opacity_mid",
+        "step_size",
+        "gamma",
+        "opacity_scale",
+        "tilt_axis",
+        "carrier",
+        "quadrature_route",
+        "remap_plan"
+      ],
+      "return": "mapping"
+    }
+  },
+  "polarized_request_additions": {
+    "carrier": {
+      "dtype": "enum",
+      "value": "polarized_rank9_v1",
+      "rule": "Any other carrier is RF04_UNSUPPORTED_CAPABILITY through RF04CapabilityError. Input is rejected rather than silently projected."
+    },
+    "initial_radiation": {
+      "dtype": "float64",
+      "shape": [
+        "9*M"
+      ],
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "NO_SILENT_PROJECTION"
+      ]
+    },
+    "initial_radiation_batch": {
+      "dtype": "float64",
+      "shape": [
+        "B",
+        "9*M"
+      ],
+      "requirements": [
+        "C_CONTIGUOUS",
+        "FINITE",
+        "B_GE_1",
+        "NO_SILENT_PROJECTION"
+      ]
+    },
+    "quadrature_route": {
+      "valid_tokens": [
+        "fixed_grid_raw_v1",
+        "fixed_grid_ap_corrected_v1",
+        "paired_rest_to_normal_reference_v1"
+      ],
+      "local01_activation": {
+        "fixed_grid_raw_v1": "AUTHORIZED_TO_IMPLEMENT_AND_TEST",
+        "fixed_grid_ap_corrected_v1": "MUST_FAIL_CLOSED_AS_RF04_UNSUPPORTED_CAPABILITY_UNTIL_SEPARATE_LOCAL_EVIDENCE",
+        "paired_rest_to_normal_reference_v1": "MUST_FAIL_CLOSED_AS_RF04_UNSUPPORTED_CAPABILITY_UNTIL_SEPARATE_LOCAL_EVIDENCE"
+      },
+      "rule": "Different valid route tokens are never silently equated in execution identity or output."
+    },
+    "remap_plan": {
+      "container": "mapping",
+      "fields": {
+        "schema_id": {
+          "dtype": "str",
+          "value": "bass-rf04-convex-csr-remap/v1"
+        },
+        "direction_grid_sha256": {
+          "dtype": "lowercase_sha256_hex",
+          "rule": "Matches the direction-grid canonical bytes declared below."
+        },
+        "target_offsets": {
+          "dtype": "uint64",
+          "shape": [
+            "M+1"
+          ],
+          "requirements": [
+            "C_CONTIGUOUS",
+            "target_offsets[0]_EQ_0",
+            "STRICTLY_INCREASING",
+            "target_offsets[M]_EQ_S",
+            "CONVERTIBLE_TO_USIZE_WITH_CHECKED_CAST"
+          ]
+        },
+        "source_indices": {
+          "dtype": "uint64",
+          "shape": [
+            "S"
+          ],
+          "requirements": [
+            "C_CONTIGUOUS",
+            "EACH_INDEX_IN_0_TO_M_MINUS_1",
+            "CONVERTIBLE_TO_USIZE_WITH_CHECKED_CAST"
+          ]
+        },
+        "weights": {
+          "dtype": "float64",
+          "shape": [
+            "S"
+          ],
+          "requirements": [
+            "C_CONTIGUOUS",
+            "FINITE",
+            "NONNEGATIVE",
+            "SOURCE_OWNED_CONVEX_ROW_VALIDATOR"
+          ]
+        },
+        "builder_id": {
+          "dtype": "ascii_identifier"
+        },
+        "builder_version": {
+          "dtype": "ascii_identifier"
+        },
+        "plan_sha256": {
+          "dtype": "lowercase_sha256_hex",
+          "rule": "Must equal SHA-256 of the exact remap-plan canonical bytes declared below."
+        },
+        "minimum_transport_dot": {
+          "dtype": "float64",
+          "requirements": [
+            "FINITE",
+            "SOURCE_OWNED_ACTIVE_SUPPORT_NEXT_DOWN_VALIDATOR"
+          ]
+        }
+      }
+    }
+  },
+  "identity_codecs": {
+    "direction_grid": {
+      "schema_id": "bass-rf04-direction-grid/v1",
+      "bytes": "ASCII bass-rf04-direction-grid/v1\\0 followed by M as unsigned-64 little-endian, then directions row-major IEEE-754 binary64 bits little-endian, then weights IEEE-754 binary64 bits little-endian.",
+      "digest": "SHA-256 lowercase hex"
+    },
+    "remap_plan": {
+      "schema_id": "bass-rf04-convex-csr-remap/v1",
+      "bytes": "UTF-8 canonical JSON with this exact ordered field sequence: schema_id, direction_grid_sha256, target_offsets, source_indices, weights_binary64_hex, builder_id, builder_version, minimum_transport_dot_binary64_hex. target_offsets and source_indices are JSON decimal unsigned integers; each float entry is a 16-lowercase-hex IEEE-754 binary64 bit string without a 0x prefix; separators are comma and colon only; no whitespace; ASCII identifiers only.",
+      "digest": "SHA-256 lowercase hex",
+      "rule": "The plan_sha256 field is excluded from the canonical bytes to avoid a self-reference."
+    }
+  },
+  "execution_identity": {
+    "return": "canonical_json_utf8",
+    "identity_schema": "bass-rf04-typeii-polarized-execution-identity/v2",
+    "required_fields": [
+      "route_schema_sha256",
+      "authority_decisions_sha256",
+      "remap_plan_sha256",
+      "direction_grid_sha256",
+      "composition_id",
+      "history_representation_id",
+      "source_owner_blob_sha1",
+      "native_payload_identity"
+    ],
+    "fixed_values": {
+      "composition_id": "palindromic_k_c_g_c_k_v1",
+      "history_representation_id": "fixed_eulerian_history_with_geometry_receipts_v1",
+      "source_owner_blob_sha1": "693e9fff0d44f2b8e40966ceb8da3c348d830bd4"
+    },
+    "dynamic_value_rules": {
+      "route_schema_sha256": "SHA-256 of the inherited exact PUBLIC_ROUTE_SCHEMA_DELTA_V2.json bytes.",
+      "authority_decisions_sha256": "SHA-256 of the inherited exact AUTHORITY_DECISIONS.json bytes.",
+      "remap_plan_sha256": "Validated caller plan_sha256.",
+      "direction_grid_sha256": "Validated caller direction_grid_sha256.",
+      "native_payload_identity": "wheel-sha256:<lowercase SHA-256 of the exact installed wheel used for this call>."
+    },
+    "encoding": "Same canonical JSON UTF-8 codec as RF04 public v1. No Python dict repr, unordered map serialization, or mutable process-global payload identity is allowed."
+  },
+  "trajectory_result": {
+    "container": "mapping",
+    "fixed_fields": {
+      "schema_id": "bass-rf04-typeii-polarized-public-route/v2",
+      "route_id": "kinetic.typeii.polarized_trajectory_v2"
+    },
+    "fields": {
+      "execution_identity": {
+        "dtype": "canonical_json_utf8"
+      },
+      "radiation_history": {
+        "dtype": "float64",
+        "shape": [
+          "K+1",
+          "9*M"
+        ],
+        "semantics": "ROW_0_IS_INPUT; ROW_i_IS_FIXED_GRID_ACCEPTED_STATE_AFTER_STEP_i"
+      },
+      "diagnostics": {
+        "container": "mapping",
+        "inherits_v1_arrays": [
+          "equilibrium_null_residual",
+          "left_invariant_drift",
+          "positivity_margin",
+          "projected_residual_estimate",
+          "projector_idempotence_residual",
+          "right_kernel_residual",
+          "minimum_coherency_eigenvalue",
+          "screen_leakage"
+        ],
+        "v2_arrays": {
+          "raw_pre_projection_screen_leakage": [
+            "K"
+          ],
+          "post_projection_screen_leakage": [
+            "K"
+          ]
+        }
+      },
+      "geometry_receipts": {
+        "container": "tuple[mapping]",
+        "shape": [
+          "K"
+        ],
+        "required_fields": [
+          "input_direction_grid_sha256",
+          "remap_plan_sha256",
+          "backtrace_direction_sha256",
+          "spatial_transport_sha256",
+          "maximum_screen_leakage",
+          "minimum_coherency_eigenvalue",
+          "outer_panel_count",
+          "internal_bisection_count"
+        ],
+        "fixed_values": {
+          "outer_panel_count": 2
+        }
+      }
+    },
+    "failure": "RAISE_AN_EXISTING_TYPED_EXCEPTION_AT_THE_FIRST_FAILED_STEP_WITH_STEP_INDEX; RETURN_NO_PARTIAL_SUCCESS_OBJECT_OR_HISTORY"
+  },
+  "batch_result": {
+    "container": "mapping",
+    "fixed_fields": {
+      "schema_id": "bass-rf04-typeii-polarized-public-route/v2",
+      "route_id": "kinetic.typeii.polarized_batch_v2"
+    },
+    "fields": {
+      "execution_identity": {
+        "dtype": "canonical_json_utf8"
+      },
+      "final_radiation": {
+        "dtype": "float64",
+        "shape": [
+          "B",
+          "9*M"
+        ],
+        "failure_row_fill": "ALL_NAN"
+      },
+      "member_status": {
+        "dtype": "int32",
+        "shape": [
+          "B"
+        ],
+        "success_code": 0
+      },
+      "member_completed_steps": {
+        "dtype": "int64",
+        "shape": [
+          "B"
+        ]
+      },
+      "member_error_code": {
+        "dtype": "tuple[str|null]",
+        "shape": [
+          "B"
+        ]
+      }
+    },
+    "failure_isolation": "A malformed or physically failing individual member receives its input-order row status, all-NaN final row, completed-step count, and typed error code. Common schema, common grid, common plan, or route capability failure rejects the whole call with an existing typed exception."
+  },
+  "exception_mapping": {
+    "common_input_or_marshal_failure": {
+      "python_exception": "RF04InputError",
+      "code_family": [
+        "RF04_SCHEMA_MISMATCH",
+        "RF04_INVALID_GRID",
+        "RF04_INVALID_BACKGROUND"
+      ]
+    },
+    "unactivated_or_missing_capability": {
+      "python_exception": "RF04CapabilityError",
+      "code": "RF04_UNSUPPORTED_CAPABILITY"
+    },
+    "nonphysical_carrier_or_realizability_failure": {
+      "python_exception": "RF04PhysicalDomainError",
+      "code": "RF04_NONPHYSICAL_CARRIER"
+    },
+    "nonfinite_or_certificate_or_checked_numerical_failure": {
+      "python_exception": "RF04CertificateError",
+      "code_family": [
+        "RF04_KRYLOV_CERTIFICATE_FAILURE",
+        "RF04_NUMERICAL_DOMAIN"
+      ]
+    },
+    "batch_member_failure": {
+      "public_behavior": "RETURN_MEMBER_STATUS_NOT_A_WHOLE_CALL_EXCEPTION",
+      "code": "RF04_MEMBER_FAILURE"
+    },
+    "rule": "No new Python exception classes are authorized. The existing v1 mapper class family is exhaustive."
+  },
+  "implementation_owners": [
+    "_rustcore/src/kinetic/rf04_polarized_v2.rs",
+    "_rustcore/src/python/rf04_polarized_v2.rs",
+    "_rustcore/src/python/register.rs",
+    "_rustcore/src/python/mod.rs",
+    "_rustcore/src/lib.rs",
+    "bianchi/backend_policy.py",
+    "bianchi/kinetic/__init__.py"
+  ],
+  "non_equivalences": [
+    "polarized_v2_IS_NOT_scalar_v1",
+    "fixed_grid_raw_v1_IS_NOT_fixed_grid_ap_corrected_v1",
+    "fixed_grid_raw_v1_IS_NOT_paired_rest_to_normal_reference_v1",
+    "donor_level_success_IS_NOT_public_route_success",
+    "public_route_success_IS_NOT_scientific_promotion"
+  ]
+}
