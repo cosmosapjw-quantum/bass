@@ -40,6 +40,24 @@
         "cartan_terms"
       ],
       "properties": {
+        "signed_h": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "required": ["type", "numerator", "denominator"],
+              "properties": {
+                "type": {"const": "rational"},
+                "numerator": {"type": "integer"},
+                "denominator": {
+                  "type": "integer",
+                  "not": {"const": 0}
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
         "witness_obligation_report": {
           "oneOf": [
             {
