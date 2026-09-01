@@ -6,7 +6,8 @@ Block[{$HistoryLength = 0},
    xactSource, expectedSHA256, testFiles, report, testsSummary,
    conventionLock, provenance, claims, receipt, receiptDirectory,
    receiptPath, status, authorizedClaims, withheldClaims, stageEvidence,
-   canonicalWitnesses, hostileWitnesses},
+   canonicalWitnesses, hostileWitnesses, stageParentCommit,
+   stageParentTree, semanticRegistryHash, exceptionalCarrierReport},
 
   scriptDir = DirectoryName[$InputFileName];
   repositoryRoot = ExpandFileName[FileNameJoin[{scriptDir, "..", ".."}]];
@@ -52,6 +53,10 @@ Block[{$HistoryLength = 0},
       {repositoryRoot, "wolfram", "BASS", "Tests", "W1Conventions.wlt"}
      ]
     };
+   stageParentCommit =
+    "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207";
+   stageParentTree =
+    "8775d24f8ddc607be20879873d845e8568acfe15";
    authorizedClaims = {"W0_W1_SYMBOLIC_INFRASTRUCTURE_VERIFIED"};
    withheldClaims = {
      "BACKGROUND_TENSOR_DERIVATION",
@@ -80,6 +85,10 @@ Block[{$HistoryLength = 0},
        "ALG01R1ExceptionalAndCovariance.wlt"}
      ]
     };
+   stageParentCommit =
+    "82776f50869d5c76e1cab4b28734c85f136c1e6f";
+   stageParentTree =
+    "ffe65b1c48f332acdc5a7497b77a75ef64fd7500";
    authorizedClaims = {
      "ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED",
      "ALG_01_EXCEPTIONAL_SHEAR_AND_O3_COVARIANCE_VERIFIED"
@@ -121,6 +130,82 @@ Block[{$HistoryLength = 0},
       ]
     |>,
 
+   "ALG_01R2",
+   testFiles = {
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W0Environment.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W1Conventions.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "ALG01BianchiAlgebra.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R1ExceptionalAndCovariance.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R2ExactIdentityAndCarriers.wlt"}
+     ]
+    };
+   stageParentCommit =
+    "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46";
+   stageParentTree =
+    "a0f8cab48cdb32c18282d512f2b2ecb45083b62d";
+   authorizedClaims = {
+     "ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED",
+     "ALG_01_EXCEPTIONAL_SHEAR_AND_O3_COVARIANCE_VERIFIED",
+     "ALG_01_EXACT_SEMANTIC_IDENTITY_VERIFIED",
+     "ALG_01_INDEPENDENT_EXCEPTIONAL_CARRIERS_VERIFIED"
+    };
+   withheldClaims = {
+     "CARTAN_CONNECTION_OR_CURVATURE_DERIVATION",
+     "BACKGROUND_EINSTEIN_MATTER_EQUATIONS",
+     "ALL_FAMILY_SOLVER_SUPPORT",
+     "GENERIC_ELL_COMPILER_CORRECTNESS",
+     "NUMERICAL_PARITY",
+     "CROSS_REPOSITORY_COMPATIBILITY",
+     "SCIENCE_VALIDITY",
+     "BASS_RF04_PROMOTION"
+    };
+   canonicalWitnesses = BASS`Bianchi`ValidateWitnessRegistry[];
+   hostileWitnesses = BASS`Bianchi`ValidateHostileWitnesses[];
+   semanticRegistryHash =
+    BASS`Bianchi`CanonicalTypeSpecRegistrySemanticSHA256[];
+   exceptionalCarrierReport =
+    BASS`Bianchi`ExceptionalShearCarrierReport[
+     BASS`Bianchi`CanonicalWitnessRegistry[]["VI_-1/9"]
+    ];
+   stageEvidence = <|
+     "canonical_labels" -> Keys[canonicalWitnesses],
+     "canonical_pass" -> AllTrue[
+       Values[canonicalWitnesses],
+       TrueQ[Lookup[#, "pass", False]] &
+      ],
+     "hostile_ids" -> Keys[hostileWitnesses],
+     "hostile_detection_pass" -> AllTrue[
+       Values[hostileWitnesses],
+       TrueQ[Lookup[#, "detected", False]] &
+      ],
+     "type_registry_semantic_sha256" -> semanticRegistryHash,
+     "type_registry_semantic_hash_valid" -> And[
+       StringQ[semanticRegistryHash],
+       StringLength[semanticRegistryHash] === 64
+      ],
+     "exceptional_carrier_report" -> exceptionalCarrierReport,
+     "sigma13_delete_detected" -> TrueQ[
+       hostileWitnesses["EXCEPTIONAL_SIGMA13_DELETE"]["detected"]
+      ],
+     "sigma23_delete_detected" -> TrueQ[
+       hostileWitnesses["EXCEPTIONAL_SIGMA23_DELETE"]["detected"]
+      ],
+     "all_exceptional_shear_delete_detected" -> TrueQ[
+       hostileWitnesses["EXCEPTIONAL_SHEAR_DELETE"]["detected"]
+      ]
+    |>,
+
    _,
    Print["BLOCKED: unsupported stage: " <> ToString[stage]];
    Exit[2]
@@ -156,10 +241,8 @@ Block[{$HistoryLength = 0},
       "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207",
      "formula_base_tree" ->
       "8775d24f8ddc607be20879873d845e8568acfe15",
-     "stage_parent_commit" ->
-      "82776f50869d5c76e1cab4b28734c85f136c1e6f",
-     "stage_parent_tree" ->
-      "ffe65b1c48f332acdc5a7497b77a75ef64fd7500"
+     "stage_parent_commit" -> stageParentCommit,
+     "stage_parent_tree" -> stageParentTree
     |>,
     <|
      "convention_hash" -> BASS`IR`CanonicalSHA256[conventionLock],
