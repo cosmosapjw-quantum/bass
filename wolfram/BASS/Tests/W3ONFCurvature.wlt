@@ -34,7 +34,7 @@ VerificationTest[
 ]
 
 VerificationTest[
- AssociationMap[
+ Map[
   Lookup[Lookup[#, "checks", <||>], "connection_linear_solve", False] &,
   $BASSW3Direct
  ],
@@ -43,25 +43,25 @@ VerificationTest[
 ]
 
 VerificationTest[
- AssociationMap[Lookup[#, "scalar_curvature", Missing[]] &, $BASSW3Direct],
+ Map[Lookup[#, "scalar_curvature", Missing[]] &, $BASSW3Direct],
  <|"I" -> 0, "V" -> -6, "IX" -> 3/2|>,
  TestID -> "BASS-W3-CURVATURE-001-scalar-witnesses"
 ]
 
 VerificationTest[
- AssociationMap[Lookup[#, "section_12", Missing[]] &, $BASSW3Direct],
+ Map[Lookup[#, "section_12", Missing[]] &, $BASSW3Direct],
  <|"I" -> 0, "V" -> -1, "IX" -> 1/4|>,
  TestID -> "BASS-W3-CURVATURE-001-section-witnesses"
 ]
 
 VerificationTest[
- AssociationMap[Lookup[#, "status", "FAIL"] &, $BASSW3XCoba],
+ Map[Lookup[#, "status", "FAIL"] &, $BASSW3XCoba],
  <|"I" -> "PASS", "V" -> "PASS", "IX" -> "PASS"|>,
  TestID -> "BASS-W3-XCOBA-001-status"
 ]
 
 VerificationTest[
- AssociationMap[
+ Map[
   Lookup[Lookup[#, "checks", <||>], "component_shape_3333", False] &,
   $BASSW3XCoba
  ],
@@ -70,7 +70,7 @@ VerificationTest[
 ]
 
 VerificationTest[
- AssociationMap[
+ Map[
   Lookup[Lookup[#, "checks", <||>], "orthonormal_frame", False] &,
   $BASSW3XCoba
  ],
@@ -79,7 +79,7 @@ VerificationTest[
 ]
 
 VerificationTest[
- AssociationMap[
+ Map[
   Lookup[Lookup[#, "checks", <||>], "xact_to_bass_sign_adapter", 0] &,
   $BASSW3XCoba
  ],
@@ -88,7 +88,7 @@ VerificationTest[
 ]
 
 VerificationTest[
- AssociationMap[
+ Map[
   Lookup[Lookup[#, "checks", <||>], "dual_full_riemann_match", False] &,
   $BASSW3XCoba
  ],

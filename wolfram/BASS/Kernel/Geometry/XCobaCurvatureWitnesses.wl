@@ -38,6 +38,7 @@ ensureW3XCoba[] := Module[{loaded, backend},
   "xTensor_version" -> ToString[InputForm[xAct`xTensor`$Version]],
   "xCoba_version" -> ToString[InputForm[xAct`xCoba`$Version]],
   "xPerm_mathlink" -> False,
+  "symbol_namespace" -> "Global`BASSW3*",
   "canonical_backend" -> backend
  |>
 ];
@@ -96,31 +97,41 @@ runXCobaI[] := Module[
  {environment, metric, frame, raw, direct},
  environment = ensureW3XCoba[];
  If[Lookup[environment, "status", "BLOCKED"] =!= "PASS", Return[environment]];
- If[!TrueQ[xAct`xTensor`ManifoldQ[BASSW3IM3]],
+ If[!TrueQ[xAct`xTensor`ManifoldQ[Global`BASSW3IM3]],
   xAct`xTensor`DefManifold[
-   BASSW3IM3, 3, {BASSW3Ia, BASSW3Ib, BASSW3Ic, BASSW3Id}
+   Global`BASSW3IM3, 3,
+   {Global`BASSW3Ia, Global`BASSW3Ib, Global`BASSW3Ic, Global`BASSW3Id}
   ]
  ];
- If[!TrueQ[xAct`xTensor`MetricQ[BASSW3Ig]],
+ If[!TrueQ[xAct`xTensor`MetricQ[Global`BASSW3Ig]],
   xAct`xTensor`DefMetric[
-   1, BASSW3Ig[-BASSW3Ia, -BASSW3Ib], BASSW3ICD, {";", "D"}
+   1,
+   Global`BASSW3Ig[-Global`BASSW3Ia, -Global`BASSW3Ib],
+   Global`BASSW3ICD,
+   {";", "D"}
   ]
  ];
- If[!TrueQ[xAct`xCoba`ChartQ[BASSW3Ich]],
+ If[!TrueQ[xAct`xCoba`ChartQ[Global`BASSW3Ich]],
   xAct`xCoba`DefChart[
-   BASSW3Ich, BASSW3IM3, {1, 2, 3},
-   {BASSW3Ix[], BASSW3Iy[], BASSW3Iz[]}
+   Global`BASSW3Ich, Global`BASSW3IM3, {1, 2, 3},
+   {Global`BASSW3Ix[], Global`BASSW3Iy[], Global`BASSW3Iz[]}
   ]
  ];
  metric = IdentityMatrix[3];
  frame = IdentityMatrix[3];
- xAct`xCoba`MetricInBasis[BASSW3Ig, -BASSW3Ich, metric];
- xAct`xCoba`MetricCompute[BASSW3Ig, BASSW3Ich, All];
+ xAct`xCoba`MetricInBasis[Global`BASSW3Ig, -Global`BASSW3Ich, metric];
+ xAct`xCoba`MetricCompute[
+  Global`BASSW3Ig, Global`BASSW3Ich, All,
+  xAct`xCoba`CVSimplify -> FullSimplify,
+  xAct`xCore`Verbose -> False
+ ];
  raw = xAct`xCoba`ToValues[
    xAct`xCoba`ComponentArray[
-    RiemannBASSW3ICD[
-     {-BASSW3Ia, -BASSW3Ich}, {-BASSW3Ib, -BASSW3Ich},
-     {-BASSW3Ic, -BASSW3Ich}, {-BASSW3Id, -BASSW3Ich}
+    Global`RiemannBASSW3ICD[
+     {-Global`BASSW3Ia, -Global`BASSW3Ich},
+     {-Global`BASSW3Ib, -Global`BASSW3Ich},
+     {-Global`BASSW3Ic, -Global`BASSW3Ich},
+     {-Global`BASSW3Id, -Global`BASSW3Ich}
     ]
    ]
   ];
@@ -132,38 +143,50 @@ runXCobaI[] := Module[
 ];
 
 runXCobaV[] := Module[
- {environment, metric, frame, raw, direct, x},
+ {environment, metric, frame, raw, direct},
  environment = ensureW3XCoba[];
  If[Lookup[environment, "status", "BLOCKED"] =!= "PASS", Return[environment]];
- If[!TrueQ[xAct`xTensor`ManifoldQ[BASSW3VM3]],
+ If[!TrueQ[xAct`xTensor`ManifoldQ[Global`BASSW3VM3]],
   xAct`xTensor`DefManifold[
-   BASSW3VM3, 3, {BASSW3Va, BASSW3Vb, BASSW3Vc, BASSW3Vd}
+   Global`BASSW3VM3, 3,
+   {Global`BASSW3Va, Global`BASSW3Vb, Global`BASSW3Vc, Global`BASSW3Vd}
   ]
  ];
- If[!TrueQ[xAct`xTensor`MetricQ[BASSW3Vg]],
+ If[!TrueQ[xAct`xTensor`MetricQ[Global`BASSW3Vg]],
   xAct`xTensor`DefMetric[
-   1, BASSW3Vg[-BASSW3Va, -BASSW3Vb], BASSW3VCD, {";", "D"}
+   1,
+   Global`BASSW3Vg[-Global`BASSW3Va, -Global`BASSW3Vb],
+   Global`BASSW3VCD,
+   {";", "D"}
   ]
  ];
- If[!TrueQ[xAct`xCoba`ChartQ[BASSW3Vch]],
+ If[!TrueQ[xAct`xCoba`ChartQ[Global`BASSW3Vch]],
   xAct`xCoba`DefChart[
-   BASSW3Vch, BASSW3VM3, {1, 2, 3},
-   {BASSW3Vx[], BASSW3Vy[], BASSW3Vz[]}
+   Global`BASSW3Vch, Global`BASSW3VM3, {1, 2, 3},
+   {Global`BASSW3Vx[], Global`BASSW3Vy[], Global`BASSW3Vz[]}
   ]
  ];
  metric = {
    {1, 0, 0},
-   {0, Exp[-2 BASSW3Vx[]], 0},
-   {0, 0, Exp[-2 BASSW3Vx[]]}
+   {0, Exp[-2 Global`BASSW3Vx[]], 0},
+   {0, 0, Exp[-2 Global`BASSW3Vx[]]}
   };
- frame = DiagonalMatrix[{1, Exp[BASSW3Vx[]], Exp[BASSW3Vx[]]}];
- xAct`xCoba`MetricInBasis[BASSW3Vg, -BASSW3Vch, metric];
- xAct`xCoba`MetricCompute[BASSW3Vg, BASSW3Vch, All];
+ frame = DiagonalMatrix[
+   {1, Exp[Global`BASSW3Vx[]], Exp[Global`BASSW3Vx[]]}
+  ];
+ xAct`xCoba`MetricInBasis[Global`BASSW3Vg, -Global`BASSW3Vch, metric];
+ xAct`xCoba`MetricCompute[
+  Global`BASSW3Vg, Global`BASSW3Vch, All,
+  xAct`xCoba`CVSimplify -> FullSimplify,
+  xAct`xCore`Verbose -> False
+ ];
  raw = xAct`xCoba`ToValues[
    xAct`xCoba`ComponentArray[
-    RiemannBASSW3VCD[
-     {-BASSW3Va, -BASSW3Vch}, {-BASSW3Vb, -BASSW3Vch},
-     {-BASSW3Vc, -BASSW3Vch}, {-BASSW3Vd, -BASSW3Vch}
+    Global`RiemannBASSW3VCD[
+     {-Global`BASSW3Va, -Global`BASSW3Vch},
+     {-Global`BASSW3Vb, -Global`BASSW3Vch},
+     {-Global`BASSW3Vc, -Global`BASSW3Vch},
+     {-Global`BASSW3Vd, -Global`BASSW3Vch}
     ]
    ]
   ];
@@ -182,40 +205,53 @@ runXCobaIX[] := Module[
  {environment, metric, frame, raw, direct, assumptions},
  environment = ensureW3XCoba[];
  If[Lookup[environment, "status", "BLOCKED"] =!= "PASS", Return[environment]];
- If[!TrueQ[xAct`xTensor`ManifoldQ[BASSW3IXM3]],
+ If[!TrueQ[xAct`xTensor`ManifoldQ[Global`BASSW3IXM3]],
   xAct`xTensor`DefManifold[
-   BASSW3IXM3, 3, {BASSW3IXa, BASSW3IXb, BASSW3IXc, BASSW3IXd}
+   Global`BASSW3IXM3, 3,
+   {Global`BASSW3IXa, Global`BASSW3IXb,
+    Global`BASSW3IXc, Global`BASSW3IXd}
   ]
  ];
- If[!TrueQ[xAct`xTensor`MetricQ[BASSW3IXg]],
+ If[!TrueQ[xAct`xTensor`MetricQ[Global`BASSW3IXg]],
   xAct`xTensor`DefMetric[
-   1, BASSW3IXg[-BASSW3IXa, -BASSW3IXb], BASSW3IXCD, {";", "D"}
+   1,
+   Global`BASSW3IXg[-Global`BASSW3IXa, -Global`BASSW3IXb],
+   Global`BASSW3IXCD,
+   {";", "D"}
   ]
  ];
- If[!TrueQ[xAct`xCoba`ChartQ[BASSW3IXch]],
+ If[!TrueQ[xAct`xCoba`ChartQ[Global`BASSW3IXch]],
   xAct`xCoba`DefChart[
-   BASSW3IXch, BASSW3IXM3, {1, 2, 3},
-   {BASSW3IXtheta[], BASSW3IXphi[], BASSW3IXpsi[]}
+   Global`BASSW3IXch, Global`BASSW3IXM3, {1, 2, 3},
+   {Global`BASSW3IXtheta[],
+    Global`BASSW3IXphi[],
+    Global`BASSW3IXpsi[]}
   ]
  ];
  metric = {
    {1, 0, 0},
-   {0, 1, Cos[BASSW3IXtheta[]]},
-   {0, Cos[BASSW3IXtheta[]], 1}
+   {0, 1, Cos[Global`BASSW3IXtheta[]]},
+   {0, Cos[Global`BASSW3IXtheta[]], 1}
   };
  frame = {
    {1, 0, 0},
-   {0, Csc[BASSW3IXtheta[]], -Cot[BASSW3IXtheta[]]},
+   {0, Csc[Global`BASSW3IXtheta[]], -Cot[Global`BASSW3IXtheta[]]},
    {0, 0, 1}
   };
- assumptions = 0 < BASSW3IXtheta[] < Pi;
- xAct`xCoba`MetricInBasis[BASSW3IXg, -BASSW3IXch, metric];
- xAct`xCoba`MetricCompute[BASSW3IXg, BASSW3IXch, All];
+ assumptions = 0 < Global`BASSW3IXtheta[] < Pi;
+ xAct`xCoba`MetricInBasis[Global`BASSW3IXg, -Global`BASSW3IXch, metric];
+ xAct`xCoba`MetricCompute[
+  Global`BASSW3IXg, Global`BASSW3IXch, All,
+  xAct`xCoba`CVSimplify -> FullSimplify,
+  xAct`xCore`Verbose -> False
+ ];
  raw = xAct`xCoba`ToValues[
    xAct`xCoba`ComponentArray[
-    RiemannBASSW3IXCD[
-     {-BASSW3IXa, -BASSW3IXch}, {-BASSW3IXb, -BASSW3IXch},
-     {-BASSW3IXc, -BASSW3IXch}, {-BASSW3IXd, -BASSW3IXch}
+    Global`RiemannBASSW3IXCD[
+     {-Global`BASSW3IXa, -Global`BASSW3IXch},
+     {-Global`BASSW3IXb, -Global`BASSW3IXch},
+     {-Global`BASSW3IXc, -Global`BASSW3IXch},
+     {-Global`BASSW3IXd, -Global`BASSW3IXch}
     ]
    ]
   ];
@@ -265,7 +301,7 @@ XCobaCurvatureWitnessReceiptPayload[] := Module[
      Values[witnesses],
      TrueQ[Lookup[Lookup[#, "checks", <||>], "orthonormal_frame", False]] &
     ],
-   "component_shapes" -> AssociationMap[
+   "component_shapes" -> Map[
      Lookup[#, "component_shape", {}] &,
      witnesses
     ]
