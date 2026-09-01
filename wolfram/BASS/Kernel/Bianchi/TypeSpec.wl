@@ -160,12 +160,15 @@ BianchiTypeSpecSemanticSHA256[___] := Failure[
  <|"reason" -> "semantic hash requires a valid exact type spec"|>
 ];
 
-CanonicalTypeSpecRegistrySemanticSHA256[] := Module[{registry, projection},
+CanonicalTypeSpecRegistrySemanticSHA256[] := Module[
+ {registry, projection},
  registry = CanonicalTypeSpecRegistry[];
- projection = AssociationMap[
-   BianchiTypeSpecSemanticProjection,
-   registry
-  ];
+ projection = Association @ KeyValueMap[
+    Function[{label, typeSpec},
+     label -> BianchiTypeSpecSemanticProjection[typeSpec]
+    ],
+    registry
+   ];
  If[AnyTrue[Values[projection], FailureQ],
   Return[Failure["InvalidCanonicalRegistry", <||>]]
  ];
