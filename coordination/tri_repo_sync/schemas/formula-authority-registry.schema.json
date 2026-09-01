@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/coordination/tri_repo_sync/schemas/formula-authority-registry.schema.json",
+  "title": "BASS/REC/REI formula authority registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_id", "maturity_order", "formula_families"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "registry_id": {"type": "string", "minLength": 1},
+    "maturity_order": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "formula_families": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "owner_lane", "target_maturity", "promotion_requires", "prerequisites", "scope", "non_owner_roles"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "owner_lane": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+          "target_maturity": {"type": "string", "minLength": 1},
+          "promotion_requires": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["family", "minimum_maturity"],
+              "properties": {
+                "family": {"type": "string", "minLength": 1},
+                "minimum_maturity": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "scope": {"type": "string", "minLength": 1},
+          "non_owner_roles": {
+            "type": "array",
+            "items": {"enum": ["consumer", "adapter", "oracle", "audit"]}
+          },
+          "execution_owner": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

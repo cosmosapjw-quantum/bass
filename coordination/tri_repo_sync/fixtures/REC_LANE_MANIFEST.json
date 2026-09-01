@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "lane": "rec_bianchi",
+  "repository": "cosmosapjw-quantum/rec_bianchi",
+  "source": {
+    "branch": "agent/research/rec-next03-formal-contracts-20260831-r1",
+    "commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+    "tree": "445b3fbc68aaba3e17c590831bff184b2e98e86f",
+    "pull_request": 47
+  },
+  "atlassian": {
+    "issue": "BASS-19",
+    "parent_issue": "BASS-16",
+    "control_page": "19464193"
+  },
+  "dropbox": {
+    "root": "/bianchi/rec_bianchi/backups",
+    "last_stage": null
+  },
+  "families": [
+    {
+      "family": "CONV.CORE",
+      "role": "consumer",
+      "status": "pass",
+      "maturity": "durable_formula",
+      "pinned_authority_commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+      "scope": "Imports BASS metric, orientation, rate, unit and frame conventions without redefining them.",
+      "evidence": {}
+    },
+    {
+      "family": "GEOM.BIANCHI_ALGEBRA",
+      "role": "consumer",
+      "status": "pass",
+      "maturity": "durable_formula",
+      "pinned_authority_commit": "c35177409909b7eef0f5c99c0c61a456b5e55117",
+      "scope": "Imports BASS branch and invariant-frame algebra; REC owns no competing branch registry.",
+      "evidence": {}
+    },
+    {
+      "family": "GEOM.GR_BACKGROUND",
+      "role": "consumer",
+      "status": "blocked",
+      "maturity": "idea",
+      "pinned_authority_commit": null,
+      "scope": "Awaiting durable BASS BG-02 authority.",
+      "evidence": {}
+    },
+    {
+      "family": "REC.ATOMIC_KINETICS",
+      "role": "authority",
+      "status": "in_progress",
+      "maturity": "symbolic_verified",
+      "authority_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "scope": "REC-NEXT-01/03 formula and formal-contract work; physical provider authority remains incomplete.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "formal_receipt": false
+      }
+    },
+    {
+      "family": "REC.DIRECTIONAL_SOURCE_FACE",
+      "role": "authority",
+      "status": "blocked",
+      "maturity": "derived",
+      "authority_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "scope": "Research-only directional source contracts exist; source-identical 26-direction physical face is absent.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "formal_receipt": false
+      }
+    },
+    {
+      "family": "REC.PROVIDER_EXPORT",
+      "role": "authority",
+      "status": "blocked",
+      "maturity": "idea",
+      "authority_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "scope": "Provider export prohibited until the physical face, validity and error-envelope gates close.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "runtime_receipt": false,
+        "provider_contract": false
+      }
+    }
+  ],
+  "blockers": [
+    "BLOCKED_REC_PHYSICAL_INTERFACE_DEFECT",
+    "SOURCE_DEFINED_26_DIRECTION_FACE_RECONSTRUCTION_ABSENT",
+    "FORMAL_EXECUTION_ENVIRONMENT_GAP",
+    "PROVIDER_EXPORT_PROHIBITED"
+  ],
+  "claim_ceiling": [
+    "REC_NEXT03_FORMAL_CONTRACTS_ONLY",
+    "NO_PASS_REC_PHYSICAL_SPLIT",
+    "NO_SOURCE_IDENTICAL_PHYSICAL_FACE",
+    "NO_PROVIDER_EXPORT",
+    "NO_PRODUCTION_INTEGRATION"
+  ],
+  "current_node": "REC_NEXT03_FORMAL_CONTRACTS",
+  "next_node": "REC_PHYSICAL_FACE_AUTHORITY_RECONSTRUCTION",
+  "sync_epoch": "2026-09-02"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-REC-REI-FORMULA-SYNC-V1",
+  "stage_id": "SYNC_01_AUTOMATED_AUDIT",
+  "status": "PASS_WITH_BLOCKERS",
+  "compiled_dag_sha256": "00c8e4ceb996ab498050be7081798d6b2f72ce24e18075f73bcb2e4076276d02",
+  "source_lanes": [
+    {
+      "branch": "research/bass-master-ssot-v2-alg01-witness-20260902-r1",
+      "commit": "c35177409909b7eef0f5c99c0c61a456b5e55117",
+      "lane": "bass",
+      "repository": "cosmosapjw-quantum/bass",
+      "tree": "c2fa8cd3f34b46b9522479501a502d1ecd5ded6a"
+    },
+    {
+      "branch": "agent/research/rec-next03-formal-contracts-20260831-r1",
+      "commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "lane": "rec_bianchi",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "tree": "445b3fbc68aaba3e17c590831bff184b2e98e86f"
+    },
+    {
+      "branch": "agent/implementation/rei-runtime-bridge-host-context-validation-20260901-r1",
+      "commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "lane": "rei_bianchi",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "tree": "16d060d45ddfa401e4a5c22f9ca53cf65399ff51"
+    }
+  ],
+  "grouped_states": {
+    "blocked": [
+      "COLL.THOMSON_FINITE_TILT",
+      "GEOM.STRUCTURE_EVOLUTION",
+      "INT.HTT_BACKGROUND_EXPORT",
+      "INT.REC_REI_SPLICE",
+      "REC.DIRECTIONAL_SOURCE_FACE",
+      "REC.PROVIDER_EXPORT",
+      "REI.FIRST_CANONICAL_INTERVAL",
+      "REI.OTS_EVENT_GRAPH",
+      "REI.PROVIDER_EXPORT"
+    ],
+    "in_progress": [
+      "REC.ATOMIC_KINETICS"
+    ],
+    "pass": [
+      "COLL.THOMSON_REST",
+      "CONV.CORE",
+      "GEOM.BIANCHI_ALGEBRA",
+      "GEOM.CARTAN_CURVATURE",
+      "KIN.HOMOGENEOUS_PHOTON_CORE"
+    ],
+    "ready_to_start": [
+      "NUM.ARBITRARY_L_COMPILER",
+      "OBS.LOCAL_BOOST"
+    ],
+    "stop_invalid": [],
+    "validated_non_durable": [
+      "GEOM.GR_BACKGROUND",
+      "REI.THERMOCHEMISTRY"
+    ]
+  },
+  "stale_imports": [],
+  "global_errors": [],
+  "manual_scientific_promotion": true,
+  "destination_plan": {
+    "github": "audit artifact and coordination-branch snapshot",
+    "dropbox": "versioned connector publication after exact GitHub readback",
+    "atlassian": "Confluence/Jira mirror after exact GitHub and Dropbox readback"
+  },
+  "schedule": {
+    "event_driven": [
+      "formula authority registry change",
+      "lane manifest change",
+      "compiled DAG change",
+      "stage promotion proposal",
+      "provider export proposal",
+      "runtime recovery",
+      "authority correction"
+    ],
+    "scheduled_local_time": "03:15 Asia/Seoul",
+    "scheduled_cron_utc": "15 18 * * *",
+    "full_reconciliation_before": [
+      "scientific stage promotion",
+      "provider export",
+      "PR ready transition",
+      "merge",
+      "downstream integration"
+    ]
+  },
+  "activation_gate": {
+    "scheduled_workflow_active_only_after_workflow_exists_on_default_branch": true,
+    "pre_merge_behavior": "manual dispatch and PR CI only",
+    "scientific_issue_status_changes": "manual only"
+  },
+  "claim_boundary": "CONTROL_PLANE_CLASSIFICATION_ONLY_NO_SCIENTIFIC_PROMOTION"
+}

@@ -1,0 +1,52 @@
+name: tri-repo-formula-sync-ci
+
+on:
+  push:
+    branches:
+      - 'coordination/tri-repo-formula-sync-v1-*'
+    paths:
+      - 'coordination/tri_repo_sync/**'
+      - 'docs/superpowers/specs/*tri-repo-formula-sync*'
+      - 'docs/superpowers/plans/*tri-repo-formula-sync*'
+      - '.github/workflows/tri-repo-sync-ci.yml'
+  pull_request:
+    paths:
+      - 'coordination/tri_repo_sync/**'
+      - '.github/workflows/tri-repo-sync-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  control-plane-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Node runtime
+        run: node --version
+      - name: Contract tests
+        run: node --test coordination/tri_repo_sync/tests/compile-dag.test.mjs
+      - name: Compile committed snapshot when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f coordination/tri_repo_sync/FORMULA_FAMILY_REGISTRY.json \
+             && -f coordination/tri_repo_sync/LANE_MANIFEST.json \
+             && -f coordination/tri_repo_sync/fixtures/REC_LANE_MANIFEST.json \
+             && -f coordination/tri_repo_sync/fixtures/REI_LANE_MANIFEST.json \
+             && -f coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json ]]; then
+            node coordination/tri_repo_sync/compile-dag.mjs \
+              --registry coordination/tri_repo_sync/FORMULA_FAMILY_REGISTRY.json \
+              --manifest coordination/tri_repo_sync/LANE_MANIFEST.json \
+              --manifest coordination/tri_repo_sync/fixtures/REC_LANE_MANIFEST.json \
+              --manifest coordination/tri_repo_sync/fixtures/REI_LANE_MANIFEST.json \
+              --output /tmp/COMPILED_DAG.json
+            diff -u coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json /tmp/COMPILED_DAG.json
+          else
+            echo 'Snapshot files are not present in the RED contract commit.'
+          fi
