@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.bianchi-type-spec.v1",
+  "title": "BASS Master SSOT v2 Bianchi Type Specification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "public_label",
+    "computational_key",
+    "algebra_class",
+    "exceptional_sector",
+    "physical_predicates",
+    "expected",
+    "gauge_contract",
+    "authority_formula_ids",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "program_id": {
+      "const": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901"
+    },
+    "public_label": {"type": "string", "minLength": 1},
+    "computational_key": {"type": "string", "minLength": 1},
+    "algebra_class": {"enum": ["A", "B"]},
+    "exceptional_sector": {"type": "boolean"},
+    "physical_predicates": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "expected": {
+      "type": "object",
+      "required": [
+        "a_zero",
+        "n_zero",
+        "n_rank",
+        "n_inertia_options",
+        "transverse_det_sign",
+        "signed_h",
+        "exceptional_constraints"
+      ],
+      "properties": {
+        "a_zero": {"type": "boolean"},
+        "n_zero": {"type": "boolean"},
+        "n_rank": {"type": "integer", "minimum": 0, "maximum": 3},
+        "n_inertia_options": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {"type": "integer", "minimum": 0, "maximum": 3},
+              {"type": "integer", "minimum": 0, "maximum": 3},
+              {"type": "integer", "minimum": 0, "maximum": 3}
+            ],
+            "minItems": 3,
+            "maxItems": 3
+          }
+        },
+        "transverse_det_sign": {
+          "type": ["integer", "null"],
+          "enum": [-1, 0, 1, null]
+        },
+        "signed_h": {
+          "type": ["number", "null"]
+        },
+        "exceptional_constraints": {
+          "type": ["boolean", "null"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "gauge_contract": {
+      "type": "object",
+      "required": [
+        "canonical_witness_role",
+        "physical_rate_dimension",
+        "temporal_triad_rotation_retained"
+      ]
+    },
+    "authority_formula_ids": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
