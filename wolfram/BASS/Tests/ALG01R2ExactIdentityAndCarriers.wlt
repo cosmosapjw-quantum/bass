@@ -30,8 +30,10 @@ VerificationTest[
  TestID -> "BASS-ALG-01R2-signed-h-exact-AST-valid"
 ]
 VerificationTest[
- $ALG01R2SignedHAST,
- <|"type" -> "rational", "numerator" -> -1, "denominator" -> 9|>,
+ BASS`IR`CanonicalizeData[$ALG01R2SignedHAST],
+ BASS`IR`CanonicalizeData[
+  <|"type" -> "rational", "numerator" -> -1, "denominator" -> 9|>
+ ],
  TestID -> "BASS-ALG-01R2-signed-h-exact-rational"
 ]
 VerificationTest[
