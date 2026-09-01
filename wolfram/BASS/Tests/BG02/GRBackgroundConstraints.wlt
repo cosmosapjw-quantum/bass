@@ -122,9 +122,11 @@ $BASSBG02UnadjustedPropagation =
   CH, {CM, 0, 0}, $BASSBG02TypeVGamma];
 VerificationTest[
  FullSimplify[{
-   Lookup[$BASSBG02UnadjustedPropagation, "hamiltonian_dot"],
-   Lookup[$BASSBG02UnadjustedPropagation, "momentum_dot"]}],
- {-3 H CH + 4 A CM, {-(4 H + s1) CM, 0, 0}},
+   Lookup[$BASSBG02UnadjustedPropagation, "hamiltonian_dot"] -
+    (-3 H CH + 4 A CM),
+   Lookup[$BASSBG02UnadjustedPropagation, "momentum_dot"] -
+    {-(4 H + s1) CM, 0, 0}}],
+ {0, {0, 0, 0}},
  TestID -> "BASS-BG02-PROP-002-type-v-unadjusted"]
 
 $BASSBG02AdjustedPropagation =
