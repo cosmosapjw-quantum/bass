@@ -9,11 +9,26 @@
       "failed_as_designed": 3,
       "receipt": "docs/bass_master_ssot_v2/W0_W1/TDD_RED_RECEIPT.json"
     },
-    "committed_source_replay": {
+    "github_committed_source_replay": {
       "status": "PASS",
       "source_commit": "7079bee1287c3f4ff8a2147b36a5382ab880fc8f",
       "source_tree": "fb33a2a786034e0b31be188991855c6c20ea9907",
       "downloaded_committed_files": 11,
+      "succeeded": 19,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "dropbox_exact_text_mirror": {
+      "status": "PASS",
+      "identity_domain": "Git blob SHA-1 plus exact byte size",
+      "checked": 21,
+      "passed": 21,
+      "failed": 0,
+      "source_bytes": 37812,
+      "restore_map": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/W0_W1/RESTORE_MAP.json"
+    },
+    "dropbox_executable_replay": {
+      "status": "PASS",
       "succeeded": 19,
       "failed": 0,
       "not_evaluated": 0,
@@ -23,28 +38,33 @@
       "manifold_registered": true,
       "covariant_derivative_registered": true,
       "riemann_registered": true,
-      "convention_sha256": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70"
-    },
-    "static_artifacts": {
-      "runner_syntax": "PASS",
+      "schemas_parsed": 3,
       "paclet_syntax": "PASS",
-      "json_schemas_parsed": 3
+      "runner_syntax": "PASS",
+      "convention_sha256": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70"
     }
   },
   "provenance": {
-    "evaluated_at": "2026-09-01T20:48:31+09:00",
+    "evaluated_date": "2026-09-01",
     "repository": "cosmosapjw-quantum/bass",
     "base_commit": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207",
     "base_tree": "8775d24f8ddc607be20879873d845e8568acfe15",
     "core_commit": "3a26ef0c6e641536faee4a8513a42d08f5ab1df5",
     "contract_commit": "7079bee1287c3f4ff8a2147b36a5382ab880fc8f",
-    "tested_tree": "fb33a2a786034e0b31be188991855c6c20ea9907",
-    "manifest": "docs/bass_master_ssot_v2/W0_W1/STAGE_MANIFEST.json",
-    "method": "fresh Wolfram kernel; authenticated remote blob download; exact-pinned xAct activation; committed .wlt replay"
+    "pre_backup_receipt_head": "bc3503aef6905c3f40e25802833bce96da5b2164",
+    "pre_backup_receipt_tree": "9969416a2c458d6a5cb56c1989e4067bfb6b052f",
+    "github_pr": 72,
+    "dropbox_stage_path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/W0_W1",
+    "dropbox_stage_folder_id": "id:BSpOijBcT10AAAAAADlOrg",
+    "dropbox_backup_receipt_file_id": "id:BSpOijBcT10AAAAAADlO0A",
+    "method": "fresh Wolfram kernel; exact Git blob comparison; exact-pinned xAct activation; Dropbox-restored .wlt replay"
   },
   "claims": {
     "authorized": [
-      "W0_W1_SYMBOLIC_INFRASTRUCTURE_VERIFIED"
+      "W0_W1_SYMBOLIC_INFRASTRUCTURE_VERIFIED",
+      "W0_W1_GITHUB_BACKUP_PASS",
+      "W0_W1_DROPBOX_TEXT_MIRROR_EXACT_21_OF_21",
+      "W0_W1_DROPBOX_EXECUTABLE_REPLAY_PASS_19_OF_19"
     ],
     "withheld": [
       "BACKGROUND_TENSOR_DERIVATION",
@@ -55,10 +75,6 @@
       "SCIENCE_VALIDITY",
       "BASS_RF04_PROMOTION"
     ],
-    "backup": {
-      "github": "PASS_SOURCE_COMMITTED_AND_READ_BACK",
-      "dropbox": "NOT_RUN_PENDING_EXACT_DESTINATION_CONFIRMATION"
-    },
-    "claim_boundary": "W0_W1_INFRASTRUCTURE_ONLY_NO_BACKGROUND_OR_SCIENCE_PROMOTION"
+    "claim_boundary": "W0_W1_INFRASTRUCTURE_AND_DUAL_BACKUP_ONLY_NO_BACKGROUND_OR_SCIENCE_PROMOTION"
   }
 }
