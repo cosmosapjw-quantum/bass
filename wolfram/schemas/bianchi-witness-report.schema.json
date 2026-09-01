@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.bianchi-witness-report.v1",
+  "title": "BASS Master SSOT v2 Bianchi Witness Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "stage_id",
+    "label",
+    "pass",
+    "checks",
+    "failed_checks",
+    "actual",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stage_id": {"const": "ALG_01"},
+    "label": {"type": "string", "minLength": 1},
+    "pass": {"type": "boolean"},
+    "checks": {
+      "type": "object",
+      "additionalProperties": {"type": "boolean"}
+    },
+    "failed_checks": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "actual": {
+      "type": "object",
+      "required": [
+        "n_rank",
+        "n_inertia",
+        "transverse_det_sign",
+        "signed_h",
+        "jacobi_vector_residual",
+        "jacobi_tensor_nonzero_count",
+        "exceptional_residuals",
+        "witness_obligation_report",
+        "cartan_terms"
+      ],
+      "properties": {
+        "witness_obligation_report": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "pass",
+                "checks",
+                "failed_obligations",
+                "scope_firewall"
+              ],
+              "properties": {
+                "pass": {"type": "boolean"},
+                "checks": {
+                  "type": "object",
+                  "additionalProperties": {"type": "boolean"}
+                },
+                "failed_obligations": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "scope_firewall": {"type": "string"}
+              },
+              "additionalProperties": false
+            },
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

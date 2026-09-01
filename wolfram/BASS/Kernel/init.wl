@@ -10,7 +10,11 @@ Module[{root, sources},
    FileNameJoin[{root, "IR", "CanonicalSerialization.wl"}],
    FileNameJoin[{root, "IR", "ExactScalarAST.wl"}],
    FileNameJoin[{root, "IR", "EquationIR.wl"}],
-   FileNameJoin[{root, "IR", "ReceiptIR.wl"}]
+   FileNameJoin[{root, "IR", "ReceiptIR.wl"}],
+   FileNameJoin[{root, "Geometry", "StructureConstants.wl"}],
+   FileNameJoin[{root, "Geometry", "FrameCovariance.wl"}],
+   FileNameJoin[{root, "Bianchi", "TypeSpec.wl"}],
+   FileNameJoin[{root, "Bianchi", "Witnesses.wl"}]
  };
  Scan[Get, sources];
 ]

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "ALG_01R1",
+  "phase": "RED",
+  "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+  "evaluated_on": "2026-09-01",
+  "source_commit_before_fix": "41acee69ec3d196a2ee39abc3a5c0a8eb99e4a93",
+  "red_test_commit": "fb91cdd23370253e2a253eb52a4c565fce44f201",
+  "observed": {
+    "tests_succeeded": 0,
+    "tests_failed": 5,
+    "tests_not_evaluated": 0,
+    "zero_shear_exceptional_witness_passed_old_validator": true,
+    "zero_shear_failed_checks": [],
+    "missing_contracts": [
+      "counted_public_algebra_type",
+      "non_diagonal_shear_survival witness obligation",
+      "StructureCovarianceQ"
+    ]
+  },
+  "root_cause": {
+    "physics": "The exceptional branch constraints were checked, but the bounded witness did not prove that the extra off-diagonal shear carrier survived the representation.",
+    "code": "BranchPredicateReport had no witness-only obligation layer, and no exact O(3) covariance API or improper-frame pseudotensor mutation test existed."
+  },
+  "claim_boundary": "TDD_RED_ONLY_NO_ALG01R1_PASS_OR_BACKGROUND_PROMOTION"
+}

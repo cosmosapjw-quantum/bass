@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "ALG_01R1",
+  "status": "PASS_LAYERED_TEXT_RESTORE_MAP",
+  "tested_source": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-master-ssot-v2-alg01-20260901-r1",
+    "commit": "8b62a56a537e1a7f9f86d012e50f7161faa05b68",
+    "tree": "c52f69b4f886efdb29d610b2de0eed3fe7f30971"
+  },
+  "dropbox_stage": {
+    "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/ALG_01R1",
+    "folder_id": "id:BSpOijBcT10AAAAAADlPEA",
+    "immutable_predecessor": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/ALG_01"
+  },
+  "restore_order": [
+    {
+      "order": 1,
+      "role": "W0/W1 base",
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/W0_W1/sources"
+    },
+    {
+      "order": 2,
+      "role": "pre-R1 ALG-01 source snapshot",
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/ALG_01R1/sources",
+      "folder_id": "id:BSpOijBcT10AAAAAADlPEw"
+    },
+    {
+      "order": 3,
+      "role": "R1 semantic overlay",
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/ALG_01R1/r1_sources",
+      "folder_id": "id:BSpOijBcT10AAAAAADlPKQ"
+    },
+    {
+      "order": 4,
+      "role": "parser-only repair overlay",
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/ALG_01R1/r1_fix1",
+      "folder_id": "id:BSpOijBcT10AAAAAADlPMw"
+    }
+  ],
+  "overlay_files": [
+    {
+      "repository_path": "wolfram/BASS/Kernel/Bianchi/TypeSpec.wl",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPKg",
+      "git_blob_sha1": "d74b2fca70f9b75d96ac644b64dca53f771d0605"
+    },
+    {
+      "repository_path": "wolfram/BASS/Kernel/Bianchi/Witnesses.wl",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPKw",
+      "git_blob_sha1": "9a3028d23b5fda4dc7f9f921677e6a3676f4f4b4"
+    },
+    {
+      "repository_path": "wolfram/BASS/Kernel/Geometry/FrameCovariance.wl",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPNA",
+      "git_blob_sha1": "b19a3ba4d178b8dce39206bf2cd0488d141b2081",
+      "supersedes_in_restore": "id:BSpOijBcT10AAAAAADlPLA"
+    },
+    {
+      "repository_path": "wolfram/BASS/Kernel/init.wl",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPLQ",
+      "git_blob_sha1": "0ab6f35b3b7c02536322d36ae3e62d0e09bcf453"
+    },
+    {
+      "repository_path": "wolfram/BASS/Tests/ALG01R1ExceptionalAndCovariance.wlt",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPLg",
+      "git_blob_sha1": "01eda61874d55f778a7b2540562ac6eecc883a25"
+    },
+    {
+      "repository_path": "wolfram/schemas/bianchi-type-spec.schema.json",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPLw",
+      "git_blob_sha1": "8d6a1ed5d59511cd29b7ed54471706172898d8b4"
+    },
+    {
+      "repository_path": "wolfram/schemas/bianchi-witness-report.schema.json",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPMA",
+      "git_blob_sha1": "563d4b1178f84008f6e490628754b84d8eca6201"
+    },
+    {
+      "repository_path": "wolfram/scripts/run_stage.wls",
+      "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPMQ",
+      "git_blob_sha1": "d420a27b852c20c638ad11e2f3489ff27f717ebe"
+    }
+  ],
+  "restored_replay": {
+    "downloaded_files": 20,
+    "overlay_git_blob_sha1": "PASS_8_OF_8",
+    "tests": "PASS_63_OF_63",
+    "schemas": "PASS",
+    "canonical_witnesses": "PASS_5_OF_5",
+    "hostile_mutations": "PASS_6_OF_6"
+  },
+  "identity_note": "Dropbox text metadata is a backup locator. Git blob SHA-1 and byte content are the source identity used by the restored replay."
+}
