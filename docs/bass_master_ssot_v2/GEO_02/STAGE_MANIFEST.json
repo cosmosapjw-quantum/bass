@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "GEO_02",
+  "status": "PASS_TESTED_SOURCE_MANIFEST",
+  "identity_domain": "Git blob SHA-1 plus exact byte size; replayed files also carry SHA-256",
+  "source_parent": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-master-ssot-v2-alg01-20260901-r1",
+    "commit": "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46",
+    "tree": "a0f8cab48cdb32c18282d512f2b2ecb45083b62d",
+    "pr": 74
+  },
+  "tested_source": {
+    "branch": "research/bass-master-ssot-v2-geo02-20260902-r1",
+    "commit": "ff3bbd95482560a2bc5a23f18320968d1b0259cd",
+    "tree": "5bf3a689bd8871cd380414fa9858498e5b6f5b07"
+  },
+  "files": [
+    {
+      "path": "wolfram/BASS/Kernel/Geometry/LeviCivitaConnection.wl",
+      "git_blob_sha1": "882f0935c7796175a5d582e73b4aa029af0e0aaa",
+      "size": 5249,
+      "sha256": "c4f931086f63ee10e233b5f6e3b1f0e8ffed54d23d4d385593b39c4bcb1cc9c2"
+    },
+    {
+      "path": "wolfram/BASS/Kernel/init.wl",
+      "git_blob_sha1": "e641e93e30acee59227c3dac39d0238d17c4620a",
+      "size": 822
+    },
+    {
+      "path": "wolfram/scripts/run_stage.wls",
+      "git_blob_sha1": "2434f6b1d2c8f48e75c4375695e7af8867b9755b",
+      "size": 10385
+    },
+    {
+      "path": "wolfram/BASS/Tests/GEO02CartanConnection.wlt",
+      "git_blob_sha1": "59384ef3158d0b308eafa3f0d7507bd1734fc400",
+      "size": 5334,
+      "sha256": "4484e0102702a5210177bffd97d4ac4b41f1ff0010d70c595b074e4ed3062db1"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/GEO_02/GEO_02_TDD_RED_RECEIPT.json",
+      "git_blob_sha1": "d4f87c3811aaa8c28b4752269113e3db8e86fb62",
+      "size": 1663
+    }
+  ],
+  "restored_replay_inputs_sha256": {
+    "Environment.wl": "314a71b22ca040c545cb64482d93e404a6016181b07662db4a7be4438e572d67",
+    "Conventions.wl": "2d959a55f9cf5d3f141416bf9b92d30f05bed48f6017b7e4233692fd6dc74970",
+    "Dimensions.wl": "e8a440f4536c1f883c482645640623c13170d8157399da97e243c707ecf4b979",
+    "Provenance.wl": "f14c8d90b1ce8c47b964bf007c1130fb913cb9ef184220428e261592fc52c94f",
+    "CanonicalSerialization.wl": "07dbacdf886f6be45990a716b839783bdbbf88e6563e717e08bdbbc4411784eb",
+    "ExactScalarAST.wl": "45b505cf9258851039409248617840b360636178152a9284554e081803186368",
+    "EquationIR.wl": "1d087dfa3c8e56e1db3add82691800939fde586ab55a29c4b8988c68d228529c",
+    "ReceiptIR.wl": "21b8e5caa6cf37f7e6ed5f888375564daf1551094dd5dff5d916e53b58650233",
+    "StructureConstants.wl": "becef3c4f6b60e20c4eea1b361832239422ca8286b90dd10474203389e170f75",
+    "FrameCovariance.wl": "187559cc129188ee22184e133ba04c981b5b3bb35db84e4afefb59f92ad2ef24",
+    "LeviCivitaConnection.wl": "c4f931086f63ee10e233b5f6e3b1f0e8ffed54d23d4d385593b39c4bcb1cc9c2",
+    "TypeSpec.wl": "cb5794b50a81e625b2316d30e4baecd5ae6fe68433967590d6ef6f8ef97d919f",
+    "Witnesses.wl": "5e6a60c0825c83ecbc9a61735ec083e1fef49c96a12d9c46f72e31ecb2d4ad7f",
+    "W0Environment.wlt": "7628cf5d29ce6cf1046beee04f80195e64b9281f5e8bb818cc33c8a7881e4f7a",
+    "W1Conventions.wlt": "5730d04d8bdd0383e968d9e6292fca9e7068cb68962015074d928dc418059433",
+    "ALG01BianchiAlgebra.wlt": "95d90b9bac591a339dff3b132279dad3565582319ef5e3e6dc00de8239e48e52",
+    "ALG01R1ExceptionalAndCovariance.wlt": "6297b8ba8db9e0fd54549340643e3e83ead0b06496df2db24310909ae32a53cb",
+    "GEO02CartanConnection.wlt": "4484e0102702a5210177bffd97d4ac4b41f1ff0010d70c595b074e4ed3062db1"
+  },
+  "verification": {
+    "tdd_red": {
+      "succeeded": 0,
+      "failed": 5,
+      "not_evaluated": 0,
+      "expected_failure": true
+    },
+    "first_green": {
+      "succeeded": 6,
+      "failed": 9,
+      "not_evaluated": 0,
+      "reason": "parser-invalid line-leading &&",
+      "formula_changed_by_repair": false
+    },
+    "focused_green": {
+      "succeeded": 15,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "full_stack_replay": {
+      "scope": "W0_W1_PLUS_ALG_01R1_PLUS_GEO_02",
+      "succeeded": 78,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "generic_symbolic_oracle": {
+      "torsion_residual_zero": true,
+      "metric_residual_zero": true,
+      "connection_difference_unknowns": 27,
+      "homogeneous_equations": 54,
+      "unique_zero_solution": true
+    }
+  },
+  "claims": {
+    "authorized": [
+      "GEO_02_LEVI_CIVITA_CONNECTION_WITNESSES_VERIFIED",
+      "GEO_02_TORSION_METRIC_AND_O3_COVARIANCE_VERIFIED"
+    ],
+    "withheld": [
+      "SPATIAL_CURVATURE_OR_RICCI_DERIVATION",
+      "BACKGROUND_EINSTEIN_MATTER_EQUATIONS",
+      "CONSTRAINT_PROPAGATION",
+      "ALL_FAMILY_SOLVER_SUPPORT",
+      "GENERIC_ELL_COMPILER_CORRECTNESS",
+      "NUMERICAL_PARITY",
+      "CROSS_REPOSITORY_COMPATIBILITY",
+      "SCIENCE_VALIDITY",
+      "BASS_RF04_PROMOTION"
+    ]
+  }
+}
