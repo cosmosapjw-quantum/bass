@@ -6,8 +6,12 @@ CanonicalWitnessRegistry::usage =
  "CanonicalWitnessRegistry[] returns the five exact dimensionless ALG-01 witnesses.";
 ExceptionalVIminusOneNinthResiduals::usage =
  "ExceptionalVIminusOneNinthResiduals[witness] returns the group and momentum residuals.";
+ExceptionalShearSurvivalQ::usage =
+ "ExceptionalShearSurvivalQ[witness] checks that the bounded exceptional witness exhibits surviving Sigma13 or Sigma23 freedom.";
+WitnessObligationReport::usage =
+ "WitnessObligationReport[spec,witness] evaluates witness-only obligations without strengthening the physical branch predicates.";
 BranchPredicateReport::usage =
- "BranchPredicateReport[spec,witness] checks branch, Jacobi and Cartan contracts.";
+ "BranchPredicateReport[spec,witness] checks branch, Jacobi, Cartan and witness-obligation contracts.";
 ValidateCanonicalWitness::usage =
  "ValidateCanonicalWitness[label] validates one named exact witness.";
 ValidateWitnessRegistry::usage =
@@ -21,6 +25,7 @@ Begin["`Private`"];
 
 ClearAll[
  CanonicalWitnessRegistry, ExceptionalVIminusOneNinthResiduals,
+ ExceptionalShearSurvivalQ, WitnessObligationReport,
  BranchPredicateReport, ValidateCanonicalWitness, ValidateWitnessRegistry,
  HostileWitnessRegistry, ValidateHostileWitnesses,
  witnessVector3Q, witnessMatrix3Q, witnessSymmetric3Q, witnessZeroQ,
@@ -126,10 +131,48 @@ ExceptionalVIminusOneNinthResiduals[witness_Association] /;
 ExceptionalVIminusOneNinthResiduals[___] :=
  Failure["InvalidWitness", <||>];
 
+ExceptionalShearSurvivalQ[witness_Association] /;
+  witnessQ[witness] := Module[{shear, exceptionalCarriers},
+ shear = witness["shear"];
+ exceptionalCarriers = {
+   shear[[1, 3]],
+   shear[[2, 3]]
+  };
+ ! witnessZeroQ[exceptionalCarriers]
+];
+ExceptionalShearSurvivalQ[___] := False;
+
+WitnessObligationReport[
+ spec_Association,
+ witness_Association
+] /; BianchiTypeSpecQ[spec] && witnessQ[witness] := Module[
+ {obligations, checks},
+ obligations = Lookup[spec, "witness_obligations", {}];
+ checks = AssociationMap[
+   Switch[
+     #,
+     "non_diagonal_shear_survival",
+     ExceptionalShearSurvivalQ[witness],
+     _,
+     False
+    ] &,
+   obligations
+  ];
+ <|
+  "pass" -> And @@ Values[checks],
+  "checks" -> checks,
+  "failed_obligations" -> failedCheckKeys[checks],
+  "scope_firewall" ->
+   "witness-only obligation; not a physical branch predicate"
+ |>
+];
+WitnessObligationReport[___] :=
+ Failure["InvalidSpecOrWitness", <||>];
+
 BranchPredicateReport[spec_Association, witness_Association] /;
   BianchiTypeSpecQ[spec] && witnessQ[witness] := Module[
  {a, n, expected, inertia, rank, transverseDetSign, h,
-  exceptionalResiduals, jacobiVector, jacobiTensor,
+  exceptionalResiduals, obligationReport, jacobiVector, jacobiTensor,
   jacobiTensorNonzeroCount, checks},
  a = witness["a"];
  n = witness["n"];
@@ -147,6 +190,7 @@ BranchPredicateReport[spec_Association, witness_Association] /;
    ExceptionalVIminusOneNinthResiduals[witness],
    Null
   ];
+ obligationReport = WitnessObligationReport[spec, witness];
  jacobiVector = BASS`Geometry`JacobiVectorResidual[a, n];
  jacobiTensor = BASS`Geometry`JacobiTensorResidual[a, n];
  jacobiTensorNonzeroCount = Count[
@@ -158,6 +202,10 @@ BranchPredicateReport[spec_Association, witness_Association] /;
    "canonical_role_firewall" -> SameQ[
      witness["role"],
      "dimensionless canonical algebra witness only"
+    ],
+   "public_algebra_type_counting" -> SameQ[
+     spec["counted_public_algebra_type"],
+     Not[TrueQ[spec["exceptional_sector"]]]
     ],
    "a_zero" -> SameQ[witnessZeroQ[a], expected["a_zero"]],
    "n_zero" -> SameQ[witnessZeroQ[n], expected["n_zero"]],
@@ -177,7 +225,8 @@ BranchPredicateReport[spec_Association, witness_Association] /;
      expected["exceptional_constraints"] === Null,
      True,
      witnessZeroQ[Values[exceptionalResiduals]]
-    ]
+    ],
+   "witness_obligations" -> TrueQ[obligationReport["pass"]]
   |>;
  <|
   "schema_version" -> "1.0.0",
@@ -194,6 +243,7 @@ BranchPredicateReport[spec_Association, witness_Association] /;
     "jacobi_vector_residual" -> jacobiVector,
     "jacobi_tensor_nonzero_count" -> jacobiTensorNonzeroCount,
     "exceptional_residuals" -> exceptionalResiduals,
+    "witness_obligation_report" -> obligationReport,
     "cartan_terms" -> BASS`Geometry`CartanCoframeTerms[a, n]
    |>,
   "claim_boundary" ->
@@ -249,6 +299,13 @@ HostileWitnessRegistry[] := Module[{base},
     "witness" -> ReplacePart[
       base["VI_-1/9"],
       "n" -> {{0, 0, 0}, {0, 2, -3}, {0, -3, 0}}
+     ]
+   |>,
+  "EXCEPTIONAL_SHEAR_DELETE" -> <|
+    "target_label" -> "VI_-1/9",
+    "witness" -> ReplacePart[
+      base["VI_-1/9"],
+      "shear" -> ConstantArray[0, {3, 3}]
      ]
    |>
  |>
