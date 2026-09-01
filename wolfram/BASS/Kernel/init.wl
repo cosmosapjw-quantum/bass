@@ -16,7 +16,10 @@ Module[{root, sources},
    FileNameJoin[{root, "Bianchi", "WitnessRegistry.wl"}],
    FileNameJoin[{root, "Geometry", "StructureConstants.wl"}],
    FileNameJoin[{root, "Geometry", "CartanConnection.wl"}],
-   FileNameJoin[{root, "Geometry", "RiemannConventionAdapter.wl"}]
+   FileNameJoin[{root, "Geometry", "RiemannConventionAdapter.wl"}],
+   FileNameJoin[{root, "Background", "GRProjection.wl"}],
+   FileNameJoin[{root, "Background", "StructureEvolution.wl"}],
+   FileNameJoin[{root, "Background", "ConstraintPropagation.wl"}]
  };
  Scan[Get, sources];
 ]
