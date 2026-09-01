@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cosmosapjw-quantum.github.io/bianchi/trirepo-sync-state-v2.schema.json",
+  "title": "Bianchi tri-repository sync state v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "sync_run_id",
+    "status",
+    "coverage_status",
+    "repo_bindings",
+    "document_digests",
+    "findings",
+    "shadow_repository_status",
+    "external_planes",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "sync_run_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "status": {"enum": ["IN_SYNC", "BOOTSTRAP_PARTIAL", "DRIFT_DETECTED"]},
+    "coverage_status": {"type": "string", "minLength": 1},
+    "repo_bindings": {
+      "type": "object",
+      "required": ["bass", "rec_bianchi", "rei_bianchi"],
+      "additionalProperties": false,
+      "properties": {
+        "bass": {"$ref": "#/$defs/gitBinding"},
+        "rec_bianchi": {"$ref": "#/$defs/gitBinding"},
+        "rei_bianchi": {"$ref": "#/$defs/gitBinding"}
+      }
+    },
+    "document_digests": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "repository": {"type": "string"},
+          "formula_id": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "shadow_repository_status": {
+      "type": "object",
+      "required": ["bass", "rec_bianchi", "rei_bianchi"],
+      "additionalProperties": false,
+      "properties": {
+        "bass": {"type": "string"},
+        "rec_bianchi": {"type": "string"},
+        "rei_bianchi": {"type": "string"}
+      }
+    },
+    "external_planes": {"type": "object"},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "gitBinding": {
+      "type": "object",
+      "required": ["commit", "tree"],
+      "additionalProperties": false,
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}

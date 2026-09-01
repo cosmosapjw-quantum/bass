@@ -1,0 +1,151 @@
+name: trirepo-sync-audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "schemas/trirepo-*.schema.json"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  push:
+    branches:
+      - "agent/policy/trirepo-sync-control-plane-v2-*"
+    paths:
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "schemas/trirepo-*.schema.json"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "10 18 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run fail-closed coordinator tests
+        run: python -m unittest discover -s tests -p 'test_trirepo_sync_audit.py' -v
+      - name: Compile coordinator
+        run: python -m py_compile scripts/trirepo_sync_audit.py tests/test_trirepo_sync_audit.py
+      - name: Parse BASS bootstrap JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in \
+            docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            docs/bianchi_program/TRIREPO_SYNC_POINTER.json \
+            docs/bianchi_program/TRIREPO_BOOTSTRAP_OBSERVATIONS.json \
+            docs/bianchi_program/TRIREPO_TDD_RED_RECEIPT.json \
+            schemas/trirepo-authority-export.schema.json \
+            schemas/trirepo-import-lock.schema.json \
+            schemas/trirepo-sync-state.schema.json
+          do
+            python -m json.tool "$file" >/dev/null
+          done
+
+  bootstrap-audit:
+    runs-on: ubuntu-latest
+    needs: contract-tests
+    steps:
+      - name: Checkout BASS coordinator branch
+        uses: actions/checkout@v4
+        with:
+          path: bass
+      - name: Checkout REC policy export branch
+        uses: actions/checkout@v4
+        with:
+          repository: cosmosapjw-quantum/rec_bianchi
+          ref: policy/trirepo-sync-export-v2-20260902-r1
+          path: rec
+      - name: Checkout REI policy export branch
+        uses: actions/checkout@v4
+        with:
+          repository: cosmosapjw-quantum/rei_bianchi
+          ref: policy/trirepo-sync-export-v2-20260902-r1
+          path: rei
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run exact three-repository bootstrap audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python bass/scripts/trirepo_sync_audit.py \
+            --export bass=bass/docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --export rec_bianchi=rec/docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --export rei_bianchi=rei/docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --import-lock bass=bass/docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --import-lock rec_bianchi=rec/docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --import-lock rei_bianchi=rei/docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --observations bass/docs/bianchi_program/TRIREPO_BOOTSTRAP_OBSERVATIONS.json \
+            --output-dir trirepo-out
+      - name: Verify expected bootstrap boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("trirepo-out")
+          files = sorted(root.glob("*.json"))
+          assert len(files) == 5, [str(path) for path in files]
+          documents = [json.loads(path.read_text(encoding="utf-8")) for path in files]
+          run_ids = {document["sync_run_id"] for document in documents}
+          assert len(run_ids) == 1, run_ids
+          sync_state = json.loads((root / "TRIREPO_SYNC_STATE.json").read_text(encoding="utf-8"))
+          dag = json.loads((root / "TRIREPO_DAG_PROPOSAL.json").read_text(encoding="utf-8"))
+          assert sync_state["status"] == "DRIFT_DETECTED", sync_state
+          assert sync_state["coverage_status"] == "BOOTSTRAP_NAMESPACE_ONLY", sync_state
+          assert dag["proposal_status"] == "PROPOSAL_ONLY_NO_DAG_MUTATION", dag
+          assert dag["proposed_official_edge_mutations"] == [], dag
+          print("SYNC_RUN_ID=" + next(iter(run_ids)))
+          print("FINDING_COUNT=" + str(len(sync_state["findings"])))
+          PY
+      - name: Publish deterministic outputs to canonical branch
+        if: github.event_name == 'push' && startsWith(github.ref_name, 'agent/policy/trirepo-sync-control-plane-v2-fed00-')
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp trirepo-out/*.json bass/docs/bianchi_program/
+          cd bass
+          git add \
+            docs/bianchi_program/TRIREPO_AUTHORITY_REGISTRY.json \
+            docs/bianchi_program/TRIREPO_SYNC_STATE.json \
+            docs/bianchi_program/TRIREPO_DUPLICATE_REPORT.json \
+            docs/bianchi_program/TRIREPO_DAG_PROPOSAL.json \
+            docs/bianchi_program/TRIREPO_SYNC_RECEIPT.json
+          if git diff --cached --quiet; then
+            echo "Generated outputs already match the committed source of record."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(federation): record deterministic bootstrap audit"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - name: Emit canonical outputs for readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in trirepo-out/*.json; do
+            echo "===== BEGIN $(basename "$file") ====="
+            cat "$file"
+            echo "===== END $(basename "$file") ====="
+          done
+      - name: Upload bootstrap audit packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: trirepo-bootstrap-output-${{ github.sha }}
+          path: trirepo-out/*.json
+          if-no-files-found: error
+          retention-days: 30

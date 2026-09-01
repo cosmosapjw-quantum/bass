@@ -1,0 +1,65 @@
+{
+  "approval_required_for": [
+    "official Jira Blocks-link mutation",
+    "scientific owner change",
+    "claim-level promotion",
+    "pull-request merge or close",
+    "Dropbox-to-GitHub recovery"
+  ],
+  "approved_edges": [
+    [
+      "rec_bianchi",
+      "bass"
+    ],
+    [
+      "rec_bianchi",
+      "rei_bianchi"
+    ],
+    [
+      "rei_bianchi",
+      "bass"
+    ]
+  ],
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "proposal_status": "PROPOSAL_ONLY_NO_DAG_MUTATION",
+  "proposed_official_edge_mutations": [],
+  "schema_version": "2.0.0",
+  "shadow_nodes": [
+    {
+      "action": "Inventory formula, schema, adapter, provider, and independent-oracle paths on the three exact active lineages.",
+      "node_id": "SYNC-MAP-01",
+      "owner": "bass",
+      "status": "PROPOSED"
+    },
+    {
+      "action": "Assign globally unique formula IDs and semantic hashes to the inventory and classify every cross-repository overlap.",
+      "node_id": "SYNC-MAP-02",
+      "owner": "bass",
+      "status": "BLOCKED_BY_SYNC_MAP_01"
+    },
+    {
+      "action": "Replace unbound common-geometry authority with pinned BASS imports or explicit authority-effect-NONE independent oracles.",
+      "node_id": "SYNC-REC-01",
+      "owner": "rec_bianchi",
+      "status": "BLOCKED_BY_SYNC_MAP_02"
+    },
+    {
+      "action": "Replace unbound common-geometry authority with pinned BASS imports or explicit authority-effect-NONE independent oracles.",
+      "node_id": "SYNC-REI-01",
+      "owner": "rei_bianchi",
+      "status": "BLOCKED_BY_SYNC_MAP_02"
+    },
+    {
+      "action": "Enable drift-failing scheduled audit only after the first complete semantic inventory establishes a green baseline.",
+      "node_id": "SYNC-GATE-01",
+      "owner": "bass",
+      "status": "BLOCKED_BY_SYNC_REC_01_AND_SYNC_REI_01"
+    }
+  ],
+  "shadow_repository_status": {
+    "bass": "BASS_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED",
+    "rec_bianchi": "REC_PR47_BODY_IDENTITY_DIFFERS_FROM_GITHUB_HEAD",
+    "rei_bianchi": "REI_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED"
+  },
+  "sync_run_id": "b759e046500c593ece5bdc43199b721ac720006da62c8b8bfc549175f8a5798e"
+}

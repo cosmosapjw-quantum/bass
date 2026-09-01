@@ -1,0 +1,62 @@
+{
+  "claim_boundary": "SYNC_METADATA_ONLY_NO_SCIENTIFIC_OR_OFFICIAL_DAG_PROMOTION",
+  "coverage_status": "BOOTSTRAP_NAMESPACE_ONLY",
+  "document_digests": {
+    "bass:export": "d6b3c61252aa1d552de4fa81a803dc25465211e229e1592953a0349455346b53",
+    "bass:import_lock": "d2433c71ef8c87302f7afbbd9eeb957f911d67b74c2b1d865b43774beb1cdcd8",
+    "rec_bianchi:export": "3999a745d0adac714973b8295208c745011522918ad89c6e8467aa7e7cbb7e75",
+    "rec_bianchi:import_lock": "dc1ac8760b26e0a036a67d4e774bca39c7ef50d307dc1be2ef31bce7f37d191c",
+    "rei_bianchi:export": "8c50f3e0fbf764441e04119e8a68ba8e8d43ed9ed7ce74ea58cd455b8e76298a",
+    "rei_bianchi:import_lock": "8418ea19c1dd9adaec3765ac2b66131b373cf6dbb1f28a8efa1d229c9689c76d"
+  },
+  "external_planes": {
+    "atlassian": "PUBLICATION_PENDING",
+    "dropbox": "PUBLICATION_PENDING",
+    "github": "POLICY_HEADS_READ_BACK_AND_COORDINATOR_TESTED"
+  },
+  "findings": [
+    {
+      "code": "BASS_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED",
+      "detail": "The namespace export does not yet enumerate the active ALG-01R2/GEO-02 formula IDs.",
+      "repository": "bass"
+    },
+    {
+      "code": "REC_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED",
+      "detail": "The namespace export does not yet enumerate REC-NEXT-03 formula and adapter IDs.",
+      "repository": "rec_bianchi"
+    },
+    {
+      "code": "REC_PR47_BODY_IDENTITY_DIFFERS_FROM_GITHUB_HEAD",
+      "detail": "PR #47 body records a later local repair identity f8af51e.../1cc0182..., while the GitHub PR head remains c4bf37d.../445b3fb.... The remote head is authoritative for this bootstrap.",
+      "repository": "rec_bianchi"
+    },
+    {
+      "code": "REI_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED",
+      "detail": "The namespace export does not yet enumerate REI-LOCAL-01 bridge and provider contract IDs.",
+      "repository": "rei_bianchi"
+    }
+  ],
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "repo_bindings": {
+    "bass": {
+      "commit": "289a2d31d6fae38122191be73ec9c9d28acaf4d7",
+      "tree": "83512674b4b664b9f2cd532439a640bd508a7298"
+    },
+    "rec_bianchi": {
+      "commit": "cfa54eb1d66c98a290182a402a308622f6552dfb",
+      "tree": "c717e67061b31ddbd6a2c4cc38c553eb2eae5bc3"
+    },
+    "rei_bianchi": {
+      "commit": "cf1470b5b2b33938380ebd868e85937e3231dc50",
+      "tree": "f9e4f27bbc2d9483f2e81332a9e08cdc7cc9bb07"
+    }
+  },
+  "schema_version": "2.0.0",
+  "shadow_repository_status": {
+    "bass": "BASS_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED",
+    "rec_bianchi": "REC_PR47_BODY_IDENTITY_DIFFERS_FROM_GITHUB_HEAD",
+    "rei_bianchi": "REI_ACTIVE_FORMULA_LINEAGE_NOT_REGISTERED"
+  },
+  "status": "DRIFT_DETECTED",
+  "sync_run_id": "b759e046500c593ece5bdc43199b721ac720006da62c8b8bfc549175f8a5798e"
+}

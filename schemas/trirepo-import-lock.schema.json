@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cosmosapjw-quantum.github.io/bianchi/trirepo-import-lock-v2.schema.json",
+  "title": "Bianchi tri-repository import lock v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "repository",
+    "imports",
+    "local_formula_claims"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "formula_id",
+          "producer_repository",
+          "producer_commit",
+          "producer_tree",
+          "semantic_hash",
+          "convention_hash",
+          "use",
+          "local_mode"
+        ],
+        "properties": {
+          "formula_id": {"type": "string", "minLength": 1},
+          "producer_repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+          "producer_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "producer_tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "semantic_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "convention_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "use": {"type": "string", "minLength": 1},
+          "local_mode": {
+            "enum": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+          }
+        }
+      }
+    },
+    "local_formula_claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["local_formula_id", "semantic_hash", "authority_effect"],
+        "properties": {
+          "local_formula_id": {"type": "string", "minLength": 1},
+          "semantic_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "authority_effect": {
+            "enum": [
+              "AUTHORITATIVE_DERIVATION",
+              "AUTHORITATIVE_PROVIDER",
+              "AUTHORITATIVE_SCHEMA",
+              "NONE"
+            ]
+          },
+          "replay_of": {"type": "string", "minLength": 1},
+          "independence_class": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}
