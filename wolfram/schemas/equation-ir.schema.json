@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.equation-ir.v1",
+  "title": "BASS Master SSOT v2 Equation IR",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "formula_id",
+    "authority_theorem",
+    "target",
+    "free_indices",
+    "representation",
+    "assumptions",
+    "domain",
+    "dimensions",
+    "terms",
+    "structural_zero_rules",
+    "branch_predicates",
+    "known_limits",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "formula_id": {"type": "string", "minLength": 1},
+    "authority_theorem": {"type": "string", "minLength": 1},
+    "target": {"type": "string", "minLength": 1},
+    "free_indices": {"type": "array"},
+    "representation": {"type": "string", "minLength": 1},
+    "assumptions": {"type": "array"},
+    "domain": {"type": "object"},
+    "dimensions": {"type": "object"},
+    "terms": {"type": "array"},
+    "structural_zero_rules": {"type": "array"},
+    "branch_predicates": {"type": "array"},
+    "known_limits": {"type": "array"},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
+}

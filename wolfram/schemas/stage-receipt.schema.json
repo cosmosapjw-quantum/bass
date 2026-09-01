@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.stage-receipt.v1",
+  "title": "BASS Master SSOT v2 Stage Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "stage_id",
+    "status",
+    "tests",
+    "provenance",
+    "claims"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "program_id": {
+      "const": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901"
+    },
+    "stage_id": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["PASS", "FAIL", "BLOCKED", "NOT_RUN"]
+    },
+    "tests": {"type": "object"},
+    "provenance": {"type": "object"},
+    "claims": {"type": "object"}
+  },
+  "additionalProperties": false
+}

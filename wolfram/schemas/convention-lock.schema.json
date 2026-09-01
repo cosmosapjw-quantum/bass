@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.convention-lock.v1",
+  "title": "BASS Master SSOT v2 Convention Lock",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "metric_signature",
+    "spacetime_dimension",
+    "spatial_dimension",
+    "spatial_orientation",
+    "normal_congruence",
+    "time_derivative",
+    "photon_momentum",
+    "observed_direction",
+    "extrinsic_curvature",
+    "riemann_convention",
+    "screen_orientation",
+    "project_spin",
+    "pstf_normalization",
+    "units",
+    "frequency_variable",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "metric_signature": {
+      "type": "array",
+      "prefixItems": [
+        {"const": -1},
+        {"const": 1},
+        {"const": 1},
+        {"const": 1}
+      ],
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "spacetime_dimension": {"const": 4},
+    "spatial_dimension": {"const": 3}
+  },
+  "additionalProperties": true
+}
