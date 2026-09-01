@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
   "stage_id": "GEO_02R2",
   "phase": "RED",
-  "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+  "status": "PASS_EXPECTED_FAILURES_OBSERVED_AFTER_CONTRACT_AMENDMENT",
   "evaluated_date_kst": "2026-09-02",
   "source_parent": {
     "repository": "cosmosapjw-quantum/bass",
@@ -11,23 +11,36 @@
     "commit": "b0a2c8da9e74ce960394ae9c67c9744fb8e497ad",
     "semantic_registry_sha256": "e0e5fbba464a839fcb5b11d41c7772c666224ec69f806910aab3bfab5a2f1762"
   },
-  "test_contract": {
+  "original_test_contract": {
     "commit": "894975fe3147af22c65c53c2fa02a1bccc1d13a9",
-    "path": "wolfram/BASS/Tests/GEO02R2ConnectionComposition.wlt",
     "git_blob_sha1": "37d000c0ea81c0750ba28a26c41dacd38856340d",
     "sha256": "33d1bb7b6f30190ea819e7b8da5cce68a3d44b1f1d67ed3f812fdfd4e4dc6203",
     "bytes": 5818,
     "dropbox_file_id": "id:BSpOijBcT10AAAAAADlPvw",
-    "dropbox_content_hash": "011a80c7a52e4f2ebf3ec271c2ea47c1fe7775816519283019ba158b0bbc34b8"
+    "valid_parent_red": {"succeeded": 2, "failed": 16, "not_evaluated": 0},
+    "discovered_contract_defect": {
+      "severity": "P0_WITHIN_STAGE",
+      "description": "The direct Transpose expectation used {2,3,1} while the componentwise locked definition required new[alpha,beta,gamma]=old[gamma,alpha,beta].",
+      "authoritative_correction": "generated_to_locked={3,1,2}; locked_to_generated={2,3,1}"
+    }
   },
-  "valid_red_execution": {
-    "mode": "fresh stateless Wolfram kernel with exact Dropbox-restored ALG-01R2 parent",
+  "corrected_test_contract": {
+    "commit": "3bd290cbc31f19a8408bedcef68e4d5a75064be3",
+    "path": "wolfram/BASS/Tests/GEO02R2ConnectionComposition.wlt",
+    "git_blob_sha1": "3f56b236180cbfe9cd015e5f9e187a67f749e23d",
+    "sha256": "941b1686c9a21a09f3150e0c645d8cf447209eacc87c234c8507b0d9ae2fb30a",
+    "bytes": 5818,
+    "dropbox_file_id": "id:BSpOijBcT10AAAAAADlQEw",
+    "dropbox_content_hash": "45d2e8af8d873eb3c0e4d5617ed6dc013351de4aae1d296650461b6ecb591172"
+  },
+  "corrected_valid_red_execution": {
+    "mode": "fresh stateless Wolfram kernel with exact Dropbox-restored ALG-01R2 parent and no connection module",
     "parent_source_loaded": true,
     "parent_semantic_hash_matched": true,
     "succeeded": 2,
     "failed": 16,
     "not_evaluated": 0,
-    "classification": "EXPECTED_RED_MISSING_COMPOSED_CONNECTION_AND_INDEX_ADAPTER_APIS"
+    "classification": "EXPECTED_RED_MISSING_COMPOSED_CONNECTION_AND_CORRECTED_INDEX_ADAPTER_APIS"
   },
   "required_missing_surface": [
     "BASS`Geometry`LeviCivitaConnection",
@@ -45,5 +58,5 @@
     "source_loaded": false,
     "used_for_tdd_or_science_claim": false
   },
-  "claim_boundary": "TDD_RED_SEQUENCE_ONLY_NO_CONNECTION_CURVATURE_BACKGROUND_OR_SCIENCE_PROMOTION"
+  "claim_boundary": "TDD_RED_AND_INDEX_CONTRACT_AMENDMENT_ONLY_NO_CONNECTION_CURVATURE_BACKGROUND_OR_SCIENCE_PROMOTION"
 }
