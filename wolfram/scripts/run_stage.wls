@@ -74,9 +74,16 @@ Block[{$HistoryLength = 0},
      ],
      FileNameJoin[
       {repositoryRoot, "wolfram", "BASS", "Tests", "ALG01BianchiAlgebra.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R1ExceptionalAndCovariance.wlt"}
      ]
     };
-   authorizedClaims = {"ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED"};
+   authorizedClaims = {
+     "ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED",
+     "ALG_01_EXCEPTIONAL_SHEAR_AND_O3_COVARIANCE_VERIFIED"
+    };
    withheldClaims = {
      "CARTAN_CONNECTION_OR_CURVATURE_DERIVATION",
      "BACKGROUND_EINSTEIN_MATTER_EQUATIONS",
@@ -99,6 +106,18 @@ Block[{$HistoryLength = 0},
      "hostile_detection_pass" -> AllTrue[
        Values[hostileWitnesses],
        TrueQ[Lookup[#, "detected", False]] &
+      ],
+     "exceptional_not_twelfth_type" -> SameQ[
+       BASS`Bianchi`CanonicalTypeSpecRegistry[]["VI_-1/9"]
+        ["counted_public_algebra_type"],
+       False
+      ],
+     "exceptional_shear_survival" -> TrueQ[
+       BASS`Bianchi`ValidateCanonicalWitness["VI_-1/9"]
+        ["checks"]["witness_obligations"]
+      ],
+     "exceptional_shear_delete_detected" -> TrueQ[
+       hostileWitnesses["EXCEPTIONAL_SHEAR_DELETE"]["detected"]
       ]
     |>,
 
