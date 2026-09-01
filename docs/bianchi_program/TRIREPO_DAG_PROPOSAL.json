@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "change_id": "TRI-SYNC-V2-BOOTSTRAP-01",
+  "sync_run_id": "72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f",
+  "proposal_state": "PROPOSAL_ONLY_NO_OFFICIAL_EDGE_MUTATION",
+  "nodes": [
+    {
+      "id": "SYNC.BOOTSTRAP.01",
+      "owner": "bass",
+      "status": "IN_PROGRESS",
+      "kind": "control_plane"
+    },
+    {
+      "id": "BASS.CONVENTIONS.CORE.001",
+      "owner": "bass",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "kind": "formula"
+    },
+    {
+      "id": "BASS.GEO.BIANCHI_ALGEBRA.001",
+      "owner": "bass",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "kind": "formula"
+    },
+    {
+      "id": "BASS.GEO.ONF_CONNECTION.001",
+      "owner": "bass",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "kind": "formula"
+    },
+    {
+      "id": "BASS.GEO.SPATIAL_CURVATURE.001",
+      "owner": "bass",
+      "status": "HOLD_REBIND_REQUIRED",
+      "kind": "formula"
+    },
+    {
+      "id": "BASS.BACKGROUND.SNAPSHOT.001",
+      "owner": "bass",
+      "status": "NOT_RUN",
+      "kind": "provider"
+    },
+    {
+      "id": "REC.RECOMBINATION.HISTORY.001",
+      "owner": "rec_bianchi",
+      "status": "BLOCKED_PROVIDER_NOT_PUBLISHED",
+      "kind": "provider"
+    },
+    {
+      "id": "REI.REIONIZATION.HISTORY.001",
+      "owner": "rei_bianchi",
+      "status": "STOP_INVALID_NOT_PUBLISHED",
+      "kind": "provider"
+    },
+    {
+      "id": "REI.MATTER_SOURCE.001",
+      "owner": "rei_bianchi",
+      "status": "NOT_RUN",
+      "kind": "provider"
+    },
+    {
+      "id": "BASS.ADAPTER.REC_REI_SPLICE.001",
+      "owner": "bass",
+      "status": "NOT_RUN",
+      "kind": "adapter"
+    },
+    {
+      "id": "BASS.ORCHESTRATION.FIXED_POINT.001",
+      "owner": "bass",
+      "status": "NOT_RUN",
+      "kind": "orchestration"
+    }
+  ],
+  "edges": [
+    {"from": "BASS.CONVENTIONS.CORE.001", "to": "BASS.GEO.BIANCHI_ALGEBRA.001", "type": "requires"},
+    {"from": "BASS.GEO.BIANCHI_ALGEBRA.001", "to": "BASS.GEO.ONF_CONNECTION.001", "type": "requires"},
+    {"from": "BASS.GEO.ONF_CONNECTION.001", "to": "BASS.GEO.SPATIAL_CURVATURE.001", "type": "requires"},
+    {"from": "BASS.GEO.SPATIAL_CURVATURE.001", "to": "BASS.BACKGROUND.SNAPSHOT.001", "type": "requires"},
+    {"from": "BASS.BACKGROUND.SNAPSHOT.001", "to": "REI.REIONIZATION.HISTORY.001", "type": "requires"},
+    {"from": "REC.RECOMBINATION.HISTORY.001", "to": "REI.REIONIZATION.HISTORY.001", "type": "requires"},
+    {"from": "REC.RECOMBINATION.HISTORY.001", "to": "BASS.ADAPTER.REC_REI_SPLICE.001", "type": "requires"},
+    {"from": "REI.REIONIZATION.HISTORY.001", "to": "BASS.ADAPTER.REC_REI_SPLICE.001", "type": "requires"},
+    {"from": "REI.MATTER_SOURCE.001", "to": "BASS.ORCHESTRATION.FIXED_POINT.001", "type": "optional_requires"},
+    {"from": "BASS.ADAPTER.REC_REI_SPLICE.001", "to": "BASS.ORCHESTRATION.FIXED_POINT.001", "type": "requires"}
+  ],
+  "proposed_actions": [
+    {
+      "action": "REBIND_CURVATURE_ON_LATEST_ALGEBRA_AND_CONNECTION_LINE",
+      "owner": "bass",
+      "priority": "P0",
+      "automatic": false
+    },
+    {
+      "action": "REPLACE_REC_LOCAL_COMMON_GEOMETRY_DERIVATIONS_WITH_PINNED_IMPORT_OR_DECLARED_ORACLE",
+      "owner": "rec_bianchi",
+      "priority": "P1",
+      "automatic": false
+    },
+    {
+      "action": "PIN_BASS_CONVENTIONS_AND_REC_PROVIDER_BEFORE_REI_SPLICE_RESUME",
+      "owner": "rei_bianchi",
+      "priority": "P0",
+      "automatic": false
+    },
+    {
+      "action": "CREATE_DAILY_METADATA_AND_WEEKLY_SEMANTIC_AUDIT",
+      "owner": "bass",
+      "priority": "P1",
+      "automatic": true
+    }
+  ],
+  "official_jira_edges_preserved": [
+    "BASS-19 blocks BASS-18",
+    "BASS-19 blocks BASS-17",
+    "BASS-18 blocks BASS-17"
+  ],
+  "claim_boundary": "SHADOW_DAG_ONLY_NO_JIRA_EDGE_OR_CLAIM_MUTATION"
+}

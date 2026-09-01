@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/schemas/trirepo-import-lock.schema.json",
+  "title": "Bianchi tri-repository import lock",
+  "type": "object",
+  "required": ["schema_version", "program_id", "change_id", "sync_run_id", "repository", "imports", "no_silent_fallback", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "change_id": {"type": "string", "minLength": 1},
+    "sync_run_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["formula_id", "producer_repository", "producer_ref", "producer_commit", "semantic_hash", "convention_hash", "local_mode", "use", "status", "required_claim_level"],
+        "properties": {
+          "formula_id": {"type": "string", "minLength": 1},
+          "producer_repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+          "producer_ref": {"type": ["string", "null"]},
+          "producer_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+          "semantic_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "convention_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "local_mode": {"enum": ["PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]},
+          "replay_of": {"type": ["string", "null"]},
+          "use": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "required_claim_level": {"enum": ["DECLARED", "SYMBOLIC_VERIFIED", "IMPLEMENTATION_PARITY", "CROSS_REPO_COMPATIBLE", "SCIENCE_VALIDATED"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "no_silent_fallback": {"const": true},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/schemas/trirepo-authority-export.schema.json",
+  "title": "Bianchi tri-repository authority export",
+  "type": "object",
+  "required": ["schema_version", "program_id", "change_id", "sync_run_id", "repository", "policy_base", "exports", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "change_id": {"type": "string", "minLength": 1},
+    "sync_run_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+    "policy_base": {
+      "type": "object",
+      "required": ["branch", "commit", "tree"],
+      "properties": {
+        "branch": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      },
+      "additionalProperties": false
+    },
+    "observed_research_heads": {"type": "array", "items": {"type": "object"}},
+    "exports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["formula_id", "owner", "authority_mode", "producer_ref", "producer_commit", "source_path", "semantic_hash", "convention_hash", "status", "consumers", "allowed_consumer_modes", "dependencies"],
+        "properties": {
+          "formula_id": {"type": "string", "minLength": 1},
+          "owner": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+          "authority_mode": {"enum": ["AUTHORITATIVE_DERIVATION", "PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION", "OWNED_EXTENSION"]},
+          "replay_of": {"type": ["string", "null"]},
+          "producer_ref": {"type": ["string", "null"]},
+          "producer_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+          "source_path": {"type": ["string", "null"]},
+          "semantic_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "convention_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "status": {"type": "string", "minLength": 1},
+          "consumers": {"type": "array", "items": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]}, "uniqueItems": true},
+          "allowed_consumer_modes": {"type": "array", "items": {"enum": ["PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]}, "uniqueItems": true},
+          "dependencies": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,79 @@
+name: tri-repository synchronization audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "docs/bianchi_program/TRIREPO_SYNC_POLICY_V2.md"
+      - "schemas/trirepo-*.schema.json"
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  push:
+    paths:
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "docs/bianchi_program/TRIREPO_SYNC_POLICY_V2.md"
+      - "schemas/trirepo-*.schema.json"
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  schedule:
+    - cron: "10 18 * * *"  # 03:10 KST daily
+    - cron: "0 19 * * 6"   # 04:00 KST Sunday
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out BASS control plane
+        uses: actions/checkout@v4
+
+      - name: Check out REC manifest branch
+        uses: actions/checkout@v4
+        with:
+          repository: cosmosapjw-quantum/rec_bianchi
+          ref: policy/trirepo-sync-export-v2-20260902-r2
+          path: sync-inputs/rec_bianchi
+          persist-credentials: false
+
+      - name: Check out REI manifest branch
+        uses: actions/checkout@v4
+        with:
+          repository: cosmosapjw-quantum/rei_bianchi
+          ref: policy/trirepo-sync-export-v2-20260902-r2
+          path: sync-inputs/rei_bianchi
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run coordinator unit tests
+        run: python -m unittest discover -s tests -p 'test_trirepo_sync_audit.py' -v
+
+      - name: Run full read-only tri-repository audit
+        run: |
+          python scripts/trirepo_sync_audit.py \
+            --export docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --export sync-inputs/rec_bianchi/docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --export sync-inputs/rei_bianchi/docs/bianchi_program/TRIREPO_AUTHORITY_EXPORT.json \
+            --import-lock docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --import-lock sync-inputs/rec_bianchi/docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --import-lock sync-inputs/rei_bianchi/docs/bianchi_program/TRIREPO_IMPORT_LOCK.json \
+            --expected-run-id 72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f \
+            --out-dir artifacts/trirepo-sync \
+            --fail-on structural
+
+      - name: Upload audit products
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trirepo-sync-audit
+          path: artifacts/trirepo-sync
+          if-no-files-found: warn

@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "change_id": "TRI-SYNC-V2-BOOTSTRAP-01",
+  "sync_run_id": "72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f",
+  "registry_state": "PROPOSAL_ONLY",
+  "owner_policy": "ONE_AUTHORITATIVE_OWNER_PER_FORMULA_ID_AND_SEMANTIC_CLASS",
+  "repositories": {
+    "bass": {
+      "role": "shared_geometry_background_orchestration_and_observables",
+      "jira": "BASS-17"
+    },
+    "rec_bianchi": {
+      "role": "primordial_recombination_provider",
+      "jira": "BASS-19"
+    },
+    "rei_bianchi": {
+      "role": "astrophysical_reionization_opacity_and_matter_source_provider",
+      "jira": "BASS-18"
+    }
+  },
+  "formula_records": [
+    {
+      "formula_id": "BASS.CONVENTIONS.CORE.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-wolfram-w0w1-20260901-r1",
+      "producer_commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+      "source_path": "wolfram/BASS/Kernel/Authority/Conventions.wl",
+      "semantic_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"]
+    },
+    {
+      "formula_id": "BASS.GEO.BIANCHI_ALGEBRA.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r2-exact-identity-20260902-r1",
+      "producer_commit": "5454456133346d984fe08226cd0f5cc339a47f59",
+      "source_path": "wolfram/BASS/Kernel/Geometry/StructureConstants.wl",
+      "semantic_hash": "e0e5fbba464a839fcb5b11d41c7772c666224ec69f806910aab3bfab5a2f1762",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"]
+    },
+    {
+      "formula_id": "BASS.GEO.ONF_CONNECTION.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r2-geo02-compose-20260902-r1",
+      "producer_commit": "313955fc8297fd712d9e778e878368fa4c27e9cf",
+      "source_path": "wolfram/BASS/Kernel/Geometry/SpatialConnection.wl",
+      "semantic_hash": "1f28c921734194c5a3b79e8d31ae045f7bfce336e2641e6e01a9232a0cdbc13d",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"],
+      "dependencies": ["BASS.GEO.BIANCHI_ALGEBRA.001"]
+    },
+    {
+      "formula_id": "BASS.GEO.SPATIAL_CURVATURE.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r1-w2-w3-geometry-20260902-r1",
+      "producer_commit": "394cb32784aa9dff15b5196db35f0fa065289fc6",
+      "source_path": "wolfram/BASS/Kernel/Geometry/ONFCurvature.wl",
+      "semantic_hash": null,
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "HOLD_REBIND_REQUIRED",
+      "consumers": [],
+      "dependencies": ["BASS.GEO.ONF_CONNECTION.001"],
+      "reason": "curvature witness line is not yet composed on the latest exact ALG-01R2 closeout"
+    },
+    {
+      "formula_id": "REC.RECOMBINATION.HISTORY.001",
+      "owner": "rec_bianchi",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "agent/research/rec-next03-formal-contracts-20260831-r1",
+      "producer_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "source_path": null,
+      "semantic_hash": null,
+      "convention_hash": null,
+      "status": "BLOCKED_PROVIDER_NOT_PUBLISHED",
+      "consumers": ["rei_bianchi", "bass"],
+      "reason": "SOURCE_DEFINED_26_DIRECTION_FACE_RECONSTRUCTION_ABSENT"
+    },
+    {
+      "formula_id": "REI.REIONIZATION.HISTORY.001",
+      "owner": "rei_bianchi",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "agent/implementation/rei-runtime-bridge-host-context-validation-20260901-r1",
+      "producer_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "source_path": null,
+      "semantic_hash": null,
+      "convention_hash": null,
+      "status": "STOP_INVALID_NOT_PUBLISHED",
+      "consumers": ["bass"],
+      "reason": "UNDECLARED_IMPORT_ntpath"
+    },
+    {
+      "formula_id": "BASS.ADAPTER.REC_REI_SPLICE.001",
+      "owner": "bass",
+      "authority_mode": "OWNED_EXTENSION",
+      "producer_ref": null,
+      "producer_commit": null,
+      "source_path": null,
+      "semantic_hash": null,
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "NOT_RUN",
+      "consumers": ["bass"],
+      "dependencies": ["REC.RECOMBINATION.HISTORY.001", "REI.REIONIZATION.HISTORY.001"]
+    },
+    {
+      "formula_id": "BASS.ORCHESTRATION.FIXED_POINT.001",
+      "owner": "bass",
+      "authority_mode": "OWNED_EXTENSION",
+      "producer_ref": null,
+      "producer_commit": null,
+      "source_path": null,
+      "semantic_hash": null,
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "NOT_RUN",
+      "consumers": ["bass"],
+      "dependencies": ["BASS.ADAPTER.REC_REI_SPLICE.001"]
+    }
+  ],
+  "claim_boundary": "REGISTRY_BOOTSTRAP_ONLY_NO_FORMULA_OR_PROVIDER_PROMOTION"
+}
