@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "ALG_01R2",
+  "phase": "RED",
+  "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+  "source_parent": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-master-ssot-v2-alg01-20260901-r1",
+    "commit": "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46"
+  },
+  "red_test_commit": "48572815bf1dc0c10f64e9e92555323aa7cc88d7",
+  "runtime": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "execution_mode": "fresh stateless focused Wolfram oracle"
+  },
+  "expected_failures": {
+    "semantic_projection_api_absent": true,
+    "semantic_hash_api_absent": true,
+    "carrier_report_api_absent": true,
+    "sigma13_single_delete_wrongly_accepted": true,
+    "sigma23_single_delete_wrongly_accepted": true,
+    "rational_real_rawjson_collision": true
+  },
+  "rawjson_collision_witness": {
+    "exact": "{\"signed_h\":-0.1111111111111111}",
+    "machine_real": "{\"signed_h\":-0.1111111111111111}"
+  },
+  "claim_boundary": "TDD_RED_FOCUSED_REPRODUCTION_ONLY_NO_IMPLEMENTATION_OR_SCIENCE_CLAIM"
+}
