@@ -39,7 +39,9 @@ VerificationTest[$ALG01Canonical["V"]["actual"]["transverse_det_sign"], 0,
  TestID -> "BASS-ALG-01-V-zero-transverse-block"]
 VerificationTest[$ALG01Canonical["IX"]["actual"]["n_inertia"], {3, 0, 0},
  TestID -> "BASS-ALG-01-IX-same-sign-inertia"]
-VerificationTest[$ALG01Canonical["VI_-1/9"]["actual"]["signed_h"], -1/9,
+VerificationTest[
+ $ALG01Canonical["VI_-1/9"]["actual"]["signed_h"],
+ BASS`IR`ExactScalarAST[-1/9],
  TestID -> "BASS-ALG-01-exceptional-signed-h"]
 VerificationTest[
  Values[$ALG01Canonical["VI_-1/9"]["actual"]["exceptional_residuals"]],
