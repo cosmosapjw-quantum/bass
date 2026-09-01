@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "ALG_01",
+  "phase": "RED",
+  "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+  "evaluated_at": "2026-09-01",
+  "source_parent": {
+    "branch": "research/bass-master-ssot-v2-wolfram-w0w1-20260901-r1",
+    "commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+    "tree": "ffe65b1c48f332acdc5a7497b77a75ef64fd7500"
+  },
+  "tests": [
+    {
+      "test_id": "BASS-ALG-01-TYPESPEC-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Bianchi`MakeBianchiTypeSpec\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    },
+    {
+      "test_id": "BASS-ALG-01-STRUCTURE-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Geometry`BianchiStructureConstants\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    },
+    {
+      "test_id": "BASS-ALG-01-WITNESS-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Bianchi`ValidateCanonicalWitness\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    }
+  ],
+  "claim_boundary": "TDD_RED_ONLY_NO_ALGEBRA_IMPLEMENTATION_OR_PHYSICS_CLAIM"
+}
