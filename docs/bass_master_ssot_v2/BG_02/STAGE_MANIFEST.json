@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "BG_02",
+  "status": "PASS",
+  "predecessor": {
+    "branch": "research/bass-master-ssot-v2-alg01-witness-20260902-r1",
+    "commit": "c35177409909b7eef0f5c99c0c61a456b5e55117",
+    "tree": "c2fa8cd3f34b46b9522479501a502d1ecd5ded6a",
+    "draft_pr": 79
+  },
+  "tested_source": {
+    "branch": "research/bass-master-ssot-v2-bg02-gr-constraints-20260902-r1",
+    "commit": "3df963f555732a1c473935d5de86c55027e81975",
+    "tree": "796da0e6c4cf29d6ee06fa07f0d051c6445ab9cc"
+  },
+  "stage_delta": [
+    {
+      "path": "wolfram/BASS/Kernel/Background/GRProjection.wl",
+      "git_blob_sha1": "14738bd2417912307fe42d279d8cffe750be1848",
+      "bytes": 9149,
+      "role": "generic GR projection equations and matter energy balance"
+    },
+    {
+      "path": "wolfram/BASS/Kernel/Background/StructureEvolution.wl",
+      "git_blob_sha1": "dd2e26a0824d3362d0cf857dd6577d81526ee013",
+      "bytes": 1784,
+      "role": "Bianchi structure evolution and Jacobi propagation"
+    },
+    {
+      "path": "wolfram/BASS/Kernel/Background/ConstraintPropagation.wl",
+      "git_blob_sha1": "a57d4380ed7254297a9cb66e242098699b22b74e",
+      "bytes": 3811,
+      "role": "off-shell Einstein constraint-propagation policies"
+    },
+    {
+      "path": "wolfram/BASS/Tests/BG02/GRBackgroundConstraints.wlt",
+      "git_blob_sha1": "906b8c6e0d49e8571f122129f479df5dc2fd1fa1",
+      "bytes": 5369,
+      "role": "generic projections, limits and propagation tests"
+    },
+    {
+      "path": "wolfram/BASS/Tests/BG02/TypeVMetricPropagation.wlt",
+      "git_blob_sha1": "3c9359b36de37e3cc893d01dca79bb08441c6ce2",
+      "bytes": 2139,
+      "role": "independent coordinate-metric Type-V Bianchi audit"
+    },
+    {
+      "path": "wolfram/BASS/Kernel/init.wl",
+      "git_blob_sha1": "68fa30631fcace5736ab6a2ac80fc6e3763af970",
+      "bytes": 1104,
+      "role": "package integration"
+    },
+    {
+      "path": "wolfram/scripts/run_stage.wls",
+      "git_blob_sha1": "5eb83f752d39b1591833fdfe4ee6b9281f0d207f",
+      "bytes": 5506,
+      "role": "stage runner integration through BG_02"
+    },
+    {
+      "path": "wolfram/schemas/gr-background-equation-set.schema.json",
+      "git_blob_sha1": "621271e06e2b565b63266014c76d4c4de643037f",
+      "bytes": 2222,
+      "role": "public machine-readable equation-set schema"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/BG_02/README.md",
+      "git_blob_sha1": "c0dd8cd50546596f13da6457523a43c23631a516",
+      "bytes": 2151,
+      "role": "human scope and off-shell-policy contract"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/BG_02/SCISPACE_LITERATURE_LOCK.md",
+      "git_blob_sha1": "4622e95c9aa722eac2e3db1aace010ec05c2ebf7",
+      "bytes": 2933,
+      "role": "methodological literature cross-check"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/BG_02/TDD_RED_RECEIPT.json",
+      "git_blob_sha1": "aee6fec6287f9d5b23efc43d4ac20dd95176ba8f",
+      "bytes": 1466,
+      "role": "test-first RED evidence"
+    }
+  ],
+  "verification": {
+    "tdd_red": {
+      "succeeded": 1,
+      "failed": 18,
+      "not_evaluated": 0,
+      "classification": "EXPECTED_RED_MISSING_BG02_PUBLIC_APIS"
+    },
+    "bg02_core": {
+      "succeeded": 19,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "independent_type_v_metric": {
+      "succeeded": 4,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "cumulative_symbolic_regression": {
+      "succeeded": 55,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "dropbox_git_blob_identity": {
+      "checked": 11,
+      "passed": 11,
+      "failed": 0
+    }
+  },
+  "scope": {
+    "included": [
+      "generic geodesic hypersurface-normal GR background projection",
+      "Hamiltonian, momentum and Jacobi constraints",
+      "Raychaudhuri and spatial-Einstein off-shell policies",
+      "constraint propagation",
+      "Kasner, de Sitter and Milne limits",
+      "independent Type-V coordinate-metric audit"
+    ],
+    "excluded": [
+      "all-eleven-branch background lowering",
+      "matter-model closure and finite tilt",
+      "chart events and Type-IX recollapse integration",
+      "numerical implementation parity",
+      "generic-ell kinetic compiler",
+      "REC/REI/htt_base integration"
+    ]
+  },
+  "claim_boundary": "BG02_GENERIC_GR_BACKGROUND_AND_CONSTRAINT_DESIGN_ONLY_NO_RUNTIME_OR_SCIENCE_PROMOTION"
+}
