@@ -45,7 +45,7 @@ vector3Q[x_] := ListQ[x] && Length[x] === 3;
 symmetric3Q[x_] := MatrixQ[x] && Dimensions[x] === {3, 3} &&
  TrueQ[Simplify[x == Transpose[x]]];
 zeroArrayQ[x_] := AllTrue[Flatten[x], TrueQ[PossibleZeroQ[#]] &];
-exactCoefficientQ[x_] := IntegerQ[x] || RationalQ[x];
+exactCoefficientQ[x_] := IntegerQ[x] || MatchQ[x, _Rational];
 
 ONFLeviCivitaConnection[a_List, n_List] /;
   vector3Q[a] && symmetric3Q[n] := Module[{c},
