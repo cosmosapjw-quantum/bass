@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/wolfram/schemas/gr-background-equation-set.schema.json",
+  "title": "BASS BG-02 GR Background Equation Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "stage_id",
+    "state",
+    "constraints",
+    "evolution",
+    "matter_balance",
+    "off_shell_policies",
+    "dimensions",
+    "known_limits",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stage_id": {"const": "BG_02"},
+    "state": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 8,
+      "uniqueItems": true
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hamiltonian", "momentum", "jacobi"],
+      "properties": {
+        "hamiltonian": {"type": "string", "minLength": 1},
+        "momentum": {"type": "string", "minLength": 1},
+        "jacobi": {"type": "string", "minLength": 1}
+      }
+    },
+    "evolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raychaudhuri",
+        "spatial_einstein_trace",
+        "shear",
+        "structure_vector",
+        "structure_matrix"
+      ],
+      "properties": {
+        "raychaudhuri": {"type": "string", "minLength": 1},
+        "spatial_einstein_trace": {"type": "string", "minLength": 1},
+        "shear": {"type": "string", "minLength": 1},
+        "structure_vector": {"type": "string", "minLength": 1},
+        "structure_matrix": {"type": "string", "minLength": 1}
+      }
+    },
+    "matter_balance": {"type": "string", "minLength": 1},
+    "off_shell_policies": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "spatial_einstein_unadjusted",
+          "raychaudhuri_adjusted"
+        ]
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "dimensions": {"type": "object"},
+    "known_limits": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "claim_boundary": {
+      "const": "BG02_EQUATION_REGISTRY_ONLY_NO_MATTER_PLUGIN_OR_NUMERICAL_SOLVER"
+    }
+  }
+}
