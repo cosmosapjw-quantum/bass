@@ -6,8 +6,10 @@ CanonicalWitnessRegistry::usage =
  "CanonicalWitnessRegistry[] returns the five exact dimensionless ALG-01 witnesses.";
 ExceptionalVIminusOneNinthResiduals::usage =
  "ExceptionalVIminusOneNinthResiduals[witness] returns the group and momentum residuals.";
+ExceptionalShearCarrierReport::usage =
+ "ExceptionalShearCarrierReport[witness] reports the independent Sigma13 and Sigma23 witness carriers without turning them into physical branch predicates.";
 ExceptionalShearSurvivalQ::usage =
- "ExceptionalShearSurvivalQ[witness] checks that the bounded exceptional witness exhibits surviving Sigma13 or Sigma23 freedom.";
+ "ExceptionalShearSurvivalQ[witness] checks that the bounded exceptional witness exhibits at least one surviving Sigma13 or Sigma23 carrier.";
 WitnessObligationReport::usage =
  "WitnessObligationReport[spec,witness] evaluates witness-only obligations without strengthening the physical branch predicates.";
 BranchPredicateReport::usage =
@@ -25,8 +27,9 @@ Begin["`Private`"];
 
 ClearAll[
  CanonicalWitnessRegistry, ExceptionalVIminusOneNinthResiduals,
- ExceptionalShearSurvivalQ, WitnessObligationReport,
- BranchPredicateReport, ValidateCanonicalWitness, ValidateWitnessRegistry,
+ ExceptionalShearCarrierReport, ExceptionalShearSurvivalQ,
+ WitnessObligationReport, BranchPredicateReport,
+ ValidateCanonicalWitness, ValidateWitnessRegistry,
  HostileWitnessRegistry, ValidateHostileWitnesses,
  witnessVector3Q, witnessMatrix3Q, witnessSymmetric3Q, witnessZeroQ,
  witnessQ, aAlignedQ, signedH, nullableMatchQ, failedCheckKeys,
@@ -131,14 +134,34 @@ ExceptionalVIminusOneNinthResiduals[witness_Association] /;
 ExceptionalVIminusOneNinthResiduals[___] :=
  Failure["InvalidWitness", <||>];
 
-ExceptionalShearSurvivalQ[witness_Association] /;
-  witnessQ[witness] := Module[{shear, exceptionalCarriers},
+ExceptionalShearCarrierReport[witness_Association] /;
+  witnessQ[witness] := Module[{shear, sigma13Present, sigma23Present},
  shear = witness["shear"];
- exceptionalCarriers = {
-   shear[[1, 3]],
-   shear[[2, 3]]
-  };
- ! witnessZeroQ[exceptionalCarriers]
+ sigma13Present = ! witnessZeroQ[shear[[1, 3]]];
+ sigma23Present = ! witnessZeroQ[shear[[2, 3]]];
+ <|
+  "sigma13_carrier_present" -> sigma13Present,
+  "sigma23_carrier_present" -> sigma23Present,
+  "any_non_diagonal_shear_survives" -> Or[
+    sigma13Present,
+    sigma23Present
+   ],
+  "independent_carriers_present" -> And[
+    sigma13Present,
+    sigma23Present
+   ],
+  "scope_firewall" ->
+   "canonical witness representation only; zero-valued physical submanifolds remain allowed"
+ |>
+];
+ExceptionalShearCarrierReport[___] :=
+ Failure["InvalidWitness", <||>];
+
+ExceptionalShearSurvivalQ[witness_Association] /;
+  witnessQ[witness] := Module[{report},
+ report = ExceptionalShearCarrierReport[witness];
+ ! FailureQ[report]
+  && TrueQ[report["any_non_diagonal_shear_survives"]]
 ];
 ExceptionalShearSurvivalQ[___] := False;
 
@@ -146,13 +169,18 @@ WitnessObligationReport[
  spec_Association,
  witness_Association
 ] /; BianchiTypeSpecQ[spec] && witnessQ[witness] := Module[
- {obligations, checks},
+ {obligations, carrierReport, checks},
  obligations = Lookup[spec, "witness_obligations", {}];
+ carrierReport = ExceptionalShearCarrierReport[witness];
  checks = AssociationMap[
    Switch[
      #,
      "non_diagonal_shear_survival",
-     ExceptionalShearSurvivalQ[witness],
+     TrueQ[Lookup[carrierReport, "any_non_diagonal_shear_survives", False]],
+     "sigma13_carrier_present",
+     TrueQ[Lookup[carrierReport, "sigma13_carrier_present", False]],
+     "sigma23_carrier_present",
+     TrueQ[Lookup[carrierReport, "sigma23_carrier_present", False]],
      _,
      False
     ] &,
@@ -162,6 +190,7 @@ WitnessObligationReport[
   "pass" -> And @@ Values[checks],
   "checks" -> checks,
   "failed_obligations" -> failedCheckKeys[checks],
+  "carrier_report" -> carrierReport,
   "scope_firewall" ->
    "witness-only obligation; not a physical branch predicate"
  |>
@@ -240,6 +269,11 @@ BranchPredicateReport[spec_Association, witness_Association] /;
     "n_inertia" -> inertia,
     "transverse_det_sign" -> transverseDetSign,
     "signed_h" -> h,
+    "signed_h_ast" -> If[
+      h === Null,
+      Null,
+      BASS`IR`ExactScalarAST[h]
+     ],
     "jacobi_vector_residual" -> jacobiVector,
     "jacobi_tensor_nonzero_count" -> jacobiTensorNonzeroCount,
     "exceptional_residuals" -> exceptionalResiduals,
@@ -299,6 +333,26 @@ HostileWitnessRegistry[] := Module[{base},
     "witness" -> ReplacePart[
       base["VI_-1/9"],
       "n" -> {{0, 0, 0}, {0, 2, -3}, {0, -3, 0}}
+     ]
+   |>,
+  "EXCEPTIONAL_SIGMA13_DELETE" -> <|
+    "target_label" -> "VI_-1/9",
+    "witness" -> ReplacePart[
+      base["VI_-1/9"],
+      {
+       {"shear", 1, 3} -> 0,
+       {"shear", 3, 1} -> 0
+      }
+     ]
+   |>,
+  "EXCEPTIONAL_SIGMA23_DELETE" -> <|
+    "target_label" -> "VI_-1/9",
+    "witness" -> ReplacePart[
+      base["VI_-1/9"],
+      {
+       {"shear", 2, 3} -> 0,
+       {"shear", 3, 2} -> 0
+      }
      ]
    |>,
   "EXCEPTIONAL_SHEAR_DELETE" -> <|

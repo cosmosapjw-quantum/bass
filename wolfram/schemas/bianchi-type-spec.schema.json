@@ -35,7 +35,11 @@
     "witness_obligations": {
       "type": "array",
       "items": {
-        "enum": ["non_diagonal_shear_survival"]
+        "enum": [
+          "non_diagonal_shear_survival",
+          "sigma13_carrier_present",
+          "sigma23_carrier_present"
+        ]
       },
       "uniqueItems": true
     },
@@ -48,6 +52,7 @@
         "n_inertia_options",
         "transverse_det_sign",
         "signed_h",
+        "signed_h_ast",
         "exceptional_constraints"
       ],
       "properties": {
@@ -73,6 +78,24 @@
         },
         "signed_h": {
           "type": ["number", "null"]
+        },
+        "signed_h_ast": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "integer", "rational", "symbol", "sum", "product",
+                    "sqrt", "power", "call", "atom"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          ]
         },
         "exceptional_constraints": {
           "type": ["boolean", "null"]

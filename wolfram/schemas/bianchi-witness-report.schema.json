@@ -33,6 +33,7 @@
         "n_inertia",
         "transverse_det_sign",
         "signed_h",
+        "signed_h_ast",
         "jacobi_vector_residual",
         "jacobi_tensor_nonzero_count",
         "exceptional_residuals",
@@ -40,6 +41,12 @@
         "cartan_terms"
       ],
       "properties": {
+        "signed_h_ast": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "required": ["type"]}
+          ]
+        },
         "witness_obligation_report": {
           "oneOf": [
             {
@@ -48,6 +55,7 @@
                 "pass",
                 "checks",
                 "failed_obligations",
+                "carrier_report",
                 "scope_firewall"
               ],
               "properties": {
@@ -59,6 +67,24 @@
                 "failed_obligations": {
                   "type": "array",
                   "items": {"type": "string"}
+                },
+                "carrier_report": {
+                  "type": "object",
+                  "required": [
+                    "sigma13_carrier_present",
+                    "sigma23_carrier_present",
+                    "any_non_diagonal_shear_survives",
+                    "independent_carriers_present",
+                    "scope_firewall"
+                  ],
+                  "properties": {
+                    "sigma13_carrier_present": {"type": "boolean"},
+                    "sigma23_carrier_present": {"type": "boolean"},
+                    "any_non_diagonal_shear_survives": {"type": "boolean"},
+                    "independent_carriers_present": {"type": "boolean"},
+                    "scope_firewall": {"type": "string"}
+                  },
+                  "additionalProperties": false
                 },
                 "scope_firewall": {"type": "string"}
               },
