@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "W3",
+  "status": "FAILURES_PRESERVED_THEN_REPAIRED",
+  "attempts": [
+    {
+      "attempt": "initial_dropbox_restored_source",
+      "source_commit": "71662561203abf81c772b844f1db6eb1b3db8493",
+      "tests_succeeded": 3,
+      "tests_failed": 12,
+      "tests_not_evaluated": 0,
+      "classification": "SOFTWARE_ADAPTER_FAILURE",
+      "root_causes": [
+        "xCoba component arrays were not materialized in the package-private symbol namespace",
+        "MetricCompute materialization options were not explicit",
+        "AssociationMap was applied to existing Associations and therefore aggregated keys rather than values"
+      ],
+      "physics_formula_changed_by_repair": false
+    },
+    {
+      "attempt": "fix1_dropbox_restored_source",
+      "source_commit": "3ae327480294d0a28fb75fcb812ec6d9d4fd6e08",
+      "tests_succeeded": 14,
+      "tests_failed": 1,
+      "tests_not_evaluated": 0,
+      "classification": "VALIDATOR_SYMBOL_FAILURE",
+      "failed_test": "BASS-W3-FORMULA-REGISTRY-001-valid",
+      "root_cause": "RationalQ resolved as an undefined package-private symbol in Wolfram 15.0.1",
+      "repair": "replace RationalQ[x] with MatchQ[x,_Rational]",
+      "physics_formula_changed_by_repair": false
+    },
+    {
+      "attempt": "fix2_dropbox_restored_source",
+      "source_commit": "5d3e8ecce2a40a1bc2b43af7daa985e042d9815f",
+      "tests_succeeded": 15,
+      "tests_failed": 0,
+      "tests_not_evaluated": 0,
+      "classification": "PASS"
+    }
+  ],
+  "claim_boundary": "FAILURE_HISTORY_ONLY_FINAL_CLAIMS_REQUIRE_W3_RECEIPT"
+}

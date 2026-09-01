@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "W3",
+  "canonical_parent": {
+    "commit": "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46",
+    "tree": "a0f8cab48cdb32c18282d512f2b2ecb45083b62d"
+  },
+  "tested_source": {
+    "commit": "5d3e8ecce2a40a1bc2b43af7daa985e042d9815f",
+    "tree": "0fee5b6335a2eb8968c11790ce787bf54fdc1def"
+  },
+  "dropbox_root": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-02/W3_AFTER_ALG01R1_W2",
+  "restore_order": [
+    {
+      "order": 1,
+      "path": "parent_W0_W1",
+      "role": "W0/W1 exact executable parent backup"
+    },
+    {
+      "order": 2,
+      "path": "parent_ALG_01R1",
+      "role": "ALG-01 R1 exact layered parent backup"
+    },
+    {
+      "order": 3,
+      "path": "sources",
+      "role": "W2 plus initial W3 composition source"
+    },
+    {
+      "order": 4,
+      "path": "fix1",
+      "role": "Global namespace, explicit MetricCompute materialization, and Association Map repair"
+    },
+    {
+      "order": 5,
+      "path": "fix2",
+      "role": "exact Rational pattern validator repair"
+    }
+  ],
+  "failure_preservation": {
+    "sources_result": "3/15 PASS",
+    "fix1_result": "14/15 PASS",
+    "fix2_result": "15/15 PASS"
+  },
+  "identity_policy": {
+    "git": "Git object SHA-1 and commit/tree ancestry",
+    "dropbox": "Dropbox content hash and file ID",
+    "scientific": "exact residual and declared convention identity",
+    "rule": "identity domains are recorded separately and never conflated"
+  },
+  "claim_boundary": "RESTORE_AND_PROVENANCE_ONLY_NO_NEW_PHYSICS_CLAIM"
+}
