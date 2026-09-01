@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "BG_02",
+  "status": "PASS",
+  "evaluated_date_kst": "2026-09-02",
+  "source": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-master-ssot-v2-bg02-gr-constraints-20260902-r1",
+    "predecessor_commit": "c35177409909b7eef0f5c99c0c61a456b5e55117",
+    "predecessor_tree": "c2fa8cd3f34b46b9522479501a502d1ecd5ded6a",
+    "tested_source_commit": "3df963f555732a1c473935d5de86c55027e81975",
+    "tested_source_tree": "796da0e6c4cf29d6ee06fa07f0d051c6445ab9cc",
+    "receipt_parent_head": "497bbac089338ec0c223b23ee7f5a1bcecf105d1"
+  },
+  "tdd": {
+    "red": {
+      "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+      "commit": "7356bce47cedf60b36d0ec39461e0f5d117f23fd",
+      "succeeded": 1,
+      "failed": 18,
+      "not_evaluated": 0,
+      "classification": "EXPECTED_RED_MISSING_BG02_PUBLIC_APIS"
+    },
+    "green": {
+      "bg02_projection_limit_propagation_succeeded": 19,
+      "independent_type_v_metric_succeeded": 4,
+      "cumulative_symbolic_succeeded": 55,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "expression_canonicalization_repair": {
+      "classification": "TEST_REPRESENTATION_ONLY",
+      "initial_actual": "(-4 H-sigma1) C",
+      "initial_expected": "-(4 H+sigma1) C",
+      "repair": "compare their exact simplified residual with zero",
+      "physics_formula_changed": false
+    }
+  },
+  "runtime": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "xact_version": ["1.3.0", [2025, 12, 29]],
+    "xact_archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+    "convention_sha256": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70"
+  },
+  "assumptions": {
+    "metric_signature": [-1, 1, 1, 1],
+    "normal_congruence": "geodesic and hypersurface-orthogonal",
+    "normal_acceleration": 0,
+    "normal_vorticity": 0,
+    "spatial_frame": "Fermi-propagated orthonormal frame",
+    "triad_rotation": 0,
+    "time_variable": "s=c t",
+    "time_derivative": "D0=d/ds=(1/c) partial_t",
+    "natural_units": false
+  },
+  "verified_formulas": {
+    "stress_energy": "T_ab=rho n_a n_b+2 n_(a q_b)+p h_ab+pi_ab",
+    "einstein_equation": "G_ab+Lambda g_ab=kappa_E T_ab, kappa_E=8 pi G/c^4",
+    "extrinsic_curvature": "K_ab=H h_ab+sigma_ab",
+    "hamiltonian": "C_H=R3+6H^2-sigma_ab sigma^ab-2Lambda-2kappa_E rho",
+    "momentum": "C_Ma=D_a K-D_b K^b_a-kappa_E q_a",
+    "raychaudhuri": "D0 H=-H^2-sigma_ab sigma^ab/3-kappa_E(rho+3p)/6+Lambda/3",
+    "spatial_einstein_trace": "D0 H|S=0=D0 H|Raychaudhuri-C_H/12",
+    "shear": "D0 sigma_ab=-3H sigma_ab-R3_<ab>+kappa_E pi_ab",
+    "structure_vector": "D0 a_a=-H a_a-sigma_a^b a_b",
+    "structure_matrix": "D0 n_ab=-H n_ab+sigma_a^c n_cb+sigma_b^c n_ac",
+    "jacobi_propagation": "D0(n.a)=(-2H I+sigma).(n.a)",
+    "momentum_propagation": "D0 C_Ma=-(4H delta_a^b+sigma_a^b) C_Mb",
+    "energy_balance": "D0 rho+3H(rho+p)+D_a q^a+2 A_a q^a+sigma_ab pi^ab=-n_a Q^a"
+  },
+  "off_shell_policy_results": {
+    "spatial_einstein_unadjusted": {
+      "H_rhs": "Raychaudhuri-C_H/12",
+      "hamiltonian_propagation": "D0 C_H=-3H C_H-2D_a C_M^a"
+    },
+    "raychaudhuri_adjusted": {
+      "H_rhs": "Raychaudhuri",
+      "hamiltonian_propagation": "D0 C_H=-2H C_H-2D_a C_M^a"
+    },
+    "on_shell_equivalence": true,
+    "off_shell_identity": false,
+    "silent_mixing_forbidden": true
+  },
+  "known_limit_checks": {
+    "kasner_hamiltonian": "PASS_EXACT_ZERO",
+    "kasner_raychaudhuri": "PASS_EXACT_ZERO",
+    "kasner_shear": "PASS_EXACT_ZERO",
+    "de_sitter": "PASS_EXACT_ZERO",
+    "milne_hamiltonian": "PASS_EXACT_ZERO",
+    "milne_structure_evolution": "PASS_EXACT_ZERO"
+  },
+  "independent_type_v_metric_audit": {
+    "metric": "ds^2=-ds^2+a1(s)^2 dx^2+exp(2Ax)a2(s)^2dy^2+exp(2Ax)a3(s)^2dz^2",
+    "time_residual": "D0 F+3HF+2(A/a1)C=0",
+    "longitudinal_residual": "D0 C+(4H+sigma1)C=0",
+    "transverse_residuals": [0, 0],
+    "coordinate_dependence": "NONE_AFTER_EXACT_SIMPLIFICATION",
+    "hamiltonian_to_momentum_feedback": "ZERO"
+  },
+  "literature_crosscheck": {
+    "status": "PASS_METHOD_SUPPORT_ONLY",
+    "references": [
+      "van Elst and Uggla 1997, DOI 10.1088/0264-9381/14/9/021",
+      "Hewitt, Horwood and Wainwright 2003, DOI 10.1088/0264-9381/20/9/311",
+      "MacCallum 1971, DOI 10.1007/BF01646733",
+      "Coussaert and Henneaux 1993, DOI 10.1088/0264-9381/10/8/018"
+    ],
+    "formula_authority": false
+  },
+  "backup": {
+    "github": "PASS_SOURCE_AND_RECEIPTS_COMMITTED",
+    "dropbox_stage_path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-02/BG_02",
+    "dropbox_stage_folder_id": "id:BSpOijBcT10AAAAAADlQQA",
+    "dropbox_sources_folder_id": "id:BSpOijBcT10AAAAAADlQQQ",
+    "mirrored_stage_delta_files": 11,
+    "exact_git_blob_identity": "PASS_11_OF_11",
+    "federated_dropbox_symbolic_replay": "PASS_55_OF_55"
+  },
+  "authorized_claims": [
+    "PASS_BG02_GR_PROJECTION_DESIGN",
+    "PASS_BG02_CONSTRAINT_PROPAGATION_DESIGN",
+    "PASS_BG02_TYPE_V_METRIC_AUDIT",
+    "PASS_BG02_EXACT_LIMITS",
+    "PASS_BG02_DROPBOX_IDENTITY_11_OF_11",
+    "PASS_BG02_CUMULATIVE_SYMBOLIC_REGRESSION_55_OF_55"
+  ],
+  "withheld_claims": [
+    "ALL_ELEVEN_BRANCH_BACKGROUND_SUPPORT",
+    "MATTER_MODEL_CLOSURE",
+    "TILTED_MATTER_EVOLUTION",
+    "CHART_EVENT_IMPLEMENTATION",
+    "NUMERICAL_PARITY",
+    "GENERIC_ELL_COMPILER_CORRECTNESS",
+    "CROSS_REPOSITORY_COMPATIBILITY",
+    "SCIENCE_VALIDITY",
+    "BASS_RF04_PROMOTION"
+  ],
+  "next_stage": {
+    "id": "MAT_03_GRAVITY_MATTER_INTERACTION_PROTOCOL",
+    "status": "NOT_STARTED",
+    "entry_condition": "BG_02 Draft PR and triple-backup receipts remain valid"
+  },
+  "claim_boundary": "BG02_GENERIC_GR_BACKGROUND_FORMULAS_CONSTRAINT_DESIGN_AND_BACKUP_ONLY_NO_RUNTIME_OR_SCIENCE_PROMOTION"
+}
