@@ -172,14 +172,14 @@ ConnectionCovarianceQ[
 ConnectionCovarianceQ[___] := False;
 
 ConnectionToLockedGammaOrder[tensor_List] /;
-  connectionTensor333Q[tensor] := Transpose[tensor, {2, 3, 1}];
+  connectionTensor333Q[tensor] := Transpose[tensor, {3, 1, 2}];
 ConnectionToLockedGammaOrder[___] := Failure[
  "InvalidGeneratedConnectionTensor",
  <|"expected_order" -> {"gamma", "alpha", "beta"}|>
 ];
 
 ConnectionFromLockedGammaOrder[tensor_List] /;
-  connectionTensor333Q[tensor] := Transpose[tensor, {3, 1, 2}];
+  connectionTensor333Q[tensor] := Transpose[tensor, {2, 3, 1}];
 ConnectionFromLockedGammaOrder[___] := Failure[
  "InvalidLockedConnectionTensor",
  <|"expected_order" -> {"alpha", "beta", "gamma"}|>
@@ -212,8 +212,8 @@ ConnectionCompositionReceipt[] := Module[
   "exceptional_carrier_report" -> carrierReport,
   "generated_array_order" -> {"gamma", "alpha", "beta"},
   "locked_project_array_order" -> {"alpha", "beta", "gamma"},
-  "generated_to_locked_permutation" -> {2, 3, 1},
-  "locked_to_generated_permutation" -> {3, 1, 2},
+  "generated_to_locked_permutation" -> {3, 1, 2},
+  "locked_to_generated_permutation" -> {2, 3, 1},
   "connection_dimension" -> "L^-1",
   "curvature_generated" -> False,
   "claim_boundary" ->
@@ -233,6 +233,10 @@ ConnectionCompositionReceiptQ[receipt_Association] := And[
   {"gamma", "alpha", "beta"},
  Lookup[receipt, "locked_project_array_order", None] ===
   {"alpha", "beta", "gamma"},
+ Lookup[receipt, "generated_to_locked_permutation", None] ===
+  {3, 1, 2},
+ Lookup[receipt, "locked_to_generated_permutation", None] ===
+  {2, 3, 1},
  TrueQ[
   Lookup[
    Lookup[receipt, "exceptional_carrier_report", <||>],
