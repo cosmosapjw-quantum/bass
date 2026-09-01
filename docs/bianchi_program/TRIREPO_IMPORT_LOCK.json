@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "change_id": "TRI-SYNC-V2-BOOTSTRAP-01",
+  "sync_run_id": "72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f",
+  "repository": "bass",
+  "imports": [
+    {
+      "formula_id": "REC.RECOMBINATION.HISTORY.001",
+      "producer_repository": "rec_bianchi",
+      "producer_ref": "agent/research/rec-next03-formal-contracts-20260831-r1",
+      "producer_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "semantic_hash": null,
+      "convention_hash": null,
+      "local_mode": "PINNED_IMPORT",
+      "use": "primordial recombination history provider",
+      "status": "BLOCKED_PROVIDER_NOT_PUBLISHED",
+      "required_claim_level": "CROSS_REPO_COMPATIBLE"
+    },
+    {
+      "formula_id": "REI.REIONIZATION.HISTORY.001",
+      "producer_repository": "rei_bianchi",
+      "producer_ref": "agent/implementation/rei-runtime-bridge-host-context-validation-20260901-r1",
+      "producer_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "semantic_hash": null,
+      "convention_hash": null,
+      "local_mode": "PINNED_IMPORT",
+      "use": "astrophysical reionization and opacity history provider",
+      "status": "BLOCKED_PROVIDER_NOT_PUBLISHED",
+      "required_claim_level": "CROSS_REPO_COMPATIBLE"
+    },
+    {
+      "formula_id": "REI.MATTER_SOURCE.001",
+      "producer_repository": "rei_bianchi",
+      "producer_ref": null,
+      "producer_commit": null,
+      "semantic_hash": null,
+      "convention_hash": null,
+      "local_mode": "PINNED_IMPORT",
+      "use": "optional anisotropic matter-source feedback",
+      "status": "NOT_RUN",
+      "required_claim_level": "CROSS_REPO_COMPATIBLE"
+    }
+  ],
+  "no_silent_fallback": true,
+  "claim_boundary": "IMPORT_LOCK_BOOTSTRAP_ONLY_REC_AND_REI_CONSUMPTION_UNAUTHORIZED"
+}

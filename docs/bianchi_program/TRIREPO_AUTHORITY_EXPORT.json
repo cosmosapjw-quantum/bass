@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "change_id": "TRI-SYNC-V2-BOOTSTRAP-01",
+  "sync_run_id": "72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f",
+  "repository": "bass",
+  "policy_base": {
+    "branch": "policy/wolfram-trirepo-20260830-r1",
+    "commit": "289a2d31d6fae38122191be73ec9c9d28acaf4d7",
+    "tree": "83512674b4b664b9f2cd532439a640bd508a7298"
+  },
+  "observed_research_heads": [
+    {
+      "purpose": "exact Bianchi algebra closeout",
+      "pr": 81,
+      "branch": "research/bass-master-ssot-v2-alg01r2-exact-identity-20260902-r1",
+      "commit": "5454456133346d984fe08226cd0f5cc339a47f59",
+      "state": "OPEN_DRAFT"
+    },
+    {
+      "purpose": "connection composed on ALG-01R2",
+      "pr": 83,
+      "branch": "research/bass-master-ssot-v2-alg01r2-geo02-compose-20260902-r1",
+      "commit": "313955fc8297fd712d9e778e878368fa4c27e9cf",
+      "state": "OPEN_DRAFT"
+    },
+    {
+      "purpose": "spatial curvature witness on older algebra ancestry",
+      "pr": 82,
+      "branch": "research/bass-master-ssot-v2-alg01r1-w2-w3-geometry-20260902-r1",
+      "commit": "394cb32784aa9dff15b5196db35f0fa065289fc6",
+      "state": "OPEN_DRAFT_HOLD_REBIND_REQUIRED"
+    }
+  ],
+  "exports": [
+    {
+      "formula_id": "BASS.CONVENTIONS.CORE.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-wolfram-w0w1-20260901-r1",
+      "producer_commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+      "source_path": "wolfram/BASS/Kernel/Authority/Conventions.wl",
+      "semantic_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"],
+      "allowed_consumer_modes": ["PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"],
+      "dependencies": []
+    },
+    {
+      "formula_id": "BASS.GEO.BIANCHI_ALGEBRA.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r2-exact-identity-20260902-r1",
+      "producer_commit": "5454456133346d984fe08226cd0f5cc339a47f59",
+      "source_path": "wolfram/BASS/Kernel/Geometry/StructureConstants.wl",
+      "semantic_hash": "e0e5fbba464a839fcb5b11d41c7772c666224ec69f806910aab3bfab5a2f1762",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"],
+      "allowed_consumer_modes": ["PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"],
+      "dependencies": ["BASS.CONVENTIONS.CORE.001"]
+    },
+    {
+      "formula_id": "BASS.GEO.ONF_CONNECTION.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r2-geo02-compose-20260902-r1",
+      "producer_commit": "313955fc8297fd712d9e778e878368fa4c27e9cf",
+      "source_path": "wolfram/BASS/Kernel/Geometry/SpatialConnection.wl",
+      "semantic_hash": "1f28c921734194c5a3b79e8d31ae045f7bfce336e2641e6e01a9232a0cdbc13d",
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "SYMBOLIC_VERIFIED_DRAFT",
+      "consumers": ["rec_bianchi", "rei_bianchi"],
+      "allowed_consumer_modes": ["PINNED_IMPORT", "AUTHORIZED_REPLAY", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"],
+      "dependencies": ["BASS.GEO.BIANCHI_ALGEBRA.001"]
+    },
+    {
+      "formula_id": "BASS.GEO.SPATIAL_CURVATURE.001",
+      "owner": "bass",
+      "authority_mode": "AUTHORITATIVE_DERIVATION",
+      "producer_ref": "research/bass-master-ssot-v2-alg01r1-w2-w3-geometry-20260902-r1",
+      "producer_commit": "394cb32784aa9dff15b5196db35f0fa065289fc6",
+      "source_path": "wolfram/BASS/Kernel/Geometry/ONFCurvature.wl",
+      "semantic_hash": null,
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "HOLD_REBIND_REQUIRED",
+      "consumers": [],
+      "allowed_consumer_modes": [],
+      "dependencies": ["BASS.GEO.ONF_CONNECTION.001"]
+    },
+    {
+      "formula_id": "BASS.ADAPTER.REC_REI_SPLICE.001",
+      "owner": "bass",
+      "authority_mode": "OWNED_EXTENSION",
+      "producer_ref": null,
+      "producer_commit": null,
+      "source_path": null,
+      "semantic_hash": null,
+      "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+      "status": "NOT_RUN",
+      "consumers": ["bass"],
+      "allowed_consumer_modes": [],
+      "dependencies": ["REC.RECOMBINATION.HISTORY.001", "REI.REIONIZATION.HISTORY.001"]
+    }
+  ],
+  "claim_boundary": "EXPORT_REGISTRY_ONLY_NO_FORMULA_PROMOTION"
+}

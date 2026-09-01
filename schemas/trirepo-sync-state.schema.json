@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/schemas/trirepo-sync-state.schema.json",
+  "title": "Bianchi tri-repository synchronization state",
+  "type": "object",
+  "required": ["schema_version", "program_id", "change_id", "sync_run_id", "state", "repository_snapshots", "planes", "overall_classification", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "change_id": {"type": "string", "minLength": 1},
+    "sync_run_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "state": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "repository_snapshots": {
+      "type": "object",
+      "required": ["bass", "rec_bianchi", "rei_bianchi"],
+      "properties": {
+        "bass": {"$ref": "#/$defs/repositorySnapshot"},
+        "rec_bianchi": {"$ref": "#/$defs/repositorySnapshot"},
+        "rei_bianchi": {"$ref": "#/$defs/repositorySnapshot"}
+      },
+      "additionalProperties": false
+    },
+    "planes": {
+      "type": "object",
+      "required": ["github", "dropbox", "atlassian"],
+      "properties": {
+        "github": {"type": "string"},
+        "dropbox": {"type": "string"},
+        "atlassian": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "structural_findings": {"type": "array", "items": {"type": "object"}},
+    "dependency_findings": {"type": "array", "items": {"type": "object"}},
+    "overall_classification": {"type": "string", "minLength": 1},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "repositorySnapshot": {
+      "type": "object",
+      "required": ["policy_branch", "policy_commit", "policy_tree", "bootstrap_branch", "classification"],
+      "properties": {
+        "policy_branch": {"type": "string"},
+        "policy_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "policy_tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "bootstrap_branch": {"type": "string"},
+        "observed_active_head": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+        "classification": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
