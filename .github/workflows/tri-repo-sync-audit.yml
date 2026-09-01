@@ -1,0 +1,110 @@
+name: tri-repo-formula-sync-audit
+
+on:
+  push:
+    branches:
+      - 'coordination/tri-repo-formula-sync-v1-*'
+    paths:
+      - 'coordination/tri_repo_sync/**'
+      - '.github/workflows/tri-repo-sync-audit.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '15 18 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tri-repo-formula-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      REC_REPO: cosmosapjw-quantum/rec_bianchi
+      REC_REF: coordination/tri-repo-formula-sync-v1-20260902-r1
+      REI_REPO: cosmosapjw-quantum/rei_bianchi
+      REI_REF: coordination/tri-repo-formula-sync-v1-20260902-r1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run compiler contracts
+        run: node --test coordination/tri_repo_sync/tests/*.test.mjs
+      - name: Fetch live REC and REI manifests
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node coordination/tri_repo_sync/fetch-lanes.mjs \
+            --rec-repo "$REC_REPO" \
+            --rec-ref "$REC_REF" \
+            --rei-repo "$REI_REPO" \
+            --rei-ref "$REI_REF" \
+            --output-dir /tmp/tri-repo-live
+      - name: Compile live DAG
+        run: |
+          node coordination/tri_repo_sync/compile-dag.mjs \
+            --registry coordination/tri_repo_sync/FORMULA_FAMILY_REGISTRY.json \
+            --manifest coordination/tri_repo_sync/LANE_MANIFEST.json \
+            --manifest /tmp/tri-repo-live/REC_LANE_MANIFEST.json \
+            --manifest /tmp/tri-repo-live/REI_LANE_MANIFEST.json \
+            --output coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json
+      - name: Render deterministic audit receipt
+        run: |
+          node coordination/tri_repo_sync/render-sync-plan.mjs \
+            --compiled coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json \
+            --policy coordination/tri_repo_sync/SYNC_POLICY.json \
+            --output coordination/tri_repo_sync/CURRENT_SYNC_AUDIT_RECEIPT.json
+      - name: Enforce fail-closed drift rules
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const dag = JSON.parse(fs.readFileSync('coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json', 'utf8'));
+          if (dag.status === 'STOP_INVALID') throw new Error('STOP_INVALID control-plane state');
+          if (dag.stale_imports.length !== 0) throw new Error(`stale imports: ${JSON.stringify(dag.stale_imports)}`);
+          const required = {
+            'GEOM.GR_BACKGROUND': 'validated_non_durable',
+            'REC.DIRECTIONAL_SOURCE_FACE': 'blocked',
+            'REC.PROVIDER_EXPORT': 'blocked',
+            'REI.THERMOCHEMISTRY': 'validated_non_durable',
+            'REI.FIRST_CANONICAL_INTERVAL': 'blocked',
+            'REI.PROVIDER_EXPORT': 'blocked',
+            'INT.REC_REI_SPLICE': 'blocked',
+          };
+          for (const [family, expected] of Object.entries(required)) {
+            const actual = dag.families[family]?.state;
+            if (actual !== expected) throw new Error(`${family}: expected ${expected}, received ${actual}`);
+          }
+          if (!dag.manual_scientific_promotion) throw new Error('manual promotion firewall disabled');
+          console.log(JSON.stringify({ status: dag.status, grouped_states: dag.grouped_states }));
+          NODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tri-repo-formula-sync-${{ github.run_id }}
+          path: |
+            coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json
+            coordination/tri_repo_sync/CURRENT_SYNC_AUDIT_RECEIPT.json
+            /tmp/tri-repo-live/REC_LANE_MANIFEST.json
+            /tmp/tri-repo-live/REI_LANE_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit deterministic snapshot on coordination branch only
+        if: github.event_name == 'push' && startsWith(github.ref_name, 'coordination/tri-repo-formula-sync-v1-')
+        run: |
+          set -euo pipefail
+          git add coordination/tri_repo_sync/CURRENT_COMPILED_DAG.json \
+                  coordination/tri_repo_sync/CURRENT_SYNC_AUDIT_RECEIPT.json
+          if git diff --cached --quiet; then
+            echo 'Snapshot already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(coordination): refresh compiled tri-repo DAG'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
