@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/wolfram/schemas/connection-composition-receipt.schema.json",
+  "title": "BASS GEO-02R2 connection composition receipt",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "stage_id",
+    "status",
+    "parent_alg01r2_commit",
+    "parent_semantic_registry_sha256",
+    "exceptional_carrier_report",
+    "generated_array_order",
+    "locked_project_array_order",
+    "generated_to_locked_permutation",
+    "locked_to_generated_permutation",
+    "connection_dimension",
+    "curvature_generated",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "program_id": {"const": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901"},
+    "stage_id": {"const": "GEO_02R2"},
+    "status": {"enum": ["PASS", "BLOCKED"]},
+    "parent_alg01r2_commit": {"const": "b0a2c8da9e74ce960394ae9c67c9744fb8e497ad"},
+    "parent_semantic_registry_sha256": {
+      "const": "e0e5fbba464a839fcb5b11d41c7772c666224ec69f806910aab3bfab5a2f1762"
+    },
+    "exceptional_carrier_report": {"type": "object"},
+    "generated_array_order": {"const": ["gamma", "alpha", "beta"]},
+    "locked_project_array_order": {"const": ["alpha", "beta", "gamma"]},
+    "generated_to_locked_permutation": {"const": [3, 1, 2]},
+    "locked_to_generated_permutation": {"const": [2, 3, 1]},
+    "connection_dimension": {"const": "L^-1"},
+    "curvature_generated": {"const": false},
+    "claim_boundary": {
+      "const": "ALG01R2_TO_SPATIAL_LEVI_CIVITA_CONNECTION_ONLY_NO_CURVATURE_BACKGROUND_OR_SCIENCE_PROMOTION"
+    }
+  }
+}
