@@ -6,7 +6,9 @@ Block[{$HistoryLength = 0},
    xactSource, expectedSHA256, testFiles, report, testsSummary,
    conventionLock, provenance, claims, receipt, receiptDirectory,
    receiptPath, status, authorizedClaims, withheldClaims, stageEvidence,
-   canonicalWitnesses, hostileWitnesses},
+   canonicalWitnesses, hostileWitnesses, geoWitnesses, geoLabels,
+   connectionCounts, oneFormCounts, properRotation, improperRotation,
+   torsionPass, metricPass, covariancePass},
 
   scriptDir = DirectoryName[$InputFileName];
   repositoryRoot = ExpandFileName[FileNameJoin[{scriptDir, "..", ".."}]];
@@ -121,6 +123,105 @@ Block[{$HistoryLength = 0},
       ]
     |>,
 
+   "GEO_02",
+   testFiles = {
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W0Environment.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W1Conventions.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "ALG01BianchiAlgebra.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R1ExceptionalAndCovariance.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "GEO02CartanConnection.wlt"}
+     ]
+    };
+   authorizedClaims = {
+     "GEO_02_LEVI_CIVITA_CONNECTION_WITNESSES_VERIFIED",
+     "GEO_02_TORSION_METRIC_AND_O3_COVARIANCE_VERIFIED"
+    };
+   withheldClaims = {
+     "SPATIAL_CURVATURE_OR_RICCI_DERIVATION",
+     "BACKGROUND_EINSTEIN_MATTER_EQUATIONS",
+     "CONSTRAINT_PROPAGATION",
+     "ALL_FAMILY_SOLVER_SUPPORT",
+     "GENERIC_ELL_COMPILER_CORRECTNESS",
+     "NUMERICAL_PARITY",
+     "CROSS_REPOSITORY_COMPATIBILITY",
+     "SCIENCE_VALIDITY",
+     "BASS_RF04_PROMOTION"
+    };
+   geoWitnesses = BASS`Bianchi`CanonicalWitnessRegistry[];
+   geoLabels = {"I", "II", "V", "IX", "VI_-1/9"};
+   connectionCounts = AssociationMap[
+     With[{witness = geoWitnesses[#]},
+       Count[
+        Flatten @ BASS`Geometry`LeviCivitaConnection[
+          witness["a"], witness["n"]
+         ],
+        entry_ /; ! TrueQ[PossibleZeroQ[entry]]
+       ]
+     ] &,
+     geoLabels
+    ];
+   oneFormCounts = AssociationMap[
+     With[{witness = geoWitnesses[#]},
+       Length @ BASS`Geometry`ConnectionOneFormTerms[
+         witness["a"], witness["n"]
+        ]
+     ] &,
+     geoLabels
+    ];
+   torsionPass = AllTrue[
+     geoLabels,
+     With[{witness = geoWitnesses[#]},
+       AllTrue[
+        Flatten @ BASS`Geometry`ConnectionTorsionResidual[
+          witness["a"], witness["n"]
+         ],
+        TrueQ[PossibleZeroQ[#]] &
+       ]
+     ] &
+    ];
+   metricPass = AllTrue[
+     geoLabels,
+     With[{witness = geoWitnesses[#]},
+       AllTrue[
+        Flatten @ BASS`Geometry`ConnectionMetricCompatibilityResidual[
+          witness["a"], witness["n"]
+         ],
+        TrueQ[PossibleZeroQ[#]] &
+       ]
+     ] &
+    ];
+   properRotation = {{0, 1, 0}, {0, 0, 1}, {1, 0, 0}};
+   improperRotation = DiagonalMatrix[{-1, 1, 1}];
+   covariancePass = And @@ Flatten @ Table[
+      With[{witness = geoWitnesses[label]},
+       BASS`Geometry`ConnectionCovarianceQ[
+        rotation, witness["a"], witness["n"]
+       ]
+      ],
+      {label, {"II", "VI_-1/9"}},
+      {rotation, {properRotation, improperRotation}}
+     ];
+   stageEvidence = <|
+     "canonical_labels" -> geoLabels,
+     "connection_nonzero_counts" -> connectionCounts,
+     "connection_one_form_counts" -> oneFormCounts,
+     "torsion_free_all_witnesses" -> torsionPass,
+     "metric_compatible_all_witnesses" -> metricPass,
+     "proper_improper_O3_covariance" -> covariancePass,
+     "curvature_generated" -> False
+    |>,
+
    _,
    Print["BLOCKED: unsupported stage: " <> ToString[stage]];
    Exit[2]
@@ -157,9 +258,9 @@ Block[{$HistoryLength = 0},
      "formula_base_tree" ->
       "8775d24f8ddc607be20879873d845e8568acfe15",
      "stage_parent_commit" ->
-      "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+      "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46",
      "stage_parent_tree" ->
-      "ffe65b1c48f332acdc5a7497b77a75ef64fd7500"
+      "a0f8cab48cdb32c18282d512f2b2ecb45083b62d"
     |>,
     <|
      "convention_hash" -> BASS`IR`CanonicalSHA256[conventionLock],
