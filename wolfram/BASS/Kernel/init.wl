@@ -13,6 +13,7 @@ Module[{root, sources},
    FileNameJoin[{root, "IR", "ReceiptIR.wl"}],
    FileNameJoin[{root, "Geometry", "StructureConstants.wl"}],
    FileNameJoin[{root, "Geometry", "FrameCovariance.wl"}],
+   FileNameJoin[{root, "Geometry", "LeviCivitaConnection.wl"}],
    FileNameJoin[{root, "Bianchi", "TypeSpec.wl"}],
    FileNameJoin[{root, "Bianchi", "Witnesses.wl"}]
  };
