@@ -54,7 +54,7 @@ allowedWitnessObligations = {
 };
 
 exactSignedHConsistencyQ[expected_Association] := Module[
- {signedH, signedHAST},
+ {signedH, signedHAST, regeneratedAST},
  signedH = Lookup[expected, "signed_h", Missing["KeyAbsent"]];
  signedHAST = Lookup[expected, "signed_h_ast", Missing["KeyAbsent"]];
  Which[
@@ -67,7 +67,11 @@ exactSignedHConsistencyQ[expected_Association] := Module[
   ! BASS`IR`ExactScalarASTQ[signedHAST],
   False,
   True,
-  SameQ[signedHAST, BASS`IR`ExactScalarAST[signedH]]
+  regeneratedAST = BASS`IR`ExactScalarAST[signedH];
+  SameQ[
+   BASS`IR`CanonicalizeData[signedHAST],
+   BASS`IR`CanonicalizeData[regeneratedAST]
+  ]
  ]
 ];
 exactSignedHConsistencyQ[_] := False;
