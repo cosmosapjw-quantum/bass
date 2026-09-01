@@ -3,7 +3,7 @@
   "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
   "change_id": "TRI-SYNC-V2-BOOTSTRAP-01",
   "sync_run_id": "72fa2eabd32ab5d6ce2cbdb7633375d71ebce93c543ab562162d6853bd54e69f",
-  "state": "SOURCE_BOOTSTRAP",
+  "state": "GITHUB_SOURCE_COMMITS_CREATED",
   "generated_at": "2026-09-02T00:00:00+09:00",
   "repository_snapshots": {
     "bass": {
@@ -11,6 +11,7 @@
       "policy_commit": "289a2d31d6fae38122191be73ec9c9d28acaf4d7",
       "policy_tree": "83512674b4b664b9f2cd532439a640bd508a7298",
       "bootstrap_branch": "agent/policy/trirepo-sync-control-plane-v2-20260902-r2",
+      "bootstrap_source_commit": "62df33f9d539740792cff83b4986efa485f2a9af",
       "observed_active_head": "313955fc8297fd712d9e778e878368fa4c27e9cf",
       "classification": "FORMULA_BRANCH_DIVERGENCE_REQUIRES_SHADOW_DAG"
     },
@@ -18,7 +19,8 @@
       "policy_branch": "policy/wolfram-trirepo-20260830-r1",
       "policy_commit": "cfa54eb1d66c98a290182a402a308622f6552dfb",
       "policy_tree": "c717e67061b31ddbd6a2c4cc38c553eb2eae5bc3",
-      "bootstrap_branch": "policy/trirepo-sync-export-v2-20260902-r1",
+      "bootstrap_branch": "policy/trirepo-sync-export-v2-20260902-r2",
+      "bootstrap_source_commit": "093d7d579b05779aaadc3aa230cba059f3f0fe35",
       "observed_active_head": "c4bf37d7271caf651bca41b6eaab8caff436452b",
       "classification": "PROVIDER_BLOCKED_NOT_PUBLISHED"
     },
@@ -26,13 +28,14 @@
       "policy_branch": "policy/wolfram-trirepo-20260830-r1",
       "policy_commit": "cf1470b5b2b33938380ebd868e85937e3231dc50",
       "policy_tree": "f9e4f27bbc2d9483f2e81332a9e08cdc7cc9bb07",
-      "bootstrap_branch": "policy/trirepo-sync-export-v2-20260902-r1",
+      "bootstrap_branch": "policy/trirepo-sync-export-v2-20260902-r2",
+      "bootstrap_source_commit": "6da8babbd42b5fbdc59031a280c12aa70607f693",
       "observed_active_head": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
       "classification": "STOP_INVALID_PROVIDER_NOT_PUBLISHED"
     }
   },
   "planes": {
-    "github": "SOURCE_BRANCHES_CREATED_COMMITS_PENDING",
+    "github": "SOURCE_COMMITS_CREATED_DRAFT_PRS_PENDING",
     "dropbox": "NOT_RUN",
     "atlassian": "NOT_RUN"
   },
@@ -41,18 +44,17 @@
       "code": "BASS_FORMULA_BRANCH_DIVERGENCE",
       "severity": "BLOCKER_FOR_CANONICAL_FORMULA_PROMOTION",
       "detail": "the strongest algebra, connection and curvature witnesses are distributed across non-linear Draft PR ancestry"
+    },
+    {
+      "code": "R1_BOOTSTRAP_NAME_COLLISION",
+      "severity": "PRESERVED_NON_OVERWRITE",
+      "detail": "pre-existing r1 synchronization branches use a different schema; this run uses r2 branches without force updates"
     }
   ],
   "dependency_findings": [
-    {
-      "code": "REC_PROVIDER_NOT_PUBLISHED",
-      "status": "BLOCKED_DEPENDENCY"
-    },
-    {
-      "code": "REI_PROVIDER_NOT_PUBLISHED",
-      "status": "BLOCKED_DEPENDENCY"
-    }
+    {"code": "REC_PROVIDER_NOT_PUBLISHED", "status": "BLOCKED_DEPENDENCY"},
+    {"code": "REI_PROVIDER_NOT_PUBLISHED", "status": "BLOCKED_DEPENDENCY"}
   ],
   "overall_classification": "STRUCTURE_BOOTSTRAP_VALID_SCIENCE_DEPENDENCIES_BLOCKED",
-  "claim_boundary": "NO_CROSS_STORE_PASS_UNTIL_GITHUB_DROPBOX_ATLASSIAN_READBACK"
+  "claim_boundary": "NO_CROSS_STORE_PASS_UNTIL_GITHUB_PR_DROPBOX_AND_ATLASSIAN_READBACK"
 }
