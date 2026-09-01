@@ -26,9 +26,10 @@ ClearAll[
 connectionVector3Q[vector_] := ListQ[vector] && Length[vector] === 3;
 connectionMatrix3Q[matrix_] :=
  MatrixQ[matrix] && Dimensions[matrix] === {3, 3};
-connectionSymmetric3Q[matrix_] :=
- connectionMatrix3Q[matrix]
-  && TrueQ[Simplify[matrix == Transpose[matrix]]];
+connectionSymmetric3Q[matrix_] := And[
+ connectionMatrix3Q[matrix],
+ TrueQ[Simplify[matrix == Transpose[matrix]]]
+];
 connectionTensor333Q[tensor_] :=
  ListQ[tensor] && Dimensions[tensor] === {3, 3, 3};
 connectionZeroQ[expression_] :=
