@@ -157,7 +157,7 @@ $GEO02R2Locked =
  BASS`Geometry`ConnectionToLockedGammaOrder[$GEO02R2Probe];
 VerificationTest[
  $GEO02R2Locked,
- Transpose[$GEO02R2Probe, {2, 3, 1}],
+ Transpose[$GEO02R2Probe, {3, 1, 2}],
  TestID -> "BASS-GEO-02R2-generated-to-locked-index-order"]
 VerificationTest[
  BASS`Geometry`ConnectionFromLockedGammaOrder[$GEO02R2Locked],
