@@ -22,7 +22,7 @@ on:
     - cron: "10 18 * * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   contract-tests:
@@ -112,6 +112,27 @@ jobs:
           print("SYNC_RUN_ID=" + next(iter(run_ids)))
           print("FINDING_COUNT=" + str(len(sync_state["findings"])))
           PY
+      - name: Publish deterministic outputs to canonical branch
+        if: github.event_name == 'push' && startsWith(github.ref_name, 'agent/policy/trirepo-sync-control-plane-v2-fed00-')
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp trirepo-out/*.json bass/docs/bianchi_program/
+          cd bass
+          git add \
+            docs/bianchi_program/TRIREPO_AUTHORITY_REGISTRY.json \
+            docs/bianchi_program/TRIREPO_SYNC_STATE.json \
+            docs/bianchi_program/TRIREPO_DUPLICATE_REPORT.json \
+            docs/bianchi_program/TRIREPO_DAG_PROPOSAL.json \
+            docs/bianchi_program/TRIREPO_SYNC_RECEIPT.json
+          if git diff --cached --quiet; then
+            echo "Generated outputs already match the committed source of record."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(federation): record deterministic bootstrap audit"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
       - name: Emit canonical outputs for readback
         shell: bash
         run: |
