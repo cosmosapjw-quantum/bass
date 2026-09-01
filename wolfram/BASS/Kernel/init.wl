@@ -10,7 +10,10 @@ Module[{root, sources},
    FileNameJoin[{root, "IR", "CanonicalSerialization.wl"}],
    FileNameJoin[{root, "IR", "ExactScalarAST.wl"}],
    FileNameJoin[{root, "IR", "EquationIR.wl"}],
-   FileNameJoin[{root, "IR", "ReceiptIR.wl"}]
+   FileNameJoin[{root, "IR", "ReceiptIR.wl"}],
+   FileNameJoin[{root, "Geometry", "CanonicalizationBackend.wl"}],
+   FileNameJoin[{root, "Geometry", "Abstract1Plus3.wl"}],
+   FileNameJoin[{root, "Geometry", "Abstract1Plus3Receipt.wl"}]
  };
  Scan[Get, sources];
 ]

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "W2",
+  "phase": "RED",
+  "status": "PASS_EXPECTED_FAILURES_OBSERVED",
+  "evaluated_at": "2026-09-01",
+  "parent_commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+  "tests": [
+    {
+      "test_id": "BASS-W2-CREATE-GEOMETRY-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Geometry`CreateAbstract1Plus3Geometry\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    },
+    {
+      "test_id": "BASS-W2-RESIDUAL-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Geometry`Abstract1Plus3Residuals\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    },
+    {
+      "test_id": "BASS-W2-EQUATION-REGISTRY-API-EXISTS-RED",
+      "expression": "NameQ[\"BASS`Geometry`Abstract1Plus3EquationRegistry\"]",
+      "expected": true,
+      "actual": false,
+      "outcome": "EXPECTED_FAILURE"
+    }
+  ],
+  "claim_boundary": "TDD_RED_ONLY_NO_IMPLEMENTATION_OR_SCIENCE_CLAIM"
+}
