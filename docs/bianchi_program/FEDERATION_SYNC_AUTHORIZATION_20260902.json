@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "BIANCHI-FEDERATION-SYNC-AUTH-20260902-R1",
+  "authorization_date": "2026-09-02",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "scope": {
+    "repositories": [
+      "cosmosapjw-quantum/bass",
+      "cosmosapjw-quantum/rec_bianchi",
+      "cosmosapjw-quantum/rei_bianchi"
+    ],
+    "surfaces": [
+      "GitHub",
+      "Dropbox",
+      "Atlassian Jira/Confluence through Rovo"
+    ],
+    "validity": "standing authorization until explicitly revoked or narrowed"
+  },
+  "authorized_operations": {
+    "read": [
+      "search, fetch, compare and reconcile repository objects, pull requests, manifests, receipts and active DAG state",
+      "read Dropbox backups, metadata, restore maps and synchronization receipts",
+      "read Jira issues, links, statuses and Confluence control-plane material"
+    ],
+    "write": [
+      "create non-force GitHub branches, governance files, manifests, receipts, issues, comments and Draft pull requests",
+      "create non-overwriting Dropbox folders and UTF-8 synchronization, manifest, receipt and restore-map files",
+      "create or update generated Atlassian synchronization pages and append Jira/Confluence reconciliation comments"
+    ],
+    "synchronize": [
+      "project GitHub formula and code authority into Dropbox durability records and Atlassian workflow/DAG projections",
+      "record cross-repository owner, consumer, dependency, stale, conflict and supersession states",
+      "perform bounded periodic and event-triggered reconciliation and produce fail-closed receipts"
+    ]
+  },
+  "system_of_record": {
+    "formula_code_and_exact_evidence": "GitHub exact commit/tree/blob plus executable receipt",
+    "durable_recovery_copy": "Dropbox non-overwriting snapshot plus restored replay receipt",
+    "work_ownership_and_dag_projection": "Atlassian Jira/Confluence",
+    "reconciliation_rule": "Atlassian and Dropbox never override GitHub formula truth"
+  },
+  "automatic_guardrails": {
+    "allowed_without_repeat_confirmation": [
+      "read-only reconciliation",
+      "create-only or append-only governance synchronization",
+      "non-force branch and Draft-PR publication",
+      "non-overwriting Dropbox backup publication",
+      "stale, blocked, conflict and supersession projection"
+    ],
+    "requires_new_explicit_confirmation": [
+      "merge or auto-merge",
+      "force push, branch rewrite or history replacement",
+      "delete, move, rename, restore or overwrite existing Dropbox content",
+      "public Dropbox sharing or audience/permission changes",
+      "Jira workflow transitions that change execution authorization",
+      "scientific claim promotion or blocker downgrade",
+      "automatic selection of a winner in a semantic formula conflict",
+      "production physics, tolerance or numerical-policy changes not already authorized by a bounded task"
+    ]
+  },
+  "claim_boundary": [
+    "This authorization changes governance capability only.",
+    "It does not establish formula equivalence, implementation parity, cross-repository compatibility or scientific validity.",
+    "Existing NO_PASS_RF04, NO_PASS_REC_PHYSICAL_SPLIT and NO_PASS_FIRST_CANONICAL_INTERVAL boundaries remain unchanged."
+  ],
+  "next_authorized_node": "FED-00_TRI_REPO_FORMULA_INVENTORY_AND_OWNERSHIP_RECONCILIATION"
+}
