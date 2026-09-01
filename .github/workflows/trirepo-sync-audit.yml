@@ -1,0 +1,36 @@
+name: trirepo-sync-audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "schemas/trirepo-*.schema.json"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  push:
+    branches:
+      - "agent/policy/trirepo-sync-control-plane-v2-*"
+    paths:
+      - "scripts/trirepo_sync_audit.py"
+      - "tests/test_trirepo_sync_audit.py"
+      - "docs/bianchi_program/TRIREPO_*.json"
+      - "schemas/trirepo-*.schema.json"
+      - ".github/workflows/trirepo-sync-audit.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "10 18 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run fail-closed coordinator tests
+        run: python -m unittest discover -s tests -p 'test_trirepo_sync_audit.py' -v
