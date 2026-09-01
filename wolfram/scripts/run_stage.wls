@@ -7,7 +7,8 @@ Block[{$HistoryLength = 0},
    conventionLock, provenance, claims, receipt, receiptDirectory,
    receiptPath, status, authorizedClaims, withheldClaims, stageEvidence,
    canonicalWitnesses, hostileWitnesses, stageParentCommit,
-   stageParentTree, semanticRegistryHash, exceptionalCarrierReport},
+   stageParentTree, semanticRegistryHash, exceptionalCarrierReport,
+   connectionReceipt},
 
   scriptDir = DirectoryName[$InputFileName];
   repositoryRoot = ExpandFileName[FileNameJoin[{scriptDir, "..", ".."}]];
@@ -204,6 +205,87 @@ Block[{$HistoryLength = 0},
      "all_exceptional_shear_delete_detected" -> TrueQ[
        hostileWitnesses["EXCEPTIONAL_SHEAR_DELETE"]["detected"]
       ]
+    |>,
+
+   "GEO_02R2",
+   testFiles = {
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W0Environment.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "W1Conventions.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests", "ALG01BianchiAlgebra.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R1ExceptionalAndCovariance.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "ALG01R2ExactIdentityAndCarriers.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "GEO02CartanConnection.wlt"}
+     ],
+     FileNameJoin[
+      {repositoryRoot, "wolfram", "BASS", "Tests",
+       "GEO02R2ConnectionComposition.wlt"}
+     ]
+    };
+   stageParentCommit =
+    "b0a2c8da9e74ce960394ae9c67c9744fb8e497ad";
+   stageParentTree =
+    "da8a1de9a8432d8eaa43569c9637b8ce891e5daa";
+   authorizedClaims = {
+     "ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED",
+     "ALG_01_EXCEPTIONAL_SHEAR_AND_O3_COVARIANCE_VERIFIED",
+     "ALG_01_EXACT_SEMANTIC_IDENTITY_VERIFIED",
+     "ALG_01_INDEPENDENT_EXCEPTIONAL_CARRIERS_VERIFIED",
+     "GEO_02R2_LEVI_CIVITA_CONNECTION_COMPOSED_ON_ALG01R2",
+     "GEO_02R2_TORSION_METRIC_O3_INDEX_ORDER_VERIFIED",
+     "GEO_02R2_PARENT_IDENTITY_AND_EXCEPTIONAL_CARRIERS_PRESERVED"
+    };
+   withheldClaims = {
+     "SPATIAL_RIEMANN_RICCI_CURVATURE_DERIVATION",
+     "W2_GAUSS_CODAZZI_COMPOSITION",
+     "BACKGROUND_EINSTEIN_MATTER_EQUATIONS",
+     "CONSTRAINT_PROPAGATION",
+     "ALL_FAMILY_SOLVER_SUPPORT",
+     "GENERIC_ELL_COMPILER_CORRECTNESS",
+     "NUMERICAL_PARITY",
+     "CROSS_REPOSITORY_COMPATIBILITY",
+     "SCIENCE_VALIDITY",
+     "BASS_RF04_PROMOTION"
+    };
+   canonicalWitnesses = BASS`Bianchi`ValidateWitnessRegistry[];
+   hostileWitnesses = BASS`Bianchi`ValidateHostileWitnesses[];
+   semanticRegistryHash =
+    BASS`Bianchi`CanonicalTypeSpecRegistrySemanticSHA256[];
+   exceptionalCarrierReport =
+    BASS`Bianchi`ExceptionalShearCarrierReport[
+     BASS`Bianchi`CanonicalWitnessRegistry[]["VI_-1/9"]
+    ];
+   connectionReceipt = BASS`Geometry`ConnectionCompositionReceipt[];
+   stageEvidence = <|
+     "canonical_labels" -> Keys[canonicalWitnesses],
+     "canonical_pass" -> AllTrue[
+       Values[canonicalWitnesses],
+       TrueQ[Lookup[#, "pass", False]] &
+      ],
+     "hostile_detection_pass" -> AllTrue[
+       Values[hostileWitnesses],
+       TrueQ[Lookup[#, "detected", False]] &
+      ],
+     "type_registry_semantic_sha256" -> semanticRegistryHash,
+     "exceptional_carrier_report" -> exceptionalCarrierReport,
+     "connection_composition_receipt" -> connectionReceipt,
+     "connection_composition_receipt_valid" ->
+      BASS`Geometry`ConnectionCompositionReceiptQ[connectionReceipt],
+     "curvature_generated" ->
+      Lookup[connectionReceipt, "curvature_generated", True]
     |>,
 
    _,
