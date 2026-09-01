@@ -36,8 +36,38 @@
         "jacobi_vector_residual",
         "jacobi_tensor_nonzero_count",
         "exceptional_residuals",
+        "witness_obligation_report",
         "cartan_terms"
-      ]
+      ],
+      "properties": {
+        "witness_obligation_report": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "pass",
+                "checks",
+                "failed_obligations",
+                "scope_firewall"
+              ],
+              "properties": {
+                "pass": {"type": "boolean"},
+                "checks": {
+                  "type": "object",
+                  "additionalProperties": {"type": "boolean"}
+                },
+                "failed_obligations": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "scope_firewall": {"type": "string"}
+              },
+              "additionalProperties": false
+            },
+            {"type": "null"}
+          ]
+        }
+      }
     },
     "claim_boundary": {"type": "string", "minLength": 1}
   },
