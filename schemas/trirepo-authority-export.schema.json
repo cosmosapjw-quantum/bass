@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cosmosapjw-quantum.github.io/bianchi/trirepo-authority-export-v2.schema.json",
+  "title": "Bianchi tri-repository authority export v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "repository",
+    "producer_base",
+    "source_binding",
+    "exports"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+    "producer_base": {
+      "type": "object",
+      "required": ["branch", "commit", "tree", "policy_pr"],
+      "properties": {
+        "branch": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "policy_pr": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "source_binding": {
+      "type": "object",
+      "required": ["mode", "pointer_path"],
+      "properties": {
+        "mode": {"const": "BOUND_BY_SYNC_POINTER"},
+        "pointer_path": {"const": "docs/bianchi_program/TRIREPO_SYNC_POINTER.json"}
+      },
+      "additionalProperties": false
+    },
+    "exports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "formula_id",
+          "owner",
+          "authority_kind",
+          "domain",
+          "authority_effect",
+          "status",
+          "semantic_hash",
+          "convention_hash",
+          "source_paths",
+          "consumers",
+          "allowed_consumer_modes",
+          "claim_boundary"
+        ],
+        "properties": {
+          "formula_id": {"type": "string", "minLength": 1},
+          "owner": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+          "authority_kind": {"type": "string", "minLength": 1},
+          "domain": {"type": "string", "minLength": 1},
+          "authority_effect": {
+            "enum": [
+              "AUTHORITATIVE_DERIVATION",
+              "AUTHORITATIVE_PROVIDER",
+              "AUTHORITATIVE_SCHEMA",
+              "NONE"
+            ]
+          },
+          "status": {"type": "string", "minLength": 1},
+          "semantic_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "convention_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "semantic_payload": {"type": "object"},
+          "source_paths": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "consumers": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]}
+          },
+          "allowed_consumer_modes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+            }
+          },
+          "claim_boundary": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
