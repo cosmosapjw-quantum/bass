@@ -15,7 +15,8 @@ Module[{root, sources},
    FileNameJoin[{root, "Geometry", "FrameCovariance.wl"}],
    FileNameJoin[{root, "Bianchi", "TypeSpec.wl"}],
    FileNameJoin[{root, "Bianchi", "Witnesses.wl"}],
-   FileNameJoin[{root, "Bianchi", "ALG01R2ExactIdentity.wl"}]
+   FileNameJoin[{root, "Bianchi", "ALG01R2ExactIdentity.wl"}],
+   FileNameJoin[{root, "Bianchi", "ALG01R2CanonicalComparison.wl"}]
  };
  Scan[Get, sources];
 ]
