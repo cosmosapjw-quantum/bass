@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/coordination/tri_repo_sync/schemas/compiled-dag.schema.json",
+  "title": "Compiled tri-repository formula DAG",
+  "type": "object",
+  "required": ["schema_version", "registry_id", "status", "manual_scientific_promotion", "source_lanes", "families", "grouped_states", "stale_imports", "lane_blockers", "lane_claim_ceilings", "global_errors", "proposed_actions"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "registry_id": {"type": "string"},
+    "status": {"enum": ["PASS", "PASS_WITH_BLOCKERS", "STOP_INVALID"]},
+    "manual_scientific_promotion": {"const": true},
+    "source_lanes": {"type": "array"},
+    "families": {"type": "object"},
+    "grouped_states": {"type": "object"},
+    "stale_imports": {"type": "array"},
+    "lane_blockers": {"type": "object"},
+    "lane_claim_ceilings": {"type": "object"},
+    "global_errors": {"type": "array"},
+    "proposed_actions": {"type": "object"}
+  },
+  "additionalProperties": false
+}

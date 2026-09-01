@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/coordination/tri_repo_sync/schemas/lane-manifest.schema.json",
+  "title": "BASS/REC/REI lane manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "lane", "repository", "source", "atlassian", "dropbox", "families", "blockers", "claim_ceiling", "current_node", "next_node"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "lane": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+    "repository": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "commit", "tree"],
+      "properties": {
+        "branch": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "minLength": 1},
+        "tree": {"type": "string", "minLength": 1},
+        "pull_request": {"type": ["integer", "null"]}
+      }
+    },
+    "atlassian": {
+      "type": "object",
+      "required": ["issue"],
+      "properties": {"issue": {"type": "string", "minLength": 1}},
+      "additionalProperties": true
+    },
+    "dropbox": {
+      "type": "object",
+      "required": ["root"],
+      "properties": {"root": {"type": "string", "minLength": 1}},
+      "additionalProperties": true
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["family", "role", "status", "maturity", "evidence"],
+        "properties": {
+          "family": {"type": "string", "minLength": 1},
+          "role": {"enum": ["authority", "consumer", "adapter", "oracle", "audit"]},
+          "status": {"enum": ["not_started", "in_progress", "blocked", "validated_non_durable", "pass", "invalid"]},
+          "maturity": {"type": "string", "minLength": 1},
+          "authority_commit": {"type": ["string", "null"]},
+          "pinned_authority_commit": {"type": ["string", "null"]},
+          "scope": {"type": "string"},
+          "evidence": {"type": "object", "additionalProperties": {"type": ["boolean", "string", "number", "null"]}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "claim_ceiling": {"type": "array", "items": {"type": "string"}},
+    "current_node": {"type": "string", "minLength": 1},
+    "next_node": {"type": "string", "minLength": 1},
+    "sync_epoch": {"type": "string"}
+  }
+}
