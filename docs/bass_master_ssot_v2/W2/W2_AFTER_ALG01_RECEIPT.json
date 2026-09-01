@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BASS-MASTER-SSOT-V2-WOLFRAM-XACT-20260901",
+  "stage_id": "W2_AFTER_ALG01",
+  "status": "PASS",
+  "recorded_on": "2026-09-02",
+  "authority_effect": "SYMBOLIC_INFRASTRUCTURE_ONLY",
+  "source": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-master-ssot-v2-alg01-w2-geometry-20260901-r1",
+    "parent_commit": "9d67110334cf92e2dd3859de35526b4516404bc6",
+    "parent_tree": "6d78aae0a9549b64ab71d953a707cb09ee53871e",
+    "tested_source_commit": "3e45058bbd66c8eac1ac079866efce7df0db70f0",
+    "tested_source_tree": "e45846c12eea36dba8d9b027f10225348fe79700",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "changed_path_count": 14
+  },
+  "environment": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "xact_xtensor_version": "1.3.0",
+    "xperm_version": "1.2.4",
+    "xact_archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be"
+  },
+  "tdd": {
+    "red_status": "PASS_EXPECTED_FAILURES_OBSERVED",
+    "absent_before_overlay": [
+      "BASS`Geometry`CreateAbstract1Plus3Geometry",
+      "BASS`Geometry`Abstract1Plus3Residuals",
+      "BASS`Geometry`Abstract1Plus3EquationRegistry"
+    ]
+  },
+  "composed_replay": {
+    "test_files": [
+      "W0Environment.wlt",
+      "W1Conventions.wlt",
+      "ALG01BianchiAlgebra.wlt",
+      "ALG01R1ExceptionalAndCovariance.wlt",
+      "W2AbstractGeometry.wlt"
+    ],
+    "succeeded": 78,
+    "failed": 0,
+    "not_evaluated": 0,
+    "report_succeeded": true,
+    "equation_count": 9,
+    "equation_registry_valid": true,
+    "gauss_codazzi_sign_registry_valid": true,
+    "model_registry_sha256": "1d2407fccddc128075259031494297cf0d6e15db66fc39d5b082abe565c35b94",
+    "equation_registry_sha256": "a845155572ba411f15028b24f7e3eb96262db5262a1311dfd4a7cf1edd0f3240",
+    "convention_lock_sha256": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+    "exact_zero_residuals": [
+      "normal_norm",
+      "projector_spatial",
+      "projector_idempotence",
+      "projector_trace",
+      "acceleration_spatial",
+      "K_trace",
+      "K_spatial"
+    ]
+  },
+  "inherited_repair": {
+    "path": "wolfram/BASS/Kernel/Geometry/FrameCovariance.wl",
+    "classification": "WOLFRAM_HEADLESS_CONDITION_PARSE_REPAIR",
+    "semantic_change": false,
+    "repair": "parenthesize multiline /; conditions",
+    "broken_form_parses": false,
+    "repaired_form_parses": true
+  },
+  "dropbox_backup": {
+    "status": "PASS_RECONSTRUCTION_REPLAY",
+    "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-01/W2_AFTER_ALG01",
+    "folder_id": "id:BSpOijBcT10AAAAAADlPMg",
+    "folder_size_bytes_at_readback": 131690,
+    "top_level_children": ["parent_snapshots", "sources", "overlays"],
+    "listing_complete": true,
+    "identity_boundary": "UTF8_RECONSTRUCTION_MIRROR_NOT_BINARY_ARCHIVE_IDENTITY"
+  },
+  "authorized_claims": [
+    "ALG_01_BIANCHI_ALGEBRA_WITNESSES_VERIFIED",
+    "ALG_01_EXCEPTIONAL_SHEAR_AND_O3_COVARIANCE_VERIFIED",
+    "W2_ABSTRACT_1PLUS3_PROJECTOR_AND_KINEMATIC_INFRASTRUCTURE_VERIFIED",
+    "GAUSS_CODAZZI_SIGN_REGISTRY_VERIFIED",
+    "DROPBOX_COMPOSED_RECONSTRUCTION_REPLAY_PASS"
+  ],
+  "withheld_claims": [
+    "XCOBA_COMPONENT_DUAL_PROOF",
+    "ONF_CONNECTION_CURVATURE_PROOF",
+    "BACKGROUND_EINSTEIN_EQUATIONS",
+    "ALL_FAMILY_SOLVER_SUPPORT",
+    "GENERIC_ELL_COMPILER_CORRECTNESS",
+    "NUMERICAL_PARITY",
+    "CROSS_REPOSITORY_COMPATIBILITY",
+    "SCIENCE_VALIDITY",
+    "BASS_RF04_PROMOTION"
+  ]
+}
