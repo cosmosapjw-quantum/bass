@@ -10,7 +10,9 @@
     "computational_key",
     "algebra_class",
     "exceptional_sector",
+    "counted_public_algebra_type",
     "physical_predicates",
+    "witness_obligations",
     "expected",
     "gauge_contract",
     "authority_formula_ids",
@@ -25,9 +27,17 @@
     "computational_key": {"type": "string", "minLength": 1},
     "algebra_class": {"enum": ["A", "B"]},
     "exceptional_sector": {"type": "boolean"},
+    "counted_public_algebra_type": {"type": "boolean"},
     "physical_predicates": {
       "type": "array",
       "items": {"type": "string"}
+    },
+    "witness_obligations": {
+      "type": "array",
+      "items": {
+        "enum": ["non_diagonal_shear_survival"]
+      },
+      "uniqueItems": true
     },
     "expected": {
       "type": "object",
