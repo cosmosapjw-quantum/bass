@@ -1,7 +1,7 @@
 PacletObject[
  <|
   "Name" -> "BASSMasterSSOT",
-  "Version" -> "0.2.0",
+  "Version" -> "0.3.0",
   "WolframVersion" -> "15.0+",
   "Description" -> "BASS Master SSOT v2 symbolic authority infrastructure.",
   "Creator" -> "BASS project",
