@@ -41,7 +41,7 @@ VerificationTest[
 ]
 VerificationTest[
  Lookup[$ALG01R2Spec["expected"], "signed_h"],
- BASS`IR`ExactScalarAST[-1/9],
+ BASS`IR`CanonicalizeData[BASS`IR`ExactScalarAST[-1/9]],
  TestID -> "BASS-ALG-01R2-exact-signed-h-AST"
 ]
 VerificationTest[
