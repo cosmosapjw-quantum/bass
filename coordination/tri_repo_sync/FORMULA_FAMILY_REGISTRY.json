@@ -1,0 +1,232 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "BASS-REC-REI-FORMULA-AUTHORITY-V1",
+  "maturity_order": [
+    "idea",
+    "derived",
+    "symbolic_verified",
+    "durable_formula",
+    "implemented",
+    "runtime_verified",
+    "provider_exported",
+    "integrated",
+    "science_validated"
+  ],
+  "formula_families": [
+    {
+      "id": "CONV.CORE",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass"],
+      "prerequisites": [],
+      "scope": "Metric signature, orientation, explicit constants, ray/time rates, frame and spin conventions.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": null
+    },
+    {
+      "id": "GEOM.BIANCHI_ALGEBRA",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass"],
+      "prerequisites": [{"family": "CONV.CORE", "minimum_maturity": "durable_formula"}],
+      "scope": "Bianchi structure decomposition, branch predicates, public labels, exceptional VI_-1/9 ownership.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": null
+    },
+    {
+      "id": "GEOM.CARTAN_CURVATURE",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass"],
+      "prerequisites": [{"family": "GEOM.BIANCHI_ALGEBRA", "minimum_maturity": "durable_formula"}],
+      "scope": "Orthonormal-frame connection, spatial Riemann/Ricci, Jacobi and xAct convention adapter.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": null
+    },
+    {
+      "id": "GEOM.GR_BACKGROUND",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [{"family": "GEOM.CARTAN_CURVATURE", "minimum_maturity": "durable_formula"}],
+      "scope": "Generic homogeneous GR Hamiltonian, momentum, expansion, shear, matter-energy and constraint-propagation equations.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": null
+    },
+    {
+      "id": "GEOM.STRUCTURE_EVOLUTION",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [{"family": "GEOM.GR_BACKGROUND", "minimum_maturity": "durable_formula"}],
+      "scope": "Temporal Jacobi evolution of a^B and n^B, branch-surface preservation and temporal-triad covariance.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": null
+    },
+    {
+      "id": "KIN.HOMOGENEOUS_PHOTON_CORE",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [
+        {"family": "CONV.CORE", "minimum_maturity": "durable_formula"},
+        {"family": "GEOM.BIANCHI_ALGEBRA", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Exact homogeneous distribution, PSTF and Wigner photon Liouville hierarchy at generic rank.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "bass"
+    },
+    {
+      "id": "COLL.THOMSON_REST",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [{"family": "KIN.HOMOGENEOUS_PHOTON_CORE", "minimum_maturity": "durable_formula"}],
+      "scope": "Cold non-tilted electron-rest Thomson I/E/B/V collision theorem.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "bass"
+    },
+    {
+      "id": "COLL.THOMSON_FINITE_TILT",
+      "owner_lane": "bass",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [
+        {"family": "COLL.THOMSON_REST", "minimum_maturity": "durable_formula"},
+        {"family": "GEOM.GR_BACKGROUND", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Exact finite-electron-tilt Lorentz/screen transform of the Thomson collision operator and four-force.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "bass"
+    },
+    {
+      "id": "NUM.ARBITRARY_L_COMPILER",
+      "owner_lane": "bass",
+      "target_maturity": "implemented",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt"],
+      "prerequisites": [
+        {"family": "KIN.HOMOGENEOUS_PHOTON_CORE", "minimum_maturity": "durable_formula"},
+        {"family": "COLL.THOMSON_REST", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Runtime-configurable finite-L sparse PSTF/Wigner operator compiler and cutoff certificate interface.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "bass"
+    },
+    {
+      "id": "OBS.LOCAL_BOOST",
+      "owner_lane": "bass",
+      "target_maturity": "implemented",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt"],
+      "prerequisites": [{"family": "KIN.HOMOGENEOUS_PHOTON_CORE", "minimum_maturity": "durable_formula"}],
+      "scope": "Output-only observer boost for declared spin and Doppler weights, separate from global material tilt.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "htt_base"
+    },
+    {
+      "id": "REC.ATOMIC_KINETICS",
+      "owner_lane": "rec_bianchi",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [{"family": "CONV.CORE", "minimum_maturity": "durable_formula"}],
+      "scope": "Primordial H/He multilevel populations, line/continuum, two-photon and Raman formula authority.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rec_bianchi"
+    },
+    {
+      "id": "REC.DIRECTIONAL_SOURCE_FACE",
+      "owner_lane": "rec_bianchi",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [
+        {"family": "REC.ATOMIC_KINETICS", "minimum_maturity": "durable_formula"},
+        {"family": "GEOM.BIANCHI_ALGEBRA", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Source-defined 26-direction physical face, frame/source/remap/event ownership and conditioning bounds.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rec_bianchi"
+    },
+    {
+      "id": "REC.PROVIDER_EXPORT",
+      "owner_lane": "rec_bianchi",
+      "target_maturity": "provider_exported",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt", "provider_contract"],
+      "prerequisites": [{"family": "REC.DIRECTIONAL_SOURCE_FACE", "minimum_maturity": "durable_formula"}],
+      "scope": "Typed primordial-recombination provider export with validity and error envelope.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rec_bianchi"
+    },
+    {
+      "id": "REI.THERMOCHEMISTRY",
+      "owner_lane": "rei_bianchi",
+      "target_maturity": "runtime_verified",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt"],
+      "prerequisites": [{"family": "CONV.CORE", "minimum_maturity": "durable_formula"}],
+      "scope": "Late-time H/He thermochemistry, owner-conditioned rates, positive material update and thermal solve.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rei_bianchi"
+    },
+    {
+      "id": "REI.OTS_EVENT_GRAPH",
+      "owner_lane": "rei_bianchi",
+      "target_maturity": "durable_formula",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "formal_receipt"],
+      "prerequisites": [{"family": "REI.THERMOCHEMISTRY", "minimum_maturity": "runtime_verified"}],
+      "scope": "Full-OTS branch topology and photon/nuclei/resolved/unresolved energy ownership.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rei_bianchi"
+    },
+    {
+      "id": "REI.FIRST_CANONICAL_INTERVAL",
+      "owner_lane": "rei_bianchi",
+      "target_maturity": "runtime_verified",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt"],
+      "prerequisites": [{"family": "REI.OTS_EVENT_GRAPH", "minimum_maturity": "durable_formula"}],
+      "scope": "Complete canonical interval with rollback, events, shared full/two-half dependency and ledgers.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rei_bianchi"
+    },
+    {
+      "id": "REI.PROVIDER_EXPORT",
+      "owner_lane": "rei_bianchi",
+      "target_maturity": "provider_exported",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt", "provider_contract"],
+      "prerequisites": [
+        {"family": "REI.FIRST_CANONICAL_INTERVAL", "minimum_maturity": "runtime_verified"},
+        {"family": "REC.PROVIDER_EXPORT", "minimum_maturity": "provider_exported"},
+        {"family": "GEOM.GR_BACKGROUND", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Typed reionization/opacity provider export bound to exact REC and BASS contracts.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "rei_bianchi"
+    },
+    {
+      "id": "INT.REC_REI_SPLICE",
+      "owner_lane": "bass",
+      "target_maturity": "integrated",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt", "integration_receipt"],
+      "prerequisites": [
+        {"family": "REC.PROVIDER_EXPORT", "minimum_maturity": "provider_exported"},
+        {"family": "REI.PROVIDER_EXPORT", "minimum_maturity": "provider_exported"},
+        {"family": "GEOM.STRUCTURE_EVOLUTION", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "No-double-count REC-to-REI splice, global conservation assembly and coupled background integration.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "bass"
+    },
+    {
+      "id": "INT.HTT_BACKGROUND_EXPORT",
+      "owner_lane": "bass",
+      "target_maturity": "integrated",
+      "promotion_requires": ["github_exact_identity", "dropbox_backup", "atlassian_sync", "tests_pass", "runtime_receipt", "integration_receipt"],
+      "prerequisites": [
+        {"family": "INT.REC_REI_SPLICE", "minimum_maturity": "integrated"},
+        {"family": "NUM.ARBITRARY_L_COMPILER", "minimum_maturity": "implemented"},
+        {"family": "OBS.LOCAL_BOOST", "minimum_maturity": "implemented"},
+        {"family": "COLL.THOMSON_FINITE_TILT", "minimum_maturity": "durable_formula"}
+      ],
+      "scope": "Validated background/hierarchy/output contract exported to htt_base before statistics or fitting.",
+      "non_owner_roles": ["consumer", "adapter", "oracle", "audit"],
+      "execution_owner": "htt_base"
+    }
+  ]
+}

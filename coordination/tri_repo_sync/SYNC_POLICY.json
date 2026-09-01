@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "BASS-REC-REI-SYNC-POLICY-V1",
+  "authority_domains": {
+    "github": ["formula_text", "source", "tests", "commit_tree_blob_identity", "semantic_manifests"],
+    "atlassian": ["workflow_status", "assignee", "dependency_links", "owner_decisions", "human_approval"],
+    "dropbox": ["backup_existence", "file_ids", "revisions", "restore_locations"]
+  },
+  "cadence": {
+    "event_driven": [
+      "formula authority registry change",
+      "lane manifest change",
+      "compiled DAG change",
+      "stage promotion proposal",
+      "provider export proposal",
+      "runtime recovery",
+      "authority correction"
+    ],
+    "scheduled_local_time": "03:15 Asia/Seoul",
+    "scheduled_cron_utc": "15 18 * * *",
+    "full_reconciliation_before": [
+      "scientific stage promotion",
+      "provider export",
+      "PR ready transition",
+      "merge",
+      "downstream integration"
+    ]
+  },
+  "automation": {
+    "audit_mode_default": true,
+    "apply_requires": ["SYNC_APPLY=true", "all destination credentials", "fresh exact source readback"],
+    "automatic_classification_allowed": true,
+    "automatic_scientific_promotion_allowed": false,
+    "automatic_provider_export_allowed": false,
+    "automatic_pr_ready_allowed": false,
+    "automatic_merge_allowed": false,
+    "automatic_jira_done_allowed": false,
+    "missing_credentials_state": "SYNC_DESTINATION_UNCONFIGURED"
+  },
+  "drift_rules": {
+    "duplicate_authority": "STOP_INVALID",
+    "owner_mismatch": "STOP_INVALID",
+    "dependency_cycle": "STOP_INVALID",
+    "stale_required_import": "BLOCKED",
+    "missing_durability_receipt": "VALIDATED_NON_DURABLE",
+    "transcript_only_result": "NON_DURABLE_NOT_ADMITTED",
+    "timestamp_conflict_resolution": "FORBIDDEN",
+    "newest_document_wins": "FORBIDDEN"
+  },
+  "publication": {
+    "github": "exact registry, manifests, compiler, generated receipt and PR readback",
+    "dropbox": "versioned snapshot plus restore map; never formula authority",
+    "atlassian": "human-readable mirror and proposed DAG updates; never silent formula replacement"
+  },
+  "activation_gate": {
+    "scheduled_workflow_active_only_after_workflow_exists_on_default_branch": true,
+    "pre_merge_behavior": "manual dispatch and PR CI only",
+    "scientific_issue_status_changes": "manual only"
+  }
+}

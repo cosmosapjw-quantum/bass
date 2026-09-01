@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0.0",
+  "lane": "rei_bianchi",
+  "repository": "cosmosapjw-quantum/rei_bianchi",
+  "source": {
+    "branch": "agent/implementation/rei-runtime-bridge-host-context-validation-20260901-r1",
+    "commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+    "tree": "16d060d45ddfa401e4a5c22f9ca53cf65399ff51",
+    "pull_request": 32
+  },
+  "atlassian": {
+    "issue": "BASS-18",
+    "parent_issue": "BASS-16",
+    "control_page": "19464193"
+  },
+  "dropbox": {
+    "root": "/bianchi/rei_bianchi/backups",
+    "last_stage": null
+  },
+  "families": [
+    {
+      "family": "CONV.CORE",
+      "role": "consumer",
+      "status": "pass",
+      "maturity": "durable_formula",
+      "pinned_authority_commit": "82776f50869d5c76e1cab4b28734c85f136c1e6f",
+      "scope": "Imports BASS metric, orientation, rate, unit and frame conventions without redefining them.",
+      "evidence": {}
+    },
+    {
+      "family": "GEOM.BIANCHI_ALGEBRA",
+      "role": "consumer",
+      "status": "pass",
+      "maturity": "durable_formula",
+      "pinned_authority_commit": "c35177409909b7eef0f5c99c0c61a456b5e55117",
+      "scope": "Imports BASS branch and invariant-frame algebra; REI owns no competing branch registry.",
+      "evidence": {}
+    },
+    {
+      "family": "GEOM.GR_BACKGROUND",
+      "role": "consumer",
+      "status": "blocked",
+      "maturity": "idea",
+      "pinned_authority_commit": null,
+      "scope": "Awaiting durable BASS BG-02 authority.",
+      "evidence": {}
+    },
+    {
+      "family": "REC.PROVIDER_EXPORT",
+      "role": "consumer",
+      "status": "blocked",
+      "maturity": "idea",
+      "pinned_authority_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "scope": "Primordial recombination state may only enter through the exact REC provider contract.",
+      "evidence": {}
+    },
+    {
+      "family": "REI.THERMOCHEMISTRY",
+      "role": "authority",
+      "status": "validated_non_durable",
+      "maturity": "runtime_verified",
+      "authority_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "scope": "One constrained FLRW thermochemistry microstep substrate only; complete interval and Bianchi coupling are excluded.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "runtime_receipt": true
+      }
+    },
+    {
+      "family": "REI.OTS_EVENT_GRAPH",
+      "role": "authority",
+      "status": "in_progress",
+      "maturity": "symbolic_verified",
+      "authority_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "scope": "Event topology and ledgers are present, but the control-plane durability and complete coupled interval are not closed.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "formal_receipt": false
+      }
+    },
+    {
+      "family": "REI.FIRST_CANONICAL_INTERVAL",
+      "role": "authority",
+      "status": "blocked",
+      "maturity": "idea",
+      "authority_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "scope": "Standalone runtime bridge stops before a complete first canonical interval.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "runtime_receipt": false
+      }
+    },
+    {
+      "family": "REI.PROVIDER_EXPORT",
+      "role": "authority",
+      "status": "blocked",
+      "maturity": "idea",
+      "authority_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "scope": "Provider export prohibited until REC, BASS background and complete interval gates pass.",
+      "evidence": {
+        "github_exact_identity": true,
+        "dropbox_backup": false,
+        "atlassian_sync": true,
+        "tests_pass": true,
+        "runtime_receipt": false,
+        "provider_contract": false
+      }
+    }
+  ],
+  "blockers": [
+    "STOP_INVALID",
+    "UNEXPECTED_RUNTIME_BRIDGE_EXCEPTION",
+    "UNDECLARED_IMPORT: ntpath",
+    "NO_PASS_FIRST_CANONICAL_INTERVAL",
+    "REC_PROVIDER_EXPORT_UNAVAILABLE",
+    "BASS_BACKGROUND_AUTHORITY_NON_DURABLE"
+  ],
+  "claim_ceiling": [
+    "FLRW_THERMOCHEMISTRY_MICROSTEP_SUBSTRATE_ONLY",
+    "STOP_INVALID",
+    "NO_PASS_FIRST_CANONICAL_INTERVAL",
+    "NO_BIANCHI_BACKGROUND_COUPLING",
+    "NO_PROVIDER_EXPORT",
+    "NO_SCIENTIFIC_PUBLICATION"
+  ],
+  "current_node": "REI_RUNTIME_BRIDGE_HOST_CONTEXT_VALIDATION",
+  "next_node": "REI_RUNTIME_BRIDGE_NTPATH_CLOSURE_REPAIR",
+  "sync_epoch": "2026-09-02"
+}
