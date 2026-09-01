@@ -1,0 +1,40 @@
+{
+  "schema": "bass-formula-ssot-v2-stage-spec/v1",
+  "stage_id": "BASS-SSOT-V2-CONV00-ALG01-20260901",
+  "status": "PASS_CONV00_ALG01_SCOPED_SYMBOLIC_WITNESS",
+  "claim_ceiling": "SYMBOLIC_WITNESS_ONLY_NO_BACKGROUND_RHS_NO_RUNTIME_NO_RF04_PROMOTION",
+  "parent_plan": "BASS-FORMULA-SSOT-V2-20260901",
+  "jira": {
+    "epic": "BASS-16",
+    "owner": "BASS-17",
+    "blocked_by": ["BASS-18", "BASS-19"]
+  },
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "spatial_orientation": "epsilon_123=+1",
+    "photon_propagation_direction": "e^a",
+    "observed_sky_direction": "n_hat^a=-e^a",
+    "constants_explicit": ["c", "hbar", "k_B", "G"],
+    "time_rate": "s^-1",
+    "ray_length_rate": "m^-1",
+    "time_to_length": "q_length=q_time/c",
+    "length_to_time": "q_time=c*q_length",
+    "frames": ["normal", "matter_or_hydrogen", "electron_rest", "local_observer"]
+  },
+  "nonidentifications": [
+    "Bianchi commutator vector aB is not physical four-acceleration",
+    "triad rotation OmegaTriad is not fluid vorticity",
+    "global/electron tilt is not local observer boost"
+  ],
+  "bianchi_type_spec_required_fields": [
+    "public_label", "computational_key", "class_A_or_B", "a_vector_predicate",
+    "n_symmetry", "n_rank", "n_inertia", "n_dot_a_constraint",
+    "transverse_determinant", "signed_h", "constraint_ideal", "allowed_charts",
+    "FLRW_loci", "exceptional_loci", "frame_rules", "source_provenance", "claim_ceiling"
+  ],
+  "witnesses": ["I", "II", "V", "IX", "VI_-1/9"],
+  "forbidden": [
+    "background Einstein RHS", "curvature promotion", "runtime source mutation",
+    "higher-L production code", "REC/REI provider integration", "RF04 promotion"
+  ]
+}

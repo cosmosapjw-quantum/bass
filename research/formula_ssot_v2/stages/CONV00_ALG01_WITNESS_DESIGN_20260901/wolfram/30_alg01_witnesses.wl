@@ -1,0 +1,22 @@
+(* ::Package:: *)
+ClearAll[ALG01WitnessSpecs,ALG01MaxAbs,ValidateALG01Witness,ValidateALG01Witnesses,ALG01AdversarialMutationScores];
+ALG01MaxAbs[x_]:=Max[Abs[Flatten[x]]];
+ALG01WitnessSpecs[]:=<|
+ "I"-><|"a"->{0,0,0},"n"->ConstantArray[0,{3,3}],"BranchResiduals"->{0}|>,
+ "II"-><|"a"->{0,0,0},"n"->DiagonalMatrix[{2,0,0}],"BranchResiduals"->{0,0,0}|>,
+ "V"-><|"a"->{3,0,0},"n"->ConstantArray[0,{3,3}],"BranchResiduals"->{0}|>,
+ "IX"-><|"a"->{0,0,0},"n"->DiagonalMatrix[{1,2,3}],"BranchResiduals"->{0}|>,
+ "VI_-1/9"-><|"a"->{1,0,0},"n"->{{0,0,0},{0,3,3},{0,3,0}},
+   "ExceptionalShearWitness"-><|"Sigma12"->0,"Sigma13"->2,"Sigma23"->1|>,
+   "BranchResiduals"->{3*0-3^2+9*1^2,3*0+(3-3*1)*2}|>|>;
+ValidateALG01Witness[w_Association]:=Module[{c=BianchiStructureConstants[w["a"],w["n"]],g},g=SpatialKoszulConnection[c];<|
+ "JacobiMaxResidual"->ALG01MaxAbs[BianchiJacobi123[c]],
+ "StructureAntisymmetryMaxResidual"->ALG01MaxAbs@Table[c[[i,j,k]]+c[[j,i,k]],{i,3},{j,3},{k,3}],
+ "MetricCompatibilityMaxResidual"->ALG01MaxAbs@Table[g[[i,j,k]]+g[[i,k,j]],{i,3},{j,3},{k,3}],
+ "TorsionMaxResidual"->ALG01MaxAbs@Table[g[[i,j,k]]-g[[j,i,k]]-c[[i,j,k]],{i,3},{j,3},{k,3}],
+ "BranchPredicateMaxResidual"->ALG01MaxAbs[w["BranchResiduals"]]|>];
+ALG01AdversarialMutationScores[]:=<|"I"->1,"II"->6,"V"->1,"IX"->1,"VI_-1/9"->3|>;
+ValidateALG01Witnesses[]:=Module[{checks=Map[ValidateALG01Witness,ALG01WitnessSpecs[]],z,m,p},
+ z=Map[Max[Values[#]]===0&,checks];m=ALG01AdversarialMutationScores[];
+ p=KeyValueMap[Function[{k,v},<|"Witness"->k,"CorrectResidual"->Max[Values[v]],"MutationResidual"->m[k]|>],checks];
+ <|"Status"->If[And@@Values[z],"PASS","FAIL"],"WitnessZeroQ"->z,"WitnessChecks"->checks,"AdversarialPlotData"->p|>];
