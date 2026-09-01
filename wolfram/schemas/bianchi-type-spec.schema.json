@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/wolfram/schemas/bianchi-type-spec.schema.json",
+  "title": "BASS ALG-01 BianchiTypeSpec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "stage_id",
+    "registry_key",
+    "public_label",
+    "computational_key",
+    "class",
+    "exceptional_sector",
+    "predicate_id",
+    "a_condition",
+    "n_condition",
+    "authority_chart",
+    "flrw_locus",
+    "known_limits",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stage_id": {"const": "ALG_01"},
+    "registry_key": {"enum": ["I", "II", "V", "IX", "VI_-1/9"]},
+    "public_label": {"enum": ["I", "II", "V", "IX", "VI_h"]},
+    "computational_key": {"type": "string", "minLength": 1},
+    "class": {"enum": ["A", "B"]},
+    "exceptional_sector": {"type": "boolean"},
+    "predicate_id": {"type": "string", "minLength": 1},
+    "a_condition": {"type": "string", "minLength": 1},
+    "n_condition": {"type": "string", "minLength": 1},
+    "authority_chart": {"type": "string", "minLength": 1},
+    "flrw_locus": {"type": ["string", "null"]},
+    "known_limits": {"type": "array", "items": {"type": "string"}},
+    "claim_boundary": {"const": "WITNESS_PREDICATE_ONLY_NO_BACKGROUND_SOLVER"}
+  }
+}
