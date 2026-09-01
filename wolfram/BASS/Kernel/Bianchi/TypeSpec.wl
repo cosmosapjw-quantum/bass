@@ -18,7 +18,8 @@ Begin["`Private`"];
 ClearAll[
  MakeBianchiTypeSpec, BianchiTypeSpecRequiredKeys, BianchiTypeSpecQ,
  MatrixInertia3, CanonicalTypeSpecRegistry,
- matrix3Q, symmetric3Q, expectedRequiredKeys
+ matrix3Q, symmetric3Q, expectedRequiredKeys,
+ allowedWitnessObligations
 ];
 
 matrix3Q[matrix_] := MatrixQ[matrix] && Dimensions[matrix] === {3, 3};
@@ -27,14 +28,18 @@ symmetric3Q[matrix_] :=
 
 BianchiTypeSpecRequiredKeys[] := {
  "schema_version", "program_id", "public_label", "computational_key",
- "algebra_class", "exceptional_sector", "physical_predicates",
- "expected", "gauge_contract", "authority_formula_ids",
- "claim_boundary"
+ "algebra_class", "exceptional_sector", "counted_public_algebra_type",
+ "physical_predicates", "witness_obligations", "expected",
+ "gauge_contract", "authority_formula_ids", "claim_boundary"
 };
 
 expectedRequiredKeys = {
  "a_zero", "n_zero", "n_rank", "n_inertia_options",
  "transverse_det_sign", "signed_h", "exceptional_constraints"
+};
+
+allowedWitnessObligations = {
+ "non_diagonal_shear_survival"
 };
 
 MakeBianchiTypeSpec[spec_Association] := BASS`IR`CanonicalizeData @ Join[
@@ -45,7 +50,9 @@ MakeBianchiTypeSpec[spec_Association] := BASS`IR`CanonicalizeData @ Join[
   "computational_key" -> Missing["Required"],
   "algebra_class" -> Missing["Required"],
   "exceptional_sector" -> False,
+  "counted_public_algebra_type" -> True,
   "physical_predicates" -> {},
+  "witness_obligations" -> {},
   "expected" -> <||>,
   "gauge_contract" -> <|
     "canonical_witness_role" ->
@@ -69,7 +76,13 @@ BianchiTypeSpecQ[spec_Association] := And[
  StringQ[Lookup[spec, "computational_key", None]],
  MemberQ[{"A", "B"}, Lookup[spec, "algebra_class", None]],
  BooleanQ[Lookup[spec, "exceptional_sector", None]],
+ BooleanQ[Lookup[spec, "counted_public_algebra_type", None]],
  ListQ[Lookup[spec, "physical_predicates", None]],
+ ListQ[Lookup[spec, "witness_obligations", None]],
+ AllTrue[
+  Lookup[spec, "witness_obligations", {}],
+  MemberQ[allowedWitnessObligations, #] &
+ ],
  AssociationQ[Lookup[spec, "expected", None]],
  SubsetQ[Keys[Lookup[spec, "expected", <||>]], expectedRequiredKeys],
  AssociationQ[Lookup[spec, "gauge_contract", None]],
@@ -164,9 +177,13 @@ CanonicalTypeSpecRegistry[] := <|
    "computational_key" -> "VI_h(h=-1/9)",
    "algebra_class" -> "B",
    "exceptional_sector" -> True,
+   "counted_public_algebra_type" -> False,
    "physical_predicates" -> {
      "a!=0", "det(n_perp)<0", "h=-1/9",
      "exceptional momentum constraint"
+    },
+   "witness_obligations" -> {
+     "non_diagonal_shear_survival"
     },
    "expected" -> <|
      "a_zero" -> False,
