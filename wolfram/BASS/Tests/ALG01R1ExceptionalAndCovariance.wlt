@@ -21,9 +21,9 @@ VerificationTest[
  TestID -> "BASS-ALG-01R1-exceptional-not-twelfth-type"
 ]
 VerificationTest[
- MemberQ[
+ ContainsAll[
   Lookup[$ALG01R1ExceptionalSpec, "witness_obligations", {}],
-  "non_diagonal_shear_survival"
+  {"sigma13_carrier_present", "sigma23_carrier_present"}
  ],
  True,
  TestID -> "BASS-ALG-01R1-exceptional-shear-obligation-declared"
