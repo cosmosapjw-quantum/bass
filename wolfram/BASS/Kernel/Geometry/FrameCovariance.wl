@@ -42,9 +42,11 @@ TransformBianchiAlgebraData[
  rotation_List,
  a_List,
  n_List
-] /; OrthogonalMatrix3Q[rotation]
-  && frameVector3Q[a]
-  && frameSymmetric3Q[n] := <|
+] /; And[
+ OrthogonalMatrix3Q[rotation],
+ frameVector3Q[a],
+ frameSymmetric3Q[n]
+] := <|
  "a" -> Simplify[rotation . a],
  "n" -> Simplify[
    Det[rotation] rotation . n . Transpose[rotation]
@@ -61,8 +63,10 @@ TransformBianchiAlgebraData[___] := Failure[
 TransformStructureConstants[
  rotation_List,
  structure_List
-] /; OrthogonalMatrix3Q[rotation]
-  && frameTensor333Q[structure] := Array[
+] /; And[
+ OrthogonalMatrix3Q[rotation],
+ frameTensor333Q[structure]
+] := Array[
  Function[{gamma, alpha, beta},
   Sum[
    rotation[[gamma, rho]]
