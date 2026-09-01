@@ -93,10 +93,11 @@ Block[{$HistoryLength = 0},
      "W2_ABSTRACT_1PLUS3_PROJECTOR_AND_KINEMATIC_INFRASTRUCTURE_VERIFIED",
      "GAUSS_CODAZZI_SIGN_REGISTRY_VERIFIED"};
    withheldClaims = {
-     "XCOBA_COMPONENT_DUAL_PROOF", "BACKGROUND_EINSTEIN_EQUATIONS",
-     "ALL_FAMILY_SOLVER_SUPPORT", "GENERIC_ELL_COMPILER_CORRECTNESS",
-     "NUMERICAL_PARITY", "CROSS_REPOSITORY_COMPATIBILITY",
-     "SCIENCE_VALIDITY", "BASS_RF04_PROMOTION"},
+     "XCOBA_COMPONENT_DUAL_PROOF", "ONF_CONNECTION_CURVATURE_PROOF",
+     "BACKGROUND_EINSTEIN_EQUATIONS", "ALL_FAMILY_SOLVER_SUPPORT",
+     "GENERIC_ELL_COMPILER_CORRECTNESS", "NUMERICAL_PARITY",
+     "CROSS_REPOSITORY_COMPATIBILITY", "SCIENCE_VALIDITY",
+     "BASS_RF04_PROMOTION"},
 
    _,
    Print["BLOCKED: unsupported stage: " <> ToString[stage]];
@@ -149,9 +150,9 @@ Block[{$HistoryLength = 0},
       |>,
      "w2" -> w2Payload,
      "dag_parent_commit" ->
-      "9d67110334cf92e2dd3859de35526b4516404bc6",
+      "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46",
      "dag_parent_tree" ->
-      "6d78aae0a9549b64ab71d953a707cb09ee53871e"
+      "a0f8cab48cdb32c18282d512f2b2ecb45083b62d"
     |>
    ];
 
@@ -177,9 +178,9 @@ Block[{$HistoryLength = 0},
      "w0_w1_tree" ->
       "ffe65b1c48f332acdc5a7497b77a75ef64fd7500",
      "alg_01_commit" ->
-      "9d67110334cf92e2dd3859de35526b4516404bc6",
+      "24e8d5ae3b7e929e34ca62d7070ce00e0960fb46",
      "alg_01_tree" ->
-      "6d78aae0a9549b64ab71d953a707cb09ee53871e",
+      "a0f8cab48cdb32c18282d512f2b2ecb45083b62d",
      "source_commit" -> sourceCommit,
      "source_tree" -> sourceTree
     |>,
