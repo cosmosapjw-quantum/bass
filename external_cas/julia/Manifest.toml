@@ -1,0 +1,8 @@
+# Bootstrap sentinel only.  The CI job runs Pkg.resolve()/Pkg.instantiate()
+# against the exact Project.toml and publishes the resolved Manifest.toml plus
+# its SHA-256.  Replace this sentinel with that exact resolved manifest after
+# the first successful Julia/Nemo run.
+
+julia_version = "1.12.7"
+manifest_format = "2.0"
+project_hash = "RUNTIME_RESOLVE_REQUIRED"
