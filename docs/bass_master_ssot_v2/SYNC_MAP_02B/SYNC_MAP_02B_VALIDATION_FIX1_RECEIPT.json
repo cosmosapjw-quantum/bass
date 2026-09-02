@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "stage_id": "SYNC_MAP_02B_REC_RELATION_CLASSIFICATION",
+  "repair_id": "SYNC_MAP_02B_VALIDATION_FIX1",
+  "status": "PASS_SOFTWARE_VALIDATION_HARDENING_NO_FORMULA_CHANGE",
+  "findings": [
+    {
+      "severity": "P2",
+      "finding": "normal-energy equivalence residual was represented by a literal zero",
+      "repair": "construct independent REC and BASS expressions and simplify their difference"
+    },
+    {
+      "severity": "P2",
+      "finding": "hydrogen-frame adapter check was represented by a literal True",
+      "repair": "construct R_H and R_normal+D0 ln D separately and simplify their difference"
+    },
+    {
+      "severity": "P2",
+      "finding": "impact-DAG validator did not prove that all edge endpoints belonged to the registered node set",
+      "repair": "require exact set equality between registered nodes and all edge endpoints"
+    }
+  ],
+  "new_source": {
+    "path": "wolfram/BASS/Kernel/IR/RECRelationClassificationValidationFix1.wl",
+    "git_blob_sha1": "b553fd9682615a5ebba9b0d296800fe57f45f1e4",
+    "bytes": 6772
+  },
+  "new_test": {
+    "path": "wolfram/BASS/Tests/SYNCMAP02BValidationHardening.wlt",
+    "git_blob_sha1": "5cbec329c2cde9ecfece5f52642b6d88925cf28f",
+    "bytes": 1322
+  },
+  "adversarial_results": {
+    "wrong_energy_sign_residual": 6,
+    "wrong_energy_sign_detected": true,
+    "wrong_hydrogen_adapter_coefficient_residual": 1,
+    "wrong_hydrogen_adapter_coefficient_detected": true,
+    "foreign_dag_endpoint_rejected": true
+  },
+  "formula_change": false,
+  "relation_classification_change": false,
+  "provider_state_change": false,
+  "official_dag_change": false,
+  "claim_boundary": "VALIDATOR_HARDENING_ONLY_NO_FORMULA_PROVIDER_DAG_OR_SCIENCE_PROMOTION"
+}

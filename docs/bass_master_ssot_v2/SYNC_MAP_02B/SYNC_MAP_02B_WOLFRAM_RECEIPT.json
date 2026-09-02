@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "stage_id": "SYNC_MAP_02B_REC_RELATION_CLASSIFICATION",
+  "status": "PASS_RESTORED_FULL_STACK_196_OF_196",
+  "tested_source": {
+    "branch": "research/bass-master-ssot-v2-sync-map02b-rec-relations-20260902-r1",
+    "commit": "4465c236205271830a7438c879b7934a00315929",
+    "tree": "5b9dfa925024b2f3db00a886ab2e765e2e6e4f5e"
+  },
+  "parent_source_packet": {
+    "pull_request": 93,
+    "workflow_run": 33586400828,
+    "artifact_id": 9830216763,
+    "artifact_name": "sync-map02a-source-5bb86235179bc9d04d14df832a7c9a4e57ec4f62",
+    "file_count": 35,
+    "sha256": "c6a88e4899f8d3b82ff6708d8641cd72be2730f4a97452e5d7d383c84878a375"
+  },
+  "dropbox_restored_overlay": [
+    {
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-02/SYNC_MAP_02B_REC_RELATION_CLASSIFICATION/sources/wolfram__BASS__Kernel__IR__RECRelationClassification.wl",
+      "file_id": "id:BSpOijBcT10AAAAAADlSOg",
+      "bytes": 25689,
+      "git_blob_sha1": "434f777476b0ff82dbc3ed12f13738aab25cc5ae"
+    },
+    {
+      "path": "/bianchi/bass/backups/BASS-MASTER-SSOT-V2/2026-09-02/SYNC_MAP_02B_REC_RELATION_CLASSIFICATION/sources/wolfram__BASS__Tests__SYNCMAP02BRecRelationClassification.wlt",
+      "file_id": "id:BSpOijBcT10AAAAAADlSOw",
+      "bytes": 4663,
+      "git_blob_sha1": "20cf9af99dc8e74ac2ca1d538fd24d4aed0ac8b3"
+    }
+  ],
+  "replay": {
+    "test_files": 12,
+    "tests_succeeded": 196,
+    "tests_failed": 0,
+    "tests_not_evaluated": 0,
+    "parent_formula_count": 14,
+    "parent_registry_semantic_hash": "d08082e38227c7731c103b26ba8cb029bbf212759f03e64ff1c8ac8ae7f1ab51",
+    "rec_relation_count": 9,
+    "shared_formula_export_gap_count": 4,
+    "duplicate_derivation_count": 0,
+    "all_exact_relation_checks": true
+  },
+  "environment": {
+    "wolfram": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "xTensor": "1.3.0",
+    "xCoba": "0.8.6",
+    "xAct_archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be"
+  },
+  "failure_preservation": [
+    {
+      "classification": "TDD_RED",
+      "observation": "11 required public APIs absent on exact PR93 parent",
+      "formula_change": false
+    },
+    {
+      "classification": "PRIVATE_RAW_URL_TRANSPORT_FAILURE",
+      "observation": "Unauthenticated or expired raw URLs returned 404 rather than overlay source",
+      "excluded_from_physics_evidence": true
+    },
+    {
+      "classification": "IDENTITY_VERIFIER_SOFTWARE_BUG",
+      "observation": "The first custom Git-blob verifier encoded the two characters backslash and zero instead of a NUL byte in the Git header",
+      "repair": "append byte value 0 explicitly after the ASCII string blob-space-length",
+      "formula_change": false,
+      "corrected_identity": "PASS_2_OF_2"
+    },
+    {
+      "classification": "TEMPORARY_LINK_EXPIRY",
+      "observation": "One replay received two 925-byte error documents and therefore ran only the 175 parent tests",
+      "excluded_from_physics_evidence": true
+    }
+  ],
+  "claim_boundary": "RESTORED_SYMBOLIC_RELATION_CLASSIFICATION_ONLY_NO_PROVIDER_ADMISSION_CROSS_REPO_EQUIVALENCE_OR_SCIENCE_PROMOTION"
+}
