@@ -6,6 +6,7 @@ on:
       - ".github/workflows/sync-map02e-shared-frame-photon-export.yml"
       - "docs/bass_master_ssot_v2/SYNC_MAP_02E/**"
       - "scripts/verify_sync_map02e_shared_export.py"
+      - "scripts/diagnose_sync_map02e_hashes.py"
       - "tests/test_sync_map02e_shared_export.py"
       - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
       - "wolfram/BASS/Kernel/init.wl"
@@ -28,6 +29,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Print semantic-hash diagnostics
+        shell: bash
+        run: python scripts/diagnose_sync_map02e_hashes.py || true
       - name: Run mutation-sensitive stdlib tests
         run: python -m unittest -v tests/test_sync_map02e_shared_export.py
       - name: Run fail-closed shared-export verifier
@@ -36,6 +40,7 @@ jobs:
         run: |
           python -m py_compile \
             scripts/verify_sync_map02e_shared_export.py \
+            scripts/diagnose_sync_map02e_hashes.py \
             tests/test_sync_map02e_shared_export.py
       - name: Parse machine export
         run: |
