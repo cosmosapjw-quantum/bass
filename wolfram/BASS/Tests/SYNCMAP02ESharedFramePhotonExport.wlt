@@ -1,5 +1,10 @@
 Module[{root, init, exportPath, minimalSources},
- root = Nest[DirectoryName, $InputFileName, 4];
+ root = If[
+   ValueQ[$SyncMap02ESourceRoot] && StringQ[$SyncMap02ESourceRoot] &&
+    DirectoryQ[$SyncMap02ESourceRoot],
+   $SyncMap02ESourceRoot,
+   Nest[DirectoryName, $InputFileName, 4]
+  ];
  init = FileNameJoin[{root, "wolfram", "BASS", "Kernel", "init.wl"}];
  exportPath = FileNameJoin[{root, "docs", "bass_master_ssot_v2", "SYNC_MAP_02E",
     "BASS_SHARED_FRAME_PHOTON_EXPORT.json"}];
@@ -65,7 +70,7 @@ VerificationTest[
       <|"equation_ir" -> Join[
         KeyDrop[record["equation_ir"], {"terms"}],
         <|"terms" -> {<|"input" -> "gamma*(1-beta_dot_n_sky)",
-          "coefficient" -> <|"type" -> "integer", "value" -> 1|>|>}|>]|>]]];
+          "coefficient" -> <|"type" -> "integer", "value" -> 1|>|>}|>]|>]]]);
   BASS`IR`SharedFramePhotonExportQ[bad]],
  False, TestID -> "SYNC-MAP-02E-reject-Doppler-sign-mutation"]
 
@@ -79,7 +84,7 @@ VerificationTest[
         <|"terms" -> {
           <|"input" -> "H_geom", "coefficient" -> <|"type" -> "integer", "value" -> -1|>|>,
           <|"input" -> "sigma_ab*e^a*e^b", "coefficient" -> <|"type" -> "integer", "value" -> 1|>|>
-        }|>]|>]]];
+        }|>]|>]]]);
   BASS`IR`SharedFramePhotonExportQ[bad]],
  False, TestID -> "SYNC-MAP-02E-reject-energy-sign-mutation"]
 
