@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cosmosapjw-quantum/bass/schemas/trirepo-formula-inventory.schema.json",
+  "title": "TRI-SYNC-V2 bounded formula-like path inventory",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "stage_id",
+    "parent_sync_run_id",
+    "control_parent",
+    "lineages",
+    "scope",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "stage_id": {"const": "SYNC-MAP-01"},
+    "parent_sync_run_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "control_parent": {
+      "type": "object",
+      "required": ["repository", "commit", "tree"],
+      "properties": {
+        "repository": {"const": "bass"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      },
+      "additionalProperties": true
+    },
+    "lineages": {
+      "type": "object",
+      "required": ["bass", "rec_bianchi", "rei_bianchi"],
+      "properties": {
+        "bass": {"$ref": "#/$defs/lineage"},
+        "rec_bianchi": {"$ref": "#/$defs/lineage"},
+        "rei_bianchi": {"$ref": "#/$defs/lineage"}
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": ["coverage", "semantic_equivalence"],
+      "properties": {
+        "coverage": {"const": "ACTIVE_LINEAGE_FORMULA_LIKE_PATHS_BOUNDED"},
+        "semantic_equivalence": {"const": "DEFERRED_TO_SYNC_MAP_02"}
+      },
+      "additionalProperties": true
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/entry"}
+    }
+  },
+  "$defs": {
+    "lineage": {
+      "type": "object",
+      "required": ["commit", "tree", "pull_request", "branch"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "pull_request": {"type": "integer", "minimum": 1},
+        "branch": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "repository",
+        "path",
+        "blob_sha",
+        "path_role",
+        "classification",
+        "owner_candidates",
+        "authority_effect",
+        "formula_candidates",
+        "replay_of_candidates",
+        "mixed_ownership",
+        "split_required",
+        "semantic_status",
+        "evidence"
+      ],
+      "properties": {
+        "repository": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]},
+        "path": {"type": "string", "minLength": 1, "pattern": "^[^/]"},
+        "blob_sha": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+          ]
+        },
+        "path_role": {
+          "enum": ["FORMULA_SOURCE", "SCHEMA", "ADAPTER", "PROVIDER", "ORACLE", "TEST", "RUNTIME_BRIDGE", "GENERATED_SOURCE", "RUNNER", "PROVENANCE", "RECEIPT", "SUPPORT"]
+        },
+        "classification": {
+          "enum": ["AUTHORITATIVE_DERIVATION", "AUTHORITATIVE_SCHEMA", "AUTHORITATIVE_PROVIDER", "ADAPTER_SPECIALIZATION", "INDEPENDENT_ORACLE", "OWNED_EXTENSION", "RUNTIME_BRIDGE", "PROVENANCE_ONLY", "SUPPORT_ONLY", "MIXED_OWNERSHIP_REQUIRES_SPLIT"]
+        },
+        "owner_candidates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["bass", "rec_bianchi", "rei_bianchi"]}
+        },
+        "authority_effect": {
+          "enum": ["AUTHORITATIVE_DERIVATION", "AUTHORITATIVE_SCHEMA", "AUTHORITATIVE_PROVIDER", "NONE"]
+        },
+        "formula_candidates": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "replay_of_candidates": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "mixed_ownership": {"type": "boolean"},
+        "split_required": {"type": "boolean"},
+        "semantic_status": {"enum": ["PENDING_SYNC_MAP_02", "NOT_APPLICABLE"]},
+        "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

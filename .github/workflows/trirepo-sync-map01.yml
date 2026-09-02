@@ -22,7 +22,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   map01-contract:
@@ -36,3 +36,66 @@ jobs:
         run: python -m unittest -v tests/test_trirepo_formula_inventory.py
       - name: Compile inventory coordinator
         run: python -m py_compile scripts/trirepo_formula_inventory.py tests/test_trirepo_formula_inventory.py
+      - name: Parse source and schema JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool fixtures/trirepo_formula_inventory_minimal.json >/dev/null
+          python -m json.tool docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY_SOURCE.json >/dev/null
+          python -m json.tool schemas/trirepo-formula-inventory.schema.json >/dev/null
+          python -m json.tool docs/bianchi_program/SYNC_MAP_01/SYNC_MAP_01_TDD_RED_RECEIPT.json >/dev/null
+      - name: Generate deterministic bounded inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/trirepo_formula_inventory.py \
+            --input docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY_SOURCE.json \
+            --output docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY.json \
+            --canonical-payload docs/bianchi_program/SYNC_MAP_01/CANONICAL_IDENTITY_PAYLOAD.json
+      - name: Verify generated boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY.json")
+          document = json.loads(path.read_text(encoding="utf-8"))
+          summary = document["summary"]
+          assert document["status"] == "PASS_BOUNDED_PATH_INVENTORY", document["status"]
+          assert summary["entry_count"] >= 50, summary
+          assert summary["mixed_ownership_path_count"] >= 3, summary
+          assert summary["semantic_source_scan"] == "NOT_RUN_SYNC_MAP_01", summary
+          assert summary["official_dag_edge_mutation_count"] == 0, summary
+          assert len(document["inventory_run_id"]) == 64
+          print("INVENTORY_RUN_ID=" + document["inventory_run_id"])
+          print("ENTRY_COUNT=" + str(summary["entry_count"]))
+          print("MIXED_PATH_COUNT=" + str(summary["mixed_ownership_path_count"]))
+          PY
+      - name: Publish deterministic inventory to branch
+        if: github.event_name == 'push' && startsWith(github.ref_name, 'agent/policy/trirepo-sync-map-01-')
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add \
+            docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY.json \
+            docs/bianchi_program/SYNC_MAP_01/CANONICAL_IDENTITY_PAYLOAD.json
+          if git diff --cached --quiet; then
+            echo "Generated inventory already matches the committed output."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(sync-map01): record deterministic path inventory"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - name: Upload SYNC-MAP-01 packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: trirepo-sync-map01-${{ github.sha }}
+          path: |
+            docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY_SOURCE.json
+            docs/bianchi_program/SYNC_MAP_01/TRIREPO_PATH_INVENTORY.json
+            docs/bianchi_program/SYNC_MAP_01/CANONICAL_IDENTITY_PAYLOAD.json
+            docs/bianchi_program/SYNC_MAP_01/SYNC_MAP_01_TDD_RED_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 30
