@@ -1,0 +1,129 @@
+name: sync-map02a-equationir-export
+
+on:
+  pull_request:
+    paths:
+      - "wolfram/BASS/Kernel/**"
+      - "wolfram/BASS/Tests/W0Environment.wlt"
+      - "wolfram/BASS/Tests/W1Conventions.wlt"
+      - "wolfram/BASS/Tests/ALG01BianchiAlgebra.wlt"
+      - "wolfram/BASS/Tests/ALG01R1ExceptionalAndCovariance.wlt"
+      - "wolfram/BASS/Tests/ALG01R2ExactIdentityAndCarriers.wlt"
+      - "wolfram/BASS/Tests/GEO02CartanConnection.wlt"
+      - "wolfram/BASS/Tests/GEO02R2ConnectionComposition.wlt"
+      - "wolfram/BASS/Tests/W2AbstractGeometry.wlt"
+      - "wolfram/BASS/Tests/W3ONFCurvature.wlt"
+      - "wolfram/BASS/Tests/SYNCMAP01CGeometryComposition.wlt"
+      - "wolfram/BASS/Tests/SYNCMAP02AEquationIRExport.wlt"
+      - "wolfram/PacletInfo.wl"
+      - "wolfram/schemas/bass-formula-semantic-export.schema.json"
+      - "wolfram/scripts/run_sync_map02a_equationir_export.wls"
+      - "tests/test_sync_map02a_equationir_export.py"
+      - ".github/workflows/sync-map02a-equationir-export.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02A/**"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02a-equationir-export-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  equationir-export-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run semantic-export source contracts
+        run: python -m unittest -v tests/test_sync_map02a_equationir_export.py
+      - name: Python syntax
+        run: python -m py_compile tests/test_sync_map02a_equationir_export.py
+      - name: Parse public schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool wolfram/schemas/bass-formula-semantic-export.schema.json >/dev/null
+      - name: Build independently replayable semantic-export source packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          test_names = [
+              "W0Environment.wlt",
+              "W1Conventions.wlt",
+              "ALG01BianchiAlgebra.wlt",
+              "ALG01R1ExceptionalAndCovariance.wlt",
+              "ALG01R2ExactIdentityAndCarriers.wlt",
+              "GEO02CartanConnection.wlt",
+              "GEO02R2ConnectionComposition.wlt",
+              "W2AbstractGeometry.wlt",
+              "W3ONFCurvature.wlt",
+              "SYNCMAP01CGeometryComposition.wlt",
+              "SYNCMAP02AEquationIRExport.wlt",
+          ]
+          paths = [
+              Path("wolfram/PacletInfo.wl"),
+              *sorted(Path("wolfram/BASS/Kernel").rglob("*.wl")),
+              *(Path("wolfram/BASS/Tests") / name for name in test_names),
+              Path("wolfram/scripts/run_sync_map02a_equationir_export.wls"),
+              Path("wolfram/schemas/bass-formula-semantic-export.schema.json"),
+              Path("tests/test_sync_map02a_equationir_export.py"),
+          ]
+          missing = [path.as_posix() for path in paths if not path.is_file()]
+          if missing:
+              raise SystemExit("MISSING_REPLAY_SOURCE: " + ", ".join(missing))
+          unique = sorted(set(paths), key=lambda path: path.as_posix())
+          entries = []
+          for path in unique:
+              data = path.read_bytes()
+              blob = subprocess.check_output(
+                  ["git", "hash-object", str(path)], text=True
+              ).strip()
+              entries.append({
+                  "path": path.as_posix(),
+                  "size": len(data),
+                  "sha256": hashlib.sha256(data).hexdigest(),
+                  "git_blob_sha1": blob,
+              })
+          payload = {
+              "schema_version": "1.0.0",
+              "stage_id": "SYNC_MAP_02A_BASS_EQUATIONIR_AND_SEMANTIC_HASH_EXPORT",
+              "source_commit": subprocess.check_output(
+                  ["git", "rev-parse", "HEAD"], text=True
+              ).strip(),
+              "source_tree": subprocess.check_output(
+                  ["git", "rev-parse", "HEAD^{tree}"], text=True
+              ).strip(),
+              "file_count": len(entries),
+              "files": entries,
+              "test_files": test_names,
+              "replay_entrypoint": "wolfram/scripts/run_sync_map02a_equationir_export.wls",
+              "claim_boundary": "SOURCE_PACKET_IDENTITY_ONLY_NO_CROSS_REPO_OR_SCIENCE_PASS",
+          }
+          out = Path("sync-map02a-source-packet")
+          out.mkdir()
+          (out / "SOURCE_MANIFEST.json").write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          for path in unique:
+              target = out / path
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(path.read_bytes())
+          print(json.dumps({"file_count": len(entries), "output": str(out)}, sort_keys=True))
+          PY
+      - name: Upload exact semantic-export source packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02a-source-${{ github.sha }}
+          path: sync-map02a-source-packet/
+          if-no-files-found: error
+          retention-days: 30
