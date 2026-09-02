@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+  "status": "BLOCKED_HOSTED_RUNNER_INFRASTRUCTURE",
+  "authority_effect": "NONE",
+  "affected_package_attempts": [
+    "einsteinpy",
+    "OGRePy",
+    "pytearcat",
+    "cadabra2",
+    "maxima",
+    "reduce"
+  ],
+  "observations": [
+    {
+      "workflow_run": 33666561987,
+      "attempt": 1,
+      "head": "eb05c9be8e0f9fbf5b1e7fdce42dd8157a1c3e04",
+      "job_count": 7,
+      "all_job_conclusions": "failure",
+      "all_runner_ids": 0,
+      "all_step_counts": 0,
+      "logs_available": false
+    },
+    {
+      "workflow_run": 33667403935,
+      "attempts": 2,
+      "head": "31f6649d8678482b17aa4996ab4ad2eb505cc78b",
+      "job_count": 7,
+      "all_job_conclusions": "failure",
+      "all_runner_ids": 0,
+      "all_step_counts": 0,
+      "logs_available": false
+    },
+    {
+      "workflow_run": 33668445612,
+      "attempt": 1,
+      "head": "2ea7083bffa78f7cb6c2659e3c84e362512e46bc",
+      "job_count": 7,
+      "jobs": [
+        "contract",
+        "python-einsteinpy",
+        "python-ogrepy",
+        "python-pytearcat",
+        "cadabra2",
+        "scalar-cas",
+        "aggregate"
+      ],
+      "all_job_conclusions": "failure",
+      "all_steps": null,
+      "all_logs_urls": null
+    }
+  ],
+  "classification_rule": "A job with no allocated runner, no steps and no logs is an infrastructure non-execution. It is not BLOCKED_INSTALL, BLOCKED_RUNTIME or FAIL_FORMULA for the package command that never started.",
+  "cause": "UNKNOWN_HOSTED_RUNNER_STARTUP_OR_ENTITLEMENT_FAILURE_NOT_EXPOSED_BY_API",
+  "package_execution_effect": "NOT_RUN",
+  "claim_boundary": [
+    "NO_CADABRA2_FORMULA_RESULT",
+    "NO_MAXIMA_FORMULA_RESULT",
+    "NO_REDUCE_FORMULA_RESULT",
+    "NO_EINSTEINPY_FORMULA_RESULT",
+    "NO_OGREPY_FORMULA_RESULT",
+    "NO_PYTEARCAT_FORMULA_RESULT",
+    "NO_02E_SEMANTIC_PROMOTION",
+    "NO_02F_SEMANTIC_CLOSEOUT"
+  ]
+}
