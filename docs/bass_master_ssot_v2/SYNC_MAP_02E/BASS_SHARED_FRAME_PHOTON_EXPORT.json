@@ -1,28 +1,65 @@
 {
   "schema_version": "1.0.0",
-  "program_id": "BIANCHI-WOLFRAM-FOUR-REPOSITORY-FEDERATION-20260902",
+  "program_id": "BIANCHI-WOLFRAM-FOUR-REPO-20260902",
   "stage_id": "SYNC_MAP_02E_SHARED_FRAME_PHOTON_EXPORT",
   "owner": "bass",
+  "status": "PASS_CANDIDATE_EXACT_HEAD_CI_AND_NATIVE_WOLFRAM_REPLAY_REQUIRED",
   "source_repository": "cosmosapjw-quantum/bass",
-  "source_parent_commit": "9e39e2468b9efec05f33b9945de02fe2c8c6a66d",
-  "contract_red_commit": "d4770f872addc9b73712babb44c675fbda2a19cb",
-  "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+  "source_parent": {
+    "pull_request": 98,
+    "commit": "9e39e2468b9efec05f33b9945de02fe2c8c6a66d",
+    "tree": "7a2026a308568829ba774905bee20f7ebae9f6dd",
+    "workflow_run": 33606190064,
+    "workflow_conclusion": "success"
+  },
   "predecessors": {
+    "sync_map_02a": {
+      "pull_request": 93,
+      "commit": "6587c081932d1dddda586781825d242616ca1357",
+      "formula_count": 14,
+      "registry_semantic_hash": "d08082e38227c7731c103b26ba8cb029bbf212759f03e64ff1c8ac8ae7f1ab51"
+    },
     "sync_map_02b": {
       "pull_request": 95,
-      "commit": "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96",
-      "role": "REC active-relation classification"
+      "commit": "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96"
     },
     "sync_map_02c": {
       "pull_request": 98,
       "commit": "9e39e2468b9efec05f33b9945de02fe2c8c6a66d",
-      "role": "complete active REI relation classification"
+      "workflow_run": 33606190064,
+      "workflow_conclusion": "success"
     },
     "sync_map_02d": {
       "pull_request": 97,
-      "commit": "7006aaab27834af37d5034f8f1e50943fe85c0f3",
-      "role": "HTT local-boost and processed-response classification"
+      "pre_repair_commit_superseded": "06aa29f78c26bcafeb60d85b719a4d3aa5c4c2e8",
+      "commit": "6203b1343a6adb0f53d7abd0667e6d76b80fec53",
+      "tree": "db49005f8dc77431dc4b76d67d8b7a242877fa46",
+      "final_receipt_head": "7006aaab27834af37d5034f8f1e50943fe85c0f3",
+      "workflow_run": 33604735684,
+      "workflow_conclusion": "success",
+      "repair_status": "P1_SOURCE_PIN_AND_STF3_GUARDS_CLOSED"
     }
+  },
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "spatial_orientation": "epsilon_123=+1",
+    "speed_of_light": "c retained explicitly",
+    "planck_constant": "h_P retained explicitly",
+    "boltzmann_constant": "k_B retained explicitly",
+    "photon_direction": "e^a is propagation direction in the normal frame",
+    "outward_sky_direction": "n_sky^a=-e^a",
+    "boost_domain": "beta_squared<1",
+    "triad_rotation": "Omega_triad is component-frame rotation, not normal-congruence vorticity"
+  },
+  "canonicalization": {
+    "algorithm": "UTF-8 compact JSON with recursively lexicographically sorted object keys",
+    "semantic_projection_drops": [
+      "schema_version",
+      "formula_id",
+      "authority_theorem",
+      "provenance"
+    ],
+    "hash": "SHA-256 lowercase hexadecimal"
   },
   "formula_count": 6,
   "formulas": [
@@ -30,309 +67,705 @@
       "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
       "owner": "bass",
       "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "b781f0b5aa4a7239867cf4868aa56feced4ca932f7b3697eb09063317fffbad3",
-      "equation_ir": {
-        "schema_version": "1.0.0",
-        "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
-        "authority_theorem": "Exact regular Lorentz aberration map for an outward sky direction",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
         "target": "n_sky_tilde^a",
-        "free_indices": ["a"],
-        "representation": "local-Lorentz-frame-transform",
+        "free_indices": [
+          "a"
+        ],
+        "representation": "local-observer-Lorentz-sky",
         "assumptions": [
           "metric signature (-,+,+,+)",
-          "beta^2<1",
-          "n_sky.n_sky=1",
-          "n_sky=-e",
-          "D=gamma(1+beta.n_sky)"
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "n_sky = -e_photon"
         ],
         "domain": {
-          "velocity_domain": "open unit ball beta^2<1",
-          "input_direction": "unit outward sky direction",
-          "regular_coefficient": "(gamma-1)/beta^2=gamma^2/(gamma+1)"
+          "boost": "subluminal",
+          "sky_direction": "unit outward direction",
+          "zero_boost": "continuous extension"
         },
-        "dimensions": {"target": "1"},
+        "dimensions": {
+          "target": "1"
+        },
         "terms": [
           {
-            "input": "[n_sky+(gamma+gamma^2*beta_dot_n_sky/(gamma+1))*beta]/doppler_factor",
-            "coefficient": {"type": "integer", "value": 1}
+            "input": "[n_sky^a+(gamma+((gamma-1)/beta_squared)*beta_dot_n_sky)*beta^a]/doppler_factor",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
           }
         ],
         "structural_zero_rules": [
-          "n_sky_tilde.n_sky_tilde=1",
-          "inverse map is obtained by beta->-beta with chart exchange"
+          "n_sky_tilde.n_sky_tilde = 1",
+          "beta = 0 implies n_sky_tilde^a = n_sky^a"
         ],
-        "branch_predicates": ["branch-independent local frame theorem"],
+        "branch_predicates": [
+          "observer-frame transformation only; not global matter tilt"
+        ],
         "known_limits": [
-          "beta=0 implies n_sky_tilde=n_sky",
-          "linear limit n_sky_tilde=n_sky+beta-(beta.n_sky)n_sky+O(beta^2)"
+          "inverse obtained by beta^a -> -beta^a in the transformed chart"
+        ]
+      },
+      "semantic_hash": "7d212853f2f5aead7bc338605112d510d2793ebc9fc1192de61fea9d757536e5",
+      "equation_ir": {
+        "schema_version": "1.0.0",
+        "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "authority_theorem": "Exact finite local-observer aberration map",
+        "target": "n_sky_tilde^a",
+        "free_indices": [
+          "a"
+        ],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "metric signature (-,+,+,+)",
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "n_sky = -e_photon"
+        ],
+        "domain": {
+          "boost": "subluminal",
+          "sky_direction": "unit outward direction",
+          "zero_boost": "continuous extension"
+        },
+        "dimensions": {
+          "target": "1"
+        },
+        "terms": [
+          {
+            "input": "[n_sky^a+(gamma+((gamma-1)/beta_squared)*beta_dot_n_sky)*beta^a]/doppler_factor",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "n_sky_tilde.n_sky_tilde = 1",
+          "beta = 0 implies n_sky_tilde^a = n_sky^a"
+        ],
+        "branch_predicates": [
+          "observer-frame transformation only; not global matter tilt"
+        ],
+        "known_limits": [
+          "inverse obtained by beta^a -> -beta^a in the transformed chart"
         ],
         "provenance": {
           "stage": "SYNC-MAP-02E",
           "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "common Lorentz frame theorem"
         }
       },
-      "dependencies": ["BASS.FRAME.DOPPLER_FACTOR.001"],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+      "dependencies": [
+        "BASS.FRAME.DOPPLER_FACTOR.001"
+      ],
+      "external_dependencies": [],
+      "consumer_repositories": [
+        "rec_bianchi",
+        "htt_base"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
     },
     {
       "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
       "owner": "bass",
       "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "f9cd508f65bdfdccafd90d0fb64f94821d29a3dc3e9bd956463e9ed28a4063cc",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
+        "target": "temperature_tilde(n_sky_tilde)",
+        "free_indices": [],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "nu_tilde = doppler_factor*nu",
+          "h_P and k_B retained",
+          "temperature > 0",
+          "doppler_factor > 0"
+        ],
+        "domain": {
+          "spectrum": "Planck blackbody",
+          "observable": "thermodynamic temperature"
+        },
+        "dimensions": {
+          "target": "K"
+        },
+        "terms": [
+          {
+            "input": "doppler_factor*temperature(n_sky)",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "beta = 0 implies temperature_tilde = temperature"
+        ],
+        "branch_predicates": [
+          "blackbody thermodynamic temperature only; generic frequency-dependent intensity is excluded"
+        ],
+        "known_limits": [
+          "h_P*nu_tilde/(k_B*temperature_tilde) = h_P*nu/(k_B*temperature)"
+        ]
+      },
+      "semantic_hash": "5ef8a90ff34b6df1f6075e8208faeca76e53921addc47441d0d877ee66bcc67f",
       "equation_ir": {
         "schema_version": "1.0.0",
         "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
-        "authority_theorem": "Doppler-weight-one pullback of a positive Planck blackbody temperature field",
-        "target": "T_tilde(n_sky_tilde)",
+        "authority_theorem": "Exact thermodynamic blackbody-temperature pullback under a local boost",
+        "target": "temperature_tilde(n_sky_tilde)",
         "free_indices": [],
-        "representation": "local-Lorentz-frame-transform",
+        "representation": "local-observer-Lorentz-sky",
         "assumptions": [
-          "strictly positive Planckian thermodynamic temperature",
-          "nu_tilde=D*nu",
-          "Doppler weight d=1",
-          "n_sky is the inverse-aberrated source direction"
+          "nu_tilde = doppler_factor*nu",
+          "h_P and k_B retained",
+          "temperature > 0",
+          "doppler_factor > 0"
         ],
         "domain": {
-          "observable": "blackbody thermodynamic temperature only",
-          "excluded": "general specific intensity foregrounds and spectral distortions"
+          "spectrum": "Planck blackbody",
+          "observable": "thermodynamic temperature"
         },
-        "dimensions": {"target": "temperature"},
+        "dimensions": {
+          "target": "K"
+        },
         "terms": [
           {
-            "input": "doppler_factor*temperature(n_sky_of_n_sky_tilde)",
-            "coefficient": {"type": "integer", "value": 1}
+            "input": "doppler_factor*temperature(n_sky)",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
           }
         ],
-        "structural_zero_rules": ["T_tilde>0 whenever T>0"],
-        "branch_predicates": ["branch-independent output transform; not global matter tilt"],
+        "structural_zero_rules": [
+          "beta = 0 implies temperature_tilde = temperature"
+        ],
+        "branch_predicates": [
+          "blackbody thermodynamic temperature only; generic frequency-dependent intensity is excluded"
+        ],
         "known_limits": [
-          "beta=0 implies T_tilde=T",
-          "Planck argument h*nu/(k_B*T) is invariant"
+          "h_P*nu_tilde/(k_B*temperature_tilde) = h_P*nu/(k_B*temperature)"
         ],
         "provenance": {
           "stage": "SYNC-MAP-02E",
           "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "common blackbody Lorentz pullback"
+        }
+      },
+      "dependencies": [
+        "BASS.FRAME.DOPPLER_FACTOR.001"
+      ],
+      "external_dependencies": [],
+      "consumer_repositories": [
+        "htt_base"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
+    },
+    {
+      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "owner": "bass",
+      "authority_effect": "AUTHORITATIVE_DERIVATION",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
+        "target": "doppler_factor",
+        "free_indices": [],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "metric signature (-,+,+,+)",
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "n_sky = -e_photon"
+        ],
+        "domain": {
+          "boost": "subluminal",
+          "sky_direction": "unit outward direction"
+        },
+        "dimensions": {
+          "target": "1"
+        },
+        "terms": [
+          {
+            "input": "gamma*(1+beta_dot_n_sky)",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "beta = 0 implies doppler_factor = 1",
+          "doppler_factor > 0 on the declared domain"
+        ],
+        "branch_predicates": [
+          "observer-frame transformation only; not global matter tilt"
+        ],
+        "known_limits": [
+          "collinear chart: doppler_factor = gamma*(1+beta*mu)"
+        ]
+      },
+      "semantic_hash": "6932f72745ed092dd2c356a9db984de4dc6197b77f2bcf881ad1699f87010fc8",
+      "equation_ir": {
+        "schema_version": "1.0.0",
+        "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "authority_theorem": "Exact local-observer photon Doppler factor",
+        "target": "doppler_factor",
+        "free_indices": [],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "metric signature (-,+,+,+)",
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "n_sky = -e_photon"
+        ],
+        "domain": {
+          "boost": "subluminal",
+          "sky_direction": "unit outward direction"
+        },
+        "dimensions": {
+          "target": "1"
+        },
+        "terms": [
+          {
+            "input": "gamma*(1+beta_dot_n_sky)",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "beta = 0 implies doppler_factor = 1",
+          "doppler_factor > 0 on the declared domain"
+        ],
+        "branch_predicates": [
+          "observer-frame transformation only; not global matter tilt"
+        ],
+        "known_limits": [
+          "collinear chart: doppler_factor = gamma*(1+beta*mu)"
+        ],
+        "provenance": {
+          "stage": "SYNC-MAP-02E",
+          "owner": "bass",
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "common Lorentz frame theorem"
+        }
+      },
+      "dependencies": [],
+      "external_dependencies": [],
+      "consumer_repositories": [
+        "rec_bianchi",
+        "htt_base"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
+    },
+    {
+      "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "owner": "bass",
+      "authority_effect": "AUTHORITATIVE_DERIVATION",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
+        "target": "dOmega_tilde",
+        "free_indices": [],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "aberration map uses BASS.FRAME.ABERRATED_DIRECTION.001"
+        ],
+        "domain": {
+          "measure": "oriented positive solid-angle measure"
+        },
+        "dimensions": {
+          "target": "1"
+        },
+        "terms": [
+          {
+            "input": "doppler_factor^(-2)*dOmega",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "beta = 0 implies dOmega_tilde = dOmega"
+        ],
+        "branch_predicates": [
+          "full-sky exact Jacobian; masks and estimator response are excluded"
+        ],
+        "known_limits": [
+          "axial chart derivative dmu_tilde/dmu = doppler_factor^(-2)"
+        ]
+      },
+      "semantic_hash": "937a9b46dece8df45590bfa895ede33c027cefd211a48a0f4b8ca49f4bcb94c4",
+      "equation_ir": {
+        "schema_version": "1.0.0",
+        "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+        "authority_theorem": "Exact celestial-sphere solid-angle Jacobian under a finite boost",
+        "target": "dOmega_tilde",
+        "free_indices": [],
+        "representation": "local-observer-Lorentz-sky",
+        "assumptions": [
+          "beta_squared < 1",
+          "n_sky.n_sky = 1",
+          "aberration map uses BASS.FRAME.ABERRATED_DIRECTION.001"
+        ],
+        "domain": {
+          "measure": "oriented positive solid-angle measure"
+        },
+        "dimensions": {
+          "target": "1"
+        },
+        "terms": [
+          {
+            "input": "doppler_factor^(-2)*dOmega",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "beta = 0 implies dOmega_tilde = dOmega"
+        ],
+        "branch_predicates": [
+          "full-sky exact Jacobian; masks and estimator response are excluded"
+        ],
+        "known_limits": [
+          "axial chart derivative dmu_tilde/dmu = doppler_factor^(-2)"
+        ],
+        "provenance": {
+          "stage": "SYNC-MAP-02E",
+          "owner": "bass",
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "Jacobian of the common aberration map"
         }
       },
       "dependencies": [
         "BASS.FRAME.ABERRATED_DIRECTION.001",
         "BASS.FRAME.DOPPLER_FACTOR.001"
       ],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
-    },
-    {
-      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
-      "owner": "bass",
-      "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "bf2b4d41eb7b0b837be778e1debb15efec50a1b0bacd36e08b0d8098243aed16",
-      "equation_ir": {
-        "schema_version": "1.0.0",
-        "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
-        "authority_theorem": "Exact Lorentz Doppler factor in outward-sky and future-photon charts",
-        "target": "D",
-        "free_indices": [],
-        "representation": "local-Lorentz-frame-transform",
-        "assumptions": [
-          "metric signature (-,+,+,+)",
-          "beta^2<1",
-          "n_sky^a=-e^a",
-          "gamma=(1-beta^2)^(-1/2)"
-        ],
-        "domain": {
-          "velocity_domain": "open unit ball beta^2<1",
-          "input_direction": "unit outward sky direction n_sky=-e",
-          "chart_adapter": "D=gamma(1+beta.n_sky)=gamma(1-beta.e)"
-        },
-        "dimensions": {"target": "1"},
-        "terms": [
-          {
-            "input": "gamma*(1+beta_dot_n_sky)",
-            "coefficient": {"type": "integer", "value": 1}
-          }
-        ],
-        "structural_zero_rules": ["D>0 for beta^2<1 and unit n_sky"],
-        "branch_predicates": ["branch-independent local frame theorem"],
-        "known_limits": [
-          "beta=0 implies D=1",
-          "future-photon chart gives gamma*(1-beta_dot_e)"
-        ],
-        "provenance": {
-          "stage": "SYNC-MAP-02E",
-          "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
-        }
-      },
-      "dependencies": [],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
-    },
-    {
-      "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
-      "owner": "bass",
-      "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "916650d0349ad00760f0dee0b96da9adc2013d63fb2352dabe4581d521b482fd",
-      "equation_ir": {
-        "schema_version": "1.0.0",
-        "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
-        "authority_theorem": "Exact Lorentz solid-angle Jacobian on the celestial sphere",
-        "target": "dOmega_tilde",
-        "free_indices": [],
-        "representation": "local-Lorentz-frame-transform",
-        "assumptions": [
-          "beta^2<1",
-          "D=gamma(1+beta.n_sky)",
-          "proper orientation-preserving sky chart"
-        ],
-        "domain": {
-          "measure": "oriented solid angle on the unit sky",
-          "input_direction": "outward sky direction"
-        },
-        "dimensions": {"target": "1"},
-        "terms": [
-          {
-            "input": "doppler_factor^(-2)*dOmega",
-            "coefficient": {"type": "integer", "value": 1}
-          }
-        ],
-        "structural_zero_rules": ["Jacobian is positive for beta^2<1"],
-        "branch_predicates": ["branch-independent local frame theorem"],
-        "known_limits": ["beta=0 implies dOmega_tilde=dOmega"],
-        "provenance": {
-          "stage": "SYNC-MAP-02E",
-          "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
-        }
-      },
-      "dependencies": ["BASS.FRAME.DOPPLER_FACTOR.001"],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+      "external_dependencies": [],
+      "consumer_repositories": [
+        "htt_base"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
     },
     {
       "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
       "owner": "bass",
       "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "cc374ce0e278e0683d7744c97896dcb1a2061e92c795a338cfea6d24e8f862b8",
-      "equation_ir": {
-        "schema_version": "1.0.0",
-        "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
-        "authority_theorem": "Exact homogeneous null-geodesic direction flow on the unit sphere",
-        "target": "V^a=D_s e^a",
-        "free_indices": ["a"],
-        "representation": "homogeneous-normal-frame-photon-phase-space",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
+        "target": "V^a = d e^a/d ell",
+        "free_indices": [
+          "a"
+        ],
+        "representation": "homogeneous-one-plus-three-tetrad-phase-space",
         "assumptions": [
-          "e.e=1",
-          "sigma_ab is spatial symmetric trace-free",
-          "aB^a and nB_ab are Bianchi structure variables",
-          "Omega_triad^a is triad rotation",
-          "epsilon_123=+1",
-          "rates are per physical length s=c t"
+          "metric signature (-,+,+,+)",
+          "epsilon_123 = +1",
+          "e^a e_a = 1",
+          "e^a n_a = 0",
+          "nB_ab = nB_ba",
+          "spatial homogeneity in the normal frame"
         ],
         "domain": {
-          "direction": "future photon propagation direction e",
-          "tangent_space": "T_e S^2",
-          "background": "spatially homogeneous"
+          "background": "homogeneous Bianchi",
+          "frame": "normal orthonormal tetrad",
+          "sphere": "unit celestial sphere"
         },
-        "dimensions": {"target": "L^-1"},
+        "dimensions": {
+          "target": "L^-1"
+        },
         "terms": [
           {
             "input": "(sigma_bc*e^b*e^c+aB_b*e^b)*e^a",
-            "coefficient": {"type": "integer", "value": 1}
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
           },
           {
             "input": "sigma^a_b*e^b",
-            "coefficient": {"type": "integer", "value": -1}
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
           },
           {
             "input": "aB^a",
-            "coefficient": {"type": "integer", "value": -1}
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
           },
           {
             "input": "epsilon^a_bc*Omega_triad^b*e^c",
-            "coefficient": {"type": "integer", "value": 1}
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
           },
           {
             "input": "epsilon^a_bc*e^b*nB^c_d*e^d",
-            "coefficient": {"type": "integer", "value": -1}
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
           }
         ],
-        "structural_zero_rules": ["e_a V^a=0"],
-        "branch_predicates": ["all admitted Bianchi branches; aB is not normal four-acceleration"],
+        "structural_zero_rules": [
+          "e_a*V^a = 0 on e^a e_a = 1",
+          "all coefficients vanish implies V^a = 0"
+        ],
+        "branch_predicates": [
+          "all eleven public Bianchi branches and exceptional VI_-1/9 on declared physical ONF charts"
+        ],
         "known_limits": [
-          "Bianchi I with sigma=Omega=0 gives V=0",
-          "FLRW gives V=0"
+          "FLRW invariant-frame pullback removes coordinate-frame drift without deleting generic structure terms"
+        ]
+      },
+      "semantic_hash": "a76d3e1ea11488b9e4269e169bf1f95d2d6f4a1ccd63715be36f76b85975df4e",
+      "equation_ir": {
+        "schema_version": "1.0.0",
+        "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
+        "authority_theorem": "Exact homogeneous celestial-sphere photon direction flow",
+        "target": "V^a = d e^a/d ell",
+        "free_indices": [
+          "a"
+        ],
+        "representation": "homogeneous-one-plus-three-tetrad-phase-space",
+        "assumptions": [
+          "metric signature (-,+,+,+)",
+          "epsilon_123 = +1",
+          "e^a e_a = 1",
+          "e^a n_a = 0",
+          "nB_ab = nB_ba",
+          "spatial homogeneity in the normal frame"
+        ],
+        "domain": {
+          "background": "homogeneous Bianchi",
+          "frame": "normal orthonormal tetrad",
+          "sphere": "unit celestial sphere"
+        },
+        "dimensions": {
+          "target": "L^-1"
+        },
+        "terms": [
+          {
+            "input": "(sigma_bc*e^b*e^c+aB_b*e^b)*e^a",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          },
+          {
+            "input": "sigma^a_b*e^b",
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
+          },
+          {
+            "input": "aB^a",
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
+          },
+          {
+            "input": "epsilon^a_bc*Omega_triad^b*e^c",
+            "coefficient": {
+              "type": "integer",
+              "value": 1
+            }
+          },
+          {
+            "input": "epsilon^a_bc*e^b*nB^c_d*e^d",
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "e_a*V^a = 0 on e^a e_a = 1",
+          "all coefficients vanish implies V^a = 0"
+        ],
+        "branch_predicates": [
+          "all eleven public Bianchi branches and exceptional VI_-1/9 on declared physical ONF charts"
+        ],
+        "known_limits": [
+          "FLRW invariant-frame pullback removes coordinate-frame drift without deleting generic structure terms"
         ],
         "provenance": {
           "stage": "SYNC-MAP-02E",
           "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "exact homogeneous photon Liouville theorem"
         }
       },
-      "dependencies": [
+      "dependencies": [],
+      "external_dependencies": [
         "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
         "BASS.GEO.STRUCTURE_CONSTANTS.001"
       ],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+      "consumer_repositories": [
+        "rec_bianchi",
+        "rei_bianchi"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
     },
     {
       "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
       "owner": "bass",
       "authority_effect": "AUTHORITATIVE_DERIVATION",
-      "status": "SYMBOLIC_VERIFIED_FORMULA_EXPORT",
-      "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-      "semantic_hash": "d84e8d3ad0c926975069239817d1374d1e8921e07f8dd63b7ad3619b1cfcc42c",
-      "equation_ir": {
-        "schema_version": "1.0.0",
-        "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
-        "authority_theorem": "Exact homogeneous null-geodesic photon energy drift",
-        "target": "R=D_s ln epsilon_gamma",
+      "status": "SYMBOLIC_VERIFIED_CONNECTED_STATELESS",
+      "semantic_projection": {
+        "target": "R = epsilon_gamma^(-1)*d epsilon_gamma/d ell",
         "free_indices": [],
-        "representation": "homogeneous-normal-frame-photon-phase-space",
+        "representation": "homogeneous-one-plus-three-tetrad-phase-space",
         "assumptions": [
-          "p^a=(epsilon_gamma/c)(n^a+e^a)",
-          "e.e=1",
-          "K_ab=H_geom h_ab+sigma_ab",
-          "rates are per physical length s=c t"
+          "metric signature (-,+,+,+)",
+          "epsilon_gamma > 0",
+          "e^a e_a = 1",
+          "e^a n_a = 0",
+          "spatial homogeneity in the normal frame"
         ],
         "domain": {
-          "energy": "positive photon energy epsilon_gamma",
-          "direction": "future photon propagation direction e",
-          "background": "spatially homogeneous"
+          "background": "homogeneous Bianchi",
+          "frame": "normal orthonormal tetrad"
         },
-        "dimensions": {"target": "L^-1"},
+        "dimensions": {
+          "target": "L^-1"
+        },
         "terms": [
           {
             "input": "H_geom",
-            "coefficient": {"type": "integer", "value": -1}
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
           },
           {
             "input": "sigma_ab*e^a*e^b",
-            "coefficient": {"type": "integer", "value": -1}
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
           }
         ],
-        "structural_zero_rules": [],
-        "branch_predicates": ["all admitted Bianchi branches; no inhomogeneous perturbations"],
+        "structural_zero_rules": [
+          "sigma_ab = 0 implies R = -H_geom",
+          "H_geom = sigma_ab = 0 implies R = 0"
+        ],
+        "branch_predicates": [
+          "all eleven public Bianchi branches on their declared physical ONF charts"
+        ],
         "known_limits": [
-          "FLRW limit sigma_ab=0 gives R=-H_geom",
-          "Minkowski limit H_geom=sigma_ab=0 gives R=0"
+          "FLRW limit R = -H_geom",
+          "Minkowski limit R = 0"
+        ]
+      },
+      "semantic_hash": "d296e7686dce3feb4a932b81427f918df06d4690e57a4ba2b998cf96897e7b2d",
+      "equation_ir": {
+        "schema_version": "1.0.0",
+        "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
+        "authority_theorem": "Exact homogeneous null-geodesic photon-energy drift",
+        "target": "R = epsilon_gamma^(-1)*d epsilon_gamma/d ell",
+        "free_indices": [],
+        "representation": "homogeneous-one-plus-three-tetrad-phase-space",
+        "assumptions": [
+          "metric signature (-,+,+,+)",
+          "epsilon_gamma > 0",
+          "e^a e_a = 1",
+          "e^a n_a = 0",
+          "spatial homogeneity in the normal frame"
+        ],
+        "domain": {
+          "background": "homogeneous Bianchi",
+          "frame": "normal orthonormal tetrad"
+        },
+        "dimensions": {
+          "target": "L^-1"
+        },
+        "terms": [
+          {
+            "input": "H_geom",
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
+          },
+          {
+            "input": "sigma_ab*e^a*e^b",
+            "coefficient": {
+              "type": "integer",
+              "value": -1
+            }
+          }
+        ],
+        "structural_zero_rules": [
+          "sigma_ab = 0 implies R = -H_geom",
+          "H_geom = sigma_ab = 0 implies R = 0"
+        ],
+        "branch_predicates": [
+          "all eleven public Bianchi branches on their declared physical ONF charts"
+        ],
+        "known_limits": [
+          "FLRW limit R = -H_geom",
+          "Minkowski limit R = 0"
         ],
         "provenance": {
           "stage": "SYNC-MAP-02E",
           "owner": "bass",
-          "source_path": "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+          "formula_source": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL",
+          "federation_union_source": "SYNC_MAP_02C_R3 + repaired SYNC_MAP_02D",
+          "source_role": "exact homogeneous photon Liouville theorem"
         }
       },
-      "dependencies": ["BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"],
-      "allowed_consumer_modes": ["PINNED_IMPORT", "INDEPENDENT_ORACLE", "ADAPTER_SPECIALIZATION"]
+      "dependencies": [],
+      "external_dependencies": [
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
+      ],
+      "consumer_repositories": [
+        "rec_bianchi",
+        "rei_bianchi"
+      ],
+      "allowed_consumer_modes": [
+        "PINNED_IMPORT",
+        "INDEPENDENT_ORACLE",
+        "ADAPTER_SPECIALIZATION"
+      ]
     }
   ],
   "internal_dependency_edges": [
@@ -343,12 +776,12 @@
     },
     {
       "from": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
-      "to": "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "to": "BASS.FRAME.DOPPLER_FACTOR.001",
       "relation": "depends_on"
     },
     {
-      "from": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
-      "to": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "from": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "to": "BASS.FRAME.ABERRATED_DIRECTION.001",
       "relation": "depends_on"
     },
     {
@@ -374,22 +807,198 @@
       "relation": "depends_on"
     }
   ],
-  "coverage": {
-    "included": [
-      "exact local Lorentz Doppler and aberration formulas",
-      "solid-angle Jacobian and positive blackbody temperature pullback",
-      "exact homogeneous photon energy and direction characteristic generators",
-      "outward-sky n_sky=-e convention adapter",
-      "formula-level semantic hashes and dependency closure"
+  "registry_semantic_projection": {
+    "formulas": [
+      {
+        "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "semantic_hash": "7d212853f2f5aead7bc338605112d510d2793ebc9fc1192de61fea9d757536e5",
+        "dependencies": [
+          "BASS.FRAME.DOPPLER_FACTOR.001"
+        ],
+        "external_dependencies": [],
+        "consumer_repositories": [
+          "rec_bianchi",
+          "htt_base"
+        ]
+      },
+      {
+        "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+        "semantic_hash": "5ef8a90ff34b6df1f6075e8208faeca76e53921addc47441d0d877ee66bcc67f",
+        "dependencies": [
+          "BASS.FRAME.DOPPLER_FACTOR.001"
+        ],
+        "external_dependencies": [],
+        "consumer_repositories": [
+          "htt_base"
+        ]
+      },
+      {
+        "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "semantic_hash": "6932f72745ed092dd2c356a9db984de4dc6197b77f2bcf881ad1699f87010fc8",
+        "dependencies": [],
+        "external_dependencies": [],
+        "consumer_repositories": [
+          "rec_bianchi",
+          "htt_base"
+        ]
+      },
+      {
+        "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+        "semantic_hash": "937a9b46dece8df45590bfa895ede33c027cefd211a48a0f4b8ca49f4bcb94c4",
+        "dependencies": [
+          "BASS.FRAME.ABERRATED_DIRECTION.001",
+          "BASS.FRAME.DOPPLER_FACTOR.001"
+        ],
+        "external_dependencies": [],
+        "consumer_repositories": [
+          "htt_base"
+        ]
+      },
+      {
+        "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
+        "semantic_hash": "a76d3e1ea11488b9e4269e169bf1f95d2d6f4a1ccd63715be36f76b85975df4e",
+        "dependencies": [],
+        "external_dependencies": [
+          "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+          "BASS.GEO.STRUCTURE_CONSTANTS.001"
+        ],
+        "consumer_repositories": [
+          "rec_bianchi",
+          "rei_bianchi"
+        ]
+      },
+      {
+        "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
+        "semantic_hash": "d296e7686dce3feb4a932b81427f918df06d4690e57a4ba2b998cf96897e7b2d",
+        "dependencies": [],
+        "external_dependencies": [
+          "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
+        ],
+        "consumer_repositories": [
+          "rec_bianchi",
+          "rei_bianchi"
+        ]
+      }
     ],
-    "excluded": [
-      "finite electron tilt collision",
-      "global matter tilt dynamics",
-      "recombination and reionization microphysics",
-      "background-provider implementation",
-      "hierarchy truncation and numerical solver",
-      "mask beam estimator response and inference"
+    "internal_dependency_edges": [
+      {
+        "from": "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "to": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "relation": "depends_on"
+      },
+      {
+        "from": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+        "to": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "relation": "depends_on"
+      },
+      {
+        "from": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+        "to": "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "relation": "depends_on"
+      },
+      {
+        "from": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+        "to": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "relation": "depends_on"
+      }
+    ],
+    "external_dependency_edges": [
+      {
+        "from": "BASS.PHOTON.DIRECTION_FLOW.001",
+        "to": "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+        "relation": "depends_on"
+      },
+      {
+        "from": "BASS.PHOTON.DIRECTION_FLOW.001",
+        "to": "BASS.GEO.STRUCTURE_CONSTANTS.001",
+        "relation": "depends_on"
+      },
+      {
+        "from": "BASS.PHOTON.ENERGY_DRIFT.001",
+        "to": "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+        "relation": "depends_on"
+      }
     ]
   },
-  "claim_boundary": "SIX_FORMULA_EQUATIONIR_EXPORT_ONLY_NO_CONSUMER_EQUIVALENCE_FINITE_TILT_GLOBAL_TILT_BACKGROUND_PROVIDER_OR_SCIENCE_PROMOTION"
+  "registry_semantic_hash": "16f699043a7420c6e62abdad02434a216075ce55f69583b5051965ea53db5612",
+  "consumer_bindings": {
+    "BASS.FRAME.ABERRATED_DIRECTION.001": [
+      "rec_bianchi",
+      "htt_base"
+    ],
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001": [
+      "htt_base"
+    ],
+    "BASS.FRAME.DOPPLER_FACTOR.001": [
+      "rec_bianchi",
+      "htt_base"
+    ],
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001": [
+      "htt_base"
+    ],
+    "BASS.PHOTON.DIRECTION_FLOW.001": [
+      "rec_bianchi",
+      "rei_bianchi"
+    ],
+    "BASS.PHOTON.ENERGY_DRIFT.001": [
+      "rec_bianchi",
+      "rei_bianchi"
+    ]
+  },
+  "coverage": {
+    "included": [
+      "finite local-observer Lorentz Doppler factor",
+      "finite aberrated outward sky direction",
+      "solid-angle Jacobian",
+      "blackbody thermodynamic-temperature pullback",
+      "homogeneous-Bianchi photon energy drift",
+      "homogeneous-Bianchi celestial-sphere direction flow"
+    ],
+    "excluded": [
+      "BASS numerical background provider",
+      "generic anisotropic reionization group-redshift discretization",
+      "global matter-frame tilt dynamics",
+      "finite-electron-tilt collision physics",
+      "recombination and reionization microphysics",
+      "mask beam pixel estimator or likelihood response",
+      "hierarchy truncation line-of-sight solver runtime and statistics"
+    ]
+  },
+  "wolfram_oracle": {
+    "mode": "CONNECTED_STATELESS",
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "clean_run_status": "PASS",
+    "zero_residual_count": 10,
+    "structural_check_count": 6,
+    "hostile_mutation_count": 7,
+    "dag_check_count": 5,
+    "inputform_sha256": "60ea9b894f955c2599628ae3ebf51b0e6d3a9ab2c512551fdef86e8c022f254b",
+    "native_repository_file_replay": false,
+    "xact_required": false,
+    "failed_harness_runs_preserved": [
+      "operator-precedence failure in FLRW replacement expression",
+      "intermediate PASS with Power::infy messages from a singular limit representation"
+    ]
+  },
+  "scispace_role_lock": {
+    "authority_effect": "NONE",
+    "regression_sources": [
+      "Dai and Chluba (2014): exact all-orders CMB aberration kernels and d=1 full-sky unitary structure",
+      "Yasini and Pierpaoli: frequency-dependent and cut-sky boost response",
+      "Fleury, Pitrou and Uzan: redshift and direction drift in Bianchi I",
+      "Marcori, Pitrou, Uzan and Pereira: general observer redshift and direction drifts",
+      "Mitsou and Yoo: tetrad matrix-kinetic foundation"
+    ],
+    "not_authorized_for": [
+      "project sign choice",
+      "formula ownership",
+      "Git identity",
+      "claim promotion"
+    ]
+  },
+  "next_stage": {
+    "node": "SYNC_MAP_02F_CROSS_REPOSITORY_SEMANTIC_GRAPH",
+    "status": "BLOCKED_UNTIL_02E_EXACT_HEAD_CI_AND_ACCEPTANCE_READBACK"
+  },
+  "claim_boundary": "SHARED_FRAME_PHOTON_EQUATIONIR_EXPORT_ONLY_NO_BACKGROUND_PROVIDER_GLOBAL_TILT_FINITE_ELECTRON_COLLISION_CONSUMER_EQUIVALENCE_OBSERVATIONAL_STATISTICAL_OR_SCIENCE_PROMOTION"
 }

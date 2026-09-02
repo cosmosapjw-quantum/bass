@@ -1,187 +1,120 @@
-(* ::Package:: *)
+Module[{root, init, exportPath},
+ root = Nest[DirectoryName, $InputFileName, 4];
+ init = FileNameJoin[{root, "wolfram", "BASS", "Kernel", "init.wl"}];
+ exportPath = FileNameJoin[{root, "docs", "bass_master_ssot_v2", "SYNC_MAP_02E",
+    "BASS_SHARED_FRAME_PHOTON_EXPORT.json"}];
+ Get[init];
+ $SyncMap02EData = Import[exportPath, "RawJSON"];
+];
 
-$SYNCMap02ERegistry = BASS`IR`SharedFramePhotonEquationIRRegistry[];
-$SYNCMap02EExport = BASS`IR`SharedFramePhotonSemanticExport[];
-$SYNCMap02EChecks = BASS`IR`SharedFramePhotonAlgebraChecks[];
-$SYNCMap02EIDs = BASS`IR`SharedFramePhotonFormulaIDs[];
-$SYNCMap02EInternal = BASS`IR`SharedFramePhotonInternalDependencyEdges[];
-$SYNCMap02EExternal = BASS`IR`SharedFramePhotonExternalDependencyEdges[];
-
-VerificationTest[
- Length[$SYNCMap02ERegistry],
- 6,
- TestID -> "BASS-SYNC-MAP-02E-six-formula-registry"
-]
-
-VerificationTest[
- Sort[Lookup[$SYNCMap02ERegistry, "formula_id"]],
- Sort[$SYNCMap02EIDs],
- TestID -> "BASS-SYNC-MAP-02E-exact-six-formula-union"
-]
-
-VerificationTest[
- DuplicateFreeQ[Lookup[$SYNCMap02ERegistry, "formula_id"]],
- True,
- TestID -> "BASS-SYNC-MAP-02E-formula-ids-unique"
-]
-
-VerificationTest[
- And @@ (BASS`IR`EquationIRQ /@ $SYNCMap02ERegistry),
- True,
- TestID -> "BASS-SYNC-MAP-02E-equation-ir-valid"
-]
-
-VerificationTest[
- BASS`IR`SharedFramePhotonSemanticExportQ[$SYNCMap02EExport],
- True,
- TestID -> "BASS-SYNC-MAP-02E-export-valid"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EExport, "formula_count"],
- 6,
- TestID -> "BASS-SYNC-MAP-02E-formula-count"
-]
-
-VerificationTest[
- Length[$SYNCMap02EInternal],
- 4,
- TestID -> "BASS-SYNC-MAP-02E-four-internal-dependencies"
-]
-
-VerificationTest[
- Length[$SYNCMap02EExternal],
- 3,
- TestID -> "BASS-SYNC-MAP-02E-three-external-dependencies"
-]
-
-VerificationTest[
- AcyclicGraphQ@Graph[
-   $SYNCMap02EIDs,
-   DirectedEdge @@@ ({Lookup[#, "from"], Lookup[#, "to"]} & /@
-      $SYNCMap02EInternal)
-  ],
- True,
- TestID -> "BASS-SYNC-MAP-02E-internal-dag-acyclic"
-]
-
-VerificationTest[
- And @@ (TrueQ /@ Values[$SYNCMap02EChecks]),
- True,
- TestID -> "BASS-SYNC-MAP-02E-all-exact-algebra-checks"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "aberrated_direction_unit_norm"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-aberrated-direction-unit-norm"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "parallel_axis_fixed"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-parallel-axis-fixed"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "antiparallel_axis_fixed"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-antiparallel-axis-fixed"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks,
-  "future_photon_and_outward_sky_doppler_charts"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-sky-photon-chart-sign-adapter"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "solid_angle_power_minus_two"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-solid-angle-jacobian"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "blackbody_planck_argument_invariant"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-blackbody-planck-invariance"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "direction_flow_tangent"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-direction-flow-tangent"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "energy_drift_FLRW_limit"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-energy-drift-flrw-limit"
-]
-
-VerificationTest[
- Lookup[$SYNCMap02EChecks, "frame_and_background_exports_disjoint"],
- True,
- TestID -> "BASS-SYNC-MAP-02E-frame-background-export-firewall"
-]
-
-$SYNCMap02EHashByID = AssociationThread[
- Lookup[$SYNCMap02EExport["formulas"], "formula_id"],
- Lookup[$SYNCMap02EExport["formulas"], "semantic_hash"]
+ClearAll[mutateFormula];
+mutateFormula[data_Association, id_String, f_] := Join[
+ KeyDrop[data, {"formulas"}],
+ <|"formulas" -> Map[
+    If[Lookup[#, "formula_id", None] === id, f[#], #] &,
+    Lookup[data, "formulas", {}]]|>
 ];
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID, "BASS.FRAME.ABERRATED_DIRECTION.001"],
- "b781f0b5aa4a7239867cf4868aa56feced4ca932f7b3697eb09063317fffbad3",
- TestID -> "BASS-SYNC-MAP-02E-aberration-semantic-hash"
-]
+ BASS`IR`SharedFramePhotonFormulaIDs[],
+ {
+  "BASS.FRAME.ABERRATED_DIRECTION.001",
+  "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+  "BASS.FRAME.DOPPLER_FACTOR.001",
+  "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+  "BASS.PHOTON.DIRECTION_FLOW.001",
+  "BASS.PHOTON.ENERGY_DRIFT.001"
+ }, TestID -> "SYNC-MAP-02E-six-formula-identity"]
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID,
-  "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"],
- "f9cd508f65bdfdccafd90d0fb64f94821d29a3dc3e9bd956463e9ed28a4063cc",
- TestID -> "BASS-SYNC-MAP-02E-temperature-semantic-hash"
-]
+ Length[BASS`IR`SharedFramePhotonExactResiduals[]],
+ 10, TestID -> "SYNC-MAP-02E-ten-exact-residuals"]
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID, "BASS.FRAME.DOPPLER_FACTOR.001"],
- "bf2b4d41eb7b0b837be778e1debb15efec50a1b0bacd36e08b0d8098243aed16",
- TestID -> "BASS-SYNC-MAP-02E-doppler-semantic-hash"
-]
+ And @@ (TrueQ[# == 0] & /@ Values[BASS`IR`SharedFramePhotonExactResiduals[]]),
+ True, TestID -> "SYNC-MAP-02E-exact-residuals-zero"]
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID, "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001"],
- "916650d0349ad00760f0dee0b96da9adc2013d63fb2352dabe4581d521b482fd",
- TestID -> "BASS-SYNC-MAP-02E-solid-angle-semantic-hash"
-]
+ BASS`IR`SharedFramePhotonDependencyGraphQ[$SyncMap02EData],
+ True, TestID -> "SYNC-MAP-02E-dependency-graph"]
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID, "BASS.PHOTON.DIRECTION_FLOW.001"],
- "cc374ce0e278e0683d7744c97896dcb1a2061e92c795a338cfea6d24e8f862b8",
- TestID -> "BASS-SYNC-MAP-02E-direction-flow-semantic-hash"
-]
+ BASS`IR`SharedFramePhotonExportQ[$SyncMap02EData],
+ True, TestID -> "SYNC-MAP-02E-canonical-export"]
 
 VerificationTest[
- Lookup[$SYNCMap02EHashByID, "BASS.PHOTON.ENERGY_DRIFT.001"],
- "d84e8d3ad0c926975069239817d1374d1e8921e07f8dd63b7ad3619b1cfcc42c",
- TestID -> "BASS-SYNC-MAP-02E-energy-drift-semantic-hash"
-]
+ Module[{bad},
+  bad = ReplacePart[$SyncMap02EData,
+    {Key["predecessors"], Key["sync_map_02d"], Key["commit"]} ->
+     "06aa29f78c26bcafeb60d85b719a4d3aa5c4c2e8"];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-stale-02D-pin"]
 
 VerificationTest[
- FreeQ[$SYNCMap02EExport, _Real],
- True,
- TestID -> "BASS-SYNC-MAP-02E-no-inexact-formula-values"
-]
+ Module[{bad},
+  bad = mutateFormula[$SyncMap02EData, "BASS.FRAME.DOPPLER_FACTOR.001",
+    Function[record,
+     Join[KeyDrop[record, {"equation_ir"}],
+      <|"equation_ir" -> Join[
+        KeyDrop[record["equation_ir"], {"terms"}],
+        <|"terms" -> {<|"input" -> "gamma*(1-beta_dot_n_sky)",
+          "coefficient" -> <|"type" -> "integer", "value" -> 1|>|>}|>]|>]]];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-Doppler-sign-mutation"]
 
 VerificationTest[
- Lookup[$SYNCMap02EExport["predecessors", "sync_map_02d"], "commit"],
- "7006aaab27834af37d5034f8f1e50943fe85c0f3",
- TestID -> "BASS-SYNC-MAP-02E-final-htt-predecessor"
-]
+ Module[{bad},
+  bad = mutateFormula[$SyncMap02EData, "BASS.PHOTON.ENERGY_DRIFT.001",
+    Function[record,
+     Join[KeyDrop[record, {"equation_ir"}],
+      <|"equation_ir" -> Join[
+        KeyDrop[record["equation_ir"], {"terms"}],
+        <|"terms" -> {
+          <|"input" -> "H_geom", "coefficient" -> <|"type" -> "integer", "value" -> -1|>|>,
+          <|"input" -> "sigma_ab*e^a*e^b", "coefficient" -> <|"type" -> "integer", "value" -> 1|>|>
+        }|>]|>]]];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-energy-sign-mutation"]
 
 VerificationTest[
- Lookup[$SYNCMap02EExport, "claim_boundary"],
- "SIX_FORMULA_EQUATIONIR_EXPORT_ONLY_NO_CONSUMER_EQUIVALENCE_FINITE_TILT_GLOBAL_TILT_BACKGROUND_PROVIDER_OR_SCIENCE_PROMOTION",
- TestID -> "BASS-SYNC-MAP-02E-claim-boundary"
-]
+ Module[{bad, edge},
+  edge = <|"from" -> "BASS.FRAME.DOPPLER_FACTOR.001",
+    "to" -> "BASS.FRAME.ABERRATED_DIRECTION.001", "relation" -> "depends_on"|>;
+  bad = Join[KeyDrop[$SyncMap02EData, {"internal_dependency_edges"}],
+    <|"internal_dependency_edges" -> Append[
+      $SyncMap02EData["internal_dependency_edges"], edge]|>];
+  BASS`IR`SharedFramePhotonDependencyGraphQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-dependency-cycle"]
+
+VerificationTest[
+ Module[{bad, coverage},
+  coverage = Join[KeyDrop[$SyncMap02EData["coverage"], {"included"}],
+    <|"included" -> Append[$SyncMap02EData["coverage"]["included"],
+      "finite electron tilt collision"]|>];
+  bad = Join[KeyDrop[$SyncMap02EData, {"coverage"}], <|"coverage" -> coverage|>];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-scope-injection"]
+
+VerificationTest[
+ Module[{bad},
+  bad = Join[KeyDrop[$SyncMap02EData, {"formulas", "formula_count"}],
+    <|"formulas" -> Take[$SyncMap02EData["formulas"], 4],
+      "formula_count" -> 4|>];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-four-formula-union"]
+
+VerificationTest[
+ Module[{bad, record},
+  record = First[$SyncMap02EData["formulas"]];
+  bad = mutateFormula[$SyncMap02EData, record["formula_id"],
+    Function[item, Join[KeyDrop[item, {"semantic_hash"}],
+      <|"semantic_hash" -> StringRepeat["0", 64]|>]]];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-semantic-hash-drift"]
+
+VerificationTest[
+ Module[{bad},
+  bad = Join[KeyDrop[$SyncMap02EData, {"claim_boundary"}],
+    <|"claim_boundary" -> "SYNC_MAP_02E_ONLY"|>];
+  BASS`IR`SharedFramePhotonExportQ[bad]],
+ False, TestID -> "SYNC-MAP-02E-reject-incomplete-claim-boundary"]
