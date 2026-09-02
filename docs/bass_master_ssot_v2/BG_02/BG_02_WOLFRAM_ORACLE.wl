@@ -123,8 +123,8 @@ witnessRules = <|
     n11 -> 1, n12 -> 0, n13 -> 0, n22 -> 1, n23 -> 0, n33 -> 1}
 |>;
 
-witnessGood = AssociationMap[FullSimplify[r3Good /. #] &, witnessRules];
-witnessBad = AssociationMap[FullSimplify[r3Bad /. #] &, witnessRules];
+witnessGood = Map[FullSimplify[r3Good /. #] &, witnessRules];
+witnessBad = Map[FullSimplify[r3Bad /. #] &, witnessRules];
 
 (* Homogeneous sigma divergence and exceptional carrier. *)
 sm = {
