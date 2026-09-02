@@ -12,6 +12,7 @@ on:
       - "wolfram/PacletInfo.wl"
       - "wolfram/schemas/abstract-1plus3-model.schema.json"
       - "wolfram/schemas/w3-xcoba-curvature-witness.schema.json"
+      - "wolfram/scripts/run_sync_map01c_geometry.wls"
       - "tests/test_sync_map01c_geometry_composition.py"
       - ".github/workflows/sync-map01c-geometry-composition.yml"
       - "docs/bass_master_ssot_v2/SYNC_MAP_01C/**"
@@ -44,3 +45,64 @@ jobs:
           done
       - name: Python syntax
         run: python -m py_compile tests/test_sync_map01c_geometry_composition.py
+      - name: Build exact source manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          paths = [
+              Path("wolfram/PacletInfo.wl"),
+              Path("wolfram/BASS/Kernel/init.wl"),
+              Path("wolfram/BASS/Kernel/Authority/Dimensions.wl"),
+              *sorted(Path("wolfram/BASS/Kernel/Geometry").glob("*.wl")),
+              Path("wolfram/BASS/Tests/W2AbstractGeometry.wlt"),
+              Path("wolfram/BASS/Tests/W3ONFCurvature.wlt"),
+              Path("wolfram/BASS/Tests/SYNCMAP01CGeometryComposition.wlt"),
+              Path("wolfram/scripts/run_sync_map01c_geometry.wls"),
+              Path("wolfram/schemas/abstract-1plus3-model.schema.json"),
+              Path("wolfram/schemas/w3-xcoba-curvature-witness.schema.json"),
+              Path("tests/test_sync_map01c_geometry_composition.py"),
+          ]
+          unique = sorted({path for path in paths if path.is_file()}, key=lambda p: p.as_posix())
+          entries = []
+          for path in unique:
+              data = path.read_bytes()
+              blob = subprocess.check_output(["git", "hash-object", str(path)], text=True).strip()
+              entries.append({
+                  "path": path.as_posix(),
+                  "size": len(data),
+                  "sha256": hashlib.sha256(data).hexdigest(),
+                  "git_blob_sha1": blob,
+              })
+          payload = {
+              "schema_version": "1.0.0",
+              "stage_id": "SYNC_MAP_01C_GEOMETRY_LINEAGE_COMPOSITION",
+              "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+              "source_tree": subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], text=True).strip(),
+              "file_count": len(entries),
+              "files": entries,
+              "claim_boundary": "SOURCE_PACKET_IDENTITY_ONLY_NO_WOLFRAM_OR_SCIENCE_PASS",
+          }
+          out = Path("sync-map01c-source-packet")
+          out.mkdir()
+          (out / "SOURCE_MANIFEST.json").write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          for path in unique:
+              target = out / path
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(path.read_bytes())
+          print(json.dumps({"file_count": len(entries), "output": str(out)}, sort_keys=True))
+          PY
+      - name: Upload exact composition source packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-map01c-source-${{ github.sha }}
+          path: sync-map01c-source-packet/
+          if-no-files-found: error
+          retention-days: 30
