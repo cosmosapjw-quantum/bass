@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  contract-red-or-green:
+  contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,3 +26,72 @@ jobs:
           python-version: '3.11'
       - name: Run external-oracle contract tests
         run: python -m unittest -v tests/test_sync_map02f_external_oracle_contract.py
+
+  symengine-exact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download and install exact SymEngine release
+        run: |
+          mkdir -p external_packages receipts
+          python -m pip download --only-binary=:all: --no-deps symengine==0.14.1 -d external_packages
+          python -m pip install --no-deps symengine==0.14.1
+          sha256sum external_packages/* | tee receipts/symengine_distribution_sha256.txt
+      - name: Run independent exact-CAS oracle
+        run: python scripts/verify_sync_map02f_symengine.py --receipt receipts/symengine_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-symengine-oracle
+          path: |
+            external_packages/
+            receipts/
+
+  pylorentz-four-vector:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download and install exact pylorentz release
+        run: |
+          mkdir -p external_packages receipts
+          python -m pip download --no-binary=:all: --no-deps pylorentz==0.3.3 -d external_packages
+          echo '4dcc3716d1f858e39acd637ff9333352142a9abf968e3451a9759dd66b2c5da6  external_packages/pylorentz-0.3.3.tar.gz' | sha256sum -c -
+          python -m pip install numpy==1.26.4 pylorentz==0.3.3
+          sha256sum external_packages/* | tee receipts/pylorentz_distribution_sha256.txt
+      - name: Run independent null-four-vector oracle
+        run: python scripts/verify_sync_map02f_pylorentz.py --samples 256 --receipt receipts/pylorentz_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-pylorentz-oracle
+          path: |
+            external_packages/
+            receipts/
+
+  cosmoboost-harmonic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download exact wheel and install bounded runtime dependencies
+        run: |
+          mkdir -p external_packages receipts
+          python -m pip download --only-binary=:all: --no-deps cosmoboost==1.1.6 -d external_packages
+          echo '0532cb213647e1033d4bd98248c3e39400b648582e0773d5a0cb2f76994e65cb  external_packages/cosmoboost-1.1.6-py3-none-any.whl' | sha256sum -c -
+          python -m pip install numpy==1.26.4 scipy==1.11.4 astropy==6.1.7 matplotlib==3.8.4 tqdm==4.67.1
+          python -m pip install --no-deps external_packages/cosmoboost-1.1.6-py3-none-any.whl
+          sha256sum external_packages/* | tee receipts/cosmoboost_distribution_sha256.txt
+      - name: Run d=1 s=0 harmonic-kernel runtime oracle
+        run: python scripts/verify_sync_map02f_cosmoboost_runtime.py --receipt receipts/cosmoboost_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-cosmoboost-runtime-oracle
+          path: |
+            external_packages/
+            receipts/
