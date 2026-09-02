@@ -1,0 +1,379 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-FOUR-REPOSITORY-FEDERATION-20260902",
+  "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
+  "status": "PASS_WITH_SHARED_FORMULA_EXPORT_GAPS",
+  "observed_at": "2026-09-02T15:40:22+09:00",
+  "bass_parent": {
+    "pull_request": 95,
+    "branch": "research/bass-master-ssot-v2-sync-map02b-rec-relations-20260902-r1",
+    "commit": "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96",
+    "role": "completed REC relation-classification parent"
+  },
+  "htt_lineages": {
+    "wu010": {
+      "pull_request": 442,
+      "branch": "changeset/planck-mes-wu010-local-boost-adapter-20260901",
+      "commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "tree": "2ae59db90cb3bd5a6ab0eb8e77418f4ef14d5849",
+      "scope": "full-sky scalar local-observer Lorentz pullback and STF/harmonic oracle"
+    },
+    "wu011": {
+      "pull_request": 444,
+      "branch": "changeset/planck-mes-wu011-processed-local-boost-response-20260902",
+      "commit": "978fbe612a570b9973b17c51237965f16b630fc4",
+      "tree": "8f00007b0275c20b9df33b76eca3826ac58686ac",
+      "scope": "synthetic processed cut-sky scalar local-observer response through Task-7B"
+    }
+  },
+  "exact_htt_sources": [
+    {
+      "path": "htt/obsstat/lorentz_sky_pullback.py",
+      "lineage": "HTT_WU010",
+      "git_blob_sha1": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805"
+    },
+    {
+      "path": "htt/obsstat/boost_response.py",
+      "lineage": "HTT_WU010",
+      "git_blob_sha1": "7a8be6fdc56547ddd6363e730364d5843c014cf7"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_response.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "e8b1fe8b1b60302274ada447e6be9749bc090150"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_linearization.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "dc55f6815377800539ab069c97b4d4d50cb03916"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_operator.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "d67b38e5a4eac56a9ebe5086ca251ac08100563f"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_jacobian.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "10e52bbd4340d67470da7e17139c1d11a35daf52"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_parity.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "da1f797ff6833bfcf732ef3043dc38f07cefe42d"
+    },
+    {
+      "path": "htt/obsstat/processed_boost_identifiability.py",
+      "lineage": "HTT_WU011",
+      "git_blob_sha1": "2fa42a795dd037fdea9d72bddb5f7ba38f129d42"
+    }
+  ],
+  "relation_summary": {
+    "relation_count": 12,
+    "classes": {
+      "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR": 4,
+      "ADAPTER_SPECIALIZATION": 1,
+      "INDEPENDENT_ORACLE": 2,
+      "HTT_OWNED_PROCESSED_EXTENSION": 5
+    },
+    "duplicate_authority_count": 0,
+    "unresolved_count": 0,
+    "scope": "HTT_PR442_AND_PR444_EXACT_HEADS_ONLY"
+  },
+  "relations": [
+    {
+      "relation_id": "HTT-R01",
+      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "authority_owner": "bass",
+      "consumer_repository": "htt_base",
+      "relation": "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR",
+      "consumer_role": "CONSUMER_IMPLEMENTATION",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_symbols": ["doppler_factor_unboosted", "doppler_factor_boosted"],
+      "formula": "D(n)=gamma(1+beta.n)=1/[gamma(1-beta.n_tilde)]",
+      "scope": "exact local-observer frame transform; no global matter tilt"
+    },
+    {
+      "relation_id": "HTT-R02",
+      "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "authority_owner": "bass",
+      "consumer_repository": "htt_base",
+      "relation": "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR",
+      "consumer_role": "CONSUMER_IMPLEMENTATION",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_symbols": ["aberrate_sky_direction", "deaberrate_sky_direction"],
+      "formula": "n_tilde=[n+(gamma+(gamma-1)(beta.n)/beta^2)beta]/[gamma(1+beta.n)]",
+      "scope": "exact local-observer sky-chart map; no photon geodesic evolution"
+    },
+    {
+      "relation_id": "HTT-R03",
+      "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "authority_owner": "bass",
+      "consumer_repository": "htt_base",
+      "relation": "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR",
+      "consumer_role": "INDEPENDENT_ORACLE",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_symbols": ["solid_angle_jacobian"],
+      "formula": "dOmega_tilde/dOmega=D(n)^(-2)",
+      "scope": "full-sky Lorentz measure relation; not the cut-sky estimator response"
+    },
+    {
+      "relation_id": "HTT-R04",
+      "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+      "authority_owner": "bass",
+      "consumer_repository": "htt_base",
+      "relation": "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR",
+      "consumer_role": "CONSUMER_IMPLEMENTATION",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_symbols": ["thermodynamic_temperature_pullback", "pullback_thermodynamic_temperature_field"],
+      "formula": "T_tilde(n_tilde)=D T(n(n_tilde)); Doppler weight d=1",
+      "scope": "strictly positive blackbody thermodynamic temperature only"
+    },
+    {
+      "relation_id": "HTT-R05",
+      "formula_id": "HTT.OBS.LOCAL_BOOST.POSITIVE_TEMPERATURE_ADAPTER.001",
+      "authority_owner": "htt_base",
+      "consumes": [
+        "BASS.FRAME.DOPPLER_FACTOR.001",
+        "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"
+      ],
+      "relation": "ADAPTER_SPECIALIZATION",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_symbols": ["pullback_thermodynamic_temperature_field"],
+      "scope": "direction-safe callback, positivity and unit-preserving output adapter"
+    },
+    {
+      "relation_id": "HTT-R06",
+      "formula_id": "HTT.OBS.LOCAL_BOOST.QUADRUPOLE_L1_L3_ORACLE.001",
+      "authority_owner": "htt_base",
+      "consumes": ["BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"],
+      "relation": "INDEPENDENT_ORACLE",
+      "authority_effect": "NONE",
+      "source_path": "htt/obsstat/boost_response.py",
+      "source_symbols": ["quadrupole_boost_octupole", "quadrupole_boost_dipole", "quadrupole_boost_harmonic_matrices"],
+      "formula": "delta T=3(beta.n)Q_nn-2(Q.beta).n; exact l=3 plus l=1 decomposition",
+      "scope": "first-order local-observer quadrupole response only"
+    },
+    {
+      "relation_id": "HTT-R07",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.SOURCE_TRANSFER_ORDER.001",
+      "authority_owner": "htt_base",
+      "relation": "HTT_OWNED_PROCESSED_EXTENSION",
+      "source_path": "htt/obsstat/processed_boost_response.py",
+      "source_symbols": ["PROCESSING_ORDER", "source_convolved_finite_map"],
+      "formula": "finite boost -> source beam/pixel transfer -> HEALPix synthesis",
+      "scope": "observation-side processing; not a Lorentz theorem"
+    },
+    {
+      "relation_id": "HTT-R08",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.LINEAR_GENERATOR.001",
+      "authority_owner": "htt_base",
+      "consumes": [
+        "BASS.FRAME.DOPPLER_FACTOR.001",
+        "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"
+      ],
+      "relation": "HTT_OWNED_PROCESSED_EXTENSION",
+      "source_path": "htt/obsstat/processed_boost_linearization.py",
+      "source_symbols": ["evaluate_processed_linear_response"],
+      "formula": "delta_beta T=(beta.n)T-[beta-(beta.n)n].grad_S2 T, followed by the frozen processed operator",
+      "scope": "derivative of the HTT output pipeline; no global tilt dynamics"
+    },
+    {
+      "relation_id": "HTT-R09",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.OPERATOR.001",
+      "authority_owner": "htt_base",
+      "relation": "HTT_OWNED_PROCESSED_EXTENSION",
+      "source_path": "htt/obsstat/processed_boost_operator.py",
+      "source_symbols": ["ProcessedBoostOperator", "evaluate_processed_boost"],
+      "formula": "boosted source -> weighted joint l=0..5 solve -> post-fit commonization -> retained l=2..5 carrier",
+      "scope": "synthetic processed scalar response"
+    },
+    {
+      "relation_id": "HTT-R10",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.COEFFICIENT_JACOBIAN.001",
+      "authority_owner": "htt_base",
+      "relation": "HTT_OWNED_PROCESSED_EXTENSION",
+      "source_path": "htt/obsstat/processed_boost_jacobian.py",
+      "source_symbols": ["build_processed_boost_jacobian", "metric_whitened_matrix"],
+      "formula": "J shape=(3,32,49), scientific T0 column structurally zero after l=0,1 profiling",
+      "scope": "processed estimator response and numerical diagnostics"
+    },
+    {
+      "relation_id": "HTT-R11",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.HISTORICAL_PARITY.001",
+      "authority_owner": "htt_base",
+      "relation": "INDEPENDENT_ORACLE",
+      "authority_effect": "NONE",
+      "source_path": "htt/obsstat/processed_boost_parity.py",
+      "source_symbols": ["historical_fullsky_parity", "fwl_retained_solution"],
+      "formula": "direction-safe pullback parity with fixed-axis ExactBoostOperator on their common declared domain",
+      "scope": "audit-only; not a second production estimator"
+    },
+    {
+      "relation_id": "HTT-R12",
+      "formula_id": "HTT.OBS.PROCESSED_BOOST.IDENTIFIABILITY.001",
+      "authority_owner": "htt_base",
+      "relation": "HTT_OWNED_PROCESSED_EXTENSION",
+      "source_path": "htt/obsstat/processed_boost_identifiability.py",
+      "source_symbols": ["build_identifiability_atlas"],
+      "formula": "mask/transfer-dependent nuisance-image, principal-angle and source-tail diagnostics",
+      "scope": "synthetic local-only identifiability; no empirical beta or Bianchi attribution"
+    }
+  ],
+  "pending_bass_imports": [
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"
+  ],
+  "shared_gap_union": {
+    "overlap_with_rec_02b": [
+      "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "BASS.FRAME.DOPPLER_FACTOR.001"
+    ],
+    "new_from_htt_02d": [
+      "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"
+    ],
+    "rec_only_pending_not_consumed_by_htt": [
+      "BASS.PHOTON.DIRECTION_FLOW.001",
+      "BASS.PHOTON.ENERGY_DRIFT.001"
+    ],
+    "union_after_02b_and_02d_before_02c": [
+      "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "BASS.FRAME.DOPPLER_FACTOR.001",
+      "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+      "BASS.PHOTON.DIRECTION_FLOW.001",
+      "BASS.PHOTON.ENERGY_DRIFT.001"
+    ]
+  },
+  "semantic_firewall": {
+    "local_observer_boost": "IMPLEMENTED_SCOPED_HTT_OUTPUT_SIDE",
+    "global_matter_frame_tilt": "NO_ACTIVE_HTT_IMPLEMENTATION",
+    "finite_electron_tilt_collision": "NO_ACTIVE_HTT_IMPLEMENTATION",
+    "photon_geodesic_direction_flow": "NO_ACTIVE_HTT_OCCURRENCE",
+    "photon_geodesic_energy_drift": "NO_ACTIVE_HTT_OCCURRENCE",
+    "processed_scalar_cutsky_response": "IMPLEMENTED_SYNTHETIC_ONLY",
+    "processed_polarization_response": "NOT_IMPLEMENTED_IN_WU011",
+    "empirical_beta_fit": "NOT_IMPLEMENTED",
+    "boost_subtraction": "NOT_IMPLEMENTED",
+    "bianchi_family_attribution": "NOT_IMPLEMENTED"
+  },
+  "wolfram_exact_checks": {
+    "initial_aggregation_run": {
+      "status": "FAIL_HARNESS_AGGREGATION",
+      "root_cause": "zero algebraic residuals were incorrectly required to be Boolean True",
+      "formula_or_dag_failure": false
+    },
+    "corrected_run": {
+      "status": "PASS",
+      "residuals": {
+        "aberrated_direction_unit_norm": 0,
+        "doppler_chart_equivalence": 0,
+        "deaberration_inverse_n_coefficient": 0,
+        "deaberration_inverse_beta_coefficient": 0,
+        "solid_angle_jacobian": 0,
+        "quadrupole_l1_l3_decomposition": 0
+      },
+      "structural_checks": {
+        "dag_unique_nodes": true,
+        "dag_edge_closure": true,
+        "dag_acyclic": true,
+        "dag_topological_coverage": true,
+        "shared_export_has_rei_and_htt_prerequisites": true,
+        "semantic_graph_follows_shared_export": true,
+        "manual_gate_has_three_sync_inputs": true,
+        "no_direct_task7c_to_global_tilt_edge": true
+      },
+      "node_count": 10,
+      "edge_count": 12
+    },
+    "hostile_mutations": {
+      "wrong_doppler_sign_detected": true,
+      "wrong_jacobian_power_detected": true,
+      "omitted_dipole_detected": true,
+      "omitted_octupole_detected": true,
+      "missing_02d_to_02e_dependency_detected": true,
+      "note": "the missing dependency mutation remains acyclic, proving that acyclicity alone is insufficient"
+    }
+  },
+  "impact_dag": {
+    "proposal_only": true,
+    "official_dag_status_or_workflow_mutated": false,
+    "nodes": [
+      "02A_BASS",
+      "02B_REC",
+      "02C_REI",
+      "02D_HTT",
+      "02E_SHARED_EXPORT",
+      "02F_SEMANTIC_GRAPH",
+      "SYNC_REC",
+      "SYNC_REI",
+      "SYNC_HTT_01A",
+      "SYNC_GATE_01"
+    ],
+    "edges": [
+      ["02A_BASS", "02B_REC"],
+      ["02B_REC", "02C_REI"],
+      ["02B_REC", "02D_HTT"],
+      ["02C_REI", "02E_SHARED_EXPORT"],
+      ["02D_HTT", "02E_SHARED_EXPORT"],
+      ["02E_SHARED_EXPORT", "02F_SEMANTIC_GRAPH"],
+      ["02F_SEMANTIC_GRAPH", "SYNC_REC"],
+      ["02F_SEMANTIC_GRAPH", "SYNC_REI"],
+      ["02F_SEMANTIC_GRAPH", "SYNC_HTT_01A"],
+      ["SYNC_REC", "SYNC_GATE_01"],
+      ["SYNC_REI", "SYNC_GATE_01"],
+      ["SYNC_HTT_01A", "SYNC_GATE_01"]
+    ],
+    "acyclic": true,
+    "shared_export_blocked_until": ["02C_REI", "02D_HTT"],
+    "manual_gate": "SYNC_GATE_01"
+  },
+  "literature_role": {
+    "authority_effect": "NONE",
+    "papers": [
+      {
+        "citation": "Dai & Chluba, Phys. Rev. D 89, 123504 (2014)",
+        "doi": "10.1103/PhysRevD.89.123504",
+        "role": "exact full-sky harmonic Lorentz-boost and Doppler-weight d=1 regression"
+      },
+      {
+        "citation": "Ferreira & Quartin, Phys. Rev. D 104, 063503 (2021)",
+        "doi": "10.1103/PhysRevD.104.063503",
+        "role": "realistic mask/beam/noise estimator separation and implementation methodology"
+      },
+      {
+        "citation": "Pereira, Yoho, Starkman & Stuke, arXiv:1009.4937",
+        "doi": null,
+        "role": "cut-sky first-order boost-coupling warning"
+      },
+      {
+        "citation": "Gruetjen & Shellard, Phys. Rev. D 89, 063008 (2014)",
+        "doi": "10.1103/PhysRevD.89.063008",
+        "role": "mask-induced mode coupling and augmented estimator basis methodology"
+      }
+    ],
+    "boundary": "literature supports regression and estimator methodology; repository ownership and exact signs remain project-controlled"
+  },
+  "withheld_claims": [
+    "BASS_SHARED_FRAME_PHOTON_EQUATIONIR_EXPORT",
+    "REI_RELATION_CLASSIFICATION",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "SYNC_HTT_01A",
+    "SYNC_GATE_01",
+    "GLOBAL_MATTER_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "EMPIRICAL_BETA",
+    "BOOST_SUBTRACTION",
+    "BIANCHI_FAMILY_ATTRIBUTION",
+    "PROVIDER_ADMISSION",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ],
+  "claim_boundary": "HTT_RELATION_CLASSIFICATION_ONLY_NO_SHARED_EXPORT_GLOBAL_TILT_DATA_FIT_PROVIDER_OR_SCIENCE_PROMOTION"
+}
