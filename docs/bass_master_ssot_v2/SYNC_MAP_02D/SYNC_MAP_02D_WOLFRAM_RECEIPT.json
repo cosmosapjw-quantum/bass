@@ -68,6 +68,21 @@
     "missing_dependency_mutant_remained_acyclic": true,
     "interpretation": "Acyclicity is necessary but insufficient; required-edge checks are load-bearing."
   },
+  "repository_replay_attempts": [
+    {
+      "method": "Wolfram Import of unauthenticated private raw GitHub URL",
+      "status": "NOT_RUN_RAW_SOURCE_UNAVAILABLE",
+      "observed_payload": "404: Not Found",
+      "character_count": 14,
+      "formula_or_source_failure": false
+    },
+    {
+      "method": "paste whole package as one evaluator expression",
+      "status": "INVALID_REPLAY_METHOD_CONTEXT_PREPARSE",
+      "reason": "The stateless evaluator parses the full compound input before BeginPackage changes the context, so unqualified package symbols resolve in Global. Native Get parses package expressions sequentially.",
+      "formula_or_source_failure": false
+    }
+  ],
   "formula_scope": {
     "metric_signature": "(-,+,+,+)",
     "outward_sky_direction": "n=-e",
