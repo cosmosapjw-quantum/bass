@@ -19,6 +19,7 @@ EXPECTED_ATTEMPTS = {
     "reduce",
     "BowenPing/STensor",
     "OGRe",
+    "GeneralRelativityTensors",
 }
 
 
