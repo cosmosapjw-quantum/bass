@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0.0",
+  "repair_id": "SYNC_MAP_02D_SOURCE_PIN_STF3_REPAIR_20260902_R1",
+  "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
+  "publication_role": "ADDITIVE_RECEIPT_OUTSIDE_REPAIRED_PAYLOAD",
+  "observed_at": "2026-09-02T16:35:24+09:00",
+  "repair_base": {
+    "commit": "06aa29f78c26bcafeb60d85b719a4d3aa5c4c2e8",
+    "role": "exact-head stdlib-green candidate with two semantic P1 findings"
+  },
+  "repaired_payload": {
+    "commit": "6203b1343a6adb0f53d7abd0667e6d76b80fec53",
+    "tree": "db49005f8dc77431dc4b76d67d8b7a242877fa46",
+    "ahead_by": 5,
+    "behind_by": 0,
+    "changed_paths": [
+      "docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json",
+      "scripts/verify_sync_map02d_htt_relations.py",
+      "tests/test_sync_map02d_htt_relations.py",
+      "wolfram/BASS/Kernel/IR/HTTRelationClassification.wl",
+      "wolfram/BASS/Tests/SYNCMAP02DHTTRelationClassification.wlt"
+    ]
+  },
+  "tdd": {
+    "red_commit": "d99e4fc42b4e5df4c4e37ce1c359e36abe44b3c0",
+    "red_workflow_run": 33603863917,
+    "red_result": "FAIL_EXPECTED",
+    "red_tests": {
+      "passed": 4,
+      "failed": 6,
+      "errors": 1,
+      "reason": "missing ninth historical-oracle source pin, absent explicit STF3 obligations, and absent fail-closed mutation handling"
+    },
+    "green_commit": "6203b1343a6adb0f53d7abd0667e6d76b80fec53",
+    "green_workflow_run": 33604317677,
+    "green_result": "SUCCESS",
+    "green_tests": {
+      "passed": 11,
+      "failed": 0,
+      "errors": 0
+    }
+  },
+  "source_pin_repair": {
+    "path": "htt/obsstat/boost_biposh_residual.py",
+    "htt_head": "978fbe612a570b9973b17c51237965f16b630fc4",
+    "git_blob_sha1": "98c757a315876cc9891fcc05b77e9e70b1921605",
+    "bound_symbol": "ExactBoostOperator",
+    "relation_id": "HTT-R11",
+    "verifier_mutations": [
+      "missing pin",
+      "changed digest",
+      "wrapper/implementation relation unbound"
+    ]
+  },
+  "stf3_repair": {
+    "definition": "O_abc=beta_a Q_bc+beta_b Q_ca+beta_c Q_ab-(2/5)(delta_ab Q_beta_c+delta_ac Q_beta_b+delta_bc Q_beta_a)",
+    "obligations": [
+      "O_(abc)=O_abc",
+      "O^a_ac=0",
+      "ambient residual=-(6/5)(n.n-1)(beta.Q.n)",
+      "unit-sphere residual=0 when n.n=1",
+      "delta T=O_abc n^a n^b n^c-(4/5)(Q.beta).n"
+    ],
+    "hostile_mutations": [
+      "wrong trace-subtraction coefficient",
+      "non-symmetric component injection",
+      "missing unit-sphere domain",
+      "omitted dipole",
+      "omitted octupole"
+    ]
+  },
+  "wolfram": {
+    "first_attempt": {
+      "status": "FAIL_HARNESS_SYMBOL_COLLISION",
+      "cause": "the temporary tensor symbol O is protected in Wolfram Language",
+      "formula_failure": false
+    },
+    "corrected_stateless_exact_oracle": {
+      "status": "PASS",
+      "stf3_symmetric": true,
+      "stf3_trace_free": true,
+      "ambient_factor_matches": true,
+      "unit_sphere_residual": 0,
+      "all_registered_mutations_detected": true,
+      "r2_dag_nodes": 10,
+      "r2_dag_edges": 12,
+      "r2_dag_acyclic": true
+    },
+    "native_repository_package_test_replay": "NOT_RUN",
+    "boundary": "connected stateless exact algebra is not a native repository Paclet/TestReport replay"
+  },
+  "ci": {
+    "workflow": "sync-map02d-htt-relations",
+    "run_id": 33604317677,
+    "conclusion": "SUCCESS",
+    "classifier": "PASS_12_RELATIONS_9_SOURCE_PINS",
+    "stdlib_tests": "11_OF_11_PASS",
+    "python_compile": "PASS",
+    "json_csv_parse": "PASS",
+    "text_hygiene": "PASS",
+    "inherited_sync_map02a": "SUCCESS",
+    "inherited_sync_map01c": "SUCCESS"
+  },
+  "literature_role": {
+    "tool": "SciSpace",
+    "authority_effect": "NONE",
+    "supports": [
+      "full-sky d=1 Lorentz/aberration regression",
+      "realistic mask/beam/noise estimator separation",
+      "cut-sky mode-coupling methodology"
+    ],
+    "does_not_control": [
+      "project sign conventions",
+      "formula ownership",
+      "Git identity",
+      "scientific claim promotion"
+    ]
+  },
+  "disposition": {
+    "source_pin_p1": "CLOSED",
+    "stf3_tautology_p1": "CLOSED",
+    "exact_head_stdlib_ci": "PASS",
+    "native_wolfram_gap": "OPEN",
+    "stage_status": "PASS_SOURCE_PIN_AND_STF3_SEMANTIC_REPAIR_WITH_NATIVE_WOLFRAM_PENDING",
+    "sync_map_02d_closeout": "WITHHELD",
+    "sync_map_02e_authorization": "WITHHELD"
+  },
+  "withheld_claims": [
+    "NATIVE_REPOSITORY_WOLFRAM_REPLAY_PASS",
+    "SYNC_MAP_02D_FULL_CLOSEOUT",
+    "BASS_SHARED_FRAME_PHOTON_EQUATIONIR_EXPORT",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "GLOBAL_MATTER_TILT",
+    "EMPIRICAL_BETA_OR_BOOST_SUBTRACTION",
+    "PROVIDER_ADMISSION",
+    "SCIENCE_VALIDITY"
+  ]
+}
