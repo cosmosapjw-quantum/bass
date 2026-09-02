@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BIANCHI_FOUR_REPO_DAG_RECONCILIATION_20260902_R1",
+  "receipt_type": "DROPBOX_RESTORED_REPLAY_REPAIR",
+  "status": "PASS_AFTER_APPEND_ONLY_EXACT_MIRROR_REPAIR",
+  "pre_repair_github_head": "33489d5551a4c88ef22d3d09f4aa0458ebeda1da",
+  "failure_sequence": [
+    {
+      "attempt": 1,
+      "status": "FAIL_HARNESS_CONSTRUCTION",
+      "cause": [
+        "URL content was imported as Text rather than raw bytes, invalidating byte-identity checks",
+        "the Wolfram edge-pair pure-function parentheses were malformed, so a valid Graph was not constructed"
+      ],
+      "authority_effect": "NONE"
+    },
+    {
+      "attempt": 2,
+      "status": "FAIL_DROPBOX_VERIFIER_BYTE_IDENTITY_ONLY",
+      "passed": [
+        "raw Dropbox byte download",
+        "JSON parse",
+        "40 node count",
+        "50 edge count",
+        "unique IDs",
+        "edge closure",
+        "acyclicity",
+        "topological coverage",
+        "four-repository scope",
+        "no science promotion",
+        "no official Jira-link mutation"
+      ],
+      "failed": [
+        "original Dropbox verifier Git-blob identity"
+      ],
+      "original_dropbox_verifier_file_id": "id:BSpOijBcT10AAAAAADlSTw",
+      "observed_original_verifier_git_blob_sha1": "864dfa6ed29e2cc2ef03f7afcc1ccd8c058dad7f",
+      "expected_github_verifier_git_blob_sha1": "f39063a41f802219917592b01ed8d3dd15916049",
+      "root_cause": "The original Dropbox recovery copy omitted two non-executable comment lines. Structural semantics survived, but the previous exact-mirror wording was false.",
+      "authority_effect": "NONE"
+    }
+  ],
+  "repair": {
+    "method": "append-only; original file retained without overwrite or deletion",
+    "dropbox_exact_verifier_path": "/bianchi/bianchi-formula-federation/2026-09-02/FOUR_REPO_DAG_RECONCILIATION_R1/verify_four_repo_dag_reconciliation_exact_r1.py",
+    "dropbox_exact_verifier_file_id": "id:BSpOijBcT10AAAAAADlSUw",
+    "dropbox_exact_verifier_size": 6011,
+    "github_verifier_path": "scripts/verify_four_repo_dag_reconciliation.py",
+    "github_verifier_blob_sha": "f39063a41f802219917592b01ed8d3dd15916049"
+  },
+  "final_wolfram_restored_replay": {
+    "status": "PASS_DROPBOX_RESTORED_STRUCTURAL_REPLAY",
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "checks_passed": 12,
+    "checks_failed": 0,
+    "dropbox_dag_json_byte_count": 11183,
+    "dropbox_exact_verifier_byte_count": 6011,
+    "dropbox_exact_verifier_git_blob_sha1": "f39063a41f802219917592b01ed8d3dd15916049",
+    "dropbox_dag_json_raw_sha256": "923c4dbb31478e4d898f0a307d7517dcb5bb36ecdf997996e477bc1f8b36168a",
+    "dropbox_exact_verifier_raw_sha256": "8298f2cc4012dab0746ea3079f262e351623e4f752a4b89f728f871013456fd6",
+    "node_count": 40,
+    "edge_count": 50,
+    "acyclic": true,
+    "topological_coverage": true,
+    "claim_effect": "NONE"
+  },
+  "supersession": {
+    "supersedes_exactness_claim_in": [
+      "FOUR_REPO_DAG_PUBLICATION_RECEIPT_20260902_R1.json",
+      "Dropbox PUBLICATION_RECEIPT.json"
+    ],
+    "new_exactness_statement": "Only verify_four_repo_dag_reconciliation_exact_r1.py is byte-identical to the canonical GitHub verifier. The original Dropbox verifier is retained as failed recovery evidence. The Dropbox DAG JSON remains a structurally verified compact recovery projection, not a byte-identical copy of the canonical GitHub DAG JSON."
+  },
+  "claim_boundary": "DURABILITY_REPAIR_ONLY_NO_FORMULA_EQUIVALENCE_OFFICIAL_DAG_LINK_MUTATION_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}
