@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BG-02_GR_BACKGROUND_EINSTEIN_PROJECTION_DESIGN",
+  "status": "PASS_PURE_WOLFRAM_DESIGN_ORACLE",
+  "runtime": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "xTensor_available_in_connector_kernel": false,
+    "xCoba_available_in_connector_kernel": false,
+    "oracle_class": "PURE_WOLFRAM_SYMBOLIC_NOT_NATIVE_XACT_BG02_REPLAY"
+  },
+  "source": {
+    "path": "docs/bass_master_ssot_v2/BG_02/BG_02_WOLFRAM_ORACLE.wl",
+    "blob_sha": "202637124b379c973c8145ab693799c36d1dea12",
+    "repair_commit": "810f91809d715294466e4025612b82e43b380c35",
+    "repair_note": "The first exact-file replay exposed AssociationMap misuse in the witness harness. The file was repaired to map over association values and replayed from a fresh evaluator call."
+  },
+  "checks": {
+    "off_shell_rate_identities": true,
+    "flat_de_Sitter": true,
+    "Kasner_vacuum": true,
+    "flat_FLRW_on_constraint": true,
+    "PSTF_K_quadratic_algebra": true,
+    "Lie_vs_projected_sigma_derivative": true,
+    "homogeneous_R3_modulo_n_dot_a": true,
+    "R3_I_V_II_IX_witnesses": true,
+    "wrong_connection_order_negative_control": true,
+    "homogeneous_sigma_divergence": true,
+    "exceptional_VI_minus_1_over_9_momentum_carrier": true
+  },
+  "exact_outputs": {
+    "rate_identity_residuals": ["0", "0", "0"],
+    "flat_de_Sitter": {
+      "Hamiltonian_residual": "0",
+      "F_trace": "0",
+      "F_ADM": "0",
+      "F_Ray": "0"
+    },
+    "flat_FLRW_on_constraint": {
+      "F_ADM": "-kappa_G (rho+p)/2",
+      "F_Ray": "-kappa_G (rho+p)/2"
+    },
+    "Kasner_tau_equals_ct": {
+      "Hamiltonian_residual": "0",
+      "F_trace": "-1/(3 tau^2)",
+      "F_ADM": "-1/(3 tau^2)",
+      "F_Ray": "-1/(3 tau^2)"
+    },
+    "R3_good_locked_order": {
+      "I": "0",
+      "V": "-6",
+      "II": "-1/2",
+      "IX": "3/2"
+    },
+    "R3_wrong_direct_storage_order": {
+      "I": "0",
+      "V": "4",
+      "II": "3/2",
+      "IX": "3/2"
+    },
+    "exceptional_momentum_component_3": "N22 Sigma12 + (N23-3 A) Sigma13"
+  },
+  "P0_guard": {
+    "id": "CANONICAL_CONNECTION_INDEX_ORDER",
+    "required_route": "ConnectionToLockedGammaOrder[LeviCivitaConnection[a,n]] or composed ONFRicciTensor/ONFScalarCurvature",
+    "forbidden_route": "read canonical Gamma[[gamma,alpha,beta]] directly as locked Gamma[[alpha,beta,gamma]]"
+  },
+  "messages": {
+    "symbolic_free_parameter_warning": "The connector wrapper reported free global symbols; all eleven Boolean checks evaluated to literal True and status evaluated to PASS.",
+    "semantic_failure": false
+  },
+  "claim_boundary": "ALGEBRAIC_FORMULA_DESIGN_PASS_NOT_NATIVE_XACT_PROJECTION_OR_PRODUCTION_IMPLEMENTATION"
+}
