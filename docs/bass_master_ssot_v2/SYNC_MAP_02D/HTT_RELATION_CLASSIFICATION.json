@@ -3,7 +3,7 @@
   "program_id": "BIANCHI-WOLFRAM-FOUR-REPOSITORY-FEDERATION-20260902",
   "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
   "status": "PASS_WITH_SHARED_FORMULA_EXPORT_GAPS",
-  "observed_at": "2026-09-02T15:40:22+09:00",
+  "observed_at": "2026-09-02T16:31:21+09:00",
   "bass_parent": {
     "pull_request": 95,
     "branch": "research/bass-master-ssot-v2-sync-map02b-rec-relations-20260902-r1",
@@ -61,6 +61,11 @@
       "path": "htt/obsstat/processed_boost_parity.py",
       "lineage": "HTT_WU011",
       "git_blob_sha1": "da1f797ff6833bfcf732ef3043dc38f07cefe42d"
+    },
+    {
+      "path": "htt/obsstat/boost_biposh_residual.py",
+      "lineage": "HTT_WU011_HISTORICAL_ORACLE",
+      "git_blob_sha1": "98c757a315876cc9891fcc05b77e9e70b1921605"
     },
     {
       "path": "htt/obsstat/processed_boost_identifiability.py",
@@ -152,8 +157,8 @@
       "authority_effect": "NONE",
       "source_path": "htt/obsstat/boost_response.py",
       "source_symbols": ["quadrupole_boost_octupole", "quadrupole_boost_dipole", "quadrupole_boost_harmonic_matrices"],
-      "formula": "delta T=3(beta.n)Q_nn-2(Q.beta).n; exact l=3 plus l=1 decomposition",
-      "scope": "first-order local-observer quadrupole response only"
+      "formula": "O_abc=beta_a Q_bc+beta_b Q_ca+beta_c Q_ab-(2/5)(delta_ab Q_beta_c+delta_ac Q_beta_b+delta_bc Q_beta_a); delta T=O_abc n^a n^b n^c-(4/5)(Q.beta).n=3(beta.n)Q_nn-2(Q.beta).n on n.n=1",
+      "scope": "first-order local-observer quadrupole response; explicit symmetric trace-free rank-3 plus dipole decomposition on the unit sky"
     },
     {
       "relation_id": "HTT-R07",
@@ -207,9 +212,14 @@
       "relation": "INDEPENDENT_ORACLE",
       "authority_effect": "NONE",
       "source_path": "htt/obsstat/processed_boost_parity.py",
+      "oracle_source_paths": [
+        "htt/obsstat/processed_boost_parity.py",
+        "htt/obsstat/boost_biposh_residual.py"
+      ],
       "source_symbols": ["historical_fullsky_parity", "fwl_retained_solution"],
+      "oracle_source_symbols": ["ExactBoostOperator"],
       "formula": "direction-safe pullback parity with fixed-axis ExactBoostOperator on their common declared domain",
-      "scope": "audit-only; not a second production estimator"
+      "scope": "audit-only; wrapper and historical implementation are both exact-pinned; not a second production estimator"
     },
     {
       "relation_id": "HTT-R12",
@@ -276,7 +286,10 @@
         "deaberration_inverse_n_coefficient": 0,
         "deaberration_inverse_beta_coefficient": 0,
         "solid_angle_jacobian": 0,
-        "quadrupole_l1_l3_decomposition": 0
+        "stf3_unit_sphere_residual": 0
+      },
+      "symbolic_residuals": {
+        "stf3_ambient_domain_residual": "-(6/5)(n.n-1)(beta.Q.n)"
       },
       "structural_checks": {
         "dag_unique_nodes": true,
@@ -286,7 +299,12 @@
         "shared_export_has_rei_and_htt_prerequisites": true,
         "semantic_graph_follows_shared_export": true,
         "manual_gate_has_three_sync_inputs": true,
-        "no_direct_task7c_to_global_tilt_edge": true
+        "no_direct_task7c_to_global_tilt_edge": true,
+        "stf3_symmetric": true,
+        "stf3_trace_free": true,
+        "stf3_ambient_factor_matches": true,
+        "stf3_unit_sphere_residual": true,
+        "stf3_unit_sphere_domain_required": true
       },
       "node_count": 10,
       "edge_count": 12
@@ -296,8 +314,11 @@
       "wrong_jacobian_power_detected": true,
       "omitted_dipole_detected": true,
       "omitted_octupole_detected": true,
+      "wrong_stf3_trace_coefficient_detected": true,
+      "non_symmetric_stf3_detected": true,
+      "missing_unit_sphere_domain_detected": true,
       "missing_02d_to_02e_dependency_detected": true,
-      "note": "the missing dependency mutation remains acyclic, proving that acyclicity alone is insufficient"
+      "note": "the missing dependency mutation remains acyclic, proving that acyclicity alone is insufficient; the STF3 ambient residual is nonzero until n.n=1 is imposed"
     }
   },
   "impact_dag": {
@@ -358,6 +379,11 @@
       }
     ],
     "boundary": "literature supports regression and estimator methodology; repository ownership and exact signs remain project-controlled"
+  },
+  "verification_boundary": {
+    "connected_stateless_wolfram_replay": "PASS_EXPLICIT_STF3_AND_R2_DAG",
+    "native_repository_wolfram_replay": "NOT_RUN",
+    "stage_closeout": "HOLD_NATIVE_REPOSITORY_WOLFRAM_REPLAY"
   },
   "withheld_claims": [
     "BASS_SHARED_FRAME_PHOTON_EQUATIONIR_EXPORT",
