@@ -36,13 +36,24 @@ Module[{root, init, exportPath, minimalSources},
   ]
  ];
  $SyncMap02EData = Import[exportPath, "RawJSON"];
- ClearAll[mutateFormula];
+ ClearAll[mutateFormula, mutateFormulaTerms, mutateFormulaHash];
  mutateFormula[data_Association, id_String, f_] := Join[
   KeyDrop[data, {"formulas"}],
   <|"formulas" -> Map[
      If[Lookup[#, "formula_id", None] === id, f[#], #] &,
      Lookup[data, "formulas", {}]]|>
  ];
+ mutateFormulaTerms[data_Association, id_String, terms_List] :=
+  mutateFormula[data, id,
+   Function[record,
+    ReplacePart[record,
+     {Key["equation_ir"], Key["terms"]} -> terms]
+   ]
+  ];
+ mutateFormulaHash[data_Association, id_String, hash_String] :=
+  mutateFormula[data, id,
+   Function[record, ReplacePart[record, Key["semantic_hash"] -> hash]]
+  ];
  <|
   "status" -> If[AssociationQ[$SyncMap02EData], "PASS", "FAIL"],
   "root" -> root,
