@@ -1,52 +1,46 @@
-name: sync-map02e-payload-bootstrap
+name: sync-map02e-shared-frame-photon-export
 
 on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02e-shared-frame-photon-export.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02E/**"
+      - "scripts/verify_sync_map02e_shared_export.py"
+      - "scripts/render_sync_map02e_graph.py"
+      - "tests/test_sync_map02e_shared_export.py"
+      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt"
   push:
     branches:
-      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-20260902-r1"
+      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-*"
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  install-and-verify-payload:
+  verify-and-package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
           fetch-depth: 0
-          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Decode and install the staged payload
-        shell: bash
+      - name: Run mutation-sensitive contract tests
+        run: python -m unittest -v tests/test_sync_map02e_shared_export.py
+      - name: Run fail-closed shared-export verifier
+        run: python scripts/verify_sync_map02e_shared_export.py --json
+      - name: Compile Python surfaces
         run: |
-          set -euo pipefail
-          cat \
-            .sync_payload/part00 \
-            .sync_payload/part01 \
-            .sync_payload/part02 \
-            .sync_payload/part03 \
-            .sync_payload/part04 \
-            > /tmp/sync-map02e-payload.b64
-          base64 -d /tmp/sync-map02e-payload.b64 > /tmp/sync-map02e-payload.tar.gz
-          tar -tzf /tmp/sync-map02e-payload.tar.gz
-          tar -xzf /tmp/sync-map02e-payload.tar.gz \
-            --exclude='.github/workflows/sync-map02e-shared-frame-photon-export.yml' \
-            -C .
-          rm -rf .sync_payload
-      - name: Verify installed payload before publication commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m unittest -v tests/test_sync_map02e_shared_export.py
-          python scripts/verify_sync_map02e_shared_export.py --json
           python -m py_compile \
             scripts/verify_sync_map02e_shared_export.py \
             scripts/render_sync_map02e_graph.py \
             tests/test_sync_map02e_shared_export.py
+      - name: Parse machine receipts
+        run: |
           for path in \
             docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
             docs/bass_master_ssot_v2/SYNC_MAP_02E/SYNC_MAP_02E_TDD_RECEIPT.json \
@@ -54,20 +48,52 @@ jobs:
           do
             python -m json.tool "$path" >/dev/null
           done
-          tmp="$(mktemp --suffix=.svg)"
-          python scripts/render_sync_map02e_graph.py --output "$tmp"
-          cmp "$tmp" docs/bass_master_ssot_v2/SYNC_MAP_02E/SHARED_FORMULA_DAG.svg
-          git diff --check
-      - name: Publish verified implementation payload
+      - name: Reproduce deterministic dependency figure
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "payload already installed"
-            exit 0
-          fi
-          git commit -m "feat(sync-map02e): install audited six-formula export payload"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          tmp="$(mktemp --suffix=.svg)"
+          python scripts/render_sync_map02e_graph.py --output "$tmp"
+          cmp "$tmp" docs/bass_master_ssot_v2/SYNC_MAP_02E/SHARED_FORMULA_DAG.svg
+      - name: Exact-base repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=9e39e2468b9efec05f33b9945de02fe2c8c6a66d
+          git cat-file -e "${BASE}^{commit}"
+          git merge-base --is-ancestor "$BASE" HEAD
+          git diff --check "$BASE"...HEAD
+      - name: Build exact Wolfram source packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          packet="$RUNNER_TEMP/sync-map02e-source-packet"
+          mkdir -p "$packet"
+          paths=(
+            wolfram/BASS/Kernel/IR/CanonicalSerialization.wl
+            wolfram/BASS/Kernel/IR/ExactScalarAST.wl
+            wolfram/BASS/Kernel/IR/EquationIR.wl
+            wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl
+            wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json
+          )
+          for path in "${paths[@]}"; do
+            mkdir -p "$packet/$(dirname "$path")"
+            cp "$path" "$packet/$path"
+          done
+          {
+            printf 'head=%s\n' "$(git rev-parse HEAD)"
+            printf 'tree=%s\n' "$(git show -s --format=%T HEAD)"
+            for path in "${paths[@]}"; do
+              printf '%s  %s\n' "$(git rev-parse "HEAD:$path")" "$path"
+            done
+          } > "$packet/GIT_OBJECT_MANIFEST.txt"
+          (cd "$packet" && find . -type f -print0 | sort -z | xargs -0 sha256sum) \
+            > "$packet/SHA256SUMS"
+      - name: Upload Wolfram source packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02e-wolfram-source-packet
+          path: ${{ runner.temp }}/sync-map02e-source-packet
+          if-no-files-found: error
+          retention-days: 30
