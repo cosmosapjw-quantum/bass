@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "stage_id": "SYNC_MAP_02B_REC_RELATION_CLASSIFICATION",
+  "status": "PASS_WITH_SHARED_FORMULA_EXPORT_GAPS",
+  "bass_parent": {
+    "pull_request": 93,
+    "branch": "research/bass-master-ssot-v2-sync-map02a-equationir-export-20260902-r1",
+    "commit": "6587c081932d1dddda586781825d242616ca1357",
+    "tree": "72c08fd78f12b804b15c8d4bf4ed4d0e0793566f",
+    "formula_count": 14,
+    "registry_semantic_hash": "d08082e38227c7731c103b26ba8cb029bbf212759f03e64ff1c8ac8ae7f1ab51"
+  },
+  "rec_lineage": {
+    "pull_request": 47,
+    "branch": "agent/research/rec-next03-formal-contracts-20260831-r1",
+    "commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+    "tree": "445b3fbc68aaba3e17c590831bff184b2e98e86f",
+    "claim_boundary": "NO_PASS_REC_PHYSICAL_SPLIT"
+  },
+  "exact_rec_sources": [
+    {
+      "path": "src/full_bianchi_hyrec/background/characteristics.py",
+      "git_blob_sha1": "f71ec2607daac808b871279ad0893d4653169343"
+    },
+    {
+      "path": "src/full_bianchi_hyrec/trajectory/directional_face_admission.py",
+      "git_blob_sha1": "789213442fada2b3455a2866d49e4085896fc330"
+    },
+    {
+      "path": "formal/rec_next03/wolfram/verify_frame_face_event.wls",
+      "git_blob_sha1": "51d62d3159d2ef8f4ad401bce06c49906e7b1125"
+    }
+  ],
+  "relation_summary": {
+    "relation_count": 9,
+    "classes": {
+      "PINNED_IMPORT_PENDING_OWNER_EQUATIONIR": 4,
+      "ADAPTER_SPECIALIZATION": 1,
+      "OWNED_EXTENSION": 2,
+      "INDEPENDENT_ORACLE": 2
+    },
+    "duplicate_derivation_count": 0,
+    "scope": "ACTIVE_REC_PR47_LINEAGE_ONLY"
+  },
+  "pending_bass_imports": [
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.PHOTON.DIRECTION_FLOW.001",
+    "BASS.PHOTON.ENERGY_DRIFT.001"
+  ],
+  "rec_owned_relations": [
+    {
+      "formula_id": "REC.FRAME.HYDROGEN_LOG_FREQUENCY_RATE.001",
+      "relation": "ADAPTER_SPECIALIZATION",
+      "formula": "R_H=R_normal+D0 ln D"
+    },
+    {
+      "formula_id": "REC.FACE.MOVING_DOPPLER_SPEED.001",
+      "relation": "OWNED_EXTENSION",
+      "formula": "v_x=[nu_face R_H-D0 nu_abs]/Delta_nu_D-x D0 ln Delta_nu_D-D0 x_face"
+    },
+    {
+      "formula_id": "REC.FACE.EVENT_SURFACES.001",
+      "relation": "OWNED_EXTENSION",
+      "event_surfaces": [
+        "CHARACTERISTIC_R_H_ZERO",
+        "RED_FACE_V_X_ZERO",
+        "BLUE_FACE_V_X_ZERO"
+      ]
+    }
+  ],
+  "formal_oracle_split": {
+    "source": "formal/rec_next03/wolfram/verify_frame_face_event.wls",
+    "common_bass_replay_checks": 10,
+    "rec_owned_checks": 19,
+    "authority_effect": "NONE"
+  },
+  "bass_geometry_matrix": {
+    "formula_count": 14,
+    "NO_ACTIVE_REC_REDERIVATION_DETECTED": 13,
+    "DEPENDENCY_ONLY": 1,
+    "dependency_formula": "BASS.GEO.STRUCTURE_CONSTANTS.001",
+    "DUPLICATE_AUTHORITY": 0
+  },
+  "exact_formula_checks": {
+    "normal_energy_drift_residual": 0,
+    "normal_direction_flow_residual": [0, 0, 0],
+    "direction_tangency_residual": 0,
+    "aberrated_direction_norm_residual": 0,
+    "moving_doppler_face_chain_rule_residual": 0,
+    "doppler_positive_for_subluminal_beta": true,
+    "RH_zero_not_general_face_zero": true,
+    "face_zero_not_general_RH_zero": true
+  },
+  "impact_dag": {
+    "proposal_only": true,
+    "official_dag_mutated": false,
+    "nodes": 9,
+    "edges": 8,
+    "acyclic": true,
+    "blocked_nodes": {
+      "REC.PHYSICAL_26_DIRECTION_FACE": "BLOCKED_SOURCE_DEFINED_26_DIRECTION_FACE_RECONSTRUCTION_ABSENT",
+      "REC.PROVIDER_EXPORT": "BLOCKED_BY_REC_PHYSICAL_FACE"
+    }
+  },
+  "withheld_claims": [
+    "CROSS_REPOSITORY_SEMANTIC_HASH_EQUIVALENCE_FOR_FOUR_SHARED_FORMULAS",
+    "REC_PHYSICAL_26_DIRECTION_FACE",
+    "REC_PROVIDER_EXPORT",
+    "OFFICIAL_DAG_MUTATION",
+    "CROSS_REPOSITORY_COMPATIBILITY",
+    "NUMERICAL_PARITY",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ],
+  "claim_boundary": "REC_RELATION_CLASSIFICATION_ONLY_NO_PROVIDER_ADMISSION_CROSS_REPO_EQUIVALENCE_OR_SCIENCE_PROMOTION"
+}
