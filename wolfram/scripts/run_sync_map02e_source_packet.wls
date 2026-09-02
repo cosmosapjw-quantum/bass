@@ -11,7 +11,8 @@ Module[{root, testPath, report, result},
  report = TestReport[testPath];
  result = <|
    "status" -> If[
-     report["TestsFailedCount"] === 0 &&
+     report["TestsSucceededCount"] === 13 &&
+      report["TestsFailedCount"] === 0 &&
       report["TestsNotEvaluatedCount"] === 0,
      "PASS",
      "FAIL"
@@ -19,6 +20,7 @@ Module[{root, testPath, report, result},
    "tests_succeeded" -> report["TestsSucceededCount"],
    "tests_failed" -> report["TestsFailedCount"],
    "tests_not_evaluated" -> report["TestsNotEvaluatedCount"],
+   "expected_test_count" -> 13,
    "wolfram_version" -> $Version,
    "system_id" -> $SystemID,
    "claim_effect" -> "NONE"
