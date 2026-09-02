@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "repair_id": "SYNC_MAP_02C_VALIDATION_FIX2",
+  "status": "PHYSICAL_INTERFACE_NARROWING_REQUIRED",
+  "authority_effect": "NONE",
+  "preserved_fix1": {
+    "path": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX1.json",
+    "commit": "701c8bd20558c4cc8002e4d8bf408aaee2e8ce60",
+    "blob": "baeae9a737e36ecabe63e310dc42effb095788bd",
+    "disposition": "RETAINED_SUPERSEDED_PRE_PUBLICATION_FIX"
+  },
+  "finding": {
+    "severity": "P1",
+    "current_code_path": "src/rei_bianchi/b2b_physical_model.py::physical_rhs_history",
+    "current_code_formula": "red_out=Hubble*redshift_coeff",
+    "current_validity": "FLRW_OR_EXACTLY_ISOTROPIC_ANGULAR_SUBSPACE_CONTROL",
+    "generic_bianchi_authority": "R(e)=-H_geom-sigma_ab e^a e^b",
+    "strongest_failure_mode": "A scalar H-only multigroup redshift operator silently drops shear coupling to nonzero angular multipoles and cannot establish genuine Bianchi ionizing-radiation transport."
+  },
+  "wolfram_audit": {
+    "first_attempt": {
+      "status": "FAIL_HARNESS_NONZERO_PREDICATE_ONLY_5_OF_6",
+      "failed_check": "quadrupole_coupling_not_identically_zero",
+      "root_cause": "A symbolic equality was wrapped in Not instead of testing the expression with PossibleZeroQ.",
+      "physical_identity_changed": false
+    },
+    "final_attempt": {
+      "status": "PASS_6_OF_6",
+      "isotropic_angular_average": 0,
+      "quadrupole_identity": "<(sigma_ab e^a e^b)(Q_cd e^c e^d)>=2 sigma_ab Q^ab/15",
+      "explicit_counterexample_value": "2/5",
+      "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)"
+    }
+  },
+  "correction": {
+    "canonical_successor": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX2.json",
+    "relation_id": "REI.REL.GROUP_REDSHIFT_FLOW.001",
+    "correct_semantic_status": "IMPLEMENTED_FLRW_H_ONLY_ADAPTER_EXACT_ON_ISOTROPIC_ANGULAR_SUBSPACE_ONLY",
+    "required_formula_imports": [
+      "BASS.PHOTON.ENERGY_DRIFT.001",
+      "BASS.PHOTON.DIRECTION_FLOW.001"
+    ],
+    "new_required_node": "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE",
+    "new_required_background_node": "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK"
+  },
+  "dag_adjustment": [
+    {
+      "from": "FED.SHARED_FRAME_PHOTON_EXPORT",
+      "to": "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE",
+      "kind": "requires_execution"
+    },
+    {
+      "from": "BASS.BG02_IMPLEMENT",
+      "to": "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK",
+      "kind": "requires_execution"
+    },
+    {
+      "from": "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK",
+      "to": "REI.BASS_NUMERICAL_BACKGROUND_LOCK",
+      "kind": "requires_execution"
+    },
+    {
+      "from": "REI.BASS_NUMERICAL_BACKGROUND_LOCK",
+      "to": "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE",
+      "kind": "requires_execution"
+    },
+    {
+      "from": "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE",
+      "to": "REI.FIRST_CANONICAL_INTERVAL",
+      "kind": "requires_execution"
+    }
+  ],
+  "non_changes": {
+    "relation_count": 11,
+    "relation_class_counts_changed": false,
+    "new_formula_id_gap_count": 0,
+    "four_shared_bass_formula_ids_changed": false,
+    "physics_code_changed": false,
+    "official_dag_mutated": false,
+    "provider_or_science_claim_promoted": false
+  },
+  "claim_boundary": "INTERFACE_NARROWING_ONLY_NO_ANISOTROPIC_GROUP_CLOSURE_BACKGROUND_LOCK_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}
