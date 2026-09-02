@@ -10,7 +10,8 @@
       "version_spec": "einsteinpy==0.4.0",
       "delivery": "PyPI wheel or source distribution",
       "package_axis": "INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE",
-      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)"
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "OGRePy",
@@ -18,7 +19,8 @@
       "delivery": "PyPI wheel",
       "known_source_sha256": "456050d5e43a1df66a2fd4d7955e74b02ac7c5e9e24f8fb5c04a74716f16c037",
       "package_axis": "INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE",
-      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)"
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "pytearcat",
@@ -26,7 +28,8 @@
       "delivery": "PyPI wheel or source distribution",
       "known_source_sha256": "caac44ff45d7c85b6834075bc3ce4a9b6a0f791f00a6c7f57166f3e7a710e918",
       "package_axis": "BACKEND_REPORTED_AT_RUNTIME",
-      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)"
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "cadabra2",
@@ -34,21 +37,24 @@
       "delivery": "official Ubuntu 24.04 x86_64 release deb",
       "download_sha256": "b9dc00c94eda9bff5d5e2f9793f6640c0c507d6ef2fc00401273e9b8659887ad",
       "package_axis": "INDEPENDENT_TENSOR_CAS",
-      "probe": "tensor symmetry, Riemann pair symmetry and first Bianchi identities"
+      "probe": "tensor symmetry, Riemann pair symmetry and first Bianchi identities",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "maxima",
-      "version_spec": "Ubuntu 24.04 repository version",
+      "version_spec": "Ubuntu repository version",
       "delivery": "apt",
       "package_axis": "INDEPENDENT_SCALAR_CAS",
-      "probe": "aberration inverse, Jacobian, zero-boost regularization and d=1 weighted-pullback generator"
+      "probe": "aberration inverse, Jacobian, zero-boost regularization and d=1 weighted-pullback generator",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "reduce",
-      "version_spec": "Ubuntu 24.04 repository version if available",
+      "version_spec": "Ubuntu repository version if available",
       "delivery": "apt",
       "package_axis": "INDEPENDENT_SCALAR_CAS",
-      "probe": "rational aberration inverse, Jacobian and first-order weighted-pullback generator"
+      "probe": "rational aberration inverse, Jacobian and first-order weighted-pullback generator",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
     },
     {
       "package": "BowenPing/STensor",
@@ -56,9 +62,42 @@
       "delivery": "Wolfram PacletSymbol ephemeral download",
       "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
       "probe": "Minkowski Einstein tensor and Bianchi-I G00 identity",
+      "execution_status": "PASS",
       "receipt": "STENSOR_WOLFRAM_RECEIPT.json"
+    },
+    {
+      "package": "OGRe",
+      "version_spec": "2.0.0",
+      "delivery": "pinned single-file ephemeral download and Get",
+      "download_url": "https://raw.githubusercontent.com/bshoshany/OGRe/v2.0.0/OGRe.m",
+      "download_bytes": 191955,
+      "download_sha256": "e745de7820861b942103e5614e518bcc5748155f81edb69ca42c28b70b87b66a",
+      "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "probe": "full covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "PASS",
+      "receipt": "OGRE_WOLFRAM_RECEIPT.json"
     }
   ],
+  "infrastructure_block": {
+    "classification": "BLOCKED_HOSTED_RUNNER_INFRASTRUCTURE",
+    "evidence": [
+      {
+        "workflow_run": 33666561987,
+        "attempts": 1,
+        "observed_jobs": 7,
+        "runner_id": 0,
+        "step_count": 0
+      },
+      {
+        "workflow_run": 33667403935,
+        "attempts": 2,
+        "observed_jobs": 7,
+        "runner_id": 0,
+        "step_count": 0
+      }
+    ],
+    "interpretation": "The Python, Cadabra2, Maxima and REDUCE package commands did not start; this is not an installation or formula failure. The API did not expose the underlying hosted-runner allocation cause."
+  },
   "deferred_resource_heavy": [
     {
       "package": "SageMath/SageManifolds",
