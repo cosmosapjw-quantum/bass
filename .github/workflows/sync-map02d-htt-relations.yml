@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -54,4 +56,11 @@ jobs:
           print({"csv_rows": len(rows)})
           PY
       - name: Repository text hygiene
-        run: git diff --check HEAD^ HEAD
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git rev-parse --verify 'HEAD^2' >/dev/null 2>&1; then
+            git diff --check 'HEAD^1' 'HEAD^2'
+          else
+            git diff --check HEAD^ HEAD
+          fi
