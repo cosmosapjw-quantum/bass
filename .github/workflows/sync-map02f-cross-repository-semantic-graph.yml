@@ -88,6 +88,7 @@ jobs:
             scripts/probe_cosmoboost_reference.py \
             tests/test_sync_map02f_semantic_graph.py
           python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/CROSS_REPOSITORY_SEMANTIC_GRAPH.json >/dev/null
+          python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/INPUT_02D_HTT_RELATION_PIN.json >/dev/null
           python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/SYNC_MAP_02F_TDD_RED_RECEIPT.json >/dev/null
           git diff --check "$EXACT_02E_BASE"...HEAD
       - uses: actions/upload-artifact@v4
@@ -209,6 +210,7 @@ jobs:
           mkdir -p "$packet"
           files=(
             docs/bass_master_ssot_v2/SYNC_MAP_02F/CROSS_REPOSITORY_SEMANTIC_GRAPH.json
+            docs/bass_master_ssot_v2/SYNC_MAP_02F/INPUT_02D_HTT_RELATION_PIN.json
             docs/bass_master_ssot_v2/SYNC_MAP_02F/SYNC_MAP_02F_TDD_RED_RECEIPT.json
             docs/bass_master_ssot_v2/SYNC_MAP_02F/ARXIV_PRIMARY_AND_PACKAGE_REFERENCE_LOCK.md
             scripts/verify_sync_map02f_semantic_graph.py
