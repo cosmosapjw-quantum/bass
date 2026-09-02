@@ -2,7 +2,7 @@
 """Run bounded, fail-closed tensor-package witnesses.
 
 This script deliberately distinguishes an independent package implementation
-from an independent algebra engine.  EinsteinPy and OGRePy use SymPy; Pytearcat
+from an independent algebra engine. EinsteinPy and OGRePy use SymPy; Pytearcat
 reports whether its selected backend is SymPy or Giac.
 """
 
@@ -20,9 +20,6 @@ from typing import Any
 import sympy as sp
 
 
-EXPECTED_DIAGONAL = (sp.Integer(11) / sp.Symbol("t") ** 2, -14, -9 * sp.Symbol("t") ** 2, -4 * sp.Symbol("t") ** 4)
-
-
 def _write(path: Path, data: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -32,14 +29,16 @@ def _normalise(expr: Any) -> sp.Expr:
     return sp.simplify(sp.nsimplify(expr))
 
 
-def _verify_matrix(matrix: Any, t: sp.Symbol) -> dict[str, Any]:
+def _verify_matrix(matrix: Any, time_coordinate: sp.Expr) -> dict[str, Any]:
     expected = (
-        sp.Integer(11) / t**2,
+        sp.Integer(11) / time_coordinate**2,
         sp.Integer(-14),
-        -sp.Integer(9) * t**2,
-        -sp.Integer(4) * t**4,
+        -sp.Integer(9) * time_coordinate**2,
+        -sp.Integer(4) * time_coordinate**4,
     )
-    diagonal_residuals = [_normalise(matrix[i, i] - expected[i]) for i in range(4)]
+    diagonal_residuals = [
+        _normalise(matrix[i, i] - expected[i]) for i in range(4)
+    ]
     off_diagonal_residuals = [
         _normalise(matrix[i, j])
         for i in range(4)
@@ -106,17 +105,18 @@ def _pytearcat() -> dict[str, Any]:
     import pytearcat as pt
     from pytearcat.tensor.core import core as ptcore
 
-    t, x, y, z = pt.coords("t,x,y,z")
-    pt.fun("aa", "t")
-    pt.fun("bb", "t")
-    pt.fun("cc", "t")
-    # Concrete scale factors keep the witness deterministic and inexpensive.
+    t, _x, _y, _z = pt.coords("t,x,y,z")
+    # A concrete diagonal Bianchi-I witness keeps runtime bounded and removes
+    # any need to translate undefined functions between Pytearcat backends.
     metric = pt.metric("ds2 = -dt**2 + t**2*dx**2 + t**4*dy**2 + t**6*dz**2")
     del metric
     einstein = pt.einstein()
     components = einstein.tensor[0]
     matrix = sp.Matrix(4, 4, lambda i, j: sp.sympify(components[i][j]))
-    result = _verify_matrix(matrix, sp.Symbol("t", positive=True, real=True))
+    # Reuse Pytearcat's exact coordinate object. Constructing a new Symbol('t')
+    # with different assumptions can make mathematically equal expressions
+    # appear to contain two distinct time symbols.
+    result = _verify_matrix(matrix, sp.sympify(t))
     backend = getattr(ptcore, "core_calc", "UNKNOWN")
     result.update(
         {
@@ -127,7 +127,9 @@ def _pytearcat() -> dict[str, Any]:
                 if backend == "gp"
                 else "INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE"
             ),
-            "algebra_engine": "giac" if backend == "gp" else f"sympy-{sp.__version__}",
+            "algebra_engine": (
+                "giac" if backend == "gp" else f"sympy-{sp.__version__}"
+            ),
             "pytearcat_core_calc": backend,
         }
     )
@@ -136,7 +138,9 @@ def _pytearcat() -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--backend", choices=("einsteinpy", "ogrepy", "pytearcat"), required=True)
+    parser.add_argument(
+        "--backend", choices=("einsteinpy", "ogrepy", "pytearcat"), required=True
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
