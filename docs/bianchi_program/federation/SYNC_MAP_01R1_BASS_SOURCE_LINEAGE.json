@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "stage_id": "SYNC-MAP-01R1",
+  "map_id": "SYNC-MAP-01R1-BASS-SOURCE-LINEAGE-20260902",
+  "status": "CANDIDATE_PENDING_WOLFRAM_AND_RESTORED_REPLAY",
+  "control_parent": {
+    "pull_request": 90,
+    "branch": "agent/policy/trirepo-sync-fed00r1-source-map-20260902-r1",
+    "commit": "336a91ad22a5489b270043a12663375ff4158558",
+    "tree": "baf5eb5b47814ff96fd272270e390624d21b3349"
+  },
+  "donor_disposition": {
+    "path_inventory": {
+      "pull_request": 88,
+      "head": "78ff34cb02f4eb6dd94a6a3e624f8a3cb2eca589",
+      "role": "PATH_LEVEL_INVENTORY_DONOR_ONLY"
+    },
+    "overlap_ledger": {
+      "pull_request": 89,
+      "head": "43d03674f01c1a0bf829df9f18130b318e4e986e",
+      "role": "OVERLAP_AND_INTERFACE_CANDIDATE_DONOR_ONLY"
+    },
+    "rule": "Neither donor is promoted as the canonical descendant; this map is restacked on PR 90."
+  },
+  "convention_profile": {
+    "metric_signature": "(-,+,+,+)",
+    "spatial_orientation": "epsilon_123=+1",
+    "explicit_constants": ["c", "hbar", "k_B", "G"],
+    "photon_direction": "p^a=(epsilon_gamma/c)(n^a+e^a)",
+    "observer_direction": "n_hat_obs^a=-e^a",
+    "convention_sha256": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70"
+  },
+  "source_class_legend": {
+    "GIT_DURABLE": "Canonical Git formula or schema source with exact path identities and durable stage evidence.",
+    "GIT_FORMULA_ONLY": "Git-bound formula theorem exists but runtime or standalone module authority is absent.",
+    "GIT_SIBLING_HELD": "Verified Git source exists on a sibling lineage and cannot be promoted before composition.",
+    "EXTERNAL_SNAPSHOT_ONLY": "Formula snapshot exists outside a canonical Git theorem path; implementation is not inferred.",
+    "RED_ONLY": "Expected missing APIs are recorded; no implementation exists.",
+    "NOT_STARTED_OR_BLOCKED": "No formula source lineage is admitted."
+  },
+  "summary": {
+    "family_count": 15,
+    "canonical_git_bound_count": 5,
+    "git_bound_count_including_held_sibling": 6,
+    "evidence_bearing_count_including_external_and_red": 9,
+    "source_class_counts": {
+      "GIT_DURABLE": 3,
+      "GIT_FORMULA_ONLY": 2,
+      "GIT_SIBLING_HELD": 1,
+      "EXTERNAL_SNAPSHOT_ONLY": 2,
+      "RED_ONLY": 1,
+      "NOT_STARTED_OR_BLOCKED": 6
+    }
+  },
+  "families": [
+    {
+      "family_id": "CONV.CORE",
+      "owner": "bass",
+      "prerequisites": [],
+      "consumers": ["bass", "rec_bianchi", "rei_bianchi"],
+      "source_class": "GIT_DURABLE",
+      "authority_effect": "AUTHORITATIVE_SCHEMA",
+      "source_status": "DURABLE_VERIFIED",
+      "implemented": true,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["spatially homogeneous normal-frame program conventions"],
+        "dimensions": ["c:L T^-1", "H_geom:L^-1", "sigma:L^-1", "a_B:L^-1", "n_B:L^-1"],
+        "convention_binding": "EXACT_PIN_E1225840"
+      },
+      "source_lineages": [
+        {"pull_request": 83, "commit": "c787e6c51608568fcb60d52f010235f8cb2c1076", "tree": "3619744e9ba2b0633737b244cb18310ec89047c8"}
+      ],
+      "source_paths": [
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Authority/Conventions.wl", "blob_sha": "ade7dc5efc9675722dc9bc9762b5763d9f10149f"},
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Authority/Dimensions.wl", "blob_sha": "a12808c2cbc3bf6f56f9dc27e01a3d7daec34c9e"}
+      ],
+      "evidence_paths": ["docs/bass_master_ssot_v2/W0_W1/W0_W1_RECEIPT.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "CONVENTION_AND_DIMENSION_AUTHORITY_ONLY"
+    },
+    {
+      "family_id": "FRAME.LORENTZ_SCREEN",
+      "owner": "bass",
+      "prerequisites": ["CONV.CORE"],
+      "consumers": ["COLL.THOMSON_FINITE_TILT", "REC.BIANCHI_FACE_ADAPTER", "OBS.LOCAL_BOOST", "REI.BIANCHI_BACKGROUND_ADAPTER"],
+      "source_class": "GIT_FORMULA_ONLY",
+      "authority_effect": "AUTHORITATIVE_DERIVATION_FORMULA_ONLY",
+      "source_status": "FORMULA_LEVEL_DURABLE_STANDALONE_MODULE_UNBOUND",
+      "implemented": true,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["finite subluminal Lorentz boost", "screen-transverse coherency transport"],
+        "dimensions": ["beta:1", "Doppler_factor:1", "solid_angle_Jacobian:1"],
+        "convention_binding": "DECLARED_COMPATIBLE_REQUIRES_EQUATIONIR_JOIN"
+      },
+      "source_lineages": [
+        {"pull_request": 69, "commit": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "tree": "8775d24f8ddc607be20879873d845e8568acfe15"}
+      ],
+      "source_paths": [
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/DERIVATION_REPORT.md", "blob_sha": "41274e777c29d749e9d5fd640c60f49740a5e6f5"},
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/FROZEN_OPERATOR_CONTRACT.json", "blob_sha": "4f7cceed82d93b8b679b6a623a1de9d68acde619"},
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/verify_rf04_math_authority.wl", "blob_sha": "844d70e6153c2d75ac6ac9536221a176ad0e41cf"}
+      ],
+      "evidence_paths": ["docs/bianchi_program/rf04_math_authority_20260831/WOLFRAM_RECEIPT.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "COMMON_LORENTZ_SCREEN_FORMULA_ONLY_NO_CONSUMER_IMPLEMENTATION_PARITY"
+    },
+    {
+      "family_id": "GEOM.BIANCHI_ALGEBRA",
+      "owner": "bass",
+      "prerequisites": ["CONV.CORE"],
+      "consumers": ["bass", "rec_bianchi", "rei_bianchi"],
+      "source_class": "GIT_DURABLE",
+      "authority_effect": "AUTHORITATIVE_DERIVATION",
+      "source_status": "DURABLE_VERIFIED_CONTROL_LINE",
+      "implemented": true,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["n_ab symmetric", "n^{ab} a_b=0", "exceptional VI_-1/9 retained as a dynamical sector"],
+        "dimensions": ["C^gamma_alpha_beta:L^-1", "a_B:L^-1", "n_B:L^-1"],
+        "convention_binding": "EXACT_PIN_E1225840"
+      },
+      "source_lineages": [
+        {"pull_request": 83, "commit": "c787e6c51608568fcb60d52f010235f8cb2c1076", "tree": "3619744e9ba2b0633737b244cb18310ec89047c8", "note": "Current composed connection control line; competing ALG-01R2 sibling remains an audit trail."}
+      ],
+      "source_paths": [
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Bianchi/TypeSpec.wl", "blob_sha": "b5f0ba37c7851a150da6b0a1f735d6e0820edc6b"},
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Bianchi/Witnesses.wl", "blob_sha": "68bec90b5b1acfb8606063ba25b04abb1e5392ea"},
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Geometry/StructureConstants.wl", "blob_sha": "d224da1091da815d3979bdc3262ca65b4ab83ee4"},
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Geometry/FrameCovariance.wl", "blob_sha": "b19a3ba4d178b8dce39206bf2cd0488d141b2081"}
+      ],
+      "evidence_paths": ["docs/bass_master_ssot_v2/ALG_01R2", "docs/bass_master_ssot_v2/GEO_02R2/PROGRAM_LOCK.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "ALGEBRA_BRANCH_AND_WITNESS_AUTHORITY_NO_BACKGROUND_EVOLUTION"
+    },
+    {
+      "family_id": "GEOM.LEVI_CIVITA_CONNECTION",
+      "owner": "bass",
+      "prerequisites": ["GEOM.BIANCHI_ALGEBRA"],
+      "consumers": ["GEOM.SPATIAL_CURVATURE"],
+      "source_class": "GIT_DURABLE",
+      "authority_effect": "AUTHORITATIVE_DERIVATION",
+      "source_status": "DURABLE_VERIFIED_CANONICAL_LINE",
+      "implemented": true,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["Jacobi-admitted Bianchi structure data", "torsion-free metric-compatible spatial ONF connection"],
+        "dimensions": ["Gamma^gamma_alpha_beta:L^-1"],
+        "convention_binding": "EXACT_PIN_E1225840"
+      },
+      "source_lineages": [
+        {"pull_request": 83, "publication_commit": "c787e6c51608568fcb60d52f010235f8cb2c1076", "publication_tree": "3619744e9ba2b0633737b244cb18310ec89047c8", "tested_source_commit": "b93d3ddf82083c5afbe2e3a05ccc7c32c50e4eec", "tested_source_tree": "d56120cc41183ab7063fe4cd9399c88c1b13a21a"}
+      ],
+      "source_paths": [
+        {"ref": "c787e6c51608568fcb60d52f010235f8cb2c1076", "path": "wolfram/BASS/Kernel/Geometry/LeviCivitaConnection.wl", "blob_sha": "c8e4be28b00956b1fe2009a7d5bc8222a45585e0"}
+      ],
+      "evidence_paths": ["docs/bass_master_ssot_v2/GEO_02R2/STAGE_MANIFEST.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "CONNECTION_ONLY_NO_SPATIAL_CURVATURE_OR_EINSTEIN_BACKGROUND"
+    },
+    {
+      "family_id": "GEOM.SPATIAL_CURVATURE",
+      "owner": "bass",
+      "prerequisites": ["GEOM.LEVI_CIVITA_CONNECTION"],
+      "consumers": ["GEOM.GR_EINSTEIN_PROJECTIONS"],
+      "source_class": "GIT_SIBLING_HELD",
+      "authority_effect": "AUTHORITATIVE_DERIVATION_CANDIDATE",
+      "source_status": "DURABLE_VERIFIED_SIBLING_LINEAGE_REQUIRES_COMPOSITION",
+      "implemented": true,
+      "semantic_status": "HELD_SIBLING_COMPOSITION",
+      "blocking_condition": "PR 82 curvature source is not descended from the PR 83 ALG-01R2/GEO-02R2 canonical connection line.",
+      "physical_contract": {
+        "assumptions": ["homogeneous spatial ONF", "Jacobi-admitted connection", "independent xCoba coordinate witness for I, V and IX"],
+        "dimensions": ["Riemann:L^-2", "Ricci:L^-2", "R3:L^-2"],
+        "convention_binding": "DECLARED_MATCH_REQUIRES_COMPOSED_REPLAY"
+      },
+      "source_lineages": [
+        {"pull_request": 82, "commit": "394cb32784aa9dff15b5196db35f0fa065289fc6", "tree": "49db2af672800115976bd94f8773c6b71b081305", "tested_source_commit": "5d3e8ecce2a40a1bc2b43af7daa985e042d9815f", "tested_source_tree": "0fee5b6335a2eb8968c11790ce787bf54fdc1def"}
+      ],
+      "source_paths": [
+        {"ref": "394cb32784aa9dff15b5196db35f0fa065289fc6", "path": "wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl", "blob_sha": "a35770df2507b2b43b4d302d9fe6fa4c00b95771"},
+        {"ref": "394cb32784aa9dff15b5196db35f0fa065289fc6", "path": "wolfram/BASS/Kernel/Geometry/XCobaCurvatureWitnesses.wl", "blob_sha": "e556bd4fbde147e7bcf5ad276ad92b571da04c14"},
+        {"ref": "394cb32784aa9dff15b5196db35f0fa065289fc6", "path": "wolfram/BASS/Kernel/Geometry/Abstract1Plus3.wl", "blob_sha": "4bfacaacd52af90a835665bbfe1c264983fda79f"}
+      ],
+      "evidence_paths": ["docs/bass_master_ssot_v2/W3/PROGRAM_LOCK.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "SIBLING_CURVATURE_WITNESS_ONLY_NO_CANONICAL_DESCENDANT_PROMOTION"
+    },
+    {
+      "family_id": "GEOM.GR_EINSTEIN_PROJECTIONS",
+      "owner": "bass",
+      "prerequisites": ["GEOM.SPATIAL_CURVATURE"],
+      "consumers": ["GEOM.STRUCTURE_EVOLUTION", "REI.BIANCHI_BACKGROUND_ADAPTER"],
+      "source_class": "RED_ONLY",
+      "authority_effect": "EXPECTED_API_CONTRACT_ONLY",
+      "source_status": "W4_TDD_RED_ONLY_NO_IMPLEMENTATION",
+      "implemented": false,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["Einstein residual E_ab=G_ab+Lambda g_ab-(8 pi G/c^4)T_ab", "normal-normal, normal-spatial, spatial-trace and PSTF projections"],
+        "dimensions": ["E_ab:L^-2"],
+        "convention_binding": "PENDING_CANONICAL_CURVATURE_COMPOSITION"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [
+        {"ref": "394cb32784aa9dff15b5196db35f0fa065289fc6", "path": "docs/bass_master_ssot_v2/W4/W4_TDD_RED_RECEIPT.json", "blob_sha": "ee10febdc15cb7b2c6169a6f342ee1221c67b048"}
+      ],
+      "external_snapshots": [],
+      "claim_ceiling": "RED_ONLY_NO_EINSTEIN_BACKGROUND_IMPLEMENTATION"
+    },
+    {
+      "family_id": "GEOM.STRUCTURE_EVOLUTION",
+      "owner": "bass",
+      "prerequisites": ["GEOM.GR_EINSTEIN_PROJECTIONS"],
+      "consumers": ["INT.BASS_COUPLED_HISTORY"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_DERIVATION_PENDING",
+      "source_status": "NOT_STARTED_BLOCKED_BY_GR_PROJECTIONS",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["temporal Jacobi evolution and branch-surface preservation"],
+        "dimensions": ["D0 a_B:L^-2", "D0 n_B:L^-2"],
+        "convention_binding": "PENDING"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_STRUCTURE_EVOLUTION_AUTHORITY"
+    },
+    {
+      "family_id": "KIN.HOMOGENEOUS_PHOTON_CORE",
+      "owner": "bass",
+      "prerequisites": ["CONV.CORE", "GEOM.BIANCHI_ALGEBRA"],
+      "consumers": ["COLL.THOMSON_REST", "NUM.ARBITRARY_L_COMPILER", "OBS.LOCAL_BOOST", "REC.BIANCHI_FACE_ADAPTER"],
+      "source_class": "EXTERNAL_SNAPSHOT_ONLY",
+      "authority_effect": "AUTHORITATIVE_FORMULA_SNAPSHOT_NOT_GIT_BOUND",
+      "source_status": "FORMULA_ONLY_REPOSITORY_PATH_MAPPING_OPEN",
+      "implemented": false,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["spatial homogeneity", "exact distribution/PSTF/Wigner equivalence", "cold non-tilted electron-rest Thomson in the collision subtheorem"],
+        "dimensions": ["Liouville_rate:L^-1", "H_geom:L^-1", "kappa:L^-1"],
+        "convention_binding": "SNAPSHOT_DECLARED_NOT_MACHINE_JOINED"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [
+        {"title": "Exact Homogeneous Polarized Photon Boltzmann Core — A Formula Single Source of Truth", "date": "2026-08-09", "local_asset": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL(2).pdf"},
+        {"title": "Literal Eleven-Branch Formula Atlas for Exact Homogeneous Polarized Photon Transport", "date": "2026-08-09", "local_asset": "FORMULA_ATLAS_11_BRANCHES_FINAL(2).pdf"}
+      ],
+      "scope_exclusions": ["finite electron tilt", "recombination and reionization", "hierarchy truncation", "solver construction", "numerical evolution", "inference"],
+      "claim_ceiling": "FORMULA_SNAPSHOT_ONLY_NO_SOLVER_OR_RUNTIME_CLAIM"
+    },
+    {
+      "family_id": "COLL.THOMSON_REST",
+      "owner": "bass",
+      "prerequisites": ["KIN.HOMOGENEOUS_PHOTON_CORE"],
+      "consumers": ["COLL.THOMSON_FINITE_TILT", "NUM.ARBITRARY_L_COMPILER", "rec_bianchi", "rei_bianchi"],
+      "source_class": "EXTERNAL_SNAPSHOT_ONLY",
+      "authority_effect": "AUTHORITATIVE_FORMULA_SNAPSHOT_NOT_GIT_BOUND",
+      "source_status": "FORMULA_ONLY_REPOSITORY_PATH_MAPPING_OPEN",
+      "implemented": false,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["cold electrons", "non-tilted electron rest frame", "classical elastic Thomson scattering", "no recoil", "no thermal Comptonization", "no Klein-Nishina correction"],
+        "dimensions": ["kappa=n_e sigma_T:L^-1", "collision_multipole:field/L"],
+        "convention_binding": "SNAPSHOT_DECLARED_NOT_MACHINE_JOINED"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [
+        {"title": "Exact Homogeneous Polarized Photon Boltzmann Core — Theorem 4.1 / CC05", "date": "2026-08-09", "local_asset": "Bianchi_Polarized_Boltzmann_Core_SSOT_FINAL(2).pdf"}
+      ],
+      "scope_exclusions": ["finite electron tilt", "recombination and reionization", "hierarchy truncation", "solver construction", "numerical evolution", "inference"],
+      "claim_ceiling": "REST_FRAME_FORMULA_SNAPSHOT_ONLY_NO_PRODUCTION_COLLISION_PATH"
+    },
+    {
+      "family_id": "COLL.THOMSON_FINITE_TILT",
+      "owner": "bass",
+      "prerequisites": ["COLL.THOMSON_REST", "FRAME.LORENTZ_SCREEN"],
+      "consumers": ["bass", "INT.HTT_BACKGROUND_EXPORT"],
+      "source_class": "GIT_FORMULA_ONLY",
+      "authority_effect": "AUTHORITATIVE_DERIVATION_FORMULA_ONLY",
+      "source_status": "FORMULA_LEVEL_DURABLE_RUNTIME_UNBOUND",
+      "implemented": true,
+      "semantic_status": "PENDING_SYNC_MAP_02",
+      "physical_contract": {
+        "assumptions": ["finite electron tilt", "Lorentz conjugation of the electron-rest Thomson theorem", "screen and opacity adapters applied exactly once"],
+        "dimensions": ["kappa_rest:L^-1", "kappa_normal:L^-1", "Doppler_factor:1"],
+        "convention_binding": "DECLARED_COMPATIBLE_REQUIRES_EQUATIONIR_JOIN"
+      },
+      "source_lineages": [
+        {"pull_request": 69, "commit": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "tree": "8775d24f8ddc607be20879873d845e8568acfe15"}
+      ],
+      "source_paths": [
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/DERIVATION_REPORT.md", "blob_sha": "41274e777c29d749e9d5fd640c60f49740a5e6f5"},
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/FROZEN_OPERATOR_CONTRACT.json", "blob_sha": "4f7cceed82d93b8b679b6a623a1de9d68acde619"},
+        {"ref": "0ac9f7e0ce8ff88dc7f4487a97e21be2863af207", "path": "docs/bianchi_program/rf04_math_authority_20260831/verify_rf04_math_authority.wl", "blob_sha": "844d70e6153c2d75ac6ac9536221a176ad0e41cf"}
+      ],
+      "evidence_paths": ["docs/bianchi_program/rf04_math_authority_20260831/WOLFRAM_RECEIPT.json"],
+      "external_snapshots": [],
+      "claim_ceiling": "FINITE_TILT_FORMULA_ONLY_NO_RUNTIME_OR_RF04_PROMOTION"
+    },
+    {
+      "family_id": "NUM.ARBITRARY_L_COMPILER",
+      "owner": "bass",
+      "prerequisites": ["KIN.HOMOGENEOUS_PHOTON_CORE", "COLL.THOMSON_REST"],
+      "consumers": ["INT.HTT_BACKGROUND_EXPORT", "htt_base"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_IMPLEMENTATION_PENDING",
+      "source_status": "NOT_STARTED_RUNTIME_COMPILER",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["runtime-configurable finite L", "sparse exact coefficients", "tail residual and convergence certificate"],
+        "dimensions": ["compiled_operator:L^-1"],
+        "convention_binding": "PENDING_GIT_BOUND_PHOTON_CORE"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_GENERIC_L_COMPILER_CORRECTNESS"
+    },
+    {
+      "family_id": "OBS.LOCAL_BOOST",
+      "owner": "bass",
+      "execution_owner": "htt_base",
+      "prerequisites": ["KIN.HOMOGENEOUS_PHOTON_CORE", "FRAME.LORENTZ_SCREEN"],
+      "consumers": ["INT.HTT_BACKGROUND_EXPORT", "htt_base"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_OUTPUT_TRANSFORM_PENDING",
+      "source_status": "NOT_STARTED_OUTPUT_NODE",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["output-only observer transform", "must not modify forward global-tilt or electron-frame collision state"],
+        "dimensions": ["boost_parameters:dimensionless", "output_signal:inherits_input_dimensions"],
+        "convention_binding": "COMMON_KERNEL_EXISTS_NODE_SPECIFIC_REGISTRY_ABSENT"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_LOCAL_BOOST_OUTPUT_REGISTRY_OR_RUNTIME"
+    },
+    {
+      "family_id": "INT.REC_REI_HISTORY_SPLICE",
+      "owner": "bass",
+      "prerequisites": ["REC.PROVIDER_EXPORT", "REI.PROVIDER_EXPORT"],
+      "consumers": ["INT.BASS_COUPLED_HISTORY"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_INTEGRATION_CONTRACT_PENDING",
+      "source_status": "BLOCKED_BY_REC_AND_REI_PROVIDER_EXPORTS",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["typed no-double-count temporal overlap", "validity and error envelopes preserved"],
+        "dimensions": ["history_fields:provider_defined"],
+        "convention_binding": "PENDING_PROVIDER_CONTRACTS"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_REC_REI_HISTORY_SPLICE"
+    },
+    {
+      "family_id": "INT.BASS_COUPLED_HISTORY",
+      "owner": "bass",
+      "prerequisites": ["INT.REC_REI_HISTORY_SPLICE", "GEOM.STRUCTURE_EVOLUTION", "REC.BIANCHI_FACE_ADAPTER", "REI.BIANCHI_BACKGROUND_ADAPTER"],
+      "consumers": ["INT.HTT_BACKGROUND_EXPORT"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_COUPLED_INTEGRATION_PENDING",
+      "source_status": "BLOCKED_BY_GEOMETRY_STRUCTURE_AND_PROVIDER_ADAPTERS",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["coupled Einstein-matter-radiation history", "fixed-point and conservation ledgers"],
+        "dimensions": ["state_and_residuals:component_specific"],
+        "convention_binding": "PENDING_ALL_UPSTREAM_INTERFACES"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_BASS_REC_REI_COUPLED_HISTORY"
+    },
+    {
+      "family_id": "INT.HTT_BACKGROUND_EXPORT",
+      "owner": "bass",
+      "execution_owner": "htt_base",
+      "prerequisites": ["INT.BASS_COUPLED_HISTORY", "NUM.ARBITRARY_L_COMPILER", "OBS.LOCAL_BOOST", "COLL.THOMSON_FINITE_TILT"],
+      "consumers": ["htt_base"],
+      "source_class": "NOT_STARTED_OR_BLOCKED",
+      "authority_effect": "AUTHORITATIVE_EXPORT_CONTRACT_PENDING",
+      "source_status": "BLOCKED_BY_COUPLED_HISTORY_COMPILER_BOOST_AND_FINITE_TILT_RUNTIME",
+      "implemented": false,
+      "semantic_status": "NOT_APPLICABLE_NOT_IMPLEMENTED",
+      "physical_contract": {
+        "assumptions": ["separate preboost and postboost products", "deterministic stochastic and boost provenance", "validation before fitting"],
+        "dimensions": ["exported_observables:declared_per_field"],
+        "convention_binding": "PENDING_END_TO_END_VALIDATION"
+      },
+      "source_lineages": [],
+      "source_paths": [],
+      "evidence_paths": [],
+      "external_snapshots": [],
+      "claim_ceiling": "NO_HTT_BACKGROUND_EXPORT_OR_STATISTICS_ADMISSION"
+    }
+  ],
+  "lineage_conflicts_held": [
+    {
+      "conflict_id": "ALG01R2-SIBLING-IMPLEMENTATIONS",
+      "disposition": "CURRENT_CONNECTION_CONTROL_LINE_SELECTED_BY_ANCESTRY_NO_SEMANTIC_WINNER"
+    },
+    {
+      "conflict_id": "CONNECTION-CURVATURE-SIBLING",
+      "disposition": "CURVATURE_HELD_UNTIL_COMPOSED_ON_PR83_LINE"
+    },
+    {
+      "conflict_id": "SYNC-MAP-01-DONOR-DIVERGENCE",
+      "disposition": "PR88_PATH_DONOR_PR89_OVERLAP_DONOR"
+    }
+  ],
+  "semantic_winner_selected": false,
+  "official_dag_mutated": false,
+  "science_claim_promoted": false,
+  "next_node": "SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION",
+  "claim_boundary": "BASS_SOURCE_LINEAGE_INVENTORY_ONLY_NO_FORMULA_EQUIVALENCE_PROVIDER_ADMISSION_OFFICIAL_DAG_MUTATION_OR_SCIENCE_PROMOTION"
+}
