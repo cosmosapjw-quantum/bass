@@ -1,0 +1,58 @@
+name: sync-map01-audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/validate_sync_map01.py"
+      - "tests/test_sync_map01.py"
+      - "docs/bianchi_program/SYNC_MAP_01_*"
+      - ".github/workflows/sync-map01-audit.yml"
+  push:
+    branches:
+      - "agent/policy/trirepo-sync-map01-*"
+    paths:
+      - "scripts/validate_sync_map01.py"
+      - "tests/test_sync_map01.py"
+      - "docs/bianchi_program/SYNC_MAP_01_*"
+      - ".github/workflows/sync-map01-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile validator and tests
+        run: python -m py_compile scripts/validate_sync_map01.py tests/test_sync_map01.py
+      - name: Run TDD contract suite
+        run: python -m unittest discover -s tests -p 'test_sync_map01.py' -v
+      - name: Run fail-closed packet validator
+        run: python scripts/validate_sync_map01.py
+      - name: Parse synchronization JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in docs/bianchi_program/SYNC_MAP_01_*.json; do
+            python -m json.tool "$file" >/dev/null
+          done
+      - name: Verify Git-blob manifest independently
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          manifest = json.loads(Path("docs/bianchi_program/SYNC_MAP_01_GIT_BLOB_MANIFEST.json").read_text())
+          assert manifest["identity_domain"] == "git_blob_sha1"
+          for entry in manifest["entries"]:
+              actual = subprocess.check_output(["git", "hash-object", entry["path"]], text=True).strip()
+              assert actual == entry["git_blob_sha1"], (entry["path"], actual, entry["git_blob_sha1"])
+          print(f"GIT_BLOB_IDENTITY_PASS={len(manifest['entries'])}")
+          PY

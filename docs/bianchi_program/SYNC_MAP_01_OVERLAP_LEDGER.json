@@ -1,0 +1,85 @@
+{
+  "classification_vocabulary": [
+    "ADAPTER_SPECIALIZATION",
+    "INDEPENDENT_ORACLE",
+    "NO_OVERLAP_OWNER_SEPARATION",
+    "SAME_OWNER_SIBLING_LINEAGE",
+    "SHARED_INTERFACE_IDENTITY_CANDIDATE",
+    "TECHNICAL_DONOR_PARALLEL",
+    "UNMAPPED_FORMULA_SNAPSHOT"
+  ],
+  "overlaps": [
+    {
+      "automatic_action_taken": "NONE",
+      "classification": "SAME_OWNER_SIBLING_LINEAGE",
+      "finding": "PR #83 canonical connection and PR #82 W2/curvature are verified on sibling lineages.",
+      "formula_families": ["GEOM.CARTAN_CONNECTION", "GEOM.SPATIAL_CURVATURE"],
+      "id": "OVL-001",
+      "required_action": "SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION",
+      "risk": "mixed-lineage BG-02 or repeated connection/curvature derivation"
+    },
+    {
+      "automatic_action_taken": "NO_CLOSE_NO_MERGE_NO_WINNER_SELECTION",
+      "classification": "TECHNICAL_DONOR_PARALLEL",
+      "finding": "PR #87 and peers provide a richer technical registry but are parallel to active PR #86 and peers.",
+      "formula_families": ["FEDERATION_CONTROL_PLANE"],
+      "id": "OVL-002",
+      "required_action": "retain PR #86 as governance parent and consume PR #87 only as a pinned donor after reconciliation",
+      "risk": "competing current-control projections"
+    },
+    {
+      "automatic_action_taken": "PROVISIONAL_WOLFRAM_EQUIVALENCE_ONLY",
+      "classification": "SHARED_INTERFACE_IDENTITY_CANDIDATE",
+      "finding": "n_e=n_HII+n_HeII+2 n_HeIII and kappa_T=sigma_T n_e are common interfaces.",
+      "formula_families": ["REC.ATOMIC_KINETICS", "REI.THERMOCHEMISTRY", "INT.REC_REI_SPLICE"],
+      "id": "OVL-003",
+      "required_action": "SYNC-MAP-02: BASS schema ownership and REC/REI provider-value ownership",
+      "risk": "three independent owners for one interface identity"
+    },
+    {
+      "automatic_action_taken": "OWNER_BOUNDARY_RETAINED",
+      "classification": "NO_OVERLAP_OWNER_SEPARATION",
+      "finding": "primordial recombination and astrophysical reionization are adjacent but distinct domains",
+      "formula_families": ["REC.ATOMIC_KINETICS", "REI.THERMOCHEMISTRY"],
+      "id": "OVL-004",
+      "required_action": "typed splice and no formula copying",
+      "risk": "a generic H/He label hides transition ownership and double counting"
+    },
+    {
+      "automatic_action_taken": "CLASSIFIED_ONLY",
+      "classification": "INDEPENDENT_ORACLE",
+      "finding": "xCoba coordinate curvature is an oracle for the ONF generator, not a second owner",
+      "formula_families": ["GEOM.SPATIAL_CURVATURE"],
+      "id": "OVL-005",
+      "required_action": "record replay_of and authority_effect=NONE in SYNC-MAP-02",
+      "risk": "oracle promoted to competing authority"
+    },
+    {
+      "automatic_action_taken": "NONE",
+      "classification": "UNMAPPED_FORMULA_SNAPSHOT",
+      "finding": "all-rank photon SSOT and atlas are formula snapshots without a canonical repository path map",
+      "formula_families": ["KIN.HOMOGENEOUS_PHOTON_CORE", "COLL.THOMSON_REST"],
+      "id": "OVL-006",
+      "required_action": "map theorem IDs to repository paths before arbitrary-L compilation",
+      "risk": "formula recopy before stable formula IDs"
+    },
+    {
+      "automatic_action_taken": "OWNERSHIP_CLASSIFICATION_ONLY",
+      "classification": "ADAPTER_SPECIALIZATION",
+      "finding": "electron tilt is forward collision physics and observer boost is output-only",
+      "formula_families": ["COLL.THOMSON_REST", "COLL.THOMSON_FINITE_TILT", "OBS.LOCAL_BOOST"],
+      "id": "OVL-007",
+      "required_action": "typed MaterialTilt, ElectronTilt and ObserverBoost payloads",
+      "risk": "global or electron tilt and local boost double counting"
+    }
+  ],
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC-MAP-01",
+  "status": "PASS_WITH_REQUIRED_COMPOSITION_AND_CANONICALIZATION",
+  "withheld": [
+    "NO_SEMANTIC_EQUIVALENCE_FOR_UNCANONICALIZED_PATHS",
+    "NO_PROVIDER_EXPORT_OR_CONSUMPTION",
+    "NO_OFFICIAL_JIRA_EDGE_MUTATION"
+  ]
+}

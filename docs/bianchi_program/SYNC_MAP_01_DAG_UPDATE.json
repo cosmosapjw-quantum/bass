@@ -1,0 +1,38 @@
+{
+  "automatic_scientific_claim_changes": [],
+  "completed_shadow_nodes": [
+    {"node": "FED-00", "status": "PASS_SCOPE_LIMITED"},
+    {"node": "SYNC-MAP-01", "status": "PASS_WITH_FINDINGS"}
+  ],
+  "downstream_nodes": [
+    {"blocked_by": ["NO_PASS_REC_PHYSICAL_SPLIT"], "node": "SYNC-REC-01", "status": "BLOCKED"},
+    {"blocked_by": ["REI ntpath runtime bridge blocker", "REC provider export"], "node": "SYNC-REI-01", "status": "BLOCKED"},
+    {"blocked_by": ["SYNC-MAP-02", "SYNC-REC-01", "SYNC-REI-01"], "node": "SYNC-GATE-01", "status": "BLOCKED"},
+    {"blocked_by": ["SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION"], "node": "BG-02_DURABLE_PROMOTION", "status": "BLOCKED"}
+  ],
+  "new_required_nodes": [
+    {
+      "exit_gate": [
+        "single exact descendant line",
+        "W2 and Gauss-Codazzi registry retained",
+        "ONF and xCoba curvature oracles replayed",
+        "no formula coefficient drift",
+        "Dropbox restored replay"
+      ],
+      "inputs": ["BASS PR #83 canonical connection", "BASS PR #82 W2 and curvature donor"],
+      "node": "SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION",
+      "owner": "bass",
+      "status": "REQUIRED"
+    },
+    {
+      "blocked_by": ["SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION", "photon theorem-to-repository path mapping"],
+      "node": "SYNC-MAP-02_SEMANTIC_IDENTITY_CANONICALIZATION",
+      "status": "BLOCKED"
+    }
+  ],
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "proposed_official_edge_mutations": [],
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC-MAP-01",
+  "status": "PROPOSAL_ONLY_NO_OFFICIAL_EDGE_MUTATION"
+}
