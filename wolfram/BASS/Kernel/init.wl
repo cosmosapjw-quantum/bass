@@ -23,7 +23,8 @@ Module[{root, sources},
    FileNameJoin[{root, "Geometry", "XCobaCurvatureWitnesses.wl"}],
    FileNameJoin[{root, "IR", "SemanticFormulaExport.wl"}],
    FileNameJoin[{root, "IR", "RECRelationClassification.wl"}],
-   FileNameJoin[{root, "IR", "RECRelationClassificationValidationFix1.wl"}]
+   FileNameJoin[{root, "IR", "RECRelationClassificationValidationFix1.wl"}],
+   FileNameJoin[{root, "IR", "HTTRelationClassification.wl"}]
  };
  Scan[Get, sources];
 ]
