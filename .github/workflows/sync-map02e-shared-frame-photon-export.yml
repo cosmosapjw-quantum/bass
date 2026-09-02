@@ -1,0 +1,52 @@
+name: sync-map02e-shared-frame-photon-export
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02e-shared-frame-photon-export.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02E/**"
+      - "scripts/verify_sync_map02e_shared_export.py"
+      - "tests/test_sync_map02e_shared_export.py"
+      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shared-frame-photon-export-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run mutation-sensitive stdlib tests
+        run: python -m unittest -v tests/test_sync_map02e_shared_export.py
+      - name: Run fail-closed shared-export verifier
+        run: python scripts/verify_sync_map02e_shared_export.py --json
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02e_shared_export.py \
+            tests/test_sync_map02e_shared_export.py
+      - name: Parse machine export
+        run: |
+          python -m json.tool \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
+            >/dev/null
+      - name: Exact-base repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=9e39e2468b9efec05f33b9945de02fe2c8c6a66d
+          git cat-file -e "${BASE}^{commit}"
+          git merge-base --is-ancestor "$BASE" HEAD
+          git diff --check "$BASE"...HEAD
