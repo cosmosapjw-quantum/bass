@@ -1,0 +1,38 @@
+name: sync-map02a-equationir-export
+
+on:
+  pull_request:
+    paths:
+      - "wolfram/BASS/Kernel/IR/SemanticFormulaExport.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02AEquationIRExport.wlt"
+      - "wolfram/schemas/bass-formula-semantic-export.schema.json"
+      - "wolfram/scripts/run_sync_map02a_equationir_export.wls"
+      - "tests/test_sync_map02a_equationir_export.py"
+      - ".github/workflows/sync-map02a-equationir-export.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02A/**"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02a-equationir-export-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  equationir-export-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run semantic-export source contracts
+        run: python -m unittest -v tests/test_sync_map02a_equationir_export.py
+      - name: Python syntax
+        run: python -m py_compile tests/test_sync_map02a_equationir_export.py
+      - name: Parse public schema when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool wolfram/schemas/bass-formula-semantic-export.schema.json >/dev/null
