@@ -1,34 +1,21 @@
-Module[{root, init, exportPath, minimalSources},
- root = If[
-   ValueQ[$SyncMap02ESourceRoot] && StringQ[$SyncMap02ESourceRoot] &&
-    DirectoryQ[$SyncMap02ESourceRoot],
-   $SyncMap02ESourceRoot,
-   Nest[DirectoryName, $InputFileName, 4]
-  ];
- init = FileNameJoin[{root, "wolfram", "BASS", "Kernel", "init.wl"}];
- exportPath = FileNameJoin[{root, "docs", "bass_master_ssot_v2", "SYNC_MAP_02E",
-    "BASS_SHARED_FRAME_PHOTON_EXPORT.json"}];
- minimalSources = FileNameJoin[{root, #}] & /@ {
-    "wolfram/BASS/Kernel/IR/CanonicalSerialization.wl",
-    "wolfram/BASS/Kernel/IR/ExactScalarAST.wl",
-    "wolfram/BASS/Kernel/IR/EquationIR.wl",
-    "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
-    "wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl"
-   };
- If[FileExistsQ[init], Get[init], Scan[Get, minimalSources]];
- $SyncMap02EData = Import[exportPath, "RawJSON"];
-];
-
-ClearAll[mutateFormula];
-mutateFormula[data_Association, id_String, f_] := Join[
- KeyDrop[data, {"formulas"}],
- <|"formulas" -> Map[
-    If[Lookup[#, "formula_id", None] === id, f[#], #] &,
-    Lookup[data, "formulas", {}]]|>
-];
-
 VerificationTest[
- BASS`IR`SharedFramePhotonFormulaIDs[],
+ Module[{root, setup, setupResult},
+  root = If[
+    ValueQ[$SyncMap02ESourceRoot] && StringQ[$SyncMap02ESourceRoot] &&
+     DirectoryQ[$SyncMap02ESourceRoot],
+    $SyncMap02ESourceRoot,
+    Directory[]
+   ];
+  setup = FileNameJoin[{
+     root, "wolfram", "BASS", "Tests", "SYNCMAP02ETestSetup.wl"
+    }];
+  setupResult = Get[setup];
+  If[
+   AssociationQ[setupResult] && Lookup[setupResult, "status", None] === "PASS",
+   BASS`IR`SharedFramePhotonFormulaIDs[],
+   setupResult
+  ]
+ ],
  {
   "BASS.FRAME.ABERRATED_DIRECTION.001",
   "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
