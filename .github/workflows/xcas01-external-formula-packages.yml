@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  contract-red:
+  contract:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -22,3 +22,257 @@ jobs:
           python-version: '3.12'
       - name: Run XCAS-01 surface contract
         run: python -m pytest -q tests/test_xcas01_external_packages.py
+      - name: Parse static JSON receipts and plans
+        run: |
+          python -m json.tool docs/bass_master_ssot_v2/XCAS_01/PACKAGE_PLAN.json >/dev/null
+          python -m json.tool docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json >/dev/null
+
+  python-packages:
+    name: python-${{ matrix.backend }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - backend: einsteinpy
+            python: '3.11'
+            spec: 'einsteinpy==0.4.0'
+            package_name: 'einsteinpy'
+            axis: 'INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE'
+          - backend: ogrepy
+            python: '3.13'
+            spec: 'OGRePy==2.0.0'
+            package_name: 'OGRePy'
+            axis: 'INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE'
+          - backend: pytearcat
+            python: '3.12'
+            spec: 'pytearcat==0.0.8'
+            package_name: 'pytearcat'
+            axis: 'INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Download, hash, install and execute package
+        env:
+          BACKEND: ${{ matrix.backend }}
+          PACKAGE_SPEC: ${{ matrix.spec }}
+          PACKAGE_NAME: ${{ matrix.package_name }}
+          PACKAGE_AXIS: ${{ matrix.axis }}
+        run: |
+          set +e
+          root="/tmp/xcas01/${BACKEND}"
+          mkdir -p "$root/downloads"
+          python -m pip download --no-deps "$PACKAGE_SPEC" -d "$root/downloads" >"$root/download.log" 2>&1
+          download_rc=$?
+          find "$root/downloads" -type f -print0 | sort -z | xargs -0 -r sha256sum >"$root/SHA256SUMS"
+          python -m pip install "$PACKAGE_SPEC" >"$root/install.log" 2>&1
+          install_rc=$?
+          if [ "$install_rc" -eq 0 ]; then
+            python scripts/external_formula_packages/verify_python_tensor_package.py \
+              --backend "$BACKEND" --output "$root/receipt.json" \
+              >"$root/probe.log" 2>&1
+            probe_rc=$?
+          else
+            probe_rc=125
+            python - "$root/receipt.json" <<'PY'
+          import json, os, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          path.write_text(json.dumps({
+              "schema_version": "1.0.0",
+              "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+              "package": os.environ["PACKAGE_NAME"],
+              "package_axis": os.environ["PACKAGE_AXIS"],
+              "package_spec": os.environ["PACKAGE_SPEC"],
+              "status": "BLOCKED_INSTALL",
+              "pass": False,
+              "authority_effect": "NONE"
+          }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          fi
+          python - "$root/receipt.json" "$download_rc" "$install_rc" "$probe_rc" <<'PY'
+          import json, pathlib, sys
+          receipt_path = pathlib.Path(sys.argv[1])
+          data = json.loads(receipt_path.read_text(encoding="utf-8"))
+          data["download_rc"] = int(sys.argv[2])
+          data["install_rc"] = int(sys.argv[3])
+          data["probe_rc"] = int(sys.argv[4])
+          sums = receipt_path.with_name("SHA256SUMS")
+          data["download_sha256s"] = sums.read_text(encoding="utf-8").splitlines() if sums.exists() else []
+          receipt_path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          cat "$root/receipt.json"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas01-python-${{ matrix.backend }}
+          path: /tmp/xcas01/${{ matrix.backend }}/
+          if-no-files-found: error
+
+  cadabra2:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact Cadabra2 release and execute tensor probe
+        env:
+          CADABRA_URL: 'https://github.com/kpeeters/cadabra2/releases/download/2.5.14/cadabra2-2.5.14-ubuntu-24.04-noble-x86_64.deb'
+          CADABRA_SHA256: 'b9dc00c94eda9bff5d5e2f9793f6640c0c507d6ef2fc00401273e9b8659887ad'
+        run: |
+          set +e
+          root=/tmp/xcas01/cadabra2
+          mkdir -p "$root"
+          curl --fail --location --retry 3 "$CADABRA_URL" -o "$root/cadabra2.deb" >"$root/download.log" 2>&1
+          download_rc=$?
+          if [ "$download_rc" -eq 0 ]; then
+            printf '%s  %s\n' "$CADABRA_SHA256" "$root/cadabra2.deb" | sha256sum -c - >"$root/hash.log" 2>&1
+            hash_rc=$?
+          else
+            hash_rc=125
+          fi
+          if [ "$hash_rc" -eq 0 ]; then
+            sudo apt-get update -qq >"$root/apt-update.log" 2>&1
+            sudo apt-get install -y "$root/cadabra2.deb" >"$root/install.log" 2>&1
+            install_rc=$?
+          else
+            install_rc=125
+          fi
+          if [ "$install_rc" -eq 0 ]; then
+            /usr/bin/python3 scripts/external_formula_packages/cadabra_tensor_probe.py "$root/receipt.json" >"$root/probe.log" 2>&1
+            probe_rc=$?
+          else
+            probe_rc=125
+            python - "$root/receipt.json" "$download_rc" "$hash_rc" "$install_rc" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          status = "BLOCKED_INSTALL" if int(sys.argv[4]) != 0 else "BLOCKED_RUNTIME"
+          path.write_text(json.dumps({
+              "schema_version": "1.0.0",
+              "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+              "package": "cadabra2",
+              "package_version": "2.5.14",
+              "package_axis": "INDEPENDENT_TENSOR_CAS",
+              "status": status,
+              "pass": False,
+              "download_rc": int(sys.argv[2]),
+              "hash_rc": int(sys.argv[3]),
+              "install_rc": int(sys.argv[4]),
+              "authority_effect": "NONE"
+          }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          fi
+          sha256sum "$root/cadabra2.deb" >"$root/SHA256SUMS" 2>/dev/null || true
+          python - "$root/receipt.json" "$download_rc" "$hash_rc" "$install_rc" "$probe_rc" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          data = json.loads(path.read_text(encoding="utf-8"))
+          data.update({"download_rc": int(sys.argv[2]), "hash_rc": int(sys.argv[3]), "install_rc": int(sys.argv[4]), "probe_rc": int(sys.argv[5])})
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          cat "$root/receipt.json"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas01-cadabra2
+          path: /tmp/xcas01/cadabra2/
+          if-no-files-found: error
+
+  scalar-cas:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attempt Maxima and REDUCE installation and probes
+        run: |
+          set +e
+          root=/tmp/xcas01
+          mkdir -p "$root/maxima" "$root/reduce"
+          sudo apt-get update -qq >"$root/apt-update.log" 2>&1
+
+          sudo apt-get install -y maxima >"$root/maxima/install.log" 2>&1
+          maxima_install_rc=$?
+          if [ "$maxima_install_rc" -eq 0 ]; then
+            maxima --very-quiet --batch=scripts/external_formula_packages/maxima_weighted_pullback.mac >"$root/maxima/probe.log" 2>&1
+            maxima_probe_rc=$?
+            maxima_version=$(maxima --version 2>/dev/null | head -n1)
+          else
+            maxima_probe_rc=125
+            maxima_version=UNKNOWN
+          fi
+          python - "$root/maxima/receipt.json" "$maxima_install_rc" "$maxima_probe_rc" "$maxima_version" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          irc, prc = int(sys.argv[2]), int(sys.argv[3])
+          status = "BLOCKED_INSTALL" if irc else ("PASS" if prc == 0 else "FAIL_FORMULA")
+          path.write_text(json.dumps({
+              "schema_version": "1.0.0", "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+              "package": "maxima", "package_version": sys.argv[4],
+              "package_axis": "INDEPENDENT_SCALAR_CAS", "status": status,
+              "pass": status == "PASS", "install_rc": irc, "probe_rc": prc,
+              "authority_effect": "NONE"
+          }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+
+          sudo apt-get install -y reduce-algebra >"$root/reduce/install.log" 2>&1
+          reduce_install_rc=$?
+          reduce_cmd=$(command -v redcsl || command -v redpsl || command -v reduce || true)
+          if [ "$reduce_install_rc" -eq 0 ] && [ -n "$reduce_cmd" ]; then
+            "$reduce_cmd" < scripts/external_formula_packages/reduce_aberration.red >"$root/reduce/probe.log" 2>&1
+            reduce_probe_rc=$?
+            reduce_version=$($reduce_cmd --version 2>/dev/null | head -n1)
+          else
+            reduce_probe_rc=125
+            reduce_version=UNKNOWN
+          fi
+          python - "$root/reduce/receipt.json" "$reduce_install_rc" "$reduce_probe_rc" "$reduce_version" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          irc, prc = int(sys.argv[2]), int(sys.argv[3])
+          status = "BLOCKED_INSTALL" if irc else ("PASS" if prc == 0 else "FAIL_FORMULA")
+          path.write_text(json.dumps({
+              "schema_version": "1.0.0", "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+              "package": "reduce", "package_version": sys.argv[4],
+              "package_axis": "INDEPENDENT_SCALAR_CAS", "status": status,
+              "pass": status == "PASS", "install_rc": irc, "probe_rc": prc,
+              "authority_effect": "NONE"
+          }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          cat "$root/maxima/receipt.json"
+          cat "$root/reduce/receipt.json"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas01-scalar-cas
+          path: |
+            /tmp/xcas01/maxima/
+            /tmp/xcas01/reduce/
+          if-no-files-found: error
+
+  aggregate:
+    runs-on: ubuntu-24.04
+    if: always()
+    needs: [contract, python-packages, cadabra2, scalar-cas]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: xcas01-*
+          path: /tmp/xcas01-collected
+          merge-multiple: true
+      - name: Add the independently executed STensor receipt
+        run: |
+          mkdir -p /tmp/xcas01-collected/stensor
+          cp docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json \
+             /tmp/xcas01-collected/stensor/receipt.json
+      - name: Aggregate without relabelling blockers
+        run: |
+          python scripts/external_formula_packages/aggregate_receipts.py \
+            --input /tmp/xcas01-collected \
+            --output /tmp/xcas01-collected/XCAS_01_AGGREGATE_RECEIPT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas01-aggregate
+          path: /tmp/xcas01-collected/
+          if-no-files-found: error
