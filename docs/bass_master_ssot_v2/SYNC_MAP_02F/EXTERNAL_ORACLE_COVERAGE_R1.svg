@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">External formula-verification depth</title>
+  <desc id="desc">Coverage matrix separating exact download identity, source or formula inspection, and actual package runtime. All external packages have authority effect NONE.</desc>
+  <style>
+    text { font-family: sans-serif; fill: #111; }
+    .title { font-size: 24px; font-weight: 700; }
+    .head { font-size: 15px; font-weight: 700; }
+    .row { font-size: 15px; }
+    .cell { font-size: 14px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+    .note { font-size: 13px; }
+    .grid { stroke: #777; stroke-width: 1; }
+    .pass { fill: #c8e6c9; }
+    .none { fill: #eeeeee; }
+  </style>
+  <rect width="1200" height="520" fill="white"/>
+  <text x="40" y="38" class="title">External formula-verification depth — authority effect = NONE</text>
+  <text x="40" y="78" class="head">Package</text>
+  <text x="520" y="78" class="head" text-anchor="middle">Exact download identity</text>
+  <text x="760" y="78" class="head" text-anchor="middle">Source / formula inspection</text>
+  <text x="1000" y="78" class="head" text-anchor="middle">Package runtime</text>
+
+  <g class="grid">
+    <line x1="360" y1="55" x2="360" y2="410"/><line x1="640" y1="55" x2="640" y2="410"/><line x1="880" y1="55" x2="880" y2="410"/><line x1="1120" y1="55" x2="1120" y2="410"/>
+    <line x1="30" y1="90" x2="1120" y2="90"/><line x1="30" y1="136" x2="1120" y2="136"/><line x1="30" y1="182" x2="1120" y2="182"/><line x1="30" y1="228" x2="1120" y2="228"/><line x1="30" y1="274" x2="1120" y2="274"/><line x1="30" y1="320" x2="1120" y2="320"/><line x1="30" y1="366" x2="1120" y2="366"/><line x1="30" y1="412" x2="1120" y2="412"/>
+  </g>
+
+  <text x="40" y="118" class="row">SymEngine 0.14.1</text>
+  <text x="40" y="164" class="row">pylorentz 0.3.3</text>
+  <text x="40" y="210" class="row">CosmoBoost 1.1.6</text>
+  <text x="40" y="256" class="row">FeynCalc 10.2.1</text>
+  <text x="40" y="302" class="row">STensor 1.0.1</text>
+  <text x="40" y="348" class="row">OGRe 2.0.0</text>
+  <text x="40" y="394" class="row">GeneralRelativityTensors</text>
+
+  <!-- Download identity: 7/7 -->
+  <rect x="361" y="91" width="278" height="44" class="pass"/><rect x="361" y="137" width="278" height="44" class="pass"/><rect x="361" y="183" width="278" height="44" class="pass"/><rect x="361" y="229" width="278" height="44" class="pass"/><rect x="361" y="275" width="278" height="44" class="pass"/><rect x="361" y="321" width="278" height="44" class="pass"/><rect x="361" y="367" width="278" height="44" class="pass"/>
+  <!-- Source/formula: 6/7 -->
+  <rect x="641" y="91" width="238" height="44" class="none"/><rect x="641" y="137" width="238" height="44" class="pass"/><rect x="641" y="183" width="238" height="44" class="pass"/><rect x="641" y="229" width="238" height="44" class="pass"/><rect x="641" y="275" width="238" height="44" class="pass"/><rect x="641" y="321" width="238" height="44" class="pass"/><rect x="641" y="367" width="238" height="44" class="pass"/>
+  <!-- Runtime: 4/7 -->
+  <rect x="881" y="91" width="238" height="44" class="none"/><rect x="881" y="137" width="238" height="44" class="none"/><rect x="881" y="183" width="238" height="44" class="none"/><rect x="881" y="229" width="238" height="44" class="pass"/><rect x="881" y="275" width="238" height="44" class="pass"/><rect x="881" y="321" width="238" height="44" class="pass"/><rect x="881" y="367" width="238" height="44" class="pass"/>
+
+  <g class="cell">
+    <text x="500" y="113">PASS</text><text x="500" y="159">PASS</text><text x="500" y="205">PASS</text><text x="500" y="251">PASS</text><text x="500" y="297">PASS</text><text x="500" y="343">PASS</text><text x="500" y="389">PASS</text>
+    <text x="760" y="113">NOT RUN</text><text x="760" y="159">PASS</text><text x="760" y="205">PASS</text><text x="760" y="251">PASS</text><text x="760" y="297">PASS</text><text x="760" y="343">PASS</text><text x="760" y="389">PASS</text>
+    <text x="1000" y="113">NOT RUN</text><text x="1000" y="159">NOT RUN</text><text x="1000" y="205">NOT RUN</text><text x="1000" y="251">PASS</text><text x="1000" y="297">PASS</text><text x="1000" y="343">PASS</text><text x="1000" y="389">PASS</text>
+  </g>
+
+  <rect x="40" y="440" width="18" height="18" class="pass" stroke="#777"/><text x="68" y="454" class="note">established at the stated depth</text>
+  <rect x="310" y="440" width="18" height="18" class="none" stroke="#777"/><text x="338" y="454" class="note">not run or not established</text>
+  <text x="40" y="485" class="note">FeynCalc, STensor, OGRe and GeneralRelativityTensors are independent package implementations but share the Wolfram algebra kernel.</text>
+  <text x="40" y="505" class="note">GitHub Python-package jobs were not allocated a runner (runner_id=0, steps=[]); that is not a formula failure.</text>
+</svg>
