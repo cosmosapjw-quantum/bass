@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_EXTERNAL_ORACLE_TRIANGULATION_R1",
+  "parent": {
+    "pull_request": 101,
+    "commit": "32b8a89abbeaad5503cf0dfc59cfa5633a53ec3b"
+  },
+  "status": "CANDIDATE_UNTIL_ALL_PACKAGE_JOBS_PASS",
+  "oracles": [
+    {
+      "package": "symengine",
+      "version": "0.14.1",
+      "distribution": "PyPI wheel selected for CPython 3.11 Linux",
+      "published_sdist_sha256": "4e9e4b4ec56371c2151803ae0403dab07dd1c74ce88e9abca433bebeb6e2f0f0",
+      "role": "INDEPENDENT_EXACT_CAS",
+      "checks": [
+        "zero-boost coefficient regularization",
+        "outward-sky versus photon-direction Doppler adapter",
+        "Planck-argument invariance",
+        "ray-length to time-rate adapter",
+        "REI H-only energy-drift residual"
+      ],
+      "authority_effect": "NONE_EXTERNAL_ORACLE",
+      "claim_scope": "BOUNDED_FORMULA_IDENTITIES"
+    },
+    {
+      "package": "pylorentz",
+      "version": "0.3.3",
+      "distribution": "PyPI source distribution",
+      "published_sdist_sha256": "4dcc3716d1f858e39acd637ff9333352142a9abf968e3451a9759dd66b2c5da6",
+      "role": "INDEPENDENT_NULL_FOUR_VECTOR_BOOST",
+      "checks": [
+        "null norm preservation",
+        "photon energy Doppler factor",
+        "propagation-direction aberration",
+        "inverse boost round trip",
+        "outward-sky sign adapter"
+      ],
+      "authority_effect": "NONE_EXTERNAL_ORACLE",
+      "claim_scope": "BOUNDED_NUMERICAL_LORENTZ_KINEMATICS"
+    },
+    {
+      "package": "cosmoboost",
+      "version": "1.1.6",
+      "distribution": "PyPI pure-Python wheel",
+      "published_wheel_sha256": "0532cb213647e1033d4bd98248c3e39400b648582e0773d5a0cb2f76994e65cb",
+      "published_sdist_sha256": "9784cdda30b61dfc4ea9d2a84b266a39a4a675c92adf2d078f689c1be9ca1a29",
+      "exact_source_reference": {
+        "repository": "syasini/CosmoBoost",
+        "commit": "be29be2e9ba10424314f826a32e79008bdc2d2be",
+        "blueprints_git_blob": "50d4de3261b02fc0118beb5a1799d8fe7729750f"
+      },
+      "role": "INDEPENDENT_D1_S0_HARMONIC_KERNEL_RUNTIME",
+      "checks": [
+        "wheel and source identity",
+        "beta=0 kernel identity",
+        "small-beta monopole-to-dipole response",
+        "interior d=1 power-transfer normalization"
+      ],
+      "authority_effect": "NONE_EXTERNAL_ORACLE",
+      "claim_scope": "EXTERNAL_HARMONIC_KERNEL_REGRESSION_ONLY"
+    }
+  ],
+  "forbidden_promotions": [
+    "CONSUMER_IMPLEMENTATION_PARITY",
+    "GLOBAL_MATTER_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "POLARIZATION_SCREEN_TRANSPORT",
+    "SPECTRAL_BOOST_COMPLETENESS",
+    "BACKGROUND_PROVIDER_ADMISSION",
+    "REC_REI_PROVIDER_ADMISSION",
+    "ARBITRARY_L_SOLVER_VALIDATION",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ]
+}
