@@ -1,0 +1,40 @@
+name: sync-map02c-rei-relations
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02c-rei-relations.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02C/**"
+      - "scripts/verify_sync_map02c_rei_relations.py"
+      - "tests/test_sync_map02c_rei_closeout.py"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02c-rei-relations-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rei-relation-closeout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run mutation-sensitive closeout tests
+        run: python -m unittest -v tests/test_sync_map02c_rei_closeout.py
+      - name: Compile test surface
+        run: python -m py_compile tests/test_sync_map02c_rei_closeout.py
+      - name: Repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git rev-parse --verify 'HEAD^2' >/dev/null 2>&1; then
+            git diff --check 'HEAD^1' 'HEAD^2'
+          else
+            git diff --check HEAD^ HEAD
+          fi
