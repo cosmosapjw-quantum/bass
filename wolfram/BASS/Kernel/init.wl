@@ -25,7 +25,9 @@ Module[{root, sources},
    FileNameJoin[{root, "IR", "SharedFramePhotonExport.wl"}],
    FileNameJoin[{root, "IR", "SharedFramePhotonExportClaimBoundaryFix1.wl"}],
    FileNameJoin[{root, "IR", "RECRelationClassification.wl"}],
-   FileNameJoin[{root, "IR", "RECRelationClassificationValidationFix1.wl"}]
+   FileNameJoin[{root, "IR", "RECRelationClassificationValidationFix1.wl"}],
+   FileNameJoin[{root, "IR", "CrossRepositorySemanticGraph.wl"}],
+   FileNameJoin[{root, "IR", "CrossRepositorySemanticGraphReceiptFix1.wl"}]
  };
  Scan[Get, sources];
 ]
