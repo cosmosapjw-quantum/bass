@@ -14,6 +14,7 @@ REQUIRED = (
     "scripts/external_formula_packages/maxima_weighted_pullback.mac",
     "scripts/external_formula_packages/reduce_aberration.red",
     "scripts/external_formula_packages/aggregate_receipts.py",
+    "scripts/external_formula_packages/wolfram_tensor_package_probes.wls",
     "docs/bass_master_ssot_v2/XCAS_01/PACKAGE_PLAN.json",
     "docs/bass_master_ssot_v2/XCAS_01/README.md",
     "docs/bass_master_ssot_v2/XCAS_01/TDD_RED_RECEIPT.json",
@@ -48,6 +49,24 @@ def test_external_package_stage_is_evidence_only() -> None:
         "NO_CONSUMER_PARITY_PROMOTION",
     ):
         assert required in text
+
+
+def test_package_plan_covers_every_bounded_attempt() -> None:
+    plan = _load_json("PACKAGE_PLAN.json")
+    attempts = plan["attempts"]
+    packages = {row["package"] for row in attempts}
+    assert packages == {
+        "einsteinpy",
+        "OGRePy",
+        "pytearcat",
+        "cadabra2",
+        "maxima",
+        "reduce",
+        "BowenPing/STensor",
+        "OGRe",
+        "GeneralRelativityTensors",
+    }
+    assert len(attempts) == 9
 
 
 def test_three_executed_wolfram_packages_are_exact_passes() -> None:
