@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
+  "receipt_type": "CI_CONTRACT_REPAIR",
+  "status": "REPAIR_PUBLISHED_FRESH_EXACT_HEAD_RUN_PENDING",
+  "failed_run": {
+    "workflow": "sync-map02d-htt-relations",
+    "run_id": 33601323555,
+    "source_head": "b4c0746e0627a362ed58e90aab5278fb3a36b191",
+    "job_id": 100155448192,
+    "successful_steps": [
+      "classifier verifier",
+      "five mutation-sensitive stdlib tests",
+      "Python compilation",
+      "JSON and CSV parsing"
+    ],
+    "failed_step": "Repository text hygiene",
+    "failure": "fatal: ambiguous argument HEAD^",
+    "root_cause": "actions/checkout used fetch-depth 1 while the step required a parent commit",
+    "physics_or_relation_failure": false
+  },
+  "repair": {
+    "commit": "6f3042aef4416bb20cc2b7362dbe8a1b7bbc2b2c",
+    "changed_path": ".github/workflows/sync-map02d-htt-relations.yml",
+    "changes": [
+      "set actions/checkout fetch-depth to 2",
+      "use HEAD^1 versus HEAD^2 for pull-request merge commits",
+      "fall back to HEAD^ versus HEAD for non-merge dispatches"
+    ],
+    "scientific_or_classification_bytes_changed": false
+  },
+  "claim_boundary": "CI_HARNESS_REPAIR_ONLY_NO_GREEN_CLAIM_UNTIL_FRESH_EXACT_HEAD_SUCCESS"
+}
