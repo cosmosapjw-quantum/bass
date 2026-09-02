@@ -1,0 +1,66 @@
+name: sync-map02d-htt-relations
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02d-htt-relations.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02D/**"
+      - "scripts/verify_sync_map02d_htt_relations.py"
+      - "tests/test_sync_map02d_htt_relations.py"
+      - "wolfram/BASS/Kernel/IR/HTTRelationClassification.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02DHTTRelationClassification.wlt"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02d-htt-relations-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  htt-relation-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run fail-closed classifier verifier
+        run: python scripts/verify_sync_map02d_htt_relations.py --json
+      - name: Run mutation-sensitive stdlib tests
+        run: python -m unittest -v tests/test_sync_map02d_htt_relations.py
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02d_htt_relations.py \
+            tests/test_sync_map02d_htt_relations.py
+      - name: Parse JSON and CSV surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool \
+            docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json \
+            >/dev/null
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+
+          path = Path("docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSES.csv")
+          with path.open(newline="", encoding="utf-8") as handle:
+              rows = list(csv.DictReader(handle))
+          if len(rows) != 12:
+              raise SystemExit(f"expected 12 relation rows, found {len(rows)}")
+          print({"csv_rows": len(rows)})
+          PY
+      - name: Repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git rev-parse --verify 'HEAD^2' >/dev/null 2>&1; then
+            git diff --check 'HEAD^1' 'HEAD^2'
+          else
+            git diff --check HEAD^ HEAD
+          fi

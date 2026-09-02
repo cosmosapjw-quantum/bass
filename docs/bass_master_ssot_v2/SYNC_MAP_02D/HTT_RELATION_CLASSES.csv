@@ -1,0 +1,13 @@
+relation_id,formula_id,relation,authority_owner,consumer_role,source_path,scope
+HTT-R01,BASS.FRAME.DOPPLER_FACTOR.001,PINNED_IMPORT_PENDING_OWNER_EQUATIONIR,bass,CONSUMER_IMPLEMENTATION,htt/obsstat/lorentz_sky_pullback.py,exact local-observer frame transform; no global matter tilt
+HTT-R02,BASS.FRAME.ABERRATED_DIRECTION.001,PINNED_IMPORT_PENDING_OWNER_EQUATIONIR,bass,CONSUMER_IMPLEMENTATION,htt/obsstat/lorentz_sky_pullback.py,exact local-observer sky-chart map; no photon geodesic evolution
+HTT-R03,BASS.FRAME.SOLID_ANGLE_JACOBIAN.001,PINNED_IMPORT_PENDING_OWNER_EQUATIONIR,bass,INDEPENDENT_ORACLE,htt/obsstat/lorentz_sky_pullback.py,full-sky Lorentz measure relation; not cut-sky estimator response
+HTT-R04,BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001,PINNED_IMPORT_PENDING_OWNER_EQUATIONIR,bass,CONSUMER_IMPLEMENTATION,htt/obsstat/lorentz_sky_pullback.py,strictly positive blackbody thermodynamic temperature only
+HTT-R05,HTT.OBS.LOCAL_BOOST.POSITIVE_TEMPERATURE_ADAPTER.001,ADAPTER_SPECIALIZATION,htt_base,,htt/obsstat/lorentz_sky_pullback.py,direction-safe positivity and unit-preserving output adapter
+HTT-R06,HTT.OBS.LOCAL_BOOST.QUADRUPOLE_L1_L3_ORACLE.001,INDEPENDENT_ORACLE,htt_base,,htt/obsstat/boost_response.py,first-order local-observer quadrupole response only
+HTT-R07,HTT.OBS.PROCESSED_BOOST.SOURCE_TRANSFER_ORDER.001,HTT_OWNED_PROCESSED_EXTENSION,htt_base,,htt/obsstat/processed_boost_response.py,observation-side processing; not a Lorentz theorem
+HTT-R08,HTT.OBS.PROCESSED_BOOST.LINEAR_GENERATOR.001,HTT_OWNED_PROCESSED_EXTENSION,htt_base,,htt/obsstat/processed_boost_linearization.py,derivative of HTT output pipeline; no global tilt dynamics
+HTT-R09,HTT.OBS.PROCESSED_BOOST.OPERATOR.001,HTT_OWNED_PROCESSED_EXTENSION,htt_base,,htt/obsstat/processed_boost_operator.py,synthetic processed scalar response
+HTT-R10,HTT.OBS.PROCESSED_BOOST.COEFFICIENT_JACOBIAN.001,HTT_OWNED_PROCESSED_EXTENSION,htt_base,,htt/obsstat/processed_boost_jacobian.py,processed estimator response and numerical diagnostics
+HTT-R11,HTT.OBS.PROCESSED_BOOST.HISTORICAL_PARITY.001,INDEPENDENT_ORACLE,htt_base,,htt/obsstat/processed_boost_parity.py,audit-only; not a second production estimator
+HTT-R12,HTT.OBS.PROCESSED_BOOST.IDENTIFIABILITY.001,HTT_OWNED_PROCESSED_EXTENSION,htt_base,,htt/obsstat/processed_boost_identifiability.py,synthetic local-only identifiability; no empirical beta or Bianchi attribution
