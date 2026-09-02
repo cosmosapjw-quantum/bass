@@ -1,0 +1,35 @@
+name: sync-map02f-cross-repository-semantic-graph
+
+on:
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02f-cross-repo-semantic-graph-*"
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02f-cross-repository-semantic-graph.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F/**"
+      - "scripts/verify_sync_map02f_semantic_graph.py"
+      - "scripts/render_sync_map02f_graph.py"
+      - "tests/test_sync_map02f_semantic_graph.py"
+      - "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraph.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02FCrossRepositorySemanticGraph.wlt"
+      - "wolfram/BASS/Tests/SYNCMAP02FTestSetup.wl"
+      - "wolfram/scripts/run_sync_map02f_source_packet.wls"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-red:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run missing-surface contract test
+        run: python -m unittest -v tests/test_sync_map02f_semantic_graph.py
