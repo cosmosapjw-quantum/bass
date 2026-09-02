@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.formula-semantic-export.v1",
+  "title": "BASS Master SSOT v2 Formula Semantic Export",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "stage_id",
+    "owner",
+    "source_repository",
+    "source_parent_commit",
+    "formula_source_commit",
+    "formula_source_tree",
+    "convention_hash",
+    "type_registry_semantic_hash",
+    "formula_count",
+    "formulas",
+    "dependency_edges",
+    "registry_semantic_hash",
+    "coverage",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "program_id": {"const": "BIANCHI-WOLFRAM-TRIREPO-20260830"},
+    "stage_id": {
+      "const": "SYNC_MAP_02A_BASS_EQUATIONIR_AND_SEMANTIC_HASH_EXPORT"
+    },
+    "owner": {"const": "bass"},
+    "source_repository": {"const": "cosmosapjw-quantum/bass"},
+    "source_parent_commit": {"$ref": "#/$defs/sha1"},
+    "formula_source_commit": {"$ref": "#/$defs/sha1"},
+    "formula_source_tree": {"$ref": "#/$defs/sha1"},
+    "convention_hash": {"$ref": "#/$defs/sha256"},
+    "type_registry_semantic_hash": {"$ref": "#/$defs/sha256"},
+    "formula_count": {"const": 14},
+    "formulas": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {"$ref": "#/$defs/formulaRecord"}
+    },
+    "dependency_edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/dependencyEdge"}
+    },
+    "registry_semantic_hash": {"$ref": "#/$defs/sha256"},
+    "coverage": {
+      "type": "object",
+      "required": ["included", "excluded"],
+      "properties": {
+        "included": {"type": "array", "items": {"type": "string"}},
+        "excluded": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "claim_boundary": {
+      "const": "BASS_FORMULA_SEMANTIC_EXPORT_ONLY_NO_CROSS_REPO_EQUIVALENCE_BACKGROUND_OR_SCIENCE_PROMOTION"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "formulaId": {
+      "type": "string",
+      "pattern": "^BASS\\.GEO\\.[A-Z0-9_]+\\.001$"
+    },
+    "equationIR": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "formula_id",
+        "authority_theorem",
+        "target",
+        "free_indices",
+        "representation",
+        "assumptions",
+        "domain",
+        "dimensions",
+        "terms",
+        "structural_zero_rules",
+        "branch_predicates",
+        "known_limits",
+        "provenance"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0.0"},
+        "formula_id": {"$ref": "#/$defs/formulaId"},
+        "authority_theorem": {"type": "string"},
+        "target": {"type": "string"},
+        "free_indices": {"type": "array", "items": {"type": "string"}},
+        "representation": {"type": "string"},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "domain": {"type": "object"},
+        "dimensions": {"type": "object"},
+        "terms": {"type": "array"},
+        "structural_zero_rules": {"type": "array", "items": {"type": "string"}},
+        "branch_predicates": {"type": "array", "items": {"type": "string"}},
+        "known_limits": {"type": "array", "items": {"type": "string"}},
+        "provenance": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "formulaRecord": {
+      "type": "object",
+      "required": [
+        "formula_id",
+        "owner",
+        "authority_effect",
+        "status",
+        "legacy_formula_ids",
+        "source_path",
+        "semantic_hash",
+        "semantic_projection",
+        "equation_ir",
+        "dependencies",
+        "allowed_consumer_modes"
+      ],
+      "properties": {
+        "formula_id": {"$ref": "#/$defs/formulaId"},
+        "owner": {"const": "bass"},
+        "authority_effect": {"const": "AUTHORITATIVE_DERIVATION"},
+        "status": {"const": "SYMBOLIC_VERIFIED"},
+        "legacy_formula_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "source_path": {"type": "string"},
+        "semantic_hash": {"$ref": "#/$defs/sha256"},
+        "semantic_projection": {"type": "object"},
+        "equation_ir": {"$ref": "#/$defs/equationIR"},
+        "dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/formulaId"}
+        },
+        "allowed_consumer_modes": {
+          "type": "array",
+          "const": [
+            "PINNED_IMPORT",
+            "INDEPENDENT_ORACLE",
+            "ADAPTER_SPECIALIZATION"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencyEdge": {
+      "type": "object",
+      "required": ["from", "to", "relation"],
+      "properties": {
+        "from": {"$ref": "#/$defs/formulaId"},
+        "to": {"$ref": "#/$defs/formulaId"},
+        "relation": {"const": "depends_on"}
+      },
+      "additionalProperties": false
+    }
+  }
+}
