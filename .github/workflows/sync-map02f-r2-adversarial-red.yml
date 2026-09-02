@@ -1,0 +1,38 @@
+name: sync-map02f-r2-adversarial-red
+
+on:
+  push:
+    branches:
+      - "audit/sync-map02f-r2-red-contract-*"
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02f-r2-adversarial-red.yml"
+      - "tests/test_sync_map02f_r2_hardening_contract.py"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F/**"
+      - "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraphReceiptFix1.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02FCrossRepositorySemanticGraph.wlt"
+      - "wolfram/scripts/run_sync_map02f_source_packet.wls"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-map02f-r2-red-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  adversarial-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run post-audit R2 contract
+        run: python -m unittest -v tests/test_sync_map02f_r2_hardening_contract.py
+      - name: Compile test surface
+        run: python -m py_compile tests/test_sync_map02f_r2_hardening_contract.py
