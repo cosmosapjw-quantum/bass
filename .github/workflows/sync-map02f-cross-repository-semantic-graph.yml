@@ -9,27 +9,231 @@ on:
       - ".github/workflows/sync-map02f-cross-repository-semantic-graph.yml"
       - "docs/bass_master_ssot_v2/SYNC_MAP_02F/**"
       - "scripts/verify_sync_map02f_semantic_graph.py"
+      - "scripts/verify_sync_map02f_octave.m"
       - "scripts/render_sync_map02f_graph.py"
+      - "scripts/probe_cosmoboost_reference.py"
       - "tests/test_sync_map02f_semantic_graph.py"
       - "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraph.wl"
+      - "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraphReceiptFix1.wl"
       - "wolfram/BASS/Kernel/init.wl"
       - "wolfram/BASS/Tests/SYNCMAP02FCrossRepositorySemanticGraph.wlt"
-      - "wolfram/BASS/Tests/SYNCMAP02FTestSetup.wl"
       - "wolfram/scripts/run_sync_map02f_source_packet.wls"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: sync-map02f-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  EXACT_02E_BASE: e1467825c8f4c5e3f47df5da5b8a6202e8f96f30
+
 jobs:
-  contract-red:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Run missing-surface contract test
+      - name: Verify exact ancestry and changed-path closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${EXACT_02E_BASE}^{commit}"
+          git merge-base --is-ancestor "$EXACT_02E_BASE" HEAD
+          git diff --name-only "$EXACT_02E_BASE"...HEAD | tee /tmp/sync_map02f_changed_paths.txt
+          python - <<'PY'
+          from pathlib import Path
+          allowed = (
+              ".github/workflows/sync-map02f-cross-repository-semantic-graph.yml",
+              "docs/bass_master_ssot_v2/SYNC_MAP_02F/",
+              "scripts/verify_sync_map02f_semantic_graph.py",
+              "scripts/verify_sync_map02f_octave.m",
+              "scripts/render_sync_map02f_graph.py",
+              "scripts/probe_cosmoboost_reference.py",
+              "tests/test_sync_map02f_semantic_graph.py",
+              "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraph.wl",
+              "wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraphReceiptFix1.wl",
+              "wolfram/BASS/Kernel/init.wl",
+              "wolfram/BASS/Tests/SYNCMAP02FCrossRepositorySemanticGraph.wlt",
+              "wolfram/scripts/run_sync_map02f_source_packet.wls",
+          )
+          changed = [line for line in Path("/tmp/sync_map02f_changed_paths.txt").read_text().splitlines() if line]
+          foreign = [path for path in changed if not any(path == prefix or path.startswith(prefix) for prefix in allowed)]
+          if foreign:
+              raise SystemExit("foreign changed paths: " + ", ".join(foreign))
+          if not changed:
+              raise SystemExit("empty exact-base delta")
+          print({"status": "PASS", "changed_paths": len(changed)})
+          PY
+      - name: Run mutation-sensitive graph tests
         run: python -m unittest -v tests/test_sync_map02f_semantic_graph.py
+      - name: Run fail-closed graph verifier
+        run: python scripts/verify_sync_map02f_semantic_graph.py | tee /tmp/sync_map02f_python_receipt.json
+      - name: Render deterministic graph evidence
+        run: python scripts/render_sync_map02f_graph.py | tee /tmp/sync_map02f_render_receipt.json
+      - name: Compile Python surfaces and parse JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/verify_sync_map02f_semantic_graph.py \
+            scripts/render_sync_map02f_graph.py \
+            scripts/probe_cosmoboost_reference.py \
+            tests/test_sync_map02f_semantic_graph.py
+          python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/CROSS_REPOSITORY_SEMANTIC_GRAPH.json >/dev/null
+          python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/SYNC_MAP_02F_TDD_RED_RECEIPT.json >/dev/null
+          git diff --check "$EXACT_02E_BASE"...HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-python-and-graph-evidence
+          path: |
+            /tmp/sync_map02f_changed_paths.txt
+            /tmp/sync_map02f_python_receipt.json
+            /tmp/sync_map02f_render_receipt.json
+            artifacts/sync_map02f/
+          if-no-files-found: error
+
+  octave-crosscheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends octave
+      - name: Run independent Lorentz and photon-flow oracle
+        run: octave --no-gui --quiet scripts/verify_sync_map02f_octave.m | tee /tmp/sync_map02f_octave_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-octave-receipt
+          path: /tmp/sync_map02f_octave_receipt.json
+          if-no-files-found: error
+
+  cosmoboost-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Clone exact CosmoBoost reference source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/syasini/CosmoBoost.git /tmp/CosmoBoost
+          git -C /tmp/CosmoBoost checkout --detach be29be2e9ba10424314f826a32e79008bdc2d2be
+          python scripts/probe_cosmoboost_reference.py /tmp/CosmoBoost --receipt /tmp/cosmoboost_source_receipt.json
+      - name: Attempt versioned PyPI package downloads
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p /tmp/cosmoboost_pypi
+          python -m pip download --no-deps --dest /tmp/cosmoboost_pypi "CosmoBoost==1.1.6" 2>&1 | tee /tmp/cosmoboost_pypi_download.log
+          python -m pip download --no-deps --no-binary=:all: --dest /tmp/cosmoboost_pypi "CosmoBoost==1.1.6" 2>&1 | tee -a /tmp/cosmoboost_pypi_download.log
+          sha256sum /tmp/cosmoboost_pypi/* | sort | tee /tmp/cosmoboost_pypi_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sync-map02f-cosmoboost-reference
+          path: |
+            /tmp/cosmoboost_source_receipt.json
+            /tmp/cosmoboost_pypi_download.log
+            /tmp/cosmoboost_pypi_sha256.txt
+            /tmp/cosmoboost_pypi/
+          if-no-files-found: warn
+
+  arxiv-primary-download:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Attempt direct arXiv primary-PDF downloads
+        shell: bash
+        run: |
+          set +e
+          mkdir -p /tmp/arxiv_primary
+          : > /tmp/arxiv_primary/DOWNLOAD_STATUS.tsv
+          for spec in \
+            "1403.6117 dai_chluba_aberration.pdf" \
+            "1410.8473 fleury_pitrou_uzan_bianchiI.pdf" \
+            "astro-ph/9911481 challinor_polarization.pdf" \
+            "1805.12121 marcori_pitrou_uzan_pereira.pdf"
+          do
+            id="${spec%% *}"
+            name="${spec#* }"
+            url="https://arxiv.org/pdf/${id}"
+            curl --fail --location --retry 3 --retry-delay 2 --max-time 120 "$url" -o "/tmp/arxiv_primary/$name"
+            code=$?
+            if [ "$code" -eq 0 ] && [ "$(stat -c%s "/tmp/arxiv_primary/$name")" -gt 10000 ]; then
+              printf '%s\tPASS\t%s\n' "$id" "$(stat -c%s "/tmp/arxiv_primary/$name")" >> /tmp/arxiv_primary/DOWNLOAD_STATUS.tsv
+            else
+              printf '%s\tFAIL\t%s\n' "$id" "$code" >> /tmp/arxiv_primary/DOWNLOAD_STATUS.tsv
+              rm -f "/tmp/arxiv_primary/$name"
+            fi
+          done
+          sha256sum /tmp/arxiv_primary/*.pdf 2>/dev/null | sort > /tmp/arxiv_primary/SHA256SUMS || true
+          cat /tmp/arxiv_primary/DOWNLOAD_STATUS.tsv
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sync-map02f-arxiv-primary-pdfs
+          path: /tmp/arxiv_primary/
+          if-no-files-found: warn
+
+  source-packet:
+    needs: [verify, octave-crosscheck, cosmoboost-reference]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Build exact source packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          packet=/tmp/sync-map02f-source-packet
+          mkdir -p "$packet"
+          files=(
+            docs/bass_master_ssot_v2/SYNC_MAP_02F/CROSS_REPOSITORY_SEMANTIC_GRAPH.json
+            docs/bass_master_ssot_v2/SYNC_MAP_02F/SYNC_MAP_02F_TDD_RED_RECEIPT.json
+            docs/bass_master_ssot_v2/SYNC_MAP_02F/ARXIV_PRIMARY_AND_PACKAGE_REFERENCE_LOCK.md
+            scripts/verify_sync_map02f_semantic_graph.py
+            scripts/verify_sync_map02f_octave.m
+            scripts/render_sync_map02f_graph.py
+            scripts/probe_cosmoboost_reference.py
+            tests/test_sync_map02f_semantic_graph.py
+            wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraph.wl
+            wolfram/BASS/Kernel/IR/CrossRepositorySemanticGraphReceiptFix1.wl
+            wolfram/BASS/Tests/SYNCMAP02FCrossRepositorySemanticGraph.wlt
+            wolfram/scripts/run_sync_map02f_source_packet.wls
+          )
+          for file in "${files[@]}"; do
+            mkdir -p "$packet/$(dirname "$file")"
+            cp "$file" "$packet/$file"
+          done
+          git rev-parse HEAD > "$packet/GIT_HEAD"
+          git rev-parse HEAD^{tree} > "$packet/GIT_TREE"
+          (cd "$packet" && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS)
+          tar -C /tmp -czf /tmp/sync-map02f-source-packet.tar.gz sync-map02f-source-packet
+          sha256sum /tmp/sync-map02f-source-packet.tar.gz > /tmp/sync-map02f-source-packet.tar.gz.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-source-packet
+          path: |
+            /tmp/sync-map02f-source-packet.tar.gz
+            /tmp/sync-map02f-source-packet.tar.gz.sha256
+          if-no-files-found: error
