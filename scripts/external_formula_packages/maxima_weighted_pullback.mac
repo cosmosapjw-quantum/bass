@@ -1,0 +1,45 @@
+/* XCAS-01 independent Maxima oracle. */
+kill(all)$
+display2d:false$
+
+assert_zero(expr, label) := block(
+  [r : radcan(ratsimp(expr))],
+  if is(r = 0) then print("PASS", label)
+  else error("FAIL", label, "residual", r)
+)$
+
+aberrate(mu, beta) := (mu + beta)/(1 + beta*mu)$
+deaberrate(x, beta) := (x - beta)/(1 - beta*x)$
+gamma(beta) := 1/sqrt(1-beta^2)$
+doppler_target(x, beta) := sqrt(1-beta^2)/(1-beta*x)$
+regular_chi(beta) := gamma(beta)^2/(gamma(beta)+1)$
+field(x) := 1+x+x^2$
+full_pullback(x, beta) := doppler_target(x,beta)*field(deaberrate(x,beta))$
+
+assert_zero(deaberrate(aberrate(mu,beta),beta)-mu, "aberration_inverse")$
+assert_zero(
+  diff(aberrate(mu,beta),mu)
+   -(1-beta^2)/(1+beta*mu)^2,
+  "solid_angle_jacobian"
+)$
+assert_zero((gamma(beta)-1)/beta^2-regular_chi(beta), "regular_chi_identity")$
+assert_zero(subst(0,beta,regular_chi(beta))-1/2, "regular_chi_zero_boost")$
+assert_zero(
+  subst(0,beta,diff(full_pullback(x,beta),beta))
+   -(x*field(x)-(1-x^2)*diff(field(x),x)),
+  "weighted_pullback_generator_d1"
+)$
+assert_zero(
+  subst(0,beta,diff(doppler_target(x,beta)*field(x),beta))-x*field(x),
+  "doppler_only_generator"
+)$
+assert_zero(
+  subst(0,beta,diff(full_pullback(x,beta),beta))
+   -subst(0,beta,diff(doppler_target(x,beta)*field(x),beta))
+   +(1-x^2)*diff(field(x),x),
+  "aberration_advection_gap"
+)$
+assert_zero((d*nu)/(d*temp)-nu/temp, "planck_argument_scaling")$
+
+print("PASS_MAXIMA_XCAS01")$
+quit()$

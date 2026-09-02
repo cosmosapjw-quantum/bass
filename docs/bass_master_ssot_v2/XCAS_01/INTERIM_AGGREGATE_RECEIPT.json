@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+  "status": "PARTIAL_EXTERNAL_PACKAGE_PASS_INDEPENDENT_CAS_NOT_RUN",
+  "authority_effect": "NONE",
+  "executed_package_count": 3,
+  "executed_package_pass_count": 3,
+  "executed_independent_cas_engine_count": 0,
+  "hosted_runner_package_attempt_count": 6,
+  "hosted_runner_package_execution_count": 0,
+  "deferred_resource_heavy_count": 1,
+  "executed_packages": [
+    {
+      "package": "BowenPing/STensor",
+      "version": "1.0.1",
+      "axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "status": "PASS",
+      "witnesses": [
+        "Minkowski Einstein tensor exact zero",
+        "Bianchi-I G00 exact residual zero"
+      ],
+      "receipt": "STENSOR_WOLFRAM_RECEIPT.json"
+    },
+    {
+      "package": "OGRe",
+      "version": "2.0.0",
+      "axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "status": "PASS",
+      "witnesses": [
+        "Bianchi-I full covariant Einstein tensor: four diagonal and twelve off-diagonal residuals exact zero"
+      ],
+      "receipt": "OGRE_WOLFRAM_RECEIPT.json"
+    },
+    {
+      "package": "GeneralRelativityTensors",
+      "source_commit": "6e5a0b1e8af94c5368334b9e3ac5e9d83b92928d",
+      "axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "status": "PASS",
+      "witnesses": [
+        "Bianchi-I full covariant Einstein tensor: four diagonal and twelve off-diagonal residuals exact zero"
+      ],
+      "receipt": "GENERAL_RELATIVITY_TENSORS_RECEIPT.json"
+    }
+  ],
+  "not_run_due_hosted_runner": [
+    "einsteinpy",
+    "OGRePy",
+    "pytearcat",
+    "cadabra2",
+    "maxima",
+    "reduce"
+  ],
+  "deferred": [
+    {
+      "package": "SageMath/SageManifolds",
+      "status": "DEFERRED_RESOURCE_HEAVY",
+      "next_node": "XCAS_02_GEOMETRY_IMAGE"
+    }
+  ],
+  "verified_formula_surfaces": {
+    "coordinate_Einstein_tensor": "PASS_THREE_PACKAGE_IMPLEMENTATIONS_ONE_SHARED_WOLFRAM_ENGINE",
+    "weighted_blackbody_pullback_external_CAS": "NOT_RUN",
+    "Lorentz_aberration_external_CAS": "NOT_RUN",
+    "Riemann_multiterm_tensor_identity_external_CAS": "NOT_RUN"
+  },
+  "independence_assessment": {
+    "package_implementation_independence": "THREE_DISTINCT_IMPLEMENTATIONS",
+    "algebra_engine_independence": "ONE_ENGINE_WOLFRAM_LANGUAGE",
+    "strong_cross_CAS_claim": false
+  },
+  "claim_boundary": [
+    "NO_INDEPENDENT_CAS_PASS",
+    "NO_WEIGHTED_PULLBACK_EXTERNAL_CAS_PASS",
+    "NO_02E_SEMANTIC_PROMOTION",
+    "NO_02F_SEMANTIC_CLOSEOUT",
+    "NO_CONSUMER_PARITY_PROMOTION",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}

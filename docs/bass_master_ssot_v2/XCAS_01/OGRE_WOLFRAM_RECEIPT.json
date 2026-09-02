@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+  "package": "OGRe",
+  "package_version": "2.0.0",
+  "download_url": "https://raw.githubusercontent.com/bshoshany/OGRe/v2.0.0/OGRe.m",
+  "download_bytes": 191955,
+  "download_sha256": "e745de7820861b942103e5614e518bcc5748155f81edb69ca42c28b70b87b66a",
+  "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+  "algebra_engine": "Wolfram Language 15.0.1",
+  "installation_mode": "pinned single-file ephemeral download and Get",
+  "status": "PASS",
+  "pass": true,
+  "checks": {
+    "metric": "diag(-1,t^2,t^4,t^6)",
+    "covariant_einstein_diagonal": [
+      "11/t^2",
+      "-14",
+      "-9*t^2",
+      "-4*t^4"
+    ],
+    "diagonal_residuals": ["0", "0", "0", "0"],
+    "off_diagonal_residual_count": 12,
+    "all_off_diagonal_residuals": "0"
+  },
+  "authority_effect": "NONE",
+  "independence_note": "OGRe is an independently implemented tensor package and independently reconstructs the coordinate Einstein tensor, but it shares the Wolfram Language algebra kernel with xAct and STensor.",
+  "claim_boundary": [
+    "NO_02E_SEMANTIC_PROMOTION",
+    "NO_02F_SEMANTIC_CLOSEOUT",
+    "NO_CONSUMER_PARITY_PROMOTION",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}

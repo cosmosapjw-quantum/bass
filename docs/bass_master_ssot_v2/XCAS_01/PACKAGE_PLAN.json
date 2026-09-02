@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+  "authority_effect": "NONE",
+  "base_pr": 101,
+  "base_commit": "32b8a89abbeaad5503cf0dfc59cfa5633a53ec3b",
+  "attempts": [
+    {
+      "package": "einsteinpy",
+      "version_spec": "einsteinpy==0.4.0",
+      "delivery": "PyPI wheel or source distribution",
+      "package_axis": "INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE",
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "OGRePy",
+      "version_spec": "OGRePy==2.0.0",
+      "delivery": "PyPI wheel",
+      "known_source_sha256": "456050d5e43a1df66a2fd4d7955e74b02ac7c5e9e24f8fb5c04a74716f16c037",
+      "package_axis": "INDEPENDENT_GR_PACKAGE_SHARED_SYMPY_ENGINE",
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "pytearcat",
+      "version_spec": "pytearcat==0.0.8",
+      "delivery": "PyPI wheel or source distribution",
+      "known_source_sha256": "caac44ff45d7c85b6834075bc3ce4a9b6a0f791f00a6c7f57166f3e7a710e918",
+      "package_axis": "BACKEND_REPORTED_AT_RUNTIME",
+      "probe": "Bianchi-I covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "cadabra2",
+      "version_spec": "2.5.14",
+      "delivery": "official Ubuntu 24.04 x86_64 release deb",
+      "download_sha256": "b9dc00c94eda9bff5d5e2f9793f6640c0c507d6ef2fc00401273e9b8659887ad",
+      "package_axis": "INDEPENDENT_TENSOR_CAS",
+      "probe": "tensor symmetry, Riemann pair symmetry and first Bianchi identities",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "maxima",
+      "version_spec": "Ubuntu repository version",
+      "delivery": "apt",
+      "package_axis": "INDEPENDENT_SCALAR_CAS",
+      "probe": "aberration inverse, Jacobian, zero-boost regularization and d=1 weighted-pullback generator",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "reduce",
+      "version_spec": "Ubuntu repository version if available",
+      "delivery": "apt",
+      "package_axis": "INDEPENDENT_SCALAR_CAS",
+      "probe": "rational aberration inverse, Jacobian and first-order weighted-pullback generator",
+      "execution_status": "NOT_RUN_HOSTED_RUNNER_INFRASTRUCTURE"
+    },
+    {
+      "package": "BowenPing/STensor",
+      "version_spec": "1.0.1",
+      "delivery": "Wolfram PacletSymbol ephemeral download",
+      "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "probe": "Minkowski Einstein tensor and Bianchi-I G00 identity",
+      "execution_status": "PASS",
+      "receipt": "STENSOR_WOLFRAM_RECEIPT.json"
+    },
+    {
+      "package": "OGRe",
+      "version_spec": "2.0.0",
+      "delivery": "pinned single-file ephemeral download and Get",
+      "download_url": "https://raw.githubusercontent.com/bshoshany/OGRe/v2.0.0/OGRe.m",
+      "download_bytes": 191955,
+      "download_sha256": "e745de7820861b942103e5614e518bcc5748155f81edb69ca42c28b70b87b66a",
+      "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "probe": "full covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "PASS",
+      "receipt": "OGRE_WOLFRAM_RECEIPT.json"
+    },
+    {
+      "package": "GeneralRelativityTensors",
+      "version_spec": "exact source commit 6e5a0b1e8af94c5368334b9e3ac5e9d83b92928d",
+      "delivery": "exact-commit GitHub archive download and explicit package-module loading",
+      "download_url": "https://github.com/BlackHolePerturbationToolkit/GeneralRelativityTensors/archive/6e5a0b1e8af94c5368334b9e3ac5e9d83b92928d.zip",
+      "download_bytes": 223044,
+      "download_sha256": "b4143ccae4e47021a03fea15b4f4835d9099c234fca1f2a9b37c9ed2be9f5d65",
+      "package_axis": "INDEPENDENT_TENSOR_PACKAGE_SHARED_WOLFRAM_KERNEL",
+      "probe": "full covariant Einstein tensor for diag(-1,t^2,t^4,t^6)",
+      "execution_status": "PASS",
+      "receipt": "GENERAL_RELATIVITY_TENSORS_RECEIPT.json"
+    }
+  ],
+  "infrastructure_block": {
+    "classification": "BLOCKED_HOSTED_RUNNER_INFRASTRUCTURE",
+    "evidence": [
+      {
+        "workflow_run": 33666561987,
+        "attempts": 1,
+        "observed_jobs": 7,
+        "runner_id": 0,
+        "step_count": 0
+      },
+      {
+        "workflow_run": 33667403935,
+        "attempts": 2,
+        "observed_jobs": 7,
+        "runner_id": 0,
+        "step_count": 0
+      }
+    ],
+    "interpretation": "The Python, Cadabra2, Maxima and REDUCE package commands did not start; this is not an installation or formula failure. The API did not expose the underlying hosted-runner allocation cause."
+  },
+  "deferred_resource_heavy": [
+    {
+      "package": "SageMath/SageManifolds",
+      "reason": "full Sage distribution is substantially heavier than the bounded CI lane; schedule as XCAS-02 geometry image rather than silently skipping"
+    }
+  ],
+  "claim_boundary": [
+    "NO_02E_SEMANTIC_PROMOTION",
+    "NO_02F_SEMANTIC_CLOSEOUT",
+    "NO_CONSUMER_PARITY_PROMOTION",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
