@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   contract:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,10 +26,11 @@ jobs:
         run: |
           python -m json.tool docs/bass_master_ssot_v2/XCAS_01/PACKAGE_PLAN.json >/dev/null
           python -m json.tool docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json >/dev/null
+          python -m json.tool docs/bass_master_ssot_v2/XCAS_01/OGRE_WOLFRAM_RECEIPT.json >/dev/null
 
   python-packages:
     name: python-${{ matrix.backend }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -111,7 +112,7 @@ jobs:
           if-no-files-found: error
 
   cadabra2:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Download exact Cadabra2 release and execute tensor probe
@@ -178,7 +179,7 @@ jobs:
           if-no-files-found: error
 
   scalar-cas:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Attempt Maxima and REDUCE installation and probes
@@ -248,7 +249,7 @@ jobs:
           if-no-files-found: error
 
   aggregate:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     if: always()
     needs: [contract, python-packages, cadabra2, scalar-cas]
     steps:
@@ -261,11 +262,14 @@ jobs:
           pattern: xcas01-*
           path: /tmp/xcas01-collected
           merge-multiple: true
-      - name: Add the independently executed STensor receipt
+      - name: Add independently executed Wolfram package receipts
         run: |
-          mkdir -p /tmp/xcas01-collected/stensor
+          mkdir -p /tmp/xcas01-collected/wolfram-packages/stensor
+          mkdir -p /tmp/xcas01-collected/wolfram-packages/ogre
           cp docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json \
-             /tmp/xcas01-collected/stensor/receipt.json
+             /tmp/xcas01-collected/wolfram-packages/stensor/receipt.json
+          cp docs/bass_master_ssot_v2/XCAS_01/OGRE_WOLFRAM_RECEIPT.json \
+             /tmp/xcas01-collected/wolfram-packages/ogre/receipt.json
       - name: Aggregate without relabelling blockers
         run: |
           python scripts/external_formula_packages/aggregate_receipts.py \
