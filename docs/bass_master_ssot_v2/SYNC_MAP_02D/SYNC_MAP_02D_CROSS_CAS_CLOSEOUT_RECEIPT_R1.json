@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-FOUR-REPOSITORY-FEDERATION-20260902",
+  "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
+  "receipt_id": "SYNC_MAP_02D_CROSS_CAS_CLOSEOUT_R1",
+  "receipt_type": "APPEND_ONLY_USER_AUTHORIZED_CROSS_CAS_PROVENANCE_CLOSEOUT",
+  "status": "PASS_BOUNDED_CROSS_CAS_PROVENANCE_CLOSEOUT_EVIDENCE_ONLY",
+  "tested_subject": {
+    "repository": "cosmosapjw-quantum/bass",
+    "pull_request": 97,
+    "commit": "7006aaab27834af37d5034f8f1e50943fe85c0f3",
+    "tree": "4bfccafb3da7c6d0e720dc55171b832f7b919085",
+    "classification": {
+      "path": "docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json",
+      "git_blob_sha1": "9ce25902c5ec271908c5f73f76d60d180843fa9d"
+    },
+    "wolfram_module": {
+      "path": "wolfram/BASS/Kernel/IR/HTTRelationClassification.wl",
+      "git_blob_sha1": "042d60c4655ecd17f8aa42f28ba6de097a8387e2"
+    },
+    "wolfram_test": {
+      "path": "wolfram/BASS/Tests/SYNCMAP02DHTTRelationClassification.wlt",
+      "git_blob_sha1": "d94958e55c5b3d91f40137f2bfef89af50150055"
+    },
+    "python_verifier": {
+      "path": "scripts/verify_sync_map02d_htt_relations.py",
+      "git_blob_sha1": "ad1f228a63313165faf362c81f631c8808d98893"
+    }
+  },
+  "tdd": {
+    "red_contract_commit": "c831cfddeab77abaa4f0924c735b8cd7882f9b87",
+    "red_execution_head": "f4f568b8e97a735a8cd054904852d4c5db5b033a",
+    "red_workflow_run": 33616497903,
+    "red_job": 100203437422,
+    "red_result": "FAIL_EXPECTED",
+    "red_tests": {
+      "run": 4,
+      "failed": 4,
+      "errors": 0,
+      "reason": "scripts/sync_map02d_crosscheck_sympy.py was deliberately absent"
+    },
+    "green_implementation_commit": "06d94511a16e1ee83b8c55126a1666141bd30608",
+    "green_workflow_run": 33616737402,
+    "green_job": 100204194681,
+    "green_result": "SUCCESS"
+  },
+  "sympy_independent_crosscheck": {
+    "implementation_path": "scripts/sync_map02d_crosscheck_sympy.py",
+    "test_path": "tests/test_sync_map02d_sympy_crosscheck.py",
+    "independence_boundary": "The oracle reconstructs the mathematical obligations independently and does not import, execute, or translate the repository Wolfram package.",
+    "environment": {
+      "python": "3.12.14",
+      "sympy": "1.13.3",
+      "runner": "GitHub Actions ubuntu-24.04"
+    },
+    "unit_tests": {
+      "passed": 4,
+      "failed": 0,
+      "errors": 0
+    },
+    "exact_structural_and_dag_checks": {
+      "passed": 28,
+      "failed": 0
+    },
+    "verified_obligations": [
+      "aberrated-direction unit norm",
+      "future-photon/outward-sky Doppler chart equivalence",
+      "two exact deaberration inverse coefficients",
+      "solid-angle Jacobian with Doppler power minus two",
+      "regular zero-boost coefficient limit one half",
+      "explicit symmetric rank-three STF tensor",
+      "rank-three trace freedom",
+      "ambient residual factor minus six fifths times (n.n-1) times (beta.Q.n)",
+      "unit-sphere dipole-plus-octupole decomposition",
+      "ten-node twelve-edge federation DAG",
+      "mandatory 02D-to-02E and 02E-to-02F edges",
+      "three-input manual synchronization gate"
+    ],
+    "hostile_controls_detected": [
+      "wrong Doppler sign",
+      "wrong solid-angle Jacobian power",
+      "wrong STF3 trace-subtraction coefficient",
+      "non-symmetric STF3 component injection",
+      "missing unit-sphere domain",
+      "omitted dipole",
+      "omitted octupole",
+      "missing 02D-to-02E dependency even though the mutant remains acyclic"
+    ]
+  },
+  "artifact": {
+    "workflow_run": 33616737402,
+    "artifact_id": 9841234285,
+    "artifact_name": "sync-map02d-sympy-crosscheck",
+    "size_bytes": 17605,
+    "archive_sha256": "daa020c9cc29eb4ba3b8e68963dcb29f71e0c6307f750d916068edddeeed3685",
+    "retention_expires_at": "2026-10-02T09:55:43Z",
+    "payload_file_count": 8,
+    "sha256sum_check": "PASS",
+    "payload": [
+      "GIT_OBJECT_MANIFEST.txt",
+      "HTTRelationClassification.wl",
+      "HTT_RELATION_CLASSIFICATION.json",
+      "SHA256SUMS",
+      "SYMPY_RESULTS.json",
+      "SYNCMAP02DHTTRelationClassification.wlt",
+      "sync_map02d_crosscheck_sympy.py",
+      "test_sync_map02d_sympy_crosscheck.py"
+    ]
+  },
+  "wolfram_independent_crosscheck": {
+    "environment": {
+      "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+      "system_id": "Linux-x86-64",
+      "xact_required": false
+    },
+    "first_attempt": {
+      "status": "FAIL_HARNESS_ASSOCIATIONMAP_AND_SINGULAR_LIMIT_REPRESENTATION",
+      "formula_failure": false,
+      "observed_formula_residuals_zero": 6,
+      "observed_registered_mutations_detected": 7,
+      "observed_dag_checks_true": 10,
+      "root_causes": [
+        "AssociationMap was applied to key-value rules rather than association values in the final aggregator",
+        "the removable zero-boost singularity was represented as the raw quotient and emitted Power::infy"
+      ]
+    },
+    "corrected_attempt": {
+      "status": "PASS",
+      "check_count": 27,
+      "failed_check_count": 0,
+      "exact_lorentz_residual_count": 6,
+      "exact_lorentz_residuals_zero": true,
+      "stf3_ambient_factor_match": true,
+      "registered_mutations_detected": 7,
+      "dag_checks_passed": 10,
+      "repair": "Map over association values and use the algebraically regularized zero-boost coefficient gamma^2/(gamma+1) before taking the limit"
+    },
+    "replay_class": "STATELESS_INDEPENDENT_EXPRESSION_RECONSTRUCTION_NOT_NATIVE_REPOSITORY_PACKAGE_REPLAY"
+  },
+  "cross_cas_consensus": {
+    "wolfram_status": "PASS_27_OF_27",
+    "sympy_status": "PASS_28_OF_28",
+    "formula_disagreement_count": 0,
+    "mutation_escape_count": 0,
+    "dag_disagreement_count": 0,
+    "conclusion": "The bounded Lorentz, explicit STF3, and federation-DAG obligations are independently reproduced in two CAS implementations. No formula-level blocker remains in SYNC-MAP-02D."
+  },
+  "literature_role": {
+    "authority_effect": "NONE",
+    "primary_regression_sources": [
+      {
+        "reference": "Dai and Chluba, Physical Review D 89, 123504 (2014)",
+        "doi": "10.1103/PhysRevD.89.123504",
+        "role": "exact full-sky Doppler-weight-one Lorentz/aberration regression"
+      },
+      {
+        "reference": "Ferreira and Quartin, Physical Review D 104, 063503 (2021)",
+        "doi": "10.1103/PhysRevD.104.063503",
+        "role": "realistic beam, noise, mask, and processed-estimator separation"
+      }
+    ],
+    "does_not_control": [
+      "project signs or chart orientation",
+      "formula ownership",
+      "Git identity",
+      "consumer implementation parity",
+      "scientific claim promotion"
+    ]
+  },
+  "technical_disposition": {
+    "prior_native_wolfram_gap": "CLOSED_BY_USER_AUTHORIZED_INDEPENDENT_CROSS_CAS_ALTERNATIVE",
+    "sync_map_02d_relation_payload": "PASS_BOUNDED",
+    "sync_map_02d_provenance_closeout": "PASS_BOUNDED",
+    "sync_map_02f_technical_precondition": "SATISFIED",
+    "recommended_next_node": "SYNC_MAP_02F_CROSS_REPOSITORY_SEMANTIC_GRAPH",
+    "manual_merge_or_ready_effect": "NONE"
+  },
+  "authorized_claims": [
+    "SYNC_MAP_02D_EXACT_RELATION_PAYLOAD_CROSS_VALIDATED",
+    "SYNC_MAP_02D_LORENTZ_STF3_AND_DAG_CROSS_CAS_CONSENSUS",
+    "SYNC_MAP_02D_BOUNDED_PROVENANCE_GAP_CLOSED",
+    "SYNC_MAP_02F_READY_TO_START_AS_A_SEPARATE_DRAFT_CHILD"
+  ],
+  "withheld_claims": [
+    "BASS_SHARED_FRAME_PHOTON_EXPORT_PROMOTION",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "CONSUMER_IMPLEMENTATION_PARITY",
+    "GLOBAL_MATTER_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "BACKGROUND_OR_MICROPHYSICS_PROVIDER_ADMISSION",
+    "NUMERICAL_PARITY",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "DATA_FITTING",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04",
+    "MERGE_OR_READY_TRANSITION"
+  ],
+  "authority_effect": "BOUNDED_TECHNICAL_DAG_ONLY",
+  "notes": [
+    "This receipt is append-only and does not rewrite the historical Wolfram receipt or its preserved failures.",
+    "The receipt commit follows the tested SymPy implementation commit and must not be represented as a replay of itself.",
+    "Cross-CAS agreement closes the formula-provenance blocker authorized by the user; it does not establish runtime or numerical equivalence in htt_base, rec_bianchi, or rei_bianchi."
+  ]
+}
