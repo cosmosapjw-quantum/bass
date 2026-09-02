@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R3_EXTERNAL_CAS_MATRIX",
+  "receipt_type": "EXECUTION_BLOCKER_FAILURE_PRESERVATION",
+  "status": "BLOCKED_EXTERNAL_CAS_EXECUTION_BY_HOSTED_RUNNER_ALLOCATION",
+  "authority_effect": "NONE",
+  "exact_source": {
+    "pull_request": 103,
+    "branch": "audit/sync-map02f-r3-external-cas-matrix-20260903-r1",
+    "implementation_commit": "4991a16dae2174626213acc6cbee0b7ffb0bc2bf",
+    "implementation_tree": "e5619d9c00968a9fb4d504f3705d4fe772a7e504",
+    "base_r2_red_commit": "bff74a1383f0d113621bd49936d2eebed3264707"
+  },
+  "tdd_red": {
+    "workflow_run": 33665275703,
+    "job": 100365361711,
+    "conclusion": "FAIL_EXPECTED",
+    "reason": "external CAS matrix, scripts, package probes and receipt verifier were deliberately absent"
+  },
+  "green_execution_attempts": [
+    {
+      "workflow_run": 33666841907,
+      "attempt": 1,
+      "conclusion": "failure",
+      "nondependent_job_count": 5,
+      "jobs_with_runner_id_zero": 5,
+      "jobs_with_empty_steps": 5,
+      "package_install_reached": false,
+      "formula_execution_reached": false
+    },
+    {
+      "workflow_run": 33666841907,
+      "attempt": 2,
+      "conclusion": "failure",
+      "nondependent_job_count": 5,
+      "jobs_with_runner_id_zero_or_null": 5,
+      "jobs_with_empty_steps": 5,
+      "package_install_reached": false,
+      "formula_execution_reached": false
+    },
+    {
+      "workflow_run": 33666841907,
+      "attempt": 3,
+      "conclusion": "failure",
+      "rerun_scope": "contract job requested; GitHub reconstructed the failed workflow attempt",
+      "jobs_with_runner_id_zero_or_null": 5,
+      "jobs_with_empty_steps": 5,
+      "package_install_reached": false,
+      "formula_execution_reached": false
+    }
+  ],
+  "cross_workflow_control": {
+    "same_head_unrelated_workflows_also_failed_before_steps": true,
+    "sync_map02f_r2_run": 33666841972,
+    "sync_map02f_r0_run": 33666841957,
+    "interpretation": "repository or account hosted-runner allocation failure rather than a package, script or formula result"
+  },
+  "package_axis_status": {
+    "maxima": "NOT_RUN",
+    "form": "NOT_RUN",
+    "ginac": "NOT_RUN",
+    "symengine": "NOT_RUN",
+    "z3": "NOT_RUN",
+    "symbolica": "NOT_RUN_EXPLORATORY",
+    "cadabra2": "NOT_RUN_EXPLORATORY",
+    "reduce": "NOT_RUN_EXPLORATORY"
+  },
+  "formula_disposition": {
+    "external_CAS_pass_claimed": false,
+    "external_CAS_failure_claimed": false,
+    "underlying_formula_failure": false,
+    "independent_axis_design_complete": true,
+    "independent_axis_execution_complete": false
+  },
+  "next_action": "execute the exact implementation commit or a normal descendant on an allocated Linux runner, preserve package/source hashes and inspect each engine receipt before aggregation",
+  "claim_boundary": "INFRASTRUCTURE_BLOCKER_ONLY_NO_EXTERNAL_CAS_PASS_NO_02F_CLOSEOUT_NO_CONSUMER_PARITY_PROVIDER_SOLVER_NUMERICAL_OR_SCIENCE_PROMOTION"
+}
