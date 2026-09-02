@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bass.master-ssot-v2.w3-xcoba-curvature-witness.v1",
+  "title": "BASS Master SSOT v2 W3 xCoba Curvature Witness Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "stage_id",
+    "summary",
+    "witnesses",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stage_id": {"const": "W3"},
+    "summary": {
+      "type": "object",
+      "required": [
+        "labels",
+        "all_pass",
+        "all_full_riemann_match",
+        "all_orthonormal_frames",
+        "component_shapes"
+      ],
+      "properties": {
+        "labels": {
+          "const": ["I", "V", "IX"]
+        },
+        "all_pass": {"type": "boolean"},
+        "all_full_riemann_match": {"type": "boolean"},
+        "all_orthonormal_frames": {"type": "boolean"},
+        "component_shapes": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "witnesses": {
+      "type": "object",
+      "required": ["I", "V", "IX"],
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "schema_version", "label", "status", "checks",
+          "component_shape", "chart_domain", "claim_boundary"
+        ],
+        "properties": {
+          "schema_version": {"const": "1.0.0"},
+          "label": {"enum": ["I", "V", "IX"]},
+          "status": {"enum": ["PASS", "FAIL", "BLOCKED"]},
+          "checks": {"type": "object"},
+          "component_shape": {
+            "type": "array",
+            "prefixItems": [
+              {"const": 3}, {"const": 3}, {"const": 3}, {"const": 3}
+            ],
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "chart_domain": {"type": "string"},
+          "coordinate_metric": {"type": "string"},
+          "claim_boundary": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "claim_boundary": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}
