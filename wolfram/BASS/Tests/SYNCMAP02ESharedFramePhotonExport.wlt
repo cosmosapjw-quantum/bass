@@ -126,28 +126,46 @@ VerificationTest[
  TestID -> "BASS-SYNC-MAP-02E-frame-background-export-firewall"
 ]
 
+$SYNCMap02EHashByID = AssociationThread[
+ Lookup[$SYNCMap02EExport["formulas"], "formula_id"],
+ Lookup[$SYNCMap02EExport["formulas"], "semantic_hash"]
+];
+
 VerificationTest[
- Lookup[
-  AssociationThread[
-   Lookup[$SYNCMap02EExport["formulas"], "formula_id"],
-   Lookup[$SYNCMap02EExport["formulas"], "semantic_hash"]
-  ],
-  "BASS.FRAME.DOPPLER_FACTOR.001"
- ],
- "8edafe532eb85b3fcd8076d631ba067e2d2e38aaec97aba67b9707bcaf73e684",
+ Lookup[$SYNCMap02EHashByID, "BASS.FRAME.ABERRATED_DIRECTION.001"],
+ "b781f0b5aa4a7239867cf4868aa56feced4ca932f7b3697eb09063317fffbad3",
+ TestID -> "BASS-SYNC-MAP-02E-aberration-semantic-hash"
+]
+
+VerificationTest[
+ Lookup[$SYNCMap02EHashByID,
+  "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"],
+ "f9cd508f65bdfdccafd90d0fb64f94821d29a3dc3e9bd956463e9ed28a4063cc",
+ TestID -> "BASS-SYNC-MAP-02E-temperature-semantic-hash"
+]
+
+VerificationTest[
+ Lookup[$SYNCMap02EHashByID, "BASS.FRAME.DOPPLER_FACTOR.001"],
+ "bf2b4d41eb7b0b837be778e1debb15efec50a1b0bacd36e08b0d8098243aed16",
  TestID -> "BASS-SYNC-MAP-02E-doppler-semantic-hash"
 ]
 
 VerificationTest[
- Lookup[
-  AssociationThread[
-   Lookup[$SYNCMap02EExport["formulas"], "formula_id"],
-   Lookup[$SYNCMap02EExport["formulas"], "semantic_hash"]
-  ],
-  "BASS.PHOTON.DIRECTION_FLOW.001"
- ],
+ Lookup[$SYNCMap02EHashByID, "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001"],
+ "916650d0349ad00760f0dee0b96da9adc2013d63fb2352dabe4581d521b482fd",
+ TestID -> "BASS-SYNC-MAP-02E-solid-angle-semantic-hash"
+]
+
+VerificationTest[
+ Lookup[$SYNCMap02EHashByID, "BASS.PHOTON.DIRECTION_FLOW.001"],
  "cc374ce0e278e0683d7744c97896dcb1a2061e92c795a338cfea6d24e8f862b8",
  TestID -> "BASS-SYNC-MAP-02E-direction-flow-semantic-hash"
+]
+
+VerificationTest[
+ Lookup[$SYNCMap02EHashByID, "BASS.PHOTON.ENERGY_DRIFT.001"],
+ "d84e8d3ad0c926975069239817d1374d1e8921e07f8dd63b7ad3619b1cfcc42c",
+ TestID -> "BASS-SYNC-MAP-02E-energy-drift-semantic-hash"
 ]
 
 VerificationTest[
