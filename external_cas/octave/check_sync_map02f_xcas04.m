@@ -34,13 +34,14 @@ for k = 1:sample_count
   hostile_sign_signal = max(hostile_sign_signal, abs(doppler_source - gamma * (1.0 - beta * mu)));
 
   % Full d=1 blackbody pullback generator versus Doppler-only primitive.
+  % A complex-step derivative avoids subtractive cancellation.
   x = mu;
-  h = 1.0e-7;
+  h = 1.0e-20;
   source_temperature = @(z) 2.0 + 0.3 * z + 0.2 * z.^2 + 0.05 * z.^3;
   source_temperature_prime = @(z) 0.3 + 0.4 * z + 0.15 * z.^2;
   full_pullback = @(bb) (1.0 / ((1.0 / sqrt(1.0 - bb * bb)) * (1.0 - bb * x))) * ...
     source_temperature((x - bb) / (1.0 - bb * x));
-  numeric_generator = (full_pullback(h) - full_pullback(-h)) / (2.0 * h);
+  numeric_generator = imag(full_pullback(1i * h)) / h;
   exact_generator = x * source_temperature(x) - (1.0 - x * x) * source_temperature_prime(x);
   doppler_only_generator = x * source_temperature(x);
 
@@ -105,7 +106,11 @@ status = (
 );
 
 receipt = struct();
-receipt.status = ternary(status, 'PASS', 'FAIL');
+if status
+  receipt.status = 'PASS';
+else
+  receipt.status = 'FAIL';
+endif
 receipt.engine = 'GNU Octave';
 receipt.engine_role = 'INDEPENDENT_NUMERICAL_AND_MATRIX_ORACLE_NOT_SYMBOLIC_CAS';
 receipt.samples = sample_count;
@@ -126,11 +131,3 @@ disp(jsonencode(receipt));
 if !status
   exit(1);
 endif
-
-function out = ternary(condition, yes_value, no_value)
-  if condition
-    out = yes_value;
-  else
-    out = no_value;
-  endif
-endfunction
