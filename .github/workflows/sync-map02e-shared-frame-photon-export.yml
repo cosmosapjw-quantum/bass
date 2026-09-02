@@ -31,7 +31,7 @@ jobs:
           python-version: "3.12"
       - name: Print semantic-hash diagnostics
         shell: bash
-        run: python scripts/diagnose_sync_map02e_hashes.py || true
+        run: python -m scripts.diagnose_sync_map02e_hashes || true
       - name: Run mutation-sensitive stdlib tests
         run: python -m unittest -v tests/test_sync_map02e_shared_export.py
       - name: Run fail-closed shared-export verifier
