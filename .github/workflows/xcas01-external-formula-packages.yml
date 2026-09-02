@@ -27,6 +27,7 @@ jobs:
           python -m json.tool docs/bass_master_ssot_v2/XCAS_01/PACKAGE_PLAN.json >/dev/null
           python -m json.tool docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json >/dev/null
           python -m json.tool docs/bass_master_ssot_v2/XCAS_01/OGRE_WOLFRAM_RECEIPT.json >/dev/null
+          python -m json.tool docs/bass_master_ssot_v2/XCAS_01/GENERAL_RELATIVITY_TENSORS_RECEIPT.json >/dev/null
 
   python-packages:
     name: python-${{ matrix.backend }}
@@ -266,10 +267,13 @@ jobs:
         run: |
           mkdir -p /tmp/xcas01-collected/wolfram-packages/stensor
           mkdir -p /tmp/xcas01-collected/wolfram-packages/ogre
+          mkdir -p /tmp/xcas01-collected/wolfram-packages/general-relativity-tensors
           cp docs/bass_master_ssot_v2/XCAS_01/STENSOR_WOLFRAM_RECEIPT.json \
              /tmp/xcas01-collected/wolfram-packages/stensor/receipt.json
           cp docs/bass_master_ssot_v2/XCAS_01/OGRE_WOLFRAM_RECEIPT.json \
              /tmp/xcas01-collected/wolfram-packages/ogre/receipt.json
+          cp docs/bass_master_ssot_v2/XCAS_01/GENERAL_RELATIVITY_TENSORS_RECEIPT.json \
+             /tmp/xcas01-collected/wolfram-packages/general-relativity-tensors/receipt.json
       - name: Aggregate without relabelling blockers
         run: |
           python scripts/external_formula_packages/aggregate_receipts.py \
