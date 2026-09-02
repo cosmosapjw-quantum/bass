@@ -21,7 +21,8 @@ Module[{root, sources},
    FileNameJoin[{root, "Geometry", "LeviCivitaConnection.wl"}],
    FileNameJoin[{root, "Geometry", "ONFConnectionCurvature.wl"}],
    FileNameJoin[{root, "Geometry", "XCobaCurvatureWitnesses.wl"}],
-   FileNameJoin[{root, "IR", "SemanticFormulaExport.wl"}]
+   FileNameJoin[{root, "IR", "SemanticFormulaExport.wl"}],
+   FileNameJoin[{root, "IR", "RECRelationClassification.wl"}]
  };
  Scan[Get, sources];
 ]
