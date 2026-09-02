@@ -34,6 +34,51 @@ If[$SYNCMAP02DAPIsPresent,
  ];
 
  VerificationTest[
+  Length[Lookup[$SYNCMAP02DLorentz, "residuals", <||>]],
+  6,
+  TestID -> "BASS-SYNC-MAP-02D-EXACT-RESIDUAL-COUNT-001"
+ ];
+
+ VerificationTest[
+  KeyFreeQ[
+   Lookup[$SYNCMAP02DLorentz, "residuals", <||>],
+   "quadrupole_l1_l3_decomposition"
+  ],
+  True,
+  TestID -> "BASS-SYNC-MAP-02D-NO-TAUTOLOGICAL-STF3-SURROGATE-001"
+ ];
+
+ VerificationTest[
+  And @@ Lookup[
+    Lookup[$SYNCMAP02DLorentz, "structural_checks", <||>],
+    {
+     "stf3_symmetric",
+     "stf3_trace_free",
+     "stf3_ambient_factor_matches",
+     "stf3_unit_sphere_residual",
+     "stf3_unit_sphere_domain_required"
+    },
+    False
+  ],
+  True,
+  TestID -> "BASS-SYNC-MAP-02D-EXPLICIT-STF3-PROOF-001"
+ ];
+
+ VerificationTest[
+  And @@ Lookup[
+    Lookup[$SYNCMAP02DLorentz, "mutations", <||>],
+    {
+     "wrong_stf3_trace_coefficient_detected",
+     "non_symmetric_stf3_detected",
+     "missing_unit_sphere_domain_detected"
+    },
+    False
+  ],
+  True,
+  TestID -> "BASS-SYNC-MAP-02D-STF3-MUTATIONS-001"
+ ];
+
+ VerificationTest[
   And @@ Values[Lookup[$SYNCMAP02DLorentz, "mutations", <||>]],
   True,
   TestID -> "BASS-SYNC-MAP-02D-LORENTZ-MUTATIONS-001"
