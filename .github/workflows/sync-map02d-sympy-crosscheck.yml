@@ -1,0 +1,83 @@
+name: sync-map02d-sympy-crosscheck
+
+on:
+  pull_request:
+    branches:
+      - research/bass-master-ssot-v2-sync-map02d-htt-relations-20260902-r1
+    paths:
+      - 'scripts/sync_map02d_crosscheck_sympy.py'
+      - 'tests/test_sync_map02d_sympy_crosscheck.py'
+      - 'docs/bass_master_ssot_v2/SYNC_MAP_02D/**'
+      - 'wolfram/BASS/Kernel/IR/HTTRelationClassification.wl'
+      - 'wolfram/BASS/Tests/SYNCMAP02DHTTRelationClassification.wlt'
+      - '.github/workflows/sync-map02d-sympy-crosscheck.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-crosscheck-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install independent CAS
+        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+
+      - name: Run RED/GREEN contract tests
+        run: python -m unittest -v tests/test_sync_map02d_sympy_crosscheck.py
+
+      - name: Run independent exact oracle
+        run: |
+          mkdir -p artifacts/sync_map02d_sympy_crosscheck
+          python scripts/sync_map02d_crosscheck_sympy.py \
+            > artifacts/sync_map02d_sympy_crosscheck/SYMPY_RESULTS.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('artifacts/sync_map02d_sympy_crosscheck/SYMPY_RESULTS.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['status'] == 'PASS', data
+          assert data['failure_count'] == 0, data
+          print(f"PASS {data['check_count']} exact/structural/DAG checks")
+          PY
+
+      - name: Build independently replayable packet
+        run: |
+          packet=artifacts/sync_map02d_sympy_crosscheck
+          cp scripts/sync_map02d_crosscheck_sympy.py "$packet/"
+          cp tests/test_sync_map02d_sympy_crosscheck.py "$packet/"
+          cp docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json "$packet/"
+          cp wolfram/BASS/Kernel/IR/HTTRelationClassification.wl "$packet/"
+          cp wolfram/BASS/Tests/SYNCMAP02DHTTRelationClassification.wlt "$packet/"
+          printf '%s\n' \
+            'tested_commit=7006aaab27834af37d5034f8f1e50943fe85c0f3' \
+            'tested_tree=4bfccafb3da7c6d0e720dc55171b832f7b919085' \
+            'classification_blob=9ce25902c5ec271908c5f73f76d60d180843fa9d' \
+            'wolfram_module_blob=042d60c4655ecd17f8aa42f28ba6de097a8387e2' \
+            'wolfram_test_blob=d94958e55c5b3d91f40137f2bfef89af50150055' \
+            > "$packet/GIT_OBJECT_MANIFEST.txt"
+          (
+            cd "$packet"
+            find . -maxdepth 1 -type f ! -name SHA256SUMS -printf '%f\n' \
+              | LC_ALL=C sort \
+              | xargs sha256sum > SHA256SUMS
+          )
+
+      - name: Verify packet checksums
+        run: (cd artifacts/sync_map02d_sympy_crosscheck && sha256sum -c SHA256SUMS)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02d-sympy-crosscheck
+          path: artifacts/sync_map02d_sympy_crosscheck
+          if-no-files-found: error
+          retention-days: 30
