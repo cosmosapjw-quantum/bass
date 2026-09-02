@@ -3,12 +3,17 @@ name: sync-map01c-geometry-composition
 on:
   pull_request:
     paths:
-      - "wolfram/BASS/Kernel/Authority/Dimensions.wl"
-      - "wolfram/BASS/Kernel/Geometry/**"
+      - "wolfram/BASS/Kernel/**"
+      - "wolfram/BASS/Tests/W0Environment.wlt"
+      - "wolfram/BASS/Tests/W1Conventions.wlt"
+      - "wolfram/BASS/Tests/ALG01BianchiAlgebra.wlt"
+      - "wolfram/BASS/Tests/ALG01R1ExceptionalAndCovariance.wlt"
+      - "wolfram/BASS/Tests/ALG01R2ExactIdentityAndCarriers.wlt"
+      - "wolfram/BASS/Tests/GEO02CartanConnection.wlt"
+      - "wolfram/BASS/Tests/GEO02R2ConnectionComposition.wlt"
       - "wolfram/BASS/Tests/W2AbstractGeometry.wlt"
       - "wolfram/BASS/Tests/W3ONFCurvature.wlt"
       - "wolfram/BASS/Tests/SYNCMAP01CGeometryComposition.wlt"
-      - "wolfram/BASS/Kernel/init.wl"
       - "wolfram/PacletInfo.wl"
       - "wolfram/schemas/abstract-1plus3-model.schema.json"
       - "wolfram/schemas/w3-xcoba-curvature-witness.schema.json"
@@ -45,7 +50,7 @@ jobs:
           done
       - name: Python syntax
         run: python -m py_compile tests/test_sync_map01c_geometry_composition.py
-      - name: Build exact source manifest
+      - name: Build independently replayable exact source packet
         shell: bash
         run: |
           set -euo pipefail
@@ -55,24 +60,37 @@ jobs:
           import subprocess
           from pathlib import Path
 
+          test_names = [
+              "W0Environment.wlt",
+              "W1Conventions.wlt",
+              "ALG01BianchiAlgebra.wlt",
+              "ALG01R1ExceptionalAndCovariance.wlt",
+              "ALG01R2ExactIdentityAndCarriers.wlt",
+              "GEO02CartanConnection.wlt",
+              "GEO02R2ConnectionComposition.wlt",
+              "W2AbstractGeometry.wlt",
+              "W3ONFCurvature.wlt",
+              "SYNCMAP01CGeometryComposition.wlt",
+          ]
           paths = [
               Path("wolfram/PacletInfo.wl"),
-              Path("wolfram/BASS/Kernel/init.wl"),
-              Path("wolfram/BASS/Kernel/Authority/Dimensions.wl"),
-              *sorted(Path("wolfram/BASS/Kernel/Geometry").glob("*.wl")),
-              Path("wolfram/BASS/Tests/W2AbstractGeometry.wlt"),
-              Path("wolfram/BASS/Tests/W3ONFCurvature.wlt"),
-              Path("wolfram/BASS/Tests/SYNCMAP01CGeometryComposition.wlt"),
+              *sorted(Path("wolfram/BASS/Kernel").rglob("*.wl")),
+              *(Path("wolfram/BASS/Tests") / name for name in test_names),
               Path("wolfram/scripts/run_sync_map01c_geometry.wls"),
               Path("wolfram/schemas/abstract-1plus3-model.schema.json"),
               Path("wolfram/schemas/w3-xcoba-curvature-witness.schema.json"),
               Path("tests/test_sync_map01c_geometry_composition.py"),
           ]
-          unique = sorted({path for path in paths if path.is_file()}, key=lambda p: p.as_posix())
+          missing = [path.as_posix() for path in paths if not path.is_file()]
+          if missing:
+              raise SystemExit("MISSING_REPLAY_SOURCE: " + ", ".join(missing))
+          unique = sorted(set(paths), key=lambda path: path.as_posix())
           entries = []
           for path in unique:
               data = path.read_bytes()
-              blob = subprocess.check_output(["git", "hash-object", str(path)], text=True).strip()
+              blob = subprocess.check_output(
+                  ["git", "hash-object", str(path)], text=True
+              ).strip()
               entries.append({
                   "path": path.as_posix(),
                   "size": len(data),
@@ -82,16 +100,23 @@ jobs:
           payload = {
               "schema_version": "1.0.0",
               "stage_id": "SYNC_MAP_01C_GEOMETRY_LINEAGE_COMPOSITION",
-              "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
-              "source_tree": subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], text=True).strip(),
+              "source_commit": subprocess.check_output(
+                  ["git", "rev-parse", "HEAD"], text=True
+              ).strip(),
+              "source_tree": subprocess.check_output(
+                  ["git", "rev-parse", "HEAD^{tree}"], text=True
+              ).strip(),
               "file_count": len(entries),
               "files": entries,
+              "test_files": test_names,
+              "replay_entrypoint": "wolfram/scripts/run_sync_map01c_geometry.wls",
               "claim_boundary": "SOURCE_PACKET_IDENTITY_ONLY_NO_WOLFRAM_OR_SCIENCE_PASS",
           }
           out = Path("sync-map01c-source-packet")
           out.mkdir()
           (out / "SOURCE_MANIFEST.json").write_text(
-              json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+              json.dumps(payload, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
           )
           for path in unique:
               target = out / path
