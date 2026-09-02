@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC-MAP-01R1",
+  "status": "PASS_EXPECTED_CONTRACT_FAILURE_OBSERVED",
+  "control_parent": "336a91ad22a5489b270043a12663375ff4158558",
+  "red_sequence": [
+    {
+      "commit": "fb1ddc6ca600438f97ad553cace5cb450030aa1b",
+      "verifier_blob": "24b62301d29cd406ee5d9fbfe88c1511bcdbff3f",
+      "source_map_present": false,
+      "input": "empty association",
+      "result": "FAIL",
+      "failed_contract_checks": 15,
+      "diagnostic": "Expected family inventory, ownership, source classes and claim firewalls were absent."
+    },
+    {
+      "commit": "4e1e4d3bc23a73c61f98d503ab1725af064b6432",
+      "verifier_blob": "0d7a8dff05308669cae055ccc6f3845e789d4cfa",
+      "change_class": "SOFTWARE_CONTRACT_REPAIR_ONLY",
+      "change": "Invalid and empty records now fail structurally without Lookup/Union path warnings.",
+      "physics_or_dag_change": false,
+      "result_on_empty_input": "FAIL_AS_REQUIRED"
+    }
+  ],
+  "green_source_map_commit": "2db90978f50aff85f30148e35dbbb180f50620db",
+  "expected_green_condition": "15 unique BASS owner-family records with exact source classes, held-sibling firewall, scope exclusions and no scientific promotion",
+  "claim_boundary": "TDD_CONTRACT_EVIDENCE_ONLY_NO_SOURCE_EQUIVALENCE_OR_SCIENCE_PROMOTION"
+}
