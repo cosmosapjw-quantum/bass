@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.2",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "status": "PASS_WITH_PRESERVED_HARNESS_FAILURES_AND_RESTORED_FIX2_REPLAY",
+  "authority_effect": "NONE",
+  "engine": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "xact_required": false
+  },
+  "algebra_and_initial_graph": {
+    "first_attempt": {
+      "status": "FAIL_HARNESS_JACOBIAN_CHECK_ONLY_14_OF_15",
+      "root_cause": "Malformed Wolfram derivative-construction expression.",
+      "physics_changed": false
+    },
+    "final_attempt": {
+      "status": "PASS_15_OF_15",
+      "electron_density_jacobian": ["n_H","n_He","2 n_He"],
+      "heiii_wrong_charge_residual": "n_He x_HeIII",
+      "future_thomson_interface_dimension": "L^-1",
+      "initial_impact_graph_nodes": 14,
+      "initial_impact_graph_edges": 13,
+      "initial_impact_graph_acyclic": true,
+      "initial_graph_inputform_sha256": "42d69bdff4bcdea946f8c1a6d34d7de7d986b95887c78dda44b4933dc8f47bd8"
+    }
+  },
+  "angular_moment_interface_audit": {
+    "first_attempt": {
+      "status": "FAIL_HARNESS_NONZERO_PREDICATE_ONLY_5_OF_6",
+      "root_cause": "A symbolic equality was wrapped in Not instead of testing the expression with PossibleZeroQ.",
+      "explicit_counterexample_already_passed": true,
+      "physics_changed": false
+    },
+    "final_attempt": {
+      "status": "PASS_6_OF_6",
+      "isotropic_identity": "<sigma_ab e^a e^b>_iso=0",
+      "quadrupole_identity": "<(sigma_ab e^a e^b)(Q_cd e^c e^d)>=2 sigma_ab Q^ab/15",
+      "explicit_counterexample": {
+        "sigma": "diag(1,-1,0)",
+        "Q": "diag(2,-1,-1)",
+        "value": "2/5"
+      },
+      "claim_effect": "NARROW_H_ONLY_GROUP_REDSHIFT_TO_FLRW_OR_ISOTROPIC_ANGULAR_SUBSPACE"
+    }
+  },
+  "raw_github_import": {
+    "status": "ENVIRONMENT_GAP_RAW_GITHUB_IMPORT",
+    "promoted_to_pass": false
+  },
+  "dropbox_restored_replays": [
+    {
+      "file_id": "id:BSpOijBcT10AAAAAADlSZw",
+      "status": "PASS_26_OF_26_SUPERSEDED_CANDIDATE",
+      "byte_count": 8923,
+      "raw_sha256": "28b320f472ce96f54349e7d3e82ef65635bcf223f1e157e3ce5064d1c5b9f023"
+    },
+    {
+      "file_id": "id:BSpOijBcT10AAAAAADlSaA",
+      "status": "PASS_24_OF_24_SUPERSEDED_FIX1",
+      "byte_count": 5086,
+      "raw_sha256": "b91b3299a3be455ab2948427df2a6f07ba70097612d01979cd18958e6cb186f9"
+    },
+    {
+      "file_id": "id:BSpOijBcT10AAAAAADlSaQ",
+      "status": "PASS_DROPBOX_RESTORED_SYNC_MAP_02C_FIX2",
+      "checks_passed": 29,
+      "checks_failed": 0,
+      "byte_count": 5833,
+      "raw_sha256": "ed2db72c15461886d99e366a4d6fbddae7fba58f1a56a8c4a9b36dc33be86661",
+      "delta_dag_nodes": 6,
+      "delta_dag_edges": 5,
+      "delta_dag_acyclic": true
+    }
+  ],
+  "python_verifier": {
+    "path": "scripts/verify_sync_map02c_rei_relations.py",
+    "status": "NOT_RUN_ENVIRONMENT_CLIENT_ERROR",
+    "promoted_to_pass": false
+  },
+  "final_claim_boundary": "FORMULA_RELATION_AND_INTERFACE_CLASSIFICATION_ONLY_NO_GENERIC_BIANCHI_GROUP_TRANSPORT_BACKGROUND_LOCK_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}
