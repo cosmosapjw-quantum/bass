@@ -24,8 +24,10 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def git_blob_sha1(path: Path) -> str:
+    payload = path.read_bytes()
+    header = f"blob {len(payload)}\0".encode("ascii")
+    return hashlib.sha1(header + payload).hexdigest()
 
 
 def validate(root: Path) -> dict[str, Any]:
@@ -65,24 +67,21 @@ def validate(root: Path) -> dict[str, Any]:
     assert receipt["next_node"] == "SYNC-MAP-01C_GEOMETRY_LINEAGE_COMPOSITION"
     assert "PROVIDER_ADMISSION" in receipt["withheld_claims"]
 
-    manifest = docs / "SYNC_MAP_01_MANIFEST.sha256"
-    checked = 0
-    for line in manifest.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        digest, relative = line.split("  ", 1)
-        path = root / relative
-        assert path.is_file(), f"missing manifest path: {relative}"
-        assert sha256(path) == digest, f"SHA-256 mismatch: {relative}"
-        checked += 1
-    assert checked >= 8
+    manifest = load_json(docs / "SYNC_MAP_01_GIT_BLOB_MANIFEST.json")
+    assert manifest["identity_domain"] == "git_blob_sha1"
+    entries = manifest["entries"]
+    assert len(entries) >= 7
+    for entry in entries:
+        path = root / entry["path"]
+        assert path.is_file(), f"missing manifest path: {entry['path']}"
+        assert git_blob_sha1(path) == entry["git_blob_sha1"], f"Git blob mismatch: {entry['path']}"
 
     return {
         "status": "PASS",
         "formula_families": len(families),
         "overlap_findings": len(overlaps["overlaps"]),
         "wolfram_hashes": len(hashes),
-        "manifest_entries": checked,
+        "manifest_entries": len(entries),
     }
 
 

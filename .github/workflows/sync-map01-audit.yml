@@ -41,8 +41,18 @@ jobs:
           for file in docs/bianchi_program/SYNC_MAP_01_*.json; do
             python -m json.tool "$file" >/dev/null
           done
-      - name: Verify manifest independently
+      - name: Verify Git-blob manifest independently
         shell: bash
         run: |
           set -euo pipefail
-          sha256sum -c docs/bianchi_program/SYNC_MAP_01_MANIFEST.sha256
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          manifest = json.loads(Path("docs/bianchi_program/SYNC_MAP_01_GIT_BLOB_MANIFEST.json").read_text())
+          assert manifest["identity_domain"] == "git_blob_sha1"
+          for entry in manifest["entries"]:
+              actual = subprocess.check_output(["git", "hash-object", entry["path"]], text=True).strip()
+              assert actual == entry["git_blob_sha1"], (entry["path"], actual, entry["git_blob_sha1"])
+          print(f"GIT_BLOB_IDENTITY_PASS={len(manifest['entries'])}")
+          PY
