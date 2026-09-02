@@ -18,6 +18,7 @@ EXPECTED_ATTEMPTS = {
     "maxima",
     "reduce",
     "BowenPing/STensor",
+    "OGRe",
 }
 
 
