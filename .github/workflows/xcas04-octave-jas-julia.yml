@@ -1,0 +1,27 @@
+name: xcas04-octave-jas-julia
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/xcas04-octave-jas-julia.yml'
+      - 'external_cas/octave/**'
+      - 'external_cas/jas/**'
+      - 'external_cas/julia/**'
+      - 'docs/bass_master_ssot_v2/SYNC_MAP_02F/XCAS04_*'
+      - 'scripts/verify_xcas04_octave_jas_julia_receipts.py'
+      - 'tests/test_xcas04_octave_jas_julia_contract.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-red:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Run XCAS-04 contract
+        run: python -m unittest -v tests/test_xcas04_octave_jas_julia_contract.py
