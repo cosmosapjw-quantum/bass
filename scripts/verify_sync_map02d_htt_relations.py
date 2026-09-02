@@ -42,6 +42,25 @@ EXPECTED_REC_ONLY = {
     "BASS.PHOTON.DIRECTION_FLOW.001",
     "BASS.PHOTON.ENERGY_DRIFT.001",
 }
+HISTORICAL_ORACLE_PATH = "htt/obsstat/boost_biposh_residual.py"
+HISTORICAL_ORACLE_DIGEST = "98c757a315876cc9891fcc05b77e9e70b1921605"
+EXPECTED_PARITY_ORACLE_PATHS = [
+    "htt/obsstat/processed_boost_parity.py",
+    HISTORICAL_ORACLE_PATH,
+]
+EXPECTED_STF3_STRUCTURAL = {
+    "stf3_symmetric",
+    "stf3_trace_free",
+    "stf3_ambient_factor_matches",
+    "stf3_unit_sphere_residual",
+    "stf3_unit_sphere_domain_required",
+}
+EXPECTED_STF3_MUTATIONS = {
+    "wrong_stf3_trace_coefficient_detected",
+    "non_symmetric_stf3_detected",
+    "missing_unit_sphere_domain_detected",
+}
+EXPECTED_STF3_AMBIENT_RESIDUAL = "-(6/5)(n.n-1)(beta.Q.n)"
 EXPECTED_WITHHELD = {
     "BASS_SHARED_FRAME_PHOTON_EQUATIONIR_EXPORT",
     "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
@@ -135,8 +154,9 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
         require(data.get("htt_lineages", {}).get(lane, {}).get("commit") == head, f"moved HTT {lane} head")
 
     sources = data.get("exact_htt_sources")
-    require(isinstance(sources, list) and len(sources) == 8, "expected eight exact HTT source pins")
+    require(isinstance(sources, list), "exact HTT source pins must be a list")
     source_paths: set[str] = set()
+    source_digests: dict[str, str] = {}
     for source in sources:
         require(isinstance(source, dict), "source pin must be an object")
         path = source.get("path")
@@ -145,6 +165,13 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
         require(path not in source_paths, f"duplicate HTT source path: {path}")
         require(isinstance(digest, str) and HEX40.fullmatch(digest) is not None, f"invalid Git blob SHA-1 for {path}")
         source_paths.add(path)
+        source_digests[path] = digest
+    require(HISTORICAL_ORACLE_PATH in source_paths, "historical fixed-axis oracle pin is missing")
+    require(
+        source_digests[HISTORICAL_ORACLE_PATH] == HISTORICAL_ORACLE_DIGEST,
+        "historical fixed-axis oracle digest drifted",
+    )
+    require(len(sources) == 9, "expected nine exact HTT source pins")
 
     relations = data.get("relations")
     require(isinstance(relations, list) and len(relations) == 12, "expected twelve relation records")
@@ -153,6 +180,16 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     require(len(ids) == len(set(ids)), "relation IDs are not unique")
     require(len(formulas) == len(set(formulas)), "formula IDs are not unique")
     require(all(row.get("source_path") in source_paths for row in relations), "relation references an unpinned source")
+    parity_relations = [row for row in relations if row.get("relation_id") == "HTT-R11"]
+    require(len(parity_relations) == 1, "historical parity relation is missing or duplicated")
+    require(
+        parity_relations[0].get("oracle_source_paths") == EXPECTED_PARITY_ORACLE_PATHS,
+        "historical parity relation does not bind wrapper and implementation",
+    )
+    require(
+        all(path in source_paths for path in EXPECTED_PARITY_ORACLE_PATHS),
+        "historical parity relation references an unpinned oracle source",
+    )
 
     observed_classes = Counter(row.get("relation") for row in relations)
     require(dict(observed_classes) == EXPECTED_CLASSES, f"relation class counts drifted: {dict(observed_classes)}")
@@ -182,8 +219,30 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     corrected = checks.get("corrected_run", {})
     require(corrected.get("status") == "PASS", "corrected Wolfram run is not PASS")
     require(all(value == 0 for value in corrected.get("residuals", {}).values()), "nonzero Wolfram exact residual")
-    require(all(value is True for value in corrected.get("structural_checks", {}).values()), "failed Wolfram structural check")
+    symbolic = corrected.get("symbolic_residuals", {})
+    require(
+        symbolic.get("stf3_ambient_domain_residual") == EXPECTED_STF3_AMBIENT_RESIDUAL,
+        "STF3 ambient-domain residual drifted",
+    )
+    structural = corrected.get("structural_checks", {})
+    require(
+        EXPECTED_STF3_STRUCTURAL <= set(structural),
+        "explicit STF3 proof obligations are incomplete",
+    )
+    require(
+        all(structural.get(key) is True for key in EXPECTED_STF3_STRUCTURAL),
+        "explicit STF3 proof failed",
+    )
+    require(all(value is True for value in structural.values()), "failed Wolfram structural check")
     mutations = checks.get("hostile_mutations", {})
+    require(
+        EXPECTED_STF3_MUTATIONS <= set(mutations),
+        "STF3 hostile mutation obligations are incomplete",
+    )
+    require(
+        all(mutations.get(key) is True for key in EXPECTED_STF3_MUTATIONS),
+        "STF3 hostile mutation escaped detection",
+    )
     mutation_keys = [
         "wrong_doppler_sign_detected",
         "wrong_jacobian_power_detected",
