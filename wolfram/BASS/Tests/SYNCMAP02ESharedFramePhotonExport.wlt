@@ -1,9 +1,16 @@
-Module[{root, init, exportPath},
+Module[{root, init, exportPath, minimalSources},
  root = Nest[DirectoryName, $InputFileName, 4];
  init = FileNameJoin[{root, "wolfram", "BASS", "Kernel", "init.wl"}];
  exportPath = FileNameJoin[{root, "docs", "bass_master_ssot_v2", "SYNC_MAP_02E",
     "BASS_SHARED_FRAME_PHOTON_EXPORT.json"}];
- Get[init];
+ minimalSources = FileNameJoin[{root, #}] & /@ {
+    "wolfram/BASS/Kernel/IR/CanonicalSerialization.wl",
+    "wolfram/BASS/Kernel/IR/ExactScalarAST.wl",
+    "wolfram/BASS/Kernel/IR/EquationIR.wl",
+    "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl",
+    "wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl"
+   };
+ If[FileExistsQ[init], Get[init], Scan[Get, minimalSources]];
  $SyncMap02EData = Import[exportPath, "RawJSON"];
 ];
 
