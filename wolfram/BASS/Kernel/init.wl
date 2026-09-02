@@ -15,7 +15,9 @@ Module[{root, sources},
    FileNameJoin[{root, "Geometry", "FrameCovariance.wl"}],
    FileNameJoin[{root, "Bianchi", "TypeSpec.wl"}],
    FileNameJoin[{root, "Bianchi", "Witnesses.wl"}],
-   FileNameJoin[{root, "Geometry", "LeviCivitaConnection.wl"}]
+   FileNameJoin[{root, "Geometry", "LeviCivitaConnection.wl"}],
+   FileNameJoin[{root, "Geometry", "SpatialCurvature.wl"}],
+   FileNameJoin[{root, "Geometry", "SpatialCurvatureXCobaWitnesses.wl"}]
  };
  Scan[Get, sources];
 ]
