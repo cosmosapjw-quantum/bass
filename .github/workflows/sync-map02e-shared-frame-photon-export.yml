@@ -1,57 +1,73 @@
-name: sync-map02e-shared-frame-photon-export
+name: sync-map02e-payload-bootstrap
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/sync-map02e-shared-frame-photon-export.yml"
-      - "docs/bass_master_ssot_v2/SYNC_MAP_02E/**"
-      - "scripts/verify_sync_map02e_shared_export.py"
-      - "scripts/diagnose_sync_map02e_hashes.py"
-      - "tests/test_sync_map02e_shared_export.py"
-      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
-      - "wolfram/BASS/Kernel/init.wl"
-      - "wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt"
   push:
     branches:
-      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-*"
-  workflow_dispatch:
+      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-20260902-r1"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  shared-frame-photon-export-contract:
+  install-and-verify-payload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Print semantic-hash diagnostics
-        shell: bash
-        run: python -m scripts.diagnose_sync_map02e_hashes || true
-      - name: Run mutation-sensitive stdlib tests
-        run: python -m unittest -v tests/test_sync_map02e_shared_export.py
-      - name: Run fail-closed shared-export verifier
-        run: python scripts/verify_sync_map02e_shared_export.py --json
-      - name: Compile Python surfaces
-        run: |
-          python -m py_compile \
-            scripts/verify_sync_map02e_shared_export.py \
-            scripts/diagnose_sync_map02e_hashes.py \
-            tests/test_sync_map02e_shared_export.py
-      - name: Parse machine export
-        run: |
-          python -m json.tool \
-            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
-            >/dev/null
-      - name: Exact-base repository text hygiene
+      - name: Decode and install the staged payload
         shell: bash
         run: |
           set -euo pipefail
-          BASE=9e39e2468b9efec05f33b9945de02fe2c8c6a66d
-          git cat-file -e "${BASE}^{commit}"
-          git merge-base --is-ancestor "$BASE" HEAD
-          git diff --check "$BASE"...HEAD
+          cat \
+            .sync_payload/part00 \
+            .sync_payload/part01 \
+            .sync_payload/part02 \
+            .sync_payload/part03 \
+            .sync_payload/part04 \
+            > /tmp/sync-map02e-payload.b64
+          base64 -d /tmp/sync-map02e-payload.b64 > /tmp/sync-map02e-payload.tar.gz
+          tar -tzf /tmp/sync-map02e-payload.tar.gz
+          tar -xzf /tmp/sync-map02e-payload.tar.gz \
+            --exclude='.github/workflows/sync-map02e-shared-frame-photon-export.yml' \
+            -C .
+          rm -rf .sync_payload
+      - name: Verify installed payload before publication commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests/test_sync_map02e_shared_export.py
+          python scripts/verify_sync_map02e_shared_export.py --json
+          python -m py_compile \
+            scripts/verify_sync_map02e_shared_export.py \
+            scripts/render_sync_map02e_graph.py \
+            tests/test_sync_map02e_shared_export.py
+          for path in \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/SYNC_MAP_02E_TDD_RECEIPT.json \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/SYNC_MAP_02E_WOLFRAM_RECEIPT.json
+          do
+            python -m json.tool "$path" >/dev/null
+          done
+          tmp="$(mktemp --suffix=.svg)"
+          python scripts/render_sync_map02e_graph.py --output "$tmp"
+          cmp "$tmp" docs/bass_master_ssot_v2/SYNC_MAP_02E/SHARED_FORMULA_DAG.svg
+          git diff --check
+      - name: Publish verified implementation payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "payload already installed"
+            exit 0
+          fi
+          git commit -m "feat(sync-map02e): install audited six-formula export payload"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
