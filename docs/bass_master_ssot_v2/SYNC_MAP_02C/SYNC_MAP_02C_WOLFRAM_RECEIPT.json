@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "status": "PASS_AFTER_HARNESS_ONLY_REPAIR",
+  "authority_effect": "NONE",
+  "engine": {
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "xact_required": false
+  },
+  "first_attempt": {
+    "status": "FAIL",
+    "passed": 14,
+    "failed": 1,
+    "failed_check": "electron_density_jacobian",
+    "root_cause": "The audit used D[ne,{{xH,x2,x3}}], which was not the intended gradient construction in Wolfram Language.",
+    "physics_formula_changed": false,
+    "classification_changed": false
+  },
+  "repair": {
+    "change": "Replace the malformed derivative check by D[ne,#]& /@ {xH,x2,x3}.",
+    "scope": "AUDIT_HARNESS_ONLY"
+  },
+  "final_attempt": {
+    "status": "PASS",
+    "check_count": 15,
+    "passed": 15,
+    "failed": 0,
+    "failed_checks": [],
+    "checks": {
+      "electron_density_jacobian": true,
+      "helium_double_ionization_coefficient_mutation_detected": true,
+      "thomson_opacity_factorization": true,
+      "thomson_opacity_dimension_Lminus1": true,
+      "flrw_control_omits_radiation_exact_witness": true,
+      "finite_tau_species_allocation_sums_to_one": true,
+      "transmission_absorption_partition": true,
+      "signed_opacity_residual_not_silently_dropped": true,
+      "classification_count_11": true,
+      "impact_dag_unique_nodes": true,
+      "impact_dag_edge_closure": true,
+      "impact_dag_acyclic": true,
+      "impact_dag_topological_coverage": true,
+      "provider_requires_first_interval": true,
+      "flrw_control_not_promoted_to_bass_authority": true
+    }
+  },
+  "exact_results": {
+    "electron_density_formula": "n_e=n_H x_HII+n_He(x_HeII+2 x_HeIII)",
+    "electron_density_jacobian": [
+      "n_H",
+      "n_He",
+      "2 n_He"
+    ],
+    "heiii_single_charge_mutation_residual": "n_He x_HeIII",
+    "flrw_control_difference": "H_full^2-H_control^2=H0^2 Omega_r a^-4",
+    "impact_dag_nodes": 14,
+    "impact_dag_edges": 13,
+    "impact_dag_acyclic": true,
+    "impact_dag_roots": [
+      "BASS.BACKGROUND_PROVIDER",
+      "BASS.EXACT_AUTHORITY_PINS",
+      "BASS.PHOTON_FORMULA_EXPORT",
+      "REI.ELECTRON_DENSITY",
+      "REI.FLRW_CONTROL"
+    ],
+    "impact_dag_sinks": [
+      "REI.PROVIDER_EXPORT"
+    ],
+    "canonical_graph_inputform_sha256": "42d69bdff4bcdea946f8c1a6d34d7de7d986b95887c78dda44b4933dc8f47bd8"
+  },
+  "relation_class_counts": {
+    "PINNED_ARTIFACT_IMPORT_REQUIRED": 2,
+    "BASELINE_CONTROL_ORACLE": 1,
+    "ADAPTER_SPECIALIZATION": 2,
+    "OWNED_EXTENSION": 5,
+    "OWNED_FEASIBILITY_GATE": 1
+  },
+  "scope_qualifications": {
+    "thomson_checks_are_future_interface_only": true,
+    "exact_electron_frame_thomson_cmb_path_implemented": false,
+    "native_xact_tensor_replay_required_for_this_node": false,
+    "numerical_bass_background_lock_verified": false,
+    "provider_or_science_claim_promoted": false
+  },
+  "claim_boundary": "EXACT_ALGEBRA_AND_PROPOSAL_GRAPH_CHECK_ONLY_NO_BASS_LOCK_THOMSON_IMPLEMENTATION_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}
