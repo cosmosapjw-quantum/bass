@@ -1,0 +1,38 @@
+name: sync-map02f-r3-external-cas-matrix
+
+on:
+  push:
+    branches:
+      - audit/sync-map02f-r3-external-cas-matrix-20260903-r1
+    paths:
+      - ".github/workflows/sync-map02f-r3-external-cas-matrix.yml"
+      - "tests/test_sync_map02f_external_cas_contract.py"
+      - "external_cas/**"
+      - "scripts/verify_sync_map02f_external_cas_receipts.py"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json"
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02f-r3-external-cas-matrix.yml"
+      - "tests/test_sync_map02f_external_cas_contract.py"
+      - "external_cas/**"
+      - "scripts/verify_sync_map02f_external_cas_receipts.py"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-map02f-r3-external-cas-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  red-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run external CAS matrix contract
+        run: python -m unittest -v tests/test_sync_map02f_external_cas_contract.py
