@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_SURFACES = (
     "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json",
+    "scripts/collect_external_cas_receipt.py",
     "scripts/verify_sync_map02f_external_cas_receipts.py",
     "external_cas/maxima/check_sync_map02f.mac",
     "external_cas/form/check_sync_map02f.frm",
@@ -19,8 +20,8 @@ REQUIRED_SURFACES = (
     "external_cas/reduce/check_sync_map02f.red",
 )
 
-MANDATORY_ENGINES = {"maxima", "form", "ginac", "symengine", "z3", "symbolica"}
-EXPLORATORY_ENGINES = {"cadabra2", "reduce"}
+MANDATORY_ENGINES = {"maxima", "form", "ginac", "symengine", "z3"}
+EXPLORATORY_ENGINES = {"symbolica", "cadabra2", "reduce"}
 
 
 class ExternalCASMatrixContractTests(unittest.TestCase):
@@ -39,6 +40,8 @@ class ExternalCASMatrixContractTests(unittest.TestCase):
         self.assertEqual(EXPLORATORY_ENGINES, exploratory)
         self.assertEqual("NONE", matrix.get("authority_effect"))
         self.assertIn("NO_02F_SEMANTIC_CLOSEOUT", matrix.get("withheld_claims", []))
+        self.assertEqual("s=c*t", matrix["physical_contract"]["ray_length_parameter"])
+        self.assertEqual("ell", matrix["physical_contract"]["angular_multipole_rank"])
 
     def test_verifier_is_fail_closed_on_missing_receipts(self) -> None:
         path = ROOT / "scripts/verify_sync_map02f_external_cas_receipts.py"
@@ -52,6 +55,14 @@ class ExternalCASMatrixContractTests(unittest.TestCase):
             "PASS_EXTERNAL_CAS_MATRIX",
         ):
             self.assertIn(token, source)
+
+    def test_symbolica_is_exploratory_because_activation_is_not_formula_evidence(self) -> None:
+        matrix = json.loads(
+            (ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json").read_text(encoding="utf-8")
+        )
+        symbolica = next(row for row in matrix["engines"] if row["engine"] == "symbolica")
+        self.assertFalse(symbolica["required_for_axis_closeout"])
+        self.assertIn("exploratory", symbolica["acquisition"].lower())
 
 
 if __name__ == "__main__":

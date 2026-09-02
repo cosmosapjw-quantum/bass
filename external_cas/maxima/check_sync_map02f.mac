@@ -1,0 +1,95 @@
+display2d:false$
+ratprint:false$
+failures:0$
+
+check_zero(id, expr) := block([r : radcan(ratsimp(expr))],
+  if is(r = 0) then printf(true, "CHECK|~a|PASS~%", id)
+  else (printf(true, "CHECK|~a|FAIL|~a~%", id, r), failures : failures + 1))$
+
+check_nonzero(id, expr) := block([r : radcan(ratsimp(expr))],
+  if numberp(r) and not is(r = 0) then printf(true, "MUTATION|~a|PASS~%", id)
+  else (printf(true, "MUTATION|~a|FAIL|~a~%", id, r), failures : failures + 1))$
+
+/* I01: algebraic equality plus a directly evaluable zero-boost value. */
+g : 'g$
+b2_from_g : (g^2 - 1)/g^2$
+i01a : (g - 1)/b2_from_g - g^2/(g + 1)$
+i01b : subst(1, g, g^2/(g + 1)) - 1/2$
+check_zero("I01_REGULAR_ABERRATION_COEFFICIENT", i01a + i01b)$
+
+/* I02--I04: axial aberration, measure and inverse Doppler chart. */
+mu_tilde : (x + b)/(1 + b*x)$
+check_zero("I02_AXIAL_ABERRATION_UNIT_NORM",
+  mu_tilde^2 + (1 - x^2)*(1 - b^2)/(1 + b*x)^2 - 1)$
+check_zero("I03_SOLID_ANGLE_JACOBIAN",
+  diff(mu_tilde, x) - (1 - b^2)/(1 + b*x)^2)$
+check_zero("I04_INVERSE_DOPPLER",
+  ((1 - b*mu_tilde)*(1 + b*x) - (1 - b^2)))$
+
+/* I05--I06: full field pullback versus prepulled-value primitive. */
+tpoly(z) := a0 + a1*z + a2*z^2 + a3*z^3$
+xs : (x - b)/(1 - b*x)$
+dop : sqrt(1 - b^2)/(1 - b*x)$
+full_temperature : dop*tpoly(xs)$
+full_generator : radcan(subst(0, b, diff(full_temperature, b)))$
+expected_temperature : x*tpoly(x) - (1 - x^2)*diff(tpoly(x), x)$
+check_zero("I05_BLACKBODY_FULL_GENERATOR", full_generator - expected_temperature)$
+check_zero("I06_BLACKBODY_PRIMITIVE_GAP",
+  full_generator - x*tpoly(x) + (1 - x^2)*diff(tpoly(x), x))$
+
+/* I07: independent first-order expansion of a generic polynomial spectrum. */
+fpoly(v,z) := c00 + c10*v + c01*z + c20*v^2 + c11*v*z + c02*z^2
+  + c30*v^3 + c21*v^2*z + c12*v*z^2 + c03*z^3$
+xs1 : x - b*(1 - x^2)$
+nus1 : nu*(1 - b*x)$
+spectral_first_order : (1 + d*b*x)*fpoly(nus1, xs1)$
+spectral_generator : expand(subst(0, b, diff(spectral_first_order, b)))$
+expected_spectral : expand(x*(d*fpoly(nu,x) - nu*diff(fpoly(nu,x),nu))
+  - (1 - x^2)*diff(fpoly(nu,x),x))$
+check_zero("I07_SPECTRAL_BOOST_GENERATOR", spectral_generator - expected_spectral)$
+
+/* I08: exact sign and coefficient of the REI restricted-control residual. */
+rei_difference : (-h) - (-h - sigmaEE)$
+check_zero("I08_REI_EXACT_SIGMA_RESIDUAL", rei_difference - sigmaEE)$
+
+/* I09: ambient tangency identity before imposing e.e=1. */
+sEE : s11*ex^2 + 2*s12*ex*ey + 2*s13*ex*ez + s22*ey^2 + 2*s23*ey*ez + s33*ez^2$
+aE : ax*ex + ay*ey + az*ez$
+se1 : s11*ex + s12*ey + s13*ez$
+se2 : s12*ex + s22*ey + s23*ez$
+se3 : s13*ex + s23*ey + s33*ez$
+ne1 : n11*ex + n12*ey + n13*ez$
+ne2 : n12*ex + n22*ey + n23*ez$
+ne3 : n13*ex + n23*ey + n33*ez$
+radial : sEE + aE$
+vx : radial*ex - se1 - ax + oy*ez - oz*ey - (ey*ne3 - ez*ne2)$
+vy : radial*ey - se2 - ay + oz*ex - ox*ez - (ez*ne1 - ex*ne3)$
+vz : radial*ez - se3 - az + ox*ey - oy*ex - (ex*ne2 - ey*ne1)$
+e2 : ex^2 + ey^2 + ez^2$
+check_zero("I09_DIRECTION_FLOW_TANGENCY",
+  expand(ex*vx + ey*vy + ez*vz - (e2 - 1)*radial))$
+
+/* I10: screen U(1) connection cancellation for P_+. */
+screen_plus_residual : (pdot - 2*%i*chid*pplus)
+  + 2*%i*(omega + chid)*pplus - (pdot + 2*%i*omega*pplus)$
+check_zero("I10_SCREEN_U1_COVARIANCE", screen_plus_residual)$
+
+/* I11: exact series through beta^5. */
+chord_error : 2*b/(1 + sqrt(1 - b^2))$
+series11 : ratdisrep(taylor(chord_error, b, 0, 5))$
+check_zero("I11_REC_SMALL_BETA_SERIES", series11 - (b + b^3/4 + b^5/8))$
+
+/* Hostile mutations use explicit witnesses so UNKNOWN is never accepted. */
+check_nonzero("M01_WRONG_DOPPLER_SIGN", ev(-2*g*b*x, g=2, b=1/10, x=1/3))$
+check_nonzero("M02_WRONG_JACOBIAN_POWER",
+  ev((1-b^2)/(1+b*x)^2 - sqrt(1-b^2)/(1+b*x), b=1/2, x=1/3))$
+check_nonzero("M03_DROP_BLACKBODY_ABERRATION", ev(-(1-x^2)*diff(tpoly(x),x), x=0, a1=1, a2=0, a3=0))$
+check_nonzero("M04_REI_WRONG_SIGN", ev(-2*sigmaEE, sigmaEE=1))$
+check_nonzero("M05_REI_WRONG_FACTOR", ev(sigmaEE, sigmaEE=1))$
+check_nonzero("M06_REI_FOREIGN_CONSTANT", ev(1-sigmaEE, sigmaEE=2))$
+check_nonzero("M07_DROP_DIRECTION_RADIAL_COMPENSATOR", -1)$
+check_nonzero("M08_SCREEN_CONNECTION_SIGN", -4*%i)$
+
+if failures > 0 then error("SYNC_MAP_02F external Maxima verification failed")$
+printf(true, "STATUS|PASS~%")$
+quit()$

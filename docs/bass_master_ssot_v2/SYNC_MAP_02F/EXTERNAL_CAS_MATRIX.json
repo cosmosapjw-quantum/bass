@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R3_EXTERNAL_CAS_MATRIX",
+  "status": "INDEPENDENT_VERIFICATION_AXIS_ONLY",
+  "authority_effect": "NONE",
+  "exact_parent": {
+    "pull_request": 102,
+    "commit": "bff74a1383f0d113621bd49936d2eebed3264707",
+    "tree": "c14aefe30825a5b5a8167ec33a1039ec91e4d01c"
+  },
+  "physical_contract": {
+    "metric_signature": "(-,+,+,+)",
+    "spatial_orientation": "epsilon_123=+1",
+    "photon_propagation_direction": "e",
+    "outward_sky_direction": "n_sky=-e",
+    "ray_length_parameter": "s=c*t",
+    "angular_multipole_rank": "ell",
+    "normal_specialization": "A_normal=0",
+    "class_b_firewall": "aB is not A_normal"
+  },
+  "identity_catalog": {
+    "I01_REGULAR_ABERRATION_COEFFICIENT": "(gamma-1)/beta^2=gamma^2/(gamma+1), regular value 1/2 at beta=0",
+    "I02_AXIAL_ABERRATION_UNIT_NORM": "mu_tilde^2+(1-mu^2)/(gamma^2(1+beta*mu)^2)=1",
+    "I03_SOLID_ANGLE_JACOBIAN": "d mu_tilde/d mu=(1-beta^2)/(1+beta*mu)^2=D^-2",
+    "I04_INVERSE_DOPPLER": "gamma(1-beta*mu_tilde)=D^-1",
+    "I05_BLACKBODY_FULL_GENERATOR": "delta_beta T=x*T-(1-x^2)*partial_x T",
+    "I06_BLACKBODY_PRIMITIVE_GAP": "full pullback minus Doppler-only primitive=-(1-x^2)*partial_x T",
+    "I07_SPECTRAL_BOOST_GENERATOR": "G_beta F=x*(d-nu*partial_nu)F-(1-x^2)*partial_x F",
+    "I08_REI_EXACT_SIGMA_RESIDUAL": "R_H-only-R_generic=+sigma_ab e^a e^b",
+    "I09_DIRECTION_FLOW_TANGENCY": "e_a V^a=(e^2-1)*(sigma_ee+aB_e), hence zero on S^2",
+    "I10_SCREEN_U1_COVARIANCE": "(d/ds+2 i omega_scr)P_+ is screen-gauge covariant",
+    "I11_REC_SMALL_BETA_SERIES": "2 beta/(1+sqrt(1-beta^2))=beta+beta^3/4+beta^5/8+O(beta^7)",
+    "I12_DOPPLER_POSITIVITY_DOMAIN": "D>0 for beta^2<1 and -1<=mu<=1"
+  },
+  "engines": [
+    {
+      "engine": "maxima",
+      "implementation_family": "Maxima_Common_Lisp_CAS",
+      "required_for_axis_closeout": true,
+      "acquisition": "Ubuntu apt binary package; runtime version and downloaded deb SHA-256 recorded",
+      "script": "external_cas/maxima/check_sync_map02f.mac",
+      "receipt": "maxima.json",
+      "expected_identity_ids": ["I01_REGULAR_ABERRATION_COEFFICIENT", "I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I04_INVERSE_DOPPLER", "I05_BLACKBODY_FULL_GENERATOR", "I06_BLACKBODY_PRIMITIVE_GAP", "I07_SPECTRAL_BOOST_GENERATOR", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE", "I11_REC_SMALL_BETA_SERIES"],
+      "hostile_mutations": ["M01_WRONG_DOPPLER_SIGN", "M02_WRONG_JACOBIAN_POWER", "M03_DROP_BLACKBODY_ABERRATION", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "form",
+      "implementation_family": "FORM_term_rewriting_CAS",
+      "required_for_axis_closeout": true,
+      "acquisition": "Ubuntu apt binary package; runtime version and downloaded deb SHA-256 recorded",
+      "script": "external_cas/form/check_sync_map02f.frm",
+      "receipt": "form.json",
+      "expected_identity_ids": ["I01_REGULAR_ABERRATION_COEFFICIENT", "I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I04_INVERSE_DOPPLER", "I05_BLACKBODY_FULL_GENERATOR", "I06_BLACKBODY_PRIMITIVE_GAP", "I07_SPECTRAL_BOOST_GENERATOR", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE"],
+      "hostile_mutations": ["M01_WRONG_DOPPLER_SIGN", "M02_WRONG_JACOBIAN_POWER", "M03_DROP_BLACKBODY_ABERRATION", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "ginac",
+      "implementation_family": "GiNaC_Cpp_symbolic_library",
+      "required_for_axis_closeout": true,
+      "acquisition": "Ubuntu apt binary/development package; runtime version and downloaded deb SHA-256 recorded",
+      "script": "external_cas/ginac/check_sync_map02f.cpp",
+      "receipt": "ginac.json",
+      "expected_identity_ids": ["I01_REGULAR_ABERRATION_COEFFICIENT", "I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I04_INVERSE_DOPPLER", "I05_BLACKBODY_FULL_GENERATOR", "I06_BLACKBODY_PRIMITIVE_GAP", "I07_SPECTRAL_BOOST_GENERATOR", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE", "I11_REC_SMALL_BETA_SERIES"],
+      "hostile_mutations": ["M01_WRONG_DOPPLER_SIGN", "M02_WRONG_JACOBIAN_POWER", "M03_DROP_BLACKBODY_ABERRATION", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "symengine",
+      "implementation_family": "SymEngine_Cpp_Python_binding",
+      "required_for_axis_closeout": true,
+      "acquisition": "PyPI wheel symengine==0.14.1; exact wheel SHA-256 recorded before local install",
+      "script": "external_cas/symengine/check_sync_map02f.py",
+      "receipt": "symengine.json",
+      "expected_identity_ids": ["I01_REGULAR_ABERRATION_COEFFICIENT", "I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I04_INVERSE_DOPPLER", "I05_BLACKBODY_FULL_GENERATOR", "I06_BLACKBODY_PRIMITIVE_GAP", "I07_SPECTRAL_BOOST_GENERATOR", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE"],
+      "hostile_mutations": ["M01_WRONG_DOPPLER_SIGN", "M02_WRONG_JACOBIAN_POWER", "M03_DROP_BLACKBODY_ABERRATION", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "z3",
+      "implementation_family": "Z3_SMT_NLSAT",
+      "required_for_axis_closeout": true,
+      "acquisition": "PyPI wheel z3-solver==5.0.0.0; exact wheel SHA-256 recorded before local install",
+      "script": "external_cas/z3/check_sync_map02f.py",
+      "receipt": "z3.json",
+      "expected_identity_ids": ["I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I04_INVERSE_DOPPLER", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE", "I12_DOPPLER_POSITIVITY_DOMAIN"],
+      "hostile_mutations": ["M01_WRONG_DOPPLER_SIGN", "M02_WRONG_JACOBIAN_POWER", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "symbolica",
+      "implementation_family": "Symbolica_Rust_Python_binding",
+      "required_for_axis_closeout": false,
+      "acquisition": "Attempt PyPI wheel symbolica==2.2.0 and record SHA-256; execution is exploratory because licensing/activation may be environment-dependent",
+      "script": "external_cas/symbolica/check_sync_map02f.py",
+      "receipt": "symbolica.json",
+      "expected_identity_ids": ["I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I05_BLACKBODY_FULL_GENERATOR", "I06_BLACKBODY_PRIMITIVE_GAP", "I07_SPECTRAL_BOOST_GENERATOR", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE"],
+      "hostile_mutations": ["M02_WRONG_JACOBIAN_POWER", "M03_DROP_BLACKBODY_ABERRATION", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "cadabra2",
+      "implementation_family": "Cadabra2_tensor_CAS",
+      "required_for_axis_closeout": false,
+      "acquisition": "Attempt Ubuntu apt binary package, then execute the exact .cdb probe; preserve install or execution failure",
+      "script": "external_cas/cadabra2/check_sync_map02f.cdb",
+      "receipt": "cadabra2.json",
+      "expected_identity_ids": ["I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE"],
+      "hostile_mutations": ["M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    },
+    {
+      "engine": "reduce",
+      "implementation_family": "REDUCE_Algebra_CAS",
+      "required_for_axis_closeout": false,
+      "acquisition": "Attempt Ubuntu apt binary package and execute the exact .red probe; preserve install or execution failure",
+      "script": "external_cas/reduce/check_sync_map02f.red",
+      "receipt": "reduce.json",
+      "expected_identity_ids": ["I01_REGULAR_ABERRATION_COEFFICIENT", "I02_AXIAL_ABERRATION_UNIT_NORM", "I03_SOLID_ANGLE_JACOBIAN", "I08_REI_EXACT_SIGMA_RESIDUAL", "I09_DIRECTION_FLOW_TANGENCY", "I10_SCREEN_U1_COVARIANCE"],
+      "hostile_mutations": ["M02_WRONG_JACOBIAN_POWER", "M04_REI_WRONG_SIGN", "M05_REI_WRONG_FACTOR", "M06_REI_FOREIGN_CONSTANT", "M07_DROP_DIRECTION_RADIAL_COMPENSATOR", "M08_SCREEN_CONNECTION_SIGN"]
+    }
+  ],
+  "coverage_minimums": {
+    "I01_REGULAR_ABERRATION_COEFFICIENT": 4,
+    "I02_AXIAL_ABERRATION_UNIT_NORM": 5,
+    "I03_SOLID_ANGLE_JACOBIAN": 5,
+    "I04_INVERSE_DOPPLER": 5,
+    "I05_BLACKBODY_FULL_GENERATOR": 4,
+    "I06_BLACKBODY_PRIMITIVE_GAP": 4,
+    "I07_SPECTRAL_BOOST_GENERATOR": 4,
+    "I08_REI_EXACT_SIGMA_RESIDUAL": 5,
+    "I09_DIRECTION_FLOW_TANGENCY": 5,
+    "I10_SCREEN_U1_COVARIANCE": 5,
+    "I11_REC_SMALL_BETA_SERIES": 2,
+    "I12_DOPPLER_POSITIVITY_DOMAIN": 1
+  },
+  "withheld_claims": [
+    "NO_02F_SEMANTIC_CLOSEOUT",
+    "NO_CROSS_REPOSITORY_SOFTWARE_PARITY",
+    "NO_NATIVE_WOLFRAM_CLOSEOUT",
+    "NO_GLOBAL_MATTER_TILT",
+    "NO_FINITE_ELECTRON_TILT_COLLISION",
+    "NO_PROVIDER_ADMISSION",
+    "NO_NUMERICAL_OR_SCIENCE_PROMOTION",
+    "NO_MERGE_OR_READY_TRANSITION"
+  ]
+}

@@ -8,6 +8,7 @@ on:
       - ".github/workflows/sync-map02f-r3-external-cas-matrix.yml"
       - "tests/test_sync_map02f_external_cas_contract.py"
       - "external_cas/**"
+      - "scripts/collect_external_cas_receipt.py"
       - "scripts/verify_sync_map02f_external_cas_receipts.py"
       - "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json"
   pull_request:
@@ -15,6 +16,7 @@ on:
       - ".github/workflows/sync-map02f-r3-external-cas-matrix.yml"
       - "tests/test_sync_map02f_external_cas_contract.py"
       - "external_cas/**"
+      - "scripts/collect_external_cas_receipt.py"
       - "scripts/verify_sync_map02f_external_cas_receipts.py"
       - "docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json"
   workflow_dispatch:
@@ -26,8 +28,11 @@ concurrency:
   group: sync-map02f-r3-external-cas-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  PYTHONUNBUFFERED: "1"
+
 jobs:
-  red-contract:
+  contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,3 +41,265 @@ jobs:
           python-version: "3.12"
       - name: Run external CAS matrix contract
         run: python -m unittest -v tests/test_sync_map02f_external_cas_contract.py
+      - name: Parse manifest and compile Python surfaces
+        run: |
+          python -m json.tool docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json >/dev/null
+          python -m py_compile scripts/collect_external_cas_receipt.py scripts/verify_sync_map02f_external_cas_receipts.py external_cas/symengine/check_sync_map02f.py external_cas/z3/check_sync_map02f.py external_cas/symbolica/check_sync_map02f.py
+
+  maxima-ginac:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download and install Maxima and GiNaC packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          mkdir -p /tmp/downloads/maxima /tmp/downloads/ginac /tmp/receipts /tmp/logs /tmp/versions
+          (cd /tmp/downloads/maxima && apt-get download maxima)
+          (cd /tmp/downloads/ginac && apt-get download libginac-dev)
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends maxima libginac-dev pkg-config g++
+          maxima --version > /tmp/versions/maxima.txt 2>&1
+          pkg-config --modversion ginac > /tmp/versions/ginac.txt
+      - name: Run independent Maxima verification
+        shell: bash
+        run: |
+          set +e
+          maxima --very-quiet -b external_cas/maxima/check_sync_map02f.mac > /tmp/logs/maxima.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/logs/maxima.log
+          python scripts/collect_external_cas_receipt.py --engine maxima --log /tmp/logs/maxima.log --version-file /tmp/versions/maxima.txt --downloads /tmp/downloads/maxima --output /tmp/receipts/maxima.json --process-exit-code "$code"
+      - name: Build and run independent GiNaC verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -O2 external_cas/ginac/check_sync_map02f.cpp -o /tmp/check_sync_map02f_ginac $(pkg-config --cflags --libs ginac)
+          set +e
+          /tmp/check_sync_map02f_ginac > /tmp/logs/ginac.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/logs/ginac.log
+          python scripts/collect_external_cas_receipt.py --engine ginac --log /tmp/logs/ginac.log --version-file /tmp/versions/ginac.txt --downloads /tmp/downloads/ginac --output /tmp/receipts/ginac.json --process-exit-code "$code"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-cas-maxima-ginac
+          path: |
+            /tmp/receipts/
+            /tmp/logs/
+            /tmp/versions/
+            /tmp/downloads/
+          if-no-files-found: error
+
+  form:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download and build official FORM 5.0.1 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends autoconf automake make gcc g++ libgmp-dev libmpfr-dev libzstd-dev zlib1g-dev curl ca-certificates
+          mkdir -p /tmp/downloads/form /tmp/receipts /tmp/logs /tmp/versions /tmp/form-install
+          curl --fail --location --retry 3 https://github.com/form-dev/form/archive/refs/tags/v5.0.1.tar.gz -o /tmp/downloads/form/form-v5.0.1.tar.gz
+          tar -xzf /tmp/downloads/form/form-v5.0.1.tar.gz -C /tmp
+          cd /tmp/form-5.0.1
+          autoreconf -i
+          ./configure --prefix=/tmp/form-install
+          make -j2
+          make install
+          /tmp/form-install/bin/form -v > /tmp/versions/form.txt 2>&1
+      - name: Run independent FORM verification
+        shell: bash
+        run: |
+          set +e
+          /tmp/form-install/bin/form -q external_cas/form/check_sync_map02f.frm > /tmp/logs/form.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/logs/form.log
+          python scripts/collect_external_cas_receipt.py --engine form --log /tmp/logs/form.log --version-file /tmp/versions/form.txt --downloads /tmp/downloads/form --output /tmp/receipts/form.json --process-exit-code "$code"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-cas-form
+          path: |
+            /tmp/receipts/
+            /tmp/logs/
+            /tmp/versions/
+            /tmp/downloads/
+          if-no-files-found: error
+
+  python-cas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download pinned SymEngine and Z3 wheels
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/downloads/symengine /tmp/downloads/z3 /tmp/receipts /tmp/logs /tmp/versions
+          python -m pip download --only-binary=:all: --no-deps --dest /tmp/downloads/symengine symengine==0.14.1
+          python -m pip download --only-binary=:all: --no-deps --dest /tmp/downloads/z3 z3-solver==5.0.0.0
+          python -m pip install --no-index --find-links /tmp/downloads/symengine symengine==0.14.1
+          python -m pip install --no-index --find-links /tmp/downloads/z3 z3-solver==5.0.0.0
+          python -c 'import importlib.metadata as m; print(m.version("symengine"))' > /tmp/versions/symengine.txt
+          python -c 'import z3; print(z3.get_version_string())' > /tmp/versions/z3.txt
+      - name: Run independent SymEngine verification
+        shell: bash
+        run: |
+          set +e
+          python external_cas/symengine/check_sync_map02f.py > /tmp/logs/symengine.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/logs/symengine.log
+          python scripts/collect_external_cas_receipt.py --engine symengine --log /tmp/logs/symengine.log --version-file /tmp/versions/symengine.txt --downloads /tmp/downloads/symengine --output /tmp/receipts/symengine.json --process-exit-code "$code"
+      - name: Run independent Z3 domain and polynomial verification
+        shell: bash
+        run: |
+          set +e
+          python external_cas/z3/check_sync_map02f.py > /tmp/logs/z3.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/logs/z3.log
+          python scripts/collect_external_cas_receipt.py --engine z3 --log /tmp/logs/z3.log --version-file /tmp/versions/z3.txt --downloads /tmp/downloads/z3 --output /tmp/receipts/z3.json --process-exit-code "$code"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-cas-symengine-z3
+          path: |
+            /tmp/receipts/
+            /tmp/logs/
+            /tmp/versions/
+            /tmp/downloads/
+          if-no-files-found: error
+
+  exploratory-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Attempt downloadable Symbolica, Cadabra2, and REDUCE packages
+        shell: bash
+        run: |
+          set +e
+          sudo apt-get update
+          mkdir -p /tmp/downloads/symbolica /tmp/downloads/cadabra2 /tmp/downloads/reduce /tmp/receipts /tmp/logs /tmp/versions
+
+          python -m pip download --only-binary=:all: --no-deps --dest /tmp/downloads/symbolica symbolica==2.2.0 > /tmp/logs/symbolica-download.log 2>&1
+          symbolica_download=$?
+          if [ "$symbolica_download" -eq 0 ]; then
+            python -m pip install --no-index --find-links /tmp/downloads/symbolica symbolica==2.2.0 >> /tmp/logs/symbolica-download.log 2>&1
+            symbolica_install=$?
+          else
+            symbolica_install=1
+          fi
+          if [ "$symbolica_install" -eq 0 ]; then
+            python -c 'import importlib.metadata as m; print(m.version("symbolica"))' > /tmp/versions/symbolica.txt 2>&1
+            python external_cas/symbolica/check_sync_map02f.py > /tmp/logs/symbolica.log 2>&1
+            symbolica_code=$?
+          else
+            echo VERSION_UNAVAILABLE > /tmp/versions/symbolica.txt
+            cp /tmp/logs/symbolica-download.log /tmp/logs/symbolica.log
+            symbolica_code=1
+          fi
+          python scripts/collect_external_cas_receipt.py --engine symbolica --log /tmp/logs/symbolica.log --version-file /tmp/versions/symbolica.txt --downloads /tmp/downloads/symbolica --output /tmp/receipts/symbolica.json --process-exit-code "$symbolica_code" --allow-failure
+
+          (cd /tmp/downloads/cadabra2 && apt-get download cadabra2) > /tmp/logs/cadabra2-download.log 2>&1
+          cadabra_download=$?
+          if [ "$cadabra_download" -eq 0 ]; then
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cadabra2 >> /tmp/logs/cadabra2-download.log 2>&1
+            cadabra_install=$?
+          else
+            cadabra_install=1
+          fi
+          if [ "$cadabra_install" -eq 0 ]; then
+            cadabra2 --version > /tmp/versions/cadabra2.txt 2>&1
+            CADABRA_NO_UNICODE=1 timeout 90s cadabra2 external_cas/cadabra2/check_sync_map02f.cdb > /tmp/logs/cadabra2.log 2>&1
+            cadabra_code=$?
+          else
+            echo VERSION_UNAVAILABLE > /tmp/versions/cadabra2.txt
+            cp /tmp/logs/cadabra2-download.log /tmp/logs/cadabra2.log
+            cadabra_code=1
+          fi
+          python scripts/collect_external_cas_receipt.py --engine cadabra2 --log /tmp/logs/cadabra2.log --version-file /tmp/versions/cadabra2.txt --downloads /tmp/downloads/cadabra2 --output /tmp/receipts/cadabra2.json --process-exit-code "$cadabra_code" --allow-failure
+
+          (cd /tmp/downloads/reduce && apt-get download reduce-algebra) > /tmp/logs/reduce-download.log 2>&1
+          reduce_download=$?
+          if [ "$reduce_download" -eq 0 ]; then
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends reduce-algebra >> /tmp/logs/reduce-download.log 2>&1
+            reduce_install=$?
+          else
+            reduce_install=1
+          fi
+          if [ "$reduce_install" -eq 0 ] && command -v redcsl >/dev/null 2>&1; then
+            redcsl --version > /tmp/versions/reduce.txt 2>&1
+            timeout 90s redcsl -w < external_cas/reduce/check_sync_map02f.red > /tmp/logs/reduce.log 2>&1
+            reduce_code=$?
+          else
+            echo VERSION_UNAVAILABLE > /tmp/versions/reduce.txt
+            cp /tmp/logs/reduce-download.log /tmp/logs/reduce.log
+            reduce_code=1
+          fi
+          python scripts/collect_external_cas_receipt.py --engine reduce --log /tmp/logs/reduce.log --version-file /tmp/versions/reduce.txt --downloads /tmp/downloads/reduce --output /tmp/receipts/reduce.json --process-exit-code "$reduce_code" --allow-failure
+
+          cat /tmp/receipts/*.json
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-cas-exploratory
+          path: |
+            /tmp/receipts/
+            /tmp/logs/
+            /tmp/versions/
+            /tmp/downloads/
+          if-no-files-found: error
+
+  aggregate:
+    needs: [contract, maxima-ginac, form, python-cas, exploratory-packages]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: external-cas-*
+          path: /tmp/external-cas-evidence
+      - name: Verify fail-closed independent CAS matrix
+        run: |
+          python scripts/verify_sync_map02f_external_cas_receipts.py /tmp/external-cas-evidence | tee /tmp/EXTERNAL_CAS_MATRIX_RECEIPT.json
+      - name: Build exact evidence packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          packet=/tmp/sync-map02f-r3-external-cas-matrix
+          mkdir -p "$packet/source" "$packet/evidence"
+          cp docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_CAS_MATRIX.json "$packet/source/"
+          cp scripts/collect_external_cas_receipt.py scripts/verify_sync_map02f_external_cas_receipts.py "$packet/source/"
+          cp -R external_cas "$packet/source/"
+          cp -R /tmp/external-cas-evidence/. "$packet/evidence/"
+          cp /tmp/EXTERNAL_CAS_MATRIX_RECEIPT.json "$packet/"
+          git rev-parse HEAD > "$packet/GIT_HEAD"
+          git rev-parse HEAD^{tree} > "$packet/GIT_TREE"
+          (cd "$packet" && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS)
+          tar -C /tmp -czf /tmp/sync-map02f-r3-external-cas-matrix.tar.gz sync-map02f-r3-external-cas-matrix
+          sha256sum /tmp/sync-map02f-r3-external-cas-matrix.tar.gz > /tmp/sync-map02f-r3-external-cas-matrix.tar.gz.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-r3-external-cas-matrix
+          path: |
+            /tmp/EXTERNAL_CAS_MATRIX_RECEIPT.json
+            /tmp/sync-map02f-r3-external-cas-matrix.tar.gz
+            /tmp/sync-map02f-r3-external-cas-matrix.tar.gz.sha256
+          if-no-files-found: error
