@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "matrix_id": "XCAS04_OCTAVE_JAS_JULIA",
+  "authority_effect": "NONE_EXTERNAL_ORACLE",
+  "base_pr": 103,
+  "base_commit": "e1552030dc2bbc76af8e0f56852caf19248d058c",
+  "status": "SOURCE_CREATED_EXECUTION_PENDING",
+  "engines": [
+    {
+      "engine": "GNU Octave",
+      "version": "8.4.0",
+      "engine_role": "INDEPENDENT_NUMERICAL_AND_MATRIX_ORACLE_NOT_SYMBOLIC_CAS",
+      "symbolic_backend": "NONE",
+      "independent_symbolic_engine_count": 0,
+      "reason": "The core Octave script uses floating-point, complex-step, and finite-matrix checks. The Octave symbolic package is excluded because it delegates algebra to SymPy.",
+      "source_path": "external_cas/octave/check_sync_map02f_xcas04.m",
+      "expected_receipt": "xcas04-octave-receipt.json"
+    },
+    {
+      "engine": "Java Algebra System",
+      "version": "2.7.200",
+      "engine_role": "INDEPENDENT_EXACT_POLYNOMIAL_CAS",
+      "artifact": "de.uni-mannheim.rz.krum:jas:2.7.200",
+      "artifact_sha256": "62a362d2fc2591d39f5973125aef71cf70267d486d9b321240454a242bd11976",
+      "independent_symbolic_engine_count": 1,
+      "source_path": "external_cas/jas/CheckSyncMap02fXcas04.java",
+      "expected_receipt": "xcas04-jas-receipt.json"
+    },
+    {
+      "engine": "Julia/Nemo",
+      "julia_version": "1.12.7",
+      "nemo_version": "0.56.1",
+      "engine_role": "INDEPENDENT_EXACT_CAS_JULIA_FRONTEND_FLINT_BACKEND",
+      "backend": "Nemo exact arithmetic with FLINT-backed polynomial types where supplied by Nemo",
+      "independent_symbolic_engine_count": 1,
+      "project_path": "external_cas/julia/Project.toml",
+      "manifest_policy": "The committed file is a RED-phase sentinel. The first successful run must publish the exact resolved Manifest.toml and its SHA-256; a later additive commit should replace the sentinel.",
+      "source_path": "external_cas/julia/check_sync_map02f_xcas04.jl",
+      "expected_receipt": "xcas04-julia-nemo-receipt.json"
+    }
+  ],
+  "bounded_identity_catalog": [
+    "inverse aberration and source/target Doppler chart equivalence",
+    "solid-angle Jacobian D^-2",
+    "weighted blackbody generator split into Doppler modulation and aberration advection",
+    "generic scalar harmonic upper and lower coupling coefficients",
+    "G_d adjoint relation and d=1 skew-adjoint specialization",
+    "exact REI residual Delta_REI=sigmaEE with hostile sign/factor/constant mutations",
+    "zero-boost regularization polynomial identity",
+    "missing-base-map and wrong-aberration-sign hostile mutations",
+    "photon direction-flow tangency and finite Galerkin matrix checks on the Octave axis"
+  ],
+  "claim_boundary": [
+    "NO_OWNER_FORMULA_CHANGE",
+    "NO_TENSOR_CAS_CLAIM_FROM_OCTAVE_JAS_OR_JULIA_NEMO",
+    "NO_POSITIVITY_OR_INEQUALITY_PROOF",
+    "NO_CONSUMER_SOFTWARE_PARITY",
+    "NO_02E_OR_02F_SEMANTIC_CLOSEOUT",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ]
+}

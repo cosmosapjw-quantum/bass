@@ -1,0 +1,180 @@
+name: xcas04-octave-jas-julia
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/xcas04-octave-jas-julia.yml'
+      - 'external_cas/octave/**'
+      - 'external_cas/jas/**'
+      - 'external_cas/julia/**'
+      - 'docs/bass_master_ssot_v2/SYNC_MAP_02F/XCAS04_*'
+      - 'scripts/verify_xcas04_octave_jas_julia_receipts.py'
+      - 'tests/test_xcas04_octave_jas_julia_contract.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Run XCAS-04 contract
+        run: python -m unittest -v tests/test_xcas04_octave_jas_julia_contract.py
+
+  octave-numerical:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends octave
+          octave --version | head -n 1
+      - name: Run independent numerical and finite-matrix oracle
+        run: |
+          octave --no-gui --quiet external_cas/octave/check_sync_map02f_xcas04.m \
+            | tee /tmp/xcas04-octave-receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path('/tmp/xcas04-octave-receipt.json').read_text())
+          assert receipt['status'] == 'PASS'
+          assert receipt['engine_role'] == 'INDEPENDENT_NUMERICAL_AND_MATRIX_ORACLE_NOT_SYMBOLIC_CAS'
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas04-octave-receipt
+          path: /tmp/xcas04-octave-receipt.json
+          if-no-files-found: error
+
+  jas-exact:
+    runs-on: macos-14
+    env:
+      JAS_JAR_SHA256: 62a362d2fc2591d39f5973125aef71cf70267d486d9b321240454a242bd11976
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Download and verify Java Algebra System 2.7.200
+        run: |
+          curl --fail --location --retry 3 \
+            https://repo.maven.apache.org/maven2/de/uni-mannheim/rz/krum/jas/2.7.200/jas-2.7.200.jar \
+            --output /tmp/jas-2.7.200.jar
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          import os
+          path = Path('/tmp/jas-2.7.200.jar')
+          actual = hashlib.sha256(path.read_bytes()).hexdigest()
+          assert actual == os.environ['JAS_JAR_SHA256'], (actual, os.environ['JAS_JAR_SHA256'])
+          PY
+      - name: Compile and run JAS exact oracle
+        run: |
+          mkdir -p /tmp/xcas04-jas-classes
+          javac -cp /tmp/jas-2.7.200.jar \
+            -d /tmp/xcas04-jas-classes \
+            external_cas/jas/CheckSyncMap02fXcas04.java
+          java -cp /tmp/jas-2.7.200.jar:/tmp/xcas04-jas-classes \
+            CheckSyncMap02fXcas04 \
+            | tee /tmp/xcas04-jas-receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path('/tmp/xcas04-jas-receipt.json').read_text())
+          assert receipt['status'] == 'PASS'
+          assert receipt['checks_total'] == 14
+          assert receipt['checks_passed'] == 14
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas04-jas-receipt
+          path: /tmp/xcas04-jas-receipt.json
+          if-no-files-found: error
+
+  julia-nemo-exact:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9
+        with:
+          version: '1.12.7'
+      - name: Resolve exact Nemo 0.56.1 environment
+        run: |
+          rm external_cas/julia/Manifest.toml
+          julia --project=external_cas/julia -e \
+            'using Pkg; Pkg.resolve(); Pkg.instantiate(); Pkg.precompile()'
+          julia --project=external_cas/julia -e \
+            'using Nemo; @assert VERSION == v"1.12.7"; @assert Base.pkgversion(Nemo) == v"0.56.1"'
+      - name: Run Julia/Nemo exact oracle
+        run: |
+          julia --project=external_cas/julia \
+            external_cas/julia/check_sync_map02f_xcas04.jl \
+            | tee /tmp/xcas04-julia-nemo-receipt.json
+          cp external_cas/julia/Manifest.toml /tmp/xcas04-julia-resolved-Manifest.toml
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path('/tmp/xcas04-julia-nemo-receipt.json').read_text())
+          assert receipt['status'] == 'PASS'
+          assert receipt['checks_total'] == 14
+          assert receipt['checks_passed'] == 14
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas04-julia-nemo-receipt
+          path: |
+            /tmp/xcas04-julia-nemo-receipt.json
+            /tmp/xcas04-julia-resolved-Manifest.toml
+          if-no-files-found: error
+
+  aggregate:
+    if: always()
+    needs:
+      - contract
+      - octave-numerical
+      - jas-exact
+      - julia-nemo-exact
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Require all upstream jobs to have executed successfully
+        env:
+          CONTRACT_RESULT: ${{ needs.contract.result }}
+          OCTAVE_RESULT: ${{ needs.octave-numerical.result }}
+          JAS_RESULT: ${{ needs.jas-exact.result }}
+          JULIA_RESULT: ${{ needs.julia-nemo-exact.result }}
+        run: |
+          test "$CONTRACT_RESULT" = success
+          test "$OCTAVE_RESULT" = success
+          test "$JAS_RESULT" = success
+          test "$JULIA_RESULT" = success
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: xcas04-*-receipt
+          path: /tmp/xcas04-receipts
+          merge-multiple: true
+      - name: Verify all engine receipts fail-closed
+        run: |
+          python scripts/verify_xcas04_octave_jas_julia_receipts.py \
+            --octave /tmp/xcas04-receipts/xcas04-octave-receipt.json \
+            --jas /tmp/xcas04-receipts/xcas04-jas-receipt.json \
+            --julia /tmp/xcas04-receipts/xcas04-julia-nemo-receipt.json \
+            --output /tmp/xcas04-aggregate-receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcas04-aggregate-receipt
+          path: /tmp/xcas04-aggregate-receipt.json
+          if-no-files-found: error

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "XCAS04_OCTAVE_JAS_JULIA_EXECUTION_20260903_R1",
+  "pr": 106,
+  "source_head": "91e968fe50ffe6be0ff7c4407a79ca87b5d89cc2",
+  "base_pr": 103,
+  "base_commit": "e1552030dc2bbc76af8e0f56852caf19248d058c",
+  "status": "PARTIAL_EXTERNAL_VERIFICATION_PASS_WITH_HOSTED_RUNNER_ALLOCATION_BLOCKER",
+  "physics_formula_failure": false,
+  "engines": {
+    "gnu_octave": {
+      "status": "PASS_PRIOR_DURABLE_RUN_ENHANCED_SOURCE_NOT_REEXECUTED",
+      "role": "INDEPENDENT_NUMERICAL_AND_MATRIX_ORACLE_NOT_SYMBOLIC_CAS",
+      "prior_run": 33639136560,
+      "prior_job": 100277845593,
+      "version": "8.4.0",
+      "samples": 256,
+      "tolerance": 5e-12,
+      "max_clean_residual": 1.7763568394002505e-15,
+      "artifact_id": 9850109041,
+      "artifact_sha256": "d91a11a2d35ad51267f769ddcbd3dc5add6504b126917ffe5eae2d84662b9d3c",
+      "current_source": "external_cas/octave/check_sync_map02f_xcas04.m",
+      "current_source_execution": "NOT_RUN_HOSTED_RUNNER_ALLOCATION",
+      "symbolic_package_policy": "EXCLUDED_FROM_INDEPENDENT_CAS_COUNT_BECAUSE_OCTAVE_SYMBOLIC_DELEGATES_TO_SYMPY"
+    },
+    "java_algebra_system": {
+      "status": "PASS_SESSION_LEVEL_CURRENT_GITHUB_SOURCE_NOT_COMPILED_BY_HOSTED_RUNNER",
+      "role": "INDEPENDENT_EXACT_POLYNOMIAL_CAS",
+      "version": "2.7.200",
+      "jar_size": 2739965,
+      "jar_sha256": "62a362d2fc2591d39f5973125aef71cf70267d486d9b321240454a242bd11976",
+      "session_checks": "14/14 PASS",
+      "session_harness_history": [
+        "parser unary-expression repair",
+        "polynomial-ring variable-range repair",
+        "final zero-parse-failure run"
+      ],
+      "current_source": "external_cas/jas/CheckSyncMap02fXcas04.java",
+      "current_source_execution": "NOT_RUN_HOSTED_RUNNER_ALLOCATION"
+    },
+    "julia_nemo": {
+      "status": "SOURCE_CREATED_EXECUTION_NOT_RUN",
+      "role": "INDEPENDENT_EXACT_CAS_JULIA_FRONTEND_FLINT_BACKEND",
+      "julia_version": "1.12.7",
+      "nemo_version": "0.56.1",
+      "setup_julia_commit": "4c0cb0fce8556fdb04a90347310e5db8b1f98fb9",
+      "project": "external_cas/julia/Project.toml",
+      "source": "external_cas/julia/check_sync_map02f_xcas04.jl",
+      "manifest": "RED_PHASE_RUNTIME_RESOLVE_SENTINEL",
+      "execution": "NOT_RUN_HOSTED_RUNNER_ALLOCATION",
+      "local_fallback": "NOT_RUN_CONTAINER_AND_WOLFRAM_EXTERNAL_PROCESS_UNAVAILABLE"
+    }
+  },
+  "hosted_runner_attempts": [
+    {
+      "run": 33690157466,
+      "head": "3c5f18146213d1a529eb420a356c8114ade035d7",
+      "labels": ["ubuntu-24.04"],
+      "result": "ALL_FIVE_JOBS_RUNNER_ID_0_STEPS_EMPTY"
+    },
+    {
+      "run": 33690261078,
+      "head": "a5fd9db5a871e08c172a30c9d7fbc73a26af0995",
+      "labels": ["ubuntu-24.04", "macos-14"],
+      "result": "ALL_FIVE_JOBS_RUNNER_ID_0_STEPS_EMPTY"
+    },
+    {
+      "run": 33690520531,
+      "head": "91e968fe50ffe6be0ff7c4407a79ca87b5d89cc2",
+      "labels": ["ubuntu-24.04", "macos-14"],
+      "result": "ALL_FIVE_JOBS_RUNNER_ID_0_STEPS_EMPTY"
+    }
+  ],
+  "current_source_surfaces": 9,
+  "current_source_paths": [
+    ".github/workflows/xcas04-octave-jas-julia.yml",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F/XCAS04_OCTAVE_JAS_JULIA_MATRIX.json",
+    "external_cas/jas/CheckSyncMap02fXcas04.java",
+    "external_cas/julia/Manifest.toml",
+    "external_cas/julia/Project.toml",
+    "external_cas/julia/check_sync_map02f_xcas04.jl",
+    "external_cas/octave/check_sync_map02f_xcas04.m",
+    "scripts/verify_xcas04_octave_jas_julia_receipts.py",
+    "tests/test_xcas04_octave_jas_julia_contract.py"
+  ],
+  "claim_boundary": [
+    "OCTAVE_PRIOR_NUMERICAL_ORACLE_PASS",
+    "JAS_SESSION_LEVEL_EXACT_CAS_PASS",
+    "NO_JULIA_NEMO_RUNTIME_PASS",
+    "NO_XCAS04_EXACT_HEAD_CI_PASS",
+    "NO_DURABLE_THREE_ENGINE_EXACT_CAS_QUORUM",
+    "NO_TENSOR_CAS_CLAIM",
+    "NO_02E_OR_02F_SEMANTIC_CLOSEOUT",
+    "NO_CONSUMER_PARITY_PROVIDER_OR_SCIENCE_PROMOTION"
+  ]
+}
