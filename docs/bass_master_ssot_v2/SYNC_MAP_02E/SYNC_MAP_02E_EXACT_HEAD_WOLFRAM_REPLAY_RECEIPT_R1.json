@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "BIANCHI-WOLFRAM-FOUR-REPO-20260902",
+  "stage_id": "SYNC_MAP_02E_SHARED_FRAME_PHOTON_EXPORT",
+  "receipt_id": "SYNC_MAP_02E_EXACT_HEAD_WOLFRAM_REPLAY_R1",
+  "receipt_type": "CONNECTED_WOLFRAM_EXACT_HEAD_SOURCE_PACKET_REPLAY",
+  "status": "PASS_EVIDENCE_ONLY",
+  "tested_subject": {
+    "repository": "cosmosapjw-quantum/bass",
+    "pull_request": 99,
+    "branch": "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-20260902-r1",
+    "commit": "0b569c00c063e0a13807af5777f61efcced4b95c",
+    "tree": "4add420453ba2bcb9ced6844868425302d19bd8b"
+  },
+  "github_actions_source": {
+    "workflow_run_id": 33613480621,
+    "artifact_id": 9839944585,
+    "artifact_name": "sync-map02e-wolfram-source-packet",
+    "archive_bytes": 17495,
+    "archive_sha256": "cb356bb9fc8ca072327b4ee646e4d68afdeedc060b63f4d0f8196d9ee77481e3"
+  },
+  "executor": {
+    "kind": "connected_wolfram_language_evaluator",
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "system_id": "Linux-x86-64",
+    "xact_required": false,
+    "native_repository_checkout": false,
+    "exact_source_packet_replay": true,
+    "repository_runner_executed": "wolfram/scripts/run_sync_map02e_source_packet.wls"
+  },
+  "identity_checks": {
+    "archive_digest_match": true,
+    "payload_hash_manifest_match": true,
+    "checksum_self_entry_absent": true,
+    "git_manifest_head_match": true,
+    "git_manifest_tree_match": true
+  },
+  "m_unit": {
+    "status": "PASS",
+    "tests_succeeded": 13,
+    "tests_failed": 0,
+    "tests_not_evaluated": 0,
+    "expected_test_count": 13
+  },
+  "independent_exact_oracle": {
+    "corrected_residual_checks_zero": 16,
+    "hostile_mutations_detected": 5,
+    "dag_nodes": 10,
+    "dag_edges": 12,
+    "acyclic": true,
+    "topological_coverage": true,
+    "first_aggregation_failure_preserved": true,
+    "first_aggregation_failure_class": "HARNESS_EXPECTED_VALUE_NORMALIZATION_ERROR"
+  },
+  "formula_ids": [
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+    "BASS.PHOTON.DIRECTION_FLOW.001",
+    "BASS.PHOTON.ENERGY_DRIFT.001"
+  ],
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "epsilon_123": 1,
+    "photon_propagation_direction": "e",
+    "outward_sky_direction": "n_sky=-e",
+    "physical_length_parameter": "s=c t"
+  },
+  "authorized_evidence_claims": [
+    "EXACT_HEAD_SOURCE_PACKET_IDENTITY_VERIFIED",
+    "REPOSITORY_WOLFRAM_RUNNER_REPLAY_PASSED_13_OF_13",
+    "SIX_FORMULA_EQUATIONIR_EXPORT_REPLAYED_ON_WOLFRAM_15_0_1"
+  ],
+  "withheld_claims": [
+    "SYNC_MAP_02E_STAGE_PROMOTION",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "CONSUMER_IMPLEMENTATION_PARITY",
+    "GLOBAL_MATTER_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "BACKGROUND_PROVIDER_ADMISSION",
+    "REC_REI_PROVIDER_ADMISSION",
+    "NUMERICAL_PARITY",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04",
+    "MERGE_OR_READY_TRANSITION"
+  ],
+  "authority_effect": "NONE",
+  "notes": [
+    "This append-only receipt does not replace or rewrite the historical connected-oracle receipt.",
+    "It records external exact-head replay evidence only; project-controlled adjudication remains required for stage promotion.",
+    "The receipt commit necessarily follows the tested payload commit and must not be misrepresented as a replay of itself."
+  ]
+}

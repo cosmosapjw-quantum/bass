@@ -1,0 +1,107 @@
+name: sync-map02e-shared-frame-photon-export
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02e-shared-frame-photon-export.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02E/**"
+      - "scripts/verify_sync_map02e_shared_export.py"
+      - "scripts/render_sync_map02e_graph.py"
+      - "tests/test_sync_map02e_shared_export.py"
+      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02ETestSetup.wl"
+      - "wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt"
+      - "wolfram/scripts/run_sync_map02e_source_packet.wls"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run mutation-sensitive contract tests
+        run: python -m unittest -v tests/test_sync_map02e_shared_export.py
+      - name: Run fail-closed shared-export verifier
+        run: python scripts/verify_sync_map02e_shared_export.py --json
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02e_shared_export.py \
+            scripts/render_sync_map02e_graph.py \
+            tests/test_sync_map02e_shared_export.py
+      - name: Parse machine receipts
+        run: |
+          for path in \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/SYNC_MAP_02E_TDD_RECEIPT.json \
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/SYNC_MAP_02E_WOLFRAM_RECEIPT.json
+          do
+            python -m json.tool "$path" >/dev/null
+          done
+      - name: Reproduce deterministic dependency figure
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp --suffix=.svg)"
+          python scripts/render_sync_map02e_graph.py --output "$tmp"
+          cmp "$tmp" docs/bass_master_ssot_v2/SYNC_MAP_02E/SHARED_FORMULA_DAG.svg
+      - name: Exact-base repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=9e39e2468b9efec05f33b9945de02fe2c8c6a66d
+          git cat-file -e "${BASE}^{commit}"
+          git merge-base --is-ancestor "$BASE" HEAD
+          git diff --check "$BASE"...HEAD
+      - name: Build exact Wolfram source packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          packet="$RUNNER_TEMP/sync-map02e-source-packet"
+          mkdir -p "$packet"
+          paths=(
+            wolfram/BASS/Kernel/IR/CanonicalSerialization.wl
+            wolfram/BASS/Kernel/IR/ExactScalarAST.wl
+            wolfram/BASS/Kernel/IR/EquationIR.wl
+            wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl
+            wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl
+            wolfram/BASS/Tests/SYNCMAP02ETestSetup.wl
+            wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt
+            wolfram/scripts/run_sync_map02e_source_packet.wls
+            docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json
+          )
+          for path in "${paths[@]}"; do
+            mkdir -p "$packet/$(dirname "$path")"
+            cp "$path" "$packet/$path"
+          done
+          {
+            printf 'head=%s\n' "$(git rev-parse HEAD)"
+            printf 'tree=%s\n' "$(git show -s --format=%T HEAD)"
+            for path in "${paths[@]}"; do
+              printf '%s  %s\n' "$(git rev-parse "HEAD:$path")" "$path"
+            done
+          } > "$packet/GIT_OBJECT_MANIFEST.txt"
+          (cd "$packet" && \
+            find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum) \
+            > "$packet/SHA256SUMS"
+      - name: Upload Wolfram source packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02e-wolfram-source-packet
+          path: ${{ runner.temp }}/sync-map02e-source-packet
+          if-no-files-found: error
+          retention-days: 30
