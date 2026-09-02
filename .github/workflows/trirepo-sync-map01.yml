@@ -1,0 +1,38 @@
+name: trirepo-sync-map01
+
+on:
+  pull_request:
+    paths:
+      - "scripts/trirepo_formula_inventory.py"
+      - "tests/test_trirepo_formula_inventory.py"
+      - "fixtures/trirepo_formula_inventory_minimal.json"
+      - "docs/bianchi_program/SYNC_MAP_01/**"
+      - "schemas/trirepo-formula-inventory.schema.json"
+      - ".github/workflows/trirepo-sync-map01.yml"
+  push:
+    branches:
+      - "agent/policy/trirepo-sync-map-01-*"
+    paths:
+      - "scripts/trirepo_formula_inventory.py"
+      - "tests/test_trirepo_formula_inventory.py"
+      - "fixtures/trirepo_formula_inventory_minimal.json"
+      - "docs/bianchi_program/SYNC_MAP_01/**"
+      - "schemas/trirepo-formula-inventory.schema.json"
+      - ".github/workflows/trirepo-sync-map01.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  map01-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run SYNC-MAP-01 contract tests
+        run: python -m unittest -v tests/test_trirepo_formula_inventory.py
+      - name: Compile inventory coordinator
+        run: python -m py_compile scripts/trirepo_formula_inventory.py tests/test_trirepo_formula_inventory.py
