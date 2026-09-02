@@ -9,6 +9,7 @@ on:
       - "scripts/render_sync_map02e_graph.py"
       - "tests/test_sync_map02e_shared_export.py"
       - "wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl"
+      - "wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl"
       - "wolfram/BASS/Kernel/init.wl"
       - "wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt"
   push:
@@ -26,6 +27,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -74,6 +76,7 @@ jobs:
             wolfram/BASS/Kernel/IR/ExactScalarAST.wl
             wolfram/BASS/Kernel/IR/EquationIR.wl
             wolfram/BASS/Kernel/IR/SharedFramePhotonExport.wl
+            wolfram/BASS/Kernel/IR/SharedFramePhotonExportClaimBoundaryFix1.wl
             wolfram/BASS/Tests/SYNCMAP02ESharedFramePhotonExport.wlt
             docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json
           )
@@ -88,7 +91,8 @@ jobs:
               printf '%s  %s\n' "$(git rev-parse "HEAD:$path")" "$path"
             done
           } > "$packet/GIT_OBJECT_MANIFEST.txt"
-          (cd "$packet" && find . -type f -print0 | sort -z | xargs -0 sha256sum) \
+          (cd "$packet" && \
+            find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum) \
             > "$packet/SHA256SUMS"
       - name: Upload Wolfram source packet
         uses: actions/upload-artifact@v4
