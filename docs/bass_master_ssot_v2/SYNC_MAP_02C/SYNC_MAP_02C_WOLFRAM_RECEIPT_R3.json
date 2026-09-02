@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "receipt_type": "CONNECTED_STATELESS_WOLFRAM_R3_ORACLE",
+  "status": "PASS_SYNC_MAP_02C_R3_AND_02E_SIX_FORMULA_CONTRACT",
+  "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+  "xact_required": false,
+  "native_repository_file_replay": false,
+  "source_count": 22,
+  "relation_count": 12,
+  "shared_formula_count": 6,
+  "checks": {
+    "aberrated_direction_unit_norm": true,
+    "doppler_chart_equivalence": true,
+    "solid_angle_jacobian": true,
+    "blackbody_planck_argument_invariant": true,
+    "direction_flow_tangent": true,
+    "energy_drift_flrw_limit": true,
+    "six_formula_union": true,
+    "single_owner_invariant": true,
+    "relation_count_12": true,
+    "relation_class_counts": true,
+    "source_path_count_22": true,
+    "source_blob_count_22": true,
+    "dag_acyclic": true,
+    "dag_topological_coverage": true,
+    "02c_and_02d_both_gate_02e": true
+  },
+  "mutation_controls": {
+    "wrong_jacobian_power_detected": true,
+    "blackbody_weight_zero_detected": true,
+    "radial_compensation_omission_detected": true,
+    "multi_owner_detected": true,
+    "stale_four_formula_union_detected": true,
+    "missing_source_row_detected": true,
+    "missing_02d_gate_detected": true
+  },
+  "failed_checks": [],
+  "shared_formulas": [
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+    "BASS.PHOTON.DIRECTION_FLOW.001",
+    "BASS.PHOTON.ENERGY_DRIFT.001"
+  ],
+  "physics_contract": {
+    "direction_adapter": "outward sky n=-e where e is photon propagation direction",
+    "doppler_unboosted_sky_chart": "D=gamma(1+beta.n)",
+    "doppler_photon_direction_chart": "D=gamma(1-beta.e)",
+    "solid_angle": "dOmega_tilde=D^-2 dOmega",
+    "blackbody_temperature": "T_tilde(n_tilde)=D T(n(n_tilde))",
+    "photon_energy_drift": "R=-H_geom-sigma_ab e^a e^b",
+    "direction_flow_tangency": "e_a V^a=0"
+  },
+  "canonical_inputform_sha256": "3ec0cd684b024a56d8c5232a96bb3af7307b8d435bb66d7d962abc18363e2aa8",
+  "claim_effect": "NONE",
+  "claim_boundary": "FORMULA_AND_GOVERNANCE_ORACLE_ONLY_NO_NATIVE_REPO_REPLAY_SEMANTIC_EQUIVALENCE_PROVIDER_OR_SCIENCE_PROMOTION"
+}

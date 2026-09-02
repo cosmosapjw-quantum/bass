@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.2",
+  "program_id": "BIANCHI-WOLFRAM-TRIREPO-20260830",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "record_form": "CLOSED_DELTA_OVER_EXACT_FIX1_BLOB",
+  "status": "PASS_WITH_BACKGROUND_PROVIDER_AND_ANISOTROPIC_GROUP_CLOSURE_BLOCKERS",
+  "base_record": {
+    "path": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX1.json",
+    "commit": "701c8bd20558c4cc8002e4d8bf408aaee2e8ce60",
+    "blob": "baeae9a737e36ecabe63e310dc42effb095788bd"
+  },
+  "supersedes": [
+    "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION.json",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX1.json"
+  ],
+  "invariants_retained": {
+    "rei_lineage_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+    "rei_lineage_tree": "16d060d45ddfa401e4a5c22f9ca53cf65399ff51",
+    "rei_src_tree": "f1708900abe8a912637d87ab506c7273b50266ae",
+    "bass_relation_parent": "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96",
+    "bass_formula_parent": "6587c081932d1dddda586781825d242616ca1357",
+    "bass_formula_count": 14,
+    "relation_count": 11,
+    "relation_class_counts": {
+      "PINNED_ARTIFACT_IMPORT_REQUIRED": 2,
+      "BASELINE_CONTROL_ORACLE": 1,
+      "ADAPTER_SPECIALIZATION": 2,
+      "OWNED_EXTENSION": 5,
+      "OWNED_FEASIBILITY_GATE": 1
+    },
+    "active_rei_geometry_rederivation_count": 0,
+    "duplicate_authority_count": 0,
+    "new_rei_formula_id_gap_count": 0
+  },
+  "corrected_relation": {
+    "relation_id": "REI.REL.GROUP_REDSHIFT_FLOW.001",
+    "relation_class": "ADAPTER_SPECIALIZATION",
+    "owner": "rei_bianchi",
+    "consumer": "rei_bianchi",
+    "source_path": "src/rei_bianchi/b2b_physical_model.py",
+    "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+    "implemented_formula": "red_out=Hubble*redshift_coeff; adjacent-bin inflow",
+    "implemented_hubble_control": "H(z)=H0 sqrt(Omega_m(1+z)^3+Omega_Lambda)",
+    "implemented_validity": "FLRW_CONTROL_OR_EXACTLY_ISOTROPIC_ANGULAR_SUBSPACE",
+    "generic_bianchi_formula": "R(e)=-H_geom-sigma_ab e^a e^b",
+    "generic_bianchi_requirement": "An angular hierarchy or an explicit closure carrying the shear coupling to nonzero radiation multipoles.",
+    "required_formula_imports": [
+      "BASS.PHOTON.ENERGY_DRIFT.001",
+      "BASS.PHOTON.DIRECTION_FLOW.001"
+    ],
+    "authority_effect": "REI_OWNED_FLRW_CONTROL_ADAPTER_NOT_GENERIC_BIANCHI_TRANSPORT"
+  },
+  "exact_angular_moment_audit": {
+    "isotropic_identity": "<sigma_ab e^a e^b>_iso=0",
+    "quadrupole_identity": "<(sigma_ab e^a e^b)(Q_cd e^c e^d)>=2 sigma_ab Q^ab/15",
+    "explicit_counterexample": {
+      "sigma": "diag(1,-1,0)",
+      "Q": "diag(2,-1,-1)",
+      "value": "2/5"
+    },
+    "first_wolfram_attempt": "FAIL_HARNESS_NONZERO_PREDICATE_ONLY_5_OF_6",
+    "final_wolfram_status": "PASS_6_OF_6",
+    "wolfram_version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "xact_required": false
+  },
+  "shared_formula_consumer_union": {
+    "BASS.FRAME.ABERRATED_DIRECTION.001": ["rec_bianchi", "htt_base"],
+    "BASS.FRAME.DOPPLER_FACTOR.001": ["rec_bianchi", "htt_base"],
+    "BASS.PHOTON.DIRECTION_FLOW.001": ["rec_bianchi", "rei_bianchi"],
+    "BASS.PHOTON.ENERGY_DRIFT.001": ["rec_bianchi", "rei_bianchi"]
+  },
+  "artifact_contract_gaps": [
+    "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK",
+    "REI.BASS_NUMERICAL_BACKGROUND_LOCK",
+    "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE"
+  ],
+  "updated_impact_dag": {
+    "proposal_only": true,
+    "official_dag_mutated": false,
+    "completed_node": "FED.MAP02C_REI",
+    "newly_opened_nodes": [
+      "FED.SHARED_FRAME_PHOTON_EXPORT",
+      "BASS.BG02_IMPLEMENT"
+    ],
+    "new_nodes": [
+      "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK",
+      "REI.BASS_NUMERICAL_BACKGROUND_LOCK",
+      "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE"
+    ],
+    "new_edges": [
+      {"from":"BASS.BG02_IMPLEMENT","to":"BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK","kind":"requires_execution"},
+      {"from":"BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK","to":"REI.BASS_NUMERICAL_BACKGROUND_LOCK","kind":"requires_execution"},
+      {"from":"FED.SHARED_FRAME_PHOTON_EXPORT","to":"REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE","kind":"requires_execution"},
+      {"from":"REI.BASS_NUMERICAL_BACKGROUND_LOCK","to":"REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE","kind":"requires_execution"},
+      {"from":"REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE","to":"REI.FIRST_CANONICAL_INTERVAL","kind":"requires_execution"}
+    ],
+    "blocked_nodes": {
+      "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK": "BLOCKED_ON_BG02_IMPLEMENT_AND_CONSTRAINT_CONTRACT",
+      "REI.BASS_NUMERICAL_BACKGROUND_LOCK": "BLOCKED_ON_BASS_BACKGROUND_PROVIDER_AND_EXACT_EXTERNAL_PINS",
+      "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE": "BLOCKED_ON_SHARED_PHOTON_FORMULAS_AND_BASS_BACKGROUND_LOCK",
+      "REI.FIRST_CANONICAL_INTERVAL": "BLOCKED_ON_RUNTIME_BRIDGE_CAPACITY_PATH_BACKGROUND_LOCK_AND_ANISOTROPIC_GROUP_CLOSURE",
+      "REI.PROVIDER_EXPORT": "BLOCKED_ON_FIRST_CANONICAL_INTERVAL"
+    }
+  },
+  "implementation_boundaries": {
+    "flrw_h_only_group_redshift_control_implemented": true,
+    "generic_bianchi_group_redshift_implemented": false,
+    "numerical_bass_lock_implemented": false,
+    "bianchi_geometry_implemented_in_rei": false,
+    "global_tilt_implemented_in_rei": false,
+    "local_observer_boost_implemented_in_rei": false,
+    "exact_electron_frame_thomson_for_cmb_implemented_in_rei": false,
+    "first_canonical_interval_passed": false,
+    "provider_export_authorized": false
+  },
+  "verification_status": {
+    "formula_and_graph_wolfram": "PASS_15_OF_15",
+    "angular_moment_wolfram": "PASS_6_OF_6",
+    "dropbox_candidate_restore": "PASS_26_OF_26_BUT_SUPERSEDED",
+    "dropbox_fix1_restore": "PASS_24_OF_24_BUT_SUPERSEDED_BY_FIX2",
+    "repo_local_python_verifier": "NOT_RUN_ENVIRONMENT_CLIENT_ERROR",
+    "raw_github_import_in_wolfram": "ENVIRONMENT_GAP_RAW_GITHUB_IMPORT"
+  },
+  "withheld_claims": [
+    "GENERIC_BIANCHI_GROUP_REDSHIFT_TRANSPORT",
+    "REI_BIANCHI_GEOMETRY_IMPLEMENTATION",
+    "BASS_NUMERICAL_BACKGROUND_LOCK",
+    "GLOBAL_TILT",
+    "LOCAL_OBSERVER_BOOST",
+    "EXACT_ELECTRON_FRAME_THOMSON_CMB_PATH",
+    "FIRST_CANONICAL_INTERVAL",
+    "REI_PROVIDER_EXPORT",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "OFFICIAL_DAG_MUTATION",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ],
+  "claim_boundary": "ACTIVE_REI_RELATION_CLASSIFICATION_COMPLETE_WITH_FLRW_GROUP_ADAPTER_NARROWED_NO_GENERIC_BIANCHI_GROUP_CLOSURE_BACKGROUND_LOCK_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}

@@ -1,0 +1,113 @@
+name: sync-map02c-rei-relations
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02c-rei-relations.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02C/**"
+      - "scripts/verify_sync_map02c_rei_relations.py"
+      - "scripts/render_sync_map02c_r3_plots.py"
+      - "tests/test_sync_map02c_rei_closeout.py"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02c-rei-relations-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rei-relation-closeout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run fail-closed R3 verifier
+        run: python scripts/verify_sync_map02c_rei_relations.py --json
+      - name: Run mutation-sensitive closeout tests
+        run: python -m unittest -v tests/test_sync_map02c_rei_closeout.py
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02c_rei_relations.py \
+            scripts/render_sync_map02c_r3_plots.py \
+            tests/test_sync_map02c_rei_closeout.py
+      - name: Parse JSON and complete-source CSV
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool \
+            docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_R3.json \
+            >/dev/null
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          path = Path("docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_SOURCE_COVERAGE_MATRIX.csv")
+          with path.open(newline="", encoding="utf-8") as handle:
+              rows = list(csv.DictReader(handle))
+          if len(rows) != 22:
+              raise SystemExit(f"expected 22 source rows, found {len(rows)}")
+          print({"source_rows": len(rows), "unique_paths": len({row['source_path'] for row in rows})})
+          PY
+      - name: Regenerate and byte-compare R3 SVG evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          python scripts/render_sync_map02c_r3_plots.py --output-dir "$tmp"
+          cmp "$tmp/R3_SOURCE_COVERAGE_SUMMARY.svg" \
+            docs/bass_master_ssot_v2/SYNC_MAP_02C/R3_SOURCE_COVERAGE_SUMMARY.svg
+          cmp "$tmp/R3_FEDERATION_GATE.svg" \
+            docs/bass_master_ssot_v2/SYNC_MAP_02C/R3_FEDERATION_GATE.svg
+      - name: Contract-aware repository text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git rev-parse --verify 'HEAD^2' >/dev/null 2>&1; then
+            left='HEAD^1'
+            right='HEAD^2'
+          else
+            left='HEAD^'
+            right='HEAD'
+          fi
+          python - "$left" "$right" <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          left, right = sys.argv[1:]
+          changed = subprocess.check_output(
+              ["git", "diff", "--name-only", "-z", left, right]
+          ).decode("utf-8").split("\0")
+          failures = []
+          checked = 0
+          for name in changed:
+              if not name:
+                  continue
+              path = Path(name)
+              if not path.is_file():
+                  continue
+              data = path.read_bytes()
+              if b"\0" in data:
+                  continue
+              checked += 1
+              markdown = path.suffix.lower() == ".md"
+              for number, raw in enumerate(data.splitlines(), start=1):
+                  if raw.endswith(b"\t"):
+                      failures.append(f"{name}:{number}: trailing tab")
+                      continue
+                  stripped = raw.rstrip(b" ")
+                  trailing = len(raw) - len(stripped)
+                  allowed = {0, 2} if markdown else {0}
+                  if trailing not in allowed:
+                      failures.append(
+                          f"{name}:{number}: {trailing} terminal spaces; allowed={sorted(allowed)}"
+                      )
+          if failures:
+              raise SystemExit("\n".join(failures))
+          print({"status": "PASS", "text_files_checked": checked})
+          PY

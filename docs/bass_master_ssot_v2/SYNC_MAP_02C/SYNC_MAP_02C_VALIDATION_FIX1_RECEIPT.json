@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "repair_id": "SYNC_MAP_02C_VALIDATION_FIX1",
+  "status": "FACTUAL_SCOPE_CORRECTION_REQUIRED",
+  "authority_effect": "NONE",
+  "preserved_candidate": {
+    "path": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION.json",
+    "commit": "d01baf1f8c30310d2a7565cafca0be9bf258c371",
+    "disposition": "RETAINED_FAILED_PRE_PUBLICATION_CANDIDATE"
+  },
+  "finding": {
+    "severity": "P1",
+    "field": "relations[REI.REL.FLRW_HUBBLE_CONTROL.001].formula_or_contract",
+    "candidate_text": "H(z)=H0 sqrt(Omega_m(1+z)^3+Omega_r(1+z)^4+Omega_Lambda), with a reduced matter+Lambda control in another path",
+    "actual_code": "H(z)=H0 sqrt(Omega_m(1+z)^3+Omega_Lambda)",
+    "source_path": "src/rei_bianchi/b2b_physical_model.py",
+    "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+    "source_constants": {
+      "H0_km_s_Mpc": 67.4,
+      "Omega_m": 0.315,
+      "Omega_Lambda": 0.685,
+      "Omega_r_present": false
+    },
+    "root_cause": "A counterfactual radiation-inclusive comparison used in the Wolfram limitation witness was accidentally described as an implemented REI control path.",
+    "physics_code_changed": false,
+    "relation_class_changed": false,
+    "dag_changed": false
+  },
+  "correction": {
+    "canonical_successor": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX1.json",
+    "correct_formula": "H(z)=H0 sqrt(Omega_m(1+z)^3+Omega_Lambda)",
+    "correct_semantic_status": "LATE_TIME_FLAT_FLRW_CONTROL_WITH_RADIATION_OMITTED_NOT_BIANCHI_BACKGROUND_AUTHORITY",
+    "wolfram_witness_scope": "H_with_radiation^2-H_control^2=H0^2 Omega_r a^-4 is a limitation/mutation witness, not a second implemented code path."
+  },
+  "claim_boundary": "PRE_PUBLICATION_SCOPE_REPAIR_ONLY_NO_BACKGROUND_PROVIDER_PROVIDER_ADMISSION_OR_SCIENCE_PROMOTION"
+}

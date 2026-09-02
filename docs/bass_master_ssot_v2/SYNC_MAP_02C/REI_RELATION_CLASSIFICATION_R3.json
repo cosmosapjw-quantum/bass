@@ -1,0 +1,277 @@
+{
+  "schema_version": "1.0.3",
+  "program_id": "BIANCHI-WOLFRAM-FOUR-REPO-20260902",
+  "stage_id": "SYNC_MAP_02C_REI_RELATION_CLASSIFICATION",
+  "record_form": "APPEND_ONLY_SUPERSEDING_CLOSEOUT_CANDIDATE",
+  "status": "PASS_COMPLETE_22_PATH_RELATION_OR_EXCLUSION_MATRIX_EXACT_HEAD_VERIFICATION_REQUIRED",
+  "supersedes": [
+    "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION.json",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX1.json",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_FIX2.json"
+  ],
+  "exact_authorities": {
+    "bass_formula_registry": {
+      "pull_request": 93,
+      "commit": "6587c081932d1dddda586781825d242616ca1357",
+      "formula_count": 14,
+      "registry_semantic_hash": "d08082e38227c7731c103b26ba8cb029bbf212759f03e64ff1c8ac8ae7f1ab51"
+    },
+    "rec_relation_map": {
+      "pull_request": 95,
+      "commit": "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96"
+    },
+    "rei_scientific_line": {
+      "pull_request": 32,
+      "commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "tree": "16d060d45ddfa401e4a5c22f9ca53cf65399ff51",
+      "src_tree": "f1708900abe8a912637d87ab506c7273b50266ae",
+      "src_file_count": 22
+    },
+    "htt_relation_map": {
+      "pull_request": 97,
+      "commit": "06aa29f78c26bcafeb60d85b719a4d3aa5c4c2e8",
+      "workflow_run": 33601836772,
+      "workflow_conclusion": "success",
+      "bounded_htt_sources": {
+        "wu010_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+        "wu011_commit": "978fbe612a570b9973b17c51237965f16b630fc4"
+      }
+    }
+  },
+  "source_scope": {
+    "coverage_matrix_path": "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_SOURCE_COVERAGE_MATRIX.csv",
+    "coverage_row_count": 22,
+    "all_exact_src_paths_bound": true,
+    "all_src_paths_have_machine_bound_relation_or_exclusion": true,
+    "all_src_file_contents_fully_line_by_line_adjudicated": false,
+    "historical_all_branch_deduplication": false,
+    "claim_scope": "EXACT_ACTIVE_REI_PR32_SRC_TREE_ONLY"
+  },
+  "relation_summary": {
+    "relation_count": 12,
+    "relation_class_counts": {
+      "PINNED_ARTIFACT_IMPORT_REQUIRED": 3,
+      "BASELINE_CONTROL_ORACLE": 1,
+      "ADAPTER_SPECIALIZATION": 2,
+      "OWNED_EXTENSION": 5,
+      "OWNED_FEASIBILITY_GATE": 1
+    },
+    "single_owner_invariant": true,
+    "duplicate_derivation_count": 0,
+    "new_rei_frame_photon_formula_gap_count": 0
+  },
+  "relations": [
+    {
+      "relation_id": "REI.REL.BASS_AUTHORITY_PIN.001",
+      "relation_class": "PINNED_ARTIFACT_IMPORT_REQUIRED",
+      "owner": "bass",
+      "adapter_owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/bass_integration_substrate.py",
+      "source_blob": "3c0f68cb0e40e3826a3d80dfce2fcdd5065fd826",
+      "target_owner_family": "BASS.EXACT_GIT_AUTHORITY_PIN",
+      "formula_or_contract": "exact BASS commit tree and load-bearing blob pins are supplied externally and are never guessed",
+      "authority_effect": "NONE_UNTIL_EXTERNAL_BASS_PIN_ADMITTED"
+    },
+    {
+      "relation_id": "REI.REL.REC_AUTHORITY_PIN.001",
+      "relation_class": "PINNED_ARTIFACT_IMPORT_REQUIRED",
+      "owner": "rec_bianchi",
+      "adapter_owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/bass_integration_substrate.py",
+      "source_blob": "3c0f68cb0e40e3826a3d80dfce2fcdd5065fd826",
+      "target_owner_family": "REC.EXACT_GIT_AUTHORITY_PIN",
+      "formula_or_contract": "exact REC commit tree and load-bearing blob pins are supplied externally and are never guessed",
+      "authority_effect": "NONE_UNTIL_EXTERNAL_REC_PIN_ADMITTED"
+    },
+    {
+      "relation_id": "REI.REL.BASS_NUMERICAL_BACKGROUND_LOCK.001",
+      "relation_class": "PINNED_ARTIFACT_IMPORT_REQUIRED",
+      "owner": "bass",
+      "adapter_owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/bass_integration_substrate.py",
+      "source_blob": "3c0f68cb0e40e3826a3d80dfce2fcdd5065fd826",
+      "target_owner_family": "BASS.BACKGROUND.PROVIDER",
+      "formula_or_contract": "a numerical BASS background lock is intentionally absent and requires an exact external provider",
+      "authority_effect": "BLOCKS_REI_BASS_COUPLED_PROMOTION"
+    },
+    {
+      "relation_id": "REI.REL.FLRW_HUBBLE_CONTROL.001",
+      "relation_class": "BASELINE_CONTROL_ORACLE",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/b2b_physical_model.py",
+      "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+      "formula_or_contract": "H(z)=H0 sqrt(Omega_m(1+z)^3+Omega_Lambda) in the active reduced control path",
+      "semantic_status": "LATE_TIME_FLAT_FLRW_CONTROL_NOT_BIANCHI_BACKGROUND_AUTHORITY",
+      "authority_effect": "NONE"
+    },
+    {
+      "relation_id": "REI.REL.GROUP_REDSHIFT_FLOW.001",
+      "relation_class": "ADAPTER_SPECIALIZATION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/b2b_physical_model.py",
+      "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+      "implemented_formula": "red_out=Hubble*redshift_coeff with adjacent-group inflow",
+      "implemented_validity": "FLRW_CONTROL_OR_EXACTLY_ISOTROPIC_ANGULAR_SUBSPACE",
+      "dependencies": [
+        "BASS.BACKGROUND.PROVIDER",
+        "BASS.PHOTON.ENERGY_DRIFT.001",
+        "BASS.PHOTON.DIRECTION_FLOW.001"
+      ],
+      "authority_effect": "REI_OWNED_DISCRETIZATION_NOT_GENERIC_BIANCHI_TRANSPORT"
+    },
+    {
+      "relation_id": "REI.REL.EXPANSION_WORK.001",
+      "relation_class": "ADAPTER_SPECIALIZATION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/primary_exact_zero_model.py",
+      "source_blob": "ea2a10a60114622fd1215b692be3dd0d04ef0c6d",
+      "formula_or_contract": "expansion_work=3 H p",
+      "validity": "isotropic pressure in the declared normal or FLRW control",
+      "dependencies": ["BASS.BACKGROUND.PROVIDER"],
+      "authority_effect": "REI_OWNED_THERMAL_ADAPTER"
+    },
+    {
+      "relation_id": "REI.REL.ELECTRON_DENSITY.001",
+      "relation_class": "OWNED_EXTENSION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/monolithic_model_b2a.py",
+      "source_blob": "3d806e1c1d3bb523bb3c339d1a141f67d7f10069",
+      "formula_or_contract": "n_e=n_H x_HII+n_He(x_HeII+2 x_HeIII)",
+      "authority_effect": "REI_OWNED_MICROPHYSICS_VALUE"
+    },
+    {
+      "relation_id": "REI.REL.ION_FRACTION_SIMPLEX.001",
+      "relation_class": "OWNED_EXTENSION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/primary_exact_zero_model.py",
+      "source_blob": "ea2a10a60114622fd1215b692be3dd0d04ef0c6d",
+      "formula_or_contract": "x_HII=sigmoid(z_H); (x_HeI,x_HeII,x_HeIII)=softmax(0,z_HeII,z_HeIII)",
+      "authority_effect": "REI_OWNED_STATE_PARAMETERIZATION"
+    },
+    {
+      "relation_id": "REI.REL.FINITE_TAU_TRANSMISSION.001",
+      "relation_class": "OWNED_EXTENSION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/multigroup_hhe_transmission.py",
+      "source_blob": "5b74a4036c8cb21a2cb772dd3d373c5f96d5a36c",
+      "formula_or_contract": "F_g=<exp(-tau_g(E))>_phi",
+      "authority_effect": "REI_OWNED_RADIATIVE_TRANSFER_CLOSURE"
+    },
+    {
+      "relation_id": "REI.REL.SPECIES_ABSORPTION_ALLOCATION.001",
+      "relation_class": "OWNED_EXTENSION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/multigroup_hhe_transmission.py",
+      "source_blob": "5b74a4036c8cb21a2cb772dd3d373c5f96d5a36c",
+      "formula_or_contract": "A_sg=<[1-exp(-tau)] tau_s/tau>_phi / <1-exp(-tau)>_phi",
+      "authority_effect": "REI_OWNED_SPECIES_ALLOCATION"
+    },
+    {
+      "relation_id": "REI.REL.SIGNED_OPACITY_DECOMPOSITION.001",
+      "relation_class": "OWNED_EXTENSION",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/absorption_decomposition.py",
+      "source_blob": "5f797469eaa67847fa3c5f3701a5b8416a55d98e",
+      "formula_or_contract": "total opacity=nonnegative physical components plus a signed unattributed effective residual that is not exponentiated",
+      "authority_effect": "REI_OWNED_DIAGNOSTIC_DECOMPOSITION"
+    },
+    {
+      "relation_id": "REI.REL.ABSORPTION_CHEMISTRY_CAPACITY_GATE.001",
+      "relation_class": "OWNED_FEASIBILITY_GATE",
+      "owner": "rei_bianchi",
+      "consumer": "rei_bianchi",
+      "source_path": "src/rei_bianchi/matched_history_feasibility_gate.py",
+      "source_blob": "3d80474e7ba1ecba4f102c5dd85b6efa2bfb0ec3",
+      "formula_or_contract": "J_H <= M_H+n_H^c(1-X_HII,start)/Delta_t",
+      "authority_effect": "FAIL_CLOSED_REI_PROMOTION_GATE"
+    }
+  ],
+  "bass_geometry_matrix": {
+    "formula_count": 14,
+    "NO_ACTIVE_REI_REDERIVATION_DETECTED": 14,
+    "DUPLICATE_AUTHORITY": 0,
+    "scope_note": "The exact PR32 src tree contains no BASS connection curvature Gauss-Codazzi or projector authority implementation."
+  },
+  "shared_formula_consumer_union": {
+    "BASS.FRAME.ABERRATED_DIRECTION.001": ["rec_bianchi", "htt_base"],
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001": ["htt_base"],
+    "BASS.FRAME.DOPPLER_FACTOR.001": ["rec_bianchi", "htt_base"],
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001": ["htt_base"],
+    "BASS.PHOTON.DIRECTION_FLOW.001": ["rec_bianchi", "rei_bianchi"],
+    "BASS.PHOTON.ENERGY_DRIFT.001": ["rec_bianchi", "rei_bianchi"]
+  },
+  "shared_export_result": {
+    "union_formula_count": 6,
+    "new_rei_only_formula_id_gap_count": 0,
+    "provenance": ["SYNC_MAP_02B_REC", "SYNC_MAP_02D_HTT", "SYNC_MAP_02C_REI"],
+    "frame_photon_export_is_separate_from_background_provider": true
+  },
+  "artifact_contract_gaps": [
+    "BASS.BACKGROUND_PROVIDER_SCHEMA_AND_EXACT_LOCK",
+    "REI.BASS_NUMERICAL_BACKGROUND_LOCK",
+    "REI.ANISOTROPIC_GROUP_REDSHIFT_CLOSURE"
+  ],
+  "next_stage_gate": {
+    "node": "SYNC_MAP_02E_SHARED_FRAME_PHOTON_EXPORT",
+    "status": "HELD_UNTIL_02C_AND_02D_FROZEN_READBACK",
+    "required_predecessors": ["SYNC_MAP_02C_REI", "SYNC_MAP_02D_HTT"],
+    "observed_predecessors": {
+      "SYNC_MAP_02C_REI": "R3_CANDIDATE_REQUIRES_EXACT_HEAD_WORKFLOW",
+      "SYNC_MAP_02D_HTT": "EXACT_HEAD_WORKFLOW_SUCCESS_AWAITING_FROZEN_ACCEPTANCE_READBACK"
+    },
+    "forbidden_bypass": "02E may not start from REC-only four-formula scope or before both relation maps are frozen."
+  },
+  "implementation_boundaries": {
+    "generic_bianchi_group_redshift_implemented": false,
+    "numerical_bass_background_lock_implemented": false,
+    "bianchi_geometry_implemented_in_rei": false,
+    "global_tilt_implemented_in_rei": false,
+    "local_observer_boost_implemented_in_rei": false,
+    "exact_electron_frame_thomson_for_cmb_implemented_in_rei": false,
+    "first_canonical_interval_passed": false,
+    "provider_export_authorized": false
+  },
+  "scispace_role_lock": {
+    "authority_effect": "NONE",
+    "admitted_methodology": [
+      "Dai and Chluba: exact full-sky d=1 aberration-kernel structure",
+      "Ferreira and Quartin: realistic mask noise and estimator separation",
+      "Yasini and Pierpaoli: frequency-dependent and cut-sky boost response",
+      "Planck Doppler-boost analysis: observation-side mode-coupling context"
+    ],
+    "not_admitted_for": ["project sign choice", "formula ownership", "Git identity", "claim promotion"]
+  },
+  "verification_status": {
+    "tdd_red_commit": "00a31c5e363449bd4ebe4d78c48b21cb9aca14ce",
+    "tdd_red_workflow_run": 33604001631,
+    "tdd_red_conclusion": "failure_as_expected_before_R3_matrix_and_verifier",
+    "repo_local_exact_head_verification": "PENDING",
+    "connected_wolfram": "PENDING_R3_ORACLE",
+    "native_repository_wolfram_replay": "NOT_RUN"
+  },
+  "withheld_claims": [
+    "SYNC_MAP_02E_STARTED",
+    "CROSS_REPOSITORY_SEMANTIC_EQUIVALENCE",
+    "GENERIC_BIANCHI_GROUP_REDSHIFT_TRANSPORT",
+    "BASS_NUMERICAL_BACKGROUND_LOCK",
+    "GLOBAL_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "FIRST_CANONICAL_INTERVAL",
+    "REI_PROVIDER_EXPORT",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ],
+  "claim_boundary": "COMPLETE_ACTIVE_REI_SOURCE_PATH_RELATION_OR_EXCLUSION_MATRIX_CANDIDATE_NO_02E_PROVIDER_EQUIVALENCE_OR_SCIENCE_PROMOTION"
+}
