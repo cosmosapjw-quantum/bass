@@ -1,0 +1,28 @@
+name: sync-map02f-external-oracle-triangulation
+
+on:
+  push:
+    branches:
+      - audit/sync-map02f-external-oracle-triangulation-20260903-r1
+  pull_request:
+    paths:
+      - 'scripts/verify_sync_map02f_*'
+      - 'tests/test_sync_map02f_external_oracle_contract.py'
+      - 'docs/bass_master_ssot_v2/SYNC_MAP_02F/EXTERNAL_ORACLE_MATRIX_R1.json'
+      - '.github/workflows/sync-map02f-external-oracle-triangulation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract-red-or-green:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run external-oracle contract tests
+        run: python -m unittest -v tests/test_sync_map02f_external_oracle_contract.py
