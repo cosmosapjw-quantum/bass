@@ -1,6 +1,7 @@
 Module[{root, summary, adapters, receipt},
  root = DirectoryName[DirectoryName[$InputFileName]];
  Get[FileNameJoin[{root, "Kernel", "IR", "CrossRepositorySemanticGraph.wl"}]];
+ Get[FileNameJoin[{root, "Kernel", "IR", "CrossRepositorySemanticGraphReceiptFix1.wl"}]];
  summary = BASS`IR`CrossRepositorySemanticGraphSummary[];
  adapters = BASS`IR`CrossRepositorySemanticAdapterReport[];
  receipt = BASS`IR`CrossRepositorySemanticGraphReceipt[];
