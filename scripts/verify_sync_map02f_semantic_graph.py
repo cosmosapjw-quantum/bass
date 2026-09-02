@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import copy
 import json
 import re
-from collections import Counter, defaultdict, deque
+from collections import defaultdict, deque
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +12,7 @@ GRAPH_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02F/CROSS_REPOSITORY_SEMA
 EXPORT_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json"
 REC_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02B/REC_RELATION_CLASSIFICATION.json"
 REI_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_R3.json"
-HTT_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json"
+HTT_PIN_PATH = ROOT / "docs/bass_master_ssot_v2/SYNC_MAP_02F/INPUT_02D_HTT_RELATION_PIN.json"
 
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
@@ -59,6 +58,13 @@ REQUIRED_WITHHELD = {
     "SCIENCE_VALIDITY",
     "PASS_RF04",
     "MERGE_OR_READY_TRANSITION",
+}
+
+EXPECTED_HTT_PENDING = {
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
 }
 
 
@@ -120,7 +126,7 @@ def validate_graph(graph: dict[str, Any], root: Path = ROOT) -> list[str]:
 
     inputs = graph.get("exact_inputs", {})
     expected_input_commits = {
-        ("sync_map_02a", "commit"): "6587c081932d5a6b97f4efa77293e93f5675f11b" if False else "6587c081932d1dddda586781825d242616ca1357",
+        ("sync_map_02a", "commit"): "6587c081932d1dddda586781825d242616ca1357",
         ("sync_map_02b", "commit"): "f1eab555b42ebfaa3aa9d4021e097750aa0dfd96",
         ("sync_map_02c", "commit"): "9e39e2468b9efec05f33b9945de02fe2c8c6a66d",
         ("sync_map_02d", "classification_head"): "7006aaab27834af37d5034f8f1e50943fe85c0f3",
@@ -183,7 +189,7 @@ def validate_graph(graph: dict[str, Any], root: Path = ROOT) -> list[str]:
         if relation.get("relation_class") == "INDEPENDENT_ORACLE" and relation.get("authority_effect") != "NONE":
             errors.append(f"oracle has authority effect: {relation.get('relation_id')}")
 
-    if {key: value for key, value in actual_coverage.items()} != EXPECTED_COVERAGE:
+    if dict(actual_coverage) != EXPECTED_COVERAGE:
         errors.append("formula-consumer coverage mismatch")
     declared_coverage = {key: set(value) for key, value in graph.get("formula_consumer_coverage", {}).items()}
     if declared_coverage != EXPECTED_COVERAGE:
@@ -214,14 +220,20 @@ def validate_graph(graph: dict[str, Any], root: Path = ROOT) -> list[str]:
     rei = load_json(root / REI_PATH.relative_to(ROOT))
     if set(rei.get("shared_formula_consumer_union", {})) != set(EXPECTED_FORMULA_HASHES):
         errors.append("02C shared formula union drifted")
-    htt = load_json(root / HTT_PATH.relative_to(ROOT))
-    if set(htt.get("pending_bass_imports", [])) != {
-        "BASS.FRAME.ABERRATED_DIRECTION.001",
-        "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
-        "BASS.FRAME.DOPPLER_FACTOR.001",
-        "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
-    }:
+
+    htt_pin = load_json(root / HTT_PIN_PATH.relative_to(ROOT))
+    source = htt_pin.get("source", {})
+    if source.get("commit") != "7006aaab27834af37d5034f8f1e50943fe85c0f3" or source.get("git_blob_sha1") != "9ce25902c5ec271908c5f73f76d60d180843fa9d":
+        errors.append("02D sibling relation input pin mismatch")
+    if source.get("path") != "docs/bass_master_ssot_v2/SYNC_MAP_02D/HTT_RELATION_CLASSIFICATION.json":
+        errors.append("02D sibling relation path mismatch")
+    if set(htt_pin.get("pending_bass_imports", [])) != EXPECTED_HTT_PENDING:
         errors.append("02D pending import set drifted")
+    cross_cas = htt_pin.get("cross_cas_closeout", {})
+    if cross_cas.get("commit") != "7054cc094209c056c7d278a4cc6354a89927f35d" or cross_cas.get("receipt_git_blob_sha1") != "00908bf880805a70726436f0faa9ac6f93b6600d":
+        errors.append("02D cross-CAS pin drifted")
+    if htt_pin.get("authority_effect") != "NONE_INPUT_EVIDENCE_ONLY":
+        errors.append("02D sibling pin gained authority")
 
     dag = graph.get("dag", {})
     nodes = dag.get("nodes", [])
@@ -274,6 +286,7 @@ def verify(path: Path = GRAPH_PATH) -> dict[str, Any]:
         "dag_node_count": len(graph["dag"]["nodes"]),
         "dag_edge_count": len(graph["dag"]["edges"]),
         "unique_authority_owner": "bass",
+        "sibling_02d_input": "EXACT_PINNED_NOT_TREE_COMPOSED",
         "sync_gate": "MANUAL_ONLY",
         "claim_boundary": "SEMANTIC_GRAPH_ONLY_NO_RUNTIME_OR_SCIENCE_PROMOTION",
     }
