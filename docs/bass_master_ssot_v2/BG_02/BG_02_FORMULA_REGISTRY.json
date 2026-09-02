@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BG-02_GR_BACKGROUND_EINSTEIN_PROJECTION_DESIGN",
+  "owner": "bass",
+  "scientific_parent_commit": "80d271cc528e1a0ffa813ecd3e3fb7610f3fa755",
+  "convention_hash": "e12258405c1c2ec296839524f5169e03441715b3acaaff1cef9de28bfa490a70",
+  "formula_count": 14,
+  "formulas": [
+    {
+      "formula_id": "BASS.BG.EINSTEIN_RESIDUAL.001",
+      "target": "E_ab",
+      "dimension": "L^-2",
+      "equation": "E_ab = G_ab + Lambda g_ab - kappa_G T_ab; kappa_G = 8 pi G/c^4",
+      "depends_on": []
+    },
+    {
+      "formula_id": "BASS.BG.HAMILTONIAN_PROJECTION.001",
+      "target": "n^a n^b E_ab",
+      "dimension": "L^-2",
+      "equation": "Hres = (R3 + K^2 - K_ab K^ab)/2 - Lambda - kappa_G rho",
+      "depends_on": [
+        "BASS.BG.EINSTEIN_RESIDUAL.001",
+        "BASS.GEO.CONTRACTED_GAUSS.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+        "BASS.GEO.SPATIAL_SCALAR.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.MOMENTUM_PROJECTION.001",
+      "target": "-h_a^c n^d E_cd",
+      "dimension": "L^-2",
+      "equation": "M_a = D^b K_ab - D_a K - kappa_G q_a",
+      "depends_on": [
+        "BASS.BG.EINSTEIN_RESIDUAL.001",
+        "BASS.GEO.CODAZZI.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.SPATIAL_TRACE_PROJECTION.001",
+      "target": "h^ab E_ab/3",
+      "dimension": "L^-2",
+      "equation": "Tres = -R3/6 - 2 L_n H - 3 H^2 - sigma2/2 + 2(D.A+A2)/3 + Lambda - kappa_G p",
+      "depends_on": [
+        "BASS.BG.EINSTEIN_RESIDUAL.001",
+        "BASS.GEO.NORMAL_ACCELERATION.001",
+        "BASS.GEO.NORMAL_DERIVATIVE_DECOMPOSITION.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+        "BASS.GEO.SPATIAL_SCALAR.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.SPATIAL_PSTF_PROJECTION.001",
+      "target": "E_<ab>",
+      "dimension": "L^-2",
+      "equation": "S_ab = R3_<ab> + (L_n K_ab)_<ab> + K K_<ab> - 2 K_c<a K_b>^c - D_<a A_b> - A_<a A_b> - kappa_G pi_ab",
+      "depends_on": [
+        "BASS.BG.EINSTEIN_RESIDUAL.001",
+        "BASS.GEO.NORMAL_ACCELERATION.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
+        "BASS.GEO.SPATIAL_RICCI.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.HAMILTONIAN_HSIGMA.001",
+      "target": "2 Hres",
+      "dimension": "L^-2",
+      "equation": "2 Hres = R3 + 6 H^2 - sigma2 - 2 Lambda - 2 kappa_G rho",
+      "depends_on": [
+        "BASS.BG.HAMILTONIAN_PROJECTION.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.EXPANSION_RATE_RAW.001",
+      "target": "L_n H",
+      "dimension": "L^-2",
+      "equation": "F_trace = -R3/12 - 3 H^2/2 - sigma2/4 + (D.A+A2)/3 + Lambda/2 - kappa_G p/2",
+      "depends_on": ["BASS.BG.SPATIAL_TRACE_PROJECTION.001"]
+    },
+    {
+      "formula_id": "BASS.BG.EXPANSION_RATE_ADM.001",
+      "target": "L_n H",
+      "dimension": "L^-2",
+      "equation": "F_ADM = -R3/3 - 3 H^2 + (D.A+A2)/3 + kappa_G(rho-p)/2 + Lambda",
+      "depends_on": [
+        "BASS.BG.EXPANSION_RATE_RAW.001",
+        "BASS.BG.HAMILTONIAN_HSIGMA.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001",
+      "target": "L_n H",
+      "dimension": "L^-2",
+      "equation": "F_Ray = -H^2 - sigma2/3 + (D.A+A2)/3 - kappa_G(rho+3p)/6 + Lambda/3",
+      "depends_on": [
+        "BASS.BG.EXPANSION_RATE_RAW.001",
+        "BASS.BG.HAMILTONIAN_HSIGMA.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.SHEAR_RATE_LIE.001",
+      "target": "(L_n sigma_ab)_PSTF",
+      "dimension": "L^-2",
+      "equation": "LieSigma = -R3_<ab> - H sigma_ab + 2 sigma_c<a sigma_b>^c + D_<a A_b> + A_<a A_b> + kappa_G pi_ab",
+      "depends_on": [
+        "BASS.BG.SPATIAL_PSTF_PROJECTION.001",
+        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.SHEAR_RATE_PROJECTED.001",
+      "target": "dot sigma_<ab>",
+      "dimension": "L^-2",
+      "equation": "DotSigma = -3 H sigma_ab - R3_<ab> + D_<a A_b> + A_<a A_b> + kappa_G pi_ab",
+      "depends_on": ["BASS.BG.SHEAR_RATE_LIE.001"]
+    },
+    {
+      "formula_id": "BASS.BG.HOMOGENEOUS_SCALAR_CURVATURE.001",
+      "target": "R3",
+      "dimension": "L^-2",
+      "equation": "R3 = -6 a_B^2 - n_B_ab n_B^ab + (tr n_B)^2/2 modulo n_B.a_B=0",
+      "depends_on": ["BASS.GEO.SPATIAL_SCALAR.001"]
+    },
+    {
+      "formula_id": "BASS.BG.HOMOGENEOUS_MOMENTUM.001",
+      "target": "D^b sigma_ab",
+      "dimension": "L^-2",
+      "equation": "D^b sigma_ab = -3 a_B^b sigma_ab - epsilon_a mn n_B^m_b sigma^bn",
+      "depends_on": [
+        "BASS.BG.MOMENTUM_PROJECTION.001",
+        "BASS.GEO.LEVI_CIVITA_CONNECTION.001",
+        "BASS.GEO.STRUCTURE_CONSTANTS.001"
+      ]
+    },
+    {
+      "formula_id": "BASS.BG.EXCEPTIONAL_VI_MOMENTUM_CARRIER.001",
+      "target": "D^b sigma_3b",
+      "dimension": "L^-2",
+      "equation": "D^b sigma_3b = N22 Sigma12 + (N23-3A) Sigma13",
+      "depends_on": ["BASS.BG.HOMOGENEOUS_MOMENTUM.001"]
+    }
+  ],
+  "off_shell_identities": [
+    "F_ADM - F_trace + Hres/2 = 0",
+    "F_trace - F_Ray + Hres/6 = 0",
+    "F_ADM - F_Ray + 2 Hres/3 = 0"
+  ],
+  "claim_boundary": "DESIGN_REGISTRY_ONLY_SEMANTIC_HASHES_AND_NATIVE_XACT_PROJECTION_DEFERRED_TO_IMPLEMENTATION"
+}
