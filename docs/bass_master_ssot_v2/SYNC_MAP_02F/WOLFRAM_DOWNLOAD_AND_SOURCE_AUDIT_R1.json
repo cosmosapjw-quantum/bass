@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XBOOST_01_EXTERNAL_LORENTZ_HARMONIC_ORACLE_TRIANGULATION",
+  "generated_at_kst": "2026-09-03",
+  "exact_parent": {
+    "repository": "cosmosapjw-quantum/bass",
+    "pull_request": 101,
+    "commit": "32b8a89abbeaad5503cf0dfc59cfa5633a53ec3b"
+  },
+  "candidate_lane": {
+    "pull_request": 104,
+    "pre_receipt_head": "c3ba4691e681ba8127b96840e8a18544537835ff"
+  },
+  "wolfram_runtime": "15.0.1 for Linux x86-64",
+  "package_downloads": [
+    {
+      "package": "symengine",
+      "version": "0.14.1",
+      "artifact": "symengine-0.14.1.tar.gz",
+      "bytes": 938282,
+      "sha256": "4e9e4b4ec56371c2151803ae0403dab07dd1c74ce88e9abca433bebeb6e2f0f0",
+      "download_status": "PASS_WOLFRAM_URLDOWNLOAD",
+      "runtime_status": "NOT_RUN_NO_PYTHON_PROCESS_IN_WOLFRAM_EVALUATOR"
+    },
+    {
+      "package": "pylorentz",
+      "version": "0.3.3",
+      "artifact": "pylorentz-0.3.3.tar.gz",
+      "bytes": 12259,
+      "sha256": "4dcc3716d1f858e39acd637ff9333352142a9abf968e3451a9759dd66b2c5da6",
+      "download_status": "PASS_WOLFRAM_URLDOWNLOAD",
+      "source_file": "pylorentz/__init__.py",
+      "source_sha256": "147dfbeaf10f3be4de9462af5aaed0e30d413f90161540b39578dc727e5933f2",
+      "source_contract": {
+        "metric": "diag(+1,-1,-1,-1)",
+        "boost_energy_sign": "p'^0=gamma(p^0-beta p_parallel)",
+        "package_semantics": "returns the vector measured in the frame moving along the supplied direction"
+      }
+    },
+    {
+      "package": "cosmoboost",
+      "version": "1.1.6",
+      "artifact": "cosmoboost-1.1.6-py3-none-any.whl",
+      "bytes": 328655,
+      "sha256": "0532cb213647e1033d4bd98248c3e39400b648582e0773d5a0cb2f76994e65cb",
+      "download_status": "PASS_WOLFRAM_URLDOWNLOAD",
+      "wheel_source_sha256": {
+        "cosmoboost/blueprints.py": "e801f64207bdb471ab0a37d6350663e2aee38081c79ac3a7cb69697a41adf483",
+        "cosmoboost/lib/KernelODE.py": "e55ae73afc1f55a35b37dfb95e479dc8b4bc058ff06670664071e34e23e5f25f",
+        "cosmoboost/lib/MatrixHandler.py": "1338af7e62e046cb1e4741d32a10b3586bd7afca13a49dda93e3efc3ef6bd2ca"
+      },
+      "scope": "d=1, s=0 harmonic boost kernel regression only"
+    },
+    {
+      "package": "FeynCalc",
+      "version": "10.2.1",
+      "artifact": "GitHub release zipball Release-10_2_1",
+      "bytes": 8429794,
+      "sha256": "6cbad87f2c032795533c77a3257893bfac8dbd85b70c5a09a0112d810c2e3c79",
+      "download_status": "PASS_WOLFRAM_URLDOWNLOAD",
+      "load_status": "PASS",
+      "runtime_scope": "independent Lorentz scalar-product contraction in the shared Wolfram kernel"
+    }
+  ],
+  "formula_results": {
+    "pylorentz_source_reconstruction": {
+      "status": "PASS",
+      "null_four_momentum_residual": "0",
+      "unit_direction_residual": "0",
+      "propagation_aberration": "mu'=(mu-beta)/(1-beta mu)",
+      "inverse_round_trip_residual": "0",
+      "outward_sky_adapter_residual": "0",
+      "wrong_sign_hostile_residual": "2 beta E mu/sqrt(1-beta^2)"
+    },
+    "cosmoboost_wheel_source_reconstruction": {
+      "status": "PASS_SOURCE_LEVEL",
+      "default_doppler_weight": 1,
+      "default_spin_weight": 0,
+      "rapidity_parameter": "eta=arctanh(beta)",
+      "B_1_0": "1/sqrt(3)",
+      "beta_zero_bessel_band": [0, 0, 0, 0, 1, 0, 0, 0, 0],
+      "small_beta_monopole_to_dipole": "beta/sqrt(3)+beta^3/(6 sqrt(3))+O(beta^5)"
+    },
+    "feyncalc_runtime": {
+      "status": "PASS",
+      "metric_adapter": "BASS (-,+,+,+) is the overall-sign opposite of FeynCalc (+,-,-,-)",
+      "photon_null_residual": "0",
+      "observer_normalization_residual": "0",
+      "measured_energy": "E gamma (1-beta mu)",
+      "energy_factor_residual": "0"
+    },
+    "symengine_runtime": {
+      "status": "NOT_RUN",
+      "reason": "The Wolfram evaluator has no Python external process and the GitHub runner was never allocated. Distribution identity alone is not a formula-runtime PASS."
+    }
+  },
+  "github_actions_infrastructure": {
+    "run": 33666397955,
+    "attempt": 2,
+    "head": "c3ba4691e681ba8127b96840e8a18544537835ff",
+    "jobs": 4,
+    "jobs_with_steps": 0,
+    "runner_ids": [0, 0, 0, 0],
+    "classification": "CI_RUNNER_DISPATCH_FAILURE_NOT_PACKAGE_OR_FORMULA_FAILURE",
+    "corroborating_run": {
+      "pull_request": 105,
+      "run": 33668295743,
+      "jobs": 7,
+      "jobs_with_steps": 0,
+      "runner_ids_all_zero": true
+    }
+  },
+  "lane_reconciliation": {
+    "PR_103": "R2-RED-ancestry broad external-CAS contract donor",
+    "PR_104": "XBOOST-01 Lorentz/null-vector/harmonic external package lane",
+    "PR_105": "XCAS-01 tensor/GR/scalar-CAS external package lane",
+    "no_automatic_winner": true,
+    "composition_rule": "After 02E-R1 and 02F-R2 are corrected, import receipts by role; do not merge competing graph semantics or duplicate formulas."
+  },
+  "authority_effect": "NONE_EXTERNAL_ORACLE",
+  "authorized_claims": [
+    "EXTERNAL_DISTRIBUTION_IDENTITY_VERIFIED_FOR_FOUR_PACKAGES",
+    "PYLORENTZ_SOURCE_FORMULA_RECONSTRUCTION_PASS",
+    "COSMOBOOST_D1_S0_SOURCE_FORMULA_RECONSTRUCTION_PASS",
+    "FEYNCALC_10_2_1_RUNTIME_LORENTZ_CONTRACTION_PASS",
+    "GITHUB_ACTIONS_ZERO_STEP_INFRASTRUCTURE_FAILURE_CLASSIFIED"
+  ],
+  "withheld_claims": [
+    "PYTHON_PACKAGE_RUNTIME_PASS",
+    "SYNC_MAP_02F_COMPLETE",
+    "CROSS_REPOSITORY_CONSUMER_PARITY",
+    "GLOBAL_MATTER_TILT",
+    "FINITE_ELECTRON_TILT_COLLISION",
+    "POLARIZATION_SCREEN_TRANSPORT",
+    "SPECTRAL_BOOST_COMPLETENESS",
+    "BACKGROUND_OR_PROVIDER_ADMISSION",
+    "ARBITRARY_L_SOLVER_VALIDATION",
+    "OBSERVATIONAL_OR_STATISTICAL_READINESS",
+    "SCIENCE_VALIDITY",
+    "PASS_RF04"
+  ]
+}
