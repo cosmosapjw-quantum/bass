@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   contract:
-    runs-on: ubuntu-24.04
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -53,11 +53,14 @@ jobs:
           if-no-files-found: error
 
   jas-exact:
-    runs-on: ubuntu-24.04
+    runs-on: macos-14
     env:
       JAS_JAR_SHA256: 62a362d2fc2591d39f5973125aef71cf70267d486d9b321240454a242bd11976
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -67,7 +70,14 @@ jobs:
           curl --fail --location --retry 3 \
             https://repo.maven.apache.org/maven2/de/uni-mannheim/rz/krum/jas/2.7.200/jas-2.7.200.jar \
             --output /tmp/jas-2.7.200.jar
-          echo "$JAS_JAR_SHA256  /tmp/jas-2.7.200.jar" | sha256sum --check --strict
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          import os
+          path = Path('/tmp/jas-2.7.200.jar')
+          actual = hashlib.sha256(path.read_bytes()).hexdigest()
+          assert actual == os.environ['JAS_JAR_SHA256'], (actual, os.environ['JAS_JAR_SHA256'])
+          PY
       - name: Compile and run JAS exact oracle
         run: |
           mkdir -p /tmp/xcas04-jas-classes
@@ -92,7 +102,7 @@ jobs:
           if-no-files-found: error
 
   julia-nemo-exact:
-    runs-on: ubuntu-24.04
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9
@@ -111,7 +121,7 @@ jobs:
             external_cas/julia/check_sync_map02f_xcas04.jl \
             | tee /tmp/xcas04-julia-nemo-receipt.json
           cp external_cas/julia/Manifest.toml /tmp/xcas04-julia-resolved-Manifest.toml
-          python - <<'PY'
+          python3 - <<'PY'
           import json
           from pathlib import Path
           receipt = json.loads(Path('/tmp/xcas04-julia-nemo-receipt.json').read_text())
@@ -134,7 +144,7 @@ jobs:
       - octave-numerical
       - jas-exact
       - julia-nemo-exact
-    runs-on: ubuntu-24.04
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
