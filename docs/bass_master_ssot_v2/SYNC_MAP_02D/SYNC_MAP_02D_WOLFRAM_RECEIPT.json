@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02D_HTT_RELATION_CLASSIFICATION",
+  "receipt_type": "STATELESS_WOLFRAM_EXACT_ALGEBRA_AND_DAG_ORACLE",
+  "status": "PASS_WITH_FAILURE_PRESERVATION",
+  "environment": {
+    "executor": "connected Wolfram Language evaluator",
+    "kernel_state": "STATELESS",
+    "xact_required": false,
+    "native_repository_file_replay": "NOT_RUN",
+    "reason_xact_not_required": "The bounded node checks special-relativistic vector identities, one STF polynomial decomposition, and a finite directed graph; it derives no spacetime tensor equation."
+  },
+  "first_run": {
+    "status": "FAIL_HARNESS_AGGREGATION",
+    "formula_residuals": {
+      "aberrated_direction_unit_norm": 0,
+      "doppler_chart_equivalence": 0,
+      "deaberration_inverse_n_coefficient": 0,
+      "deaberration_inverse_beta_coefficient": 0,
+      "solid_angle_jacobian": 0,
+      "quadrupole_l1_l3_decomposition": 0
+    },
+    "structural_checks_all_true": true,
+    "root_cause": "The aggregator applied TrueQ directly to numeric zero residuals instead of checking residual==0.",
+    "formula_or_dag_failure": false
+  },
+  "corrected_run": {
+    "status": "PASS",
+    "formula_residuals": {
+      "aberrated_direction_unit_norm": 0,
+      "doppler_chart_equivalence": 0,
+      "deaberration_inverse_n_coefficient": 0,
+      "deaberration_inverse_beta_coefficient": 0,
+      "solid_angle_jacobian": 0,
+      "quadrupole_l1_l3_decomposition": 0
+    },
+    "dag": {
+      "node_count": 10,
+      "edge_count": 12,
+      "unique_nodes": true,
+      "edge_closure": true,
+      "acyclic": true,
+      "topological_coverage": true,
+      "shared_export_has_rei_and_htt_prerequisites": true,
+      "semantic_graph_follows_shared_export": true,
+      "manual_gate_has_three_sync_inputs": true,
+      "no_direct_task7c_to_global_tilt_edge": true,
+      "one_valid_topological_order": [
+        "02A_BASS",
+        "02B_REC",
+        "02D_HTT",
+        "02C_REI",
+        "02E_SHARED_EXPORT",
+        "02F_SEMANTIC_GRAPH",
+        "SYNC_HTT_01A",
+        "SYNC_REI",
+        "SYNC_REC",
+        "SYNC_GATE_01"
+      ]
+    }
+  },
+  "hostile_mutations": {
+    "wrong_doppler_sign_detected": true,
+    "wrong_jacobian_power_detected": true,
+    "omitted_l1_dipole_detected": true,
+    "omitted_l3_octupole_detected": true,
+    "missing_02d_to_02e_dependency_detected": true,
+    "missing_dependency_mutant_remained_acyclic": true,
+    "interpretation": "Acyclicity is necessary but insufficient; required-edge checks are load-bearing."
+  },
+  "formula_scope": {
+    "metric_signature": "(-,+,+,+)",
+    "outward_sky_direction": "n=-e",
+    "active_observer_boost": "+beta",
+    "beta_definition": "v/c",
+    "doppler_weight": 1,
+    "blackbody_temperature_only": true,
+    "global_matter_tilt": false,
+    "finite_electron_tilt_collision": false
+  },
+  "claim_boundary": "PLUGIN_EXACT_ORACLE_ONLY_NO_NATIVE_REPOSITORY_REPLAY_SHARED_EXPORT_GLOBAL_TILT_DATA_FIT_PROVIDER_OR_SCIENCE_PROMOTION"
+}
