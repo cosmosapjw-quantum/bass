@@ -27,7 +27,6 @@ jobs:
         run: python -m unittest -v tests/test_xcas04_octave_jas_julia_contract.py
 
   octave-numerical:
-    needs: contract
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +53,6 @@ jobs:
           if-no-files-found: error
 
   jas-exact:
-    needs: contract
     runs-on: ubuntu-24.04
     env:
       JAS_JAR_SHA256: 62a362d2fc2591d39f5973125aef71cf70267d486d9b321240454a242bd11976
@@ -94,7 +92,6 @@ jobs:
           if-no-files-found: error
 
   julia-nemo-exact:
-    needs: contract
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -131,7 +128,9 @@ jobs:
           if-no-files-found: error
 
   aggregate:
+    if: always()
     needs:
+      - contract
       - octave-numerical
       - jas-exact
       - julia-nemo-exact
@@ -141,6 +140,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - name: Require all upstream jobs to have executed successfully
+        env:
+          CONTRACT_RESULT: ${{ needs.contract.result }}
+          OCTAVE_RESULT: ${{ needs.octave-numerical.result }}
+          JAS_RESULT: ${{ needs.jas-exact.result }}
+          JULIA_RESULT: ${{ needs.julia-nemo-exact.result }}
+        run: |
+          test "$CONTRACT_RESULT" = success
+          test "$OCTAVE_RESULT" = success
+          test "$JAS_RESULT" = success
+          test "$JULIA_RESULT" = success
       - uses: actions/download-artifact@v4
         with:
           pattern: xcas04-*-receipt
