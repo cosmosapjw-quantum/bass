@@ -1,0 +1,46 @@
+name: sync-map01c-geometry-composition
+
+on:
+  pull_request:
+    paths:
+      - "wolfram/BASS/Kernel/Authority/Dimensions.wl"
+      - "wolfram/BASS/Kernel/Geometry/**"
+      - "wolfram/BASS/Tests/W2AbstractGeometry.wlt"
+      - "wolfram/BASS/Tests/W3ONFCurvature.wlt"
+      - "wolfram/BASS/Tests/SYNCMAP01CGeometryComposition.wlt"
+      - "wolfram/BASS/Kernel/init.wl"
+      - "wolfram/PacletInfo.wl"
+      - "wolfram/schemas/abstract-1plus3-model.schema.json"
+      - "wolfram/schemas/w3-xcoba-curvature-witness.schema.json"
+      - "tests/test_sync_map01c_geometry_composition.py"
+      - ".github/workflows/sync-map01c-geometry-composition.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_01C/**"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-alg01r2-geo02r2-w2-geo03-compose-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  composition-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run lineage-composition contract tests
+        run: python -m unittest -v tests/test_sync_map01c_geometry_composition.py
+      - name: Parse public schemas and receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in \
+            wolfram/schemas/abstract-1plus3-model.schema.json \
+            wolfram/schemas/w3-xcoba-curvature-witness.schema.json; do
+            python -m json.tool "$file" >/dev/null
+          done
+      - name: Python syntax
+        run: python -m py_compile tests/test_sync_map01c_geometry_composition.py
