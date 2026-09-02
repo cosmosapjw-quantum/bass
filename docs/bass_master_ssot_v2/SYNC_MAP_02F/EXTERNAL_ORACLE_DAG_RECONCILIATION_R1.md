@@ -3,7 +3,8 @@
 ## Status
 
 ```text
-EXACT_PACKAGE_DOWNLOAD_IDENTITY             PASS 7/7
+EXACT_BYTE_HASH_IDENTITY                    PASS 6/7
+VERSIONED_PACKAGE_IDENTITY                  PASS 7/7
 SOURCE_OR_FORMULA_INSPECTION                PASS 6/7
 ACTUAL_PACKAGE_RUNTIME                      PASS 4/7
 PYTHON_PACKAGE_RUNTIME                      NOT RUN
@@ -158,6 +159,11 @@ OGRe 2.0.0                   full diagonal Bianchi-I Einstein residuals 0
 GeneralRelativityTensors     same independent coordinate-tensor residuals 0
 ```
 
+OGRe and GeneralRelativityTensors have exact download hashes in their receipts.
+The STensor receipt records package version `1.0.1` and an actual Paclet load,
+but not a byte-level archive hash. It therefore contributes versioned runtime
+identity, not exact archive-byte identity.
+
 These are independently implemented tensor packages but share the Wolfram
 algebra kernel. They strengthen implementation diversity, not algebra-engine
 independence.
@@ -213,7 +219,8 @@ polarized, global-tilt, finite-electron-collision or Bianchi-optics scope.
 ### Genuinely established
 
 ```text
-exact release/distribution identity        7/7
+exact byte/hash identity                    6/7
+versioned package identity                  7/7
 source or formula inspection               6/7
 actual package runtime                     4/7
 hostile wrong-sign Lorentz mutation        detected
@@ -226,6 +233,7 @@ package roles and authority firewalls      machine-recorded
 SymEngine runtime
 pylorentz Python runtime
 CosmoBoost Python runtime
+STensor archive byte identity
 cross-repository consumer software parity
 02F-R2 semantic graph closeout
 provider or solver admission
@@ -244,13 +252,15 @@ The deterministic coverage matrix is stored in
 
 Reading:
 
-1. Download identity is saturated: `7/7`.
-2. Source/formula inspection is nearly saturated: `6/7`; SymEngine runtime is
-   the only deliberately unpromoted cell.
-3. Actual package runtime is `4/7`, entirely on the connected Wolfram route.
-4. Adding more package names now has lower information gain than fixing the
+1. Exact byte/hash identity is `6/7`; STensor is the explicit versioned-load
+   exception.
+2. Versioned package identity is `7/7`.
+3. Source/formula inspection is `6/7`; SymEngine runtime remains deliberately
+   unpromoted.
+4. Actual package runtime is `4/7`, entirely on the connected Wolfram route.
+5. Adding more package names now has lower information gain than fixing the
    owner FormulaIR and R2 semantic/MUnit contract.
-5. The shared-Wolfram runtime cluster is not an independent-algebra-engine
+6. The shared-Wolfram runtime cluster is not an independent-algebra-engine
    cluster; the existing SymPy, GNU Octave and standard-library axes remain
    necessary.
 
@@ -280,7 +290,8 @@ those lanes cannot waive an owner-semantic defect.
 
 | Work unit | Completion | Disposition |
 | --- | ---: | --- |
-| External package acquisition/identity | 100% | 7/7 |
+| Exact archive/distribution byte identity | approximately 86% | 6/7 |
+| Versioned package identity | 100% | 7/7 |
 | Lorentz/null-vector source reconstruction | 100% | bounded PASS |
 | `d=1,s=0` harmonic source regression | 100% | bounded PASS |
 | Connected Wolfram tensor/package runtime | 100% of attempted four | bounded PASS |
@@ -303,7 +314,7 @@ not add a fourth external package lane.
 Authorized:
 
 ```text
-EXTERNAL_PACKAGE_IDENTITIES_VERIFIED
+SIX_EXTERNAL_BYTE_IDENTITIES_PLUS_STENSOR_VERSIONED_LOAD_VERIFIED
 PYLORENTZ_SOURCE_FORMULA_RECONSTRUCTION_PASS
 COSMOBOOST_D1_S0_SOURCE_FORMULA_RECONSTRUCTION_PASS
 FEYNCALC_RUNTIME_LORENTZ_CONTRACTION_PASS
