@@ -25,10 +25,32 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Run fail-closed R3 verifier
+        run: python scripts/verify_sync_map02c_rei_relations.py --json
       - name: Run mutation-sensitive closeout tests
         run: python -m unittest -v tests/test_sync_map02c_rei_closeout.py
-      - name: Compile test surface
-        run: python -m py_compile tests/test_sync_map02c_rei_closeout.py
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02c_rei_relations.py \
+            tests/test_sync_map02c_rei_closeout.py
+      - name: Parse JSON and complete-source CSV
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool \
+            docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_RELATION_CLASSIFICATION_R3.json \
+            >/dev/null
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          path = Path("docs/bass_master_ssot_v2/SYNC_MAP_02C/REI_SOURCE_COVERAGE_MATRIX.csv")
+          with path.open(newline="", encoding="utf-8") as handle:
+              rows = list(csv.DictReader(handle))
+          if len(rows) != 22:
+              raise SystemExit(f"expected 22 source rows, found {len(rows)}")
+          print({"source_rows": len(rows), "unique_paths": len({row['source_path'] for row in rows})})
+          PY
       - name: Repository text hygiene
         shell: bash
         run: |
