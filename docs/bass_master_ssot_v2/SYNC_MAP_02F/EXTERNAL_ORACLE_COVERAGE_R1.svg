@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="title desc">
   <title id="title">External formula-verification depth</title>
-  <desc id="desc">Coverage matrix separating exact download identity, source or formula inspection, and actual package runtime. All external packages have authority effect NONE.</desc>
+  <desc id="desc">Coverage matrix separating byte or versioned package identity, source or formula inspection, and actual package runtime. All external packages have authority effect NONE.</desc>
   <style>
     text { font-family: sans-serif; fill: #111; }
     .title { font-size: 24px; font-weight: 700; }
@@ -10,12 +10,13 @@
     .note { font-size: 13px; }
     .grid { stroke: #777; stroke-width: 1; }
     .pass { fill: #c8e6c9; }
+    .versioned { fill: #fff3cd; }
     .none { fill: #eeeeee; }
   </style>
-  <rect width="1200" height="520" fill="white"/>
+  <rect width="1200" height="540" fill="white"/>
   <text x="40" y="38" class="title">External formula-verification depth — authority effect = NONE</text>
   <text x="40" y="78" class="head">Package</text>
-  <text x="520" y="78" class="head" text-anchor="middle">Exact download identity</text>
+  <text x="520" y="78" class="head" text-anchor="middle">Byte / version identity</text>
   <text x="760" y="78" class="head" text-anchor="middle">Source / formula inspection</text>
   <text x="1000" y="78" class="head" text-anchor="middle">Package runtime</text>
 
@@ -32,21 +33,20 @@
   <text x="40" y="348" class="row">OGRe 2.0.0</text>
   <text x="40" y="394" class="row">GeneralRelativityTensors</text>
 
-  <!-- Download identity: 7/7 -->
-  <rect x="361" y="91" width="278" height="44" class="pass"/><rect x="361" y="137" width="278" height="44" class="pass"/><rect x="361" y="183" width="278" height="44" class="pass"/><rect x="361" y="229" width="278" height="44" class="pass"/><rect x="361" y="275" width="278" height="44" class="pass"/><rect x="361" y="321" width="278" height="44" class="pass"/><rect x="361" y="367" width="278" height="44" class="pass"/>
-  <!-- Source/formula: 6/7 -->
+  <rect x="361" y="91" width="278" height="44" class="pass"/><rect x="361" y="137" width="278" height="44" class="pass"/><rect x="361" y="183" width="278" height="44" class="pass"/><rect x="361" y="229" width="278" height="44" class="pass"/><rect x="361" y="275" width="278" height="44" class="versioned"/><rect x="361" y="321" width="278" height="44" class="pass"/><rect x="361" y="367" width="278" height="44" class="pass"/>
   <rect x="641" y="91" width="238" height="44" class="none"/><rect x="641" y="137" width="238" height="44" class="pass"/><rect x="641" y="183" width="238" height="44" class="pass"/><rect x="641" y="229" width="238" height="44" class="pass"/><rect x="641" y="275" width="238" height="44" class="pass"/><rect x="641" y="321" width="238" height="44" class="pass"/><rect x="641" y="367" width="238" height="44" class="pass"/>
-  <!-- Runtime: 4/7 -->
   <rect x="881" y="91" width="238" height="44" class="none"/><rect x="881" y="137" width="238" height="44" class="none"/><rect x="881" y="183" width="238" height="44" class="none"/><rect x="881" y="229" width="238" height="44" class="pass"/><rect x="881" y="275" width="238" height="44" class="pass"/><rect x="881" y="321" width="238" height="44" class="pass"/><rect x="881" y="367" width="238" height="44" class="pass"/>
 
   <g class="cell">
-    <text x="500" y="113">PASS</text><text x="500" y="159">PASS</text><text x="500" y="205">PASS</text><text x="500" y="251">PASS</text><text x="500" y="297">PASS</text><text x="500" y="343">PASS</text><text x="500" y="389">PASS</text>
+    <text x="500" y="113">HASH PASS</text><text x="500" y="159">HASH PASS</text><text x="500" y="205">HASH PASS</text><text x="500" y="251">HASH PASS</text><text x="500" y="297">VERSIONED</text><text x="500" y="343">HASH PASS</text><text x="500" y="389">HASH PASS</text>
     <text x="760" y="113">NOT RUN</text><text x="760" y="159">PASS</text><text x="760" y="205">PASS</text><text x="760" y="251">PASS</text><text x="760" y="297">PASS</text><text x="760" y="343">PASS</text><text x="760" y="389">PASS</text>
     <text x="1000" y="113">NOT RUN</text><text x="1000" y="159">NOT RUN</text><text x="1000" y="205">NOT RUN</text><text x="1000" y="251">PASS</text><text x="1000" y="297">PASS</text><text x="1000" y="343">PASS</text><text x="1000" y="389">PASS</text>
   </g>
 
-  <rect x="40" y="440" width="18" height="18" class="pass" stroke="#777"/><text x="68" y="454" class="note">established at the stated depth</text>
-  <rect x="310" y="440" width="18" height="18" class="none" stroke="#777"/><text x="338" y="454" class="note">not run or not established</text>
-  <text x="40" y="485" class="note">FeynCalc, STensor, OGRe and GeneralRelativityTensors are independent package implementations but share the Wolfram algebra kernel.</text>
-  <text x="40" y="505" class="note">GitHub Python-package jobs were not allocated a runner (runner_id=0, steps=[]); that is not a formula failure.</text>
+  <rect x="40" y="435" width="18" height="18" class="pass" stroke="#777"/><text x="68" y="449" class="note">byte hash or stated depth established</text>
+  <rect x="330" y="435" width="18" height="18" class="versioned" stroke="#777"/><text x="358" y="449" class="note">versioned load; archive byte hash not recorded</text>
+  <rect x="720" y="435" width="18" height="18" class="none" stroke="#777"/><text x="748" y="449" class="note">not run or not established</text>
+  <text x="40" y="480" class="note">Exact byte/hash identity: 6/7. Versioned package identity: 7/7. Source/formula inspection: 6/7. Runtime: 4/7.</text>
+  <text x="40" y="502" class="note">FeynCalc/STensor/OGRe/GeneralRelativityTensors are independent package implementations but share the Wolfram algebra kernel.</text>
+  <text x="40" y="524" class="note">GitHub Python-package jobs were not allocated a runner (runner_id=0, steps=[]); that is not a formula failure.</text>
 </svg>
