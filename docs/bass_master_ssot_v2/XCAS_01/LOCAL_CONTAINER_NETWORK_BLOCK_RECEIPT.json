@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "XCAS_01_EXTERNAL_FORMULA_PACKAGE_VERIFICATION",
+  "status": "BLOCKED_CONTAINER_NETWORK_DNS",
+  "authority_effect": "NONE",
+  "environment": {
+    "kernel": "Linux 6.18.35 x86_64",
+    "user": "root",
+    "python": "3.13.5",
+    "uv_available": true,
+    "apt_get_available": true
+  },
+  "attempts": [
+    {
+      "command": "uv python install 3.11",
+      "target": "cpython-3.11.14-linux-x86_64-gnu",
+      "status": "BLOCKED_DOWNLOAD",
+      "error_class": "DNS_RESOLUTION_FAILURE",
+      "error": "failed to lookup address information: Temporary failure in name resolution"
+    },
+    {
+      "command": "apt-get update -qq",
+      "status": "BLOCKED_TIMEOUT",
+      "timeout_seconds": 120,
+      "package_commands_executed": false
+    }
+  ],
+  "installed_module_readback": {
+    "sympy": true,
+    "einsteinpy": false,
+    "OGRePy": false,
+    "pytearcat": false,
+    "cadabra2": false,
+    "sageall": false
+  },
+  "classification_rule": "Network/download failure before package installation or formula evaluation is not a package runtime or formula failure.",
+  "package_execution_effect": "NOT_RUN",
+  "claim_boundary": [
+    "NO_LOCAL_EINSTEINPY_RESULT",
+    "NO_LOCAL_OGREPY_RESULT",
+    "NO_LOCAL_PYTEARCAT_RESULT",
+    "NO_LOCAL_CADABRA2_RESULT",
+    "NO_LOCAL_MAXIMA_RESULT",
+    "NO_LOCAL_REDUCE_RESULT",
+    "NO_02E_SEMANTIC_PROMOTION",
+    "NO_02F_SEMANTIC_CLOSEOUT"
+  ]
+}
