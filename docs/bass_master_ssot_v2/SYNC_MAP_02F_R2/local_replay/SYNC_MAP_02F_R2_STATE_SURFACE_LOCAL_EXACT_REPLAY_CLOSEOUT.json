@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2_STATE_SURFACE_LOCAL_EXACT_REPLAY_CLOSEOUT",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "evidence_origin": {
+    "type": "USER_PROVIDED_NATIVE_LOCAL_TRANSCRIPT",
+    "repository_path": "/home/cosmosapjw/bass",
+    "artifact_path": "/home/cosmosapjw/bass/artifacts/sync_map02f_r2_state_surface_registry",
+    "source_git_head": "bf7b7056fd0b61e4c4a188f30d5b4fc136f6e9c5"
+  },
+  "pipeline_gates": {
+    "python_registry_verifier": "PASS",
+    "python_unittest": {
+      "expected": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "wolfram_version": "15.0.0 for Linux x86 (64-bit) (May 26, 2026)",
+    "wolfram_validator_pass": true,
+    "wolfram_munit": {
+      "expected": 7,
+      "succeeded": 7,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "process_exit_code": 0,
+    "status": "PASS_LOCAL_EXACT_REPLAY"
+  },
+  "exact_residuals": {
+    "band_limited_grid_pstf_reconstruction": 0,
+    "same_integrated_G_state": 0,
+    "different_frequency_loss_residual": 0,
+    "universal_scalar_closure_residuals": [0, 0],
+    "J_projection_noninvertibility_witness": 1,
+    "scalar_to_polarized_implicit_promotion_defined": false
+  },
+  "identity": {
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "local_wolfram_receipt_sha256": "d96ddb95ecb2979ae5919837ad8a1de30b0468c3a3d34ab28885f31c9be99bf2",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "hardened_formula_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "formal_conclusions": [
+    "GRID_PSTF_BAND_LIMITED_RECONSTRUCTION_FIXTURE_PASS",
+    "G_FREQUENCY_DEPENDENT_SOURCE_CLOSURE_NOGO_PASS",
+    "J_PROJECTION_NONINVERTIBILITY_WITNESS_PASS",
+    "SCALAR_TO_POLARIZED_IMPLICIT_PROMOTION_FORBIDDEN_PASS",
+    "RUNTIME_ELL_CUTOFF_POLICY_PASS",
+    "BASS_ONLY_SCOPE_PASS"
+  ],
+  "durability": {
+    "source_registry_bytes_already_in_git": true,
+    "local_sha256_manifest_recorded": true,
+    "wolfram_receipt_semantic_mirror_in_git": true,
+    "wolfram_receipt_remote_byte_identity": "WITHHELD_TRANSCRIPT_RECONSTRUCTION"
+  },
+  "stage_status": "PASS_LOCAL_EXACT_REPLAY_DURABLE_METADATA",
+  "next_stage": "SYNC_MAP_02F_R2A_FORMULA_CONSUMER_ROLE_GRAPH_NORMAL_ANCESTRY",
+  "claim_boundary": [
+    "STATE_SURFACE_LOCAL_REPLAY_PASS",
+    "PYTHON_7_OF_7_PASS",
+    "WOLFRAM_7_OF_7_PASS",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_GRID_PSTF_RUNTIME_PARITY",
+    "NO_J_OR_G_SPECTRAL_CLOSURE_PASS",
+    "NO_SCREEN_TRANSPORT_IMPLEMENTATION",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ]
+}

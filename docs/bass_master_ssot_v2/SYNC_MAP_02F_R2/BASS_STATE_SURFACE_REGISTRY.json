@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2_BASS_STATE_SURFACE_REGISTRY",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "normal_ancestry": {
+    "parent_pr": 110,
+    "parent_commit": "8b73919e0e2a2326c338c796ac80b0684fe49db1",
+    "native_replay_source_head": "65be780c06b014e8b699a8af4835b2290f39b252",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "hardened_formula_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "relation_graph_contract": {
+    "required_formula_consumer_pairs": 10,
+    "required_implementation_role_rows": 11,
+    "required_named_source_symbols": 12,
+    "required_absent_implementation_slots": 1,
+    "status": "UPSTREAM_02F_R2A_RECOMPOSITION_REQUIRED"
+  },
+  "ell_policy": {
+    "target_cutoff": "RUNTIME_PARAMETER",
+    "work_cutoff": "ADAPTIVE_OR_EXPLICIT_RUNTIME_PARAMETER",
+    "hardcoded_numeric_cutoff_forbidden": true
+  },
+  "states": [
+    {
+      "state_id": "GRID_F_Q_E",
+      "mathematical_object": "f(t,q,e)",
+      "spectral_variable_retained": true,
+      "angular_information": "DIRECT_DIRECTION_GRID",
+      "polarization": "SCALAR_UNPOLARIZED_ON_THIS_SURFACE",
+      "closure_status": "NO_MOMENT_CLOSURE_BUT_FINITE_GRID_ERRORS_REMAIN"
+    },
+    {
+      "state_id": "PSTF_F_AELL_Q",
+      "mathematical_object": "F_Aell(t,q)",
+      "spectral_variable_retained": true,
+      "angular_information": "PSTF_OR_EQUIVALENT_HARMONIC_MULTIPOLES",
+      "polarization": "SCALAR_UNPOLARIZED_ON_THIS_SURFACE",
+      "closure_status": "FINITE_ELL_TRUNCATION_AND_NUMERICAL_PARITY_REQUIRE_CERTIFICATES"
+    },
+    {
+      "state_id": "J_I_AELL",
+      "mathematical_object": "J_Aell^(i)=Integral[dq dOmega W_ell_i(q) e_<Aell> f(q,e)]",
+      "spectral_variable_retained": false,
+      "angular_information": "MOMENT_MULTIPOLES",
+      "polarization": "SCALAR_UNPOLARIZED_ON_THIS_SURFACE",
+      "closure_status": "SPECTRAL_CLOSURE_OR_SOURCE_GRID_QUADRATURE_REQUIRED"
+    },
+    {
+      "state_id": "G_ANGULAR_ENERGY",
+      "mathematical_object": "G(e)=Integral[dq w_E(q) f(q,e)]",
+      "spectral_variable_retained": false,
+      "angular_information": "DIRECT_DIRECTION_GRID_AFTER_RADIAL_INTEGRATION",
+      "polarization": "SCALAR_UNPOLARIZED_ON_THIS_SURFACE",
+      "closure_status": "GENERAL_FREQUENCY_DEPENDENT_SOURCE_NOT_CLOSED"
+    },
+    {
+      "state_id": "FLUID_COMPONENT_SUMMARY",
+      "mathematical_object": "{rho,p,q_a,pi_ab,...}",
+      "spectral_variable_retained": false,
+      "angular_information": "FINITE_COVARIANT_MOMENT_SUMMARY",
+      "polarization": "NOT_A_POLARIZATION_STATE",
+      "closure_status": "EXCHANGE_AND_FOUR_FORCE_LEDGER_REQUIRED"
+    },
+    {
+      "state_id": "POLARIZED_COHERENCY",
+      "mathematical_object": "f_AB(t,q,e) or equivalent {I,Q,U,V}/{spin multipoles}",
+      "spectral_variable_retained": true,
+      "angular_information": "SCREEN_DEPENDENT_COHERENCY_OR_SPIN_MULTIPOLES",
+      "polarization": "POLARIZED",
+      "closure_status": "SCREEN_BASIS_TRANSPORT_AND_SPIN_PHASE_REQUIRED"
+    }
+  ],
+  "relations": [
+    {
+      "relation_id": "GRID_TO_PSTF",
+      "source": "GRID_F_Q_E",
+      "target": "PSTF_F_AELL_Q",
+      "semantic_relation": "REPRESENTATION_EQUIVALENT_WITH_DECLARED_BASIS_AND_MEASURE",
+      "invertibility": "EXACT_IN_COMPLETE_BASIS_OR_DECLARED_BAND_LIMITED_SUBSPACE",
+      "runtime_parity": "WITHHELD_PENDING_NUMERICAL_TRANSFORM_CERTIFICATE",
+      "required_certificates": [
+        "ANGULAR_BASIS_NORMALIZATION",
+        "MEASURE_CONVENTION",
+        "ELL_TARGET_AND_ELL_WORK",
+        "FORWARD_INVERSE_RESIDUAL"
+      ]
+    },
+    {
+      "relation_id": "PSTF_TO_GRID",
+      "source": "PSTF_F_AELL_Q",
+      "target": "GRID_F_Q_E",
+      "semantic_relation": "REPRESENTATION_EQUIVALENT_WITH_DECLARED_BASIS_AND_MEASURE",
+      "invertibility": "EXACT_IN_COMPLETE_BASIS_OR_DECLARED_BAND_LIMITED_SUBSPACE",
+      "runtime_parity": "WITHHELD_PENDING_NUMERICAL_TRANSFORM_CERTIFICATE",
+      "required_certificates": [
+        "ANGULAR_BASIS_NORMALIZATION",
+        "MEASURE_CONVENTION",
+        "ELL_TARGET_AND_ELL_WORK",
+        "FORWARD_INVERSE_RESIDUAL"
+      ]
+    },
+    {
+      "relation_id": "PSTF_TO_J",
+      "source": "PSTF_F_AELL_Q",
+      "target": "J_I_AELL",
+      "semantic_relation": "SPECTRAL_MOMENT_PROJECTION",
+      "invertibility": "NONINVERTIBLE_IN_GENERAL",
+      "runtime_parity": "NOT_APPLICABLE_AS_STATE_EQUIVALENCE",
+      "required_certificates": [
+        "RADIAL_WEIGHT_DEFINITION",
+        "SOURCE_GRID_QUADRATURE_OR_SPECTRAL_CLOSURE",
+        "RADIAL_OUTPUT_AND_WORK_ORDER"
+      ]
+    },
+    {
+      "relation_id": "GRID_TO_G",
+      "source": "GRID_F_Q_E",
+      "target": "G_ANGULAR_ENERGY",
+      "semantic_relation": "SPECTRAL_ENERGY_PROJECTION",
+      "invertibility": "NONINVERTIBLE_IN_GENERAL",
+      "runtime_parity": "NOT_APPLICABLE_AS_STATE_EQUIVALENCE",
+      "required_certificates": [
+        "ENERGY_WEIGHT_DEFINITION",
+        "SOURCE_GRID_QUADRATURE_OR_SPECTRAL_CLOSURE",
+        "RADIAL_OUTPUT_AND_WORK_ORDER"
+      ]
+    },
+    {
+      "relation_id": "KINETIC_TO_FLUID_SUMMARY",
+      "source": "GRID_F_Q_E",
+      "target": "FLUID_COMPONENT_SUMMARY",
+      "semantic_relation": "COVARIANT_MOMENT_REDUCTION",
+      "invertibility": "NONINVERTIBLE_IN_GENERAL",
+      "runtime_parity": "NOT_APPLICABLE_AS_STATE_EQUIVALENCE",
+      "required_certificates": [
+        "MEASURE_AND_NORMALIZATION",
+        "SPECIES_SUM",
+        "EXCHANGE_FOUR_FORCE_LEDGER"
+      ]
+    },
+    {
+      "relation_id": "SCALAR_TO_POLARIZED_PROHIBITED",
+      "source": "GRID_F_Q_E",
+      "target": "POLARIZED_COHERENCY",
+      "semantic_relation": "NO_IMPLICIT_PROMOTION",
+      "invertibility": "NOT_DEFINED",
+      "runtime_parity": "FORBIDDEN",
+      "required_certificates": [
+        "SCREEN_PROJECTOR",
+        "SCREEN_BASIS_TRANSPORT",
+        "SPIN_PHASE_CONVENTION",
+        "POLARIZED_COLLISION_OPERATOR"
+      ]
+    }
+  ],
+  "closure_no_go": {
+    "state": "G_ANGULAR_ENERGY",
+    "two_bin_witness": {
+      "f_A": [1, 0],
+      "f_B": [0, 1],
+      "integrated_state_A": 1,
+      "integrated_state_B": 1,
+      "loss_A": "chi_1",
+      "loss_B": "chi_2",
+      "loss_difference": "chi_1-chi_2"
+    },
+    "universal_scalar_closure_condition": [
+      "chi_1=chi_eff",
+      "chi_2=chi_eff"
+    ],
+    "conclusion": "G(e) alone does not close a generic frequency-dependent multiplicative source"
+  },
+  "literature_regression": [
+    {
+      "reference": "Schween and Reville, 2022, DOI 10.1017/S002237782200099X",
+      "role": "Cartesian-tensor and spherical-harmonic representations of the same distribution coefficients",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "Pons and Miralles, arXiv:astro-ph/0005310",
+      "role": "Angular moment systems require declared closure relations",
+      "authority_effect": "NONE"
+    }
+  ],
+  "claim_boundary": [
+    "BASS_STATE_SURFACE_TYPES_ONLY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_J_OR_G_EXACT_STATE_EQUIVALENCE",
+    "NO_POLARIZED_PROMOTION_WITHOUT_SCREEN_TRANSPORT",
+    "NO_CONSUMER_RUNTIME_PARITY",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ],
+  "status": "IMPLEMENTED_CONTRACT_LOCAL_REPLAY_REQUIRED"
+}
