@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FIX5_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "source_head_before_readback": "9dbeef3dd4119e1a9d89e1e85a62fcb76bd1b9a6",
+  "source_blobs": {
+    "python_contract_test": {
+      "path": "tests/test_sync_map02e_r1_semantic_hardening.py",
+      "blob_sha1": "2ae09202f3f78cf3441d09ec73fcaa49d26b48c4"
+    },
+    "wlt": {
+      "path": "wolfram/BASS/Tests/SYNCMAP02ER1SharedFramePhotonHardening.wlt",
+      "blob_sha1": "eb64eadb0e1bb715426d817a59fb433b961b2286"
+    },
+    "wolfram_runner": {
+      "path": "wolfram/scripts/run_sync_map02e_r1_local_replay.wls",
+      "blob_sha1": "c246d5f2a87644221d596fb991d06db2bca82a65"
+    },
+    "failure_receipt": {
+      "path": "docs/bass_master_ssot_v2/SYNC_MAP_02E_R1/LOCAL_REPLAY_FAILURE_FIX5_RECEIPT.json",
+      "blob_sha1": "a7d4d294be5779e5f08ebc90929d8a7bce5d2547"
+    }
+  },
+  "static_contract_readback": {
+    "runner_preloads_exact_modules": true,
+    "runner_imports_patch_contract_once": true,
+    "runner_injects_global_test_context_inside_block": true,
+    "wlt_uses_fully_qualified_bass_ir_symbols": true,
+    "wlt_uses_input_file_name": false,
+    "wlt_calls_get": false,
+    "wlt_calls_import": false,
+    "wlt_top_level_verification_test_count": 11,
+    "formula_or_semantic_projection_changed": false
+  },
+  "github_actions_observation": {
+    "head": "9dbeef3dd4119e1a9d89e1e85a62fcb76bd1b9a6",
+    "workflow_run": 33762997695,
+    "job": 100673691985,
+    "runner_id": 0,
+    "steps": [],
+    "classification": "HOSTED_RUNNER_NOT_ALLOCATED",
+    "source_execution_started": false
+  },
+  "connected_wolfram_observation": {
+    "attempts": 3,
+    "result": "HTTP_502",
+    "formula_regression_observed": false,
+    "block_injection_runtime_pass_claimed": false
+  },
+  "expected_local_identity": {
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "python_unittest_methods": 6,
+    "munit_top_level_tests": 11,
+    "test_context_mode": "RUNNER_INJECTED_ABSOLUTE_CONTEXT"
+  },
+  "next_gate": "LOCAL_EXACT_RERUN_REQUIRED",
+  "claim_boundary": [
+    "FIX5_SOURCE_PUBLISHED",
+    "FIX5_STATIC_READBACK_PASS",
+    "NO_FIX5_LOCAL_RUNTIME_PASS",
+    "NO_STAGE_PROMOTION",
+    "NO_CROSS_REPOSITORY_MUTATION"
+  ]
+}
