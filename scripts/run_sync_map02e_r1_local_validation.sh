@@ -27,7 +27,7 @@ python3 "${REPO_ROOT}/scripts/verify_sync_map02e_r1_hardening.py" \
   --input "${GENERATED}" \
   --receipt "${BUILD_RECEIPT}"
 
-python3 -m pytest -q \
+python3 -m unittest -v \
   "${REPO_ROOT}/tests/test_sync_map02e_r1_semantic_hardening.py"
 
 wolframscript -file \
@@ -44,6 +44,7 @@ SOURCE_PATHS=(
   "wolfram/BASS/Tests/SYNCMAP02ER1SharedFramePhotonHardening.wlt"
   "wolfram/scripts/run_sync_map02e_r1_local_replay.wls"
   "docs/bass_master_ssot_v2/SYNC_MAP_02E_R1/SEMANTIC_HARDENING_PATCH_CONTRACT.json"
+  "docs/bass_master_ssot_v2/SYNC_MAP_02E_R1/LOCAL_REPLAY_README.md"
 )
 
 {
