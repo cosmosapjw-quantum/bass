@@ -1,13 +1,13 @@
 #!/usr/bin/env wolframscript
 
-ClearAll[fileSHA256, jsonSafe];
+ClearAll[fileSHA256, jsonSafe, jsonSafeProbeSymbol];
 fileSHA256[path_String] := IntegerString[FileHash[path, "SHA256"], 16, 64];
 
-(* RawJSON accepts only JSON-native values.  Preserve integers, reals,
-   strings, Booleans, lists and associations; stringify any diagnostic-only
-   fallback such as Missing rather than allowing Export to create a zero-byte
-   receipt. *)
-jsonSafe[value_Association] := AssociationMap[jsonSafe, value];
+(* RawJSON accepts only JSON-native values.  Preserve association keys and
+   recursively transform values.  AssociationMap[f, assoc] is not appropriate
+   here: in the native Wolfram 15.0 replay it applies f to whole rules. *)
+jsonSafe[value_Association] :=
+  AssociationThread[Keys[value], jsonSafe /@ Values[value]];
 jsonSafe[value_List] := jsonSafe /@ value;
 jsonSafe[value_String] := value;
 jsonSafe[value_Integer] := value;
@@ -16,6 +16,50 @@ jsonSafe[True] := True;
 jsonSafe[False] := False;
 jsonSafe[Null] := Null;
 jsonSafe[value_] := ToString[InputForm[value]];
+
+(* Exercise nested associations before any public receipt is constructed.
+   This catches the exact AssociationMap-versus-value-map failure observed in
+   the native local replay. *)
+jsonSafeProbe = Quiet@Check[
+  jsonSafe[<|
+    "outer" -> <|
+      "integer" -> 1,
+      "list" -> {True, Null, 1/2},
+      "symbolic" -> 2 jsonSafeProbeSymbol
+    |>
+  |>],
+  $Failed
+];
+jsonSafeProbeOuter = If[
+  AssociationQ[jsonSafeProbe],
+  Lookup[jsonSafeProbe, "outer", Missing["OuterAssociationAbsent"]],
+  Missing["ProbeNotAssociation"]
+];
+jsonSafeProbeList = If[
+  AssociationQ[jsonSafeProbeOuter],
+  Lookup[jsonSafeProbeOuter, "list", Missing["ListAbsent"]],
+  Missing["OuterAssociationInvalid"]
+];
+jsonSafeProbeValid = And[
+  AssociationQ[jsonSafeProbe],
+  AssociationQ[jsonSafeProbeOuter],
+  Lookup[jsonSafeProbeOuter, "integer", None] === 1,
+  ListQ[jsonSafeProbeList],
+  Length[jsonSafeProbeList] === 3,
+  jsonSafeProbeList[[1]] === True,
+  jsonSafeProbeList[[2]] === Null,
+  StringQ[jsonSafeProbeList[[3]]],
+  StringQ[Lookup[jsonSafeProbeOuter, "symbolic", None]]
+];
+If[!TrueQ[jsonSafeProbeValid],
+  Print[InputForm[<|
+    "status" -> "FAIL_JSON_SAFE_ASSOCIATION_RECURSION",
+    "probe_head" -> Head[jsonSafeProbe],
+    "outer_head" -> Head[jsonSafeProbeOuter],
+    "list_head" -> Head[jsonSafeProbeList]
+  |>]];
+  Exit[3]
+];
 
 scriptDirectory = DirectoryName[$InputFileName];
 repositoryRoot = DirectoryName[DirectoryName[scriptDirectory]];
@@ -108,6 +152,7 @@ gitHead = Quiet@Check[
 ];
 
 allPassed = And[
+  jsonSafeProbeValid,
   validatorPass,
   succeeded === expected,
   failed === 0,
@@ -138,6 +183,9 @@ receipt = <|
     "rei_wrong_sign_mutant_residual" ->
       "COEFFICIENT_OF_SINGLE_LINEAR_SIGMAEE_FACTOR"
   |>,
+  "json_safe_association_mode" ->
+    "ASSOCIATION_THREAD_KEYS_RECURSIVE_VALUES",
+  "json_safe_probe_pass" -> jsonSafeProbeValid,
   "expected_top_level_munit_tests" -> expected,
   "tests_succeeded" -> succeeded,
   "tests_failed" -> failed,
@@ -168,6 +216,7 @@ receiptRoundTripValid = And[
   AssociationQ[receiptRoundTrip],
   Lookup[receiptRoundTrip, "stage_id", None] === Lookup[receipt, "stage_id", None],
   Lookup[receiptRoundTrip, "status", None] === Lookup[receipt, "status", None],
+  Lookup[receiptRoundTrip, "json_safe_probe_pass", None] === True,
   Lookup[
     Lookup[receiptRoundTrip, "exact_residuals", <||>],
     "rei_wrong_sign_mutant_residual",
