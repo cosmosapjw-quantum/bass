@@ -43,6 +43,19 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
         self.assertEqual(result["named_source_symbol_count"], 12)
         self.assertEqual(result["absent_implementation_slot_count"], 1)
 
+        # A symbolic hostile residual is valid inside Wolfram, but strict JSON
+        # receipts must encode a deterministic exact scalar witness.  The
+        # runner must also serialize to a temporary file, read it back, and
+        # only then publish the final receipt so Export failure cannot leave a
+        # zero-byte artifact that is mistaken for evidence.
+        wolfram_runner_text = WOLFRAM_RUNNER.read_text(encoding="utf-8")
+        self.assertIn("wrongSignNormalizedResidual", wolfram_runner_text)
+        self.assertIn("wrongSignNormalizedResidual === -2", wolfram_runner_text)
+        self.assertIn('receiptTemporaryPath = receiptPath <> ".tmp"', wolfram_runner_text)
+        self.assertIn('ExportString[receipt, "RawJSON"]', wolfram_runner_text)
+        self.assertIn('Import[receiptTemporaryPath, "RawJSON"]', wolfram_runner_text)
+        self.assertIn('"FAIL_RECEIPT_JSON_EXPORT"', wolfram_runner_text)
+
     def test_pair_role_and_symbol_count_mutations_fail(self) -> None:
         for key in (
             "formula_consumer_pairs",
