@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "NUM_BOOST_01_R3_PSD_SUPPORT_ROUNDOFF_HARDENING",
+  "status": "SESSION_WOLFRAM_PASS_SOURCE_CREATED_NATIVE_REPLAY_PENDING",
+  "repository": "cosmosapjw-quantum/bass",
+  "parent": {
+    "pull_request": 108,
+    "commit": "8ea1f7eaa9d703baa9cfb7a4d0678e410ce9d6d4"
+  },
+  "branch": "audit/num-boost-01-r3-psd-support-roundoff-20260903-r1",
+  "tdd_order": {
+    "red_test_source_commit": "0503bb6713497e3a2d30887c009318b74c9cb257",
+    "implementation_commit": "1b730280d91e20a633871355d698df0cd2b0b37d",
+    "runner_commit": "464e05ad0486d8164c331b45089e52dce79f5d2f",
+    "executed_red": false
+  },
+  "fresh_wolfram": {
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "passed": 16,
+    "total": 16,
+    "all_passed": true,
+    "fixture_values": {
+      "hermitian_floor_repair_frobenius_squared": "9/100",
+      "negative_floor_ratio_theorem": true,
+      "projector_gap": "3/5",
+      "outside_support_quadratic_difference": "4/5",
+      "outside_support_logdet_difference": "Log[5]"
+    },
+    "replay_class": "INDEPENDENT_COMPACT_RECONSTRUCTION_NOT_EXACT_COMMITTED_FILE_GET"
+  },
+  "findings": [
+    {
+      "severity": "P1",
+      "id": "PSD-FLOOR-SELF-CERTIFICATION",
+      "finding": "If the raw Hermitian minimum eigenvalue is negative, clipping to any positive floor has spectral repair-to-floor ratio greater than one and cannot by itself satisfy the relative SPD likelihood guard."
+    },
+    {
+      "severity": "P1",
+      "id": "COMMON-SUPPORT-OMISSION",
+      "finding": "The PR #108 compression API did not require either full covariance or both affine data residuals to lie in the retained support, so it could silently discard likelihood information."
+    },
+    {
+      "severity": "P1",
+      "id": "APPROXIMATE-SUPPORT-LEDGER",
+      "finding": "Numerically generated retained bases require an explicit polar-isometry repair and projector-gap ledger; support must not be inferred silently from a noisy covariance."
+    }
+  ],
+  "source": {
+    "package": "wolfram/standalone/BASSNumBoostPSDSupportRoundoff.wl",
+    "tests": "wolfram/standalone/BASSNumBoostPSDSupportRoundoff.wlt",
+    "runner": "wolfram/standalone/run_psd_support_roundoff.wls",
+    "readme": "docs/bass_master_ssot_v2/NUM_BOOST_01/PSD_SUPPORT_ROUNDOFF_HARDENING_README.md"
+  },
+  "literature": [
+    {
+      "arxiv": "1908.01606",
+      "role": "accuracy of approximate projection to the positive semidefinite cone"
+    },
+    {
+      "arxiv": "1605.00353",
+      "role": "singular-subspace perturbation and projector-drift methodology"
+    }
+  ],
+  "claim_boundary": [
+    "RESEARCH_EVIDENCE_ONLY",
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_GITHUB_WOLFRAM_RUNTIME_PASS",
+    "NO_DROPBOX_REPLAY",
+    "NO_PRODUCTION_COVARIANCE_REPAIR_POLICY",
+    "NO_LIKELIHOOD_READY",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
