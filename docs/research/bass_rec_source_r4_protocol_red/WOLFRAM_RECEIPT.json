@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R4_PROTOCOL_TDD_RED",
+  "engine": "Wolfram Language 15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+  "receipts": [
+    {
+      "status": "PASS_BASS_REC_SOURCE_UNIT_AND_RANK_ORACLE",
+      "assumptions": [
+        "H_s_inv > 0",
+        "dt_s >= 0",
+        "chi_affine_s_inv != 0 for the displayed phi1 quotient; continuous limit understood",
+        "axisymmetric Legendre witness",
+        "L_out=2",
+        "L_source=2",
+        "distribution supplied through L=4"
+      ],
+      "checks": {
+        "physical_time_to_q_time_exact_update_residual": "0",
+        "H_derivative_after_exact_conversion": "0",
+        "instantaneous_source_JVP_residual": "0",
+        "buffered_projection_residual": "0",
+        "required_work_rank": 4,
+        "same_cutoff_residual_nonzero": true,
+        "same_cutoff_residual": "((1-3*mu^2)*a4*c2)/7-(3*a3*(5*(-1+3*mu^2)*c1+6*mu*c2))/70"
+      },
+      "identities": [
+        "d_tau=H_s_inv*dt_s",
+        "eta_per_tau=eta_s_inv/H_s_inv",
+        "kappa_per_tau=kappa_s_inv/H_s_inv",
+        "delta_C=(1+f)*delta_eta-f*delta_kappa-(kappa-eta)*delta_f",
+        "L_work>=L_out+L_source"
+      ]
+    },
+    {
+      "status": "PASS_MODE_A_SPECTRAL_SOURCE_NONIDENTIFIABILITY",
+      "witness": {
+        "stored_state_A": "G_A=w1*f1+w2*f2",
+        "stored_state_B": "G_B=w1*(f1+d)+w2*(f2-d*w1/w2)",
+        "integrated_absorption_A": "A_A=w1*chi1*f1+w2*chi2*f2",
+        "integrated_absorption_B": "A_B=w1*chi1*(f1+d)+w2*chi2*(f2-d*w1/w2)"
+      },
+      "checks": {
+        "same_energy_integrated_state": "G_B-G_A=0",
+        "different_frequency_dependent_absorption": "A_B-A_A=d*w1*(chi1-chi2)",
+        "grey_opacity_control": "0 when chi1=chi2",
+        "generic_nonidentifiability": "chi1-chi2"
+      },
+      "interpretation": "A radial-integrated angular state cannot consume a generic frequency-dependent affine source without additional spectral data, a source-integrated witness, or an explicitly admitted closure."
+    }
+  ],
+  "dimensions": {
+    "occupation_f": "1",
+    "eta_s_inv": "T^-1",
+    "kappa_s_inv": "T^-1",
+    "chi_affine_s_inv": "T^-1",
+    "H_s_inv": "T^-1",
+    "eta_per_tau": "1",
+    "kappa_per_tau": "1",
+    "tau": "1"
+  },
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "speed_of_light": "explicit at SI/source boundary; Q internal units remain separately declared",
+    "source_primary_object": "positive pair (eta,kappa)",
+    "net_affine_coefficient": "chi_affine=kappa-eta is signed"
+  },
+  "claim_effect": "NONE_RESEARCH_ONLY"
+}

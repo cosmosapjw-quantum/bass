@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R4_PROTOCOL_TDD_RED",
+  "audit_kind": "repository_wide_tree_census_plus_load_bearing_source_read",
+  "implementation_parent": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "agent/architecture/rf04-local01-telemetry-20260831-r1",
+    "commit": "380ce6fe6aebe0c76c59c0d2a0f8707aac0ce14c",
+    "tree": "0062a719173dc0c40dcc1202ab0d305f8fe2e2bb",
+    "pull_request": 70
+  },
+  "tree_pins": {
+    "bianchi": "89dd592be763eff6a68000d2c13e1e6d25fabad9",
+    "rustcore": "e4dfc670f97b6b81108aae11832e33fe0f77f702",
+    "typeii_runtime": "0a80c40b4fe34999dddc0a5a8d4ae9452380ad88"
+  },
+  "load_bearing_files": [
+    {
+      "path": "bianchi/routing.py",
+      "blob": "1c3fd9d3d96201ebc6a85291b34b2f46986529f1",
+      "role": "family_and_tilt_route_selection",
+      "finding": "eleven public labels plus exceptional route; tilted exceptional and selected signature paths remain unsupported"
+    },
+    {
+      "path": "bianchi/charts/general.py",
+      "blob": "115aec90df83d097904695817b6aa337d5ba76ee",
+      "role": "general_orthonormal_frame_background",
+      "finding": "arbitrary symmetric N and A carrier with constraints; generic carrier is not family-by-family output validation"
+    },
+    {
+      "path": "bianchi/charts/class_a_tilted.py",
+      "blob": "e02631749e2296877d837aef1b8af939b56e97eb",
+      "role": "single_fluid_class_a_global_tilt",
+      "finding": "real executable tilted background with declared gauge and LRS limitations"
+    },
+    {
+      "path": "bianchi/charts/class_b_tilted.py",
+      "blob": "fc584330323e789cbde8ba7995f391d49a8928ee",
+      "role": "single_fluid_class_b_global_tilt",
+      "finding": "real executable tilted class-B path with constraint qualifications"
+    },
+    {
+      "path": "bianchi/charts/class_a_tilted_multi.py",
+      "blob": "db4d3a20821abf88f8da05e746209bf7abbc5d15",
+      "role": "class_a_multi_fluid_tilt",
+      "finding": "Python-only non-default route; no uniform all-family multi-fluid tilted production claim"
+    },
+    {
+      "path": "bianchi/backend_policy.py",
+      "blob": "6011823af7d95560a77144bcede6b2c0f883b256c",
+      "role": "typed_backend_and_public_route_policy",
+      "finding": "fail-closed route substrate; RF04 polarized-v2 public route absent on this parent"
+    },
+    {
+      "path": "bianchi/matter/grid_boltzmann.py",
+      "blob": "707f2dd833e4f56a5770ff3cc5aa5c07d585645e",
+      "role": "legacy_full_distribution_grid",
+      "finding": "no moment closure but bounded massless Bianchi-I numerical slice"
+    },
+    {
+      "path": "bianchi/matter/grid_coupled.py",
+      "blob": "c2b8ed363239259b4c5170d708c2e7af788e0c86",
+      "role": "radial_integrated_angular_grid_coupling",
+      "finding": "not a full spectral state; generic frequency-dependent source is not identifiable from this state"
+    },
+    {
+      "path": "bianchi/matter/hierarchy.py",
+      "blob": "d1dc99a9f662afa423dc7d3545645ad5b0469ab1",
+      "role": "finite_dense_PSTF_J_hierarchy_oracle",
+      "finding": "finite l and i workspace; not an untruncated numerical hierarchy"
+    },
+    {
+      "path": "bianchi/matter/pstf_coeff.py",
+      "blob": "1b33670ea53e827261f0a13f97d9cd353da9369d",
+      "role": "canonical_2l_plus_1_coefficients_and_Gaunt_blocks",
+      "finding": "generic formula algebra distinct from committed finite runtime tables"
+    },
+    {
+      "path": "_rustcore/src/kinetic/pstf.rs",
+      "blob": "c11162b6a5bd4808eca043b777761c20c9b96e1e",
+      "role": "dense_Rust_PSTF_projection",
+      "finding": "generated rank support 2 through 5"
+    },
+    {
+      "path": "_rustcore/src/kinetic/pstf_gen.rs",
+      "blob": "0b69c295a9f5509847d0a2677be661db698e0db2",
+      "role": "generated_dense_PSTF_tables",
+      "finding": "L_MAX=5"
+    },
+    {
+      "path": "_rustcore/src/kinetic/hierarchy.rs",
+      "blob": "053c1ae2f627b18a42902dc97695df3b26365417",
+      "role": "finite_Rust_J_hierarchy",
+      "finding": "explicit l_max/i_max, upper-i geometric closure, boundary l+2 truncation"
+    },
+    {
+      "path": "_rustcore/src/kinetic/coeff_hier.rs",
+      "blob": "b5bf4e748deebb8779c85a037c607d99f19cf4eb",
+      "role": "coefficient_space_hierarchy_kernel",
+      "finding": "finite generated table domain and caller-owned padded boundary"
+    },
+    {
+      "path": "_rustcore/src/kinetic/coeff_tables.rs",
+      "blob": "b293c60388fe1ef4f805da470781685f71410f80",
+      "role": "generated_coefficient_blocks",
+      "finding": "L_KERNEL_MAX=10"
+    },
+    {
+      "path": "bianchi/q/contract.py",
+      "blob": "e6b1a3de2a0fbcfe92928eb102c5aef3de7870c4",
+      "role": "Q_backend_physics_and_discretization_contract",
+      "finding": "no moment closure or approximation switching; finite angular/radial/remap/time errors remain"
+    },
+    {
+      "path": "bianchi/q/model.py",
+      "blob": "4beb07625b0563e37b53cfd85a3bb084356e3e6f",
+      "role": "Q_frontend_and_runtime_dispatch",
+      "finding": "Mode A and Mode B are materially distinct states; history schedule is consumed"
+    },
+    {
+      "path": "bianchi/q/modeb.py",
+      "blob": "4df8421ab81459a448fff174286a03d1d38423c3",
+      "role": "full_spectral_distribution_Q_state",
+      "finding": "correct target for generic spectral REC source adapter"
+    },
+    {
+      "path": "bianchi/q/rate.py",
+      "blob": "ed55554e4def61c6a546e65bc2309fb70335eafa",
+      "role": "ionization_history_to_collision_rate_schedule",
+      "finding": "time-dependent opacity path only; not a general emission/absorption/jump source bundle"
+    },
+    {
+      "path": "bianchi/q/polstate.py",
+      "blob": "90cfba2841804f3a0b311aacc107fbc7a5b0a95f",
+      "role": "polarized_Q_state_and_constant_bulk_electron_boost_collision",
+      "finding": "strong bounded implementation; dynamic electron trajectory is not production-wired"
+    },
+    {
+      "path": "bianchi/q/electron_trajectory.py",
+      "blob": "31a3b4f1a6d510c016a3e47c760a4349d58761f8",
+      "role": "typed_dynamic_electron_trajectory_authority",
+      "finding": "substantial authority layer but not production Q/Rust collision generator"
+    },
+    {
+      "path": "bianchi/q/electron_validity.py",
+      "blob": "e79315a6cafd0012048e3ed10f7e6f0ebfdda001",
+      "role": "cold_Thomson_validity_and_consumer_contract",
+      "finding": "narrow instantaneous validity; explicitly not full polarized trajectory certification"
+    },
+    {
+      "path": "bianchi/observables/cmb_pattern.py",
+      "blob": "b9420b8311cab7629fdc6b00b8d97b0a3c2727eb",
+      "role": "background_anisotropic_redshift_CMB_pattern",
+      "finding": "C_l summary only; no full a_lm T/E/B split or statistics gate"
+    },
+    {
+      "path": "_rustcore/src/kinetic/rf04_polarized_v2.rs",
+      "blob": "b675df30a5da31387958831039188ca5da50304a",
+      "role": "RF04_polarized_v2_RED_scaffold",
+      "finding": "not implemented"
+    }
+  ],
+  "global_findings": {
+    "eleven_family_registry": true,
+    "uniform_eleven_family_output_validation": false,
+    "orthogonal_background_paths": true,
+    "global_tilt_paths": true,
+    "uniform_global_tilt_family_coverage": false,
+    "local_or_electron_frame_boost_paths": true,
+    "full_spectral_grid_without_moment_closure": true,
+    "radial_integrated_angular_grid": true,
+    "finite_numerical_PSTF_hierarchy": true,
+    "all_rank_formula_PSTF_authority": true,
+    "numerical_PSTF_without_truncation": false,
+    "time_dependent_recombination_opacity_schedule": true,
+    "generic_REC_source_bundle_consumed": false,
+    "generic_spectral_source_identifiable_from_Mode_A": false,
+    "full_a_lm_T_E_B_output_split": false,
+    "statistics_fitting_gate": false,
+    "RF04_public_v2_route": false
+  },
+  "dynamic_replay": {
+    "performed_in_this_stage": false,
+    "reason": "local container unavailable; no pytest/cargo/binary/plot claim"
+  },
+  "authority_effect": "NONE"
+}
