@@ -14,6 +14,20 @@ parent package blob
 f38eafdd7fd8c64bf4fb37ff8b59d4b762bc7448
 ```
 
+## Representation firewall
+
+The covariance-residual identities are valid for complex Hermitian covariance
+matrices and therefore remain suitable for spin-weighted harmonic coefficients.
+
+The Gaussian likelihood functions in this packet use the conventional real
+multivariate-normal normalization with the factor `1/2`. They therefore require
+an exactly real stored-harmonic or map basis. A complex mean/covariance input is
+rejected by `BASSNumBoostLikelihoodRealGaussianGuard.wl` rather than silently
+mixing real- and proper-complex-Gaussian conventions.
+
+A future proper-complex-Gaussian likelihood must have a separate typed API and
+normalization contract.
+
 ## P1 contract defects found in the parent package
 
 The parent functions `CovarianceSourceTailData` and
@@ -50,7 +64,7 @@ R_C = B C + C B^dagger,
 The hardening package fails closed unless the Hermiticity, projector, and
 support obligations hold.
 
-## Mean-aware Gaussian bridge
+## Mean-aware real-Gaussian bridge
 
 The earlier certificate assumes equal exact and approximate means. Bianchi and
 global-tilt inference generally carries a deterministic mean template, so mean
@@ -64,7 +78,7 @@ m = C_approx^(-1/2) (mu_exact-mu_approx),
 rho = ||A||_2 < 1.
 ```
 
-Then exactly
+For real Gaussian distributions,
 
 ```text
 D_KL[N(mu_exact,C_exact) || N(mu_approx,C_approx)]
@@ -122,14 +136,15 @@ Separate exact Wolfram 15.0.1 calls established:
 
 ```text
 Hermitian source-tail identity                   PASS
-non-Hermitian old-formula counterexample         residual -5
+non-Hermitian source-tail counterexample         residual -5
 general non-Hermitian decomposition              PASS
-Hermitian boundary-residual closed form          PASS
-mean-aware Gaussian KL decomposition             PASS
+Hermitian boundary-residual identity             PASS
+mean-aware real-Gaussian KL decomposition        PASS
 spectral and Frobenius KL bounds                 PASS
 fixed-data likelihood bound                      PASS
-common-subspace pseudoinverse equivalence        PASS
-common-subspace pseudodeterminant equivalence    PASS
+common-support compression                       PASS
+pseudoinverse/pseudodeterminant equivalence       PASS
+real input accepted / complex mean rejected      PASS
 ```
 
 The exact committed `.wl/.wlt` files have not yet been loaded by path and run
@@ -147,10 +162,12 @@ Git identity, semantic hashes, or claim promotion.
 ```text
 STANDALONE_HARDENING_SOURCE_CREATED
 SESSION_WOLFRAM_IDENTITIES_PASS
+REAL_GAUSSIAN_REPRESENTATION_GUARD_CREATED
 
 NO_NATIVE_EXACT_FILE_REPLAY
 NO_GITHUB_WOLFRAM_RUNTIME_PASS
 NO_DROPBOX_REPLAY
+NO_COMPLEX_GAUSSIAN_LIKELIHOOD_API
 NO_PROCESSED_HTT_LIKELIHOOD_READY
 NO_PROVIDER_ADMISSION
 NO_SCIENCE_PROMOTION
