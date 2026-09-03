@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_GITHUB_RUNNER_BLOCKED_RECEIPT",
+  "repository_scope": "BASS_ONLY",
+  "tested_commit": "372fc0b665a372e8c54dcc40b5e610939e5810ba",
+  "pull_request": 110,
+  "observed_runs": [
+    {
+      "run_id": 33730729537,
+      "workflow": "sync-map02e-r1-semantic-hardening",
+      "job_id": 100569801127,
+      "job": "verify-and-package",
+      "status": "completed",
+      "conclusion": "failure",
+      "observed_steps": [],
+      "classification": "HOSTED_RUNNER_NOT_ALLOCATED"
+    },
+    {
+      "run_id": 33730729538,
+      "workflow": "sync-map01c-geometry-composition",
+      "job_id": 100569801094,
+      "job": "composition-contract",
+      "status": "completed",
+      "conclusion": "failure",
+      "observed_steps": [],
+      "classification": "HOSTED_RUNNER_NOT_ALLOCATED_INHERITED_WORKFLOW"
+    },
+    {
+      "run_id": 33730729506,
+      "workflow": "sync-map02a-equationir-export",
+      "job_id": 100569801296,
+      "job": "equationir-export-contract",
+      "status": "completed",
+      "conclusion": "failure",
+      "observed_steps": [],
+      "classification": "HOSTED_RUNNER_NOT_ALLOCATED_INHERITED_WORKFLOW"
+    }
+  ],
+  "root_cause_evidence": {
+    "checkout_started": false,
+    "python_setup_started": false,
+    "generator_started": false,
+    "verifier_started": false,
+    "unit_tests_started": false,
+    "source_packet_started": false,
+    "physics_formula_failure_observed": false,
+    "source_failure_observed": false
+  },
+  "disposition": {
+    "github_actions_result": "NOT_EXECUTED_ZERO_STEP_RUNNER_FAILURE",
+    "local_replay_surface": "PUSHED",
+    "next_action": "RUN scripts/run_sync_map02e_r1_local_validation.sh ON A LOCAL BASS CLONE",
+    "expected_artifacts": [
+      "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json",
+      "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json",
+      "SYNC_MAP_02E_R1_LOCAL_WOLFRAM_REPLAY_RECEIPT.json",
+      "SYNC_MAP_02E_R1_LOCAL_VALIDATION_SUMMARY.json",
+      "SHA256SUMS"
+    ]
+  },
+  "claim_boundary": [
+    "RUNNER_ALLOCATION_FAILURE_ONLY",
+    "NO_GITHUB_CI_PASS",
+    "NO_GITHUB_CI_FORMULA_FAILURE",
+    "NO_NATIVE_LOCAL_REPLAY",
+    "NO_STAGE_PROMOTION"
+  ]
+}

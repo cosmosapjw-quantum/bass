@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_SEMANTIC_HARDENING",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "parent": {
+    "pull_request": 99,
+    "commit": "e1467825c8f4c5e3f47df5da5b8a6202e8f96f30",
+    "registry_semantic_hash": "16f699043a7420c6e62abdad02434a216075ce55f69583b5051965ea53db5612"
+  },
+  "formula_ids": [
+    "BASS.FRAME.ABERRATED_DIRECTION.001",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+    "BASS.FRAME.DOPPLER_FACTOR.001",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+    "BASS.PHOTON.DIRECTION_FLOW.001",
+    "BASS.PHOTON.ENERGY_DRIFT.001"
+  ],
+  "required_hardening": {
+    "aberration": {
+      "regular_coefficient": "gamma^2/(gamma+1)",
+      "forbidden_serialized_coefficient": "(gamma-1)/beta_squared",
+      "zero_boost": "direct evaluation without 0/0"
+    },
+    "blackbody_weighted_pullback": {
+      "mathematical_kind": "WEIGHTED_SECTION_PUSHFORWARD",
+      "defining_equation": "Pullback[A_beta,temperature_tilde]=doppler_factor_source*temperature_source",
+      "base_map_dependency": {
+        "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "role": "BASE_MAP_REQUIRED"
+      },
+      "fiber_weight_dependency": {
+        "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+        "role": "FIBER_WEIGHT_REQUIRED"
+      },
+      "source_bundle": "CELESTIAL_SPHERE(u) x POSITIVE_REAL_KELVIN",
+      "target_bundle": "CELESTIAL_SPHERE(u_tilde) x POSITIVE_REAL_KELVIN",
+      "spin_weight": 0,
+      "doppler_weight": 1,
+      "pointwise_measure_firewall": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001 is not a pointwise temperature factor"
+    },
+    "photon_characteristics": {
+      "ray_parameter": "s=c*t",
+      "angular_multipole_symbol": "ell",
+      "geodesic_normal_specialization": {
+        "formula_id": "BASS.GEO.NORMAL_ACCELERATION.001",
+        "role": "SPECIALIZES_UNDER_ZERO",
+        "value": "A_normal^a=0"
+      },
+      "symbol_firewall": "aB^a is the Bianchi structure vector and is not A_normal^a",
+      "screen_basis_transport_status": "EXCLUDED_NEXT_BASS_NODE"
+    },
+    "consumer_semantics": {
+      "required_field": "declared_consumer_targets",
+      "forbidden_legacy_field": "consumer_bindings",
+      "meaning": "target repositories only; no implementation parity or source mutation"
+    }
+  },
+  "local_replay_contract": {
+    "python_test_file": "tests/test_sync_map02e_r1_semantic_hardening.py",
+    "wolfram_test_file": "wolfram/BASS/Tests/SYNCMAP02ER1SharedFramePhotonHardening.wlt",
+    "expected_top_level_munit_tests": 11,
+    "generator": "scripts/build_sync_map02e_r1_hardening.py",
+    "verifier": "scripts/verify_sync_map02e_r1_hardening.py",
+    "headless_runner": "wolfram/scripts/run_sync_map02e_r1_local_replay.wls",
+    "shell_runner": "scripts/run_sync_map02e_r1_local_validation.sh"
+  },
+  "claim_boundary": [
+    "BASS_OWNER_FORMULA_HARDENING_ONLY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_CONSUMER_PARITY",
+    "NO_BACKGROUND_PROVIDER",
+    "NO_GLOBAL_TILT",
+    "NO_SCREEN_TRANSPORT",
+    "NO_NUMERICAL_OR_SCIENCE_PROMOTION"
+  ]
+}

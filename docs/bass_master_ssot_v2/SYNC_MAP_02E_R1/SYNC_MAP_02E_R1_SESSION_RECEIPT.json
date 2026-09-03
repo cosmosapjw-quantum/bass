@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_SEMANTIC_HARDENING_SESSION_RECEIPT",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "parent": {
+    "pull_request": 99,
+    "commit": "e1467825c8f4c5e3f47df5da5b8a6202e8f96f30",
+    "registry_semantic_hash": "16f699043a7420c6e62abdad02434a216075ce55f69583b5051965ea53db5612"
+  },
+  "test_first_source_order": [
+    {
+      "commit": "58b46074e295dda167bd1cb76e3f787a7160da5c",
+      "role": "initial Python RED contract"
+    },
+    {
+      "commit": "f8ad022381e2628c8ed717e3498ed86f4f9f1fc7",
+      "role": "initial top-level Wolfram RED contract"
+    },
+    {
+      "commit": "830f1df2413e77433e9aa1caf5261c6cc29e731b",
+      "role": "deterministic standard-library generator"
+    },
+    {
+      "commit": "481e546b0ef009f83f2ce2cb3272e3a86458b225",
+      "role": "fail-closed standard-library verifier"
+    },
+    {
+      "commit": "2dcef78afd0542ef2fdd39019fe54309616f986e",
+      "role": "Wolfram hardening module"
+    },
+    {
+      "commit": "1add0ab5404eb555814ee1d2457278337062c09a",
+      "role": "append-only Wolfram harness repair"
+    },
+    {
+      "commit": "561dda7702beec2873de54f375fcde6e21ea09f8",
+      "role": "headless local replay runner repair"
+    },
+    {
+      "commit": "876414c24bc21d5336daffe00eb51b1c6515d172",
+      "role": "GitHub source-packet workflow"
+    },
+    {
+      "commit": "a7b21a8952ff0abdd01e5eb9786876a8c6386272",
+      "role": "remove undeclared pytest dependency from one-command local runner"
+    }
+  ],
+  "pushed_local_replay_surfaces": [
+    ".github/workflows/sync-map02e-r1-semantic-hardening.yml",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02E_R1/SEMANTIC_HARDENING_PATCH_CONTRACT.json",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02E_R1/LOCAL_REPLAY_README.md",
+    "scripts/build_sync_map02e_r1_hardening.py",
+    "scripts/verify_sync_map02e_r1_hardening.py",
+    "scripts/run_sync_map02e_r1_local_validation.sh",
+    "tests/test_sync_map02e_r1_semantic_hardening.py",
+    "wolfram/BASS/Kernel/IR/SharedFramePhotonExportHardeningR1.wl",
+    "wolfram/BASS/Kernel/IR/SharedFramePhotonExportHardeningR1Fix1.wl",
+    "wolfram/BASS/Tests/SYNCMAP02ER1SharedFramePhotonHardening.wlt",
+    "wolfram/scripts/run_sync_map02e_r1_local_replay.wls"
+  ],
+  "fresh_connected_wolfram": {
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "regular_aberration_coefficient_residual": "0",
+    "zero_boost_regular_coefficient": "1/2",
+    "aberrated_direction_unit_norm_residual": "0",
+    "blackbody_weighted_pullback_generator_residual": "0",
+    "doppler_only_missing_term": "-(1-x^2) temperature'(x)",
+    "doppler_only_nonconstant_fixture": "-3/4 for temperature(x)=x^2 at x=1/2",
+    "planck_spectrum_covariance_residual": "0",
+    "planck_argument_covariance_residual": "0",
+    "general_to_geodesic_normal_energy_drift_residual": "0",
+    "omitted_normal_acceleration_coefficient": "-1",
+    "photon_direction_flow_tangency_residual": "0",
+    "radial_compensator_deletion_mutant": "NONZERO"
+  },
+  "preserved_harness_failures": [
+    "local Python/container filesystem returned ClientError, so the generator and verifier were not executed in this session",
+    "the first Wolfram omission fixture used simultaneous replacement and did not substitute the localized x symbol",
+    "the first patch-contract test count was ten while the final WLT contains eleven top-level tests",
+    "the first headless runner treated RunProcess output as a ProcessObject instead of an Association",
+    "the first one-command shell runner introduced an undeclared pytest dependency"
+  ],
+  "literature_methodology_lock": {
+    "authority_effect": "NONE",
+    "sources": [
+      {
+        "arxiv": "1403.6117",
+        "role": "exact Doppler-weight-one Lorentz boost operator and harmonic aberration structure"
+      },
+      {
+        "arxiv": "1709.08298",
+        "role": "frequency-dependent observable typing and separation from thermodynamic blackbody temperature"
+      }
+    ]
+  },
+  "execution_state": {
+    "standard_library_generator_source": "PUSHED",
+    "standard_library_verifier_source": "PUSHED",
+    "standard_library_unit_test_source": "PUSHED",
+    "wolfram_module_source": "PUSHED",
+    "top_level_munit_source": "PUSHED_11_TESTS",
+    "headless_local_runner": "PUSHED",
+    "one_command_local_runner": "PUSHED",
+    "github_source_packet_workflow": "PUSHED",
+    "generated_full_registry": "LOCAL_OR_CI_GENERATION_REQUIRED",
+    "new_semantic_hashes": "LOCAL_OR_CI_GENERATION_REQUIRED",
+    "native_exact_file_testreport": "NOT_RUN",
+    "github_actions_result": "NOT_OBSERVED_AT_RECEIPT_CREATION"
+  },
+  "next_stage": {
+    "node": "SYNC_MAP_02E_R1_LOCAL_EXACT_REPLAY_AND_READBACK",
+    "then": "SYNC_MAP_02F_R2_NORMAL_ANCESTRY_RECOMPOSITION"
+  },
+  "claim_boundary": [
+    "BASS_OWNER_FORMULA_HARDENING_SOURCE_CREATED",
+    "SESSION_LEVEL_WOLFRAM_IDENTITIES_PASS",
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_CONSUMER_PARITY",
+    "NO_BACKGROUND_PROVIDER",
+    "NO_GLOBAL_TILT",
+    "NO_SCREEN_TRANSPORT",
+    "NO_NUMERICAL_OR_SCIENCE_PROMOTION"
+  ]
+}

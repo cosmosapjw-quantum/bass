@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FAILURE_FIX6",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "observed_local_head": "6710f6d1d81739286ae0fdeadce4fc6e821cab5c",
+  "observed_run_status": "FAIL_PYTHON_STATIC_CONTRACT_VARIABLE_ALIAS",
+  "observed_exit_code": 1,
+  "clean_path_before_failure": {
+    "generator": "PASS",
+    "verifier": "PASS",
+    "formula_count": 6,
+    "internal_dependency_edge_count": 5,
+    "external_dependency_edge_count": 7,
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "python_tests_passed": 5,
+    "python_tests_failed": 1,
+    "wolfram_stage_reached": false
+  },
+  "failed_gate": {
+    "test": "test_required_surfaces_exist",
+    "expected_literal": "injectedTestContext = <|",
+    "actual_runner_dataflow": [
+      "testContextPayload = <| ... |>",
+      "injectedTestContext = testContextPayload;",
+      "Global`$BASSSyncMap02ER1TestContext = injectedTestContext",
+      "TestReport[testPath]"
+    ]
+  },
+  "root_cause": {
+    "classification": "STATIC_SOURCE_CONTRACT_OVERFIT_TO_LOCAL_ALIAS",
+    "description": "The runner already constructed and injected the required BASS-only absolute context, but the Python source contract required one particular local-variable declaration spelling. The failure occurred before Wolfram execution and did not indicate a missing context payload, formula defect, generator defect, verifier defect, or semantic-hash change.",
+    "formula_defect_observed": false,
+    "runner_dataflow_defect_observed": false,
+    "test_contract_defect_observed": true
+  },
+  "repair": {
+    "commit": "c9800dec52d8caec59e57eb3a067b3e608302c88",
+    "path": "tests/test_sync_map02e_r1_semantic_hardening.py",
+    "method": "Replace the exact declaration-spelling assertion with checks for the required payload fields, alias handoff, dynamic Global context assignment, and ordering before TestReport. Production FormulaIR, runner behavior, WLT behavior, and semantic projections are unchanged.",
+    "production_formula_changed": false,
+    "semantic_projection_changed": false,
+    "runner_changed": false,
+    "wlt_changed": false
+  },
+  "expected_identity_after_repair": {
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "expected_python_unittest_count": 6,
+    "expected_top_level_munit_tests": 11,
+    "expected_test_context_mode": "RUNNER_INJECTED_ABSOLUTE_CONTEXT"
+  },
+  "fresh_connected_wolfram_status": {
+    "dynamic_context_probe": "NOT_RUN_CONNECTOR_502",
+    "formula_identities": "UNCHANGED_FROM_PRIOR_PASS"
+  },
+  "next_gate": "LOCAL_EXACT_RERUN_REQUIRED",
+  "claim_boundary": [
+    "ROOT_CAUSE_IDENTIFIED",
+    "STATIC_CONTRACT_FIX_PUSHED",
+    "NO_LOCAL_GREEN_CLAIM",
+    "NO_STAGE_PROMOTION",
+    "NO_CROSS_REPOSITORY_MUTATION"
+  ]
+}

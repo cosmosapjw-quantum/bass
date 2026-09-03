@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FAILURE_FIX1",
+  "repository_scope": "BASS_ONLY",
+  "observed_local_run": {
+    "git_head": "b81f053a0fd8e5e965d26aaba963b2b9debe75bb",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "generated_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "formula_count": 6,
+    "failure_type": "SOFTWARE_CONTRACT_FALSE_POSITIVE",
+    "exception": "ValueError: singular coefficient serialized",
+    "failure_location": "scripts/verify_sync_map02e_r1_hardening.py::check_aberration"
+  },
+  "root_cause": {
+    "generated_executable_term": "gamma^2/(gamma+1)",
+    "historical_known_limit": "(gamma-1)/beta_squared = gamma^2/(gamma+1) away from zero",
+    "defect": "The Python verifier serialized the complete EquationIR and treated the historical regularization identity in known_limits as an executable singular coefficient.",
+    "physics_formula_failure": false,
+    "generator_failure": false,
+    "verifier_scope_failure": true
+  },
+  "repair": {
+    "test_first_commit": "0b71d8b1a58b135ed76990b414846b5343b66714",
+    "verifier_fix_commit": "569b4e5d1fa781a6a93cc7835dbeb5a87c3b2a45",
+    "new_rule": "Reject the superseded coefficient only in coefficient-bearing executable slots (target and terms), while requiring the exact old-to-regular equivalence to remain in known_limits provenance.",
+    "hostile_mutant": "A term containing (gamma-1)/beta_squared must still raise ValueError."
+  },
+  "verification_status": {
+    "user_observed_red": true,
+    "regression_test_source_pushed": true,
+    "verifier_fix_source_pushed": true,
+    "fresh_local_green": false,
+    "fresh_github_ci_green": false,
+    "reason": "Local/container execution was unavailable in the repair session; exact rerun is required on the user's BASS clone."
+  },
+  "next_command": "bash scripts/run_sync_map02e_r1_local_validation.sh artifacts/sync_map02e_r1_local_replay",
+  "claim_boundary": [
+    "SOURCE_REPAIR_PUSHED",
+    "LOCAL_GREEN_NOT_YET_OBSERVED",
+    "NO_STAGE_PASS",
+    "NO_02F_RECOMPOSITION",
+    "NO_MERGE_OR_READY_TRANSITION"
+  ]
+}

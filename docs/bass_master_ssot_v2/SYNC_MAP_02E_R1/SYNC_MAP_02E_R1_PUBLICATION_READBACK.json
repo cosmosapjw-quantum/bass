@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "pull_request": 110,
+  "branch": "research/bass-master-ssot-v2-sync-map02e-r1-semantic-hardening-20260903-r1",
+  "base": {
+    "pull_request": 99,
+    "branch": "research/bass-master-ssot-v2-sync-map02e-shared-frame-photon-export-20260902-r1",
+    "commit": "e1467825c8f4c5e3f47df5da5b8a6202e8f96f30"
+  },
+  "source_head_before_readback": "5b38c6550951cf3fb8ade1e20f99ae2496224484",
+  "source_status": {
+    "deterministic_generator": "PUSHED",
+    "fail_closed_verifier": "PUSHED",
+    "standard_library_unit_tests": "PUSHED_6_METHODS",
+    "wolfram_module_and_fix": "PUSHED",
+    "top_level_munit_tests": "PUSHED_11",
+    "headless_local_runner": "PUSHED",
+    "one_command_local_runner": "PUSHED",
+    "github_source_packet_workflow": "PUSHED",
+    "local_replay_readme": "PUSHED",
+    "session_wolfram_receipt": "PUSHED",
+    "runner_blocked_receipt": "PUSHED"
+  },
+  "fresh_wolfram_summary": {
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "regular_aberration_coefficient": "PASS_EXACT",
+    "zero_boost_direct_value": "1/2",
+    "aberrated_direction_unit_norm": "PASS_EXACT",
+    "blackbody_weighted_pullback_generator": "PASS_EXACT",
+    "doppler_only_nonconstant_mutant": "DETECTED_MINUS_3_OVER_4",
+    "planck_covariance": "PASS_EXACT",
+    "geodesic_normal_specialization": "PASS_EXACT",
+    "normal_acceleration_coefficient": "-1",
+    "direction_flow_tangency": "PASS_EXACT",
+    "radial_compensator_mutant": "DETECTED_NONZERO"
+  },
+  "github_runs": [
+    {
+      "run_id": 33730729537,
+      "tested_commit": "372fc0b665a372e8c54dcc40b5e610939e5810ba",
+      "job_id": 100569801127,
+      "workflow": "sync-map02e-r1-semantic-hardening",
+      "observed_steps": [],
+      "classification": "HOSTED_RUNNER_NOT_ALLOCATED"
+    },
+    {
+      "run_id": 33730897731,
+      "tested_commit": "5b38c6550951cf3fb8ade1e20f99ae2496224484",
+      "job_id": 100570346186,
+      "workflow": "sync-map02e-r1-semantic-hardening",
+      "observed_steps": [],
+      "classification": "HOSTED_RUNNER_NOT_ALLOCATED"
+    }
+  ],
+  "execution_truth": {
+    "github_checkout_executed": false,
+    "github_generator_executed": false,
+    "github_verifier_executed": false,
+    "github_tests_executed": false,
+    "github_source_packet_created": false,
+    "native_local_exact_file_replay": false,
+    "physics_formula_failure_observed": false,
+    "source_failure_observed": false
+  },
+  "local_replay_command": "bash scripts/run_sync_map02e_r1_local_validation.sh",
+  "expected_local_outputs": [
+    "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json",
+    "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json",
+    "SYNC_MAP_02E_R1_LOCAL_WOLFRAM_REPLAY_RECEIPT.json",
+    "SYNC_MAP_02E_R1_LOCAL_VALIDATION_SUMMARY.json",
+    "SHA256SUMS"
+  ],
+  "next_stage": {
+    "immediate": "SYNC_MAP_02E_R1_LOCAL_EXACT_REPLAY_AND_READBACK",
+    "after_pass": "SYNC_MAP_02F_R2_NORMAL_ANCESTRY_RECOMPOSITION"
+  },
+  "claim_boundary": [
+    "BASS_OWNER_FORMULA_HARDENING_SOURCE_PUBLISHED",
+    "SESSION_WOLFRAM_IDENTITIES_PASS",
+    "LOCAL_OFFLINE_REPLAY_SURFACE_PUBLISHED",
+    "GITHUB_HOSTED_RUNNER_ALLOCATION_BLOCKED",
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_CONSUMER_PARITY",
+    "NO_STAGE_PROMOTION"
+  ]
+}

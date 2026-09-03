@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FAILURE_FIX4",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "observed_local_head": "6964e4af56b926c4f2ed9d817b49ae49aeac27ba",
+  "observed_run_status": "FAIL_WLT_TESTREPORT_INPUT_PATH_MODE",
+  "observed_exit_code": 1,
+  "observed_environment": {
+    "wolfram_version": "15.0.0 for Linux x86 (64-bit) (May 26, 2026)",
+    "python_executable": "/usr/bin/python3",
+    "python_probe_exit_code": 0,
+    "python_version": "Python 3.12.3"
+  },
+  "clean_path_before_failure": {
+    "generator": "PASS",
+    "verifier": "PASS",
+    "python_unittest": "6/6 PASS",
+    "formula_count": 6,
+    "internal_dependency_edge_count": 5,
+    "external_dependency_edge_count": 7,
+    "export_valid": true,
+    "patch_contract_valid": true,
+    "exact_residuals": {
+      "regular_coefficient": 0,
+      "zero_boost_coefficient": "1/2",
+      "aberrated_direction_unit_norm": 0,
+      "blackbody_weighted_pullback_generator": 0,
+      "doppler_only_omission_witness": "-3/4",
+      "planck_covariance": 0,
+      "general_energy_drift_specialization": 0,
+      "omitted_normal_acceleration_coefficient": -1,
+      "direction_flow_tangency": 0
+    },
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "failed_gate": {
+    "expected_top_level_munit_tests": 11,
+    "tests_succeeded": 10,
+    "tests_failed": 1,
+    "tests_not_evaluated": 0,
+    "messages": [
+      "Get::noopen: Cannot open /home/cosmosapjw/bass/wolfram/Kernel/IR/SharedFramePhotonExportHardeningR1.wl.",
+      "Get::noopen: Cannot open /home/cosmosapjw/bass/wolfram/Kernel/IR/SharedFramePhotonExportHardeningR1Fix1.wl."
+    ]
+  },
+  "root_cause": {
+    "classification": "WLT_TESTREPORT_INPUT_PATH_MODE_MISMATCH",
+    "description": "The WLT assumed that $InputFileName was always the WLT file. Under the observed local TestReport/Wolfram 15.0.0 path mode, it behaved as the containing Tests directory. Applying two DirectoryName operations therefore derived /home/cosmosapjw/bass/wolfram instead of /home/cosmosapjw/bass/wolfram/BASS, and the WLT attempted to reload both modules from a path missing the BASS component.",
+    "runner_module_load": "PASS_BEFORE_TESTREPORT",
+    "formula_defect_observed": false,
+    "generator_defect_observed": false,
+    "verifier_defect_observed": false,
+    "python_environment_defect_observed": false
+  },
+  "repair": {
+    "red_contract_commit": "ef9ff33f56eb79d285e6a347e553a93e2fb8d13f",
+    "wlt_fix_commit": "12c6e8e83b3821920ae2eb2e53addbd706e34e05",
+    "test_path": "tests/test_sync_map02e_r1_semantic_hardening.py",
+    "wlt_path": "wolfram/BASS/Tests/SYNCMAP02ER1SharedFramePhotonHardening.wlt",
+    "method": "Normalize $InputFileName as either a file or directory, derive testDirectory first, then derive bassWolframRoot and repositoryRoot from that normalized directory.",
+    "top_level_munit_count_changed": false,
+    "production_formula_changed": false,
+    "semantic_projection_changed": false
+  },
+  "expected_identity_after_repair": {
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "expected_top_level_munit_tests": 11
+  },
+  "fresh_connected_wolfram_status": {
+    "path_model_replay": "NOT_RUN_CONNECTOR_502",
+    "formula_identities": "UNCHANGED_FROM_PRIOR_PASS"
+  },
+  "next_gate": "LOCAL_EXACT_RERUN_REQUIRED",
+  "claim_boundary": [
+    "ROOT_CAUSE_IDENTIFIED",
+    "TESTREPORT_PATH_FIX_SOURCE_PUSHED",
+    "NO_LOCAL_GREEN_CLAIM",
+    "NO_STAGE_PROMOTION",
+    "NO_CROSS_REPOSITORY_MUTATION"
+  ]
+}
