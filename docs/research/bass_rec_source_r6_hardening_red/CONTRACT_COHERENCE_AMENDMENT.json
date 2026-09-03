@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R6_CONTRACT_COHERENCE_AMENDMENT",
+  "parent_red_commit": "3a4b16bfeb468b8a6c6f50769bf9f614e225de10",
+  "finding": {
+    "severity": "P0_TEST_CONTRACT_CONTRADICTION",
+    "historical_r5_assertion": "require_source_representation_compatibility(SOURCE_INTEGRATED_WITNESS, integrated_state) returns normally without a binding",
+    "r6_assertion": "the identical call raises SourceRepresentationError unless an exact IntegratedMomentMapBinding is supplied",
+    "logical_status": "MUTUALLY_EXCLUSIVE_FOR_ONE_DETERMINISTIC_PUBLIC_FUNCTION",
+    "runtime_status": "NOT_NEEDED_TO_ESTABLISH_THE_CONTRADICTION"
+  },
+  "repair": {
+    "historical_authority": "The exact R5 v1 behavior remains pinned at PR #112 commit fc4d21b92a1abd1e9b35178f7d666831fc5c827d.",
+    "r6_branch_migration": "Replace the superseded R5 admission assertion with a stable survivor asserting only that pointwise and integrated frequency kinds remain distinct typed enum values.",
+    "r6_authority": "The R6 test remains the sole authority for target-specific integrated-witness admission.",
+    "workflow": "Trigger on the migrated R5 survivor file and continue to require that the stable R5 suite passes before the R6 expected RED is evaluated."
+  },
+  "expected_static_fingerprint_on_r5_source": {
+    "stable_r5_survivor_tests": 11,
+    "stable_r5_survivor_expected_failures": 0,
+    "r6_tests": 10,
+    "r6_expected_assertion_failures": 8,
+    "r6_expected_errors": 0,
+    "r6_expected_passing_controls": 2,
+    "execution_claim": "NOT_YET_EXECUTED"
+  },
+  "modified_paths": [
+    "tests/research/test_bass_rec_source_protocol_red.py",
+    ".github/workflows/bass-rec-source-r6-hardening-red.yml",
+    "docs/research/bass_rec_source_r6_hardening_red/R6_RED_CONTRACT.json",
+    "docs/research/bass_rec_source_r6_hardening_red/README.md",
+    "docs/research/bass_rec_source_r6_hardening_red/PHYS_MATH_CODE_AUDIT.md"
+  ],
+  "production_paths_changed": [],
+  "authority_effect": "NONE"
+}

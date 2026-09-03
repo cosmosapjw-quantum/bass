@@ -140,28 +140,19 @@ class TestBassRecSourceProtocolRed(unittest.TestCase):
                     )
                 )
 
-    def test_source_integrated_witness_is_only_for_integrated_states_in_first_protocol(self):
-        for state_kind in (
-            SourceStateKind.RADIAL_INTEGRATED_ANGULAR_GRID,
-            SourceStateKind.FINITE_INTEGRATED_J_HIERARCHY,
-        ):
-            with self.subTest(state_kind=state_kind):
-                self.assertIsNone(
-                    require_source_representation_compatibility(
-                        SourceFrequencyKind.SOURCE_INTEGRATED_WITNESS,
-                        state_kind,
-                    )
-                )
-        for state_kind in (
-            SourceStateKind.FULL_SPECTRAL_GRID,
-            SourceStateKind.FINITE_SPECTRAL_PSTF,
-        ):
-            with self.subTest(state_kind=state_kind):
-                with self.assertRaises(SourceRepresentationError):
-                    require_source_representation_compatibility(
-                        SourceFrequencyKind.SOURCE_INTEGRATED_WITNESS,
-                        state_kind,
-                    )
+    def test_frequency_kinds_remain_distinct_typed_objects_across_protocol_versions(self):
+        values = {member.value for member in SourceFrequencyKind}
+        self.assertEqual(
+            values,
+            {
+                "pointwise_spectral",
+                "source_integrated_witness",
+            },
+        )
+        self.assertIsNot(
+            SourceFrequencyKind.POINTWISE_SPECTRAL,
+            SourceFrequencyKind.SOURCE_INTEGRATED_WITNESS,
+        )
 
     def test_work_rank_guard_blocks_same_cutoff_aliasing(self):
         self.assertEqual(required_work_rank(l_out=2, l_source=2), 4)
