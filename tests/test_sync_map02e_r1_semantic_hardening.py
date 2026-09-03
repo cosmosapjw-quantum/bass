@@ -178,20 +178,24 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         self.assertIn('FAIL_PYTHON3_ARGUMENT_MISSING', wolfram_runner_text)
         self.assertIn('FAIL_PYTHON3_UNUSABLE', wolfram_runner_text)
 
-        # TestReport can expose $InputFileName as either the WLT file or its
-        # containing directory.  The test source must normalize both forms
-        # before deriving the BASS Wolfram root and repository root.
-        self.assertIn('testInputPath = ExpandFileName[$InputFileName]', wolfram_test_text)
-        self.assertIn('DirectoryQ[testInputPath]', wolfram_test_text)
-        self.assertIn('bassWolframRoot = DirectoryName[testDirectory]', wolfram_test_text)
-        self.assertIn(
-            'repositoryRoot = DirectoryName[DirectoryName[bassWolframRoot]]',
-            wolfram_test_text,
+        # TestReport leaves $InputFileName bound to the outer wolframscript on
+        # the observed local WL 15.0.0 path.  The WLT must therefore consume a
+        # runner-injected absolute context rather than infer repository paths.
+        context_symbol = 'Global`$BASSSyncMap02ER1TestContext'
+        self.assertIn('injectedTestContext = <|', wolfram_runner_text)
+        self.assertIn(context_symbol, wolfram_runner_text)
+        self.assertIn('report = Block[', wolfram_runner_text)
+        self.assertIn('TestReport[testPath]', wolfram_runner_text)
+        self.assertLess(
+            wolfram_runner_text.index('injectedTestContext = <|'),
+            wolfram_runner_text.index('TestReport[testPath]'),
         )
-        self.assertNotIn(
-            'DirectoryName[DirectoryName[$InputFileName]]',
-            wolfram_test_text,
-        )
+        self.assertIn(context_symbol, wolfram_test_text)
+        self.assertNotIn('$InputFileName', wolfram_test_text)
+        self.assertNotIn('Get[', wolfram_test_text)
+        self.assertNotIn('Import[', wolfram_test_text)
+        self.assertIn('"patch_contract"', wolfram_test_text)
+        self.assertIn('"repository_scope"', wolfram_test_text)
 
     def test_hardened_registry_structure(self) -> None:
         data = self.build()
