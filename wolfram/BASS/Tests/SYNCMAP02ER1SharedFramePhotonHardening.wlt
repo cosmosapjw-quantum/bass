@@ -1,10 +1,17 @@
 (* Top-level MUnit tests. Do not wrap VerificationTest expressions in Module. *)
 
-moduleDirectory = FileNameJoin[{
-  DirectoryName[DirectoryName[$InputFileName]],
-  "Kernel",
-  "IR"
-}];
+(* Wolfram TestReport can expose $InputFileName either as the WLT file path or
+   as its containing test directory, depending on the runner/version. Normalize
+   both forms before deriving the BASS Wolfram root and repository root. *)
+testInputPath = ExpandFileName[$InputFileName];
+testDirectory = If[
+  DirectoryQ[testInputPath],
+  testInputPath,
+  DirectoryName[testInputPath]
+];
+bassWolframRoot = DirectoryName[testDirectory];
+repositoryRoot = DirectoryName[DirectoryName[bassWolframRoot]];
+moduleDirectory = FileNameJoin[{bassWolframRoot, "Kernel", "IR"}];
 
 Get[FileNameJoin[{
   moduleDirectory,
@@ -86,13 +93,7 @@ VerificationTest[
   SharedFramePhotonHardeningR1PatchContractQ[
     Import[
       FileNameJoin[{
-        DirectoryName[
-          DirectoryName[
-            DirectoryName[
-              DirectoryName[$InputFileName]
-            ]
-          ]
-        ],
+        repositoryRoot,
         "docs",
         "bass_master_ssot_v2",
         "SYNC_MAP_02E_R1",
