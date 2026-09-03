@@ -1,4 +1,4 @@
-(* Top-level RED tests. Do not wrap VerificationTest expressions in Module. *)
+(* Top-level tests. Do not wrap VerificationTest expressions in Module. *)
 
 Get[FileNameJoin[{
   DirectoryName[$InputFileName],
@@ -42,13 +42,16 @@ VerificationTest[
 ]
 
 VerificationTest[
-  CommonSupportCompressionGuard[
-    DiagonalMatrix[{2, 3, 5}],
-    DiagonalMatrix[{5/2, 7/2, 4}],
-    {0, 0, 0},
-    {0, 0, 0},
-    {1, -1, 2},
-    {{1, 0}, {0, 1}, {0, 0}}
+  Quiet[
+    CommonSupportCompressionGuard[
+      DiagonalMatrix[{2, 3, 5}],
+      DiagonalMatrix[{5/2, 7/2, 4}],
+      {0, 0, 0},
+      {0, 0, 0},
+      {1, -1, 2},
+      {{1, 0}, {0, 1}, {0, 0}}
+    ],
+    CommonSupportCompressionGuard::cov
   ],
   $Failed,
   TestID -> "NUMBOOST-R3-OUTSIDE-SUPPORT-COVARIANCE-REJECT"
