@@ -53,9 +53,16 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 verify(mutant)
 
+        # Exact per-role provenance pinning is intentionally checked before the
+        # derived global symbol inventory.  Removing a symbol therefore fails
+        # at the stronger role contract, rather than relying on diagnostic
+        # precedence in a later aggregate-count check.
         mutant = self.data()
         mutant["implementation_roles"][0]["source_symbols"] = []
-        with self.assertRaisesRegex(ValueError, "source-symbol"):
+        with self.assertRaisesRegex(
+            ValueError,
+            "role contract mismatch for ROLE-REC-ABERRATION",
+        ):
             verify(mutant)
 
         # The global symbol inventory is unchanged, but assigning symbols to
@@ -92,6 +99,10 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify(mutant)
 
+        # Promotion changes an exact pinned role field.  The canonical failure
+        # is therefore the exact-role contract; the later derived
+        # "primitive promoted" guard remains defence in depth but is not the
+        # diagnostic authority for this mutation.
         mutant = self.data()
         primitive = next(
             row
@@ -99,7 +110,10 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
             if row["role_type"] == "PREPULLED_VALUE_PRIMITIVE"
         )
         primitive["implements_full_formula"] = True
-        with self.assertRaisesRegex(ValueError, "primitive promoted"):
+        with self.assertRaisesRegex(
+            ValueError,
+            "role contract mismatch for ROLE-HTT-BLACKBODY-PREPULLED",
+        ):
             verify(mutant)
 
     def test_rei_energy_residual_must_be_exact_sigmaee(self) -> None:
