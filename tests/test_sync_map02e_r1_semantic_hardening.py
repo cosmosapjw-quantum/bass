@@ -9,7 +9,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 PARENT = (
@@ -83,19 +82,18 @@ def _sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-def _load_verifier_module() -> ModuleType:
+def _load_verifier_module():
     spec = importlib.util.spec_from_file_location(
-        "bass_sync_map02e_r1_verifier",
-        VERIFIER,
+        "sync_map02e_r1_verifier_for_test", VERIFIER
     )
     if spec is None or spec.loader is None:
-        raise RuntimeError(f"cannot load verifier module: {VERIFIER}")
+        raise RuntimeError("cannot load verifier module")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
-def _generate(tmp_path: Path) -> tuple[Path, Path, dict]:
+def _generate(tmp_path: Path) -> dict:
     output = tmp_path / "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json"
     receipt = tmp_path / "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json"
     subprocess.run(
@@ -112,11 +110,26 @@ def _generate(tmp_path: Path) -> tuple[Path, Path, dict]:
         cwd=ROOT,
         check=True,
     )
-    return output, receipt, json.loads(output.read_text(encoding="utf-8"))
+    return json.loads(output.read_text(encoding="utf-8"))
 
 
 def _build(tmp_path: Path) -> dict:
-    output, receipt, data = _generate(tmp_path)
+    output = tmp_path / "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json"
+    receipt = tmp_path / "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(GENERATOR),
+            "--input",
+            str(PARENT),
+            "--output",
+            str(output),
+            "--receipt",
+            str(receipt),
+        ],
+        cwd=ROOT,
+        check=True,
+    )
     subprocess.run(
         [
             sys.executable,
@@ -129,18 +142,17 @@ def _build(tmp_path: Path) -> dict:
         cwd=ROOT,
         check=True,
     )
-    return data
+    return json.loads(output.read_text(encoding="utf-8"))
 
 
 class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
+    def generate(self) -> dict:
+        with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-generate-") as raw:
+            return _generate(Path(raw))
+
     def build(self) -> dict:
         with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-") as raw:
             return _build(Path(raw))
-
-    def generate(self) -> dict:
-        with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-generate-") as raw:
-            _, _, data = _generate(Path(raw))
-            return data
 
     def test_required_surfaces_exist(self) -> None:
         for path in (
@@ -195,10 +207,13 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         verifier = _load_verifier_module()
         verifier.check_aberration(aberration)
 
+        # Preserve the required regular coefficient and inject only the forbidden
+        # singular executable token.  This makes the hostile fixture violate one
+        # contract at a time, so the expected diagnostic is deterministic.
         singular_mutant = copy.deepcopy(aberration)
+        original_input = singular_mutant["equation_ir"]["terms"][0]["input"]
         singular_mutant["equation_ir"]["terms"][0]["input"] = (
-            "[n_sky^a+(gamma+((gamma-1)/beta_squared)*beta_dot_n_sky)*"
-            "beta^a]/doppler_factor_source(n_sky)"
+            f"({original_input})+0*((gamma-1)/beta_squared)"
         )
         with self.assertRaisesRegex(ValueError, "singular coefficient"):
             verifier.check_aberration(singular_mutant)
