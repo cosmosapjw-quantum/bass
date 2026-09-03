@@ -179,15 +179,26 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         self.assertIn('FAIL_PYTHON3_UNUSABLE', wolfram_runner_text)
 
         # TestReport leaves $InputFileName bound to the outer wolframscript on
-        # the observed local WL 15.0.0 path.  The WLT must therefore consume a
-        # runner-injected absolute context rather than infer repository paths.
+        # the observed local WL 15.0.0 path. The contract is the injected
+        # absolute-context dataflow, not the spelling of an intermediate local
+        # variable used to construct the Association.
         context_symbol = 'Global`$BASSSyncMap02ER1TestContext'
-        self.assertIn('injectedTestContext = <|', wolfram_runner_text)
-        self.assertIn(context_symbol, wolfram_runner_text)
+        context_assignment = f'{context_symbol} = injectedTestContext'
+        self.assertIn('testContextPayload = <|', wolfram_runner_text)
+        self.assertIn('"repository_scope" -> "BASS_ONLY"', wolfram_runner_text)
+        self.assertIn('"module_path" -> modulePath', wolfram_runner_text)
+        self.assertIn('"fix_path" -> fixPath', wolfram_runner_text)
+        self.assertIn(
+            '"patch_contract_path" -> patchContractPath',
+            wolfram_runner_text,
+        )
+        self.assertIn('"patch_contract" -> patchContract', wolfram_runner_text)
+        self.assertIn('injectedTestContext = testContextPayload;', wolfram_runner_text)
+        self.assertIn(context_assignment, wolfram_runner_text)
         self.assertIn('report = Block[', wolfram_runner_text)
         self.assertIn('TestReport[testPath]', wolfram_runner_text)
         self.assertLess(
-            wolfram_runner_text.index('injectedTestContext = <|'),
+            wolfram_runner_text.index(context_assignment),
             wolfram_runner_text.index('TestReport[testPath]'),
         )
         self.assertIn(context_symbol, wolfram_test_text)
