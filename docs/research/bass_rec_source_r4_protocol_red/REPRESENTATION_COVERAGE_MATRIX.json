@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R4_PROTOCOL_TDD_RED",
+  "representations": [
+    {
+      "id": "FULL_SPECTRAL_GRID",
+      "examples": [
+        "bianchi.q.modeb.ModeBState",
+        "bianchi.matter.grid_boltzmann"
+      ],
+      "stored_state": "f(frequency,direction) on a finite grid",
+      "moment_closure": false,
+      "finite_discretization": true,
+      "generic_frequency_dependent_REC_source": "DIRECTLY_ADMISSIBLE_AFTER_UNIT_FRAME_AND_CHANNEL_ADAPTERS",
+      "source_action": "pointwise eta*(1+f)-kappa*f plus source-identical jumps",
+      "main_remaining_evidence": [
+        "source_bundle_protocol",
+        "source identity and JVP",
+        "grid convergence",
+        "dynamic electron schedule if requested"
+      ]
+    },
+    {
+      "id": "RADIAL_INTEGRATED_ANGULAR_GRID",
+      "examples": [
+        "bianchi.q.coupled.QState",
+        "bianchi.matter.grid_coupled"
+      ],
+      "stored_state": "energy-weighted angular density G(direction)",
+      "moment_closure": false,
+      "finite_discretization": true,
+      "generic_frequency_dependent_REC_source": "NOT_IDENTIFIABLE_FROM_STORED_STATE",
+      "admissible_source_cases": [
+        "grey coefficient with an exact integrated-source theorem",
+        "source-integrated external witness with immutable provenance",
+        "explicitly admitted spectral closure, never implicit"
+      ],
+      "forbidden": [
+        "broadcasting a spectral source onto G",
+        "claiming source equivalence with FULL_SPECTRAL_GRID without a theorem",
+        "using TEFF representatives as an undeclared spectral closure"
+      ]
+    },
+    {
+      "id": "FINITE_SPECTRAL_PSTF_WORKSPACE",
+      "examples": [
+        "formula-SSOT spectral F_A_l or I/E/B/V multipoles",
+        "bianchi.matter.pstf_coeff coefficient algebra",
+        "finite generated Rust coefficient tables"
+      ],
+      "stored_state": "spectral multipoles through a declared finite work rank",
+      "moment_closure": "depends_on_numerical_boundary_policy",
+      "finite_discretization": true,
+      "generic_frequency_dependent_REC_source": "ADMISSIBLE_BY_EXACT_ANGULAR_PROJECTION_WITH_WORK_RANK_GUARD",
+      "work_rank_rule": "L_work >= L_out + L_source for finite-band polynomial products",
+      "jump_rule": "anisotropic exp(-tau) requires adaptive tail evidence or pointwise-grid evaluation followed by projection",
+      "main_remaining_evidence": [
+        "committed source Gaunt adapter",
+        "finite-rank anti-alias guard",
+        "grid-to-PSTF parity matrix",
+        "tail stopping rule for jump maps"
+      ]
+    },
+    {
+      "id": "FINITE_INTEGRATED_J_HIERARCHY",
+      "examples": [
+        "bianchi.matter.hierarchy",
+        "_rustcore/src/kinetic/hierarchy.rs"
+      ],
+      "stored_state": "J^(i)_{A_l} through explicit l_max and i_max",
+      "moment_closure": true,
+      "finite_discretization": true,
+      "generic_frequency_dependent_REC_source": "NOT_AUTOMATICALLY_ADMISSIBLE",
+      "qualification": "This hierarchy is not the same object as the full spectral F_A_l hierarchy. A source projection theorem must specify the required energy-weight family and boundary closure."
+    },
+    {
+      "id": "FORMULA_ALL_RANK_PSTF_WIGNER",
+      "examples": [
+        "Exact Homogeneous Polarized Photon Boltzmann Core SSOT",
+        "Literal Eleven-Branch Formula Atlas"
+      ],
+      "stored_state": "mathematical all-rank functions and transforms",
+      "moment_closure": false,
+      "finite_discretization": false,
+      "generic_frequency_dependent_REC_source": "FORMULA_EXTENSION_REQUIRED",
+      "qualification": "The current closed formula authority uses cold non-tilted electron-rest Thomson scattering and excludes recombination/reionization microphysics and numerical solver construction."
+    }
+  ],
+  "cross_representation_parity_target": {
+    "valid_pair": [
+      "FULL_SPECTRAL_GRID",
+      "FINITE_SPECTRAL_PSTF_WORKSPACE"
+    ],
+    "invalid_unqualified_pair": [
+      "RADIAL_INTEGRATED_ANGULAR_GRID",
+      "FULL_SPECTRAL_GRID"
+    ],
+    "required_shared_identities": [
+      "source_bundle_sha256",
+      "background_sha256",
+      "state_initial_condition_sha256",
+      "frame_convention_sha256",
+      "frequency_grid_or_basis_sha256",
+      "time_basis",
+      "output_projection_convention"
+    ]
+  },
+  "authority_effect": "NONE"
+}

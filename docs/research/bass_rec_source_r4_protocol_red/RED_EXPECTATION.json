@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R4_PROTOCOL_TDD_RED",
+  "test_path": "tests/research/test_bass_rec_source_protocol_red.py",
+  "workflow_path": ".github/workflows/bass-rec-source-r4-protocol-red.yml",
+  "expected_result": "FAIL",
+  "expected_exception": "ModuleNotFoundError",
+  "expected_message_fragment": "No module named 'bianchi.source_authority'",
+  "reason": "The receiving-side source authority protocol is intentionally absent at the pinned implementation parent.",
+  "production_paths_allowed_to_change": [],
+  "production_paths_changed": [],
+  "first_green_allowlist": [
+    "bianchi/source_authority.py",
+    "tests/research/test_bass_rec_source_protocol_red.py",
+    "docs/research/bass_rec_source_r4_protocol_red/**"
+  ],
+  "first_green_forbidden": [
+    "backend route-table changes",
+    "RF04 polarized-v2 implementation",
+    "REC physical source data import",
+    "Q step-loop wiring",
+    "PSTF Gaunt source implementation",
+    "Mode-A spectral closure",
+    "virtual-spike implementation",
+    "provider or face output",
+    "observable or likelihood changes"
+  ],
+  "red_semantics": [
+    "positive eta and kappa remain primary",
+    "chi_affine may be negative",
+    "physical-time to Q-time conversion is explicit",
+    "state representations are typed and noninterchangeable",
+    "pointwise spectral source is rejected for radial-integrated state",
+    "finite angular products enforce a work-rank guard",
+    "source provenance is hashed"
+  ],
+  "authority_effect": "NONE"
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R4_PROTOCOL_TDD_RED",
+  "future_module": "bianchi.source_authority",
+  "status": "ABSENT_EXPECTED_RED",
+  "implementation_parent": "380ce6fe6aebe0c76c59c0d2a0f8707aac0ce14c",
+  "required_public_symbols": [
+    "SourceAuthorityBundle",
+    "SourceFrequencyKind",
+    "SourceStateKind",
+    "SourceRepresentationError",
+    "required_work_rank",
+    "validate_work_rank",
+    "require_source_representation_compatibility"
+  ],
+  "source_bundle": {
+    "primary_physical_fields": [
+      "eta_s_inv_nonnegative",
+      "kappa_s_inv_nonnegative"
+    ],
+    "derived_field": "chi_affine_s_inv=kappa_s_inv-eta_s_inv",
+    "derived_field_sign": "signed",
+    "frame": "explicit_named_orthonormal_frame",
+    "channel": "explicit_total_occupation_or_signed_distortion_channel",
+    "provenance": [
+      "source_sha256",
+      "frame_identifier",
+      "channel_identifier",
+      "frequency_kind",
+      "payload_sha256"
+    ],
+    "first_green_fixture": "constant positive pair in one named frame and channel"
+  },
+  "time_basis_adapter": {
+    "physical_time_equation": "df/dt=eta_s_inv*(1+f)-kappa_s_inv*f",
+    "q_time_definition": "d_tau=H_s_inv*dt",
+    "exact_conversion": {
+      "eta_per_tau": "eta_s_inv/H_s_inv",
+      "kappa_per_tau": "kappa_s_inv/H_s_inv",
+      "chi_affine_per_tau": "chi_affine_s_inv/H_s_inv"
+    },
+    "requirements": [
+      "H_s_inv finite and strictly positive",
+      "conversion applied exactly once",
+      "source payload identity retained"
+    ]
+  },
+  "state_kinds": [
+    "FULL_SPECTRAL_GRID",
+    "RADIAL_INTEGRATED_ANGULAR_GRID",
+    "FINITE_SPECTRAL_PSTF",
+    "FINITE_INTEGRATED_J_HIERARCHY"
+  ],
+  "frequency_kinds": [
+    "POINTWISE_SPECTRAL",
+    "SOURCE_INTEGRATED_WITNESS"
+  ],
+  "compatibility": {
+    "FULL_SPECTRAL_GRID": [
+      "POINTWISE_SPECTRAL"
+    ],
+    "FINITE_SPECTRAL_PSTF": [
+      "POINTWISE_SPECTRAL"
+    ],
+    "RADIAL_INTEGRATED_ANGULAR_GRID": [
+      "SOURCE_INTEGRATED_WITNESS"
+    ],
+    "FINITE_INTEGRATED_J_HIERARCHY": [
+      "SOURCE_INTEGRATED_WITNESS_OR_SEPARATE_ENERGY_WEIGHT_THEOREM"
+    ]
+  },
+  "work_rank": {
+    "formula": "L_work=L_out+L_source",
+    "interpretation": "minimum exact work rank for generic finite-band angular products",
+    "same_cutoff_allowed_when": "L_source=0 or a stronger exact sparsity theorem is supplied",
+    "jump_exception": "anisotropic exp(-tau) is generically not finite band"
+  },
+  "pointwise_action": {
+    "formula": "eta_s_inv*(1+f)-kappa_s_inv*f",
+    "jvp": "(1+f)*d_eta_s_inv-f*d_kappa_s_inv-chi_affine_s_inv*d_f",
+    "positivity_object": "positive pair eta,kappa, not sign-restricted chi_affine"
+  },
+  "mode_a_firewall": {
+    "reason": "the stored radial integral does not identify the integral of frequency-dependent chi*f",
+    "required_behavior": "POINTWISE_SPECTRAL source plus RADIAL_INTEGRATED_ANGULAR_GRID raises SourceRepresentationError",
+    "allowed_escape": "a separately hashed SOURCE_INTEGRATED_WITNESS"
+  },
+  "teff_firewall": {
+    "paper_I_role": "static spectral-versus-angular information diagnostic",
+    "paper_II_role": "static number-energy, thermochemical, realizability and finite-cutoff diagnostic",
+    "forbidden": "using an entropy representative as an implicit transport closure or mutating the production state"
+  },
+  "excluded_from_first_green": [
+    "physical REC source data",
+    "two-photon or Raman deposition",
+    "virtual-spike adaptive tail implementation",
+    "polarized REC source",
+    "dynamic electron trajectory production wiring",
+    "RF04 polarized-v2 public route",
+    "physical face admission",
+    "provider export",
+    "observable or statistics promotion"
+  ],
+  "authority_effect": "NONE"
+}

@@ -1,0 +1,27 @@
+name: BASS REC source protocol R4 expected RED
+
+on:
+  pull_request:
+    paths:
+      - "bianchi/source_authority.py"
+      - "tests/research/test_bass_rec_source_protocol_red.py"
+      - "docs/research/bass_rec_source_r4_protocol_red/**"
+      - ".github/workflows/bass-rec-source-r4-protocol-red.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-protocol-red:
+    name: expected RED — missing receiving protocol
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run the focused protocol contract
+        run: |
+          python -m unittest -v tests/research/test_bass_rec_source_protocol_red.py
