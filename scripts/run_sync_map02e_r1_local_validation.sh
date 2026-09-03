@@ -18,21 +18,30 @@ for command in python3 wolframscript git sha256sum; do
   fi
 done
 
-python3 "${REPO_ROOT}/scripts/build_sync_map02e_r1_hardening.py" \
+# Resolve Python once in the shell, where command discovery is authoritative,
+# and pass the absolute executable path into Wolfram explicitly.  Wolfram
+# Language 15.0.1 does not provide System`FindExecutable.
+PYTHON_BIN="$(command -v python3)"
+if [[ -z "${PYTHON_BIN}" || ! -e "${PYTHON_BIN}" ]]; then
+  printf 'resolved python3 path is unusable: %s\n' "${PYTHON_BIN:-<empty>}" >&2
+  exit 10
+fi
+
+"${PYTHON_BIN}" "${REPO_ROOT}/scripts/build_sync_map02e_r1_hardening.py" \
   --input "${PARENT}" \
   --output "${GENERATED}" \
   --receipt "${BUILD_RECEIPT}"
 
-python3 "${REPO_ROOT}/scripts/verify_sync_map02e_r1_hardening.py" \
+"${PYTHON_BIN}" "${REPO_ROOT}/scripts/verify_sync_map02e_r1_hardening.py" \
   --input "${GENERATED}" \
   --receipt "${BUILD_RECEIPT}"
 
-python3 -m unittest -v \
+"${PYTHON_BIN}" -m unittest -v \
   "${REPO_ROOT}/tests/test_sync_map02e_r1_semantic_hardening.py"
 
 wolframscript -file \
   "${REPO_ROOT}/wolfram/scripts/run_sync_map02e_r1_local_replay.wls" \
-  "${OUT_DIR}"
+  "${OUT_DIR}" "${PYTHON_BIN}"
 
 SOURCE_PATHS=(
   "scripts/build_sync_map02e_r1_hardening.py"
@@ -54,7 +63,7 @@ SOURCE_PATHS=(
   sha256sum "${GENERATED}" "${BUILD_RECEIPT}" "${WOLFRAM_RECEIPT}"
 } > "${OUT_DIR}/SHA256SUMS"
 
-python3 - "${REPO_ROOT}" "${OUT_DIR}" "${SUMMARY}" <<'PY'
+"${PYTHON_BIN}" - "${REPO_ROOT}" "${OUT_DIR}" "${SUMMARY}" <<'PY'
 from __future__ import annotations
 
 import json
@@ -89,6 +98,8 @@ summary = {
     "git_head": head,
     "build_status": build["status"],
     "wolfram_status": replay["status"],
+    "python_executable": replay["python_executable"],
+    "python_probe_exit_code": replay["python_probe_exit_code"],
     "formula_count": build["formula_count"],
     "registry_semantic_hash": build["output_registry_semantic_hash"],
     "expected_top_level_munit_tests": replay["expected_top_level_munit_tests"],
