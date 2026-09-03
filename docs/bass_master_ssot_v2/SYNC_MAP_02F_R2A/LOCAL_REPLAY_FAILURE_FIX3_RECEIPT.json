@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FAILURE_FIX3",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "evidence_origin": {
+    "type": "USER_PROVIDED_NATIVE_LOCAL_TRANSCRIPT",
+    "source_git_head": "8fde1e4a40243ab791d9fa3b40a766100846d8d6",
+    "repository_path": "/home/cosmosapjw/bass",
+    "artifact_path": "/home/cosmosapjw/bass/artifacts/sync_map02f_r2a_role_graph"
+  },
+  "observed_pipeline": {
+    "clean_graph_verifier": "PASS",
+    "python_unittest": {
+      "expected": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "wolfram_validator_pass": true,
+    "wolfram_munit": {
+      "expected": 11,
+      "succeeded": 11,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "formula_consumer_pairs": 10,
+    "implementation_role_rows": 11,
+    "named_source_symbols": 12,
+    "explicit_absent_implementation_slots": 1,
+    "rei_energy_exact_residual": 0,
+    "rei_wrong_sign_normalized_residual_before_json_safe": -2,
+    "wolfram_messages": [
+      "AssociationMap::invrlf while applying jsonSafe to association rules",
+      "General::stop after repeated AssociationMap::invrlf"
+    ],
+    "runner_failure_status": "FAIL_RECEIPT_JSON_EXPORT",
+    "serialization_succeeded": false,
+    "temporary_write_succeeded": false,
+    "temporary_file_exists": false,
+    "temporary_file_bytes": 0,
+    "round_trip_association": false,
+    "final_receipt_published": false,
+    "process_exit_code": 3
+  },
+  "root_cause": {
+    "classification": "WOLFRAM_ASSOCIATIONMAP_RULE_APPLICATION_IN_JSON_SAFE_RECURSION",
+    "primary": "jsonSafe[value_Association] used AssociationMap[jsonSafe, value]. In the native Wolfram 15.0 runtime AssociationMap applied jsonSafe to each complete key-value Rule, and the resulting Rule was not a valid mapped value.",
+    "correct_semantics": "Preserve Keys[value] and recursively transform Values[value], for example with AssociationThread[Keys[value], jsonSafe /@ Values[value]].",
+    "formula_graph_defect": false,
+    "consumer_source_pin_defect": false,
+    "count_contract_defect": false,
+    "python_test_defect": false,
+    "wolfram_algebra_defect": false,
+    "json_value_recursion_defect": true,
+    "atomic_publication_barrier_worked": true,
+    "zero_byte_public_receipt_left_behind": false
+  },
+  "repair": {
+    "test_contract_commit": "323a6109deee9e15ff55b09a143bc0761ab93002",
+    "runner_fix_commit": "9000e92a7df235e0aedeadea0b44eec4aca93a58",
+    "changed_paths": [
+      "tests/test_sync_map02f_r2a_role_graph.py",
+      "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls"
+    ],
+    "physics_graph_changed": false,
+    "production_python_verifier_changed": false,
+    "consumer_source_pins_changed": false,
+    "count_contract_changed": false,
+    "wolfram_munit_formula_tests_changed": false,
+    "association_conversion": "ASSOCIATION_THREAD_KEYS_RECURSIVE_VALUES",
+    "runtime_regression_probe": "Nested association with integer, list, exact rational and symbolic fallback must be converted before receipt construction.",
+    "failure_policy": "If the nested association probe fails, exit 3 with FAIL_JSON_SAFE_ASSOCIATION_RECURSION before public receipt publication.",
+    "round_trip_policy": "The strict JSON temporary-file import and atomic rename barrier remains mandatory."
+  },
+  "unchanged_authority": {
+    "parent_commit": "6bb65476a87d1ac8daa9f7239d884c369c51ce33",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "role_graph_sha256_at_failure_head": "23e4f1a01cbb7f5844cb151148a8ef359c17a27d4317e9dd4c6227e5c0f1bfe6",
+    "count_contract": {
+      "formula_consumer_pairs": 10,
+      "implementation_role_rows": 11,
+      "named_source_symbols": 12,
+      "explicit_absent_implementation_slots": 1
+    }
+  },
+  "external_checks": {
+    "scispace": "SOFTWARE_PROVENANCE_AND_MACHINE_READABLE_ARTIFACT_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502_DURING_ASSOCIATION_RECURSION_PROBE",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX3_SOURCE_PUBLISHED_LOCAL_RERUN_REQUIRED",
+  "next_gate": "PYTHON_9_OF_9_WOLFRAM_11_OF_11_JSON_SAFE_PROBE_STRICT_JSON_ROUND_TRIP_NONEMPTY_RECEIPT",
+  "claim_boundary": [
+    "LOCAL_PYTHON_9_OF_9_PASS_AT_FAILURE_HEAD",
+    "LOCAL_WOLFRAM_11_OF_11_PASS_AT_FAILURE_HEAD",
+    "ATOMIC_EMPTY_RECEIPT_PREVENTION_PASS_AT_FAILURE_HEAD",
+    "ROOT_CAUSE_IDENTIFIED",
+    "FIX3_ASSOCIATION_VALUE_RECURSION_SOURCE_PUSHED",
+    "NO_FIX3_LOCAL_GREEN_CLAIM",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}
