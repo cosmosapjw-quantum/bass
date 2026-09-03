@@ -102,9 +102,45 @@ If[missingPaths =!= {},
   Exit[2]
 ];
 
-python = FindExecutable["python3"];
-If[!StringQ[python],
-  Print[InputForm[<|"status" -> "FAIL_PYTHON3_NOT_FOUND"|>]];
+(* The canonical shell entry point resolves python3 before launching Wolfram and
+   passes the absolute executable path as the second user argument.  Wolfram
+   Language 15.0.1 has no System`FindExecutable symbol, so executable discovery
+   must not be attempted through an unevaluated Global`FindExecutable call. *)
+python = If[
+  Length[arguments] >= 2,
+  ExpandFileName[arguments[[2]]],
+  Missing["PythonArgument"]
+];
+If[!StringQ[python] || !FileExistsQ[python],
+  Print[InputForm[<|
+    "status" -> "FAIL_PYTHON3_ARGUMENT_MISSING",
+    "received_argument" -> python
+  |>]];
+  Exit[3]
+];
+
+pythonProbe = Quiet @ Check[RunProcess[{python, "--version"}], $Failed];
+If[
+  !AssociationQ[pythonProbe] || processExitCode[pythonProbe] =!= 0,
+  Print[InputForm[<|
+    "status" -> "FAIL_PYTHON3_UNUSABLE",
+    "python_path" -> python,
+    "exit_code" -> If[
+      AssociationQ[pythonProbe],
+      processExitCode[pythonProbe],
+      Missing["RunProcessFailed"]
+    ],
+    "stdout" -> If[
+      AssociationQ[pythonProbe],
+      processStandardOutput[pythonProbe],
+      ""
+    ],
+    "stderr" -> If[
+      AssociationQ[pythonProbe],
+      Lookup[pythonProbe, "StandardError", ""],
+      ""
+    ]
+  |>]];
   Exit[3]
 ];
 
@@ -176,6 +212,10 @@ receipt = <|
   "repository_scope" -> "BASS_ONLY",
   "git_head" -> gitHead,
   "wolfram_version" -> $Version,
+  "python_executable" -> python,
+  "python_probe_exit_code" -> processExitCode[pythonProbe],
+  "python_version_stdout" -> StringTrim[processStandardOutput[pythonProbe]],
+  "python_version_stderr" -> StringTrim[Lookup[pythonProbe, "StandardError", ""]],
   "parent_sha256" -> fileSHA256[parentPath],
   "generated_export_sha256" -> fileSHA256[outputPath],
   "build_receipt_sha256" -> fileSHA256[buildReceiptPath],
@@ -196,6 +236,7 @@ receipt = <|
 |>;
 
 allPassed = And[
+  processExitCode[pythonProbe] === 0,
   processExitCode[buildProcess] === 0,
   processExitCode[verifyProcess] === 0,
   exportValid,
