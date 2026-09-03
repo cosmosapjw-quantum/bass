@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "stage_id": "BASS_REC_SOURCE_R6_AUTHORITY_HARDENING_RED",
   "parent": {
     "commit": "fc4d21b92a1abd1e9b35178f7d666831fc5c827d",
@@ -7,8 +7,20 @@
     "pull_request": 112
   },
   "test_path": "tests/research/test_bass_rec_source_protocol_r6_red.py",
+  "stable_survivor_test_path": "tests/research/test_bass_rec_source_protocol_red.py",
   "expected_result_on_parent": "FAIL",
   "production_paths_changed": [],
+  "contract_migration": {
+    "historical_v1_authority": {
+      "pull_request": 112,
+      "commit": "fc4d21b92a1abd1e9b35178f7d666831fc5c827d",
+      "test_blob": "f55b94e666a673718d8252c00bb89d22322b9d68"
+    },
+    "superseded_assertion": "An unbound SOURCE_INTEGRATED_WITNESS is admitted for either integrated state.",
+    "reason": "That v1 assertion is logically incompatible with the R6 fail-closed requirement that the identical call raise without a target-specific binding.",
+    "replacement_survivor": "The two source frequency kinds remain distinct typed enum values; integrated admission semantics are owned only by the R6 binding test.",
+    "production_semantics_changed_in_red_stage": false
+  },
   "requirements": {
     "validated_construction": {
       "rule": "SourceAuthorityBundle cannot be instantiated through a public unvalidated constructor and payload_sha256 cannot be caller supplied",
@@ -65,8 +77,18 @@
     "SourceArithmeticError absent",
     "nonfinite arithmetic outputs are returned"
   ],
+  "expected_static_fingerprint": {
+    "stable_r5_survivor_tests": 11,
+    "stable_r5_survivor_failures": 0,
+    "r6_tests": 10,
+    "r6_assertion_failures": 8,
+    "r6_errors": 0,
+    "r6_passing_controls": 2,
+    "execution_status": "UNOBSERVED"
+  },
   "first_green_allowlist": [
     "bianchi/source_authority.py",
+    "tests/research/test_bass_rec_source_protocol_red.py",
     "tests/research/test_bass_rec_source_protocol_r6_red.py",
     "docs/research/bass_rec_source_r6_hardening_red/**"
   ],

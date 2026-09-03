@@ -12,6 +12,30 @@ blob   f9eceaa02e82c746045df255af2ce674dab1bb75
 
 R5C established behavior-level backend nonregression: the exact R4 parent and R5 candidate both returned zero under the same local source-build environment and wheel.
 
+## PMC-00 — contradictory survivor/admission tests
+
+The initial R6 RED commit ran the unchanged R5 suite and the new R6 suite together. Exact source review found that they required opposite results for one identical call:
+
+```text
+frequency_kind = SOURCE_INTEGRATED_WITNESS
+state_kind     = RADIAL_INTEGRATED_ANGULAR_GRID
+binding        = absent
+```
+
+- historical R5 test: return normally;
+- R6 hardening test: raise `SourceRepresentationError`.
+
+No deterministic implementation can satisfy both. Severity: **P0 test-contract contradiction**.
+
+Repair in this RED branch:
+
+- preserve the historical v1 test and behavior at PR #112 exact head;
+- migrate the R6 child survivor file by replacing only the superseded admission assertion with a stable enum-distinctness assertion;
+- make the R6 test the sole authority for integrated-witness admission;
+- add the migrated survivor path to the workflow trigger and first-GREEN allowlist.
+
+No production path changes. Status: **CLOSED AT CONTRACT LEVEL; LOCAL REPLAY REQUIRED**.
+
 ## PMC-01 — constructor bypass
 
 The class is a frozen, slotted dataclass but retains the generated public constructor. `frozen=True` prevents mutation after construction; it does not validate construction. A caller can currently supply negative/nonfinite rates, malformed strings, a non-enum frequency kind, and a forged `payload_sha256` directly.
@@ -22,7 +46,7 @@ Minimal GREEN shape:
 
 - suppress the generated public initializer or make it validation-complete;
 - compute `payload_sha256` internally only;
-- keep the documented factory compatible with the R5 call surface.
+- keep the documented factory compatible with the stable R5 call surface.
 
 ## PMC-02 — signed-zero identity split
 
@@ -54,7 +78,7 @@ Minimal GREEN shape: the factory admits `POINTWISE_SPECTRAL` only and raises a t
 
 Severity: **P1**.
 
-Minimal GREEN shape: add an immutable `IntegratedMomentMapBinding` with an internally computed hash, and require an exact target-state match for integrated admission.
+Minimal GREEN shape: add an immutable `IntegratedMomentMapBinding` with an internally computed hash, require a binding for every integrated admission, and require an exact target-state match.
 
 ## PMC-06 — nonfinite arithmetic can escape
 
@@ -69,35 +93,38 @@ Minimal GREEN shape: add `SourceArithmeticError` and reject nonfinite results fr
 The first GREEN must preserve:
 
 - the existing R5 factory call without new required arguments;
-- all eleven R5 focused tests;
+- all eleven **stable** R5 survivor tests after removal of the explicitly superseded unbound-witness assertion;
 - dependency-light package import;
 - backend route tables and native policy bytes;
 - behavior-level backend nonregression.
 
-Adding eager imports to `bianchi.__init__`, NumPy dependencies, solver callbacks, or REC data is out of scope.
+It must not preserve the obsolete claim that an unbound integrated witness is admissible. Adding eager imports to `bianchi.__init__`, NumPy dependencies, solver callbacks, or REC data is out of scope.
 
 ## Test classification
 
 The R6 test is a **protocol/authority RED**, not a physics-validation or solver-regression test. It includes two survivor controls so a future GREEN cannot satisfy new hardening requirements by breaking the R5 source law or Q-time domain.
 
-Expected parent outcome:
+After the coherence amendment, exact static inspection predicts:
 
-- direct-constructor test fails;
-- signed-zero test fails;
-- species/statistics/schema test fails;
-- integrated-kind firewall test fails;
-- missing-binding test fails;
-- binding-type test fails;
-- two arithmetic tests fail;
-- source-off and Q-domain controls pass.
+- stable R5 suite: 11 pass;
+- R6 constructor test: fail;
+- R6 signed-zero test: fail;
+- R6 species/statistics/schema test: fail;
+- R6 integrated-kind firewall test: fail;
+- R6 missing-binding test: fail;
+- R6 binding-type test: fail;
+- two R6 arithmetic tests: fail;
+- source-off and Q-domain controls: pass.
 
-No exact failure count is promoted until the test executes on the committed R6 head.
+No exact execution count is promoted until Python runs on the amended committed head.
 
 ## Verdict
 
 ```text
-PHYS_MATH_CODE_R6_RED_CONTRACT_PASS
+P0_TEST_CONTRACT_CONTRADICTION_CLOSED
+PHYS_MATH_CODE_R6_RED_CONTRACT_COHERENT
 R5C_NONREGRESSION_PRESERVED_AS_PREREQUISITE
+R6_EXECUTED_RED_NOT_YET
 R6_PRODUCTION_HARDENING_NOT_IMPLEMENTED
 NO_SOLVER_OR_SOURCE_INTEGRATION
 ```

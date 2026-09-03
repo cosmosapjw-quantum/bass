@@ -5,7 +5,7 @@
 **Disposition:** `EXPECTED_RED / PRODUCTION_UNCHANGED`  
 **Authority effect:** `NONE`
 
-## Exact parent and newly closed prerequisite
+## Exact parent and closed prerequisite
 
 ```text
 repository  cosmosapjw-quantum/bass
@@ -28,6 +28,22 @@ wheel_sha256=bf5a59534ffc9d6f9c3410aa19319f18a4a8a7a9761bcd61c5da8c8627ddf609
 ```
 
 This closes behavior-level backend nonregression for the one-file R5 candidate. It does not convert the locally built wheel into a trusted production payload.
+
+## Contract-coherence amendment
+
+The first R6 RED commit preserved the entire R5 test file while adding the new fail-closed binding rule. Static exact-source review found one mutually exclusive pair of assertions:
+
+```text
+historical R5 v1
+  unbound SOURCE_INTEGRATED_WITNESS + integrated state -> admitted
+
+R6 v2
+  the identical call without IntegratedMomentMapBinding -> rejected
+```
+
+A deterministic public function cannot satisfy both requirements for the same arguments. This is a **test-contract contradiction**, not a physics or production-code failure.
+
+The historical v1 behavior remains immutable at PR #112 exact head. On this R6 child, the superseded R5 admission test is replaced by a stable survivor asserting only that the pointwise and integrated frequency kinds remain distinct typed enum values. R6 is now the sole authority for integrated-witness admission. No production source changes in this RED stage.
 
 ## Purpose of this RED
 
@@ -58,19 +74,19 @@ C_B[f] = eta (1+f) - kappa f,
 
 which is bosonic. A fermionic source has `1-f`; the two agree at vacuum and differ by `2 eta f` away from vacuum. A generic class name without particle/statistics metadata is therefore unsafe on a repository that also contains neutrino and other kinetic lanes.
 
-## Expected RED
+## Expected RED fingerprint
 
-The exact R5 parent is expected to fail the new test because it currently:
+Exact source-and-test inspection predicts:
 
-- exposes the generated dataclass constructor;
-- preserves signed zero in `float.hex()` payloads;
-- has no species/statistics fields or v2 schema;
-- allows `constant_pair(... SOURCE_INTEGRATED_WITNESS)`;
-- admits integrated states without a moment-map binding;
-- has no `IntegratedMomentMapBinding` or `SourceArithmeticError`;
-- returns nonfinite arithmetic results rather than failing closed.
+```text
+stable R5 survivors   11 tests / 0 failures
+R6 hardening          10 tests / 8 assertion failures / 0 errors
+R6 controls           2 passes
+```
 
-The source-off and expanding-domain control tests should continue to pass.
+The eight predicted failures are constructor bypass, signed-zero identity, statistics/schema binding, constant-pair source-kind firewall, unbound integrated admission, binding type, and two finite-arithmetic checks. The two predicted controls are source-off/negative-`chi_affine` behavior and the expanding-Q-time domain guard.
+
+This prediction is not an execution receipt. Hosted GitHub Actions still returned a zero-step job, so a local exact-head Python run remains required before GREEN implementation.
 
 ## Scope firewall
 
@@ -79,16 +95,24 @@ No production source, backend, solver, Rust, PSTF, Q, face, provider, observable
 ## Next node
 
 ```text
+BASS_REC_SOURCE_R6_LOCAL_EXPECTED_RED_REPLAY
+```
+
+After exact local observation of the fingerprint above, the next implementation node is:
+
+```text
 BASS_REC_SOURCE_R6_AUTHORITY_HARDENING_GREEN
 ```
 
-The GREEN may modify only `bianchi/source_authority.py` plus the R6 test/doc packet. Grid/PSTF adapters, Mode-A/J closures, physical source data, jumps, two-photon/Raman kernels, solver wiring, output, and statistics remain later nodes.
+The GREEN may modify only `bianchi/source_authority.py` plus the migrated survivor and R6 test/doc packet. Grid/PSTF adapters, Mode-A/J closures, physical source data, jumps, two-photon/Raman kernels, solver wiring, output, and statistics remain later nodes.
 
 ## Claim boundary
 
 ```text
 PASS_R5C_BEHAVIOR_LEVEL_BACKEND_NONREGRESSION
-R6_HARDENING_CONTRACT_COMMITTED
+R6_TEST_CONTRACT_CONTRADICTION_FOUND_AND_REPAIRED
+R6_HARDENING_CONTRACT_COHERENT
+R6_EXECUTED_RED_NOT_YET
 R6_GREEN_NOT_YET
 TRUSTED_PRODUCTION_WHEEL_NOT_ESTABLISHED
 NO_SOLVER_SOURCE_WIRING

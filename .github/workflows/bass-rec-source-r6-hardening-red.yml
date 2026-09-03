@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "bianchi/source_authority.py"
+      - "tests/research/test_bass_rec_source_protocol_red.py"
       - "tests/research/test_bass_rec_source_protocol_r6_red.py"
       - "docs/research/bass_rec_source_r6_hardening_red/**"
       - ".github/workflows/bass-rec-source-r6-hardening-red.yml"
@@ -30,7 +31,7 @@ jobs:
           python-version: "3.12"
       - name: Compile unchanged R5 source module
         run: python -m py_compile bianchi/source_authority.py
-      - name: Run focused R5 survivor contract
+      - name: Run stable R5 survivor contract
         run: python -m unittest -v tests/research/test_bass_rec_source_protocol_red.py
       - name: Run R6 hardening contract — expected to fail on this RED branch
         run: python -m unittest -v tests/research/test_bass_rec_source_protocol_r6_red.py
