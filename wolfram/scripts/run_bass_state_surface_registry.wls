@@ -61,7 +61,9 @@ allPassed = And[
   notEvaluated === 0,
   Lookup[residuals, "band_limited_grid_pstf_reconstruction", None] === 0,
   Lookup[residuals, "same_integrated_G_state", None] === 0,
-  Lookup[residuals, "different_frequency_loss", None] === chi1 - chi2,
+  Lookup[residuals, "different_frequency_loss_residual", None] === 0,
+  Lookup[residuals, "universal_scalar_closure_residuals", None] === {0, 0},
+  Lookup[residuals, "J_projection_noninvertibility_witness", None] === 1,
   Lookup[residuals, "scalar_to_polarized_implicit_promotion_defined", None] === False
 ];
 

@@ -26,27 +26,20 @@ VerificationTest[
 ]
 
 VerificationTest[
-  residuals["different_frequency_loss"],
-  chi1 - chi2,
+  residuals["different_frequency_loss_residual"],
+  0,
   TestID -> "SYNC02F-R2-G-SOURCE-CLOSURE-NOGO"
 ]
 
 VerificationTest[
-  residuals["universal_scalar_closure_coefficients"],
-  {chi1 - chiEff, chi2 - chiEff},
+  residuals["universal_scalar_closure_residuals"],
+  {0, 0},
   TestID -> "SYNC02F-R2-UNIVERSAL-SCALAR-CLOSURE-CONDITION"
 ]
 
 VerificationTest[
-  PossibleZeroQ[
-    residuals["J_projection_noninvertibility_witness"] /. {
-      jWeight1 -> 1,
-      jWeight2 -> 2,
-      q1 -> 1,
-      q2 -> 2
-    }
-  ],
-  False,
+  residuals["J_projection_noninvertibility_witness"],
+  1,
   TestID -> "SYNC02F-R2-J-PROJECTION-NONINVERTIBLE"
 ]
 

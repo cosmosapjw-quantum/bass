@@ -17,7 +17,7 @@ BASSStateSurfaceRegistryExactResiduals[] := Module[
   {
     x, a0, a1, a2, distribution, coefficients, reconstruction,
     f1, f2, chi1, chi2, chiEff, sourceDefect,
-    q1, q2, jWeight1, jWeight2
+    q1, q2, jWeight1, jWeight2, jWitness
   },
 
   distribution =
@@ -39,19 +39,28 @@ BASSStateSurfaceRegistryExactResiduals[] := Module[
   sourceDefect = Expand[
     chi1 f1 + chi2 f2 - chiEff (f1 + f2)
   ];
+  jWitness = Expand[
+    ((jWeight1 q1 + jWeight2 q2) -
+      (jWeight1 q2 + jWeight2 q1)) /. {
+        jWeight1 -> 1,
+        jWeight2 -> 2,
+        q1 -> 1,
+        q2 -> 2
+      }
+  ];
 
   <|
     "band_limited_grid_pstf_reconstruction" ->
       FullSimplify[reconstruction - distribution],
     "same_integrated_G_state" -> ((1 + 0) - (0 + 1)),
-    "different_frequency_loss" ->
-      Expand[(chi1 1 + chi2 0) - (chi1 0 + chi2 1)],
-    "universal_scalar_closure_coefficients" -> {
-      Coefficient[sourceDefect, f1],
-      Coefficient[sourceDefect, f2]
+    "different_frequency_loss_residual" -> FullSimplify[
+      ((chi1 1 + chi2 0) - (chi1 0 + chi2 1)) - (chi1 - chi2)
+    ],
+    "universal_scalar_closure_residuals" -> {
+      FullSimplify[Coefficient[sourceDefect, f1] - (chi1 - chiEff)],
+      FullSimplify[Coefficient[sourceDefect, f2] - (chi2 - chiEff)]
     },
-    "J_projection_noninvertibility_witness" ->
-      Expand[(jWeight1 q1 + jWeight2 q2) - (jWeight1 q2 + jWeight2 q1)],
+    "J_projection_noninvertibility_witness" -> jWitness,
     "scalar_to_polarized_implicit_promotion_defined" -> False
   |>
 ];
