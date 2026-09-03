@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "NUM_BOOST_01_R2_LIKELIHOOD_HARDENING",
+  "readback_id": "NUMBOOST01-R2-LIKELIHOOD-HARDENING-R1-20260903",
+  "source_head_before_readback_commit": "24ae294fac627dd4c610e3cb264fd065048f9f49",
+  "base": {
+    "pull_request": 107,
+    "commit": "1aa4dadffa7b44ff07b39a36a973c66047112345"
+  },
+  "source_blobs": {
+    "wolfram/standalone/BASSNumBoostLikelihoodHardening.wl": "5b1ea4ec021e326913ed78d5b2f7200f59c942f5",
+    "wolfram/standalone/BASSNumBoostLikelihoodRealGaussianGuard.wl": "a679b9182b1359b59742d3f2bb6e484adbc8c39a",
+    "wolfram/standalone/BASSNumBoostLikelihoodHardening.wlt": "594a74334c2e7a890953ef88e28e82e20e5d86f6",
+    "wolfram/standalone/run_likelihood_hardening.wls": "356af1932fc9d15d76a9f653cecfd108df4bf48c",
+    "docs/bass_master_ssot_v2/NUM_BOOST_01/LIKELIHOOD_HARDENING_README.md": "9e89279285d3593c09b2229d689e49662a1af1ac"
+  },
+  "test_contract": {
+    "top_level_munit_tests": 6,
+    "package_self_checks": 15,
+    "runner_additional_real_gaussian_guard": 1,
+    "top_level_module_wrapper_forbidden": true
+  },
+  "fresh_wolfram_results": {
+    "covariance_source_tail_hermitian_fixture": "PASS_EXACT",
+    "covariance_source_tail_nonhermitian_counterexample": {
+      "left_norm_squared": 29,
+      "old_right_hand_side": 34,
+      "residual": -5
+    },
+    "general_nonhermitian_tail_decomposition": "PASS_EXACT",
+    "covariance_boundary_hermitian_closed_form": "PASS_EXACT",
+    "mean_aware_real_gaussian_kl_decomposition": "PASS_EXACT",
+    "mean_relative_norm_squared": "5/24",
+    "mean_aware_kl_fixture": "(19/120 + Log[10/9])/2",
+    "mean_aware_kl_spectral_bound": "PASS",
+    "mean_aware_kl_frobenius_bound": "PASS",
+    "fixed_data_minus2_log_likelihood_difference": "-89/144 - Log[10/9]",
+    "fixed_data_likelihood_bound": "PASS",
+    "common_subspace_pseudoinverse_equivalence": "PASS_EXACT",
+    "common_subspace_pseudodeterminant_equivalence": "PASS_EXACT",
+    "real_gaussian_guard": "REAL_ACCEPTED_COMPLEX_MEAN_REJECTED"
+  },
+  "representation_firewall": {
+    "covariance_residual_layer": "COMPLEX_HERMITIAN_ALLOWED",
+    "gaussian_likelihood_layer": "REAL_MULTIVARIATE_GAUSSIAN_ONLY",
+    "complex_gaussian_api": "ABSENT_SEPARATE_TYPED_NODE_REQUIRED"
+  },
+  "native_replay": {
+    "exact_committed_file_get": "NOT_RUN",
+    "reason": "private raw GitHub returned 404; large exact-content Wolfram evaluation returned HTTP 502",
+    "test_report": "NOT_RUN",
+    "github_wolfram_runtime": "NOT_RUN"
+  },
+  "claim_boundary": [
+    "SOURCE_READBACK_COMPLETE",
+    "SESSION_WOLFRAM_IDENTITIES_PASS",
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_GITHUB_WOLFRAM_RUNTIME_PASS",
+    "NO_DROPBOX_REPLAY",
+    "NO_NUMBOOST_PRODUCTION_RUNTIME",
+    "NO_PROCESSED_HTT_LIKELIHOOD_READY",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
