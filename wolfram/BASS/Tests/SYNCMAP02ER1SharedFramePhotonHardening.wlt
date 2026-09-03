@@ -46,7 +46,7 @@ VerificationTest[
 
 VerificationTest[
   SharedFramePhotonHardeningR1ExactResiduals[]["doppler_only_omission_witness"],
-  -(1 - x^2) Derivative[1][temperature][x],
+  -3/4,
   TestID -> "SYNCMAP02E-R1-ABERRATION-DEPENDENCY-WITNESS"
 ]
 
@@ -57,9 +57,15 @@ VerificationTest[
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["general_energy_drift_minus_geodesic_normal"],
-  -accelerationDotDirection,
+  SharedFramePhotonHardeningR1ExactResiduals[]["general_energy_drift_specialization"],
+  0,
   TestID -> "SYNCMAP02E-R1-GEODESIC-NORMAL-SPECIALIZATION"
+]
+
+VerificationTest[
+  SharedFramePhotonHardeningR1ExactResiduals[]["omitted_normal_acceleration_coefficient"],
+  -1,
+  TestID -> "SYNCMAP02E-R1-NORMAL-ACCELERATION-COEFFICIENT"
 ]
 
 VerificationTest[
@@ -72,7 +78,13 @@ VerificationTest[
   SharedFramePhotonHardeningR1PatchContractQ[
     Import[
       FileNameJoin[{
-        DirectoryName[DirectoryName[DirectoryName[$InputFileName]]],
+        DirectoryName[
+          DirectoryName[
+            DirectoryName[
+              DirectoryName[$InputFileName]
+            ]
+          ]
+        ],
         "docs",
         "bass_master_ssot_v2",
         "SYNC_MAP_02E_R1",
