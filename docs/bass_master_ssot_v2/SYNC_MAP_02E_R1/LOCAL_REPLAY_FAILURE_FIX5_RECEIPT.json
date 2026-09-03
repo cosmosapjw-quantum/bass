@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FAILURE_FIX5",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "observed_local_head": "76bd0c11273e0abdc985b0618bf7fdd815e7e17b",
+  "observed_run_status": "FAIL_WLT_OUTER_INPUTFILENAME_LEAKAGE",
+  "observed_exit_code": 1,
+  "observed_environment": {
+    "wolfram_version": "15.0.0 for Linux x86 (64-bit) (May 26, 2026)",
+    "python_executable": "/usr/bin/python3",
+    "python_probe_exit_code": 0,
+    "python_version": "Python 3.12.3"
+  },
+  "clean_path_before_failure": {
+    "generator": "PASS",
+    "verifier": "PASS",
+    "python_unittest": "6/6 PASS",
+    "formula_count": 6,
+    "internal_dependency_edge_count": 5,
+    "external_dependency_edge_count": 7,
+    "export_valid": true,
+    "patch_contract_valid_before_testreport": true,
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "exact_residuals": {
+      "regular_coefficient": 0,
+      "zero_boost_coefficient": "1/2",
+      "aberrated_direction_unit_norm": 0,
+      "blackbody_weighted_pullback_generator": 0,
+      "doppler_only_omission_witness": "-3/4",
+      "planck_covariance": 0,
+      "general_energy_drift_specialization": 0,
+      "omitted_normal_acceleration_coefficient": -1,
+      "direction_flow_tangency": 0
+    }
+  },
+  "failed_gate": {
+    "expected_top_level_munit_tests": 11,
+    "tests_succeeded": 10,
+    "tests_failed": 1,
+    "tests_not_evaluated": 0,
+    "messages": [
+      "Get::noopen: Cannot open /home/cosmosapjw/bass/wolfram/Kernel/IR/SharedFramePhotonExportHardeningR1.wl.",
+      "Get::noopen: Cannot open /home/cosmosapjw/bass/wolfram/Kernel/IR/SharedFramePhotonExportHardeningR1Fix1.wl."
+    ]
+  },
+  "root_cause": {
+    "classification": "TESTREPORT_RETAINS_OUTER_WOLFRAMSCRIPT_INPUTFILENAME",
+    "description": "On the observed Wolfram 15.0.0 local runner, TestReport did not rebind $InputFileName to the WLT path or Tests directory. The WLT saw the outer runner path under wolfram/scripts. Fix4 normalized file-versus-directory shape but still trusted the wrong semantic source. Applying its path derivation to the outer runner produced bassWolframRoot=/home/cosmosapjw/bass/wolfram and therefore the observed path missing the BASS component.",
+    "evidence_from_path": {
+      "outer_runner_directory": "/home/cosmosapjw/bass/wolfram/scripts",
+      "derived_bass_wolfram_root": "/home/cosmosapjw/bass/wolfram",
+      "observed_wrong_module_directory": "/home/cosmosapjw/bass/wolfram/Kernel/IR"
+    },
+    "runner_preload": "PASS_BEFORE_TESTREPORT",
+    "why_ten_tests_passed": "The canonical runner had already loaded both BASS modules before TestReport. The ten formula tests therefore passed; only the WLT-local patch-contract path load failed.",
+    "formula_defect_observed": false,
+    "generator_defect_observed": false,
+    "verifier_defect_observed": false,
+    "python_environment_defect_observed": false
+  },
+  "repair": {
+    "red_contract_commit": "fa40c0cbfae4bb3afe60755374dd23b8423b55b5",
+    "wlt_fix_commit": "66c98202b8e5fb6f319fd9120fd21ac44e0eab06",
+    "runner_fix_commit": "5b1be8e0aacdb7ec3d7fadfd9a909019e413de3e",
+    "method": "The canonical runner loads the exact hash-recorded modules and patch contract once, then dynamically injects a BASS-only absolute-path association through Global`$BASSSyncMap02ER1TestContext while evaluating TestReport. The WLT performs no $InputFileName path inference, Get, or Import and uses fully qualified BASS`IR` symbols.",
+    "top_level_munit_count_changed": false,
+    "production_formula_changed": false,
+    "semantic_projection_changed": false
+  },
+  "expected_identity_after_repair": {
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+    "expected_top_level_munit_tests": 11,
+    "expected_test_context_mode": "RUNNER_INJECTED_ABSOLUTE_CONTEXT"
+  },
+  "fresh_connected_wolfram_status": {
+    "block_injection_probe": "NOT_RUN_CONNECTOR_502",
+    "formula_identities": "UNCHANGED_FROM_PRIOR_PASS"
+  },
+  "next_gate": "LOCAL_EXACT_RERUN_REQUIRED",
+  "claim_boundary": [
+    "ROOT_CAUSE_IDENTIFIED",
+    "RUNNER_INJECTED_CONTEXT_SOURCE_PUSHED",
+    "NO_LOCAL_GREEN_CLAIM",
+    "NO_STAGE_PROMOTION",
+    "NO_CROSS_REPOSITORY_MUTATION"
+  ]
+}
