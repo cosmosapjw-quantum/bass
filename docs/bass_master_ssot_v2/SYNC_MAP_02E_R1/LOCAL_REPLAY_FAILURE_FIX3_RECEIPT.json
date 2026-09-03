@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_REPLAY_FAILURE_FIX3",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "observed_local_head": "751b9332b61ceac6bf09c3593aa269219d252841",
+  "observed_run_status": "FAIL_WOLFRAM_RUNNER_PYTHON_DISCOVERY",
+  "observed_exit_code": 3,
+  "observed_clean_path_before_failure": {
+    "generator": "PASS",
+    "verifier": "PASS",
+    "python_unittest": "6_OF_6_PASS",
+    "formula_count": 6,
+    "internal_dependency_edge_count": 5,
+    "external_dependency_edge_count": 7,
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "observed_wolfram_output": "InputForm[<|status -> FAIL_PYTHON3_NOT_FOUND|>]",
+  "wolfram_stage_reached": {
+    "native_munit": false,
+    "export_validator": false,
+    "patch_contract_validator": false,
+    "final_summary_created": false,
+    "sha256_manifest_created": false
+  },
+  "root_cause": {
+    "classification": "WOLFRAM_RUNNER_UNDEFINED_SYMBOL",
+    "description": "The runner called FindExecutable[\"python3\"]. In Wolfram Language 15.0.1 the symbol resolved to undefined Global`FindExecutable and remained unevaluated, so StringQ returned False even though the parent shell had already executed python3 successfully.",
+    "path_or_installation_failure": false,
+    "formula_defect_observed": false,
+    "generator_defect_observed": false,
+    "verifier_defect_observed": false,
+    "python_test_defect_observed": false
+  },
+  "test_first_repair": {
+    "red_contract_commit": "725688c86cb2c62a24c5b6ed91bd4a25556f68de",
+    "requirements": [
+      "the shell resolves python3 exactly once with command -v",
+      "the absolute Python path is passed as the second Wolfram user argument",
+      "the Wolfram runner contains no FindExecutable[\"python3\"] call",
+      "the Wolfram runner fails closed for a missing argument",
+      "the Wolfram runner probes the supplied executable before use"
+    ]
+  },
+  "production_repair": {
+    "wolfram_runner_commit": "83c3e4ad658a085a6f095b673e0b4945e74cbcce",
+    "shell_runner_commit": "860db63415b33424e1bab0363207e6a73713eb27",
+    "method": "Resolve PYTHON_BIN in Bash using command -v python3; pass that path explicitly to wolframscript; validate FileExistsQ and RunProcess[{python,\"--version\"}] before generator/verifier replay.",
+    "formula_or_semantic_projection_changed": false,
+    "expected_registry_semantic_hash_changed": false,
+    "expected_generated_export_sha256_changed": false
+  },
+  "expected_identity_after_repair": {
+    "registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "next_gate": "LOCAL_EXACT_RERUN_REQUIRED",
+  "claim_boundary": [
+    "ROOT_CAUSE_IDENTIFIED",
+    "EXPLICIT_EXECUTABLE_HANDOFF_SOURCE_PUSHED",
+    "NO_LOCAL_GREEN_CLAIM",
+    "NO_NATIVE_MUNIT_CLAIM",
+    "NO_STAGE_PROMOTION",
+    "NO_CROSS_REPOSITORY_MUTATION"
+  ]
+}
