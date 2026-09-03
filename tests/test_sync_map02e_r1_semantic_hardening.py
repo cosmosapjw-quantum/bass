@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import copy
 import hashlib
+import importlib.util
 import json
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 PARENT = (
@@ -80,7 +83,19 @@ def _sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-def _build(tmp_path: Path) -> dict:
+def _load_verifier_module() -> ModuleType:
+    spec = importlib.util.spec_from_file_location(
+        "bass_sync_map02e_r1_verifier",
+        VERIFIER,
+    )
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load verifier module: {VERIFIER}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _generate(tmp_path: Path) -> tuple[Path, Path, dict]:
     output = tmp_path / "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json"
     receipt = tmp_path / "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json"
     subprocess.run(
@@ -97,6 +112,11 @@ def _build(tmp_path: Path) -> dict:
         cwd=ROOT,
         check=True,
     )
+    return output, receipt, json.loads(output.read_text(encoding="utf-8"))
+
+
+def _build(tmp_path: Path) -> dict:
+    output, receipt, data = _generate(tmp_path)
     subprocess.run(
         [
             sys.executable,
@@ -109,13 +129,18 @@ def _build(tmp_path: Path) -> dict:
         cwd=ROOT,
         check=True,
     )
-    return json.loads(output.read_text(encoding="utf-8"))
+    return data
 
 
 class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
     def build(self) -> dict:
         with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-") as raw:
             return _build(Path(raw))
+
+    def generate(self) -> dict:
+        with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-generate-") as raw:
+            _, _, data = _generate(Path(raw))
+            return data
 
     def test_required_surfaces_exist(self) -> None:
         for path in (
@@ -142,17 +167,41 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         self.assertEqual(set(data["declared_consumer_targets"]), FORMULA_IDS)
 
     def test_regular_aberration_and_weighted_pullback(self) -> None:
-        data = self.build()
+        data = self.generate()
         by_id = {row["formula_id"]: row for row in data["formulas"]}
 
         aberration = by_id["BASS.FRAME.ABERRATED_DIRECTION.001"]
-        aberration_text = json.dumps(aberration, sort_keys=True)
-        self.assertIn("gamma^2/(gamma+1)", aberration_text)
-        self.assertNotIn("(gamma-1)/beta_squared", aberration_text)
+        aberration_ir = aberration["equation_ir"]
+        executable_text = json.dumps(
+            {
+                "target": aberration_ir["target"],
+                "terms": aberration_ir["terms"],
+            },
+            sort_keys=True,
+        )
+        history_text = json.dumps(
+            {"known_limits": aberration_ir["known_limits"]},
+            sort_keys=True,
+        )
+        self.assertIn("gamma^2/(gamma+1)", executable_text)
+        self.assertNotIn("(gamma-1)/beta_squared", executable_text)
+        self.assertIn("(gamma-1)/beta_squared", history_text)
+        self.assertIn("gamma^2/(gamma+1)", history_text)
         self.assertEqual(
-            aberration["equation_ir"]["domain"]["zero_boost"],
+            aberration_ir["domain"]["zero_boost"],
             "direct evaluation without 0/0",
         )
+
+        verifier = _load_verifier_module()
+        verifier.check_aberration(aberration)
+
+        singular_mutant = copy.deepcopy(aberration)
+        singular_mutant["equation_ir"]["terms"][0]["input"] = (
+            "[n_sky^a+(gamma+((gamma-1)/beta_squared)*beta_dot_n_sky)*"
+            "beta^a]/doppler_factor_source(n_sky)"
+        )
+        with self.assertRaisesRegex(ValueError, "singular coefficient"):
+            verifier.check_aberration(singular_mutant)
 
         blackbody = by_id["BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"]
         self.assertEqual(
