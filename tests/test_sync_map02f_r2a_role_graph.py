@@ -58,6 +58,17 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source-symbol"):
             verify(mutant)
 
+        # The global symbol inventory is unchanged, but assigning symbols to
+        # the wrong roles must still fail.
+        mutant = self.data()
+        roles = mutant["implementation_roles"]
+        roles[0]["source_symbols"], roles[1]["source_symbols"] = (
+            roles[1]["source_symbols"],
+            roles[0]["source_symbols"],
+        )
+        with self.assertRaisesRegex(ValueError, "role contract"):
+            verify(mutant)
+
     def test_absent_rei_direction_flow_cannot_be_promoted(self) -> None:
         mutant = self.data()
         role = next(
@@ -123,6 +134,16 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
         mutant = self.data()
         mutant["authority_formulas"][0]["semantic_hash"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "semantic hash"):
+            verify(mutant)
+
+        mutant = self.data()
+        htt_role = next(
+            row
+            for row in mutant["implementation_roles"]
+            if row["role_id"] == "ROLE-HTT-BLACKBODY-FULL"
+        )
+        htt_role["source_commit"] = "0" * 40
+        with self.assertRaisesRegex(ValueError, "role contract"):
             verify(mutant)
 
     def test_state_registry_must_precede_role_graph(self) -> None:
