@@ -7,13 +7,13 @@ Get[FileNameJoin[{
 
 VerificationTest[
   RunLikelihoodHardeningSelfChecks[]["Total"],
-  15,
+  16,
   TestID -> "NUMBOOST-R2-EXACT-TEST-COUNT"
 ]
 
 VerificationTest[
   RunLikelihoodHardeningSelfChecks[]["Passed"],
-  15,
+  16,
   TestID -> "NUMBOOST-R2-EXACT-PASS-COUNT"
 ]
 
@@ -43,4 +43,18 @@ VerificationTest[
   ],
   False,
   TestID -> "NUMBOOST-R2-SUPPORT-MISMATCH-FAIL-CLOSED"
+]
+
+VerificationTest[
+  Quiet[
+    GaussianMeanCovarianceKLData[
+      IdentityMatrix[2],
+      IdentityMatrix[2],
+      {I, 0},
+      {0, 0}
+    ],
+    GaussianMeanCovarianceKLData::real
+  ],
+  $Failed,
+  TestID -> "NUMBOOST-R2-COMPLEX-MEAN-REAL-GAUSSIAN-REJECTED"
 ]
