@@ -2,6 +2,14 @@
 
 graph = Global`$BASSFormulaConsumerRoleGraphR2ATestData;
 residuals = BASS`IR`FormulaConsumerRoleGraphR2A`BASSFormulaConsumerRoleGraphR2AResiduals[graph];
+wrongSignResidual = Lookup[residuals, "rei_wrong_sign_mutant_residual"];
+wrongSignVariables = Variables[{wrongSignResidual}];
+wrongSignCoefficient = If[
+  Length[wrongSignVariables] === 1 &&
+  PolynomialQ[wrongSignResidual, First[wrongSignVariables]],
+  Coefficient[wrongSignResidual, First[wrongSignVariables]],
+  Missing["NotSingleVariablePolynomial"]
+];
 
 VerificationTest[
   AssociationQ[graph],
@@ -58,9 +66,9 @@ VerificationTest[
 ]
 
 VerificationTest[
-  PossibleZeroQ[Lookup[residuals, "rei_wrong_sign_mutant_residual"]],
-  False,
-  TestID -> "02F-R2A-REI-WRONG-SIGN-MUTANT"
+  wrongSignCoefficient,
+  -2,
+  TestID -> "02F-R2A-REI-WRONG-SIGN-MUTANT-COEFFICIENT"
 ]
 
 VerificationTest[
