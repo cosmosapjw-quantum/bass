@@ -177,6 +177,9 @@ If[processExitCode[verifyProcess] =!= 0,
   Exit[5]
 ];
 
+(* Load the exact, hash-recorded BASS modules and patch contract once in the
+   canonical runner.  The WLT receives this absolute context dynamically and
+   performs no $InputFileName-based path inference of its own. *)
 Get[modulePath];
 Get[fixPath];
 hardenedExport = Import[outputPath, "RawJSON"];
@@ -189,7 +192,19 @@ patchValid = TrueQ[
   BASS`IR`SharedFramePhotonHardeningR1PatchContractQ[patchContract]
 ];
 
-report = TestReport[testPath];
+testContextPayload = <|
+  "repository_scope" -> "BASS_ONLY",
+  "repository_root" -> repositoryRoot,
+  "module_path" -> modulePath,
+  "fix_path" -> fixPath,
+  "patch_contract_path" -> patchContractPath,
+  "patch_contract" -> patchContract
+|>;
+injectedTestContext = testContextPayload;
+report = Block[
+  {Global`$BASSSyncMap02ER1TestContext = injectedTestContext},
+  TestReport[testPath]
+];
 succeeded = Quiet @ Check[report["TestsSucceededCount"], Missing["Unavailable"]];
 failed = Quiet @ Check[report["TestsFailedCount"], Missing["Unavailable"]];
 notEvaluated = Quiet @ Check[
@@ -229,6 +244,7 @@ receipt = <|
   "export_valid" -> exportValid,
   "patch_contract_valid" -> patchValid,
   "exact_residuals" -> residuals,
+  "test_context_mode" -> "RUNNER_INJECTED_ABSOLUTE_CONTEXT",
   "expected_top_level_munit_tests" -> expectedTestCount,
   "tests_succeeded" -> succeeded,
   "tests_failed" -> failed,
