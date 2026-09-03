@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "NUM_BOOST_01_R2_LIKELIHOOD_HARDENING",
+  "status": "SESSION_WOLFRAM_IDENTITIES_PASS_SOURCE_CREATED_NATIVE_REPLAY_PENDING",
+  "parent": {
+    "pull_request": 107,
+    "commit": "1aa4dadffa7b44ff07b39a36a973c66047112345",
+    "package_blob_sha1": "f38eafdd7fd8c64bf4fb37ff8b59d4b762bc7448"
+  },
+  "created_source": {
+    "wolfram/standalone/BASSNumBoostLikelihoodHardening.wl": "5b1ea4ec021e326913ed78d5b2f7200f59c942f5",
+    "wolfram/standalone/BASSNumBoostLikelihoodHardening.wlt": "29dc56107cb4c17051056eb4f0da2e4e7dd81535",
+    "wolfram/standalone/run_likelihood_hardening.wls": "3640f6b6701ec7bda2353707dfa921c347046b2d",
+    "docs/bass_master_ssot_v2/NUM_BOOST_01/LIKELIHOOD_HARDENING_README.md": "382f3987f0eb464368a4696a437f049c920e9739"
+  },
+  "source_audit_findings": [
+    {
+      "severity": "P1",
+      "finding": "The parent covariance source-tail identity uses the Hermitian simplification without enforcing Hermiticity or orthogonal-projector assumptions.",
+      "counterexample": {
+        "C": [[1, 2], [3, 4]],
+        "P": [[1, 0], [0, 0]],
+        "left_norm_squared": 29,
+        "old_right_hand_side": 34,
+        "residual": -5
+      }
+    },
+    {
+      "severity": "P1",
+      "finding": "The parent covariance boundary closed form uses C^2 and doubled top-row norm without enforcing Hermiticity and the support relations C=P C P, B=Q B P."
+    },
+    {
+      "severity": "P1",
+      "finding": "The parent Gaussian bridge assumes equal means; deterministic Bianchi/global-tilt mean-template error requires a separate whitened mean ledger."
+    },
+    {
+      "severity": "P1",
+      "finding": "Nuisance projection may produce singular full-space covariance; likelihood/KL certification must use a common retained SPD subspace and fail closed on support mismatch."
+    }
+  ],
+  "fresh_wolfram_15_0_1": {
+    "hermitian_source_tail_identity": "PASS_EXACT",
+    "nonhermitian_old_formula_counterexample": "PASS_DETECTED_RESIDUAL_MINUS_5",
+    "general_nonhermitian_tail_decomposition": "PASS_EXACT",
+    "hermitian_boundary_residual_identity": "PASS_EXACT",
+    "mean_aware_gaussian_kl_decomposition": "PASS_EXACT",
+    "mean_relative_norm_squared": "5/24",
+    "mean_aware_kl_fixture": "(19/120 + Log[10/9])/2",
+    "spectral_kl_bound": "PASS",
+    "frobenius_kl_bound": "PASS",
+    "fixed_data_minus2_log_likelihood_difference": "-89/144 - Log[10/9]",
+    "fixed_data_likelihood_bound": "PASS",
+    "common_subspace_pseudoinverse_equivalence": "PASS_EXACT",
+    "common_subspace_pseudodeterminant_equivalence": "PASS_EXACT",
+    "support_mismatch_guard": "PASS_FAIL_CLOSED"
+  },
+  "native_replay": {
+    "exact_committed_wl_load": "NOT_RUN_PRIVATE_RAW_GITHUB_404_AND_LARGE_DIRECT_EVALUATION_502",
+    "munit_expected_top_level_tests": 5,
+    "package_self_check_expected_tests": 15,
+    "test_report": "NOT_RUN"
+  },
+  "literature_scope": [
+    {
+      "reference": "arXiv:2102.05485",
+      "role": "Gaussian KL properties and comparison context",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "arXiv:1802.02869",
+      "role": "relative covariance perturbation context",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "arXiv:1904.05352",
+      "role": "Gaussian covariance-operator divergence and regularization context",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "arXiv:1605.00353",
+      "role": "singular-subspace perturbation context",
+      "authority_effect": "NONE"
+    }
+  ],
+  "claim_boundary": [
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_GITHUB_WOLFRAM_RUNTIME_PASS",
+    "NO_DROPBOX_REPLAY",
+    "NO_FULL_SPACE_SINGULAR_PSEUDOINVERSE_LIKELIHOOD_PROMOTION",
+    "NO_PROCESSED_HTT_LIKELIHOOD_READY",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
