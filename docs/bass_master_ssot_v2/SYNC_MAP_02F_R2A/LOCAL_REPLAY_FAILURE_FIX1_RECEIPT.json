@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FAILURE_FIX1",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "evidence_origin": {
+    "type": "USER_PROVIDED_NATIVE_LOCAL_TRANSCRIPT",
+    "source_git_head": "973376038ea3501cb1f97bde9af5440ef5e98eaf",
+    "repository_path": "/home/cosmosapjw/bass",
+    "artifact_path": "/home/cosmosapjw/bass/artifacts/sync_map02f_r2a_role_graph"
+  },
+  "observed_pipeline": {
+    "clean_graph_verifier": "PASS",
+    "formula_consumer_pairs": 10,
+    "implementation_role_rows": 11,
+    "named_source_symbols": 12,
+    "explicit_absent_implementation_slots": 1,
+    "dag_acyclic": true,
+    "python_unittest": {
+      "expected": 9,
+      "passed": 7,
+      "failed": 2
+    },
+    "wolfram_replay": "NOT_REACHED_AFTER_PYTHON_FAILURE",
+    "process_exit_code": 1
+  },
+  "failed_tests": [
+    {
+      "test": "test_pair_role_and_symbol_count_mutations_fail",
+      "mutation": "ROLE-REC-ABERRATION source_symbols cleared",
+      "observed_exception": "role contract mismatch for ROLE-REC-ABERRATION",
+      "old_expected_regex": "source-symbol"
+    },
+    {
+      "test": "test_htt_blackbody_full_and_prepulled_roles_must_remain_split",
+      "mutation": "ROLE-HTT-BLACKBODY-PREPULLED implements_full_formula changed to true",
+      "observed_exception": "role contract mismatch for ROLE-HTT-BLACKBODY-PREPULLED",
+      "old_expected_regex": "primitive promoted"
+    }
+  ],
+  "root_cause": {
+    "classification": "TEST_ASSERTION_DIAGNOSTIC_PRECEDENCE_OVERFIT",
+    "detail": "The verifier intentionally exact-pins each role's pair, role type, source commit, path, blob, symbols, and full-formula flag before evaluating derived aggregate or specialized semantic diagnostics. Both hostile mutations were correctly rejected by the stronger exact role contract, but the tests required later diagnostic strings.",
+    "formula_graph_defect": false,
+    "consumer_source_pin_defect": false,
+    "count_contract_defect": false,
+    "wolfram_formula_defect": false
+  },
+  "repair": {
+    "test_fix_commit": "e5053bacab0ce74f4a6c0cfe4991d81fb5c80697",
+    "changed_paths": [
+      "tests/test_sync_map02f_r2a_role_graph.py"
+    ],
+    "production_verifier_changed": false,
+    "role_graph_changed": false,
+    "wolfram_source_changed": false,
+    "repair_policy": "Tests now assert the exact per-role provenance failure that is the canonical first guard. Derived aggregate and specialized guards remain defence in depth."
+  },
+  "unchanged_authority": {
+    "parent_commit": "6bb65476a87d1ac8daa9f7239d884c369c51ce33",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "count_contract": {
+      "formula_consumer_pairs": 10,
+      "implementation_role_rows": 11,
+      "named_source_symbols": 12,
+      "explicit_absent_implementation_slots": 1
+    }
+  },
+  "external_checks": {
+    "scispace": "PRIMARY_METHOD_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX_SOURCE_PUBLISHED_LOCAL_RERUN_REQUIRED",
+  "next_gate": "PYTHON_9_OF_9_THEN_WOLFRAM_11_OF_11",
+  "claim_boundary": [
+    "LOCAL_CLEAN_GRAPH_VERIFIER_PASS",
+    "TWO_TEST_DIAGNOSTIC_OVERFITS_IDENTIFIED",
+    "FIX1_TEST_SOURCE_PUSHED",
+    "NO_FIX1_LOCAL_GREEN_CLAIM",
+    "NO_WOLFRAM_RUNTIME_CLAIM",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}
