@@ -48,18 +48,31 @@ EXPECTED_FORMULA_HASHES = {
         "840fe1d68d87b78bb5b5d831fb3d8025b26c29fda1f9da49b0f387e1a8d7bcfd"
     ),
 }
-EXPECTED_PAIRS = {
-    ("BASS.FRAME.ABERRATED_DIRECTION.001", "rec_bianchi"),
-    ("BASS.FRAME.DOPPLER_FACTOR.001", "rec_bianchi"),
-    ("BASS.PHOTON.DIRECTION_FLOW.001", "rec_bianchi"),
-    ("BASS.PHOTON.ENERGY_DRIFT.001", "rec_bianchi"),
-    ("BASS.PHOTON.DIRECTION_FLOW.001", "rei_bianchi"),
-    ("BASS.PHOTON.ENERGY_DRIFT.001", "rei_bianchi"),
-    ("BASS.FRAME.ABERRATED_DIRECTION.001", "htt_base"),
-    ("BASS.FRAME.DOPPLER_FACTOR.001", "htt_base"),
-    ("BASS.FRAME.SOLID_ANGLE_JACOBIAN.001", "htt_base"),
-    ("BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001", "htt_base"),
+EXPECTED_PAIR_IDENTITIES = {
+    "02F-R2A-REC-ABERRATION": (
+        "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "rec_bianchi",
+    ),
+    "02F-R2A-REC-DOPPLER": ("BASS.FRAME.DOPPLER_FACTOR.001", "rec_bianchi"),
+    "02F-R2A-REC-DIRECTION-FLOW": ("BASS.PHOTON.DIRECTION_FLOW.001", "rec_bianchi"),
+    "02F-R2A-REC-ENERGY-DRIFT": ("BASS.PHOTON.ENERGY_DRIFT.001", "rec_bianchi"),
+    "02F-R2A-REI-DIRECTION-FLOW": ("BASS.PHOTON.DIRECTION_FLOW.001", "rei_bianchi"),
+    "02F-R2A-REI-ENERGY-DRIFT": ("BASS.PHOTON.ENERGY_DRIFT.001", "rei_bianchi"),
+    "02F-R2A-HTT-ABERRATION": (
+        "BASS.FRAME.ABERRATED_DIRECTION.001",
+        "htt_base",
+    ),
+    "02F-R2A-HTT-DOPPLER": ("BASS.FRAME.DOPPLER_FACTOR.001", "htt_base"),
+    "02F-R2A-HTT-SOLID-ANGLE": (
+        "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+        "htt_base",
+    ),
+    "02F-R2A-HTT-BLACKBODY-T": (
+        "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+        "htt_base",
+    ),
 }
+EXPECTED_PAIRS = set(EXPECTED_PAIR_IDENTITIES.values())
 EXPECTED_SYMBOLS = {
     "aberrate_direction",
     "doppler_factor",
@@ -84,6 +97,116 @@ REQUIRED_RELATION_FIELDS = {
     "validity_subspace",
     "authority_effect",
     "parity_status",
+}
+REC_COMMIT = "c4bf37d7271caf651bca41b6eaab8caff436452b"
+REC_PATH = "src/full_bianchi_hyrec/background/characteristics.py"
+REC_BLOB = "f71ec2607daac808b871279ad0893d4653169343"
+REI_COMMIT = "f4eb2c893ce6449f8899ab6f02c83421fc7c7019"
+REI_PATH = "src/rei_bianchi/b2b_physical_model.py"
+REI_BLOB = "b3cc5e45988687b76d5be04c6335009b4c9bd17f"
+HTT_COMMIT = "29427a1f7f2c5d46e43ffe03053c4ac13e969228"
+HTT_PATH = "htt/obsstat/lorentz_sky_pullback.py"
+HTT_BLOB = "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805"
+EXPECTED_ROLE_CONTRACTS = {
+    "ROLE-REC-ABERRATION": (
+        "02F-R2A-REC-ABERRATION",
+        "CONSUMER_IMPLEMENTATION",
+        REC_COMMIT,
+        REC_PATH,
+        REC_BLOB,
+        ("aberrate_direction",),
+        True,
+    ),
+    "ROLE-REC-DOPPLER": (
+        "02F-R2A-REC-DOPPLER",
+        "CONSUMER_IMPLEMENTATION",
+        REC_COMMIT,
+        REC_PATH,
+        REC_BLOB,
+        ("doppler_factor",),
+        True,
+    ),
+    "ROLE-REC-DIRECTION-FLOW": (
+        "02F-R2A-REC-DIRECTION-FLOW",
+        "CONSUMER_IMPLEMENTATION",
+        REC_COMMIT,
+        REC_PATH,
+        REC_BLOB,
+        ("normal_frame_characteristic.D0_direction_normal_s_inv",),
+        True,
+    ),
+    "ROLE-REC-ENERGY-DRIFT": (
+        "02F-R2A-REC-ENERGY-DRIFT",
+        "CONSUMER_IMPLEMENTATION",
+        REC_COMMIT,
+        REC_PATH,
+        REC_BLOB,
+        ("normal_frame_characteristic.R_normal_s_inv",),
+        True,
+    ),
+    "ROLE-REI-DIRECTION-FLOW-ABSENT": (
+        "02F-R2A-REI-DIRECTION-FLOW",
+        "ABSENT_IMPLEMENTATION_SLOT",
+        REI_COMMIT,
+        REI_PATH,
+        REI_BLOB,
+        (),
+        False,
+    ),
+    "ROLE-REI-ENERGY-DRIFT-CONTROL": (
+        "02F-R2A-REI-ENERGY-DRIFT",
+        "RESTRICTED_SUBSPACE_IMPLEMENTATION",
+        REI_COMMIT,
+        REI_PATH,
+        REI_BLOB,
+        ("SpectrumLane.redshift_coeff",),
+        False,
+    ),
+    "ROLE-HTT-ABERRATION-BIDIRECTIONAL": (
+        "02F-R2A-HTT-ABERRATION",
+        "BIDIRECTIONAL_DIRECTION_MAP",
+        HTT_COMMIT,
+        HTT_PATH,
+        HTT_BLOB,
+        ("aberrate_sky_direction", "deaberrate_sky_direction"),
+        True,
+    ),
+    "ROLE-HTT-DOPPLER-BIDIRECTIONAL": (
+        "02F-R2A-HTT-DOPPLER",
+        "BIDIRECTIONAL_CHART_FACTOR",
+        HTT_COMMIT,
+        HTT_PATH,
+        HTT_BLOB,
+        ("doppler_factor_unboosted", "doppler_factor_boosted"),
+        True,
+    ),
+    "ROLE-HTT-SOLID-ANGLE-ORACLE": (
+        "02F-R2A-HTT-SOLID-ANGLE",
+        "INDEPENDENT_ORACLE",
+        HTT_COMMIT,
+        HTT_PATH,
+        HTT_BLOB,
+        ("solid_angle_jacobian",),
+        False,
+    ),
+    "ROLE-HTT-BLACKBODY-FULL": (
+        "02F-R2A-HTT-BLACKBODY-T",
+        "FULL_FIELD_PULLBACK",
+        HTT_COMMIT,
+        HTT_PATH,
+        HTT_BLOB,
+        ("pullback_thermodynamic_temperature_field",),
+        True,
+    ),
+    "ROLE-HTT-BLACKBODY-PREPULLED": (
+        "02F-R2A-HTT-BLACKBODY-T",
+        "PREPULLED_VALUE_PRIMITIVE",
+        HTT_COMMIT,
+        HTT_PATH,
+        HTT_BLOB,
+        ("thermodynamic_temperature_pullback",),
+        False,
+    ),
 }
 
 
@@ -122,6 +245,18 @@ def graph_is_acyclic(nodes: list[str], edges: list[list[str]]) -> bool:
     return visited == len(nodes)
 
 
+def role_contract(row: dict[str, Any]) -> tuple[Any, ...]:
+    return (
+        row.get("pair_id"),
+        row.get("role_type"),
+        row.get("source_commit"),
+        row.get("source_path"),
+        row.get("source_blob"),
+        tuple(row.get("source_symbols", [])),
+        row.get("implements_full_formula"),
+    )
+
+
 def verify(data: dict[str, Any]) -> dict[str, Any]:
     require(data.get("repository_scope") == "BASS_ONLY", "scope is not BASS_ONLY")
     require(data.get("owner") == "bass", "owner is not bass")
@@ -145,18 +280,28 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     )
 
     convention = data.get("convention_contract", {})
-    require(convention.get("ray_length_parameter") == "s=c*t with dimension L", "s=c*t missing")
+    require(
+        convention.get("ray_length_parameter") == "s=c*t with dimension L",
+        "s=c*t missing",
+    )
     require(convention.get("angular_multipole_rank") == "ell", "ell rank contract missing")
     require("ell with dimension L" not in json.dumps(convention), "legacy ell ray length present")
-    require(convention.get("normal_congruence_acceleration") is not None, "normal acceleration typing absent")
+    require(
+        convention.get("normal_congruence_acceleration") is not None,
+        "normal acceleration typing absent",
+    )
 
     count_contract = data.get("count_contract", {})
-    require(count_contract == {
-        "formula_consumer_pairs": 10,
-        "implementation_role_rows": 11,
-        "named_source_symbols": 12,
-        "explicit_absent_implementation_slots": 1,
-    }, "count contract mismatch")
+    require(
+        count_contract
+        == {
+            "formula_consumer_pairs": 10,
+            "implementation_role_rows": 11,
+            "named_source_symbols": 12,
+            "explicit_absent_implementation_slots": 1,
+        },
+        "count contract mismatch",
+    )
 
     formulas = data.get("authority_formulas", [])
     formula_map = rows_by_id(formulas, "formula_id")
@@ -174,10 +319,18 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     pairs = data.get("formula_consumer_pairs", [])
     pair_map = rows_by_id(pairs, "pair_id")
     require(len(pairs) == 10, "formula-consumer pair count mismatch")
+    require(set(pair_map) == set(EXPECTED_PAIR_IDENTITIES), "pair-id inventory mismatch")
     observed_pairs = {
         (row.get("formula_id"), row.get("consumer_repository")) for row in pairs
     }
     require(observed_pairs == EXPECTED_PAIRS, "formula-consumer pair coverage mismatch")
+    for pair_id, expected_identity in EXPECTED_PAIR_IDENTITIES.items():
+        row = pair_map[pair_id]
+        require(
+            (row.get("formula_id"), row.get("consumer_repository"))
+            == expected_identity,
+            f"pair identity mismatch for {pair_id}",
+        )
     for row in pairs:
         require("relation_class" not in row, f"overloaded relation_class in {row['pair_id']}")
         missing = REQUIRED_RELATION_FIELDS - set(row)
@@ -187,10 +340,16 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     roles = data.get("implementation_roles", [])
     role_map = rows_by_id(roles, "role_id")
     require(len(roles) == 11, "implementation-role row count mismatch")
+    require(set(role_map) == set(EXPECTED_ROLE_CONTRACTS), "role-id inventory mismatch")
     for row in roles:
         require(row.get("pair_id") in pair_map, f"role references unknown pair: {row['role_id']}")
         require(isinstance(row.get("source_symbols"), list), "source_symbols must be a list")
         require(isinstance(row.get("implements_full_formula"), bool), "full-formula flag must be Boolean")
+    for role_id, expected in EXPECTED_ROLE_CONTRACTS.items():
+        require(
+            role_contract(role_map[role_id]) == expected,
+            f"role contract mismatch for {role_id}",
+        )
 
     named_symbols = [symbol for row in roles for symbol in row["source_symbols"]]
     require(len(named_symbols) == 12, "named source-symbol count mismatch")
@@ -210,16 +369,23 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     ]
     require(len(blackbody_roles) == 2, "HTT blackbody role split missing")
     blackbody_by_type = {row.get("role_type"): row for row in blackbody_roles}
-    require(set(blackbody_by_type) == {
-        "FULL_FIELD_PULLBACK",
-        "PREPULLED_VALUE_PRIMITIVE",
-    }, "HTT blackbody role types mismatch")
+    require(
+        set(blackbody_by_type)
+        == {"FULL_FIELD_PULLBACK", "PREPULLED_VALUE_PRIMITIVE"},
+        "HTT blackbody role types mismatch",
+    )
     full_role = blackbody_by_type["FULL_FIELD_PULLBACK"]
     primitive_role = blackbody_by_type["PREPULLED_VALUE_PRIMITIVE"]
     require(full_role.get("implements_full_formula") is True, "full pullback not marked full")
-    require(primitive_role.get("implements_full_formula") is False, "primitive promoted to full formula")
     require(
-        any("inverse-aberrated" in item for item in primitive_role.get("preconditions", [])),
+        primitive_role.get("implements_full_formula") is False,
+        "primitive promoted to full formula",
+    )
+    require(
+        any(
+            "inverse-aberrated" in item
+            for item in primitive_role.get("preconditions", [])
+        ),
         "pre-pulled primitive precondition missing",
     )
 
@@ -236,8 +402,14 @@ def verify(data: dict[str, Any]) -> dict[str, Any]:
     )
 
     state_firewall = data.get("state_surface_firewall", {})
-    require("NONINVERTIBLE" in state_firewall.get("j_and_g", ""), "J/G projection firewall absent")
-    require("NO_IMPLICIT" in state_firewall.get("polarization", ""), "polarization firewall absent")
+    require(
+        "NONINVERTIBLE" in state_firewall.get("j_and_g", ""),
+        "J/G projection firewall absent",
+    )
+    require(
+        "NO_IMPLICIT" in state_firewall.get("polarization", ""),
+        "polarization firewall absent",
+    )
 
     dag = data.get("stage_dag", {})
     nodes = dag.get("nodes", [])
