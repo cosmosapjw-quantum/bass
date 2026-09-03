@@ -1,0 +1,98 @@
+name: sync-map02f-r2-bass-state-surface-registry
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02f-r2-bass-state-surface-registry.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2/**"
+      - "scripts/verify_bass_state_surface_registry.py"
+      - "scripts/run_bass_state_surface_registry_local.sh"
+      - "tests/test_bass_state_surface_registry.py"
+      - "wolfram/BASS/Kernel/IR/BASSStateSurfaceRegistry.wl"
+      - "wolfram/BASS/Tests/BASSStateSurfaceRegistry.wlt"
+      - "wolfram/scripts/run_bass_state_surface_registry.wls"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02f-r2-normal-ancestry-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify registry
+        run: |
+          python scripts/verify_bass_state_surface_registry.py \
+            --input docs/bass_master_ssot_v2/SYNC_MAP_02F_R2/BASS_STATE_SURFACE_REGISTRY.json
+      - name: Run mutation-sensitive tests
+        run: python -m unittest -v tests.test_bass_state_surface_registry
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_bass_state_surface_registry.py \
+            tests/test_bass_state_surface_registry.py
+      - name: Check exact ancestry and text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=8b73919e0e2a2326c338c796ac80b0684fe49db1
+          git cat-file -e "${BASE}^{commit}"
+          git merge-base --is-ancestor "$BASE" HEAD
+          git diff --check "$BASE"...HEAD
+      - name: Check top-level MUnit discovery surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          count="$(grep -c '^VerificationTest\[' wolfram/BASS/Tests/BASSStateSurfaceRegistry.wlt)"
+          test "$count" -eq 7
+          grep -F 'Global`$BASSStateSurfaceRegistryTestData' \
+            wolfram/BASS/Tests/BASSStateSurfaceRegistry.wlt
+      - name: Build offline source packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          packet="$RUNNER_TEMP/sync-map02f-r2-state-surface-source"
+          mkdir -p "$packet"
+          paths=(
+            docs/bass_master_ssot_v2/SYNC_MAP_02F_R2/BASS_STATE_SURFACE_REGISTRY.json
+            docs/bass_master_ssot_v2/SYNC_MAP_02F_R2/README.md
+            scripts/verify_bass_state_surface_registry.py
+            scripts/run_bass_state_surface_registry_local.sh
+            tests/test_bass_state_surface_registry.py
+            wolfram/BASS/Kernel/IR/BASSStateSurfaceRegistry.wl
+            wolfram/BASS/Tests/BASSStateSurfaceRegistry.wlt
+            wolfram/scripts/run_bass_state_surface_registry.wls
+          )
+          for path in "${paths[@]}"; do
+            mkdir -p "$packet/$(dirname "$path")"
+            cp "$path" "$packet/$path"
+          done
+          {
+            printf 'head=%s\n' "$(git rev-parse HEAD)"
+            printf 'tree=%s\n' "$(git show -s --format=%T HEAD)"
+            printf 'repository_scope=BASS_ONLY\n'
+            printf 'parent=8b73919e0e2a2326c338c796ac80b0684fe49db1\n'
+            for path in "${paths[@]}"; do
+              printf '%s  %s\n' "$(git rev-parse "HEAD:$path")" "$path"
+            done
+          } > "$packet/GIT_OBJECT_MANIFEST.txt"
+          (cd "$packet" && \
+            find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum) \
+            > "$packet/SHA256SUMS"
+      - name: Upload offline source packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-r2-bass-state-surface-source
+          path: ${{ runner.temp }}/sync-map02f-r2-state-surface-source
+          if-no-files-found: error
+          retention-days: 30
