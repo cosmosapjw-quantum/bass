@@ -1,10 +1,18 @@
 (* Top-level MUnit tests. Do not wrap VerificationTest expressions in Module. *)
 
-Get[FileNameJoin[{
+moduleDirectory = FileNameJoin[{
   DirectoryName[DirectoryName[$InputFileName]],
   "Kernel",
-  "IR",
+  "IR"
+}];
+
+Get[FileNameJoin[{
+  moduleDirectory,
   "SharedFramePhotonExportHardeningR1.wl"
+}]];
+Get[FileNameJoin[{
+  moduleDirectory,
+  "SharedFramePhotonExportHardeningR1Fix1.wl"
 }]];
 
 VerificationTest[
