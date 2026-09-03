@@ -140,9 +140,33 @@ def check_formula_hashes(data: dict[str, Any]) -> None:
 
 def check_aberration(row: dict[str, Any]) -> None:
     ir = row["equation_ir"]
-    serialized = json.dumps(ir, ensure_ascii=False, sort_keys=True)
-    require("gamma^2/(gamma+1)" in serialized, "regular coefficient missing")
-    require("(gamma-1)/beta_squared" not in serialized, "singular coefficient serialized")
+
+    # Only coefficient-bearing executable slots are subject to the singular-form
+    # prohibition.  known_limits deliberately preserves the superseded algebraic
+    # form as provenance for the exact regularization identity.
+    executable_serialized = json.dumps(
+        {
+            "target": ir.get("target"),
+            "terms": ir.get("terms"),
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    history_serialized = json.dumps(
+        {"known_limits": ir.get("known_limits", [])},
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    require("gamma^2/(gamma+1)" in executable_serialized, "regular coefficient missing")
+    require(
+        "(gamma-1)/beta_squared" not in executable_serialized,
+        "singular coefficient serialized in executable aberration expression",
+    )
+    require(
+        "(gamma-1)/beta_squared" in history_serialized
+        and "gamma^2/(gamma+1)" in history_serialized,
+        "regularization equivalence provenance missing",
+    )
     require(
         ir["domain"].get("zero_boost") == "direct evaluation without 0/0",
         "zero-boost direct evaluation missing",
