@@ -2,15 +2,9 @@
 
 ClearAll[fileSHA256, processExitCode, processStandardOutput];
 
-fileSHA256[path_String] := Module[{stream, bytes},
-  stream = OpenRead[path, BinaryFormat -> True];
-  bytes = BinaryReadList[stream];
-  Close[stream];
-  Hash[ByteArray[bytes], "SHA256", "HexString"]
-];
-
-processExitCode[result_ProcessObject] := result["ExitCode"];
-processStandardOutput[result_ProcessObject] := result["StandardOutput"];
+fileSHA256[path_String] := IntegerString[FileHash[path, "SHA256"], 16, 64];
+processExitCode[result_Association] := Lookup[result, "ExitCode", Missing["ExitCode"]];
+processStandardOutput[result_Association] := Lookup[result, "StandardOutput", ""];
 
 scriptDirectory = DirectoryName[$InputFileName];
 repositoryRoot = DirectoryName[DirectoryName[scriptDirectory]];
@@ -126,7 +120,7 @@ If[processExitCode[buildProcess] =!= 0,
     "status" -> "FAIL_GENERATOR",
     "exit_code" -> processExitCode[buildProcess],
     "stdout" -> processStandardOutput[buildProcess],
-    "stderr" -> buildProcess["StandardError"]
+    "stderr" -> Lookup[buildProcess, "StandardError", ""]
   |>]];
   Exit[4]
 ];
@@ -142,7 +136,7 @@ If[processExitCode[verifyProcess] =!= 0,
     "status" -> "FAIL_PYTHON_VERIFIER",
     "exit_code" -> processExitCode[verifyProcess],
     "stdout" -> processStandardOutput[verifyProcess],
-    "stderr" -> verifyProcess["StandardError"]
+    "stderr" -> Lookup[verifyProcess, "StandardError", ""]
   |>]];
   Exit[5]
 ];
