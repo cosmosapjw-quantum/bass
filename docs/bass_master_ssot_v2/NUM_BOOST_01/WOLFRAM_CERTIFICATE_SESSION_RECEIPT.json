@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "BASS-NUM-BOOST-01-WOLFRAM-CERTIFICATE-20260903-R1",
+  "authority_effect": "NONE_RESEARCH_ORACLE",
+  "ancestry": {
+    "repository": "cosmosapjw-quantum/bass",
+    "base_pr": 102,
+    "base_commit": "bff74a1383f0d113621bd49936d2eebed3264707",
+    "branch": "audit/num-boost-01-wolfram-certificate-20260903-r1"
+  },
+  "source_files": [
+    {
+      "path": "wolfram/standalone/BASSNumBoostCertificate.wl",
+      "git_blob_sha1": "f38eafdd7fd8c64bf4fb37ff8b59d4b762bc7448"
+    },
+    {
+      "path": "wolfram/standalone/BASSNumBoostCertificate.wlt",
+      "git_blob_sha1": "01c3fceeeaaebc98cdbee74a2d2c76637c2438b2"
+    },
+    {
+      "path": "wolfram/standalone/run_numboost_certificate.wls",
+      "git_blob_sha1": "8c633616fc9a338e9f287bba1ed6c23ba4621033"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/NUM_BOOST_01/WOLFRAM_CERTIFICATE_README.md",
+      "git_blob_sha1": "f4e4621f061414666747fd86db6530533abea1bc"
+    }
+  ],
+  "wolfram_environment": {
+    "version": "15.0.1 for Linux x86 (64-bit) (July 2, 2026)",
+    "kernel_alive_probe": "PASS",
+    "exact_repository_file_get": "NOT_RUN_RAW_GITHUB_ACCESS_FAILED"
+  },
+  "session_checks": {
+    "finite_buffer_structure": {
+      "passed": 3,
+      "total": 3
+    },
+    "covariance_and_source_tail": {
+      "passed": 3,
+      "total": 3,
+      "fixture_residual_norm_squared": "76*w5^2"
+    },
+    "biposh_unitarity_and_parseval": {
+      "passed": 3,
+      "total": 3
+    },
+    "spin_and_adjacent_covariance": {
+      "passed": 3,
+      "total": 3
+    },
+    "gaussian_likelihood_and_kl": {
+      "passed": 5,
+      "total": 5
+    },
+    "aggregate": {
+      "passed": 17,
+      "total": 17
+    }
+  },
+  "exact_fixture_values": {
+    "scalar_s0_m0_target2_work4_shortest_path_coefficient_squared": "32000/539",
+    "gaussian_logdet_error": "Log[100/99]",
+    "gaussian_quadratic_error": "679/1980",
+    "gaussian_kl": "(1/20 + Log[100/99])/2"
+  },
+  "preserved_harness_history": [
+    "one integrated Wolfram call returned HTTP 502",
+    "first BipoSH iterator construction was malformed",
+    "unguarded ClebschGordan evaluation emitted nonphysical-entry messages",
+    "selection-rule guarded BipoSH reconstruction passed message-free",
+    "raw GitHub Get failed; exact repository-file replay remains pending"
+  ],
+  "literature_lock": [
+    {
+      "arxiv": "1403.6117",
+      "role": "d=1 unitary spin-weighted boost and exact harmonic recursion"
+    },
+    {
+      "arxiv": "1809.03369",
+      "role": "defect-based computable matrix-exponential upper bounds"
+    },
+    {
+      "arxiv": "astro-ph/0501001",
+      "role": "BipoSH coefficients as Clebsch-Gordan transforms of covariance"
+    }
+  ],
+  "new_likelihood_bridge": {
+    "relative_condition": "rho=||C_approx^(-1/2)(C_exact-C_approx)C_approx^(-1/2)||_2<1",
+    "logdet_bound": "abs(logdet(C_exact)-logdet(C_approx)) <= -n log(1-rho)",
+    "quadratic_bound": "abs(x^T(C_exact^-1-C_approx^-1)x) <= rho/(1-rho) x^T C_approx^-1 x",
+    "kl_spectral_bound": "D_KL <= n[-rho-log(1-rho)]/2",
+    "kl_frobenius_bound": "D_KL <= ||A||_F^2/[4(1-rho)]",
+    "fail_closed_frobenius_guard": "epsilon_F/lambda_min(C_approx)<1"
+  },
+  "status": "SESSION_WOLFRAM_17_OF_17_PASS_SOURCE_CREATED_NATIVE_FILE_REPLAY_PENDING",
+  "claim_boundary": [
+    "NO_NATIVE_EXACT_FILE_REPLAY",
+    "NO_GITHUB_ACTIONS_RUNTIME_PASS",
+    "NO_DROPBOX_REPLAY",
+    "NO_EXTERNAL_CAS_REPLAY_OF_THIS_SOURCE",
+    "NO_NUM_BOOST_RUNTIME_IMPLEMENTATION",
+    "NO_OFF_DIAGONAL_RUNTIME_CONVERGENCE",
+    "NO_LIKELIHOOD_READY_CLAIM",
+    "NO_PROVIDER_ADMISSION",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
