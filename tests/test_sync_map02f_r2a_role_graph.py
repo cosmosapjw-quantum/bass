@@ -56,6 +56,22 @@ class FormulaConsumerRoleGraphR2ATests(unittest.TestCase):
         self.assertIn('Import[receiptTemporaryPath, "RawJSON"]', wolfram_runner_text)
         self.assertIn('"FAIL_RECEIPT_JSON_EXPORT"', wolfram_runner_text)
 
+        # AssociationMap[f, assoc] applies f to association rules in the local
+        # Wolfram 15.0 runtime used by the native replay.  The JSON converter
+        # must instead preserve keys and recursively transform Values.  A
+        # nested runtime probe is required so this semantic distinction is not
+        # reduced to a source-spelling check.
+        self.assertNotIn(
+            "jsonSafe[value_Association] := AssociationMap[jsonSafe, value]",
+            wolfram_runner_text,
+        )
+        self.assertIn(
+            "AssociationThread[Keys[value], jsonSafe /@ Values[value]]",
+            wolfram_runner_text,
+        )
+        self.assertIn("jsonSafeProbe", wolfram_runner_text)
+        self.assertIn('"FAIL_JSON_SAFE_ASSOCIATION_RECURSION"', wolfram_runner_text)
+
     def test_pair_role_and_symbol_count_mutations_fail(self) -> None:
         for key in (
             "formula_consumer_pairs",
