@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FIX1_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "source_failure_head": "973376038ea3501cb1f97bde9af5440ef5e98eaf",
+  "test_fix_commit": "e5053bacab0ce74f4a6c0cfe4991d81fb5c80697",
+  "failure_receipt_commit": "38fd1221d8d5af0c0bb7412f25766a3d41778fe4",
+  "exact_source_blobs": {
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/FORMULA_CONSUMER_ROLE_GRAPH.json": "c3e31371e1fef26a0744cabb2473b5593855fc09",
+    "scripts/verify_sync_map02f_r2a_role_graph.py": "f77b3afdc3f774b6bef090efb373ee6fd51f28fe",
+    "tests/test_sync_map02f_r2a_role_graph.py": "682c006b990337912a1a1d241501d2679f69785c",
+    "wolfram/BASS/Kernel/IR/FormulaConsumerRoleGraphR2A.wl": "2fdb9200a058e4aa06583cffb735c837e6fd73fc",
+    "wolfram/BASS/Tests/FormulaConsumerRoleGraphR2A.wlt": "e7f8bf5de13f54356488db3b1d44e8dd5abc7bb1",
+    "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls": "d2770ca4b911858a490d86d3663125e9b8eafd66",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/LOCAL_REPLAY_FAILURE_FIX1_RECEIPT.json": "344d92d0ef3e73d037ceab66c4279f9259953ae6"
+  },
+  "repair_scope": {
+    "changed_paths": [
+      "tests/test_sync_map02f_r2a_role_graph.py",
+      "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/LOCAL_REPLAY_FAILURE_FIX1_RECEIPT.json"
+    ],
+    "role_graph_bytes_changed": false,
+    "production_verifier_bytes_changed": false,
+    "wolfram_bytes_changed": false,
+    "consumer_source_pins_changed": false,
+    "count_contract_changed": false
+  },
+  "diagnostic_policy": {
+    "canonical_first_guard": "EXACT_PER_ROLE_PROVENANCE_CONTRACT",
+    "derived_global_symbol_inventory": "DEFENCE_IN_DEPTH",
+    "derived_blackbody_primitive_guard": "DEFENCE_IN_DEPTH"
+  },
+  "external_evidence": {
+    "scispace": "PRIMARY_METHOD_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX1_SOURCE_READBACK_PASS_LOCAL_RUNTIME_REQUIRED",
+  "next_gate": "LOCAL_PYTHON_9_OF_9_THEN_WOLFRAM_11_OF_11",
+  "claim_boundary": [
+    "FIX1_SOURCE_PUSHED",
+    "EXACT_SOURCE_BLOBS_READ_BACK",
+    "NO_FIX1_LOCAL_RUNTIME_PASS",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_BOOTSTRAP_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "parent_pr": 114,
+  "parent_commit": "6bb65476a87d1ac8daa9f7239d884c369c51ce33",
+  "source_commit": "5897a34e4fc8cf766385ade64850566818d82f3e",
+  "source_tree": "ff61c51013962eec3f8fe380a641741d424dce1f",
+  "pull_request": 116,
+  "exact_blobs": {
+    ".github/workflows/sync-map02f-r2a-formula-consumer-role-graph.yml": "9245c7901ae32a5e366031a1d56dfb1c987c3388",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/FORMULA_CONSUMER_ROLE_GRAPH.json": "c3e31371e1fef26a0744cabb2473b5593855fc09",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/README.md": "edeef96b928ec828d8a8e8e8a87fe514e5cb0a99",
+    "scripts/verify_sync_map02f_r2a_role_graph.py": "321c951a496fd238bfeefbf31f414db0347cacb2",
+    "scripts/run_sync_map02f_r2a_role_graph_local.sh": "7b444bbb738384e0761bac9db096bea5877b7f00",
+    "tests/test_sync_map02f_r2a_role_graph.py": "f5e7e614d84fed8a1fcd709ed789b92fc8f8942a",
+    "wolfram/BASS/Kernel/IR/FormulaConsumerRoleGraphR2A.wl": "2fdb9200a058e4aa06583cffb735c837e6fd73fc",
+    "wolfram/BASS/Tests/FormulaConsumerRoleGraphR2A.wlt": "e7f8bf5de13f54356488db3b1d44e8dd5abc7bb1",
+    "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls": "d2770ca4b911858a490d86d3663125e9b8eafd66"
+  },
+  "implemented_contract": {
+    "formula_count": 6,
+    "formula_consumer_pair_count": 10,
+    "implementation_role_count": 11,
+    "named_source_symbol_count": 12,
+    "absent_implementation_slot_count": 1,
+    "htt_blackbody_role_split": [
+      "FULL_FIELD_PULLBACK",
+      "PREPULLED_VALUE_PRIMITIVE"
+    ],
+    "rei_exact_energy_residual": "Delta=sigmaEE",
+    "overloaded_relation_enum_forbidden": true,
+    "normal_ancestry_exact_pinned": true
+  },
+  "local_replay_surface": {
+    "entry_point": "bash scripts/run_sync_map02f_r2a_role_graph_local.sh",
+    "python_unittest_expected": 9,
+    "wolfram_munit_expected": 11,
+    "status": "SOURCE_PUBLISHED_LOCAL_REPLAY_REQUIRED"
+  },
+  "external_evidence": {
+    "scispace": {
+      "status": "SEARCH_COMPLETED",
+      "references": [
+        "Dai and Chluba, arXiv:1403.6117",
+        "Yasini and Pierpaoli, arXiv:1709.08298",
+        "Schween and Reville, DOI 10.1017/S002237782200099X"
+      ],
+      "authority_effect": "NONE"
+    },
+    "connected_wolfram": {
+      "status": "BLOCKED_HTTP_502",
+      "attempted_checks": [
+        "pair-role-symbol count residuals",
+        "REI exact sigmaEE residual",
+        "wrong-sign hostile residual",
+        "stage DAG acyclicity"
+      ],
+      "formula_failure_observed": false
+    }
+  },
+  "status": "SOURCE_PUBLISHED_LOCAL_REPLAY_REQUIRED",
+  "next_gate": "PYTHON_9_OF_9_AND_WOLFRAM_11_OF_11_LOCAL_EXACT_REPLAY",
+  "claim_boundary": [
+    "NORMAL_ANCESTRY_SOURCE_CREATED",
+    "BASS_FORMULA_CONSUMER_ROLE_GRAPH_SOURCE_CREATED",
+    "NO_LOCAL_RUNTIME_PASS",
+    "NO_CONSUMER_RUNTIME_PARITY",
+    "NO_REI_GENERIC_BIANCHI_TRANSPORT",
+    "NO_GRID_PSTF_NUMERICAL_PARITY",
+    "NO_J_OR_G_CLOSURE_PASS",
+    "NO_SCREEN_TRANSPORT_IMPLEMENTATION",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ]
+}

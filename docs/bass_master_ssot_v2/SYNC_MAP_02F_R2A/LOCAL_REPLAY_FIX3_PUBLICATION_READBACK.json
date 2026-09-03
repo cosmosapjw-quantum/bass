@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FIX3_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "source_failure_head": "8fde1e4a40243ab791d9fa3b40a766100846d8d6",
+  "test_contract_commit": "323a6109deee9e15ff55b09a143bc0761ab93002",
+  "runner_fix_commit": "9000e92a7df235e0aedeadea0b44eec4aca93a58",
+  "failure_receipt_commit": "2d3f5e7c81aee4d9dc3a6f081d6abbc31bb82086",
+  "exact_source_blobs": {
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/FORMULA_CONSUMER_ROLE_GRAPH.json": "c3e31371e1fef26a0744cabb2473b5593855fc09",
+    "scripts/verify_sync_map02f_r2a_role_graph.py": "f77b3afdc3f774b6bef090efb373ee6fd51f28fe",
+    "tests/test_sync_map02f_r2a_role_graph.py": "97a64d868ce2f1938883c0891fd49dbddb86d1ec",
+    "wolfram/BASS/Kernel/IR/FormulaConsumerRoleGraphR2A.wl": "2fdb9200a058e4aa06583cffb735c837e6fd73fc",
+    "wolfram/BASS/Tests/FormulaConsumerRoleGraphR2A.wlt": "a37154daaa43bf3d749bb4f78e037dbc4ea1f700",
+    "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls": "51dc3ae4961dbf691a152b650d0679f11a6fb811",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/LOCAL_REPLAY_FAILURE_FIX3_RECEIPT.json": "63d5d04663867699bce891a2a19dd5da0bdbaaa4"
+  },
+  "repair_scope": {
+    "changed_paths": [
+      "tests/test_sync_map02f_r2a_role_graph.py",
+      "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls",
+      "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/LOCAL_REPLAY_FAILURE_FIX3_RECEIPT.json"
+    ],
+    "role_graph_bytes_changed": false,
+    "production_python_verifier_bytes_changed": false,
+    "wolfram_formula_module_bytes_changed": false,
+    "wolfram_munit_formula_test_bytes_changed": false,
+    "consumer_source_pins_changed": false,
+    "count_contract_changed": false
+  },
+  "serializer_contract": {
+    "association_conversion": "AssociationThread[Keys[value], jsonSafe /@ Values[value]]",
+    "forbidden_conversion": "AssociationMap[jsonSafe, value]",
+    "nested_runtime_probe": true,
+    "probe_failure_status": "FAIL_JSON_SAFE_ASSOCIATION_RECURSION",
+    "symbolic_residual_encoding": "COEFFICIENT_OF_SINGLE_LINEAR_SIGMAEE_FACTOR",
+    "strict_json_round_trip": true,
+    "atomic_final_publication": true
+  },
+  "external_evidence": {
+    "scispace": "SOFTWARE_PROVENANCE_AND_MACHINE_READABLE_ARTIFACT_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502_DURING_FIX3_PROBE",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX3_SOURCE_READBACK_PASS_LOCAL_RUNTIME_REQUIRED",
+  "next_gate": "LOCAL_PYTHON_9_OF_9_WOLFRAM_11_OF_11_JSON_SAFE_PROBE_STRICT_JSON_ROUND_TRIP_NONEMPTY_RECEIPT",
+  "claim_boundary": [
+    "FIX3_SOURCE_PUSHED",
+    "EXACT_SOURCE_BLOBS_READ_BACK",
+    "NO_FIX3_LOCAL_RUNTIME_PASS",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}

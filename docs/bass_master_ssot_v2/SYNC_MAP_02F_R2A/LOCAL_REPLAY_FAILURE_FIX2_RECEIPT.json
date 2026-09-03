@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FAILURE_FIX2",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "evidence_origin": {
+    "type": "USER_PROVIDED_NATIVE_LOCAL_TRANSCRIPT",
+    "source_git_head": "b855aca515100f53bdfa3183e56ff3f2ef60ada9",
+    "repository_path": "/home/cosmosapjw/bass",
+    "artifact_path": "/home/cosmosapjw/bass/artifacts/sync_map02f_r2a_role_graph"
+  },
+  "observed_pipeline": {
+    "clean_graph_verifier": "PASS",
+    "python_unittest": {
+      "expected": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "wolfram_validator_pass": true,
+    "wolfram_munit": {
+      "expected": 11,
+      "succeeded": 11,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "formula_consumer_pairs": 10,
+    "implementation_role_rows": 11,
+    "named_source_symbols": 12,
+    "explicit_absent_implementation_slots": 1,
+    "rei_energy_exact_residual": 0,
+    "rei_wrong_sign_mutant_symbolic_form": "-2*sigmaEE",
+    "wolfram_message": "Export::jsonstrictencoding: Expression Times cannot be exported as JSON.",
+    "receipt_file_bytes": 0,
+    "shell_followup_failure": "Python json.JSONDecodeError while reading the empty receipt",
+    "process_exit_code": 1
+  },
+  "root_cause": {
+    "classification": "WOLFRAM_STRICT_JSON_SYMBOLIC_TIMES_AND_EXPORT_NOT_FAIL_CLOSED",
+    "primary": "The exact hostile residual -2*sigmaEE was inserted directly into a RawJSON receipt, but symbolic Times is not a JSON-native value.",
+    "secondary": "The Wolfram runner did not validate Export success or re-import the receipt before exiting, so a zero-byte public receipt was left behind and the shell failed only at the later Python summary step.",
+    "formula_graph_defect": false,
+    "consumer_source_pin_defect": false,
+    "count_contract_defect": false,
+    "wolfram_algebra_defect": false,
+    "receipt_serialization_defect": true,
+    "fail_closed_export_defect": true
+  },
+  "repair": {
+    "test_contract_commit": "85c273aa50b330584207f7ae5454363be2d2f800",
+    "wlt_exact_coefficient_commit": "a25db87c6a2e7de74563b462ee2bff72c6760d07",
+    "runner_fix_commit": "21e6dd887637b0b107ea537a2ce5e54205a318ea",
+    "changed_paths": [
+      "tests/test_sync_map02f_r2a_role_graph.py",
+      "wolfram/BASS/Tests/FormulaConsumerRoleGraphR2A.wlt",
+      "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls"
+    ],
+    "physics_graph_changed": false,
+    "production_python_verifier_changed": false,
+    "consumer_source_pins_changed": false,
+    "count_contract_changed": false,
+    "symbolic_test_policy": "MUnit verifies that the wrong-sign mutation is a one-variable linear polynomial with coefficient -2.",
+    "receipt_encoding_policy": "The public JSON receipt records the deterministic exact coefficient -2 and labels it as the coefficient of the single linear sigmaEE factor.",
+    "write_policy": "Serialize strict RawJSON in memory, write a temporary file, import it back, validate key fields, and only then atomically publish the final receipt. Any serialization or round-trip failure exits with code 3."
+  },
+  "unchanged_authority": {
+    "parent_commit": "6bb65476a87d1ac8daa9f7239d884c369c51ce33",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "role_graph_sha256_at_failure_head": "23e4f1a01cbb7f5844cb151148a8ef359c17a27d4317e9dd4c6227e5c0f1bfe6",
+    "count_contract": {
+      "formula_consumer_pairs": 10,
+      "implementation_role_rows": 11,
+      "named_source_symbols": 12,
+      "explicit_absent_implementation_slots": 1
+    }
+  },
+  "external_checks": {
+    "scispace": "ANISOTROPIC_REDSHIFT_AND_SHEAR_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502_DURING_MINIMAL_JSON_PROBE",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX2_SOURCE_PUBLISHED_LOCAL_RERUN_REQUIRED",
+  "next_gate": "PYTHON_9_OF_9_WOLFRAM_11_OF_11_STRICT_JSON_ROUND_TRIP_NONEMPTY_RECEIPT",
+  "claim_boundary": [
+    "LOCAL_PYTHON_9_OF_9_PASS_AT_FAILURE_HEAD",
+    "LOCAL_WOLFRAM_11_OF_11_PASS_AT_FAILURE_HEAD",
+    "ROOT_CAUSE_IDENTIFIED",
+    "JSON_SAFE_ATOMIC_RECEIPT_FIX_SOURCE_PUSHED",
+    "NO_FIX2_LOCAL_GREEN_CLAIM",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_LOCAL_REPLAY_FIX2_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "source_failure_head": "b855aca515100f53bdfa3183e56ff3f2ef60ada9",
+  "fix_commits": {
+    "test_contract": "85c273aa50b330584207f7ae5454363be2d2f800",
+    "wlt_exact_coefficient": "a25db87c6a2e7de74563b462ee2bff72c6760d07",
+    "runner_json_atomicity": "21e6dd887637b0b107ea537a2ce5e54205a318ea",
+    "failure_receipt": "98eee0fd6f3a5fc31ed8bd8f1353ecea2e79ad58"
+  },
+  "exact_source_blobs": {
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/FORMULA_CONSUMER_ROLE_GRAPH.json": "c3e31371e1fef26a0744cabb2473b5593855fc09",
+    "scripts/verify_sync_map02f_r2a_role_graph.py": "f77b3afdc3f774b6bef090efb373ee6fd51f28fe",
+    "scripts/run_sync_map02f_r2a_role_graph_local.sh": "7b444bbb738384e0761bac9db096bea5877b7f00",
+    "tests/test_sync_map02f_r2a_role_graph.py": "af4525f77e1ec24722d7231fcb2dda116ef4a439",
+    "wolfram/BASS/Kernel/IR/FormulaConsumerRoleGraphR2A.wl": "2fdb9200a058e4aa06583cffb735c837e6fd73fc",
+    "wolfram/BASS/Tests/FormulaConsumerRoleGraphR2A.wlt": "a37154daaa43bf3d749bb4f78e037dbc4ea1f700",
+    "wolfram/scripts/run_formula_consumer_role_graph_r2a.wls": "c319389cb0a4485b5e140224c0bceccd600631b1",
+    "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2A/LOCAL_REPLAY_FAILURE_FIX2_RECEIPT.json": "afb8fe76076bbd127897c5aa800b73cfbad5d18c"
+  },
+  "repair_scope": {
+    "physics_graph_bytes_changed": false,
+    "production_python_verifier_bytes_changed": false,
+    "consumer_source_pins_changed": false,
+    "count_contract_changed": false,
+    "wolfram_test_semantics_strengthened": true,
+    "wolfram_receipt_serialization_changed": true,
+    "public_receipt_atomic_write_added": true
+  },
+  "required_runtime_observations": {
+    "python_unittest": "9_OF_9_PASS",
+    "wolfram_munit": "11_OF_11_PASS",
+    "wolfram_failed": 0,
+    "wolfram_not_evaluated": 0,
+    "wrong_sign_receipt_value": -2,
+    "receipt_minimum_bytes": 1,
+    "receipt_strict_json_round_trip": true,
+    "temporary_receipt_absent_after_success": true,
+    "process_exit_code": 0
+  },
+  "external_evidence": {
+    "scispace": "ANISOTROPIC_REDSHIFT_SHEAR_SCOPE_RECONFIRMED",
+    "connected_wolfram": "BLOCKED_HTTP_502",
+    "authority_effect": "NONE"
+  },
+  "status": "FIX2_SOURCE_READBACK_PASS_LOCAL_RUNTIME_REQUIRED",
+  "next_gate": "LOCAL_STRICT_JSON_ROUND_TRIP_GREEN",
+  "claim_boundary": [
+    "FIX2_SOURCE_PUSHED",
+    "EXACT_SOURCE_BLOBS_READ_BACK",
+    "NO_FIX2_LOCAL_RUNTIME_PASS",
+    "NO_02F_R2A_STAGE_ACCEPTANCE",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION"
+  ]
+}
