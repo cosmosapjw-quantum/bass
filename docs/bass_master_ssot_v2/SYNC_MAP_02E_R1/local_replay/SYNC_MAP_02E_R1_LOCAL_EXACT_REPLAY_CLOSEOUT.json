@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02E_R1_LOCAL_EXACT_REPLAY_CLOSEOUT",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "evidence_origin": {
+    "type": "USER_PROVIDED_NATIVE_LOCAL_TRANSCRIPT",
+    "observed_repository_path": "/home/cosmosapjw/bass",
+    "observed_artifact_path": "/home/cosmosapjw/bass/artifacts/sync_map02e_r1_local_replay",
+    "observed_git_head": "65be780c06b014e8b699a8af4835b2290f39b252"
+  },
+  "environment": {
+    "wolfram_version": "15.0.0 for Linux x86 (64-bit) (May 26, 2026)",
+    "python_executable": "/usr/bin/python3",
+    "python_version": "Python 3.12.3"
+  },
+  "pipeline_gates": {
+    "generator": "PASS",
+    "python_verifier": "PASS",
+    "python_unittest": {
+      "passed": 6,
+      "failed": 0
+    },
+    "python_executable_probe": "PASS",
+    "export_valid": true,
+    "patch_contract_valid": true,
+    "munit": {
+      "expected": 11,
+      "succeeded": 11,
+      "failed": 0,
+      "not_evaluated": 0
+    },
+    "wolfram_replay_status": "PASS_LOCAL_EXACT_REPLAY",
+    "validation_status": "PASS_LOCAL_BASS_ONLY",
+    "process_exit_code": 0
+  },
+  "formula_semantic_hashes": {
+    "BASS.FRAME.ABERRATED_DIRECTION.001": "b20aa445f5e2890674480a6e8e71fd919aa9efd13a1a8c4780e98b67b9974eec",
+    "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001": "99ededbaa9c04ab51f2ffda4c19a55236b243021271445d3dad916e2e660c143",
+    "BASS.FRAME.DOPPLER_FACTOR.001": "fb56218a0256edde59a1d89eb4e3ce69ce82800d852908ee84ce8aec83f2fb47",
+    "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001": "0436b513724b09fe826aa486c5dd3def19d0dc5e6daf9fabdd8d899fd1618dc4",
+    "BASS.PHOTON.DIRECTION_FLOW.001": "1eb20b3b46b596139d781d529a1511df983c2b6c00fbe85208ef03e7888f08ce",
+    "BASS.PHOTON.ENERGY_DRIFT.001": "840fe1d68d87b78bb5b5d831fb3d8025b26c29fda1f9da49b0f387e1a8d7bcfd"
+  },
+  "registry_identity": {
+    "parent_registry_semantic_hash": "16f699043a7420c6e62abdad02434a216075ce55f69583b5051965ea53db5612",
+    "hardened_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "parent_sha256": "071742798eff7f8efffd52d6cb7ba9e2add8d7b95b7c3a89fdb9b8640314018b",
+    "generated_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "exact_residuals": {
+    "regular_coefficient": 0,
+    "zero_boost_coefficient": 0.5,
+    "aberrated_direction_unit_norm": 0,
+    "blackbody_weighted_pullback_generator": 0,
+    "doppler_only_omission_witness": -0.75,
+    "planck_covariance": 0,
+    "general_energy_drift_specialization": 0,
+    "omitted_normal_acceleration_coefficient": -1,
+    "direction_flow_tangency": 0
+  },
+  "local_artifact_inventory": [
+    {
+      "name": "BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json",
+      "size_bytes": 43142,
+      "sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723",
+      "remote_byte_mirror": "PENDING"
+    },
+    {
+      "name": "SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json",
+      "size_bytes": 1497,
+      "sha256": "75f23ee55da79295aa19122f300eb37237200fc7e3d767f67573b06c2bf2f6cf",
+      "remote_byte_mirror": "INCLUDED_IN_THIS_CLOSEOUT_COMMIT"
+    },
+    {
+      "name": "SYNC_MAP_02E_R1_LOCAL_WOLFRAM_REPLAY_RECEIPT.json",
+      "size_bytes": 2006,
+      "remote_byte_mirror": "INCLUDED_IN_THIS_CLOSEOUT_COMMIT"
+    },
+    {
+      "name": "SYNC_MAP_02E_R1_LOCAL_VALIDATION_SUMMARY.json",
+      "size_bytes": 659,
+      "remote_byte_mirror": "INCLUDED_IN_THIS_CLOSEOUT_COMMIT"
+    },
+    {
+      "name": "SHA256SUMS",
+      "size_bytes": 1953,
+      "remote_byte_mirror": "PENDING"
+    }
+  ],
+  "formal_conclusions": [
+    "REGULAR_ZERO_BOOST_ABERRATION_PASS",
+    "BLACKBODY_WEIGHTED_PULLBACK_BASE_MAP_DEPENDENCY_PASS",
+    "BLACKBODY_DOPPLER_FIBER_WEIGHT_DEPENDENCY_PASS",
+    "PHOTON_S_EQUALS_C_T_PARAMETERIZATION_PASS",
+    "GEODESIC_NORMAL_SPECIALIZATION_PASS",
+    "BASS_ONLY_SCOPE_PASS"
+  ],
+  "stage_status": "PASS_LOCAL_EXACT_REPLAY_DURABLE_METADATA",
+  "terminal_acceptance": "WITHHELD_PENDING_FULL_GENERATED_EXPORT_AND_SHA256SUMS_BYTE_INGEST",
+  "next_stage": "SYNC_MAP_02F_R2_NORMAL_ANCESTRY_RECOMPOSITION",
+  "claim_boundary": [
+    "LOCAL_EXACT_REPLAY_PASS",
+    "NATIVE_MUNIT_11_OF_11_PASS",
+    "LOCAL_VALIDATION_EXIT_ZERO",
+    "NO_CROSS_REPOSITORY_MUTATION",
+    "NO_CONSUMER_RUNTIME_PARITY",
+    "NO_BACKGROUND_PROVIDER",
+    "NO_GLOBAL_TILT",
+    "NO_SCREEN_TRANSPORT",
+    "NO_SCIENCE_PROMOTION"
+  ]
+}
