@@ -1,0 +1,424 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2A_FORMULA_CONSUMER_ROLE_GRAPH",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "status": "IMPLEMENTED_CONTRACT_LOCAL_REPLAY_REQUIRED",
+  "authority_effect": "BOUNDED_SEMANTIC_RELATION_GRAPH_ONLY",
+  "normal_ancestry": {
+    "parent_pr": 114,
+    "parent_commit": "6bb65476a87d1ac8daa9f7239d884c369c51ce33",
+    "parent_tree": "4a9a743b89ba9ed8018e7dd9649d35919dd4afc7",
+    "state_surface_registry_path": "docs/bass_master_ssot_v2/SYNC_MAP_02F_R2/BASS_STATE_SURFACE_REGISTRY.json",
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "state_surface_local_replay": "PASS_PYTHON_7_OF_7_WOLFRAM_7_OF_7",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416",
+    "hardened_formula_export_sha256": "d3398cc283f1d88301496aff3014a9dbc57de4bceaa89de997e687c1f8c44723"
+  },
+  "donor_evidence": {
+    "pre_hardening_graph": {
+      "pull_request": 101,
+      "head": "32b8a89abbeaad5503cf0dfc59cfa5633a53ec3b",
+      "role": "SOURCE_AND_RELATION_DONOR_ONLY"
+    },
+    "adversarial_contract": {
+      "pull_request": 102,
+      "head": "bff74a1383f0d113621bd49936d2eebed3264707",
+      "role": "RED_COUNT_AND_SEMANTIC_AUTHORITY"
+    }
+  },
+  "convention_contract": {
+    "metric_signature": "(-,+,+,+)",
+    "spatial_orientation": "epsilon_123=+1",
+    "speed_of_light": "c retained explicitly",
+    "photon_propagation_direction": "e",
+    "outward_sky_direction": "n_sky=-e",
+    "ray_length_parameter": "s=c*t with dimension L",
+    "angular_multipole_rank": "ell",
+    "proper_time_adapter": "R_t=c*R_s and V_t=c*V_s",
+    "normal_congruence_acceleration": "A_normal^a=0 on the hardened geodesic-normal formulas",
+    "bianchi_structure_vector": "aB^a is not A_normal^a",
+    "boost_domain": "beta_squared<1"
+  },
+  "count_contract": {
+    "formula_consumer_pairs": 10,
+    "implementation_role_rows": 11,
+    "named_source_symbols": 12,
+    "explicit_absent_implementation_slots": 1
+  },
+  "required_relation_fields": [
+    "algebraic_relation",
+    "domain_relation",
+    "convention_adapter",
+    "unit_parameter_adapter",
+    "input_policy",
+    "numerical_policy",
+    "validity_subspace",
+    "authority_effect",
+    "parity_status"
+  ],
+  "authority_formulas": [
+    {
+      "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "semantic_hash": "b20aa445f5e2890674480a6e8e71fd919aa9efd13a1a8c4780e98b67b9974eec",
+      "dimensions": "1",
+      "declared_consumer_targets": ["rec_bianchi", "htt_base"]
+    },
+    {
+      "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+      "semantic_hash": "99ededbaa9c04ab51f2ffda4c19a55236b243021271445d3dad916e2e660c143",
+      "dimensions": "K",
+      "declared_consumer_targets": ["htt_base"]
+    },
+    {
+      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "semantic_hash": "fb56218a0256edde59a1d89eb4e3ce69ce82800d852908ee84ce8aec83f2fb47",
+      "dimensions": "1",
+      "declared_consumer_targets": ["rec_bianchi", "htt_base"]
+    },
+    {
+      "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "semantic_hash": "0436b513724b09fe826aa486c5dd3def19d0dc5e6daf9fabdd8d899fd1618dc4",
+      "dimensions": "1",
+      "declared_consumer_targets": ["htt_base"]
+    },
+    {
+      "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
+      "semantic_hash": "1eb20b3b46b596139d781d529a1511df983c2b6c00fbe85208ef03e7888f08ce",
+      "dimensions": "L^-1",
+      "declared_consumer_targets": ["rec_bianchi", "rei_bianchi"]
+    },
+    {
+      "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
+      "semantic_hash": "840fe1d68d87b78bb5b5d831fb3d8025b26c29fda1f9da49b0f387e1a8d7bcfd",
+      "dimensions": "L^-1",
+      "declared_consumer_targets": ["rec_bianchi", "rei_bianchi"]
+    }
+  ],
+  "formula_consumer_pairs": [
+    {
+      "pair_id": "02F-R2A-REC-ABERRATION",
+      "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "consumer_repository": "rec_bianchi",
+      "algebraic_relation": "EXACT_AFTER_DIRECTION_AND_FRAME_ROLE_ADAPTER",
+      "domain_relation": "COMMON_FINITE_BOOST_DOMAIN_BETA_SQUARED_LT_ONE",
+      "convention_adapter": "REC propagation direction e equals minus BASS outward sky direction n_sky; source and target frame roles are explicit",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "SILENT_UNIT_NORMALIZATION",
+      "numerical_policy": "IDENTITY_IF_BETA_SQUARED_LT_1E_MINUS_28_AND_OUTPUT_RENORMALIZATION",
+      "validity_subspace": "LOCAL_FINITE_LORENTZ_DIRECTION_MAP",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "TOLERANCE_PARITY_CANDIDATE_NOT_EXACT_SOFTWARE_PARITY"
+    },
+    {
+      "pair_id": "02F-R2A-REC-DOPPLER",
+      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "consumer_repository": "rec_bianchi",
+      "algebraic_relation": "EXACT_AFTER_DIRECTION_AND_FRAME_ROLE_ADAPTER",
+      "domain_relation": "COMMON_FINITE_BOOST_DOMAIN_BETA_SQUARED_LT_ONE",
+      "convention_adapter": "gamma*(1-beta.e)=gamma*(1+beta.n_sky) under n_sky=-e",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "SILENT_UNIT_NORMALIZATION",
+      "numerical_policy": "DIRECT_DOUBLE_PRECISION_EVALUATION",
+      "validity_subspace": "LOCAL_FINITE_LORENTZ_FREQUENCY_RATIO",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "ALGEBRAIC_PARITY_CANDIDATE_SOFTWARE_INPUT_POLICY_DIFFERS"
+    },
+    {
+      "pair_id": "02F-R2A-REC-DIRECTION-FLOW",
+      "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
+      "consumer_repository": "rec_bianchi",
+      "algebraic_relation": "EXACT_AFTER_PARAMETER_UNIT_AND_DIRECTION_ADAPTER",
+      "domain_relation": "GEODESIC_NORMAL_UNIT_SPHERE",
+      "convention_adapter": "REC n=e while BASS frame formulas distinguish e from n_sky=-e; aB is the Bianchi structure vector",
+      "unit_parameter_adapter": "V_t=c*V_s with s=c*t",
+      "input_policy": "SILENT_UNIT_NORMALIZATION",
+      "numerical_policy": "DIRECT_VECTOR_EVALUATION_WITH_NORMALIZED_INPUT",
+      "validity_subspace": "HOMOGENEOUS_GEODESIC_NORMAL_CHARACTERISTICS",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "FORMULA_PARITY_CANDIDATE_EXACT_SOFTWARE_PARITY_WITHHELD"
+    },
+    {
+      "pair_id": "02F-R2A-REC-ENERGY-DRIFT",
+      "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
+      "consumer_repository": "rec_bianchi",
+      "algebraic_relation": "EXACT_AFTER_PARAMETER_UNIT_ADAPTER",
+      "domain_relation": "GEODESIC_NORMAL_SECTOR_A_NORMAL_EQUALS_ZERO",
+      "convention_adapter": "REC propagation direction e uses the same shear contraction as the hardened BASS geodesic-normal formula",
+      "unit_parameter_adapter": "R_t=c*R_s with s=c*t",
+      "input_policy": "UNIT_DIRECTION_EXPECTED_AFTER_REC_NORMALIZATION",
+      "numerical_policy": "DIRECT_DOUBLE_PRECISION_EVALUATION",
+      "validity_subspace": "HOMOGENEOUS_GEODESIC_NORMAL_CHARACTERISTICS",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "FORMULA_PARITY_CANDIDATE_EXACT_SOFTWARE_PARITY_WITHHELD"
+    },
+    {
+      "pair_id": "02F-R2A-REI-DIRECTION-FLOW",
+      "formula_id": "BASS.PHOTON.DIRECTION_FLOW.001",
+      "consumer_repository": "rei_bianchi",
+      "algebraic_relation": "NO_GENERIC_FORMULA_IMPLEMENTATION",
+      "domain_relation": "NO_GENERIC_ANGULAR_TRANSPORT_DOMAIN_IMPLEMENTED",
+      "convention_adapter": "NONE_AVAILABLE",
+      "unit_parameter_adapter": "NONE_AVAILABLE",
+      "input_policy": "NOT_APPLICABLE",
+      "numerical_policy": "ABSENT",
+      "validity_subspace": "NONE_FOR_GENERIC_BIANCHI_DIRECTION_FLOW",
+      "authority_effect": "BLOCKS_GENERIC_BIANCHI_REI_TRANSPORT",
+      "parity_status": "FORBIDDEN_ABSENT_IMPLEMENTATION"
+    },
+    {
+      "pair_id": "02F-R2A-REI-ENERGY-DRIFT",
+      "formula_id": "BASS.PHOTON.ENERGY_DRIFT.001",
+      "consumer_repository": "rei_bianchi",
+      "algebraic_relation": "FLRW_OR_EXACTLY_ISOTROPIC_ANGULAR_SUBSPACE_ONLY",
+      "domain_relation": "REI_H_ONLY_CONTROL_OMITS_SHEAR_DIRECTION_CONTRACTION",
+      "convention_adapter": "R_REI=-H and R_BASS=-H-sigma_ab*e^a*e^b",
+      "unit_parameter_adapter": "CONTROL_DISCRETIZATION_OWNS_ITS_TIME_VARIABLE",
+      "input_policy": "GROUPED_SCALAR_CONTROL",
+      "numerical_policy": "H_ONLY_GROUP_REDSHIFT",
+      "validity_subspace": "FLRW_CONTROL_OR_EXACTLY_ISOTROPIC_ANGULAR_SUBSPACE",
+      "authority_effect": "REI_OWNED_RESTRICTED_DISCRETIZATION_NOT_GENERIC_EQUIVALENCE",
+      "parity_status": "GENERIC_PARITY_FORBIDDEN_CONTROL_SUBSPACE_ONLY",
+      "exact_relation_residual": "Expand(((-H)-(-H-sigmaEE))-sigmaEE)=0"
+    },
+    {
+      "pair_id": "02F-R2A-HTT-ABERRATION",
+      "formula_id": "BASS.FRAME.ABERRATED_DIRECTION.001",
+      "consumer_repository": "htt_base",
+      "algebraic_relation": "EXACT_ON_DECLARED_OUTWARD_SKY_DOMAIN",
+      "domain_relation": "STRICT_UNIT_DIRECTION_AND_BETA_SQUARED_LT_ONE",
+      "convention_adapter": "IDENTITY_OUTWARD_SKY_CHART",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "REJECT_NONUNIT_DIRECTION",
+      "numerical_policy": "EXACT_ZERO_BOOST_BRANCH",
+      "validity_subspace": "FULL_SKY_LOCAL_OBSERVER_DIRECTION_MAP",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "DIRECT_SOFTWARE_PARITY_CANDIDATE"
+    },
+    {
+      "pair_id": "02F-R2A-HTT-DOPPLER",
+      "formula_id": "BASS.FRAME.DOPPLER_FACTOR.001",
+      "consumer_repository": "htt_base",
+      "algebraic_relation": "EXACT_ON_DECLARED_OUTWARD_SKY_DOMAIN",
+      "domain_relation": "STRICT_UNIT_DIRECTION_AND_BETA_SQUARED_LT_ONE",
+      "convention_adapter": "IDENTITY_OUTWARD_SKY_CHART_WITH_SOURCE_AND_TARGET_FACTOR_SYMBOLS",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "REJECT_NONUNIT_DIRECTION",
+      "numerical_policy": "DIRECT_DOUBLE_PRECISION_EVALUATION",
+      "validity_subspace": "FULL_SKY_LOCAL_OBSERVER_FREQUENCY_RATIO",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "DIRECT_SOFTWARE_PARITY_CANDIDATE"
+    },
+    {
+      "pair_id": "02F-R2A-HTT-SOLID-ANGLE",
+      "formula_id": "BASS.FRAME.SOLID_ANGLE_JACOBIAN.001",
+      "consumer_repository": "htt_base",
+      "algebraic_relation": "EXACT_FULL_SKY_MEASURE_ORACLE",
+      "domain_relation": "FULL_SKY_ONLY_MASK_AND_ESTIMATOR_RESPONSE_EXCLUDED",
+      "convention_adapter": "IDENTITY_OUTWARD_SKY_CHART",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "STRICT_UNIT_DIRECTION",
+      "numerical_policy": "INDEPENDENT_ORACLE_EVALUATION",
+      "validity_subspace": "FULL_SKY_MEASURE_PUSHFORWARD",
+      "authority_effect": "NONE_ORACLE_ONLY",
+      "parity_status": "ORACLE_NOT_CONSUMER_IMPLEMENTATION_PARITY"
+    },
+    {
+      "pair_id": "02F-R2A-HTT-BLACKBODY-T",
+      "formula_id": "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
+      "consumer_repository": "htt_base",
+      "algebraic_relation": "EXACT_WEIGHTED_PULLBACK_COMPOSITE_WITH_INVERSE_ABERRATION",
+      "domain_relation": "POSITIVE_PLANCK_BLACKBODY_THERMODYNAMIC_TEMPERATURE",
+      "convention_adapter": "IDENTITY_OUTWARD_SKY_CHART_WITH_TARGET_EVALUATION_AT_INVERSE_ABERRATED_SOURCE_DIRECTION",
+      "unit_parameter_adapter": "NONE",
+      "input_policy": "FULL_API_ACCEPTS_SOURCE_CALLBACK_PARTIAL_PRIMITIVE_ACCEPTS_PREPULLED_VALUES",
+      "numerical_policy": "FULL_FIELD_AND_LOW_LEVEL_PRIMITIVE_SEPARATED",
+      "validity_subspace": "SPIN_ZERO_DOPPLER_WEIGHT_ONE_ABSOLUTE_KELVIN_BLACKBODY",
+      "authority_effect": "NONE_CONSUMER_REFERENCE_ONLY",
+      "parity_status": "FULL_API_PARITY_CANDIDATE_PARTIAL_PRIMITIVE_NOT_FULL_FORMULA"
+    }
+  ],
+  "implementation_roles": [
+    {
+      "role_id": "ROLE-REC-ABERRATION",
+      "pair_id": "02F-R2A-REC-ABERRATION",
+      "role_type": "CONSUMER_IMPLEMENTATION",
+      "source_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "source_path": "src/full_bianchi_hyrec/background/characteristics.py",
+      "source_blob": "f71ec2607daac808b871279ad0893d4653169343",
+      "source_symbols": ["aberrate_direction"],
+      "implementation_status": "IMPLEMENTED_WITH_NUMERICAL_POLICY_DIFFERENCE",
+      "implements_full_formula": true,
+      "preconditions": ["direction/frame-role adapter", "beta_squared<1"]
+    },
+    {
+      "role_id": "ROLE-REC-DOPPLER",
+      "pair_id": "02F-R2A-REC-DOPPLER",
+      "role_type": "CONSUMER_IMPLEMENTATION",
+      "source_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "source_path": "src/full_bianchi_hyrec/background/characteristics.py",
+      "source_blob": "f71ec2607daac808b871279ad0893d4653169343",
+      "source_symbols": ["doppler_factor"],
+      "implementation_status": "IMPLEMENTED_WITH_INPUT_NORMALIZATION",
+      "implements_full_formula": true,
+      "preconditions": ["n_sky=-e direction adapter", "beta_squared<1"]
+    },
+    {
+      "role_id": "ROLE-REC-DIRECTION-FLOW",
+      "pair_id": "02F-R2A-REC-DIRECTION-FLOW",
+      "role_type": "CONSUMER_IMPLEMENTATION",
+      "source_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "source_path": "src/full_bianchi_hyrec/background/characteristics.py",
+      "source_blob": "f71ec2607daac808b871279ad0893d4653169343",
+      "source_symbols": ["normal_frame_characteristic.D0_direction_normal_s_inv"],
+      "implementation_status": "IMPLEMENTED_AFTER_UNIT_PARAMETER_ADAPTER",
+      "implements_full_formula": true,
+      "preconditions": ["geodesic normal frame", "V_t=c*V_s", "unit direction"]
+    },
+    {
+      "role_id": "ROLE-REC-ENERGY-DRIFT",
+      "pair_id": "02F-R2A-REC-ENERGY-DRIFT",
+      "role_type": "CONSUMER_IMPLEMENTATION",
+      "source_commit": "c4bf37d7271caf651bca41b6eaab8caff436452b",
+      "source_path": "src/full_bianchi_hyrec/background/characteristics.py",
+      "source_blob": "f71ec2607daac808b871279ad0893d4653169343",
+      "source_symbols": ["normal_frame_characteristic.R_normal_s_inv"],
+      "implementation_status": "IMPLEMENTED_GEODESIC_NORMAL_AFTER_UNIT_PARAMETER_ADAPTER",
+      "implements_full_formula": true,
+      "preconditions": ["A_normal^a=0", "R_t=c*R_s", "unit direction"]
+    },
+    {
+      "role_id": "ROLE-REI-DIRECTION-FLOW-ABSENT",
+      "pair_id": "02F-R2A-REI-DIRECTION-FLOW",
+      "role_type": "ABSENT_IMPLEMENTATION_SLOT",
+      "source_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "source_path": "src/rei_bianchi/b2b_physical_model.py",
+      "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+      "source_symbols": [],
+      "implementation_status": "ABSENT_IMPLEMENTATION_SLOT",
+      "implements_full_formula": false,
+      "preconditions": []
+    },
+    {
+      "role_id": "ROLE-REI-ENERGY-DRIFT-CONTROL",
+      "pair_id": "02F-R2A-REI-ENERGY-DRIFT",
+      "role_type": "RESTRICTED_SUBSPACE_IMPLEMENTATION",
+      "source_commit": "f4eb2c893ce6449f8899ab6f02c83421fc7c7019",
+      "source_path": "src/rei_bianchi/b2b_physical_model.py",
+      "source_blob": "b3cc5e45988687b76d5be04c6335009b4c9bd17f",
+      "source_symbols": ["SpectrumLane.redshift_coeff"],
+      "implementation_status": "H_ONLY_GROUP_REDSHIFT_CONTROL",
+      "implements_full_formula": false,
+      "preconditions": ["FLRW or exactly isotropic angular subspace"]
+    },
+    {
+      "role_id": "ROLE-HTT-ABERRATION-BIDIRECTIONAL",
+      "pair_id": "02F-R2A-HTT-ABERRATION",
+      "role_type": "BIDIRECTIONAL_DIRECTION_MAP",
+      "source_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_blob": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805",
+      "source_symbols": ["aberrate_sky_direction", "deaberrate_sky_direction"],
+      "implementation_status": "IMPLEMENTED_STRICT_INPUT",
+      "implements_full_formula": true,
+      "preconditions": ["unit outward-sky direction", "beta_squared<1"]
+    },
+    {
+      "role_id": "ROLE-HTT-DOPPLER-BIDIRECTIONAL",
+      "pair_id": "02F-R2A-HTT-DOPPLER",
+      "role_type": "BIDIRECTIONAL_CHART_FACTOR",
+      "source_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_blob": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805",
+      "source_symbols": ["doppler_factor_unboosted", "doppler_factor_boosted"],
+      "implementation_status": "IMPLEMENTED_STRICT_INPUT",
+      "implements_full_formula": true,
+      "preconditions": ["unit outward-sky direction", "beta_squared<1"]
+    },
+    {
+      "role_id": "ROLE-HTT-SOLID-ANGLE-ORACLE",
+      "pair_id": "02F-R2A-HTT-SOLID-ANGLE",
+      "role_type": "INDEPENDENT_ORACLE",
+      "source_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_blob": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805",
+      "source_symbols": ["solid_angle_jacobian"],
+      "implementation_status": "INDEPENDENT_ORACLE",
+      "implements_full_formula": false,
+      "preconditions": ["full sky", "mask and estimator response excluded"]
+    },
+    {
+      "role_id": "ROLE-HTT-BLACKBODY-FULL",
+      "pair_id": "02F-R2A-HTT-BLACKBODY-T",
+      "role_type": "FULL_FIELD_PULLBACK",
+      "source_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_blob": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805",
+      "source_symbols": ["pullback_thermodynamic_temperature_field"],
+      "implementation_status": "FULL_WEIGHTED_PULLBACK_IMPLEMENTED",
+      "implements_full_formula": true,
+      "preconditions": ["source callback", "inverse aberration", "Doppler weight one"]
+    },
+    {
+      "role_id": "ROLE-HTT-BLACKBODY-PREPULLED",
+      "pair_id": "02F-R2A-HTT-BLACKBODY-T",
+      "role_type": "PREPULLED_VALUE_PRIMITIVE",
+      "source_commit": "29427a1f7f2c5d46e43ffe03053c4ac13e969228",
+      "source_path": "htt/obsstat/lorentz_sky_pullback.py",
+      "source_blob": "c518cdd0dcdd3ca628c71f6dd9e6a75e174ba805",
+      "source_symbols": ["thermodynamic_temperature_pullback"],
+      "implementation_status": "DOPPLER_MULTIPLICATION_PRIMITIVE",
+      "implements_full_formula": false,
+      "preconditions": ["input values already evaluated at inverse-aberrated source directions"]
+    }
+  ],
+  "state_surface_firewall": {
+    "registry_stage": "SYNC_MAP_02F_R2_BASS_STATE_SURFACE_REGISTRY",
+    "grid_pstf": "REPRESENTATION_RELATION_REQUIRES_NUMERICAL_TRANSFORM_CERTIFICATE",
+    "j_and_g": "NONINVERTIBLE_SPECTRAL_PROJECTIONS_REQUIRE_CLOSURE_OR_SOURCE_GRID_QUADRATURE",
+    "polarization": "NO_IMPLICIT_SCALAR_TO_POLARIZED_PROMOTION",
+    "screen_transport": "REQUIRED_BEFORE_POLARIZED_RUNTIME_PARITY"
+  },
+  "stage_dag": {
+    "nodes": [
+      "SYNC_MAP_02E_R1",
+      "BASS_STATE_SURFACE_REGISTRY",
+      "FORMULA_CONSUMER_ROLE_GRAPH",
+      "PROJECTION_CLOSURE_CERTIFICATE_GRAPH",
+      "CONSUMER_BINDINGS"
+    ],
+    "edges": [
+      ["SYNC_MAP_02E_R1", "BASS_STATE_SURFACE_REGISTRY"],
+      ["BASS_STATE_SURFACE_REGISTRY", "FORMULA_CONSUMER_ROLE_GRAPH"],
+      ["FORMULA_CONSUMER_ROLE_GRAPH", "PROJECTION_CLOSURE_CERTIFICATE_GRAPH"],
+      ["PROJECTION_CLOSURE_CERTIFICATE_GRAPH", "CONSUMER_BINDINGS"]
+    ]
+  },
+  "literature_regression": [
+    {
+      "reference": "Dai and Chluba, arXiv:1403.6117",
+      "role": "Doppler-weight-one boost combines celestial-sphere aberration with a field weight",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "Yasini and Pierpaoli, arXiv:1709.08298",
+      "role": "Spin weight, Doppler weight and frequency spectrum are distinct observable metadata",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "Schween and Reville, DOI 10.1017/S002237782200099X",
+      "role": "Angular representation conversion does not identify frequency-integrated moments with the frequency-resolved distribution",
+      "authority_effect": "NONE"
+    }
+  ],
+  "claim_boundary": [
+    "BASS_RELATION_AND_IMPLEMENTATION_ROLE_TYPING_ONLY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_CONSUMER_RUNTIME_PARITY",
+    "NO_REI_GENERIC_BIANCHI_PHOTON_TRANSPORT",
+    "NO_GRID_PSTF_NUMERICAL_PARITY",
+    "NO_J_OR_G_SPECTRAL_CLOSURE_PASS",
+    "NO_SCREEN_TRANSPORT_IMPLEMENTATION",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ]
+}
