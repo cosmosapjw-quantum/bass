@@ -1,0 +1,277 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R2C_PROJECTION_CLOSURE_CERTIFICATE_GRAPH",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "normal_ancestry": {
+    "parent_pr": 116,
+    "parent_commit": "0967a801d7baa9c4845cbcf07d9f967ae48f37c5",
+    "native_role_graph_source_head": "bc7ea693bd8ac4f14376aaac51d4007467702803",
+    "role_graph_sha256": "23e4f1a01cbb7f5844cb151148a8ef359c17a27d4317e9dd4c6227e5c0f1bfe6",
+    "role_graph_wolfram_receipt_sha256": "3e675324b1abe8673df3d7111d811cfffe9cea4edaeb9a72732dea039daec59d",
+    "state_surface_registry_sha256": "5a5042d4b4cd653b3455dda45f9cd5aa67314cb03416b532ff34dbc9695f621c",
+    "hardened_formula_registry_semantic_hash": "5951f566d911c81848743055c1573f6d11b0b00937d36747b71e6bc12dd96416"
+  },
+  "count_contract": {
+    "certificate_families": 4,
+    "relation_certificate_rows": 6,
+    "exact_hostile_or_control_witnesses": 6,
+    "explicit_blocked_promotions": 3
+  },
+  "certificate_families": [
+    {
+      "certificate_family_id": "ANGULAR_REPRESENTATION_CERTIFICATE",
+      "applies_to_relations": ["GRID_TO_PSTF", "PSTF_TO_GRID"],
+      "semantic_purpose": "Certify that grid and PSTF or harmonic data represent the same frequency-resolved distribution on a declared complete or band-limited angular subspace.",
+      "required_fields": [
+        "basis_id",
+        "basis_normalization",
+        "sphere_measure",
+        "quadrature_or_transform_id",
+        "quadrature_exactness_degree",
+        "ell_target",
+        "ell_work",
+        "analysis_synthesis_residual",
+        "synthesis_analysis_residual",
+        "conditioning_or_stability_bound",
+        "input_state_hash",
+        "output_state_hash"
+      ],
+      "admission_rule": "BOTH_ROUNDTRIP_RESIDUALS_AND_STABILITY_BOUND_REQUIRED",
+      "runtime_status": "CERTIFICATE_SCHEMA_ONLY"
+    },
+    {
+      "certificate_family_id": "SPECTRAL_PROJECTION_CLOSURE_CERTIFICATE",
+      "applies_to_relations": ["PSTF_TO_J", "GRID_TO_G"],
+      "semantic_purpose": "Certify noninvertible momentum or frequency projection and any source multiplication performed before projection.",
+      "required_fields": [
+        "spectral_measure",
+        "radial_weight_definition",
+        "source_operator_class",
+        "source_coefficient_representation",
+        "radial_output_order",
+        "radial_source_order",
+        "radial_work_order",
+        "angular_output_rank",
+        "angular_source_rank",
+        "angular_work_rank",
+        "projection_residual",
+        "tail_or_quadrature_bound",
+        "nonlocal_frequency_kernel_policy",
+        "source_authority_hash"
+      ],
+      "admission_rule": "FULL_SOURCE_QUADRATURE_OR_PROVED_MULTIPLICATION_CLOSURE_REQUIRED",
+      "runtime_status": "CERTIFICATE_SCHEMA_ONLY"
+    },
+    {
+      "certificate_family_id": "MOMENT_EXCHANGE_CERTIFICATE",
+      "applies_to_relations": ["KINETIC_TO_FLUID_SUMMARY"],
+      "semantic_purpose": "Certify covariant moment reduction and equal-and-opposite radiation-matter exchange.",
+      "required_fields": [
+        "measure_and_normalization",
+        "species_inventory",
+        "radiation_four_force",
+        "matter_four_force",
+        "total_four_force_residual",
+        "number_exchange_ledger",
+        "energy_exchange_ledger",
+        "momentum_exchange_ledger",
+        "units_contract",
+        "source_authority_hash"
+      ],
+      "admission_rule": "TOTAL_FOUR_FORCE_RESIDUAL_ZERO_AND_ALL_EXCHANGE_LEDGERS_PRESENT",
+      "runtime_status": "CERTIFICATE_SCHEMA_ONLY"
+    },
+    {
+      "certificate_family_id": "POLARIZED_SCREEN_CERTIFICATE",
+      "applies_to_relations": ["SCALAR_TO_POLARIZED_PROHIBITED"],
+      "semantic_purpose": "Keep scalar intensity separate from screen-dependent coherency and require the geometric and collision structures needed by a polarized state.",
+      "required_fields": [
+        "screen_projector",
+        "screen_projector_idempotence_residual",
+        "screen_orthogonality_residuals",
+        "screen_trace_residual",
+        "screen_basis_transport",
+        "screen_u1_connection",
+        "spin_phase_convention",
+        "polarized_collision_operator",
+        "coherency_hermiticity_and_positivity_policy",
+        "source_authority_hash"
+      ],
+      "admission_rule": "NO_IMPLICIT_SCALAR_PROMOTION_ALL_SCREEN_AND_COLLISION_PREREQUISITES_REQUIRED",
+      "runtime_status": "CERTIFICATE_SCHEMA_ONLY"
+    }
+  ],
+  "relation_certificates": [
+    {
+      "relation_id": "GRID_TO_PSTF",
+      "certificate_family_id": "ANGULAR_REPRESENTATION_CERTIFICATE",
+      "direction": "ANALYSIS",
+      "invertibility_claim": "ONLY_ON_DECLARED_COMPLETE_OR_BAND_LIMITED_SUBSPACE",
+      "status": "SPECIFIED_RUNTIME_CERTIFICATE_PENDING"
+    },
+    {
+      "relation_id": "PSTF_TO_GRID",
+      "certificate_family_id": "ANGULAR_REPRESENTATION_CERTIFICATE",
+      "direction": "SYNTHESIS",
+      "invertibility_claim": "ONLY_ON_DECLARED_COMPLETE_OR_BAND_LIMITED_SUBSPACE",
+      "status": "SPECIFIED_RUNTIME_CERTIFICATE_PENDING"
+    },
+    {
+      "relation_id": "PSTF_TO_J",
+      "certificate_family_id": "SPECTRAL_PROJECTION_CLOSURE_CERTIFICATE",
+      "direction": "NONINVERTIBLE_PROJECTION",
+      "invertibility_claim": "FORBIDDEN",
+      "status": "CLOSURE_REQUIRED_NOT_ADMITTED"
+    },
+    {
+      "relation_id": "GRID_TO_G",
+      "certificate_family_id": "SPECTRAL_PROJECTION_CLOSURE_CERTIFICATE",
+      "direction": "NONINVERTIBLE_PROJECTION",
+      "invertibility_claim": "FORBIDDEN",
+      "status": "CLOSURE_REQUIRED_NOT_ADMITTED"
+    },
+    {
+      "relation_id": "KINETIC_TO_FLUID_SUMMARY",
+      "certificate_family_id": "MOMENT_EXCHANGE_CERTIFICATE",
+      "direction": "COVARIANT_MOMENT_REDUCTION",
+      "invertibility_claim": "FORBIDDEN",
+      "status": "EXCHANGE_LEDGER_REQUIRED_NOT_ADMITTED"
+    },
+    {
+      "relation_id": "SCALAR_TO_POLARIZED_PROHIBITED",
+      "certificate_family_id": "POLARIZED_SCREEN_CERTIFICATE",
+      "direction": "NO_IMPLICIT_PROMOTION",
+      "invertibility_claim": "NOT_DEFINED",
+      "status": "FORBIDDEN_UNTIL_ALL_POLARIZED_PREREQUISITES_EXIST"
+    }
+  ],
+  "rank_and_aliasing_policy": {
+    "hardcoded_numeric_ell_cutoff_forbidden": true,
+    "ell_target": "RUNTIME_PARAMETER",
+    "ell_work": "ADAPTIVE_OR_EXPLICIT_RUNTIME_PARAMETER",
+    "radial_polynomial_product_sufficient_condition": "radial_work_order >= radial_output_order + radial_source_order",
+    "angular_harmonic_product_sufficient_condition": "angular_work_rank >= angular_output_rank + angular_source_rank",
+    "alternative_admission": "AN_EXACT_INVARIANT_SUBSPACE_PROOF_FOR_THE_MULTIPLICATION_OPERATOR",
+    "dealiasing_claim": "ANALYSIS_SYNTHESIS_ROUNDTRIP_ALONE_DOES_NOT_CERTIFY_NONLINEAR_OR_SOURCE_MULTIPLICATION"
+  },
+  "exact_witnesses": [
+    {
+      "witness_id": "GAUSS_LEGENDRE_L2_ROUNDTRIP",
+      "purpose": "Exact axisymmetric grid-harmonic control on the degree-two subspace.",
+      "nodes": ["-sqrt(3/5)", "0", "sqrt(3/5)"],
+      "weights": ["5/9", "8/9", "5/9"],
+      "quadrature_exactness_degree": 5,
+      "legendre_coefficients": [2, -3, 5],
+      "expected_analysis_residuals": [0, 0, 0],
+      "expected_grid_roundtrip_residuals": [0, 0, 0]
+    },
+    {
+      "witness_id": "RADIAL_MULTIPLICATION_WORK_ORDER",
+      "purpose": "Show that an order-one state multiplied by an order-one source produces order two.",
+      "state_polynomial": "1+2*q",
+      "source_polynomial": "3+4*q",
+      "product_polynomial": "3+10*q+8*q^2",
+      "radial_output_order": 1,
+      "radial_source_order": 1,
+      "minimum_radial_work_order": 2,
+      "dropped_high_order_coefficient_if_truncated_at_output_order": 8
+    },
+    {
+      "witness_id": "G_TWO_BIN_FREQUENCY_CLOSURE_NOGO",
+      "purpose": "Two states with the same integrated G have different frequency-dependent losses.",
+      "f_A": [1, 0],
+      "f_B": [0, 1],
+      "chi": [2, 5],
+      "integrated_G_A": 1,
+      "integrated_G_B": 1,
+      "loss_A": 2,
+      "loss_B": 5,
+      "loss_A_minus_loss_B": -3,
+      "generic_scalar_closure": false
+    },
+    {
+      "witness_id": "RADIATION_MATTER_FOUR_FORCE_CANCELLATION",
+      "purpose": "Equal-and-opposite exchange is required for total stress-energy conservation.",
+      "radiation_four_force": [2, -3, 5, 7],
+      "matter_four_force": [-2, 3, -5, -7],
+      "expected_total_residual": [0, 0, 0, 0]
+    },
+    {
+      "witness_id": "SCREEN_PROJECTOR_RATIONAL_DIRECTION",
+      "purpose": "Exact screen-projector control independent of floating-point trigonometry.",
+      "unit_direction": ["3/5", "4/5", "0"],
+      "projector_definition": "S=I-e*e^T",
+      "expected_idempotence_residual": "ZERO_MATRIX_3",
+      "expected_direction_orthogonality_residual": [0, 0, 0],
+      "expected_trace": 2
+    },
+    {
+      "witness_id": "SCALAR_INTENSITY_DOES_NOT_FIX_POLARIZATION",
+      "purpose": "Two coherency matrices can have the same scalar intensity and different polarization.",
+      "intensity": 4,
+      "stokes_Q_magnitude": 2,
+      "coherency_A": [[3, 0], [0, 1]],
+      "coherency_B": [[1, 0], [0, 3]],
+      "trace_difference": 0,
+      "frobenius_difference_squared": 8
+    }
+  ],
+  "explicit_blocked_promotions": [
+    {
+      "promotion": "PSTF_TO_J_AS_STATE_EQUIVALENCE",
+      "reason": "MOMENTUM_OR_FREQUENCY_INFORMATION_IS_REMOVED"
+    },
+    {
+      "promotion": "GRID_TO_G_GENERIC_SCALAR_SOURCE_CLOSURE",
+      "reason": "TWO_BIN_COUNTEREXAMPLE"
+    },
+    {
+      "promotion": "SCALAR_TO_POLARIZED_STATE",
+      "reason": "SCALAR_INTENSITY_DOES_NOT_DETERMINE_COHERENCY_OR_SPIN_PHASE"
+    }
+  ],
+  "stage_dag": {
+    "nodes": [
+      "BASS_OWNER_FORMULA_REGISTRY",
+      "BASS_STATE_SURFACE_REGISTRY",
+      "FORMULA_CONSUMER_ROLE_GRAPH",
+      "PROJECTION_CLOSURE_CERTIFICATE_GRAPH",
+      "CONSUMER_BINDING_CONTRACTS"
+    ],
+    "edges": [
+      ["BASS_OWNER_FORMULA_REGISTRY", "BASS_STATE_SURFACE_REGISTRY"],
+      ["BASS_STATE_SURFACE_REGISTRY", "FORMULA_CONSUMER_ROLE_GRAPH"],
+      ["FORMULA_CONSUMER_ROLE_GRAPH", "PROJECTION_CLOSURE_CERTIFICATE_GRAPH"],
+      ["PROJECTION_CLOSURE_CERTIFICATE_GRAPH", "CONSUMER_BINDING_CONTRACTS"]
+    ]
+  },
+  "literature_regression": [
+    {
+      "reference": "Schween and Reville, 2022, DOI 10.1017/S002237782200099X",
+      "role": "Conversion between Cartesian tensor and spherical-harmonic coefficients of the same distribution",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "Huffenberger and Wandelt, arXiv:1007.3514",
+      "role": "Exact transforms for band-limited spin-s fields require an explicit sampling and band-limit contract",
+      "authority_effect": "NONE"
+    },
+    {
+      "reference": "Pitrou, arXiv:1902.09456",
+      "role": "Relativistic radiative transport, momentum moments, collision terms and polarization geometry",
+      "authority_effect": "NONE"
+    }
+  ],
+  "claim_boundary": [
+    "CERTIFICATE_TYPES_AND_EXACT_WITNESSES_ONLY",
+    "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+    "NO_GRID_PSTF_RUNTIME_PARITY",
+    "NO_J_OR_G_SPECTRAL_CLOSURE_ADMISSION",
+    "NO_FLUID_EXCHANGE_LEDGER_RUNTIME_PASS",
+    "NO_SCREEN_BASIS_TRANSPORT_IMPLEMENTATION",
+    "NO_POLARIZED_COLLISION_RUNTIME",
+    "NO_CONSUMER_PROVIDER_OR_SCIENCE_PROMOTION"
+  ],
+  "status": "IMPLEMENTED_CONTRACT_LOCAL_REPLAY_REQUIRED"
+}
