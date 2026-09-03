@@ -94,6 +94,8 @@ An alternative output directory can be supplied:
 bash scripts/run_sync_map02e_r1_local_validation.sh /absolute/output/path
 ```
 
+The shell entry point resolves `python3` once with `command -v`, uses that exact executable for all Python steps, and passes its absolute path into the Wolfram replay. This avoids relying on a nonexistent `System`FindExecutable` function inside Wolfram Language 15.0.1.
+
 The runner performs, in order:
 
 1. deterministic full-registry generation;
@@ -107,25 +109,32 @@ The runner performs, in order:
 Generate and verify without Wolfram:
 
 ```bash
-python3 scripts/build_sync_map02e_r1_hardening.py \
+PYTHON_BIN="$(command -v python3)"
+
+"${PYTHON_BIN}" scripts/build_sync_map02e_r1_hardening.py \
   --input docs/bass_master_ssot_v2/SYNC_MAP_02E/BASS_SHARED_FRAME_PHOTON_EXPORT.json \
   --output /tmp/BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json \
   --receipt /tmp/SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json
 
-python3 scripts/verify_sync_map02e_r1_hardening.py \
+"${PYTHON_BIN}" scripts/verify_sync_map02e_r1_hardening.py \
   --input /tmp/BASS_SHARED_FRAME_PHOTON_EXPORT_R1.json \
   --receipt /tmp/SYNC_MAP_02E_R1_LOCAL_BUILD_RECEIPT.json
 
-python3 -m unittest -v tests/test_sync_map02e_r1_semantic_hardening.py
+"${PYTHON_BIN}" -m unittest -v tests/test_sync_map02e_r1_semantic_hardening.py
 ```
 
-Run the Wolfram replay directly:
+Run the Wolfram replay directly. The second user argument is the resolved Python executable and is mandatory:
 
 ```bash
+PYTHON_BIN="$(command -v python3)"
+
 wolframscript -file \
   wolfram/scripts/run_sync_map02e_r1_local_replay.wls \
-  /tmp/bass-sync-map02e-r1
+  /tmp/bass-sync-map02e-r1 \
+  "${PYTHON_BIN}"
 ```
+
+The Wolfram runner fails closed with `FAIL_PYTHON3_ARGUMENT_MISSING` when that argument is absent or does not name an existing path, and with `FAIL_PYTHON3_UNUSABLE` when `python --version` cannot be executed successfully.
 
 ## Expected outputs
 
@@ -143,6 +152,7 @@ Acceptance requires:
 Python generator exit code       0
 Python verifier exit code        0
 standard-library unit tests      6/6
+Python executable probe          0
 MUnit top-level tests            11/11
 MUnit failed                     0
 MUnit not evaluated              0
@@ -165,6 +175,7 @@ ray parameter written as ell
 normal-acceleration specialization missing
 screen transport promoted into the six-formula export
 consumer_bindings reintroduced
+missing or unusable explicit Python executable
 MUnit zero discovery
 ```
 
