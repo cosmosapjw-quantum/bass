@@ -167,6 +167,16 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         ):
             self.assertTrue(path.is_file(), path)
 
+        shell_text = SHELL_RUNNER.read_text(encoding="utf-8")
+        wolfram_runner_text = LOCAL_RUNNER.read_text(encoding="utf-8")
+        self.assertIn('PYTHON_BIN="$(command -v python3)"', shell_text)
+        self.assertIn('"${OUT_DIR}" "${PYTHON_BIN}"', shell_text)
+        self.assertNotIn('FindExecutable["python3"]', wolfram_runner_text)
+        self.assertIn('Length[arguments] >= 2', wolfram_runner_text)
+        self.assertIn('ExpandFileName[arguments[[2]]]', wolfram_runner_text)
+        self.assertIn('FAIL_PYTHON3_ARGUMENT_MISSING', wolfram_runner_text)
+        self.assertIn('FAIL_PYTHON3_UNUSABLE', wolfram_runner_text)
+
     def test_hardened_registry_structure(self) -> None:
         data = self.build()
         self.assertEqual(data["repository_scope"], "BASS_ONLY")
@@ -208,7 +218,7 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         verifier.check_aberration(aberration)
 
         # Preserve the required regular coefficient and inject only the forbidden
-        # singular executable token.  This makes the hostile fixture violate one
+        # singular executable token. This makes the hostile fixture violate one
         # contract at a time, so the expected diagnostic is deterministic.
         singular_mutant = copy.deepcopy(aberration)
         original_input = singular_mutant["equation_ir"]["terms"][0]["input"]
