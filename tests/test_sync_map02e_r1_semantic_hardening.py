@@ -169,6 +169,7 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
 
         shell_text = SHELL_RUNNER.read_text(encoding="utf-8")
         wolfram_runner_text = LOCAL_RUNNER.read_text(encoding="utf-8")
+        wolfram_test_text = WOLFRAM_TEST.read_text(encoding="utf-8")
         self.assertIn('PYTHON_BIN="$(command -v python3)"', shell_text)
         self.assertIn('"${OUT_DIR}" "${PYTHON_BIN}"', shell_text)
         self.assertNotIn('FindExecutable["python3"]', wolfram_runner_text)
@@ -176,6 +177,21 @@ class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
         self.assertIn('ExpandFileName[arguments[[2]]]', wolfram_runner_text)
         self.assertIn('FAIL_PYTHON3_ARGUMENT_MISSING', wolfram_runner_text)
         self.assertIn('FAIL_PYTHON3_UNUSABLE', wolfram_runner_text)
+
+        # TestReport can expose $InputFileName as either the WLT file or its
+        # containing directory.  The test source must normalize both forms
+        # before deriving the BASS Wolfram root and repository root.
+        self.assertIn('testInputPath = ExpandFileName[$InputFileName]', wolfram_test_text)
+        self.assertIn('DirectoryQ[testInputPath]', wolfram_test_text)
+        self.assertIn('bassWolframRoot = DirectoryName[testDirectory]', wolfram_test_text)
+        self.assertIn(
+            'repositoryRoot = DirectoryName[DirectoryName[bassWolframRoot]]',
+            wolfram_test_text,
+        )
+        self.assertNotIn(
+            'DirectoryName[DirectoryName[$InputFileName]]',
+            wolfram_test_text,
+        )
 
     def test_hardened_registry_structure(self) -> None:
         data = self.build()
