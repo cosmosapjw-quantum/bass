@@ -4,6 +4,8 @@ import hashlib
 import json
 import subprocess
 import sys
+import tempfile
+import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +26,14 @@ WOLFRAM_MODULE = (
     / "IR"
     / "SharedFramePhotonExportHardeningR1.wl"
 )
+WOLFRAM_FIX = (
+    ROOT
+    / "wolfram"
+    / "BASS"
+    / "Kernel"
+    / "IR"
+    / "SharedFramePhotonExportHardeningR1Fix1.wl"
+)
 WOLFRAM_TEST = (
     ROOT
     / "wolfram"
@@ -37,6 +47,7 @@ LOCAL_RUNNER = (
     / "scripts"
     / "run_sync_map02e_r1_local_replay.wls"
 )
+SHELL_RUNNER = ROOT / "scripts" / "run_sync_map02e_r1_local_validation.sh"
 PATCH_CONTRACT = (
     ROOT
     / "docs"
@@ -101,111 +112,142 @@ def _build(tmp_path: Path) -> dict:
     return json.loads(output.read_text(encoding="utf-8"))
 
 
-def test_required_surfaces_exist() -> None:
-    for path in (
-        GENERATOR,
-        VERIFIER,
-        WOLFRAM_MODULE,
-        WOLFRAM_TEST,
-        LOCAL_RUNNER,
-        PATCH_CONTRACT,
-    ):
-        assert path.is_file(), path
+class SyncMap02ER1SemanticHardeningTests(unittest.TestCase):
+    def build(self) -> dict:
+        with tempfile.TemporaryDirectory(prefix="bass-sync-map02e-r1-") as raw:
+            return _build(Path(raw))
 
+    def test_required_surfaces_exist(self) -> None:
+        for path in (
+            GENERATOR,
+            VERIFIER,
+            WOLFRAM_MODULE,
+            WOLFRAM_FIX,
+            WOLFRAM_TEST,
+            LOCAL_RUNNER,
+            SHELL_RUNNER,
+            PATCH_CONTRACT,
+        ):
+            self.assertTrue(path.is_file(), path)
 
-def test_hardened_registry_structure(tmp_path: Path) -> None:
-    data = _build(tmp_path)
-    assert data["repository_scope"] == "BASS_ONLY"
-    assert data["owner"] == "bass"
-    assert data["formula_count"] == 6
-    assert {row["formula_id"] for row in data["formulas"]} == FORMULA_IDS
-    assert "consumer_bindings" not in data
-    assert set(data["declared_consumer_targets"]) == FORMULA_IDS
+    def test_hardened_registry_structure(self) -> None:
+        data = self.build()
+        self.assertEqual(data["repository_scope"], "BASS_ONLY")
+        self.assertEqual(data["owner"], "bass")
+        self.assertEqual(data["formula_count"], 6)
+        self.assertEqual(
+            {row["formula_id"] for row in data["formulas"]}, FORMULA_IDS
+        )
+        self.assertNotIn("consumer_bindings", data)
+        self.assertEqual(set(data["declared_consumer_targets"]), FORMULA_IDS)
 
+    def test_regular_aberration_and_weighted_pullback(self) -> None:
+        data = self.build()
+        by_id = {row["formula_id"]: row for row in data["formulas"]}
 
-def test_regular_aberration_and_weighted_pullback(tmp_path: Path) -> None:
-    data = _build(tmp_path)
-    by_id = {row["formula_id"]: row for row in data["formulas"]}
+        aberration = by_id["BASS.FRAME.ABERRATED_DIRECTION.001"]
+        aberration_text = json.dumps(aberration, sort_keys=True)
+        self.assertIn("gamma^2/(gamma+1)", aberration_text)
+        self.assertNotIn("(gamma-1)/beta_squared", aberration_text)
+        self.assertEqual(
+            aberration["equation_ir"]["domain"]["zero_boost"],
+            "direct evaluation without 0/0",
+        )
 
-    aberration = by_id["BASS.FRAME.ABERRATED_DIRECTION.001"]
-    aberration_text = json.dumps(aberration, sort_keys=True)
-    assert "gamma^2/(gamma+1)" in aberration_text
-    assert "(gamma-1)/beta_squared" not in aberration_text
-    assert aberration["equation_ir"]["domain"]["zero_boost"] == (
-        "direct evaluation without 0/0"
-    )
-
-    blackbody = by_id["BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"]
-    assert blackbody["dependencies"] == [
-        "BASS.FRAME.ABERRATED_DIRECTION.001",
-        "BASS.FRAME.DOPPLER_FACTOR.001",
-    ]
-    roles = {
-        row["formula_id"]: row["role"]
-        for row in blackbody["dependency_roles"]
-    }
-    assert roles == {
-        "BASS.FRAME.ABERRATED_DIRECTION.001": "BASE_MAP_REQUIRED",
-        "BASS.FRAME.DOPPLER_FACTOR.001": "FIBER_WEIGHT_REQUIRED",
-    }
-    operator_ir = blackbody["equation_ir"]["operator_ir"]
-    assert operator_ir["base_map"]["target_evaluation_uses"] == "INVERSE_MAP"
-    assert operator_ir["fiber_weight"]["exponent"] == 1
-    assert operator_ir["defining_equation"] == {
-        "lhs": "Pullback[A_beta,temperature_tilde]",
-        "rhs": "doppler_factor_source*temperature_source",
-    }
-
-
-def test_photon_parameter_and_geodesic_normal_specialization(tmp_path: Path) -> None:
-    data = _build(tmp_path)
-    by_id = {row["formula_id"]: row for row in data["formulas"]}
-    for formula_id in (
-        "BASS.PHOTON.DIRECTION_FLOW.001",
-        "BASS.PHOTON.ENERGY_DRIFT.001",
-    ):
-        row = by_id[formula_id]
-        target = row["equation_ir"]["target"]
-        assert "/ds" in target
-        assert "/d ell" not in target
-        assumptions = "\n".join(row["equation_ir"]["assumptions"])
-        assert "ray_parameter s = c*t" in assumptions
-        assert "normal_congruence_acceleration A_normal^a = 0" in assumptions
-        specializations = row["structural_specializations"]
-        assert specializations == [
+        blackbody = by_id["BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001"]
+        self.assertEqual(
+            blackbody["dependencies"],
+            [
+                "BASS.FRAME.ABERRATED_DIRECTION.001",
+                "BASS.FRAME.DOPPLER_FACTOR.001",
+            ],
+        )
+        roles = {
+            row["formula_id"]: row["role"]
+            for row in blackbody["dependency_roles"]
+        }
+        self.assertEqual(
+            roles,
             {
-                "formula_id": "BASS.GEO.NORMAL_ACCELERATION.001",
-                "role": "SPECIALIZES_UNDER_ZERO",
-                "value": "A_normal^a=0",
-            }
-        ]
+                "BASS.FRAME.ABERRATED_DIRECTION.001": "BASE_MAP_REQUIRED",
+                "BASS.FRAME.DOPPLER_FACTOR.001": "FIBER_WEIGHT_REQUIRED",
+            },
+        )
+        operator_ir = blackbody["equation_ir"]["operator_ir"]
+        self.assertEqual(
+            operator_ir["base_map"]["target_evaluation_uses"], "INVERSE_MAP"
+        )
+        self.assertEqual(operator_ir["fiber_weight"]["exponent"], 1)
+        self.assertEqual(
+            operator_ir["defining_equation"],
+            {
+                "lhs": "Pullback[A_beta,temperature_tilde]",
+                "rhs": "doppler_factor_source*temperature_source",
+            },
+        )
 
-    direction = by_id["BASS.PHOTON.DIRECTION_FLOW.001"]
-    assert direction["equation_ir"]["screen_basis_transport_status"] == (
-        "EXCLUDED_NEXT_BASS_NODE"
-    )
+    def test_photon_parameter_and_geodesic_normal_specialization(self) -> None:
+        data = self.build()
+        by_id = {row["formula_id"]: row for row in data["formulas"]}
+        for formula_id in (
+            "BASS.PHOTON.DIRECTION_FLOW.001",
+            "BASS.PHOTON.ENERGY_DRIFT.001",
+        ):
+            row = by_id[formula_id]
+            target = row["equation_ir"]["target"]
+            self.assertIn("/ds", target)
+            self.assertNotIn("/d ell", target)
+            assumptions = "\n".join(row["equation_ir"]["assumptions"])
+            self.assertIn("ray_parameter s = c*t", assumptions)
+            self.assertIn(
+                "normal_congruence_acceleration A_normal^a = 0", assumptions
+            )
+            self.assertEqual(
+                row["structural_specializations"],
+                [
+                    {
+                        "formula_id": "BASS.GEO.NORMAL_ACCELERATION.001",
+                        "role": "SPECIALIZES_UNDER_ZERO",
+                        "value": "A_normal^a=0",
+                    }
+                ],
+            )
+
+        direction = by_id["BASS.PHOTON.DIRECTION_FLOW.001"]
+        self.assertEqual(
+            direction["equation_ir"]["screen_basis_transport_status"],
+            "EXCLUDED_NEXT_BASS_NODE",
+        )
+
+    def test_semantic_hashes_are_reproducible(self) -> None:
+        data = self.build()
+        for row in data["formulas"]:
+            self.assertEqual(
+                row["semantic_hash"], _sha256(row["semantic_projection"])
+            )
+        self.assertEqual(
+            data["registry_semantic_hash"],
+            _sha256(data["registry_semantic_projection"]),
+        )
+
+    def test_no_cross_repository_source_mutation_is_declared(self) -> None:
+        data = self.build()
+        self.assertEqual(data["repository_scope"], "BASS_ONLY")
+        excluded = set(data["coverage"]["excluded"])
+        self.assertIn("REC, REI, or HTT source modification", excluded)
+        self.assertEqual(
+            data["claim_boundary"],
+            [
+                "BASS_OWNER_FORMULA_HARDENING_ONLY",
+                "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
+                "NO_CONSUMER_PARITY",
+                "NO_BACKGROUND_PROVIDER",
+                "NO_GLOBAL_TILT",
+                "NO_SCREEN_TRANSPORT",
+                "NO_NUMERICAL_OR_SCIENCE_PROMOTION",
+            ],
+        )
 
 
-def test_semantic_hashes_are_reproducible(tmp_path: Path) -> None:
-    data = _build(tmp_path)
-    for row in data["formulas"]:
-        assert row["semantic_hash"] == _sha256(row["semantic_projection"])
-    assert data["registry_semantic_hash"] == _sha256(
-        data["registry_semantic_projection"]
-    )
-
-
-def test_no_cross_repository_source_mutation_is_declared(tmp_path: Path) -> None:
-    data = _build(tmp_path)
-    assert data["repository_scope"] == "BASS_ONLY"
-    excluded = set(data["coverage"]["excluded"])
-    assert "REC, REI, or HTT source modification" in excluded
-    assert data["claim_boundary"] == [
-        "BASS_OWNER_FORMULA_HARDENING_ONLY",
-        "NO_CROSS_REPOSITORY_SOURCE_MUTATION",
-        "NO_CONSUMER_PARITY",
-        "NO_BACKGROUND_PROVIDER",
-        "NO_GLOBAL_TILT",
-        "NO_SCREEN_TRANSPORT",
-        "NO_NUMERICAL_OR_SCIENCE_PROMOTION",
-    ]
+if __name__ == "__main__":
+    unittest.main()
