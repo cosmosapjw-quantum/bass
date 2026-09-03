@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R6_AUTHORITY_HARDENING_RED",
+  "parent": {
+    "commit": "fc4d21b92a1abd1e9b35178f7d666831fc5c827d",
+    "tree": "c0caf9b8017d4c3850a1a99629246164fd4b27ff",
+    "pull_request": 112
+  },
+  "test_path": "tests/research/test_bass_rec_source_protocol_r6_red.py",
+  "expected_result_on_parent": "FAIL",
+  "production_paths_changed": [],
+  "requirements": {
+    "validated_construction": {
+      "rule": "SourceAuthorityBundle cannot be instantiated through a public unvalidated constructor and payload_sha256 cannot be caller supplied",
+      "failure_blocked": "invalid or forged immutable authority object"
+    },
+    "signed_zero": {
+      "rule": "all accepted zero rates are canonical positive zero before storage and hashing",
+      "failure_blocked": "two byte identities for one physical rate"
+    },
+    "particle_statistics": {
+      "rule": "constant-pair v2 binds species=photon and statistics=boson",
+      "formula": "C[f]=eta*(1+f)-kappa*f",
+      "failure_blocked": "bosonic source silently reused by fermionic lanes"
+    },
+    "schema_transition": {
+      "rule": "payload_schema=bass.source_authority.constant_pair.v2",
+      "failure_blocked": "R5 and R6 semantics sharing one payload namespace"
+    },
+    "constant_pair_frequency_kind": {
+      "rule": "constant_pair admits POINTWISE_SPECTRAL only",
+      "failure_blocked": "scalar pair masquerading as an integrated witness"
+    },
+    "integrated_moment_map_binding": {
+      "required_type": "IntegratedMomentMapBinding",
+      "required_fields": [
+        "target_state_kind",
+        "moment_map_sha256",
+        "radial_weight_family_sha256",
+        "source_sha256",
+        "binding_sha256"
+      ],
+      "rule": "binding target must equal the requested integrated state",
+      "failure_blocked": "one integrated source witness reused across inequivalent radial projections"
+    },
+    "finite_arithmetic": {
+      "required_error": "SourceArithmeticError",
+      "rule": "rates_per_tau and pointwise_action reject nonfinite binary64 results",
+      "failure_blocked": "inf/nan entering a solver state under apparently valid finite inputs"
+    },
+    "survivor_controls": [
+      "eta=kappa=0 gives exact source-off action",
+      "eta>kappa remains a valid negative-chi_affine branch",
+      "H_s_inv must remain finite and strictly positive on the Q-time adapter"
+    ]
+  },
+  "expected_parent_defects": [
+    "generated dataclass constructor accepts unvalidated fields and forged payload hash",
+    "negative zero survives float.hex payload serialization",
+    "species/statistics metadata absent",
+    "payload schema remains v1",
+    "constant_pair accepts SOURCE_INTEGRATED_WITNESS",
+    "integrated states are admitted without a binding",
+    "IntegratedMomentMapBinding absent",
+    "SourceArithmeticError absent",
+    "nonfinite arithmetic outputs are returned"
+  ],
+  "first_green_allowlist": [
+    "bianchi/source_authority.py",
+    "tests/research/test_bass_rec_source_protocol_r6_red.py",
+    "docs/research/bass_rec_source_r6_hardening_red/**"
+  ],
+  "first_green_exclusions": [
+    "solver-loop wiring",
+    "physical REC source data",
+    "grid or PSTF source adapter",
+    "integrated closure implementation",
+    "virtual-spike tail",
+    "two-photon or Raman kernel",
+    "polarized source",
+    "RF04 public route",
+    "physical face",
+    "provider, observable, likelihood or statistics promotion"
+  ],
+  "authority_effect": "NONE"
+}
