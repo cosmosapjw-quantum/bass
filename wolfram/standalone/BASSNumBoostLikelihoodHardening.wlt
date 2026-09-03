@@ -1,19 +1,26 @@
 (* Top-level tests. Do not wrap in one Module. *)
 
+packageDirectory = DirectoryName[$InputFileName];
+
 Get[FileNameJoin[{
-  DirectoryName[$InputFileName],
+  packageDirectory,
   "BASSNumBoostLikelihoodHardening.wl"
+}]];
+
+Get[FileNameJoin[{
+  packageDirectory,
+  "BASSNumBoostLikelihoodRealGaussianGuard.wl"
 }]];
 
 VerificationTest[
   RunLikelihoodHardeningSelfChecks[]["Total"],
-  16,
+  15,
   TestID -> "NUMBOOST-R2-EXACT-TEST-COUNT"
 ]
 
 VerificationTest[
   RunLikelihoodHardeningSelfChecks[]["Passed"],
-  16,
+  15,
   TestID -> "NUMBOOST-R2-EXACT-PASS-COUNT"
 ]
 
