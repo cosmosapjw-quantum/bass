@@ -1,10 +1,11 @@
 (* Top-level MUnit tests. Do not wrap VerificationTest expressions in Module. *)
 
 (*
-  TestReport does not rebind $InputFileName to this WLT on the observed local
-  Wolfram 15.0.0 runner.  The canonical replay script therefore preloads the
-  exact modules and injects an absolute, hash-bound test context dynamically.
-  This WLT performs no repository-path inference and no file loading.
+  The observed local Wolfram 15.0.0 TestReport retains the outer runner's
+  input-file binding instead of exposing this WLT path.  The canonical replay
+  script therefore preloads the exact modules and injects an absolute,
+  hash-bound test context dynamically.  This WLT performs no repository-path
+  inference and no file loading.
 *)
 injectedTestContext = If[
   AssociationQ[Global`$BASSSyncMap02ER1TestContext],
