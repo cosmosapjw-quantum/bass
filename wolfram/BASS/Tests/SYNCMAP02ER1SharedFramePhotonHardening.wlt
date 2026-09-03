@@ -1,29 +1,44 @@
 (* Top-level MUnit tests. Do not wrap VerificationTest expressions in Module. *)
 
-(* Wolfram TestReport can expose $InputFileName either as the WLT file path or
-   as its containing test directory, depending on the runner/version. Normalize
-   both forms before deriving the BASS Wolfram root and repository root. *)
-testInputPath = ExpandFileName[$InputFileName];
-testDirectory = If[
-  DirectoryQ[testInputPath],
-  testInputPath,
-  DirectoryName[testInputPath]
+(*
+  TestReport does not rebind $InputFileName to this WLT on the observed local
+  Wolfram 15.0.0 runner.  The canonical replay script therefore preloads the
+  exact modules and injects an absolute, hash-bound test context dynamically.
+  This WLT performs no repository-path inference and no file loading.
+*)
+injectedTestContext = If[
+  AssociationQ[Global`$BASSSyncMap02ER1TestContext],
+  Global`$BASSSyncMap02ER1TestContext,
+  <||>
 ];
-bassWolframRoot = DirectoryName[testDirectory];
-repositoryRoot = DirectoryName[DirectoryName[bassWolframRoot]];
-moduleDirectory = FileNameJoin[{bassWolframRoot, "Kernel", "IR"}];
-
-Get[FileNameJoin[{
-  moduleDirectory,
-  "SharedFramePhotonExportHardeningR1.wl"
-}]];
-Get[FileNameJoin[{
-  moduleDirectory,
-  "SharedFramePhotonExportHardeningR1Fix1.wl"
-}]];
+injectedPatchContract = Lookup[
+  injectedTestContext,
+  "patch_contract",
+  <||>
+];
+injectedRepositoryScope = Lookup[
+  injectedTestContext,
+  "repository_scope",
+  None
+];
+injectedModulePath = Lookup[
+  injectedTestContext,
+  "module_path",
+  None
+];
+injectedFixPath = Lookup[
+  injectedTestContext,
+  "fix_path",
+  None
+];
+injectedPatchContractPath = Lookup[
+  injectedTestContext,
+  "patch_contract_path",
+  None
+];
 
 VerificationTest[
-  SharedFramePhotonHardeningR1FormulaIDs[],
+  BASS`IR`SharedFramePhotonHardeningR1FormulaIDs[],
   {
     "BASS.FRAME.ABERRATED_DIRECTION.001",
     "BASS.FRAME.BLACKBODY_TEMPERATURE_PULLBACK.001",
@@ -36,72 +51,72 @@ VerificationTest[
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["regular_coefficient"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["regular_coefficient"],
   0,
   TestID -> "SYNCMAP02E-R1-REGULAR-COEFFICIENT"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["zero_boost_coefficient"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["zero_boost_coefficient"],
   1/2,
   TestID -> "SYNCMAP02E-R1-ZERO-BOOST-DIRECT"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["aberrated_direction_unit_norm"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["aberrated_direction_unit_norm"],
   0,
   TestID -> "SYNCMAP02E-R1-ABERRATION-UNIT-NORM"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["blackbody_weighted_pullback_generator"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["blackbody_weighted_pullback_generator"],
   0,
   TestID -> "SYNCMAP02E-R1-BLACKBODY-WEIGHTED-PULLBACK"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["doppler_only_omission_witness"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["doppler_only_omission_witness"],
   -3/4,
   TestID -> "SYNCMAP02E-R1-ABERRATION-DEPENDENCY-WITNESS"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["planck_covariance"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["planck_covariance"],
   0,
   TestID -> "SYNCMAP02E-R1-PLANCK-COVARIANCE"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["general_energy_drift_specialization"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["general_energy_drift_specialization"],
   0,
   TestID -> "SYNCMAP02E-R1-GEODESIC-NORMAL-SPECIALIZATION"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["omitted_normal_acceleration_coefficient"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["omitted_normal_acceleration_coefficient"],
   -1,
   TestID -> "SYNCMAP02E-R1-NORMAL-ACCELERATION-COEFFICIENT"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1ExactResiduals[]["direction_flow_tangency"],
+  BASS`IR`SharedFramePhotonHardeningR1ExactResiduals[]["direction_flow_tangency"],
   0,
   TestID -> "SYNCMAP02E-R1-DIRECTION-FLOW-TANGENCY"
 ]
 
 VerificationTest[
-  SharedFramePhotonHardeningR1PatchContractQ[
-    Import[
-      FileNameJoin[{
-        repositoryRoot,
-        "docs",
-        "bass_master_ssot_v2",
-        "SYNC_MAP_02E_R1",
-        "SEMANTIC_HARDENING_PATCH_CONTRACT.json"
-      }],
-      "RawJSON"
+  And[
+    injectedRepositoryScope === "BASS_ONLY",
+    StringQ[injectedModulePath],
+    FileExistsQ[injectedModulePath],
+    StringQ[injectedFixPath],
+    FileExistsQ[injectedFixPath],
+    StringQ[injectedPatchContractPath],
+    FileExistsQ[injectedPatchContractPath],
+    BASS`IR`SharedFramePhotonHardeningR1PatchContractQ[
+      injectedPatchContract
     ]
   ],
   True,
-  TestID -> "SYNCMAP02E-R1-PATCH-CONTRACT"
+  TestID -> "SYNCMAP02E-R1-INJECTED-PATCH-CONTRACT"
 ]
