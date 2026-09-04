@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "stage": "BASS_REC_SOURCE_R6B_DIAGNOSIS_FOR_R6C",
+  "source_receipt": "/bianchi/_runtime_receipts/BASS_REC_SOURCE_R6B_20260903T230653Z",
+  "observed_summary": {
+    "classification": "UNRESOLVED_R6B_DIFFERENTIAL",
+    "red_parent": "0a4875e5c18419a672c164eb5c849f3f4ab01571",
+    "green_source": "92d67dc79cf645947beb93ac01a9505ee277dabd",
+    "base_backend_rc": 0,
+    "green_backend_rc": 0,
+    "failure_sets_identical": true,
+    "green_focused_rc": 0,
+    "deterministic_golden_hashes": true,
+    "clean_worktrees": false
+  },
+  "status_files": {
+    "base_status": "?? build/",
+    "green_status": "?? build/"
+  },
+  "installer_evidence": {
+    "base": "pip processed the detached RED-parent worktree, built bianchi_solver-0.1.0, and installed it with the native wheel",
+    "green": "pip processed the detached GREEN-source worktree, built bianchi_solver-0.1.0, and installed it with the native wheel",
+    "common_mechanism": "PEP-517 root-package build from the Git worktree",
+    "candidate_specific_mechanism": false
+  },
+  "classification": "HARNESS_GENERATED_IDENTICAL_UNTRACKED_BUILD_ARTIFACT",
+  "physics_effect": "NONE",
+  "source_behavior_effect": "NONE_OBSERVED",
+  "required_action": "Repeat the same differential while building the root package from exact non-Git git-archive staging exports."
+}
