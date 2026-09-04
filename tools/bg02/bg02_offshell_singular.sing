@@ -1,0 +1,19 @@
+// Exact polynomial BG-02 off-shell identity audit for Singular.
+ring r = 0,(R3,H,sigma2,divA,A2,Lambda,kappaG,rho,p),dp;
+poly Hres = (R3+6*H^2-sigma2-2*Lambda-2*kappaG*rho)/2;
+poly Ftrace = -R3/12-3*H^2/2-sigma2/4+(divA+A2)/3+Lambda/2-kappaG*p/2;
+poly FADM = -R3/3-3*H^2+(divA+A2)/3+kappaG*(rho-p)/2+Lambda;
+poly FRay = -H^2-sigma2/3+(divA+A2)/3-kappaG*(rho+3*p)/6+Lambda/3;
+poly r1 = FADM-Ftrace+Hres/2;
+poly r2 = Ftrace-FRay+Hres/6;
+poly r3 = FADM-FRay+2*Hres/3;
+if ((r1==0) && (r2==0) && (r3==0))
+{
+  "BG02_SINGULAR_OFFSHELL=PASS";
+}
+else
+{
+  "BG02_SINGULAR_OFFSHELL=FAIL";
+  r1; r2; r3;
+  exit(1);
+}

@@ -1,0 +1,81 @@
+{
+  "claim_boundary": [
+    "NO_PHYSICS_SOURCE_CHANGE",
+    "NO_BG02_PRODUCTION_IMPLEMENTATION",
+    "NO_NATIVE_XACT_BG02_PASS",
+    "NO_CONSTRAINT_PROPAGATION_CLAIM",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION",
+    "NO_PASS_RF04"
+  ],
+  "fix": {
+    "fixed_runner_sha256": "e7dd44fe838404e776c3b7ee09ae93c06e30234d78cf5ce759373cf13d0619e8",
+    "fixed_workflow_sha256": "41a6d686da4d870594af3d05288dea7c159c8bdf2bd0bab32b8a2498426284e1",
+    "new_gate": "if [ \"$PARENT_ANCESTRY_PASS\" = true ] && RED_COUNTS_MATCH",
+    "old_gate": "if [ \"$HEAD\" = \"$EXPECTED_HEAD\" ] && RED_COUNTS_MATCH",
+    "receipt_policy": "SCIENTIFIC_PARENT_IS_ANCESTOR",
+    "regression_test_sha256": "ff234080e32e650953eabeed636927cb7b464b3bbada2e2ebb73fdd39fc5803d"
+  },
+  "input_failure_log": {
+    "observed_apply_exit_code": 12,
+    "observed_red_commit": "14887393663a6bbcdcb054cd68518982fc1fec1a",
+    "observed_red_tree": "640a21bcaf3de6a0e20f8a39041f3d4e2c8a35d7",
+    "observed_scientific_parent_is_ancestor": true,
+    "observed_tests": {
+      "errors": 0,
+      "failed": 16,
+      "methods": 18,
+      "passed": 2,
+      "raw_exit": 1
+    },
+    "observed_wrapper_status": "FAIL_UNEXPECTED_RED_RESULT",
+    "path": "Pasted text(20260904-034801).txt",
+    "sha256": "97e0346d4e5ad7f39e2842e73fbfef347bb09c5bc012150bb5dfcc116463c963"
+  },
+  "remote_state": {
+    "direct_connector_mutation": "NOT_EXPOSED",
+    "github_search_result": "ABSENT_AT_AUDIT_TIME",
+    "target_branch": "research/bass-master-ssot-v2-bg02-einstein-projection-implementation-red-20260904-r1"
+  },
+  "repository_scope": "BASS_ONLY",
+  "root_cause": {
+    "ancestry_probe": "git merge-base --is-ancestor EXPECTED_HEAD HEAD",
+    "ancestry_probe_result": true,
+    "classification": "HARNESS_IDENTITY_POLICY_MIXED_PATCH",
+    "physics_formula_effect": "NONE",
+    "required_final_gate": "SCIENTIFIC_PARENT_IS_ANCESTOR",
+    "stale_final_gate": "HEAD_EQUALS_SCIENTIFIC_PARENT",
+    "test_contract_effect": "NONE",
+    "why_it_is_impossible": "A committed RED overlay necessarily changes HEAD, so HEAD cannot equal its scientific parent."
+  },
+  "schema_version": "1.0.0",
+  "scientific_parent": {
+    "commit": "80d271cc528e1a0ffa813ecd3e3fb7610f3fa755",
+    "pr": 91,
+    "tree": "3fd8818938eaa0988988c6927cff799455a7a31d"
+  },
+  "stage_id": "BG_02_IMPLEMENTATION_RED_WRAPPER_FIX1",
+  "status": "FIX_VERIFIED_PUSH_READY",
+  "tdd_evidence": {
+    "regression_green": {
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "methods": 1
+    },
+    "regression_red": {
+      "errors": 0,
+      "exit_code": 1,
+      "failures": 1,
+      "methods": 1
+    },
+    "synthetic_git_descendant": {
+      "errors": 0,
+      "failed": 16,
+      "methods": 18,
+      "passed": 2,
+      "scientific_parent_is_ancestor": true,
+      "status": "PASS_EXPECTED_RED",
+      "wrapper_exit_code": 0
+    }
+  }
+}
