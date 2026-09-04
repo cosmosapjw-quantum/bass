@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_BOUNDED_CLOSEOUT_BOOTSTRAP_PUBLICATION_READBACK",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "source_snapshot": {
+    "commit": "39e0620a306f99355a9aee8cc6334cb4f85409d6",
+    "tree": "c466ce0e5702d0691a85fd4f5b4b9949b5fb41ba",
+    "parent": "610e8a5b98881ac70253a5b8e4a72ea11a8be83f",
+    "normal_ancestry_base": "e0e4d703bb160128135a97cc384f8533fced743b"
+  },
+  "files": [
+    {
+      "path": ".github/workflows/sync-map02f-bounded-closeout.yml",
+      "git_blob": "86106ff4733fe456e160c05688fbf7fb672c1852"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/SYNC_MAP_02F_CLOSEOUT/BOUNDED_SEMANTIC_CLOSEOUT.json",
+      "git_blob": "6642b0e9545339f8bdedb3cc03b93cd83512b0b3"
+    },
+    {
+      "path": "docs/bass_master_ssot_v2/SYNC_MAP_02F_CLOSEOUT/README.md",
+      "git_blob": "a78e36490686d76f0e9d7ff64df0ddac6670dafe"
+    },
+    {
+      "path": "scripts/verify_sync_map02f_bounded_closeout.py",
+      "git_blob": "6de42bd4dd88db5545e529673410060d39cfdae6"
+    },
+    {
+      "path": "scripts/run_sync_map02f_bounded_closeout_local.sh",
+      "git_blob": "ab41855324e1560cb25e9f9d34b41744d5935663"
+    },
+    {
+      "path": "tests/test_sync_map02f_bounded_closeout.py",
+      "git_blob": "51162d2ae3ceadaa70f78448f5f8b38474973583"
+    },
+    {
+      "path": "wolfram/BASS/Kernel/IR/BoundedSemanticCloseout.wl",
+      "git_blob": "142356c4023a8f2b96d3682b1153f6d63ab4d73e"
+    },
+    {
+      "path": "wolfram/BASS/Tests/BoundedSemanticCloseout.wlt",
+      "git_blob": "4b904420e53051f7a528ae06a1e0f641134d027b"
+    },
+    {
+      "path": "wolfram/scripts/run_bounded_semantic_closeout.wls",
+      "git_blob": "25926d3dda0d33428ceed3dbb01c5dc04076cdaa"
+    }
+  ],
+  "static_contract": {
+    "python_unittest_methods": 10,
+    "top_level_munit_tests": 17,
+    "wolfram_test_path_inference": false,
+    "strict_json_temporary_round_trip": true,
+    "atomic_receipt_publication": true,
+    "promotion_firewall_rows": 13,
+    "consumer_binding_rows_present": false
+  },
+  "execution_status": {
+    "source_readback": "PASS",
+    "connected_wolfram_aggregate_probe": "BLOCKED_HTTP_502",
+    "native_local_python": "NOT_RUN_AT_THIS_SOURCE_HEAD",
+    "native_local_wolfram": "NOT_RUN_AT_THIS_SOURCE_HEAD",
+    "github_actions": "NOT_ADMITTED_AS_EXECUTION_EVIDENCE"
+  },
+  "next_gate": "PYTHON_10_OF_10_WOLFRAM_17_OF_17_STRICT_JSON_AND_SHA256_PASS",
+  "claim_boundary": [
+    "BOUNDED_CLOSEOUT_SOURCE_CREATED",
+    "EXACT_GIT_BLOB_READBACK_PASS",
+    "NO_LOCAL_EXACT_REPLAY_CLAIM",
+    "NO_CONSUMER_RUNTIME_PARITY",
+    "NO_J_OR_G_CLOSURE_ADMISSION",
+    "NO_SCREEN_TRANSPORT_IMPLEMENTATION",
+    "NO_BACKGROUND_PROVIDER_OR_GLOBAL_TILT",
+    "NO_LIKELIHOOD_OR_SCIENCE_PROMOTION"
+  ],
+  "status": "SOURCE_PUBLISHED_LOCAL_REPLAY_REQUIRED"
+}
