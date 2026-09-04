@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R10A_PROJECTION_AUTHORITY_HARDENING_TDD_RED",
+  "status": "TEST_SOURCE_PUBLISHED_EXPECTED_RED_REQUIRED",
+  "prerequisite": {
+    "classification": "PASS_BASS_REC_SOURCE_R10_CERTIFIED_SCALAR_PROJECTION_PARITY_GREEN",
+    "closeout_commit": "662f682654f80281a4afd56a28be1ff0d535e2ac",
+    "rank_sweep": [0, 1, 2, 3, 4, 6, 8],
+    "focused_tests": 49
+  },
+  "source": {
+    "commit": "931ce2d4cd499bc388027c36a68c4b72b6c65d6e",
+    "tree": "3889efcd37f6a30c2e2222856e17e8452c4a52b3",
+    "path": "tests/research/test_bass_rec_source_r10a_projection_authority_red.py",
+    "blob": "de2f341ce04b4b061efbdab360525ef87996701d",
+    "diff": [
+      "A tests/research/test_bass_rec_source_r10a_projection_authority_red.py"
+    ],
+    "production_changed": false
+  },
+  "expected_red": {
+    "tests_run": 16,
+    "assertion_failures": 13,
+    "passing_controls": 3,
+    "errors": 0,
+    "skips": 0,
+    "inherited_survivor_tests": 49
+  },
+  "future_green_requirements": [
+    "use_time_projection_identity_revalidation",
+    "same_length_node_weight_tamper_rejection",
+    "basis_matrix_identity",
+    "explicit_sample_layout",
+    "separate_semantic_and_realization_hashes",
+    "actual_unit_field_hash_binding",
+    "time_basis_and_rate_divisor_contract_binding",
+    "factory_only_contract_and_report",
+    "scaled_tolerance_utilization",
+    "continuous_positivity_claim_false_without_certificate",
+    "evidence_bound_rank_admission"
+  ],
+  "success_classification": "PASS_EXPECTED_R10A_PROJECTION_AUTHORITY_HARDENING_RED",
+  "next_if_pass": "BASS_REC_SOURCE_R10A_PROJECTION_AUTHORITY_HARDENING_GREEN",
+  "next_if_fail": "R10A_FIRST_FAILURE_REPAIR_ONLY",
+  "blocked_claims": [
+    "trusted_native_R10_nonregression",
+    "arbitrary_high_l_certification",
+    "production_PSTF_layout_parity",
+    "continuous_sphere_positivity",
+    "state_container_source_step",
+    "transport_time_parity",
+    "anisotropic_source_product",
+    "physical_REC_source_wiring",
+    "provider_or_statistics_promotion",
+    "PASS_REC_PHYSICAL_SPLIT",
+    "PASS_RF04"
+  ]
+}
