@@ -1,4 +1,4 @@
-name: BG-02 Einstein Projection Implementation RED
+name: BG-02 Einstein Projection Source GREEN Candidate
 
 on:
   push:
@@ -11,6 +11,13 @@ on:
       - "tests/test_bg02_einstein_projection_implementation.py"
       - "tests/test_bg02_red_wrapper_ancestry.py"
       - "scripts/run_bg02_einstein_projection_red_local.sh"
+      - "scripts/run_bg02_einstein_projection_source_green_local.sh"
+      - "scripts/verify_bg02_einstein_projection_implementation.py"
+      - "scripts/audit_bg02_cross_cas.py"
+      - "tools/bg02/**"
+      - "formal/lean/BG02OffShellIdentities.lean"
+      - "wolfram/BASS/Kernel/Background/EinsteinProjection.wl"
+      - "wolfram/BASS/Kernel/init.wl"
       - "wolfram/BASS/Tests/BG02EinsteinProjectionImplementation.wlt"
       - "wolfram/scripts/run_bg02_einstein_projection_native.wls"
       - ".github/workflows/bg02-einstein-projection-implementation.yml"
@@ -19,30 +26,29 @@ permissions:
   contents: read
 
 jobs:
-  expected-red:
+  source-green:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify RED wrapper scientific-parent ancestry policy
+      - name: Verify preserved RED wrapper ancestry policy
         shell: bash
         run: |
           python3 -S -m unittest -v tests.test_bg02_red_wrapper_ancestry
-      - name: Run exact expected RED contract
+      - name: Install available Python audit axes
         shell: bash
         run: |
-          set +e
-          bash scripts/run_bg02_einstein_projection_red_local.sh \
-            artifacts/bg02_einstein_projection_red
-          rc=$?
-          if [ "$rc" -ne 0 ]; then
-            exit "$rc"
-          fi
-      - name: Upload RED evidence
+          python3 -m pip install --disable-pip-version-check sympy==1.14.0 mpmath==1.3.0
+      - name: Run source-GREEN validation
+        shell: bash
+        run: |
+          bash scripts/run_bg02_einstein_projection_source_green_local.sh \
+            artifacts/bg02_einstein_projection_source_green
+      - name: Upload source-GREEN evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bg02-einstein-projection-expected-red
-          path: artifacts/bg02_einstein_projection_red
+          name: bg02-einstein-projection-source-green
+          path: artifacts/bg02_einstein_projection_source_green
           if-no-files-found: error
