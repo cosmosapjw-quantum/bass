@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R10_CERTIFIED_SCALAR_PROJECTION_PARITY_GREEN",
+  "status": "SOURCE_IMPLEMENTED_LOCAL_REPLAY_REQUIRED",
+  "prerequisite": {
+    "classification": "PASS_EXPECTED_R9_FINITE_RANK_GRID_PSTF_PARITY_RED",
+    "closeout_commit": "06693571d98013610bc01565a1f4988bdc673094",
+    "tests_run": 16,
+    "assertion_failures": 14,
+    "passing_controls": 2
+  },
+  "source": {
+    "commit": "308507f2289b4cd6aabf0d7762e6e12766feb627",
+    "tree": "a27ff7c010b76cfc42ad0f2ac62049689cbb816a",
+    "path": "bianchi/source_parity.py",
+    "blob": "a807191ff0baa6851ec7748826a7d4e34b400207",
+    "production_diff": [
+      "A bianchi/source_parity.py"
+    ]
+  },
+  "basis": {
+    "measure": "dOmega",
+    "complex_parent": "Condon-Shortley Y_lm",
+    "real_basis": [
+      "Z_l0=Y_l0",
+      "Z_lm_cos=sqrt(2) Re(Y_lm)",
+      "Z_lm_sin=sqrt(2) Im(Y_lm)"
+    ],
+    "ordering": "(l,0,m0),(l,1,cos),(l,1,sin),...,(l,l,cos),(l,l,sin)",
+    "unit_field_monopole": "sqrt(4*pi)"
+  },
+  "quadrature": {
+    "mu_rule": "Gauss-Legendre",
+    "n_mu": "L_work+1",
+    "phi_rule": "uniform_periodic",
+    "n_phi": "2*L_work+1",
+    "hash_binds_actual_nodes_weights_modes_normalization": true
+  },
+  "required_runtime": {
+    "focused_tests": 49,
+    "rank_sweep": [0, 1, 2, 3, 4, 6, 8],
+    "max_abs_parity_residual": 2e-13,
+    "max_abs_gram_defect": 2e-13,
+    "max_gram_condition_inf": 2.0,
+    "two_process_receipts_identical": true,
+    "adversarial_probe_pass": true,
+    "formal_fallback_recorded": true,
+    "clean_worktree": true
+  },
+  "success_classification": "PASS_BASS_REC_SOURCE_R10_CERTIFIED_SCALAR_PROJECTION_PARITY_GREEN",
+  "next_if_pass": "BASS_REC_SOURCE_R10B_TRUSTED_NATIVE_PARENT_CANDIDATE_NONREGRESSION",
+  "next_if_fail": "R10_FIRST_FAILURE_REPAIR_ONLY",
+  "blocked_claims": [
+    "transport_time_parity",
+    "anisotropic_source_product",
+    "spin_weighted_or_polarized_source_parity",
+    "integrated_state_closure",
+    "physical_REC_source_wiring",
+    "BASS_solver_loop_wiring",
+    "physical_directional_face",
+    "provider_or_statistics_promotion",
+    "PASS_REC_PHYSICAL_SPLIT",
+    "PASS_RF04"
+  ]
+}
