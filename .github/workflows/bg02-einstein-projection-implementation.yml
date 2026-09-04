@@ -1,4 +1,4 @@
-name: BG-02 Einstein Projection Source GREEN Candidate
+name: BG-02 Component Oracle and Native Bridge RED
 
 on:
   push:
@@ -8,17 +8,21 @@ on:
     paths:
       - "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/**"
       - "docs/superpowers/plans/2026-09-04-bg02-einstein-projection-implementation.md"
+      - "docs/superpowers/plans/2026-09-04-bg02-native-gauss-codazzi-bridge.md"
       - "tests/test_bg02_einstein_projection_implementation.py"
+      - "tests/test_bg02_native_bridge_adversarial.py"
       - "tests/test_bg02_red_wrapper_ancestry.py"
+      - "scripts/run_bg02_native_bridge_adversarial_red.py"
       - "scripts/run_bg02_einstein_projection_red_local.sh"
       - "scripts/run_bg02_einstein_projection_source_green_local.sh"
       - "scripts/verify_bg02_einstein_projection_implementation.py"
       - "scripts/audit_bg02_cross_cas.py"
       - "tools/bg02/**"
       - "formal/lean/BG02OffShellIdentities.lean"
-      - "wolfram/BASS/Kernel/Background/EinsteinProjection.wl"
+      - "wolfram/BASS/Kernel/Background/**"
+      - "wolfram/BASS/Kernel/Geometry/GaussCodazziProjectionRules.wl"
       - "wolfram/BASS/Kernel/init.wl"
-      - "wolfram/BASS/Tests/BG02EinsteinProjectionImplementation.wlt"
+      - "wolfram/BASS/Tests/BG02*.wlt"
       - "wolfram/scripts/run_bg02_einstein_projection_native.wls"
       - ".github/workflows/bg02-einstein-projection-implementation.yml"
 
@@ -26,29 +30,42 @@ permissions:
   contents: read
 
 jobs:
-  source-green:
+  component-oracle-native-bridge-red:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Verify preserved RED wrapper ancestry policy
         shell: bash
         run: |
           python3 -S -m unittest -v tests.test_bg02_red_wrapper_ancestry
-      - name: Install available Python audit axes
+
+      - name: Verify named native-bridge adversarial RED
         shell: bash
         run: |
-          python3 -m pip install --disable-pip-version-check sympy==1.14.0 mpmath==1.3.0
-      - name: Run source-GREEN validation
+          python3 -S scripts/run_bg02_native_bridge_adversarial_red.py \
+            artifacts/bg02_native_bridge_adversarial_red
+
+      - name: Install available Python corroboration axes
+        shell: bash
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            sympy==1.14.0 mpmath==1.3.0
+
+      - name: Validate component oracle and scalar identities only
         shell: bash
         run: |
           bash scripts/run_bg02_einstein_projection_source_green_local.sh \
-            artifacts/bg02_einstein_projection_source_green
-      - name: Upload source-GREEN evidence
+            artifacts/bg02_component_oracle
+
+      - name: Upload component-oracle and adversarial-RED evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bg02-einstein-projection-source-green
-          path: artifacts/bg02_einstein_projection_source_green
+          name: bg02-component-oracle-native-bridge-red
+          path: |
+            artifacts/bg02_native_bridge_adversarial_red
+            artifacts/bg02_component_oracle
           if-no-files-found: error
