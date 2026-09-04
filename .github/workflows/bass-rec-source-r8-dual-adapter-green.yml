@@ -1,0 +1,46 @@
+name: BASS REC source R8 dual-adapter GREEN candidate
+
+on:
+  pull_request:
+    paths:
+      - 'bianchi/source_authority.py'
+      - 'bianchi/source_adapters.py'
+      - 'tests/research/test_bass_rec_source_protocol_red.py'
+      - 'tests/research/test_bass_rec_source_protocol_r6_red.py'
+      - 'tests/research/test_bass_rec_source_r7_dual_adapter_red.py'
+      - 'scripts/research/run_bass_rec_source_r8_green_local.sh'
+      - 'docs/research/bass_rec_source_r8_dual_adapter_green/**'
+      - '.github/workflows/bass-rec-source-r8-dual-adapter-green.yml'
+  workflow_dispatch:
+
+jobs:
+  r8-focused-green:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile bounded source modules
+        run: |
+          python -m py_compile \
+            bianchi/source_authority.py \
+            bianchi/source_adapters.py
+      - name: Run R5, R6 and R7 focused contracts
+        run: |
+          python -m unittest -v \
+            tests/research/test_bass_rec_source_protocol_red.py \
+            tests/research/test_bass_rec_source_protocol_r6_red.py \
+            tests/research/test_bass_rec_source_r7_dual_adapter_red.py
+      - name: Verify production-scope hygiene
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          forbidden = [
+              Path('bianchi/backend.py'),
+              Path('bianchi/backend_policy.py'),
+              Path('_rustcore'),
+          ]
+          assert Path('bianchi/source_adapters.py').is_file()
+          print('PASS_R8_FOCUSED_WORKFLOW_SCOPE')
+          PY

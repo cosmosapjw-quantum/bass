@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R8B_TRUSTED_NATIVE_PARENT_CANDIDATE_NONREGRESSION",
+  "status": "LOCAL_REPLAY_REQUIRED",
+  "parent": {
+    "commit": "4431edef61351bfba49a5781db3005d4a0308d05",
+    "tree": "28fb517990b9f7935b30f3fd8a4aa0f182c907f3",
+    "adapter_present": false
+  },
+  "candidate": {
+    "commit": "ed630f3b8b02531af0f392b722e6636c14a41864",
+    "tree": "a5617a552bb2f6e65b78979bedde23543b9f9506",
+    "source_adapter_blob": "8b00602fc76e1cd49ac5b43615c97a686b56f080"
+  },
+  "bounded_source_diff": [
+    "A bianchi/source_adapters.py"
+  ],
+  "trusted_native": {
+    "artifact_commit": "50b6e9f7a6741b7fd25b0421d2a674b9eb92cdda",
+    "wheel_sha256": "99bd0596642dd31ca82080fb24306cd9bf3f6dd1ad3f68a1380f77378e266302",
+    "shared_object_sha256": "5d5b8197518d8637b14e0c78b871802ed64f6506c7a95128f31bd52044a98633",
+    "development_override": "MUST_BE_UNSET"
+  },
+  "same_environment_requirements": [
+    "identical _rustcore tree",
+    "identical requirements.lock blob",
+    "identical pyproject.toml blob",
+    "separate Python 3.12 virtual environments",
+    "same trusted wheel bytes",
+    "root package built only from non-Git archive staging"
+  ],
+  "required_runtime_checks": {
+    "parent_backend_tests": 54,
+    "candidate_backend_tests": 54,
+    "candidate_focused_tests": 33,
+    "backend_failures": 0,
+    "backend_errors": 0,
+    "focused_failures": 0,
+    "focused_errors": 0,
+    "forbidden_provenance_diagnostics": 0,
+    "clean_source_worktrees": true,
+    "deterministic_hashes": true
+  },
+  "frozen_hashes": {
+    "source_payload_sha256": "7f0db7e1cf7423ff6751a21ab4002ef8f13d89f788a8a746b26992abecf791e8",
+    "integrated_binding_sha256": "54762aa915b3fa0da847676a3d4491b8f7f2f358e48dd275fffee84ba6496093",
+    "grid_output_sha256": "cb11368e2f440ad244c6b486fa07831ab5aa9d2f31628f54047fb92ade5c77f7",
+    "pstf_output_sha256": "7bdffbae76a7da1ab94241d13ae6149403e187d0011dd7cb5ef700028c88f28a",
+    "changed_projection_output_sha256": "b85309a770f17ea90e83299b09945692796529410fdb3f1a7463289d17aa1229"
+  },
+  "success_classification": "PASS_BASS_REC_SOURCE_R8B_TRUSTED_NATIVE_PARENT_CANDIDATE_NONREGRESSION",
+  "next_if_pass": "BASS_REC_SOURCE_R9_SAME_SOURCE_GRID_PSTF_PARITY_TDD_RED",
+  "next_if_fail": "R8B_FIRST_FAILURE_DIAGNOSIS_ONLY",
+  "authority_effect": "NONE_UNTIL_LOCAL_REPLAY_PASSES",
+  "blocked_claims": [
+    "production solver source wiring",
+    "general nonaxisymmetric or arbitrary-rank parity",
+    "anisotropic or nonlocal REC source",
+    "integrated G/J closure",
+    "physical directional face",
+    "provider or statistics promotion",
+    "PASS_REC_PHYSICAL_SPLIT",
+    "PASS_RF04"
+  ]
+}
