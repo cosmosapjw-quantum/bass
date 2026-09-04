@@ -1,0 +1,38 @@
+name: BASS REC source R8B trusted-native differential
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r8b-trusted-native-differential:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact trusted-native parent/candidate differential
+        env:
+          BASS_REPO: ${{ github.workspace }}
+          RECEIPT_ROOT: ${{ runner.temp }}/r8b-receipts
+        run: |
+          bash scripts/research/run_bass_rec_source_r8b_trusted_native_diff_local.sh \
+            | tee "$RUNNER_TEMP/r8b-console.log"
+          SUMMARY="$(find "$RECEIPT_ROOT" -name summary.txt -print | sort | tail -n 1)"
+          test -n "$SUMMARY"
+          grep -Fx \
+            'classification=PASS_BASS_REC_SOURCE_R8B_TRUSTED_NATIVE_PARENT_CANDIDATE_NONREGRESSION' \
+            "$SUMMARY"
+      - name: Upload R8B receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bass-rec-source-r8b-receipts
+          path: ${{ runner.temp }}/r8b-receipts
+          if-no-files-found: warn
