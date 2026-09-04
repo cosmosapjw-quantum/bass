@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BG_02_IMPLEMENTATION_RED_HARNESS_FIX1",
+  "repository_scope": "BASS_ONLY",
+  "failed_publication_attempt": {
+    "red_source_commit": "14887393663a6bbcdcb054cd68518982fc1fec1a",
+    "red_source_tree": "640a21bcaf3de6a0e20f8a39041f3d4e2c8a35d7",
+    "scientific_parent_commit": "80d271cc528e1a0ffa813ecd3e3fb7610f3fa755",
+    "scientific_parent_is_ancestor": true,
+    "test_methods": 18,
+    "tests_passed": 2,
+    "tests_failed": 16,
+    "tests_errored": 0,
+    "raw_unittest_exit_code": 1,
+    "old_wrapper_status": "FAIL_UNEXPECTED_RED_RESULT",
+    "old_wrapper_exit_code": 1,
+    "publication_exit_code": 12
+  },
+  "root_cause": {
+    "classification": "RED_RUNNER_HEAD_PARENT_EQUALITY_BUG",
+    "old_condition": "HEAD == EXPECTED_SCIENTIFIC_PARENT_HEAD",
+    "correct_condition": "SCIENTIFIC_PARENT_IS_ANCESTOR_OF_CURRENT_RED_HEAD",
+    "reason": "The test-only RED is committed on a descendant of the scientific parent, so current HEAD must not equal the parent SHA."
+  },
+  "fix": {
+    "status_condition": "PARENT_ANCESTRY_PASS == true",
+    "regression_verifier": "scripts/verify_bg02_red_runner_contract.py",
+    "expected_red_contract": "18 methods / 2 pass / 16 fail / 0 errors / raw rc 1 / wrapper rc 0",
+    "target_branch": "research/bass-master-ssot-v2-bg02-einstein-projection-implementation-red-20260904-r2"
+  },
+  "physics_or_formula_effect": "NONE",
+  "production_implementation_effect": "NONE",
+  "status": "FIX_SOURCE_PREPARED_REPLAY_REQUIRED"
+}
