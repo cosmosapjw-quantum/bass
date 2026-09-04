@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.2.0",
+  "stage": "BASS_REC_SOURCE_R6C_CLEANLINESS_ONLY_DIFFERENTIAL_REPLAY",
+  "current_node": "R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_GATE_CURRENT_R6_SOURCE",
+  "completed_nodes": [
+    "R5_MINIMAL_SOURCE_PROTOCOL",
+    "R5C_PARENT_CANDIDATE_BACKEND_NONREGRESSION",
+    "R6_COHERENT_EXECUTED_RED",
+    "R6_GREEN_FOCUSED_RUNTIME",
+    "R6_GREEN_DETERMINISTIC_IDENTITIES",
+    "R6_GREEN_ADVERSARIAL_PROTOCOL_GATE",
+    "R6B_BACKEND_BEHAVIOR_ON_RED_PARENT_AND_GREEN_SOURCE",
+    "R6B_DIRTY_PATH_ROOT_CAUSE_DIAGNOSIS",
+    "R6C_CLEAN_BACKEND_NONREGRESSION",
+    "R6_BEHAVIOR_LEVEL_CLOSEOUT"
+  ],
+  "r6c_execution": {
+    "classification": "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION",
+    "receipt_path": "/bianchi/_runtime_receipts/BASS_REC_SOURCE_R6C_20260904T012030Z",
+    "red_backend_rc": 0,
+    "green_backend_rc": 0,
+    "green_focused_rc": 0,
+    "deterministic_golden_hashes": true,
+    "clean_worktrees": true,
+    "root_package_build_location": "NON_GIT_STAGING_DIRECTORIES",
+    "authority_role": "BEHAVIOR_LEVEL_ONLY"
+  },
+  "external_authority_prerequisite": {
+    "repository": "cosmosapjw-quantum/rec_bianchi",
+    "pull_request": 55,
+    "head": "9c143a846dd43caea6b79c1fb83c5170c41c23b1",
+    "tree_parent_before_static_fix": "afe74b78d0458395c2b5598d69d10a2ec0a25fc4",
+    "node": "R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_GATE",
+    "required_classification": "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE",
+    "static_contract_run": 33827180260,
+    "static_contract_status": "PASS",
+    "observed_local_execution_receipt": false,
+    "authority_role": "MANDATORY_BEFORE_R7_OR_ANY_PRODUCTION_SOURCE_ADMISSION"
+  },
+  "blocked_nodes": [
+    "R5D_TRUSTED_PRODUCTION_NATIVE_PROVENANCE",
+    "R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED",
+    "R8_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_GREEN",
+    "R9_SAME_SOURCE_GRID_PSTF_PARITY",
+    "PHYSICAL_REC_SOURCE_WIRING",
+    "PHYSICAL_FACE_ADMISSION",
+    "PROVIDER_EXPORT"
+  ],
+  "r7_opening_gate": {
+    "logic": "AND",
+    "required_classifications": [
+      "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION",
+      "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE"
+    ],
+    "observed": {
+      "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION": true,
+      "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE": false
+    },
+    "open": false,
+    "to": "R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED"
+  },
+  "parallel_research_nodes": [
+    "MODE_A_G_J_SOURCE_INTEGRATED_WITNESS_THEOREM",
+    "DYNAMIC_ELECTRON_TRAJECTORY_PRODUCTION_WIRING",
+    "POLARIZED_REC_SOURCE_SCOPE",
+    "VIRTUAL_SPIKE_ADAPTIVE_TAIL",
+    "TWO_PHOTON_RAMAN_NONLOCAL_SOURCE_KERNEL"
+  ],
+  "forbidden_transitions": [
+    "R6C_PASS_WITHOUT_R5D_TO_R7",
+    "R6C_PASS_TO_PHYSICAL_SOURCE_WIRING",
+    "SOURCE_BUILT_NATIVE_BEHAVIOR_TO_TRUSTED_NATIVE_PAYLOAD",
+    "TEFF_DIAGNOSTIC_TO_TRANSPORT_CLOSURE",
+    "R5D_STATIC_CONTRACT_PASS_TO_TRUSTED_NATIVE_EXECUTION_PASS"
+  ],
+  "claim_effect": "R6_BEHAVIOR_LEVEL_CLOSED; TRUSTED_NATIVE_AND_R7_REMAIN_BLOCKED_ON_EXECUTED_R5D"
+}

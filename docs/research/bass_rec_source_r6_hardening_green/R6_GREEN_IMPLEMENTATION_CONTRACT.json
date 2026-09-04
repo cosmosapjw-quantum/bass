@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "stage": "BASS_REC_SOURCE_R6_AUTHORITY_HARDENING_GREEN",
+  "source_candidate": {
+    "commit": "92d67dc79cf645947beb93ac01a9505ee277dabd",
+    "tree": "65cb63e6d08e80e9a8f38f83e3a536cb0a00a693",
+    "path": "bianchi/source_authority.py",
+    "blob": "869677390004f68aef9f547e6556f5f1c15bd012"
+  },
+  "constant_pair": {
+    "payload_schema": "bass.source_authority.constant_pair.v2",
+    "construction": "VALIDATED_FACTORY_ONLY",
+    "primary_rates": [
+      "eta_s_inv_nonnegative_finite",
+      "kappa_s_inv_nonnegative_finite"
+    ],
+    "derived_signed_rate": "chi_affine_s_inv=kappa_s_inv-eta_s_inv",
+    "species": "photon",
+    "statistics": "boson",
+    "frequency_kind": "pointwise_spectral",
+    "signed_zero_policy": "canonicalize_all_accepted_zero_rates_and_occupations_to_positive_zero",
+    "canonical_payload_fields": [
+      "schema",
+      "species",
+      "statistics",
+      "frequency_kind",
+      "frame",
+      "channel",
+      "source_sha256",
+      "eta_s_inv_hex",
+      "kappa_s_inv_hex"
+    ]
+  },
+  "source_action": {
+    "physical_formula": "eta*(1+f)-kappa*f",
+    "stable_binary64_formula": "eta-(kappa-eta)*f",
+    "exact_real_arithmetic_residual": "0",
+    "input_domain": "finite_nonnegative_occupation",
+    "nonfinite_output": "raise SourceArithmeticError"
+  },
+  "q_time_adapter": {
+    "definition": "d_tau=H_s_inv*dt",
+    "domain": "finite H_s_inv>0",
+    "outputs": [
+      "eta_s_inv/H_s_inv",
+      "kappa_s_inv/H_s_inv"
+    ],
+    "nonfinite_output": "raise SourceArithmeticError"
+  },
+  "integrated_binding": {
+    "payload_schema": "bass.source_authority.integrated_moment_map_binding.v1",
+    "construction": "VALIDATED_FACTORY_ONLY",
+    "required_fields": [
+      "target_state_kind",
+      "moment_map_sha256",
+      "radial_weight_family_sha256",
+      "source_sha256",
+      "binding_sha256"
+    ],
+    "allowed_targets": [
+      "radial_integrated_angular_grid",
+      "finite_integrated_j_hierarchy"
+    ],
+    "cross_target_reuse": "REJECT"
+  },
+  "compatibility": {
+    "pointwise_spectral": [
+      "full_spectral_grid",
+      "finite_spectral_pstf"
+    ],
+    "source_integrated_witness": [
+      "radial_integrated_angular_grid_with_matching_binding",
+      "finite_integrated_j_hierarchy_with_matching_binding"
+    ],
+    "unbound_integrated_witness": "REJECT",
+    "pointwise_source_with_integrated_binding": "REJECT"
+  },
+  "required_green_tests": {
+    "r5_survivors": 11,
+    "r6_hardening": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "excluded": [
+    "physical_REC_source_data",
+    "solver_loop_wiring",
+    "grid_or_PSTF_source_adapters",
+    "integrated_closure",
+    "virtual_spike_tail",
+    "two_photon_or_Raman_kernel",
+    "polarized_REC_source",
+    "trusted_native_payload_admission",
+    "physical_face",
+    "provider_or_statistics_promotion"
+  ],
+  "authority_effect": "PROTOCOL_HARDENING_ONLY"
+}
