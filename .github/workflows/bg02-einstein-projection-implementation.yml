@@ -1,0 +1,43 @@
+name: BG-02 Einstein Projection Implementation RED
+
+on:
+  push:
+    branches:
+      - research/bass-master-ssot-v2-bg02-einstein-projection-implementation-red-20260904-r1
+  pull_request:
+    paths:
+      - "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/**"
+      - "docs/superpowers/plans/2026-09-04-bg02-einstein-projection-implementation.md"
+      - "tests/test_bg02_einstein_projection_implementation.py"
+      - "scripts/run_bg02_einstein_projection_red_local.sh"
+      - "wolfram/BASS/Tests/BG02EinsteinProjectionImplementation.wlt"
+      - "wolfram/scripts/run_bg02_einstein_projection_native.wls"
+      - ".github/workflows/bg02-einstein-projection-implementation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  expected-red:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run exact expected RED contract
+        shell: bash
+        run: |
+          set +e
+          bash scripts/run_bg02_einstein_projection_red_local.sh \
+            artifacts/bg02_einstein_projection_red
+          rc=$?
+          if [ "$rc" -ne 0 ]; then
+            exit "$rc"
+          fi
+      - name: Upload RED evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bg02-einstein-projection-expected-red
+          path: artifacts/bg02_einstein_projection_red
+          if-no-files-found: error

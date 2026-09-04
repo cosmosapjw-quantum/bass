@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BG_02_GR_BACKGROUND_EINSTEIN_PROJECTION_IMPLEMENTATION_RED",
+  "repository_scope": "BASS_ONLY",
+  "owner": "bass",
+  "status": "TEST_CONTRACT_ONLY_PRODUCTION_ABSENT",
+  "scientific_parent": {
+    "pr": 91,
+    "branch": "research/bass-master-ssot-v2-alg01r2-geo02r2-w2-geo03-compose-20260902-r1",
+    "commit": "80d271cc528e1a0ffa813ecd3e3fb7610f3fa755",
+    "tree": "3fd8818938eaa0988988c6927cff799455a7a31d",
+    "source_packet_sha256": "b1f60fb518300e99c1321f3da0840a69d5478ecdbdb1d7602a6b77259d5b2fc1"
+  },
+  "design_authority": {
+    "pr": 94,
+    "commit": "ef6d51aad709555737617e2021ba50c553c90b6c",
+    "formula_registry_blob": "88336e03f9761d8e8f75c92f705296abf9ce7725",
+    "formula_count": 14,
+    "formula_ids": [
+      "BASS.BG.EINSTEIN_RESIDUAL.001",
+      "BASS.BG.HAMILTONIAN_PROJECTION.001",
+      "BASS.BG.MOMENTUM_PROJECTION.001",
+      "BASS.BG.SPATIAL_TRACE_PROJECTION.001",
+      "BASS.BG.SPATIAL_PSTF_PROJECTION.001",
+      "BASS.BG.HAMILTONIAN_HSIGMA.001",
+      "BASS.BG.EXPANSION_RATE_RAW.001",
+      "BASS.BG.EXPANSION_RATE_ADM.001",
+      "BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001",
+      "BASS.BG.SHEAR_RATE_LIE.001",
+      "BASS.BG.SHEAR_RATE_PROJECTED.001",
+      "BASS.BG.HOMOGENEOUS_SCALAR_CURVATURE.001",
+      "BASS.BG.HOMOGENEOUS_MOMENTUM.001",
+      "BASS.BG.EXCEPTIONAL_VI_MOMENTUM_CARRIER.001"
+    ]
+  },
+  "required_production_paths": [
+    "wolfram/BASS/Kernel/Background/EinsteinProjection.wl",
+    "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_IMPLEMENTATION_REGISTRY.json",
+    "wolfram/BASS/Kernel/init.wl"
+  ],
+  "required_public_apis": [
+    "BASS`Background`EinsteinResidualTensor",
+    "BASS`Background`EinsteinProjectionRegistry",
+    "BASS`Background`HamiltonianProjection",
+    "BASS`Background`MomentumProjection",
+    "BASS`Background`SpatialTraceProjection",
+    "BASS`Background`SpatialPSTFProjection",
+    "BASS`Background`SpatialTraceRate",
+    "BASS`Background`ADMTraceRate",
+    "BASS`Background`RaychaudhuriRate",
+    "BASS`Background`ShearLieRate",
+    "BASS`Background`ShearProjectedRate"
+  ],
+  "expected_red": {
+    "python_test_methods": 18,
+    "passes": 2,
+    "failures": 16,
+    "errors": 0,
+    "raw_unittest_exit_code": 1,
+    "wrapper_status": "PASS_EXPECTED_RED",
+    "wrapper_exit_code": 0,
+    "failure_reason": "PRODUCTION_MODULE_AND_IMPLEMENTATION_REGISTRY_ABSENT"
+  },
+  "conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "extrinsic_curvature": "K_ab = + h_a^c h_b^d nabla_c n_d",
+    "kinematic_split": "K_ab = H_geom h_ab + sigma_ab",
+    "gr_coupling": "kappaG = 8 pi G/c^4",
+    "matter_flux": "q_a = -h_a^c T_cd n^d",
+    "normal_time_adapter": "nabla_n = (1/c) d/dt"
+  },
+  "mandatory_guards": [
+    "ONE_OFF_SHELL_EINSTEIN_RESIDUAL_ONLY",
+    "NO_SECOND_KOSZUL_IMPLEMENTATION",
+    "LOCKED_CONNECTION_INDEX_ORDER",
+    "BIANCHI_V_AND_II_NEGATIVE_WITNESSES_REQUIRED",
+    "PHYSICAL_NORMAL_ACCELERATION_DISTINCT_FROM_BIANCHI_A_VECTOR",
+    "EXCEPTIONAL_VI_MINUS_ONE_NINTH_MOMENTUM_CARRIER_RETAINED",
+    "NO_SILENT_HAMILTONIAN_SURFACE_PROJECTION",
+    "RAW_ADM_RAYCHAUDHURI_RATES_STORED_SEPARATELY",
+    "SHEAR_DERIVATIVE_KIND_METADATA_REQUIRED",
+    "EXPLICIT_C_FACTORS_REQUIRED"
+  ],
+  "claim_boundary": [
+    "NO_BG02_PRODUCTION_IMPLEMENTATION",
+    "NO_NATIVE_XACT_BG02_PASS",
+    "NO_CONSTRAINT_PROPAGATION_CLAIM",
+    "NO_BACKGROUND_NUMERICAL_EVOLUTION",
+    "NO_PROVIDER_ADMISSION",
+    "NO_OBSERVABLE_OR_LIKELIHOOD_READINESS",
+    "NO_SCIENCE_PROMOTION",
+    "NO_PASS_RF04",
+    "NO_READY_OR_MERGE_TRANSITION"
+  ]
+}
