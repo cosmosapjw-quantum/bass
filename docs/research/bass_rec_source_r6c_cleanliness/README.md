@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Close the sole unresolved R6B gate without weakening the repository-cleanliness requirement.
+Close the sole unresolved **behavior-level** R6B gate without weakening the repository-cleanliness requirement.
 
 The exact R6B receipt established identical backend behavior on the coherent RED parent and R6 GREEN source:
 
@@ -63,12 +63,32 @@ clean_worktrees=true
 build_location=NON_GIT_STAGING_DIRECTORIES
 ```
 
-## Next node
+## Cross-repository authority gate
 
-Only after this exact replay passes may the DAG open:
+R6C closes only the BASS **development-payload behavior lane**. The REC coordination authority remains Draft PR `rec_bianchi#55`, whose exact critical-path gate is:
 
 ```text
-BASS_REC_SOURCE_R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED
+PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE
 ```
 
-R7 remains a test-only source-adapter contract. It must not yet wire physical REC data into a production solver.
+No matching executed R5D receipt is currently present in the synchronized Dropbox runtime-receipt tree. Therefore an R6C PASS must not be promoted into trusted-native or physical-source authority.
+
+## Next-node policy
+
+After an R6C PASS:
+
+```text
+BASS behavior-level R6 closeout     COMPLETE
+trusted-native authority gate       STILL BLOCKED ON REC R5D
+```
+
+The source-adapter RED node may open only after **both** gates are satisfied:
+
+```text
+PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION
+AND
+PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE
+  -> BASS_REC_SOURCE_R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED
+```
+
+R7 remains test-only when opened. It must not wire physical REC data into a production solver.

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "stage": "BASS_REC_SOURCE_R6C_CLEANLINESS_ONLY_DIFFERENTIAL_REPLAY",
   "current_node": "R6C_CLEANLINESS_ONLY_DIFFERENTIAL_REPLAY",
   "completed_nodes": [
@@ -15,7 +15,17 @@
   "partially_validated_nodes": [
     "R6_FORMAL_BEHAVIOR_LEVEL_NONREGRESSION_CLOSEOUT"
   ],
+  "external_authority_prerequisite": {
+    "repository": "cosmosapjw-quantum/rec_bianchi",
+    "pull_request": 55,
+    "head": "5372556d91c07e0714929dfd948ca7fbf4405118",
+    "node": "R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_GATE",
+    "required_classification": "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE",
+    "observed_execution_receipt": false,
+    "authority_role": "MANDATORY_BEFORE_R7_OR_ANY_PRODUCTION_SOURCE_ADMISSION"
+  },
   "blocked_nodes": [
+    "R5D_TRUSTED_PRODUCTION_NATIVE_PROVENANCE",
     "R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED",
     "R8_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_GREEN",
     "R9_SAME_SOURCE_GRID_PSTF_PARITY",
@@ -23,13 +33,20 @@
     "PHYSICAL_FACE_ADMISSION",
     "PROVIDER_EXPORT"
   ],
-  "pass_transition": {
+  "behavior_lane_transition": {
     "from": "R6C_CLEANLINESS_ONLY_DIFFERENTIAL_REPLAY",
-    "to": "R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED",
+    "to": "R6_BEHAVIOR_LEVEL_CLOSEOUT",
     "required_classification": "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION"
   },
+  "r7_opening_gate": {
+    "logic": "AND",
+    "required_classifications": [
+      "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION",
+      "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE"
+    ],
+    "to": "R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED"
+  },
   "parallel_nodes": [
-    "R5D_TRUSTED_PRODUCTION_NATIVE_PROVENANCE",
     "MODE_A_G_J_SOURCE_INTEGRATED_WITNESS_THEOREM",
     "DYNAMIC_ELECTRON_TRAJECTORY_PRODUCTION_WIRING",
     "POLARIZED_REC_SOURCE_SCOPE",
@@ -38,9 +55,10 @@
   ],
   "forbidden_transitions": [
     "R6B_UNRESOLVED_TO_R7_IMPLEMENTATION",
+    "R6C_PASS_WITHOUT_R5D_TO_R7",
     "R6C_READY_TO_PHYSICAL_SOURCE_WIRING",
     "SOURCE_BUILT_NATIVE_BEHAVIOR_TO_TRUSTED_NATIVE_PAYLOAD",
     "TEFF_DIAGNOSTIC_TO_TRANSPORT_CLOSURE"
   ],
-  "claim_effect": "NONE_UNTIL_R6C_EXECUTED"
+  "claim_effect": "NONE_UNTIL_R6C_EXECUTED_AND_NONE_FOR_TRUSTED_NATIVE_AUTHORITY_WITHOUT_R5D"
 }
