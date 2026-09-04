@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "SYNC_MAP_02F_R3_CONSUMER_BINDING_RED_EXECUTION_BLOCKED",
+  "repository_scope": "BASS_ONLY",
+  "test_contract_commit": "aeaa2e5547ca75499f69b843b6f9245cc380bb09",
+  "workflow_commit": "7bada05aa04c0bdad8c277d5eade9097953ff906",
+  "expected_red_reason": "CONSUMER_BINDING_CONTRACT_AND_VERIFIER_SURFACES_ABSENT",
+  "observations": {
+    "github_actions": {
+      "workflow_run_id": 33824856670,
+      "job_id": 100875230361,
+      "head_sha": "7bada05aa04c0bdad8c277d5eade9097953ff906",
+      "status": "completed",
+      "conclusion": "failure",
+      "runner_id": 0,
+      "runner_name": "",
+      "reported_steps": [],
+      "test_step_started": false,
+      "classification": "GITHUB_ACTIONS_PLATFORM_EXECUTION_NOT_STARTED"
+    },
+    "connected_wolfram": {
+      "context_calls": 2,
+      "evaluator_calls": 1,
+      "result": "HTTP_502_UPSTREAM_OR_EXTERNAL_SERVICE_ERROR",
+      "kernel_evaluation_observed": false
+    },
+    "session_python_and_container": {
+      "result": "CLIENT_ERROR_BEFORE_USER_CODE_EXECUTION",
+      "python_test_execution_observed": false
+    }
+  },
+  "red_test_observed": false,
+  "software_contract_failure_observed": false,
+  "production_contract_implementation_authorized_by_tdd_gate": false,
+  "durable_progress": [
+    "MUTATION_SENSITIVE_TEST_CONTRACT_PUBLISHED",
+    "GITHUB_ACTIONS_RED_WORKFLOW_PUBLISHED",
+    "EXACT_CONSUMER_BINDING_DESIGN_PUBLISHED",
+    "EXECUTION_ENVIRONMENT_FAILURE_SEPARATED_FROM_SOFTWARE_FAILURE"
+  ],
+  "next_minimum_action": "RUN_TEST_ONLY_PR_HEAD_IN_A_FUNCTIONAL_LOCAL_OR_HOSTED_PYTHON_ENVIRONMENT_AND_PRESERVE_EXPECTED_FAILURE_OUTPUT",
+  "claim_boundary": [
+    "NO_RED_PASS_OR_FAIL_CLAIM",
+    "NO_PRODUCTION_CONTRACT_IMPLEMENTATION_CLAIM",
+    "NO_RUNTIME_PARITY",
+    "NO_CROSS_REPOSITORY_MUTATION",
+    "NO_PROVIDER_OR_SCIENCE_PROMOTION"
+  ],
+  "status": "BLOCKED_BY_EXECUTION_ENVIRONMENT_BEFORE_RED_OBSERVATION"
+}

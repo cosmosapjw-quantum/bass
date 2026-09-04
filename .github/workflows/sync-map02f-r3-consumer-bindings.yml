@@ -1,0 +1,81 @@
+name: sync-map02f-r3-consumer-bindings
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sync-map02f-r3-consumer-bindings.yml"
+      - "docs/bass_master_ssot_v2/SYNC_MAP_02F_R3/**"
+      - "scripts/verify_sync_map02f_r3_consumer_bindings.py"
+      - "scripts/run_sync_map02f_r3_consumer_bindings_local.sh"
+      - "tests/test_sync_map02f_r3_consumer_bindings.py"
+      - "wolfram/BASS/Kernel/IR/ConsumerBindingContractsR3.wl"
+      - "wolfram/BASS/Tests/ConsumerBindingContractsR3.wlt"
+      - "wolfram/scripts/run_consumer_binding_contracts_r3.wls"
+  push:
+    branches:
+      - "research/bass-master-ssot-v2-sync-map02f-r3-consumer-bindings-*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-contract-and-source-packet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify consumer-binding contract
+        run: >-
+          python scripts/verify_sync_map02f_r3_consumer_bindings.py
+          --graph docs/bass_master_ssot_v2/SYNC_MAP_02F_R3/CONSUMER_BINDING_CONTRACTS.json
+      - name: Run mutation-sensitive consumer-binding tests
+        run: python -m unittest -v tests.test_sync_map02f_r3_consumer_bindings
+      - name: Compile Python surfaces
+        run: |
+          python -m py_compile \
+            scripts/verify_sync_map02f_r3_consumer_bindings.py \
+            tests/test_sync_map02f_r3_consumer_bindings.py
+      - name: Check MUnit discovery and path-free test source
+        shell: bash
+        run: |
+          set -euo pipefail
+          WLT=wolfram/BASS/Tests/ConsumerBindingContractsR3.wlt
+          test "$(grep -Fc 'VerificationTest[' "$WLT")" -eq 18
+          ! grep -Fq '$InputFileName' "$WLT"
+          ! grep -Fq 'Get[' "$WLT"
+          ! grep -Fq 'Import[' "$WLT"
+      - name: Check exact parent and text hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=4a78ea05310126f720719e369a782466fdd1111e
+          git cat-file -e "${BASE}^{commit}"
+          git merge-base --is-ancestor "$BASE" HEAD
+          git diff --check "$BASE"...HEAD
+      - name: Build source-only packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifact/source
+          cp \
+            docs/bass_master_ssot_v2/SYNC_MAP_02F_R3/CONSUMER_BINDING_CONTRACTS.json \
+            docs/bass_master_ssot_v2/SYNC_MAP_02F_R3/CONSUMER_BINDING_CONTRACT_DESIGN.md \
+            docs/bass_master_ssot_v2/SYNC_MAP_02F_R3/README.md \
+            scripts/verify_sync_map02f_r3_consumer_bindings.py \
+            scripts/run_sync_map02f_r3_consumer_bindings_local.sh \
+            tests/test_sync_map02f_r3_consumer_bindings.py \
+            wolfram/BASS/Kernel/IR/ConsumerBindingContractsR3.wl \
+            wolfram/BASS/Tests/ConsumerBindingContractsR3.wlt \
+            wolfram/scripts/run_consumer_binding_contracts_r3.wls \
+            artifact/source/
+          (cd artifact/source && sha256sum * > SHA256SUMS)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sync-map02f-r3-consumer-bindings-source
+          path: artifact/source
