@@ -1,0 +1,35 @@
+name: BASS REC source R7 dual-adapter expected RED
+
+on:
+  pull_request:
+    paths:
+      - "tests/research/test_bass_rec_source_r7_dual_adapter_red.py"
+      - "scripts/research/run_bass_rec_source_r7_red_local.sh"
+      - "docs/research/bass_rec_source_r7_dual_adapter_red/**"
+      - ".github/workflows/bass-rec-source-r7-dual-adapter-red.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r7-expected-red:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run exact expected-RED classifier
+        env:
+          BASS_REPO: ${{ github.workspace }}
+          RECEIPT_ROOT: ${{ runner.temp }}/r7-receipts
+        run: |
+          bash scripts/research/run_bass_rec_source_r7_red_local.sh \
+            | tee "$RUNNER_TEMP/r7-console.log"
+          SUMMARY="$(find "$RECEIPT_ROOT" -name summary.txt -print | sort | tail -n 1)"
+          test -n "$SUMMARY"
+          grep -Fx 'classification=PASS_EXPECTED_R7_FULL_GRID_SPECTRAL_PSTF_ADAPTER_RED' "$SUMMARY"

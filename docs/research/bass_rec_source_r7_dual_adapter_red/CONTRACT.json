@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BASS_REC_SOURCE_R7_FULL_GRID_AND_SPECTRAL_PSTF_ADAPTER_TDD_RED",
+  "status": "EXPECTED_RED",
+  "implementation_parent": {
+    "commit": "6ffbcceb660896f29d569533f0349c8ebaafbbe1",
+    "tree": "ee628ac799cd183591b3d1fdb7aa1e8f47008404",
+    "source_commit": "92d67dc79cf645947beb93ac01a9505ee277dabd",
+    "source_tree": "65cb63e6d08e80e9a8f38f83e3a536cb0a00a693",
+    "source_blob": "869677390004f68aef9f547e6556f5f1c15bd012"
+  },
+  "authority_prerequisites": {
+    "BASS_R6C": "PASS_BASS_REC_SOURCE_R6C_CLEAN_BACKEND_NONREGRESSION",
+    "REC_R5D": "PASS_R5D_TRUSTED_RF00_PAYLOAD_PROVENANCE_AND_BACKEND_GATE",
+    "REC_closeout_commit": "29c01cec6f0e1fe02a738df0fe317ea2772d4c88",
+    "trusted_wheel_sha256": "99bd0596642dd31ca82080fb24306cd9bf3f6dd1ad3f68a1380f77378e266302",
+    "trusted_shared_object_sha256": "5d5b8197518d8637b14e0c78b871802ed64f6506c7a95128f31bd52044a98633"
+  },
+  "future_module": "bianchi.source_adapters",
+  "required_symbols": [
+    "SourceTimeBasis",
+    "SourceAdapterError",
+    "SourceApplicationReceipt",
+    "SourceApplicationResult",
+    "apply_constant_pair_to_full_spectral_grid",
+    "apply_constant_pair_to_spectral_pstf",
+    "require_dual_adapter_target"
+  ],
+  "state_domain": {
+    "admitted": [
+      "FULL_SPECTRAL_GRID",
+      "FINITE_SPECTRAL_PSTF"
+    ],
+    "rejected": [
+      "RADIAL_INTEGRATED_ANGULAR_GRID",
+      "FINITE_INTEGRATED_J_HIERARCHY"
+    ]
+  },
+  "source_domain": {
+    "species": "photon",
+    "statistics": "boson",
+    "frequency_kind": "POINTWISE_SPECTRAL",
+    "coefficient_kind": "CONSTANT_POSITIVE_PAIR",
+    "formula": "eta*(1+f)-kappa*f = eta-(kappa-eta)*f",
+    "eta_constraint": "finite and nonnegative",
+    "kappa_constraint": "finite and nonnegative",
+    "chi_affine": "signed derived quantity kappa-eta"
+  },
+  "coefficient_action": {
+    "formula": "C_alpha=eta*unit_field_alpha-chi_affine*f_alpha",
+    "unit_field_coefficients": "caller supplied and representation bound",
+    "first_fixture_basis": "axisymmetric Legendre P_0 through P_3",
+    "first_fixture_projection": "four-node Gauss-Legendre, exact through polynomial degree seven"
+  },
+  "time_bases": {
+    "PHYSICAL_TIME": {
+      "rate_dimension": "T^-1",
+      "conversion": "identity"
+    },
+    "Q_TIME": {
+      "definition": "d_tau=H_s_inv*dt",
+      "requirements": "finite H_s_inv>0",
+      "conversion": "divide eta and kappa by H_s_inv exactly once"
+    },
+    "RAY_LENGTH": {
+      "operator_convention": "(1/c) partial_t",
+      "requirements": "finite c_m_s>0",
+      "conversion": "divide eta and kappa by c_m_s exactly once",
+      "rate_dimension": "L^-1"
+    }
+  },
+  "receipt_identity": [
+    "source_payload_sha256",
+    "source_sha256",
+    "state_parent_sha256",
+    "representation_sha256",
+    "projection_contract_sha256",
+    "state_kind",
+    "time_basis",
+    "output_sha256",
+    "l_out_when_applicable",
+    "l_work_when_applicable"
+  ],
+  "rank_contract": {
+    "first_slice_source_rank": 0,
+    "minimum": "L_work>=L_out",
+    "future_finite_band_rule": "L_work>=L_out+L_source",
+    "anisotropic_exponential_jump": "outside first slice; adaptive tail or pointwise projection required"
+  },
+  "expected_red": {
+    "test_path": "tests/research/test_bass_rec_source_r7_dual_adapter_red.py",
+    "tests_run": 12,
+    "assertion_failures": 10,
+    "errors": 0,
+    "passing_controls": 2,
+    "root_cause": "missing bianchi.source_adapters module"
+  },
+  "exclusions": [
+    "physical REC source data",
+    "nonconstant angular source coefficients",
+    "frequency-nonlocal two-photon or Raman kernels",
+    "polarized REC source",
+    "finite electron tilt",
+    "integrated-state closure",
+    "production solver wiring",
+    "numerical grid-PSTF parity",
+    "physical directional face",
+    "provider export",
+    "statistics promotion"
+  ],
+  "authority_effect": "NONE"
+}
