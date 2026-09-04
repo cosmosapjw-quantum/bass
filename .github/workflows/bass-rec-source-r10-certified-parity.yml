@@ -1,0 +1,44 @@
+name: BASS REC source R10 certified scalar parity GREEN
+
+on:
+  pull_request:
+    paths:
+      - 'bianchi/source_parity.py'
+      - 'scripts/research/run_bass_rec_source_r10_green_local.sh'
+      - 'docs/research/bass_rec_source_r10_certified_parity/**'
+      - '.github/workflows/bass-rec-source-r10-certified-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r10-certified-scalar-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute exact local-equivalent R10 gate
+        env:
+          BASS_REPO: ${{ github.workspace }}
+          RECEIPT_ROOT: ${{ runner.temp }}/r10-receipts
+        run: |
+          bash scripts/research/run_bass_rec_source_r10_green_local.sh \
+            | tee "$RUNNER_TEMP/r10-console.log"
+          SUMMARY="$(find "$RECEIPT_ROOT" -name summary.txt -print | sort | tail -n 1)"
+          test -n "$SUMMARY"
+          grep -Fx \
+            'classification=PASS_BASS_REC_SOURCE_R10_CERTIFIED_SCALAR_PROJECTION_PARITY_GREEN' \
+            "$SUMMARY"
+      - name: Upload R10 receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bass-rec-source-r10-certified-parity-receipts
+          path: ${{ runner.temp }}/r10-receipts
+          if-no-files-found: warn
