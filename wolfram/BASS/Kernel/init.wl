@@ -20,7 +20,8 @@ Module[{root, sources},
    FileNameJoin[{root, "Bianchi", "Witnesses.wl"}],
    FileNameJoin[{root, "Geometry", "LeviCivitaConnection.wl"}],
    FileNameJoin[{root, "Geometry", "ONFConnectionCurvature.wl"}],
-   FileNameJoin[{root, "Geometry", "XCobaCurvatureWitnesses.wl"}]
+   FileNameJoin[{root, "Geometry", "XCobaCurvatureWitnesses.wl"}],
+   FileNameJoin[{root, "Background", "EinsteinProjection.wl"}]
  };
  Scan[Get, sources];
 ]
