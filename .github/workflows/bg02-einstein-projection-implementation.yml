@@ -9,6 +9,7 @@ on:
       - "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/**"
       - "docs/superpowers/plans/2026-09-04-bg02-einstein-projection-implementation.md"
       - "tests/test_bg02_einstein_projection_implementation.py"
+      - "tests/test_bg02_red_wrapper_ancestry.py"
       - "scripts/run_bg02_einstein_projection_red_local.sh"
       - "wolfram/BASS/Tests/BG02EinsteinProjectionImplementation.wlt"
       - "wolfram/scripts/run_bg02_einstein_projection_native.wls"
@@ -24,6 +25,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verify RED wrapper scientific-parent ancestry policy
+        shell: bash
+        run: |
+          python3 -S -m unittest -v tests.test_bg02_red_wrapper_ancestry
       - name: Run exact expected RED contract
         shell: bash
         run: |

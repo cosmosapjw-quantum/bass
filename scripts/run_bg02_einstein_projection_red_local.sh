@@ -150,10 +150,13 @@ if grep -Eq \
     UNEXPECTED_ENVIRONMENT=true
 fi
 
+printf 'scientific parent is ancestor: %s\n' "$PARENT_ANCESTRY_PASS"
+printf 'expected RED identity policy: SCIENTIFIC_PARENT_IS_ANCESTOR\n'
+
 STATUS='FAIL_UNEXPECTED_RED_RESULT'
 WRAPPER_RC=1
 
-if [ "$HEAD" = "$EXPECTED_HEAD" ] \
+if [ "$PARENT_ANCESTRY_PASS" = true ] \
    && [ "$RAW_RC" -eq 1 ] \
    && [ "$METHOD_COUNT" -eq 18 ] \
    && [ "$FAILURES" -eq 16 ] \
@@ -233,6 +236,7 @@ payload = {
     "scientific_parent_commit": scientific_parent_commit,
     "scientific_parent_tree": scientific_parent_tree,
     "scientific_parent_is_ancestor": boolean(parent_ancestry_pass),
+    "expected_red_identity_policy": "SCIENTIFIC_PARENT_IS_ANCESTOR",
     "test_sha256": sha(test_path),
     "red_contract_sha256": sha(contract_path),
     "implementation_plan_sha256": sha(plan_path),
