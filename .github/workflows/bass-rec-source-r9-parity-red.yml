@@ -1,0 +1,56 @@
+name: BASS REC source R9 finite-rank parity expected RED
+
+on:
+  pull_request:
+    paths:
+      - 'tests/research/test_bass_rec_source_r9_parity_red.py'
+      - 'scripts/research/run_bass_rec_source_r9_red_local.sh'
+      - 'docs/research/bass_rec_source_r9_parity_red/**'
+      - '.github/workflows/bass-rec-source-r9-parity-red.yml'
+  workflow_dispatch:
+
+jobs:
+  r9-expected-red:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile bounded source and test modules
+        run: |
+          python -m py_compile \
+            bianchi/source_authority.py \
+            bianchi/source_adapters.py \
+            tests/research/test_bass_rec_source_r9_parity_red.py
+      - name: Preserve R5-R8 survivor contracts
+        run: |
+          python -m unittest -v \
+            tests/research/test_bass_rec_source_protocol_red.py \
+            tests/research/test_bass_rec_source_protocol_r6_red.py \
+            tests/research/test_bass_rec_source_r7_dual_adapter_red.py
+      - name: Verify exact R9 expected RED fingerprint
+        run: |
+          python - <<'PY'
+          import io
+          import unittest
+          name = 'tests.research.test_bass_rec_source_r9_parity_red'
+          stream = io.StringIO()
+          suite = unittest.defaultTestLoader.loadTestsFromName(name)
+          result = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
+          failures = len(result.failures)
+          errors = len(result.errors)
+          skipped = len(result.skipped)
+          controls = result.testsRun - failures - errors - skipped
+          print(stream.getvalue())
+          assert result.testsRun == 16
+          assert failures == 14
+          assert errors == 0
+          assert skipped == 0
+          assert controls == 2
+          print('PASS_EXPECTED_R9_FINITE_RANK_GRID_PSTF_PARITY_RED')
+          PY
+      - name: Verify test-only scope
+        run: |
+          test ! -e bianchi/source_parity.py
+          git diff --exit-code
