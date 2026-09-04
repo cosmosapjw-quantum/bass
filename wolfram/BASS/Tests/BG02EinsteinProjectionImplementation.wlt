@@ -7,9 +7,12 @@ registry = Lookup[testContext, "registry", <||>];
 audit = Lookup[testContext, "audit", <||>];
 
 VerificationTest[
-  TrueQ[Lookup[testContext, "package_loaded", False]],
+  TrueQ[
+    Lookup[testContext, "package_loaded", False] &&
+    Lookup[audit, "xTensor_projection_derivation_verified", False]
+  ],
   True,
-  TestID -> "BG02-PACKAGE-LOADED"
+  TestID -> "BG02-XTENSOR-PROJECTION-DERIVATION"
 ]
 
 VerificationTest[
