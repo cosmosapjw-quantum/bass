@@ -1,0 +1,50 @@
+name: BASS REC source R10A projection authority expected RED
+
+on:
+  pull_request:
+    paths:
+      - 'tests/research/test_bass_rec_source_r10a_projection_authority_red.py'
+      - 'scripts/research/run_bass_rec_source_r10a_red_local.sh'
+      - 'docs/research/bass_rec_source_r10a_projection_authority/**'
+      - '.github/workflows/bass-rec-source-r10a-projection-authority-red.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r10a-projection-authority-expected-red:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute exact R10A expected-RED gate
+        env:
+          BASS_REPO: ${{ github.workspace }}
+          RECEIPT_ROOT: ${{ runner.temp }}/r10a-receipts
+        run: |
+          bash scripts/research/run_bass_rec_source_r10a_red_local.sh \
+            | tee "$RUNNER_TEMP/r10a-console.log"
+          SUMMARY="$(find "$RECEIPT_ROOT" -name summary.txt -print | sort | tail -n 1)"
+          test -n "$SUMMARY"
+          grep -Fx \
+            'classification=PASS_EXPECTED_R10A_PROJECTION_AUTHORITY_HARDENING_RED' \
+            "$SUMMARY"
+          grep -Fx 'expected_tests=16' "$SUMMARY"
+          grep -Fx 'expected_assertion_failures=13' "$SUMMARY"
+          grep -Fx 'expected_passing_controls=3' "$SUMMARY"
+          grep -Fx 'expected_errors=0' "$SUMMARY"
+          grep -Fx 'expected_skips=0' "$SUMMARY"
+          grep -Fx 'clean_worktree=true' "$SUMMARY"
+      - name: Upload R10A receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bass-rec-source-r10a-projection-authority-red-receipts
+          path: ${{ runner.temp }}/r10a-receipts
+          if-no-files-found: warn
