@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "stage_id": "BG02_B0R1_NATIVE_TYPED_VIEW_CALIBRATION",
+  "source_status": "PREPARED_UNEXECUTED",
+  "test_execution_observed": false,
+  "reference_parent": "ac01009dec8678d9f1b8af10fb915b871e2358fd",
+  "required_ids": [
+    "PACKAGE_DEFINITIONS", "NORMAL_POSITIVE_K", "RAW_TO_BASS_RIEMANN",
+    "PHYSICAL_RICCI_BASS", "PHYSICAL_RICCI_XACT", "GAUSS_POSITIVE_K",
+    "CODAZZI_POSITIVE_K", "MIXED_RICCI", "MOMENTUM_MATTER",
+    "HAMILTONIAN", "NONZERO_BIANCHI_V", "WRONG_RICCI_SIGN"
+  ],
+  "native_value_engine": "xAct xCoba MetricCompute",
+  "comparison_engine": "independent coordinate Christoffel calculation in Wolfram Language",
+  "xact_archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+  "archive_pin_origin": "wolfram/scripts/run_stage.wls at reference_parent",
+  "archive_pin_scope": "PINNED_RUNTIME_IDENTITY_ONLY_NOT_FORMULA_TRUTH",
+  "activation_helper": "wolfram/BASS/Kernel/Authority/Environment.wl",
+  "activation_blob": "fea03d26573433a2934796ec5e513544ed78e0be",
+  "time_coordinate": "tau=c*t; tau,x,y,z have length dimension",
+  "metric_signature": "(-,+,+,+)",
+  "extrinsic_curvature": "K_ab=+h_a^c h_b^d nabla_c n_d",
+  "flux": "q_a=-h_a^c T_cd n^d",
+  "momentum": "M_a=-D^b K_ab+D_a K-kappa_G q_a",
+  "nonzero_sentinel": "a0=H1=1/ell, H2=H3=0, tau=x=0, ell>0",
+  "old_momentum_discrepancy": "4/ell^2",
+  "native_success_status": "PASS_NATIVE_TYPED_VIEW_CALIBRATION_ONLY",
+  "does_not_admit": [
+    "ABSTRACT_FOUR_PROJECTION_BRIDGE", "EXCEPTIONAL_VI_BRANCH",
+    "CONSTRAINT_PROPAGATION", "BACKGROUND_EVOLUTION", "PROVIDER", "RF04"
+  ]
+}
