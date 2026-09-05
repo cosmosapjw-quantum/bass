@@ -1,0 +1,26 @@
+name: BG02 receipt software contract only
+on:
+  push:
+    branches:
+      - research/bg02-receipt-accounting-20260905-r1
+    paths:
+      - research/diagnostics/bg02_b0_20260905/native/run_native.py
+      - research/diagnostics/bg02_b0_20260905/native/test_receipt_accounting.py
+      - .github/workflows/bg02-receipt-accounting.yml
+permissions:
+  contents: read
+jobs:
+  receipt-software-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Exact source and interpreter identity
+        run: |
+          git rev-parse HEAD HEAD^{tree}
+          python3 --version
+      - name: Software unit and synthetic subprocess tests (NOT native xAct)
+        run: python3 -B research/diagnostics/bg02_b0_20260905/native/test_receipt_accounting.py
