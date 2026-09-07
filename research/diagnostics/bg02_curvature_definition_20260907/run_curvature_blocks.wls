@@ -1,0 +1,84 @@
+#!/usr/bin/env wolframscript
+(* PREPARED_UNEXECUTED. Native xTensor curvature-definition-to-block proof.
+   No xCoba, no BASS production source mutation, no old native/AP/SC rerun. *)
+$HistoryLength=0;
+$CBDirectory=DirectoryName[$InputFileName];
+ClearAll[cbSafe,cbMain];
+cbSafe[x_Association]:=AssociationThread[Keys[x],cbSafe/@Values[x]];
+cbSafe[x_List]:=cbSafe/@x;
+cbSafe[x_String|x_Integer|x_Real]:=x;
+cbSafe[True]=True;cbSafe[False]=False;cbSafe[Null]=Null;
+cbSafe[x_]:=ToString[x,InputForm];
+cbMain[]:=Module[{local,hashes,before,after,xtensorFile,xBefore,xAfter,loaded,
+ proof,spec,required,report,results,runtime,ids,complete,rows,allSuccess,code},
+ local=FileNameJoin[{$CBDirectory,#}]&/@
+   {"CurvatureDefinitionBridge.wl","curvature_block_tests.wl","run_curvature_blocks.wls"};
+ If[!AllTrue[local,FileExistsQ],Return[<|"status"->"BLOCKED_INPUT_FILES","exit_code"->2,
+   "missing"->Select[local,!FileExistsQ[#]&]|>]];
+ hashes[]:=AssociationThread[FileNameTake/@local,
+   IntegerString[FileHash[#,"SHA256"],16,64]&/@local];
+ before=hashes[];Print["CB_SOURCE_BEFORE ",InputForm[before]];
+ If[AnyTrue[$Packages,StringStartsQ[#,"xAct`"]&],
+   Return[<|"status"->"BLOCKED_PRELOADED_XACT","exit_code"->2|>]];
+ xtensorFile=FindFile["xAct`xTensor`"];
+ If[!StringQ[xtensorFile]||!FileExistsQ[xtensorFile],
+   Return[<|"status"->"BLOCKED_INSTALLED_XTENSOR_UNAVAILABLE","exit_code"->2|>]];
+ xBefore=IntegerString[FileHash[xtensorFile,"SHA256"],16,64];
+ Print["CB_XTENSOR_INIT ",InputForm[{xtensorFile,xBefore}]];
+ loaded=Check[Needs["xAct`xTensor`"];
+   Get[local[[1]]];Get[local[[2]]];True,$Failed];
+ If[loaded=!=True||!MemberQ[$Packages,"xAct`xTensor`"]||
+   Length[DownValues[xAct`xTensor`InducedDecomposition]]===0||
+   Length[DownValues[xAct`xTensor`ProjectDerivative]]===0,
+   Return[<|"status"->"BLOCKED_NATIVE_DEPENDENCY_LOAD","exit_code"->2|>]];
+ Print["CB_PROOF_BEGIN"];
+ proof=BASS`Research`CB1`BuildCurvatureDefinitionBridge[];
+ If[!AssociationQ[proof],Return[<|"status"->"CB_PROOF_INVALID","exit_code"->2,"failure"->proof|>]];
+ spec=BG02CBTests[proof];
+ If[!AssociationQ[spec],Return[<|"status"->"CB_TEST_SPEC_INVALID","exit_code"->2,"failure"->spec|>]];
+ required=spec["required_ids"];
+ If[Length[required]=!=9||!DuplicateFreeQ[required],
+   Return[<|"status"->"CB_DECLARED_IDS_INVALID","exit_code"->2|>]];
+ Print["CB_TESTS_BEGIN ",InputForm[required]];
+ report=TestReport[spec["tests"],HandlerFunctions-><|
+   "TestEvaluated"->(Print["CB_TEST_EVENT ",InputForm[#]]&)|>];
+ If[Head[report]=!=TestReportObject,Return[<|"status"->"CB_REPORT_INVALID","exit_code"->2|>]];
+ results=report["Results"];runtime=report["RuntimeFailures"];
+ If[!ListQ[results]||!ListQ[runtime],Return[<|"status"->"CB_REPORT_PROPERTIES_INVALID","exit_code"->2|>]];
+ ids=#["TestID"]&/@results;complete=DuplicateFreeQ[ids]&&Sort[ids]===Sort[required];
+ rows=(<|"id"->#["TestID"],"outcome"->#["Outcome"],
+   "actual"->ToString[#["ActualOutput"],InputForm],
+   "expected"->ToString[#["ExpectedOutput"],InputForm],
+   "actual_messages"->ToString[#["ActualMessages"],InputForm],
+   "expected_messages"->ToString[#["ExpectedMessages"],InputForm]|>&/@results);
+ after=hashes[];xAfter=IntegerString[FileHash[xtensorFile,"SHA256"],16,64];
+ allSuccess=TrueQ[report["ReportSucceeded"]]&&AllTrue[results,#["Outcome"]==="Success"&];
+ code=Which[!complete||before=!=after||xBefore=!=xAfter||runtime=!={},2,allSuccess,0,True,1];
+ <|"task"->"BG02_CURVATURE_DEFINITION_TO_BLOCKS_V1",
+   "status"->Switch[code,0,"PASS_NATIVE_CURVATURE_BLOCK_DERIVATION_ONLY",1,"FAIL_NATIVE_CURVATURE_BLOCK_DERIVATION",_,"INVALID_NATIVE_CURVATURE_BLOCK_RUN"],
+   "exit_code"->code,"wolfram_version"->$Version,
+   "xtensor_version"->ToString[xAct`xTensor`$Version,InputForm],
+   "xtensor_init"->xtensorFile,"xtensor_init_sha256"->xAfter,
+   "xtensor_archive_seal_verified_by_this_runner"->False,
+   "required_ids"->required,"observed_ids"->ids,"exact_ids"->complete,
+   "rows"->rows,"runtime_failures"->ToString[runtime,InputForm],
+   "source_before"->before,"source_after"->after,"source_unchanged"->(before===after),
+   "proof"->Join[proof,<|"curvature_definition_to_blocks_verified"->If[code===0,True,False]|>],
+   "native_xTensor_evaluated"->True,"uses_xCoba"->False,
+   "prior_AP_result_reused_not_rerun"->True,"production_admitted"->False|>
+];
+Block[{$MessageList={}},
+ cbResult=CheckAbort[TimeConstrained[Catch[cbMain[]],240,
+   <|"status"->"CB_TIMEOUT","exit_code"->2|>],
+   <|"status"->"CB_ABORT","exit_code"->2|>];
+ cbMessages=ToString[#,InputForm]&/@$MessageList;
+];
+If[!AssociationQ[cbResult],cbResult=<|"status"->"CB_INVALID_RESULT","exit_code"->2|>];
+cbResult=Join[cbResult,<|"whole_invocation_messages"->cbMessages|>];
+If[cbMessages=!={}&&Lookup[cbResult,"exit_code",2]===0,
+ cbResult=Join[cbResult,<|"mathematical_status"->cbResult["status"],
+   "status"->"CB_MESSAGE_ADMISSION_FAILED","exit_code"->2|>]];
+Print["CB_FINAL_BEGIN"];
+Print[ExportString[cbSafe[cbResult],"RawJSON"]];
+Print["CB_FINAL_END"];
+Exit[Lookup[cbResult,"exit_code",2]];
