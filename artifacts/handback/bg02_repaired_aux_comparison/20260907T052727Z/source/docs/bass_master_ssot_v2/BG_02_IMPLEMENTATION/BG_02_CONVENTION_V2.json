@@ -1,0 +1,116 @@
+{
+  "schema_version": "2.0.0",
+  "contract_id": "BASS_BG02_OWNER_CONVENTION_V2",
+  "owner": "bass",
+  "metric_signature": [
+    -1,
+    1,
+    1,
+    1
+  ],
+  "epsilon_123": 1,
+  "time": "tau=c*t; D0=(1/c) partial_t; geometric rates L^-1",
+  "curvature": {
+    "index_order": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "views": {
+      "BASS_DERIVATIVE_FIRST": {
+        "definition": "B_abcd=g(e_d,R(e_a,e_b)e_c)",
+        "physical_ricci_slots": [
+          "c",
+          "b",
+          "a",
+          "d"
+        ],
+        "physical_ricci": "Ric_ab=g^cd B_cbad"
+      },
+      "RAW_XACT": {
+        "definition": "X_abcd=-B_abcd",
+        "physical_ricci_slots": [
+          "a",
+          "c",
+          "b",
+          "d"
+        ],
+        "physical_ricci": "Ric_ab=g^cd X_acbd"
+      }
+    },
+    "raw_to_bass_sign": -1,
+    "physical_ricci_negated": false,
+    "gauss_B": "B4_abcd=B3_abcd+K_bc K_ad-K_ac K_bd",
+    "codazzi_B": "h_a^e h_b^f h_c^g n^h B_efgh=-D_a K_bc+D_b K_ac",
+    "gauss_X": "X4_abcd=X3_abcd+K_ac K_bd-K_ad K_bc",
+    "codazzi_X": "h_a^e h_b^f h_c^g n^h X_efgh=D_a K_bc-D_b K_ac",
+    "W2_uncontracted_view": "RAW_XACT",
+    "W2_scalar_contraction": "PHYSICAL_RICCI",
+    "W2_source_path": "wolfram/BASS/Kernel/Geometry/Abstract1Plus3.wl",
+    "W2_source_blob": "4bfacaacd52af90a835665bbfe1c264983fda79f"
+  },
+  "extrinsic_curvature": "K+_ab=+h_a^c h_b^d nabla_c n_d",
+  "flux": "q_a=-h_a^c T_cd n^d",
+  "einstein_residual": "E_ab=G_ab+Lambda g_ab-kappa_G T_ab",
+  "kappa_G": "8*pi*G/c^4",
+  "momentum": {
+    "carrier": "C_a=D^b K+_ab-D_a K+",
+    "equation": "M_a=-C_a-kappa_G q_a",
+    "coefficients_divK_gradK_kappa_q": [
+      -1,
+      1,
+      -1
+    ],
+    "dimension": "L^-2"
+  },
+  "historical_native": {
+    "bass_commit": "477371143f15ef2625a7de21a5d178b09ffc1c32",
+    "bass_tree": "fe4c9f9b6deae0bf072dd553cd046c0a4a7801e3",
+    "evidence_repository": "cosmosapjw-quantum/rei_bianchi",
+    "evidence_commit": "76f7f70d1510b268a6a06c3ae9722ef68fe0ce47",
+    "evidence_tree": "3391af719e1939fd1d9ae55aa0ebe6f430415b80",
+    "evidence_directory": "research/rei_m2_local_native_20260905/native",
+    "native_sha256": "5b28385a1e2d80b4e9281675f45c3f4e92c611864c4afdf4852b840f88c5ec33",
+    "stdout_sha256": "fba6394a6c6791214be78ae52d93eea97b771c4683bb26249acb47524045b6c2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+    "required_ids": [
+      "PACKAGE_DEFINITIONS",
+      "NORMAL_POSITIVE_K",
+      "RAW_TO_BASS_RIEMANN",
+      "PHYSICAL_RICCI_BASS",
+      "PHYSICAL_RICCI_XACT",
+      "GAUSS_POSITIVE_K",
+      "CODAZZI_POSITIVE_K",
+      "MIXED_RICCI",
+      "MOMENTUM_MATTER",
+      "HAMILTONIAN",
+      "NONZERO_BIANCHI_V",
+      "WRONG_RICCI_SIGN"
+    ],
+    "scope": "GENERIC_EXPONENTIAL_BIANCHI_V_COMPONENTS_NOT_GENERAL_ABSTRACT_PROOF",
+    "native_status": "PASS_NATIVE_TYPED_VIEW_CALIBRATION_ONLY",
+    "process_status": "PASS_NATIVE_CALIBRATION_ONLY",
+    "whole_invocation_message_free": false,
+    "nativeBody_messages": [],
+    "raw_warning": "Verbose::shdw",
+    "changed_source_validation": false
+  },
+  "message_policy": {
+    "version": "BG02_WHOLE_INVOCATION_STRICT_V2",
+    "mode": "STRICT_MESSAGE_FREE",
+    "allowed_message_ids": [],
+    "verbose_shadow_disposition": "UNADJUDICATED_NOT_ALLOWLISTED",
+    "unobserved_scope": "UNKNOWN"
+  },
+  "scope": {
+    "implementation_layer": "COMPONENT_FORMULA_ORACLE",
+    "native_tensor_api_admitted": false,
+    "exceptional_consumer": "NOT_IN_SCOPE_DEFERRED",
+    "constraint_propagation": false,
+    "background_evolution": false,
+    "provider_admission": false,
+    "RF04": false
+  }
+}

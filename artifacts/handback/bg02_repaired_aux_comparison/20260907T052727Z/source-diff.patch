@@ -1,0 +1,670 @@
+diff --git a/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_CONVENTION_V2.json b/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_CONVENTION_V2.json
+new file mode 100644
+index 0000000..3083776
+--- /dev/null
++++ b/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_CONVENTION_V2.json
+@@ -0,0 +1,116 @@
++{
++  "schema_version": "2.0.0",
++  "contract_id": "BASS_BG02_OWNER_CONVENTION_V2",
++  "owner": "bass",
++  "metric_signature": [
++    -1,
++    1,
++    1,
++    1
++  ],
++  "epsilon_123": 1,
++  "time": "tau=c*t; D0=(1/c) partial_t; geometric rates L^-1",
++  "curvature": {
++    "index_order": [
++      "a",
++      "b",
++      "c",
++      "d"
++    ],
++    "views": {
++      "BASS_DERIVATIVE_FIRST": {
++        "definition": "B_abcd=g(e_d,R(e_a,e_b)e_c)",
++        "physical_ricci_slots": [
++          "c",
++          "b",
++          "a",
++          "d"
++        ],
++        "physical_ricci": "Ric_ab=g^cd B_cbad"
++      },
++      "RAW_XACT": {
++        "definition": "X_abcd=-B_abcd",
++        "physical_ricci_slots": [
++          "a",
++          "c",
++          "b",
++          "d"
++        ],
++        "physical_ricci": "Ric_ab=g^cd X_acbd"
++      }
++    },
++    "raw_to_bass_sign": -1,
++    "physical_ricci_negated": false,
++    "gauss_B": "B4_abcd=B3_abcd+K_bc K_ad-K_ac K_bd",
++    "codazzi_B": "h_a^e h_b^f h_c^g n^h B_efgh=-D_a K_bc+D_b K_ac",
++    "gauss_X": "X4_abcd=X3_abcd+K_ac K_bd-K_ad K_bc",
++    "codazzi_X": "h_a^e h_b^f h_c^g n^h X_efgh=D_a K_bc-D_b K_ac",
++    "W2_uncontracted_view": "RAW_XACT",
++    "W2_scalar_contraction": "PHYSICAL_RICCI",
++    "W2_source_path": "wolfram/BASS/Kernel/Geometry/Abstract1Plus3.wl",
++    "W2_source_blob": "4bfacaacd52af90a835665bbfe1c264983fda79f"
++  },
++  "extrinsic_curvature": "K+_ab=+h_a^c h_b^d nabla_c n_d",
++  "flux": "q_a=-h_a^c T_cd n^d",
++  "einstein_residual": "E_ab=G_ab+Lambda g_ab-kappa_G T_ab",
++  "kappa_G": "8*pi*G/c^4",
++  "momentum": {
++    "carrier": "C_a=D^b K+_ab-D_a K+",
++    "equation": "M_a=-C_a-kappa_G q_a",
++    "coefficients_divK_gradK_kappa_q": [
++      -1,
++      1,
++      -1
++    ],
++    "dimension": "L^-2"
++  },
++  "historical_native": {
++    "bass_commit": "477371143f15ef2625a7de21a5d178b09ffc1c32",
++    "bass_tree": "fe4c9f9b6deae0bf072dd553cd046c0a4a7801e3",
++    "evidence_repository": "cosmosapjw-quantum/rei_bianchi",
++    "evidence_commit": "76f7f70d1510b268a6a06c3ae9722ef68fe0ce47",
++    "evidence_tree": "3391af719e1939fd1d9ae55aa0ebe6f430415b80",
++    "evidence_directory": "research/rei_m2_local_native_20260905/native",
++    "native_sha256": "5b28385a1e2d80b4e9281675f45c3f4e92c611864c4afdf4852b840f88c5ec33",
++    "stdout_sha256": "fba6394a6c6791214be78ae52d93eea97b771c4683bb26249acb47524045b6c2",
++    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
++    "archive_sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
++    "required_ids": [
++      "PACKAGE_DEFINITIONS",
++      "NORMAL_POSITIVE_K",
++      "RAW_TO_BASS_RIEMANN",
++      "PHYSICAL_RICCI_BASS",
++      "PHYSICAL_RICCI_XACT",
++      "GAUSS_POSITIVE_K",
++      "CODAZZI_POSITIVE_K",
++      "MIXED_RICCI",
++      "MOMENTUM_MATTER",
++      "HAMILTONIAN",
++      "NONZERO_BIANCHI_V",
++      "WRONG_RICCI_SIGN"
++    ],
++    "scope": "GENERIC_EXPONENTIAL_BIANCHI_V_COMPONENTS_NOT_GENERAL_ABSTRACT_PROOF",
++    "native_status": "PASS_NATIVE_TYPED_VIEW_CALIBRATION_ONLY",
++    "process_status": "PASS_NATIVE_CALIBRATION_ONLY",
++    "whole_invocation_message_free": false,
++    "nativeBody_messages": [],
++    "raw_warning": "Verbose::shdw",
++    "changed_source_validation": false
++  },
++  "message_policy": {
++    "version": "BG02_WHOLE_INVOCATION_STRICT_V2",
++    "mode": "STRICT_MESSAGE_FREE",
++    "allowed_message_ids": [],
++    "verbose_shadow_disposition": "UNADJUDICATED_NOT_ALLOWLISTED",
++    "unobserved_scope": "UNKNOWN"
++  },
++  "scope": {
++    "implementation_layer": "COMPONENT_FORMULA_ORACLE",
++    "native_tensor_api_admitted": false,
++    "exceptional_consumer": "NOT_IN_SCOPE_DEFERRED",
++    "constraint_propagation": false,
++    "background_evolution": false,
++    "provider_admission": false,
++    "RF04": false
++  }
++}
+diff --git a/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_IMPLEMENTATION_REGISTRY.json b/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_IMPLEMENTATION_REGISTRY.json
+index bcd0326..e157b4f 100644
+--- a/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_IMPLEMENTATION_REGISTRY.json
++++ b/docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_IMPLEMENTATION_REGISTRY.json
+@@ -1 +1,321 @@
+-{"schema_version":"1.0.0","stage_id":"BG_02_GR_BACKGROUND_EINSTEIN_PROJECTION_IMPLEMENTATION_GREEN_CANDIDATE","repository_scope":"BASS_ONLY","owner":"bass","status":"COMPONENT_ORACLE_ONLY_NATIVE_XTENSOR_BRIDGE_REQUIRED","implementation_layer":"COMPONENT_FORMULA_ORACLE","native_tensor_api_admitted":false,"scientific_parent_commit":"80d271cc528e1a0ffa813ecd3e3fb7610f3fa755","scientific_parent_tree":"3fd8818938eaa0988988c6927cff799455a7a31d","design_authority_commit":"ef6d51aad709555737617e2021ba50c553c90b6c","design_formula_registry_blob":"88336e03f9761d8e8f75c92f705296abf9ce7725","semantic_federation_reference":{"closeout_commit":"5ead8c5bcd9af6a37f9f8d7e7431e69887f34730","effect":"DEPENDENCY_REFERENCE_ONLY_NOT_CODE_ANCESTRY"},"formula_count":14,"formulas":[{"formula_id":"BASS.BG.EINSTEIN_RESIDUAL.001","target":"E_ab","dimension":"L^-2","equation":"E_ab = G_ab + Lambda g_ab - kappa_G T_ab; kappa_G = 8 pi G/c^4","depends_on":[],"implementation_api":"BASS`Background`EinsteinResidualTensor","derivative_kind":"NONE"},{"formula_id":"BASS.BG.HAMILTONIAN_PROJECTION.001","target":"n^a n^b E_ab","dimension":"L^-2","equation":"Hres = (R3 + K^2 - K_ab K^ab)/2 - Lambda - kappa_G rho","depends_on":["BASS.BG.EINSTEIN_RESIDUAL.001","BASS.GEO.CONTRACTED_GAUSS.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001","BASS.GEO.SPATIAL_SCALAR.001"],"implementation_api":"BASS`Background`HamiltonianProjection","derivative_kind":"NONE"},{"formula_id":"BASS.BG.MOMENTUM_PROJECTION.001","target":"-h_a^c n^d E_cd","dimension":"L^-2","equation":"M_a = D^b K_ab - D_a K - kappa_G q_a","depends_on":["BASS.BG.EINSTEIN_RESIDUAL.001","BASS.GEO.CODAZZI.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"],"implementation_api":"BASS`Background`MomentumProjection","derivative_kind":"SPATIAL_COVARIANT_DERIVATIVE"},{"formula_id":"BASS.BG.SPATIAL_TRACE_PROJECTION.001","target":"h^ab E_ab/3","dimension":"L^-2","equation":"Tres = -R3/6 - 2 L_n H - 3 H^2 - sigma2/2 + 2(D.A+A2)/3 + Lambda - kappa_G p","depends_on":["BASS.BG.EINSTEIN_RESIDUAL.001","BASS.GEO.NORMAL_ACCELERATION.001","BASS.GEO.NORMAL_DERIVATIVE_DECOMPOSITION.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001","BASS.GEO.SPATIAL_SCALAR.001"],"implementation_api":"BASS`Background`SpatialTraceProjection","derivative_kind":"LIE_DERIVATIVE_NORMAL"},{"formula_id":"BASS.BG.SPATIAL_PSTF_PROJECTION.001","target":"E_<ab>","dimension":"L^-2","equation":"S_ab = R3_<ab> + (L_n K_ab)_<ab> + K K_<ab> - 2 K_c<a K_b>^c - D_<a A_b> - A_<a A_b> - kappa_G pi_ab","depends_on":["BASS.BG.EINSTEIN_RESIDUAL.001","BASS.GEO.NORMAL_ACCELERATION.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001","BASS.GEO.SPATIAL_RICCI.001"],"implementation_api":"BASS`Background`SpatialPSTFProjection","derivative_kind":"NONE"},{"formula_id":"BASS.BG.HAMILTONIAN_HSIGMA.001","target":"2 Hres","dimension":"L^-2","equation":"2 Hres = R3 + 6 H^2 - sigma2 - 2 Lambda - 2 kappa_G rho","depends_on":["BASS.BG.HAMILTONIAN_PROJECTION.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"],"implementation_api":"BASS`Background`HamiltonianProjection","derivative_kind":"NONE"},{"formula_id":"BASS.BG.EXPANSION_RATE_RAW.001","target":"L_n H","dimension":"L^-2","equation":"F_trace = -R3/12 - 3 H^2/2 - sigma2/4 + (D.A+A2)/3 + Lambda/2 - kappa_G p/2","depends_on":["BASS.BG.SPATIAL_TRACE_PROJECTION.001"],"implementation_api":"BASS`Background`SpatialTraceRate","derivative_kind":"LIE_DERIVATIVE_NORMAL"},{"formula_id":"BASS.BG.EXPANSION_RATE_ADM.001","target":"L_n H","dimension":"L^-2","equation":"F_ADM = -R3/3 - 3 H^2 + (D.A+A2)/3 + kappa_G(rho-p)/2 + Lambda","depends_on":["BASS.BG.EXPANSION_RATE_RAW.001","BASS.BG.HAMILTONIAN_HSIGMA.001"],"implementation_api":"BASS`Background`ADMTraceRate","derivative_kind":"LIE_DERIVATIVE_NORMAL"},{"formula_id":"BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001","target":"L_n H","dimension":"L^-2","equation":"F_Ray = -H^2 - sigma2/3 + (D.A+A2)/3 - kappa_G(rho+3p)/6 + Lambda/3","depends_on":["BASS.BG.EXPANSION_RATE_RAW.001","BASS.BG.HAMILTONIAN_HSIGMA.001"],"implementation_api":"BASS`Background`RaychaudhuriRate","derivative_kind":"PROJECTED_COVARIANT_NORMAL_DERIVATIVE"},{"formula_id":"BASS.BG.SHEAR_RATE_LIE.001","target":"(L_n sigma_ab)_PSTF","dimension":"L^-2","equation":"LieSigma = -R3_<ab> - H sigma_ab + 2 sigma_c<a sigma_b>^c + D_<a A_b> + A_<a A_b> + kappa_G pi_ab","depends_on":["BASS.BG.SPATIAL_PSTF_PROJECTION.001","BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"],"implementation_api":"BASS`Background`ShearLieRate","derivative_kind":"LIE_DERIVATIVE_PSTF"},{"formula_id":"BASS.BG.SHEAR_RATE_PROJECTED.001","target":"dot sigma_<ab>","dimension":"L^-2","equation":"DotSigma = -3 H sigma_ab - R3_<ab> + D_<a A_b> + A_<a A_b> + kappa_G pi_ab","depends_on":["BASS.BG.SHEAR_RATE_LIE.001"],"implementation_api":"BASS`Background`ShearProjectedRate","derivative_kind":"PROJECTED_COVARIANT_NORMAL_DERIVATIVE"},{"formula_id":"BASS.BG.HOMOGENEOUS_SCALAR_CURVATURE.001","target":"R3","dimension":"L^-2","equation":"R3 = -6 a_B^2 - n_B_ab n_B^ab + (tr n_B)^2/2 modulo n_B.a_B=0","depends_on":["BASS.GEO.SPATIAL_SCALAR.001"],"implementation_api":"BASS`Background`EinsteinProjectionRegistry","derivative_kind":"NONE"},{"formula_id":"BASS.BG.HOMOGENEOUS_MOMENTUM.001","target":"D^b sigma_ab","dimension":"L^-2","equation":"D^b sigma_ab = -3 a_B^b sigma_ab - epsilon_a mn n_B^m_b sigma^bn","depends_on":["BASS.BG.MOMENTUM_PROJECTION.001","BASS.GEO.LEVI_CIVITA_CONNECTION.001","BASS.GEO.STRUCTURE_CONSTANTS.001"],"implementation_api":"BASS`Background`MomentumProjection","derivative_kind":"SPATIAL_COVARIANT_DERIVATIVE"},{"formula_id":"BASS.BG.EXCEPTIONAL_VI_MOMENTUM_CARRIER.001","target":"D^b sigma_3b","dimension":"L^-2","equation":"D^b sigma_3b = N22 Sigma12 + (N23-3A) Sigma13","depends_on":["BASS.BG.HOMOGENEOUS_MOMENTUM.001"],"implementation_api":"BASS`Background`MomentumProjection","derivative_kind":"SPATIAL_COVARIANT_DERIVATIVE"}],"off_shell_identities":["F_ADM - F_trace + Hres/2 = 0","F_trace - F_Ray + Hres/6 = 0","F_ADM - F_Ray + 2 Hres/3 = 0"],"state_projection_policy":{"projects_Hres_to_zero":false,"primary_rate":"BASS.BG.EXPANSION_RATE_RAW.001","diagnostic_rates":["BASS.BG.EXPANSION_RATE_ADM.001","BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001"]},"shear_rate_metadata":{"BASS.BG.SHEAR_RATE_LIE.001":{"derivative_kind":"LIE_DERIVATIVE_PSTF"},"BASS.BG.SHEAR_RATE_PROJECTED.001":{"derivative_kind":"PROJECTED_COVARIANT_NORMAL_DERIVATIVE"}},"connection_route":{"allowed":["BASS`Geometry`ONFRicciTensor","BASS`Geometry`ONFScalarCurvature","BASS`Geometry`ConnectionToLockedGammaOrder[BASS`Geometry`LeviCivitaConnection[a,n]]"],"embedded_second_connection_implementation":false,"canonical_storage":"Gamma[[gamma,alpha,beta]]","curvature_storage":"GammaLocked[[alpha,beta,gamma]]"},"connection_order_guards":{"Bianchi_I":{"locked":0,"wrong":0,"diagnostic_power":"FALSE_NEGATIVE"},"Bianchi_V":{"locked":-6,"wrong":4,"diagnostic_power":"REQUIRED"},"Bianchi_II":{"locked":-0.5,"wrong":1.5,"diagnostic_power":"REQUIRED"},"Bianchi_IX":{"locked":1.5,"wrong":1.5,"diagnostic_power":"FALSE_NEGATIVE"},"I_IX_ONLY_IS_INSUFFICIENT":true},"known_limits":{"flat_flrw":{"friedmann":"3 H^2 = kappaG rho + Lambda","rate":"L_n H = -kappaG (rho+p)/2"},"flat_de_sitter":{"rates":[0,0,0]},"kasner_vacuum":{"Hres":0,"rates":["-1/(3 tau^2)","-1/(3 tau^2)","-1/(3 tau^2)"]},"homogeneous_scalar_curvature":{"I":0,"V":-6,"II":-0.5,"IX":1.5},"exceptional_VI_minus_one_ninth":{"carrier":"N22 Sigma12 + (N23 - 3 A) Sigma13"}},"dimensions":{"H_geom":"L^-1","K_ab":"L^-1","sigma_ab":"L^-1","A_normal":"L^-1","a_B":"L^-1","n_B":"L^-1","R3_ab":"L^-2","Lambda":"L^-2","Hres":"L^-2","M_a":"L^-2","Tres":"L^-2","S_ab":"L^-2","kappaG_times_matter":"L^-2"},"required_native_replay":{"xTensor":"1.3.0","xCoba":"0.8.6","MUnit_top_level_tests":26,"tests_failed":0,"tests_not_evaluated":0,"status":"PENDING","xTensor_projection_derivation_gate":"PENDING","claim_if_only_component_oracle_passes":"SOURCE_GREEN_ONLY"},"withheld_claims":["CONSTRAINT_PROPAGATION_VERIFIED","BACKGROUND_NUMERICAL_EVOLUTION","MATTER_DYNAMICS_CLOSED","ALL_FAMILY_BACKGROUND_READY","PROVIDER_ADMISSION","OBSERVABLE_READY","LIKELIHOOD_READY","SCIENCE_VALIDITY","PASS_RF04","READY_OR_MERGE"]}
+\ No newline at end of file
++{
++  "schema_version": "1.1.0",
++  "stage_id": "BG_02_GR_BACKGROUND_EINSTEIN_PROJECTION_IMPLEMENTATION_GREEN_CANDIDATE",
++  "repository_scope": "BASS_ONLY",
++  "owner": "bass",
++  "status": "COMPONENT_ORACLE_ONLY_NATIVE_XTENSOR_BRIDGE_REQUIRED",
++  "implementation_layer": "COMPONENT_FORMULA_ORACLE",
++  "native_tensor_api_admitted": false,
++  "scientific_parent_commit": "80d271cc528e1a0ffa813ecd3e3fb7610f3fa755",
++  "scientific_parent_tree": "3fd8818938eaa0988988c6927cff799455a7a31d",
++  "design_authority_commit": "ef6d51aad709555737617e2021ba50c553c90b6c",
++  "design_formula_registry_blob": "88336e03f9761d8e8f75c92f705296abf9ce7725",
++  "semantic_federation_reference": {
++    "closeout_commit": "5ead8c5bcd9af6a37f9f8d7e7431e69887f34730",
++    "effect": "DEPENDENCY_REFERENCE_ONLY_NOT_CODE_ANCESTRY"
++  },
++  "formula_count": 14,
++  "formulas": [
++    {
++      "formula_id": "BASS.BG.EINSTEIN_RESIDUAL.001",
++      "target": "E_ab",
++      "dimension": "L^-2",
++      "equation": "E_ab = G_ab + Lambda g_ab - kappa_G T_ab; kappa_G = 8 pi G/c^4",
++      "depends_on": [],
++      "implementation_api": "BASS`Background`EinsteinResidualTensor",
++      "derivative_kind": "NONE"
++    },
++    {
++      "formula_id": "BASS.BG.HAMILTONIAN_PROJECTION.001",
++      "target": "n^a n^b E_ab",
++      "dimension": "L^-2",
++      "equation": "Hres = (R3 + K^2 - K_ab K^ab)/2 - Lambda - kappa_G rho",
++      "depends_on": [
++        "BASS.BG.EINSTEIN_RESIDUAL.001",
++        "BASS.GEO.CONTRACTED_GAUSS.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
++        "BASS.GEO.SPATIAL_SCALAR.001"
++      ],
++      "implementation_api": "BASS`Background`HamiltonianProjection",
++      "derivative_kind": "NONE"
++    },
++    {
++      "formula_id": "BASS.BG.MOMENTUM_PROJECTION.001",
++      "target": "-h_a^c n^d E_cd",
++      "dimension": "L^-2",
++      "equation": "M_a = -D^b K_ab + D_a K - kappa_G q_a",
++      "depends_on": [
++        "BASS.BG.EINSTEIN_RESIDUAL.001",
++        "BASS.GEO.CODAZZI.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
++      ],
++      "implementation_api": "BASS`Background`MomentumProjection",
++      "derivative_kind": "SPATIAL_COVARIANT_DERIVATIVE",
++      "formula_revision": 2,
++      "supersedes_registry_blob": "bcd032618c755436d0be6f5b3a06505dbecad3c0"
++    },
++    {
++      "formula_id": "BASS.BG.SPATIAL_TRACE_PROJECTION.001",
++      "target": "h^ab E_ab/3",
++      "dimension": "L^-2",
++      "equation": "Tres = -R3/6 - 2 L_n H - 3 H^2 - sigma2/2 + 2(D.A+A2)/3 + Lambda - kappa_G p",
++      "depends_on": [
++        "BASS.BG.EINSTEIN_RESIDUAL.001",
++        "BASS.GEO.NORMAL_ACCELERATION.001",
++        "BASS.GEO.NORMAL_DERIVATIVE_DECOMPOSITION.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
++        "BASS.GEO.SPATIAL_SCALAR.001"
++      ],
++      "implementation_api": "BASS`Background`SpatialTraceProjection",
++      "derivative_kind": "LIE_DERIVATIVE_NORMAL"
++    },
++    {
++      "formula_id": "BASS.BG.SPATIAL_PSTF_PROJECTION.001",
++      "target": "E_<ab>",
++      "dimension": "L^-2",
++      "equation": "S_ab = R3_<ab> + (L_n K_ab)_<ab> + K K_<ab> - 2 K_c<a K_b>^c - D_<a A_b> - A_<a A_b> - kappa_G pi_ab",
++      "depends_on": [
++        "BASS.BG.EINSTEIN_RESIDUAL.001",
++        "BASS.GEO.NORMAL_ACCELERATION.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001",
++        "BASS.GEO.SPATIAL_RICCI.001"
++      ],
++      "implementation_api": "BASS`Background`SpatialPSTFProjection",
++      "derivative_kind": "NONE"
++    },
++    {
++      "formula_id": "BASS.BG.HAMILTONIAN_HSIGMA.001",
++      "target": "2 Hres",
++      "dimension": "L^-2",
++      "equation": "2 Hres = R3 + 6 H^2 - sigma2 - 2 Lambda - 2 kappa_G rho",
++      "depends_on": [
++        "BASS.BG.HAMILTONIAN_PROJECTION.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
++      ],
++      "implementation_api": "BASS`Background`HamiltonianProjection",
++      "derivative_kind": "NONE"
++    },
++    {
++      "formula_id": "BASS.BG.EXPANSION_RATE_RAW.001",
++      "target": "L_n H",
++      "dimension": "L^-2",
++      "equation": "F_trace = -R3/12 - 3 H^2/2 - sigma2/4 + (D.A+A2)/3 + Lambda/2 - kappa_G p/2",
++      "depends_on": [
++        "BASS.BG.SPATIAL_TRACE_PROJECTION.001"
++      ],
++      "implementation_api": "BASS`Background`SpatialTraceRate",
++      "derivative_kind": "LIE_DERIVATIVE_NORMAL"
++    },
++    {
++      "formula_id": "BASS.BG.EXPANSION_RATE_ADM.001",
++      "target": "L_n H",
++      "dimension": "L^-2",
++      "equation": "F_ADM = -R3/3 - 3 H^2 + (D.A+A2)/3 + kappa_G(rho-p)/2 + Lambda",
++      "depends_on": [
++        "BASS.BG.EXPANSION_RATE_RAW.001",
++        "BASS.BG.HAMILTONIAN_HSIGMA.001"
++      ],
++      "implementation_api": "BASS`Background`ADMTraceRate",
++      "derivative_kind": "LIE_DERIVATIVE_NORMAL"
++    },
++    {
++      "formula_id": "BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001",
++      "target": "L_n H",
++      "dimension": "L^-2",
++      "equation": "F_Ray = -H^2 - sigma2/3 + (D.A+A2)/3 - kappa_G(rho+3p)/6 + Lambda/3",
++      "depends_on": [
++        "BASS.BG.EXPANSION_RATE_RAW.001",
++        "BASS.BG.HAMILTONIAN_HSIGMA.001"
++      ],
++      "implementation_api": "BASS`Background`RaychaudhuriRate",
++      "derivative_kind": "PROJECTED_COVARIANT_NORMAL_DERIVATIVE"
++    },
++    {
++      "formula_id": "BASS.BG.SHEAR_RATE_LIE.001",
++      "target": "(L_n sigma_ab)_PSTF",
++      "dimension": "L^-2",
++      "equation": "LieSigma = -R3_<ab> - H sigma_ab + 2 sigma_c<a sigma_b>^c + D_<a A_b> + A_<a A_b> + kappa_G pi_ab",
++      "depends_on": [
++        "BASS.BG.SPATIAL_PSTF_PROJECTION.001",
++        "BASS.GEO.EXTRINSIC_CURVATURE_SHEAR_SPLIT.001"
++      ],
++      "implementation_api": "BASS`Background`ShearLieRate",
++      "derivative_kind": "LIE_DERIVATIVE_PSTF"
++    },
++    {
++      "formula_id": "BASS.BG.SHEAR_RATE_PROJECTED.001",
++      "target": "dot sigma_<ab>",
++      "dimension": "L^-2",
++      "equation": "DotSigma = -3 H sigma_ab - R3_<ab> + D_<a A_b> + A_<a A_b> + kappa_G pi_ab",
++      "depends_on": [
++        "BASS.BG.SHEAR_RATE_LIE.001"
++      ],
++      "implementation_api": "BASS`Background`ShearProjectedRate",
++      "derivative_kind": "PROJECTED_COVARIANT_NORMAL_DERIVATIVE"
++    },
++    {
++      "formula_id": "BASS.BG.HOMOGENEOUS_SCALAR_CURVATURE.001",
++      "target": "R3",
++      "dimension": "L^-2",
++      "equation": "R3 = -6 a_B^2 - n_B_ab n_B^ab + (tr n_B)^2/2 modulo n_B.a_B=0",
++      "depends_on": [
++        "BASS.GEO.SPATIAL_SCALAR.001"
++      ],
++      "implementation_api": "BASS`Background`EinsteinProjectionRegistry",
++      "derivative_kind": "NONE"
++    },
++    {
++      "formula_id": "BASS.BG.HOMOGENEOUS_MOMENTUM.001",
++      "target": "D^b sigma_ab",
++      "dimension": "L^-2",
++      "equation": "D^b sigma_ab = -3 a_B^b sigma_ab - epsilon_a mn n_B^m_b sigma^bn",
++      "depends_on": [
++        "BASS.BG.MOMENTUM_PROJECTION.001",
++        "BASS.GEO.LEVI_CIVITA_CONNECTION.001",
++        "BASS.GEO.STRUCTURE_CONSTANTS.001"
++      ],
++      "implementation_api": "BASS`Background`MomentumProjection",
++      "derivative_kind": "SPATIAL_COVARIANT_DERIVATIVE",
++      "consumer_binding_status": "CARRIER_ONLY_NO_SPECIALIZED_CONSUMER; use M=-C-kappa_G*q"
++    },
++    {
++      "formula_id": "BASS.BG.EXCEPTIONAL_VI_MOMENTUM_CARRIER.001",
++      "target": "D^b sigma_3b",
++      "dimension": "L^-2",
++      "equation": "D^b sigma_3b = N22 Sigma12 + (N23-3A) Sigma13",
++      "depends_on": [
++        "BASS.BG.HOMOGENEOUS_MOMENTUM.001"
++      ],
++      "implementation_api": "BASS`Background`MomentumProjection",
++      "derivative_kind": "SPATIAL_COVARIANT_DERIVATIVE",
++      "consumer_binding_status": "CARRIER_ONLY_NO_SPECIALIZED_CONSUMER; use M=-C-kappa_G*q"
++    }
++  ],
++  "off_shell_identities": [
++    "F_ADM - F_trace + Hres/2 = 0",
++    "F_trace - F_Ray + Hres/6 = 0",
++    "F_ADM - F_Ray + 2 Hres/3 = 0"
++  ],
++  "state_projection_policy": {
++    "projects_Hres_to_zero": false,
++    "primary_rate": "BASS.BG.EXPANSION_RATE_RAW.001",
++    "diagnostic_rates": [
++      "BASS.BG.EXPANSION_RATE_ADM.001",
++      "BASS.BG.EXPANSION_RATE_RAYCHAUDHURI.001"
++    ]
++  },
++  "shear_rate_metadata": {
++    "BASS.BG.SHEAR_RATE_LIE.001": {
++      "derivative_kind": "LIE_DERIVATIVE_PSTF"
++    },
++    "BASS.BG.SHEAR_RATE_PROJECTED.001": {
++      "derivative_kind": "PROJECTED_COVARIANT_NORMAL_DERIVATIVE"
++    }
++  },
++  "connection_route": {
++    "allowed": [
++      "BASS`Geometry`ONFRicciTensor",
++      "BASS`Geometry`ONFScalarCurvature",
++      "BASS`Geometry`ConnectionToLockedGammaOrder[BASS`Geometry`LeviCivitaConnection[a,n]]"
++    ],
++    "embedded_second_connection_implementation": false,
++    "canonical_storage": "Gamma[[gamma,alpha,beta]]",
++    "curvature_storage": "GammaLocked[[alpha,beta,gamma]]"
++  },
++  "connection_order_guards": {
++    "Bianchi_I": {
++      "locked": 0,
++      "wrong": 0,
++      "diagnostic_power": "FALSE_NEGATIVE"
++    },
++    "Bianchi_V": {
++      "locked": -6,
++      "wrong": 4,
++      "diagnostic_power": "REQUIRED"
++    },
++    "Bianchi_II": {
++      "locked": -0.5,
++      "wrong": 1.5,
++      "diagnostic_power": "REQUIRED"
++    },
++    "Bianchi_IX": {
++      "locked": 1.5,
++      "wrong": 1.5,
++      "diagnostic_power": "FALSE_NEGATIVE"
++    },
++    "I_IX_ONLY_IS_INSUFFICIENT": true
++  },
++  "known_limits": {
++    "flat_flrw": {
++      "friedmann": "3 H^2 = kappaG rho + Lambda",
++      "rate": "L_n H = -kappaG (rho+p)/2"
++    },
++    "flat_de_sitter": {
++      "rates": [
++        0,
++        0,
++        0
++      ]
++    },
++    "kasner_vacuum": {
++      "Hres": 0,
++      "rates": [
++        "-1/(3 tau^2)",
++        "-1/(3 tau^2)",
++        "-1/(3 tau^2)"
++      ]
++    },
++    "homogeneous_scalar_curvature": {
++      "I": 0,
++      "V": -6,
++      "II": -0.5,
++      "IX": 1.5
++    },
++    "exceptional_VI_minus_one_ninth": {
++      "carrier": "N22 Sigma12 + (N23 - 3 A) Sigma13"
++    }
++  },
++  "dimensions": {
++    "H_geom": "L^-1",
++    "K_ab": "L^-1",
++    "sigma_ab": "L^-1",
++    "A_normal": "L^-1",
++    "a_B": "L^-1",
++    "n_B": "L^-1",
++    "R3_ab": "L^-2",
++    "Lambda": "L^-2",
++    "Hres": "L^-2",
++    "M_a": "L^-2",
++    "Tres": "L^-2",
++    "S_ab": "L^-2",
++    "kappaG_times_matter": "L^-2"
++  },
++  "required_native_replay": {
++    "xTensor": "1.3.0",
++    "xCoba": "0.8.6",
++    "MUnit_top_level_tests": 26,
++    "tests_failed": 0,
++    "tests_not_evaluated": 0,
++    "status": "PENDING",
++    "xTensor_projection_derivation_gate": "PENDING",
++    "claim_if_only_component_oracle_passes": "SOURCE_GREEN_ONLY"
++  },
++  "withheld_claims": [
++    "CONSTRAINT_PROPAGATION_VERIFIED",
++    "BACKGROUND_NUMERICAL_EVOLUTION",
++    "MATTER_DYNAMICS_CLOSED",
++    "ALL_FAMILY_BACKGROUND_READY",
++    "PROVIDER_ADMISSION",
++    "OBSERVABLE_READY",
++    "LIKELIHOOD_READY",
++    "SCIENCE_VALIDITY",
++    "PASS_RF04",
++    "READY_OR_MERGE"
++  ],
++  "owner_convention": {
++    "contract_id": "BASS_BG02_OWNER_CONVENTION_V2",
++    "path": "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_CONVENTION_V2.json",
++    "sha256": "60dd32c8185d37850a6f0878ba7c461644f332b96f6fcf92ec12823cfd487868",
++    "changed_source_native_status": "NOT_ESTABLISHED"
++  }
++}
+diff --git a/wolfram/BASS/Kernel/Authority/BG02Convention.wl b/wolfram/BASS/Kernel/Authority/BG02Convention.wl
+new file mode 100644
+index 0000000..d636a9e
+--- /dev/null
++++ b/wolfram/BASS/Kernel/Authority/BG02Convention.wl
+@@ -0,0 +1,62 @@
++(* ::Package:: *)
++BeginPackage["BASS`Authority`"];
++BG02ConventionRegistry::usage="Read the pinned versioned BG-02 owner convention; no tensor admission.";
++BG02ConventionRegistryQ::usage="Validate the typed curvature/momentum semantic contract.";
++BG02MomentumComponent::usage="Evaluate the positive-K component momentum using owner coefficients.";
++BG02TypedCurvature::usage="Bind all-lower components to an explicit curvature view and Ricci slots.";
++BG02PhysicalRicci::usage="Contract a typed component view; this is a component adapter, not a native tensor API.";
++Begin["`Private`"];
++ClearAll[BG02ConventionRegistry,BG02ConventionRegistryQ,BG02MomentumComponent,
++ BG02TypedCurvature,BG02PhysicalRicci];
++$BG02OwnerRoot=ExpandFileName@FileNameJoin[{DirectoryName[$InputFileName],"..","..","..",".."}];
++$BG02OwnerRegistryPath=FileNameJoin[{$BG02OwnerRoot,"docs","bass_master_ssot_v2",
++ "BG_02_IMPLEMENTATION","BG_02_CONVENTION_V2.json"}];
++$BG02OwnerRegistrySHA256="60dd32c8185d37850a6f0878ba7c461644f332b96f6fcf92ec12823cfd487868";
++BG02ConventionRegistryQ[c_Association]:=Module[{cur,views,hist,msg},
++ cur=Lookup[c,"curvature",<||>];views=Lookup[cur,"views",<||>];
++ hist=Lookup[c,"historical_native",<||>];msg=Lookup[c,"message_policy",<||>];
++ And[Lookup[c,"schema_version",None]==="2.0.0",
++  Lookup[c,"contract_id",None]==="BASS_BG02_OWNER_CONVENTION_V2",
++  Lookup[c,"metric_signature",None]==={-1,1,1,1},Lookup[c,"epsilon_123",None]===1,
++  Lookup[cur,"index_order",None]==={"a","b","c","d"},
++  Lookup[Lookup[views,"RAW_XACT",<||>],"physical_ricci_slots",None]==={"a","c","b","d"},
++  Lookup[Lookup[views,"BASS_DERIVATIVE_FIRST",<||>],"physical_ricci_slots",None]==={"c","b","a","d"},
++  Lookup[cur,"raw_to_bass_sign",None]===-1,Lookup[cur,"physical_ricci_negated",None]===False,
++  Lookup[Lookup[c,"momentum",<||>],"coefficients_divK_gradK_kappa_q",None]==={-1,1,-1},
++  Lookup[msg,"version",None]==="BG02_WHOLE_INVOCATION_STRICT_V2",
++  Lookup[msg,"allowed_message_ids",None]==={},
++  Lookup[hist,"bass_commit",None]==="477371143f15ef2625a7de21a5d178b09ffc1c32",
++  Lookup[hist,"native_sha256",None]==="5b28385a1e2d80b4e9281675f45c3f4e92c611864c4afdf4852b840f88c5ec33"]];
++BG02ConventionRegistryQ[_]:=False;
++BG02ConventionRegistry[]:=Module[{c},
++ If[!FileExistsQ[$BG02OwnerRegistryPath],Return[Failure["MissingBG02OwnerRegistry",<||>]]];
++ If[IntegerString[FileHash[$BG02OwnerRegistryPath,"SHA256"],16,64]=!=$BG02OwnerRegistrySHA256,
++  Return[Failure["BG02OwnerRegistryByteIdentityMismatch",<||>]]];
++ c=Check[Import[$BG02OwnerRegistryPath,"RawJSON"],$Failed];
++ If[!TrueQ[BG02ConventionRegistryQ[c]],Return[Failure["InvalidBG02OwnerConvention",<||>]]];c];
++BG02MomentumComponent[divK_,gradK_,kg_,q_]:=Module[{c=BG02ConventionRegistry[]},
++ If[FailureQ[c],Return[c]];
++ c["momentum"]["coefficients_divK_gradK_kappa_q"].{divK,gradK,kg q}];
++BG02TypedCurvature[components_List,view_String,order_List,slots_List]:=Module[{c,views,n},
++ c=BG02ConventionRegistry[];If[FailureQ[c],Return[c]];
++ views=c["curvature"]["views"];n=Length[components];
++ If[!KeyExistsQ[views,view]||order=!={"a","b","c","d"}||
++  slots=!=Lookup[Lookup[views,view,<||>],"physical_ricci_slots",None]||
++  !MemberQ[{3,4},n]||Dimensions[components]=!=ConstantArray[n,4],
++  Return[Failure["IncompatibleBG02CurvatureView",<|"view"->view,"order"->order,"ricci_slots"->slots|>]]];
++ <|"contract_id"->c["contract_id"],"view"->view,"index_order"->order,
++   "physical_ricci_slots"->slots,"components"->components|>];
++BG02TypedCurvature[___]:=Failure["InvalidBG02CurvatureInput",<||>];
++BG02PhysicalRicci[t_Association,inverse_List]:=Module[{checked,r,n},
++ checked=BG02TypedCurvature[Lookup[t,"components",None],Lookup[t,"view",None],
++  Lookup[t,"index_order",None],Lookup[t,"physical_ricci_slots",None]];
++ If[FailureQ[checked]||Lookup[t,"contract_id",None]=!="BASS_BG02_OWNER_CONVENTION_V2",
++  Return[Failure["InvalidBG02TypedCurvature",<||>]]];
++ r=checked["components"];n=Length[r];
++ If[Dimensions[inverse]=!={n,n},Return[Failure["InvalidBG02InverseMetricShape",<||>]]];
++ If[checked["view"]==="RAW_XACT",
++  Table[Sum[inverse[[c,d]]r[[a,c,b,d]],{c,n},{d,n}],{a,n},{b,n}],
++  Table[Sum[inverse[[c,d]]r[[c,b,a,d]],{c,n},{d,n}],{a,n},{b,n}]]];
++BG02PhysicalRicci[___]:=Failure["InvalidBG02RicciInput",<||>];
++End[];
++EndPackage[];
+diff --git a/wolfram/BASS/Kernel/Background/EinsteinProjection.wl b/wolfram/BASS/Kernel/Background/EinsteinProjection.wl
+index c7d40bd..ae8ee9b 100644
+--- a/wolfram/BASS/Kernel/Background/EinsteinProjection.wl
++++ b/wolfram/BASS/Kernel/Background/EinsteinProjection.wl
+@@ -2,7 +2,7 @@
+ 
+ BeginPackage["BASS`Background`"];
+ 
+-EinsteinResidualTensor::usage = "Single off-shell BG-02 residual authority.";
++EinsteinResidualTensor::usage = "Legacy component-formula association; not an admitted native tensor API.";
+ EinsteinProjectionRegistry::usage = "Fourteen-formula BG-02 registry plus bounded audit.";
+ HamiltonianProjection::usage = "Normal-normal projection of EinsteinResidualTensor.";
+ MomentumProjection::usage = "Normal-spatial projection of EinsteinResidualTensor.";
+@@ -20,7 +20,7 @@ ClearAll[state, value, residualComponents, registryPath, registryJSON,
+  EinsteinResidualTensor, EinsteinProjectionRegistry, HamiltonianProjection,
+  MomentumProjection, SpatialTraceProjection, SpatialPSTFProjection,
+  SpatialTraceRate, ADMTraceRate, RaychaudhuriRate, ShearLieRate,
+- ShearProjectedRate, wrongOrderScalarCurvature, audit];
++ ShearProjectedRate, audit];
+ 
+ $ModuleDirectory = DirectoryName[$InputFileName];
+ $RepositoryRoot = ExpandFileName @ FileNameJoin[{$ModuleDirectory, "..", "..", "..", ".."}];
+@@ -36,7 +36,9 @@ value[s_Association, key_String, fallback_] := Lookup[s, key, fallback];
+ residualComponents[s_Association] := Module[
+  {R3v, Hv, s2v, Lv, kgv, rv, pv, divKv, gradKv, qv, LieHv,
+   divAv, A2v, R3PSTFv, LieKPSTFv, KsigmaPSTFv, sqv, DPSTFAv,
+-  APSTFAv, piv},
++  APSTFAv, piv, convention},
++ convention=BASS`Authority`BG02ConventionRegistry[];
++ If[FailureQ[convention],Return[convention]];
+  R3v=value[s,"R3",R3]; Hv=value[s,"H",H]; s2v=value[s,"sigma2",sigma2];
+  Lv=value[s,"Lambda",Lambda]; kgv=value[s,"kappaG",kappaG];
+  rv=value[s,"rho",rho]; pv=value[s,"p",p];
+@@ -51,7 +53,7 @@ residualComponents[s_Association] := Module[
+  <|
+   "tensor_authority"->HoldForm[EinsteinTensor+LambdaMetric-kgv StressEnergy],
+   "HamiltonianProjection"->(R3v+6 Hv^2-s2v-2 Lv-2 kgv rv)/2,
+-  "MomentumProjection"->divKv-gradKv-kgv qv,
++  "MomentumProjection"->BASS`Authority`BG02MomentumComponent[divKv,gradKv,kgv,qv],
+   "SpatialTraceProjection"->-R3v/6-2 LieHv-3 Hv^2-s2v/2+
+     2(divAv+A2v)/3+Lv-kgv pv,
+   "SpatialPSTFProjection"->R3PSTFv+LieKPSTFv+KsigmaPSTFv-
+@@ -64,7 +66,7 @@ EinsteinResidualTensor[vars_:Automatic] := residualComponents[state[vars]];
+ HamiltonianProjection[vars_:Automatic] := Module[{r=EinsteinResidualTensor[vars]},
+  Lookup[r,"HamiltonianProjection",r]];
+ MomentumProjection[vars_:Automatic] := Module[{r=EinsteinResidualTensor[vars]},
+- Lookup[r,"MomentumProjection",r]];
++ If[FailureQ[r],r,Lookup[r,"MomentumProjection",Failure["MissingBG02Component",<||>]]]];
+ SpatialTraceProjection[vars_:Automatic] := Module[{r=EinsteinResidualTensor[vars]},
+  Lookup[r,"SpatialTraceProjection",r]];
+ SpatialPSTFProjection[vars_:Automatic] := Module[{r=EinsteinResidualTensor[vars]},
+@@ -96,20 +98,8 @@ ShearProjectedRate[vars_:Automatic] := Module[{s=state[vars]},<|
+  value[s,"APSTFA",APSTFA]+value[s,"kappaG",kappaG]value[s,"piComponent",piComponent],
+  "derivative_kind"->"PROJECTED_COVARIANT_NORMAL_DERIVATIVE"|>];
+ 
+-(* Uses the canonical generated connection without the required storage-order
+-   adapter as a deliberate negative control. Production curvature uses
+-   BASS`Geometry`ONFScalarCurvature or ConnectionToLockedGammaOrder. *)
+-wrongOrderScalarCurvature[a_List,n_List] := Module[{c,g,R,Ric},
+- c=BASS`Geometry`BianchiStructureConstants[a,n];
+- g=BASS`Geometry`LeviCivitaConnection[a,n];
+- If[FailureQ[c]||FailureQ[g],Return[$Failed]];
+- R=Array[Function[{al,be,ga,de},Simplify[Sum[
+-   g[[be,ga,mu]]g[[al,mu,de]]-g[[al,ga,mu]]g[[be,mu,de]]-
+-   c[[mu,al,be]]g[[mu,ga,de]],{mu,3}]]],{3,3,3,3}];
+- Ric=Array[Function[{ga,be},Simplify[Sum[R[[al,be,ga,al]],{al,3}]]],{3,3}];
+- Simplify[Tr[Ric]]];
+-
+-audit[] := Module[{s,h,ft,fa,fr,lie,dot,flat,ds,kas,cI,cV,cII,cIX,wV,wII},
++
++audit[] := Module[{s,h,ft,fa,fr,lie,dot,flat,ds,kas,cI,cV,cII,cIX},
+  s=<|"R3"->R3,"H"->H,"sigma2"->sigma2,"D.A"->DivA,"A2"->A2,
+   "Lambda"->Lambda,"kappaG"->kappaG,"rho"->rho,"p"->p|>;
+  h=HamiltonianProjection[s]; ft=SpatialTraceRate[s]; fa=ADMTraceRate[s];
+@@ -123,14 +113,12 @@ audit[] := Module[{s,h,ft,fa,fr,lie,dot,flat,ds,kas,cI,cV,cII,cIX,wV,wII},
+  cV=BASS`Geometry`ONFScalarCurvature[{1,0,0},ConstantArray[0,{3,3}]];
+  cII=BASS`Geometry`ONFScalarCurvature[{0,0,0},DiagonalMatrix[{1,0,0}]];
+  cIX=BASS`Geometry`ONFScalarCurvature[{0,0,0},IdentityMatrix[3]];
+- wV=wrongOrderScalarCurvature[{1,0,0},ConstantArray[0,{3,3}]];
+- wII=wrongOrderScalarCurvature[{0,0,0},DiagonalMatrix[{1,0,0}]];
+  <|
+-  "dependency_graph_closed"->True,
++  "dependency_graph_closed"->Missing["NOT_ESTABLISHED_BY_COMPONENT_ORACLE"],
+   "xTensor_projection_derivation_verified"->False,
+-  "single_off_shell_residual_authority"->True,
++  "single_off_shell_residual_authority"->Missing["NOT_ESTABLISHED_BY_COMPONENT_ORACLE"],
+   "hamiltonian_projection_residual"->Simplify[h-(R3+6 H^2-sigma2-2 Lambda-2 kappaG rho)/2],
+-  "momentum_projection_residual"->Simplify[MomentumProjection[]-(DivergenceK-GradientK-kappaG qComponent)],
++  "momentum_projection_residual"->Missing["NATIVE_BRIDGE_NOT_ESTABLISHED"],
+   "spatial_trace_projection_residual"->Simplify[SpatialTraceProjection[]-(-R3/6-2 LieH-3 H^2-sigma2/2+2(DivA+A2)/3+Lambda-kappaG p)],
+   "spatial_pstf_projection_residual"->Simplify[SpatialPSTFProjection[]-(R3PSTF+LieKPSTF+KsigmaPSTF-2 SigmaQuadratic-DPSTFA-APSTFA-kappaG piComponent)],
+   "adm_minus_trace_plus_half_hres"->Simplify[fa-ft+h/2],
+@@ -148,11 +136,11 @@ audit[] := Module[{s,h,ft,fa,fr,lie,dot,flat,ds,kas,cI,cV,cII,cIX,wV,wII},
+   "bianchi_V_scalar_curvature_residual"->Simplify[cV+6],
+   "bianchi_II_scalar_curvature_residual"->Simplify[cII+1/2],
+   "bianchi_IX_scalar_curvature_residual"->Simplify[cIX-3/2],
+-  "wrong_connection_order_V_detected"->TrueQ[PossibleZeroQ[wV-4]],
+-  "wrong_connection_order_II_detected"->TrueQ[PossibleZeroQ[wII-3/2]],
+-  "I_IX_only_witness_set_rejected"->True,
+-  "second_koszul_implementation_absent"->True,
+-  "exceptional_VI_minus_one_ninth_residual"->Expand[(N22 Sigma12+(N23-3 A)Sigma13)-(N22 Sigma12+(N23-3 A)Sigma13)],
++  "wrong_connection_order_V_detected"->Missing["TEST_ONLY_MUTANT"],
++  "wrong_connection_order_II_detected"->Missing["TEST_ONLY_MUTANT"],
++  "I_IX_only_witness_set_rejected"->Missing["NOT_ESTABLISHED_BY_COMPONENT_ORACLE"],
++  "second_koszul_implementation_absent"->Missing["NOT_ESTABLISHED_BY_COMPONENT_ORACLE"],
++  "exceptional_VI_minus_one_ninth_residual"->Missing["NOT_IN_SCOPE_EXCEPTIONAL_NATIVE_BRIDGE"],
+   "sigma13_deletion_mutant_detected"->Not@TrueQ@PossibleZeroQ[(N23-3 A)Sigma13],
+   "normal_acceleration_distinct_from_bianchi_a"->TrueQ[A_normal=!=a_B],
+   "hamiltonian_surface_projection_absent"->TrueQ[Simplify[fa-ft+h/2]===0&&Simplify[ft-fr+h/6]===0]
+@@ -167,7 +155,7 @@ EinsteinProjectionRegistry[] := Append[registryJSON[],"native_audit"->audit[]];
+    F_trace - F_Ray + Hres/6 = 0
+    F_ADM - F_Ray + 2 Hres/3 = 0
+    Hamiltonian: R3 + K^2 - K_ab K^ab - 2 Lambda - 2 kappaG rho
+-   Momentum: D^b K_ab - D_a K - kappaG q_a
++   Momentum: -D^b K_ab + D_a K - kappaG q_a
+    Trace: Lie, D.A, A2
+    PSTF: R3PSTF, DPSTFA, APSTFA, pi_ab
+    Exceptional: N22 Sigma12 + (N23 - 3 A) Sigma13
+diff --git a/wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl b/wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl
+index 820d09d..653aa9c 100644
+--- a/wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl
++++ b/wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl
+@@ -158,12 +158,11 @@ ONFRiemannTensor[___] :=
+ ONFRicciTensor[a_List, n_List] := Module[{riemann},
+  riemann = ONFRiemannTensor[a, n];
+  If[FailureQ[riemann], Return[riemann]];
+- Array[
+-  Function[{gammaIndex, beta},
+-   Simplify[Sum[riemann[[alpha, beta, gammaIndex, alpha]], {alpha, 3}]]
+-  ],
+-  {3, 3}
+- ]
++ (* The canonical ONF array is B_abcd=g(e_d,R(e_a,e_b)e_c).
++    Bind its order and physical contraction before consuming it. *)
++ Simplify[BASS`Authority`BG02PhysicalRicci[
++   BASS`Authority`BG02TypedCurvature[riemann,"BASS_DERIVATIVE_FIRST",
++    {"a","b","c","d"},{"c","b","a","d"}],IdentityMatrix[3]]]
+ ];
+ 
+ ONFScalarCurvature[a_List, n_List] :=
+diff --git a/wolfram/BASS/Kernel/init.wl b/wolfram/BASS/Kernel/init.wl
+index 69339eb..fe9ba07 100644
+--- a/wolfram/BASS/Kernel/init.wl
++++ b/wolfram/BASS/Kernel/init.wl
+@@ -5,6 +5,7 @@ Module[{root, sources},
+  sources = {
+    FileNameJoin[{root, "Authority", "Environment.wl"}],
+    FileNameJoin[{root, "Authority", "Conventions.wl"}],
++   FileNameJoin[{root, "Authority", "BG02Convention.wl"}],
+    FileNameJoin[{root, "Authority", "Dimensions.wl"}],
+    FileNameJoin[{root, "Authority", "Provenance.wl"}],
+    FileNameJoin[{root, "IR", "CanonicalSerialization.wl"}],

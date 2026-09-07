@@ -1,0 +1,12 @@
+--- original/BASS_AUX13_AUX14_V1.wls
++++ repair1/BASS_AUX13_AUX14_V1.wls
+@@ -12,7 +12,8 @@
+  root = Environment["BASS_REPO"];
+  If[!StringQ[root] || !DirectoryQ[root],
+   Return[<|"status"->"BLOCKED_MISSING_SOURCE_ROOT","exit_code"->2|>]];
+- rel = {"Geometry/StructureConstants.wl",
++ rel = {"Authority/BG02Convention.wl",
++   "Geometry/StructureConstants.wl",
+    "Geometry/LeviCivitaConnection.wl",
+    "Geometry/ONFConnectionCurvature.wl",
+    "Background/EinsteinProjection.wl"};
