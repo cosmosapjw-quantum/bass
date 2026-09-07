@@ -80,7 +80,7 @@ apMain[] := Module[{root,paths,files,local,hashes,before,after,xtensorFile,
    "general_native_bridge_admitted"->False,"production_admitted"->False|>
 ];
 Block[{$MessageList={}},
- apResult=CheckAbort[TimeConstrained[apMain[],180,
+ apResult=CheckAbort[TimeConstrained[Catch[apMain[]],180,
    <|"status"->"AP_TIMEOUT","exit_code"->2|>],
    <|"status"->"AP_ABORT","exit_code"->2|>];
  apMessages=ToString[#,InputForm]& /@ $MessageList;

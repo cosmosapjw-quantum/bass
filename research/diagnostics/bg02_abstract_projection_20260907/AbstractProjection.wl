@@ -38,13 +38,13 @@ BuildAbstractProjectionProof[] := Module[
  vb=TangentBundleOfManifold[APM]; dummy[]:=DummyIn[vb];
  rules=Join[
    MakeRule[{nu[ia]nu[-ia],-1},MetricOn->All,ContractMetrics->True],
-   Flatten[Table[MakeRule[{nu[ia]t[-ia,-ib],0},
+   Flatten[Table[MakeRule[Evaluate[{nu[ia]t[-ia,-ib],0}],
      MetricOn->All,ContractMetrics->True],{t,{KK,LL,ZZ,DA,StressPi,Sigma,LSigma}}],1],
-   Flatten[Table[MakeRule[{nu[ia]v[-ia],0},
+   Flatten[Table[MakeRule[Evaluate[{nu[ia]v[-ia],0}],
      MetricOn->All,ContractMetrics->True],{v,{acc,flux}}],1],
    MakeRule[{nu[ia]DK[-ia,-ib,-ic],0},MetricOn->All,ContractMetrics->True],
    MakeRule[{nu[ib]DK[-ia,-ib,-ic],0},MetricOn->All,ContractMetrics->True],
-   Flatten[Table[MakeRule[{t[ia,-ia],0},MetricOn->All,
+   Flatten[Table[MakeRule[Evaluate[{t[ia,-ia],0}],MetricOn->All,
      ContractMetrics->True],{t,{StressPi,Sigma,LSigma}}],1]];
  dNormalRules=MakeRule[{APCD[-ia][nu[-ib]],KK[-ia,-ib]-nu[-ia]acc[-ib]},
    MetricOn->All,ContractMetrics->True];
@@ -102,8 +102,9 @@ BuildAbstractProjectionProof[] := Module[
  projectedElectric=reduce[nu[ic]nu[id]projector[-ia,ie]
    projector[-ib,iff]curvature[-ic,-ie,-id,-iff]];
  (* Reindex computed projections only; no expected expression feeds this path. *)
- mTensor[x_] := ReplaceIndex[ReplaceDummies[mActual],{ia->-x}];
- sTensor[x_,y_] := ReplaceIndex[ReplaceDummies[sActual],{ia->-x,ib->-y}];
+ (* ReplaceIndex distinguishes covariant and contravariant slots. *)
+ mTensor[x_] := ReplaceIndex[Evaluate[ReplaceDummies[mActual]],{-ia->x}];
+ sTensor[x_,y_] := ReplaceIndex[Evaluate[ReplaceDummies[sActual]],{-ia->x,-ib->y}];
  reconstructed=ReplaceDummies[hActual]nu[-ia]nu[-ib]
    +nu[-ia]mTensor[-ib]+nu[-ib]mTensor[-ia]
    +ReplaceDummies[pActual]projector[-ia,-ib]+sTensor[-ia,-ib];
@@ -111,15 +112,17 @@ BuildAbstractProjectionProof[] := Module[
     final-projection rewrite. Its contraction yields the +2 K_ab K^ab term. *)
  lieMetric=LieDToCovD[LieD[nu[ic]][projector[ia,ib]],APCD];
  scalarTraceCheck=reduce[KK[-ia,-ib]ReplaceDummies[lieMetric]+2 trace[kSquared]];
- kRules=MakeRule[{KK[-ia,-ib],HH[]projector[-ia,-ib]+Sigma[-ia,-ib]},
+ (* MakeRule holds its first argument. Expand helper-defined tensor RHSs
+    before xTensor validates their free indices. *)
+ kRules=MakeRule[Evaluate[{KK[-ia,-ib],HH[]projector[-ia,-ib]+Sigma[-ia,-ib]}],
    MetricOn->All,ContractMetrics->True];
  (* LSigma is PSTF(L_n sigma), NOT the full Lie derivative or the projected
     covariant normal derivative. LL trace includes 2 sigma^2. *)
- lGoodRules=MakeRule[{LL[-ia,-ib],LSigma[-ia,-ib]+2 HH[]Sigma[-ia,-ib]
-     +projector[-ia,-ib](HD[]+2 HH[]^2+2 trace[sigmaSquared]/3)},
+ lGoodRules=MakeRule[Evaluate[{LL[-ia,-ib],LSigma[-ia,-ib]+2 HH[]Sigma[-ia,-ib]
+     +projector[-ia,-ib](HD[]+2 HH[]^2+2 trace[sigmaSquared]/3)}],
    MetricOn->All,ContractMetrics->True];
- lBadRules=MakeRule[{LL[-ia,-ib],LSigma[-ia,-ib]+2 HH[]Sigma[-ia,-ib]
-     +projector[-ia,-ib]HD[]},MetricOn->All,ContractMetrics->True];
+ lBadRules=MakeRule[Evaluate[{LL[-ia,-ib],LSigma[-ia,-ib]+2 HH[]Sigma[-ia,-ib]
+     +projector[-ia,-ib]HD[]}],MetricOn->All,ContractMetrics->True];
  toShear[x_,lr_] := reduce[reduce[x] /. lr /. kRules];
  sourceInput=<|"R3"->trace[ZZ],"H"->HH[],"sigma2"->trace[sigmaSquared],
    "Lambda"->lambda,"kappaG"->kappaG,"rho"->rho[],"p"->press[],
