@@ -169,6 +169,10 @@ class Bundle:
         for n in self.nodes:
             n.validate()
 
+        equation_ids = [eq.id for eq in self.equations]
+        if len(equation_ids) != len(set(equation_ids)):
+            raise SymIRError("duplicate equation id")
+
         pred = {p.id: p for p in self.predicates}
         for eq in self.equations:
             for p_id in eq.exact_predicates:
