@@ -1,0 +1,922 @@
+{
+  "schema_version": 1,
+  "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+  "status": "PASS_RESEARCH_COMPONENT_ONLY",
+  "work_status": "COMPLETE_LOCAL_EXECUTION_REPAIR_AND_PLOTS",
+  "repository": "cosmosapjw-quantum/bass",
+  "branch": "evidence/bg02-state-constraints-20260907T061747Z",
+  "intake": {
+    "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+    "delivery_commit": "9f85ba7c4cbeec9223a21a6bcab730b6d2d62aef",
+    "delivery_tree": "2bbc755f963a238d0bf62e2dfe2303fb57828b0f",
+    "candidate_commit": "e404f914c0817b4c2ab3a0ff4632a8457e026fde",
+    "candidate_tree": "e2fc64860631e781082cceb3bef5b24fb8a06084",
+    "dependency_publication": "2e1b6e2f12cc766c8ffe1160d6371a88730064a8",
+    "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source",
+    "source_subset_execution": true,
+    "historical_delivery_root_used_as_BASS_REPO": false,
+    "code_root": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907",
+    "matching_SC_result_search": {
+      "found": false,
+      "locations": [
+        "/home/cosmosapjw/bass-local-returns",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments",
+        "/home/cosmosapjw/worktrees",
+        "/home/cosmosapjw/Downloads"
+      ],
+      "prior_AUX_not_reused_as_SC": true
+    },
+    "instructions": "Supplied owner handoff and current global authority; no local AGENTS.md files in delivery checkout.",
+    "host_execution_reason": "Owner requests local direct Wolfram execution in this thread, preserving existing prepared code. No work-thread delegation."
+  },
+  "tested_code": {
+    "commit": "b074e206fd6fe640b6eecb703befcb9bd72467cf",
+    "tree": "9fc96c7c7f4d2f3aa9b581d8d28f1c579b96e3ba",
+    "parent": "9f85ba7c4cbeec9223a21a6bcab730b6d2d62aef",
+    "files": {
+      "StateConstraints.wl": {
+        "sha256": "3adc3925e9542e9fb9fe6eb4787767e82bf035237af684383dc890ea6a39d825",
+        "git_blob": "cd62b887aee8daad6c69941115287d2e3719960a"
+      },
+      "state_constraints_tests.wl": {
+        "sha256": "33c0f2e289200794a3355b73e88080562dfa02d0f9f552bd5ba6bf12c7e0ae3d",
+        "git_blob": "37b91d10388e07bb89664131925789eeabacab7d"
+      },
+      "run_state_constraints.wls": {
+        "sha256": "9d260a125e5051abda7f82c8250f5c70a0d9b1fd3cced461b4e98ee4583a45c7",
+        "git_blob": "b6b9bc29e0dc2ba425f90c3b18139c64b228b494"
+      },
+      "plot_state_constraints.py": {
+        "sha256": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948",
+        "git_blob": "403252941e20d65ca13e0cfcc47e8297391f270b"
+      }
+    },
+    "only_changed_file": "research/diagnostics/bg02_state_constraints_20260907/StateConstraints.wl",
+    "validated_by": "SC repair1 19/19 and five scalar/list shape regressions; plotter unchanged and actual figures inspected"
+  },
+  "dependencies": {
+    "wolfram/BASS/Kernel/Authority/BG02Convention.wl": {
+      "bytes": 4263,
+      "sha256": "e0185abaea54816fabd90170a48fb67dd45b27c8d4392734dc3f09d49dfa7efb",
+      "git_blob": "d636a9e1643f65f43b18ca43477fab62dc20dd29"
+    },
+    "wolfram/BASS/Kernel/Geometry/StructureConstants.wl": {
+      "bytes": 4519,
+      "sha256": "becef3c4f6b60e20c4eea1b361832239422ca8286b90dd10474203389e170f75",
+      "git_blob": "d224da1091da815d3979bdc3262ca65b4ab83ee4"
+    },
+    "wolfram/BASS/Kernel/Geometry/LeviCivitaConnection.wl": {
+      "bytes": 8795,
+      "sha256": "1f28c921734194c5a3b79e8d31ae045f7bfce336e2641e6e01a9232a0cdbc13d",
+      "git_blob": "c8e4be28b00956b1fe2009a7d5bc8222a45585e0"
+    },
+    "wolfram/BASS/Kernel/Geometry/ONFConnectionCurvature.wl": {
+      "bytes": 14314,
+      "sha256": "c2428d4466f05d88097db8a51f194458618a8f5837c625bb20f402301545a34e",
+      "git_blob": "653aa9c4ee075db2fe4286de7936255b4f81179d"
+    },
+    "wolfram/BASS/Kernel/Background/EinsteinProjection.wl": {
+      "bytes": 8936,
+      "sha256": "65a60d806fa280aa4d0ee7843790896cd754880bb1a43239db2a59c1b0be4c5a",
+      "git_blob": "ae8ee9bd834f83f0b7306943e3da637e86abe9f1"
+    },
+    "docs/bass_master_ssot_v2/BG_02_IMPLEMENTATION/BG_02_CONVENTION_V2.json": {
+      "bytes": 3743,
+      "sha256": "60dd32c8185d37850a6f0878ba7c461644f332b96f6fcf92ec12823cfd487868",
+      "git_blob": "3083776f097e8a072866c3e695d72c7e07686c58"
+    }
+  },
+  "original": {
+    "status": "INVALID_RESEARCH_RUN",
+    "process": {
+      "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+      "revision": "original",
+      "attempt": 1,
+      "start_utc": "2026-09-07T06:19:47.926601+00:00",
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "150s",
+        "/usr/bin/wolframscript",
+        "-local",
+        "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+        "-file",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/run_state_constraints.wls"
+      ],
+      "cwd": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/original",
+      "environment_overrides": {
+        "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source"
+      },
+      "inner_timeout_seconds": 120,
+      "outer_timeout_seconds": 150,
+      "kill_after_seconds": 10,
+      "code_identity": {
+        "StateConstraints.wl": "5dadcf98c4dc6a2914124d57b10d05616bdba6418779b41ed3f01eaf58d1cdff",
+        "state_constraints_tests.wl": "33c0f2e289200794a3355b73e88080562dfa02d0f9f552bd5ba6bf12c7e0ae3d",
+        "run_state_constraints.wls": "9d260a125e5051abda7f82c8250f5c70a0d9b1fd3cced461b4e98ee4583a45c7",
+        "plot_state_constraints.py": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948"
+      },
+      "launcher_sha256": "e2c698b7f34ed8b40698131ee5f278616d3bccbf72e02ae1e425136b7747b5aa",
+      "end_utc": "2026-09-07T06:19:54.352092+00:00",
+      "elapsed_seconds": 6.423564102035016,
+      "process_exit": 2,
+      "launch_error": null,
+      "timeout": false,
+      "source_unchanged": true,
+      "exit_semantics": "GNU timeout status; child status when not timed out."
+    },
+    "counts": {
+      "success": 15,
+      "failure": 4,
+      "unevaluated": 0
+    },
+    "required_ids": [
+      "SC01_FLAT_BASELINE",
+      "SC02_BIANCHI_V_MOMENTUM",
+      "SC03_BIANCHI_II_CURVATURE",
+      "SC04_H_ZERO_REGULAR",
+      "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+      "SC06_OFFDIAGONAL_DELETION",
+      "SC07_FULL_TRANSVERSE_FLUX",
+      "SC08_PROPER_FRAME_COVARIANCE",
+      "SC09_INPUT_UNCHANGED",
+      "SC10_MISSING_INPUT",
+      "SC11_REJECT_DERIVED_OVERRIDE",
+      "SC12_REJECT_NONSYMMETRIC_N",
+      "SC13_REJECT_TRACEFUL_SHEAR",
+      "SC14_REJECT_JACOBI_VIOLATION",
+      "SC15_REJECT_INEXACT",
+      "SC16_REJECT_NONREAL",
+      "SC17_REJECT_SHAPE",
+      "SC18_OWNER_GENERAL_SLOTS",
+      "SC19_DIAGNOSTIC_ROWS_CONSISTENCY"
+    ],
+    "observed_ids": [
+      "SC01_FLAT_BASELINE",
+      "SC02_BIANCHI_V_MOMENTUM",
+      "SC03_BIANCHI_II_CURVATURE",
+      "SC04_H_ZERO_REGULAR",
+      "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+      "SC06_OFFDIAGONAL_DELETION",
+      "SC07_FULL_TRANSVERSE_FLUX",
+      "SC08_PROPER_FRAME_COVARIANCE",
+      "SC09_INPUT_UNCHANGED",
+      "SC10_MISSING_INPUT",
+      "SC11_REJECT_DERIVED_OVERRIDE",
+      "SC12_REJECT_NONSYMMETRIC_N",
+      "SC13_REJECT_TRACEFUL_SHEAR",
+      "SC14_REJECT_JACOBI_VIOLATION",
+      "SC15_REJECT_INEXACT",
+      "SC16_REJECT_NONREAL",
+      "SC17_REJECT_SHAPE",
+      "SC18_OWNER_GENERAL_SLOTS",
+      "SC19_DIAGNOSTIC_ROWS_CONSISTENCY"
+    ],
+    "exact_ids": true,
+    "per_test_results": [
+      {
+        "id": "SC01_FLAT_BASELINE",
+        "outcome": "Success",
+        "actual": "HoldForm[{3, {0, 0, 0}, 0}]",
+        "expected": "HoldForm[{3, {0, 0, 0}, 0}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC02_BIANCHI_V_MOMENTUM",
+        "outcome": "Success",
+        "actual": "HoldForm[{-1/3, {2, 0, 0}, {-2, 0, 0}}]",
+        "expected": "HoldForm[{-1/3, {2, 0, 0}, {-2, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC03_BIANCHI_II_CURVATURE",
+        "outcome": "Success",
+        "actual": "HoldForm[{11/4, -1/2}]",
+        "expected": "HoldForm[{11/4, -1/2}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC04_H_ZERO_REGULAR",
+        "outcome": "Success",
+        "actual": "HoldForm[{3/4, {0, 0, 0}, 3/2}]",
+        "expected": "HoldForm[{3/4, {0, 0, 0}, 3/2}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+        "outcome": "Failure",
+        "actual": "HoldForm[{Missing[\"NotAvailable\", \"Hamiltonian\"], Missing[\"NotAvailable\", \"Momentum\"]}]",
+        "expected": "HoldForm[{0, {0, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC06_OFFDIAGONAL_DELETION",
+        "outcome": "Failure",
+        "actual": "HoldForm[{-(u$11278^2/ell$11278^2), (-2*u$11278^2)/ell$11278^2 + Missing[\"NotAvailable\", \"Carriers\"][\"sigma2\"], 0}]",
+        "expected": "HoldForm[{0, 0, {0, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC07_FULL_TRANSVERSE_FLUX",
+        "outcome": "Success",
+        "actual": "HoldForm[{{-36, -10, -10}, {178/5, 74/7, 104/11}}]",
+        "expected": "HoldForm[{{-36, -10, -10}, {178/5, 74/7, 104/11}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC08_PROPER_FRAME_COVARIANCE",
+        "outcome": "Success",
+        "actual": "HoldForm[{0, {0, 0, 0}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}]",
+        "expected": "HoldForm[{0, {0, 0, 0}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC09_INPUT_UNCHANGED",
+        "outcome": "Failure",
+        "actual": "HoldForm[False]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC10_MISSING_INPUT",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC11_REJECT_DERIVED_OVERRIDE",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC12_REJECT_NONSYMMETRIC_N",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC13_REJECT_TRACEFUL_SHEAR",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC14_REJECT_JACOBI_VIOLATION",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC15_REJECT_INEXACT",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC16_REJECT_NONREAL",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC17_REJECT_SHAPE",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC18_OWNER_GENERAL_SLOTS",
+        "outcome": "Success",
+        "actual": "HoldForm[0]",
+        "expected": "HoldForm[0]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC19_DIAGNOSTIC_ROWS_CONSISTENCY",
+        "outcome": "Failure",
+        "actual": "HoldForm[{{-1 + Missing[\"NotAvailable\", \"Hfull\"] + Missing[\"NotAvailable\", \"u\"]^2, -1 + Missing[\"NotAvailable\", \"Hdeleted\"]}, {-1 + Missing[\"NotAvailable\", \"Hfull\"] + Missing[\"NotAvailable\", \"u\"]^2, -1 + Missing[\"NotAvailable\", \"Hdeleted\"]}, {-1 + Missing[\"NotAvailable\", \"Hfull\"] + Missing[\"NotAvailable\", \"u\"]^2, -1 + Missing[\"NotAvailable\", \"Hdeleted\"]}, {-1 + Missing[\"NotAvailable\", \"Hfull\"] + Missing[\"NotAvailable\", \"u\"]^2, -1 + Missing[\"NotAvailable\", \"Hdeleted\"]}, {-1 + Missing[\"NotAvailable\", \"Hfull\"] + Missing[\"NotAvailable\", \"u\"]^2, -1 + Missing[\"NotAvailable\", \"Hdeleted\"]}}]",
+        "expected": "HoldForm[{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      }
+    ],
+    "runtime_failures": "{}",
+    "stderr_bytes": 0,
+    "stdout_message_lines": [],
+    "diagnostic_rows": [],
+    "source_unchanged": true,
+    "final_json": "execution/original/sc-final.json",
+    "stdout": "execution/original/stdout.log",
+    "stderr": "execution/original/stderr.log"
+  },
+  "repair1": {
+    "status": "PASS_RESEARCH_COMPONENT_ONLY",
+    "process": {
+      "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+      "revision": "repair1",
+      "attempt": 2,
+      "start_utc": "2026-09-07T06:24:28.431695+00:00",
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "150s",
+        "/usr/bin/wolframscript",
+        "-local",
+        "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+        "-file",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/run_state_constraints.wls"
+      ],
+      "cwd": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/repair1",
+      "environment_overrides": {
+        "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source"
+      },
+      "inner_timeout_seconds": 120,
+      "outer_timeout_seconds": 150,
+      "kill_after_seconds": 10,
+      "code_identity": {
+        "StateConstraints.wl": "3adc3925e9542e9fb9fe6eb4787767e82bf035237af684383dc890ea6a39d825",
+        "state_constraints_tests.wl": "33c0f2e289200794a3355b73e88080562dfa02d0f9f552bd5ba6bf12c7e0ae3d",
+        "run_state_constraints.wls": "9d260a125e5051abda7f82c8250f5c70a0d9b1fd3cced461b4e98ee4583a45c7",
+        "plot_state_constraints.py": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948"
+      },
+      "launcher_sha256": "e2c698b7f34ed8b40698131ee5f278616d3bccbf72e02ae1e425136b7747b5aa",
+      "end_utc": "2026-09-07T06:24:37.264164+00:00",
+      "elapsed_seconds": 8.830702134873718,
+      "process_exit": 0,
+      "launch_error": null,
+      "timeout": false,
+      "source_unchanged": true,
+      "exit_semantics": "GNU timeout status; child status when not timed out."
+    },
+    "counts": {
+      "success": 19,
+      "failure": 0,
+      "unevaluated": 0
+    },
+    "required_ids": [
+      "SC01_FLAT_BASELINE",
+      "SC02_BIANCHI_V_MOMENTUM",
+      "SC03_BIANCHI_II_CURVATURE",
+      "SC04_H_ZERO_REGULAR",
+      "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+      "SC06_OFFDIAGONAL_DELETION",
+      "SC07_FULL_TRANSVERSE_FLUX",
+      "SC08_PROPER_FRAME_COVARIANCE",
+      "SC09_INPUT_UNCHANGED",
+      "SC10_MISSING_INPUT",
+      "SC11_REJECT_DERIVED_OVERRIDE",
+      "SC12_REJECT_NONSYMMETRIC_N",
+      "SC13_REJECT_TRACEFUL_SHEAR",
+      "SC14_REJECT_JACOBI_VIOLATION",
+      "SC15_REJECT_INEXACT",
+      "SC16_REJECT_NONREAL",
+      "SC17_REJECT_SHAPE",
+      "SC18_OWNER_GENERAL_SLOTS",
+      "SC19_DIAGNOSTIC_ROWS_CONSISTENCY"
+    ],
+    "observed_ids": [
+      "SC01_FLAT_BASELINE",
+      "SC02_BIANCHI_V_MOMENTUM",
+      "SC03_BIANCHI_II_CURVATURE",
+      "SC04_H_ZERO_REGULAR",
+      "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+      "SC06_OFFDIAGONAL_DELETION",
+      "SC07_FULL_TRANSVERSE_FLUX",
+      "SC08_PROPER_FRAME_COVARIANCE",
+      "SC09_INPUT_UNCHANGED",
+      "SC10_MISSING_INPUT",
+      "SC11_REJECT_DERIVED_OVERRIDE",
+      "SC12_REJECT_NONSYMMETRIC_N",
+      "SC13_REJECT_TRACEFUL_SHEAR",
+      "SC14_REJECT_JACOBI_VIOLATION",
+      "SC15_REJECT_INEXACT",
+      "SC16_REJECT_NONREAL",
+      "SC17_REJECT_SHAPE",
+      "SC18_OWNER_GENERAL_SLOTS",
+      "SC19_DIAGNOSTIC_ROWS_CONSISTENCY"
+    ],
+    "exact_ids": true,
+    "per_test_results": [
+      {
+        "id": "SC01_FLAT_BASELINE",
+        "outcome": "Success",
+        "actual": "HoldForm[{3, {0, 0, 0}, 0}]",
+        "expected": "HoldForm[{3, {0, 0, 0}, 0}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC02_BIANCHI_V_MOMENTUM",
+        "outcome": "Success",
+        "actual": "HoldForm[{-1/3, {2, 0, 0}, {-2, 0, 0}}]",
+        "expected": "HoldForm[{-1/3, {2, 0, 0}, {-2, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC03_BIANCHI_II_CURVATURE",
+        "outcome": "Success",
+        "actual": "HoldForm[{11/4, -1/2}]",
+        "expected": "HoldForm[{11/4, -1/2}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC04_H_ZERO_REGULAR",
+        "outcome": "Success",
+        "actual": "HoldForm[{3/4, {0, 0, 0}, 3/2}]",
+        "expected": "HoldForm[{3/4, {0, 0, 0}, 3/2}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC05_EXCEPTIONAL_CONSTRAINT_STATE",
+        "outcome": "Success",
+        "actual": "HoldForm[{0, {0, 0, 0}}]",
+        "expected": "HoldForm[{0, {0, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC06_OFFDIAGONAL_DELETION",
+        "outcome": "Success",
+        "actual": "HoldForm[{0, 0, {0, 0, 0}}]",
+        "expected": "HoldForm[{0, 0, {0, 0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC07_FULL_TRANSVERSE_FLUX",
+        "outcome": "Success",
+        "actual": "HoldForm[{{-36, -10, -10}, {178/5, 74/7, 104/11}}]",
+        "expected": "HoldForm[{{-36, -10, -10}, {178/5, 74/7, 104/11}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC08_PROPER_FRAME_COVARIANCE",
+        "outcome": "Success",
+        "actual": "HoldForm[{0, {0, 0, 0}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}]",
+        "expected": "HoldForm[{0, {0, 0, 0}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC09_INPUT_UNCHANGED",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC10_MISSING_INPUT",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC11_REJECT_DERIVED_OVERRIDE",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC12_REJECT_NONSYMMETRIC_N",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC13_REJECT_TRACEFUL_SHEAR",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC14_REJECT_JACOBI_VIOLATION",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC15_REJECT_INEXACT",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC16_REJECT_NONREAL",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC17_REJECT_SHAPE",
+        "outcome": "Success",
+        "actual": "HoldForm[True]",
+        "expected": "HoldForm[True]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC18_OWNER_GENERAL_SLOTS",
+        "outcome": "Success",
+        "actual": "HoldForm[0]",
+        "expected": "HoldForm[0]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      },
+      {
+        "id": "SC19_DIAGNOSTIC_ROWS_CONSISTENCY",
+        "outcome": "Success",
+        "actual": "HoldForm[{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}}]",
+        "expected": "HoldForm[{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}}]",
+        "actual_messages": "{}",
+        "expected_messages": "HoldForm[{}]"
+      }
+    ],
+    "runtime_failures": "{}",
+    "stderr_bytes": 0,
+    "stdout_message_lines": [],
+    "diagnostic_rows": [
+      {
+        "u": -2,
+        "Hfull": -3,
+        "Hdeleted": 1,
+        "sigma2": 8
+      },
+      {
+        "u": -1,
+        "Hfull": 0,
+        "Hdeleted": 1,
+        "sigma2": 2
+      },
+      {
+        "u": 0,
+        "Hfull": 1,
+        "Hdeleted": 1,
+        "sigma2": 0
+      },
+      {
+        "u": 1,
+        "Hfull": 0,
+        "Hdeleted": 1,
+        "sigma2": 2
+      },
+      {
+        "u": 2,
+        "Hfull": -3,
+        "Hdeleted": 1,
+        "sigma2": 8
+      }
+    ],
+    "source_unchanged": true,
+    "final_json": "execution/repair1/sc-final.json",
+    "stdout": "execution/repair1/stdout.log",
+    "stderr": "execution/repair1/stderr.log"
+  },
+  "repair": {
+    "changed_file": "research/diagnostics/bg02_state_constraints_20260907/StateConstraints.wl",
+    "observed_defect": "Dimensions treated compound scalar expressions as non-scalar arrays: Sqrt[14/3] returned dimensions {2}, causing Failure[StateShape]. Symbolic scalar outputs could also fail ConstraintOutputShape.",
+    "change": "Use explicit recursive List-container shapes for scalar/vector/matrix/tensor boundaries. The map formulas and exact-real/domain/structural requirements are unchanged.",
+    "new_code_files_changed": 1,
+    "unchanged_new_files": [
+      "state_constraints_tests.wl",
+      "run_state_constraints.wls",
+      "plot_state_constraints.py"
+    ],
+    "protected_dependency_changes": 0,
+    "physical_expected_identity_changes": 0,
+    "small_regression_red": {
+      "success": 3,
+      "failure": 2,
+      "process_exit": 1
+    },
+    "small_regression_green": {
+      "success": 5,
+      "failure": 0,
+      "process_exit": 0
+    },
+    "patch": "mapper-repair.patch",
+    "original_code": "original_code/"
+  },
+  "attempt_accounting": {
+    "logical_task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+    "SC_target_invocations": 2,
+    "diagnostic_invocations": 1,
+    "small_regression_invocations": 2,
+    "total_wolfram_processes": 5,
+    "total_elapsed_seconds": 32.46247152099386,
+    "SC_target_elapsed_seconds": 15.254266236908734,
+    "all_processes": [
+      {
+        "kind": "SC_TARGET",
+        "revision": "original",
+        "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+        "attempt": 1,
+        "start_utc": "2026-09-07T06:19:47.926601+00:00",
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=10s",
+          "150s",
+          "/usr/bin/wolframscript",
+          "-local",
+          "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+          "-file",
+          "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/run_state_constraints.wls"
+        ],
+        "cwd": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/original",
+        "environment_overrides": {
+          "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source"
+        },
+        "inner_timeout_seconds": 120,
+        "outer_timeout_seconds": 150,
+        "kill_after_seconds": 10,
+        "code_identity": {
+          "StateConstraints.wl": "5dadcf98c4dc6a2914124d57b10d05616bdba6418779b41ed3f01eaf58d1cdff",
+          "state_constraints_tests.wl": "33c0f2e289200794a3355b73e88080562dfa02d0f9f552bd5ba6bf12c7e0ae3d",
+          "run_state_constraints.wls": "9d260a125e5051abda7f82c8250f5c70a0d9b1fd3cced461b4e98ee4583a45c7",
+          "plot_state_constraints.py": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948"
+        },
+        "launcher_sha256": "e2c698b7f34ed8b40698131ee5f278616d3bccbf72e02ae1e425136b7747b5aa",
+        "end_utc": "2026-09-07T06:19:54.352092+00:00",
+        "elapsed_seconds": 6.423564102035016,
+        "process_exit": 2,
+        "launch_error": null,
+        "timeout": false,
+        "source_unchanged": true,
+        "exit_semantics": "GNU timeout status; child status when not timed out."
+      },
+      {
+        "kind": "SC_TARGET",
+        "revision": "repair1",
+        "task": "BG02_STATE_TO_CONSTRAINT_MAP_VALIDATION_V1",
+        "attempt": 2,
+        "start_utc": "2026-09-07T06:24:28.431695+00:00",
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=10s",
+          "150s",
+          "/usr/bin/wolframscript",
+          "-local",
+          "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+          "-file",
+          "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/run_state_constraints.wls"
+        ],
+        "cwd": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/repair1",
+        "environment_overrides": {
+          "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source"
+        },
+        "inner_timeout_seconds": 120,
+        "outer_timeout_seconds": 150,
+        "kill_after_seconds": 10,
+        "code_identity": {
+          "StateConstraints.wl": "3adc3925e9542e9fb9fe6eb4787767e82bf035237af684383dc890ea6a39d825",
+          "state_constraints_tests.wl": "33c0f2e289200794a3355b73e88080562dfa02d0f9f552bd5ba6bf12c7e0ae3d",
+          "run_state_constraints.wls": "9d260a125e5051abda7f82c8250f5c70a0d9b1fd3cced461b4e98ee4583a45c7",
+          "plot_state_constraints.py": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948"
+        },
+        "launcher_sha256": "e2c698b7f34ed8b40698131ee5f278616d3bccbf72e02ae1e425136b7747b5aa",
+        "end_utc": "2026-09-07T06:24:37.264164+00:00",
+        "elapsed_seconds": 8.830702134873718,
+        "process_exit": 0,
+        "launch_error": null,
+        "timeout": false,
+        "source_unchanged": true,
+        "exit_semantics": "GNU timeout status; child status when not timed out."
+      },
+      {
+        "kind": "DIAGNOSTIC_NOT_SC_SUITE",
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=10s",
+          "150s",
+          "/usr/bin/wolframscript",
+          "-local",
+          "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+          "-file",
+          "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/regressions/scalar-shape-red/diagnose.wls"
+        ],
+        "environment_overrides": {
+          "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source",
+          "BG02_CODE_ROOT": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907"
+        },
+        "process_exit": 0,
+        "elapsed_seconds": 4.872217587893829,
+        "mapper_sha256": "5dadcf98c4dc6a2914124d57b10d05616bdba6418779b41ed3f01eaf58d1cdff"
+      },
+      {
+        "kind": "FIVE_SMALL_SHAPE_REGRESSIONS_NOT_SC_SUITE",
+        "revision": "red",
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=10s",
+          "150s",
+          "/usr/bin/wolframscript",
+          "-local",
+          "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+          "-file",
+          "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/regressions/list-shape/list_shape_tests.wls"
+        ],
+        "environment_overrides": {
+          "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source",
+          "BG02_CODE_ROOT": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/original_code"
+        },
+        "process_exit": 1,
+        "elapsed_seconds": 7.164469965966418,
+        "mapper_sha256": "5dadcf98c4dc6a2914124d57b10d05616bdba6418779b41ed3f01eaf58d1cdff"
+      },
+      {
+        "kind": "FIVE_SMALL_SHAPE_REGRESSIONS_NOT_SC_SUITE",
+        "revision": "green",
+        "argv": [
+          "/usr/bin/timeout",
+          "--signal=TERM",
+          "--kill-after=10s",
+          "150s",
+          "/usr/bin/wolframscript",
+          "-local",
+          "/usr/local/Wolfram/WolframEngine/15.0/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel",
+          "-file",
+          "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/regressions/list-shape/list_shape_tests.wls"
+        ],
+        "environment_overrides": {
+          "BASS_REPO": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/artifacts/handback/bg02_repaired_aux_comparison/20260907T052727Z/source",
+          "BG02_CODE_ROOT": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907"
+        },
+        "process_exit": 0,
+        "elapsed_seconds": 5.171517730224878,
+        "mapper_sha256": "3adc3925e9542e9fb9fe6eb4787767e82bf035237af684383dc890ea6a39d825"
+      }
+    ],
+    "per_process_inner_seconds": 120,
+    "per_process_outer_seconds": 150,
+    "TERM_KILL_grace_seconds": 10,
+    "actual_resource_caps": "Inherited unchanged; per-target snapshots in execution/*/resource-caps.json and process-limits.txt. No finite memory/CPU cap fabricated where the observed value is max/unlimited.",
+    "old_AUX_invocations": 0,
+    "native17_invocations": 0,
+    "capture6_invocations": 0,
+    "owner_WLT6_invocations": 0,
+    "local_model_invocations": 0,
+    "budget_reset": false
+  },
+  "plots": {
+    "status": "GENERATED_AND_VISUALLY_INSPECTED",
+    "original_nonpass_plotter": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/plot_state_constraints.py",
+        "--stdout",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/original/stdout.log",
+        "--out",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/plots-original-nonpass"
+      ],
+      "process_exit": 1,
+      "elapsed_seconds": 0.03537234989926219,
+      "purpose": "Verify the supplied plotter preserves real non-PASS output without plotting success."
+    },
+    "successful_plotter": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/checkout/research/diagnostics/bg02_state_constraints_20260907/plot_state_constraints.py",
+        "--stdout",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/execution/repair1/stdout.log",
+        "--out",
+        "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/plots-repair1"
+      ],
+      "environment_overrides": {
+        "MPLCONFIGDIR": "/mnt/sn850x2t/local_ai_foundry/70_experiments/bg02-state-constraints-20260907T061747Z/mplconfig"
+      },
+      "process_exit": 0,
+      "elapsed_seconds": 4.045237379847094,
+      "input_stdout_sha256": "453e143e4a948dbe70002e70e90fdb08b993990e7388ca642d8a6a3981e7d9c6",
+      "plotter_sha256": "1dc1aee4379f71476ab92e3b122c00b8e6d8beeb7a70c4cd6d3883ef0ba8c948"
+    },
+    "python": "/usr/bin/python3",
+    "python_version": "3.12.3",
+    "matplotlib_version": "3.10.8",
+    "matplotlib_path": "/home/cosmosapjw/.local/lib/python3.12/site-packages/matplotlib/__init__.py",
+    "environment_probe": "BASS venv lacked matplotlib; existing system Python user-site installation used. No package install.",
+    "input_json_equals_actual_SC_final": true,
+    "diagnostic_rows": [
+      {
+        "u": -2,
+        "Hfull": -3,
+        "Hdeleted": 1,
+        "sigma2": 8
+      },
+      {
+        "u": -1,
+        "Hfull": 0,
+        "Hdeleted": 1,
+        "sigma2": 2
+      },
+      {
+        "u": 0,
+        "Hfull": 1,
+        "Hdeleted": 1,
+        "sigma2": 0
+      },
+      {
+        "u": 1,
+        "Hfull": 0,
+        "Hdeleted": 1,
+        "sigma2": 2
+      },
+      {
+        "u": 2,
+        "Hfull": -3,
+        "Hdeleted": 1,
+        "sigma2": 8
+      }
+    ],
+    "figures": [
+      "plots-repair1/constraint_vs_shear.png",
+      "plots-repair1/constraint_vs_shear.svg",
+      "plots-repair1/deletion_response.png",
+      "plots-repair1/deletion_response.svg"
+    ],
+    "inspection_note": "VISUAL_INSPECTION.md",
+    "not_time_trajectories": true
+  },
+  "validation": {
+    "all_19_ids_observed_each_target_run": true,
+    "all_19_pass_repair1": true,
+    "test_messages_empty": true,
+    "runtime_failures_empty": true,
+    "kernel_exit_repair1": 0,
+    "host_and_kernel_hashes_agree_for_all_10_files_each_run": true,
+    "six_dependencies_unchanged": true,
+    "tests_runner_plotter_unchanged": true,
+    "old_evidence_not_rerun": true,
+    "same_author_review_only": true
+  },
+  "publication": {
+    "mode": "ISOLATED_EVIDENCE_BRANCH_NON_FORCE_PUSH",
+    "evidence_root": "artifacts/handback/bg02_state_constraints/20260907T061747Z",
+    "all_new_commit_messages_contain_skip_ci": true,
+    "actions_tools_or_dispatch_used": false,
+    "workflow_files_changed": false,
+    "new_PR_required": false,
+    "PR131_append_only_link_comment": "APPEND_ONLY_LINK_RETURN; actual posted URL is included in the final return",
+    "execution_code_and_publication_identity_are_distinct": true,
+    "publication_commit_tree": "Containing Git commit; exact remote identity returned separately to avoid self-referential hashes."
+  },
+  "claim_limits": [
+    "PASS_RESEARCH_COMPONENT_ONLY for this exact homogeneous full-ONF-state mapper and frozen 19-case suite.",
+    "Caller-supplied units and consistent symbolic assumptions remain the contract; approximate Real inputs are rejected, no automatic unit checker.",
+    "SC18 is general owner gradient-slot arithmetic only; geometric map fixes homogeneous GradientK=0.",
+    "Five plotted inputs are actual mapper evaluations at fixed reference length, not time trajectories or evaluated intermediate states.",
+    "No numerical RHS/integrator, all-family solver, arbitrary-ell transport, native xTensor four-projection proof, generic gradient geometry, production serialized ingestion, finite-time stability, provider, likelihood or RF04 admission."
+  ]
+}
