@@ -11,7 +11,7 @@ ClearAll[BG02StateConstraints];
 Options[BG02StateConstraints] = {Assumptions -> True};
 BG02StateConstraints[state_Association, OptionsPattern[]] := Module[
  {keys, asm, a, n, sig, h, rho, q, lam, kg, values, realCondition,
-  zeroQ, simplify, owner, gamma, ricci, k, divK, r3, s2, seed, hr, mr},
+  shapeQ, zeroQ, simplify, owner, gamma, ricci, k, divK, r3, s2, seed, hr, mr},
  keys = {"Hgeom","aB","nB","sigma","rho","q","Lambda","kappaG"};
  If[Sort[Keys[state]] =!= Sort[keys],
    Return[Failure["StateKeys", <|"required"->keys,"observed"->Keys[state]|>]]];
@@ -19,10 +19,14 @@ BG02StateConstraints[state_Association, OptionsPattern[]] := Module[
  If[asm === False, Return[Failure["InvalidAssumptions",<||>]]];
  a=state["aB"]; n=state["nB"]; sig=state["sigma"]; h=state["Hgeom"];
  rho=state["rho"]; q=state["q"]; lam=state["Lambda"]; kg=state["kappaG"];
- If[!VectorQ[a] || Dimensions[a]=!={3} || !VectorQ[q] || Dimensions[q]=!={3} ||
-    !MatrixQ[n] || Dimensions[n]=!={3,3} ||
-    !MatrixQ[sig] || Dimensions[sig]=!={3,3} ||
-    !AllTrue[{h,rho,lam,kg}, Dimensions[#] === {} &],
+ (* Dimensions also counts arguments of scalar expressions such as Sqrt[2].
+    Tensor shape here means nested List containers, never expression arity. *)
+ shapeQ[x_, {}] := !ListQ[x];
+ shapeQ[x_, dims_List] := ListQ[x] && Length[x] === First[dims] &&
+   AllTrue[x, shapeQ[#, Rest[dims]] &];
+ If[!shapeQ[a,{3}] || !shapeQ[q,{3}] ||
+    !shapeQ[n,{3,3}] || !shapeQ[sig,{3,3}] ||
+    !AllTrue[{h,rho,lam,kg}, shapeQ[#,{}] &],
    Return[Failure["StateShape",<||>]]];
  values=Flatten[{a,n,sig,h,rho,q,lam,kg}];
  (* This exact-symbolic reference does not choose a floating-point tolerance.
@@ -54,10 +58,10 @@ BG02StateConstraints[state_Association, OptionsPattern[]] := Module[
    Return[Failure["UnexpectedBG02Owner",<||>]]];
  gamma=BASS`Geometry`LeviCivitaConnection[a,n];
  If[FailureQ[gamma],Return[gamma]];
- If[Dimensions[gamma]=!={3,3,3},Return[Failure["ConnectionNotEvaluated",<||>]]];
+ If[!shapeQ[gamma,{3,3,3}],Return[Failure["ConnectionNotEvaluated",<||>]]];
  ricci=BASS`Geometry`ONFRicciTensor[a,n];
  If[FailureQ[ricci],Return[ricci]];
- If[Dimensions[ricci]=!={3,3},Return[Failure["RicciNotEvaluated",<||>]]];
+ If[!shapeQ[ricci,{3,3}],Return[Failure["RicciNotEvaluated",<||>]]];
  k=h IdentityMatrix[3]+sig;
  (* Generated storage is {output, derivative-direction, differentiated-basis}.
     e_j(K_ik)=0, not D_j(K_ik)=0. Both free-index connection terms survive. *)
@@ -75,7 +79,7 @@ BG02StateConstraints[state_Association, OptionsPattern[]] := Module[
  If[!FreeQ[{hr,mr},_Failure],
    Return[Failure["ConstraintConsumerFailure",<|"Hamiltonian"->hr,"Momentum"->mr|>]]];
  hr=simplify[hr]; mr=simplify[mr];
- If[Dimensions[hr]=!={} || Dimensions[mr]=!={3},
+ If[!shapeQ[hr,{}] || !shapeQ[mr,{3}],
    Return[Failure["ConstraintOutputShape",<||>]]];
  <|"status"->"EVALUATED_COMPONENTS_ONLY", "owner_contract"->owner["contract_id"],
    "InputState"->state, "Hamiltonian"->hr, "Momentum"->mr,
