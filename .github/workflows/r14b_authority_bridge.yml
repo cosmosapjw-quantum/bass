@@ -1,0 +1,136 @@
+name: R14B authority bridge
+
+on:
+  push:
+    branches:
+      - r14b-g3a-authority-bridge-20260915
+
+jobs:
+  recover-authority:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Recover exact FlexRT and official HEALPix 3.40
+        shell: bash
+        run: |
+          set -u
+          mkdir -p out work
+          exec > >(tee out/BRIDGE_EXECUTION.log) 2>&1
+          echo "UTC=$(date -u +%FT%TZ)"
+          uname -a
+          git --version
+
+          COMMIT=9e7e08e67df2bc1b3df6a322dc0e41f89611d636
+          TREE=c0e161b7db8fc42962043a05f531d0815d438810
+          REPO=https://github.com/bayu-wilson/FlexRT_imaging_reion.git
+
+          A_STATUS=FAIL
+          B_STATUS=FAIL
+
+          echo '=== PACKET A ==='
+          if git clone --no-tags "$REPO" work/FlexRT_imaging_reion; then
+            if git -C work/FlexRT_imaging_reion cat-file -e "$COMMIT^{commit}" && \
+               test "$(git -C work/FlexRT_imaging_reion rev-parse "$COMMIT^{tree}")" = "$TREE"; then
+              declare -A EXPECT
+              EXPECT[ray_tracing.cc]=260f71fad3dd42c6d93bcd3083bf83951426615e
+              EXPECT[user_inputs.h]=9756a2b76a52d014ad7465d8ba78634372cc8069
+              EXPECT[rates.cc]=991afeb06a8fd2aba880b00a6436831d01c2d95f
+              EXPECT[global_constants.h]=89b71661dc75a23fd79994b182cc030b4a43ac59
+              EXPECT[Makefile]=d9196d0d88a152691d0217382b6e801293910587
+              blobs_ok=1
+              for p in ray_tracing.cc user_inputs.h rates.cc global_constants.h Makefile; do
+                got=$(git -C work/FlexRT_imaging_reion rev-parse "$COMMIT:$p")
+                echo "$p $got expected=${EXPECT[$p]}"
+                test "$got" = "${EXPECT[$p]}" || blobs_ok=0
+              done
+              if test "$blobs_ok" = 1; then
+                rm -rf work/source_stage
+                mkdir -p work/source_stage/FlexRT_imaging_reion
+                git -C work/FlexRT_imaging_reion archive "$COMMIT" | tar -x -C work/source_stage/FlexRT_imaging_reion
+                cat > work/source_stage/SOURCE_IDENTITY.txt <<EOF
+repository=$REPO
+commit=$COMMIT
+tree=$TREE
+acquisition_utc=$(date -u +%FT%TZ)
+classification=EXACT_GIT_ARCHIVE_AT_FIXED_COMMIT
+EOF
+                cat > work/source_stage/LOAD_BEARING_BLOBS.txt <<'EOF'
+ray_tracing.cc      260f71fad3dd42c6d93bcd3083bf83951426615e
+user_inputs.h       9756a2b76a52d014ad7465d8ba78634372cc8069
+rates.cc            991afeb06a8fd2aba880b00a6436831d01c2d95f
+global_constants.h  89b71661dc75a23fd79994b182cc030b4a43ac59
+Makefile            d9196d0d88a152691d0217382b6e801293910587
+EOF
+                (cd work/source_stage && find . -type f -printf '%P\t%s\t%m\n' | LC_ALL=C sort > FILE_MANIFEST.tsv)
+                (cd work/source_stage && find . -type f ! -name SHA256SUMS -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > SHA256SUMS)
+                tar -C work/source_stage -I 'zstd -T0 -19' -cf out/BASS_REION_R14B_FLEXRT_SOURCE_PACKET_20260915_v1.tar.zst .
+                git -C work/FlexRT_imaging_reion branch -f r14b-fixed "$COMMIT"
+                git -C work/FlexRT_imaging_reion bundle create "$GITHUB_WORKSPACE/out/BASS_REION_R14B_FLEXRT_9e7e08e_GIT.bundle" r14b-fixed
+                A_STATUS=PASS
+              fi
+            fi
+          fi
+
+          echo '=== PACKET B official HEALPix 3.40 ==='
+          HP_URL='https://downloads.sourceforge.net/project/healpix/Healpix_3.40/Healpix_3.40_2018Jun22.tar.gz'
+          HP_TAR=out/Healpix_3.40_2018Jun22.tar.gz
+          if curl -L --fail --retry 5 --retry-delay 3 -o "$HP_TAR" "$HP_URL"; then
+            md5=$(md5sum "$HP_TAR" | awk '{print $1}')
+            sha1=$(sha1sum "$HP_TAR" | awk '{print $1}')
+            echo "healpix_full_tar_md5=$md5" | tee out/Healpix_3.40_OFFICIAL_HASHES.txt
+            echo "healpix_full_tar_sha1=$sha1" | tee -a out/Healpix_3.40_OFFICIAL_HASHES.txt
+            if test "$md5" = e40b4a439f34b6af11aa243751b37e1c && \
+               test "$sha1" = a26c7b19b2ef78aa2a7a519121bf489c5b979826; then
+              rm -rf work/healpix_src work/healpix_prefix
+              mkdir -p work/healpix_src work/healpix_prefix
+              tar -xzf "$HP_TAR" -C work/healpix_src
+              HP_ROOT=$(find work/healpix_src -maxdepth 1 -mindepth 1 -type d | head -1)
+              echo "HP_ROOT=$HP_ROOT"
+              CONF=$(find "$HP_ROOT/src/cxx" -path '*/autotools/configure' -type f | head -1 || true)
+              if test -n "$CONF"; then
+                chmod +x "$CONF"
+                builddir=work/healpix_build
+                rm -rf "$builddir" && mkdir -p "$builddir"
+                if (cd "$builddir" && "$GITHUB_WORKSPACE/$CONF" --prefix="$GITHUB_WORKSPACE/work/healpix_prefix" --disable-shared --with-pic --disable-maintainer-mode && make -j2 && make install); then
+                  h=$(find work/healpix_prefix -name healpix_base.h -type f | head -1 || true)
+                  a=$(find work/healpix_prefix -type f -o -type l | grep -E '/libhealpix_cxx\.(a|so|dylib)' | head -1 || true)
+                  c=$(find work/healpix_prefix -type f -o -type l | grep -E '/libcxxsupport\.(a|so|dylib)' | head -1 || true)
+                  s=$(find work/healpix_prefix -type f -o -type l | grep -E '/libsharp\.(a|so|dylib)' | head -1 || true)
+                  printf 'healpix_base=%s\nhealpix_cxx=%s\ncxxsupport=%s\nlibsharp=%s\n' "$h" "$a" "$c" "$s" | tee out/Healpix_3.40_REBUILD_COMPONENTS.txt
+                  if test -n "$h" && test -n "$a" && test -n "$c" && test -n "$s"; then
+                    find work/healpix_prefix -printf '%P\t%y\t%s\t%m\n' | LC_ALL=C sort > out/Healpix_3.40_BASS_R14B_FILE_MANIFEST.tsv
+                    find work/healpix_prefix -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > out/Healpix_3.40_BASS_R14B_TREE_SHA256SUMS
+                    cat > out/Healpix_3.40_BASS_R14B_PROVENANCE.txt <<EOF
+classification=REBUILT_OFFICIAL_HEALPIX_3_40
+source_url=$HP_URL
+source_md5=$md5
+source_sha1=$sha1
+historical_expanse_byte_identity=NOT_CLAIMED
+build_utc=$(date -u +%FT%TZ)
+EOF
+                    tar -C work/healpix_prefix -I 'zstd -T0 -19' -cf out/Healpix_3.40_BASS_R14B_rebuilt.tar.zst .
+                    B_STATUS=PASS_REBUILT_3_40
+                  fi
+                fi
+              fi
+            fi
+          fi
+
+          cat > out/BRIDGE_STATUS.txt <<EOF
+A_SOURCE=$A_STATUS
+B_HEALPIX=$B_STATUS
+HISTORICAL_DATA=NOT_ACQUIRED_BY_THIS_BRIDGE
+EOF
+          (cd out && sha256sum * > BRIDGE_SHA256SUMS.txt)
+          echo "A_SOURCE=$A_STATUS B_HEALPIX=$B_STATUS"
+          # Keep job successful so partial artifacts can always be retrieved and audited.
+          exit 0
+
+      - name: Upload bridge artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: BASS_R14B_AUTHORITY_BRIDGE_20260915
+          path: out/
+          if-no-files-found: error
+          retention-days: 7
