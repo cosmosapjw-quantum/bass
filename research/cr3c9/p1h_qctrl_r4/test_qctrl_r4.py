@@ -71,16 +71,19 @@ def test_collision_to_gas_rotation_adapter_field_identity():
  layout=StateLayout.build(3);rng=np.random.default_rng(19)
  c=rng.normal(size=layout.size)+1j*rng.normal(size=layout.size)
  alpha,beta=.71,1.03;U=rotation_matrix_global(layout,alpha,beta,0.0);cr=U@c
+ # Test active field rotation f_R(n)=f(R^{-1}n) by converting directions with the
+ # matching 3D active rotation Rz(alpha) Ry(beta).
  th=np.array([.4,1.1,2.0]);ph=np.array([.2,2.2,5.1])
  n=np.stack([np.sin(th)*np.cos(ph),np.sin(th)*np.sin(ph),np.cos(th)],axis=1)
  ca,sa=np.cos(alpha),np.sin(alpha);cb,sb=np.cos(beta),np.sin(beta)
  Rz=np.array([[ca,-sa,0],[sa,ca,0],[0,0,1.]])
  Ry=np.array([[cb,0,sb],[0,1.,0],[-sb,0,cb]])
- nold=n@(Rz@Ry)
+ nold=n@(Rz@Ry)  # row vectors: R^{-1} n corresponds to n^T -> Ry^T Rz^T n; row -> n Rz Ry
  thold=np.arccos(np.clip(nold[:,2],-1,1));phold=np.mod(np.arctan2(nold[:,1],nold[:,0]),2*np.pi)
  np.testing.assert_allclose(scalar_field_from_coeff(cr,layout,th,ph),scalar_field_from_coeff(c,layout,thold,phold),rtol=3e-13,atol=3e-13)
 
 def test_bass_scalar_ylm_mu_recurrence_convention():
+ # BASS SSOT: mu Y_lm = mu+ Y_{l+1,m} + mu- Y_{l-1,m}.
  th=np.array([.31,.88,1.37,2.41]);ph=np.array([.2,1.1,3.0,5.2]);mu=np.cos(th)
  for l,m in ((1,0),(2,1),(3,-2)):
   lhs=mu*sph_harm_y(l,m,th,ph)
