@@ -39,6 +39,7 @@ def stable_screening_potential(s):
     mask = s > 1e-12
     sm = s[mask]
     out[mask] = -np.expm1(-2.0*sm)/sm - np.exp(-2.0*sm)
+    # Series through s^4 is more than enough inside the tiny switch region.
     x = s[~mask]
     out[~mask] = 1.0 - (2.0/3.0)*x*x + (2.0/3.0)*x**3 - (2.0/5.0)*x**4
     return out.item() if out.ndim == 0 else out
@@ -66,10 +67,12 @@ def radial_hamiltonian(nr: int, rmax: float, l: int, potential=None, mu: float=M
 
 @lru_cache(maxsize=None)
 def gaunt_p_lambda(l: int, lp: int, m: int, lam: int) -> float:
+    """Integral Y_lm^* P_lam Y_l'p over sphere; m'=m for axial potential."""
     if min(l,lp,lam) < 0 or abs(m)>l or abs(m)>lp:
         return 0.0
     if lam < abs(l-lp) or lam > l+lp or ((l+lam+lp)&1):
         return 0.0
+    # P_lam = sqrt(4pi/(2lam+1)) Y_lam,0.
     val = ((-1)**m)*math.sqrt((2*l+1)*(2*lp+1))*float(
         wigner_3j(l,lam,lp,0,0,0)*wigner_3j(l,lam,lp,-m,0,m)
     )
@@ -90,11 +93,13 @@ def _axis_basis(lmax: int, m: int, nangle: int):
     mu,w=_gl(nangle)
     theta=np.arccos(mu)
     ls=np.arange(abs(m),lmax+1,dtype=int)
+    # scipy 1.17 sph_harm_y(n,m,theta,phi). At phi=0 values are real up to roundoff.
     Y=np.array([sph_harm_y(int(l),int(m),theta,np.zeros_like(theta)) for l in ls],complex)
     return ls,mu,w,Y
 
 
 def nuclear_axis_matrix(r, R: float, lmax: int, m: int, axis_sign: int=1):
+    """Exact projected -1/|r-R zhat| matrix using Coulomb multipoles and 3j Gaunts."""
     r=np.asarray(r,float)
     if R < 0 or axis_sign not in (-1,1):
         raise ValueError('invalid R/axis_sign')
@@ -115,10 +120,12 @@ def nuclear_axis_matrix(r, R: float, lmax: int, m: int, axis_sign: int=1):
 
 
 def screening_axis_matrix(r, R: float, lmax: int, m: int, nangle: int=64, axis_sign: int=1):
+    """Smooth screening matrix by 1D mu quadrature in the body/axial frame."""
     r=np.asarray(r,float)
     ls,mu,w,Y=_axis_basis(lmax,m,nangle)
     s=np.sqrt(np.maximum(0.0,r[:,None]**2+R*R-2*r[:,None]*R*axis_sign*mu[None,:]))
     V=stable_screening_potential(s)
+    # phi integral gives 2pi and delta_m,m'.
     return (2*np.pi*np.einsum('ak,rk,bk,k->rab',Y.conj(),V,Y,w,optimize=True)).real
 
 
@@ -271,6 +278,53 @@ def run_offaxis(nr=80,rmax=36.,lmax=4,dt=.1,zmax=8.,energy_keV=100.,b=1.0,nangle
 
 
 def frozen_neutral_target_bound_spectrum(nr=800,rmax=80.,l=0):
+    """Bound-spectrum diagnostic of the frozen one-electron neutral-H direct potential."""
     pot=lambda r:-np.exp(-2*r)*(1+1/r)
     r,H,e,u=radial_hamiltonian(nr,rmax,l,potential=pot,mu=1.0)
     return e[e<0],e[:8]
+
+@lru_cache(maxsize=None)
+def lz_matrix(l: int):
+    return np.diag(np.arange(-l,l+1,dtype=float)).astype(complex)
+
+
+def rotation_matrix_l(l: int, alpha: float, beta: float, gamma: float=0.0):
+    """Active z-y-z rotation U=exp(-i alpha Lz) exp(-i beta Ly) exp(-i gamma Lz)."""
+    ms=np.arange(-l,l+1,dtype=float)
+    Uz1=np.diag(np.exp(-1j*alpha*ms)); Uz2=np.diag(np.exp(-1j*gamma*ms))
+    vals,vecs=ly_eigh(l); Uy=(vecs*np.exp(-1j*beta*vals))@vecs.conj().T
+    return Uz1@Uy@Uz2
+
+
+def rotation_matrix_global(layout: StateLayout, alpha: float, beta: float, gamma: float=0.0):
+    U=np.zeros((layout.size,layout.size),complex)
+    for l,idx in layout.by_l.items():
+        U[np.ix_(idx,idx)]=rotation_matrix_l(l,alpha,beta,gamma)
+    return U
+
+
+def axis_operator_global_at_r(r: float,R: float,lmax: int,nangle: int=96):
+    layout=StateLayout.build(lmax);W=np.zeros((layout.size,layout.size),complex)
+    for m,idx in layout.by_m.items():
+        block=axis_potential_matrix(np.array([r]),R,lmax,m,nangle,1)[0]
+        W[np.ix_(idx,idx)]=block
+    return W
+
+
+def direct_operator_global_at_r(r: float,R: float,theta_R: float,phi_R: float,lmax: int,nmu: int=48,nphi: int=96):
+    """Independent full-sphere quadrature of the neutral-H potential matrix."""
+    layout=StateLayout.build(lmax);mu,wmu=np.polynomial.legendre.leggauss(nmu);theta=np.arccos(mu)
+    phi=2*np.pi*np.arange(nphi)/nphi;tt,pp=np.meshgrid(theta,phi,indexing='ij');mm,_=np.meshgrid(mu,phi,indexing='ij')
+    dot=mm*np.cos(theta_R)+np.sqrt(np.maximum(0,1-mm*mm))*np.sin(theta_R)*np.cos(pp-phi_R)
+    s=np.sqrt(r*r+R*R-2*r*R*dot)
+    V=direct_neutral_potential(s).ravel();weights=(wmu[:,None]*np.full((1,nphi),2*np.pi/nphi)).ravel()
+    Y=[]
+    for l,m in layout.states:Y.append(sph_harm_y(l,m,tt,pp).ravel())
+    Y=np.asarray(Y)
+    return np.einsum('ak,k,bk,k->ab',Y.conj(),V,Y,weights,optimize=True)
+
+
+def scalar_field_from_coeff(coeff,layout: StateLayout,theta,phi):
+    out=np.zeros(np.broadcast(theta,phi).shape,complex)
+    for c,(l,m) in zip(coeff,layout.states):out+=c*sph_harm_y(l,m,theta,phi)
+    return out
