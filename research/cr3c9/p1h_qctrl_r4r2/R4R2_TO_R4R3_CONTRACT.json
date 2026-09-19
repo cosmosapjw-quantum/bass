@@ -1,0 +1,32 @@
+{
+  "schema": "P1H_QCTRL_R4R2_TO_R4R3_CONTRACT_v1",
+  "date": "2026-09-19",
+  "next_node": "WU088_CR3C9P1H_QCTRL_R4R3_TWO_CENTER_COALESCENCE_REPAIR_AND_AOCC_WAVEPACKET_BRIDGE",
+  "frozen": {
+    "R4R2_A_certificate_construction": "PASS",
+    "R4R2_A_current_L7_promotion": "FAIL__EXACT_SHELL_LOWER_BOUND_GT1",
+    "R4R2_B_isolated_coulomb_wavepacket_preprojector": "PASS",
+    "R4R2_C_source_comparator": "NOT_RUN_GATED_BY_A",
+    "single_center_coulomb_tail": "squared_L2_O_1_over_L__norm_O_L_minus_half",
+    "physical_source_promoted": false,
+    "P1D_P1B_replay": false,
+    "helium_enabled": false
+  },
+  "parallel_AOCC_status_observed": "R5_IN_PROGRESS__JIT_ERI_REGRESSION_PASS__FULL_MOVING_ONE_BODY_AND_SELECTED_POINT_CHANNEL_MATRIX_PENDING",
+  "required_tasks": [
+    "define a two-center or translated cusp-adapted one-electron trial space with projectile and target Coulomb singularities represented on their own centers",
+    "include the moving-center translation phase/ETF required by the chosen semiclassical representation",
+    "construct and audit the nonorthogonal overlap matrix S and its dual/Löwdin handling without deleting near-dependent states silently",
+    "prove or numerically certify isolated-center limits and large-separation decoupling",
+    "reuse the R4R2 isolated-Coulomb wave-packet bin definition as the continuum preprojector component",
+    "consume provenance-locked AOCC/W1 two-center S/H/channel matrices when available rather than creating an authority fork",
+    "define a bridge-level residual/coupling certificate before any physical source projection"
+  ],
+  "stop_conditions": [
+    "stop if the two-center overlap matrix loses positive definiteness without an explicit controlled regularization",
+    "stop if translation/ETF conventions are inconsistent with the moving-center Hamiltonian",
+    "stop if the bridge requires fitting to the broken Cariatore stripping Eloss(theta) data",
+    "stop before source comparison if a full collision state remains uncertified",
+    "do not promote physical H-minus or two-electron stripping from a one-electron bridge"
+  ]
+}
