@@ -1,0 +1,26 @@
+{
+  "schema": "P1H_QCTRL_R4R3_METRIC_BRIDGE_CONTRACT_v1",
+  "date": "2026-09-19",
+  "authority_reuse": [
+    "AOCC_W0_nonorthogonal_metric_evolution",
+    "AOCC_W1_R1_R5_basis_registry_and_full_l_spin_parity",
+    "R4R2_isolated_Coulomb_wavepacket_preprojector"
+  ],
+  "verified": {
+    "two_center_1s_overlap_formula": true,
+    "metric_positive_conditioning_theorem": true,
+    "spin_triplet_Pauli_null_limit": true,
+    "actual_64_channel_selected_overlap": true,
+    "b_scan_metric_conditioning": true,
+    "cross_time_metric_identity_Odot_equals_tau_plus_taudagger": true
+  },
+  "runtime_gate": {
+    "monitor_per_spin": ["lambda_min_O","lambda_max_O","condition_number","metric_norm"],
+    "forbid_fixed_eigen_cutoff_without_symmetry_or_error_budget": true,
+    "exact_symmetry_nulls_must_be_classified_separately": true
+  },
+  "next_bounded_task": "selected_point_one_electron_h_and_then_metric_compatible_V_identity",
+  "physical_source_promoted": false,
+  "P1D_P1B_replay": false,
+  "helium_enabled": false
+}
