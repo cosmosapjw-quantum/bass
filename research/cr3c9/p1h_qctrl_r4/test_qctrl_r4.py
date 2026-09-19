@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.special import sph_harm_y
 from bass_r3.qctrl_r4 import (stable_screening_potential,gaunt_p_lambda,nuclear_axis_matrix,
  screening_axis_matrix,axis_potential_matrix,direct_axis_matrix,ly_matrix,StateLayout,
  apply_y_rotation,run_axial_mresolved,run_offaxis,frozen_neutral_target_bound_spectrum)
@@ -53,3 +54,39 @@ def test_frozen_neutral_direct_potential_has_no_bound_state_on_refined_box():
  bound,low=frozen_neutral_target_bound_spectrum(nr=500,rmax=60,l=0)
  assert len(bound)==0
  assert low[0]>0
+
+from bass_r3.qctrl_r4 import rotation_matrix_global,axis_operator_global_at_r,direct_operator_global_at_r,scalar_field_from_coeff
+
+def test_three_nontrivial_rotation_covariances_operator_and_expectation():
+ layout=StateLayout.build(3);Wz=axis_operator_global_at_r(1.2,2.0,3,128);rng=np.random.default_rng(8)
+ c=rng.normal(size=layout.size)+1j*rng.normal(size=layout.size);c/=np.linalg.norm(c)
+ for alpha,beta in ((.37,.63),(1.11,.92),(2.2,1.34)):
+  U=rotation_matrix_global(layout,alpha,beta,0.0);Wr=U@Wz@U.conj().T
+  Wd=direct_operator_global_at_r(1.2,2.0,beta,alpha,3,64,128)
+  np.testing.assert_allclose(Wr,Wd,rtol=2e-8,atol=2e-9)
+  cr=U@c
+  np.testing.assert_allclose(np.vdot(cr,Wr@cr),np.vdot(c,Wz@c),rtol=2e-13,atol=2e-13)
+
+def test_collision_to_gas_rotation_adapter_field_identity():
+ layout=StateLayout.build(3);rng=np.random.default_rng(19)
+ c=rng.normal(size=layout.size)+1j*rng.normal(size=layout.size)
+ alpha,beta=.71,1.03;U=rotation_matrix_global(layout,alpha,beta,0.0);cr=U@c
+ th=np.array([.4,1.1,2.0]);ph=np.array([.2,2.2,5.1])
+ n=np.stack([np.sin(th)*np.cos(ph),np.sin(th)*np.sin(ph),np.cos(th)],axis=1)
+ ca,sa=np.cos(alpha),np.sin(alpha);cb,sb=np.cos(beta),np.sin(beta)
+ Rz=np.array([[ca,-sa,0],[sa,ca,0],[0,0,1.]])
+ Ry=np.array([[cb,0,sb],[0,1.,0],[-sb,0,cb]])
+ nold=n@(Rz@Ry)
+ thold=np.arccos(np.clip(nold[:,2],-1,1));phold=np.mod(np.arctan2(nold[:,1],nold[:,0]),2*np.pi)
+ np.testing.assert_allclose(scalar_field_from_coeff(cr,layout,th,ph),scalar_field_from_coeff(c,layout,thold,phold),rtol=3e-13,atol=3e-13)
+
+def test_bass_scalar_ylm_mu_recurrence_convention():
+ th=np.array([.31,.88,1.37,2.41]);ph=np.array([.2,1.1,3.0,5.2]);mu=np.cos(th)
+ for l,m in ((1,0),(2,1),(3,-2)):
+  lhs=mu*sph_harm_y(l,m,th,ph)
+  mup=np.sqrt(((l+1)**2-m*m)/((2*l+1)*(2*l+3)))
+  rhs=mup*sph_harm_y(l+1,m,th,ph)
+  if l>abs(m):
+   mum=np.sqrt((l*l-m*m)/((2*l-1)*(2*l+1)))
+   rhs=rhs+mum*sph_harm_y(l-1,m,th,ph)
+  np.testing.assert_allclose(lhs,rhs,rtol=2e-14,atol=2e-14)
