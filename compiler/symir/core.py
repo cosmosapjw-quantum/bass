@@ -173,6 +173,9 @@ class Bundle:
         if len(equation_ids) != len(set(equation_ids)):
             raise SymIRError("duplicate equation id")
 
+        predicate_ids = [p.id for p in self.predicates]
+        if len(predicate_ids) != len(set(predicate_ids)):
+            raise SymIRError("duplicate predicate id")
         pred = {p.id: p for p in self.predicates}
         for eq in self.equations:
             for p_id in eq.exact_predicates:
