@@ -1,0 +1,558 @@
+...F....................................FFFFFFF                          [100%]
+=================================== FAILURES ===================================
+__________ test_public_lazy_exports_preserve_conventions_and_algebra ___________
+
+    def test_public_lazy_exports_preserve_conventions_and_algebra():
+        from bianchi import algebra, conventions
+    
+        assert bianchi.algebra is algebra
+        assert bianchi.conventions is conventions
+>       assert bianchi.__all__ == ["conventions", "algebra", "__version__"]
+E       AssertionError: assert ['conventions...'__version__'] == ['conventions...'__version__']
+E         
+E         At index 2 diff: 'runtime' != '__version__'
+E         Left contains one more item: '__version__'
+E         Use -v to get more diff
+
+tests/test_rf00_optional_dependencies.py:131: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  jax._src.xla_bridge:xla_bridge.py:891 An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+_________ test_environment_block_happens_before_any_source_resolution __________
+
+    def test_environment_block_happens_before_any_source_resolution():
+        resolutions: list[str] = []
+>       result = run_protocol(
+            _config(), _host(ClaimLevel.EXPLORATORY_ONLY),
+            live_host_probe=_host(ClaimLevel.EXPLORATORY_ONLY),
+            resolver=_resolver_log(resolutions), collector=_Collector(),
+        )
+
+tests/test_rfbench00_corpus_runner.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+___ test_dedicated_request_rejects_controlled_host_before_source_resolution ____
+
+    def test_dedicated_request_rejects_controlled_host_before_source_resolution():
+        config = _config()
+        config["requested_claim_level"] = "DEDICATED_BARE_METAL"
+        resolutions: list[str] = []
+>       result = run_protocol(
+            config, _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            resolver=_resolver_log(resolutions), collector=_Collector(),
+        )
+
+tests/test_rfbench00_corpus_runner.py:284: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'DEDICATED_BARE_METAL', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+_ test_controlled_runner_closes_baseline_preflight_before_candidate_resolution _
+
+    def test_controlled_runner_closes_baseline_preflight_before_candidate_resolution():
+        resolutions: list[str] = []
+        collector = _Collector(candidate_failures=4)
+>       result = run_protocol(
+            _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            resolver=_resolver_log(resolutions), collector=collector,
+        )
+
+tests/test_rfbench00_corpus_runner.py:300: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+_______ test_every_pair_is_bound_to_the_clean_baseline_preflight_output ________
+
+    def test_every_pair_is_bound_to_the_clean_baseline_preflight_output():
+>       result = run_protocol(
+            _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            resolver=_resolver_log([]), collector=_Collector(preflight_digest="b" * 64),
+        )
+
+tests/test_rfbench00_corpus_runner.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+________ test_holdout_is_refused_before_source_resolution_during_tuning ________
+
+    def test_holdout_is_refused_before_source_resolution_during_tuning():
+        config = _config()
+        config["workload_id"] = "holdout_q_saha_internal_e2e"
+        resolutions: list[str] = []
+        with pytest.raises(PermissionError, match="holdout"):
+>           run_protocol(
+                config, _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+                live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+                resolver=_resolver_log(resolutions), collector=_Collector(),
+            )
+
+tests/test_rfbench00_corpus_runner.py:338: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'holdout_q_saha_internal_e2e', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+___________ test_missing_live_probe_blocks_before_source_resolution ____________
+
+    def test_missing_live_probe_blocks_before_source_resolution():
+        resolutions: list[str] = []
+>       result = run_protocol(
+            _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            resolver=_resolver_log(resolutions), collector=_Collector(),
+        )
+
+tests/test_rfbench00_corpus_runner.py:348: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+_ test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled _
+
+    def test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled():
+        resolutions: list[str] = []
+>       result = run_protocol(
+            _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+            live_host_probe=_host(ClaimLevel.EXPLORATORY_ONLY),
+            resolver=_resolver_log(resolutions), collector=_Collector(),
+        )
+
+tests/test_rfbench00_corpus_runner.py:363: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmarks/rfbench/runner.py:298: in run_protocol
+    validate_run_config(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+
+    def validate_run_config(config: Mapping[str, Any]) -> None:
+        errors: list[str] = []
+        if config.get("schema") != RUN_CONFIG_SCHEMA:
+            errors.append("unexpected run config schema")
+        try:
+            ClaimLevel(config.get("requested_claim_level"))
+        except (TypeError, ValueError):
+            errors.append("requested_claim_level is invalid")
+        if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+            errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+        if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+            errors.append("stratum must be strict_1t or physical_12t")
+        for name in ("baseline", "candidate"):
+            if not isinstance(config.get(name), Mapping):
+                errors.append(f"{name} source is missing")
+            else:
+                if not isinstance(config[name].get("python"), str):
+                    errors.append(f"{name}.python is missing")
+                for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+                    value = config[name].get(digest_name)
+                    if not isinstance(value, str) or len(value) != 64:
+                        errors.append(f"{name}.{digest_name} is missing")
+        integer_contract = {
+            "valid_pairs_target": 30,
+            "max_attempts": 90,
+            "bootstrap_replicates": 10_000,
+        }
+        for name, required in integer_contract.items():
+            if config.get(name) != required:
+                errors.append(f"{name} must equal the frozen value {required}")
+        seed = config.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            errors.append("seed must be an integer")
+        if not isinstance(config.get("workload_id"), str):
+            errors.append("workload_id is missing")
+        corpus_sha = config.get("corpus_sha256")
+        if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+            errors.append("corpus_sha256 is missing")
+        if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+            errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+        if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+            errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+        common_build = config.get("common_build_identity")
+        common_build_sha = config.get("common_build_identity_sha256")
+        if not isinstance(common_build, Mapping):
+            errors.append("common_build_identity is missing")
+        elif common_build_sha != sha256_json(common_build):
+            errors.append("common_build_identity_sha256 mismatch")
+        if config.get("phase") not in {"tuning", "milestone_closeout"}:
+            errors.append("phase must be tuning or milestone_closeout")
+        if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+            errors.append("contamination_limits must equal the frozen SPEC values")
+        if errors:
+>           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+
+benchmarks/rfbench/runner.py:245: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_rf00_optional_dependencies.py::test_public_lazy_exports_preserve_conventions_and_algebra
+FAILED tests/test_rfbench00_corpus_runner.py::test_environment_block_happens_before_any_source_resolution
+FAILED tests/test_rfbench00_corpus_runner.py::test_dedicated_request_rejects_controlled_host_before_source_resolution
+FAILED tests/test_rfbench00_corpus_runner.py::test_controlled_runner_closes_baseline_preflight_before_candidate_resolution
+FAILED tests/test_rfbench00_corpus_runner.py::test_every_pair_is_bound_to_the_clean_baseline_preflight_output
+FAILED tests/test_rfbench00_corpus_runner.py::test_holdout_is_refused_before_source_resolution_during_tuning
+FAILED tests/test_rfbench00_corpus_runner.py::test_missing_live_probe_blocks_before_source_resolution
+FAILED tests/test_rfbench00_corpus_runner.py::test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled
+8 failed, 39 passed in 5.00s
