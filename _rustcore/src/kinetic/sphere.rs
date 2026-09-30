@@ -99,6 +99,9 @@ impl SphereGrid {
     pub fn len(&self) -> usize {
         self.n_theta * self.n_phi
     }
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
 }
 
 /// 완전정규화 결합 Legendre Pbar_l^m(x), m 고정, l = m..=l_max.

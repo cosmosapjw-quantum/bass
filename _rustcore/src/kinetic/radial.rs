@@ -31,6 +31,9 @@ impl RadialGrid {
     pub fn len(&self) -> usize {
         self.ln_p.len()
     }
+    pub fn is_empty(&self) -> bool {
+        self.ln_p.is_empty()
+    }
     pub fn p(&self) -> Vec<f64> {
         self.ln_p.iter().map(|x| x.exp()).collect()
     }
