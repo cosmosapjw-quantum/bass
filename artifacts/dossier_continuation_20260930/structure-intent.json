@@ -1,0 +1,65 @@
+{
+  "task_id": "BASS-STRUCTURE-UTILITIES-20260930",
+  "goal": "Implement necessary low kinetic moment PSD/trace diagnostics and frozen weighted population polynomial from Dossier I8.1 and V14.4. APIs fixed by structure_contract.rs. Finite population domain 1..32 states, Poisson mean lambda*h <=64 and truncation index m<=1024. No full kinetics, rate derivation or production wiring.",
+  "authority": "CANDIDATE_ONLY",
+  "inputs": {
+    "_rustcore/src/kinetic/mod.rs": "8998a3cab70021018448c4087f0ae53178de231636e3be4c80aef784ab819640",
+    "_rustcore/src/microphysics/mod.rs": "70058c0e1daf1cc2fedad71ffe7935e79eb8aa399d96508ac257adc017126568",
+    "_rustcore/tests/structure_contract.rs": "05dd44e7334a91a0308256deda14d79f8fd834d6e315a0602e46516e5fbb2ab3",
+    "_rustcore/Cargo.toml": "d1fd1ac9aec26fd360662a8ca79e9edb9133f9e06cfd5f58fa1ac37743d8160b",
+    "_rustcore/Cargo.lock": "be5b4eb3fd3ed4041b3de1c94800e78811369d52e9c8bbf890368b74b0f7cc8d"
+  },
+  "allowed_paths": [
+    "_rustcore/src/kinetic/mod.rs",
+    "_rustcore/src/kinetic/realizability.rs",
+    "_rustcore/src/microphysics/mod.rs",
+    "_rustcore/src/microphysics/population.rs"
+  ],
+  "external_validator": {
+    "argv": [
+      "/home/cosmosapjw/.cargo/bin/cargo",
+      "test",
+      "--manifest-path",
+      "_rustcore/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--test",
+      "structure_contract"
+    ],
+    "timeout_seconds": 180,
+    "dependencies": [
+      "_rustcore/tests/structure_contract.rs"
+    ]
+  },
+  "context_complete": true,
+  "scientific_contract": {
+    "assumptions": [
+      "Moment conditions necessary only; common energy units; supplied S symmetric and particle |v|<=1",
+      "Population inputs are positive weights and nonnegative offdiagonal weighted-coordinate G_ij transfer rates j to i; supplied diagonals zero; generator diagonal defined as minus column outflow",
+      "Frozen finite generator, 1..32 states, lambda=max outgoing sum; lambda*h<=64, m<=1024; lambda=0 exact identity"
+    ],
+    "units": [
+      "rho flux stress common energy density with particle velocities normalized by c",
+      "G rates inverse caller time; h matching time; positive inventory weights"
+    ],
+    "conventions": [
+      "Do not clip/project input moments or populations",
+      "Exact weighted-space tail-lumped Poisson polynomial, no time-varying or coherency claims",
+      "Truncation bound excludes roundoff; report this explicitly"
+    ],
+    "boundary_conditions": [
+      "rho=0 requires exact zero flux/stress; never divide by rho",
+      "h=0 or zero generator identity; stationary populations preserved"
+    ]
+  },
+  "verification_limits": [
+    "Fixed-input utility only; no full evolution or scientific admission",
+    "Frozen validators unmodified by child"
+  ],
+  "output_budget": 10000,
+  "resource_limits": {
+    "max_calls": 2,
+    "max_tokens": 40000,
+    "max_wall_seconds": 1800
+  }
+}

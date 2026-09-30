@@ -1,0 +1,27 @@
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/bass/_rustcore)
+error[E0432]: unresolved import `bianchi_rustcore::kinetic::realizability`
+ --> tests/structure_contract.rs:2:32
+  |
+2 | use bianchi_rustcore::kinetic::realizability::{check_moments, MomentKind};
+  |                                ^^^^^^^^^^^^^ could not find `realizability` in `kinetic`
+
+error[E0432]: unresolved import `bianchi_rustcore::microphysics::population`
+ --> tests/structure_contract.rs:3:37
+  |
+3 | use bianchi_rustcore::microphysics::population::FrozenPopulation;
+  |                                     ^^^^^^^^^^ could not find `population` in `microphysics`
+
+error[E0277]: the trait bound `Vec<{float}>: Copy` is not satisfied
+   --> tests/structure_contract.rs:170:53
+    |
+170 |     let zero = FrozenPopulation::new(&[2.0, 1.0], &[vec![0.0; 2]; 2]).unwrap();
+    |                                                     ^^^^^^^^^^^^ the trait `Copy` is not implemented for `Vec<{float}>`
+    |
+    = note: the `Copy` trait is required because this value will be copied for each element of the array
+    = help: consider using `core::array::from_fn` to initialize the array
+    = help: see https://doc.rust-lang.org/stable/std/array/fn.from_fn.html for more information
+    = note: this error originates in the macro `vec` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+Some errors have detailed explanations: E0277, E0432.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `bianchi_rustcore` (test "structure_contract") due to 3 previous errors
