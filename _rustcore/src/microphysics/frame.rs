@@ -5,6 +5,7 @@ pub enum FrameError {
     InvalidVelocity,
     InvalidDirection,
     InvalidEnergy,
+    NonFiniteSource,
     ModeDirectionMismatch,
     PairEnergyMismatch {
         material_sum_ev: f64,
@@ -53,7 +54,11 @@ impl MaterialFrame {
             .zip(e_normal)
             .map(|(b, e)| b * e)
             .sum();
-        Ok(self.gamma * (1.0 - dot))
+        let doppler = self.gamma * (1.0 - dot);
+        if !doppler.is_finite() || doppler <= 0.0 {
+            return Err(FrameError::InvalidDirection);
+        }
+        Ok(doppler)
     }
 
     pub fn material_energy_ev(self, normal_ev: f64, e_normal: [f64; 3]) -> Result<f64, FrameError> {
@@ -73,18 +78,26 @@ impl MaterialFrame {
         e_normal: [f64; 3],
     ) -> Result<f64, FrameError> {
         if !material_source.is_finite() {
-            return Err(FrameError::InvalidEnergy);
+            return Err(FrameError::NonFiniteSource);
         }
-        Ok(self.doppler(e_normal)? * material_source)
+        let source = self.doppler(e_normal)? * material_source;
+        if !source.is_finite() {
+            return Err(FrameError::NonFiniteSource);
+        }
+        Ok(source)
     }
 
     /// Material proper-density evolution uses dtau_m/dt_n = 1/gamma_m,
     /// independent of photon direction.
     pub fn atomic_normal_time_source(self, material_source: f64) -> Result<f64, FrameError> {
         if !material_source.is_finite() {
-            return Err(FrameError::InvalidEnergy);
+            return Err(FrameError::NonFiniteSource);
         }
-        Ok(material_source / self.gamma)
+        let source = material_source / self.gamma;
+        if !source.is_finite() {
+            return Err(FrameError::NonFiniteSource);
+        }
+        Ok(source)
     }
 
     pub fn pair_material_fraction(

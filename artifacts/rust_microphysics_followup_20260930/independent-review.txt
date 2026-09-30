@@ -1,0 +1,17 @@
+I’ll review the scoped diff, pinned source contracts, and existing validation logs, then report concrete findings or PASS with limitations. I’ll keep this round read-only and won’t delegate or run broad suites.
+The core diff keeps the existing direction tolerance and source arithmetic, adding checks on the resulting values. I’m checking the REC conversions and example units against the pinned child implementations, including whether the corrected large-population fixture is actually finite.
+
+I also consulted the requested MLflow evaluation skill; running its evaluation workflow would require writes and falls outside this read-only review.
+The pinned REC source confirms that the corrected `1e294` fixture is finite: the line coefficient has a small dimensional prefactor. The original failed assertion is retained in the requested log, and both cached child checkouts match the exact pins.
+
+I found a possible geometry inconsistency in the example’s screen and ray directions. I’m checking it against the child API contract and replaying only the existing microphysics test binaries and example.
+**One minor finding; no blockers or majors found.**
+
+**Minor — example screens do not match the stated rays.** At [microphysics_fixed_input.rs:41](/home/cosmosapjw/bass/_rustcore/examples/microphysics_fixed_input.rs:41), the screen spans x–y, while the rays and boost lie along ±x. Those rays remain ±x in the material frame, so the first screen column is longitudinal. `SourceState::simple` supplies the same screen for the bound-free calls.
+
+Reproduction: the pinned REC `validate_screen(screen, Some([1.0, 0.0, 0.0]))` rejects this with `InvalidInput("screen is not transverse to direction")`; the column–ray dot products are `[1, 0]`. The example consequently prints BB atomic depletion in x/y instead of y/z. Use a y–z screen consistently for `state.v`, BB and pair inputs. The new [boundary fixture:106](/home/cosmosapjw/bass/_rustcore/tests/microphysics_boundary.rs:106) repeats this geometry.
+
+The overflow-fixture correction is justified: its boosted photon coefficient is approximately `2.06e269`, still finite, and the original failure log is retained. I independently replayed the existing binaries: **4 boundary tests and 9 microphysics tests passed**, and the example completed. Exact child pins, output units, error propagation, material measures and CI separation checked out.
+
+Limitation: existing binaries were replayed; no fresh compilation or hosted CI execution was performed.
+

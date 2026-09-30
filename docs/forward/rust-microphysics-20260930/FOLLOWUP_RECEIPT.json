@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "task_id": "BASS-RUST-MICRO-FOLLOWUP-20260930",
+  "base_sha": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+  "delivery": "UNCOMMITTED_WORKING_TREE",
+  "scope": "fixed-input Rust host boundary, public example, CI; no scientific admission",
+  "source_sha256": {
+    "_rustcore/src/microphysics/frame.rs": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+    "_rustcore/src/microphysics/rec.rs": "d8342b18c79f1a058dd1542b4290c657da019be8aac366e1a14284395fa3d699",
+    "_rustcore/tests/microphysics_boundary.rs": "3992df32a086662b705aa44f1249866c7001fc3b2a6c2eeaba1abdd70c122f52",
+    "_rustcore/examples/microphysics_fixed_input.rs": "967dc3021fe9304237e46e8172fe8e44cae922663b338b8efc772b74801c19a8",
+    "scripts/check_microphysics_dependencies.sh": "4b301d1b94cd58607976820b9aa7355c60ec1ffff1162312b8f2d347c4ba1860",
+    ".github/workflows/rf00-backend-policy.yml": "2ead30ba94d9e1f20b6a76462d3b2227b3e44588eae3b2cc375c5e8af6ffa6ec",
+    "_rustcore/README.md": "23b57c67df16a00b771efeed18151499df867e1da5d4ecf8183a1f2d08313ab3"
+  },
+  "validation": {
+    "cargo_fmt": "PASS",
+    "cargo_clippy_all_targets": "PASS",
+    "cargo_workspace_unit_tests": 136,
+    "cargo_integration_tests": 4,
+    "cargo_tests_failed": 0,
+    "cargo_example": "PASS_WITH_PYTHON_EXECUTABLES_DISABLED",
+    "optional_python_binding_check": "PASS",
+    "dependency_checker_negative_cases": "6/6 PASS",
+    "workflow_yaml": "PARSED_AND_RUST_JOB_INSPECTED",
+    "remote_ci": "NOT_RUN"
+  },
+  "failures_preserved": [
+    {
+      "kind": "preimplementation_compile_failure",
+      "evidence": "artifacts/rust_microphysics_followup_20260930/baseline-red.log"
+    },
+    {
+      "kind": "HOST_TEST_FIXTURE_ERROR",
+      "detail": "New BB population 1e294 fixture did not overflow the boosted occupation coefficient; its dimensional prefactor keeps it finite. Corrected to exact finite parity and child error preservation; added private real/imaginary matrix overflow tests. Existing tolerances and physics tests unchanged.",
+      "evidence": "artifacts/rust_microphysics_followup_20260930/incorrect-rec-fixture.log"
+    },
+    {
+      "kind": "native_example_stop_validator",
+      "detail": "Candidate-only Sol return was validated before Host installed example; failed missing target retained in child transcript. Host installed exact candidate bytes then Cargo run passed."
+    }
+  ],
+  "authorship": {
+    "frame_and_rec": "gpt-6-luna/low native subagent",
+    "example": "gpt-6-sol/high native subagent; exact SHA256 2e8c865db5a36382610f9d49ee82bfbd05eac5d743875393f741ea3f26d420ea; Host corrected BB delta_J coefficient and pair atomic-density unit labels; Host repaired transverse-screen finding",
+    "tests_ci_docs_checker_integration": "Host gpt-6-astra/high"
+  },
+  "local_attempts": [
+    {
+      "task": "A",
+      "profile": "devstral-small-2-24b-cpu",
+      "status": "FLEET_REQUEST_INVALID",
+      "detail": "Requested 5000 output tokens exceeded configured 1024 maximum; no candidate returned. Original executor status OUTCOME_UNKNOWN retained.",
+      "usage": "NOT_MEASURED"
+    },
+    {
+      "task": "B",
+      "profile": "qwen3.6-35b-a3b-cpu",
+      "status": "RAM_LIVE_CAPACITY_EXCEEDED",
+      "model_calls": 0
+    },
+    {
+      "task": "C",
+      "profile": "devstral-small-2-24b-cpu",
+      "status": "BACKEND_UNREACHABLE",
+      "detail": "Smaller 1000-token checker request dispatched; managed owned cleanup completed, no candidate returned.",
+      "usage": "NOT_MEASURED"
+    }
+  ],
+  "token_savings": "NOT_MEASURED",
+  "independent_review": {
+    "status": "RETURNED_NO_BLOCKERS_OR_MAJORS_ONE_MINOR",
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "transport": "CODEX_APP_SERVER_REVIEW",
+    "runtime_state": "MATCH",
+    "sandbox": "read-only",
+    "thread_id": "01a0f0bc-d1a9-7331-94cb-92647c5d6e95",
+    "report": "artifacts/rust_microphysics_followup_20260930/independent-review.txt",
+    "finding": "Example and new test screens were not transverse to +/-x rays",
+    "resolution": "Host changed screens to y-z, applied screen to SourceState.v, added validate_screen assertions for both rays; fmt/clippy/full 140 tests/example passed after repair",
+    "post_repair_validation": "HOST_VERIFIED; NO_SECOND_INDEPENDENT_REVIEW"
+  },
+  "scientific_status": "FIXED_INPUT_IMPLEMENTATION_ONLY",
+  "unchanged": [
+    "REC and REI exact revisions",
+    "Cargo.lock",
+    "existing physics tests and tolerances",
+    "main branch",
+    "existing untracked artifacts"
+  ],
+  "native_usage_receipt": "artifacts/rust_microphysics_followup_20260930/native-usage.json",
+  "review_usage_receipt": "artifacts/rust_microphysics_followup_20260930/independent-usage.json",
+  "native_stop_validation": "Original author stop validators remain VALIDATOR_FAILED (Host-created invalid fixture; example not yet installed). Subsequent corrected Host integration validation is separate and passed.",
+  "implementation_decision": "COMPLETE_ACCEPTANCE_FIXED_INPUT_SCOPE",
+  "validation_commands": [
+    "cargo fmt --manifest-path _rustcore/Cargo.toml --all -- --check",
+    "cargo clippy --manifest-path _rustcore/Cargo.toml --workspace --all-targets --locked --offline -- -D warnings",
+    "env -u PYTHONPATH -u VIRTUAL_ENV PYTHON=/nonexistent PYTHON_SYS_EXECUTABLE=/nonexistent PYO3_PYTHON=/nonexistent cargo test --manifest-path _rustcore/Cargo.toml --workspace --locked --offline",
+    "env -u PYTHONPATH -u VIRTUAL_ENV PYTHON=/nonexistent PYTHON_SYS_EXECUTABLE=/nonexistent PYO3_PYTHON=/nonexistent cargo run --manifest-path _rustcore/Cargo.toml --locked --offline --example microphysics_fixed_input",
+    "cargo check --manifest-path _rustcore/Cargo.toml --locked --offline --features python-binding",
+    "bash scripts/check_microphysics_dependencies.sh"
+  ],
+  "carry_forward": "Optional python-binding check and dependency-checker negative tests are unchanged PASS evidence; only example strings/screens and new test screen changed after initial final validation.",
+  "bounded_closeout": {
+    "decision": "COMPLETE_ACCEPTANCE",
+    "acceptance_sha256": "e0f536b83877dd520825d5e2ccf845ea4e4f8dab3d5497cbc1bbfd9aac82d6cf",
+    "check": "PASS"
+  }
+}

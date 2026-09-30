@@ -110,8 +110,38 @@ cargo test --lib --locked --offline                # 검증된 vendor/cache가 �
 pytest ../tests/test_rustcore_differential.py -q   # 차등테스트 (인수 게이트)
 ```
 
-`extension-module` 은 **crate feature** 라 `cargo test` 는 이를 끄고 libpython 에 링크,
-`maturin` 은 `pyproject [tool.maturin].features` 로 켜서 확장모듈을 만든다.
+기본 `cpu` feature의 Rust 코어와 테스트는 Python이나 libpython에 의존하지 않는다.
+`python-binding`을 명시할 때만 PyO3/NumPy 바인딩을 컴파일한다.
+`maturin`은 `pyproject [tool.maturin].features`의 `extension-module`로
+바인딩을 활성화하여 Python 확장모듈을 만든다.
+
+## 고정 입력 미시물리 예제
+
+저장소 루트에서 순수 Rust 경로를 실행한다. 처음에는 `cargo fetch --locked`로
+고정 의존성을 준비해야 하며, 준비 후에는 `--offline`으로 재현할 수 있다.
+
+```bash
+cargo fetch --manifest-path _rustcore/Cargo.toml --locked
+bash scripts/check_microphysics_dependencies.sh
+cargo run --manifest-path _rustcore/Cargo.toml --locked --offline --example microphysics_fixed_input
+cargo test --manifest-path _rustcore/Cargo.toml --locked --offline
+```
+
+예제는 REC 네 채널과 REI 일곱 함수를 고정 입력으로 호출한다. 정지계·이동계,
+문턱 아래의 물리적 영값, 지원 영역 밖의 오류를 출력한다. 광자 occupation
+소스에는 방향별 `D`, 원자 proper-density 소스에는 `1/gamma`를 적용하며,
+원자 미분 출력은 물질계 측도를 유지한다. 전체 열화학 역사나 Bianchi 피드백,
+관측량 및 생산 판정은 이 예제의 검증 범위가 아니다.
+
+호스트 변환에서 유한하지 않은 소스는 `FrameError::NonFiniteSource`, 양수가
+아닌 Doppler 계수는 `InvalidDirection`으로 반환한다. `FrameError`를 전수
+매칭하는 Rust 소비자는 새 변형을 처리해야 한다.
+
+Python 바인딩은 별도로 확인한다(Python 개발 환경 필요):
+
+```bash
+cargo check --manifest-path _rustcore/Cargo.toml --locked --offline --features python-binding
+```
 
 ## 구조
 
