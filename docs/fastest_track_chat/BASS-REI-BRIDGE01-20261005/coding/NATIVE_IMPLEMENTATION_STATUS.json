@@ -1,0 +1,56 @@
+{
+  "status": "IMPLEMENTATION_VERIFIED_SCOPED",
+  "red": {
+    "log": "RED_MISSING_BRIDGE.log",
+    "classification": "EXPECTED_MISSING_API",
+    "compiler_code": "E0432"
+  },
+  "green": {
+    "log": "GREEN_SCOPED_NATIVE.log",
+    "passed": 20,
+    "failed": 0,
+    "new_focused": 10,
+    "missing_api_regression": 1,
+    "old_visibility_unchanged": 6,
+    "legacy_rei_and_pin": 3,
+    "coverage": "two original REI test functions cover all seven existing dispatch APIs, plus updated exact dependency identity test"
+  },
+  "binary": {
+    "path": "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/target/debug/rei_visibility_probe",
+    "sha256": "4532743176b812a62ff044ee5e6ad7b9142197af6bf675955e90fc4cc5dcefbc",
+    "size": 5789128
+  },
+  "changed_paths": [
+    "_rustcore/Cargo.lock",
+    "_rustcore/Cargo.toml",
+    "_rustcore/src/microphysics/mod.rs",
+    "_rustcore/src/microphysics/tests.rs",
+    "_rustcore/src/microphysics/rei_visibility.rs",
+    "_rustcore/tests/rei_visibility_contract.rs",
+    "_rustcore/examples/rei_visibility_probe.rs",
+    "scripts/check_microphysics_dependencies.sh"
+  ],
+  "full_bass_build": false,
+  "rec_revision_unchanged": true,
+  "rct_enabled": false,
+  "physical_admission": false,
+  "formatting_attempt": {
+    "tool": "rustfmt",
+    "status": "ENVIRONMENT_UNAVAILABLE",
+    "effect": "No source change; compiler and tests used actual delivered bytes"
+  },
+  "dependency_checker_syntax": "bash -n PASS; full cargo-tree checker not run",
+  "root_verification_authority": "../evidence/FINAL_INTEGRATION.json",
+  "root_reported_results": {
+    "independent_snapshot_checks": 786,
+    "independent_snapshot_calls": 140,
+    "actual_history_checks": 22029,
+    "actual_history_runs": 2,
+    "history_intervals": [
+      1000,
+      2000
+    ],
+    "status": "PASS",
+    "source": "parent result message; exact evidence owned by root"
+  }
+}

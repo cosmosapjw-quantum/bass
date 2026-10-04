@@ -1,0 +1,415 @@
+{
+  "schema_version": "1.0",
+  "task": "BASS-REI-BRIDGE01-20261005",
+  "reviewer": "/root/bass_rei_review",
+  "reviewer_role": "independent decision reviewer; production edits and test-oracle authorship = 0",
+  "status": "CONFIRMED",
+  "decision": "PROMOTE_SCOPED_SNAPSHOT_AND_CONTROLLED_HISTORY_BRIDGE",
+  "specification_verdict": "PASS",
+  "engineering_verdict": "PASS_WITH_EXPLICIT_BUILD_SCOPE",
+  "open_blockers": 0,
+  "material_findings": [],
+  "requirement_matrix": [
+    {
+      "id": "R1",
+      "requirement": "Actual source snapshot admission",
+      "evidence": [
+        "HHeModel::electron_density -> validate_state -> validate",
+        "complete_source_state_and_model_are_validated_even_when_neutral",
+        "12 independent invalid snapshots"
+      ],
+      "result": "PASS",
+      "scope": "All HHe model/state field validity; FT03 density-only, not rate-temperature admission"
+    },
+    {
+      "id": "R2",
+      "requirement": "Proper density, species charge and unit map",
+      "evidence": [
+        "source_density_has_exact_unit_and_charge_weights",
+        "128 independent snapshot points",
+        "ne_m3 max relative error 1.03e-16"
+      ],
+      "result": "PASS",
+      "scope": "cm^-3 to m^-3 once; no filling-factor or electron-fraction substitution"
+    },
+    {
+      "id": "R3",
+      "requirement": "Exactly one D; BASS constants and correct ray clock",
+      "evidence": [
+        "varying_snapshot_frame_and_direction_use_d_once",
+        "source_speed_is_not_reused_as_a_second_opacity_constant",
+        "Decimal beta=.6 rays produce D=.5,1.25,2 and rest D=1"
+      ],
+      "result": "PASS",
+      "scope": "Caller-supplied normal-clock cells; no atomic 1/gamma replacement"
+    },
+    {
+      "id": "R4",
+      "requirement": "Finite-interval visibility and observer boundary",
+      "evidence": [
+        "unchanged original six visibility tests",
+        "grid/observer/overflow bridge tests",
+        "Decimal E3 probability/mass checks"
+      ],
+      "result": "PASS",
+      "scope": "sum(P)+S0=exp(-tau_tail); no finite-interval renormalization"
+    },
+    {
+      "id": "R5",
+      "requirement": "Actual controlled FT03 history and preserved solver gates",
+      "evidence": [
+        "actual ft03_adaptive_step call in native example",
+        "1000 and 2000 accepted-step trajectories",
+        "source temperature [30000,110000]K assertions",
+        "original local gate 2e-4 and original implicit residual checks remain upstream"
+      ],
+      "result": "PASS",
+      "scope": "Static H=0 controlled model, not expanding cosmology or certified continuum solution"
+    },
+    {
+      "id": "R6",
+      "requirement": "Dependency compatibility and no unrelated mutation",
+      "evidence": [
+        "8 changed paths only",
+        "REI old/new group_rates/lift/coverage byte identity",
+        "3 selected original REI tests exercise seven dispatch APIs and exact pin",
+        "REC revision unchanged"
+      ],
+      "result": "PASS",
+      "scope": "Exact-host scoped build; full BASS crate not built"
+    },
+    {
+      "id": "R7",
+      "requirement": "Theory traceability and claim ceiling",
+      "evidence": [
+        "DERIVATION_KO.md equations1-18",
+        "CONTRACT.json",
+        "two independent oracle source files and receipts",
+        "physical_admission=false and rct_enabled=false in native history"
+      ],
+      "result": "PASS",
+      "scope": "Cold-Thomson mathematical model map only; finite-temperature/KN/scalar-Q/full polarized coupling not admitted"
+    }
+  ],
+  "evidence_counts": {
+    "scoped_native_tests": 20,
+    "new_focused_native_tests": 10,
+    "independent_snapshot_checks": 786,
+    "independent_snapshot_native_calls": 140,
+    "independent_history_checks": 22029,
+    "actual_histories": 2,
+    "history_steps": [
+      1000,
+      2000
+    ]
+  },
+  "evidence_identity_check": {
+    "final_integration_entries": 8,
+    "host_materialized_files": 22,
+    "rei_materialized_files": 34,
+    "all_current_hashes_match": true
+  },
+  "commands_executed_by_reviewer": [
+    "Read exact changed source, source validators, old/new dependency diff, tests, oracle scripts and fresh raw run logs",
+    "Verified SHA-256 for all 8 final evidence entries, 22 host files and 34 REI files; no science suite rerun"
+  ],
+  "executed_by_producers_and_directly_reviewed": [
+    {
+      "id": "final_scoped_host",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/Cargo.toml",
+        "--offline",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "seconds": 0.0426546029993915,
+      "log": "final_scoped_host.log"
+    },
+    {
+      "id": "independent_bridge",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/research/independent_bridge_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/target/debug/rei_visibility_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "seconds": 0.05284960499557201,
+      "log": "independent_bridge.log"
+    },
+    {
+      "id": "controlled_history",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/research/controlled_history_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/target/debug/rei_visibility_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9362805630007642,
+      "log": "controlled_history.log"
+    }
+  ],
+  "claim_ceiling": {
+    "full_bass_build": false,
+    "remote_cargo_git_fetch_tested": false,
+    "production_kinetic_wiring": false,
+    "expanding_FLRW_history": false,
+    "tilted_chemistry_trajectory": false,
+    "cold_Thomson_physical_admission": false,
+    "finite_temperature_or_KN_certificate": false,
+    "scalar_Q_generator_resolved": false,
+    "full_polarized_Bianchi_transport": false,
+    "RCT_enabled": false,
+    "upstream_failed_gates_promoted": false,
+    "rigorous_continuum_or_uniform_F04_certificate": false
+  },
+  "resolved_interpretations": [
+    {
+      "issue": "Whether density-only FT03 admission must call its thermal RHS",
+      "resolution": "No. The frozen density contract admits HHe-valid proper snapshots; FT03 solver domain is separately checked in actual history. Stronger reviewer assumption withdrawn before final review."
+    }
+  ],
+  "nonblocking_handoff_notes": [
+    "Old CHILD_DEPENDENCY_LOCK.json is historical at prior exact REI pin; additive current publication should identify supersession and link the new actual manifest/source receipt.",
+    "Local/paired-grid numerical checks do not measure a convergence order or bound unknown continuous FT03 history error.",
+    "NATIVE_IMPLEMENTATION_STATUS pre-dates root independent runs; final integration and E2/E3 receipts own their completed status.",
+    "rustfmt was unavailable; no formatting result is claimed. Rust compiler/tests did run on delivered bytes."
+  ],
+  "stop_condition": "All bounded acceptance covered, no material unresolved finding; no further audit or science rerun required for this unit. Publication/backup receipt checks remain owner delivery work.",
+  "reviewed_files": [
+    {
+      "path": "research/PREREGISTRATION.json",
+      "sha256": "2ebf49b3ae64957a1f12c9499b4c9fdd962334d56fe96e365a94754beed1c428",
+      "size_bytes": 3013
+    },
+    {
+      "path": "research/independent_bridge_check.py",
+      "sha256": "9c2a54f79c8c80d4d3bf78306b0682314b4b60699cb71651517fe04078112cf0",
+      "size_bytes": 4321
+    },
+    {
+      "path": "research/controlled_history_check.py",
+      "sha256": "015160d9fe9fc25061422daafa0266468840ac76dad1f99bc2c55ac80b30ff71",
+      "size_bytes": 5727
+    },
+    {
+      "path": "coding/IMPLEMENTATION_CONTRACT.json",
+      "sha256": "ffdf9bbe9dcd74d227911786bb479ac862ba0cd230120da9adfd85d063b7f986",
+      "size_bytes": 2213
+    },
+    {
+      "path": "coding/PROBE_CONTRACT.json",
+      "sha256": "2b8c5bc4ba208bc29a6236475c749a077ab0225315f070486514866bbb479766",
+      "size_bytes": 1386
+    },
+    {
+      "path": "coding/NATIVE_IMPLEMENTATION_STATUS.json",
+      "sha256": "2a7b65c05f247d9ddfa5001c294663125e078fc8835fae55bf94086f5f76462e",
+      "size_bytes": 1906
+    },
+    {
+      "path": "coding/BASELINE_PRESERVATION.json",
+      "sha256": "ab1bd1d21332a330af6dd86a92b0576b4812c5da31e6804117cb5e40e6216742",
+      "size_bytes": 13578
+    },
+    {
+      "path": "coding/RED_MISSING_BRIDGE.log",
+      "sha256": "5c27464d28e6de2e198b7b55cd909c985869ffc866dcc7c7020bcd3f3fb4e496",
+      "size_bytes": 752
+    },
+    {
+      "path": "coding/GREEN_SCOPED_NATIVE.log",
+      "sha256": "4cfda2cd2b563dba36bda59368c695f8263d175390fb5bfe69be1e25162d71db",
+      "size_bytes": 3206
+    },
+    {
+      "path": "coding/BUILD_PROBE.log",
+      "sha256": "23b9a21bbaf189889e08dc27ed8eba521021280c5852db22205f721db08b2c7c",
+      "size_bytes": 72
+    },
+    {
+      "path": "coding/scoped_harness/Cargo.toml",
+      "sha256": "c4a22175f0a691daee74f24e8f0789fa13c748481d5d6c5093b34029ccc0014f",
+      "size_bytes": 303
+    },
+    {
+      "path": "coding/scoped_harness/src/lib.rs",
+      "sha256": "719811f8b6374f2115bdf7cf0de728fceea7e246056aa3ade6ae16bd66778d2f",
+      "size_bytes": 89
+    },
+    {
+      "path": "coding/scoped_harness/src/microphysics.rs",
+      "sha256": "27a343884101a46f533b58d3ea935dba27d7ed2ccf28cfcb47b73dbb440ae641",
+      "size_bytes": 312
+    },
+    {
+      "path": "coding/scoped_harness/tests/legacy_rei_dispatch.rs",
+      "sha256": "c35f9b4346d2c821d2919cc6b0bb410e0893c23bc13909428bce2f2398993b95",
+      "size_bytes": 3804
+    },
+    {
+      "path": "coding/scoped_harness/tests/rei_visibility_contract.rs",
+      "sha256": "f16ed633e09df53147f88fc468db30229570ec575e93c89b4745e36e8ff04d9e",
+      "size_bytes": 4789
+    },
+    {
+      "path": "coding/scoped_harness/tests/visibility_contract.rs",
+      "sha256": "24f03172d0bc78a57cce9f2f59c7b5d15dd0c11899535abdafa4ae38901bc284",
+      "size_bytes": 5762
+    },
+    {
+      "path": "coding/scoped_harness/tests/red_api.rs",
+      "sha256": "ce7df600506ffdacad9d47d112fa30a5a6353dcad5438fd8ac9862fca444d473",
+      "size_bytes": 314
+    },
+    {
+      "path": "theory/DERIVATION_KO.md",
+      "sha256": "029a09f49ad8b4cb1fc0651fbc3b5646d236c61371f9f599540cb56790209fdf",
+      "size_bytes": 14463
+    },
+    {
+      "path": "theory/CONTRACT.json",
+      "sha256": "8b2feca5aa4c1dafccf754961c8533ca1bfed354fa1db4d794fa0d590f6e102f",
+      "size_bytes": 5207
+    },
+    {
+      "path": "theory/ANALYTIC_TEST_VECTORS.json",
+      "sha256": "294f391a16cc4aebab1da11629d21b77cab26518d86c6973a0576611bb52ccd5",
+      "size_bytes": 4859
+    },
+    {
+      "path": "evidence/FINAL_INTEGRATION.json",
+      "sha256": "0366ce56d8644b14ce79637cd5fd005b2013b8d65aa79c65f3d882a1ce86cb94",
+      "size_bytes": 2908
+    },
+    {
+      "path": "evidence/INDEPENDENT_BRIDGE_RESULT.json",
+      "sha256": "7f29a2e3cd1ce9a6daf1ef9193f461f902171c6990fb98b7219024271ab4dfc6",
+      "size_bytes": 966
+    },
+    {
+      "path": "evidence/CONTROLLED_HISTORY_RESULT.json",
+      "sha256": "21b6198bdddb2ad72e29e4d183841a4e0162db94e480bac70b0bb8b7dbb277c7",
+      "size_bytes": 2742
+    },
+    {
+      "path": "evidence/final_scoped_host.log",
+      "sha256": "599f5ffbff2e867581f491fb978633dbb6437f984a018bc99b25dc8bdd269a71",
+      "size_bytes": 3082
+    },
+    {
+      "path": "evidence/independent_bridge.log",
+      "sha256": "7f29a2e3cd1ce9a6daf1ef9193f461f902171c6990fb98b7219024271ab4dfc6",
+      "size_bytes": 966
+    },
+    {
+      "path": "evidence/controlled_history.log",
+      "sha256": "21b6198bdddb2ad72e29e4d183841a4e0162db94e480bac70b0bb8b7dbb277c7",
+      "size_bytes": 2742
+    },
+    {
+      "path": "evidence/history_1000.json",
+      "sha256": "b645a02224984c24eb03f982e42b61e63bcf4849ecffbccf10b6a258a64c4077",
+      "size_bytes": 430142
+    },
+    {
+      "path": "evidence/history_2000.json",
+      "sha256": "7fa9c5fd93338f0e51c12ad3c406244d01e932974e5d5bca2109e435fdc4c14a",
+      "size_bytes": 857583
+    },
+    {
+      "path": "survey/bass/REI_DEPENDENCY_DIFF.json",
+      "sha256": "504acd3f9ae14f3d74eec2df54c663f9c6e9b4229ccbc774d9b4f5ffe82cee0c",
+      "size_bytes": 890
+    },
+    {
+      "path": "survey/four_threads/FOUR_THREAD_STATUS_KO.md",
+      "sha256": "81e5835683c338ebd656bd4d8c6fd0d83b4d537072277eaf28a41176bcf5bf2b",
+      "size_bytes": 9050
+    },
+    {
+      "path": "coding/bass/_rustcore/Cargo.lock",
+      "sha256": "8f533c9fccba77d0752224654174f85ceb0a639005abfe3157d33ba0bd1e4950",
+      "size_bytes": 42993
+    },
+    {
+      "path": "coding/bass/_rustcore/Cargo.toml",
+      "sha256": "f54f66179db2f46b43d205d9b59339b49cbde60f0e19e35033ac3cc26afb845b",
+      "size_bytes": 1482
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/mod.rs",
+      "sha256": "c18671f7f917e600a1d2719d918ac15a3e529850b67d72f3f455bc88ac373f73",
+      "size_bytes": 268
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/tests.rs",
+      "sha256": "4a231dec49d0e11a35fdabd496028d4b2a77a5f98a562fb922845fd561dc3eff",
+      "size_bytes": 10659
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/rei_visibility.rs",
+      "sha256": "78dfbfe227b8fe424038e0c609fe3e4919b8de9875dcb0213aa67cf031ba72ae",
+      "size_bytes": 4856
+    },
+    {
+      "path": "coding/bass/_rustcore/tests/rei_visibility_contract.rs",
+      "sha256": "f16ed633e09df53147f88fc468db30229570ec575e93c89b4745e36e8ff04d9e",
+      "size_bytes": 4789
+    },
+    {
+      "path": "coding/bass/_rustcore/examples/rei_visibility_probe.rs",
+      "sha256": "7e56b3971e68b9a303f01849d1c956d2e4fdcad825d77a4983210202b4b64f1c",
+      "size_bytes": 5431
+    },
+    {
+      "path": "coding/bass/scripts/check_microphysics_dependencies.sh",
+      "sha256": "aa09a34493c977ac9db73d59889ae204cb27920c702e7c21e77e9a83628977fd",
+      "size_bytes": 888
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/frame.rs",
+      "sha256": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+      "size_bytes": 4068
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/visibility.rs",
+      "sha256": "380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f",
+      "size_bytes": 8940
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/rei.rs",
+      "sha256": "085d580c3fc28257f1a8cf755f13c94545344f8e7e57f0b6bbfa0017c6319e2c",
+      "size_bytes": 1141
+    },
+    {
+      "path": "coding/rei_dependency/src/hhe_events.rs",
+      "sha256": "c100b08e034089c2d67b2102769ccdd51f1d29a2f388d6bb2dfe7984af93b290",
+      "size_bytes": 9447
+    },
+    {
+      "path": "coding/rei_dependency/src/ft03_controlled.rs",
+      "sha256": "61e11471482bb49d99e5d0eb79504d3f67538fbe6361653a0462d1abb0b672db",
+      "size_bytes": 14726
+    },
+    {
+      "path": "coding/rei_dependency/src/lib.rs",
+      "sha256": "395dbb35c1a3296741d3578c624eafeeaf617b5b82ac6360ece9340a2e9aed61",
+      "size_bytes": 3368
+    },
+    {
+      "path": "coding/scoped_harness/target/debug/rei_visibility_probe",
+      "sha256": "4532743176b812a62ff044ee5e6ad7b9142197af6bf675955e90fc4cc5dcefbc",
+      "size_bytes": 5789128
+    }
+  ],
+  "timestamp_utc": "2026-10-04T16:28:54Z"
+}

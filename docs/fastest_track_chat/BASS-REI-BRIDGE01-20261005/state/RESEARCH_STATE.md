@@ -1,0 +1,1 @@
+BASS-REI-BRIDGE01: current native host source and four-thread intake complete or in progress. Theory derives charge-to-Thomson seam. Code implements exact-source bridge in isolated scope. Existing atomic/full-F04 claims are not promoted. Owner=root; independent implementation and review have exclusive surfaces.

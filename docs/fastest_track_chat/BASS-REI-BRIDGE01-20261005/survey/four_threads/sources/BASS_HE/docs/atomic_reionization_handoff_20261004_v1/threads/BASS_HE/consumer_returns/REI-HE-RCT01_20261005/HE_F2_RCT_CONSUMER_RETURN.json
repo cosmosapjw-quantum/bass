@@ -1,0 +1,115 @@
+{
+  "schema": "rei.he-f2-consumer-return.v1",
+  "task_id": "REI-HE-RCT01-20261005",
+  "recipient_task": "HE-F2",
+  "return_kind": "CONCRETE_OPTIONAL_LOCAL_RHS_BINDING_NOT_GLOBAL_ACTIVATION",
+  "publication": {
+    "repository": "cosmosapjw-quantum/rei_bianchi",
+    "branch": "forward/rust-reion-kernels-20260922",
+    "immutable_commit": "41e4592aa494b48929dcd23fc8504c169a98a908",
+    "tree": "f44469e09cefe8b7c92a822e9913c47d0919782f",
+    "parent": "6279036f06c9ba4d47574beab90b48fc2c6f9ba7",
+    "packet_path": "docs/fastest_track_chat/REI-HE-RCT01-20261005/",
+    "packet_commit_resolution": "packet publication receipt owns docs commit; native code commit above is already published"
+  },
+  "producer_input": {
+    "repository": "cosmosapjw-quantum/BASS_HE",
+    "code_pin": "21d5b8075429903d195d6e0e0c24a10c00b21063",
+    "latest_docs_observed": "e4d2753ea45593ade6c3fd3a7fea81f92cfd1a15",
+    "provider_changed_in_late_delta": false
+  },
+  "consumer_input": {
+    "original_HHe_pin": "ccbc15019296b9128a90fa45b9c68c7daddc7b77",
+    "FT03_successor_pin": "6279036f06c9ba4d47574beab90b48fc2c6f9ba7",
+    "FT03_model_id": "REI_FT03_HG_RATE_MOMENT_CASE_A_CONTROLLED_V1"
+  },
+  "selection": {
+    "default": "OFF",
+    "primary_explicit_profile": "KF96_HEIII_HI_RCT_NOMINAL_V1",
+    "alternative": "GM25_W82_RCX_CONSTANT_200_10000_K_V1",
+    "reason": "broader nominal temperature call window only, not physical superiority",
+    "source_addition": false,
+    "automatic_source_switch": false,
+    "physical_admission": false,
+    "paired_window_K": [
+      1000,
+      10000
+    ],
+    "new_FT03_guard_K": [
+      30000,
+      110000
+    ],
+    "GM25_with_new_FT03": "ERROR_OUTSIDE_SOURCE_DOMAIN"
+  },
+  "provider_records": "publication/PROVIDER_SELECTION_RECORDS.json",
+  "source_observable": "thermal_rate from actual pinned supplier export; count view separate",
+  "implementation": {
+    "module": "rust/rei_microphysics/src/he_rct.rs",
+    "public_api": [
+      "RctProvider::events",
+      "RctProvider::closed_events",
+      "combined_hhe_rhs",
+      "combined_ft03_rhs"
+    ],
+    "FT03_base_rhs": "actual ft03_rhs with original temperature-dependent HG RR/CI/DR",
+    "default_OFF_baseline": true,
+    "production_HHe_stepper_RCT_integration": false,
+    "production_FT03_stepper_RCT_integration": false,
+    "FT03_strict_underflow_representability_inherited_by_RCT": false
+  },
+  "closure": {
+    "id": "EXPLICIT_CONDITIONAL_ESCAPE_MEAN_ENERGY_V1",
+    "input_origin": "CALLER_SUPPLIED_NO_ATOMIC_MOMENT",
+    "required_mean_energy_eV": "finite positive explicit input",
+    "run_provenance_owner": "consumer manifest/CSV",
+    "chemical": "-Q*R*eV_erg",
+    "thermal": "(Q-Ebar)*R*eV_erg",
+    "escaped": "Ebar*R*eV_erg",
+    "primary_tracked_photon_injection": [
+      0,
+      0,
+      0
+    ],
+    "source_photon_moment": null,
+    "source_heat_moment": null,
+    "source_recoil_moment": null,
+    "source_spectrum": null,
+    "physical_admission": false
+  },
+  "evidence": [
+    "coding/NATIVE_IMPLEMENTATION_STATUS.json",
+    "evidence/FINAL_INTEGRATION.json",
+    "evidence/INDEPENDENT_RESULT.json",
+    "evidence/FT03_INDEPENDENT_RESULT.json",
+    "review/FINAL_REVIEW.json",
+    "review/POST_FT03_REVIEW.json"
+  ],
+  "receipt_rule": "Read final scope and source/binary hashes; old104 receipt is historical snapshot. Root may append integration/review delta receipt.",
+  "next_HE_action": "bounded changed-contract intake; record exact acceptance scope without relaunching atomic suite or cosmological campaign",
+  "HE_F2_completion_asserted_by_sender": false,
+  "HE_F3": "WAIT_REI_F09_RESULT",
+  "preserve": [
+    "HE-FLRW02B mixed-native pending separate",
+    "HE-L1/L2/L3 parked",
+    "Eq55 not promoted",
+    "physical source HOLD",
+    "F04 partial/fullfalse",
+    "historical strict gates"
+  ],
+  "verified_result": {
+    "native_tests": 116,
+    "native_breakdown": {
+      "old": 84,
+      "upstream_FT03": 8,
+      "RCT": 24
+    },
+    "E2_assertions": 12789,
+    "E2_native_calls": 422,
+    "E2X_assertions": 212,
+    "E2X_native_calls": 12,
+    "E2X_closed_points": 9,
+    "E2X_GM25_rejections": 3,
+    "review": "confirmed",
+    "open_blockers": 0
+  }
+}

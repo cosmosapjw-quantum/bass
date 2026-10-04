@@ -1,0 +1,210 @@
+{
+  "schema": "rei.ft03-successor-binding.v1",
+  "task_id": "REI-F04",
+  "status": "ACTUAL_CONTROLLED_SUCCESSOR_IMPLEMENTED__INTERVAL_CERTIFICATE_NOT_COMPLETED",
+  "model_id": "REI_FT03_HG_RATE_MOMENT_CASE_A_CONTROLLED_V1",
+  "original_archive": {
+    "sha256": "0d8d28b5e4d63a9013b5c57f785680d2f3344b94127f2510b4037417356f5480",
+    "entries": [
+      {
+        "archive_entry": "rei_chat_ft03_20261004/MODEL_POLICY.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/MODEL_POLICY.json",
+        "sha256": "a875647ddc56a942982c931bf0be64a0b0dc02e107a33230df4d06093b456f22",
+        "bytes": 1957
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/SOURCE_TO_MODEL_MAP.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/SOURCE_TO_MODEL_MAP.json",
+        "sha256": "2d0a20f12ed035ec6f359472f3376bef76162094492f04a59100b9f8155f4ab8",
+        "bytes": 1599
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/SOURCE_TRACE.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/SOURCE_TRACE.json",
+        "sha256": "493548daf6da754c6c0c98a580879d973bd45f7b73c2936df4e9bf307352d87f",
+        "bytes": 2922
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/research/closure_model.py",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/research/closure_model.py",
+        "sha256": "cbc3ca1ac9b861b1b2c274a603ad9628aec88ac7f6296042282d45dc5b30c7ce",
+        "bytes": 6279
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/research/moment_api.py",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/research/moment_api.py",
+        "sha256": "d90859b9d5a00a4486ed44f27060f223c9b81ab387f5777d8fc772579ccacb0e",
+        "bytes": 258
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/research/mp_reference.py",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/research/mp_reference.py",
+        "sha256": "f062fda7fcf4c0c30b1d16377d1d41fcbf55f313afdd113a839cafee02f656c1",
+        "bytes": 5102
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/inputs/VERNER96_HHE_PARAMETERS.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/inputs/VERNER96_HHE_PARAMETERS.json",
+        "sha256": "c05af3790b9717229b998a4f57b8bbebb96340b5e9c57079d50f760966e8f8ea",
+        "bytes": 1843
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/results/float_reference.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/results/float_reference.json",
+        "sha256": "aae5a0e255223d728726c781adb181d4d5073cdc7d3daa5eadd04aeca51cbd03",
+        "bytes": 4331
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/results/mp_reference.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/results/mp_reference.json",
+        "sha256": "fb53d8de69cef8183c839f8fc10c603a47256c0ce21e619842c833dcea74af64",
+        "bytes": 6222
+      },
+      {
+        "archive_entry": "rei_chat_ft03_20261004/results/finite_domain_certificate.json",
+        "local_path": ".cuh/fastest-track/REI-F04/FT03_original/results/finite_domain_certificate.json",
+        "sha256": "224ce4424b7cf6570dd0ae535bb8572e8d457858c2cfca2acf19f206e6c95853",
+        "bytes": 2759
+      }
+    ]
+  },
+  "candidate_source_parent_commit": "c1d7f89c8abc90a6adf971390f2bce7ae7530a23",
+  "publication_parent_commit": "c433eaee7b120a5bfb7c35e802c4b218315bf210",
+  "source_files": {
+    "rust/rei_microphysics/src/ft03_rates.rs": "1a97cd7a3555deeb4d8700376cd84580c5102127773bc3a235a29c33b0c1542f",
+    "rust/rei_microphysics/src/ft03_controlled.rs": "61e11471482bb49d99e5d0eb79504d3f67538fbe6361653a0462d1abb0b672db",
+    "rust/rei_microphysics/src/lib.rs": "7decf2b7e4a957149dd0b401e61a2473c6d2e4ff2c6058b229db226557b6e67d",
+    "rust/rei_microphysics/examples/ft03_fixture.rs": "259f661ecaa8795d80ffc5822f89095367780df1f594cfb071368d486de86faf",
+    "rust/rei_microphysics/tests/ft03_controlled.rs": "dea4d4dab4afdc3e80ce3efd20c1cf1e032e0cc67e4b8e430c27c19ecfabfc60"
+  },
+  "independent_state_dimension": 7,
+  "state_coordinates": [
+    "x_HII",
+    "x_HeII",
+    "x_HeIII",
+    "u_th_proper_erg_cm3",
+    "N0_proper_cm3",
+    "N1_proper_cm3",
+    "N2_proper_cm3"
+  ],
+  "derived": [
+    "ne=nH*xHII+nHe*(xHeII+2*xHeIII)",
+    "T=2*u/(3*kB*(nH+nHe+ne))"
+  ],
+  "auxiliary": [
+    "escaped_energy_proper_erg_cm3",
+    "9 species/group PI events +3 CI+3 RR+2 DR capture counts per proper cm3"
+  ],
+  "units": {
+    "density": "proper cm^-3",
+    "thermal_and_escape": "erg cm^-3",
+    "rates": "cm^3 s^-1",
+    "RR_kinetic_coefficient": "erg cm^3 s^-1",
+    "photon_energy": "eV",
+    "time": "s"
+  },
+  "archived_to_rust_transformation": {
+    "photons": "N=nH*p",
+    "thermal": "u=nH*eV_erg*w",
+    "escape": "escaped=nH*eV_erg*e",
+    "species_fractions": "unchanged"
+  },
+  "constructor": {
+    "nH_cm3": 0.0001,
+    "nHe_cm3": 8.3e-06,
+    "initial_fractions": [
+      0.9,
+      0.3,
+      0.6
+    ],
+    "initial_T_K": 50000,
+    "initial_photons_per_H": [
+      0.05,
+      0.005,
+      0.001
+    ],
+    "photon_energies_ev": [
+      20,
+      35,
+      70
+    ],
+    "constants": {
+      "c_cm_s": 29979245800,
+      "kB_erg_K": 1.380649e-16,
+      "eV_erg": 1.602176634e-12,
+      "chi_ev": [
+        13.598434599702,
+        24.587389011,
+        54.41776
+      ]
+    },
+    "Verner_fit_threshold_distinct_from_binding_chi": true,
+    "geometry": "H=0 proper/static homogeneous gas rest frame",
+    "temperature_guard_K": [
+      30000,
+      110000
+    ],
+    "no_temperature_floor_or_extrapolation": true
+  },
+  "channels": {
+    "RR": "HG Appendix A direct Case A alpha(T); kinetic Lambda=kB*T*alpha*(1.5+dlnalpha/dlnT), derived controlled model, not raw Grackle cooling",
+    "CI": "HG CI beta(T), thermal -binding_chi per capture",
+    "DR": "Two positive pinned Grackle k4 high-T terms independently counted; kinetic losses kB*B1 and kB*(B1+B2)",
+    "PI": "Verner primary per species/group, one tracked photon removed, thermal E-chi",
+    "disabled": "Exact zero controlled definition: ceHeI,ciHeIS,ceHI,ceHeII,brem,Compton,HH,CX,molecules,metals; no negligibility claim",
+    "escape": "All RR/DR capture binding+kinetic energy escapes; no emitted photon multiplicity or spectral adapter"
+  },
+  "actual_solver": {
+    "unknowns": 7,
+    "thermal_solve": "u1-u0-dt*thermal_rhs(y1)=0; EOS temperature and all alpha/beta/DR moments recomputed inside iteration",
+    "BE_residual": "R(y1,y0,h)=y1-y0-h*rhs(y1); 7 coordinates + auxiliary escape residual",
+    "population_update": "Positive production/destruction H/He implicit solve; no clipping",
+    "source_site": "backward_euler_endpoint for each of full,half1,half2",
+    "accepted_source_counts": "h/2*event_rhs(half1_endpoint)+h/2*event_rhs(half2_endpoint)",
+    "full_twohalf_estimator": "max absolute fraction difference and lnT difference, strict <2e-4; returned accepted state is half2 endpoint",
+    "rejected_state_writes": 0,
+    "step_control": {
+      "max_iterations": 80,
+      "residual_tolerance": 1e-14
+    },
+    "energy_and_event_invariants": "Actual endpoint residual and shared event energy balance checked; finite binary64 tolerance, not interval proof",
+    "representability": "Nonfinite product or zero from all nonzero factors errors; exact zero channel accepted, no arbitrary density cutoff"
+  },
+  "future_certificate": {
+    "recipe": "Unchanged PREWORK_KO.md section6.1 Krawczyk -> implicit J/H -> observable Hessian/Taylor -> full/twohalf affine on original parent -> independent checker",
+    "augmented_parent_domain": "NOT_FROZEN_FOR_ACTUAL_FT03_SUCCESSOR",
+    "parent_coordinate_union": "Initial-state/time/physical parameter/independent source symbols; shared only where mathematically identical. Stage populations/ne/T remain distinct derived endpoints.",
+    "first_remaining_requirement": "Explicit accepted parent/domain and source uncertainty/topology for this model before uniform root/derivative enclosure",
+    "root_inclusion": "NOT_RUN",
+    "q_less_than_one": "NOT_RUN",
+    "uniform_J_H_and_coefficient_rounding": "NOT_RUN",
+    "observable_Taylor_remainder": "NOT_RUN",
+    "same_original_parent_half_composition": "NOT_CERTIFIED",
+    "production_free_checker": "NOT_IMPLEMENTED",
+    "public_width_evaluated": false
+  },
+  "strict_gates": {
+    "local_error_less_than": 0.0002,
+    "public_width_less_than": 0.002
+  },
+  "historical_lane_claims": {
+    "original_F00_fixture_and_locks": "UNCHANGED",
+    "node_history_46080_three_lanes": "NOT_EVALUATED_NOT_CLOSED",
+    "interval_160_161_fail": 0.00021245050576368385,
+    "tick160_prefix": "PRESERVED"
+  },
+  "scientific_admission": "HOLD",
+  "physical_rate_moment_accuracy": "UNRESOLVED",
+  "full_F04_completed": false,
+  "concurrent_integration": {
+    "received_commit": "ccbc15019296b9128a90fa45b9c68c7daddc7b77",
+    "upstream_payload_commit": "c0b630d9",
+    "remote_cells": [
+      "flrw_three_equations.rs",
+      "flrw_three_equations.rs tests",
+      "flrw_three_probe.rs"
+    ],
+    "operation": "Both nonoverlapping lib.rs exports preserved; remote scientific payload untouched",
+    "merged_crate_tests_passed": 92
+  }
+}

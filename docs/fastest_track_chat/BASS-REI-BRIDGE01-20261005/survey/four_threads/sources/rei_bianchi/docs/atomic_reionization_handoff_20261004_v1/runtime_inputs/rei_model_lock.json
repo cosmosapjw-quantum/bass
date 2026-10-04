@@ -1,0 +1,136 @@
+{
+  "schema": "rei.model-lock.v1",
+  "task_id": "REI-F00",
+  "model_id": "R1HomogeneousSuccessor_SYNTHETIC_HHE_3GROUP_V1",
+  "status": "DESIGN_FROZEN_NOT_EXECUTED",
+  "identity": {
+    "source_commit": "6e577ec3692f6d19d8ce3a9cae0364d4439f5fcb",
+    "source_snapshot_commit": "0100b1dfa023928d67602877876b586fea319d13",
+    "crate_diff_from_snapshot": "EMPTY",
+    "fixture_path": "docs/atomic_reionization_handoff_20261004_v1/threads/rei_bianchi/CONTROLLED_FIXTURE.json",
+    "fixture_sha256": "92064c3ee60139972be3e49b0a0c5bbf45b25094914b22d1e197dbe7344f6fba"
+  },
+  "fixture": "REI_SYNTHETIC_HHE_3GROUP_STATIC_V1",
+  "geometry": {
+    "kind": "STATIC_HOMOGENEOUS_MINKOWSKI_LIMIT",
+    "H_per_s": 0,
+    "shear_per_s": [
+      0,
+      0,
+      0
+    ],
+    "tilt": [
+      0,
+      0,
+      0
+    ],
+    "redshift": 0,
+    "proper_volume_cm3": 1
+  },
+  "units": {
+    "material": "proper cm^-3",
+    "photons": "proper cm^-3",
+    "time": "s",
+    "cross_section": "cm^2",
+    "rates": "cm^3 s^-1",
+    "thermal_state": "u_th erg cm^-3",
+    "photon_energy": "eV"
+  },
+  "constants": {
+    "c_cm_s": 29979245800,
+    "k_B_erg_K": 1.380649e-16,
+    "eV_erg": 1.602176634e-12,
+    "threshold_eV": {
+      "HI": 13.598434599702,
+      "HeI": 24.587389011,
+      "HeII": 54.41776
+    }
+  },
+  "photon_groups": {
+    "isotropic": true,
+    "energy_eV": [
+      13.7,
+      24.7,
+      54.5
+    ],
+    "external_source_photons_cm3_s": [
+      0,
+      0,
+      0
+    ],
+    "escape_boundary": "Recombination emission is removed into cumulative escaping-energy ledger",
+    "sigma_cm2": {
+      "HI": [
+        6e-18,
+        1e-18,
+        1e-19
+      ],
+      "HeI": [
+        0,
+        7e-18,
+        1e-18
+      ],
+      "HeII": [
+        0,
+        0,
+        1.5e-18
+      ]
+    }
+  },
+  "coefficients": {
+    "synthetic_temperature_independent": true,
+    "alpha_cm3_s": {
+      "HII": 2e-13,
+      "HeII": 1e-12,
+      "HeIII": 3e-13
+    },
+    "electron_impact_cm3_s": {
+      "HI": 1e-16,
+      "HeI": 1e-17,
+      "HeII": 1e-18
+    },
+    "HH_direct_ionization_cm3_s": 0,
+    "He2_H_CX_cm3_s": 0
+  },
+  "provider_selection": {
+    "implementation_fixture": "SYNTHETIC_CONSTANTS_EXACT_FIXTURE",
+    "physical_candidates": [
+      "Grackle-3.4.1-af7939494ce65007887ada7b98d1813df6843346",
+      "Verner96-ground-state"
+    ],
+    "physical_admitted": false,
+    "physical_case_selection": null,
+    "physical_case_status": "HOLD_FT03_AND_SCENARIO_CLOSURE_REQUIRED"
+  },
+  "integration": {
+    "t0_s": 0,
+    "t_end_s": 1000000000000,
+    "initial_trial_dt_s": 1000000000,
+    "min_trial_dt_s": 1000,
+    "dt_refinement_factors": [
+      1,
+      0.5,
+      0.25
+    ],
+    "transactional_reject": true,
+    "error_observables": [
+      "x_HII",
+      "x_HeII",
+      "x_HeIII",
+      "ln_T"
+    ],
+    "strict_local_error_limit": 0.0002,
+    "strict_public_width_limit": 0.002,
+    "structural_identities": "exact algebra, then declared scaled roundoff residual in floating evaluator",
+    "controlled_float_ledger_atol": 1e-12
+  },
+  "historical_identity": {
+    "accepted_prefix_tick": 160,
+    "failed_interval": [
+      160,
+      161
+    ],
+    "failed_local_error": 0.00021245050576368385
+  },
+  "scientific_admission": "HOLD"
+}

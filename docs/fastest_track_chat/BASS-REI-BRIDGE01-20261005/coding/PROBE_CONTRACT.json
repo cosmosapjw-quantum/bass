@@ -1,0 +1,49 @@
+{
+  "schema": "bass-rei-probe-v1",
+  "invocation": "cargo run --offline --manifest-path coding/scoped_harness/Cargo.toml --bin rei_visibility_probe ; stdin newline-separated commands; stdout one JSON object per line",
+  "snapshot_command": "snapshot HHE|FT03 nH nHe xHII xHeII xHeIII u photon0 photon1 photon2 escaped betaX betaY betaZ dirX dirY dirZ",
+  "snapshot_output": [
+    "ok",
+    "kind",
+    "n_h_cm3",
+    "n_he_cm3",
+    "fractions",
+    "u_erg_cm3",
+    "photon_cm3",
+    "escaped_erg_cm3",
+    "beta",
+    "direction",
+    "ne_source_cm3",
+    "ne_m3",
+    "doppler",
+    "q_s_inverse",
+    "physical_admission=false"
+  ],
+  "history_command": "history n_intervals observer_tail",
+  "history_output": [
+    "ok",
+    "kind",
+    "n_intervals",
+    "time_edges_seconds",
+    "states[{fractions,u_erg_cm3,photon_cm3,escaped_erg_cm3,temperature_k,ne_cm3,ne_m3}]",
+    "interval_rates_s_inverse",
+    "optical_depth",
+    "survival",
+    "interval_probability",
+    "observer_optical_depth",
+    "max_step_residual",
+    "max_step_local_error",
+    "total_iterations",
+    "c_constants_match",
+    "physical_admission=false",
+    "rct_enabled=false"
+  ],
+  "history_total_time_seconds": 100000000000000.0,
+  "history_default_sampling": "left_endpoint",
+  "history_frame": "rest",
+  "failure_output": {
+    "ok": false,
+    "error": "string"
+  },
+  "no_implicit_retry": true
+}

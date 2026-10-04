@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS",
+  "runs": [
+    {
+      "id": "final_scoped_host",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/Cargo.toml",
+        "--offline",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "seconds": 0.0426546029993915,
+      "log": "final_scoped_host.log"
+    },
+    {
+      "id": "independent_bridge",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/research/independent_bridge_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/target/debug/rei_visibility_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "seconds": 0.05284960499557201,
+      "log": "independent_bridge.log"
+    },
+    {
+      "id": "controlled_history",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/research/controlled_history_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/coding/scoped_harness/target/debug/rei_visibility_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/bass_rei_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9362805630007642,
+      "log": "controlled_history.log"
+    }
+  ],
+  "scoped_native_tests": 20,
+  "full_bass_build": false,
+  "file_identities": [
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/rei_visibility.rs",
+      "sha256": "78dfbfe227b8fe424038e0c609fe3e4919b8de9875dcb0213aa67cf031ba72ae"
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/frame.rs",
+      "sha256": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674"
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/visibility.rs",
+      "sha256": "380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f"
+    },
+    {
+      "path": "coding/bass/_rustcore/src/microphysics/rei.rs",
+      "sha256": "085d580c3fc28257f1a8cf755f13c94545344f8e7e57f0b6bbfa0017c6319e2c"
+    },
+    {
+      "path": "coding/bass/_rustcore/examples/rei_visibility_probe.rs",
+      "sha256": "7e56b3971e68b9a303f01849d1c956d2e4fdcad825d77a4983210202b4b64f1c"
+    },
+    {
+      "path": "coding/scoped_harness/target/debug/rei_visibility_probe",
+      "sha256": "4532743176b812a62ff044ee5e6ad7b9142197af6bf675955e90fc4cc5dcefbc"
+    },
+    {
+      "path": "research/independent_bridge_check.py",
+      "sha256": "9c2a54f79c8c80d4d3bf78306b0682314b4b60699cb71651517fe04078112cf0"
+    },
+    {
+      "path": "research/controlled_history_check.py",
+      "sha256": "015160d9fe9fc25061422daafa0266468840ac76dad1f99bc2c55ac80b30ff71"
+    }
+  ],
+  "timestamp_utc": "2026-10-04T16:26:56Z"
+}

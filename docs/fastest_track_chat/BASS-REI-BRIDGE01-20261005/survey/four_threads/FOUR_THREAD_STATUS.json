@@ -1,0 +1,314 @@
+{
+  "schema": "bass-rei.four-thread-status.v1",
+  "task_id": "BASS-REI-LOOP-20261005",
+  "observed_utc": "2026-10-04T16:20:10.700912+00:00",
+  "scope": "READ_ONLY_CURRENT_BRANCH_AND_SOURCE_INTAKE",
+  "repositories": [
+    {
+      "repo": "rei_bianchi",
+      "branch": "forward/rust-reion-kernels-20260922",
+      "commit": "7a15daa38b60a5174315747b9194564dc2d4eb8b",
+      "tree": "406c07b162b9dc97511ca129571c8a47c1fbc41e",
+      "commit_date": "2026-10-04T16:15:03Z",
+      "message": "docs(rei): record He RCT publication identities and verified dual-backup delivery",
+      "parents": [
+        "a5d2404712515a039fca37d9281722f1eb069fcd"
+      ]
+    },
+    {
+      "repo": "BASS_HE",
+      "branch": "research/shared-c64-crossrepo-20260928",
+      "commit": "faea0580e5751ffaf23012f91649c34e48fbb7cb",
+      "tree": "4563e1b4b32efaf9ee36fe44d4cd92218c8e53c8",
+      "commit_date": "2026-10-04T16:09:33Z",
+      "message": "docs(he): record explicit REI RCT provider and conditional FT03 consumer return",
+      "parents": [
+        "e4d2753ea45593ade6c3fd3a7fea81f92cfd1a15"
+      ]
+    },
+    {
+      "repo": "bass_cr",
+      "branch": "research/r4q-gap-closure-20261001",
+      "commit": "da8b174267e27f0a70ee7ff12fb130179c1abfab",
+      "tree": "08622203a1827d787071764cb22c2feb1e68543f",
+      "commit_date": "2026-10-04T16:06:54Z",
+      "message": "research: transport native F03 residuals and tighten componentwise dt-family enclosures [skip ci]",
+      "parents": [
+        "c8627ecaf015798ae90f61f4741e17ca6ccd7894"
+      ]
+    },
+    {
+      "repo": "WU088_HH",
+      "branch": "research/r31ao-unequal-order-ladder-20260930",
+      "commit": "1c1b0971a19a6449bba09d8b8b1febc1ea6162dd",
+      "tree": "9017722d42c6ad84ef49e610f9404a68642e2fd6",
+      "commit_date": "2026-10-04T16:07:09Z",
+      "message": "research: derive HH continuous-flow lifetime and expanding cutoff saltation; preserve consumer gates [skip ci]",
+      "parents": [
+        "f40d29d750339dc443f5419ca533f1a0efe644a9"
+      ]
+    }
+  ],
+  "source_files": 23,
+  "source_identity_receipt": "SOURCE_IDENTITY.json",
+  "new_scientific_runs": 0,
+  "external_mutations": 0,
+  "old_suite_replays": 0,
+  "prior_result_semantics": "Inherited exact source and producer receipts; no new execution or blanket scientific certification",
+  "threads": [
+    {
+      "repository": "rei_bianchi",
+      "branch": "forward/rust-reion-kernels-20260922",
+      "commit": "7a15daa38b60a5174315747b9194564dc2d4eb8b",
+      "tree": "406c07b162b9dc97511ca129571c8a47c1fbc41e",
+      "completed_inputs": [
+        {
+          "claim": "Charge-derived proper electron density implemented in HHeModel::electron_density",
+          "status": "implementation-verified",
+          "scope": "source inspected, inherited producer evidence",
+          "expression": "n_H_cm3*x_HII+n_He_cm3*(x_HeII+2*x_HeIII)",
+          "unit": "proper cm^-3",
+          "coordinates": [
+            "x_HII",
+            "x_HeII",
+            "x_HeIII"
+          ]
+        },
+        {
+          "claim": "Actual temperature-dependent FT03 controlled seven-state source and stepper available",
+          "status": "implementation-verified",
+          "geometry": "H=0 static gas-rest controlled Case A",
+          "temperature_guard_K": [
+            30000,
+            110000
+          ]
+        },
+        {
+          "claim": "Optional RCT local HHe and typed FT03 RHS implemented and producer-verified",
+          "status": "implementation-verified",
+          "default": "OFF",
+          "direct_free_electron_source": 0,
+          "tracked_photon_injection": [
+            0,
+            0,
+            0
+          ],
+          "energy_moment": "CALLER_SUPPLIED_NO_ATOMIC_MOMENT",
+          "physical_admission": false
+        },
+        {
+          "claim": "FLRW03 expanding event/birth/threshold contracts and bounded reference available",
+          "status": "numerically checked",
+          "native_expanding_consumer_complete": false
+        }
+      ],
+      "open_inputs": [
+        "RCT-STEP01 actual implicit integration",
+        "REI-F04 actual parent/domain and uniform certificate",
+        "FLRW04 native stage-weighted expanding consumer",
+        "F07 physical domain",
+        "F09 paired cosmological campaign"
+      ],
+      "claim_ceiling": "Local source/ledger and controlled static implementation only; no full expanding reionization or Bianchi polarization history certification",
+      "evidence_paths": [
+        "rust/rei_microphysics/src/hhe_events.rs",
+        "docs/atomic_reionization_handoff_20261004_v1/runtime_inputs/ft03_successor_binding.json",
+        "docs/fastest_track_chat/REI-CHAT-FLRW03-20261005/TASK_RETURN.json",
+        "docs/fastest_track_chat/REI-HE-RCT01-20261005/evidence/FINAL_INTEGRATION.json"
+      ],
+      "inherited_producer_counts": {
+        "rct_final_crate": 116,
+        "rct_decimal_checks": 12789,
+        "ft03_rct_extra_checks": 212
+      },
+      "rerun_here": false
+    },
+    {
+      "repository": "BASS_HE",
+      "branch": "research/shared-c64-crossrepo-20260928",
+      "commit": "faea0580e5751ffaf23012f91649c34e48fbb7cb",
+      "tree": "4563e1b4b32efaf9ee36fe44d4cd92218c8e53c8",
+      "completed_inputs": [
+        {
+          "claim": "HE-FLRW02B finite fitted-source reference and identifiability",
+          "status": "derived",
+          "projection_rank": 3,
+          "nullity": 3,
+          "species_anchored_rank": 6
+        },
+        {
+          "claim": "Concrete optional REI RCT local-RHS return published",
+          "status": "established",
+          "source_native_commit": "41e4592aa494b48929dcd23fc8504c169a98a908",
+          "owner_acceptance_observed": false
+        }
+      ],
+      "open_inputs": [
+        "HE-FLRW02B owner mixed-native completion",
+        "HE-F2 changed-contract owner intake",
+        "HE-F3 REI-F09 dependency"
+      ],
+      "claim_ceiling": "Finite source arithmetic; no mixed native/full-history/physical RCT promotion",
+      "evidence_paths": [
+        "docs/atomic_reionization_handoff_20261004_v1/threads/BASS_HE/CURRENT_FASTEST_STATE.json",
+        "docs/atomic_reionization_handoff_20261004_v1/threads/BASS_HE/runs/HE-FLRW02B_20261005/STATE.json",
+        "docs/atomic_reionization_handoff_20261004_v1/threads/BASS_HE/consumer_returns/REI-HE-RCT01_20261005/HE_F2_RCT_CONSUMER_RETURN.json"
+      ],
+      "inherited_producer_counts": {
+        "flrw02b_new_python_tests": 11,
+        "mixed_native_new_runs": 0,
+        "reference_states": 5,
+        "sigma_points": 9
+      },
+      "rerun_here": false
+    },
+    {
+      "repository": "bass_cr",
+      "branch": "research/r4q-gap-closure-20261001",
+      "commit": "da8b174267e27f0a70ee7ff12fb130179c1abfab",
+      "tree": "08622203a1827d787071764cb22c2feb1e68543f",
+      "completed_inputs": [
+        {
+          "claim": "F04B exact Schur/thermal/escape residual transport and componentwise resolvent posterior",
+          "status": "derived",
+          "model": "frozen synthetic F03 static/proper HHe",
+          "dt_s": 100000000.0
+        },
+        {
+          "claim": "Single full/discarded BE candidate native bits bound to inherited restricted exact-real root",
+          "status": "numerically checked",
+          "root_distance_inf_display": 1.4758856593968439e-18,
+          "accepted_two_half": false
+        }
+      ],
+      "open_inputs": [
+        "F04C actual temperature-coupled residual and owner-box intake",
+        "Accepted half1-to-half2 binding",
+        "CR-F0 actual CR-off dispatch source/provider/callback observation"
+      ],
+      "claim_ceiling": "Frozen F03 algebraic root scope only; certificate not transferable to FT03, expanding geometry or continuous ODE error",
+      "evidence_paths": [
+        "docs/fastest_track_resume_20261005_v1/F04B_RESIDUAL_TRANSPORT_KO.md",
+        "research/fastest_track_20261005/f04b_native_binding/LOOP_RETURN.json",
+        "research/fastest_track_20261005/f04b_native_binding/LATEST_SYNC.json"
+      ],
+      "inherited_producer_counts": {
+        "chat_focused_tests": 42,
+        "native_binding_tests_separate_producer": 10,
+        "native_implicit_calls": 1,
+        "adaptive_calls": 0
+      },
+      "rerun_here": false
+    },
+    {
+      "repository": "WU088_HH",
+      "branch": "research/r31ao-unequal-order-ladder-20260930",
+      "commit": "1c1b0971a19a6449bba09d8b8b1febc1ea6162dd",
+      "tree": "9017722d42c6ad84ef49e610f9404a68642e2fd6",
+      "completed_inputs": [
+        {
+          "claim": "Continuous HH flow uniqueness versus BE multiple roots, floor lifetime and expanding cutoff sensitivity derived",
+          "status": "derived",
+          "explicit_assumptions": true
+        },
+        {
+          "claim": "Symbolic and rational identities checked by producer",
+          "status": "numerically checked",
+          "source_fit_calls": 0,
+          "consumer_calls": 0
+        }
+      ],
+      "open_inputs": [
+        "HH-F1 actual REI-F07 domain/distribution/constants and cutoff selection",
+        "HH-F2 consumer integration",
+        "HH-F3 F09 application return"
+      ],
+      "claim_ceiling": "Conditional theory and exact algebra; no source-fit accuracy, actual trajectory, physical or production admission",
+      "evidence_paths": [
+        "docs/atomic_reionization_handoff_20261004_v1/threads/WU088_HH/external_rates/f1d_20261005_v1/RESULT_SUMMARY.json",
+        "docs/atomic_reionization_handoff_20261004_v1/threads/WU088_HH/external_rates/f1d_20261005_v1/THEOREM_AND_GATE_KO.md"
+      ],
+      "inherited_producer_counts": {
+        "proof_script_runs": 1,
+        "symbolic_identities": 27,
+        "exact_assertions": 49,
+        "history_calls": 0,
+        "primitive_integrations": 0
+      },
+      "rerun_here": false
+    }
+  ],
+  "freshness_resolution": {
+    "REI_changed_since_prior_final_commit": false,
+    "HE_changed_since_prior_final_commit": false,
+    "HE_current_fastest_state": "Earlier owner state; newer additive RCT return exists but no owner acceptance observed",
+    "CR_F04B_latest": "Final research summary supersedes its preserved early missing-bits snapshot; native data blocker resolved for exact stated candidate",
+    "branch_discovery": "Current branches endpoint and recursive trees; main not assumed active fastest branch"
+  },
+  "dependency_decisions": [
+    {
+      "id": "BASS-ELECTRON-01",
+      "action": "PROCEED",
+      "input": "Actual REI HHe charge-derived proper ne",
+      "requirements": [
+        "pin source",
+        "declare electron-fraction denominator",
+        "perform cm^-3 to m^-3 conversion exactly once if bass API uses SI",
+        "declare proper versus conformal time and optical-depth sign"
+      ],
+      "atomic_recompute_required": false
+    },
+    {
+      "id": "BASS-PHOTON-01",
+      "action": "KEEP_DISTINCT_CHANNELS",
+      "inputs": [
+        "Thomson scattering",
+        "ionizing photoabsorption",
+        "escaped RCT photon energy"
+      ],
+      "forbid": [
+        "treating chemistry photon3 as CMB polarized hierarchy without explicit mapping",
+        "adding RCT event rate directly to free-electron source or Thomson rate"
+      ]
+    },
+    {
+      "id": "BASS-HISTORY-01",
+      "action": "SEPARATE_FUTURE_NODE",
+      "requires": [
+        "native expanding REI source-stage binding",
+        "actual geometry/clock/scenario",
+        "photon-number/energy ownership",
+        "transport validation"
+      ],
+      "completed_by_current_intake": false
+    },
+    {
+      "id": "ATOMIC-OPTIONALS-01",
+      "action": "DO_NOT_BLOCK_ATOMIC_OFF_BASELINE",
+      "preserve": [
+        "HE physical HOLD and legacy parked",
+        "CR_OFF_FASTEST and original G02/b-grid failures",
+        "HH-off and F07 wait",
+        "global RCT OFF"
+      ]
+    }
+  ],
+  "preserved_gates": {
+    "REI_full_F04_completed": false,
+    "physical_source_admission": false,
+    "RCT_global_default": "OFF",
+    "HE_F2_owner_complete": false,
+    "HE_mixed_native": "PENDING",
+    "CR_G02": "UNRESOLVED",
+    "CR_production": "HOLD",
+    "CR_capture": false,
+    "CR_all_bound": "OPEN",
+    "CR_b_grid": "NO_GO",
+    "CR_F0_observed_loads": null,
+    "HH_F1": "WAITING_ON_REI_DOMAIN",
+    "HH_F2": "NOT_INTEGRATED",
+    "HH_legacy_accepted": 24,
+    "HH_legacy_total": 289,
+    "HH_legacy_unbounded": 265
+  }
+}

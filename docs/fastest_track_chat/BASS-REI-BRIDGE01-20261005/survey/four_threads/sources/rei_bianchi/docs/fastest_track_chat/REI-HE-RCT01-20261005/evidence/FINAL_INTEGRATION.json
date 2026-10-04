@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.1",
+  "status": "PASS",
+  "timestamp_utc": "2026-10-04T16:06:00Z",
+  "runs": [
+    {
+      "id": "final_crate",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/coding/rei_crate/Cargo.toml",
+        "--offline",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.12465037900256,
+      "log": "final_crate.log"
+    },
+    {
+      "id": "independent_rct",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/research/independent_rct_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/coding/rei_crate/target/debug/examples/he_rct_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.08808188600232825,
+      "log": "independent_rct.log"
+    },
+    {
+      "id": "independent_ft03_rct",
+      "command": [
+        "python",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/research/independent_ft03_rct_check.py",
+        "--native",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/coding/rei_crate/target/debug/examples/he_rct_probe",
+        "--out",
+        "/workspace/scratch/a5a7937171cb/he_rct_loop_20261005/evidence"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.04010381100670202,
+      "log": "independent_ft03_rct.log"
+    }
+  ],
+  "native_test_count": 116,
+  "file_identities": [
+    {
+      "path": "coding/rei_crate/src/lib.rs",
+      "sha256": "395dbb35c1a3296741d3578c624eafeeaf617b5b82ac6360ece9340a2e9aed61"
+    },
+    {
+      "path": "coding/rei_crate/src/he_rct.rs",
+      "sha256": "e2e461d17c47f207108dc0b4f28b9a551ffd61f4fb1a061e35c94a2a5ad12173"
+    },
+    {
+      "path": "coding/rei_crate/tests/he_rct.rs",
+      "sha256": "485cec72c31a71a1221807bfed4433b8e29bf2be49d81c1299d1313d3609c940"
+    },
+    {
+      "path": "coding/rei_crate/examples/he_rct_probe.rs",
+      "sha256": "d5556f188e9e45d276ed301d348d09f7f6b507130ee27574ac47f435846fc917"
+    },
+    {
+      "path": "coding/rei_crate/target/debug/examples/he_rct_probe",
+      "sha256": "beb0ee6a31bd0cd57d8eb81a8cf3a2c3dfdc36f091b835d1fe22c71bf9ffad01"
+    },
+    {
+      "path": "research/independent_rct_check.py",
+      "sha256": "a482396436a17cc822d96f60c0b9d0c3e2119ff9a473b34b2c330c04a97abb47"
+    },
+    {
+      "path": "research/independent_ft03_rct_check.py",
+      "sha256": "081e0f7b42f3ae11fed5b566c57473c36add1040e58817669dc9f288cf387258"
+    },
+    {
+      "path": "coding/rei_crate/src/ft03_controlled.rs",
+      "sha256": "61e11471482bb49d99e5d0eb79504d3f67538fbe6361653a0462d1abb0b672db"
+    },
+    {
+      "path": "coding/rei_crate/src/ft03_rates.rs",
+      "sha256": "1a97cd7a3555deeb4d8700376cd84580c5102127773bc3a235a29c33b0c1542f"
+    }
+  ],
+  "upstream_parent": "6279036f06c9ba4d47574beab90b48fc2c6f9ba7",
+  "prior_result": "FINAL_INTEGRATION.json.pre_ft03"
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "bass_rei_analytic_vectors/1",
+  "status": "derived exact expressions; no numerical execution by theory agent",
+  "numbers": "decimal strings and exact symbolic expressions",
+  "electron_vectors": [
+    {"id": "neutral", "n_H_cm3": "1e-4", "n_He_cm3": "8.3e-6", "fractions": ["0", "0", "0"], "expected_n_e_m3": "0"},
+    {"id": "H_only_full", "n_H_cm3": "1e-4", "n_He_cm3": "0", "fractions": ["1", "0", "0"], "expected_n_e_m3": "100"},
+    {"id": "HHe_single", "n_H_cm3": "1e-4", "n_He_cm3": "8.3e-6", "fractions": ["1", "1", "0"], "expected_n_e_m3": "108.3"},
+    {"id": "HHe_double", "n_H_cm3": "1e-4", "n_He_cm3": "8.3e-6", "fractions": ["1", "0", "1"], "expected_n_e_m3": "116.6", "expected_electrons_per_H": "1.166"},
+    {"id": "FT03_fraction_fixture", "n_H_cm3": "1e-4", "n_He_cm3": "8.3e-6", "fractions": ["0.9", "0.3", "0.6"], "expected_n_e_m3": "102.45"},
+    {"id": "HHe_original_fixture", "n_H_cm3": "1e-4", "n_He_cm3": "8.3e-6", "fractions": ["0.01", "0.019", "0.001"], "expected_n_e_m3": "1.1743"},
+    {"id": "He_only_full_double", "n_H_cm3": "0", "n_He_cm3": "1e-4", "fractions": ["0", "0", "1"], "expected_n_e_m3": "200"}
+  ],
+  "ray_vectors": [
+    {"id": "rest", "beta": ["0", "0", "0"], "e": ["1", "0", "0"], "gamma": "1", "D": "1", "q": "c*sigma_T*n_e"},
+    {"id": "parallel", "beta": ["0.6", "0", "0"], "e": ["1", "0", "0"], "gamma": "5/4", "D": "1/2", "q": "c*sigma_T*n_e/2"},
+    {"id": "antiparallel", "beta": ["0.6", "0", "0"], "e": ["-1", "0", "0"], "gamma": "5/4", "D": "2", "q": "2*c*sigma_T*n_e"},
+    {"id": "transverse", "beta": ["0.6", "0", "0"], "e": ["0", "1", "0"], "gamma": "5/4", "D": "5/4", "atomic_clock_factor": "4/5", "q": "5*c*sigma_T*n_e/4"}
+  ],
+  "visibility_vectors": [
+    {"id": "two_cells_with_tail", "edges_s": ["0", "2", "5"], "rates_s_inverse": ["1/2", "1/3"], "tau_tail": "1/4", "cell_depth": ["1", "1"], "tau_edges": ["9/4", "5/4", "1/4"], "survival_edges": ["exp(-9/4)", "exp(-5/4)", "exp(-1/4)"], "cell_probability": ["exp(-5/4)*(1-exp(-1))", "exp(-1/4)*(1-exp(-1))"], "mass_sum_plus_first_survival": "exp(-1/4)"},
+    {"id": "transparent", "edges_s": ["0", "2", "5"], "rates_s_inverse": ["0", "0"], "tau_tail": "0", "tau_edges": ["0", "0", "0"], "survival_edges": ["1", "1", "1"], "cell_probability": ["0", "0"]},
+    {"id": "thin_cell", "edges_s": ["0", "1"], "rates_s_inverse": ["1e-20"], "tau_tail": "0", "cell_probability": ["-expm1(-1e-20)"], "required_property": "positive representable mass; direct 1-exp(-depth) cancellation is a negative control", "thin_series": "x-x^2/2+x^3/6+O(x^4)"},
+    {"id": "saturated_survival_bound", "edges_s": ["0", "1"], "rates_s_inverse": ["0"], "reference_rates_s_inverse": ["1"], "tau_tail": "0", "E_edges": ["1", "0"], "abs_survival_difference_at_first_edge": "1-exp(-1)", "bound_at_first_edge": "1-exp(-1)"}
+  ],
+  "derived_clock_vectors": [
+    {"id": "constant_scale_factor", "a": "1/4", "delta_t_seconds": "1", "delta_eta_seconds": "4", "q_eta_over_q_t": "1/4", "expected": "q_t*delta_t=q_eta*delta_eta"},
+    {"id": "comoving_density_at_a_quarter", "a": "1/4", "proper_density_over_comoving_density": "64", "wrong_use_of_comoving_as_proper_rate_ratio": "1/64"},
+    {"id": "EdS_constant_xe", "H_z": "H0*(1+z)^(3/2)", "ne_z": "Ne*(1+z)^3", "tau_z": "2*c*sigma_T*Ne/(3*H0)*((1+z)^(3/2)-1)"}
+  ],
+  "semantic_negative_controls": [
+    {"id": "missing_cm_to_m", "mutation": "omit factor 1e6", "detected_by": "H_only_full expected 100 m^-3"},
+    {"id": "helium_double_charge_missing", "mutation": "replace yII+2*yIII by yII+yIII", "detected_by": "HHe_double and He_only_full_double"},
+    {"id": "D_twice", "mutation": "pre-multiply density by D then call scattering_rate_per_normal_second", "detected_by": "parallel and antiparallel rates"},
+    {"id": "atomic_clock_as_ray_clock", "mutation": "replace D by 1/gamma", "detected_by": "transverse D=5/4 differs from 4/5"},
+    {"id": "backward_depth_sign", "mutation": "make tau increase toward observer", "detected_by": "two_cells_with_tail depth order"},
+    {"id": "finite_interval_normalization", "mutation": "renormalize sum_i P_i to 1", "detected_by": "sum P+S0=exp(-tau_tail)"},
+    {"id": "Q_V_as_fraction", "equal_volume_n_H": ["3*n0", "n0"], "local_x": ["1", "0"], "Q_V": "1/2", "Q_M": "3/4", "mean_nH": "2*n0", "true_mean_ne": "3*n0/2", "wrong_mean_ne": "n0"},
+    {"id": "RCT_creates_electron", "mutation": "add R to free electron source", "expected_direct_RCT_electron_source": "R+R-2*R=0"}
+  ],
+  "input_rejections_to_check": ["negative or nonfinite density", "x_HII outside [0,1]", "negative helium fraction", "yII+yIII>1", "invalid upstream model or state", "nonfinite cm-to-m conversion", "invalid unit direction even when electron density is zero", "beta squared >=1", "non-increasing time edges", "negative or nonfinite tail", "snapshot count not equal to interval count"]
+}

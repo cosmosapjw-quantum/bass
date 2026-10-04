@@ -1,0 +1,158 @@
+{
+  "schema": "low-cost-research-entry-v1",
+  "task": "BASS-REI-BRIDGE01-20261005",
+  "language": "ko",
+  "mode": "execute one bounded next node, no broad historical reaudit",
+  "read_first": [
+    "README_KO.md",
+    "publication/RESEARCH_DAG.json",
+    "publication/NEXT_HANDOFF_KO.md",
+    "coding/IMPLEMENTATION_CONTRACT.json",
+    "evidence/FINAL_INTEGRATION.json"
+  ],
+  "conditional_reads": [
+    {
+      "when": "need source identity",
+      "paths": [
+        "survey/bass/IDENTITY.json",
+        "survey/four_threads/SOURCE_IDENTITY.json"
+      ]
+    },
+    {
+      "when": "implement actual expanding producer",
+      "paths": [
+        "survey/four_threads/FOUR_THREAD_STATUS_KO.md",
+        "coding/rei_dependency/src/flrw_three_equations.rs",
+        "coding/rei_dependency/src/ft03_controlled.rs"
+      ]
+    },
+    {
+      "when": "extend host bridge",
+      "paths": [
+        "coding/bass/_rustcore/src/microphysics/rei_visibility.rs",
+        "coding/bass/_rustcore/src/microphysics/visibility.rs",
+        "coding/bass/_rustcore/src/microphysics/frame.rs"
+      ]
+    },
+    {
+      "when": "publish or report backup complete",
+      "paths": [
+        "publication/GITHUB_PUBLICATION_RECEIPT.json",
+        "publication/BACKUP_RECEIPT.json"
+      ],
+      "note": "Require existence and actual returned identity; never infer from this entry"
+    }
+  ],
+  "source_pins": {
+    "bass_parent": "14e0cf0486dc834234122f8bd990fe479f593675",
+    "bass_branch": "forward/rust-microphysics-host-20260930",
+    "bass_pr": 132,
+    "rei_native": "41e4592aa494b48929dcd23fc8504c169a98a908",
+    "rei_receipts": "7a15daa38b60a5174315747b9194564dc2d4eb8b",
+    "rei_branch": "forward/rust-reion-kernels-20260922",
+    "rei_pr": 83
+  },
+  "inputs": {
+    "density": "proper material cm^-3 from actual HHe/FT03 model",
+    "fractions_order": [
+      "HII",
+      "HeII",
+      "HeIII"
+    ],
+    "clock": "normal seconds only in current native bridge",
+    "ray": "unit direction in normal frame",
+    "frame": "common material Lorentz frame",
+    "observer_boundary": "nonnegative tau beyond final edge"
+  },
+  "outputs": {
+    "density": "proper m^-3",
+    "rate": "s^-1 per normal ray clock, includes D once",
+    "visibility": [
+      "backward tau",
+      "survival exp(-tau)",
+      "interval probability without renormalization"
+    ]
+  },
+  "physical_contract": {
+    "metric": "(-,+,+,+)",
+    "c": "BASS C_M_S=299792458",
+    "sigmaT": "BASS SIGMA_T_M2=6.6524587e-29",
+    "electron_density": "nH*xHII+nHe*(yHeII+2*yHeIII)",
+    "unit_factor": 1000000,
+    "rate": "c*sigmaT*ne*D",
+    "D": "gamma*(1-beta dot e)",
+    "RCT_direct_electron_source": 0
+  },
+  "current_claims": {
+    "implementation": "20 scoped native tests and actual linked native/Decimal checks PASS; independent review pending root final receipt",
+    "FT03_density_only": true,
+    "FT03_rate_domain_certified_by_density_adapter": false,
+    "conformal_adapter": false,
+    "full_BASS_build": false,
+    "production_collision_wired": false,
+    "RCT_stepper_enabled": false,
+    "physical_admission": false
+  },
+  "next_action": {
+    "node": "BASS-REI-EXP01",
+    "first_step": "Obtain exact accepted expanding-state payload with proper densities, normal time and owner IDs; if absent stop that node without restarting atomic computation.",
+    "output": "Small FLRW history visibility and finite-grid comparison"
+  },
+  "execution": {
+    "cwd": "packet root",
+    "rust": "1.94.1",
+    "command": "cargo test --manifest-path coding/scoped_harness/Cargo.toml --locked --offline",
+    "scope": "Only source-linked selected BASS modules + full REI dependency; not whole BASS",
+    "tests_to_repeat": "Only changed contracts or concrete remaining risk",
+    "full_reaudit": false,
+    "atomic_heavy_runtime": 0
+  },
+  "failure_classes": [
+    "theory",
+    "numerical",
+    "implementation",
+    "runtime/environment",
+    "source/authority boundary",
+    "publication/provider"
+  ],
+  "stop_conditions": [
+    "input not actual accepted history",
+    "units/frame/clock unspecified",
+    "FT03 source trajectory outside own validity",
+    "nonfinite arithmetic",
+    "failed focused acceptance",
+    "external identity changed without reviewed delta"
+  ],
+  "preserve": [
+    "RCT default OFF",
+    "existing rejected or unresolved scientific gates",
+    "HE/CR/HH separate long-term lanes",
+    "all historical evidence",
+    "observer tail",
+    "no main merge",
+    "no unsolicited messages"
+  ],
+  "status": "IMPLEMENTATION_VERIFIED_REVIEW_CONFIRMED",
+  "validation_counts": {
+    "native_tests": 20,
+    "snapshot_checks": 786,
+    "native_snapshot_calls": 140,
+    "history_checks": 22029,
+    "native_histories": 2
+  },
+  "final_independent_review": {
+    "verdict": "CONFIRMED",
+    "open_blockers": 0,
+    "receipt": "review/FINAL_REVIEW.json"
+  },
+  "publication_boundary": {
+    "bass_visibility": "private",
+    "rei_visibility": "public",
+    "public_rei_mutation": false,
+    "rei_return_location": "publication/REI_RETURN_KO.md inside private BASS packet"
+  },
+  "actual_native_publication": {
+    "commit": "08713d1d049456b752646b2063967c9679a10083",
+    "receipt": "publication/NATIVE_COMMIT_RECEIPT.json"
+  }
+}
