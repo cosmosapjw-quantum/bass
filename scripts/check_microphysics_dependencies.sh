@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rec_sha=d3cc6e0120061f113d28e7a3a55a2e3dd561e81e
-rei_sha=1bda1e8cea7629d31f905e126ba47ec3b3c1d0d8
+rei_sha=41e4592aa494b48929dcd23fc8504c169a98a908
 for entry in "rec:$rec_sha" "rei:$rei_sha"; do
     name=${entry%%:*}
     sha=${entry#*:}

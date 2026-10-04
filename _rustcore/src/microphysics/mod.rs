@@ -4,6 +4,7 @@ pub mod frame;
 pub mod population;
 pub mod rec;
 pub mod rei;
+pub mod rei_visibility;
 pub mod visibility;
 
 #[cfg(test)]
