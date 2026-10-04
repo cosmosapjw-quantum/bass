@@ -1,0 +1,1183 @@
+{
+  "schema": "research.sync.revised-dag.v1",
+  "task_id": "REI-REC-BASS-SYNC02-20261005",
+  "revision_status": "FINAL_SCIENCE_CONFIRMED_PUBLICATION_RECEIPT_SEPARATE",
+  "generated_by": "sync_rei_rec_intake; root owns final integration and publication",
+  "path_base": "research_sync_20261005/",
+  "repository_snapshots": [
+    {
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "branch": "forward/rust-reion-kernels-20260922",
+      "head": "b553698a114fbff05640ab6ecb95d260410de492",
+      "tree": "8144ffac066134b5cde1c507336e241eb31eca44",
+      "pr": 83,
+      "draft": true,
+      "private": false
+    },
+    {
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "branch": "forward/rust-he-sources-20260922",
+      "head": "cd68764aacfeae9fe794d7966604ac6fbb80ba7f",
+      "tree": "174cedadd3175962832790771393577ef5478ead",
+      "pr": 81,
+      "draft": true,
+      "private": false
+    },
+    {
+      "repository": "cosmosapjw-quantum/bass_cr",
+      "branch": "research/r4q-gap-closure-20261001",
+      "head": "3c7d7d4b811dd5f6eeafe60bafa1308a52dc1cf2",
+      "tree": "fd1d83ccad021817bdede642f3427a00a630a55e",
+      "pr": 23,
+      "draft": true,
+      "private": false
+    },
+    {
+      "repository": "cosmosapjw-quantum/WU088_HH",
+      "branch": "research/r31ao-unequal-order-ladder-20260930",
+      "head": "3b5e7c3dc151b23db434f0ce60af383bb19dd5e7",
+      "tree": "522c3e47a1d013dfe49df0a3d871d33e5c62e985",
+      "pr": 33,
+      "draft": true,
+      "private": false
+    },
+    {
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "branch": "research/shared-c64-crossrepo-20260928",
+      "head": "28c3da1455915672ff3e41d8ecd06a6deccb9a78",
+      "tree": "1f7f78a7420be8848c118fc7302f8d0124f270dc",
+      "pr": 17,
+      "draft": true,
+      "private": false
+    },
+    {
+      "repository": "cosmosapjw-quantum/bass",
+      "branch": "forward/rust-microphysics-host-20260930",
+      "head": "fecfae3cbf508170513d5ad711e2897d0efe18e1",
+      "tree": "07a78f8ece15e99118cbef9de8ecf4cdab9e3c39",
+      "tree_status": "DIRECT_COMMIT_TREE_RECHECKED_BY_ROOT; LOOP1_REVIEW records correction",
+      "pr": 132,
+      "draft": false,
+      "private": false
+    }
+  ],
+  "publication": {
+    "status": "READ_FINAL_RECEIPTS",
+    "github": "publication/GITHUB_PUBLICATION_RECEIPT.json",
+    "dual_backup": "publication/BACKUP_RECEIPT.json",
+    "direct_chat_thread_delivery": "UNAVAILABLE; repo handoffs published; owner ACK remains separate"
+  },
+  "execution_order": [
+    "finish actual loop1 components",
+    "reconcile six-repo deltas into frozen loop2 input",
+    "execute loop2 prescribed benchmark",
+    "independent bounded decision",
+    "publish and return per repo; update current overlay without rewriting historical evidence"
+  ],
+  "selector": {
+    "priority": [
+      "preserve existing REI owner F08 full paired-history path",
+      "consume completed two-loop/F05/FLRW06/F04D returns without replay",
+      "native U/edge/work consumer contract",
+      "F04E bind exact accepted F05 stage inputs read-only",
+      "optional atomics only after explicit trigger"
+    ],
+    "eligibility": "Choose one READY task with satisfied dependencies, required actual inputs and no overlapping reserved write boundary. IN_PROGRESS or owner-dispatch-unknown tasks may be inspected but must not be duplicated.",
+    "blocked_task_policy": "Record exact blocker; choose another independent READY task. Do not promote unresolved inputs to zero or restart original atomic programme.",
+    "read_budget": "Read this task node, exact input contracts and final source/evidence pointers only. Discovery indexes and old broad suites are not default replay inputs."
+  },
+  "protected": {
+    "metric": "(-,+,+,+)",
+    "units": "c,hbar,kB explicit; named rounded source constants retained",
+    "local_lt": 0.0002,
+    "public_width_lt": 0.002,
+    "old_failure": [
+      160,
+      161
+    ],
+    "old_failure_value": 0.00021245050576368385,
+    "old_prefix": 160,
+    "physical_admission": "HOLD unless separately supported",
+    "RCT_baseline": "OFF",
+    "HH_baseline": "OFF",
+    "CR_baseline": "OFF",
+    "publication_no_merge": true,
+    "no_force_push": true
+  },
+  "tasks": [
+    {
+      "id": "SYNC02-INTAKE",
+      "repository": "all_six",
+      "status": "COMPLETED_READ_ONLY",
+      "execution_owner": "sync coordinator",
+      "depends_on": [],
+      "inputs": [
+        "survey/rei_rec/INTAKE_RESULT.json",
+        "survey/atomic/SOURCE_IDENTITY.json",
+        "survey/bass/INTAKE.json"
+      ],
+      "outputs": [
+        "pinned source locks and temporal reconciliation"
+      ],
+      "write_boundary": [
+        "survey/**"
+      ],
+      "acceptance": [
+        "live commit/blob identities; actual results distinguished from historical task status"
+      ],
+      "claim_ceiling": "Identity and scoped status evidence, not science rerun",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "REI-PB03-CONSUMER",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_SCOPED_INDEPENDENT_REVIEW_PROMOTED",
+      "execution_owner": "PB consumer author",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "source_rec/src/hydrogen_peebles.rs",
+        "loop1/peebles_consumer/SCIENTIFIC_CONTRACT.md"
+      ],
+      "outputs": [
+        "loop1/peebles_consumer/RETURN.json",
+        "loop1/peebles_oracle/POINT_ORACLE_RESULT.json"
+      ],
+      "write_boundary": [
+        "loop1/peebles_consumer/**",
+        "proposed repo rust/rei_peebles_reference/**"
+      ],
+      "acceptance": [
+        "real pinned REC API; pure H one-T; actual-ground vs collapsed-ground assembly; exactly-once SI conversion; frozen independent oracle"
+      ],
+      "claim_ceiling": "Pure-H one-T consumer pointwise benchmark only; not EoR, full-HyRec or He consumer",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "review/LOOP1_REVIEW.json",
+      "acceptance_evidence": {
+        "native_tests": 10,
+        "decimal_checks": 2170,
+        "valid_cases": 72,
+        "invalid_cases": 8
+      }
+    },
+    {
+      "id": "BASS-REI-CLOCK01",
+      "repository": "bass",
+      "status": "COMPLETED_SCOPED_INDEPENDENT_REVIEW_PROMOTED",
+      "execution_owner": "BASS clock author",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "loop1/bass_clock/CONTRACT.json",
+        "loop1/bass_clock/evidence/DECIMAL_RESULT.json"
+      ],
+      "outputs": [
+        "loop1/bass_clock/",
+        "normal/conformal-seconds/conformal-length explicit conversion"
+      ],
+      "write_boundary": [
+        "_rustcore/src/microphysics/visibility_clock.rs",
+        "_rustcore/tests/visibility_clock_contract.rs",
+        "_rustcore/src/microphysics/mod.rs additive export only"
+      ],
+      "acceptance": [
+        "actual native checks; Decimal70 151cases/5001checks receipt; same frozen cells optical depth invariant"
+      ],
+      "claim_ceiling": "Piecewise-constant q surrogate; a_eff exact ratio may be used but does not certify variable-q continuum quadrature",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "review/LOOP1_REVIEW.json"
+    },
+    {
+      "id": "HE-FLRW02B-MIXED-NATIVE",
+      "repository": "BASS_HE",
+      "status": "COMPLETED_SCOPED_INDEPENDENT_REVIEW_PROMOTED_OWNER_ACK_PENDING",
+      "execution_owner": "isolated HE mixed executor",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "loop1/he_mixed/EXECUTION_CONTRACT.json",
+        "loop1/he_mixed/NATIVE_RESULT.json"
+      ],
+      "outputs": [
+        "2 actual tests and 274 comparisons",
+        "HE owner return-ready receipt"
+      ],
+      "write_boundary": [
+        "loop1/he_mixed/**",
+        "additive HE return packet only"
+      ],
+      "acceptance": [
+        "supplier test bytes unchanged; native source unchanged; frozen 5e-14+1e-300 gate met"
+      ],
+      "claim_ceiling": "Five finite mixed fitted-source states plus scale transforms; no physical provider accuracy/history/RCT stepper admission",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "review/LOOP1_REVIEW.json"
+    },
+    {
+      "id": "SYNC02-LOOP1-RECONCILE",
+      "repository": "all_six",
+      "status": "COMPLETED_ACTUAL_LOOP1_RESULTS_SYNCHRONIZED",
+      "execution_owner": "root coordinator",
+      "depends_on": [
+        "REI-PB03-CONSUMER",
+        "BASS-REI-CLOCK01",
+        "HE-FLRW02B-MIXED-NATIVE"
+      ],
+      "inputs": [
+        "actual final source/binary/oracle hashes for each loop1 component",
+        "latest status overlays"
+      ],
+      "outputs": [
+        "state/LOOP1_SYNC.json"
+      ],
+      "write_boundary": [
+        "state/**",
+        "planning/**",
+        "loop2 preregistration only"
+      ],
+      "acceptance": [
+        "preserve initial failures and current corrections; no incomplete component marked completed"
+      ],
+      "claim_ceiling": "Evidence synthesis only; producer runs do not self-authorize scientific promotion",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "review/LOOP1_REVIEW.json"
+    },
+    {
+      "id": "SYNC02-PB-FLRW-VISIBILITY",
+      "repository": "rei_bianchi+rec_bianchi+bass",
+      "status": "COMPLETED_SCOPED_INDEPENDENT_REVIEW_PROMOTED",
+      "execution_owner": "root loop2 owner",
+      "depends_on": [
+        "SYNC02-LOOP1-RECONCILE"
+      ],
+      "inputs": [
+        "actual PB consumer",
+        "actual BASS visibility and explicit clock adapter",
+        "frozen prescribed H(z), nH(z), Tm=Tr(z), IC, range and tolerances"
+      ],
+      "outputs": [
+        "loop2/actual history and visibility CSV",
+        "loop2 independent matched oracle/refinement result",
+        "loop2 validation figure"
+      ],
+      "write_boundary": [
+        "loop2/**"
+      ],
+      "acceptance": [
+        "same prescribed model/IC/rounded REC constants; no fraction dilution term; independent solver and frozen refinements; chemistry and opacity quadrature errors separate"
+      ],
+      "claim_ceiling": "Bounded pure-H prescribed expanding FLRW numerical benchmark, not coupled EoR, measured cosmology, retained-shell equivalence or continuum certificate",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "review/LOOP2_REVIEW.json",
+      "acceptance_evidence": "loop2/evidence/INDEPENDENT_HISTORY_RESULT.json"
+    },
+    {
+      "id": "SYNC02-INDEPENDENT-DECISION",
+      "repository": "all_six",
+      "status": "COMPLETED_TWO_LOOPS_SCOPED_PROMOTE",
+      "execution_owner": "independent decision reviewer",
+      "depends_on": [
+        "SYNC02-PB-FLRW-VISIBILITY"
+      ],
+      "inputs": [
+        "loop1 final evidence",
+        "loop2 final evidence",
+        "planning/REVISED_DAG.json",
+        "exact final code bytes"
+      ],
+      "outputs": [
+        "review/LOOP1_REVIEW.json",
+        "review/LOOP2_REVIEW.json"
+      ],
+      "write_boundary": [
+        "review/**"
+      ],
+      "acceptance": [
+        "reviewer separate from producer/validation design; scope and open blockers explicit"
+      ],
+      "claim_ceiling": "Only documented bounded promotion; no automatic physical gate promotion",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "SYNC02-PUBLISH-AND-RETURN",
+      "repository": "all_six",
+      "status": "TRACKED_IN_FINAL_PUBLICATION_RECEIPT",
+      "execution_owner": "root publisher",
+      "depends_on": [
+        "SYNC02-INDEPENDENT-DECISION"
+      ],
+      "inputs": [
+        "reviewed packets and source deltas",
+        "fresh branch heads and exact byte manifests",
+        "existing backup authorization"
+      ],
+      "outputs": [
+        "publication/GITHUB_PUBLICATION_RECEIPT.json",
+        "publication/BACKUP_RECEIPT.json"
+      ],
+      "write_boundary": [
+        "additive docs/research_sync_20261005/** per repo",
+        "reviewed native writes listed in component contract only"
+      ],
+      "acceptance": [
+        "read latest refs; preserve concurrent changes; non-force update; existing PR status preserved; same archive backup identities"
+      ],
+      "claim_ceiling": "Publication/readback separate from source verification and science validation",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Unexpected branch/source conflict: bounded diff integration before mutation",
+        "Never claim direct chat delivery or owner acceptance from Git publication alone",
+        "No merge/default branch change/force push"
+      ]
+    },
+    {
+      "id": "REI-F04-STATIC-ANCHOR",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_BOUNDED_REMOTE_EVIDENCE",
+      "execution_owner": "REI existing owner",
+      "depends_on": [],
+      "inputs": [
+        "survey/rei_rec/rei/docs/atomic_reionization_handoff_20261004_v1/runtime_returns/REI-F04.json",
+        "survey/rei_rec/rei/runs/rei_fastest_v1/map_certificate/checker_receipt.json"
+      ],
+      "outputs": [
+        "existing static certificate, root/J/H/Taylor/shared-half"
+      ],
+      "write_boundary": [
+        "NO CHANGES: historical source/evidence"
+      ],
+      "acceptance": [
+        "received completed actual static map return; final Host correction and no final rereview preserved"
+      ],
+      "claim_ceiling": "Pinned static FT03 domain only; not S0 expansion or original 46080-node three-lane history",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "REI-F05",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_SCOPED_LATE_OWNER_RETURN_NOT_RERUN",
+      "execution_owner": "REI existing Codex owner",
+      "depends_on": [
+        "REI-F04-STATIC-ANCHOR"
+      ],
+      "inputs": [
+        "current owner parent/source lock and certificate"
+      ],
+      "outputs": [
+        "accepted first-interval history and seven ledgers",
+        "actual F05 runtime return"
+      ],
+      "write_boundary": [
+        "rust/rei_microphysics/src/adaptive_history.rs",
+        "rust/rei_microphysics/tests/adaptive_history.rs",
+        "rust/rei_microphysics/examples/first_interval.rs",
+        "runs/rei_fastest_v1/first_interval/**"
+      ],
+      "acceptance": [
+        "all declared interval/lanes and accepted microstep gates; rejected state writes0; local/public bounds"
+      ],
+      "claim_ceiling": "Actual static FT03 first interval only; not expanding S0 or old46080history. Final second independent review not reported.",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "decision_evidence": "late_rei_final/FINAL_DELTA.json"
+    },
+    {
+      "id": "REI-CHAT-FLRW06-NATIVE-SPECTRAL",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_SCOPED_REVIEW_PROMOTED_CONCURRENT_OWNER_RETURN_RECEIVED",
+      "execution_owner": "REI research executor",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "survey/rei_rec/rei/docs/fastest_track_chat/REI-CHAT-FLRW05-20261005/NEXT_HANDOFF_KO.md",
+        "FLRW05 immutable ZIP/inputs/NATIVE_CALL_VECTORS.json"
+      ],
+      "outputs": [
+        "3bin/96positive-node actual homogeneous_photo_rates result",
+        "same-stage PhotonInput accounting receipt"
+      ],
+      "write_boundary": [
+        "new isolated spectral-stage harness and new result packet only"
+      ],
+      "acceptance": [
+        "perH/comoving/proper unit conversions once; same measure J/A/B/Q; no double photo contribution from ft03_rhs"
+      ],
+      "claim_ceiling": "Minimal original public modules; 167 scalar comparisons and 6 exact rejections; no full crate/history/U-consumer",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "acceptance_evidence": "late_flrw06/native_result/NATIVE_EXECUTION_RECEIPT.json",
+      "decision_evidence": "review/LATE_FLRW06_REVIEW.json"
+    },
+    {
+      "id": "REI-SPECTRAL-U-WORK",
+      "repository": "rei_bianchi",
+      "status": "READY_NATIVE_U_EDGE_WORK_CONSUMER_CONTRACT",
+      "execution_owner": "REI spectral research owner",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "FLRW05 coherent spectral contract",
+        "actual photon_balance N-only interface"
+      ],
+      "outputs": [
+        "independent U, redshift-work and edge-energy ownership contract"
+      ],
+      "write_boundary": [
+        "new theory packet only; production source unchanged"
+      ],
+      "acceptance": [
+        "Reuse completed FLRW06 moment-cone and fixed-stage energy/work derivation",
+        "Define actual native U/edge/work consumer interface and independent state/error contracts; no new history admission"
+      ],
+      "claim_ceiling": "Derived energy contract; native caller and history remain pending",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set",
+        "Completed FLRW06 cone/80digit/node/stage energy derivation"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "REI-F08",
+      "repository": "rei_bianchi",
+      "status": "CONDITIONAL_NATIVE_STAGE_QUALIFIED_OWNER_PAIRED_HISTORY_PENDING",
+      "execution_owner": "REI only campaign owner",
+      "depends_on": [
+        "REI-F05",
+        "REI-F06-GEOMETRY-ANCHOR",
+        "REI-F07-SCENARIO-ANCHOR"
+      ],
+      "inputs": [
+        "existing F06 geometry result",
+        "existing F07 prospective S0",
+        "actual source/thermal/spectral stage integration and applicable certificate"
+      ],
+      "outputs": [
+        "one paired FLRW/Bianchi history and difference ledger"
+      ],
+      "write_boundary": [
+        "owner proposed paired history source and runs/rei_fastest_v1/paired/**"
+      ],
+      "acceptance": [
+        "same atomic realization, SED, IC; explicit expansion/thermal/source ownership; temporal/spectral/angular errors separated"
+      ],
+      "claim_ceiling": "Owner-reported native coupled stage qualification,140tests; actual full paired history not run; physical admission HOLD; final second review none.",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "optional_supporting_task": "REI-CHAT-FLRW06-NATIVE-SPECTRAL; consumes ready finite-stage evidence but is not a newly imposed universal gate",
+      "decision_evidence": "late_rei_final/FINAL_DELTA.json"
+    },
+    {
+      "id": "BASS-REI-EXP01",
+      "repository": "bass",
+      "status": "BLOCKED_ON_ACCEPTED_REI_HISTORY_PAYLOAD",
+      "execution_owner": "BASS consumer owner",
+      "depends_on": [
+        "REI-F08",
+        "BASS-REI-CLOCK01"
+      ],
+      "inputs": [
+        "accepted actual REI proper electron-density/frame/normal-time history",
+        "BASS existing Thomson visibility API"
+      ],
+      "outputs": [
+        "scenario opacity/visibility consumer receipt"
+      ],
+      "write_boundary": [
+        "new BASS adapter/return packet only; no REI chemistry edits"
+      ],
+      "acceptance": [
+        "payload identity and clock authority; D once; q=c sigma ne; observer tail retained"
+      ],
+      "claim_ceiling": "Visibility within chosen cold-Thomson model; no finite-temperature spectral validity or CMB generator admission",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "CR-F04D",
+      "repository": "bass_cr",
+      "status": "COMPLETED_SCOPED_LATE_OWNER_RETURN_NOT_RERUN",
+      "execution_owner": "CR existing owner",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "source-pinned F04C residual derivatives",
+        "actual latest F04 static parent/site/accepted-half identities"
+      ],
+      "outputs": [
+        "bounded parent-mixed derivative/half-composition or independent-check return"
+      ],
+      "write_boundary": [
+        "new CR F04D research packet only; no REI F05 source edits"
+      ],
+      "acceptance": [
+        "first reconcile existing static F04 completion; do not rerun solved full-BE certificate; target changed half/parent boundary only"
+      ],
+      "claim_ceiling": "Owner reported analytic/Python event jets; no native event consumer/uniform event remainder/full history",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ],
+      "acceptance_evidence": "publication/atomic_publish/LATE_DELTA.json",
+      "next_task": "CR-F04E-EVENT-JET-RECEIVER-BINDING"
+    },
+    {
+      "id": "CR-OFF-DISPATCH-OBSERVATION",
+      "repository": "rei_bianchi+bass_cr",
+      "status": "READY_SCOPED_INSTRUMENTATION_DESIGN_OWNER_EXECUTION_REQUIRED",
+      "execution_owner": "REI runtime owner; CR consumes receipt",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "selected REI run dispatcher and CR_OFF flag authority"
+      ],
+      "outputs": [
+        "actual zero-load/provider/callback observation or exact blocker"
+      ],
+      "write_boundary": [
+        "isolated instrumentation specification; actual runtime changes reserved to REI owner"
+      ],
+      "acceptance": [
+        "observe actual path; zero tokens/flags alone not callback evidence"
+      ],
+      "claim_ceiling": "CR_OFF implementation exclusion only; CR atomic physics remains unresolved",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "HH-OPTIN-DOMAIN",
+      "repository": "WU088_HH",
+      "status": "PARKED_OWNER_S0_OFF_ACKNOWLEDGED",
+      "execution_owner": "HH owner on explicit REI opt-in",
+      "depends_on": [],
+      "inputs": [
+        "survey/atomic/sources/WU088_HH/docs/atomic_reionization_handoff_20261004_v1/threads/WU088_HH/f07_owner_return_20261005_v1/OWNER_RETURN_ACK_SUMMARY.json"
+      ],
+      "outputs": [
+        "only on opt-in: exact domain/process/threshold/energy-owner receipt and bounded provider binding"
+      ],
+      "write_boundary": [
+        "optional HH successor packet only"
+      ],
+      "acceptance": [
+        "do not repeat missing-F07 request; actual opt-in/changed HH consumer evidence activates work"
+      ],
+      "claim_ceiling": "S0 OFF choice is neither HH runtime acceptance nor proof of negligibility",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Unchanged S0 OFF: stop duplicate packet/helper/toy work after concise status",
+        "No actual owner-selected HH domain: keep optional work parked"
+      ]
+    },
+    {
+      "id": "HE-RCT-STEP01",
+      "repository": "rei_bianchi+BASS_HE",
+      "status": "READY_PARALLEL_DESIGN_EXECUTION_REQUIRES_SEPARATE_OWNER_WRITE_RESERVATION",
+      "execution_owner": "REI stepper owner; HE provider reviewer",
+      "depends_on": [
+        "SYNC02-INTAKE"
+      ],
+      "inputs": [
+        "existing KF96 or GM25 explicitly selected provider",
+        "actual implicit residual/source sites",
+        "conditional escape-energy closure"
+      ],
+      "outputs": [
+        "preregistered integration design; later actual transactional stepper/event-energy result"
+      ],
+      "write_boundary": [
+        "isolated design packet now; reserve FT03/microstep production changes only after F05 collision resolution"
+      ],
+      "acceptance": [
+        "never add RCT twice; no automatic source selection; heat/escape/chemical ledger close; new residual/certificate domain explicit"
+      ],
+      "claim_ceiling": "Local RHS already accepted; stepper integration and source physical admission remain distinct",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "HE-F3-DOMAIN-DECISION",
+      "repository": "BASS_HE",
+      "status": "BLOCKED_CURRENT_FT03_GM25_DOMAIN_EMPTY",
+      "execution_owner": "REI model owner and HE source owner",
+      "depends_on": [],
+      "inputs": [
+        "survey/atomic/sources/BASS_HE/docs/atomic_reionization_handoff_20261004_v1/threads/BASS_HE/runs/HE-F2C_20261005/HE_F3_DOMAIN_GATE.json"
+      ],
+      "outputs": [
+        "owner-chosen common-domain model or explicitly scoped OFF/KF96 sensitivity request"
+      ],
+      "write_boundary": [
+        "new decision packet only"
+      ],
+      "acceptance": [
+        "FT03 30000..110000 K vs GM25 200..10000 K empty; retain no clamp/silent guard lowering"
+      ],
+      "claim_ceiling": "OFF/KF96 does not complete HE-F3 three-way source comparison",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "No authorized common-domain model: keep HE-F3 open; do not fabricate overlapping trajectory"
+      ]
+    },
+    {
+      "id": "REI-F09-ONE-CAMPAIGN",
+      "repository": "rei_bianchi",
+      "status": "BLOCKED_OPTIONAL_ACTIVATION_AND_PAIR_HISTORY",
+      "execution_owner": "REI only; HH/HE review identical receipt",
+      "depends_on": [
+        "REI-F08",
+        "HE-F3-DOMAIN-DECISION"
+      ],
+      "inputs": [
+        "explicit optional atomic flags/providers/domain",
+        "same paired scenario and source realizations"
+      ],
+      "outputs": [
+        "single paired sensitivity receipt for HH-F3 and HE-F3"
+      ],
+      "write_boundary": [
+        "runs/rei_fastest_v1/atomic_sensitivity/**"
+      ],
+      "acceptance": [
+        "no duplicate HH/HE history campaigns; same variation both geometries; sensitivity spread not statistical error"
+      ],
+      "claim_ceiling": "Conditional source/model sensitivity; baseline F08 does not wait for optional gates",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "BASS-COLLISION-DOMAIN",
+      "repository": "bass",
+      "status": "PRESERVED_SEPARATE_GATE",
+      "execution_owner": "BASS original kinetic owner",
+      "depends_on": [],
+      "inputs": [
+        "actual finite-temperature/spectral support and kernel convention authority"
+      ],
+      "outputs": [
+        "bounded finite-T/tail and scalar-Q collision-generator decision"
+      ],
+      "write_boundary": [
+        "original BASS kinetic lane only on concrete demanded observable"
+      ],
+      "acceptance": [
+        "preserve UNVERIFIED_FINITE_TEMPERATURE_TAIL and SCALAR_Q_KERNEL_UNRESOLVED; no full-CMB claim from opacity graph"
+      ],
+      "claim_ceiling": "Future kinetic/domain gate independent of current finite Thomson visibility benchmark",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "REC-E1C-LEGACY",
+      "repository": "rec_bianchi",
+      "status": "DORMANT_CALLABLE_UNRESOLVED",
+      "execution_owner": "REC original owner",
+      "depends_on": [],
+      "inputs": [
+        "survey/rei_rec/rec/docs/CURRENT_STATE.md",
+        "explicit native/COM split-domain demand"
+      ],
+      "outputs": [
+        "one owner swap and interface contract if invoked"
+      ],
+      "write_boundary": [
+        "original REC E1C lane only"
+      ],
+      "acceptance": [
+        "no duplicate native diffusion/COM atomic owners; pure-H benchmark does not close E1C"
+      ],
+      "claim_ceiling": "Full HyRec/COM extension only, not prerequisite for separate pure-H reference",
+      "do_not_rerun": [
+        "Unchanged atomic supplier suites",
+        "Prior broad native suites without a concrete changed-boundary risk",
+        "Completed provenance audits unrelated to this write set"
+      ],
+      "stop_conditions": [
+        "Changed source or domain invalidates frozen input: record source drift and inspect only affected boundary",
+        "Missing actual result must remain pending; never replace it with a planned expected result",
+        "No clipping, provider substitution or tolerance relaxation to obtain PASS"
+      ]
+    },
+    {
+      "id": "REI-F06-GEOMETRY-ANCHOR",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_BOUNDED_REMOTE_EVIDENCE",
+      "execution_owner": "REI existing owner",
+      "depends_on": [],
+      "inputs": [
+        "survey/rei_rec/rei/docs/fastest_track_chat/CODEX_SYNC_KO.md"
+      ],
+      "outputs": [
+        "existing finite Bianchi-I characteristic/positive remap receipt"
+      ],
+      "write_boundary": [
+        "NO CHANGES: existing owner source/receipts"
+      ],
+      "acceptance": [
+        "Existing source-bound return inspected, not rerun by planner"
+      ],
+      "claim_ceiling": "No coupled history or physical admission",
+      "do_not_rerun": [
+        "Unchanged native suites"
+      ],
+      "stop_conditions": [
+        "No new changed input: use receipt without replay"
+      ]
+    },
+    {
+      "id": "REI-F07-SCENARIO-ANCHOR",
+      "repository": "rei_bianchi",
+      "status": "COMPLETED_BOUNDED_REMOTE_EVIDENCE",
+      "execution_owner": "REI existing owner",
+      "depends_on": [],
+      "inputs": [
+        "survey/rei_rec/rei/docs/fastest_track_chat/CODEX_SYNC_KO.md"
+      ],
+      "outputs": [
+        "existing prospective S0 preregistration receipt"
+      ],
+      "write_boundary": [
+        "NO CHANGES: existing owner source/receipts"
+      ],
+      "acceptance": [
+        "Existing source-bound return inspected, not rerun by planner"
+      ],
+      "claim_ceiling": "No coupled history or physical admission",
+      "do_not_rerun": [
+        "Unchanged native suites"
+      ],
+      "stop_conditions": [
+        "No new changed input: use receipt without replay"
+      ]
+    },
+    {
+      "id": "CR-F04E-EVENT-JET-RECEIVER-BINDING",
+      "repository": "bass_cr",
+      "status": "READY_READ_ONLY_BINDING_FROM_ACTUAL_F05_RECEIPT_EXACT_STAGE_REQUIRED",
+      "execution_owner": "CR receiver binding / REI actual-stage owner",
+      "depends_on": [
+        "CR-F04D",
+        "REI-F05"
+      ],
+      "inputs": [
+        "actual F05 state/time/units/accepted-stage receipt",
+        "F04D 25-output contract"
+      ],
+      "outputs": [
+        "exact event-jet consumer binding and source identity"
+      ],
+      "write_boundary": [
+        "new CR-F04E contract/adapter; no concurrent F05 core edits"
+      ],
+      "acceptance": [
+        "match actual accepted-stage/source/units and 25-output map",
+        "retain missing uniform event/escape remainders"
+      ],
+      "claim_ceiling": "Binding scope only, not expanding interval certificate",
+      "do_not_rerun": [
+        "F04D272/1512/50 owner checks solely for receipt"
+      ],
+      "stop_conditions": [
+        "actual receiver stage/source absent -> record missing input, no fabricated zero/authority"
+      ]
+    }
+  ],
+  "legacy_lane_policy": {
+    "atomic_sources": "Original HH/HE/CR LEGACY_LANE.json and source manifests unchanged; source-specific exact pins before reopening",
+    "activation": [
+      "explicit user scope",
+      "actual provider out-of-domain condition",
+      "demonstrated observable sensitivity requiring precision",
+      "concrete energy/spectral/thermal ownership requirement"
+    ],
+    "not_activation": [
+      "unchanged OFF flag",
+      "new metadata publication alone",
+      "unresolved optional gate unrelated to selected baseline"
+    ],
+    "preserved": [
+      "HH accepted24/289;265unbounded; epsilon_C/epsilon_R null;B22 open",
+      "CR G02 unresolved/capture false/all_bound open/b_grid no-go",
+      "HE original fourbody/finite-field/electron-pair source gates unchanged",
+      "REC selected-He GateI deferred and E1C native/COM owner overlap",
+      "BASS finite-T and scalar-Q generator gates"
+    ]
+  },
+  "source_reports": [
+    "survey/rei_rec/INTAKE_REPORT_KO.md",
+    "atomic_analysis/ATOMIC_SYNC_KO.md",
+    "survey/atomic/REFS.json",
+    "survey/bass/INTAKE.json"
+  ],
+  "owner_activity_caveat": "Reserved owner next task means planned/claimed work ownership; this snapshot does not observe external host processes. Check owner dispatch before starting a duplicate.",
+  "structural_validation": {
+    "task_ids_unique": true,
+    "acyclic": true,
+    "known_dependency_ids": true,
+    "nodes": 25,
+    "science_validation": false
+  },
+  "repository_blockers": [
+    {
+      "repository": "rei_bianchi",
+      "resolved": [
+        {
+          "id": "F04_STATIC_MAP",
+          "scope": "Pinned static FT03 root/JH/Taylor/shared-parent map only",
+          "evidence": "survey/rei_rec/rei/docs/atomic_reionization_handoff_20261004_v1/runtime_returns/REI-F04.json"
+        },
+        {
+          "id": "PB_CONSUMER",
+          "scope": "actual pointwise public API 10tests+2170Decimalchecks; scopedPROMOTE",
+          "evidence": "review/LOOP1_REVIEW.json"
+        },
+        {
+          "id": "F05",
+          "scope": "Owner-reported actual static FT03 interval:3grids7000accepted,MPFI200PASS; not rerun",
+          "evidence": "late_rei_final/FINAL_DELTA.json"
+        },
+        {
+          "id": "FLRW06_NATIVE",
+          "scope": "167scalar6error scoped native regression",
+          "evidence": "review/LATE_FLRW06_REVIEW.json"
+        }
+      ],
+      "in_progress": [
+        {
+          "id": "F08_FULL_PAIRED_HISTORY",
+          "owner": "existing REI owner",
+          "process_observation": "UNKNOWN; native conditionalstage qualified,fullhistorynotrun at cutoff"
+        }
+      ],
+      "pending": [
+        "F08 full paired expanding S0 history",
+        "independent U/edge consumer binding",
+        "F09 optional domain/model selection"
+      ],
+      "does_not_block": [
+        "HH parked OFF",
+        "HE optional RCT OFF",
+        "CR original atomic precision lane"
+      ]
+    },
+    {
+      "repository": "rec_bianchi",
+      "resolved": [
+        {
+          "id": "PB_SOURCE_AVAILABLE",
+          "scope": "unchanged actual public pure-H one-T API",
+          "evidence": "survey/rei_rec/SOURCE_LOCK.json"
+        },
+        {
+          "id": "SELECTED_HE_PORT_FIXED_INPUT",
+          "scope": "V11 selected-He fixed-input scoped review; GateI still deferred",
+          "evidence": "survey/rei_rec/rec/docs/forward/rust-20260922/FORWARD_STATUS.json"
+        },
+        {
+          "id": "PB_RECEIVER_POINTWISE",
+          "scope": "actual separate REI consumer; no retained history",
+          "evidence": "loop1/peebles_consumer/RETURN.json"
+        }
+      ],
+      "in_progress": [],
+      "pending": [
+        "general thermal/He/cosmological consumer authority",
+        "E1C native/COM owner split"
+      ],
+      "does_not_block": [
+        "E1C and selected-He GateI do not block separate pure-H benchmark"
+      ]
+    },
+    {
+      "repository": "bass",
+      "resolved": [
+        {
+          "id": "PUBLIC_REPOSITORY",
+          "scope": "visibility public observed",
+          "evidence": "survey/bass/INTAKE.json"
+        },
+        {
+          "id": "CLOCK_NATIVE_IMPLEMENTATION",
+          "scope": "finite frozen-clock invariance scoped independent PROMOTE",
+          "evidence": "loop1/bass_clock/evidence/DECIMAL_RESULT.json",
+          "review": "review/LOOP1_REVIEW.json"
+        },
+        {
+          "id": "LOOP2_PB_VISIBILITY",
+          "scope": "91checks prescribed expanding pure-H benchmark",
+          "evidence": "review/LOOP2_REVIEW.json"
+        }
+      ],
+      "in_progress": [],
+      "pending": [
+        "actual accepted REI EoR payload",
+        "full BASS build",
+        "finite-temperature tail authority",
+        "scalar-Q kinetic-generator convention"
+      ],
+      "does_not_block": [
+        "kinetic admission gate does not relabel bounded cold-Thomson reference failure"
+      ]
+    },
+    {
+      "repository": "BASS_HE",
+      "resolved": [
+        {
+          "id": "LOCAL_RCT_RHS",
+          "scope": "HE F2C owner acceptance; stepper excluded",
+          "evidence": "atomic_analysis/ATOMIC_SYNC_KO.md"
+        },
+        {
+          "id": "MIXED_NATIVE_EXECUTION",
+          "scope": "2actual tests/274comparisons; scoped independent PROMOTE; HE ACK pending",
+          "evidence": "loop1/he_mixed/NATIVE_RESULT.json",
+          "review": "review/LOOP1_REVIEW.json"
+        }
+      ],
+      "in_progress": [],
+      "pending": [
+        "mixed return owner ACK",
+        "RCT implicit stepper and integrated ledger",
+        "HEF3 actual common-domain F09 result",
+        "coupled-response stability needed beyond F2D exposure"
+      ],
+      "logical_blocker": "current FT03 domain intersection with GM25 is empty",
+      "does_not_block": [
+        "OFF baseline EoR does not await HE-F3"
+      ]
+    },
+    {
+      "repository": "bass_cr",
+      "resolved": [
+        {
+          "id": "F04C_FORMAL_DERIVATIVES",
+          "scope": "source-pinned temperature-coupled residual/JH reference only",
+          "evidence": "atomic_analysis/ATOMIC_SYNC_KO.md"
+        },
+        {
+          "id": "REI_STATIC_OWNER_PARENT_AVAILABLE",
+          "scope": "new b553 source identity and static F04 available to receive; no expanding certificate transfer",
+          "evidence": "survey/rei_rec/INTAKE_RESULT.json"
+        },
+        {
+          "id": "F04D",
+          "scope": "Owner-reported parent/two-half event jets24tests; not rerun",
+          "evidence": "publication/atomic_publish/LATE_DELTA.json"
+        }
+      ],
+      "in_progress": [],
+      "pending": [
+        "F04E bind actual F05 accepted-stage/source/time/units",
+        "actual CR_OFF source/provider/callback observations",
+        "uniform event/escape remainders and expanding native weights"
+      ],
+      "does_not_block": [
+        "original CR G02/capture/all-bound/b-grid gaps do not block CR_OFF baseline"
+      ]
+    },
+    {
+      "repository": "WU088_HH",
+      "resolved": [
+        {
+          "id": "F07_OWNER_CHOICE_RECEIVED",
+          "scope": "S0 HH-OFF decision ACK, not runtime acceptance or negligibility proof",
+          "evidence": "atomic_analysis/ATOMIC_SYNC_KO.md"
+        }
+      ],
+      "in_progress": [],
+      "pending": [
+        "HH_OFF runtime evidence if claimed",
+        "optional source/domain binding only on actual opt-in"
+      ],
+      "parked": [
+        "HH-F1",
+        "HH-F2"
+      ],
+      "does_not_block": [
+        "HH optional parked lane does not block S0"
+      ]
+    }
+  ],
+  "confirmed_loop1_sync": "state/LOOP1_SYNC.json",
+  "late_received_updates": {
+    "rei_publication_before_our_native": "8fd440a2e547a61d14d7a890147f7e835fae4f2b",
+    "FLRW06": "prepared native execution blocker resolved in this workspace",
+    "CR_F04D": "latest owner completion received; actual source/evidence retained under atomic publication late delta",
+    "HE": "F2D receipt/domain-intake only; new native mixed return now supplied"
+  },
+  "final_received_overlay": {
+    "cutoff_commit": "bda0feefd4957dc59ebf4b068d01690942aa0a2a",
+    "evidence": "late_rei_final/FINAL_DELTA.json",
+    "evidence_kind": "RECEIVED_OWNER_RESULT_NOT_RERUN_HERE",
+    "F05": "COMPLETE_SCOPED_STATIC_FT03_FIRST_INTERVAL_7000_ACCEPTED_MPFi200_PASS",
+    "F08": "CONDITIONAL_NATIVE_STAGE_QUALIFIED_FULL_PAIRED_HISTORY_NOT_RUN",
+    "FLRW06": "OWNER_AND_SYNC_COORDINATOR_CONCURRENT_NATIVE_RETURNS; ONE_COMPLETED_GATE",
+    "physical_admission": false
+  }
+}

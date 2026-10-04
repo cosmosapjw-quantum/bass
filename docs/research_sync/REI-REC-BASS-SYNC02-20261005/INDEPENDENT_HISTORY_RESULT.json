@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "checks": 91,
+  "preregistration_sha256": "15ac6357553d71297971feba6613c1eb676676040fd85b64d056c3ca7c04c242",
+  "native_binary_sha256": "63f58cb442be2bf3516f570c861907174e82cf4443d5da4e5861003f93d67524",
+  "oracle_sha256": "d0a3b0b3a8ef718093c9ab0bef0a5a7d97193cb2c7ebc821007970b1a131efc3",
+  "reference": {
+    "method": "DOP853",
+    "nfev": 626,
+    "x_final": 0.04560110417453288,
+    "tau_added": 5.195118645159477,
+    "rtol": 2e-12,
+    "atol": 2e-14
+  },
+  "histories": [
+    {
+      "n": 400,
+      "wall_seconds": 0.009722647002490703,
+      "x_final": 0.045601104164089704,
+      "tau_added": 5.195088895424579,
+      "x_max_absolute_error": 5.266191482888871e-09,
+      "tau_relative_error": 5.726478436733347e-06,
+      "probability_L1_error": 9.235998998770117e-07,
+      "mass_residual": 1.1102230246251565e-16
+    },
+    {
+      "n": 800,
+      "wall_seconds": 0.014857100999506656,
+      "x_final": 0.045601104173826096,
+      "tau_added": 5.195111209128167,
+      "x_max_absolute_error": 3.1938329758673945e-10,
+      "tau_relative_error": 1.4313496606557554e-06,
+      "probability_L1_error": 2.308468553006499e-07,
+      "mass_residual": 0.0
+    },
+    {
+      "n": 1600,
+      "wall_seconds": 0.027683735002938192,
+      "x_final": 0.045601104174408616,
+      "tau_added": 5.195116786234065,
+      "x_max_absolute_error": 1.9641732684760882e-11,
+      "tau_relative_error": 3.578215511124118e-07,
+      "probability_L1_error": 5.7708002308726896e-08,
+      "mass_residual": 5.551115123125783e-16
+    }
+  ],
+  "constant_x_fixtures": [
+    {
+      "n": 400,
+      "tau_added": 17.62144554124109,
+      "analytic_tau": 17.621444170877865,
+      "relative_error": 7.776679438260869e-08
+    },
+    {
+      "n": 800,
+      "tau_added": 17.62144451346867,
+      "analytic_tau": 17.621444170877865,
+      "relative_error": 1.94416985452489e-08
+    },
+    {
+      "n": 1600,
+      "tau_added": 17.621444256525603,
+      "analytic_tau": 17.621444170877865,
+      "relative_error": 4.860426702846322e-09
+    }
+  ],
+  "negative_controls": [
+    {
+      "name": "missing_cm3_to_m3",
+      "scope": "oracle sensitivity to explicit wrong density/clock mapping; production source not mutated",
+      "correct_tau": 5.195088895424579,
+      "wrong_tau": 5.195088895424579e-06,
+      "relative_error": 0.9999990000000001,
+      "detected": true
+    },
+    {
+      "name": "double_expansion_dilution",
+      "scope": "oracle sensitivity to explicit wrong density/clock mapping; production source not mutated",
+      "correct_tau": 5.195088895424579,
+      "wrong_tau": 7813432789.117154,
+      "relative_error": 1504003673.7010438,
+      "detected": true
+    },
+    {
+      "name": "clock_a_omission",
+      "scope": "oracle sensitivity to explicit wrong density/clock mapping; production source not mutated",
+      "correct_tau": 5.195088895424579,
+      "wrong_tau": 5941.462228969341,
+      "relative_error": 1142.6690206017665,
+      "detected": true
+    }
+  ],
+  "maxima": {
+    "analytic_normal_time_relative": 1.2820640857015358e-15,
+    "analytic_conformal_time_relative": 1.7464190418253782e-15,
+    "analytic_conformal_length_relative": 0.0,
+    "effective_scale_factor": 0.0,
+    "proper_nH": 0.0,
+    "electron_density": 2.1002554376284011e-16,
+    "native_density_to_rate": 2.8350761141980426e-16,
+    "decimal_discrete_tau_absolute": 4.351676044479871e-15,
+    "decimal_survival_absolute": 4.051020796465199e-16,
+    "decimal_cell_probability_absolute": 1.1211778013959277e-16,
+    "eta_tau_absolute": 4.440892098500626e-16,
+    "eta_survival_absolute": 1.1102230246251565e-16,
+    "eta_probability_absolute": 1.3010426069826053e-18,
+    "chi_tau_absolute": 4.440892098500626e-15,
+    "chi_survival_absolute": 7.771561172376096e-16,
+    "chi_probability_absolute": 1.468009741545373e-16,
+    "boundary_mass": 5.551115123125783e-16,
+    "x_max_absolute_to_independent": 5.266191482888871e-09,
+    "finest_tau_relative_to_independent": 3.578215511124118e-07,
+    "finest_probability_L1": 5.7708002308726896e-08,
+    "constant_dilution_finest_relative": 4.860426702846322e-09
+  },
+  "failures": [],
+  "claim_ceiling": "finite source-bound Peebles expanding benchmark and discrete cold-Thomson mapping; no continuum enclosure or EoR prediction"
+}
