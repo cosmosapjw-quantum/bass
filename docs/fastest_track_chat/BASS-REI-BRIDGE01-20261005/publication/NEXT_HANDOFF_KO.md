@@ -52,4 +52,4 @@ cargo test --manifest-path coding/scoped_harness/Cargo.toml --locked --offline
 
 위 명령은 이 packet root 기준이며 `/tmp/rec_rust_1941`은 이번 실행 환경의 compiler 위치다. 다른 host에서는 `rustc --version`으로 Rust1.94.1의 실제 위치를 확인하고 PATH만 조정한다. scientific tolerance나 dependency revision을 환경 복구 이유로 변경하지 않는다.
 
-BASS 게시 대상은 기존 `forward/rust-microphysics-host-20260930`/PR132, REI 반환은 현재 `forward/rust-reion-kernels-20260922`의 additive consumer-return이다. publish 직전 actual tip을 조회하고 non-force ancestry로 현재 다른 스레드 변경을 보존한다. main merge, 새 PR로 전체 개발을 분기하는 일, automatic RCT enablement는 이 인계에 포함하지 않는다. 실제 commit/object identity와 Drive+Dropbox ack는 최종 게시/백업 receipt에 기록한다.
+BASS 게시 대상은 기존 비공개 `forward/rust-microphysics-host-20260930`/PR132다. 공개 REI에 BASS 비공개 원문을 옮기지 않는다. REI 반환문서는 이 비공개 패킷의 REI_RETURN_KO.md에 준비되어 있으며 public repo mutation은 false다. publish 직전 actual tip을 조회하고 non-force ancestry로 현재 다른 스레드 변경을 보존한다. main merge, 새 PR로 전체 개발을 분기하는 일, automatic RCT enablement는 이 인계에 포함하지 않는다. 실제 commit/object identity와 Drive+Dropbox ack는 최종 게시/백업 receipt에 기록한다.
