@@ -6,6 +6,7 @@ pub mod rec;
 pub mod rei;
 pub mod rei_visibility;
 pub mod visibility;
+pub mod visibility_clock;
 
 #[cfg(test)]
 mod tests;
