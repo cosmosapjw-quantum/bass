@@ -30,3 +30,6 @@ pub mod tilted_terms;
 pub mod transport;
 pub mod typev;
 pub mod viscous;
+
+/// Experimental opt-in frozen Thomson gain; not used by coupled evolution.
+pub mod thomson_gain;
