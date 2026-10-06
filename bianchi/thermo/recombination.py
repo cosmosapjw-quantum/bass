@@ -17,12 +17,31 @@ import numpy as np
 from bianchi.physical import units as U
 from bianchi.optional_dependencies import require_optional
 
-solve_ivp = require_optional(
-    "scipy.integrate", feature=__name__, dependency="scipy"
-).solve_ivp
-brentq = require_optional(
-    "scipy.optimize", feature=__name__, dependency="scipy"
-).brentq
+# Preserve the historical SciPy aliases without loading their stack for pure
+# NumPy Saha/history/rate helpers. Solver calls resolve the same functions, and
+# cached aliases remain patchable just as the former eager imports were.
+_SCIPY_SOLVERS = {"solve_ivp": "scipy.integrate", "brentq": "scipy.optimize"}
+
+
+def __getattr__(name: str):
+    if name not in _SCIPY_SOLVERS:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(require_optional(
+        _SCIPY_SOLVERS[name], feature=__name__, dependency="scipy"
+    ), name)
+    globals()[name] = value
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals()) | set(_SCIPY_SOLVERS))
+
+
+def _scipy_solver(name):
+    if name in globals():
+        return globals()[name]
+    return __getattr__(name)
+
 
 # 상수 (CGS/자연 혼합, eV 단위 에너지)
 _EION_H = 13.605693              # 수소 이온화에너지 [eV]
@@ -106,7 +125,7 @@ def peebles_xe(z_grid, Omega_b_h2=0.0224, Omega_m_h2=0.143, h=0.674,
 
     z0 = z_grid[0]
     xe0 = float(saha_xe(z0, Omega_b_h2, T0_K))
-    sol = solve_ivp(rhs, [z0, z_grid[-1]], [xe0], t_eval=z_grid,
+    sol = _scipy_solver("solve_ivp")(rhs, [z0, z_grid[-1]], [xe0], t_eval=z_grid,
                     method="LSODA", rtol=1e-7, atol=1e-12)
     return np.clip(sol.y[0], 0, 1.2)
 
@@ -117,7 +136,7 @@ def recombination_redshift(Omega_b_h2=0.0224, T0_K=U.T_CMB_K):
     관측되는 최종산란 z_*≈1090 은 비평형(Peebles)로 지연되어 **가시함수 최대점**
     (optical_depth_and_visibility 의 z_star) 으로 정의된다.  이 함수는 순수 Saha 값."""
     f = lambda z: saha_xe(z, Omega_b_h2, T0_K) - 0.5
-    return brentq(f, 800, 1600)
+    return _scipy_solver("brentq")(f, 800, 1600)
 
 
 def drag_redshift(Omega_b_h2=0.0224):
@@ -219,7 +238,7 @@ def saha_all_species(z, Omega_b_h2=0.0224, T0_K=U.T_CMB_K, Y_p=0.245):
     if f(lo) * f(hi) > 0:
         ne = np.exp(hi)
     else:
-        ne = np.exp(brentq(f, lo, hi, xtol=1e-14, rtol=1e-14))
+        ne = np.exp(_scipy_solver("brentq")(f, lo, hi, xtol=1e-14, rtol=1e-14))
     x_e, x_H, x_HeII, x_HeIII = xe_of(ne)
     return dict(x_H=x_H, x_HeII=x_HeII, x_HeIII=x_HeIII, x_e=x_e, n_H=n_H)
 
@@ -280,3 +299,8 @@ def peebles_rate_regime(z, xe, Omega_b_h2=0.0224, Omega_m_h2=0.143, h=0.674,
     return dict(Lam_2gamma=Lam2g, Lam_alpha=Lam_a, beta=beta,
                 beta_over_Lam=beta / L, C=L / (L + beta),
                 saturated=bool(beta / L > 10.0))
+
+
+# Wildcard imports historically included the two borrowed SciPy solver aliases.
+# Keep that explicit request compatible while ordinary imports remain lightweight.
+__all__ = [name for name in globals() if not name.startswith("_")] + list(_SCIPY_SOLVERS)

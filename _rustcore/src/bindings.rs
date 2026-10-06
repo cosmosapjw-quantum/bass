@@ -3095,9 +3095,40 @@ fn qp_kcal_eigenvalues<'py>(
     Ok(Array1::from_vec(v.to_vec()).into_pyarray(py))
 }
 
+/// General-frame vector Codazzi residual; flat tensors are row-major.
+#[pyfunction]
+fn q_codazzi_residual<'py>(
+    py: Python<'py>,
+    sigma: PyReadonlyArray1<f64>,
+    n: PyReadonlyArray1<f64>,
+    a: PyReadonlyArray1<f64>,
+    q_flux: PyReadonlyArray1<f64>,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let sigma: &[f64; 9] = sigma
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("sigma must contain 9 row-major values"))?;
+    let n: &[f64; 9] = n
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("n must contain 9 row-major values"))?;
+    let a: &[f64; 3] = a
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("a must contain 3 values"))?;
+    let q_flux: &[f64; 3] = q_flux
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("q_flux must contain 3 values"))?;
+    let out = kinetic::constraints::codazzi_residual(sigma, n, a, q_flux)
+        .map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out.to_vec()).into_pyarray(py))
+}
+
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
     python::register::register_runtime(m)?;
+    m.add_function(wrap_pyfunction!(q_codazzi_residual, m)?)?;
     m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;
