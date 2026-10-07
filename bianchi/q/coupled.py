@@ -111,12 +111,26 @@ class QState:
         return a["Sigma2"] + a["K"] + a["Omega"] - 1.0
 
     def codazzi_residual(self):
+        """Native general-frame vector diagnostic; no JAX/SciPy dependency."""
+        return self.codazzi_residual_native()
+
+    def codazzi_residual_python_oracle(self):
+        """Explicit legacy JAX diagnostic for independent reference checks."""
         from bianchi.conventions import codazzi_residual
         _, e, mu, lw = self.geometry()
         ln_rho, q_over_rho, _ = CM.moments_log(lw, self.lG, e)
         Om = float(np.exp(ln_rho - np.log(3.0) - 2.0 * self.lnH))
         return np.asarray(codazzi_residual(mat3(self.S6), mat3(self.N6),
                                            self.A3, 3.0 * Om * q_over_rho))
+
+    def codazzi_residual_native(self):
+        """Explicit native alias, also used by the default diagnostic."""
+        from bianchi.q.diagnostics import codazzi_residual_native
+        _, e, mu, lw = self.geometry()
+        ln_rho, q_over_rho, _ = CM.moments_log(lw, self.lG, e)
+        Om = float(np.exp(ln_rho - np.log(3.0) - 2.0 * self.lnH))
+        return codazzi_residual_native(mat3(self.S6), mat3(self.N6),
+                                      self.A3, 3.0 * Om * q_over_rho)
 
     def jacobi_residual(self):
         return mat3(self.N6) @ self.A3

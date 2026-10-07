@@ -362,6 +362,11 @@ ROUTE_CAPABILITIES: Mapping[str, RouteCapability] = MappingProxyType(
             _route("q.collide.kernel_eigenvalues", "qx_kernel_eigenvalues", python_oracle_supported=False),
             _route("q.collide.collide", "qx_collide", python_oracle_supported=False),
             _route("q.collide.collide_modeb", "qx_collide_modeb", python_oracle_supported=False),
+            _route(
+                "q.diagnostics.codazzi_residual_native",
+                "q_codazzi_residual",
+                python_oracle_supported=False,
+            ),
             _route("q.comoving.frame", "QFrame", python_oracle_supported=False),
             _route("q.comoving.frame_from", "QFrame", python_oracle_supported=False),
             _route("q.comoving.moments_log", "qm_moments_log", python_oracle_supported=False),

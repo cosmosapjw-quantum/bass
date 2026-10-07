@@ -3095,9 +3095,70 @@ fn qp_kcal_eigenvalues<'py>(
     Ok(Array1::from_vec(v.to_vec()).into_pyarray(py))
 }
 
+/// General-frame vector Codazzi residual; flat tensors are row-major.
+#[pyfunction]
+fn q_codazzi_residual<'py>(
+    py: Python<'py>,
+    sigma: PyReadonlyArray1<f64>,
+    n: PyReadonlyArray1<f64>,
+    a: PyReadonlyArray1<f64>,
+    q_flux: PyReadonlyArray1<f64>,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let sigma: &[f64; 9] = sigma
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("sigma must contain 9 row-major values"))?;
+    let n: &[f64; 9] = n
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("n must contain 9 row-major values"))?;
+    let a: &[f64; 3] = a
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("a must contain 3 values"))?;
+    let q_flux: &[f64; 3] = q_flux
+        .as_slice()?
+        .try_into()
+        .map_err(|_| PyValueError::new_err("q_flux must contain 3 values"))?;
+    let out = kinetic::constraints::codazzi_residual(sigma, n, a, q_flux)
+        .map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out.to_vec()).into_pyarray(py))
+}
+
+/// Research-only finite-log gain at common physical energy, with native loss elsewhere.
+#[pyfunction]
+#[pyo3(signature=(sph, rad, log_f, frame, order=8, tail="wien", kernel="thomson", v_b=None))]
+fn modeb_thomson_log_gain<'py>(py: Python<'py>, sph: &QSphere, rad: &QRadial,
+    log_f: PyReadonlyArray1<f64>, frame: PyReadonlyArray1<f64>, order: usize,
+    tail: &str, kernel: &str, v_b: Option<Vec<f64>>) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let t = match tail { "wien" => qrad::Tail::Wien, "powerlaw" => qrad::Tail::PowerLaw,
+        _ => return Err(PyValueError::new_err("tail must be wien or powerlaw")) };
+    let op=kinetic::thomson_gain::FrozenGain::new(&sph.inner,&rad.inner,frame.as_slice()?,order,t,kernel,v_b.as_deref()).map_err(PyValueError::new_err)?;
+    let f=log_f.as_slice()?.to_vec();
+    let out=py.detach(|| op.log_gain(&f)).map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out).into_pyarray(py))
+}
+
+/// Research-only exponential midpoint; fixed frame, zero tilt, Thomson only.
+#[pyfunction]
+#[pyo3(signature=(sph, rad, log_f, frame, exposure, order=8, tail="wien", kernel="thomson", v_b=None))]
+fn modeb_thomson_log_step<'py>(py: Python<'py>, sph: &QSphere, rad: &QRadial,
+    log_f: PyReadonlyArray1<f64>, frame: PyReadonlyArray1<f64>, exposure: f64, order: usize,
+    tail: &str, kernel: &str, v_b: Option<Vec<f64>>) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let t = match tail { "wien" => qrad::Tail::Wien, "powerlaw" => qrad::Tail::PowerLaw,
+        _ => return Err(PyValueError::new_err("tail must be wien or powerlaw")) };
+    let op=kinetic::thomson_gain::FrozenGain::new(&sph.inner,&rad.inner,frame.as_slice()?,order,t,kernel,v_b.as_deref()).map_err(PyValueError::new_err)?;
+    let f=log_f.as_slice()?.to_vec();
+    let out=py.detach(|| op.log_step(&f,exposure)).map_err(PyValueError::new_err)?;
+    Ok(Array1::from_vec(out).into_pyarray(py))
+}
+
 #[pymodule]
 fn bianchi_rustcore(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(modeb_thomson_log_gain, m)?)?;
+    m.add_function(wrap_pyfunction!(modeb_thomson_log_step, m)?)?;
     python::register::register_runtime(m)?;
+    m.add_function(wrap_pyfunction!(q_codazzi_residual, m)?)?;
     m.add_function(wrap_pyfunction!(rayon_thread_pool_size, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide, m)?)?;
     m.add_function(wrap_pyfunction!(qp_collide_modeb, m)?)?;

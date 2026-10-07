@@ -7,8 +7,27 @@
   units, initial   CODATA 상수, Ω_i0, 오늘->과거 역적분 빌더        (PR-31)
   congruence       유체 합동 vorticity/가속도, CMB 쌍극             (PR-42)
 """
-from bianchi.physical._legacy import (  # noqa: F401
-    integrate_H, cosmic_time, mean_scale_factor, directional_scale_factors,
-    shear_scalar, dimensionful, lorentz_factor, bbn_expansion_anisotropy,
-    observables,
-)
+from __future__ import annotations
+
+import importlib as _importlib
+
+
+__all__ = [
+    "integrate_H", "cosmic_time", "mean_scale_factor", "directional_scale_factors",
+    "shear_scalar", "dimensionful", "lorentz_factor", "bbn_expansion_anisotropy",
+    "observables",
+]
+
+
+def __getattr__(name: str):
+    """Load historical helpers only when requested, not for units/history imports."""
+    if name not in __all__:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    legacy = _importlib.import_module(f"{__name__}._legacy")
+    value = getattr(legacy, name)
+    globals()[name] = value
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals()) | set(__all__))
