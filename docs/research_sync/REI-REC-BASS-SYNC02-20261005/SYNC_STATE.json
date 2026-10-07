@@ -1,0 +1,169 @@
+{
+  "schema": "research-sync.repo-successor.v1",
+  "task_id": "REI-REC-BASS-SYNC02-20261005",
+  "repository": "cosmosapjw-quantum/bass",
+  "snapshot": {
+    "repository": "cosmosapjw-quantum/bass",
+    "branch": "forward/rust-microphysics-host-20260930",
+    "head": "fecfae3cbf508170513d5ad711e2897d0efe18e1",
+    "tree": "07a78f8ece15e99118cbef9de8ecf4cdab9e3c39",
+    "tree_status": "ROOT_REVIEW_DIRECT_COMMIT_TREE_RECONCILED",
+    "pr": 132,
+    "draft": false,
+    "private": false
+  },
+  "document_phase": "BOTH_LOOPS_CONFIRMED_DELIVERY_RECEIPT_SEPARATE",
+  "central_packet": {
+    "repository": "cosmosapjw-quantum/rei_bianchi",
+    "path": "docs/research_sync/REI-REC-BASS-SYNC02-20261005",
+    "immutable_commit": "7c10471375837b85d58ec39fe1e8242429b74700",
+    "immutable_url": "https://github.com/cosmosapjw-quantum/rei_bianchi/blob/7c10471375837b85d58ec39fe1e8242429b74700/docs/research_sync/REI-REC-BASS-SYNC02-20261005/README_KO.md"
+  },
+  "repo_publication_path": "docs/research_sync/REI-REC-BASS-SYNC02-20261005",
+  "atomic_consumer_return_path": null,
+  "loop1": {
+    "review_status": "CONFIRMED",
+    "decision": "PROMOTE_SCOPED_LOOP2_INPUTS",
+    "input_evidence": [
+      {
+        "path": "review/LOOP1_REVIEW.json",
+        "sha256": "a68e61204cbd4b56fef04e8998b4d16ac7e73d84a3e4efe5b8cdf7dd186663de"
+      },
+      {
+        "path": "state/LOOP1_SYNC.json",
+        "sha256": "86b0027a7cf61f690685966640955692927314912078e7b009c8207091abdb9f"
+      }
+    ],
+    "relevant_decisions": [
+      {
+        "id": "REI-PB03",
+        "decision": "PROMOTE",
+        "claim": "Actual pinned REC public source consumed by separate REI research crate; collapsed source and retained actual-ground source/defect remain distinct; SI/cgs boundary explicit. Pointwise consumer only.",
+        "evidence": [
+          "loop1/peebles_consumer/NATIVE_BUILD_AND_TEST.json",
+          "loop1/peebles_consumer/crate/tests/reference.rs",
+          "loop1/peebles_oracle/POINT_ORACLE_RESULT.json",
+          "loop1/independent_peebles_check.py"
+        ],
+        "native_tests": 10,
+        "source_commit": "cd68764aacfeae9fe794d7966604ac6fbb80ba7f",
+        "limits": [
+          "No retained n=2 trajectory",
+          "No physical cosmology/thermal/radiation admission",
+          "Cargo Git resolution not executed; actual exact-source rustc build was executed"
+        ],
+        "independent_decimal_checks": 2170,
+        "independent_valid_cases": 72,
+        "independent_invalid_cases": 8,
+        "source_field_max_relative_error": 9.418418766385736e-15
+      },
+      {
+        "id": "BASS-REI-CLOCK01",
+        "decision": "PROMOTE",
+        "claim": "Coordinate conversion and finite-cell tau/survival/probability invariance for supplied normal opacity cells with constant a or exact effective dt/deta.",
+        "evidence": [
+          "loop1/bass_clock/evidence/GREEN_SCOPED_CLOCK.log",
+          "loop1/bass_clock/evidence/DECIMAL_RESULT.json"
+        ],
+        "scoped_tests": 30,
+        "decimal_cases": 151,
+        "decimal_checks": 5001,
+        "limits": [
+          "Whole BASS crate build not run",
+          "No continuum quadrature guarantee or visibility peak certificate",
+          "Tiny probability underflow allowed by frozen absolute criterion; not global relative-error guarantee",
+          "Cold-Thomson numerical evaluation is not finite-temperature/spectrum physical admission"
+        ]
+      }
+    ]
+  },
+  "loop2": {
+    "status": "CONFIRMED",
+    "decision": "PROMOTE_SCOPED_EXPANDING_BENCHMARK",
+    "result": {
+      "path": "loop2/evidence/INDEPENDENT_HISTORY_RESULT.json",
+      "sha256": "41dd09aee3d9112fb9308861da7291d64988538e41e5a1747dad98c8930135eb"
+    },
+    "review": {
+      "path": "review/LOOP2_REVIEW.json",
+      "sha256": "6962477811e5a13f988abbaffcad5659d7bfaeccbc3e4876e4cbbc84d079349d"
+    },
+    "scope": "Pure-H one-T prescribed matter-only FLRW z1200->1000 xp_initial0.8; actual native REC->REI->BASS benchmark, no EoR/admission",
+    "checks": 91,
+    "actual_history_runs": 3,
+    "actual_constant_x_runs": 3,
+    "fine_x_max_abs_error": 1.9641732684760882e-11,
+    "fine_tau_relative_error": 3.578215511124118e-07,
+    "max_clock_tau_abs_error": 4.440892098500626e-15,
+    "source_physical_admission": false,
+    "EoR_history": false,
+    "general_Bianchi_transport": false
+  },
+  "resolved_blockers": [
+    "explicit normal-time versus conformal-seconds versus conformal-meters native interface missing"
+  ],
+  "unfinished": [
+    "whole BASS crate build 미실행.",
+    "실제 accepted expanding REI history payload가 없으므로 BASS-REI-EXP01 대기.",
+    "UNVERIFIED_FINITE_TEMPERATURE_TAIL와 SCALAR_Q_KERNEL_UNRESOLVED 유지.",
+    "F08 conditional native stage qualified; full paired expanding S0 history pending; owner write path preserved."
+  ],
+  "next_minimal": "Read final owner F05/F08 overlay; preserve existing F08 full paired-history owner. Consume scoped benchmark returns and take disjoint U/edge contract or exact F04E binding task.",
+  "parallel_candidates": [
+    {
+      "id": "BASS-REI-EXP01-PAYLOAD-CONTRACT",
+      "scope": "properdensity/frame/normal-time/observer-tail 입력과 dt-deta authority 고정",
+      "collision": "REI chemistry/history source 수정 없음"
+    },
+    {
+      "id": "BASS-COLLISION-DOMAIN",
+      "scope": "실제 요청된 observable에 필요한 finite-T/tail/scalar-Q 계약",
+      "collision": "clock adapter PASS를 kinetic/CMB admission으로 전용하지 않음"
+    },
+    {
+      "id": "NATIVE-U-EDGE-WORK-CONSUMER-CONTRACT",
+      "scope": "Reuse completed FLRW06 cone/energy derivation and now passed native N/photo ledger. Specify actual independent U/edge stage consumer without changing F05 source.",
+      "collision": "isolated contract first; actual accepted-stage binding from REI owner required"
+    }
+  ],
+  "preserve": [
+    "cold-Thomson declared model",
+    "finite cell measure != continuum quadrature/visibility peak certificate",
+    "existing REC/REI dependency pins unless separately changed",
+    "original BASS kinetic lane gates"
+  ],
+  "owner_ack": "PENDING_RECIPIENT_ACK_NOT_INFERRED_FROM_PUBLICATION",
+  "physical_admission": false,
+  "publication": {
+    "status": "READ_FINAL_CENTRAL_PUBLICATION_RECEIPT",
+    "receipt": "publication/GITHUB_PUBLICATION_RECEIPT.json",
+    "existing_PR": 132,
+    "preserve_draft": false,
+    "canonical_state_overwritten": false,
+    "direct_chat_thread_delivery": "UNAVAILABLE_NOT_PERFORMED"
+  },
+  "finalization_todo": [
+    "Recipient owner ACK stays pending until actually received; do not rerun unchanged scientific suites for delivery."
+  ],
+  "late_FLRW06": {
+    "status": "NATIVE_POINTWISE_PASS",
+    "native_commands": 18,
+    "scalar_comparisons": 167,
+    "invalid_rejections": 6,
+    "max_relative_difference": 3.777652226439761e-15,
+    "result": "late_flrw06/native_result/NATIVE_EXECUTION_RECEIPT.json",
+    "review": "review/LATE_FLRW06_REVIEW.json",
+    "owner_ack": "NOT_INFERRED"
+  },
+  "final_received_overlay": {
+    "cutoff_commit": "bda0feefd4957dc59ebf4b068d01690942aa0a2a",
+    "evidence": "late_rei_final/FINAL_DELTA.json",
+    "evidence_kind": "RECEIVED_OWNER_RESULT_NOT_RERUN_HERE",
+    "F05": "COMPLETE_SCOPED_STATIC_FT03_FIRST_INTERVAL_7000_ACCEPTED_MPFi200_PASS",
+    "F08": "CONDITIONAL_NATIVE_STAGE_QUALIFIED_FULL_PAIRED_HISTORY_NOT_RUN",
+    "FLRW06": "OWNER_AND_SYNC_COORDINATOR_CONCURRENT_NATIVE_RETURNS; ONE_COMPLETED_GATE",
+    "physical_admission": false
+  },
+  "evidence_path_base": "https://github.com/cosmosapjw-quantum/rei_bianchi/blob/7c10471375837b85d58ec39fe1e8242429b74700/docs/research_sync/REI-REC-BASS-SYNC02-20261005/",
+  "local_projection": "Root summary files project central evidence; detailed paths resolve relative to central immutable packet."
+}

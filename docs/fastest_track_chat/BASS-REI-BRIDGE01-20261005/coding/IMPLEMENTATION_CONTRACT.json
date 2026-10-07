@@ -1,0 +1,32 @@
+{
+  "schema": "bass-rei-visibility-implementation-v1",
+  "status": "FROZEN_BEFORE_IMPLEMENTATION",
+  "bass_parent": "14e0cf0486dc834234122f8bd990fe479f593675",
+  "rei_revision": "41e4592aa494b48929dcd23fc8504c169a98a908",
+  "api": [
+    "electron_state_from_hhe(&HHeModel,&HHeState)->Result<ElectronState,ReiVisibilityError>",
+    "electron_state_from_ft03(&Ft03Model,&HHeState)->Result<ElectronState,ReiVisibilityError>",
+    "ReiOpacityCell::HHe { model,state,frame,e_normal } | Ft03 { model,state,frame,e_normal }",
+    "integrate_rei_visibility(edges_seconds:&[f64],cells:&[ReiOpacityCell],observer_optical_depth:f64)->Result<ReiVisibilitySchedule,ReiVisibilityError>"
+  ],
+  "result_fields": [
+    "electron_density_m3",
+    "interval_rates_s_inverse",
+    "visibility:VisibilityResult"
+  ],
+  "source_validation": "Call HHeModel::electron_density; Ft03 density-only adapter calls gas.electron_density, never ft03_rhs. This does not certify FT03 temperature-domain validity or arbitrary source constants compatibility.",
+  "units": "proper material cm^-3 -> m^-3 by 1e6; normal-clock seconds; BASS c and sigma_T; directional D evaluated once by existing ElectronState method",
+  "zero_policy": "neutral states and one missing element density accepted; both nuclear densities zero rejected by REI source validator; invalid direction still rejected for zero electron density",
+  "non_goals": [
+    "No legacy kinetic collision wiring",
+    "No conformal time adapter",
+    "No comoving or filling-factor input",
+    "No default RCT enablement",
+    "No REC revision changes",
+    "No whole BASS build claim"
+  ],
+  "history": "Actual ft03_adaptive_step controlled initial state, total normal time 1e14 s, rest material frame, n caller-specified equal intervals, left-endpoint snapshots; no retry/grid adjustment; explicit nonzero observer tail default0.2",
+  "red": "Before implementation, scoped API integration test must fail unresolved import; preserve log",
+  "green": "Focused bridge tests plus original unchanged six visibility tests and exact-source legacy REI dispatch/identity tests in offline scoped host harness",
+  "additional_required_pin_consumer": "scripts/check_microphysics_dependencies.sh"
+}

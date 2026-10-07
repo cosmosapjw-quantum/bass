@@ -17,6 +17,9 @@ on:
       - "_rustcore/Cargo.toml"
       - "_rustcore/Cargo.lock"
       - "_rustcore/src/**"
+      - "_rustcore/tests/**"
+      - "_rustcore/examples/**"
+      - "scripts/check_microphysics_dependencies.sh"
       - "scripts/demo.py"
       - "tests/test_backend_policy.py"
       - "tests/test_backend_packaging.py"
@@ -53,6 +56,36 @@ env:
   OPENBLAS_NUM_THREADS: "1"
 
 jobs:
+  rust-microphysics:
+    name: Fixed-input microphysics (Rust only)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup pinned Rust
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal \
+            --component rustfmt --component clippy --no-self-update
+          rustup override set "$RUST_TOOLCHAIN"
+          cargo fetch --manifest-path _rustcore/Cargo.toml --locked
+      - name: Check exact source pins and Rust dependency boundary
+        run: bash scripts/check_microphysics_dependencies.sh
+      - name: Validate Rust core and public example
+        working-directory: _rustcore
+        env:
+          CARGO_NET_OFFLINE: "true"
+          PYTHON: /nonexistent
+          PYTHON_SYS_EXECUTABLE: /nonexistent
+          PYO3_PYTHON: /nonexistent
+        run: |
+          cargo fmt --all -- --check
+          cargo clippy --workspace --all-targets --locked --offline -- -D warnings
+          cargo test --workspace --locked --offline
+          cargo run --locked --offline --example microphysics_fixed_input
+
   policy-portable:
     name: Portable policy (extension absent/injected)
     runs-on: ubuntu-24.04

@@ -1,0 +1,81 @@
+{
+  "schema": "bass_rei_thomson_theory_contract/1",
+  "task": "BASS-REI electron/Thomson boundary",
+  "theory_status": "derived",
+  "implementation_status_authority": "coding and root evidence receipts; this contract does not assert execution",
+  "signature": "(-,+,+,+)",
+  "density_meaning": "proper number density in a common H/He material rest frame",
+  "input_state": {
+    "model": "rei_microphysics::HHeModel, or Ft03Model.gas for density only",
+    "state": "rei_microphysics::HHeState",
+    "fraction_order": ["HII/H", "HeII/He", "HeIII/He"],
+    "nuclear_density_units": "cm^-3",
+    "upstream_validation": "call public HHeModel::electron_density before constructing BASS state; do not bypass model/state validation",
+    "upstream_zero_nuclei_policy": "HHeModel rejects n_H+n_He=0; preserve this rejection",
+    "forbidden_substitutions": ["volume filling factor Q_V for x_HII", "H-normalized free electron fraction for x_HII", "comoving density for proper density", "normal-frame density for material proper density"],
+    "FT03_temperature_guard": "not an extra opacity boundary requirement; actual FT03 trajectory calls retain their own guard"
+  },
+  "electron_conversion": {
+    "equation": "n_e_cm3=n_H_cm3*x_HII+n_He_cm3*(y_HeII+2*y_HeIII)",
+    "nuclei_to_SI": "n_s_m3=1e6*n_s_cm3",
+    "fraction_clipping": false,
+    "output": "visibility::ElectronState",
+    "conversion_overflow": "reject through finite-domain validation; no silent clipping or infinity"
+  },
+  "ray_clock": {
+    "rate_equation": "q_n=c_m_s*sigma_T_m2*n_e_m3*gamma*(1-beta_dot_e)",
+    "rate_units": "normal-clock s^-1",
+    "direction_meaning": "future photon propagation direction in normal tetrad; unit norm validated by existing frame API",
+    "beta_meaning": "material velocity relative to normal observer divided by c",
+    "doppler_owner": "ElectronState::scattering_rate_per_normal_second -> MaterialFrame::doppler",
+    "doppler_application_count": 1,
+    "atomic_clock_equation": "d tau_material/d t_normal=1/gamma along material worldline",
+    "atomic_clock_must_not_replace_ray_clock": true,
+    "non_tilted_means_geometry_isotropic": false,
+    "constants_profile": {"c_m_s": "299792458", "sigma_T_m2": "6.6524587e-29", "authority": "existing BASS visibility.rs"},
+    "REI_model_c_used_for_density_conversion": false
+  },
+  "history": {
+    "time_grid": "finite strictly increasing normal time edges in seconds",
+    "sample_rule": "one left-endpoint HHe snapshot and frame/direction per interval; fixed throughout that interval",
+    "time_order": "future increasing; backward optical-depth tail sum is not backward kinetic evolution",
+    "piecewise_depth": "tau_i=tau_tail+sum_{j=i}^{N-1}q_j*(t_{j+1}-t_j)",
+    "survival": "S_i=exp(-tau_i)",
+    "interval_probability": "P_i=exp(-tau_{i+1})*(-expm1(-q_i*dt_i))",
+    "normalization_identity": "sum_i P_i+S_0=exp(-tau_tail)",
+    "finite_interval_renormalization": false,
+    "observer_tail": "finite dimensionless nonnegative supplied depth beyond final edge",
+    "visibility_integrator_owner": "existing BASS visibility::integrate_visibility"
+  },
+  "error_transport": {
+    "comparison_preconditions": "same ray, normal-time edges and observer tail",
+    "E_i": "sum_{j>=i}abs(q_j-q_ref_j)*dt_j",
+    "survival_bound": "abs(S_i-S_ref_i)<=1-exp(-E_i)",
+    "interval_probability_bound": "abs(P_i-P_ref_i)<=(1-exp(-E_i))+(1-exp(-E_{i+1}))",
+    "left_endpoint_bound_if_derivative_known": "integral_cell abs(q(t)-q_i)dt<=0.5*L_i*dt_i^2 for abs(dq/dt)<=L_i",
+    "contributions_to_keep_separate": ["chemistry endpoint error", "density/frame interpolation error", "left-endpoint quadrature error", "floating point map error"],
+    "does_not_bound": ["visibility peak height", "visibility peak position", "C_l", "full polarization operator", "atomic-source uncertainty without n_e trajectory bound"]
+  },
+  "derived_only_FLRW_mapping": {
+    "dt": "dt=a*d_eta_seconds",
+    "proper_rate": "q_t=c*sigma_T*n_e_proper",
+    "conformal_seconds_rate": "q_eta=a*c*sigma_T*n_e_proper",
+    "conformal_length_rate": "q_chi=a*sigma_T*n_e_proper, chi=c*eta_seconds",
+    "comoving_density": "N_e=a^3*n_e_proper",
+    "new_conformal_runtime_API": false,
+    "current_coding_trajectory": "static controlled FT03, beta=0 chemistry; supplied fixed-frame ray postprocessing does not evolve tilted chemistry"
+  },
+  "RCT_direct_electron_source": {"expression": "R+R-2R=0", "status": "derived", "indirect_history_effect": "possible through later chemistry/temperature; not determined by this identity"},
+  "claim_ceiling": {
+    "new_atomic_provider_admission": false,
+    "cold_Thomson_physical_certificate": false,
+    "finite_temperature_or_KN_error_certificate": false,
+    "tilted_chemistry_evolution": false,
+    "Bianchi_geometry_evolution": false,
+    "expanding_FLRW_history": false,
+    "full_CMB_or_polarization_prediction": false,
+    "Q_to_species_closure": false,
+    "baseline_failed_gates_unchanged": true
+  },
+  "stop_condition": "actual typed density bridge plus existing fixed-input ray/visibility reuse are tested against analytic and independent references; stop before creating a new atomic/geometry history or promoting Thomson-domain gates"
+}

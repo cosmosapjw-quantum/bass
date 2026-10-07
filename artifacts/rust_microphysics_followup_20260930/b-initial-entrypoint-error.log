@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/mnt/sn850x2t/local_ai_foundry/60_runtime/cuhg/policy-authorities/60cae1aa919e1a5803f3de9fa9f068fad4e5b650/scripts/codex_harness/execute_task.py", line 7, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/sn850x2t/local_ai_foundry/60_runtime/cuhg/policy-authorities/60cae1aa919e1a5803f3de9fa9f068fad4e5b650/src/cuhg/models/task_entrypoint.py", line 636, in main
+    result = execute_task(task, root=args.root, repo=args.repo_root,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/sn850x2t/local_ai_foundry/60_runtime/cuhg/policy-authorities/60cae1aa919e1a5803f3de9fa9f068fad4e5b650/src/cuhg/models/task_entrypoint.py", line 378, in execute_task
+    return execute_bound_task(task, root=root, repo=repo, opportunity_id=opportunity_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/sn850x2t/local_ai_foundry/60_runtime/cuhg/policy-authorities/60cae1aa919e1a5803f3de9fa9f068fad4e5b650/src/cuhg/models/task_route_transition.py", line 382, in execute_bound_task
+    root, repo = Path(root).resolve(strict=True), Path(repo).resolve(strict=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1242, in resolve
+    s = self._flavour.realpath(self, strict=strict)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 432, in realpath
+  File "<frozen posixpath>", line 476, in _joinrealpath
+FileNotFoundError: [Errno 2] No such file or directory: '/home/cosmosapjw/.codex/runtime/task-routing'

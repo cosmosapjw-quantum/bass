@@ -1,0 +1,95 @@
+{
+  "schema": "research-sync.independent-decision.v1",
+  "loop": 2,
+  "reviewer": "/root/sync_independent_review",
+  "reviewed_utc": "2026-10-04T19:54:22.416565+00:00",
+  "independence": {
+    "candidate_generation": false,
+    "validation_design": false,
+    "production_edits": false,
+    "note": "Pointed out preregistered negative-control omission while authoring was ongoing; coordinator implemented existing preregistered checks before first execution. Reviewer did not design new acceptance criteria."
+  },
+  "status": "CONFIRMED",
+  "decision": "PROMOTE_SCOPED_EXPANDING_BENCHMARK",
+  "blocking_findings": [],
+  "promoted_claims": [
+    {
+      "claim": "Pinned REC Peebles source \u2192 separate actual REI consumer \u2192 native RK4 trajectory \u2192 existing BASS proper-density adapter and typed clock visibility executed end-to-end.",
+      "evidence_status": [
+        "implementation-verified",
+        "numerically checked"
+      ],
+      "scope": "Pure H, Tm=Tr prescribed matter-only FLRW from z1200 to1000, initial xp0.8, no retained-shell evolution."
+    },
+    {
+      "claim": "Three registered finite grids agree with independent same-profile DOP853 source/solver within frozen tolerances; opacity midpoint refinement observed near factor4.",
+      "evidence_status": [
+        "numerically checked"
+      ],
+      "scope": "Finite benchmark evidence, no global continuum enclosure or general RK4/order theorem."
+    },
+    {
+      "claim": "Same discrete normal-cell measure preserves tau/survival/mass in normal seconds, conformal seconds and conformal meters using exact cell a_eff.",
+      "evidence_status": [
+        "derived",
+        "implementation-verified",
+        "numerically checked"
+      ],
+      "scope": "Frozen-cell mapping, no continuum within-cell profile exactness or visibility peak claim."
+    }
+  ],
+  "validation": {
+    "coordinator_checks": 91,
+    "actual_history_runs": 3,
+    "actual_constant_x_runs": 3,
+    "native_invalid_cli_cases": 4,
+    "negative_sensitivity_controls": 3,
+    "source_binary_identity_matches": 27,
+    "loop1_sync_hash_confirmed": true,
+    "native_sha256": "63f58cb442be2bf3516f570c861907174e82cf4443d5da4e5861003f93d67524",
+    "oracle_sha256": "d0a3b0b3a8ef718093c9ab0bef0a5a7d97193cb2c7ebc821007970b1a131efc3",
+    "preregistration_sha256": "15ac6357553d71297971feba6613c1eb676676040fd85b64d056c3ca7c04c242",
+    "fine_x_final": 0.045601104174408616,
+    "fine_x_max_abs_error": 1.9641732684760882e-11,
+    "fine_tau_added": 5.195116786234065,
+    "fine_tau_relative_error": 3.578215511124118e-07,
+    "fine_probability_L1_error": 5.7708002308726896e-08,
+    "max_clock_tau_abs_error": 4.440892098500626e-15,
+    "max_mass_abs_residual": 5.551115123125783e-16,
+    "constant_x_fine_tau_relative_error": 4.860426702846322e-09,
+    "tau_refinement_error_ratios": [
+      4.000754388770268,
+      4.000177340369553
+    ]
+  },
+  "semantics_checked": [
+    "Proper nH=nH0(1+z)^3 exactly once; no -3H*x fraction sink",
+    "One-T collapsed source refreshed each RK4 stage and accepted endpoint",
+    "Midpoint x uses independent half RK4 step from accepted left state",
+    "HHe snapshot is density-only carrier; no HHe, FT03 or RCT RHS call",
+    "SI\u2192cgs carrier\u2192SI bridge conversion explicit; He nuclei0; beta0 and D1",
+    "Analytic matter-only normal/conformal clocks; a_eff=dt/deta; chi=c*eta",
+    "Observer tail0.2 remains explicit; finite interval not renormalized",
+    "DOP853 shares chosen published coefficients deliberately but source formula/ODE solver separate",
+    "Negative controls test oracle sensitivity to wrong mappings; production source not mutated"
+  ],
+  "no_claims": [
+    "full BASS build",
+    "full HYREC parity",
+    "retained n2 stiff history",
+    "F04/F05 uniform enclosure",
+    "EoR source model or observation prediction",
+    "general anisotropic Bianchi transport",
+    "finite-T/KN/spectrum or polarized generator admission",
+    "HE owner ACK or RCT stepper enabled"
+  ],
+  "resolved_observations": [
+    {
+      "id": "R2-NEGATIVE-CONTROLS",
+      "classification": "PREREGISTERED_CHECK_COMPLETENESS",
+      "resolution": "The previously absent three declared controls were added before the first execution; all detected. Tolerances and model unchanged."
+    }
+  ],
+  "read_record": "LOOP2_READ_RECORD.json",
+  "required_next_step": "Publish bounded result and per-owner followups, retaining active independent lanes. No additional scientific tests required for this scope."
+}

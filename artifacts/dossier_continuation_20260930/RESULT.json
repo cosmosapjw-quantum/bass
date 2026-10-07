@@ -1,0 +1,126 @@
+{
+  "status": "COMPLETE_ACCEPTANCE_BOUNDED_UTILITIES",
+  "task_ids": [
+    "BASS-THOMSON-VISIBILITY-20260930",
+    "BASS-STRUCTURE-UTILITIES-20260930"
+  ],
+  "base_commit": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+  "delivery": "UNCOMMITTED_WORKING_TREE",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "cargo": "cargo 1.94.1 (29ea6fb6a 2026-03-24)",
+  "test_counts": {
+    "unit": 136,
+    "preexisting_integration": 4,
+    "visibility_integration": 6,
+    "structure_integration": 7,
+    "total": 153,
+    "failed": 0
+  },
+  "validation": {
+    "structure-cargo-fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "_rustcore/Cargo.toml",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.270658193010604,
+      "log": "/home/cosmosapjw/bass/artifacts/dossier_continuation_20260930/structure-cargo-fmt.log"
+    },
+    "structure-cargo-clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "_rustcore/Cargo.toml",
+        "--workspace",
+        "--all-targets",
+        "--locked",
+        "--offline",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.025780889001908,
+      "log": "/home/cosmosapjw/bass/artifacts/dossier_continuation_20260930/structure-cargo-clippy.log"
+    },
+    "structure-cargo-test": {
+      "argv": [
+        "env",
+        "-u",
+        "PYTHONPATH",
+        "-u",
+        "VIRTUAL_ENV",
+        "PYTHON=/nonexistent",
+        "PYTHON_SYS_EXECUTABLE=/nonexistent",
+        "PYO3_PYTHON=/nonexistent",
+        "cargo",
+        "test",
+        "--manifest-path",
+        "_rustcore/Cargo.toml",
+        "--workspace",
+        "--locked",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.99397297600808,
+      "log": "/home/cosmosapjw/bass/artifacts/dossier_continuation_20260930/structure-cargo-test.log"
+    },
+    "structure-python-binding": {
+      "argv": [
+        "cargo",
+        "check",
+        "--manifest-path",
+        "_rustcore/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--features",
+        "python-binding"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": "NOT_MEASURED_FOR_CORRECTED_COMMAND",
+      "log": "/home/cosmosapjw/bass/artifacts/dossier_continuation_20260930/structure-python-binding.log",
+      "original_command_error": {
+        "argv": [
+          "cargo",
+          "check",
+          "--manifest-path",
+          "_rustcore/Cargo.toml",
+          "--locked",
+          "--offline",
+          "--features",
+          "structure-python-binding"
+        ],
+        "exit_code": 101,
+        "log": "structure-python-binding-command-error.log",
+        "classification": "HOST_COMMAND_GENERATION_ERROR"
+      }
+    }
+  },
+  "independent_review": {
+    "visibility": "PASS_NO_FINDINGS",
+    "structure": "NO_BLOCKERS_OR_MAJORS_ONE_MINOR",
+    "repair": "HOST_FIXED_AND_VALIDATED; NO_SECOND_INDEPENDENT_REVIEW",
+    "native_sandbox": "danger-full-access; read-only reviewer actions, not OS-enforced"
+  },
+  "original_dirty_files_preserved": 58,
+  "source_sha256": {
+    "_rustcore/src/kinetic/mod.rs": "4e708259cdaa0c61ede04afd0029076da191c5c88050c244da9ba00861b5cb65",
+    "_rustcore/src/kinetic/realizability.rs": "194e449757b4c6b5f582ac4a3a40eae96cf4a06d8c353791becc4fb163f90c99",
+    "_rustcore/src/microphysics/mod.rs": "973e53149260e568e2e473a1bd627e2d7b0f89a218f034724f966ea4781a3c9b",
+    "_rustcore/src/microphysics/visibility.rs": "380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f",
+    "_rustcore/src/microphysics/population.rs": "23bd2bd17ed9ee0fd379ca36f394b9da65b20164fbf2967bd3057779cdb6b836",
+    "_rustcore/tests/visibility_contract.rs": "24f03172d0bc78a57cce9f2f59c7b5d15dd0c11899535abdafa4ae38901bc284",
+    "_rustcore/tests/structure_contract.rs": "9a7f2c01cd20d86fce882229deee4a52b81f86bc71abfa4a1c611635190c0785"
+  },
+  "cargo_lock_sha256": "be5b4eb3fd3ed4041b3de1c94800e78811369d52e9c8bbf890368b74b0f7cc8d",
+  "scientific_admission": "NOT_GRANTED",
+  "hosted_ci": "NOT_RUN",
+  "full_histories_feedback_observables": "NOT_IMPLEMENTED_BY_THIS_INCREMENT",
+  "cost_saving": "NOT_MEASURED"
+}

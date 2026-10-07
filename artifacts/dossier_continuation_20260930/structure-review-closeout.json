@@ -1,0 +1,10 @@
+{
+  "review": "gpt-6-astra/xhigh; no blockers/majors; one minor",
+  "finding": "Subnormal weighted stationary states can vanish through Poisson coefficient products",
+  "reproduction": "subnormal-before.txt; [1,1] with weights [smallest_subnormal,smallest_subnormal] returned [0,0]",
+  "repair": "Host added WeightedStateUnderflow for positive initial weighted values below MIN_POSITIVE and regression for subnormal/zero-rounded products; zero-step identity retained",
+  "review_boundary": "One independent source review; Host targeted repair validation, no second independent review",
+  "native_followup": "Blocked CHILD_CONTINUATION_NOT_RESERVED; no new dispatch or accounting reset; scoped SMALL_DIRECT_CHANGE Host repair recorded",
+  "host_fixture_lint": "Iterator-only rewrite of scaling loop, same assertions and tolerances; initial logs preserved",
+  "test_sha256": "9a7f2c01cd20d86fce882229deee4a52b81f86bc71abfa4a1c611635190c0785"
+}

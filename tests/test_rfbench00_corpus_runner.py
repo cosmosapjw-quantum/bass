@@ -18,6 +18,7 @@ from benchmarks.rfbench.runner import (
     ResolvedSource,
     _calibrated_repetitions,
     run_protocol,
+    validate_run_config,
 )
 
 
@@ -61,10 +62,20 @@ def _config() -> dict:
         "contamination_limits": CONTAMINATION_LIMITS,
         "corpus_sha256": sha256_file(CORPUS_PATH),
         "spec_sha256": "dcd4f89fe7a2ad73f22574357df53fcbea437d83f1b4faae08250e2ab46b4efa",
-        "source_adapter_sha256": "a9f7a2f2bb516095b1f8bea7a09910fddf592752ae07796ff37a24b8200a1e71",
+        "source_adapter_sha256": sha256_file(
+            Path(__file__).resolve().parents[1] / "benchmarks/rfbench/workload_child.py"
+        ),
         "common_build_identity": common_build,
         "common_build_identity_sha256": "9074e0eb08c0be1e069a0b1ee5ac2e50716903f51bee65af2401cf20eb08ddde",
     }
+
+
+def test_run_config_rejects_wrong_adapter_identity():
+    config = _config()
+    validate_run_config(config)
+    config["source_adapter_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="source_adapter_sha256"):
+        validate_run_config(config)
 
 
 def _host(level: ClaimLevel) -> dict:

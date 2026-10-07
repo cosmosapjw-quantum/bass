@@ -1,0 +1,64 @@
+{
+  "task_id": "BASS-THOMSON-VISIBILITY-20260930",
+  "goal": "Implement Rust common-material-frame H/He electron density, direction-dependent normal-clock Thomson rate, exact piecewise constant visibility and same-clock opacity stability bounds. Frozen API and tests are visibility_contract.rs. Dossier III 1.17 1.21-22 and V12; no full chemistry/feedback or scalar schedule integration.",
+  "authority": "CANDIDATE_ONLY",
+  "inputs": {
+    "_rustcore/src/microphysics/mod.rs": "a7b2084c2092b8a1b6092dab43e0f93ea6dff26ba490912175e2ba4ef0ceab9d",
+    "_rustcore/src/microphysics/frame.rs": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+    "_rustcore/tests/visibility_contract.rs": "24f03172d0bc78a57cce9f2f59c7b5d15dd0c11899535abdafa4ae38901bc284",
+    "_rustcore/Cargo.toml": "d1fd1ac9aec26fd360662a8ca79e9edb9133f9e06cfd5f58fa1ac37743d8160b",
+    "_rustcore/Cargo.lock": "be5b4eb3fd3ed4041b3de1c94800e78811369d52e9c8bbf890368b74b0f7cc8d"
+  },
+  "allowed_paths": [
+    "_rustcore/src/microphysics/mod.rs",
+    "_rustcore/src/microphysics/visibility.rs"
+  ],
+  "external_validator": {
+    "argv": [
+      "/home/cosmosapjw/.cargo/bin/cargo",
+      "test",
+      "--manifest-path",
+      "_rustcore/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--test",
+      "visibility_contract"
+    ],
+    "timeout_seconds": 180,
+    "dependencies": [
+      "_rustcore/tests/visibility_contract.rs"
+    ]
+  },
+  "context_complete": true,
+  "scientific_contract": {
+    "assumptions": [
+      "Common H/He electron material frame; fractions nonnegative sum at most one",
+      "Piecewise constant nonnegative rates on increasing normal-time edges; terminal depth explicit",
+      "Opacity comparison same ray clock edges and same observer boundary; cannot bound peak position"
+    ],
+    "units": [
+      "proper number density m^-3",
+      "q s^-1 normal ray clock",
+      "time seconds",
+      "sigma_T m^2",
+      "optical depth dimensionless"
+    ],
+    "conventions": [
+      "q=c ne sigma_T D; D exactly once",
+      "retain unscattered boundary probability; do not renormalize finite interval"
+    ],
+    "boundary_conditions": [
+      "explicit nonnegative observer optical depth"
+    ]
+  },
+  "verification_limits": [
+    "Fixed-input utility only; no full evolution or scientific admission",
+    "Frozen validators unmodified by child"
+  ],
+  "output_budget": 10000,
+  "resource_limits": {
+    "max_calls": 2,
+    "max_tokens": 40000,
+    "max_wall_seconds": 1800
+  }
+}

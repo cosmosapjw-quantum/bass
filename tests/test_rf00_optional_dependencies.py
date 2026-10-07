@@ -124,12 +124,13 @@ def test_dependency_light_pstf_basis_is_oracle_byte_identical():
 
 
 def test_public_lazy_exports_preserve_conventions_and_algebra():
-    from bianchi import algebra, conventions
+    from bianchi import algebra, conventions, runtime
 
     assert bianchi.algebra is algebra
     assert bianchi.conventions is conventions
-    assert bianchi.__all__ == ["conventions", "algebra", "__version__"]
-    assert {"conventions", "algebra"}.issubset(dir(bianchi))
+    assert bianchi.runtime is runtime
+    assert bianchi.__all__ == ["conventions", "algebra", "runtime", "__version__"]
+    assert {"conventions", "algebra", "runtime"}.issubset(dir(bianchi))
 
 
 @pytest.mark.parametrize(

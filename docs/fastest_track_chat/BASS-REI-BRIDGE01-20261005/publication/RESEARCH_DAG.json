@@ -1,0 +1,310 @@
+{
+  "schema": "bass-rei-research-dag-v1",
+  "task": "BASS-REI-BRIDGE01-20261005",
+  "status": "IMPLEMENTATION_VERIFIED_REVIEW_CONFIRMED",
+  "evidence_owner": "root README and final validation/publication receipts; this DAG records task scope, not inferred PASS",
+  "authority": {
+    "bass_parent": "14e0cf0486dc834234122f8bd990fe479f593675",
+    "bass_branch": "forward/rust-microphysics-host-20260930",
+    "bass_pr": 132,
+    "rei_native": "41e4592aa494b48929dcd23fc8504c169a98a908",
+    "rei_receipts": "7a15daa38b60a5174315747b9194564dc2d4eb8b",
+    "rei_branch": "forward/rust-reion-kernels-20260922",
+    "rei_pr": 83
+  },
+  "nodes": [
+    {
+      "id": "BASS-REI-INTAKE01",
+      "owner": "BASS host",
+      "status": "COMPLETE_SOURCE_INTAKE",
+      "depends": [],
+      "outputs": [
+        "survey/bass/BASS_INTAKE_KO.md",
+        "survey/bass/IDENTITY.json",
+        "survey/four_threads/FOUR_THREAD_STATUS.json"
+      ],
+      "claim": "Current pinned APIs and four-thread source/claim boundaries read; no historic tests rerun"
+    },
+    {
+      "id": "BASS-REI-THEORY01",
+      "owner": "BASS host",
+      "status": "DERIVED_REVIEW_CONFIRMED",
+      "depends": [
+        "BASS-REI-INTAKE01"
+      ],
+      "outputs": [
+        "theory/"
+      ],
+      "acceptance": [
+        "proper density and charge derivation",
+        "D exactly once",
+        "normal/conformal time distinction",
+        "backward tau and observer tail",
+        "finite-mass visibility"
+      ]
+    },
+    {
+      "id": "BASS-REI-BRIDGE01",
+      "owner": "BASS host",
+      "status": "IMPLEMENTATION_VERIFIED_REVIEW_CONFIRMED",
+      "depends": [
+        "BASS-REI-INTAKE01",
+        "BASS-REI-THEORY01"
+      ],
+      "outputs": [
+        "_rustcore/src/microphysics/rei_visibility.rs",
+        "coding/scoped_harness/"
+      ],
+      "acceptance": [
+        "actual REI validation invoked",
+        "cm^-3 to m^-3 conversion once",
+        "normal-clock ray rate from existing ElectronState",
+        "no duplicate D",
+        "source invalid and conversion overflow typed",
+        "unchanged seven kernel dispatcher",
+        "scoped source-linked native plus independent checks"
+      ],
+      "does_not_require": [
+        "full BASS historical suite",
+        "atomic scattering recomputation",
+        "HH-F2",
+        "CR-F04C",
+        "HE-F2 physical admission"
+      ]
+    },
+    {
+      "id": "BASS-REI-EXP01",
+      "owner": "rei_bianchi producer + BASS consumer",
+      "status": "READY_AFTER_BRIDGE_AND_PAYLOAD",
+      "depends": [
+        "BASS-REI-BRIDGE01"
+      ],
+      "inputs": [
+        "actual accepted expanding history",
+        "normal time edges seconds",
+        "proper nH/nHe cm^-3 per interval",
+        "HII/HeII/HeIII fractions",
+        "source commit/model ID",
+        "a/H owner",
+        "sampling rule",
+        "observer tau"
+      ],
+      "outputs": [
+        "typed producer export",
+        "consumer tau/survival/interval mass",
+        "finite-grid refinement receipt"
+      ],
+      "acceptance": [
+        "analytic fixed-ionization FLRW dilution case",
+        "same-stage density and chemistry",
+        "direct integral comparison",
+        "at least two finite grids",
+        "observer-tail and unscattered mass preserved"
+      ],
+      "stop_conditions": [
+        "BLOCKED_MISSING_EXPANDING_HISTORY",
+        "SOURCE_FRAME_OR_CLOCK_UNRESOLVED",
+        "SOURCE_DOMAIN_INVALID"
+      ],
+      "forbidden": [
+        "relabel static FT03 as cosmology",
+        "Q equals local x assumption",
+        "second a^-3 factor",
+        "uniform continuum enclosure inferred from finite convergence"
+      ]
+    },
+    {
+      "id": "BASS-REI-CLOCK01",
+      "owner": "BASS host",
+      "status": "PLANNED",
+      "depends": [
+        "BASS-REI-BRIDGE01"
+      ],
+      "inputs": [
+        "explicit eta seconds or conformal length profile",
+        "a(t)>0",
+        "same physical cell specification"
+      ],
+      "outputs": [
+        "distinct typed clock adapters"
+      ],
+      "acceptance": [
+        "q_eta=a*q_t",
+        "q_chi=a*q_t/c",
+        "same-cell integrated tau and mass invariance",
+        "finite positive Jacobian and monotonicity"
+      ],
+      "stop_conditions": [
+        "CLOCK_CONVENTION_UNSPECIFIED"
+      ],
+      "notes": "Not implemented in BRIDGE01; theory derivation does not imply API support"
+    },
+    {
+      "id": "BASS-THOMSON-DOM01",
+      "owner": "BASS radiation/electron authority",
+      "status": "INPUT_PENDING",
+      "depends": [
+        "BASS-REI-BRIDGE01"
+      ],
+      "inputs": [
+        "calibrated ray spectral support",
+        "event-aligned electron temperature",
+        "segment sampling",
+        "error budget"
+      ],
+      "acceptance": [
+        "cold/finite-temperature/KN claims separated",
+        "unbounded thermal-tail limits retained"
+      ],
+      "stop_conditions": [
+        "UNKNOWN_ENERGY_SUPPORT",
+        "UNVERIFIED_FINITE_TEMPERATURE_TAIL"
+      ]
+    },
+    {
+      "id": "BASS-KINETIC-GEN01",
+      "owner": "BASS transport",
+      "status": "SEPARATE_THEORY_IMPLEMENTATION_NEEDED",
+      "depends": [
+        "BASS-THOMSON-DOM01"
+      ],
+      "inputs": [
+        "directional collision generator",
+        "compatible photon representation and clock"
+      ],
+      "acceptance": [
+        "derive gain/loss M_D(K-I) in named frame",
+        "no scalar-Q shortcut for noncommuting D",
+        "zero-tilt regression",
+        "photon-number and equilibrium witnesses"
+      ],
+      "stop_conditions": [
+        "SCALAR_Q_KERNEL_UNRESOLVED"
+      ],
+      "notes": "Existing local visibility rate is not polarized collision operator admission"
+    },
+    {
+      "id": "RCT-STEP01",
+      "owner": "rei_bianchi",
+      "status": "SEPARATE_REI_OWNER_TASK",
+      "depends": [],
+      "inputs": [
+        "explicit source profile",
+        "explicit escaping energy closure",
+        "actual FT03 stepper and residual"
+      ],
+      "acceptance": [
+        "accepted half-stage event ledger",
+        "thermal+chemical+escape balance",
+        "positive converged state",
+        "default OFF retained"
+      ],
+      "notes": "Local combined_ft03_rhs exists; this BASS task does not integrate it"
+    },
+    {
+      "id": "ATOMIC-LONGTERM",
+      "owner": "BASS_HE + bass_cr + WU088_HH + original atomic lane owners",
+      "status": "PRESERVED",
+      "depends": [],
+      "inputs": [
+        "source-specific existing handoffs"
+      ],
+      "acceptance": [
+        "owner acceptance before physical admission"
+      ],
+      "forbidden": [
+        "automatic merge",
+        "reset failed gates",
+        "delay atomic-off bridge for unrelated unfinished lanes"
+      ]
+    }
+  ],
+  "edges_semantics": "depends are scientific/software prerequisites only; no publication order inferred",
+  "pr_tasks": [
+    {
+      "id": "BASS-PR132-BRIDGE",
+      "existing_pr": 132,
+      "branch": "forward/rust-microphysics-host-20260930",
+      "scope": [
+        "new typed adapter",
+        "REI pin and live pin consumers",
+        "scoped source harness",
+        "theory/evidence packet"
+      ],
+      "status": "PUBLISHED",
+      "merge": false
+    },
+    {
+      "id": "REI-PR83-CONSUMER-RETURN",
+      "existing_pr": 83,
+      "branch": "forward/rust-reion-kernels-20260922",
+      "scope": [
+        "additive BASS consumer return and evidence links"
+      ],
+      "status": "RETURN_PREPARED_IN_PRIVATE_BASS",
+      "merge": false,
+      "public_repo_mutation": false
+    },
+    {
+      "id": "BASS-EXP01-FOLLOWUP",
+      "existing_pr": null,
+      "scope": [
+        "real expanding history consumer"
+      ],
+      "status": "NOT_STARTED",
+      "branch_decision": "Read current owner branch before mutation; do not create a branch preemptively"
+    }
+  ],
+  "publication": {
+    "bass_non_force": true,
+    "rei_return_additive": "Prepared in private BASS packet; no public REI mutation",
+    "main_merge": false,
+    "drive_dropbox": "Provider ACK + selected identity/size verification required; not restore certification"
+  },
+  "validation": {
+    "status": "PASS_SCOPED_AND_INDEPENDENT",
+    "receipts": [
+      "evidence/FINAL_INTEGRATION.json",
+      "evidence/INDEPENDENT_BRIDGE_RESULT.json",
+      "evidence/CONTROLLED_HISTORY_RESULT.json"
+    ],
+    "native_tests": 20,
+    "native_breakdown": {
+      "bridge": 10,
+      "api": 1,
+      "unchanged_visibility": 6,
+      "legacy": 3
+    },
+    "independent_snapshot_checks": 786,
+    "native_snapshot_calls": 140,
+    "snapshot_points": {
+      "valid": 128,
+      "invalid": 12
+    },
+    "independent_history_checks": 22029,
+    "native_history_calls": 2,
+    "history_intervals": [
+      1000,
+      2000
+    ],
+    "review": "CONFIRMED: review/FINAL_REVIEW.json",
+    "whole_bass_build": false,
+    "full_cosmological_history": false,
+    "scientific_admission": false
+  },
+  "final_independent_review": {
+    "verdict": "CONFIRMED",
+    "open_blockers": 0,
+    "receipt": "review/FINAL_REVIEW.json"
+  },
+  "publication_boundary": {
+    "bass_visibility": "private",
+    "rei_visibility": "public",
+    "public_rei_mutation": false,
+    "rei_return_location": "publication/REI_RETURN_KO.md inside private BASS packet"
+  },
+  "actual_native_publication": {
+    "commit": "08713d1d049456b752646b2063967c9679a10083",
+    "receipt": "publication/NATIVE_COMMIT_RECEIPT.json"
+  }
+}

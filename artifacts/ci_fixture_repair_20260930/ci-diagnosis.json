@@ -1,0 +1,24 @@
+{
+  "status": "DEFER_FOLLOWUP",
+  "scope": "two existing test fixture expectations; production source unchanged",
+  "observed_remote_failures": {
+    "runner": 7,
+    "portable": 1
+  },
+  "local_before": {
+    "failed": 8,
+    "passed": 39
+  },
+  "actual_adapter_sha256": "e07fbf602c61e02171d8621e72d028b7a5f7a9805fb90b1b78f314b536430f5e",
+  "source_sha256": {
+    "bianchi/__init__.py": "fd476398b44c483f6dda5e54a94d7558cbb3d6792347cf16fbd75e175abc3ea0",
+    "benchmarks/rfbench/runner.py": "85197dc5b43999d119808d24e5d4384759e73b7e928a089ba7d852ed2fea5605",
+    "benchmarks/rfbench/workload_child.py": "e07fbf602c61e02171d8621e72d028b7a5f7a9805fb90b1b78f314b536430f5e",
+    "tests/test_rf00_optional_dependencies.py": "b71224c6c2125273c24c84b928629b1dc74315871efb2701cb1a1628cca9bb94",
+    "tests/test_rfbench00_corpus_runner.py": "bd17a121449f4dd923b420777ce8ae3b1ed9d70a264d298662aaaf2bf741db13"
+  },
+  "proposed_repair": [
+    "Bind synthetic config fixture to actual workload_child.py hash, keep runtime authority comparison and add mismatch rejection regression",
+    "Add runtime to explicit expected lazy exports and verify module identity; preserve assertions for conventions and algebra"
+  ]
+}

@@ -1,0 +1,560 @@
+Static runner contract (no benchmark)	Prove focused runner contracts	﻿2026-09-30T10:46:39.7722379Z ##[group]Run python -m pytest -q tests/test_rfbench00_host.py tests/test_rfbench00_protocol.py tests/test_rfbench00_corpus_runner.py
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7723107Z [36;1mpython -m pytest -q tests/test_rfbench00_host.py tests/test_rfbench00_protocol.py tests/test_rfbench00_corpus_runner.py[0m
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7781361Z shell: /usr/bin/bash -e {0}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7781572Z env:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7781729Z   PYTHON_VERSION: 3.12
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7781927Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7782136Z   RAYON_NUM_THREADS: 1
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7782306Z   OMP_NUM_THREADS: 1
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7782485Z   OPENBLAS_NUM_THREADS: 1
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7782722Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7783063Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7783410Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7783705Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7784036Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7784338Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7784581Z   PIP_NO_INDEX: 1
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7784748Z   CARGO_NET_OFFLINE: true
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7784925Z   PYTHONPATH: .
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:39.7785084Z ##[endgroup]
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0207990Z .......................FFFFFFF                                           [100%]
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0208921Z =================================== FAILURES ===================================
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0213213Z _________ test_environment_block_happens_before_any_source_resolution __________
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0213638Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0213892Z     def test_environment_block_happens_before_any_source_resolution():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0214428Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0214775Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0215296Z             _config(), _host(ClaimLevel.EXPLORATORY_ONLY),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0215783Z             live_host_probe=_host(ClaimLevel.EXPLORATORY_ONLY),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0216312Z             resolver=_resolver_log(resolutions), collector=_Collector(),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0217141Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0243046Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0243217Z tests/test_rfbench00_corpus_runner.py:268: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0243625Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0244050Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0244416Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0244737Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0245001Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0245603Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0246287Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0246494Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0246874Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0247178Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0247550Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0247881Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0248147Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0248503Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0248852Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0249347Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0250264Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0251084Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0251529Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0252111Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0252475Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0252851Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0253177Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0253467Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0253881Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0254355Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0254826Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0255200Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0255618Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0255986Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0256262Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0256558Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0256836Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0257120Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0257368Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0257737Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0258155Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0258560Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0258900Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0259291Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0259657Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0266254Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0266642Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0267038Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0267451Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0267835Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0268284Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0268786Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0269335Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0270000Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0270428Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0270834Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0271194Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0271584Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0271977Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0272432Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0274299Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0274823Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0275336Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0275769Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0276124Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0276824Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0277263Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0277605Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0278079Z ___ test_dedicated_request_rejects_controlled_host_before_source_resolution ____
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0278414Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0278650Z     def test_dedicated_request_rejects_controlled_host_before_source_resolution():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0279237Z         config = _config()
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0279562Z         config["requested_claim_level"] = "DEDICATED_BARE_METAL"
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0280178Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0280500Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0280843Z             config, _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0281274Z             live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0281740Z             resolver=_resolver_log(resolutions), collector=_Collector(),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0282099Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0282211Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0282341Z tests/test_rfbench00_corpus_runner.py:284: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0282706Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0283105Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0283445Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0283763Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0284017Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0284555Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'DEDICATED_BARE_METAL', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0285180Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0285353Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0285710Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0285998Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0286360Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0286673Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0286938Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0287300Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0287655Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0288140Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0288729Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0289264Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0289912Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0290296Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0290692Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0291057Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0291363Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0291634Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0292046Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0292546Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0293071Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0293479Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0293912Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0294292Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0294570Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0294866Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0295162Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0295461Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0295714Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0296078Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0296504Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0297078Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0297418Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0297939Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0298316Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0298688Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0299045Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0299444Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0299992Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0300369Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0300822Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0301329Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0301933Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0302538Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0302955Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0303375Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0303751Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0304140Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0304562Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0305007Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0305488Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0305946Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0306441Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0306867Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0307221Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0307907Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0308358Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0308491Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0309164Z _ test_controlled_runner_closes_baseline_preflight_before_candidate_resolution _
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0309524Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0309891Z     def test_controlled_runner_closes_baseline_preflight_before_candidate_resolution():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0310366Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0310685Z         collector = _Collector(candidate_failures=4)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0311012Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0311353Z             _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0311807Z             live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0312277Z             resolver=_resolver_log(resolutions), collector=collector,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0312646Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0312762Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0312891Z tests/test_rfbench00_corpus_runner.py:300: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0313247Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0313643Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0313978Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0314290Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0314565Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0315165Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0315830Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0316008Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0316544Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0316834Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0317187Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0317636Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0317901Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0318280Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0318640Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0319125Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0319839Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0320386Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0320846Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0321248Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0321598Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0321967Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0322292Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0322571Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0322959Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0323425Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0323895Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0324265Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0324691Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0325062Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0325337Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0325607Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0325875Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0326158Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0326403Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0326741Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0327150Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0333819Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0334206Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0334614Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0335014Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0335394Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0335745Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0336144Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0336561Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0336923Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0337386Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0337906Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0338469Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0340348Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0340811Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0341225Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0341598Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0341989Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0342393Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0343040Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0343504Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0343970Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0344719Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0345133Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0345485Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0346130Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0346579Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0346698Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0347116Z _______ test_every_pair_is_bound_to_the_clean_baseline_preflight_output ________
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0347438Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0347643Z     def test_every_pair_is_bound_to_the_clean_baseline_preflight_output():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0348029Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0348336Z             _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0348758Z             live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0349251Z             resolver=_resolver_log([]), collector=_Collector(preflight_digest="b" * 64),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0349653Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0350067Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0350180Z tests/test_rfbench00_corpus_runner.py:321: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0350528Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0350907Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0351219Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0351520Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0351765Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0352399Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0353082Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0353256Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0353676Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0354009Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0354419Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0354777Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0355035Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0355394Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0355765Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0356284Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0356921Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0357506Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0357975Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0358391Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0358754Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0359138Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0359468Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0364109Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0364806Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0365307Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0365787Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0366168Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0366605Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0367514Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0367790Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0368087Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0368504Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0368803Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0369064Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0369408Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0370082Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0370514Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0370864Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0371248Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0371614Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0371984Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0372348Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0372744Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0373145Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0373541Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0374014Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0374518Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0375070Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0375577Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0376001Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0376417Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0377579Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0378313Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0379195Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0380001Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0380929Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0381639Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0382580Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0383232Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0384025Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0384967Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0385876Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0386208Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0387049Z ________ test_holdout_is_refused_before_source_resolution_during_tuning ________
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0387627Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0388251Z     def test_holdout_is_refused_before_source_resolution_during_tuning():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0388881Z         config = _config()
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0389667Z         config["workload_id"] = "holdout_q_saha_internal_e2e"
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0390419Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0391239Z         with pytest.raises(PermissionError, match="holdout"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0393404Z >           run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0393745Z                 config, _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0394231Z                 live_host_probe=_host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0394742Z                 resolver=_resolver_log(resolutions), collector=_Collector(),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0395131Z             )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0395256Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0395566Z tests/test_rfbench00_corpus_runner.py:338: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0395947Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0396370Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0396933Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0397273Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0397551Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0398141Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'holdout_q_saha_internal_e2e', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0398853Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0399039Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0399436Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0399899Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0400291Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0400613Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0400890Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0401249Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0401616Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0402114Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0402718Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0403292Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0403752Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0404158Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0404513Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0404896Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0405221Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0405517Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0405933Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0406415Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0406904Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0407311Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0407742Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0408127Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0408413Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0408707Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0409003Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0409310Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0409582Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0410054Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0410460Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0410882Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0411226Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0411653Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0412060Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0412455Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0412809Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0413202Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0413620Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0414014Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0414478Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0414996Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0415717Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0416224Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0416791Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0417213Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0417584Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0417984Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0418406Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0418870Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0419359Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0419974Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0420508Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0420953Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0421328Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0422054Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0422531Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0422662Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0423124Z ___________ test_missing_live_probe_blocks_before_source_resolution ____________
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0423455Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0423661Z     def test_missing_live_probe_blocks_before_source_resolution():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0424068Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0424364Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0424704Z             _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0425161Z             resolver=_resolver_log(resolutions), collector=_Collector(),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0425564Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0425688Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0425814Z tests/test_rfbench00_corpus_runner.py:348: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0426208Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0426629Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0426979Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0427310Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0427577Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0428181Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0428877Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0429060Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0429442Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0429872Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0430268Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0430601Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0430866Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0431232Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0431570Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0432035Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0432619Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0433150Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0433586Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0433955Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0434292Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0434820Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0435148Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0435417Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0435949Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0436463Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0436975Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0437395Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0437842Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0438399Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0438696Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0439002Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0439297Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0439594Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0440091Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0440445Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0440876Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0441332Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0441681Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0442086Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0442473Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0442854Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0443205Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0443622Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0444065Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0444485Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0444970Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0446209Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0448223Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0448968Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0449965Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0452059Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0452445Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0452853Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0453287Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0453754Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0454259Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0454754Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0455299Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0455750Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0456123Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0456820Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0457291Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0457426Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0457939Z _ test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled _
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0458316Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0458596Z     def test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0459123Z         resolutions: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0459642Z >       result = run_protocol(
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0460111Z             _config(), _host(ClaimLevel.CONTROLLED_SHARED_PAIRED),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0460533Z             live_host_probe=_host(ClaimLevel.EXPLORATORY_ONLY),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0461130Z             resolver=_resolver_log(resolutions), collector=_Collector(),
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0461517Z         )
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0461642Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0461770Z tests/test_rfbench00_corpus_runner.py:363: 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0462171Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0462602Z benchmarks/rfbench/runner.py:298: in run_protocol
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0462945Z     validate_run_config(config)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0463271Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0463539Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0464151Z config = {'schema': 'bass-rfbench-run-config-v1', 'requested_claim_level': 'CONTROLLED_SHARED_PAIRED', 'workload_id': 'startup_cold_backend_import', 'phase': 'tuning', ...}
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0464860Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0465034Z     def validate_run_config(config: Mapping[str, Any]) -> None:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0465411Z         errors: list[str] = []
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0465724Z         if config.get("schema") != RUN_CONFIG_SCHEMA:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0466119Z             errors.append("unexpected run config schema")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0466465Z         try:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0466730Z             ClaimLevel(config.get("requested_claim_level"))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0467093Z         except (TypeError, ValueError):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0467458Z             errors.append("requested_claim_level is invalid")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0467958Z         if config.get("requested_claim_level") == ClaimLevel.EXPLORATORY_ONLY.value:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0468640Z             errors.append("run-paired is an authority path and cannot request EXPLORATORY_ONLY")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0469278Z         if config.get("stratum") not in {"strict_1t", "physical_12t"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0470004Z             errors.append("stratum must be strict_1t or physical_12t")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0470453Z         for name in ("baseline", "candidate"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0470830Z             if not isinstance(config.get(name), Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0471249Z                 errors.append(f"{name} source is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0471597Z             else:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0471906Z                 if not isinstance(config[name].get("python"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0472332Z                     errors.append(f"{name}.python is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0472855Z                 for digest_name in ("environment_identity_sha256", "native_artifact_sha256"):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0473371Z                     value = config[name].get(digest_name)
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0473796Z                     if not isinstance(value, str) or len(value) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0474268Z                         errors.append(f"{name}.{digest_name} is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0474665Z         integer_contract = {
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0474967Z             "valid_pairs_target": 30,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0475275Z             "max_attempts": 90,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0475579Z             "bootstrap_replicates": 10_000,
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0475899Z         }
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0476179Z         for name, required in integer_contract.items():
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0476551Z             if config.get(name) != required:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0476981Z                 errors.append(f"{name} must equal the frozen value {required}")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0477443Z         seed = config.get("seed")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0477811Z         if isinstance(seed, bool) or not isinstance(seed, int):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0478228Z             errors.append("seed must be an integer")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0478626Z         if not isinstance(config.get("workload_id"), str):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0479029Z             errors.append("workload_id is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0479400Z         corpus_sha = config.get("corpus_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0480109Z         if not isinstance(corpus_sha, str) or len(corpus_sha) != 64:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0480551Z             errors.append("corpus_sha256 is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0480958Z         if config.get("spec_sha256") != EXPECTED_SPEC_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0481585Z             errors.append("spec_sha256 does not match RF-BENCH-00 authority")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0482116Z         if config.get("source_adapter_sha256") != EXPECTED_ADAPTER_SHA256:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0482700Z             errors.append("source_adapter_sha256 does not match the runner-owned adapter")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0483272Z         common_build = config.get("common_build_identity")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0483722Z         common_build_sha = config.get("common_build_identity_sha256")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0484145Z         if not isinstance(common_build, Mapping):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0484543Z             errors.append("common_build_identity is missing")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0484978Z         elif common_build_sha != sha256_json(common_build):
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0485455Z             errors.append("common_build_identity_sha256 mismatch")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0485948Z         if config.get("phase") not in {"tuning", "milestone_closeout"}:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0486435Z             errors.append("phase must be tuning or milestone_closeout")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0486933Z         if config.get("contamination_limits") != CONTAMINATION_LIMITS:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0487538Z             errors.append("contamination_limits must equal the frozen SPEC values")
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0487991Z         if errors:
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0488361Z >           raise ValueError("invalid RF-BENCH-00 run config: " + "; ".join(errors))
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0489079Z E           ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0489572Z 
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0489831Z benchmarks/rfbench/runner.py:245: ValueError
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0490234Z =========================== short test summary info ============================
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0491431Z FAILED tests/test_rfbench00_corpus_runner.py::test_environment_block_happens_before_any_source_resolution - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0493160Z FAILED tests/test_rfbench00_corpus_runner.py::test_dedicated_request_rejects_controlled_host_before_source_resolution - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0495012Z FAILED tests/test_rfbench00_corpus_runner.py::test_controlled_runner_closes_baseline_preflight_before_candidate_resolution - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0496789Z FAILED tests/test_rfbench00_corpus_runner.py::test_every_pair_is_bound_to_the_clean_baseline_preflight_output - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0498473Z FAILED tests/test_rfbench00_corpus_runner.py::test_holdout_is_refused_before_source_resolution_during_tuning - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0501114Z FAILED tests/test_rfbench00_corpus_runner.py::test_missing_live_probe_blocks_before_source_resolution - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0502848Z FAILED tests/test_rfbench00_corpus_runner.py::test_live_probe_controls_authority_even_when_supplied_receipt_claims_controlled - ValueError: invalid RF-BENCH-00 run config: source_adapter_sha256 does not match the runner-owned adapter
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0503839Z 7 failed, 23 passed in 0.57s
+Static runner contract (no benchmark)	Prove focused runner contracts	2026-09-30T10:46:42.0797505Z ##[error]Process completed with exit code 1.

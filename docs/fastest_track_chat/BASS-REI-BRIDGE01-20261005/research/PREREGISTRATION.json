@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "task": "BASS-REI-BRIDGE01-20261005",
+  "phase": "design_then_implement",
+  "authority": {
+    "bass_branch": "forward/rust-microphysics-host-20260930",
+    "bass_parent": "14e0cf0486dc834234122f8bd990fe479f593675",
+    "rei_native": "41e4592aa494b48929dcd23fc8504c169a98a908",
+    "rei_latest_receipts": "7a15daa38b60a5174315747b9194564dc2d4eb8b"
+  },
+  "objective": "Bind actual HHe/FT03 proper ionization snapshots to existing BASS electron density, directional Thomson normal-clock rate and finite-interval visibility",
+  "in_scope": [
+    "typed actual-source snapshot adapter",
+    "cm^-3 to m^-3 exactly once",
+    "proper source validation before consumer",
+    "caller-supplied single-ray piecewise-constant opacity history",
+    "exact current source identity and dependency pin update",
+    "actual FT03 controlled finite history downstream visibility experiment"
+  ],
+  "nonclaims": [
+    "full BASS crate build unless executed",
+    "production legacy kinetic collision integration",
+    "self-consistent Bianchi background and tilted chemistry",
+    "observational EoR history",
+    "F04 uniform enclosure or existing failed gate promotion",
+    "RCT enabled in integrator",
+    "atomic supplier physical accuracy",
+    "finite-temperature or Klein-Nishina tail bound",
+    "polarized scattering gain/loss generator or source-Q closure"
+  ],
+  "preserve": [
+    "BASS MaterialFrame ray clock D once",
+    "BASS c and sigma_T constants",
+    "REI residual/local-error gates",
+    "RCT default OFF",
+    "existing HE/CR/HH longterm lanes",
+    "observer-tail boundary and missing unscattered mass"
+  ],
+  "acceptance": [
+    "explicit source validation and conversion failures",
+    "zero/neutral/singly/doubly ionized limits",
+    "ray tilt D=0.5,1,2 tests with proper density held fixed",
+    "actual source linked and legacy seven REI dispatches retained",
+    "finite visibility normalization and thin-cell cancellation behavior",
+    "independent Decimal70 oracle and exact blob identity",
+    "bounded independent review"
+  ],
+  "predeclared_tolerances": {
+    "local_map_relative_or_gross_scaled": "2e-12",
+    "survival_mass_absolute": "2e-14"
+  },
+  "execution_budget": {
+    "atomic_scattering_recalculation": 0,
+    "full_cosmological_campaign": 0,
+    "initial_controlled_FT03_history_grids": [
+      1000,
+      2000
+    ],
+    "end_time_s": 100000000000000.0,
+    "source_initial_state": "Ft03Model::controlled().initial_state()",
+    "rate_sampling": "left endpoint piecewise constant",
+    "opacity_grid_refinement_claim": "observed finite convergence only; no rigorous FT03 continuum bound"
+  },
+  "publication_authorized": true,
+  "timestamp_utc": "2026-10-04T16:21:16Z",
+  "source_validation_semantics": "Public HHeModel::electron_density performs model/state density validation; FT03-tagged adapter delegates to gas and does not assert ft03_rhs rate/temperature admission. Actual evolved fixture separately obtains states from ft03_adaptive_step."
+}

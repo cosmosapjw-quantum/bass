@@ -1,4 +1,4 @@
-"""Non-timed installed-wheel proof for the two RF-01 corpus adapters."""
+"""Non-timed adapter structure checks; development wheels retain unknown metadata."""
 
 from __future__ import annotations
 
@@ -53,7 +53,34 @@ def test_real_rf01_adapter_is_repeatable_and_bound_without_timing(
     first = adapter(workload["inputs"])
     second = adapter(workload["inputs"])
     assert first == second
-    assert _canonical_digest(first) == workload["functional_output_sha256"]
+    reference_metadata_projection = dict(first)
+    if workload_id == "runtime_plan_warm_construct":
+        from bianchi.backend_policy import (
+            BackendPolicy,
+            REFERENCE_NATIVE_BUILD,
+            capability_report,
+        )
+
+        report = capability_report(
+            BackendPolicy.RUST_REQUIRED, probe_legacy_global_pool=False
+        )
+        assert first["build_profile"] == report["build_profile"]
+        assert first["optional_features"] == sorted(report["optional_features"])
+        if not report["installed_native_build_verified"]:
+            # Source-built CI wheels must not claim the immutable reference's
+            # provenance. Compare the remaining architecture fields to the
+            # frozen reference digest without changing actual adapter output,
+            # the corpus, or its exact-output benchmark admission rule.
+            assert first["build_profile"] is None
+            assert first["optional_features"] == []
+            reference_metadata_projection.update(
+                build_profile=REFERENCE_NATIVE_BUILD["build_profile"],
+                optional_features=sorted(REFERENCE_NATIVE_BUILD["optional_features"]),
+            )
+    assert (
+        _canonical_digest(reference_metadata_projection)
+        == workload["functional_output_sha256"]
+    )
 
     if workload_id == "runtime_plan_memory_allocation_ffi_overhead":
         assert first["ffi_compute_entries"] == 1

@@ -1,0 +1,1138 @@
+﻿2026-09-30T10:46:02.7243872Z Current runner version: '2.337.0'
+2026-09-30T10:46:02.7281789Z ##[group]Runner Image Provisioner
+2026-09-30T10:46:02.7283335Z Hosted Compute Agent
+2026-09-30T10:46:02.7284309Z Version: 20260901.588
+2026-09-30T10:46:02.7285545Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-09-30T10:46:02.7286879Z Build Date: 2026-09-01T19:56:44Z
+2026-09-30T10:46:02.7288160Z Worker ID: {d1e07d35-8f77-49c6-9b23-a258005e4543}
+2026-09-30T10:46:02.7290040Z Azure Region: eastus
+2026-09-30T10:46:02.7291055Z ##[endgroup]
+2026-09-30T10:46:02.7293644Z ##[group]Operating System
+2026-09-30T10:46:02.7294708Z Ubuntu
+2026-09-30T10:46:02.7295664Z 24.04.5
+2026-09-30T10:46:02.7296719Z LTS
+2026-09-30T10:46:02.7297653Z ##[endgroup]
+2026-09-30T10:46:02.7298610Z ##[group]Runner Image
+2026-09-30T10:46:02.7300027Z Image: ubuntu-24.04
+2026-09-30T10:46:02.7301108Z Version: 20260927.320.1
+2026-09-30T10:46:02.7303316Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-30T10:46:02.7306295Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-09-30T10:46:02.7308088Z ##[endgroup]
+2026-09-30T10:46:02.7310515Z ##[group]GITHUB_TOKEN Permissions
+2026-09-30T10:46:02.7313260Z Contents: read
+2026-09-30T10:46:02.7314385Z Metadata: read
+2026-09-30T10:46:02.7315295Z ##[endgroup]
+2026-09-30T10:46:02.7318518Z Secret source: Actions
+2026-09-30T10:46:02.7320623Z Cache mode: write
+2026-09-30T10:46:02.7321915Z Prepare workflow directory
+2026-09-30T10:46:02.7906475Z Prepare all required actions
+2026-09-30T10:46:02.7978135Z Getting action download info
+2026-09-30T10:46:03.0064155Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-30T10:46:03.1151906Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-30T10:46:03.3119346Z Complete job name: Native wheel and supported-route policy
+2026-09-30T10:46:03.3917765Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-30T10:46:03.3918911Z with:
+2026-09-30T10:46:03.3919636Z   repository: cosmosapjw-quantum/bass
+2026-09-30T10:46:03.3923479Z   token: ***
+2026-09-30T10:46:03.3923959Z   ssh-strict: true
+2026-09-30T10:46:03.3924439Z   ssh-user: git
+2026-09-30T10:46:03.3924927Z   persist-credentials: true
+2026-09-30T10:46:03.3925451Z   clean: true
+2026-09-30T10:46:03.3925934Z   sparse-checkout-cone-mode: true
+2026-09-30T10:46:03.3926495Z   fetch-depth: 1
+2026-09-30T10:46:03.3926963Z   fetch-tags: false
+2026-09-30T10:46:03.3927443Z   show-progress: true
+2026-09-30T10:46:03.3927930Z   lfs: false
+2026-09-30T10:46:03.3928387Z   submodules: false
+2026-09-30T10:46:03.3928883Z   set-safe-directory: true
+2026-09-30T10:46:03.3929553Z   allow-unsafe-pr-checkout: false
+2026-09-30T10:46:03.3930393Z env:
+2026-09-30T10:46:03.3930861Z   PYTHON_VERSION: 3.12
+2026-09-30T10:46:03.3931373Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:46:03.3931956Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:46:03.3932498Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:46:03.3933074Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:46:03.3933565Z   OMP_NUM_THREADS: 1
+2026-09-30T10:46:03.3934060Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:46:03.3934565Z ##[endgroup]
+2026-09-30T10:46:03.5108034Z Syncing repository: cosmosapjw-quantum/bass
+2026-09-30T10:46:03.5112070Z ##[group]Getting Git version info
+2026-09-30T10:46:03.5114298Z Working directory is '/home/runner/work/bass/bass'
+2026-09-30T10:46:03.5117495Z [command]/usr/bin/git version
+2026-09-30T10:46:03.5357398Z git version 2.55.0
+2026-09-30T10:46:03.5364343Z ##[endgroup]
+2026-09-30T10:46:03.5375266Z Temporarily overriding HOME='/home/runner/work/_temp/ade4e109-f7b3-4b80-a89f-84f032333000' before making global git config changes
+2026-09-30T10:46:03.5378049Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T10:46:03.5381349Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/bass/bass
+2026-09-30T10:46:03.5472147Z Deleting the contents of '/home/runner/work/bass/bass'
+2026-09-30T10:46:03.5474602Z ##[group]Initializing the repository
+2026-09-30T10:46:03.5500614Z [command]/usr/bin/git init /home/runner/work/bass/bass
+2026-09-30T10:46:03.5624351Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-30T10:46:03.5626036Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-30T10:46:03.5627550Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-30T10:46:03.5628699Z hint: call:
+2026-09-30T10:46:03.5630017Z hint:
+2026-09-30T10:46:03.5631190Z hint: 	git config --global init.defaultBranch <name>
+2026-09-30T10:46:03.5632282Z hint:
+2026-09-30T10:46:03.5633485Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-30T10:46:03.5705152Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-30T10:46:03.5707731Z hint:
+2026-09-30T10:46:03.5710420Z hint: 	git branch -m <name>
+2026-09-30T10:46:03.5712772Z hint:
+2026-09-30T10:46:03.5717015Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-30T10:46:03.5719301Z Initialized empty Git repository in /home/runner/work/bass/bass/.git/
+2026-09-30T10:46:03.5724538Z [command]/usr/bin/git remote add origin https://github.com/cosmosapjw-quantum/bass
+2026-09-30T10:46:03.5728824Z ##[endgroup]
+2026-09-30T10:46:03.5731537Z ##[group]Disabling automatic garbage collection
+2026-09-30T10:46:03.5733086Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-30T10:46:03.5791714Z ##[endgroup]
+2026-09-30T10:46:03.5793253Z ##[group]Setting up auth
+2026-09-30T10:46:03.5795278Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T10:46:03.5872358Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T10:46:03.6626199Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T10:46:03.6632267Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T10:46:03.7665084Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T10:46:03.7667104Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T10:46:03.7669108Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-30T10:46:03.7671565Z ##[endgroup]
+2026-09-30T10:46:03.7672356Z ##[group]Fetching the repository
+2026-09-30T10:46:03.7673757Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f8b0f0b93eb0f7db74f037a511c64a9a70b5e719:refs/remotes/pull/132/merge
+2026-09-30T10:46:07.0693972Z From https://github.com/cosmosapjw-quantum/bass
+2026-09-30T10:46:07.0696667Z  * [new ref]         f8b0f0b93eb0f7db74f037a511c64a9a70b5e719 -> pull/132/merge
+2026-09-30T10:46:07.0701796Z ##[endgroup]
+2026-09-30T10:46:07.0703693Z ##[group]Determining the checkout info
+2026-09-30T10:46:07.0705618Z ##[endgroup]
+2026-09-30T10:46:07.0706816Z [command]/usr/bin/git sparse-checkout disable
+2026-09-30T10:46:07.0754315Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-30T10:46:07.0804320Z ##[group]Checking out the ref
+2026-09-30T10:46:07.0806851Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/132/merge
+2026-09-30T10:46:07.3901732Z Note: switching to 'refs/remotes/pull/132/merge'.
+2026-09-30T10:46:07.3902961Z 
+2026-09-30T10:46:07.3904059Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-30T10:46:07.3905505Z changes and commit them, and you can discard any commits you make in this
+2026-09-30T10:46:07.3907637Z state without impacting any branches by switching back to a branch.
+2026-09-30T10:46:07.3908645Z 
+2026-09-30T10:46:07.3909909Z If you want to create a new branch to retain commits you create, you may
+2026-09-30T10:46:07.3911275Z do so (now or later) by using -c with the switch command. Example:
+2026-09-30T10:46:07.3912436Z 
+2026-09-30T10:46:07.3913033Z   git switch -c <new-branch-name>
+2026-09-30T10:46:07.3914017Z 
+2026-09-30T10:46:07.3916316Z Or undo this operation with:
+2026-09-30T10:46:07.3916673Z 
+2026-09-30T10:46:07.3916893Z   git switch -
+2026-09-30T10:46:07.3917183Z 
+2026-09-30T10:46:07.3917619Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-30T10:46:07.3918234Z 
+2026-09-30T10:46:07.3918907Z HEAD is now at f8b0f0b Merge ab132b7ca9160becd203177dcc553c39129d386e into 9c6506e4e2087129a8b674ff10438e5db1a55c9d
+2026-09-30T10:46:07.3938223Z ##[endgroup]
+2026-09-30T10:46:07.3990174Z [command]/usr/bin/git log -1 --format=%H
+2026-09-30T10:46:07.4020433Z f8b0f0b93eb0f7db74f037a511c64a9a70b5e719
+2026-09-30T10:46:07.4392657Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-09-30T10:46:07.4393605Z with:
+2026-09-30T10:46:07.4394123Z   python-version: 3.12
+2026-09-30T10:46:07.4394675Z   cache: pip
+2026-09-30T10:46:07.4395239Z   cache-dependency-path: requirements.lock
+2026-09-30T10:46:07.4395911Z   check-latest: false
+2026-09-30T10:46:07.4401585Z   token: ***
+2026-09-30T10:46:07.4402165Z   update-environment: true
+2026-09-30T10:46:07.4402740Z   allow-prereleases: false
+2026-09-30T10:46:07.4403349Z   freethreaded: false
+2026-09-30T10:46:07.4403901Z env:
+2026-09-30T10:46:07.4404371Z   PYTHON_VERSION: 3.12
+2026-09-30T10:46:07.4404903Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:46:07.4405263Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:46:07.4405617Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:46:07.4405964Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:46:07.4406274Z   OMP_NUM_THREADS: 1
+2026-09-30T10:46:07.4406610Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:46:07.4406917Z ##[endgroup]
+2026-09-30T10:46:07.5804423Z ##[group]Installed versions
+2026-09-30T10:46:07.5896251Z (node:2070) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-30T10:46:07.5898132Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-30T10:46:07.5960532Z Successfully set up CPython (3.12.14)
+2026-09-30T10:46:07.6000735Z ##[endgroup]
+2026-09-30T10:46:07.6602961Z [command]/opt/hostedtoolcache/Python/3.12.14/x64/bin/pip cache dir
+2026-09-30T10:46:08.0467780Z /home/runner/.cache/pip
+2026-09-30T10:46:08.1301260Z pip cache is not found
+2026-09-30T10:46:08.1453150Z ##[group]Run rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal \
+2026-09-30T10:46:08.1453806Z [36;1mrustup toolchain install "$RUST_TOOLCHAIN" --profile minimal \[0m
+2026-09-30T10:46:08.1454328Z [36;1m  --component rustfmt --component clippy --no-self-update[0m
+2026-09-30T10:46:08.1454759Z [36;1mrustup override set "$RUST_TOOLCHAIN"[0m
+2026-09-30T10:46:08.1455249Z [36;1mpython -m pip install --requirement requirements.lock "maturin==$MATURIN_VERSION"[0m
+2026-09-30T10:46:08.1455827Z [36;1mcargo fetch --manifest-path _rustcore/Cargo.toml --locked[0m
+2026-09-30T10:46:08.1760434Z shell: /usr/bin/bash -e {0}
+2026-09-30T10:46:08.1760815Z env:
+2026-09-30T10:46:08.1761084Z   PYTHON_VERSION: 3.12
+2026-09-30T10:46:08.1761370Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:46:08.1761656Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:46:08.1761971Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:46:08.1762305Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:46:08.1762580Z   OMP_NUM_THREADS: 1
+2026-09-30T10:46:08.1762910Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:46:08.1763276Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:46:08.1763819Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T10:46:08.1764371Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:46:08.1765083Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:46:08.1765556Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:46:08.1766036Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T10:46:08.1766437Z ##[endgroup]
+2026-09-30T10:46:08.2368997Z info: syncing channel updates for 1.94.1-x86_64-unknown-linux-gnu
+2026-09-30T10:46:08.3409821Z info: latest update on 2026-03-26 for version 1.94.1 (e408947bf 2026-03-25)
+2026-09-30T10:46:08.3410889Z info: downloading 5 components
+2026-09-30T10:46:17.2999233Z 
+2026-09-30T10:46:17.3076490Z   1.94.1-x86_64-unknown-linux-gnu installed - rustc 1.94.1 (e408947bf 2026-03-25)
+2026-09-30T10:46:17.3077294Z 
+2026-09-30T10:46:17.3200994Z info: override toolchain for /home/runner/work/bass/bass set to 1.94.1-x86_64-unknown-linux-gnu
+2026-09-30T10:46:17.9152068Z Collecting maturin==1.14.1
+2026-09-30T10:46:17.9679303Z   Downloading maturin-1.14.1-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.musllinux_1_1_x86_64.whl.metadata (16 kB)
+2026-09-30T10:46:17.9848847Z Collecting diffrax==0.7.2 (from -r requirements.lock (line 1))
+2026-09-30T10:46:17.9894795Z   Downloading diffrax-0.7.2-py3-none-any.whl.metadata (18 kB)
+2026-09-30T10:46:18.0126480Z Collecting equinox==0.13.8 (from -r requirements.lock (line 2))
+2026-09-30T10:46:18.0165364Z   Downloading equinox-0.13.8-py3-none-any.whl.metadata (18 kB)
+2026-09-30T10:46:18.0480700Z Collecting jax==0.10.2 (from -r requirements.lock (line 3))
+2026-09-30T10:46:18.0536253Z   Downloading jax-0.10.2-py3-none-any.whl.metadata (13 kB)
+2026-09-30T10:46:18.1005884Z Collecting jaxlib==0.10.2 (from -r requirements.lock (line 4))
+2026-09-30T10:46:18.1054778Z   Downloading jaxlib-0.10.2-cp312-cp312-manylinux_2_27_x86_64.whl.metadata (1.3 kB)
+2026-09-30T10:46:18.1179127Z Collecting lineax==0.1.1 (from -r requirements.lock (line 5))
+2026-09-30T10:46:18.1227425Z   Downloading lineax-0.1.1-py3-none-any.whl.metadata (17 kB)
+2026-09-30T10:46:18.1393003Z Collecting mpmath==1.3.0 (from -r requirements.lock (line 6))
+2026-09-30T10:46:18.1432785Z   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+2026-09-30T10:46:18.3454537Z Collecting numpy==2.4.4 (from -r requirements.lock (line 7))
+2026-09-30T10:46:18.3498694Z   Downloading numpy-2.4.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-09-30T10:46:18.3620726Z Collecting optimistix==0.1.0 (from -r requirements.lock (line 8))
+2026-09-30T10:46:18.3664002Z   Downloading optimistix-0.1.0-py3-none-any.whl.metadata (18 kB)
+2026-09-30T10:46:18.3955602Z Collecting pytest==9.1.1 (from -r requirements.lock (line 9))
+2026-09-30T10:46:18.3997766Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-09-30T10:46:18.5206787Z Collecting scipy==1.17.1 (from -r requirements.lock (line 10))
+2026-09-30T10:46:18.5248941Z   Downloading scipy-1.17.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-09-30T10:46:18.5555399Z Collecting sympy==1.14.0 (from -r requirements.lock (line 11))
+2026-09-30T10:46:18.5596463Z   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+2026-09-30T10:46:18.5791808Z Collecting jaxtyping>=0.2.24 (from diffrax==0.7.2->-r requirements.lock (line 1))
+2026-09-30T10:46:18.5831919Z   Downloading jaxtyping-0.3.11-py3-none-any.whl.metadata (6.2 kB)
+2026-09-30T10:46:18.6010262Z Collecting typing-extensions>=4.5.0 (from diffrax==0.7.2->-r requirements.lock (line 1))
+2026-09-30T10:46:18.6047787Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-09-30T10:46:18.6158315Z Collecting wadler-lindig>=0.1.1 (from diffrax==0.7.2->-r requirements.lock (line 1))
+2026-09-30T10:46:18.6202652Z   Downloading wadler_lindig-0.1.7-py3-none-any.whl.metadata (17 kB)
+2026-09-30T10:46:18.6556306Z Collecting ml_dtypes>=0.5.0 (from jax==0.10.2->-r requirements.lock (line 3))
+2026-09-30T10:46:18.6598183Z   Downloading ml_dtypes-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-09-30T10:46:18.6731008Z Collecting opt_einsum (from jax==0.10.2->-r requirements.lock (line 3))
+2026-09-30T10:46:18.6768394Z   Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+2026-09-30T10:46:18.7083162Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->-r requirements.lock (line 9))
+2026-09-30T10:46:18.7130419Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-09-30T10:46:18.7293844Z Collecting packaging>=22 (from pytest==9.1.1->-r requirements.lock (line 9))
+2026-09-30T10:46:18.7330877Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-09-30T10:46:18.7454720Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->-r requirements.lock (line 9))
+2026-09-30T10:46:18.7495132Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-09-30T10:46:18.7701148Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r requirements.lock (line 9))
+2026-09-30T10:46:18.7743332Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-09-30T10:46:18.7907305Z Downloading maturin-1.14.1-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.musllinux_1_1_x86_64.whl (10.6 MB)
+2026-09-30T10:46:18.8646923Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 154.5 MB/s  0:00:00
+2026-09-30T10:46:18.8702852Z Downloading diffrax-0.7.2-py3-none-any.whl (199 kB)
+2026-09-30T10:46:18.8778721Z Downloading equinox-0.13.8-py3-none-any.whl (185 kB)
+2026-09-30T10:46:18.8892534Z Downloading jax-0.10.2-py3-none-any.whl (3.2 MB)
+2026-09-30T10:46:18.9035947Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 245.5 MB/s  0:00:00
+2026-09-30T10:46:18.9083023Z Downloading jaxlib-0.10.2-cp312-cp312-manylinux_2_27_x86_64.whl (85.5 MB)
+2026-09-30T10:46:20.7531987Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 85.5/85.5 MB 46.3 MB/s  0:00:01
+2026-09-30T10:46:20.7603281Z Downloading lineax-0.1.1-py3-none-any.whl (77 kB)
+2026-09-30T10:46:20.7690535Z Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+2026-09-30T10:46:20.7741245Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 96.6 MB/s  0:00:00
+2026-09-30T10:46:20.7783168Z Downloading numpy-2.4.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+2026-09-30T10:46:20.9247193Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 116.9 MB/s  0:00:00
+2026-09-30T10:46:20.9301780Z Downloading optimistix-0.1.0-py3-none-any.whl (101 kB)
+2026-09-30T10:46:20.9365567Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-09-30T10:46:20.9445782Z Downloading scipy-1.17.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.2 MB)
+2026-09-30T10:46:21.0665363Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.2/35.2 MB 294.1 MB/s  0:00:00
+2026-09-30T10:46:21.0713012Z Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+2026-09-30T10:46:21.1029290Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 209.7 MB/s  0:00:00
+2026-09-30T10:46:21.1072975Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-09-30T10:46:21.1133096Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-09-30T10:46:21.1187799Z Downloading jaxtyping-0.3.11-py3-none-any.whl (56 kB)
+2026-09-30T10:46:21.1257620Z Downloading ml_dtypes-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (409 kB)
+2026-09-30T10:46:21.1338307Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-09-30T10:46:21.1416812Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-09-30T10:46:21.1550086Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 93.5 MB/s  0:00:00
+2026-09-30T10:46:21.1590828Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-09-30T10:46:21.1655887Z Downloading wadler_lindig-0.1.7-py3-none-any.whl (20 kB)
+2026-09-30T10:46:21.1716738Z Downloading opt_einsum-3.4.0-py3-none-any.whl (71 kB)
+2026-09-30T10:46:21.4998013Z Installing collected packages: mpmath, wadler-lindig, typing-extensions, sympy, pygments, pluggy, packaging, opt_einsum, numpy, maturin, iniconfig, scipy, pytest, ml_dtypes, jaxtyping, jaxlib, jax, equinox, lineax, optimistix, diffrax
+2026-09-30T10:46:40.5620076Z 
+2026-09-30T10:46:40.5641264Z Successfully installed diffrax-0.7.2 equinox-0.13.8 iniconfig-2.3.0 jax-0.10.2 jaxlib-0.10.2 jaxtyping-0.3.11 lineax-0.1.1 maturin-1.14.1 ml_dtypes-0.6.0 mpmath-1.3.0 numpy-2.4.4 opt_einsum-3.4.0 optimistix-0.1.0 packaging-26.3 pluggy-1.6.0 pygments-2.21.0 pytest-9.1.1 scipy-1.17.1 sympy-1.14.0 typing-extensions-4.16.0 wadler-lindig-0.1.7
+2026-09-30T10:46:40.6729387Z     Updating crates.io index
+2026-09-30T10:46:40.6930124Z     Updating git repository `https://github.com/cosmosapjw-quantum/rec_bianchi.git`
+2026-09-30T10:46:43.2211980Z     Updating git repository `https://github.com/cosmosapjw-quantum/rei_bianchi.git`
+2026-09-30T10:47:05.3679229Z  Downloading crates ...
+2026-09-30T10:47:05.4052623Z   Downloaded pyo3-macros v0.29.0
+2026-09-30T10:47:05.4087005Z   Downloaded either v1.17.0
+2026-09-30T10:47:05.4109057Z   Downloaded crossbeam-epoch v0.9.20
+2026-09-30T10:47:05.4142570Z   Downloaded equivalent v1.0.2
+2026-09-30T10:47:05.4159994Z   Downloaded crossbeam-utils v0.8.22
+2026-09-30T10:47:05.4195392Z   Downloaded rayon-core v1.13.0
+2026-09-30T10:47:05.4240847Z   Downloaded matchers v0.2.0
+2026-09-30T10:47:05.4260534Z   Downloaded shlex v2.0.1
+2026-09-30T10:47:05.4282451Z   Downloaded scoped-tls v1.0.1
+2026-09-30T10:47:05.4313670Z   Downloaded equator v0.6.0
+2026-09-30T10:47:05.4327095Z   Downloaded nano-gemm v0.2.2
+2026-09-30T10:47:05.4347703Z   Downloaded rustversion v1.0.23
+2026-09-30T10:47:05.4385765Z   Downloaded nano-gemm-c32 v0.2.1
+2026-09-30T10:47:05.4403508Z   Downloaded rand v0.9.5
+2026-09-30T10:47:05.4453615Z   Downloaded gemm v0.19.0
+2026-09-30T10:47:05.4476597Z   Downloaded generator v0.8.9
+2026-09-30T10:47:05.4528444Z   Downloaded nano-gemm-f64 v0.2.1
+2026-09-30T10:47:05.4545386Z   Downloaded pest_generator v2.8.8
+2026-09-30T10:47:05.4567403Z   Downloaded crunchy v0.2.4
+2026-09-30T10:47:05.4583152Z   Downloaded equator v0.2.2
+2026-09-30T10:47:05.4598578Z   Downloaded lazy_static v1.5.0
+2026-09-30T10:47:05.4629090Z   Downloaded py_literal v0.4.0
+2026-09-30T10:47:05.4651148Z   Downloaded faer-traits v0.24.0
+2026-09-30T10:47:05.4668457Z   Downloaded gemm-c64 v0.19.0
+2026-09-30T10:47:05.4687089Z   Downloaded gemm-f64 v0.19.0
+2026-09-30T10:47:05.4706725Z   Downloaded equator-macro v0.6.0
+2026-09-30T10:47:05.4724146Z   Downloaded gemm-c32 v0.19.0
+2026-09-30T10:47:05.4745637Z   Downloaded gemm-f32 v0.19.0
+2026-09-30T10:47:05.4766250Z   Downloaded private-gemm-x86 v0.1.20
+2026-09-30T10:47:05.4796124Z   Downloaded half v2.7.1
+2026-09-30T10:47:05.4834943Z   Downloaded ucd-trie v0.1.7
+2026-09-30T10:47:05.4859015Z   Downloaded rand_distr v0.5.1
+2026-09-30T10:47:05.4907295Z   Downloaded npyz v0.8.4
+2026-09-30T10:47:05.4970565Z   Downloaded windows_x86_64_gnullvm v0.42.2
+2026-09-30T10:47:05.5051866Z   Downloaded pest v2.8.8
+2026-09-30T10:47:05.5118238Z   Downloaded wasip2 v1.0.4+wasi-0.2.12
+2026-09-30T10:47:05.5180704Z   Downloaded memchr v2.8.3
+2026-09-30T10:47:05.5252723Z   Downloaded raw-cpuid v11.6.0
+2026-09-30T10:47:05.5307808Z   Downloaded aho-corasick v1.1.4
+2026-09-30T10:47:05.5374329Z   Downloaded syn v1.0.109
+2026-09-30T10:47:05.5485762Z   Downloaded hashbrown v0.17.1
+2026-09-30T10:47:05.5554447Z   Downloaded zerocopy v0.8.55
+2026-09-30T10:47:05.5786915Z   Downloaded wide v1.5.0
+2026-09-30T10:47:05.5860107Z   Downloaded serde_json v1.0.151
+2026-09-30T10:47:05.5949386Z   Downloaded windows_aarch64_gnullvm v0.42.2
+2026-09-30T10:47:05.6026410Z   Downloaded syn v3.0.3
+2026-09-30T10:47:05.6143887Z   Downloaded diffsol v0.16.1
+2026-09-30T10:47:05.6263693Z   Downloaded ndarray v0.17.2
+2026-09-30T10:47:05.6374570Z   Downloaded portable-atomic v1.14.0
+2026-09-30T10:47:05.6457123Z   Downloaded libm v0.2.16
+2026-09-30T10:47:05.6581106Z   Downloaded regex-syntax v0.8.11
+2026-09-30T10:47:05.6659277Z   Downloaded pyo3 v0.29.0
+2026-09-30T10:47:05.6968984Z   Downloaded pulp v0.22.3
+2026-09-30T10:47:05.7031606Z   Downloaded hashbrown v0.15.5
+2026-09-30T10:47:05.7095270Z   Downloaded tracing v0.1.44
+2026-09-30T10:47:05.7269211Z   Downloaded nalgebra v0.35.0
+2026-09-30T10:47:05.7518768Z   Downloaded tracing-subscriber v0.3.23
+2026-09-30T10:47:05.7612486Z   Downloaded indexmap v2.14.0
+2026-09-30T10:47:05.7666395Z   Downloaded pyo3-ffi v0.29.0
+2026-09-30T10:47:05.7762525Z   Downloaded num-bigint v0.4.8
+2026-09-30T10:47:05.7822340Z   Downloaded typenum v1.20.1
+2026-09-30T10:47:05.7864016Z   Downloaded windows_aarch64_msvc v0.42.2
+2026-09-30T10:47:05.8012477Z   Downloaded windows_x86_64_msvc v0.42.2
+2026-09-30T10:47:05.8120797Z   Downloaded loom v0.7.2
+2026-09-30T10:47:05.8190089Z   Downloaded regex-automata v0.4.16
+2026-09-30T10:47:05.8340284Z   Downloaded windows_x86_64_gnu v0.42.2
+2026-09-30T10:47:05.8507018Z   Downloaded windows_i686_msvc v0.42.2
+2026-09-30T10:47:05.8630705Z   Downloaded log v0.4.33
+2026-09-30T10:47:05.8668310Z   Downloaded serde v1.0.229
+2026-09-30T10:47:05.8709128Z   Downloaded windows_i686_gnu v0.42.2
+2026-09-30T10:47:05.8945957Z   Downloaded rand v0.8.7
+2026-09-30T10:47:05.8982858Z   Downloaded bitflags v2.13.1
+2026-09-30T10:47:05.9035382Z   Downloaded crossbeam-channel v0.5.16
+2026-09-30T10:47:05.9083542Z   Downloaded petgraph v0.8.3
+2026-09-30T10:47:05.9299692Z   Downloaded glam v0.30.10
+2026-09-30T10:47:05.9577319Z   Downloaded glam v0.31.1
+2026-09-30T10:47:05.9870632Z   Downloaded glam v0.32.1
+2026-09-30T10:47:06.0164740Z   Downloaded libc v0.2.189
+2026-09-30T10:47:06.0617289Z   Downloaded simba v0.10.0
+2026-09-30T10:47:06.0650317Z   Downloaded matrixmultiply v0.3.11
+2026-09-30T10:47:06.0686853Z   Downloaded zerocopy-derive v0.8.55
+2026-09-30T10:47:06.0787532Z   Downloaded glam v0.33.2
+2026-09-30T10:47:06.1100282Z   Downloaded serde_derive v1.0.229
+2026-09-30T10:47:06.1134085Z   Downloaded num-traits v0.2.19
+2026-09-30T10:47:06.1163979Z   Downloaded unicode-ident v1.0.24
+2026-09-30T10:47:06.1196904Z   Downloaded sharded-slab v0.1.7
+2026-09-30T10:47:06.1233691Z   Downloaded tracing-core v0.1.36
+2026-09-30T10:47:06.1263429Z   Downloaded serde_core v1.0.229
+2026-09-30T10:47:06.1293772Z   Downloaded portable-atomic-util v0.2.7
+2026-09-30T10:47:06.1315155Z   Downloaded r-efi v5.3.0
+2026-09-30T10:47:06.1368524Z   Downloaded safe_arch v1.1.0
+2026-09-30T10:47:06.1419278Z   Downloaded pyo3-build-config v0.29.0
+2026-09-30T10:47:06.1433932Z   Downloaded pyo3-macros-backend v0.29.0
+2026-09-30T10:47:06.1464651Z   Downloaded pest_meta v2.8.8
+2026-09-30T10:47:06.1488758Z   Downloaded ppv-lite86 v0.2.21
+2026-09-30T10:47:06.1504464Z   Downloaded getrandom v0.3.4
+2026-09-30T10:47:06.1540780Z   Downloaded diffsol-la v0.1.0
+2026-09-30T10:47:06.1598277Z   Downloaded bytemuck v1.25.2
+2026-09-30T10:47:06.1634148Z   Downloaded find-msvc-tools v0.1.9
+2026-09-30T10:47:06.1653321Z   Downloaded thiserror v2.0.19
+2026-09-30T10:47:06.1723596Z   Downloaded autocfg v1.5.1
+2026-09-30T10:47:06.1745121Z   Downloaded once_cell v1.21.4
+2026-09-30T10:47:06.1773867Z   Downloaded proc-macro2 v1.0.107
+2026-09-30T10:47:06.1806363Z   Downloaded thiserror-impl v1.0.69
+2026-09-30T10:47:06.1821852Z   Downloaded sysctl v0.6.0
+2026-09-30T10:47:06.1844525Z   Downloaded wit-bindgen v0.57.1
+2026-09-30T10:47:06.1884077Z   Downloaded rand_core v0.9.5
+2026-09-30T10:47:06.1900827Z   Downloaded atomic-wait v1.1.0
+2026-09-30T10:47:06.1915690Z   Downloaded crossbeam-queue v0.3.13
+2026-09-30T10:47:06.1930761Z   Downloaded num-rational v0.4.2
+2026-09-30T10:47:06.1945840Z   Downloaded num-complex v0.4.6
+2026-09-30T10:47:06.1963502Z   Downloaded numpy v0.29.0
+2026-09-30T10:47:06.2002557Z   Downloaded gemm-common v0.19.0
+2026-09-30T10:47:06.2021796Z   Downloaded equator-macro v0.2.1
+2026-09-30T10:47:06.2031093Z   Downloaded nano-gemm-codegen v0.2.1
+2026-09-30T10:47:06.2041236Z   Downloaded nano-gemm-core v0.2.1
+2026-09-30T10:47:06.2050749Z   Downloaded pest_derive v2.8.8
+2026-09-30T10:47:06.2075403Z   Downloaded same-file v1.0.6
+2026-09-30T10:47:06.2092216Z   Downloaded nu-ansi-term v0.50.3
+2026-09-30T10:47:06.2121656Z   Downloaded smallvec v1.15.2
+2026-09-30T10:47:06.2139588Z   Downloaded foldhash v0.1.5
+2026-09-30T10:47:06.2155117Z   Downloaded zmij v1.0.23
+2026-09-30T10:47:06.2175633Z   Downloaded gemm-f16 v0.19.0
+2026-09-30T10:47:06.2189054Z   Downloaded nano-gemm-f32 v0.2.1
+2026-09-30T10:47:06.2200275Z   Downloaded defer v0.2.1
+2026-09-30T10:47:06.2211079Z   Downloaded enum-as-inner v0.6.1
+2026-09-30T10:47:06.2229159Z   Downloaded version_check v0.9.5
+2026-09-30T10:47:06.2246342Z   Downloaded qd v0.8.0
+2026-09-30T10:47:06.2262993Z   Downloaded num_cpus v1.17.0
+2026-09-30T10:47:06.2298034Z   Downloaded tracing-log v0.2.0
+2026-09-30T10:47:06.2314176Z   Downloaded fixedbitset v0.5.7
+2026-09-30T10:47:06.2335288Z   Downloaded thiserror-impl v2.0.19
+2026-09-30T10:47:06.2352784Z   Downloaded bytemuck_derive v1.11.0
+2026-09-30T10:47:06.2368880Z   Downloaded equator v0.4.2
+2026-09-30T10:47:06.2384479Z   Downloaded generativity v1.2.1
+2026-09-30T10:47:06.2406061Z   Downloaded paste v1.0.15
+2026-09-30T10:47:06.2441588Z   Downloaded diffsol-nl v0.1.0
+2026-09-30T10:47:06.2455099Z   Downloaded faer v0.24.4
+2026-09-30T10:47:06.2798661Z   Downloaded itoa v1.0.18
+2026-09-30T10:47:06.2814966Z   Downloaded target-lexicon v0.13.5
+2026-09-30T10:47:06.2831908Z   Downloaded hermit-abi v0.5.2
+2026-09-30T10:47:06.2847677Z   Downloaded thiserror v1.0.69
+2026-09-30T10:47:06.2908501Z   Downloaded cfg-if v1.0.4
+2026-09-30T10:47:06.2923447Z   Downloaded pulp-wasm-simd-flag v0.1.1
+2026-09-30T10:47:06.2931585Z   Downloaded approx v0.5.1
+2026-09-30T10:47:06.2951790Z   Downloaded reborrow v0.5.5
+2026-09-30T10:47:06.2966622Z   Downloaded nano-gemm-c64 v0.2.1
+2026-09-30T10:47:06.2975455Z   Downloaded interpol v0.2.1
+2026-09-30T10:47:06.2985979Z   Downloaded thread_local v1.1.10
+2026-09-30T10:47:06.3001640Z   Downloaded winapi-util v0.1.11
+2026-09-30T10:47:06.3020134Z   Downloaded rustc-hash v2.1.3
+2026-09-30T10:47:06.3036511Z   Downloaded valuable v0.1.1
+2026-09-30T10:47:06.3059158Z   Downloaded dyn-stack v0.13.2
+2026-09-30T10:47:06.3076220Z   Downloaded walkdir v2.5.0
+2026-09-30T10:47:06.3097003Z   Downloaded rand_chacha v0.9.0
+2026-09-30T10:47:06.3110378Z   Downloaded dyn-stack-macros v0.1.3
+2026-09-30T10:47:06.3119978Z   Downloaded num-integer v0.1.46
+2026-09-30T10:47:06.3138596Z   Downloaded quote v1.0.47
+2026-09-30T10:47:06.3168615Z   Downloaded crossbeam v0.8.4
+2026-09-30T10:47:06.3182906Z   Downloaded nalgebra-macros v0.3.0
+2026-09-30T10:47:06.3193708Z   Downloaded rawpointer v0.2.1
+2026-09-30T10:47:06.3204509Z   Downloaded rand_core v0.6.4
+2026-09-30T10:47:06.3219857Z   Downloaded heck v0.5.0
+2026-09-30T10:47:06.3235220Z   Downloaded pin-project-lite v0.2.17
+2026-09-30T10:47:06.3296528Z   Downloaded equator-macro v0.4.2
+2026-09-30T10:47:06.3306330Z   Downloaded cc v1.4.0
+2026-09-30T10:47:06.3338000Z   Downloaded windows-sys v0.61.2
+2026-09-30T10:47:06.4029784Z   Downloaded seq-macro v0.3.6
+2026-09-30T10:47:06.4049963Z   Downloaded byteorder v1.5.0
+2026-09-30T10:47:06.4069496Z   Downloaded windows-link v0.2.1
+2026-09-30T10:47:06.4079675Z   Downloaded spindle v0.2.6
+2026-09-30T10:47:06.4094976Z   Downloaded windows-result v0.4.1
+2026-09-30T10:47:06.4110682Z   Downloaded syn v2.0.119
+2026-09-30T10:47:06.4220655Z   Downloaded rayon v1.12.0
+2026-09-30T10:47:06.4321672Z   Downloaded crossbeam-deque v0.8.7
+2026-09-30T10:47:06.4355573Z   Downloaded windows-sys v0.42.0
+2026-09-30T10:47:06.8368068Z ##[group]Run cargo fmt --all -- --check
+2026-09-30T10:47:06.8368435Z [36;1mcargo fmt --all -- --check[0m
+2026-09-30T10:47:06.8368858Z [36;1mcargo clippy --workspace --all-targets --locked --offline -- -D warnings[0m
+2026-09-30T10:47:06.8369325Z [36;1mcargo test --workspace --locked --offline[0m
+2026-09-30T10:47:06.8433019Z shell: /usr/bin/bash -e {0}
+2026-09-30T10:47:06.8433281Z env:
+2026-09-30T10:47:06.8433486Z   PYTHON_VERSION: 3.12
+2026-09-30T10:47:06.8433732Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:47:06.8433982Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:47:06.8434239Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:47:06.8434517Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:47:06.8434751Z   OMP_NUM_THREADS: 1
+2026-09-30T10:47:06.8434981Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:47:06.8435294Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:47:06.8435757Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T10:47:06.8436410Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:47:06.8436812Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:47:06.8437219Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:47:06.8437625Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T10:47:06.8437976Z   CARGO_NET_OFFLINE: true
+2026-09-30T10:47:06.8438211Z ##[endgroup]
+2026-09-30T10:47:07.2981962Z    Compiling autocfg v1.5.1
+2026-09-30T10:47:07.2982983Z    Compiling proc-macro2 v1.0.107
+2026-09-30T10:47:07.5751001Z    Compiling quote v1.0.47
+2026-09-30T10:47:07.5890553Z    Compiling unicode-ident v1.0.24
+2026-09-30T10:47:07.6402913Z    Compiling libm v0.2.16
+2026-09-30T10:47:07.7986583Z    Compiling num-traits v0.2.19
+2026-09-30T10:47:08.4490554Z     Checking bytemuck v1.25.2
+2026-09-30T10:47:08.5810768Z     Checking rand_core v0.6.4
+2026-09-30T10:47:08.6485997Z     Checking rand v0.8.7
+2026-09-30T10:47:09.0372846Z    Compiling crossbeam-utils v0.8.22
+2026-09-30T10:47:09.3290546Z     Checking num-complex v0.4.6
+2026-09-30T10:47:09.4830405Z    Compiling crossbeam-epoch v0.9.20
+2026-09-30T10:47:09.5940941Z     Checking cfg-if v1.0.4
+2026-09-30T10:47:09.6200526Z    Compiling syn v2.0.119
+2026-09-30T10:47:09.6751556Z    Compiling nano-gemm-codegen v0.2.1
+2026-09-30T10:47:10.2397571Z    Compiling crossbeam-deque v0.8.7
+2026-09-30T10:47:10.6465015Z    Compiling version_check v0.9.5
+2026-09-30T10:47:10.8673377Z    Compiling rayon-core v1.13.0
+2026-09-30T10:47:10.9481308Z    Compiling libc v0.2.189
+2026-09-30T10:47:11.1891534Z     Checking bitflags v2.13.1
+2026-09-30T10:47:11.2740928Z    Compiling paste v1.0.15
+2026-09-30T10:47:11.4371455Z     Checking raw-cpuid v11.6.0
+2026-09-30T10:47:13.0761711Z    Compiling pulp v0.22.3
+2026-09-30T10:47:13.9258701Z     Checking reborrow v0.5.5
+2026-09-30T10:47:13.9554831Z     Checking either v1.17.0
+2026-09-30T10:47:14.0738398Z     Checking pulp-wasm-simd-flag v0.1.1
+2026-09-30T10:47:14.2590496Z     Checking rayon v1.12.0
+2026-09-30T10:47:15.9600526Z    Compiling dyn-stack-macros v0.1.3
+2026-09-30T10:47:16.1370666Z     Checking dyn-stack v0.13.2
+2026-09-30T10:47:16.2710970Z    Compiling memchr v2.8.3
+2026-09-30T10:47:16.9260966Z    Compiling syn v1.0.109
+2026-09-30T10:47:17.0782048Z     Checking once_cell v1.21.4
+2026-09-30T10:47:17.1472671Z    Compiling seq-macro v0.3.6
+2026-09-30T10:47:17.1841910Z    Compiling ucd-trie v0.1.7
+2026-09-30T10:47:17.3497599Z    Compiling zerocopy v0.8.55
+2026-09-30T10:47:17.4910608Z    Compiling getrandom v0.3.4
+2026-09-30T10:47:17.6554707Z     Checking gemm-common v0.19.0
+2026-09-30T10:47:17.6864713Z    Compiling pest v2.8.8
+2026-09-30T10:47:17.9502084Z     Checking num-integer v0.1.46
+2026-09-30T10:47:18.1451201Z     Checking nano-gemm-core v0.2.1
+2026-09-30T10:47:19.0350699Z    Compiling pest_meta v2.8.8
+2026-09-30T10:47:22.2490596Z    Compiling interpol v0.2.1
+2026-09-30T10:47:22.5881899Z     Checking rand_core v0.9.5
+2026-09-30T10:47:22.6921740Z    Compiling pest_generator v2.8.8
+2026-09-30T10:47:23.4040928Z    Compiling equator-macro v0.4.2
+2026-09-30T10:47:23.9022037Z    Compiling nano-gemm-f64 v0.2.1
+2026-09-30T10:47:24.0021022Z    Compiling nano-gemm-c32 v0.2.1
+2026-09-30T10:47:24.1020576Z    Compiling nano-gemm-c64 v0.2.1
+2026-09-30T10:47:24.2040854Z    Compiling nano-gemm-f32 v0.2.1
+2026-09-30T10:47:24.2150074Z     Checking ppv-lite86 v0.2.21
+2026-09-30T10:47:24.3090773Z     Checking crossbeam-queue v0.3.13
+2026-09-30T10:47:24.3930569Z     Checking crossbeam-channel v0.5.16
+2026-09-30T10:47:24.4834866Z    Compiling syn v3.0.3
+2026-09-30T10:47:24.6780852Z    Compiling defer v0.2.1
+2026-09-30T10:47:25.8260409Z    Compiling private-gemm-x86 v0.1.20
+2026-09-30T10:47:26.7805902Z     Checking crossbeam v0.8.4
+2026-09-30T10:47:26.8021090Z     Checking rand_chacha v0.9.0
+2026-09-30T10:47:27.1834016Z     Checking equator v0.4.2
+2026-09-30T10:47:27.3134556Z    Compiling pest_derive v2.8.8
+2026-09-30T10:47:27.5080621Z     Checking num-bigint v0.4.8
+2026-09-30T10:47:28.3218986Z     Checking atomic-wait v1.1.0
+2026-09-30T10:47:28.3500765Z    Compiling equator-macro v0.2.1
+2026-09-30T10:47:28.4581128Z     Checking safe_arch v1.1.0
+2026-09-30T10:47:28.7698890Z    Compiling matrixmultiply v0.3.11
+2026-09-30T10:47:28.7850908Z     Checking equator v0.2.2
+2026-09-30T10:47:28.8626722Z     Checking wide v1.5.0
+2026-09-30T10:47:28.9151487Z     Checking py_literal v0.4.0
+2026-09-30T10:47:29.2653676Z     Checking spindle v0.2.6
+2026-09-30T10:47:40.8373088Z     Checking rand v0.9.5
+2026-09-30T10:47:41.2946677Z     Checking gemm-c64 v0.19.0
+2026-09-30T10:47:42.0821165Z     Checking gemm-c32 v0.19.0
+2026-09-30T10:47:42.8878673Z     Checking gemm-f64 v0.19.0
+2026-09-30T10:47:43.2895726Z     Checking gemm-f32 v0.19.0
+2026-09-30T10:47:43.6798651Z     Checking qd v0.8.0
+2026-09-30T10:47:43.7763010Z     Checking num_cpus v1.17.0
+2026-09-30T10:47:43.8586782Z     Checking approx v0.5.1
+2026-09-30T10:47:43.9293581Z     Checking generativity v1.2.1
+2026-09-30T10:47:43.9533530Z     Checking rawpointer v0.2.1
+2026-09-30T10:47:43.9901492Z    Compiling equator-macro v0.6.0
+2026-09-30T10:47:44.2761534Z     Checking byteorder v1.5.0
+2026-09-30T10:47:44.4271657Z    Compiling thiserror v2.0.19
+2026-09-30T10:47:44.6133999Z    Compiling serde_core v1.0.229
+2026-09-30T10:47:44.8311555Z     Checking npyz v0.8.4
+2026-09-30T10:47:45.1546695Z     Checking equator v0.6.0
+2026-09-30T10:47:45.4130627Z     Checking faer-traits v0.24.0
+2026-09-30T10:47:45.6812082Z     Checking nano-gemm v0.2.2
+2026-09-30T10:47:45.8171145Z     Checking simba v0.10.0
+2026-09-30T10:47:47.0801367Z     Checking gemm v0.19.0
+2026-09-30T10:47:47.1170501Z     Checking rand_distr v0.5.1
+2026-09-30T10:47:47.5154242Z    Compiling thiserror-impl v2.0.19
+2026-09-30T10:47:48.6301206Z     Checking num-rational v0.4.2
+2026-09-30T10:47:48.8740707Z    Compiling nalgebra-macros v0.3.0
+2026-09-30T10:47:49.2230511Z    Compiling diffsol-la v0.1.0
+2026-09-30T10:47:49.3031210Z    Compiling zmij v1.0.23
+2026-09-30T10:47:49.3790977Z     Checking typenum v1.20.1
+2026-09-30T10:47:49.4760686Z     Checking faer v0.24.4
+2026-09-30T10:47:49.9891306Z     Checking nalgebra v0.35.0
+2026-09-30T10:47:56.9530777Z    Compiling serde v1.0.229
+2026-09-30T10:47:57.1061281Z     Checking equivalent v1.0.2
+2026-09-30T10:47:57.1281150Z     Checking hashbrown v0.17.1
+2026-09-30T10:47:57.5469832Z    Compiling serde_json v1.0.151
+2026-09-30T10:47:57.6300651Z     Checking foldhash v0.1.5
+2026-09-30T10:47:57.6940452Z     Checking hashbrown v0.15.5
+2026-09-30T10:47:58.1144383Z     Checking indexmap v2.14.0
+2026-09-30T10:47:58.8480346Z    Compiling serde_derive v1.0.229
+2026-09-30T10:48:01.6515069Z     Checking log v0.4.33
+2026-09-30T10:48:01.7300392Z    Compiling diffsol v0.16.1
+2026-09-30T10:48:01.8109686Z     Checking itoa v1.0.18
+2026-09-30T10:48:01.8960632Z     Checking fixedbitset v0.5.7
+2026-09-30T10:48:02.0278797Z     Checking petgraph v0.8.3
+2026-09-30T10:48:04.5922143Z     Checking rec_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rec_bianchi.git?rev=d3cc6e0120061f113d28e7a3a55a2e3dd561e81e#d3cc6e01)
+2026-09-30T10:48:04.8362655Z     Checking rei_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rei_bianchi.git?rev=1bda1e8cea7629d31f905e126ba47ec3b3c1d0d8#1bda1e8c)
+2026-09-30T10:48:12.0457339Z     Checking diffsol-nl v0.1.0
+2026-09-30T10:48:16.4306057Z     Checking bianchi_rustcore v0.1.0 (/home/runner/work/bass/bass/_rustcore)
+2026-09-30T10:48:20.5705229Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 13s
+2026-09-30T10:48:20.7080612Z    Compiling libm v0.2.16
+2026-09-30T10:48:20.7084495Z    Compiling bytemuck v1.25.2
+2026-09-30T10:48:20.8476643Z    Compiling rand_core v0.6.4
+2026-09-30T10:48:20.9437267Z    Compiling rand v0.8.7
+2026-09-30T10:48:21.3870807Z    Compiling crossbeam-utils v0.8.22
+2026-09-30T10:48:21.8180555Z    Compiling num-traits v0.2.19
+2026-09-30T10:48:22.0740602Z    Compiling cfg-if v1.0.4
+2026-09-30T10:48:22.0990566Z    Compiling crossbeam-epoch v0.9.20
+2026-09-30T10:48:22.3871466Z    Compiling crossbeam-deque v0.8.7
+2026-09-30T10:48:22.5117473Z    Compiling num-complex v0.4.6
+2026-09-30T10:48:22.5458003Z    Compiling bitflags v2.13.1
+2026-09-30T10:48:22.6891045Z    Compiling raw-cpuid v11.6.0
+2026-09-30T10:48:22.9250960Z    Compiling libc v0.2.189
+2026-09-30T10:48:23.8961238Z    Compiling rayon-core v1.13.0
+2026-09-30T10:48:24.6420686Z    Compiling reborrow v0.5.5
+2026-09-30T10:48:24.6733385Z    Compiling either v1.17.0
+2026-09-30T10:48:24.8070728Z    Compiling pulp-wasm-simd-flag v0.1.1
+2026-09-30T10:48:24.8320695Z    Compiling pulp v0.22.3
+2026-09-30T10:48:24.9141033Z    Compiling rayon v1.12.0
+2026-09-30T10:48:26.9338655Z    Compiling dyn-stack v0.13.2
+2026-09-30T10:48:27.1161092Z    Compiling memchr v2.8.3
+2026-09-30T10:48:27.8300452Z    Compiling ucd-trie v0.1.7
+2026-09-30T10:48:28.0290982Z    Compiling once_cell v1.21.4
+2026-09-30T10:48:28.1610951Z    Compiling pest v2.8.8
+2026-09-30T10:48:28.2900986Z    Compiling gemm-common v0.19.0
+2026-09-30T10:48:28.8000481Z    Compiling num-integer v0.1.46
+2026-09-30T10:48:29.0831166Z    Compiling nano-gemm-core v0.2.1
+2026-09-30T10:48:29.1130742Z    Compiling zerocopy v0.8.55
+2026-09-30T10:48:29.4330495Z    Compiling pest_meta v2.8.8
+2026-09-30T10:48:31.1280816Z    Compiling getrandom v0.3.4
+2026-09-30T10:48:31.2564498Z    Compiling rand_core v0.9.5
+2026-09-30T10:48:31.3931020Z    Compiling pest_generator v2.8.8
+2026-09-30T10:48:32.1020491Z    Compiling crossbeam-channel v0.5.16
+2026-09-30T10:48:32.5250533Z    Compiling crossbeam-queue v0.3.13
+2026-09-30T10:48:32.6150575Z    Compiling crossbeam v0.8.4
+2026-09-30T10:48:32.6421140Z    Compiling equator v0.4.2
+2026-09-30T10:48:32.7191171Z    Compiling ppv-lite86 v0.2.21
+2026-09-30T10:48:32.8070668Z    Compiling pest_derive v2.8.8
+2026-09-30T10:48:32.9881001Z    Compiling num-bigint v0.4.8
+2026-09-30T10:48:33.0124103Z    Compiling rand_chacha v0.9.0
+2026-09-30T10:48:33.4298144Z    Compiling atomic-wait v1.1.0
+2026-09-30T10:48:33.4630764Z    Compiling safe_arch v1.1.0
+2026-09-30T10:48:33.8940451Z    Compiling wide v1.5.0
+2026-09-30T10:48:34.5230399Z    Compiling py_literal v0.4.0
+2026-09-30T10:48:36.3000661Z    Compiling equator v0.2.2
+2026-09-30T10:48:36.3974139Z    Compiling spindle v0.2.6
+2026-09-30T10:48:36.9260876Z    Compiling rand v0.9.5
+2026-09-30T10:48:37.0600481Z    Compiling nano-gemm-c32 v0.2.1
+2026-09-30T10:48:37.4640216Z    Compiling nano-gemm-f32 v0.2.1
+2026-09-30T10:48:48.0726782Z    Compiling nano-gemm-c64 v0.2.1
+2026-09-30T10:48:48.3187437Z    Compiling nano-gemm-f64 v0.2.1
+2026-09-30T10:48:56.4822720Z    Compiling gemm-c64 v0.19.0
+2026-09-30T10:48:56.7861008Z    Compiling gemm-f32 v0.19.0
+2026-09-30T10:48:58.4460692Z    Compiling gemm-c32 v0.19.0
+2026-09-30T10:48:59.9880475Z    Compiling gemm-f64 v0.19.0
+2026-09-30T10:49:01.5847552Z    Compiling qd v0.8.0
+2026-09-30T10:49:01.7300643Z    Compiling num_cpus v1.17.0
+2026-09-30T10:49:02.0130527Z    Compiling approx v0.5.1
+2026-09-30T10:49:02.0612318Z    Compiling generativity v1.2.1
+2026-09-30T10:49:02.1014773Z    Compiling rawpointer v0.2.1
+2026-09-30T10:49:02.1190774Z    Compiling byteorder v1.5.0
+2026-09-30T10:49:02.1309132Z    Compiling matrixmultiply v0.3.11
+2026-09-30T10:49:02.2921328Z    Compiling npyz v0.8.4
+2026-09-30T10:49:02.6261040Z    Compiling faer-traits v0.24.0
+2026-09-30T10:49:02.9621071Z    Compiling equator v0.6.0
+2026-09-30T10:49:03.0530576Z    Compiling simba v0.10.0
+2026-09-30T10:49:03.8041285Z    Compiling private-gemm-x86 v0.1.20
+2026-09-30T10:49:06.4940869Z    Compiling gemm v0.19.0
+2026-09-30T10:49:06.5340736Z    Compiling nano-gemm v0.2.2
+2026-09-30T10:49:06.8340658Z    Compiling rand_distr v0.5.1
+2026-09-30T10:49:06.8641758Z    Compiling num-rational v0.4.2
+2026-09-30T10:49:07.3384420Z    Compiling typenum v1.20.1
+2026-09-30T10:49:07.5140406Z    Compiling faer v0.24.4
+2026-09-30T10:49:08.0020683Z    Compiling nalgebra v0.35.0
+2026-09-30T10:49:13.6480748Z    Compiling thiserror v2.0.19
+2026-09-30T10:49:13.6834555Z    Compiling serde_core v1.0.229
+2026-09-30T10:49:15.9037194Z    Compiling foldhash v0.1.5
+2026-09-30T10:49:16.0020409Z    Compiling hashbrown v0.17.1
+2026-09-30T10:49:16.5291115Z    Compiling equivalent v1.0.2
+2026-09-30T10:49:16.5570561Z    Compiling indexmap v2.14.0
+2026-09-30T10:49:17.1534195Z    Compiling hashbrown v0.15.5
+2026-09-30T10:49:17.6513804Z    Compiling zmij v1.0.23
+2026-09-30T10:49:17.9245479Z    Compiling log v0.4.33
+2026-09-30T10:49:18.0295465Z    Compiling itoa v1.0.18
+2026-09-30T10:49:18.1430872Z    Compiling fixedbitset v0.5.7
+2026-09-30T10:49:18.4000991Z    Compiling petgraph v0.8.3
+2026-09-30T10:49:20.3527841Z    Compiling serde_json v1.0.151
+2026-09-30T10:49:21.5690652Z    Compiling serde v1.0.229
+2026-09-30T10:49:22.0911285Z    Compiling rei_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rei_bianchi.git?rev=1bda1e8cea7629d31f905e126ba47ec3b3c1d0d8#1bda1e8c)
+2026-09-30T10:49:22.2871184Z    Compiling rec_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rec_bianchi.git?rev=d3cc6e0120061f113d28e7a3a55a2e3dd561e81e#d3cc6e01)
+2026-09-30T10:49:29.8511574Z    Compiling diffsol-la v0.1.0
+2026-09-30T10:49:30.7150747Z    Compiling diffsol-nl v0.1.0
+2026-09-30T10:49:30.8572030Z    Compiling diffsol v0.16.1
+2026-09-30T10:49:35.5589060Z    Compiling bianchi_rustcore v0.1.0 (/home/runner/work/bass/bass/_rustcore)
+2026-09-30T10:49:46.1990519Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 25s
+2026-09-30T10:49:46.2066877Z      Running unittests src/lib.rs (target/debug/deps/bianchi_rustcore-4a68d2eed93267aa)
+2026-09-30T10:49:46.2082269Z 
+2026-09-30T10:49:46.2082671Z running 136 tests
+2026-09-30T10:49:46.2085197Z test core::conventions::tests::levi_civita_signs ... ok
+2026-09-30T10:49:46.2089032Z test core::conventions::tests::rotation_is_cross_product ... ok
+2026-09-30T10:49:46.2090687Z test geom::group::tests::class_a_types ... ok
+2026-09-30T10:49:46.2094652Z test geom::group::tests::exceptional_is_detected_by_constraint_degeneracy ... ok
+2026-09-30T10:49:46.2095810Z test geom::group::tests::jacobi_is_enforced_by_construction_in_class_b ... ok
+2026-09-30T10:49:46.2096941Z test geom::group::tests::ricci_matches_closed_form_r3 ... ok
+2026-09-30T10:49:46.2098079Z test kinetic::characteristics::tests::massless_direction_flow_is_p_independent ... ok
+2026-09-30T10:49:46.2111628Z test kinetic::characteristics::tests::norm_is_preserved_by_n_and_a_terms ... ok
+2026-09-30T10:49:46.2112495Z test kinetic::characteristics::tests::rk4_is_fourth_order ... ok
+2026-09-30T10:49:46.2114522Z test kinetic::characteristics::tests::split_form_agrees_with_covariant_form ... ok
+2026-09-30T10:49:46.2115450Z test kinetic::coeff_hier::tests::apply_matches_manual_sum ... ok
+2026-09-30T10:49:46.2116523Z test kinetic::coeff_hier::tests::grid_len_matches_offsets ... ok
+2026-09-30T10:49:46.2117578Z test kinetic::coeff_hier::tests::c2_wall_at_l11 - should panic ... ok
+2026-09-30T10:49:46.2120258Z test kinetic::coeff_hier::tests::mass_down_empty_at_l0 ... ok
+2026-09-30T10:49:46.2130303Z test kinetic::coeff_hier::tests::table_offsets_are_consistent ... ok
+2026-09-30T10:49:46.2140568Z test kinetic::collide_exact::tests::eigenvalues_are_recomputed_correctly ... ok
+2026-09-30T10:49:46.2152009Z test kinetic::collide_exact::tests::number_is_conserved_exactly ... ok
+2026-09-30T10:49:46.2213657Z test kinetic::collide_exact::tests::positivity_is_structural ... ok
+2026-09-30T10:49:46.2230221Z test kinetic::collide_exact::tests::stiff_limit_is_exact_and_stable ... ok
+2026-09-30T10:49:47.0383122Z test kinetic::collide_exact::tests::matches_dense_matrix_exponential ... ok
+2026-09-30T10:49:48.1355498Z test kinetic::collision::tests::collision_damps_l2_by_nine_tenths ... ok
+2026-09-30T10:49:51.1356054Z test kinetic::collision::tests::free_streaming_limit_is_exact ... ok
+2026-09-30T10:49:51.1358397Z test kinetic::collision::tests::legendre_matches_known_values ... ok
+2026-09-30T10:49:51.1359386Z test kinetic::collision::tests::phase_function_is_normalised ... ok
+2026-09-30T10:49:52.7291097Z test kinetic::collision::tests::photon_number_conserved ... ok
+2026-09-30T10:49:52.7310150Z test kinetic::collision::tests::route_a_l2_damping_is_nine_tenths ... ok
+2026-09-30T10:49:52.7378268Z test kinetic::collision::tests::route_a_reproduces_analytic_eigenvalues ... ok
+2026-09-30T10:49:52.7379243Z test kinetic::collision::tests::stiffness_flag_trips ... ok
+2026-09-30T10:49:56.6381206Z test kinetic::collision::tests::tight_coupling_scales_as_inverse_rate ... ok
+2026-09-30T10:49:56.6402068Z test kinetic::collision::tests::viscosity_is_eight_over_twentyseven_with_910 ... ok
+2026-09-30T10:49:56.6420289Z test kinetic::comoving::tests::exact_collision_in_log_space_matches_linear_three_term ... ok
+2026-09-30T10:49:56.6440399Z test kinetic::comoving::tests::frame_reproduces_isotropic_expansion_at_fourth_order ... ok
+2026-09-30T10:49:56.6450273Z test kinetic::comoving::tests::log_space_survives_extreme_dynamic_range ... ok
+2026-09-30T10:49:56.6533856Z test kinetic::comoving::tests::ylm_l2_is_orthonormal_on_grid ... ok
+2026-09-30T10:49:56.6534738Z test kinetic::coupled::tests::layout_offsets ... ok
+2026-09-30T10:49:56.6537092Z test kinetic::coupled::tests::nterm_iso_n_cancels ... ok
+2026-09-30T10:49:56.6538204Z test kinetic::coupled::tests::safe_guards_zero ... ok
+2026-09-30T10:49:56.7130745Z test kinetic::grid_collide::tests::expm_preserves_constant ... ok
+2026-09-30T10:49:56.7240616Z test kinetic::grid_collide::tests::sinkhorn_doubly_stochastic ... ok
+2026-09-30T10:49:58.9300208Z test kinetic::hierarchy::tests::isotropic_background_keeps_pi_zero ... ok
+2026-09-30T10:50:01.7950887Z test kinetic::hierarchy::tests::trajectory_matches_quadrature_massless ... ok
+2026-09-30T10:50:01.8000275Z test kinetic::pol_collide::modeb_tests::modeb_slices_match_mode_a ... ok
+2026-09-30T10:50:01.8001480Z test kinetic::pol_collide::modeb_tests::modeb_x_zero_is_identity ... ok
+2026-09-30T10:50:01.8020591Z test kinetic::pol_collide::tests::eigenvalues_recomputed ... ok
+2026-09-30T10:50:01.8040305Z test kinetic::pol_collide::tests::number_conserved_and_stiff_limit_finite ... ok
+2026-09-30T10:50:01.8060120Z test kinetic::pstf::tests::projection_is_idempotent ... ok
+2026-09-30T10:50:01.8070167Z test kinetic::pstf::tests::projection_removes_traces ... ok
+2026-09-30T10:50:01.8080161Z test kinetic::qevolve::tests::bianchi_i_residual_is_identity ... ok
+2026-09-30T10:50:05.9875329Z test kinetic::qevolve::tests::ensemble_is_bitwise_identical_to_serial ... ok
+2026-09-30T10:50:09.3451443Z test kinetic::qevolve::tests::evolution_is_deterministic ... ok
+2026-09-30T10:50:09.3470196Z test kinetic::qevolve::tests::inverse_matrix_is_correct ... ok
+2026-09-30T10:50:09.3550301Z test kinetic::qevolve::tests::mode_b_collision_acts_identically_on_every_radial_slice ... ok
+2026-09-30T10:50:10.9440447Z test kinetic::qevolve::tests::mode_b_free_stream_is_exactly_invariant ... ok
+2026-09-30T10:50:10.9470492Z test kinetic::qevolve::tests::mode_b_reduces_to_mode_a_for_factorized_data ... ok
+2026-09-30T10:50:10.9591764Z test kinetic::qevolve::tests::nu_schedule_model_mode_uses_state_lnh ... ok
+2026-09-30T10:50:10.9592917Z test kinetic::qevolve::tests::reduce_det_is_order_fixed ... ok
+2026-09-30T10:50:10.9757510Z test kinetic::quad::tests::dipole_activates_odd_l ... ok
+2026-09-30T10:50:11.0139683Z test kinetic::quad::tests::isotropic_background_has_no_anisotropic_stress ... ok
+2026-09-30T10:50:11.0528389Z test kinetic::quad::tests::massless_w_is_one_third ... ok
+2026-09-30T10:50:11.1397036Z test kinetic::quad::tests::odd_l_vanishes_for_isotropic_f0 ... ok
+2026-09-30T10:50:11.3132557Z test kinetic::quad::tilted_tests::boost_activates_odd_l_without_dipole ... ok
+2026-09-30T10:50:11.3203152Z test kinetic::quad::tilted_tests::boost_preserves_mass_shell ... ok
+2026-09-30T10:50:11.6118556Z test kinetic::quad::tilted_tests::dipole_matches_closed_form ... ok
+2026-09-30T10:50:11.6784238Z test kinetic::quad::tilted_tests::tilted_energy_density_exceeds_normal ... ok
+2026-09-30T10:50:12.3440854Z test kinetic::quad::tilted_tests::zero_tilt_is_bit_exact ... ok
+2026-09-30T10:50:12.3460460Z test kinetic::radial::tests::planck_shift_converges_at_high_order ... ok
+2026-09-30T10:50:12.3471307Z test kinetic::radial::tests::power_law_shift_is_exact_in_log_space ... ok
+2026-09-30T10:50:12.3480180Z test kinetic::radial::tests::stencil_weights_sum_to_one ... ok
+2026-09-30T10:50:12.3490490Z test kinetic::sphere::tests::analyze_synthesize_roundtrip ... ok
+2026-09-30T10:50:12.3491550Z test kinetic::sphere::tests::gl_weights_sum_and_exactness ... ok
+2026-09-30T10:50:12.3492587Z test kinetic::sphere::tests::moments_rejects_a_short_distribution - should panic ... ok
+2026-09-30T10:50:12.8318552Z test kinetic::sphere::tests::spherical_harmonics_are_orthonormal ... ok
+2026-09-30T10:50:12.8330469Z test kinetic::sphere::tests::weights_sum_to_four_pi ... ok
+2026-09-30T10:50:12.8340740Z test kinetic::tilted_hier::tests::contract_two_matches_a_hand_case ... ok
+2026-09-30T10:50:12.8360239Z test kinetic::tilted_hier::tests::grid_indexing_round_trips ... ok
+2026-09-30T10:50:12.8380208Z test kinetic::tilted_hier::tests::lu_solve_recovers_a_known_solution ... ok
+2026-09-30T10:50:12.8400141Z test kinetic::tilted_hier::tests::safe_ratio_clamps_and_guards_zero ... ok
+2026-09-30T10:50:12.8401275Z test kinetic::tilted_hier::tests::state_flattening_round_trips ... ok
+2026-09-30T10:50:12.8420422Z test kinetic::tilted_terms::tests::flat_geometry_gives_plain_time_derivative ... ok
+2026-09-30T10:50:12.8440215Z test kinetic::tilted_terms::tests::spatial_derivative_vanishes_in_a_static_orthonormal_frame ... ok
+2026-09-30T10:50:12.8450208Z test kinetic::tilted_terms::tests::to_coord_then_to_tetrad_is_identity_for_an_orthonormal_frame ... ok
+2026-09-30T10:50:12.8470136Z test kinetic::transport::tests::identity_plan_when_no_direction_flow ... ok
+2026-09-30T10:50:12.8511179Z test kinetic::transport::tests::isotropic_expansion_scales_mode_a_analytically ... ok
+2026-09-30T10:50:12.8678042Z test kinetic::transport::tests::stencil_is_partition_of_unity ... ok
+2026-09-30T10:50:12.8691509Z test kinetic::typev::tests::accelerations_invert_the_spatial_equations ... ok
+2026-09-30T10:50:12.8694765Z test kinetic::typev::tests::pi_is_traceless ... ok
+2026-09-30T10:50:12.8695627Z test kinetic::typev::tests::projection_restores_both_constraints ... ok
+2026-09-30T10:50:12.8734278Z test kinetic::typev::tests::zero_a_kills_the_weight_drift ... ok
+2026-09-30T10:50:16.2249075Z test kinetic::viscous::tests::derived_tau_pi_and_eta ... ok
+2026-09-30T10:50:19.4383662Z test kinetic::viscous::tests::eckart_limit_matches ... ok
+2026-09-30T10:50:19.8969356Z test kinetic::viscous::tests::mass_increases_damping ... ok
+2026-09-30T10:50:20.0243429Z test kinetic::viscous::tests::massive_damping_is_anisotropic ... ok
+2026-09-30T10:50:20.0244773Z test kinetic::viscous::tests::relaxation_time_helper ... ok
+2026-09-30T10:50:20.1391142Z test kinetic::viscous::tests::route_a_massless_damping_is_minus_four ... ok
+2026-09-30T10:50:20.1771705Z test kinetic::viscous::tests::route_a_source_is_minus_eight_fifteenths ... ok
+2026-09-30T10:50:20.1776443Z test kinetic::viscous::tests::route_b_handset_is_exactly_minus_four ... ok
+2026-09-30T10:50:20.1777599Z test kinetic::viscous::tests::route_b_rejects_isotropic_a_vec ... ok
+2026-09-30T10:50:21.7732501Z test kinetic::viscous::tests::route_b_source_is_exactly_minus_eight_fifteenths ... ok
+2026-09-30T10:50:29.1730874Z test kinetic::collision::tests::collisional_integration_drives_pi_down ... ok
+2026-09-30T10:50:29.1760747Z test microphysics::rec::conversion_tests::matrix_conversions_reject_nonfinite_entries_and_keep_signed_sources ... ok
+2026-09-30T10:50:29.1770286Z test microphysics::rec::conversion_tests::matrix_conversions_reject_real_and_imaginary_overflow ... ok
+2026-09-30T10:50:29.1780412Z test microphysics::tests::exact_git_dependency_identity_is_frozen_in_manifest_and_lock ... ok
+2026-09-30T10:50:29.1800093Z test microphysics::tests::material_frame_and_two_clocks_are_distinct ... ok
+2026-09-30T10:50:29.1820603Z test microphysics::tests::rec_bb_stimulation_and_signed_ledger ... ok
+2026-09-30T10:50:29.1830348Z test microphysics::tests::rec_bf_uses_material_energy_and_preserves_missing_authority ... ok
+2026-09-30T10:50:29.1850113Z test microphysics::tests::rec_pair_uses_independent_dopplers_and_d86_domain ... ok
+2026-09-30T10:50:29.1870068Z test microphysics::tests::rei_canonical_extremes_tables_and_ownership ... ok
+2026-09-30T10:50:29.1880195Z test microphysics::tests::rei_groups_telescoping_gamma_projection_and_negative_transfer ... ok
+2026-09-30T10:50:29.1890014Z test ode::charts::tests::c2_charts_have_flrw_fixed_points ... ok
+2026-09-30T10:50:29.1909934Z test ode::charts::tests::class_a_preserves_zero_n ... ok
+2026-09-30T10:50:29.1930007Z test ode::charts::tests::exceptional_g_constraint_propagates_numerically ... ok
+2026-09-30T10:50:29.1949894Z test ode::charts::tests::jac_mul_matches_finite_difference ... ok
+2026-09-30T10:50:29.1950766Z test ode::charts::tests::kasner_circle_is_vacuum ... ok
+2026-09-30T10:50:29.1970013Z test ode::charts::tests::type_ix_d_future_is_the_exact_negation ... ok
+2026-09-30T10:50:29.1989874Z test ode::mixmaster::tests::kasner_u_round_trips ... ok
+2026-09-30T10:50:29.2010063Z test ode::mixmaster::tests::log_walls_agree_with_linear_where_both_are_valid ... ok
+2026-09-30T10:50:29.2021512Z test ode::mixmaster::tests::log_walls_survive_far_past_the_underflow_floor ... ok
+2026-09-30T10:50:29.2066754Z test ode::mixmaster::tests::mixmaster_follows_the_bkl_map ... ok
+2026-09-30T10:50:29.2090302Z test ode::mixmaster::tests::no_wall_no_bounce ... ok
+2026-09-30T10:50:29.2091303Z test ode::mixmaster::tests::one_wall_bounces_once ... ok
+2026-09-30T10:50:29.2230318Z test ode::solve::tests::bianchi_i_flat_dust_omega_to_one ... ok
+2026-09-30T10:50:29.2310396Z test ode::solve::tests::constant_solution_survives_h_explosion_sweep ... ok
+2026-09-30T10:50:29.2380338Z test ode::solve::tests::type_n_zero_is_preserved_exactly ... ok
+2026-09-30T10:50:29.2570428Z test ode::solve::tests::whiplash_threshold_truncates_tilted_run ... ok
+2026-09-30T10:50:29.2630572Z test runtime::plan::tests::designated_inner_loop_has_zero_test_allocator_observations_after_sizing ... ok
+2026-09-30T10:50:29.2650237Z test runtime::plan::tests::private_pools_coexist_and_fingerprints_are_stable ... ok
+2026-09-30T10:50:29.2670161Z test runtime::plan::tests::recursive_and_cross_plan_workspace_use_fail_closed ... ok
+2026-09-30T10:50:29.2714729Z test runtime::plan::tests::sized_workspace_has_no_designated_growth_for_one_hundred_steps ... ok
+2026-09-30T10:50:29.2715754Z test thermo::dof::tests::asymptotes ... ok
+2026-09-30T10:50:29.2716627Z test thermo::dof::tests::monotone_decreasing_with_cooling ... ok
+2026-09-30T10:50:29.2717511Z test thermo::dof::tests::qcd_region_values ... ok
+2026-09-30T10:50:29.2718321Z test thermo::fd::tests::massless_limit_w_is_one_third ... ok
+2026-09-30T10:50:29.2719171Z test thermo::fd::tests::massless_rho_matches_analytic ... ok
+2026-09-30T10:50:29.2720349Z test thermo::fd::tests::n_integral_matches_analytic ... ok
+2026-09-30T10:50:29.2721195Z test thermo::fd::tests::nonrelativistic_limit_w_to_zero ... ok
+2026-09-30T10:50:34.9118472Z test kinetic::viscous::tests::two_routes_agree ... ok
+2026-09-30T10:50:34.9119136Z 
+2026-09-30T10:50:34.9120066Z test result: ok. 136 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 48.70s
+2026-09-30T10:50:34.9121269Z 
+2026-09-30T10:50:34.9125517Z      Running tests/microphysics_boundary.rs (target/debug/deps/microphysics_boundary-d47622d6485614c8)
+2026-09-30T10:50:34.9137914Z 
+2026-09-30T10:50:34.9138104Z running 4 tests
+2026-09-30T10:50:34.9142719Z test invalid_kinematics_and_pair_constraints_remain_errors ... ok
+2026-09-30T10:50:34.9144792Z test rec_preserves_finite_extreme_sources_and_child_errors ... ok
+2026-09-30T10:50:34.9145806Z test rejects_negative_doppler_without_normalizing_direction ... ok
+2026-09-30T10:50:34.9146675Z test source_overflow_and_nonfinite_inputs_are_typed ... ok
+2026-09-30T10:50:34.9147558Z      Running tests/structure_contract.rs (target/debug/deps/structure_contract-45ce9e1d7b6b5f81)
+2026-09-30T10:50:34.9148367Z 
+2026-09-30T10:50:34.9148864Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-30T10:50:34.9149869Z 
+2026-09-30T10:50:34.9158265Z 
+2026-09-30T10:50:34.9158574Z running 7 tests
+2026-09-30T10:50:34.9164580Z test isotropic_beam_vacuum_and_unphysical_flux ... ok
+2026-09-30T10:50:34.9165454Z test population_bad_domains_are_typed_errors ... ok
+2026-09-30T10:50:34.9166184Z test moment_bad_domain_and_asymmetry ... ok
+2026-09-30T10:50:34.9167624Z test population_two_state_analytic_error_matches_poisson_bound ... ok
+2026-09-30T10:50:34.9168761Z test population_weighted_inventory_stationary_and_zero_generator ... ok
+2026-09-30T10:50:34.9172648Z test positive_particle_sums_rotation_and_scale ... ok
+2026-09-30T10:50:34.9173671Z test unsupported_weighted_underflow_is_rejected_instead_of_erasing_equilibrium ... ok
+2026-09-30T10:50:34.9174454Z 
+2026-09-30T10:50:34.9174985Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-30T10:50:34.9176083Z      Running tests/visibility_contract.rs (target/debug/deps/visibility_contract-bd3832599016c56a)
+2026-09-30T10:50:34.9176883Z 
+2026-09-30T10:50:34.9186148Z 
+2026-09-30T10:50:34.9186448Z running 6 tests
+2026-09-30T10:50:34.9190114Z test chemistry_and_tilt_use_one_proper_electron_density ... ok
+2026-09-30T10:50:34.9191362Z test constant_rate_matches_analytic_visibility_and_finite_mass ... ok
+2026-09-30T10:50:34.9193492Z test cumulative_opacity_bounds_control_survival_and_interval_mass ... ok
+2026-09-30T10:50:34.9194607Z test invalid_domains_and_nonfinite_arithmetic_return_errors ... ok
+2026-09-30T10:50:34.9195584Z test observer_tail_is_explicit_and_transparent_cells_are_valid ... ok
+2026-09-30T10:50:34.9196663Z test thin_cell_probability_does_not_cancel_and_thick_limit_is_finite ... ok
+2026-09-30T10:50:34.9197316Z 
+2026-09-30T10:50:34.9197879Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-30T10:50:34.9198628Z 
+2026-09-30T10:50:34.9200116Z    Doc-tests bianchi_rustcore
+2026-09-30T10:50:35.0642448Z 
+2026-09-30T10:50:35.0643046Z running 0 tests
+2026-09-30T10:50:35.0643554Z 
+2026-09-30T10:50:35.0644070Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-30T10:50:35.0644821Z 
+2026-09-30T10:50:35.0721106Z ##[group]Run wheel_dir="$RUNNER_TEMP/rf00-wheels"
+2026-09-30T10:50:35.0721534Z [36;1mwheel_dir="$RUNNER_TEMP/rf00-wheels"[0m
+2026-09-30T10:50:35.0721849Z [36;1mmkdir -p "$wheel_dir"[0m
+2026-09-30T10:50:35.0722212Z [36;1m(cd _rustcore && CARGO_NET_OFFLINE=true python -m maturin build \[0m
+2026-09-30T10:50:35.0722659Z [36;1m  --release --locked --offline --out "$wheel_dir")[0m
+2026-09-30T10:50:35.0723115Z [36;1mmapfile -t native_wheels < <(find "$wheel_dir" -maxdepth 1 -type f \[0m
+2026-09-30T10:50:35.0723564Z [36;1m  -name 'bianchi_rustcore-0.1.0-*.whl' -print)[0m
+2026-09-30T10:50:35.0723914Z [36;1mif [[ ${#native_wheels[@]} -ne 1 ]]; then[0m
+2026-09-30T10:50:35.0724335Z [36;1m  printf 'expected exactly one compatible native wheel; found %d\n' \[0m
+2026-09-30T10:50:35.0724747Z [36;1m    "${#native_wheels[@]}" >&2[0m
+2026-09-30T10:50:35.0725013Z [36;1m  exit 2[0m
+2026-09-30T10:50:35.0725216Z [36;1mfi[0m
+2026-09-30T10:50:35.0725541Z [36;1mpython -m pip install --constraint requirements.lock \[0m
+2026-09-30T10:50:35.0725903Z [36;1m  "${native_wheels[0]}" .[0m
+2026-09-30T10:50:35.0837236Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-30T10:50:35.0837596Z env:
+2026-09-30T10:50:35.0837794Z   PYTHON_VERSION: 3.12
+2026-09-30T10:50:35.0838034Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:50:35.0838286Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:50:35.0838549Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:50:35.0838822Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:50:35.0839046Z   OMP_NUM_THREADS: 1
+2026-09-30T10:50:35.0839274Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:50:35.0839856Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:50:35.0840321Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T10:50:35.0840788Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:50:35.0841205Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:50:35.0841833Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:50:35.0842247Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T10:50:35.0842602Z ##[endgroup]
+2026-09-30T10:50:35.3101329Z 🐍 Found CPython 3.12 at /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3
+2026-09-30T10:50:35.3102450Z 🔗 Found pyo3 bindings
+2026-09-30T10:50:35.3103176Z 📡 Using build options features from pyproject.toml
+2026-09-30T10:50:35.4456862Z    Compiling autocfg v1.5.1
+2026-09-30T10:50:35.4460309Z    Compiling proc-macro2 v1.0.107
+2026-09-30T10:50:35.6975497Z    Compiling unicode-ident v1.0.24
+2026-09-30T10:50:35.7360566Z    Compiling quote v1.0.47
+2026-09-30T10:50:35.8780793Z    Compiling libm v0.2.16
+2026-09-30T10:50:36.0640382Z    Compiling num-traits v0.2.19
+2026-09-30T10:50:36.3920619Z    Compiling bytemuck v1.25.2
+2026-09-30T10:50:36.5360495Z    Compiling rand_core v0.6.4
+2026-09-30T10:50:36.6299934Z    Compiling rand v0.8.7
+2026-09-30T10:50:37.1120697Z    Compiling syn v2.0.119
+2026-09-30T10:50:38.5210715Z    Compiling num-complex v0.4.6
+2026-09-30T10:50:39.0041279Z    Compiling crossbeam-utils v0.8.22
+2026-09-30T10:50:39.6367321Z    Compiling cfg-if v1.0.4
+2026-09-30T10:50:39.6610494Z    Compiling libc v0.2.189
+2026-09-30T10:50:39.8641724Z    Compiling crossbeam-epoch v0.9.20
+2026-09-30T10:50:39.9820516Z    Compiling nano-gemm-codegen v0.2.1
+2026-09-30T10:50:40.5541066Z    Compiling crossbeam-deque v0.8.7
+2026-09-30T10:50:41.7561462Z    Compiling paste v1.0.15
+2026-09-30T10:50:41.9528009Z    Compiling rayon-core v1.13.0
+2026-09-30T10:50:42.0180222Z    Compiling version_check v0.9.5
+2026-09-30T10:50:42.0330567Z    Compiling bitflags v2.13.1
+2026-09-30T10:50:42.2341564Z    Compiling pulp v0.22.3
+2026-09-30T10:50:42.2432028Z    Compiling raw-cpuid v11.6.0
+2026-09-30T10:50:43.7195349Z    Compiling reborrow v0.5.5
+2026-09-30T10:50:43.7538037Z    Compiling pulp-wasm-simd-flag v0.1.1
+2026-09-30T10:50:43.7775861Z    Compiling either v1.17.0
+2026-09-30T10:50:43.9214317Z    Compiling rayon v1.12.0
+2026-09-30T10:50:46.4274502Z    Compiling dyn-stack-macros v0.1.3
+2026-09-30T10:50:46.5840673Z    Compiling once_cell v1.21.4
+2026-09-30T10:50:46.7400694Z    Compiling target-lexicon v0.13.5
+2026-09-30T10:50:47.0910373Z    Compiling dyn-stack v0.13.2
+2026-09-30T10:50:47.3022776Z    Compiling num-integer v0.1.46
+2026-09-30T10:50:47.9561232Z    Compiling memchr v2.8.3
+2026-09-30T10:50:48.5237118Z    Compiling getrandom v0.3.4
+2026-09-30T10:50:48.6772925Z    Compiling syn v1.0.109
+2026-09-30T10:50:48.8121832Z    Compiling zerocopy v0.8.55
+2026-09-30T10:50:48.9400569Z    Compiling ucd-trie v0.1.7
+2026-09-30T10:50:49.0150522Z    Compiling seq-macro v0.3.6
+2026-09-30T10:50:49.0990778Z    Compiling pest v2.8.8
+2026-09-30T10:50:49.3067842Z    Compiling gemm-common v0.19.0
+2026-09-30T10:50:50.1415585Z    Compiling pyo3-build-config v0.29.0
+2026-09-30T10:50:50.3808889Z    Compiling nano-gemm-core v0.2.1
+2026-09-30T10:50:50.4103131Z    Compiling pest_meta v2.8.8
+2026-09-30T10:50:54.8863297Z    Compiling matrixmultiply v0.3.11
+2026-09-30T10:50:55.8867811Z    Compiling interpol v0.2.1
+2026-09-30T10:50:56.2222804Z    Compiling rand_core v0.9.5
+2026-09-30T10:50:56.3280861Z    Compiling ppv-lite86 v0.2.21
+2026-09-30T10:50:56.3801103Z    Compiling pest_generator v2.8.8
+2026-09-30T10:50:56.6791390Z    Compiling equator-macro v0.4.2
+2026-09-30T10:50:57.1084211Z    Compiling nano-gemm-c64 v0.2.1
+2026-09-30T10:50:57.1827653Z    Compiling nano-gemm-f64 v0.2.1
+2026-09-30T10:50:57.2010953Z    Compiling nano-gemm-f32 v0.2.1
+2026-09-30T10:50:57.2871624Z    Compiling nano-gemm-c32 v0.2.1
+2026-09-30T10:50:57.2960870Z    Compiling crossbeam-queue v0.3.13
+2026-09-30T10:50:57.3830555Z    Compiling crossbeam-channel v0.5.16
+2026-09-30T10:50:57.4130982Z    Compiling syn v3.0.3
+2026-09-30T10:50:57.9161298Z    Compiling defer v0.2.1
+2026-09-30T10:50:57.9467230Z    Compiling rawpointer v0.2.1
+2026-09-30T10:50:59.8661737Z    Compiling private-gemm-x86 v0.1.20
+2026-09-30T10:51:02.2490571Z    Compiling crossbeam v0.8.4
+2026-09-30T10:51:02.4310662Z    Compiling equator v0.4.2
+2026-09-30T10:51:02.6128706Z    Compiling pest_derive v2.8.8
+2026-09-30T10:51:02.7720681Z    Compiling rand_chacha v0.9.0
+2026-09-30T10:51:03.2041515Z    Compiling pyo3-ffi v0.29.0
+2026-09-30T10:51:03.3170623Z    Compiling num-bigint v0.4.8
+2026-09-30T10:51:03.3420722Z    Compiling equator-macro v0.2.1
+2026-09-30T10:51:03.7558314Z    Compiling atomic-wait v1.1.0
+2026-09-30T10:51:03.7901028Z    Compiling safe_arch v1.1.0
+2026-09-30T10:51:04.3901965Z    Compiling wide v1.5.0
+2026-09-30T10:51:06.0071728Z    Compiling py_literal v0.4.0
+2026-09-30T10:51:08.7020484Z    Compiling spindle v0.2.6
+2026-09-30T10:51:09.2110717Z    Compiling equator v0.2.2
+2026-09-30T10:51:09.3361685Z    Compiling rand v0.9.5
+2026-09-30T10:51:29.2117896Z    Compiling gemm-c64 v0.19.0
+2026-09-30T10:51:30.2977990Z    Compiling gemm-c32 v0.19.0
+2026-09-30T10:51:31.6090566Z    Compiling gemm-f32 v0.19.0
+2026-09-30T10:51:32.7500567Z    Compiling gemm-f64 v0.19.0
+2026-09-30T10:51:32.8555305Z    Compiling qd v0.8.0
+2026-09-30T10:51:33.0378218Z    Compiling num_cpus v1.17.0
+2026-09-30T10:51:33.6617492Z    Compiling approx v0.5.1
+2026-09-30T10:51:33.7470509Z    Compiling byteorder v1.5.0
+2026-09-30T10:51:33.9487569Z    Compiling serde_core v1.0.229
+2026-09-30T10:51:34.0435591Z    Compiling generativity v1.2.1
+2026-09-30T10:51:34.0761139Z    Compiling thiserror v2.0.19
+2026-09-30T10:51:34.1111105Z    Compiling equator-macro v0.6.0
+2026-09-30T10:51:34.3121223Z    Compiling faer-traits v0.24.0
+2026-09-30T10:51:34.3720820Z    Compiling equator v0.6.0
+2026-09-30T10:51:34.4730019Z    Compiling npyz v0.8.4
+2026-09-30T10:51:35.3698239Z    Compiling simba v0.10.0
+2026-09-30T10:51:35.5781133Z    Compiling gemm v0.19.0
+2026-09-30T10:51:39.5947264Z    Compiling nano-gemm v0.2.2
+2026-09-30T10:51:39.9281076Z    Compiling rand_distr v0.5.1
+2026-09-30T10:51:40.4250765Z    Compiling thiserror-impl v2.0.19
+2026-09-30T10:51:41.4218742Z    Compiling pyo3 v0.29.0
+2026-09-30T10:51:41.5130239Z    Compiling num-rational v0.4.2
+2026-09-30T10:51:41.8360909Z    Compiling nalgebra-macros v0.3.0
+2026-09-30T10:51:42.1982498Z    Compiling zmij v1.0.23
+2026-09-30T10:51:42.3190566Z    Compiling heck v0.5.0
+2026-09-30T10:51:42.3303209Z    Compiling diffsol-la v0.1.0
+2026-09-30T10:51:42.4000543Z    Compiling typenum v1.20.1
+2026-09-30T10:51:42.4600377Z    Compiling pyo3-macros-backend v0.29.0
+2026-09-30T10:51:43.0930617Z    Compiling nalgebra v0.35.0
+2026-09-30T10:51:46.8858358Z    Compiling faer v0.24.4
+2026-09-30T10:51:53.1230517Z    Compiling hashbrown v0.17.1
+2026-09-30T10:51:53.7470552Z    Compiling equivalent v1.0.2
+2026-09-30T10:51:53.7726900Z    Compiling foldhash v0.1.5
+2026-09-30T10:51:53.8780986Z    Compiling serde_json v1.0.151
+2026-09-30T10:51:53.9500785Z    Compiling serde v1.0.229
+2026-09-30T10:51:54.1015777Z    Compiling hashbrown v0.15.5
+2026-09-30T10:51:54.7120833Z    Compiling indexmap v2.14.0
+2026-09-30T10:51:55.7842277Z    Compiling pyo3-macros v0.29.0
+2026-09-30T10:51:56.8480422Z    Compiling serde_derive v1.0.229
+2026-09-30T10:51:59.5741104Z    Compiling numpy v0.29.0
+2026-09-30T10:51:59.6454083Z    Compiling itoa v1.0.18
+2026-09-30T10:51:59.7711238Z    Compiling fixedbitset v0.5.7
+2026-09-30T10:52:00.0690769Z    Compiling diffsol v0.16.1
+2026-09-30T10:52:00.1380997Z    Compiling log v0.4.33
+2026-09-30T10:52:00.2604698Z    Compiling petgraph v0.8.3
+2026-09-30T10:52:10.9676044Z    Compiling ndarray v0.17.2
+2026-09-30T10:52:16.7561107Z    Compiling rustc-hash v2.1.3
+2026-09-30T10:52:18.4078684Z    Compiling rec_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rec_bianchi.git?rev=d3cc6e0120061f113d28e7a3a55a2e3dd561e81e#d3cc6e01)
+2026-09-30T10:52:19.1512947Z    Compiling rei_microphysics v0.1.0 (https://github.com/cosmosapjw-quantum/rei_bianchi.git?rev=1bda1e8cea7629d31f905e126ba47ec3b3c1d0d8#1bda1e8c)
+2026-09-30T10:52:33.9815125Z    Compiling diffsol-nl v0.1.0
+2026-09-30T10:52:40.4870931Z    Compiling bianchi_rustcore v0.1.0 (/home/runner/work/bass/bass/_rustcore)
+2026-09-30T10:53:06.8365870Z     Finished `release` profile [optimized] target(s) in 2m 31s
+2026-09-30T10:53:07.6154858Z 📦 Built wheel for CPython 3.12 to /home/runner/work/_temp/rf00-wheels/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl
+2026-09-30T10:53:07.9731082Z Processing /home/runner/work/_temp/rf00-wheels/bianchi_rustcore-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl
+2026-09-30T10:53:07.9790173Z Processing ./.
+2026-09-30T10:53:07.9808692Z   Installing build dependencies: started
+2026-09-30T10:53:08.7162305Z   Installing build dependencies: finished with status 'done'
+2026-09-30T10:53:08.7169217Z   Getting requirements to build wheel: started
+2026-09-30T10:53:09.4419894Z   Getting requirements to build wheel: finished with status 'done'
+2026-09-30T10:53:09.4430603Z   Preparing metadata (pyproject.toml): started
+2026-09-30T10:53:09.6800878Z   Preparing metadata (pyproject.toml): finished with status 'done'
+2026-09-30T10:53:09.6831452Z Requirement already satisfied: numpy in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from bianchi-solver==0.1.0) (2.4.4)
+2026-09-30T10:53:09.6844204Z Building wheels for collected packages: bianchi-solver
+2026-09-30T10:53:09.6853395Z   Building wheel for bianchi-solver (pyproject.toml): started
+2026-09-30T10:53:10.1470913Z   Building wheel for bianchi-solver (pyproject.toml): finished with status 'done'
+2026-09-30T10:53:10.1482716Z   Created wheel for bianchi-solver: filename=bianchi_solver-0.1.0-py3-none-any.whl size=661850 sha256=802ed39e411915446d127d8045fa7c1da9202b25fe6dcffa30a19e1bf8829ca9
+2026-09-30T10:53:10.1484569Z   Stored in directory: /tmp/pip-ephem-wheel-cache-fucl3r1h/wheels/ef/f9/a4/19aa3b321a1d06f30e728ccf36702a361f1ae4d27180c40a78
+2026-09-30T10:53:10.1501999Z Successfully built bianchi-solver
+2026-09-30T10:53:10.1867465Z Installing collected packages: bianchi-rustcore, bianchi-solver
+2026-09-30T10:53:10.6199993Z 
+2026-09-30T10:53:10.6220529Z Successfully installed bianchi-rustcore-0.1.0 bianchi-solver-0.1.0
+2026-09-30T10:53:10.6892683Z ##[group]Run python -m pytest -q \
+2026-09-30T10:53:10.6893288Z [36;1mpython -m pytest -q \[0m
+2026-09-30T10:53:10.6893769Z [36;1m  tests/test_backend_policy.py \[0m
+2026-09-30T10:53:10.6894315Z [36;1m  tests/test_backend_packaging.py \[0m
+2026-09-30T10:53:10.6894902Z [36;1m  tests/test_rf00_policy_adversarial.py \[0m
+2026-09-30T10:53:10.6895505Z [36;1m  tests/test_rf00_route_inventory.py \[0m
+2026-09-30T10:53:10.6896086Z [36;1m  tests/test_rf00_native_capability.py \[0m
+2026-09-30T10:53:10.6896657Z [36;1m  tests/test_rf01_runtime.py \[0m
+2026-09-30T10:53:10.6897214Z [36;1m  tests/test_rf01_compatibility.py \[0m
+2026-09-30T10:53:10.6897784Z [36;1m  tests/test_rf01_corpus.py \[0m
+2026-09-30T10:53:10.6898143Z [36;1m  tests/test_rf01_corpus_native.py \[0m
+2026-09-30T10:53:10.6898688Z [36;1m  tests/test_rfbench00_corpus_runner.py::test_registry_is_complete_but_future_owned_slots_fail_closed \[0m
+2026-09-30T10:53:10.6900194Z [36;1m  tests/test_rfbench00_corpus_runner.py::test_corpus_description_has_one_sealed_holdout_and_stable_digest[0m
+2026-09-30T10:53:10.6990939Z shell: /usr/bin/bash -e {0}
+2026-09-30T10:53:10.6991385Z env:
+2026-09-30T10:53:10.6991728Z   PYTHON_VERSION: 3.12
+2026-09-30T10:53:10.6992145Z   RUST_TOOLCHAIN: 1.94.1
+2026-09-30T10:53:10.6992570Z   MATURIN_VERSION: 1.14.1
+2026-09-30T10:53:10.6993020Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-09-30T10:53:10.6993492Z   RAYON_NUM_THREADS: 1
+2026-09-30T10:53:10.6993887Z   OMP_NUM_THREADS: 1
+2026-09-30T10:53:10.6994281Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T10:53:10.6994821Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:53:10.6995633Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T10:53:10.6996431Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:53:10.6996871Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:53:10.6997269Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T10:53:10.6997684Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T10:53:10.6998459Z   PIP_NO_INDEX: 1
+2026-09-30T10:53:10.6998861Z   CARGO_NET_OFFLINE: true
+2026-09-30T10:53:10.6999310Z   BASS_ALLOW_UNVERIFIED_NATIVE_DEV: 1
+2026-09-30T10:53:10.7000074Z ##[endgroup]
+2026-09-30T10:53:14.1426185Z ........................................................................ [ 82%]
+2026-09-30T10:53:14.2701525Z ...........F...                                                          [100%]
+2026-09-30T10:53:14.2702495Z =================================== FAILURES ===================================
+2026-09-30T10:53:14.2703853Z _ test_real_rf01_adapter_is_repeatable_and_bound_without_timing[runtime_plan_warm_construct-_runtime_plan_warm_construct] _
+2026-09-30T10:53:14.2704686Z 
+2026-09-30T10:53:14.2705145Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa59d161010>
+2026-09-30T10:53:14.2705896Z workload_id = 'runtime_plan_warm_construct'
+2026-09-30T10:53:14.2706556Z adapter_name = '_runtime_plan_warm_construct'
+2026-09-30T10:53:14.2707033Z 
+2026-09-30T10:53:14.2707366Z     @pytest.mark.parametrize(
+2026-09-30T10:53:14.2707956Z         ("workload_id", "adapter_name"),
+2026-09-30T10:53:14.2708519Z         (
+2026-09-30T10:53:14.2709121Z             ("runtime_plan_warm_construct", "_runtime_plan_warm_construct"),
+2026-09-30T10:53:14.2710079Z             (
+2026-09-30T10:53:14.2710622Z                 "runtime_plan_memory_allocation_ffi_overhead",
+2026-09-30T10:53:14.2711340Z                 "_runtime_plan_memory_allocation_ffi_overhead",
+2026-09-30T10:53:14.2711964Z             ),
+2026-09-30T10:53:14.2712401Z         ),
+2026-09-30T10:53:14.2712867Z     )
+2026-09-30T10:53:14.2713503Z     def test_real_rf01_adapter_is_repeatable_and_bound_without_timing(
+2026-09-30T10:53:14.2714226Z         monkeypatch, workload_id, adapter_name
+2026-09-30T10:53:14.2714903Z     ):
+2026-09-30T10:53:14.2715518Z         monkeypatch.setenv("RAYON_NUM_THREADS", "1")
+2026-09-30T10:53:14.2716888Z         workload_child._runtime_build_fields.cache_clear()
+2026-09-30T10:53:14.2717656Z         workload_child._runtime_overhead_context.cache_clear()
+2026-09-30T10:53:14.2718253Z     
+2026-09-30T10:53:14.2718671Z         def forbidden_global_probe():
+2026-09-30T10:53:14.2719649Z             raise AssertionError("RF-01 corpus adapter probed the global Rayon pool")
+2026-09-30T10:53:14.2720607Z     
+2026-09-30T10:53:14.2721294Z         monkeypatch.setattr(rust, "rayon_thread_pool_size", forbidden_global_probe)
+2026-09-30T10:53:14.2722160Z         registry = load_registry()
+2026-09-30T10:53:14.2723046Z         workload = next(item for item in registry["workloads"] if item["id"] == workload_id)
+2026-09-30T10:53:14.2723996Z         adapter = getattr(workload_child, adapter_name)
+2026-09-30T10:53:14.2724664Z     
+2026-09-30T10:53:14.2725190Z         first = adapter(workload["inputs"])
+2026-09-30T10:53:14.2725886Z         second = adapter(workload["inputs"])
+2026-09-30T10:53:14.2726474Z         assert first == second
+2026-09-30T10:53:14.2727181Z >       assert _canonical_digest(first) == workload["functional_output_sha256"]
+2026-09-30T10:53:14.2728156Z E       AssertionError: assert '7b718708513a...010440928b26f' == '76d6d0db86a8...557fd1d70fc84'
+2026-09-30T10:53:14.2728904Z E         
+2026-09-30T10:53:14.2729731Z E         - 76d6d0db86a80c0ab01155dd3be2061cfe0c0874bd955b47502557fd1d70fc84
+2026-09-30T10:53:14.2730710Z E         + 7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f
+2026-09-30T10:53:14.2731342Z 
+2026-09-30T10:53:14.2731722Z tests/test_rf01_corpus_native.py:56: AssertionError
+2026-09-30T10:53:14.2732480Z =============================== warnings summary ===============================
+2026-09-30T10:53:14.2733423Z tests/test_rf01_runtime.py::test_high_level_frontend_uses_the_typed_native_policy
+2026-09-30T10:53:14.2734571Z tests/test_rf01_runtime.py::test_high_level_plan_construction_never_probes_legacy_global_pool
+2026-09-30T10:53:14.2736176Z tests/test_rf01_corpus_native.py::test_real_rf01_adapter_is_repeatable_and_bound_without_timing[runtime_plan_warm_construct-_runtime_plan_warm_construct]
+2026-09-30T10:53:14.2738334Z tests/test_rf01_corpus_native.py::test_real_rf01_adapter_is_repeatable_and_bound_without_timing[runtime_plan_memory_allocation_ffi_overhead-_runtime_plan_memory_allocation_ffi_overhead]
+2026-09-30T10:53:14.2741934Z   /home/runner/work/bass/bass/bianchi/runtime.py:60: UnverifiedNativeDevelopmentWarning: UNVERIFIED_DEVELOPMENT_NATIVE_PAYLOAD:route=runtime.plan;reason=installed_file_size_mismatch:bianchi_rustcore-0.1.0.dist-info/sboms/bianchi_rustcore.cyclonedx.json;origin=/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/bianchi_rustcore/bianchi_rustcore.cpython-312-x86_64-linux-gnu.so
+2026-09-30T10:53:14.2744637Z     selection = select_backend(
+2026-09-30T10:53:14.2744951Z 
+2026-09-30T10:53:14.2745329Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-09-30T10:53:14.2746168Z =========================== short test summary info ============================
+2026-09-30T10:53:14.2748004Z FAILED tests/test_rf01_corpus_native.py::test_real_rf01_adapter_is_repeatable_and_bound_without_timing[runtime_plan_warm_construct-_runtime_plan_warm_construct] - AssertionError: assert '7b718708513a...010440928b26f' == '76d6d0db86a8...557fd1d70fc84'
+2026-09-30T10:53:14.2749911Z   
+2026-09-30T10:53:14.2750420Z   - 76d6d0db86a80c0ab01155dd3be2061cfe0c0874bd955b47502557fd1d70fc84
+2026-09-30T10:53:14.2751217Z   + 7b718708513a04993aaeb61947e090587e327395404c4c0d744010440928b26f
+2026-09-30T10:53:14.2751847Z 1 failed, 86 passed, 4 warnings in 2.93s
+2026-09-30T10:53:14.4273394Z ##[error]Process completed with exit code 1.
+2026-09-30T10:53:14.4427869Z Post job cleanup.
+2026-09-30T10:53:14.6966920Z [command]/usr/bin/git version
+2026-09-30T10:53:14.7060483Z git version 2.55.0
+2026-09-30T10:53:14.7911459Z Temporarily overriding HOME='/home/runner/work/_temp/381fe739-7a16-411a-933c-c42f899e25a0' before making global git config changes
+2026-09-30T10:53:14.7920204Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T10:53:14.8108628Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/bass/bass
+2026-09-30T10:53:14.8230330Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T10:53:14.8530622Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T10:53:14.8647024Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T10:53:14.8731155Z http.https://github.com/.extraheader
+2026-09-30T10:53:14.8756670Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-30T10:53:14.8759079Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T10:53:14.8991089Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T10:53:14.8994260Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T10:53:14.9436384Z Cleaning up orphan processes
+2026-09-30T10:53:14.9818086Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
