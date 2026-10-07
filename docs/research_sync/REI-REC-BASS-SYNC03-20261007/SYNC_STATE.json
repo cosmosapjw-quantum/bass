@@ -1,0 +1,111 @@
+{
+  "schema": "REI_REC_BASS_SYNC03_THREAD_RETURN_V1",
+  "task_id": "REI-REC-BASS-SYNC03-20261007",
+  "central_url": "https://github.com/cosmosapjw-quantum/rei_bianchi/tree/34765f5cc35169b5e8718571f3c01777cd28aec7/docs/research_sync/REI-REC-BASS-SYNC03-20261007",
+  "central_commit": "34765f5cc35169b5e8718571f3c01777cd28aec7",
+  "ordered_execution": [
+    "Loop1 actual F08 BASS receiver",
+    "Independent loop1 review and SYNC_GATE_LOOP1",
+    "Loop2 conditional endpoint-linear transfer",
+    "Independent exact-rational T2 audit"
+  ],
+  "loop1": {
+    "status": "PASS_SCOPED",
+    "histories": 6,
+    "cells": 112000,
+    "decimal70_scalar_comparisons": 784054,
+    "max_tau_absolute_error": 1.1476861436274077e-19,
+    "source_chemistry_independently_rerun": false,
+    "full_bass_build": false
+  },
+  "loop2": {
+    "status": "PASS_CONDITIONAL_ENDPOINT_LINEAR_FUNCTIONAL",
+    "T2_delta_tau_BI_minus_FLRW": "3.4422264935785798336931040502163283e-12",
+    "T2_conditional_interval": [
+      "3.2511236791254256128024824787758359e-12",
+      "3.6333293080074927998903070755981209e-12"
+    ],
+    "conditional_sign": "POSITIVE",
+    "T2_minus_T1_change": "-6.18918583903451595606603356918e-16",
+    "continuous_sign": "NOT_CERTIFIED",
+    "physical_sign": "NOT_CERTIFIED",
+    "mass_contrast": "nominal_only_not_interval_enclosure"
+  },
+  "shared_contract": {
+    "density": "proper ne_cm3; multiply1e6 once to m^-3",
+    "clock": "normal seconds",
+    "D": "1 exactly in supplied histories",
+    "BASS_sigma_T_m2": "6.6524587e-29 as pinned binary64",
+    "observer_tail": "explicit finite slab tail0 baseline and tail0.1 external diagnostic; physical tail unprovided",
+    "reconstruction": "endpoint piecewise-linear density; receiver mean-cell q reproduces endpoint and cell-integrated depth",
+    "conditional_boxes": "inherited certified discrete gas boxes at fixed binary stage densities and actual stage conditioning; no between-node or continuum enclosure"
+  },
+  "protected": [
+    "Existing owner production and research source files",
+    "original failure evidence and numerical tolerances",
+    "HH/RCT/CR OFF baseline",
+    "original atomic precision and REC helium extension lanes"
+  ],
+  "recipient_ack": "NOT_OBSERVED_DIRECT_CHAT_WRITE_UNAVAILABLE",
+  "external_mutation_by_this_worker": false,
+  "review_evidence": [
+    "review/LOOP1_DECISION.json",
+    "review/LOOP2_INDEPENDENT_SPOT.json"
+  ],
+  "evidence": [
+    "loop1/outputs/NATIVE_SUMMARY.json",
+    "loop1/evidence/DECIMAL_RESULT.json",
+    "loop2/TRANSFER_RESULT.json",
+    "figures/F08_BASS_CONDITIONAL_VISIBILITY.pdf"
+  ],
+  "repo": "cosmosapjw-quantum/bass",
+  "target_branch": "forward/rust-microphysics-host-20260930",
+  "target_pr": 132,
+  "source_pin": "1e45e0f48cd83dcb21c23d4087fa5526195331d7",
+  "active_owner": {
+    "branch": "research/native-boundary-thomson-gain-20261006",
+    "pr": 133,
+    "pin": "1c5db6ddc32c16cacf4ef548f0f6839415ee950a",
+    "reserved": [
+      "native Codazzi/import boundary",
+      "opt-in frozen-frame zero-tilt Thomson gain",
+      "current native build/CI integration"
+    ]
+  },
+  "status_correction": "F08 supplier history and actual isolated receiver are now complete within scope; replace earlier pending label only for this bounded receiver. Current full BASS build/gain owner gates remain separate.",
+  "parallel_ready": [
+    {
+      "id": "BASS-OBS-CONTRACT04",
+      "task": "Prepare a standalone consumer contract for an already-admitted short IGM proper-ne export and its explicit normal-time/slab mapping.",
+      "depends_on": [
+        "published admitted IGM table",
+        "explicit units/time/observer contract"
+      ],
+      "prohibited": [
+        "infer time from redshift without H(z)",
+        "change PR133 gain or default collision path"
+      ]
+    },
+    {
+      "id": "BASS-OBS-TAIL-SENSITIVITY",
+      "task": "Keep the existing finite-slab result and vary caller-provided common observer tail analytically as exp(-b), clearly as a sensitivity study.",
+      "depends_on": [
+        "SYNC03 receiver outputs"
+      ],
+      "prohibited": [
+        "label sensitivity tail as cosmological calibration"
+      ]
+    }
+  ],
+  "owner_reserved": [
+    "PR133 full build/fmt and core integration",
+    "boosted/evolving-geometry gain and adaptive adoption",
+    "physical finite-temperature Thomson operator admission"
+  ],
+  "already_complete_do_not_repeat": [
+    "SYNC02 conformal clock arithmetic benchmark",
+    "SYNC03 six-history native receiver and independent arithmetic"
+  ],
+  "pr_append_summary": "Actual source-pinned F08 proper-ne histories now feed exact BASS native visibility/clock modules in a scoped standalone consumer; six histories112000cells, Decimal70 784054scalar comparisons pass. This does not complete full BASS build, PR133 integration, finite-temperature operator validity or observer-redshift calibration.",
+  "thread": "bass"
+}
