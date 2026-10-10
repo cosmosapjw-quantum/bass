@@ -1,0 +1,89 @@
+diff --git a/_rustcore/src/microphysics/visibility.rs b/_rustcore/src/microphysics/visibility.rs
+index 8e44e23..e686f6c 100644
+--- a/_rustcore/src/microphysics/visibility.rs
++++ b/_rustcore/src/microphysics/visibility.rs
+@@ -109,6 +109,40 @@ pub struct VisibilityResult {
+     pub interval_probability: Vec<f64>,
+ }
+ 
++/// Finite-interval visibility for a piecewise-linear rest-frame edge-rate schedule.
++#[derive(Clone, Debug)]
++pub struct RestFrameSampledVisibility {
++    pub edge_rates_s_inverse: Vec<f64>,
++    pub cell_average_rates_s_inverse: Vec<f64>,
++    pub visibility: VisibilityResult,
++}
++
++/// Integrate sampled electrons at rest in the normal frame on a proper/normal
++/// seconds grid. The edge rate is evaluated by the existing directional rate
++/// API with zero material velocity and a fixed unit direction. Linear rate
++/// interpolation has cell average `(q_left + q_right)/2`; these averages give
++/// exactly the schedule's edge depths and cell probabilities. This does not
++/// reconstruct the within-cell visibility profile or evolve electron chemistry.
++/// The explicit observer tail is additional depth after the finite interval;
++/// zero asserts only that no extra tail is supplied.
++pub fn integrate_rest_frame_sampled_visibility(
++    time_edges_seconds: &[f64],
++    electron_samples: &[ElectronState],
++    observer_optical_depth: f64,
++) -> Result<RestFrameSampledVisibility, VisibilityError> {
++    if electron_samples.len() != time_edges_seconds.len() || electron_samples.len() < 2 {
++        return Err(VisibilityError::InvalidGrid);
++    }
++    let frame = MaterialFrame::new([0.0; 3])?;
++    let edge_rates_s_inverse = electron_samples.iter().map(|sample|
++        sample.scattering_rate_per_normal_second(frame, [1.0, 0.0, 0.0])
++    ).collect::<Result<Vec<_>, _>>()?;
++    let cell_average_rates_s_inverse = edge_rates_s_inverse.windows(2)
++        .map(|q| 0.5 * q[0] + 0.5 * q[1]).collect::<Vec<_>>();
++    let visibility = integrate_visibility(time_edges_seconds, &cell_average_rates_s_inverse, observer_optical_depth)?;
++    Ok(RestFrameSampledVisibility { edge_rates_s_inverse, cell_average_rates_s_inverse, visibility })
++}
++
+ /// Integrate a nonnegative, piecewise-constant rate along one normal-clock ray.
+ ///
+ /// `time_edges_seconds` are finite and strictly increasing. Each rate in s^-1
+diff --git a/_rustcore/examples/rei_cold_ivp01_finite_visibility.rs b/_rustcore/examples/rei_cold_ivp01_finite_visibility.rs
+new file mode 100644
+index 0000000..3a5b5d0
+--- /dev/null
++++ b/_rustcore/examples/rei_cold_ivp01_finite_visibility.rs
+@@ -0,0 +1,38 @@
++//! Stored finite rest-frame history only; no chemistry or reference integration.
++use bianchi_rustcore::microphysics::visibility::{compare_opacity, integrate_rest_frame_sampled_visibility, ElectronState};
++use std::io::{self, Read};
++fn receive(y: &[f64]) -> Result<ElectronState, String> {
++    if y.len()!=19 { return Err("STATE_WIDTH".into()); }
++    if y.iter().any(|x|!x.is_finite()) || y[0]<=0. || y[1..15].iter().any(|x|*x<0.) { return Err("STATE_DOMAIN".into()); }
++    for i in [1,4,5,6,7,8,9,10,12,13] { if y[i]!=0. { return Err(format!("UNSUPPORTED_SPECIES_{i}")); } }
++    let nh=y[2]+y[3];
++    if !nh.is_finite() || nh<=0. { return Err("HYDROGEN_DOMAIN".into()); }
++    ElectronState::new(nh,y[11],y[3]/nh,0.,0.).map_err(|e|format!("{e:?}"))
++}
++fn emit(name:&str,v:&[f64]) { print!("{name}"); for x in v {print!(" {x:.17e}");} println!(); }
++fn main()->Result<(),Box<dyn std::error::Error>> {
++    let mut input=String::new(); io::stdin().read_to_string(&mut input)?;
++    let mut lines=input.lines();
++    let tail:f64=lines.next().ok_or("tail")?.parse()?;
++    let edges:Vec<f64>=lines.next().ok_or("edges")?.split_whitespace().map(str::parse).collect::<Result<_,_>>()?;
++    let samples:Vec<ElectronState>=lines.map(|s| {let y:Vec<f64>=s.split_whitespace().map(str::parse).collect::<Result<_,_>>().map_err(|e|format!("{e}"))?; receive(&y)}).collect::<Result<_,_>>()?;
++    let r=integrate_rest_frame_sampled_visibility(&edges,&samples,tail).map_err(|e|format!("{e:?}"))?;
++    emit("ne",&samples.iter().map(|s|s.number_density_m3()).collect::<Vec<_>>());
++    emit("q",&r.edge_rates_s_inverse); emit("qbar",&r.cell_average_rates_s_inverse);
++    emit("tau",&r.visibility.optical_depth); emit("survival",&r.visibility.survival); emit("mass",&r.visibility.interval_probability);
++    let doubled:Vec<f64>=r.cell_average_rates_s_inverse.iter().map(|q|2.*q).collect();
++    let c=compare_opacity(&edges,&r.cell_average_rates_s_inverse,&doubled).map_err(|e|format!("{e:?}"))?;
++    emit("l1",&c.opacity_l1_tail); emit("survival_bound",&c.survival_error_bound); emit("mass_bound",&c.interval_probability_error_bound);
++    Ok(())
++}
++#[cfg(test)] mod tests {
++ use super::*;
++ #[test] fn malformed_snapshot_guards() {
++  let mut y=[0.;19]; y[0]=0.05; y[2]=100.; y[3]=1.; y[11]=8.; y[14]=1e-20;
++  assert!(receive(&y).is_ok()); assert!(receive(&y[..18]).is_err());
++  let mut z=y; z[4]=1.; assert!(receive(&z).is_err());
++  z=y; z[14]=-1.; assert!(receive(&z).is_err());
++  z=y; z[0]=f64::NAN; assert!(receive(&z).is_err());
++  z=y; z[2]=0.; z[3]=0.; assert!(receive(&z).is_err());
++ }
++}
