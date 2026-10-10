@@ -1,0 +1,52 @@
+{
+  "id": "REI_PR104_BASS_FINITE_CELL_RECEIVER_V1",
+  "archive": "/home/cosmosapjw/Dropbox/BASS_DERIVATION_DOSSIERS_20260912/REI_ACCEL01_C01_BROAD_RUN_20261010.zip",
+  "archive_sha256": "0ea76585670d2dbb2154e19cad15a4606b43eb25e4bec8094290e9b64f405a18",
+  "members": {
+    "evidence/RUN002/flrw_BASS_CELLS.csv": "9a6d7b8a5edf95ba1241f923ed6d087e6d54f90372251700c6ede58c497d6e07",
+    "evidence/RUN002/rp01_BASS_CELLS.csv": "66c7159d9cd3a25362a015123eb8455ac19cba4a629a68f46d489a1ff3a62ef6",
+    "evidence/RUN002/INDEPENDENT_COMPARISON.json": "b6912af8a3296b6173c93526552ecbc069efd13682cfff229676cabb302f15d9",
+    "model.py": "9a79f42f46a67acb28b9e8e2ae4c9a5bc474bebc86a022977c04b1a7fbfac770",
+    "validate_campaign.py": "527a44125951a0a99988b5486fc08dc4c9745d00f43394f2f4c470d6f8a7096f"
+  },
+  "cells": 16384,
+  "decimal_precision": 60,
+  "constants": {
+    "c": 299792458,
+    "sigma_REI": "6.6524587321e-29",
+    "sigma_BASS": "6.6524587e-29",
+    "rho": "0.9999999951747164"
+  },
+  "acceptance": {
+    "epsilon": "2^-52",
+    "u": "epsilon/2",
+    "gamma": "k*u/(1-k*u)",
+    "Btau": "[4*gamma(N+8)+64*epsilon]*tau_ref0",
+    "producer_relative": "64*epsilon",
+    "tau_absolute": "Btau",
+    "survival_absolute": "Btau+64*epsilon",
+    "positive_P_relative": "Btau+128*epsilon",
+    "closure_absolute": "Btau+128*epsilon",
+    "terminal_tau": 0,
+    "terminal_survival": 1,
+    "observer_tail": "UNKNOWN",
+    "observer_total": null,
+    "observer_visibility": null
+  },
+  "limits": {
+    "science_solver_calls": 0,
+    "substantive_cases_once": [
+      "flrw",
+      "rp01"
+    ],
+    "receiver_max": 4,
+    "repair_max": 1,
+    "repair_requires": "parent/Astra",
+    "receiver_seconds": 120,
+    "cargo_seconds": 600,
+    "cargo_cycles_max": 2,
+    "cargo_calls_max": 4,
+    "total_seconds": 1800
+  },
+  "scope": "Conditional finite segment from effective density; no chemistry inversion, no observer tail, no probability normalization."
+}

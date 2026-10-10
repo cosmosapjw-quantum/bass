@@ -1,0 +1,15 @@
+{
+  "status": "HOLD_CONTRACT_HEADER_CONFLICT",
+  "campaign_attempts": 1,
+  "receiver_calls": 0,
+  "science_solver_calls": 0,
+  "build": {"command": "cargo +1.94.1 build --offline --locked --manifest-path _rustcore/Cargo.toml --example rei_pr104_cell_receiver", "exit": 0},
+  "rust_tests": {"command": "cargo +1.94.1 test --offline --locked --manifest-path _rustcore/Cargo.toml --example rei_pr104_cell_receiver --test visibility_contract --test axisym_observables_contract --test rei_axisym_receiver_contract", "exit": 0, "passed": 14},
+  "python_tests": {"command": "python3 -m unittest discover -s research/rei_pr104_cells_20261010 -p test_readback.py -v", "exit": 0, "passed": 2},
+  "campaign": {"command": "python3 research/rei_pr104_cells_20261010/readback.py --binary _rustcore/target/debug/examples/rei_pr104_cell_receiver --output research/rei_pr104_cells_20261010/evidence/first", "exit": 1, "failure": "HEADER_OR_COUNT"},
+  "contract_header": "t0,t1,z0,z1,ne_eff,delta_tau",
+  "immutable_payload_header": "t0_s,t1_s,mean_z0,mean_z1,ne_eff_m3,delta_tau",
+  "first_format_failure": {"command": "cargo +1.94.1 fmt --manifest-path _rustcore/Cargo.toml --example rei_pr104_cell_receiver", "exit": 2, "stderr": "error: unexpected argument '--example' found", "source_mutation": false},
+  "format_recovery": {"command": "rustfmt +1.94.1 --edition 2021 _rustcore/examples/rei_pr104_cell_receiver.rs", "exit": 0},
+  "repair_authorized": false
+}
