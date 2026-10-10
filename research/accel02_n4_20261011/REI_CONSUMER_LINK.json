@@ -15,23 +15,54 @@
     "pr": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/110",
     "branch": "research/accel02-native-broad-20261011",
     "computed_history_commit": "5b1efa76cb0dd34a1accc5b80d2a43238522c0d9",
-    "final_publication_head": "SEPARATE_ROOT_RECEIPT",
-    "domain_mean_volume_redshift": [15.9, 4.0],
-    "model_fields": ["H", "He", "temperature", "photons"],
+    "final_publication_head": "0f9fc71eae12fee162398163ac3cad53a7893d87",
+    "domain_mean_volume_redshift": [
+      15.9,
+      4
+    ],
+    "model_fields": [
+      "H",
+      "He",
+      "temperature",
+      "photons"
+    ],
     "progress_authority": "Root integration owner reports; this consumer-link task does not rerun or independently revalidate the producer",
     "reported_N1": "SCOPED_ACCEPTED",
     "reported_N2": {
       "time_grid": "128 spectral bins, two time resolutions",
       "state": "FIXED_128_TIME_AND_CONSERVATION_INDEPENDENTLY_ACCEPTED",
       "energy_metric": 5.248e-11,
-      "number_metric": 5.010e-10,
+      "number_metric": 5.01e-10,
       "time_field_metric": 1.423e-8,
       "metric_definitions_and_tolerances": "Read the pinned producer contract and independent decision; these summary numbers do not define new thresholds",
-      "spectral_256_diagnostic": "RUNNING_AT_LINK_CREATION"
+      "spectral_256_diagnostic": "COMPLETED_SPECTRAL_FAIL_REQUIRES_QUADRATURE_REPAIR"
     },
     "anisotropic_native_history_admission": "HOLD",
     "new_native_BASS_receipt": "NOT_EXECUTED",
-    "new_native_BASS_admission": "HOLD"
+    "new_native_BASS_admission": "HOLD",
+    "recovered_256_history": {
+      "run": "EVENT_COUPLED003_RECOVERED",
+      "source_commit": "0f9fc71eae12fee162398163ac3cad53a7893d87",
+      "result_sha256": "b1ff00e72b5d1ad1102da99a22abbd4f2decdeb33f35f3bef0626e2eff2bf7b6",
+      "history_sha256": "6b3497b2757ba6ff0fb59e4527e6901a3a332c5105e710ec0410fded1042aa84",
+      "status": "SCOPED_WHOLE_INTERVAL_CONSERVATION_AND_ACCEPTED_DOMAIN",
+      "elapsed_s": 629.1978341569993,
+      "energy_residual": 6.649327860202209e-11,
+      "number_residual": 5.501485743145466e-10,
+      "new_same_grid_time_convergence": "NOT_MEASURED",
+      "spectral_pair": "FAIL_23_OF_24_FIELDS",
+      "worst_field": "GammaHeI_s",
+      "max_scaled_pair_difference": 0.14018076328709536,
+      "frozen_target": 0.001,
+      "independent_decision": "research/accel02_20261011/review/recovery/SPECTRAL_DECISION.json"
+    },
+    "source_only_diagnosis": {
+      "status": "INDEPENDENTLY_ACCEPTED_ATTRIBUTION_ONLY",
+      "source_reference_number_error_128": 0.1031554996,
+      "source_reference_number_error_256": 0.05080638877,
+      "meaning": "Against unchanged declared HM12 interpolation; different normalization from official spectral pair; no evolved-error attribution or repaired trajectory",
+      "decision": "research/accel02_20261011/review/recovery/Q0_DECISION.json"
+    }
   },
   "future_cell_contract": {
     "header": "t0_s,t1_s,mean_z0,mean_z1,ne_eff_m3,delta_tau",
@@ -61,12 +92,19 @@
     "within_cell_visibility_peak": "NOT_DETERMINED_BY_CELL_AVERAGES",
     "CR_RCT_admission": "UNCHANGED"
   },
-  "next_action": "After the producer spectral diagnostic and scoped decision are recorded, export separately pinned native proper-time cells and execute a new BASS receiver acceptance; retain this old N4 receipt without replay",
+  "next_action": "Q1A fixed-q positive-weight composite Gauss candidate, followed by full15.9-to4 same-physics time/spectral/domain/ledger checks. Export new pinned native proper-time cells only after producer admission; existing reduced N4 is retained without replay.",
   "this_link_execution": {
     "solver_calls": 0,
     "receiver_calls": 0,
     "numerical_reference_calls": 0,
     "test_replays": 0,
     "remote_changes": 0
+  },
+  "recovery_link_update": {
+    "producer_evidence": "Actual recovered run only; pruned transcript-only003 excluded",
+    "solver_calls": 0,
+    "receiver_calls": 0,
+    "old_test_replays": 0,
+    "claim": "Propagation of producer state; does not independently validate or receive new history"
   }
 }
