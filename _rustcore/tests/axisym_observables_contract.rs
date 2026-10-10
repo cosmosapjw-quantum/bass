@@ -1,5 +1,6 @@
 use bianchi_rustcore::microphysics::axisym_observables::{
-    fixed_time_optical_depth, with_observer_tail, FixedTimeSlab, ObserverTail,
+    fixed_time_optical_depth, with_observer_tail, DirectionalRedshiftEndpoint, FixedTimeSlab,
+    ObserverTail,
 };
 use bianchi_rustcore::microphysics::visibility::{C_M_S, SIGMA_T_M2};
 #[test]
@@ -16,6 +17,38 @@ fn fixed_proper_time_is_direction_free_and_clips_cells() {
             .total_optical_depth,
         Some(s.optical_depth + 2.)
     );
+}
+#[test]
+fn directional_endpoints_are_supplied_not_inverted() {
+    let axis = DirectionalRedshiftEndpoint {
+        direction: [0., 0., 1.],
+        observed_redshift: 1.,
+        proper_start_s: 0.,
+        proper_end_s: 1.,
+        mapped_energy_ratio: 0.5,
+    };
+    let equator = DirectionalRedshiftEndpoint {
+        direction: [1., 0., 0.],
+        proper_start_s: 0.2,
+        ..axis
+    };
+    axis.validate().unwrap();
+    equator.validate().unwrap();
+    assert_eq!(axis.proper_end_s, equator.proper_end_s);
+    assert_ne!(axis.proper_start_s, equator.proper_start_s);
+    assert!(DirectionalRedshiftEndpoint {
+        mapped_energy_ratio: 0.4,
+        ..axis
+    }
+    .validate()
+    .is_err());
+    assert!(DirectionalRedshiftEndpoint {
+        observed_redshift: -0.5,
+        mapped_energy_ratio: 2.0,
+        ..axis
+    }
+    .validate()
+    .is_ok());
 }
 #[test]
 fn bad_clock_or_density_is_rejected() {

@@ -8,13 +8,50 @@ pub enum ObserverTail {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct FixedTimeSlab {
     pub optical_depth: f64,
+    /// Start of the finite integration bound in proper seconds.
     pub proper_start_s: f64,
+    /// End of the finite integration bound in proper seconds; it can precede an unknown tail.
     pub proper_end_s: f64,
 }
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct TailAwareSlab {
     pub slab: FixedTimeSlab,
     pub total_optical_depth: Option<f64>,
+}
+/// Externally resolved directional observed-z endpoints; no inversion is performed here.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct DirectionalRedshiftEndpoint {
+    /// Unit photon direction measured in the observer frame.
+    pub direction: [f64; 3],
+    pub observed_redshift: f64,
+    /// Emitter proper time.
+    pub proper_start_s: f64,
+    /// Observer proper time; hold common for a fixed-observer direction pair.
+    pub proper_end_s: f64,
+    /// Supplied photon energy ratio `E_observer / E_emitter` from the geodesic map.
+    pub mapped_energy_ratio: f64,
+}
+impl DirectionalRedshiftEndpoint {
+    pub fn validate(self) -> Result<(), VisibilityError> {
+        let norm2: f64 = self.direction.into_iter().map(|x| x * x).sum();
+        if !self.observed_redshift.is_finite()
+            || self.observed_redshift <= -1.0
+            || !self.proper_start_s.is_finite()
+            || !self.proper_end_s.is_finite()
+            || self.proper_start_s > self.proper_end_s
+            || !self.mapped_energy_ratio.is_finite()
+            || self.mapped_energy_ratio <= 0.0
+            || !norm2.is_finite()
+            || (norm2 - 1.0).abs() > 32.0 * f64::EPSILON
+        {
+            return Err(VisibilityError::InvalidGrid);
+        }
+        let expected = 1.0 / (1.0 + self.observed_redshift);
+        if (self.mapped_energy_ratio - expected).abs() > 64.0 * f64::EPSILON * expected {
+            return Err(VisibilityError::InvalidRate);
+        }
+        Ok(())
+    }
 }
 /// Integrates `c sigma_T n_e` once over a requested proper-time interval.
 pub fn fixed_time_optical_depth(
