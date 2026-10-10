@@ -1,0 +1,141 @@
+diff --git a/research/rei_pr104_cells_20261010/readback.py b/research/rei_pr104_cells_20261010/readback.py
+new file mode 100644
+index 0000000..6fd7231
+--- /dev/null
++++ b/research/rei_pr104_cells_20261010/readback.py
+@@ -0,0 +1,135 @@
++"""Frozen finite-cell intake and Decimal60 native readback; no science solver."""
++import argparse
++import csv
++import hashlib
++import io
++import json
++import math
++from decimal import Decimal, getcontext, localcontext
++from pathlib import Path
++import subprocess
++import time
++import zipfile
++
++ROOT = Path(__file__).resolve().parent
++getcontext().prec = 60
++CONTRACT = json.loads((ROOT / 'CONTRACT.json').read_text())
++HEADER = ['t0', 't1', 'z0', 'z1', 'ne_eff', 'delta_tau']
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++def parse_cells(data, expected=16384):
++    rows = list(csv.reader(io.StringIO(data.decode())))
++    if not rows or rows.pop(0) != HEADER or len(rows) != expected:
++        raise ValueError('HEADER_OR_COUNT')
++    values = []
++    for row in rows:
++        if len(row) != 6:
++            raise ValueError('WIDTH')
++        v = list(map(Decimal, row))
++        if any(not x.is_finite() for x in v):
++            raise ValueError('NONFINITE')
++        if v[1] <= v[0] or v[4] < 0 or v[5] < 0 or (values and values[-1][1] != v[0]):
++            raise ValueError('CLOCK_OR_DENSITY')
++        values.append(v)
++    return values
++
++def reference(rows):
++    with localcontext() as ctx:
++        ctx.prec = 60
++        c = Decimal('299792458')
++        sigma = Decimal(CONTRACT['constants']['sigma_BASS'])
++        rho = sigma / Decimal(CONTRACT['constants']['sigma_REI'])
++        ds = [c*sigma*v[4]*(v[1]-v[0]) for v in rows]
++        eps = Decimal(2)**-52
++        for v,d in zip(rows,ds):
++            target = rho*v[5]
++            if target == 0:
++                assert d == 0
++            else:
++                assert abs(d-target)/abs(target) <= 64*eps, 'PRODUCER_DEPTH'
++        taus = [Decimal(0)]*(len(rows)+1)
++        for i in reversed(range(len(rows))):
++            taus[i] = taus[i+1]+ds[i]
++        ss = [(-t).exp() for t in taus]
++        ps = [ss[i+1]*(1-(-ds[i]).exp()) for i in range(len(rows))]
++        k = Decimal(len(rows)+8)
++        u = eps/2
++        bound = (4*k*u/(1-k*u)+64*eps)*taus[0]
++        return ds,taus,ss,ps,bound,eps,rho
++
++def check_native(output, rows):
++    ds,taus,ss,ps,bound,eps,rho = reference(rows)
++    lines = output.splitlines()
++    meta = lines.pop(0).split('\t')
++    assert meta[:4] == ['META','UNKNOWN','null','null']
++    assert Decimal(meta[5]) == Decimal('299792458')
++    assert abs(Decimal(meta[6])/Decimal(CONTRACT['constants']['sigma_BASS'])-1) <= eps
++    assert abs(Decimal(meta[4])-taus[0]) <= bound
++    assert len(lines) == len(rows)+1
++    probabilities = []
++    max_tau = max_survival = max_p_relative = Decimal(0)
++    for i,line in enumerate(lines):
++        cells = line.split('\t')
++        assert cells[:2] == ['EDGE',str(i)]
++        t,s = map(Decimal,cells[2:4])
++        assert t.is_finite() and s.is_finite()
++        te,se = abs(t-taus[i]),abs(s-ss[i])
++        assert te <= bound and se <= bound+64*eps
++        max_tau,max_survival = max(max_tau,te),max(max_survival,se)
++        if i < len(rows):
++            p = Decimal(cells[4]); assert p.is_finite() and p >= 0
++            if ps[i] > 0:
++                pe = abs(p-ps[i])/ps[i]
++                assert pe <= bound+128*eps
++                max_p_relative = max(max_p_relative,pe)
++            else:
++                assert p == 0
++            probabilities.append(float(p))
++        else:
++            assert t == 0 and s == 1 and cells[4] == 'null'
++    closure = abs(float(lines[0].split('\t')[3])+math.fsum(probabilities)-1)
++    assert closure <= float(bound+128*eps)
++    return {'status':'PASS_SCOPED','cells':len(rows),'rho':str(rho),'Btau':str(bound),
++            'max_tau_absolute':str(max_tau),'max_survival_absolute':str(max_survival),
++            'max_P_relative':str(max_p_relative),'closure_absolute':closure,
++            'observer_tail':'UNKNOWN','observer_total':None,'observer_visibility':None,
++            'segment_end':'conditional backward tau, survival, interval P'}
++
++def main():
++    parser=argparse.ArgumentParser()
++    parser.add_argument('--binary',type=Path,required=True)
++    parser.add_argument('--output',type=Path,required=True)
++    args=parser.parse_args()
++    args.output.mkdir(parents=True,exist_ok=False)
++    archive=Path(CONTRACT['archive']).read_bytes()
++    assert sha(archive)==CONTRACT['archive_sha256'],'ARCHIVE_HASH'
++    z=zipfile.ZipFile(io.BytesIO(archive))
++    payloads={}
++    for name,digest in CONTRACT['members'].items():
++        data=z.read('research/broad_history_20261010/'+name)
++        assert sha(data)==digest, name
++        payloads[name]=data
++    binary_sha=sha(args.binary.read_bytes())
++    result={'contract':CONTRACT['id'],'science_solver_calls':0,'receiver_calls':0,
++            'archive_sha256':sha(archive),'binary_sha256':binary_sha,'cases':{}}
++    # Both immutable payloads are validated before any executable launch.
++    rows={case:parse_cells(payloads[f'evidence/RUN002/{case}_BASS_CELLS.csv']) for case in ('flrw','rp01')}
++    for case in ('flrw','rp01'):
++        start=time.monotonic()
++        command=[str(args.binary.resolve())]
++        p=subprocess.run(command,input=payloads[f'evidence/RUN002/{case}_BASS_CELLS.csv'],capture_output=True,timeout=120)
++        (args.output/f'{case}.stdout.log').write_bytes(p.stdout)
++        (args.output/f'{case}.stderr.log').write_bytes(p.stderr)
++        result['receiver_calls']+=1
++        receipt={'command':command,'exit':p.returncode,'wall_s':time.monotonic()-start}
++        result['cases'][case]=receipt
++        (args.output/'EXECUTION.json').write_text(json.dumps(result,indent=2)+'\n')
++        if p.returncode != 0: raise RuntimeError('NATIVE_EXIT')
++        receipt['validation']=check_native(p.stdout.decode(),rows[case])
++        (args.output/'EXECUTION.json').write_text(json.dumps(result,indent=2)+'\n')
++    (args.output/'VALIDATION.json').write_text(json.dumps(result,indent=2)+'\n')
++    print(json.dumps(result,indent=2))
++
++if __name__=='__main__': main()

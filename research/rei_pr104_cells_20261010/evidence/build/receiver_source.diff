@@ -1,0 +1,119 @@
+diff --git a/_rustcore/examples/rei_pr104_cell_receiver.rs b/_rustcore/examples/rei_pr104_cell_receiver.rs
+new file mode 100644
+index 0000000..2e9848d
+--- /dev/null
++++ b/_rustcore/examples/rei_pr104_cell_receiver.rs
+@@ -0,0 +1,113 @@
++//! Finite proper-time density receiver. Segment-end probabilities are conditional.
++use bianchi_rustcore::microphysics::{
++    axisym_observables::{fixed_time_optical_depth, with_observer_tail, ObserverTail},
++    visibility::{integrate_visibility, VisibilityResult, C_M_S, SIGMA_T_M2},
++};
++use std::io::{self, Read};
++
++fn receive(input: &str) -> Result<(f64, VisibilityResult), String> {
++    let mut lines = input.lines();
++    if lines.next() != Some("t0,t1,z0,z1,ne_eff,delta_tau") {
++        return Err("HEADER".into());
++    }
++    let mut edges = Vec::new();
++    let mut densities = Vec::new();
++    for (i, line) in lines.enumerate() {
++        let v: Vec<f64> = line
++            .split(',')
++            .map(str::parse)
++            .collect::<Result<_, _>>()
++            .map_err(|_| format!("PARSE_{i}"))?;
++        if v.len() != 6 || v.iter().any(|x| !x.is_finite()) {
++            return Err(format!("WIDTH_OR_NONFINITE_{i}"));
++        }
++        if v[1] <= v[0]
++            || v[4] < 0.0
++            || v[5] < 0.0
++            || edges.last().is_some_and(|last| *last != v[0])
++        {
++            return Err(format!("CLOCK_OR_DENSITY_{i}"));
++        }
++        if edges.is_empty() {
++            edges.push(v[0]);
++        }
++        edges.push(v[1]);
++        densities.push(v[4]);
++    }
++    if densities.is_empty() {
++        return Err("EMPTY".into());
++    }
++    let slab = fixed_time_optical_depth(&edges, &densities, edges[0], *edges.last().unwrap())
++        .map_err(|e| format!("SLAB_{e:?}"))?;
++    let tail =
++        with_observer_tail(slab, ObserverTail::Unknown).map_err(|e| format!("TAIL_{e:?}"))?;
++    if tail.total_optical_depth.is_some() {
++        return Err("UNKNOWN_TAIL".into());
++    }
++    let rates: Vec<f64> = densities.iter().map(|ne| C_M_S * SIGMA_T_M2 * ne).collect();
++    let visibility =
++        integrate_visibility(&edges, &rates, 0.0).map_err(|e| format!("VISIBILITY_{e:?}"))?;
++    Ok((slab.optical_depth, visibility))
++}
++
++fn main() -> Result<(), String> {
++    let mut input = String::new();
++    io::stdin()
++        .read_to_string(&mut input)
++        .map_err(|e| e.to_string())?;
++    let (tau, v) = receive(&input)?;
++    println!("META\tUNKNOWN\tnull\tnull\t{tau:.17e}\t{C_M_S:.17e}\t{SIGMA_T_M2:.17e}");
++    for j in 0..v.optical_depth.len() {
++        if j < v.interval_probability.len() {
++            println!(
++                "EDGE\t{j}\t{:.17e}\t{:.17e}\t{:.17e}",
++                v.optical_depth[j], v.survival[j], v.interval_probability[j]
++            );
++        } else {
++            println!(
++                "EDGE\t{j}\t{:.17e}\t{:.17e}\tnull",
++                v.optical_depth[j], v.survival[j]
++            );
++        }
++    }
++    Ok(())
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    const H: &str = "t0,t1,z0,z1,ne_eff,delta_tau\n";
++    #[test]
++    fn constant_multicell_and_unknown_tail() {
++        let (tau, v) = receive(&format!("{H}0,1,2,1,1e20,0\n1,3,1,0,1e20,0\n")).unwrap();
++        let d = C_M_S * SIGMA_T_M2 * 1e20;
++        assert!((tau - 3.0 * d).abs() <= 8.0 * f64::EPSILON * tau);
++        assert_eq!(v.optical_depth[2], 0.0);
++        assert_eq!(v.survival[2], 1.0);
++        assert!((v.interval_probability.iter().sum::<f64>() + v.survival[0] - 1.0).abs() < 1e-15);
++    }
++    #[test]
++    fn zero_and_thin() {
++        let (tau, v) = receive(&format!("{H}0,1,1,0,0,0\n")).unwrap();
++        assert_eq!(tau, 0.0);
++        assert_eq!(v.optical_depth, vec![0.0, 0.0]);
++        assert_eq!(v.survival, vec![1.0, 1.0]);
++        assert_eq!(v.interval_probability, vec![0.0]);
++        let (_, v) = receive(&format!("{H}0,1,1,0,1,0\n")).unwrap();
++        assert!(v.interval_probability[0] > 0.0);
++    }
++    #[test]
++    fn rejects_invalid_cells() {
++        for body in [
++            "0,1,1,0,-1,0",
++            "0,1,1,0,NaN,0",
++            "0,1,1,0,1",
++            "1,0,1,0,1,0",
++            "0,1,1,0,1,0\n2,3,0,0,1,0",
++            "1,2,1,0,1,0\n0,1,1,0,1,0",
++        ] {
++            assert!(receive(&format!("{H}{body}\n")).is_err());
++        }
++        assert!(receive("wrong\n").is_err());
++    }
++}

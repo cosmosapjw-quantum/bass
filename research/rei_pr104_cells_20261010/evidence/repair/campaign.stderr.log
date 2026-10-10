@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/research/rei_pr104_cells_20261010/readback.py", line 135, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "/home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/research/rei_pr104_cells_20261010/readback.py", line 130, in main
+    receipt['validation']=check_native(p.stdout.decode(),rows[case])
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/research/rei_pr104_cells_20261010/readback.py", line 63, in check_native
+    ds,taus,ss,ps,bound,eps,rho = reference(rows)
+                                  ^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/research/rei_pr104_cells_20261010/readback.py", line 51, in reference
+    assert abs(d-target)/abs(target) <= 64*eps, 'PRODUCER_DEPTH'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PRODUCER_DEPTH
