@@ -15,7 +15,7 @@
     "pr": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/110",
     "branch": "research/accel02-native-broad-20261011",
     "computed_history_commit": "5b1efa76cb0dd34a1accc5b80d2a43238522c0d9",
-    "final_publication_head": "0f9fc71eae12fee162398163ac3cad53a7893d87",
+    "final_publication_head": "79ea8affa098c24d7e62f01b003ec69be74da13c",
     "domain_mean_volume_redshift": [
       15.9,
       4
@@ -62,6 +62,45 @@
       "source_reference_number_error_256": 0.05080638877,
       "meaning": "Against unchanged declared HM12 interpolation; different normalization from official spectral pair; no evolved-error attribution or repaired trajectory",
       "decision": "research/accel02_20261011/review/recovery/Q0_DECISION.json"
+    },
+    "q1a_gauss_trial": {
+      "producer_commit": "79ea8affa098c24d7e62f01b003ec69be74da13c",
+      "state": "REJECTED_FROZEN_CANDIDATE_G2_DIAGNOSTIC_RUNNING",
+      "G1_FINE": {
+        "whole_interval": true,
+        "redshift": [
+          15.9,
+          4
+        ],
+        "number_ledger": 3.5288241094050894e-9,
+        "number_budget": 1e-9,
+        "number_pass": false,
+        "energy_ledger": 1.0815828184883623e-10,
+        "energy_pass": true,
+        "accepted_finite_gas_photons": true,
+        "result_sha256": "99c349f58034bdd3c467b46e4c15750f0e5b611f60082bb80068d9776012f841"
+      },
+      "G1_TIGHT": {
+        "whole_interval": false,
+        "status": "FAILED_PRESERVED",
+        "reason": "BDF minimum step floor",
+        "last_accepted_u": 0.8677276379189706,
+        "saved_epochs": 112,
+        "time_certificate": "NOT_ESTABLISHED"
+      },
+      "G2_FINE": {
+        "status": "RUNNING_AT_C08B_PUBLICATION",
+        "scientific_admission": false
+      },
+      "source_pair_lower_bound": {
+        "reference_volume_number": 0.03274325249,
+        "reference_volume_energy": 0.02688989399,
+        "budget": 0.001,
+        "meaning": "Full129 source-only bound; does not predict evolved gas error"
+      },
+      "evidence_root": "research/accel02_20261011/q1a/",
+      "changed_physics_or_tolerances": false,
+      "old_science_replays": 0
     }
   },
   "future_cell_contract": {
@@ -92,7 +131,7 @@
     "within_cell_visibility_peak": "NOT_DETERMINED_BY_CELL_AVERAGES",
     "CR_RCT_admission": "UNCHANGED"
   },
-  "next_action": "Q1A fixed-q positive-weight composite Gauss candidate, followed by full15.9-to4 same-physics time/spectral/domain/ledger checks. Export new pinned native proper-time cells only after producer admission; existing reduced N4 is retained without replay.",
+  "next_action": "Finish and preserve existing G2 diagnostic. Current Q1A pair is rejected by coarse number ledger, incomplete temporal refinement and source spectral bound. Start bounded Q1B contract/local-gate work before another ODE; do not inherit old N4 admission or call native BASS on rejected producer.",
   "this_link_execution": {
     "solver_calls": 0,
     "receiver_calls": 0,
@@ -106,5 +145,13 @@
     "receiver_calls": 0,
     "old_test_replays": 0,
     "claim": "Propagation of producer state; does not independently validate or receive new history"
+  },
+  "q1a_link_update": {
+    "producer_state_propagation_only": true,
+    "receiver_calls": 0,
+    "solver_calls": 0,
+    "old_test_replays": 0,
+    "new_native_receipt": "NOT_EXECUTED",
+    "scope": "Existing reduced N4 adoption unchanged; no new H/He producer admission."
   }
 }
