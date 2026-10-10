@@ -109,6 +109,40 @@ pub struct VisibilityResult {
     pub interval_probability: Vec<f64>,
 }
 
+/// Finite-interval visibility for a piecewise-linear rest-frame edge-rate schedule.
+#[derive(Clone, Debug)]
+pub struct RestFrameSampledVisibility {
+    pub edge_rates_s_inverse: Vec<f64>,
+    pub cell_average_rates_s_inverse: Vec<f64>,
+    pub visibility: VisibilityResult,
+}
+
+/// Integrate sampled electrons at rest in the normal frame on a proper/normal
+/// seconds grid. The edge rate is evaluated by the existing directional rate
+/// API with zero material velocity and a fixed unit direction. Linear rate
+/// interpolation has cell average `(q_left + q_right)/2`; these averages give
+/// exactly the schedule's edge depths and cell probabilities. This does not
+/// reconstruct the within-cell visibility profile or evolve electron chemistry.
+/// The explicit observer tail is additional depth after the finite interval;
+/// zero asserts only that no extra tail is supplied.
+pub fn integrate_rest_frame_sampled_visibility(
+    time_edges_seconds: &[f64],
+    electron_samples: &[ElectronState],
+    observer_optical_depth: f64,
+) -> Result<RestFrameSampledVisibility, VisibilityError> {
+    if electron_samples.len() != time_edges_seconds.len() || electron_samples.len() < 2 {
+        return Err(VisibilityError::InvalidGrid);
+    }
+    let frame = MaterialFrame::new([0.0; 3])?;
+    let edge_rates_s_inverse = electron_samples.iter().map(|sample|
+        sample.scattering_rate_per_normal_second(frame, [1.0, 0.0, 0.0])
+    ).collect::<Result<Vec<_>, _>>()?;
+    let cell_average_rates_s_inverse = edge_rates_s_inverse.windows(2)
+        .map(|q| 0.5 * q[0] + 0.5 * q[1]).collect::<Vec<_>>();
+    let visibility = integrate_visibility(time_edges_seconds, &cell_average_rates_s_inverse, observer_optical_depth)?;
+    Ok(RestFrameSampledVisibility { edge_rates_s_inverse, cell_average_rates_s_inverse, visibility })
+}
+
 /// Integrate a nonnegative, piecewise-constant rate along one normal-clock ray.
 ///
 /// `time_edges_seconds` are finite and strictly increasing. Each rate in s^-1

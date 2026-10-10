@@ -1,0 +1,18 @@
+{
+ "task":"COLD_IVP01_BASS_FINITE_VISIBILITY01",
+ "harness":"HARNESS_UNAVAILABLE",
+ "base":"921a61a1e44569f1a89c62304b73b73abdc0bb48",
+ "base_tree":"a3fe3ce7f9c859a6c51dab6e13166bd2dbca1a68",
+ "producer":"/tmp/rei-cold-conditional-ivp01-20261011",
+ "producer_hashes":{"RESULTS.json":"0c00898ab15025cae874b026e52ecc99a357496a5db5c230f8d39a834a8b5818","DECIMAL80_REFERENCE.json":"a4a6107f691a626b7703707f8c06e743b534dc164b49bc280580329a881bcb26","CONTRACT.json":"f7f90c9c0160a8f3d9c2367b53d508543cc4ac0b85ebc8a27f98062b4c297173"},
+ "base_hashes":{"_rustcore/src/microphysics/visibility.rs":"380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f","_rustcore/src/microphysics/rei.rs":"7adb85e1fabeeae7aac582229bea271a1adaa8c2dda2bbd4b9523d9d0034946d","_rustcore/examples/rei_cold_ivp01_snapshot_receiver.rs":"18899a684896e1977c37d34e2bcac208c27d5e7ab2689ea212de86d563ccdf43"},
+ "selection":{"control":"physical","n":32,"ids":[0,1,2,3],"time_edges":[0,25000000000000,50000000000000,75000000000000,100000000000000]},
+ "mapping":"nH=y2+y3,nHe=y11,xHII=y3/nH,xHeII=xHeIII=0; ne=y3 up to floating arithmetic",
+ "schedule":"rest-frame piecewise-linear edge q; qbar=.5qleft+.5qright; existing scattering_rate_per_normal_second then existing integrate_visibility",
+ "acceptance":{"edge_q_rel_eps":64,"tau_rel_eps":128,"survival_abs_eps":64,"mass_rel_eps":256,"mass_conservation_abs_eps":64,"producer_decimal_rel":1e-10,"opacity_comparison_eps":64},
+ "controls":["zero","constant_analytic","density_x2","a_only","tail_0.25","irregular_grid","length_mismatch","duplicate_time","reversed_time","nonfinite_time","negative_tail","nonfinite_tail","PR138_malformed_snapshot_guards"],
+ "limits":{"build_count":1,"build_seconds":600,"targeted_test_count":1,"targeted_test_seconds":120,"campaign_count":1,"campaign_seconds":60,"solver_launches":0},
+ "claim_ceiling":"Finite edge depths and cell probabilities exact for supplied piecewise-linear rate schedule; no chemistry, continuum/convergence/late-time/physical-visibility claim. Observer tail zero supplies no extra postinterval depth only.",
+ "allowed":["_rustcore/src/microphysics/visibility.rs","_rustcore/examples/rei_cold_ivp01_finite_visibility.rs","research/cold_ivp01_bass_visibility_20261011/**"],
+ "stopping_rule":"First substantive failure retains raw results and returns to Astra; no commit/push/publication."
+}
