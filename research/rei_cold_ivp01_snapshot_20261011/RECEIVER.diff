@@ -1,0 +1,129 @@
+diff --git a/_rustcore/examples/rei_cold_ivp01_snapshot_receiver.rs b/_rustcore/examples/rei_cold_ivp01_snapshot_receiver.rs
+new file mode 100644
+index 0000000..f67bd55
+--- /dev/null
++++ b/_rustcore/examples/rei_cold_ivp01_snapshot_receiver.rs
+@@ -0,0 +1,123 @@
++//! Cold-IVP stored snapshots only; no chemistry, radiation or history integration.
++use bianchi_rustcore::microphysics::{
++    frame::MaterialFrame, rei::electron_state_from_rei, visibility::ElectronState,
++};
++use rei_microphysics::{GroupParams, PchipTable, State};
++use std::io::{self, Read};
++
++fn receive(y: &[f64]) -> Result<[f64; 6], String> {
++    if y.len() != 19 {
++        return Err("STATE_WIDTH".into());
++    }
++    if y.iter().any(|x| !x.is_finite()) || y[0] <= 0.0 || y[1..15].iter().any(|x| *x < 0.0) {
++        return Err("STATE_DOMAIN".into());
++    }
++    for i in [1, 4, 5, 6, 7, 8, 9, 10, 12, 13] {
++        if y[i] != 0.0 {
++            return Err(format!("UNSUPPORTED_SPECIES_{i}"));
++        }
++    }
++    let nh = y[2] + y[3];
++    if !nh.is_finite() || nh <= 0.0 {
++        return Err("HYDROGEN_DOMAIN".into());
++    }
++    let xhii = y[3] / nh;
++    let direct = ElectronState::new(nh, y[11], xhii, 0., 0.).map_err(|e| format!("{e:?}"))?;
++    // Inert nonphoton legacy API fixture: only proper densities/fractions consumed.
++    let table = PchipTable::new(
++        vec![-2., 0., 2.],
++        [vec![0.; 2], vec![0.; 2], vec![0.25; 2], vec![-3., -2.5]],
++    )
++    .unwrap();
++    let params = GroupParams {
++        redshift: 0.,
++        n_h_proper_per_cm3: nh / 1e6,
++        n_he_proper_per_cm3: y[11] / 1e6,
++        hubble_per_s: 0.,
++        sigma_hi_cm2: [0.; 4],
++        sigma_hei_cm2: [0.; 4],
++        sigma_heii_cm2: [0.; 4],
++        redshift_coeff: [0.; 4],
++        source_fraction: [0.; 4],
++        lowgroup_log_opacity: [table.clone(), table],
++    };
++    let state = State {
++        n_comoving_per_cmpc3: [0.; 4],
++        x_hii: xhii,
++        helium: [1., 0., 0.],
++        u_erg_per_cm3: 0.,
++        gamma_hi_per_s: 0.,
++    };
++    let legacy = electron_state_from_rei(&state, &params).map_err(|e| format!("{e:?}"))?;
++    let frame = MaterialFrame::new([0.; 3]).unwrap();
++    Ok([
++        direct.number_density_m3(),
++        legacy.number_density_m3(),
++        direct
++            .scattering_rate_per_normal_second(frame, [1., 0., 0.])
++            .unwrap(),
++        direct
++            .scattering_rate_per_normal_second(frame, [0., 0., 1.])
++            .unwrap(),
++        legacy
++            .scattering_rate_per_normal_second(frame, [1., 0., 0.])
++            .unwrap(),
++        legacy
++            .scattering_rate_per_normal_second(frame, [0., 0., 1.])
++            .unwrap(),
++    ])
++}
++fn main() -> Result<(), Box<dyn std::error::Error>> {
++    let mut input = String::new();
++    io::stdin().read_to_string(&mut input)?;
++    for line in input.lines() {
++        let y: Vec<f64> = line
++            .split_whitespace()
++            .map(str::parse)
++            .collect::<Result<_, _>>()?;
++        let r = receive(&y)?;
++        println!(
++            "{:.17e} {:.17e} {:.17e} {:.17e} {:.17e} {:.17e}",
++            r[0], r[1], r[2], r[3], r[4], r[5]
++        );
++    }
++    Ok(())
++}
++#[cfg(test)]
++mod tests {
++    use super::*;
++    #[test]
++    fn receiver_controls() {
++        let mut y = [0.; 19];
++        y[0] = 0.05;
++        y[2] = 100.;
++        y[3] = 1.;
++        y[11] = 8.;
++        y[14] = 1e-20;
++        let r = receive(&y).unwrap();
++        assert_eq!(r[2], r[3]);
++        assert_eq!(r[4], r[5]);
++        let mut z = y;
++        z[3] = 0.;
++        assert_eq!(receive(&z).unwrap(), [0.; 6]);
++        z = y;
++        z[3] *= 2.;
++        let doubled = receive(&z).unwrap();
++        for i in 0..6 {
++            assert!((doubled[i] / r[i] - 2.).abs() <= 64. * f64::EPSILON);
++        }
++        z = y;
++        z[0] *= 2.;
++        assert_eq!(receive(&z).unwrap(), r);
++        assert!(receive(&y[..18]).is_err());
++        z = y;
++        z[4] = 1.;
++        assert!(receive(&z).is_err());
++        z = y;
++        z[14] = -1.;
++        assert!(receive(&z).is_err());
++        z = y;
++        z[0] = f64::NAN;
++        assert!(receive(&z).is_err());
++    }
++}

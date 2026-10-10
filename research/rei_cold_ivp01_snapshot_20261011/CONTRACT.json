@@ -1,0 +1,25 @@
+{
+  "contract": "COLD_IVP01_BASS_SNAPSHOT_RECEIVER01",
+  "base_commit": "8904c18e65095cac0fa0526edc364317fcdc953f",
+  "base_tree": "048d3b223c9c992853f7ac9d25e79798f47aa15b",
+  "producer_commit": "51da705e4f24bd201444ac3e81db495b50a7d8f7",
+  "producer_tree": "186d9541ba73d8ef7ff50270ca924fe5e38171a8",
+  "immutable_sha256": {
+    "RESULTS": "0c00898ab15025cae874b026e52ecc99a357496a5db5c230f8d39a834a8b5818",
+    "DECIMAL80_REFERENCE": "a4a6107f691a626b7703707f8c06e743b534dc164b49bc280580329a881bcb26",
+    "producer_CONTRACT": "f7f90c9c0160a8f3d9c2367b53d508543cc4ac0b85ebc8a27f98062b4c297173",
+    "cold_conditional_ivp.rs": "c2e0935e70e9000dc38be083ce87d33b9c48aab9849448c086860a3427892e0a",
+    "BASS_rei.rs": "7adb85e1fabeeae7aac582229bea271a1adaa8c2dda2bbd4b9523d9d0034946d",
+    "BASS_visibility.rs": "380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f"
+  },
+  "selection": "RESULTS.native kind=trajectory control=physical n=32 id=0..3; five ordered epochs tau=0,2.5e13,5e13,7.5e13,1e14; exactly 20 snapshots",
+  "mapping": "nH=y2+y3, xHII=y3/nH, nHe=y11, ne_reference=y3; proper m^-3; legacy proper cm^-3 = density/1e6",
+  "unsupported": "y1,y4..10,y12,y13 exactly zero; all finite; positive a,nH; nonnegative density,u",
+  "rate": "q=c*sigmaT*ne; zero material velocity; directions [1,0,0],[0,0,1]; c=299792458, sigmaT=6.6524587e-29; no extra a3/redshift/Doppler",
+  "acceptance": {"binary_Decimal80_relative":1.4210854715202004e-14,"producer_Decimal80_relative":1e-10,"direction_equality":"exact","zero":"exact"},
+  "controls": "neutral zero, double HII doubles, a-only unchanged; reject width, unsupported, missing/duplicate id or epoch",
+  "maxima": {"clean_build_count":1,"clean_build_seconds":600,"targeted_test_count":1,"targeted_test_seconds":120,"campaign_count":1,"campaign_seconds":60,"snapshot_rows":20,"histories":0},
+  "harness": "HARNESS_UNAVAILABLE",
+  "stopping_rule": "first substantive failure preserved and returned to Astra; no repair without authority",
+  "non_goals": "chemistry/reference solver calls, histories, model or solver policy changes, scientific admission, commit, push"
+}
