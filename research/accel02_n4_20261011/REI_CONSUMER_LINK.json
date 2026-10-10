@@ -1,0 +1,72 @@
+{
+  "schema": "rei_accel02_bass_consumer_link_v1",
+  "purpose": "Connect the existing reduced-history N4 receipt to the new native REI producer without transferring scientific admission between different models",
+  "existing_N4": {
+    "state": "DONE_SOURCE_REUSED",
+    "published_pr": "https://github.com/cosmosapjw-quantum/bass/pull/140",
+    "published_commit": "ca88db2ca4ddb01c10b252aaaa8c8a9f63a11711",
+    "adoption": "ADOPTION.json",
+    "admitted_inputs": "Only the two frozen RUN002 reduced FLRW and r_i=+0.1 histories, mean-volume z=20 to 4",
+    "scope": "Proper-time effective-density cells, fixed-time optical depth and finite-segment visibility",
+    "admission_transfers_to_new_native_history": false
+  },
+  "new_native_producer": {
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "pr": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/110",
+    "branch": "research/accel02-native-broad-20261011",
+    "computed_history_commit": "5b1efa76cb0dd34a1accc5b80d2a43238522c0d9",
+    "final_publication_head": "SEPARATE_ROOT_RECEIPT",
+    "domain_mean_volume_redshift": [15.9, 4.0],
+    "model_fields": ["H", "He", "temperature", "photons"],
+    "progress_authority": "Root integration owner reports; this consumer-link task does not rerun or independently revalidate the producer",
+    "reported_N1": "SCOPED_ACCEPTED",
+    "reported_N2": {
+      "time_grid": "128 spectral bins, two time resolutions",
+      "state": "FIXED_128_TIME_AND_CONSERVATION_INDEPENDENTLY_ACCEPTED",
+      "energy_metric": 5.248e-11,
+      "number_metric": 5.010e-10,
+      "time_field_metric": 1.423e-8,
+      "metric_definitions_and_tolerances": "Read the pinned producer contract and independent decision; these summary numbers do not define new thresholds",
+      "spectral_256_diagnostic": "RUNNING_AT_LINK_CREATION"
+    },
+    "anisotropic_native_history_admission": "HOLD",
+    "new_native_BASS_receipt": "NOT_EXECUTED",
+    "new_native_BASS_admission": "HOLD"
+  },
+  "future_cell_contract": {
+    "header": "t0_s,t1_s,mean_z0,mean_z1,ne_eff_m3,delta_tau",
+    "time": "Contiguous increasing proper/normal seconds in the non-tilted material frame; bind the actual producer epoch origin and endpoints",
+    "density": "Proper electron density in m^-3; no extra scale-factor, redshift or Doppler multiplier",
+    "instantaneous_electron_density": "n_H*x_HII + n_He*(x_HeII + 2*x_HeIII), using the native history composition",
+    "quadrature_mean": "ne_eff_i = integral_cell n_e(t) dt / (t1_i-t0_i), evaluated with and identified by the accepted producer quadrature",
+    "producer_depth": "delta_tau_i = c_producer*sigmaT_producer*ne_eff_i*(t1_i-t0_i)",
+    "constants": "Pin both producer and BASS c and sigmaT. If different, compare with their explicit ratio; do not silently reuse the old reduced-lane rho or rescale density",
+    "identity_required": [
+      "Computed-history immutable commit and history payload hash",
+      "Actual source, gas, composition, temperature and photon closure contracts",
+      "Producer time quadrature and cell-exporter source hashes",
+      "Each emitted cell payload hash and exact epoch bounds",
+      "Selected BASS native receiver source and execution identity"
+    ],
+    "closure_inheritance": "No inheritance of the old R15/HG97 Case-B filling-factor closure into the new native history",
+    "new_acceptance": "Freeze receiver criteria from its pinned contract before new execution; preserve producer gates and upstream N4 tolerances",
+    "parity_interpretation": "Receiver integral parity checks the projection, constants, units and time binding; it is not independent validation of the producer history"
+  },
+  "scope_guards": {
+    "observer_tail": "UNKNOWN",
+    "observer_total": null,
+    "observer_visibility": null,
+    "mean_redshift_is_directional_observed_redshift": false,
+    "segment_end_visibility": "Only after a separate new native receipt; no probability renormalization",
+    "within_cell_visibility_peak": "NOT_DETERMINED_BY_CELL_AVERAGES",
+    "CR_RCT_admission": "UNCHANGED"
+  },
+  "next_action": "After the producer spectral diagnostic and scoped decision are recorded, export separately pinned native proper-time cells and execute a new BASS receiver acceptance; retain this old N4 receipt without replay",
+  "this_link_execution": {
+    "solver_calls": 0,
+    "receiver_calls": 0,
+    "numerical_reference_calls": 0,
+    "test_replays": 0,
+    "remote_changes": 0
+  }
+}
