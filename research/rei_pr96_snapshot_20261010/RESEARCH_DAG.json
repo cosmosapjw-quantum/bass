@@ -1,0 +1,12 @@
+{
+  "id": "REI_N4_PR96_BASS_SNAPSHOT_V1",
+  "nodes": [
+    {"id": "N4_SNAPSHOT_CONTRACT", "status": "PASS", "evidence": "CONTRACT.json"},
+    {"id": "N4_SNAPSHOT_EXECUTION", "requires": ["N4_SNAPSHOT_CONTRACT"], "status": "PASS_SCOPED", "evidence": "evidence/final/VALIDATION.json"},
+    {"id": "N4_SNAPSHOT_INDEPENDENT_REVIEW", "requires": ["N4_SNAPSHOT_EXECUTION"], "status": "PASS_SCOPED", "evidence": "evidence/INDEPENDENT_REVIEW.json"},
+    {"id": "N4_SNAPSHOT_BACKUP_PUBLICATION", "requires": ["N4_SNAPSHOT_INDEPENDENT_REVIEW"], "status": "READY"},
+    {"id": "N4_FULL_HISTORY_RECEIVER", "status": "HOLD", "blocker": "Requires admitted history/error budget and explicit observer/clock integration contract"}
+  ],
+  "next_action": "Independent review of this bounded snapshot receiver, then local backup and scoped publication",
+  "global_physical_admission": "HOLD"
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "commands": [
+    {"command": "cargo test --offline --locked --manifest-path _rustcore/Cargo.toml --example rei_pr96_snapshot_readback --test rei_axisym_receiver_contract --target-dir /home/cosmosapjw/bass/_rustcore/target", "exit_code": 0, "tests_passed": 4, "stdout": "rust_tests.stdout.log", "stderr": "rust_tests.stderr.log"},
+    {"command": "python3 -m unittest discover -s research/rei_pr96_snapshot_20261010 -p test_readback.py -v", "exit_code": 0, "tests_passed": 3, "stdout": "python_tests.stdout.log", "stderr": "python_tests.stderr.log"},
+    {"command": "rustfmt --check _rustcore/examples/rei_pr96_snapshot_readback.rs", "exit_code": 0},
+    {"command": "git diff --check", "exit_code": 0}
+  ],
+  "first_substantive_failure": null,
+  "first_postrun_failure": {"kind": "RUSTFMT_LINE_WRAPPING", "exit_code": 1, "raw_output": "../first/format.stdout.log"},
+  "repair": "rustfmt on the added example only; final readback retained separately",
+  "scientific_matrix": {
+    "source_identity": "PASS",
+    "state_time_readback": "PASS",
+    "proper_density_si_units": "PASS",
+    "charge_weights": "PASS",
+    "zero_tilt_direction_symmetry": "PASS",
+    "finite_positive_receiver": "PASS",
+    "solver_convergence": "NOT_APPLICABLE_NO_SOLVER",
+    "full_history_physical_admission": "HOLD",
+    "independent_review": "PENDING"
+  }
+}

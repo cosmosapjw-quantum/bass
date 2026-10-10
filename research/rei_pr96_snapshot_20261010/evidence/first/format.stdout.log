@@ -1,0 +1,23 @@
+Diff in /home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/_rustcore/examples/rei_pr96_snapshot_readback.rs:52:
+     let mut input = String::new();
+     io::stdin().read_to_string(&mut input)?;
+     for (i, line) in input.lines().enumerate() {
+-        let values: Vec<f64> = line.split_whitespace().map(str::parse).collect::<Result<_, _>>()?;
++        let values: Vec<f64> = line
++            .split_whitespace()
++            .map(str::parse)
++            .collect::<Result<_, _>>()?;
+         let row: [f64; 6] = values.try_into().map_err(|_| format!("ROW_WIDTH_{i}"))?;
+         if !row[0].is_finite() {
+             return Err(format!("NONFINITE_TIME_{i}").into());
+Diff in /home/cosmosapjw/bass_worktrees/rei-pr96-bass-snapshot-readback-20261010/_rustcore/examples/rei_pr96_snapshot_readback.rs:59:
+         }
+         let result = receive(&row).map_err(|e| format!("RECEIVER_ROW_{i}: {e:?}"))?;
+-        println!("{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}", result[0], result[1], result[2], result[3], result[4]);
++        println!(
++            "{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",
++            result[0], result[1], result[2], result[3], result[4]
++        );
+     }
+     Ok(())
+ }

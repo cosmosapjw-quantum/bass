@@ -1,0 +1,36 @@
+{
+  "id": "REI_N4_PR96_BASS_17_SNAPSHOT_READBACK_V1",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "rei_commit": "528bb69a24ce9345efec78c6d406d3c392e2671d",
+  "rei_tree": "80391ee084753f88c9fdbbbd7b3abf1d6b22a2b4",
+  "bass_parent": "45f31b8edd644b49e4ea06f10d0190eb664737c7",
+  "bass_parent_tree": "e83129de5e8ee66c7a6e4af5a83a2b7e377679c9",
+  "source_files": {
+    "evidence/extended_dataset.npz": "3cbf35cf7910c37083de4c5b9db443c71b272f3877a48f74fb9f852fd70fe2be",
+    "evidence/extended.json": "f1ef5e09495df872e705656ff8d1252376c230e860ccbb882e3527b17e41a24b",
+    "background.py": "b80f1d2ca8b4ab251d93447ff746428e6230130bee9b87500b7960bbc3a0076d"
+  },
+  "bass_files": {
+    "_rustcore/src/microphysics/rei.rs": "7adb85e1fabeeae7aac582229bea271a1adaa8c2dda2bbd4b9523d9d0034946d",
+    "_rustcore/src/microphysics/visibility.rs": "380b0dfc5cf0975ee261f637735b0050bea5810ad7df18efed8ddd6e34819c9f",
+    "_rustcore/src/microphysics/frame.rs": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674"
+  },
+  "mapping": {
+    "epoch_count": 17,
+    "times_s": "NPZ times_s; exact match to JSON history.time_s",
+    "state_shape": [2913, 17],
+    "state_rows": ["x_HII", "x_HeII", "x_HeIII"],
+    "nH_cm3": "JSON history.nH_cm3; proper gas-rest density",
+    "nHe_cm3": "nH_cm3 * 0.24 / (4 * 0.76); frozen mass-number background",
+    "density_si_factor": 1000000.0,
+    "material_beta_normal": [0.0, 0.0, 0.0],
+    "directions": [[1.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
+    "clock": "proper elapsed seconds equals normal time for comoving source model",
+    "redshift": "volume label; not used for clock conversion",
+    "legacy_auxiliary_fields": "inert fixture values; never a physical photon-group mapping"
+  },
+  "constants": {"c_m_s": 299792458.0, "sigma_T_m2": 6.6524587e-29},
+  "relative_tolerance": 1.4210854715202004e-14,
+  "limits": {"epochs": 17, "solver_calls": 0, "substantive_runs": 1, "repair_runs": 1, "review_rounds": 1, "command_wall_s": 600},
+  "claim_ceiling": "Source-pinned conditional warm snapshots received by actual BASS ElectronState and legacy adapter; no optical-depth, visibility, observer-tail, CMB, cold IC, CR, full-history convergence or global physical admission"
+}
