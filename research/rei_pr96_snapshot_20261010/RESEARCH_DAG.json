@@ -5,9 +5,9 @@
     {"id": "N4_SNAPSHOT_EXECUTION", "requires": ["N4_SNAPSHOT_CONTRACT"], "status": "PASS_SCOPED", "evidence": "evidence/final/VALIDATION.json"},
     {"id": "N4_SNAPSHOT_INDEPENDENT_REVIEW", "requires": ["N4_SNAPSHOT_EXECUTION"], "status": "PASS_SCOPED", "evidence": "evidence/INDEPENDENT_REVIEW.json"},
     {"id": "N4_SNAPSHOT_CI_CLOSEOUT", "requires": ["N4_SNAPSHOT_INDEPENDENT_REVIEW"], "status": "PASS_SCOPED", "evidence": "evidence/CI_CLOSEOUT.json", "claim_boundary": "PR merge-checkout software CI only; the fixed 17-epoch readback was not rerun in CI."},
-    {"id": "N4_SNAPSHOT_BACKUP_PUBLICATION", "requires": ["N4_SNAPSHOT_INDEPENDENT_REVIEW", "N4_SNAPSHOT_CI_CLOSEOUT"], "status": "READY", "next": "Create a recovery archive containing this closeout, then non-force publish and verify the remote ref."},
+    {"id": "N4_SNAPSHOT_BACKUP_PUBLICATION", "requires": ["N4_SNAPSHOT_INDEPENDENT_REVIEW", "N4_SNAPSHOT_CI_CLOSEOUT"], "status": "PASS_SCOPED", "evidence": "evidence/CLOSEOUT_RECEIPT.json", "claim_boundary": "Backup, non-force push, ref readback, and software CI are lifecycle evidence; they do not enlarge the fixed warm-snapshot scientific scope."},
     {"id": "N4_FULL_HISTORY_RECEIVER", "status": "HOLD", "blocker": "Requires admitted history/error budget and explicit observer/clock integration contract"}
   ],
-  "next_action": "Create a recovery archive containing the CI closeout, then non-force publish and verify the remote ref",
+  "next_action": "Do not extend N4 beyond the fixed warm snapshot. Open N4 full-history work only after an admitted history/error budget and observer/clock contract exist",
   "global_physical_admission": "HOLD"
 }

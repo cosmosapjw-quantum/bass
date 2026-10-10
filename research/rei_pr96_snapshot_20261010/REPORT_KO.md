@@ -48,5 +48,6 @@ CI는 이 17-epoch readback을 재실행하지 않았으므로 기존 local `PAS
 화학/background solver 호출, CR 주입, 보간, optical-depth/visibility/observer-tail
 적분은 수행하지 않았다. Cold REC IC, 전체 history convergence, CMB 및 global
 physical admission은 HOLD다. 다음 작업은 CI closeout을 포함하는 검토 scope의
-백업·non-force 게시 및 원격 ref readback이다. 이후 N4 전체 history/observer 계약은
-해당 DAG 입력이 갖추어질 때 진행한다.
+백업·non-force 게시 및 원격 ref readback으로 닫았고, 정확한 archive·commit·첫 packaging
+failure 분류는 `evidence/CLOSEOUT_RECEIPT.json`에 있다. 이후 N4 전체 history/observer
+계약은 해당 DAG 입력이 갖추어질 때 진행한다.
