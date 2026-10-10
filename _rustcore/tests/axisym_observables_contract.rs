@@ -1,6 +1,6 @@
 use bianchi_rustcore::microphysics::axisym_observables::{
-    fixed_time_optical_depth, with_observer_tail, DirectionalRedshiftEndpoint, FixedTimeSlab,
-    ObserverTail,
+    fixed_time_optical_depth, validate_common_observer_pair, with_observer_tail,
+    DirectionalRedshiftEndpoint, FixedTimeSlab, ObserverTail,
 };
 use bianchi_rustcore::microphysics::visibility::{C_M_S, SIGMA_T_M2};
 #[test]
@@ -34,6 +34,7 @@ fn directional_endpoints_are_supplied_not_inverted() {
     };
     axis.validate().unwrap();
     equator.validate().unwrap();
+    validate_common_observer_pair(axis, equator).unwrap();
     assert_eq!(axis.proper_end_s, equator.proper_end_s);
     assert_ne!(axis.proper_start_s, equator.proper_start_s);
     assert!(DirectionalRedshiftEndpoint {
@@ -49,6 +50,14 @@ fn directional_endpoints_are_supplied_not_inverted() {
     }
     .validate()
     .is_ok());
+    assert!(validate_common_observer_pair(
+        axis,
+        DirectionalRedshiftEndpoint {
+            proper_end_s: 1.000_000_000_000_000_2,
+            ..equator
+        },
+    )
+    .is_err());
 }
 #[test]
 fn bad_clock_or_density_is_rejected() {

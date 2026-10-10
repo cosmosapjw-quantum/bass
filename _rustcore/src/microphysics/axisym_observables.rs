@@ -53,6 +53,19 @@ impl DirectionalRedshiftEndpoint {
         Ok(())
     }
 }
+/// Validates a directional pair observed at one identical proper-time event.
+/// It checks no angular relation and performs no redshift inversion.
+pub fn validate_common_observer_pair(
+    first: DirectionalRedshiftEndpoint,
+    second: DirectionalRedshiftEndpoint,
+) -> Result<(), VisibilityError> {
+    first.validate()?;
+    second.validate()?;
+    if first.proper_end_s != second.proper_end_s {
+        return Err(VisibilityError::InvalidGrid);
+    }
+    Ok(())
+}
 /// Integrates `c sigma_T n_e` once over a requested proper-time interval.
 pub fn fixed_time_optical_depth(
     edges_s: &[f64],
