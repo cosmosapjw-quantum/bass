@@ -37,9 +37,16 @@ cargo test --offline --locked --manifest-path _rustcore/Cargo.toml \
 python3 -m unittest discover -s research/rei_pr96_snapshot_20261010 -p test_readback.py -v
 ```
 
+PR136의 GitHub CI도 source code commit `de55dd0e55c9773585286814a3f1273fb8035a9e`
+대상 pull-request merge checkout `ddbebdcc452364de0194854502df12d223551aac`에서
+성공했다. RF-00의 Rust-only, portable, native-wheel job과 별도 static runner-contract
+check이 성공했으며, 정확한 run/job 범위는 `evidence/CI_CLOSEOUT.json`에 보관한다.
+CI는 이 17-epoch readback을 재실행하지 않았으므로 기존 local `PASS_SCOPED`를
+소프트웨어 CI로 대체하거나 확장하지 않는다.
+
 이 결과는 조건부 warm-history snapshot의 수신·단위·전하·프레임 검증이다.
 화학/background solver 호출, CR 주입, 보간, optical-depth/visibility/observer-tail
 적분은 수행하지 않았다. Cold REC IC, 전체 history convergence, CMB 및 global
-physical admission은 HOLD다. 다음 작업은 이 diff의 독립 리뷰와, 검토된 scope의
-백업·게시다. 이후 N4 전체 history/observer 계약은 해당 DAG 입력이 갖추어질 때
-진행한다.
+physical admission은 HOLD다. 다음 작업은 CI closeout을 포함하는 검토 scope의
+백업·non-force 게시 및 원격 ref readback이다. 이후 N4 전체 history/observer 계약은
+해당 DAG 입력이 갖추어질 때 진행한다.
