@@ -1,0 +1,88 @@
+{
+  "schema": "warm.p01.bass.history.exec28.identity.v1",
+  "authorization": "/tmp/ASTRA_WARM_P01_BASS_HISTORY_CONTRACT26_20261011.json",
+  "authorization_sha256": "d38fba648aab692ad43a257d715e001cefc7e3e3248e3a488c9f973dfd74b256",
+  "requested_worker": "gpt-6-sol/medium",
+  "observed_runtime": "NOT_INDEPENDENTLY_OBSERVED",
+  "rei": {
+    "storage_root": "/home/cosmosapjw/rei_worktrees/cr-first-build-gate-20261010",
+    "storage_commit": "207094fc796381cd8e14a85c7021b21166d4fae4",
+    "built_source_commit": "f9135eca0d41dd00465fcd524c07872a9c3c8fb8",
+    "input_hashes": {
+      "production_interval_json": "d0745653fa463b05a47f352063e57661d97385561174c749424a7ec1907c1520",
+      "production_dataset_npz": "77a144347d8f85c91320c7acc694e770544ff61f79bc418cebe3f8f13403483a",
+      "provider_contract": "2f5f118b856a47fa339a510a58e7221e7d7ab3ea3a38625d2c61e9b93380ed6d",
+      "background_py": "b80f1d2ca8b4ab251d93447ff746428e6230130bee9b87500b7960bbc3a0076d"
+    }
+  },
+  "bass": {
+    "head": "41fa2d5f6874a6d9eb1a151ff83b2d56f1d2fd25",
+    "tree": "fc68a28aab37c9f09e149180e7d40e93dfa099b2",
+    "module_sha256": {
+      "frame": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+      "visibility": "04afff8fecbbfc961a7c405e8821b6121c71b7a63fe37a9a58d8f6c5acb560c8"
+    },
+    "module_git_blobs": {
+      "frame": "7ed27034cae5313b9ef4a85bf21fd9e96bb741b1",
+      "visibility": "e686f6cfa2315a8a64b88f7416071a50149a1c4e"
+    }
+  },
+  "task_source": {
+    "receiver_rs_sha256": "2b75ea9121751a33d820ffd485a6d4a816c41fb8f8ec918cf382f3c276e5fe48",
+    "run_and_validate_py_sha256": "aee68b3eb6754a8370ad0233f95897833187cf46f94822a6edbcac44a6d0ec7d"
+  },
+  "build": {
+    "raw_path": "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/BUILD_RAW.json",
+    "raw_sha256": "b2d3c09e70c5d8fad7c5d9409eb92d4053d29cc52214e23d1232b5cc2f28b455",
+    "command": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "120s",
+      "rustc",
+      "--edition=2021",
+      "-O",
+      "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/receiver.rs",
+      "-o",
+      "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/receiver"
+    ],
+    "exit_code": 0,
+    "wall_seconds": 0.7716119549586438,
+    "invocations": 1,
+    "toolchain": "rustc 1.94.1 (e408947bf 2026-03-25); host x86_64-unknown-linux-gnu; LLVM 21.1.8",
+    "executable_path": "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/receiver",
+    "executable_sha256": "4eed15377df33cebc2fd82128da4d39c3a515af9adb8ef8e21996e68381de555"
+  },
+  "runner": {
+    "raw_path": "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/RUNNER_RAW.json",
+    "raw_sha256": "d6a3ebb96435668b0ddd0c8af87355870fa50043efc101f4420ec85c39ccfa72",
+    "command": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "120s",
+      "python3",
+      "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/run_and_validate.py",
+      "--source-root",
+      "/home/cosmosapjw/rei_worktrees/cr-first-build-gate-20261010",
+      "--binary",
+      "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/receiver",
+      "--output",
+      "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/output"
+    ],
+    "exit_code": 0,
+    "wall_seconds": 0.6371320830076002,
+    "substantive_receiver_runs": 2,
+    "negative_receiver_runs": 3,
+    "first_failure": null
+  },
+  "input_identity": {
+    "path": "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh/output/INPUT_IDENTITY.json",
+    "sha256": "9e2510bea660499b9249959c9ff8b3291f05ae2db87294e742edf78a1c2b4b03",
+    "npz_json_bit_parity": {
+      "time_epochs": 17,
+      "ionic_values": 51
+    }
+  },
+  "claim_ceiling": "Factual targeted finite sampled warm P01 BASS production visibility component only, pending independent Astra."
+}
