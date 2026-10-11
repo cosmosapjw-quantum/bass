@@ -1,0 +1,180 @@
+{
+  "schema": "rei_accel02_independent_decision_phase1_v1",
+  "reviewer": "/root/decision_review",
+  "model_identity": "UNKNOWN",
+  "independence": {
+    "candidate_implementation": false,
+    "test_design": false,
+    "candidate_edits": 0,
+    "new_science_solver_calls": 0,
+    "RUN002_replayed": false
+  },
+  "review_mode": "Actual source, pinned git diff and saved positive/first-failure evidence; no tests rerun",
+  "timestamp_utc": "2026-10-10T17:26:02.718926+00:00",
+  "N1": {
+    "commit": "e4ef92be7685bae4bba5b421c3ef558da81516a6",
+    "decision": "PROMOTE_SCOPED_POINT_PROVIDER_BINDING",
+    "dag_status": "DONE_SCOPED",
+    "blocking_findings": [],
+    "evidence_status": [
+      "implementation-verified",
+      "numerically checked (saved targeted point evidence)"
+    ],
+    "claim_ceiling": "Source-pinned HM1210\u201350000eV conditional15.9\u21924 input and low-T Grackle Case-A point RHS through actual AXI derivative; no time-integrated native history",
+    "conditions": [
+      "Keep source band truncation explicit; up to7.668% source energy above50keV is omitted atz4",
+      "Use chosen conditional20K,2e-4 residual HII initial data as a scenario, not recombination-derived IC",
+      "CMB bath prescribed isotropic and geometry lacks gas/radiation stress backreaction",
+      "No original FT03 guard deletion; invalid highE active nodes remain rejected",
+      "No CR/RCT/secondary or diffuse radiation completion"
+    ]
+  },
+  "N4": {
+    "commit": "6643c70106b329de5b0d9b8fe610b41792c862da",
+    "upstream_executed_commit": "8904c18e65095cac0fa0526edc364317fcdc953f",
+    "decision": "PROMOTE_SCOPED_EXISTING_RECEIVER_ADOPTION",
+    "dag_status": "DONE_SOURCE_REUSED",
+    "blocking_findings": [],
+    "evidence_status": [
+      "implementation-verified (upstream)",
+      "numerically checked (upstream)",
+      "identity-linked (current)"
+    ],
+    "claim_ceiling": "Two frozen RUN002 FLRW andr=+0.1 finite16384-cell histories; density/proper-clock projection and segment-end tau/survival/cell probabilities",
+    "conditions": [
+      "No14-case BASS acceptance claim",
+      "Thomson constant ratio preserved without density rescaling",
+      "Observer tail remainsUNKNOWN and observer total/visibilitynull",
+      "Producer effective density makes this mapping/unit validation, not independent gas evolution validation",
+      "PR137\u2192PR139 relevant native diff is additive unused wrapper; executed functions/helpers/constants unchanged"
+    ]
+  },
+  "native_history": {
+    "decision": "NOT_REVIEWED_PHASE1",
+    "N2": "PENDING_ROOT_REPAIR_AND_NEW_EVIDENCE",
+    "N3": "NOT_PROMOTED",
+    "known_root_failures": "NATIVE00150keVsourceentry and nonlinear energy ledger; no decision inferred from N1 point probes"
+  },
+  "reviewed_identity": [
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/src/igm_rates.rs",
+      "sha256": "310164e620617f3089d488bd1f9668996b4a4cbd191383e45303def176ef81cf",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/src/igm_state.rs",
+      "sha256": "1651b00a517d67aaa71b38d3c69af6413570adfc38b591a3ed25284f039e0ae0",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/src/igm_thermal.rs",
+      "sha256": "30515d96270ec73a37829ba298513a42112991168479d3cb40f33b67fd469ab2",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/LICENSE",
+      "sha256": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/README.md",
+      "sha256": "2cea3c393da1d0ec55e8b2173b4226267a1f583e9625f530514c61a43469afc1",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/manifest.json",
+      "sha256": "1e4e076f94f4e4e2b6cadaa830ffb628a4ca54143b27e843db7631372c2bdc63",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/grackle_literal_reference.csv",
+      "sha256": "50ece50b98792c6c0210d6b11e2aec29b4caa4acd96ff9e09a31274dcdff4565",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/grackle_literal_reference.c",
+      "sha256": "13a1b252a790dc32bdb765399841471a54765f1a390426ee5db821ce9589c594",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/upstream_grackle_macros.h",
+      "sha256": "716e17085df3fe3650dca47502739868a8851c8c11690310e74333fb97e30b5e",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/tests/data/igm_grackle/upstream_phys_constants.h",
+      "sha256": "8ec4d3bc1faf75106d568d6ac2c3d30055f9c89839715196a7d5241b7ed93737",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/rust/rei_microphysics/src/lib.rs",
+      "sha256": "2db91c1381ad5baed0be1ad7178f2d1113e43936bda93bdec55fbb39b1407bdc",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/provider.py",
+      "sha256": "42aa7ce3eb1029c653d0b97e622cfc7c45456d3547ad5c9d5d8fc52ffa271c3a",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/native/src/main.rs",
+      "sha256": "239a08b0fdbe171f21112c128602be3ad9bbaae596ada1b6791fda482e8aeb76",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/native/Cargo.toml",
+      "sha256": "7b17a0732acf9f5e81ad4dbab3d1eedc5342f99b32e289858947d7d0cc6886d0",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/CONTRACT.json",
+      "sha256": "091666754b20770316b44a3fe59c3022eeccb71a630a559d40e4906d27d6b219",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/ABI.json",
+      "sha256": "b402f88af2443c459b929d0907eb5432ed65a0eff4307d53d5247e95c507900d",
+      "matches_recorded": true
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/evidence/BINDING_CHECKS.json",
+      "sha256": "613e011dda60d4158e06687181daa427ef34dab243614cbacda77d795604f5c0"
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/evidence/FINAL_NATIVE_TESTS.log",
+      "sha256": "389d424b484fe72fb2b296497b8b58bfa746786f45e0879b52a29f9674aba618"
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/evidence/FINAL_PYTHON_TESTS.log",
+      "sha256": "f69a150fe1772e01cb25be1324c372536fa3c4aae61185827d5aa97def2e45f9"
+    },
+    {
+      "path": "repos/rei_n1/research/accel02_20261011/n1/REPORT_KO.md",
+      "sha256": "19e909fa6415395b9b5045cd974ddf71c61b68e3044838446e58311ac38b8659"
+    },
+    {
+      "path": "repos/bass_n4/research/accel02_n4_20261011/ADOPTION.json",
+      "sha256": "3251a1f0099f6b02d26e6b7df1deb2218218c5a3ea0f2186771af374026e5245"
+    },
+    {
+      "path": "repos/bass_n4/research/accel02_n4_20261011/evidence/EVIDENCE_IDENTITY.json",
+      "sha256": "a31d10458dd3891b228fef7367b524b8a61df11fa24470809df1059e3618fa00"
+    },
+    {
+      "path": "repos/bass_n4/research/rei_pr104_cells_20261010/CONTRACT.json",
+      "sha256": "0a07e08f83a053899b6295c3eadf75756ea3f3e3eafda157be89b184f7d79132"
+    },
+    {
+      "path": "repos/bass_n4/research/rei_pr104_cells_20261010/CONTRACT_V2.json",
+      "sha256": "d015d97bbc5c3737c6cd3f8eadb3262ce126a316fc496db5ea3c03aab147720e"
+    },
+    {
+      "path": "repos/bass_n4/research/rei_pr104_cells_20261010/evidence/binary64_v2/VALIDATION.json",
+      "sha256": "94eda02f11330f5e19178e5af8f9f0aac65aba6ca9a5c63e7f8e6abf96175e3d"
+    },
+    {
+      "path": "repos/bass_n4/research/rei_pr104_cells_20261010/evidence/binary64_v2/INDEPENDENT_REVIEW.json",
+      "sha256": "9efb5dfbcdb6cb21c10e20981df9cd376c3acd6db5139caabc98480fc579d86c"
+    }
+  ]
+}

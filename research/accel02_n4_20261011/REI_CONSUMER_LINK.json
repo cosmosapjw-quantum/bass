@@ -1,0 +1,484 @@
+{
+  "schema": "rei_accel02_bass_consumer_link_v1",
+  "purpose": "Connect the existing reduced-history N4 receipt to the new native REI producer without transferring scientific admission between different models",
+  "existing_N4": {
+    "state": "DONE_SOURCE_REUSED",
+    "published_pr": "https://github.com/cosmosapjw-quantum/bass/pull/140",
+    "published_commit": "ca88db2ca4ddb01c10b252aaaa8c8a9f63a11711",
+    "adoption": "ADOPTION.json",
+    "admitted_inputs": "Only the two frozen RUN002 reduced FLRW and r_i=+0.1 histories, mean-volume z=20 to 4",
+    "scope": "Proper-time effective-density cells, fixed-time optical depth and finite-segment visibility",
+    "admission_transfers_to_new_native_history": false
+  },
+  "new_native_producer": {
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "pr": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/110",
+    "branch": "research/accel02-native-broad-20261011",
+    "computed_history_commit": "5b1efa76cb0dd34a1accc5b80d2a43238522c0d9",
+    "final_publication_head": "dc0f3b57cc9a56832c3e7f40e9aee6ac407873a4",
+    "domain_mean_volume_redshift": [
+      15.9,
+      4
+    ],
+    "model_fields": [
+      "H",
+      "He",
+      "temperature",
+      "photons"
+    ],
+    "progress_authority": "Root integration owner reports; this consumer-link task does not rerun or independently revalidate the producer",
+    "reported_N1": "SCOPED_ACCEPTED",
+    "reported_N2": {
+      "time_grid": "128 spectral bins, two time resolutions",
+      "state": "FIXED_128_TIME_AND_CONSERVATION_INDEPENDENTLY_ACCEPTED",
+      "energy_metric": 5.248e-11,
+      "number_metric": 5.01e-10,
+      "time_field_metric": 1.423e-08,
+      "metric_definitions_and_tolerances": "Read the pinned producer contract and independent decision; these summary numbers do not define new thresholds",
+      "spectral_256_diagnostic": "COMPLETED_SPECTRAL_FAIL_REQUIRES_QUADRATURE_REPAIR"
+    },
+    "anisotropic_native_history_admission": "HOLD",
+    "new_native_BASS_receipt": "NOT_EXECUTED",
+    "new_native_BASS_admission": "HOLD",
+    "recovered_256_history": {
+      "run": "EVENT_COUPLED003_RECOVERED",
+      "source_commit": "0f9fc71eae12fee162398163ac3cad53a7893d87",
+      "result_sha256": "b1ff00e72b5d1ad1102da99a22abbd4f2decdeb33f35f3bef0626e2eff2bf7b6",
+      "history_sha256": "6b3497b2757ba6ff0fb59e4527e6901a3a332c5105e710ec0410fded1042aa84",
+      "status": "SCOPED_WHOLE_INTERVAL_CONSERVATION_AND_ACCEPTED_DOMAIN",
+      "elapsed_s": 629.1978341569993,
+      "energy_residual": 6.649327860202209e-11,
+      "number_residual": 5.501485743145466e-10,
+      "new_same_grid_time_convergence": "NOT_MEASURED",
+      "spectral_pair": "FAIL_23_OF_24_FIELDS",
+      "worst_field": "GammaHeI_s",
+      "max_scaled_pair_difference": 0.14018076328709536,
+      "frozen_target": 0.001,
+      "independent_decision": "research/accel02_20261011/review/recovery/SPECTRAL_DECISION.json"
+    },
+    "source_only_diagnosis": {
+      "status": "INDEPENDENTLY_ACCEPTED_ATTRIBUTION_ONLY",
+      "source_reference_number_error_128": 0.1031554996,
+      "source_reference_number_error_256": 0.05080638877,
+      "meaning": "Against unchanged declared HM12 interpolation; different normalization from official spectral pair; no evolved-error attribution or repaired trajectory",
+      "decision": "research/accel02_20261011/review/recovery/Q0_DECISION.json"
+    },
+    "q1a_gauss_trial": {
+      "producer_commit": "cbd40bc6446748d675265ede458cce316cacbd6a",
+      "state": "CLOSED_REJECTED_G2_ENVIRONMENT_INTERRUPTION",
+      "G1_FINE": {
+        "whole_interval": true,
+        "redshift": [
+          15.9,
+          4
+        ],
+        "number_ledger": 3.5288241094050894e-09,
+        "number_budget": 1e-09,
+        "number_pass": false,
+        "energy_ledger": 1.0815828184883623e-10,
+        "energy_pass": true,
+        "accepted_finite_gas_photons": true,
+        "result_sha256": "99c349f58034bdd3c467b46e4c15750f0e5b611f60082bb80068d9776012f841"
+      },
+      "G1_TIGHT": {
+        "whole_interval": false,
+        "status": "FAILED_PRESERVED",
+        "reason": "BDF minimum step floor",
+        "last_accepted_u": 0.8677276379189706,
+        "saved_epochs": 112,
+        "time_certificate": "NOT_ESTABLISHED"
+      },
+      "G2_FINE": {
+        "status": "ENVIRONMENT_INTERRUPTION_NO_TERMINAL_OR_COMPLETE_HISTORY",
+        "durable_progress_z": 8.3494863707831,
+        "complete_history": false,
+        "scientific_solver_failure": false,
+        "wall_timeout": false,
+        "optional_wall_continuation": "NOT_APPLICABLE",
+        "scientific_admission": false
+      },
+      "source_pair_lower_bound": {
+        "reference_volume_number": 0.03274325249,
+        "reference_volume_energy": 0.02688989399,
+        "budget": 0.001,
+        "meaning": "Full129 source-only bound; does not predict evolved gas error"
+      },
+      "evidence_root": "research/accel02_20261011/q1a/",
+      "changed_physics_or_tolerances": false,
+      "old_science_replays": 0,
+      "full_evolved_24field_comparison": "NOT_EXECUTED",
+      "temporal_comparison": "NOT_EXECUTED_INCOMPLETE_TIGHT_HISTORY",
+      "final_independent_review": "research/accel02_20261011/q1a/review/FINAL_DECISION_C08R1.json",
+      "next_action": "Q1B local contract/source/opacity/ABI/Jacobian gates plus atomic checkpoint restore before another long ODE",
+      "continuation_executions": 0
+    },
+    "q1b_local": {
+      "stage": "C12R14_ALLOCATION_EXHAUSTED",
+      "producer_commit": "dc0f3b57cc9a56832c3e7f40e9aee6ac407873a4",
+      "status": "ALLOCATION_EXHAUSTED",
+      "decision": "HOLD_CURRENT_ALLOCATION_EXHAUSTED",
+      "active_run": "C2_FULL004",
+      "current_checkpoint": {
+        "generation": 96,
+        "manifest_sha256": "9d630a694a0772c3e17183d3fae7d67ee0824ff7115486240bb51f10c4252e8d"
+      },
+      "cursor": {
+        "accepted_boundaries": 192,
+        "accepted_clock_s": 47562328985044.92,
+        "accepted_macros": 96,
+        "attempts": 102,
+        "next_step_s": 103779031563.92618,
+        "rejected_macros": 6,
+        "schema": "rei.q1b.c11.adaptive_cursor.v1"
+      },
+      "full_prefix_state_count": 193,
+      "target_time_s": 4.011926941800233e+16,
+      "target_mean_volume_redshift": 4.0,
+      "current_mean_volume_redshift_min": 15.830948903093297,
+      "current_mean_volume_redshift_max": 15.830948903093297,
+      "output_epoch_count": 1,
+      "new_accepted_macros": 93,
+      "producer_totals": {
+        "native_calls": 4116,
+        "opacity_calls": 185426,
+        "sigma_energy_evaluations": 18425856,
+        "trial_map_calls": 294,
+        "elapsed_s": 1581.5376640889954,
+        "new_completed_attempts": 97
+      },
+      "source_identity": "a29207b6ebee37024c35b87723dd64516e528a4f0a160b17ce9965b8dd7e0779",
+      "control_identity": "511df5277ca5bf940854d11e5401b653fd0f7022cf164101a2b2368f1ef285a2",
+      "numerical_provider_identity": "48df7043fb2b974bac3cf196ea488d45eb9afbfb16ee5a757d7f0cfc275147fb",
+      "allocation": {
+        "all_physical_attempt_cap": 105,
+        "completed_attempt_cap": 102,
+        "external_failed_attempt_debit": 3,
+        "remaining_completed_attempts": 0,
+        "accepted_macro_cap": 103,
+        "remaining_accepted_macros": 7,
+        "pending_new_failure_debit": 0,
+        "counters_reset": false
+      },
+      "next_anchor": "Q2_FULL_HISTORY_NEXT_ALLOCATION",
+      "command_status": "NO_CURRENT_BUDGET",
+      "whole_history_decision": "HOLD_NOT_ADMITTED",
+      "whole_history_gates": "NOT_EVALUATED",
+      "whole_history_admission": false,
+      "new_native_BASS_receiver_calls": 0,
+      "new_native_BASS_receipt": "NOT_EXECUTED",
+      "new_native_BASS_admission": "HOLD",
+      "Bianchi_nonzero_shear_admission": "HOLD",
+      "CR_RCT": "OFF_NONCOMPLETION_ORIGINAL_ATOMIC_LANE_UNCHANGED",
+      "old_completed_replays": 0,
+      "physics_or_criteria_changes": false,
+      "evidence_root": "research/accel02_20261011/q1b/c12/",
+      "state_pointer": "research/accel02_20261011/q1b/c12/STATE.json",
+      "handoff_pointer": "research/accel02_20261011/q1b/c12/HANDOFF.json",
+      "report_pointer": "research/accel02_20261011/q1b/c12/REPORT_KO.md",
+      "publication_receipts_pointer": "research/accel02_20261011/q1b/c12/PUBLICATION_RECEIPTS.json",
+      "latest_actual_publication": {
+        "stage": "C12R14_ALLOCATION_EXHAUSTED",
+        "archive": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip",
+        "sha256": "dd58716cf57195150c7a9df4d92ac9849db77b5303f85168f13be97b10c9693f",
+        "bytes": 173089128,
+        "format": "RAW_ZIP_BYTE_PARTS_CONCATENATE_IN_INDEX_ORDER",
+        "parts": [
+          {
+            "index": 1,
+            "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part001",
+            "bytes": 67108864,
+            "sha256": "72eb86cd7e8971499bfa5fbd269da439a25eca129f5f66d750007a10601a95b1",
+            "drive_id": "1XlHkehrUjx9tb6O9RQyc9581S5w9Guof",
+            "drive_status": "UPLOAD_ACK",
+            "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrg",
+            "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+          },
+          {
+            "index": 2,
+            "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part002",
+            "bytes": 67108864,
+            "sha256": "a5488a47defd2803abbc35647656f666ec5783ae9709131a9fe59d38bd21b652",
+            "drive_id": "1f05PEV566JLRez38hpTBkQMuxoCAyZyE",
+            "drive_status": "UPLOAD_ACK",
+            "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrw",
+            "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+          },
+          {
+            "index": 3,
+            "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part003",
+            "bytes": 38871400,
+            "sha256": "6b2d246a452082a8497087141356bf8638f0334be1d677e95594db86ea42f11e",
+            "drive_id": "1MENfc4btCvJ3X8bbEf3QE1uV3kJwgp3l",
+            "drive_status": "UPLOAD_ACK",
+            "dropbox_id": "id:BSpOijBcT10AAAAAAD4JsA",
+            "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+          }
+        ],
+        "transport_manifest": {
+          "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.transport.json",
+          "bytes": 2036,
+          "sha256": "130a9a8ab9f1952ba19478f0470c463bb00f57d70bc080d6063252de4a5fe328",
+          "drive_id": "1tFrY2E_Zka2c5avIeBX6nsb_UYG7OlHU",
+          "drive_status": "UPLOAD_ACK",
+          "dropbox_id": "id:BSpOijBcT10AAAAAAD4JsQ",
+          "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+        },
+        "restore": "Verify eachpart SHA/bytes, concatenate rawpart bytes in index order with no headers/padding, verify completeZIP SHA/bytes/CRC, then apply full-filemanifest and normalstageoverlay. This changes transport only.",
+        "drive": {
+          "id": "1tFrY2E_Zka2c5avIeBX6nsb_UYG7OlHU",
+          "status": "UPLOAD_ACK_ALL_PARTS_AND_INDEX",
+          "parts": [
+            {
+              "index": 1,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part001",
+              "bytes": 67108864,
+              "sha256": "72eb86cd7e8971499bfa5fbd269da439a25eca129f5f66d750007a10601a95b1",
+              "drive_id": "1XlHkehrUjx9tb6O9RQyc9581S5w9Guof",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrg",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            },
+            {
+              "index": 2,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part002",
+              "bytes": 67108864,
+              "sha256": "a5488a47defd2803abbc35647656f666ec5783ae9709131a9fe59d38bd21b652",
+              "drive_id": "1f05PEV566JLRez38hpTBkQMuxoCAyZyE",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrw",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            },
+            {
+              "index": 3,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part003",
+              "bytes": 38871400,
+              "sha256": "6b2d246a452082a8497087141356bf8638f0334be1d677e95594db86ea42f11e",
+              "drive_id": "1MENfc4btCvJ3X8bbEf3QE1uV3kJwgp3l",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4JsA",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            }
+          ]
+        },
+        "dropbox": {
+          "id": "id:BSpOijBcT10AAAAAAD4JsQ",
+          "status": "UPLOAD_ACK_SIZE_MATCH_ALL_PARTS_AND_INDEX",
+          "parts": [
+            {
+              "index": 1,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part001",
+              "bytes": 67108864,
+              "sha256": "72eb86cd7e8971499bfa5fbd269da439a25eca129f5f66d750007a10601a95b1",
+              "drive_id": "1XlHkehrUjx9tb6O9RQyc9581S5w9Guof",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrg",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            },
+            {
+              "index": 2,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part002",
+              "bytes": 67108864,
+              "sha256": "a5488a47defd2803abbc35647656f666ec5783ae9709131a9fe59d38bd21b652",
+              "drive_id": "1f05PEV566JLRez38hpTBkQMuxoCAyZyE",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4Jrw",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            },
+            {
+              "index": 3,
+              "name": "REI_ACCEL02_C12R14_ALLOCATION_EXHAUSTED_20261011.zip.part003",
+              "bytes": 38871400,
+              "sha256": "6b2d246a452082a8497087141356bf8638f0334be1d677e95594db86ea42f11e",
+              "drive_id": "1MENfc4btCvJ3X8bbEf3QE1uV3kJwgp3l",
+              "drive_status": "UPLOAD_ACK",
+              "dropbox_id": "id:BSpOijBcT10AAAAAAD4JsA",
+              "dropbox_status": "UPLOAD_ACK_SIZE_MATCH"
+            }
+          ]
+        },
+        "remote_restore": "NOT_TESTED",
+        "identity_authority": "Existing actual publication receipt; no new download or restore is performed by this script"
+      },
+      "provenance": {
+        "prepared_utc": "2026-10-11T07:55:00.324425+00:00",
+        "source_hashes": {
+          "/workspace/scratch/a5a7937171cb/recovery_c10/bass_c12_draft/BASS_REI_CONSUMER_LINK_BEFORE_C12.json": "c6ec288e431eb25430fb9fa83f89eac5f2b037098e321738e82df05831486830",
+          "research/accel02_20261011/q1b/c12/STATE.json": "d51d57f3fd6693b882999de4e6385777af5e40caabb6e99bb921785852381af5",
+          "research/accel02_20261011/q1b/c12/HANDOFF.json": "2bc69b073be94012c80d7bb94b9996224f985a580a186fc125f1d0ad0f255293",
+          "research/accel02_20261011/q1b/c12/PUBLICATION_RECEIPTS.json": "6073ca990b508dbcecaf8daf2a276ea0064c42e19ddde63414aac9d32d03eadc",
+          "research/accel02_20261011/q1b/c12/REPORT_KO.md": "c7d97ac68345ed7fd359d691a4110da07c73c9b5899f6cc6be49b024fa61ea3e"
+        },
+        "progress_authority": "Saved producer STATE/HANDOFF and actual publication receipt; consumer does not independently revalidate producer"
+      },
+      "failure": null
+    },
+    "q1b_C09B": {
+      "stage": "C09B",
+      "producer_commit": "ff91ff1583ef3e3b5636723d2d67a624869f7acb",
+      "status": "LOCAL_COMPONENTS_VERIFIED_IC_PAIR_FAIL_PRODUCTION_SOLVER_HOLD",
+      "source_IC": "PASS_LOCAL_129_65_SAVED_REFERENCE",
+      "native_bridge": "ACTUAL_CI_6_TESTS_PASS",
+      "native_ci_run": 38100360778,
+      "reconstruction": "R1_REPAIRED_WITH_EXPLICIT_THIN_SUPPORT_REJECTION",
+      "checkpoint": "MANUFACTURED_PASS_PRODUCTION_UNBOUND",
+      "native_opacity": "ACTUAL_SIGMA_BOUND_INTERIOR_IC_ONLY",
+      "C1_IC_max_scaled": 0.00033628984746407947,
+      "C2_IC_max_scaled": 6.336521021575046e-05,
+      "C1_C2_IC_pair_max_scaled": 0.00031569047703665273,
+      "local_headroom": 0.0001,
+      "IC_pair_status": "FAIL",
+      "C2_status": "PASS_IC_ONLY",
+      "physical_Q1B_ODE_calls": 0,
+      "new_native_BASS_receiver_calls": 0,
+      "whole_history_admission": false,
+      "next_anchor": "Q1B_SOURCE_ENTRY_POSITIVE_STEP",
+      "parallel": "Create one C3 bisection of C2 and assess only new member using saved source/opacity references; source-entry and actual checkpoint bindings remain open.",
+      "evidence_root": "research/accel02_20261011/q1b/",
+      "independent_native": "review/INDEPENDENT_NATIVE_CI_ADDENDUM.json",
+      "independent_opacity": "review/INDEPENDENT_OPACITY_IC_ADDENDUM.json"
+    },
+    "q1b_C10R4": {
+      "stage": "C10R4_FINAL",
+      "producer_commit": "33c7877ec82b21e5a4bb5f8c150102346d2a72b8",
+      "status": "PROMOTE_SCOPED_LOCAL_COMPONENTS_AND_BOUNDED_RESTART_HOLD_PRODUCTION",
+      "C2_C3_IC_pair_max": 6.174434009002394e-05,
+      "local_headroom": 0.0001,
+      "IC_pair_status": "PASS_IC_ONLY",
+      "source_entry": "POSITIVE_SOURCE_REDSHIFT_AND_NATIVE_GAS_BOUND_LOCAL",
+      "native_photoheat": "DIRECT_KERNEL_AND_ABI_OWN_SCALE_GATES",
+      "actual_native_family": {
+        "final_s": 100000000000,
+        "steps": [
+          1,
+          2,
+          4
+        ],
+        "accepted_boundaries": 7,
+        "energy_initial_scaled_max": 3.729308634919418e-12,
+        "number_nH_initial_scaled_max": 1.9020753347564594e-19,
+        "restart_next_state_difference": 0,
+        "restart_scope": "same-process bounded next-step"
+      },
+      "early_endpoint_time_comparison": "LOCAL_SENSITIVITY_DIAGNOSTIC_NOT_GLOBAL_65_129_ACCEPTANCE",
+      "full_history_time": "NOT_EVALUATED",
+      "whole_history_admission": false,
+      "new_native_BASS_receiver_calls": 0,
+      "next_anchor": "Q1B_ENTRY_PRECISION_AND_PRODUCTION_CONTROL",
+      "evidence_root": "research/accel02_20261011/q1b/c10/",
+      "independent_review": "review/INDEPENDENT_DECISION.json"
+    },
+    "q1b_C11R4": {
+      "stage": "C11R4_FINAL",
+      "producer_commit": "a5528496b7417f4efbde5f99bc19dc0fc7f3737e",
+      "status": "PROMOTE_LOCAL_PRODUCTION_PREREQUISITES",
+      "whole_history_decision": "HOLD_NOT_EVALUATED",
+      "full_interval_runner_readiness": "NOT_ESTABLISHED_UNFINISHED_AND_UNEXECUTED",
+      "source_entry": {
+        "scope": "same-formula FLRW r=0 only",
+        "order_pair_max": 1.3540307934490514e-15,
+        "born_cell_MP80_max": 1.4866059165842225e-15
+      },
+      "native_coordinate": "Strict-interior same-branch positive-measure response bound subtracted from unchanged1e-7; explicit source-cap provenance required",
+      "actual_native_pilot": {
+        "status": "BUDGET_BOUNDARY",
+        "accepted_macros": 3,
+        "accepted_half_boundaries": 6,
+        "last_accepted_s": 4539815858.150909,
+        "requested_endpoint_s": 10000000000,
+        "energy_initial_scaled_max": 4.894524749888544e-16,
+        "number_nH_initial_scaled_max": 1.9960550444068665e-19
+      },
+      "cold_restart": {
+        "scope": "Actual isolated Python and native processes, PILOT02 gen1 to gen2",
+        "nine_state_arrays_bitwise_equal": true,
+        "full_prefix_R_support_equal": true,
+        "cursor_and_trial_equal": true,
+        "metadata_byte_identity": false,
+        "remote_restore": "NOT_TESTED"
+      },
+      "full_history_time": "NOT_EVALUATED",
+      "whole_history_admission": false,
+      "new_native_BASS_receiver_calls": 0,
+      "next_anchor": "Q2_FULL_HISTORY_BINDING",
+      "evidence_root": "research/accel02_20261011/q1b/c11/",
+      "independent_review": "review/INDEPENDENT_DECISION.json",
+      "old_completed_replays": 0,
+      "physics_or_criteria_changes": false
+    }
+  },
+  "future_cell_contract": {
+    "header": "t0_s,t1_s,mean_z0,mean_z1,ne_eff_m3,delta_tau",
+    "time": "Contiguous increasing proper/normal seconds in the non-tilted material frame; bind the actual producer epoch origin and endpoints",
+    "density": "Proper electron density in m^-3; no extra scale-factor, redshift or Doppler multiplier",
+    "instantaneous_electron_density": "n_H*x_HII + n_He*(x_HeII + 2*x_HeIII), using the native history composition",
+    "quadrature_mean": "ne_eff_i = integral_cell n_e(t) dt / (t1_i-t0_i), evaluated with and identified by the accepted producer quadrature",
+    "producer_depth": "delta_tau_i = c_producer*sigmaT_producer*ne_eff_i*(t1_i-t0_i)",
+    "constants": "Pin both producer and BASS c and sigmaT. If different, compare with their explicit ratio; do not silently reuse the old reduced-lane rho or rescale density",
+    "identity_required": [
+      "Computed-history immutable commit and history payload hash",
+      "Actual source, gas, composition, temperature and photon closure contracts",
+      "Producer time quadrature and cell-exporter source hashes",
+      "Each emitted cell payload hash and exact epoch bounds",
+      "Selected BASS native receiver source and execution identity"
+    ],
+    "closure_inheritance": "No inheritance of the old R15/HG97 Case-B filling-factor closure into the new native history",
+    "new_acceptance": "Freeze receiver criteria from its pinned contract before new execution; preserve producer gates and upstream N4 tolerances",
+    "parity_interpretation": "Receiver integral parity checks the projection, constants, units and time binding; it is not independent validation of the producer history"
+  },
+  "scope_guards": {
+    "observer_tail": "UNKNOWN",
+    "observer_total": null,
+    "observer_visibility": null,
+    "mean_redshift_is_directional_observed_redshift": false,
+    "segment_end_visibility": "Only after a separate new native receipt; no probability renormalization",
+    "within_cell_visibility_peak": "NOT_DETERMINED_BY_CELL_AVERAGES",
+    "CR_RCT_admission": "UNCHANGED"
+  },
+  "next_action": "Q2_FULL_HISTORY_NEXT_ALLOCATION: read producer STATE/HANDOFF at dc0f3b57cc9a56832c3e7f40e9aee6ac407873a4; continue only the declared unexecuted work with current cursor and allocation. Full-history time/spectral65/129 and case-specific producer admission are required before a new BASS receive. No existing reduced N4 or C11 scope transfer; CR/RCT remain OFF_NONCOMPLETION.",
+  "this_link_execution": {
+    "solver_calls": 0,
+    "receiver_calls": 0,
+    "numerical_reference_calls": 0,
+    "test_replays": 0,
+    "remote_changes": 0
+  },
+  "recovery_link_update": {
+    "producer_evidence": "Actual recovered run only; pruned transcript-only003 excluded",
+    "solver_calls": 0,
+    "receiver_calls": 0,
+    "old_test_replays": 0,
+    "claim": "Propagation of producer state; does not independently validate or receive new history"
+  },
+  "q1a_link_update": {
+    "producer_state_propagation_only": true,
+    "receiver_calls": 0,
+    "solver_calls": 0,
+    "old_test_replays": 0,
+    "new_native_receipt": "NOT_EXECUTED",
+    "scope": "Existing reduced N4 adoption unchanged; no new H/He producer admission."
+  },
+  "synchronization_utc": "2026-10-11T05:42:25.623Z",
+  "q1b_link_update": {
+    "producer_state_propagation_only": true,
+    "receiver_calls": 0,
+    "solver_calls": 0,
+    "old_test_replays": 0,
+    "new_native_receipt": "NOT_EXECUTED",
+    "old_reduced_N4": "UNCHANGED",
+    "CR_RCT": "OFF_NONCOMPLETION_ORIGINAL_ATOMIC_LANE_UNCHANGED",
+    "producer_commit": "dc0f3b57cc9a56832c3e7f40e9aee6ac407873a4",
+    "producer_stage": "C12R14_ALLOCATION_EXHAUSTED",
+    "prepared_utc": "2026-10-11T07:55:00.324425+00:00",
+    "pending_synchronization_note": "Prepared for root publication; synchronization_utc retains prior actual remote synchronization until a new ACK."
+  },
+  "q1b_C11R4_link_update": {
+    "producer_state_propagation_only": true,
+    "receiver_calls": 0,
+    "solver_calls": 0,
+    "old_test_replays": 0,
+    "new_native_receipt": "NOT_EXECUTED",
+    "old_reduced_N4": "UNCHANGED",
+    "CR_RCT": "UNCHANGED_NONCOMPLETION",
+    "producer_commit": "a5528496b7417f4efbde5f99bc19dc0fc7f3737e"
+  }
+}

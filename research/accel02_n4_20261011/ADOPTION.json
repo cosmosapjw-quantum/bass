@@ -1,0 +1,126 @@
+{
+  "schema": "rei_accel02_n4_adoption_v1",
+  "dag_node": "N4",
+  "status": "DONE_SOURCE_REUSED",
+  "status_scope": "Two frozen RUN002 FLRW and r_i=+0.1 mean-volume histories; finite-cell mapping and native visibility only",
+  "independent_decision": "UPSTREAM_PASS_SCOPED_REUSED; new integration closeout awaits parent decision",
+  "evidence_status": [
+    "implementation-verified (upstream)",
+    "numerically checked (upstream)",
+    "identity-linked (this task)"
+  ],
+  "source_repo": "cosmosapjw-quantum/bass",
+  "source_commit": "8904c18e65095cac0fa0526edc364317fcdc953f",
+  "source_pr": 137,
+  "integration_base_commit": "41fa2d5f6874a6d9eb1a151ff83b2d56f1d2fd25",
+  "integration_base_tree": "fc68a28aab37c9f09e149180e7d40e93dfa099b2",
+  "producer": {
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "scientific_commit": "7530e0239a4d30e99bfeba68d4b4ddc0b78a2c18",
+    "restored_archive": "REI_ACCEL01_C02B",
+    "upstream_receipt_archive": "REI_ACCEL01_C01_BROAD_RUN_20261010.zip",
+    "archive_sha256": "0ea76585670d2dbb2154e19cad15a4606b43eb25e4bec8094290e9b64f405a18",
+    "same_member_identity": "evidence/EVIDENCE_IDENTITY.json",
+    "raw_cells_in_git": false
+  },
+  "semantics": {
+    "metric": "(-,+,+,+)",
+    "material_tilt": 0,
+    "clock": "proper/normal seconds, elapsed from initial mean-volume z=20",
+    "density": "ne_eff_m3, proper electron density m^-3, quadrature-defined cell average",
+    "closure": "R15 effective H-ionizing source; HG97 Case-B, ionized-zone T=20000K, C_HII=3, HII+HeII inside filling fraction Q; HeIII/residual electrons absent",
+    "mean_redshift_domain": [
+      20,
+      4
+    ],
+    "mean_z_is_observed_z": false,
+    "rho_sigma_BASS_over_REI": "0.999999995174716402958142899112415825819625455350819822938350",
+    "c_m_s": 299792458,
+    "sigma_REI_m2": "6.6524587321e-29",
+    "sigma_BASS_m2": "6.6524587e-29",
+    "native_density_not_rescaled": true,
+    "observer_tail": "UNKNOWN",
+    "observer_total": null,
+    "observer_visibility": null,
+    "returned_probabilities": "finite-segment endpoint boundary; no interval renormalization",
+    "probability_identity": "survival[0] + sum(interval_probability) = 1 for the segment-end boundary tau_end=0",
+    "within_cell_profile": "not imported by cell-average schema"
+  },
+  "cases": {
+    "flrw": {
+      "cells": 16384,
+      "upstream_native_stdout_sha256": "a093f9d7eb5ff406125401324cfdb7d51a8d8f79ec9342f8981f63d872f78455",
+      "retained_validation": {
+        "status": "PASS_SCOPED",
+        "cells": 16384,
+        "rho": "0.999999995174716402958142899112415825819625455350819822938350",
+        "Btau": "2.73090203585737398586196122276175854725425115843367783337356E-13",
+        "max_tau_absolute": "4.189910290402860555827742325415662989485099411E-16",
+        "max_survival_absolute": "4.52014739785558103678990968228185983836279355E-16",
+        "max_P_relative": "7.49081977674175374012583506064897247417398866551517426044053E-16",
+        "closure_absolute": 4.440892098500626e-16,
+        "observer_tail": "UNKNOWN",
+        "observer_total": null,
+        "observer_visibility": null,
+        "segment_end": "conditional backward tau, survival, interval P"
+      }
+    },
+    "rp01": {
+      "cells": 16384,
+      "upstream_native_stdout_sha256": "33744b100046b159673d41995f1beea136aca3e13ea17c6029f6690ed1e47097",
+      "retained_validation": {
+        "status": "PASS_SCOPED",
+        "cells": 16384,
+        "rho": "0.999999995174716402958142899112415825819625455350819822938350",
+        "Btau": "2.72899748117906216283069315324180986004585723001222320281234E-13",
+        "max_tau_absolute": "1.820796890052203285645252940884633768847677924E-16",
+        "max_survival_absolute": "2.28228077147423812215506086468227184604601858E-16",
+        "max_P_relative": "4.68505051264802084288209970721108683830722438974394568073279E-16",
+        "closure_absolute": 2.220446049250313e-16,
+        "observer_tail": "UNKNOWN",
+        "observer_total": null,
+        "observer_visibility": null,
+        "segment_end": "conditional backward tau, survival, interval P"
+      }
+    }
+  },
+  "not_claimed": [
+    "New producer convergence or chemical validation",
+    "Fourteen-case BASS acceptance",
+    "Total CMB optical depth",
+    "Fixed observed-z or directional endpoint inversion",
+    "Physical late-time cold IVP admission",
+    "CR or RCT provider completion",
+    "Merge to production/default branch"
+  ],
+  "new_actions": {
+    "solver_calls": 0,
+    "receiver_calls": 0,
+    "reference_integrations": 0,
+    "builds": 0,
+    "test_suite_replays": 0,
+    "identity_only_link": "5 producer members, 3 native function bodies, receiver source and 2 saved stdout hashes"
+  },
+  "upstream_failures_preserved": [
+    "V1 HEADER schema transcription failure",
+    "V1 exact-decimal text oracle mismatch, 832 FLRW cells; V1 HOLD_ORACLE_CONTRACT",
+    "V2 binary64-input oracle PASS_SCOPED, same tolerances"
+  ],
+  "sibling_results": {
+    "BASS_PR138": {
+      "commit": "921a61a1e44569f1a89c62304b73b73abdc0bb48",
+      "scope": "20 stored cold physical N32 snapshots; proper density/rate mapping only",
+      "producer_REI_commit": "51da705e4f24bd201444ac3e81db495b50a7d8f7"
+    },
+    "BASS_PR139": {
+      "commit": "41fa2d5f6874a6d9eb1a151ff83b2d56f1d2fd25",
+      "scope": "Finite sampled rest-frame rate schedules, edge optical depths and cell probabilities",
+      "not_admitted": [
+        "continuum/convergence",
+        "within-cell peak",
+        "physical late-time visibility",
+        "chemistry evolution"
+      ]
+    }
+  }
+}
