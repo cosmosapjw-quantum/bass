@@ -1,0 +1,103 @@
+{
+  "schema": "astra.warm.p01.bass.history.review31.v1",
+  "task_id": "WARM-P01-BASS-HISTORY-REVIEW31",
+  "reviewer_role": "fresh nonimplementing independent reviewer",
+  "requested_model": "gpt-6-astra",
+  "requested_effort": "xhigh",
+  "observed_runtime_identity": "NOT_INDEPENDENTLY_OBSERVED",
+  "review_started_utc": "2026-10-11T09:39:36Z",
+  "decision": "PASS_SCOPED_COMPONENT_WITH_PROVENANCE_LIMITATION",
+  "full_contract_completion": "HOLD_NO_PRELAUNCH_EXECUTABLE_HASH_RECORD",
+  "review_completed_utc": "2026-10-11T09:44:15Z",
+  "scientific_admission": "PASS_SCOPED_WARM_P01_BASS_FINITE_HISTORY_COMPONENT",
+  "global_scientific_admission": "HOLD",
+  "reviewed_claim": "The actual byte-exact BASS production frame.rs and visibility.rs consumed all 17 saved epochs of the conditional warm P01 Bianchi-I history and computed the declared 16-cell sampled Thomson visibility schedule within the frozen numerical tolerances.",
+  "contract": {
+    "path": "/tmp/ASTRA_WARM_P01_BASS_HISTORY_CONTRACT26_20261011.json",
+    "sha256": "d38fba648aab692ad43a257d715e001cefc7e3e3248e3a488c9f973dfd74b256"
+  },
+  "task_root": "/tmp/WARM_P01_BASS_HISTORY_EXEC28.YBvzfGDh",
+  "artifacts_sha256": {
+    "EXEC28_pointer": "df92edaaf65a34992156070796a2c28147e5f4a7d2fa9e200429b48e7e7132b7",
+    "SOURCE_BUILD_IDENTITY.json": "f9e498ddcb64b7caa5c58b884402405ca1edc95d6906bfa9790b36a27e225400",
+    "SHA256SUMS": "239da9d328c05137546ff34f8436e5670a791ea2fdf2537f9e5809f3a7546458",
+    "receiver.rs": "2b75ea9121751a33d820ffd485a6d4a816c41fb8f8ec918cf382f3c276e5fe48",
+    "run_and_validate.py": "aee68b3eb6754a8370ad0233f95897833187cf46f94822a6edbcac44a6d0ec7d",
+    "receiver": "4eed15377df33cebc2fd82128da4d39c3a515af9adb8ef8e21996e68381de555",
+    "bass/_rustcore/src/microphysics/frame.rs": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+    "bass/_rustcore/src/microphysics/visibility.rs": "04afff8fecbbfc961a7c405e8821b6121c71b7a63fe37a9a58d8f6c5acb560c8",
+    "BUILD_RAW.json": "b2d3c09e70c5d8fad7c5d9409eb92d4053d29cc52214e23d1232b5cc2f28b455",
+    "RUNNER_RAW.json": "d6a3ebb96435668b0ddd0c8af87355870fa50043efc101f4420ec85c39ccfa72",
+    "output/INPUT_IDENTITY.json": "9e2510bea660499b9249959c9ff8b3291f05ae2db87294e742edf78a1c2b4b03",
+    "output/VALIDATION.json": "9eda4833eb609cd40ee750a5b1be574cdee51bf80e1ad78b2e9aa3b66284a0f9",
+    "output/RAW_baseline.json": "c7309ffd653ab4f7870107cf50285752d92b0a9c980c62dce07a6dd86fb466d9",
+    "output/RAW_tail025.json": "e9d59eff97a35c0646caf8b495665ce25f4e5a8bef39d76eddffa22fd92955f2",
+    "output/RAW_missing_epoch.json": "286091bf003918e0bd88c46dbafa794ab3caeefb22186597211291799e023c22",
+    "output/RAW_invalid_fraction.json": "bc0b459d7927d676d122768c8cf0cb7bc21687eea5a150c394c7052d2e6c1617",
+    "output/RAW_negative_tail.json": "84b787f45027656445cbfe40bd8ebc9e71265a5f2b91619551ea408f78f8459b",
+    "P01_production_interval.json": "d0745653fa463b05a47f352063e57661d97385561174c749424a7ec1907c1520",
+    "P01_production_dataset.npz": "77a144347d8f85c91320c7acc694e770544ff61f79bc418cebe3f8f13403483a"
+  },
+  "source_identity": {
+    "bass_commit": "41fa2d5f6874a6d9eb1a151ff83b2d56f1d2fd25",
+    "bass_tree": "fc68a28aab37c9f09e149180e7d40e93dfa099b2",
+    "frame_git_blob": "7ed27034cae5313b9ef4a85bf21fd9e96bb741b1",
+    "visibility_git_blob": "e686f6cfa2315a8a64b88f7416071a50149a1c4e",
+    "rei_storage_commit": "207094fc796381cd8e14a85c7021b21166d4fae4",
+    "rei_storage_tree": "c72b32e79b46cc32e4861a8d07cd36e245b09c00",
+    "rei_json_git_blob": "e5a261771b36ab7fec8ecee1c83a386aadcaa276",
+    "rei_npz_git_blob": "4d2c206ba2539a07c6464ac56511e13275647c91",
+    "checks": "Local Git tree/blob identities match recovered production modules and committed NPZ/JSON; all 22 manifest entries verify."
+  },
+  "observed_validation": {
+    "npz_json_times_bitwise_equal": 17,
+    "npz_json_ionic_values_bitwise_equal": 51,
+    "temperature_range_K": [49999.7770770447, 50000.0],
+    "time_interval_s": [0.0, 100000000000.0],
+    "cells": 16,
+    "proper_density_conversion": "cm^-3 to m^-3 once; nHe/nH=0.24/(4*0.76)",
+    "clock_and_frame": "Archived elapsed comoving proper seconds; zero material tilt gives D=1 and normal-ray time equivalence. Volume redshift is not used as an integration clock.",
+    "reference": "Independent reviewer Decimal80 recomputation on stored transmitted binary64 samples and stored raw output; no receiver or chemistry rerun. Cell probabilities independently recomputed as survival_right minus survival_left.",
+    "baseline_tau_start": 1.2799831081953007e-7,
+    "baseline_max_rate_relative_error": 1.6728414190006708e-16,
+    "baseline_max_tau_relative_error": 2.265573791992007e-16,
+    "baseline_max_cell_mass_relative_error": 3.751120727726183e-16,
+    "baseline_mass_balance_absolute_error": 4.080245388068895e-18,
+    "tail025_tau_start": 0.2500001279983108,
+    "tail025_max_tau_relative_error": 1.9712640454239595e-16,
+    "tail025_max_cell_mass_relative_error": 2.632968087529371e-16,
+    "tail025_mass_balance_absolute_error": 5.609634294135884e-18,
+    "positive_control": "Supplied tail0.25 shifts edge tau and scales survival/cell masses by exp(-0.25); finite-interval mass is not renormalized.",
+    "negative_controls": "missing_epoch, invalid_fraction and negative_tail each exit2 with the expected specific refusal; none were timeout-only failures.",
+    "first_scientific_failure": null
+  },
+  "findings": [
+    {
+      "severity": "MINOR_PROVENANCE_CURRENT_COMPONENT_NONBLOCKING",
+      "path": "SOURCE_BUILD_IDENTITY.json and run_and_validate.py: launch identity",
+      "finding": "The implementation worker confirmed NO_PRELAUNCH_HASH_RECEIPT: executable SHA was first computed in a postrun sha256sum command around09:38:20 UTC. The final identity JSON was assembled after the run; the runner checks input hashes but does not itself bind the executable SHA before launch.",
+      "observed_evidence": "Actual fresh build exit0 at 09:37:53.665571 UTC, executable mtime09:37:54.418629 UTC, then first same-path launch09:38:04.694102 UTC; final executable and exact production-source hashes verify. This supports the trusted-local finite result but does not establish the missing chronological claim.",
+      "consequence": "Do not claim the before-launch hash receipt clause is completed from a postrun JSON alone. Numerical component validity and local recovery remain supported.",
+      "minimal_action": "Publish the finite result with this explicit provenance limitation and the worker-confirmed absence of a prelaunch hash receipt. Do not fabricate a historical receipt or rerun within exhausted 2/2 substantive-run allocation. Any future already-authorized new execution should record the source/build/executable identity before launch."
+    }
+  ],
+  "caps": {
+    "observed_worker_builds": 1,
+    "observed_worker_substantive_receiver_runs": 2,
+    "observed_worker_negative_receiver_runs": 3,
+    "build_wall_s": 0.7716119549586438,
+    "runner_wall_s": 0.6371320830076002,
+    "worker_total_wall_exact": "NOT_INDEPENDENTLY_MEASURED; observed work artifacts lie within contract09:34 to result09:38:34, below600s",
+    "review_focused_read_check_batches": 10,
+    "review_native_solver_build_network_publication_calls": 0,
+    "review_wall_cap_s": 300
+  },
+  "publication_decision": {
+    "local_recovery_backup": "ELIGIBLE_NOW",
+    "scoped_publication": "ELIGIBLE_AFTER_VERIFIED_LOCAL_BACKUP_AND_LIVE_PR_REFRESH",
+    "allowed": "Task-owned wrapper, validator, raw finite-run outputs, source identities, this review and a report limited to the finite component result with the stated provenance qualification.",
+    "source_changes": "None authorized by this review; preserve original dirty worktrees and frozen P01 evidence.",
+    "not_authorized": "Automatic merge; full-contract receipt completion without missing evidence; full BASS crate or legacy PR135 adapter execution claims; full observer, cold REC, CR/RCT/HH ON, sampling/chemistry continuum convergence, CMB or global EoR admission."
+  },
+  "next_transition": "Back up the reviewed finite component and publish within the qualified scope; preserve the provenance item separately and continue dependency-safe READY work without repeating the P01 solver."
+}

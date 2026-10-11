@@ -1,0 +1,168 @@
+{
+  "task_id": "WARM-P01-BASS-HISTORY26",
+  "created_utc": "2026-10-11T09:34:00Z",
+  "decision": "READY_CONDITIONAL_COMPONENT_EXECUTION",
+  "requested_reviewer_model": "gpt-6-astra",
+  "requested_reasoning_effort": "xhigh",
+  "observed_backend_identity": "NOT_INDEPENDENTLY_OBSERVED",
+  "authority_scope": "Prospective bounded lower-tier execution contract for actual BASS production-source visibility consumption of the already certified warm Bianchi-I P01 finite history. Does not reopen or rerun the REI solver.",
+  "evidence": {
+    "rei_storage_root": "/home/cosmosapjw/rei_worktrees/cr-first-build-gate-20261010",
+    "rei_storage_commit": "207094fc796381cd8e14a85c7021b21166d4fae4",
+    "rei_storage_tree": "c72b32e79b46cc32e4861a8d07cd36e245b09c00",
+    "rei_built_source_commit": "f9135eca0d41dd00465fcd524c07872a9c3c8fb8",
+    "rei_built_source_tree": "35389ad8e9a6baf7dcde91a93e5e7d53495911fd",
+    "rei_interval": {
+      "path": "research/p01_certified_warm_exec01_20261010/output/production_interval.json",
+      "sha256": "d0745653fa463b05a47f352063e57661d97385561174c749424a7ec1907c1520"
+    },
+    "rei_dataset": {
+      "path": "research/p01_certified_warm_exec01_20261010/output/production_dataset.npz",
+      "sha256": "77a144347d8f85c91320c7acc694e770544ff61f79bc418cebe3f8f13403483a"
+    },
+    "provider_contract": {
+      "path": "research/physical_provider_20261010/CONTRACT.json",
+      "sha256": "2f5f118b856a47fa339a510a58e7221e7d7ab3ea3a38625d2c61e9b93380ed6d"
+    },
+    "background": {
+      "path": "research/physical_provider_20261010/background.py",
+      "sha256": "b80f1d2ca8b4ab251d93447ff746428e6230130bee9b87500b7960bbc3a0076d"
+    },
+    "existing_independent_review": "research/p01_certified_warm_exec01_20261010/INDEPENDENT_REVIEW.json: PASS_SCOPED, warm clean-build-bound conditional first interval",
+    "bass_repository": "/home/cosmosapjw/bass",
+    "bass_pr": 139,
+    "bass_head": "41fa2d5f6874a6d9eb1a151ff83b2d56f1d2fd25",
+    "bass_tree": "fc68a28aab37c9f09e149180e7d40e93dfa099b2",
+    "bass_remote_observed": "2026-10-11; PR139 open draft at frozen head",
+    "bass_pr135_ancestor": "45f31b8edd644b49e4ea06f10d0190eb664737c7",
+    "bass_files": {
+      "_rustcore/src/microphysics/frame.rs": "82aa87fecfbac746ebca7ff3e9da0d243f30e9bdd9fc905c7b7abdb52a726674",
+      "_rustcore/src/microphysics/visibility.rs": "04afff8fecbbfc961a7c405e8821b6121c71b7a63fe37a9a58d8f6c5acb560c8"
+    },
+    "reused_mapping_contract": "BASS 41fa2d5 research/rei_pr96_snapshot_20261010/CONTRACT.json supplies nHe/nH mass-number ratio, zero material velocity, proper-time equivalence. Its prior fixed snapshots are reused mapping evidence, not repeated as new progress."
+  },
+  "readiness": {
+    "payload_present": true,
+    "epoch_fields": [
+      "time_s",
+      "xHII",
+      "xHeII",
+      "xHeIII",
+      "nH_cm3",
+      "ne_cm3",
+      "z",
+      "T_K"
+    ],
+    "electron_density_reconstructable": true,
+    "proper_time_owner": "Frozen REI dust+Lambda LRS Bianchi-I comoving warm gas; elapsed proper seconds = normal ray seconds at beta=0",
+    "receiver_available": "Existing BASS ElectronState::new, scattering_rate_per_normal_second, integrate_rest_frame_sampled_visibility",
+    "extrapolation_required": false,
+    "tail_missing": false
+  },
+  "frozen_physics": {
+    "source_model": "Warm HM12 primary H/He conditional IVP, shear s_i/H_i=0.001, z_i=5.807, T_i=50000 K, dust+Lambda LRS Bianchi I test-field background",
+    "interval_s": [
+      0,
+      100000000000
+    ],
+    "epochs": 17,
+    "cells": 16,
+    "grid": "Exactly stored times_s and history.time_s; 6.25e9 s spacing",
+    "density_mapping": "nH from stored proper nH_cm3; nHe_cm3=nH_cm3*0.24/(4*0.76), exactly the frozen source mass-number convention; SI factor 1e6 once",
+    "ionization_mapping": "NPZ states rows 0,1,2 must agree with JSON xHII,xHeII,xHeIII at each epoch; no renormalization, clipping, or inferred missing stage",
+    "normalization": "nH/(1+z)^3 fixed to the archived initial value within inherited geometry tolerance 1e-11; z is volume label and never converted into the ray clock",
+    "material_beta_normal": [
+      0,
+      0,
+      0
+    ],
+    "direction": [
+      1,
+      0,
+      0
+    ],
+    "direction_note": "At zero tilt D=1 for every unit direction; no geodesic approximation is needed for scalar Thomson depth. Does not reconstruct angular radiation/CMB.",
+    "observer": "Endpoint of this finite interval only. Baseline observer_optical_depth=0 means no supplied postinterval contribution, not transparent real Universe or today's observer.",
+    "rate_interpolation": "Piecewise linear in stored edge proper/normal time, as explicitly implemented by BASS sampled-visibility API. Cell averages integrate this declared sampled schedule exactly; no physical time/continuum error certificate.",
+    "constants": {
+      "c_m_s": 299792458,
+      "sigma_T_m2": 6.6524587e-29
+    },
+    "optional_CR_RCT_HH": "OFF",
+    "closure": "HOMOGENEOUS_PRIMARY_ONLY_CASE_A_ESCAPE; unchanged",
+    "held": [
+      "Cold REC initial state",
+      "CR/RCT/HH ON",
+      "actual full observer tail",
+      "full physical history",
+      "continuum/convergence of chemistry and sampling",
+      "radiation backreaction",
+      "CMB or global EoR admission"
+    ]
+  },
+  "worker_contract": {
+    "requested_model": "gpt-6-sol",
+    "requested_effort": "medium",
+    "single_writer": true,
+    "workspace": "Create-only task directory under /tmp via mktemp. Recover exact two BASS source modules via local Git object read and verify hashes. Do not modify original dirty BASS/REI checkouts or P01 receipt-bound tree; no clone/worktree/init.",
+    "allowed_new_files": [
+      "task-local receiver.rs",
+      "task-local run_and_validate.py",
+      "task-local CONTRACT.json copy",
+      "task-local recovered frame.rs and visibility.rs",
+      "task-local raw logs, TSV inputs, JSON validation, source/build identities and factual report"
+    ],
+    "forbidden": "No production source changes, threshold changes, source refresh, photon or chemical solver call, network dependency acquisition, new physical model choice or broad suite",
+    "implementation": "Compile a thin standalone Rust wrapper importing byte-exact production BASS frame.rs and visibility.rs with #[path]. Construct ElectronState from actual frozen H/He samples, call integrate_rest_frame_sampled_visibility, emit ne, edge q, cell average q, tau, survival, cell mass. This is actual BASS production-source component execution; explicitly do not label it execution of the legacy PR135 adapter or complete BASS crate.",
+    "command": "rustc --edition=2021 -O <taskroot>/receiver.rs -o <taskroot>/receiver; then python3 <taskroot>/run_and_validate.py --source-root <frozen REI root> --binary <taskroot>/receiver --output <new taskroot/output>",
+    "native_input": "17 rows from frozen production dataset/JSON with explicit times, proper densities and ion fractions; baseline tail0",
+    "reference": "Independent Python Decimal precision80 on transmitted binary64 inputs using Decimal.from_float, inherited c/sigma constants, analytical integrated linear-edge schedule, exponential survival and cell masses; compare every output edge/cell",
+    "negative_cases": [
+      "missing epoch or nonmonotone time rejected by input/receiver path",
+      "nonfinite or invalid ionic fraction rejected",
+      "negative observer tail rejected"
+    ],
+    "positive_control": "One additional same-history run with supplied tail0.25; validate tau shift, survival and mass multiplication exp(-0.25). This is an algebraic receiver control only.",
+    "identity": "Record source hashes and Rust command/toolchain/exit/executable hash before launch, exact run argv/stdin hash/stdout/stderr and elapsed time. Preserve first failure.",
+    "hard_limits": {
+      "worker_wall_s": 600,
+      "source_modules": 2,
+      "build_invocations": 1,
+      "build_wall_s": 120,
+      "substantive_receiver_runs": 2,
+      "negative_receiver_runs": 3,
+      "chemistry_solver_runs": 0,
+      "REI_native_launches": 0,
+      "network_calls": 0,
+      "full_science_reruns": 0,
+      "repair_rounds": 1,
+      "review_rounds": 1
+    },
+    "stopping_rule": "First substantive failure: stop, retain outputs, report exact failing check to Astra. One named targeted repair only after classification within remaining limits; no repeated launches or tolerance relaxation. Missing immutable bytes => HOLD exact path."
+  },
+  "acceptance": {
+    "source_and_time_identity": "Exact frozen input hashes and 17 saved times; archived NPZ/JSON scalar state exact agreement checked rather than assumed",
+    "state_domain": "Finite, physical ionic domains, proper densities positive and archived T within unchanged 30000..110000 K; no clipping",
+    "rate_and_ne_relative_limit": 1.4210854715202004e-14,
+    "rate_limit_basis": "Inherited BASS PR96 snapshot readback tolerance 64*binary64 EPSILON",
+    "depth_and_positive_cell_mass_relative_limit": 5.684341886080802e-14,
+    "depth_limit_basis": "256*binary64 EPSILON for 16-cell accumulation and expm1 arithmetic of this frozen sampled schedule; algorithmic floating-point check, not physical uncertainty",
+    "survival_absolute_limit": 1.4210854715202004e-14,
+    "mass_balance_absolute_limit": 1.4210854715202004e-14,
+    "mass_balance_identity": "survival[0]+sum(cell_probability)=exp(-supplied observer tail), unrenormalized",
+    "tail_boundary": "tau[last] equals supplied tail exactly; backward tau monotone and all probabilities finite/nonnegative",
+    "negative_cases": "All required failures observed; original first failure retained if any",
+    "success_claim": "PASS_SCOPED_WARM_P01_BASS_FINITE_HISTORY_COMPONENT: actual finite sampled Bianchi warm history consumed by existing BASS production visibility source",
+    "full_scientific_admission": "HOLD"
+  },
+  "transition": {
+    "PASS": "Fresh nonimplementing Astra exact diff/raw-output review, then verified local recovery backup and task-scoped non-force publication subject to review and live branch/PR refresh. Continue independent READY DAG nodes.",
+    "HOLD": "Block only this sampled-history node/descendants; retain previously completed P01 and cold finite-component evidence; independent RCT diagnostic may continue only under its existing source/contract."
+  },
+  "review_accounting": {
+    "network_calls": 1,
+    "code_build_solver_publication_calls": 0,
+    "wall_cap_s": 300,
+    "notes": "Read-only source/contract research plus this contract output. One failed guessed Git source path was immediately corrected using tree listing; no scientific execution."
+  }
+}
