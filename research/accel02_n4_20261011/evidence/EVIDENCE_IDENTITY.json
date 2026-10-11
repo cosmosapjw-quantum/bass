@@ -1,0 +1,111 @@
+{
+  "kind": "EVIDENCE_IDENTITY_ONLY",
+  "scientific_revalidation": false,
+  "new_solver_calls": 0,
+  "new_receiver_calls": 0,
+  "contract_sha256": "c4030cd9cc96db2d833463acee6dcf85570625854c57732e89237fa74af695b3",
+  "producer_files": [
+    {
+      "path": "evidence/RUN002/flrw_BASS_CELLS.csv",
+      "sha256": "9a6d7b8a5edf95ba1241f923ed6d087e6d54f90372251700c6ede58c497d6e07",
+      "bytes": 2261038,
+      "matches_upstream": true
+    },
+    {
+      "path": "evidence/RUN002/rp01_BASS_CELLS.csv",
+      "sha256": "66c7159d9cd3a25362a015123eb8455ac19cba4a629a68f46d489a1ff3a62ef6",
+      "bytes": 2261038,
+      "matches_upstream": true
+    },
+    {
+      "path": "evidence/RUN002/INDEPENDENT_COMPARISON.json",
+      "sha256": "b6912af8a3296b6173c93526552ecbc069efd13682cfff229676cabb302f15d9",
+      "bytes": 6293,
+      "matches_upstream": true
+    },
+    {
+      "path": "model.py",
+      "sha256": "9a79f42f46a67acb28b9e8e2ae4c9a5bc474bebc86a022977c04b1a7fbfac770",
+      "bytes": 5881,
+      "matches_upstream": true
+    },
+    {
+      "path": "validate_campaign.py",
+      "sha256": "527a44125951a0a99988b5486fc08dc4c9745d00f43394f2f4c470d6f8a7096f",
+      "bytes": 2881,
+      "matches_upstream": true
+    }
+  ],
+  "native_source": [
+    {
+      "file": "_rustcore/src/microphysics/visibility.rs",
+      "function": "integrate_visibility",
+      "function_sha256": "e01a1f1af24698f0d4f8d9ec0601f7f14742479b01a6958a8adb89ed305a7964",
+      "byte_identical_to_executed_ancestor": true
+    },
+    {
+      "file": "_rustcore/src/microphysics/axisym_observables.rs",
+      "function": "fixed_time_optical_depth",
+      "function_sha256": "3990681add660c792b6c1ca7772424d4d60b9f6532c7d7ee10915cb6fef21bef",
+      "byte_identical_to_executed_ancestor": true
+    },
+    {
+      "file": "_rustcore/src/microphysics/axisym_observables.rs",
+      "function": "with_observer_tail",
+      "function_sha256": "bdfb3b170d4bd006e35411c234dbe98652a80b61a76de819e3ca8830fa29f67f",
+      "byte_identical_to_executed_ancestor": true
+    }
+  ],
+  "receiver_stdout": [
+    {
+      "case": "flrw",
+      "path": "evidence/repair/flrw.stdout.log",
+      "sha256": "a093f9d7eb5ff406125401324cfdb7d51a8d8f79ec9342f8981f63d872f78455",
+      "bytes": 1299767,
+      "execution": "UPSTREAM_REUSED_NO_RERUN"
+    },
+    {
+      "case": "rp01",
+      "path": "evidence/binary64_v2/rp01.stdout.log",
+      "sha256": "33744b100046b159673d41995f1beea136aca3e13ea17c6029f6690ed1e47097",
+      "bytes": 1299767,
+      "execution": "UPSTREAM_REUSED_NO_RERUN"
+    }
+  ],
+  "upstream_decision": "PASS_SCOPED",
+  "upstream_scope": "two frozen binary64 finite segments and conditional segment-end kernel only",
+  "receiver_source_sha256": "6dc9e3b6366e481a486c2b4a56ce90e733589fda95da2ae22ba5ef6a78f1663f",
+  "evidence_files": [
+    {
+      "path": "research/rei_pr104_cells_20261010/CONTRACT.json",
+      "sha256": "0a07e08f83a053899b6295c3eadf75756ea3f3e3eafda157be89b184f7d79132",
+      "bytes": 2292
+    },
+    {
+      "path": "research/rei_pr104_cells_20261010/CONTRACT_V2.json",
+      "sha256": "d015d97bbc5c3737c6cd3f8eadb3262ce126a316fc496db5ea3c03aab147720e",
+      "bytes": 681
+    },
+    {
+      "path": "research/rei_pr104_cells_20261010/evidence/binary64_v2/VALIDATION.json",
+      "sha256": "94eda02f11330f5e19178e5af8f9f0aac65aba6ca9a5c63e7f8e6abf96175e3d",
+      "bytes": 3087
+    },
+    {
+      "path": "research/rei_pr104_cells_20261010/evidence/binary64_v2/INDEPENDENT_REVIEW.json",
+      "sha256": "9efb5dfbcdb6cb21c10e20981df9cd376c3acd6db5139caabc98480fc579d86c",
+      "bytes": 769
+    },
+    {
+      "path": "research/rei_pr104_cells_20261010/evidence/binary64_v2/EXECUTION.json",
+      "sha256": "94eda02f11330f5e19178e5af8f9f0aac65aba6ca9a5c63e7f8e6abf96175e3d",
+      "bytes": 3087
+    },
+    {
+      "path": "research/rei_pr104_cells_20261010/evidence/binary64_v2/CAMPAIGN_RECEIPT.json",
+      "sha256": "7df222bcc57f234267c2cc99187c44ceccef4acbe5770fb9ccc10c58036beb26",
+      "bytes": 939
+    }
+  ],
+  "status": "IDENTITY_LINK_VERIFIED"
+}
