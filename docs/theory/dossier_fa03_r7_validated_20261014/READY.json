@@ -1,0 +1,43 @@
+{
+  "parent_commit": "20e6152b158c151cb014e21768857b25cd427f96",
+  "original_DAG_changed": false,
+  "canonical_REI_DAG_changed": false,
+  "nodes": [
+    {
+      "id": "FA03-R7",
+      "status": "completed_scoped_validated_finite_detector",
+      "depends_on": [
+        "FA03-R6"
+      ],
+      "evidence": [
+        "evidence/CERTIFICATE.json",
+        "evidence/BRIDGE_CHECKS.json",
+        "evidence/xact_result.json"
+      ]
+    },
+    {
+      "id": "FA03-R8",
+      "status": "ready_not_executed",
+      "depends_on": [
+        "FA03-R7"
+      ]
+    },
+    {
+      "id": "REI_AX11_EXACT_PL_REFERENCE_NORMS",
+      "status": "supplier_completed_ready_for_owner_import",
+      "evidence": [
+        "code/pl_metrics.py",
+        "code/test_pl_metrics.py",
+        "manuscripts/REI_SUPPLIER_KO.md",
+        "evidence/BRIDGE_CHECKS.json"
+      ],
+      "owner": "AX11",
+      "remaining": "Bind actual case source/normalization/ln(a) representation, feed actual completed levels. Current ownerlaunch/scienceadmission unchanged.",
+      "requires_existing_owner_guards": [
+        "HH68sourcepairrelation",
+        "HE51normalization/stitch",
+        "actualfullfamilyandrefinementforconvergenceclaim"
+      ]
+    }
+  ]
+}
