@@ -1,0 +1,37 @@
+test_analytic_strip_elementary_guards_pass (test_c6.AngularC6.test_analytic_strip_elementary_guards_pass) ... ok
+test_conditional_bound_not_numeric_certificate (test_c6.AngularC6.test_conditional_bound_not_numeric_certificate) ... ok
+test_fft_mode12_fully_aliased_on_grid12 (test_c6.AngularC6.test_fft_mode12_fully_aliased_on_grid12) ... ok
+test_full_grey_source_does_not_need_ground_truth_angle (test_c6.AngularC6.test_full_grey_source_does_not_need_ground_truth_angle) ... ok
+test_grey_mp_single_rk4_matches_exact_source_reference (test_c6.AngularC6.test_grey_mp_single_rk4_matches_exact_source_reference) ... ok
+test_highprecision_source_not_substituted_for_energy_model (test_c6.AngularC6.test_highprecision_source_not_substituted_for_energy_model) ... ok
+test_independent_B_H_G_snapshot_matches_native_numpy (test_c6.AngularC6.test_independent_B_H_G_snapshot_matches_native_numpy) ... ok
+test_invalid_parameters_fail_clearly (test_c6.AngularC6.test_invalid_parameters_fail_clearly) ... ok
+test_phase_does_not_remove_mode12_alias_certification_gap (test_c6.AngularC6.test_phase_does_not_remove_mode12_alias_certification_gap) ... FAIL
+test_real_source_sample_physically_hermitian (test_c6.AngularC6.test_real_source_sample_physically_hermitian) ... ok
+test_reused_original_source_hashes (test_c6.AngularC6.test_reused_original_source_hashes) ... ERROR
+test_source_independent_70digit_snapshot (test_c6.AngularC6.test_source_independent_70digit_snapshot) ... ok
+test_strip_bound_coefficients_decay_geometrically (test_c6.AngularC6.test_strip_bound_coefficients_decay_geometrically) ... ok
+test_tampered_parent_source_refuses_to_run (test_c6.AngularC6.test_tampered_parent_source_refuses_to_run) ... ok
+test_unchanged_c5_36ray_certificate_scope (test_c6.AngularC6.test_unchanged_c5_36ray_certificate_scope) ... ok
+
+======================================================================
+ERROR: test_reused_original_source_hashes (test_c6.AngularC6.test_reused_original_source_hashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-fa03-c6-angular-audit-20261015/research/fa03_c6_angular_audit_20261015/test_c6.py", line 29, in test_reused_original_source_hashes
+    self.assertEqual(h.EXPECTED,h.LOCKS if hasattr(h,"LOCKS") else h.EXPECTED)
+                     ^^^^^^^^^^
+AttributeError: module 'mp_cap_snapshot' has no attribute 'EXPECTED'
+
+======================================================================
+FAIL: test_phase_does_not_remove_mode12_alias_certification_gap (test_c6.AngularC6.test_phase_does_not_remove_mode12_alias_certification_gap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-fa03-c6-angular-audit-20261015/research/fa03_c6_angular_audit_20261015/test_c6.py", line 102, in test_phase_does_not_remove_mode12_alias_certification_gap
+    self.assertLess(abs(sampled-mp.cos(2*mp.pi*phase)),mp.mpf("1e-57"))
+AssertionError: mpf('4.27642353614751303382485834744237100610431500816808e-49') not less than mpf('9.99999999999999999999999999999999999999999999999986e-58')
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.068s
+
+FAILED (failures=1, errors=1)
