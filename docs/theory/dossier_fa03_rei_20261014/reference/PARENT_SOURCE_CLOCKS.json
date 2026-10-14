@@ -1,0 +1,71 @@
+{
+  "schema_version": "bass.source_clock_interface.v1",
+  "metric_signature": "-+++",
+  "primary_clock": "s=c*t_normal",
+  "energy_momentum": "varpi=c*p",
+  "invariant_measure": "dmu=(2*pi*hbar*c)^(-3)*d^3lambda/E",
+  "state_sum": "Resolved states summed explicitly; photon trace already sums two polarizations.",
+  "symbols": [
+    {
+      "id": "R_phys",
+      "tensor_rank": 0,
+      "units": "L^-3 T^-1",
+      "definition_ref": "EV.5"
+    },
+    {
+      "id": "Q_phys",
+      "tensor_rank": 1,
+      "units": "energy L^-3 T^-1",
+      "definition_ref": "EV.5"
+    },
+    {
+      "id": "Q_length",
+      "tensor_rank": 1,
+      "units": "energy L^-4",
+      "expression": "Q_phys/c",
+      "consumer": "GCP.18–19"
+    },
+    {
+      "id": "C_N",
+      "units": "L^-4",
+      "expression": "R_gamma_phys/c",
+      "consumer": "SPH-23"
+    },
+    {
+      "id": "C_rho",
+      "units": "energy L^-4",
+      "expression": "-contract(n_cov,Q_gamma_phys)/c",
+      "consumer": "SPH-24"
+    },
+    {
+      "id": "C_q",
+      "tensor_rank": 1,
+      "units": "energy L^-4",
+      "expression": "project_spatial(Q_gamma_phys)/c",
+      "consumer": "SPH-25"
+    }
+  ],
+  "closed_event_condition": "sum_species Q_phys = 0; all recoil, daughters, and reservoirs included",
+  "class_B_terms": {
+    "vector_divergence": "-2*dot(a_B,v)",
+    "STF_divergence_i": "-3*a_B[j]*pi[i,j]-epsilon[i,m,n]*N[m,b]*pi[b,n]"
+  },
+  "basis_transform": {
+    "vector": "Q_phys'=Lambda.Q_phys",
+    "scalar": "R_phys'=R_phys",
+    "connection": "omega'=Lambda.omega.Lambda^-1-dLambda.Lambda^-1"
+  },
+  "equation_refs": [
+    "EV.5",
+    "EV.6",
+    "EV.11",
+    "EV.12",
+    "EV.13",
+    "SPH-23",
+    "SPH-24",
+    "SPH-25",
+    "SPH-27",
+    "GCP.18",
+    "GCP.19"
+  ]
+}
