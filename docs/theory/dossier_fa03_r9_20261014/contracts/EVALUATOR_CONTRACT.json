@@ -1,0 +1,53 @@
+{
+  "schema": "bass.fa03.R9.evaluation_contract.v1",
+  "model_id": "FA03_B453_EXACT_FINITE_36RAY_NON_GREY_V1",
+  "physical": {
+    "signature": "(-,+,+,+)",
+    "photon_momentum": "p^a=(E/c)(u^a+n^a),u^2=-1,n^2=1",
+    "observer": "chi=1/125 psi=1/100",
+    "cap": "delta=1/50 rad",
+    "detector": "GL3 radial x 12 uniform azimuth exact positive weights (36 rays), angular continuum NOT certified",
+    "band": "Ew/E* in [49/50,51/50], exact polynomial moments",
+    "source_frame": "normal absorber/source at rest",
+    "initial_condition": "F_e(1/2)=zero matrix",
+    "time_coordinate": "x=t/t_o in [1/2,1]",
+    "material": "K(eps)=[1+eps*(e*k-1)]K0, epsilon absorption-only",
+    "physical_intensity_factor": "c*t_o*E_*^2*j_*(e_plus-e_minus)",
+    "output_units": "dimensionless Stokes coherency or band intensity with one physical factor",
+    "response_coefficient": "W0 is derivative d^2 F/d epsilon^2, use epsilon^2/2"
+  },
+  "inputs": {
+    "epsilon": {
+      "encoding": "rational string",
+      "domain": "-1/10<=epsilon<=1/10",
+      "required": true
+    },
+    "root": {
+      "path": "restored immutable full capsule including reference/ pinned sources"
+    },
+    "source_pair": {
+      "require": "only for actual REI signed milestones, not for independent geometry clock"
+    }
+  },
+  "outputs": {
+    "predicted_stokes_exact": "four rational strings I,Q,U,V",
+    "predicted_stokes_decimal": "display only",
+    "Schatten1_error_bound_exact": "source-bound absolute matrix norm",
+    "certified_intensity_interval_exact": "in dimensionless normalized intensity",
+    "certified_polarization_degree_interval_exact": "dimensionless ratio",
+    "certified_minimum_eigenvalue_lower_exact": "dimensionless matrix PSD margin",
+    "angular_continuum_error": null,
+    "observer_derivative_numerical_error": null,
+    "empirical_opacity_error": null
+  },
+  "code_paths": [
+    "code/fa03_contract.py",
+    "code/rei_clock.py"
+  ],
+  "source_sha256_fence": "hardcoded in fa03_contract.EXPECTED_SHA",
+  "numerical_method": "exact Fraction for stored dyadic reference and peer error relation; integer sqrt bracket at 1e-30, mp for REI numerical quadrature",
+  "validation": "python code/test_r9.py",
+  "failures_as_typed_hold": true,
+  "no_artifact_overwrite": true,
+  "scientific_gates_not_changed": true
+}

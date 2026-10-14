@@ -1,0 +1,62 @@
+{
+  "schema": "bass.fa03.r9.overlay.v1",
+  "overlay_only": true,
+  "canonical_BASS_DAG_modified": false,
+  "canonical_REI_DAG_modified": false,
+  "nodes": [
+    {
+      "id": "FA03-R9",
+      "status": "COMPLETE_SCOPED_CONSTRUCTIVE_FORMAL_INTEGRATION",
+      "depends": [
+        "FA03-R8"
+      ],
+      "evidence": [
+        "manuscripts/FA03_R9_FORMAL_KO.md",
+        "contracts/EQUATION_CLAIM_REGISTRY.json",
+        "evidence/R9_TESTS.log",
+        "evidence/xact_r9_result.json"
+      ]
+    },
+    {
+      "id": "FA03-R10",
+      "status": "READY_NOT_EXECUTED",
+      "depends": [
+        "FA03-R9"
+      ],
+      "next_action": "Close durable results and latest backup/provenance; do not auto-run all ten stages"
+    },
+    {
+      "id": "REI_R9_CLOCK_QUARTIC",
+      "status": "SUPPLIER_COMPLETE_READY_FOR_IMPORT",
+      "owner": "AX11",
+      "remaining": "actual signed source-bound completed milestones"
+    },
+    {
+      "id": "REI_R9_MILESTONE_DECOMP",
+      "status": "INTERFACE_READY_DATA_PENDING",
+      "owner": "AX11",
+      "remaining": "completed signed family, applied source-pair relation, convergence/interpolation radii"
+    },
+    {
+      "id": "REI_AX08",
+      "status": "OWNER_RUNNING_OR_CHECK_LIVE_STATE",
+      "remaining": "signed original/continuation and scoped review"
+    },
+    {
+      "id": "REI_AX11",
+      "status": "OWNER_PENDING",
+      "remaining": "five case full histories and applicable error/convergence controls"
+    }
+  ],
+  "preserved": [
+    "I–VII",
+    "old21nodes",
+    "D9.1",
+    "SOURCE_CLOCKS",
+    "ABUNDANCE_MODEL",
+    "FA02 variant distinction",
+    "current REI Codex dirty working tree unmodified",
+    "CR/RCT/HH OFF",
+    "tau-tail nonblocking"
+  ]
+}
