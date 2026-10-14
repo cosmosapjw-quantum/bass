@@ -1,0 +1,29 @@
+Needs["xAct`xTensor`"];
+xAct`xTensor`$DefInfoQ=False;
+DefManifold[R10M,4,{a,b,d,e,f,j}];
+DefMetric[-1,g[-a,-b],CD,{";","D"}];
+DefTensor[uu[a],R10M];DefTensor[zz[a],R10M];DefTensor[nn[a],R10M];
+DefConstantSymbol[sh];DefConstantSymbol[mu];DefConstantSymbol[en];DefConstantSymbol[cc];
+rules=Join@@(MakeRule[#,MetricOn->All,ContractMetrics->True]&/@{
+{uu[a]uu[-a],-1},{zz[a]zz[-a],1},{nn[a]nn[-a],1},
+{uu[a]zz[-a],0},{uu[a]nn[-a],0},{nn[a]zz[-a],mu}});
+cn[x_]:=FullSimplify[FixedPoint[ToCanonical[ContractMetric[Expand[#/.rules]]]&,x,12]];
+hh[a_,b_]:=g[a,b]+uu[a]uu[b];
+ss[a_,b_]:=sh(3zz[a]zz[b]-hh[a,b]);
+screen[a_,b_]:=hh[a,b]-nn[a]nn[b];
+k[a_]:=(en/cc)(uu[a]+nn[a]);
+r=<|
+"ScalarTracefreeFirstOrder"->cn[ss[a,b]hh[-a,-b]],
+"ShearRayDirectional"->cn[ss[a,b]nn[-a]nn[-b]-sh(3mu^2-1)],
+"HalfShearNorm"->cn[ss[a,b]ss[-a,-b]/2-3sh^2],
+"ScreenProjectorRank"->cn[screen[a,-a]-2],
+"ScreenProjectorIdempotence"->cn[screen[a,-b]screen[b,-d]-screen[a,-d]],
+"NullPhoton"->cn[k[a]k[-a]],
+"RestEnergy"->cn[-cc uu[-a]k[a]-en]
+|>;
+z=<|"wolfram_version"->System`$Version,"xTensor_version"->xAct`xTensor`$Version,
+"residuals"->Map[ToString[#,InputForm]&,r],"all_zero"->And@@Map[#===0&,Values[r]],
+"scope"->"R10 closure LRS Bianchi I scalar trace and directional ray coupling; no chemistry or spectral bias simulation"|>;
+Export["/home/cosmosapjw/archives/BASS_FA03_R10_20261014/xact_r10_fixed_result.json",z,"RawJSON"];
+Print[ExportString[z,"RawJSON"]];
+If[TrueQ[z["all_zero"]],Exit[0],Exit[1]];
