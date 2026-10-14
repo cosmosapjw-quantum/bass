@@ -1,0 +1,8 @@
+# CODEX handoff: BASS FA03-R8 / REI AX11 공급
+
+1. 실제 최신 HEAD·STATE·owner process·점검된 진짜 source/config identity를 새로 읽는다. 이 capsule의 readback 시각은 snapshot이고 실시간 상태의 대체가 아니다. R8의 full proof, SOURCE와 DECISION을 확인하고 R5–R7 원 과학 producer를 재실행하지 않는다.
+2. **BASS**: R8에서 `FA3-R8-FINITE`, `FA3-R8-STOKES`만 정해진 finite 36-ray에 `ADOPT_SCOPED`로 표기한다. `continuous_cap`, `numeric joint observer`, `atomic empirical`, `REI science`는 HOLD. FA03-R9은 기존 수학식/계산 인터페이스를 문서로 통합한다. I–VII 원본과 immutable SOURCE_CLOCKS/ABUNDANCE_MODEL을 수정하지 않는다.
+3. **REI**: `manuscripts/REI_OWNER_ACCELERATION_KO.md`의 pure geometry proper-time correction table과 `evidence/RESULT.json`의 milestone slope를 분석기의 별도 열로 선택적으로 활용한다. 향후 각 signed 실제 crossing이 있을 때만 geometry shift + crossing-scale-factor shift로 분리한다. 두 시계가 서로 다르며 q_ref와 instantaneous Sigma 역시 다르다.
+4. Xe floor는 최신 reducer HEAD `6fe1e8d03fadbc46bdc6dd0072a55b83cbd03d0d`에서 이미 `1e-7*(h+3*he)/h`로 교정되었다. **다시 patch하지 않는다.** HH69 source pair semantic binding supplier는 완료된 내용을 owner PAIRED/REFINEMENT manifest에서 소비하되 duplicate helper/solver를 만들지 않는다.
+5. AX08 original resource stop은 physical accepted-state failure가 아니다. 컨트롤러가 허용한 continuation만 owner가 담당한다. `TIME_T1_ZERO`의 실행권한은 source/config와 global-slot·완료 baseline5 조건을 실제 만족할 때만 owner가 결정한다. 여기서는 solver start, shared controller edit, canonical DAG promotion을 수행하지 않았다.
+6. Client test: `python code/test_r8.py`; read-only source check only. Scientific proofs/interval enclosures are inherited at exact SHA and scope, NOT independent paper review. Return full signed/refinement descriptors and time/interpolation envelopes, or typed HOLD if missing.
