@@ -1,0 +1,451 @@
+{
+  "schema_version": "bass.abundance_model.v1",
+  "date_kst": "2026-10-13",
+  "created_utc": "2026-10-12T21:16:05.648143+00:00",
+  "claim": "ABF",
+  "work_unit": "D2.3",
+  "status": "accepted_scoped",
+  "review": "review/FINAL_REVIEW.json",
+  "source_clock": "SOURCE_CLOCKS.json",
+  "source_clock_sha256": "3a1ac8baa12b612eec855fe78a986aca6db577d5625deab952836e2ccd421d8a",
+  "name": "Conserved-reference abundance and species-rest fraction model",
+  "provenance": {
+    "canonical_derivation": "derivation/DERIVATION_KO.md",
+    "canonical_construction": "construction/CONSTRUCTION_KO.md",
+    "equation_registry": "EQUATIONS.json",
+    "inherited_claims": [
+      "GIC",
+      "GTR",
+      "GCP",
+      "EV",
+      "SPH1",
+      "IWF",
+      "MTF",
+      "MCP"
+    ]
+  },
+  "regular_domain": {
+    "species_count": "finite",
+    "n_s": "positive",
+    "T_s": "positive",
+    "u_s_squared": -1,
+    "u_s_time_orientation": "future",
+    "beta_s_norm": "strictly less than 1",
+    "weights": "fixed b_s>=0; at least one b_s>0",
+    "reference_conservation": "sum(b_s*R_s)=0",
+    "source_regularity": "local C2 in the MTF moment domain",
+    "moment_matrix": "MTF positive-definite Hessian on the stated domain",
+    "geometry": "GIC/IWF admissible initial constraints and GCP propagation",
+    "allowed_bianchi": [
+      "I",
+      "II",
+      "III=VI_-1",
+      "IV",
+      "V",
+      "VI_0",
+      "VI_h",
+      "VII_0",
+      "VII_h",
+      "VIII",
+      "IX"
+    ],
+    "exceptional_branch": "VI_-1/9 retained with its original GIC momentum range and extra shear kernel",
+    "H_zero": "included, no H denominator or Hubble-normalized change of variables",
+    "signed_reference_extension": "A signed inventory requires its own future timelike positive-density domain; not asserted automatically."
+  },
+  "symbol_scope": {
+    "species_B": "reaction label B only",
+    "reference_B": "B=sum(b_s*N_s)",
+    "a_B": "Bianchi class-B structure vector; not reference congruence acceleration",
+    "acc_ref": "u_ref.nabla(u_ref)",
+    "q_s": "normal energy momentum density",
+    "q_charge": "conserved internal charge labels of the constructed reaction",
+    "gamma_s": "relative factor -n.u_s",
+    "Gamma_sr": "relative factor -u_s.u_r",
+    "F_s": "Weighted normal fraction b_s*Y_s; a dimensionless scalar.",
+    "F_moment_s": "The existing MTF five-moment right-hand side; distinct from weighted fraction F_s.",
+    "M_moment_s": "MTF positive-definite moment Hessian; distinct from mass energy M."
+  },
+  "variables": [
+    {
+      "id": "N_s",
+      "type": "future timelike vector",
+      "units": "L^-3",
+      "definition": "n_s*u_s=D_s*n+J_s",
+      "equation_refs": [
+        "ABF.1"
+      ]
+    },
+    {
+      "id": "B_ref",
+      "type": "future timelike conserved vector",
+      "units": "L^-3",
+      "definition": "sum(b_s*N_s)",
+      "equation_refs": [
+        "ABF.2"
+      ]
+    },
+    {
+      "id": "D_ref",
+      "type": "positive scalar dependent on observer n",
+      "units": "L^-3",
+      "definition": "sum(b_s*D_s)=-n.B_ref",
+      "equation_refs": [
+        "ABF.3"
+      ]
+    },
+    {
+      "id": "J_ref",
+      "type": "normal spatial vector",
+      "units": "L^-3",
+      "definition": "sum(b_s*D_s*beta_s)",
+      "equation_refs": [
+        "ABF.3"
+      ]
+    },
+    {
+      "id": "beta_ref",
+      "type": "normal spatial vector",
+      "units": "dimensionless",
+      "definition": "J_ref/D_ref",
+      "equation_refs": [
+        "ABF.3"
+      ]
+    },
+    {
+      "id": "n_ref",
+      "type": "positive scalar invariant",
+      "units": "L^-3",
+      "definition": "sqrt(-B_ref.B_ref)=D_ref/gamma_ref",
+      "equation_refs": [
+        "ABF.3"
+      ]
+    },
+    {
+      "id": "n_star",
+      "type": "positive scalar invariant",
+      "units": "L^-3",
+      "definition": "sum(b_s*n_s)",
+      "equation_refs": [
+        "ABF.8"
+      ]
+    },
+    {
+      "id": "Y_s",
+      "type": "normal abundance",
+      "units": "dimensionless",
+      "definition": "D_s/D_ref",
+      "normalization": "sum(b_s*Y_s)=1",
+      "equation_refs": [
+        "ABF.5",
+        "ABF.7"
+      ]
+    },
+    {
+      "id": "F_s",
+      "type": "weighted normal fraction",
+      "units": "dimensionless",
+      "definition": "b_s*Y_s",
+      "normalization": "sum(F_s)=1",
+      "equation_refs": [
+        "ABF.5"
+      ]
+    },
+    {
+      "id": "r_s",
+      "type": "proper-density ratio",
+      "units": "dimensionless",
+      "definition": "n_s/n_ref=(gamma_ref/gamma_s)*Y_s",
+      "normalization": "sum(b_s*Gamma_sref*r_s)=1",
+      "equation_refs": [
+        "ABF.8",
+        "ABF.9",
+        "ABF.11"
+      ]
+    },
+    {
+      "id": "X_s",
+      "type": "normalized composition of species proper densities",
+      "units": "dimensionless",
+      "definition": "b_s*n_s/n_star",
+      "normalization": "sum(X_s)=1",
+      "equation_refs": [
+        "ABF.8",
+        "ABF.12"
+      ]
+    },
+    {
+      "id": "Y_s_ref",
+      "type": "one reference-rest observer abundance",
+      "units": "dimensionless",
+      "definition": "Gamma_sref*r_s",
+      "normalization": "sum(b_s*Y_s_ref)=1",
+      "equation_refs": [
+        "ABF.14",
+        "ABF.15"
+      ]
+    },
+    {
+      "id": "z_s",
+      "type": "each species own-rest observer abundance",
+      "units": "dimensionless",
+      "definition": "r_s/Gamma_sref",
+      "normalization": null,
+      "normalization_note": "Different observers for different s; no common observer weighted-sum normalization.",
+      "equation_refs": [
+        "ABF.13"
+      ]
+    },
+    {
+      "id": "Y_s_w",
+      "type": "one specified observer abundance",
+      "units": "dimensionless",
+      "definition": "Y_s*(1-v.beta_s)/(1-v.beta_ref)",
+      "normalization": "sum(b_s*Y_s_w)=1",
+      "equation_refs": [
+        "ABF.16",
+        "ABF.17"
+      ]
+    }
+  ],
+  "auxiliary_definitions": {
+    "Gamma_sr": "gamma_s*gamma_r*(1-beta_s.beta_r)",
+    "eta_s": "2*a_B.beta_s-dot(log(gamma_s))",
+    "eta_mean": "sum(X_s*eta_s)",
+    "Xi": "sum(b_s*R_s/gamma_s)",
+    "kappa_s": "S[log(gamma_s)]",
+    "kappa_ref": "S[log(gamma_ref)]",
+    "kappa_sref": "S[log(Gamma_sref)]",
+    "K_s": "N_s-Y_s*B_ref=D_s*(beta_s-beta_ref)"
+  },
+  "equations": [
+    {
+      "id": "ABF.1",
+      "latex": "\\begin{gathered}\nN_s^a=n_su_s^a=D_sn^a+J_s^a,\n\\quad D_s=\\gamma_sn_s,\n\\quad J_s^a=D_s\\beta_s^a,\n\\quad n\\cdot J_s=0,\\\\\n\\gamma_s=(1-\\beta_s^2)^{-1/2},\n\\qquad \\nabla_aN_s^a=R_s/c,\n\\qquad \\nabla_aT_s^{ab}=Q_s^b/c .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.2",
+      "latex": "\\boxed{\nB^a:=\\sum_sb_sN_s^a,\n\\qquad b_s\\ge0,\\qquad \\sum_sb_sn_s>0,\n\\qquad \\sum_sb_sR_s=0\n\\quad\\Longrightarrow\\quad \\nabla_aB^a=0.\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.3",
+      "latex": "\\begin{gathered}\nD_B:=\\sum_sb_sD_s>0,\n\\qquad J_B:=\\sum_sb_sJ_s,\n\\qquad \\beta_B=J_B/D_B,\n\\qquad |\\beta_B|<1,\\\\\nn_B:=\\sqrt{-B^2}=D_B\\sqrt{1-\\beta_B^2},\n\\qquad \\gamma_B=D_B/n_B,\n\\qquad u_B=B/n_B=\\gamma_B(n+\\beta_B).\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.4",
+      "latex": "\\dot D_s=-3HD_s+2a_B\\cdot J_s+R_s/c,\n\\qquad\n\\dot D_B=-3HD_B+2a_B\\cdot J_B .",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.5",
+      "latex": "\\begin{gathered}\nY_s:=D_s/D_B,\n\\qquad F_s:=b_sY_s,\n\\qquad \\sum_sF_s=1,\\\\\nK_s^a:=N_s^a-Y_sB^a\n=J_s^a-Y_sJ_B^a\n=D_s(\\beta_s^a-\\beta_B^a),\n\\quad n\\cdot K_s=0,\n\\quad \\sum_sb_sK_s=0 .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.6",
+      "latex": "\\boxed{\nB^a\\nabla_aY_s+\\nabla_aK_s^a=R_s/c.\n}\n\\qquad\nB^a\\nabla_aY_s=D_B\\dot Y_s,\n\\qquad \\nabla_aK_s^a=-2a_B\\cdot K_s\n\\quad\\text{(homogeneous normal)} .",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.7",
+      "latex": "\\boxed{\n\\dot Y_s\n=\\frac{R_s}{cD_B}\n +\\frac{2a_B\\cdot(J_s-Y_sJ_B)}{D_B}\n=\\frac{R_s}{cD_B}\n +2Y_s a_B\\cdot(\\beta_s-\\beta_B),\n\\qquad\n\\sum_sb_s\\dot Y_s=0 .\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.8",
+      "latex": "\\boxed{\n\\begin{gathered}\nr_s:=\\frac{n_s}{n_B}=\\frac{\\gamma_B}{\\gamma_s}Y_s,\n\\qquad n_*:=\\sum_sb_sn_s,\n\\qquad X_s:=\\frac{b_sn_s}{n_*},\n\\quad \\sum_sX_s=1,\\\\\nS_\\gamma:=\\sum_r\\frac{b_rY_r}{\\gamma_r}=\\frac{n_*}{D_B},\n\\qquad X_s=\\frac{b_sY_s/\\gamma_s}{S_\\gamma},\n\\qquad \\chi_*:=\\frac{n_*}{n_B}=\\gamma_BS_\\gamma .\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.9",
+      "latex": "\\begin{gathered}\n\\Gamma_{sr}:=-u_s\\cdot u_r\n=\\gamma_s\\gamma_r(1-\\beta_s\\cdot\\beta_r),\\\\\nn_B^2=\\sum_{s,r}b_sb_rn_sn_r\\Gamma_{sr},\n\\qquad n_B\\ge n_* ,\n\\qquad \\sum_sb_s\\Gamma_{sB}r_s=1,\\\\\n\\overline\\gamma_X:=\\sum_s\\gamma_sX_s,\n\\qquad F_s=\\frac{\\gamma_sX_s}{\\overline\\gamma_X},\n\\qquad D_B=n_*\\overline\\gamma_X .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.10",
+      "latex": "\\begin{gathered}\n\\eta_s:=2a_B\\cdot\\beta_s-\\dot{\\ln\\gamma_s},\n\\qquad \\langle\\eta\\rangle_X:=\\sum_sX_s\\eta_s,\n\\qquad \\Xi:=\\sum_s\\frac{b_sR_s}{\\gamma_s},\\\\\n\\dot n_s=n_s(-3H+\\eta_s)+\\frac{R_s}{c\\gamma_s},\n\\qquad\n\\dot n_*=n_*(-3H+\\langle\\eta\\rangle_X)+\\Xi/c,\\\\\n\\frac{\\dot n_B}{n_B}=-3H+2a_B\\cdot\\beta_B-\\dot{\\ln\\gamma_B}.\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.11",
+      "latex": "\\boxed{\n\\dot r_s=\n\\frac{R_s}{c\\gamma_sn_B}\n+r_s\\left[\n2a_B\\cdot(\\beta_s-\\beta_B)\n+\\dot{\\ln\\gamma_B}-\\dot{\\ln\\gamma_s}\n\\right].\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.12",
+      "latex": "\\boxed{\n\\dot X_s\n=X_s(\\eta_s-\\langle\\eta\\rangle_X)\n+\\frac{b_sR_s/\\gamma_s-X_s\\Xi}{cn_*},\n\\qquad \\sum_s\\dot X_s=0 .\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.13",
+      "latex": "\\boxed{\n\\begin{gathered}\nz_s:=\\frac{-u_s\\cdot N_s}{-u_s\\cdot B}\n=\\frac{r_s}{\\Gamma_{sB}},\n\\qquad \\mathscr D_s:=c\\,u_s\\cdot\\nabla=c\\gamma_s\\frac{d}{ds}\n\\quad\\text{(homogeneous scalar)},\\\\\n\\mathscr D_sz_s\n=\\frac{R_s}{\\Gamma_{sB}n_B}\n+c\\gamma_sz_s\\left[\n2a_B\\cdot(\\beta_s-\\beta_B)\n+\\dot{\\ln\\gamma_B}-\\dot{\\ln\\gamma_s}\n-\\dot{\\ln\\Gamma_{sB}}\n\\right].\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.14",
+      "latex": "\\begin{gathered}\nY_s^{(B)}:=\\frac{-u_B\\cdot N_s}{n_B}\n=\\Gamma_{sB}r_s,\n\\qquad\nj_s^{(B)a}:=N_s^a-Y_s^{(B)}B^a\n=n_s(u_s^a-\\Gamma_{sB}u_B^a),\\\\\nu_B\\cdot j_s^{(B)}=0,\n\\qquad \\sum_sb_sj_s^{(B)}=0,\n\\qquad \\sum_sb_sY_s^{(B)}=1.\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.15",
+      "latex": "\\boxed{\n\\begin{gathered}\nn_Bu_B^a\\nabla_aY_s^{(B)}+\\nabla_aj_s^{(B)a}=R_s/c,\\\\\n\\mathscr D_BY_s^{(B)}\n=\\frac{R_s-c[D^{(B)}_aj_s^{(B)a}\n+\\mathfrak a_{(B)a}j_s^{(B)a}]}{n_B},\n\\qquad \\mathscr D_B=c\\,u_B\\cdot\\nabla .\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.16",
+      "latex": "\\boxed{\n\\begin{gathered}\nD_s^{(w)}:=-w\\cdot N_s\n=\\gamma_wD_s(1-v\\cdot\\beta_s),\\\\\nD_B^{(w)}:= -w\\cdot B\n=\\gamma_wD_B(1-v\\cdot\\beta_B),\\\\\nY_s^{(w)}:=\\frac{D_s^{(w)}}{D_B^{(w)}}\n=Y_s\\frac{1-v\\cdot\\beta_s}{1-v\\cdot\\beta_B},\n\\qquad \\sum_sb_sY_s^{(w)}=1 .\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.17",
+      "latex": "\\boxed{\nD_B^{(w)}\\mathscr D_wY_s^{(w)}\n=R_s-c\\left[\nJ_B^{(w)a}D_a^{(w)}Y_s^{(w)}\n+D_a^{(w)}K_s^{(w)a}\n+\\mathfrak a_{w,a}K_s^{(w)a}\n\\right],\n\\qquad \\mathscr D_w=c\\,w\\cdot\\nabla .\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.18",
+      "latex": "\\begin{gathered}\nN_s'=\\Lambda N_s,\n\\quad B'=\\Lambda B,\n\\quad u_s'=\\Lambda u_s,\n\\quad w'=\\Lambda w,\n\\quad Q_s'=\\Lambda Q_s,\n\\quad R_s'=R_s,\\\\\n\\omega'=\\Lambda\\omega\\Lambda^{-1}-d\\Lambda\\Lambda^{-1},\n\\qquad\nr_s'=r_s,\\quad X_s'=X_s,\\quad\n\\Gamma_{sr}'=\\Gamma_{sr},\\quad\nY_s^{(w)\\prime}=Y_s^{(w)} .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.19",
+      "latex": "\\begin{gathered}\n\\dot\\vartheta_s=\\mathcal M_s^{-1}\\mathcal F_s,\n\\qquad\n\\dot{\\ln\\gamma_s}\n=\\partial_{\\vartheta_s}\\ln\\gamma_s\\cdot\n\\mathcal M_s^{-1}\\mathcal F_s,\\\\\n\\dot\\beta_B=\\frac{\\dot J_B-\\beta_B\\dot D_B}{D_B},\n\\quad\n\\dot J_B=\\sum_sb_s(\\dot D_s\\beta_s+D_s\\dot\\beta_s),\n\\quad\n\\dot{\\ln\\gamma_B}=\\gamma_B^2\\beta_B\\cdot\\dot\\beta_B,\\\\\n\\dot{\\ln\\Gamma_{sB}}\n=\\dot{\\ln\\gamma_s}+\\dot{\\ln\\gamma_B}\n-\\frac{\\dot\\beta_s\\cdot\\beta_B+\\beta_s\\cdot\\dot\\beta_B}\n{1-\\beta_s\\cdot\\beta_B} .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.20",
+      "latex": "\\begin{gathered}\n\\mathcal S[U_s]:=\\frac1c(R_s,\\mathcal E_s,\\mathcal P_{s,i}),\n\\qquad\n\\mathcal E_s=-n\\cdot Q_s,\n\\quad \\mathcal P_s=h(n)Q_s,\\\\\n\\kappa_s:=\\mathcal S[\\ln\\gamma_s],\n\\quad \\kappa_B:=\\mathcal S[\\ln\\gamma_B],\n\\quad \\kappa_{sB}:=\\mathcal S[\\ln\\Gamma_{sB}],\n\\qquad\n\\mathcal S[D_B]=0,\n\\quad \\mathcal S[Y_s]=R_s/(cD_B),\\\\\n\\mathcal S[\\beta_B]=\\frac1{D_B}\\sum_sb_s\n\\left[\\beta_s\\frac{R_s}{c}+D_s\\mathcal S[\\beta_s]\\right],\n\\quad \\mathcal S[\\beta_s]\n=\\partial_{\\vartheta_s}\\beta_s\\,\n\\mathcal M_s^{-1}\\frac{(R_s,\\mathcal E_s,\\mathcal P_s)}c .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.21",
+      "latex": "\\boxed{\n\\begin{aligned}\n\\mathcal S[r_s]\n&=\\frac{R_s}{c\\gamma_sn_B}+r_s(\\kappa_B-\\kappa_s),\\\\\n\\mathcal S[X_s]\n&=X_s(-\\kappa_s+\\langle\\kappa\\rangle_X)\n+\\frac{b_sR_s/\\gamma_s-X_s\\Xi}{cn_*},\\\\\n\\mathcal S[z_s]\n&=\\frac{R_s}{c\\gamma_s\\Gamma_{sB}n_B}\n+z_s(\\kappa_B-\\kappa_s-\\kappa_{sB}),\n\\qquad \\langle\\kappa\\rangle_X=\\sum_sX_s\\kappa_s .\n\\end{aligned}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.22",
+      "latex": "\\begin{gathered}\n\\mu_s=k_BT_s\\log\\frac{n_s}{Z_s(T_s)}\n=k_BT_s\\log\\frac{D_BY_s}{\\gamma_sZ_s(T_s)},\\\\\n\\mathcal H_s=-u_s\\cdot Q_s,\n\\qquad\n\\Sigma_s=\\frac{\\mathcal H_s-\\mu_sR_s}{T_s},\n\\qquad\n\\mathcal E_s=\\gamma_s\\mu_sR_s+\\gamma_sT_s\\Sigma_s\n+\\beta_s\\cdot\\boldsymbol f_s^{(n)} .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.23",
+      "latex": "\\boxed{\n\\begin{aligned}\n\\dot e_{sB}^{(n)}\n&=\\frac{-3Hp_s^{(n)}-\\sigma:\\pi_s^{(n)}}{D_B}\n+\\frac{2a_B\\cdot(q_s-e_{sB}^{(n)}J_B)}{D_B}\n+\\frac{\\mathcal E_s}{cD_B},\\\\\n\\frac{\\mathcal E_s}{cD_B}\n&=\\gamma_s\\mu_s\\mathcal S[Y_s]\n+\\frac{\\gamma_sT_s\\Sigma_s+\\beta_s\\cdot\\boldsymbol f_s^{(n)}}{cD_B}.\n\\end{aligned}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.24",
+      "latex": "\\boxed{\n\\begin{gathered}\ns_B=\\sum_sY_s\\bar s_s,\n\\qquad\n\\dot s_B\n=\\frac{\\Sigma_{\\rm tot}}{cD_B}\n+\\frac{2a_B\\cdot(J_S-s_BJ_B)}{D_B},\\\\\n\\Sigma_{\\rm tot}=\\sum_s\\Sigma_s\n=k_B\\int(A_f-B_f)\\log(A_f/B_f)\\,d\\mathcal K\\ge0\n\\quad\\text{(MTF paired family)} .\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.25",
+      "latex": "\\begin{gathered}\n\\sum_sb_s\\nu_{s\\alpha}=0,\n\\qquad \\sum_sq_s\\nu_{s\\alpha}=0,\n\\qquad\nJ_q^a:=\\sum_sq_sN_s^a,\n\\qquad \\nabla_aJ_q^a=0,\\\\\nY_q:=\\frac{-n\\cdot J_q}{D_B}=\\sum_sq_sY_s,\n\\qquad\n\\boxed{\\dot Y_q=\\frac{2a_B\\cdot[J_q^{(n)}-Y_qJ_B]}{D_B}},\n\\quad J_q^{(n)}:=h(n)J_q .\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.26",
+      "latex": "\\begin{gathered}\nR_s=\\nu_s\\mathcal R,\n\\qquad \\nu=(-1,-1,1,1),\\\\\n\\mathcal R=k_+(T_1,u_1;T_2,u_2)n_1n_2\n-k_-(T_3,u_3;T_4,u_4)n_3n_4,\\\\\nk_+=\\int\\phi_1\\phi_2\\,d\\mathcal K>0,\n\\qquad k_-=\\int\\phi_3\\phi_4\\,d\\mathcal K>0,\\\\\n\\frac{\\mathcal R}{cD_B}\n=\\frac{D_B}{c}\\left[\nk_+\\frac{Y_1Y_2}{\\gamma_1\\gamma_2}\n-k_-\\frac{Y_3Y_4}{\\gamma_3\\gamma_4}\\right].\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.27",
+      "latex": "\\begin{gathered}\nA_s(s):=2a_B\\cdot(\\beta_s-\\beta_B)-\\ell_s/(c\\gamma_s),\n\\qquad \\dot Y_s=A_sY_s+G_s/(cD_B),\\\\\n\\boxed{\nY_s(s)=e^{\\int_{s_0}^sA_s(v)\\,dv}\n\\left[Y_s(s_0)+\\int_{s_0}^s\ne^{-\\int_{s_0}^uA_s(v)\\,dv}\n\\frac{G_s(u)}{cD_B(u)}\\,du\\right]>0\n\\quad(s\\ge s_0).\n}\n\\end{gathered}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.28",
+      "latex": "\\boxed{\nr_s=z_s=Y_s^{(B)}=Y_s,\\qquad X_s=b_sY_s,\n\\qquad\n\\dot Y_s=\\frac{R_s}{c\\gamma n_B},\n\\qquad\n\\mathscr D_uY_s=\\frac{R_s}{n_B},\n\\qquad \\Xi=\\gamma^{-1}\\sum_sb_sR_s=0 .\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.29",
+      "latex": "\\boxed{\n\\mathfrak Y_s(\\Sigma)\n:=\\frac{\\mathcal N_s(\\Sigma)}{\\mathcal N_B(\\Sigma)}\n=\\frac{\\int_\\Sigma D_B^{(w)}Y_s^{(w)}\\,dV_\\Sigma}\n{\\int_\\Sigma D_B^{(w)}\\,dV_\\Sigma} .\n}\n\\qquad\n\\mathfrak F_s^{\\rm det}\n=\\frac{\\ell_aN_s^a}{\\ell_aB^a}\n\\quad(\\ell\\cdot B\\ne0).",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    },
+    {
+      "id": "ABF.30",
+      "latex": "\\boxed{\n\\begin{gathered}\n\\mathcal N_B(\\Sigma_2)=\\mathcal N_B(\\Sigma_1),\\\\\n\\mathfrak Y_s(\\Sigma_2)-\\mathfrak Y_s(\\Sigma_1)\n=\\frac{1}{\\mathcal N_B}\\left[\n\\int_{\\mathcal V}\\frac{R_s}{c}\\,dV_4\n-\\int_{\\mathrm{side}}N_s^a\\,d\\Sigma_a\\right].\n\\end{gathered}\n}",
+      "source_document": "derivation/DERIVATION_KO.md",
+      "source_document_sha256": "7842931e332fcf7a4548e5741bd976f8d1d2e841971896bac0bc444d54dd1432"
+    }
+  ],
+  "normal_ode_applicability": {
+    "observer": "original geodesic normal n",
+    "scalar_homogeneity": true,
+    "vector_divergence": "D_i V^i=-2*a_B.V",
+    "density_balance": "dot(D_ref)=-3*H*D_ref+2*a_B.J_ref",
+    "abundance_balance": "dot(Y_s)=R_s/(c*D_ref)+2*Y_s*a_B.(beta_s-beta_ref)",
+    "proper_ratio_balance": "dot(r_s)=R_s/(c*gamma_s*n_ref)+r_s*(2*a_B.(beta_s-beta_ref)+dot(log(gamma_ref))-dot(log(gamma_s)))",
+    "proper_fraction_balance": "dot(X_s)=X_s*(eta_s-eta_mean)+(b_s*R_s/gamma_s-X_s*Xi)/(c*n_star)"
+  },
+  "closure": {
+    "state": "U_s=(D_s,rho_s,q_s)",
+    "natural_coordinates": "vartheta_s",
+    "full_vector_field": "dot(vartheta_s)=Inverse(M_moment_s).F_moment_s, with the existing MTF geometric and R_s,Q_s source terms",
+    "collision_vector_field": "S[vartheta_s]=Inverse(M_moment_s).(R_s,E_s,P_s)/c",
+    "derivative_policy": "Every gamma_s, gamma_ref and Gamma_sref derivative is induced by that same vector field; fixed-velocity direct R terms are labeled as such.",
+    "equation_refs": [
+      "ABF.19",
+      "ABF.20",
+      "ABF.21"
+    ]
+  },
+  "inverse_fraction_map": {
+    "expression": "F_s=gamma_s*X_s/sum(gamma_r*X_r)",
+    "unweighted_Y_recovery": "Y_s=F_s/b_s only for b_s>0; species with b_s=0 require their separately retained D_s.",
+    "equation_refs": [
+      "ABF.9"
+    ]
+  },
+  "special_limits": {
+    "class_A": "a_B=0 removes the normal spatial term; Xi and gamma derivatives in proper fractions can remain.",
+    "common_velocity": "ABF.28 on the subfamily where equality of velocities is preserved by the derivative; otherwise use full ABF.11-13 and ABF.21.",
+    "local_boost": "Finite contractions for actual observers; passive smooth boost transports observer, source and the full connection.",
+    "H_zero_example": "Constructed Bianchi IX point in ABF.57"
+  },
+  "finite_volume": {
+    "balance": "Change of species particle count in the worldtube = integrated R_s/c minus outgoing species side flux.",
+    "equation_refs": [
+      "ABF.29",
+      "ABF.30"
+    ],
+    "reference_balance": "The weighted reference count has no volume production; its change is minus the outgoing weighted reference side flux."
+  },
+  "required_future_physical_inputs": [
+    "Process-specific masses, states, matrix elements/cross sections and thresholds",
+    "Conserved reference domain for each chosen inventory",
+    "Closure accuracy and global evolution only where a later bounded goal requires them"
+  ],
+  "depth_criteria_ref": "COVERAGE_MATRIX.json:current_unit_depth"
+}

@@ -1,0 +1,60 @@
+{
+  "model": "FA03_NON_GREY_ABSORPTION_AFFINE_REST_ENERGY",
+  "parent_sha256": "b453ea1a984bea55c83dd54a1545e9cd344d90a31ee2e72ab51cb338579e01d5",
+  "parameters": {
+    "chi": [
+      -0.02,
+      0.02
+    ],
+    "psi": [
+      -0.02,
+      0.02
+    ],
+    "epsilon": [
+      -0.1,
+      0.1
+    ]
+  },
+  "absorption": "[1+epsilon*(E_rest/E_star-1)]K3",
+  "rotation": "unchanged",
+  "source": "unchanged polynomial source on plateau",
+  "cap": "same two-parameter b453 family; 0<delta<=.02; implementation delta=.02",
+  "energy_band": [
+    0.98,
+    1.02
+  ],
+  "x_interval": [
+    0.5,
+    1
+  ],
+  "zero_incoming": true,
+  "state_order": [
+    "S0",
+    "S1",
+    "S2",
+    "V0",
+    "V1",
+    "W0"
+  ],
+  "observer_jet_order": [
+    "value",
+    "d_chi",
+    "d_psi",
+    "d_chichi/2",
+    "d_chipsi",
+    "d_psipsi/2"
+  ],
+  "W0": "d_epsilon_epsilon, not half coefficient",
+  "physical_intensity_factor": "c*t_o*E_star^2*j_star*(e_plus-e_minus)",
+  "exact_derivative_base": "epsilon=0 only",
+  "continuum_numerical_certificate": null,
+  "empirical_provider_error": null,
+  "analytic_R1": 125,
+  "analytic_R2": 1250,
+  "Stokes": [
+    "trace J",
+    "J11-J22",
+    "2 Re J12",
+    "-2 Im J12"
+  ]
+}

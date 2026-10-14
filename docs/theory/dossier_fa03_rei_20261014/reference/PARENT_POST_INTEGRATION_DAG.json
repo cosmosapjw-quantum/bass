@@ -1,0 +1,65 @@
+{
+  "schema_version": "bass.postintegration.dag.v1",
+  "immutable_parent": {
+    "package": "BASS_ALL_BIANCHI_LOOP10_20261013",
+    "dag_path": "THEORY_DAG.json",
+    "sha256": "d984d4d507794ea2362d40e3264e5d48127c25032b492644fab4e12a29aba59a",
+    "completed": 21
+  },
+  "nodes": [
+    {
+      "id": "POST-REVIEW-R1",
+      "status": "completed",
+      "depends_on": [],
+      "claims": [
+        "PNS",
+        "AP-ATOM",
+        "AP-DAUGHTER",
+        "AP-OPTICS"
+      ],
+      "evidence": "postreview_r1/REVIEW_DECISIONS.json"
+    },
+    {
+      "id": "F-ADT-FRAME-01",
+      "status": "completed",
+      "depends_on": [
+        "POST-REVIEW-R1"
+      ],
+      "evidence": "postreview_r1/FINDINGS.json",
+      "scope": "support sentence and adapter only"
+    },
+    {
+      "id": "FA-01",
+      "status": "completed_scoped",
+      "depends_on": [
+        "F-ADT-FRAME-01"
+      ],
+      "scope": "finite observer angular aperture of specified Kasner test sector",
+      "contract": "fa01/evidence/parent_contract/NEXT_BOUNDED_GOAL_KO.md",
+      "executed": true,
+      "evidence": "fa01/CLAIMS_NEW.json"
+    },
+    {
+      "id": "FA-02",
+      "status": "completed_scoped",
+      "depends_on": [
+        "FA-01"
+      ],
+      "scope": "finite observer-rapidity/pointing family: first and second cap derivative with boundary/energy/screen terms and uniform remainder",
+      "executed": true,
+      "evidence": "fa02/CLAIMS_NEW.json",
+      "external_review": "pending"
+    },
+    {
+      "id": "PUB-FA02",
+      "status": "blocked_tool_capability",
+      "depends_on": [
+        "FA-02"
+      ],
+      "scope": "same frozen archive Dropbox+Google Drive and new GitHub branch/draft PR",
+      "executed": false,
+      "evidence": "publication/CAPABILITY_RECORD.json"
+    }
+  ],
+  "state_semantics": "New follow-up tasks are not appended to the original bounded 21-unit completion count."
+}

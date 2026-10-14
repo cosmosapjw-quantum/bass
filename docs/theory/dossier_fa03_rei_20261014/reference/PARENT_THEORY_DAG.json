@@ -1,0 +1,1019 @@
+{
+  "schema_version": "bass.theory_dag.loop7.v1",
+  "created_date": "2026-10-12",
+  "title_ko": "모든 Bianchi 유형·종별 물리 tilt·국소 Lorentz boost의 균형 이론연구",
+  "scope_status": "PNS bounded stability/remainder theorem completed; external review pending; three-sector applications next",
+  "current_delivery_ko": "D8.1 공통 physical-norm 안정성·나머지 정리와 실제 포화/판별 구성, D8.2 ready",
+  "baseline_package": "BASS_ALL_BIANCHI_LOOP6_20261013",
+  "physics_contract": {
+    "metric_signature": "-+++",
+    "epsilon_123": 1,
+    "primary_time": "s = c t_normal",
+    "rate_clock": "Declared target/material proper seconds",
+    "geometry": [
+      "N=N^T",
+      "N a_B=0",
+      "K=H I+sigma",
+      "tr(sigma)=0",
+      "unnormalized variables regular through H=0"
+    ],
+    "frames": [
+      "homogeneous slicing normal n",
+      "species/material u_s",
+      "actual observer w",
+      "screen/internal basis"
+    ],
+    "physical_tilt": "Each species velocity is a state input subject to total Einstein constraints.",
+    "passive_local_lorentz": "Arbitrary smooth Lambda(s,x), include all derivative/connection terms; fixed physical tensors.",
+    "actual_observer_change": "Changing w changes measured energy, direction, proper clock and observable.",
+    "speed_domain": "Timelike |beta_s|<1; bounds may depend on maximum finite boost over regular intervals.",
+    "homogeneity": "Invariance under the selected Bianchi group; transform derivatives in boosted frames.",
+    "assumptions_not_imposed_globally": [
+      "diagonal shear",
+      "LRS/axisymmetry",
+      "small anisotropy",
+      "small tilt",
+      "one common matter rest frame",
+      "near-FLRW"
+    ],
+    "perturbation_scope": "Linear perturbations of nonlinear homogeneous backgrounds; local covariant PDE; topology needed for global mode evaluation.",
+    "microphysics_scope": "Existing BASS material/reaction models, preserving each local kernel approximation and scale separation.",
+    "source_adapter": "EV R_phys,Q_phys are invariant-event moments per physical second: div N=R_phys/c, div T=Q_phys/c. GCP Q=Q_phys/c. SPH low sources C_N=R_gamma/c, C_rho=-n.Q_gamma/c, C_q=h.Q_gamma/c."
+  },
+  "depth_criteria": [
+    {
+      "id": "C1",
+      "name_ko": "상태",
+      "required_ko": "변수·단위·시계·frame·초기자료·물리 적용 조건"
+    },
+    {
+      "id": "C2",
+      "name_ko": "방정식",
+      "required_ko": "기하와 결합된 정확한 지배식·source의 실제 유도"
+    },
+    {
+      "id": "C3",
+      "name_ko": "구조",
+      "required_ko": "해당 제약·보존·positivity·reciprocity의 증명과 조건"
+    },
+    {
+      "id": "C4",
+      "name_ko": "변환",
+      "required_ko": "물리 tilt·국소 boost·기저·measure·clock의 정합성"
+    },
+    {
+      "id": "C5",
+      "name_ko": "구성과 극한",
+      "required_ko": "허용 상태/해의 구성, 제어 근사, 정확한 특수극한"
+    },
+    {
+      "id": "C6",
+      "name_ko": "관측",
+      "required_ko": "독립 observable functional와 다른 영역에 전달되는 moment"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "D0",
+      "title_ko": "공통 규약·유형·frame·증거 재사용",
+      "depends_on": [],
+      "status": "completed",
+      "target_volumes": [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII"
+      ],
+      "reuse": [
+        "BASELINE_I",
+        "BASELINE_II",
+        "BASELINE_III",
+        "BASELINE_IV",
+        "BASELINE_V",
+        "BASELINE_VI",
+        "ADOPTED_N1_N6"
+      ],
+      "deliverables_ko": [
+        "11행 type registry",
+        "세 congruence와 local Lorentz/clock 계약",
+        "여덟 영역 C1–C6 계획",
+        "변경 가정에만 새 claim"
+      ],
+      "acceptance_criteria_ko": [
+        "기존 일반 이론과 새 proof obligation의 명확한 연결",
+        "REI 특정 입력이 독립 이론 노드의 선행조건으로 들어가지 않음"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D0.1",
+          "title_ko": "공통 계획·재사용 계약",
+          "status": "completed",
+          "depends_on": [],
+          "evidence_ids": [
+            "PLAN_BASELINE_AUDIT"
+          ],
+          "required_result_ko": "공통 계획·재사용 계약",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately."
+    },
+    {
+      "id": "D1",
+      "title_ko": "전 유형 기하·초기자료·정칙 동역학",
+      "depends_on": [
+        "D0"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "I",
+        "II"
+      ],
+      "reuse": [
+        "BASELINE_I",
+        "BASELINE_II",
+        "ADOPTED_N1_N6",
+        "GIC"
+      ],
+      "deliverables_ko": [
+        "Frobenius Codazzi rank와 Hamiltonian shear budget",
+        "일반 material source의 제약·유형 전파",
+        "H=0 regular local jet와 Weyl/초기자료 family"
+      ],
+      "acceptance_criteria_ko": [
+        "11개 type 및 equal-eigenvalue/exceptional 분기에 대한 구성식",
+        "실현 가능한 총 rho,q와 두 Einstein 제약의 공동 만족",
+        "고정 slice와 지정된 정칙 진화 구간을 구분"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D1.1",
+          "title_ko": "고정기하 Codazzi rank 및 shear feasibility",
+          "status": "completed",
+          "depends_on": [
+            "D0.1"
+          ],
+          "evidence_ids": [
+            "GIC"
+          ],
+          "required_result_ko": "고정기하 Codazzi rank 및 shear feasibility",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D1.2",
+          "title_ko": "보존하는 source를 포함한 제약·유형 전파와 H=0 jet",
+          "status": "completed",
+          "depends_on": [
+            "D1.1"
+          ],
+          "evidence_ids": [
+            "GCP"
+          ],
+          "required_result_ko": "보존하는 source를 포함한 제약·유형 전파와 H=0 jet",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/RESEARCH_LOOP.json",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D1.3",
+          "title_ko": "전 유형 parameterized initial family와 curvature/Weyl",
+          "status": "completed",
+          "depends_on": [
+            "D1.2"
+          ],
+          "evidence_ids": [
+            "IWF"
+          ],
+          "required_result_ko": "전 유형 parameterized initial family와 curvature/Weyl",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/branches/geometry/RESEARCH_LOOP.json",
+          "remaining_current_bounded_goal_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately.",
+      "completion_scope": "All declared foundation work units completed under reviewed claim assumptions; future extensions remain in their own units."
+    },
+    {
+      "id": "D2",
+      "title_ko": "질량 입자·종별 tilt·다중유체·열역학",
+      "depends_on": [
+        "D0"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "I",
+        "II",
+        "IV"
+      ],
+      "reuse": [
+        "BASELINE_I",
+        "BASELINE_II",
+        "BASELINE_IV",
+        "L4",
+        "L6"
+      ],
+      "deliverables_ko": [
+        "covariant event measure에서 R_s와 Q_s 도출",
+        "massive characteristic와 공통-frame pressure/heat/diffusion",
+        "abundance·first law·entropy 및 EOS 가역 조건"
+      ],
+      "acceptance_criteria_ko": [
+        "닫힌 사건의 charge/baryon/4-momentum 상쇄",
+        "종 rest density와 common-frame density의 구별",
+        "cold/ultrarelativistic/common-velocity 극한 및 독립 관측량"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D2.1",
+          "title_ko": "event moment와 물질별 Lorentz 변환의 정합성",
+          "status": "completed",
+          "depends_on": [
+            "D0.1"
+          ],
+          "evidence_ids": [
+            "EV"
+          ],
+          "required_result_ko": "event moment와 물질별 Lorentz 변환의 정합성",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/RESEARCH_LOOP.json",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D2.2",
+          "title_ko": "massive 분포·상대 tilt·열역학의 공동 진화",
+          "status": "completed",
+          "depends_on": [
+            "D2.1"
+          ],
+          "evidence_ids": [
+            "MTF"
+          ],
+          "required_result_ko": "massive 분포·상대 tilt·열역학의 공동 진화",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/branches/matter/RESEARCH_LOOP.json",
+          "remaining_current_bounded_goal_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D2.3",
+          "title_ko": "class-B flux를 유지한 abundance와 구성 예",
+          "status": "completed",
+          "depends_on": [
+            "D2.2"
+          ],
+          "evidence_ids": [
+            "ABF"
+          ],
+          "required_result_ko": "class-B flux를 유지한 abundance와 구성 예",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_construction_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "RESEARCH_LOOP.json",
+          "decision_record": "review/FINAL_REVIEW.json",
+          "remaining_current_bounded_goal_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately.",
+      "completion_scope": "All three declared bounded D2 units accepted; application and closure extensions retain separate states."
+    },
+    {
+      "id": "D3",
+      "title_ko": "복사·편극·모든 유형의 수송과 충돌",
+      "depends_on": [
+        "D0"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "II"
+      ],
+      "reuse": [
+        "BASELINE_II",
+        "BASELINE_V",
+        "GTR",
+        "L5",
+        "L7",
+        "L8"
+      ],
+      "deliverables_ko": [
+        "일반 characteristic/screen/Jacobian 및 target rate",
+        "exact all-l I/E/B/V operator projection",
+        "finite material-rest collision과 moving connection"
+      ],
+      "acceptance_criteria_ko": [
+        "광자 number/energy/momentum source의 저차 moment 정합",
+        "class A/B와 임의 정칙 finite anisotropy를 포함",
+        "cold-rest 정확 한계와 thermal/recoil 전개의 조건·remainder"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D3.1",
+          "title_ko": "일반 광선 Jacobian과 finite-target 사건률",
+          "status": "completed",
+          "depends_on": [
+            "D0.1"
+          ],
+          "evidence_ids": [
+            "GTR"
+          ],
+          "required_result_ko": "일반 광선 Jacobian과 finite-target 사건률",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D3.2",
+          "title_ko": "정확 편극 angular/spectral hierarchy의 표현 정합",
+          "status": "completed",
+          "depends_on": [
+            "D3.1"
+          ],
+          "evidence_ids": [
+            "SPH1"
+          ],
+          "required_result_ko": "정확 편극 angular/spectral hierarchy의 표현 정합",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/RESEARCH_LOOP.json",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D3.3",
+          "title_ko": "여러 rest frame의 충돌·moving connection",
+          "status": "completed",
+          "depends_on": [
+            "D3.2"
+          ],
+          "evidence_ids": [
+            "MCP"
+          ],
+          "required_result_ko": "여러 rest frame의 충돌·moving connection",
+          "evidence_basis": "derived",
+          "execution_status": "actual_derivation_and_targeted_exact_checks_completed",
+          "review_status": "accepted_scoped",
+          "dossier_integration_status": "bound_pdf_and_editable_manuscript",
+          "loop_record": "inputs/loop2/branches/collision/RESEARCH_LOOP.json",
+          "remaining_current_bounded_goal_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately.",
+      "completion_scope": "All declared foundation work units completed under reviewed claim assumptions; future extensions remain in their own units."
+    },
+    {
+      "id": "D4",
+      "title_ko": "재결합·H/He multilevel·선 수송",
+      "depends_on": [
+        "D2",
+        "D3"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "III",
+        "IV"
+      ],
+      "reuse": [
+        "BASELINE_III",
+        "BASELINE_V",
+        "L9",
+        "L10"
+      ],
+      "deliverables_ko": [
+        "anisotropic atom-frame rate functional와 line transfer",
+        "moving-bath exact memory에서 제어된 EMLA/escape reduction"
+      ],
+      "acceptance_criteria_ko": [
+        "level/photon source의 보존과 재결합 독립 observable",
+        "단조 crossing·redistribution·steady-limit 등 실제 가정 명시",
+        "isotropic/comoving 기존 식의 정확 회복"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D4.1",
+          "title_ko": "다준위 원자와 방향·주파수별 선 수송",
+          "status": "completed",
+          "depends_on": [
+            "D2.3",
+            "D3.3"
+          ],
+          "evidence_ids": [
+            "R4L"
+          ],
+          "required_result_ko": "다준위 원자와 방향·주파수별 선 수송",
+          "next_contract": "NEXT_LOOP.json",
+          "next_bounded_goal_ko": "한 원자 bound-bound 준위 family에서 방향·주파수별 물질-rest line source를 population abundance와 복사 source에 공동 투영한다.",
+          "execution_status": "completed_scoped_with_referee_record",
+          "readiness_basis": "All declared prerequisite work units completed.",
+          "execution_state": "completed_scoped_with_referee_record",
+          "review_gate": "inputs/referee/REVIEW_DECISIONS.json",
+          "review_change": {
+            "previous_status": "in_progress",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "scientific_disposition": "ACCEPT_SCOPED",
+          "independent_review": "completed_rederivation_review",
+          "review_basis": "unchanged manuscript hash; prior referee decision retained",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D4.2",
+          "title_ko": "초기층과 bath 변화가 있는 controlled elimination",
+          "status": "completed",
+          "depends_on": [
+            "D4.1"
+          ],
+          "evidence_ids": [
+            "IEL"
+          ],
+          "required_result_ko": "초기층과 bath 변화가 있는 controlled elimination",
+          "review_change": {
+            "previous_status": "planned",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "readiness_basis": "Prerequisite accepted within its original bounded scope by current referee review",
+          "execution_status": "bounded_derivation_construction_exact_checks_completed",
+          "review_status": "owner_reviewed_external_pending",
+          "scientific_disposition": "SCOPED_DERIVATION_CHECKED",
+          "review_basis": "review/OWNER_REVIEW.json",
+          "dossier_integration_status": "editable_manuscript_and_pdf",
+          "remaining_current_mathematical_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately.",
+      "completion_scope": "Declared bounded units calculated, not full physical-domain admission; Loop6 independent review pending"
+    },
+    {
+      "id": "D5",
+      "title_ko": "원자·분자·alignment·상대 flux 충돌",
+      "depends_on": [
+        "D2",
+        "D3"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "III"
+      ],
+      "reuse": [
+        "BASELINE_III",
+        "BASELINE_V"
+      ],
+      "deliverables_ko": [
+        "atomic density–photon coherency coupling와 basis connection",
+        "종별 mass-shell collision average와 독립 반응 observable"
+      ],
+      "acceptance_criteria_ko": [
+        "positivity·trace·basis covariance의 지정된 구조 보존",
+        "정확 COM boost와 채택 내부 Hamiltonian의 척도 조건",
+        "aligned He/선 편극과 H-H 계열 collision/capture 구성 예"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D5.1",
+          "title_ko": "내부 density/Gram과 편극 field의 공변 연결",
+          "status": "completed",
+          "depends_on": [
+            "D2.3",
+            "D3.3"
+          ],
+          "evidence_ids": [
+            "R4Q"
+          ],
+          "required_result_ko": "내부 density/Gram과 편극 field의 공변 연결",
+          "next_contract": "NEXT_LOOP.json",
+          "next_bounded_goal_ko": "한 유한 내부 상태 family에서 density/Gram과 편극 radiation의 covariant source를 구성하고 population limit와 선 편극을 연결한다.",
+          "execution_status": "completed_scoped_with_referee_record",
+          "readiness_basis": "All declared prerequisite work units completed.",
+          "execution_state": "completed_scoped_with_referee_record",
+          "review_gate": "inputs/referee/REVIEW_DECISIONS.json",
+          "review_change": {
+            "previous_status": "in_progress",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "scientific_disposition": "ACCEPT_SCOPED",
+          "independent_review": "completed_rederivation_review",
+          "review_basis": "unchanged manuscript hash; prior referee decision retained",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D5.2",
+          "title_ko": "상대 flux 원자·분자 source와 두 구성 예",
+          "status": "completed",
+          "depends_on": [
+            "D5.1"
+          ],
+          "evidence_ids": [
+            "SIF"
+          ],
+          "required_result_ko": "상대 flux 원자·분자 source와 두 구성 예",
+          "review_change": {
+            "previous_status": "planned",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "readiness_basis": "Prerequisite accepted within its original bounded scope by current referee review",
+          "execution_status": "bounded_derivation_construction_exact_checks_completed",
+          "review_status": "owner_reviewed_external_pending",
+          "scientific_disposition": "SCOPED_DERIVATION_CHECKED",
+          "review_basis": "review/OWNER_REVIEW.json",
+          "dossier_integration_status": "editable_manuscript_and_pdf",
+          "remaining_current_mathematical_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately.",
+      "completion_scope": "Declared bounded units calculated, not full physical-domain admission; Loop6 independent review pending"
+    },
+    {
+      "id": "D6",
+      "title_ko": "핵반응·배타 전자채널·딸핵·recoil",
+      "depends_on": [
+        "D2"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "VI",
+        "IV"
+      ],
+      "reuse": [
+        "BASELINE_VI",
+        "ADOPTED_N1_N6",
+        "GTR"
+      ],
+      "deliverables_ko": [
+        "문턱·질량·상태 계수와 invariant event measure",
+        "boosted joint daughter law·marginals·관측 수송"
+      ],
+      "acceptance_criteria_ko": [
+        "channel normalization·multiplicity·4-momentum·marginal consistency",
+        "채택된 nucleus/channel model의 rest와 low-temperature 극한",
+        "charge yield와 recoil spectrum/covariance"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D6.1",
+          "title_ko": "invariant nuclear event와 exclusive channel 접합",
+          "status": "completed",
+          "depends_on": [
+            "D2.3"
+          ],
+          "evidence_ids": [
+            "R4N",
+            "BWM"
+          ],
+          "required_result_ko": "invariant nuclear event와 exclusive channel 접합",
+          "next_contract": "NEXT_LOOP.json",
+          "next_bounded_goal_ko": "한 지정 핵반응·배타 채널의 invariant event measure에서 daughter·recoil과 abundance·에너지 source를 공동 도출한다.",
+          "execution_status": "completed_bounded_correction",
+          "readiness_basis": "All declared prerequisite work units completed.",
+          "execution_state": "correction_verified",
+          "review_gate": "review/DELTA_REVIEW.json",
+          "review_change": {
+            "previous_status": "in_progress",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "scientific_disposition": "SCOPED_CORRECTION_VERIFIED",
+          "independent_review": "prior referee complete; new correction owner-verified",
+          "material_findings": [],
+          "manuscript_sha256": "93eb52e31069b6e29428b6b3160fdd20507ca27bc67a9ba06549780d5fa5d797",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D6.2",
+          "title_ko": "boosted daughter joint law와 observer yield",
+          "status": "completed",
+          "depends_on": [
+            "D6.1"
+          ],
+          "evidence_ids": [
+            "DTP"
+          ],
+          "required_result_ko": "boosted daughter joint law와 observer yield",
+          "review_change": {
+            "previous_status": "planned",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "execution_status": "not_executed",
+          "readiness_basis": "Parent BWM/revised R4N unchanged; not executed in Loop6",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json",
+          "evidence_ref": "CLAIMS.json",
+          "review_status": "owner_reviewed_external_pending",
+          "completed_in": "BASS_ALL_BIANCHI_LOOP7_20261013"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately."
+    },
+    {
+      "id": "D7",
+      "title_ko": "관측자·광학·배경 응답과 섭동",
+      "depends_on": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "VII"
+      ],
+      "reuse": [
+        "BASELINE_I",
+        "BASELINE_II",
+        "BASELINE_IV",
+        "GTR",
+        "L11",
+        "L12"
+      ],
+      "deliverables_ko": [
+        "endpoint tetrad와 Sachs/Jacobi/distance/drift/counts",
+        "constrained tangent 및 공변 공간의존 선형 PDE",
+        "분야별 source를 받는 observable functional"
+      ],
+      "acceptance_criteria_ko": [
+        "선형화된 Jacobi/Hamiltonian/Codazzi 보존",
+        "passive frame/gauge와 actual observer 변화를 구별",
+        "BI 및 가능한 FLRW 극한",
+        "global mode 결과에는 topology·경계·군 표현 입력 명시"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D7.1",
+          "title_ko": "일반 observer optical map와 endpoint 응답",
+          "status": "completed",
+          "depends_on": [
+            "D1.3",
+            "D2.3",
+            "D3.3"
+          ],
+          "evidence_ids": [
+            "OSM"
+          ],
+          "required_result_ko": "일반 observer optical map와 endpoint 응답",
+          "next_contract": "NEXT_LOOP.json",
+          "next_bounded_goal_ko": "허용 all-Bianchi 배경에서 한 지정 observer의 ray/screen map과 current-based source observable를 연결한다.",
+          "execution_status": "bounded_derivation_construction_exact_checks_completed",
+          "readiness_basis": "All declared prerequisite work units completed.",
+          "review_change": {
+            "previous_status": "ready",
+            "basis": "inputs/referee/REVIEW_DECISIONS.json"
+          },
+          "review_status": "owner_reviewed_external_pending",
+          "scientific_disposition": "SCOPED_DERIVATION_CHECKED",
+          "review_basis": "review/OWNER_REVIEW.json",
+          "dossier_integration_status": "editable_manuscript_and_pdf",
+          "remaining_current_mathematical_obligations": [],
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json"
+        },
+        {
+          "id": "D7.2",
+          "title_ko": "제약된 배경 접선과 국소 선형 섭동 관측",
+          "status": "completed",
+          "depends_on": [
+            "D7.1"
+          ],
+          "evidence_ids": [
+            "COT"
+          ],
+          "required_result_ko": "제약된 배경 접선과 국소 선형 섭동 관측",
+          "readiness_basis": "OSM bounded theorem constructed and checked; inherit source evidence ceiling",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json",
+          "evidence_ref": "CLAIMS.json",
+          "review_status": "owner_reviewed_external_pending",
+          "completed_in": "BASS_ALL_BIANCHI_LOOP7_20261013"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately."
+    },
+    {
+      "id": "D8",
+      "title_ko": "물리적 구조를 보존하는 공통 근사·오차",
+      "depends_on": [
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "V"
+      ],
+      "reuse": [
+        "BASELINE_V",
+        "ADOPTED_N1_N6"
+      ],
+      "deliverables_ko": [
+        "cone/moment pairing/moving weighted norm",
+        "exact propagator/memory remainder와 observable error",
+        "최소 세 독립 physics에 대한 실제 정리 적용"
+      ],
+      "acceptance_criteria_ko": [
+        "scalar population과 coherent density의 적절한 positivity 가정",
+        "finite boost·정칙 구간에서 norm 상수의 명시",
+        "절단·준정상 축약에 remainder와 입력 regularity 표시",
+        "수학적 결론과 생산 solver 실행을 구별"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D8.1",
+          "title_ko": "moving frame의 물리 norm·remainder·오차 정리",
+          "status": "completed",
+          "depends_on": [
+            "D4.2",
+            "D5.2",
+            "D6.2",
+            "D7.2"
+          ],
+          "evidence_ids": [
+            "PNS"
+          ],
+          "required_result_ko": "moving frame의 물리 norm·remainder·오차 정리",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json",
+          "execution_status": "bounded_proof_construction_CAS_and_owner_review_completed",
+          "review_status": "owner_reviewed_external_pending",
+          "scientific_disposition": "SCOPED_DERIVATION_CHECKED",
+          "dossier_integration_status": "editable_manuscript_and_standalone_volume_V_supplement",
+          "remaining_current_mathematical_obligations": []
+        },
+        {
+          "id": "D8.2",
+          "title_ko": "세 영역 이상에 보존·축약·관측 오차 적용",
+          "status": "completed",
+          "depends_on": [
+            "D8.1"
+          ],
+          "evidence_ids": [
+            "AP-ATOM",
+            "AP-DAUGHTER",
+            "AP-OPTICS"
+          ],
+          "required_result_ko": "세 영역 이상에 보존·축약·관측 오차 적용",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json",
+          "readiness_basis": "PNS bounded theorem proved and checked; application-specific constants and domain must be instantiated",
+          "next_contract": "NEXT_LOOP.json",
+          "execution_status": "three_independent_physics_applications_derived_computed_and_owner_reviewed",
+          "review_status": "owner_reviewed_external_pending",
+          "scientific_disposition": "SCOPED_APPLICATION_CHECKED",
+          "remaining_current_mathematical_obligations": [],
+          "dossier_integration_status": "branch_manuscripts_application_JSON_and_new_PDF_supplements"
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately."
+    },
+    {
+      "id": "D9",
+      "title_ko": "권별 통합과 증거·equation·coverage 동기화",
+      "depends_on": [
+        "D8"
+      ],
+      "status": "completed",
+      "target_volumes": [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII"
+      ],
+      "reuse": [
+        "BASELINE_I",
+        "BASELINE_II",
+        "BASELINE_III",
+        "BASELINE_IV",
+        "BASELINE_V",
+        "BASELINE_VI"
+      ],
+      "deliverables_ko": [
+        "공통 일반 본문과 물리 응용의 상호참조",
+        "권별 claim/equation/source 및 coverage",
+        "차기 I-VI 개정과 VII 분권"
+      ],
+      "acceptance_criteria_ko": [
+        "여덟 영역 C1–C6의 실제 충족 위치",
+        "기존 채택 claim 보존과 새 가정의 증거",
+        "계획/유도/독립검토/수치확인/원고편입 상태 분리"
+      ],
+      "depth_criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "work_units": [
+        {
+          "id": "D9.1",
+          "title_ko": "원고와 machine 산출물에 실제 채택 결과 통합",
+          "status": "completed",
+          "depends_on": [
+            "D8.2"
+          ],
+          "evidence_ids": [
+            "D9-EDITION"
+          ],
+          "required_result_ko": "원고와 machine 산출물에 실제 채택 결과 통합",
+          "inherited_state_from": "inputs/loop6/THEORY_DAG.json",
+          "readiness_basis": "D8.2 three-sector bounded applications completed; physical unknowns and review ceilings retained",
+          "execution_status": "source_identity_merge_index_link_and_pdf_verification_completed",
+          "review_status": "editorial_owner_review_no_new_independent_scientific_review",
+          "scientific_disposition": "INTEGRATION_COMPLETED_NO_SCIENTIFIC_PROMOTION",
+          "dossier_integration_status": "seven_full_PDFs_master_index_editable_fragments_and_machine_package",
+          "remaining_required_integration_obligations": []
+        }
+      ],
+      "execution_protocol": "physmath-research-loop/builtin-theory-10-step",
+      "machine_update_policy": "Record evidence basis, execution, review, and dossier integration separately."
+    }
+  ],
+  "execution": {
+    "actual_mode": "single owner editorial integration; no new scientific calculations",
+    "maximum_external_agents_used": 0,
+    "next_ready": [],
+    "original_work_unit_count": 21,
+    "completion_count_interpretation": "bounded tasks only, not physical-model admission or equal effort fraction"
+  },
+  "priority_correction": {
+    "id": "F-N-STIM",
+    "status": "resolved_by_targeted_verification",
+    "basis": "FINDINGS.json"
+  },
+  "tool_routes": {
+    "harness": "physmath-research-loop 1.1.0",
+    "literature": "SciSpace discovery + Exa primary metadata reconciliation only",
+    "algebra": "unchanged prior Wolfram/xAct evidence retained; no new symbolic run required",
+    "document": "XeLaTeX + PyMuPDF + pypdf"
+  },
+  "companion_files": [
+    "VOLUME_INDEX.json",
+    "EQUATIONS.json",
+    "CLAIMS.json",
+    "COVERAGE_MATRIX.json",
+    "SOURCE_ADAPTER_INDEX.json",
+    "SOURCE_CLOCKS.json",
+    "ABUNDANCE_MODEL.json",
+    "BUILD_VALIDATION.json",
+    "NEXT_LOOP.json",
+    "REMAINING_OBLIGATIONS.json"
+  ],
+  "updated_utc": "2026-10-13T14:11:48.400382+00:00",
+  "parent_plan": "inputs/loop9/THEORY_DAG.json",
+  "date": "2026-10-13",
+  "current_loop": "Loop10",
+  "parent_loop": "Loop9",
+  "review_provenance": {
+    "same_owner": true,
+    "different_derivation_and_CAS_used": false,
+    "external_independent_review": false,
+    "new_result_status": "INTEGRATION_COMPLETED_NO_SCIENTIFIC_PROMOTION"
+  },
+  "reference_resolution": {
+    "inherited_metadata_root": "inputs/loop8",
+    "new_evidence": "CLAIMS.json",
+    "equation_canonical_path_key": "resolved_source_document"
+  },
+  "current_package": "BASS_ALL_BIANCHI_LOOP10_20261013",
+  "inherited_plan_metadata": {
+    "current_loop": "BASS_ALL_BIANCHI_LOOP5_20261013",
+    "parent_loop": "inputs/loop4/THEORY_DAG.json",
+    "tool_routes": {
+      "SciSpace": "targeted discovery used; source metadata cross-checked before adoption",
+      "Exa": "primary source abstracts/selected M1 full text read; scopes in EVIDENCE.json",
+      "Wolfram": "12 fresh scalar identities; warnings preserved",
+      "xAct": "10 fresh tensor identities, pinned official archive; first input representation issue retained"
+    },
+    "companion_files": [
+      "RESEARCH_LOOP.json",
+      "CLAIMS.json",
+      "EQUATIONS.json",
+      "SOURCE_CLOCKS.json",
+      "SOURCE_ADAPTERS_LOOP5.json",
+      "ABUNDANCE_MODEL.json",
+      "BOSE_MOMENT_MODEL.json",
+      "NEXT_LOOP.json",
+      "REMAINING_OBLIGATIONS.json",
+      "MANUSCRIPT_MAP.json"
+    ],
+    "review_provenance": {
+      "inherited_decision": "inputs/referee/REVIEW_DECISIONS.json",
+      "current_delta": "review/DELTA_REVIEW.json",
+      "external_blind_review": false,
+      "state_semantics": "Bounded correction tests closed in new checkpoint; original draft and referee remain intact"
+    },
+    "parent_plan": "inputs/referee/THEORY_DAG_REVIEWED.json",
+    "scope_status": "F-N-STIM correction verified; four subsequent bounded units ready"
+  },
+  "work_unit_counts": {
+    "completed": 21,
+    "ready": 0,
+    "planned": 0
+  },
+  "completed_major_nodes": [
+    "D0",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9"
+  ]
+}
