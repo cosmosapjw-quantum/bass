@@ -1,0 +1,88 @@
+{
+  "schema": "bass.fa03.r8.claim_registry.v1",
+  "selected_stage": "R8",
+  "parent_commit": "e67d6fc6c1ad8b3a219abf72104877da1f267e6d",
+  "cross_branch_relation": "PR146 is a compatible independently represented numerical enclosure, not an identical artifact and not merged",
+  "claim_rows": [
+    {
+      "id": "FA3-R8-FINITE",
+      "decision": "PROMOTE_FOR_SPECIFIED_USE",
+      "evidence_status": [
+        "DERIVED",
+        "INTERVAL_NUMERICALLY_CHECKED",
+        "SOURCE_BOUND"
+      ],
+      "statement": "fixed exact 36 ray GL3x12 observer coherency is within 4.75e-7 trace norm of archived RK4 second-order epsilon polynomial for all |epsilon|<=0.1",
+      "evidence": [
+        "evidence/RESULT.json",
+        "reference/PEER_COMPATIBILITY.json"
+      ],
+      "unresolved": [
+        "continuous_cap",
+        "observer_derivative",
+        "empirical_opacity"
+      ]
+    },
+    {
+      "id": "FA3-R8-STOKES",
+      "decision": "PROMOTE_FOR_SPECIFIED_USE",
+      "evidence_status": [
+        "DERIVED",
+        "SYMBOLICALLY_CHECKED",
+        "EXACT_RATIONAL_CHECKED"
+      ],
+      "statement": "Hermitian 2x2 Stokes trace norm formula and >0.12548 minimum coherency eigenvalue under same fixed-detector epsilon domain",
+      "evidence": [
+        "evidence/RESULT.json",
+        "evidence/TESTS.log"
+      ]
+    },
+    {
+      "id": "FA3-R8-EXACT-JOINT",
+      "decision": "HOLD",
+      "statement": "joint numerical chi psi epsilon enclosure not supplied despite exact observer-jet derivative formulas"
+    },
+    {
+      "id": "FA3-R8-ANGULAR",
+      "decision": "HOLD",
+      "statement": "finite GL3x12 does not certify continuous angular cap"
+    },
+    {
+      "id": "FA3-R8-EMPIRICAL",
+      "decision": "HOLD",
+      "statement": "source is toy plateau, not measured atomic opacity or EoR physical fit"
+    },
+    {
+      "id": "REI-R8-CLOCK",
+      "decision": "PROMOTE_AS_CONDITIONAL_BACKGROUND_DIAGNOSTIC",
+      "evidence_status": [
+        "DERIVED",
+        "NUMERICALLY_CHECKED",
+        "ACTUAL_PARTIAL_NATIVE_CLOCK_COMPARED"
+      ],
+      "statement": "signed-even background clock shift computed without chemistry; not a milestone shift",
+      "evidence": [
+        "evidence/RESULT.json",
+        "manuscripts/REI_OWNER_ACCELERATION_KO.md"
+      ]
+    },
+    {
+      "id": "REI-R8-EXE",
+      "decision": "HOLD",
+      "statement": "signed family/refinement and convergence remain owner pending, no dispatch permission inferred"
+    },
+    {
+      "id": "REI-R8-XE",
+      "decision": "CLOSED_ALREADY_BY_OWNER",
+      "statement": "xe floor inconsistency corrected in live REI compare_histories.py; do not duplicate fix",
+      "evidence": [
+        "evidence/RESULT.json"
+      ]
+    }
+  ],
+  "native_subagents": "NOT_RUN_TOOL_UNEXPOSED",
+  "independent_external_science_review": "NOT_RUN",
+  "REI_solver_starts": 0,
+  "REI_owner_files_modified": 0,
+  "original_I_VII_21nodes": "PRESERVED_UNCHANGED"
+}
