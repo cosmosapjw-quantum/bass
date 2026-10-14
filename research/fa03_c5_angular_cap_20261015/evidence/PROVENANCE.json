@@ -1,0 +1,92 @@
+{
+  "utc": "2026-10-14T15:52:26.419756+00:00",
+  "source_commit": "c0744acee26252c3d1b8de02a799789c8dc0308b",
+  "git_worktree_head": "c0744acee26252c3d1b8de02a799789c8dc0308b",
+  "branch": "research/fa03-c5-angular-cap-20261015",
+  "python": "3.12.3",
+  "numpy": "2.4.2",
+  "os": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "selected_stage": "C5",
+  "native_subagents": "NOT_RUN_TOOL_UNEXPOSED",
+  "r7_archive": {
+    "size": 1631909,
+    "sha256": "551ca3cd2f8679fcf5bbe4b0885176147c77e232def6c5606622a6364ea987f6"
+  },
+  "original_source_sha256": {
+    "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+    "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+  },
+  "original_r7_certificate_sha256": "cac2515682821deebe7eb30770a27b30dc7576522c3a1f6101ef0e70e2486adc",
+  "execution": {
+    "C5_unit_test": {
+      "count": 15,
+      "exit": 0,
+      "log": "evidence/TESTS_AFTER_RELOCATION.log"
+    },
+    "initial_red": {
+      "count_fail": 1,
+      "count_error": 1,
+      "cause": "phase arithmetic binary64 bitwise mismatch and subset-grids fixed high-grid key",
+      "preserved_log": "evidence/TESTS_INITIAL.log"
+    },
+    "angular_script": {
+      "exit": 0,
+      "input": {
+        "steps": 128,
+        "grids": [
+          "2x8",
+          "3x12",
+          "4x16",
+          "6x24",
+          "10x48",
+          "14x64"
+        ],
+        "energy_orders": [
+          8,
+          16
+        ],
+        "epsilon": [
+          -0.1,
+          0,
+          0.1
+        ]
+      },
+      "output": "evidence/ANGULAR_STUDY_C5_FINAL.json"
+    },
+    "past_existing_relevant_polarization": {
+      "passed": 22,
+      "failed": 1,
+      "cause": "missing optional jax module, pre-existing test dependency",
+      "full_suite": "NOT_RUN"
+    },
+    "past_existing_rays": {
+      "collection_failed": true,
+      "cause": "missing optional jax module",
+      "full_suite": "NOT_RUN"
+    }
+  },
+  "precision_claims": {
+    "continuous_angular_error_bound": null,
+    "fixed_36_ray_r8_trace_norm_bound": "<4.75e-7 (unchanged original)",
+    "discretization_differences": "IEEE64 empirical only"
+  },
+  "gamma_exact_checks": {
+    "wolfram": "15.0.1",
+    "normalized_area": 1,
+    "mu_linear": true,
+    "mean_mu_minus_formula": 0,
+    "mean_mu2_minus_formula": 0
+  },
+  "owner_REI_mutations": 0,
+  "native_REI_solver_starts": 0,
+  "measurement": {
+    "max_angular_disagreement": 6.122369811137812e-16,
+    "max_64to128_time_disagreement": 1.0245310242545942e-11,
+    "max_spectral_order_difference": 3.080868893360836e-15,
+    "epsilon_remainders": {
+      "-0.1": 3.3306053748294318e-09,
+      "0": 2.228305750575871e-16,
+      "0.1": 3.3195542981090406e-09
+    }
+  }
+}
