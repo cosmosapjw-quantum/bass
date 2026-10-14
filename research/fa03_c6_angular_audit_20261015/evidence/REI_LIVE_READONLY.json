@@ -1,0 +1,99 @@
+{
+  "schema": "rei.axbi.owner.readonly.snapshot.v1",
+  "observed_utc": "2026-10-14T16:25:39.767153+00:00",
+  "git": {
+    "head": "6cbdb57010a79eb3bbbc6a54b7f1a75d466702fd",
+    "tracked_status": "M rust/rei_microphysics/src/lib.rs",
+    "branch": "codex/rux-science-delivery-20261014"
+  },
+  "state": {
+    "sha256": "1572eeeb12de0b7b700160a8077af25b23e673399479a66906fe788d4efc2fa1",
+    "goal_status": "IN_PROGRESS",
+    "global_scientific_admission": "NOT_ISSUED",
+    "AX07_status": "COMPLETED",
+    "AX08_status": "IN_PROGRESS",
+    "AX11_status": "PENDING",
+    "AX12_status": "PENDING",
+    "next_command_precondition": "Observe existing PLUS recovery natural progress/terminal; no restart, no duplicate recovery invocation, no concurrent HALF_PLUS before PLUS classification and observer exit."
+  },
+  "original_signed_cases": [
+    {
+      "name": "SHEAR_PLUS",
+      "return_exists": true,
+      "return_sha256": "d7e028dca87141f54ac2a653b4657781d679dde8e5a8de0a1bca43865a745862",
+      "status_from_return": "STOPPED_CHECKPOINTED",
+      "accepted_from_return": "200000",
+      "resource_cap_from_return": true,
+      "checkpoint_exists": true,
+      "checkpoint_sha256": "00c74753d79b80c9f3fc73a3703d0f6b3f9d08fe003bf7bd816d570a9f37f831",
+      "raw_receipt_exists": false,
+      "raw_receipt_status": null,
+      "raw_receipt_exit_code": null,
+      "scientific_admission_from_return": "NOT_ISSUED",
+      "scoped_science_pass": false
+    },
+    {
+      "name": "SHEAR_MINUS",
+      "return_exists": true,
+      "return_sha256": "19519197a36cb104bdd5d4af1c0173abeb9895ef7e76f0876914c819aa358360",
+      "status_from_return": "STOPPED_CHECKPOINTED",
+      "accepted_from_return": "200000",
+      "resource_cap_from_return": true,
+      "checkpoint_exists": true,
+      "checkpoint_sha256": "c552f26f5f2e793f1c6708974aa4d4a37dfa62c4dc53040035035a2b74957ee1",
+      "raw_receipt_exists": true,
+      "raw_receipt_status": "FAILED_EXIT_1",
+      "raw_receipt_exit_code": 1,
+      "scientific_admission_from_return": "NOT_ISSUED",
+      "scoped_science_pass": false
+    },
+    {
+      "name": "SHEAR_HALF_PLUS",
+      "return_exists": true,
+      "return_sha256": "9858eea30daa645c6771bcb1766e2fccda34d77a34d5908ccf07bc55488659c4",
+      "status_from_return": "STOPPED_CHECKPOINTED",
+      "accepted_from_return": "200000",
+      "resource_cap_from_return": true,
+      "checkpoint_exists": true,
+      "checkpoint_sha256": "4922d47a22aea178dccf889d36da50d1ba35a6fa473bc5b532f547fe8d015150",
+      "raw_receipt_exists": true,
+      "raw_receipt_status": "FAILED_EXIT_1",
+      "raw_receipt_exit_code": 1,
+      "scientific_admission_from_return": "NOT_ISSUED",
+      "scoped_science_pass": false
+    },
+    {
+      "name": "SHEAR_HALF_MINUS",
+      "return_exists": true,
+      "return_sha256": "baae237af69e0a660973405e56be6f06c7788d397daebf75d4fc775ee088b9c6",
+      "status_from_return": "STOPPED_CHECKPOINTED",
+      "accepted_from_return": "200000",
+      "resource_cap_from_return": true,
+      "checkpoint_exists": true,
+      "checkpoint_sha256": "d6217bdb3ab60b7e2d40a28e5c608e461f477ab85eebcd9de2d70259f71815db",
+      "raw_receipt_exists": true,
+      "raw_receipt_status": "FAILED_EXIT_1",
+      "raw_receipt_exit_code": 1,
+      "scientific_admission_from_return": "NOT_ISSUED",
+      "scoped_science_pass": false
+    }
+  ],
+  "plus_continuation": {
+    "output_directory_exists": true,
+    "terminal_RETURN_exists": false,
+    "terminal_status": null,
+    "historical_observer_error_exists": true,
+    "historical_error_type": "LIVE_WORKERS_OR_CHILDREN_HOLD",
+    "scientific_admission": "NOT_INFERRED_FROM_OBSERVER_OR_PROCESS_EXIT"
+  },
+  "liveness": {
+    "status": "OBSERVED",
+    "workers": []
+  },
+  "staleness_findings": [
+    "AX08_DESCRIPTIVE_STATUS_STALE_WRT_HALF_MINUS_TERMINAL"
+  ],
+  "actual_scientific_convergence_reviewed": false,
+  "owner_files_modified": 0,
+  "owner_solver_started": 0
+}
