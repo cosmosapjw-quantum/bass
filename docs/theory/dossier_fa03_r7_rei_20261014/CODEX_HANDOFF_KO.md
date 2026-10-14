@@ -1,0 +1,13 @@
+# FA03-R7 / REI milestone 인계
+
+현재 자신의 실제 HEAD·STATE·shared controller/process/checkpoint를 먼저 확인하라. 이 문서는 owner의 실행을재시작하거나case를중복실행하라는명령이아니다. Private source snapshot은2026-10-14T11:39:35Z다.
+
+BASS: README,manuscripts/R7_COEFFICIENT_CERTIFICATE_KO.md,contracts/CLAIMS.json,THEORY_DAG_OVERLAY.json을읽고 `python code/verify_package.py`를실행한다. 수치계수<9.313e-9와epsilon전체<4.84e-7은 exact36ray detector의continuous-time/band 범위다. Continuous cap로승격하지말라. 다음FA03-R8만선택되어야하며이번R7을R8–R10완료로읽지말라. Parentb453가정/sourcebytes를보존한다.
+
+REI: 이미owner가만든AX11TIME_T1_ZERO4096binary/config와AX12variants를반복준비하지말라. Controller의stagedrelease·공유slot·signedbaseline완료조건은그대로다. HH68source-pair검사와HE51source-specificnormalization을그들의actualversion으로검토하고중복guard를추가하지말라.
+
+새소비점은 `code/milestones.py:first_passage_band`다. Actualcompletehistory의단조coordinate를elapsedpropertime또는declaredln(a)로선택한다. Temperature를정렬하여clock으로쓰지말라. Referencehit은rawacceptedneighbors로정의한다. Full continuousenvelope가없으면radius=None:현재ZERO처럼truefirst-passageinterval은null이다. Errorfloor,localNewtonresidual,node-onlyerror를fullenvelope로속이지말라. Whole-cellcurvatureadapter와trueevolutionradius가실제로있을때만bound_authority를연결한다.
+
+Actual ZEROreadout은 `python code/replay_zero_milestones.py`로현재capsule의10행만소비한다. 파일의nonadjacentrows를연속history로이어붙이지말라. HISTORY_INTAKE의actualneighborindices를사용한다. Owner의fullhistories와refinements를새context에서bind한뒤동일관측량/좌표의milestoneerror를조립하라. Source-specificcaseidentity와clocknormalization은receiver의책임이다.
+
+Supplierimportready와canonicalAX11science완료는다르다. CR/RCT/HH OFF·CaseAescape·unknownobserver-tail비차단상태유지. 이패키지의xAct/interval결과를수치라이브러리전체형식검증·physicalcalibration·외부독립심사라고표시하지말라.
