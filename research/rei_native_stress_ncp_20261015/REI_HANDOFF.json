@@ -1,0 +1,89 @@
+{
+  "schema": "bass.rei.massive_kinetic_rust_handoff.v1",
+  "date": "2026-10-15 KST",
+  "parent_bass": "31c41541eb053545f8638177b8e848d5495b57fd",
+  "parent_pull_request": "https://github.com/cosmosapjw-quantum/bass/pull/162",
+  "intended_new_branch": "research/bass-native-stress-jacobian-ncp-20261015",
+  "authority": {
+    "original_source": "bianchi/matter/freestream.py FD96, stable_moments.py PR162",
+    "sibling_consumer": "rei_bianchi PR150 native H/He, PR152 threshold oracle, PR145/148 canonical FV, PR149 Case-A",
+    "nonmerged": "all original source and REI owner checkouts unchanged"
+  },
+  "model": {
+    "metric_signature": "(-,+,+,+)",
+    "geometry": "LRS Bianchi I: a_perp=a exp(-b), a_parallel=a exp(2b)",
+    "shear": "s=dot b, Sigma=sqrt3 abs(s)/H, orientation separately preserved",
+    "phase_space": "q,mu fixed canonical collisionless Killing momenta; rw=q^2 dq fFD; W=1+A P2(mu)",
+    "mass_range": "m_over_Tref in [3,1e5] at source; tested 3,30,300",
+    "matter_fraction": "Omega_m f_m removed from original nonbaryonic matter stock"
+  },
+  "input": {
+    "grid_text": "BASS_FD96_STRESS_V1 nr na mass norm ; nr rows q,rw ; na rows mu,w",
+    "case_text": "space-separated x,b,A per line",
+    "bounds": {
+      "x": "0<=x<=2",
+      "b": "abs(b)<=1",
+      "A": "-1<=A<=2"
+    },
+    "provenance": "evidence/SOURCE_GRIDS/SOURCE_RECEIPT.json plus kernel and NCP SHA-256"
+  },
+  "output": {
+    "columns": [
+      "rho",
+      "P_perp",
+      "P_parallel",
+      "DeltaP",
+      "partial_b_DeltaP"
+    ],
+    "unit": "dimensionless normalized FD reference before Omega_m f_m/a_ref^3 scaling",
+    "physical_conversion": "rho_J_m3 = rho_m_norm * rho_crit0_J_m3 ; pi_massive_J_m3 = Omega_m*f_m/a_ref^3 * DeltaP/3 * rho_crit0_J_m3",
+    "no_negative_stress_claim": "DeltaP signed, principal pressures nonnegative",
+    "rust_stdout": "EVAL_PASS/ BENCH_PASS",
+    "output_order": "matches case file"
+  },
+  "derived_contract": {
+    "energy_work": "d_x rho=-3(rho+pbar)-2(s/H)DeltaP",
+    "stress_shear": "sigma_ab pi^ab=2 s DeltaP",
+    "susceptibility": "analytic source integral implemented in kernel.rs and jacobian.py",
+    "partial_H_db": "-H0^2 * (Omega_m f_m/a_ref^3) * DeltaP/H",
+    "partial_shear_rhs_db": "3H0^2/H_ref*[C_m/(3H)*partial_b_DeltaP - Pi_total * H_b/H^2]",
+    "held_fixed": [
+      "x",
+      "gamma/nu moments",
+      "signed s",
+      "parent cosmology"
+    ]
+  },
+  "verification": {
+    "local_scientific_new_tests": 10,
+    "local_inherited_tests": 64,
+    "local_total_tests": 74,
+    "local_xact_zero": 8,
+    "ncp_host": "s1a0e5abed09",
+    "ncp_cpu": 64,
+    "ncp_ram_label": "125GiB",
+    "ncp_rust": "1.99.0",
+    "ncp_python_vs_rust_cases": 3639,
+    "ncp_native_width1_vs64_byte_parity": "PASS",
+    "ncp_results": "evidence/NCP_RESULTS",
+    "ncp_source_validation": "evidence/NCP_VALIDATION_CLEAN.json",
+    "scaling": {
+      "m3_best_speedup": 16.162386002572607,
+      "m3_best_threads": 32,
+      "m30_best_speedup": 16.881887980796865,
+      "m30_best_threads": 64,
+      "m300_best_speedup": 18.073693656791608,
+      "m300_best_threads": 64
+    }
+  },
+  "admission": {
+    "source_kinetic": "DERIVED_NUMERICALLY_CHECKED_IMPLEMENTATION_VERIFIED",
+    "native_rei_chemistry": "NOT_RUN",
+    "native_eor": "NOT_ADMITTED",
+    "observational_likelihood": "NOT_ATTEMPTED",
+    "full_chemistry_jacobian": "NOT_IMPLEMENTED",
+    "ncp_hardware_backend": "VERIFIED",
+    "native_subagent": "NOT_RUN_UNEXPOSED"
+  },
+  "next": "Versioned opt-in import of Rust kinetic stress into owner-approved rei_microphysics native Einstein RHS with fresh driver checkpoint; compare same clock/source state against PR150 & independent threshold oracle; close radiation+gas Q^a momentum and thermochemical ledgers before EoR admission."
+}

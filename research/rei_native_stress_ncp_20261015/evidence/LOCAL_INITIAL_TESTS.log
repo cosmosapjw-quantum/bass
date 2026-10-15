@@ -1,0 +1,72 @@
+setUpClass (test_native_stress.NativeStressTest) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_native_stress.NativeStressTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/test_native_stress.py", line 32, in setUpClass
+    raise AssertionError("NATIVE_RUST_BUILD_FAILED:\n"+build.stderr)
+AssertionError: NATIVE_RUST_BUILD_FAILED:
+error: float literals must have an integer part
+  --> /home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/kernel.rs:47:33
+   |
+47 |         angle.push((z,(3.*z-1.)*.5,w));
+   |                                 ^^
+   |
+help: must have an integer part
+   |
+47 |         angle.push((z,(3.*z-1.)*0.5,w));
+   |                                 +
+
+error: float literals must have an integer part
+  --> /home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/kernel.rs:73:38
+   |
+73 |             let gh=p2+tz*z-tp*(1.-z)*.5;
+   |                                      ^^
+   |
+help: must have an integer part
+   |
+73 |             let gh=p2+tz*z-tp*(1.-z)*0.5;
+   |                                      +
+
+error: float literals must have an integer part
+   --> /home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/kernel.rs:140:17
+    |
+140 |       let mut b=.12*(v-.5);
+    |                 ^^^
+    |
+help: must have an integer part
+    |
+140 |       let mut b=0.12*(v-.5);
+    |                 +
+
+error: float literals must have an integer part
+   --> /home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/kernel.rs:140:24
+    |
+140 |       let mut b=.12*(v-.5);
+    |                        ^^
+    |
+help: must have an integer part
+    |
+140 |       let mut b=.12*(v-0.5);
+    |                        +
+
+error: float literals must have an integer part
+   --> /home/cosmosapjw/worktrees/bass-native-stress-jacobian-ncp-20261015/research/rei_native_stress_ncp_20261015/kernel.rs:141:18
+    |
+141 |       let mut a=-.9+2.8*w;
+    |                  ^^
+    |
+help: must have an integer part
+    |
+141 |       let mut a=-0.9+2.8*w;
+    |                  +
+
+error: aborting due to 5 previous errors
+
+
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.069s
+
+FAILED (errors=1)
