@@ -22,7 +22,13 @@ import numpy as np
 from numpy.polynomial.legendre import leggauss
 
 HERE=Path(__file__).resolve().parent
-PARENT=HERE.parent/"rei_axbi_background_supplier_20261015"
+SOURCE_CANDIDATES=(
+    HERE.parent/"rei_axbi_background_supplier_20261015",  # BASS research sibling
+    HERE.parent/"bass_20261015",                           # REI supplier sibling
+)
+PARENT=next((p for p in SOURCE_CANDIDATES if (p/"axbi_provider.py").is_file()),None)
+if PARENT is None:
+    raise FileNotFoundError("FROZEN_AX03_SUPPLIER_SOURCE_NOT_ADJACENT")
 sys.path.insert(0,str(PARENT))
 from axbi_provider import Background,Family,LOCK_SHA,_read_lock
 

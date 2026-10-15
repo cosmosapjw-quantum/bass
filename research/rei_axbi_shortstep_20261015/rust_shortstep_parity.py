@@ -10,8 +10,8 @@ from pathlib import Path
 import mpmath as mp
 
 HERE=Path(__file__).resolve().parent
-SOURCE=HERE.parent/"rei_axbi_background_supplier_20261015"
 import sys
+from shortstep import PARENT as SOURCE
 sys.path.insert(0,str(SOURCE))
 from axbi_provider import _read_lock
 
