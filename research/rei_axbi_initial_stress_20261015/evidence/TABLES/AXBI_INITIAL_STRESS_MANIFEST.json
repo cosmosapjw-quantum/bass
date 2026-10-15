@@ -1,0 +1,184 @@
+{
+  "schema": "rei.axbi.initial_stress_kinetic_background.v1",
+  "original_SOURCE_LOCK_SHA256": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
+  "q_cases": [
+    0.0,
+    0.0,
+    0.0,
+    0.005,
+    -0.005,
+    0.005,
+    0.005,
+    0.01,
+    0.01,
+    -0.01
+  ],
+  "kappa_cases": [
+    0.0,
+    0.2,
+    -0.2,
+    0.0,
+    0.0,
+    0.2,
+    -0.2,
+    0.0,
+    0.2,
+    0.2
+  ],
+  "original_cosmology": {
+    "H0_km_s_Mpc": 67.4,
+    "Mpc_cm": 3.085677581491367e+24,
+    "H0_per_s": 2.1842852410855026e-18,
+    "Omega_m": 0.315,
+    "Omega_b": 0.049309230511847414,
+    "Omega_r": 9.2e-05,
+    "Omega_lambda": 0.6849080000000001,
+    "X_He4": 0.2454,
+    "Tcmb0_K": 2.7255,
+    "source": "https://arxiv.org/abs/1807.06209",
+    "radiation_scope": "rounded approximate isotropic radiation background"
+  },
+  "reference_range": {
+    "a0": 0.047619047619047616,
+    "aend": 0.2,
+    "mean_redshift_start": 20,
+    "mean_redshift_end": 4,
+    "clock": "SI proper seconds elapsed since mean zbar20"
+  },
+  "model": "positive collisionless massless radiation W(mu_ref)=1+kappa P2(mu_ref), independent initial shear q and angular stress \u03ba, no emission/absorption/Thomson",
+  "anisotropic_pressure_PSTF": {
+    "components": "diag(-pi_s,-pi_s,2pi_s)",
+    "physical_units": "J/m^3",
+    "initial_pi_s_over_rho_rad_ref": "kappa/15",
+    "kinetic_exact_energy_consistency": "dM/db=-6 P"
+  },
+  "initial_stress_free_rei_original_status": "PREVIOUSLY_PRESCRIBED_STRESS_FREE_ONLY; NOT_OVERRIDDEN",
+  "n_cases": 10,
+  "rows_per_case": 501,
+  "total_rows": 5010,
+  "columns": [
+    "q_ref",
+    "kappa",
+    "initial_pi_over_epsrad_ref",
+    "row",
+    "ln_a_over_aref",
+    "a",
+    "zbar",
+    "elapsed_proper_s",
+    "b",
+    "s_per_s",
+    "s_over_href",
+    "h_per_s",
+    "s_over_h",
+    "h_perp_per_s",
+    "h_parallel_per_s",
+    "a_perp",
+    "a_parallel",
+    "radiation_M",
+    "radiation_P",
+    "rho_rad_J_m3",
+    "pi_s_J_m3",
+    "pi_x_J_m3",
+    "pi_y_J_m3",
+    "pi_z_J_m3",
+    "radiation_density_over_crit0",
+    "pi_s_over_crit0",
+    "Hamiltonian_rel_residual"
+  ],
+  "csv_sha256": "b9699d9feda45f4b76ebf107df56df8ef3774cc800f261ef5078e9b54ca58742",
+  "source_rei_native_science_driver_connected": false,
+  "ionizing_CMB_radiation_stress_self_consistent": false,
+  "comparison": "original source Omega_r cosmological number remains, but all effective Omega_r assumed free-streaming after z20; phenomenological model scope conditional",
+  "summary": [
+    {
+      "q_ref": 0.0,
+      "kappa": 0.0,
+      "initial_pi_over_epsrad_ref": 0.0,
+      "b_end": 0.0,
+      "s_over_h_end": 0.0,
+      "pi_over_rho_end": 0.0,
+      "radiation_M_end": 1.0
+    },
+    {
+      "q_ref": 0.0,
+      "kappa": 0.2,
+      "initial_pi_over_epsrad_ref": 0.013333333333333334,
+      "b_end": 8.411890570790299e-05,
+      "s_over_h_end": 5.8930328054636583e-05,
+      "pi_over_rho_end": 0.01328695968744618,
+      "radiation_M_end": 0.9999932822130029
+    },
+    {
+      "q_ref": 0.0,
+      "kappa": -0.2,
+      "initial_pi_over_epsrad_ref": -0.013333333333333334,
+      "b_end": -8.41234909519269e-05,
+      "s_over_h_end": -5.8937497914053746e-05,
+      "pi_over_rho_end": -0.013290156504610514,
+      "radiation_M_end": 0.9999932810395966
+    },
+    {
+      "q_ref": 0.005,
+      "kappa": 0.0,
+      "initial_pi_over_epsrad_ref": 0.0,
+      "b_end": 0.0029417934117742244,
+      "s_over_h_end": 0.0005723217126847036,
+      "pi_over_rho_end": -0.0015656419030558556,
+      "radiation_M_end": 1.0000138272575807
+    },
+    {
+      "q_ref": -0.005,
+      "kappa": 0.0,
+      "initial_pi_over_epsrad_ref": 0.0,
+      "b_end": -0.002941780924586936,
+      "s_over_h_end": -0.0005723045429882395,
+      "pi_over_rho_end": 0.0015722286915884297,
+      "radiation_M_end": 1.0000138659339872
+    },
+    {
+      "q_ref": 0.005,
+      "kappa": 0.2,
+      "initial_pi_over_epsrad_ref": 0.013333333333333334,
+      "b_end": 0.0030257441516673904,
+      "s_over_h_end": 0.0006310738985269642,
+      "pi_over_rho_end": 0.011668205761635747,
+      "radiation_M_end": 0.9997730901019902
+    },
+    {
+      "q_ref": 0.005,
+      "kappa": -0.2,
+      "initial_pi_over_epsrad_ref": -0.013333333333333334,
+      "b_end": 0.0028578381432722696,
+      "s_over_h_end": 0.0005135624238729375,
+      "pi_over_rho_end": -0.01479649529838958,
+      "radiation_M_end": 1.0002412107002558
+    },
+    {
+      "q_ref": 0.01,
+      "kappa": 0.0,
+      "initial_pi_over_epsrad_ref": 0.0,
+      "b_end": 0.0058835162610846176,
+      "s_over_h_end": 0.0011446601582069792,
+      "pi_over_rho_end": -0.0031245469163632173,
+      "radiation_M_end": 1.0000552303247727
+    },
+    {
+      "q_ref": 0.01,
+      "kappa": 0.2,
+      "initial_pi_over_epsrad_ref": 0.013333333333333334,
+      "b_end": 0.005967298522706553,
+      "s_over_h_end": 0.0012032345816972113,
+      "pi_over_rho_end": 0.010055260790401161,
+      "radiation_M_end": 0.9995814582680902
+    },
+    {
+      "q_ref": -0.01,
+      "kappa": 0.2,
+      "initial_pi_over_epsrad_ref": 0.013333333333333334,
+      "b_end": -0.005799012058184483,
+      "s_over_h_end": -0.0010853037653809192,
+      "pi_over_rho_end": 0.01654122272891721,
+      "radiation_M_end": 1.0005198015475427
+    }
+  ]
+}

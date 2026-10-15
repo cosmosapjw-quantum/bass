@@ -1,0 +1,31 @@
+test_angular_Gauss_resolution (test_einstein_vlasov.StressInitialTests.test_angular_Gauss_resolution) ... ok
+test_angular_positive_weights_normalized (test_einstein_vlasov.StressInitialTests.test_angular_positive_weights_normalized) ... ok
+test_distribution_W_is_positive (test_einstein_vlasov.StressInitialTests.test_distribution_W_is_positive) ... FAIL
+test_exact_radiation_flrw_equilibrium (test_einstein_vlasov.StressInitialTests.test_exact_radiation_flrw_equilibrium) ... ok
+test_frozen_AX03_source_hash (test_einstein_vlasov.StressInitialTests.test_frozen_AX03_source_hash) ... ok
+test_initial_pi_is_independent_from_q (test_einstein_vlasov.StressInitialTests.test_initial_pi_is_independent_from_q) ... ok
+test_initial_stress_generates_shear (test_einstein_vlasov.StressInitialTests.test_initial_stress_generates_shear) ... ok
+test_initial_zero_stress_can_gain_radiation_quadrupole (test_einstein_vlasov.StressInitialTests.test_initial_zero_stress_can_gain_radiation_quadrupole) ... ok
+test_kinetic_moment_derivative_for_energy (test_einstein_vlasov.StressInitialTests.test_kinetic_moment_derivative_for_energy) ... ok
+test_moment_energy_exact_identity (test_einstein_vlasov.StressInitialTests.test_moment_energy_exact_identity) ... ok
+test_momentum_stress_reference_bianchi_convention (test_einstein_vlasov.StressInitialTests.test_momentum_stress_reference_bianchi_convention) ... ok
+test_numeric_source_constraint (test_einstein_vlasov.StressInitialTests.test_numeric_source_constraint) ... ok
+test_numerical_benchmark_vs_original_algorithm_scope (test_einstein_vlasov.StressInitialTests.test_numerical_benchmark_vs_original_algorithm_scope) ... ok
+test_positive_radiation_pressure_dominant_energy (test_einstein_vlasov.StressInitialTests.test_positive_radiation_pressure_dominant_energy) ... ok
+test_real_signed_physical_clocks_and_positivity (test_einstein_vlasov.StressInitialTests.test_real_signed_physical_clocks_and_positivity) ... ok
+test_reject_negative_distribution_or_bad_q (test_einstein_vlasov.StressInitialTests.test_reject_negative_distribution_or_bad_q) ... ok
+test_source_bound_scoped_not_full_ionizing_radiation (test_einstein_vlasov.StressInitialTests.test_source_bound_scoped_not_full_ionizing_radiation) ... ok
+test_vector_RK4_vs_dop853_10 (test_einstein_vlasov.StressInitialTests.test_vector_RK4_vs_dop853_10) ... ok
+
+======================================================================
+FAIL: test_distribution_W_is_positive (test_einstein_vlasov.StressInitialTests.test_distribution_W_is_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-axbi-pi-stress-20261015/research/rei_axbi_initial_stress_20261015/test_einstein_vlasov.py", line 33, in test_distribution_W_is_positive
+    self.assertGreaterEqual(float(np.min(1+k*v.p2(u))),.749999)
+AssertionError: 0.5 not greater than or equal to 0.749999
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.752s
+
+FAILED (failures=1)
