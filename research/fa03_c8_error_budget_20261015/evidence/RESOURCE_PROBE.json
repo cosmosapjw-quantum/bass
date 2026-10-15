@@ -1,0 +1,297 @@
+{
+  "schema": "bass.fa03.c8.host_memory_parallel_roundoff.v1",
+  "scope": "same tested source; 64bit host, 128 RK4, 3 eps; one-host measured allocations and threads",
+  "memory_scope": "tracemalloc-traced Python/NumPy allocations, not full process max RSS",
+  "timings": [
+    {
+      "rays": 36,
+      "grid": [
+        3,
+        12
+      ],
+      "settings": {
+        "steps": 128,
+        "eps": [
+          -0.1,
+          0,
+          0.1
+        ]
+      },
+      "measurements": [
+        {
+          "ne": 4,
+          "tracemalloc_peak_bytes": 170328,
+          "median_wall_s": 0.03639641799964011,
+          "times_s": [
+            0.03652145399246365,
+            0.03627004998270422,
+            0.03639641799964011
+          ],
+          "max_ref_GL8_trace_delta": 3.179800655392251e-17,
+          "nominal_stokes_state_bytes": 13824,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 5,
+          "tracemalloc_peak_bytes": 209224,
+          "median_wall_s": 0.03820482699666172,
+          "times_s": [
+            0.03820482699666172,
+            0.03844486898742616,
+            0.03787232004106045
+          ],
+          "max_ref_GL8_trace_delta": 1.3877787807814457e-16,
+          "nominal_stokes_state_bytes": 17280,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 8,
+          "tracemalloc_peak_bytes": 325840,
+          "median_wall_s": 0.04148024204187095,
+          "times_s": [
+            0.04148024204187095,
+            0.04093067499343306,
+            0.04268775798846036
+          ],
+          "max_ref_GL8_trace_delta": 0.0,
+          "nominal_stokes_state_bytes": 27648,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        }
+      ]
+    },
+    {
+      "rays": 144,
+      "grid": [
+        6,
+        24
+      ],
+      "settings": {
+        "steps": 128,
+        "eps": [
+          -0.1,
+          0,
+          0.1
+        ]
+      },
+      "measurements": [
+        {
+          "ne": 4,
+          "tracemalloc_peak_bytes": 656640,
+          "median_wall_s": 0.06280499906279147,
+          "times_s": [
+            0.062170883058570325,
+            0.06280499906279147,
+            0.07479732495266944
+          ],
+          "max_ref_GL8_trace_delta": 8.326672684688674e-17,
+          "nominal_stokes_state_bytes": 55296,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 5,
+          "tracemalloc_peak_bytes": 812176,
+          "median_wall_s": 0.06654160295147449,
+          "times_s": [
+            0.06922261498402804,
+            0.06654160295147449,
+            0.0643651889404282
+          ],
+          "max_ref_GL8_trace_delta": 2.220446049250313e-16,
+          "nominal_stokes_state_bytes": 69120,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 8,
+          "tracemalloc_peak_bytes": 1278832,
+          "median_wall_s": 0.07898054004181176,
+          "times_s": [
+            0.0798720100428909,
+            0.07811449700966477,
+            0.07898054004181176
+          ],
+          "max_ref_GL8_trace_delta": 0.0,
+          "nominal_stokes_state_bytes": 110592,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        }
+      ]
+    },
+    {
+      "rays": 480,
+      "grid": [
+        10,
+        48
+      ],
+      "settings": {
+        "steps": 128,
+        "eps": [
+          -0.1,
+          0,
+          0.1
+        ]
+      },
+      "measurements": [
+        {
+          "ne": 4,
+          "tracemalloc_peak_bytes": 2170072,
+          "median_wall_s": 0.14610641391482204,
+          "times_s": [
+            0.14363067701924592,
+            0.1581993189174682,
+            0.14610641391482204
+          ],
+          "max_ref_GL8_trace_delta": 8.326672684688674e-17,
+          "nominal_stokes_state_bytes": 184320,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 5,
+          "tracemalloc_peak_bytes": 2688488,
+          "median_wall_s": 0.1587242690147832,
+          "times_s": [
+            0.16462757694534957,
+            0.1587242690147832,
+            0.15860015398357064
+          ],
+          "max_ref_GL8_trace_delta": 1.1210126175528408e-16,
+          "nominal_stokes_state_bytes": 230400,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        },
+        {
+          "ne": 8,
+          "tracemalloc_peak_bytes": 4243784,
+          "median_wall_s": 0.19773456500843167,
+          "times_s": [
+            0.19773456500843167,
+            0.1963970330543816,
+            0.2016643420793116
+          ],
+          "max_ref_GL8_trace_delta": 0.0,
+          "nominal_stokes_state_bytes": 368640,
+          "source_bound_status": "energy exact-Ode theorem separate, RK4+float not included"
+        }
+      ]
+    }
+  ],
+  "parallel": [
+    {
+      "workers": 1,
+      "chunk": 120,
+      "actual_chunk_count": 4,
+      "median_wall_s": 0.22630452900193632,
+      "times_s": [
+        0.22388692200183868,
+        0.22630452900193632,
+        0.23745605000294745
+      ],
+      "max_difference_vs_unchunked": 5.551115123125783e-17
+    },
+    {
+      "workers": 2,
+      "chunk": 120,
+      "actual_chunk_count": 4,
+      "median_wall_s": 0.3615005760220811,
+      "times_s": [
+        0.3469178379746154,
+        0.3665460469201207,
+        0.3615005760220811
+      ],
+      "max_difference_vs_unchunked": 5.551115123125783e-17
+    },
+    {
+      "workers": 4,
+      "chunk": 120,
+      "actual_chunk_count": 4,
+      "median_wall_s": 0.5493823379511014,
+      "times_s": [
+        0.5493823379511014,
+        0.6575914840213954,
+        0.5363591989735141
+      ],
+      "max_difference_vs_unchunked": 5.551115123125783e-17
+    }
+  ],
+  "roundoff_reduction": [
+    {
+      "grid": [
+        3,
+        12
+      ],
+      "chunk": 1,
+      "nchunks": 36,
+      "max_trace_difference": 1.1102230246251565e-16,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        3,
+        12
+      ],
+      "chunk": 4,
+      "nchunks": 9,
+      "max_trace_difference": 8.326672684688674e-17,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        3,
+        12
+      ],
+      "chunk": 12,
+      "nchunks": 3,
+      "max_trace_difference": 8.326672684688674e-17,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        3,
+        12
+      ],
+      "chunk": 36,
+      "nchunks": 1,
+      "max_trace_difference": 0.0,
+      "bitwise_equal": true
+    },
+    {
+      "grid": [
+        6,
+        24
+      ],
+      "chunk": 1,
+      "nchunks": 144,
+      "max_trace_difference": 1.942890293094024e-16,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        6,
+        24
+      ],
+      "chunk": 4,
+      "nchunks": 36,
+      "max_trace_difference": 5.721958498152797e-17,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        6,
+        24
+      ],
+      "chunk": 12,
+      "nchunks": 12,
+      "max_trace_difference": 8.326672684688673e-17,
+      "bitwise_equal": false
+    },
+    {
+      "grid": [
+        6,
+        24
+      ],
+      "chunk": 144,
+      "nchunks": 1,
+      "max_trace_difference": 0.0,
+      "bitwise_equal": true
+    }
+  ],
+  "intrinsic_solver_roundoff_certification": null,
+  "performance_reproducibility_across_CPU": null
+}
