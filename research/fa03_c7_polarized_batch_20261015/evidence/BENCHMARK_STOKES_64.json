@@ -1,0 +1,231 @@
+{
+  "schema": "bass.fa03.c7.actual_scoped_benchmark.v2",
+  "scope": "all modes same frozen source, eps=-.1,0,.1, ne8, RK4 64, fixed GL angular detector; local warmed wall medians; time excludes testing+external startup",
+  "run_parallelism": "ThreadPoolExecutor actual 2/4 disjoint ray jobs, verified physical equivalence, no assertion of parallel speedup",
+  "memory": "nominal state array bytes only, not RSS incl NumPy temporaries",
+  "whole_REI_speedup": null,
+  "results": [
+    {
+      "rays": 36,
+      "resolution": [
+        3,
+        12
+      ],
+      "steps": 64,
+      "repetitions": 3,
+      "exact_real_state_elements": 3456,
+      "state_bytes_real": 27648,
+      "state_bytes_complex": 55296,
+      "optimization": {
+        "real_vs_original_speedup": 4.811555926169884,
+        "real_vs_complex_batch_speedup": 2.2284930607016156,
+        "real_thread2_vs_real_single": 0.2888198598772353,
+        "real_thread4_vs_real_single": 0.22838792069279468
+      },
+      "timing": {
+        "original_separate_Jones": {
+          "median_seconds": 0.10191129997838289,
+          "individual_seconds": [
+            0.10191129997838289,
+            0.09346806397661567,
+            0.10549167997669429
+          ],
+          "max_matrix_trace_norm_vs_original": null
+        },
+        "complex_fused_Jones": {
+          "median_seconds": 0.047200661967508495,
+          "individual_seconds": [
+            0.047200661967508495,
+            0.047515755984932184,
+            0.04667922796215862
+          ],
+          "max_matrix_trace_norm_vs_original": 3.333568052978276e-16
+        },
+        "real_vector_Stokes": {
+          "median_seconds": 0.02118052903097123,
+          "individual_seconds": [
+            0.02164818102028221,
+            0.020457766950130463,
+            0.02118052903097123
+          ],
+          "max_matrix_trace_norm_vs_original": 2.7790377973719784e-16
+        },
+        "real_stokes_chunked_serial": {
+          "median_seconds": 0.06254397600423545,
+          "individual_seconds": [
+            0.06389579502865672,
+            0.061819400056265295,
+            0.06254397600423545
+          ],
+          "max_matrix_trace_norm_vs_original": 3.0562844933301306e-16
+        },
+        "real_stokes_thread2": {
+          "median_seconds": 0.07333473896142095,
+          "individual_seconds": [
+            0.07276300003286451,
+            0.07333473896142095,
+            0.07599253999069333
+          ],
+          "max_matrix_trace_norm_vs_original": 3.0562844933301306e-16
+        },
+        "real_stokes_thread4": {
+          "median_seconds": 0.09273926995228976,
+          "individual_seconds": [
+            0.09273926995228976,
+            0.09171723306644708,
+            0.09437720698770136
+          ],
+          "max_matrix_trace_norm_vs_original": 3.0562844933301306e-16
+        }
+      }
+    },
+    {
+      "rays": 144,
+      "resolution": [
+        6,
+        24
+      ],
+      "steps": 64,
+      "repetitions": 3,
+      "exact_real_state_elements": 13824,
+      "state_bytes_real": 110592,
+      "state_bytes_complex": 221184,
+      "optimization": {
+        "real_vs_original_speedup": 5.885175407247833,
+        "real_vs_complex_batch_speedup": 4.527769603825125,
+        "real_thread2_vs_real_single": 0.34342046714756147,
+        "real_thread4_vs_real_single": 0.21071436747419411
+      },
+      "timing": {
+        "original_separate_Jones": {
+          "median_seconds": 0.29258079500868917,
+          "individual_seconds": [
+            0.2625499319983646,
+            0.2994249379262328,
+            0.29258079500868917
+          ],
+          "max_matrix_trace_norm_vs_original": null
+        },
+        "complex_fused_Jones": {
+          "median_seconds": 0.22509752702899277,
+          "individual_seconds": [
+            0.18740346794947982,
+            0.22509752702899277,
+            0.29117623798083514
+          ],
+          "max_matrix_trace_norm_vs_original": 5.551561987262181e-16
+        },
+        "real_vector_Stokes": {
+          "median_seconds": 0.049714880995452404,
+          "individual_seconds": [
+            0.0842890189960599,
+            0.049714880995452404,
+            0.04298784991260618
+          ],
+          "max_matrix_trace_norm_vs_original": 5.551567173478233e-16
+        },
+        "real_stokes_chunked_serial": {
+          "median_seconds": 0.0920717209810391,
+          "individual_seconds": [
+            0.09210008499212563,
+            0.08243209903594106,
+            0.0920717209810391
+          ],
+          "max_matrix_trace_norm_vs_original": 4.996515098476638e-16
+        },
+        "real_stokes_thread2": {
+          "median_seconds": 0.14476388494949788,
+          "individual_seconds": [
+            0.14476388494949788,
+            0.1443131749983877,
+            0.16697388503234833
+          ],
+          "max_matrix_trace_norm_vs_original": 4.996515098476638e-16
+        },
+        "real_stokes_thread4": {
+          "median_seconds": 0.2359349369071424,
+          "individual_seconds": [
+            0.2359349369071424,
+            0.22035754297394305,
+            0.23831010493449867
+          ],
+          "max_matrix_trace_norm_vs_original": 4.996515098476638e-16
+        }
+      }
+    },
+    {
+      "rays": 480,
+      "resolution": [
+        10,
+        48
+      ],
+      "steps": 64,
+      "repetitions": 3,
+      "exact_real_state_elements": 46080,
+      "state_bytes_real": 368640,
+      "state_bytes_complex": 737280,
+      "optimization": {
+        "real_vs_original_speedup": 8.016067110448867,
+        "real_vs_complex_batch_speedup": 8.185587410784532,
+        "real_thread2_vs_real_single": 0.5312371333023993,
+        "real_thread4_vs_real_single": 0.2807326706622372
+      },
+      "timing": {
+        "original_separate_Jones": {
+          "median_seconds": 0.7772329369327053,
+          "individual_seconds": [
+            0.7514378790510818,
+            0.7772329369327053,
+            0.8023729100823402
+          ],
+          "max_matrix_trace_norm_vs_original": null
+        },
+        "complex_fused_Jones": {
+          "median_seconds": 0.793669520993717,
+          "individual_seconds": [
+            0.7792424450162798,
+            0.9901728039840236,
+            0.793669520993717
+          ],
+          "max_matrix_trace_norm_vs_original": 9.159339953157541e-16
+        },
+        "real_vector_Stokes": {
+          "median_seconds": 0.09695938497316092,
+          "individual_seconds": [
+            0.13856996805407107,
+            0.09695938497316092,
+            0.09492515993770212
+          ],
+          "max_matrix_trace_norm_vs_original": 9.436961417764117e-16
+        },
+        "real_stokes_chunked_serial": {
+          "median_seconds": 0.13752718199975789,
+          "individual_seconds": [
+            0.13826160598546267,
+            0.13752718199975789,
+            0.13379679899662733
+          ],
+          "max_matrix_trace_norm_vs_original": 9.159407837120705e-16
+        },
+        "real_stokes_thread2": {
+          "median_seconds": 0.1825162039604038,
+          "individual_seconds": [
+            0.1967499969759956,
+            0.17522300488781184,
+            0.1825162039604038
+          ],
+          "max_matrix_trace_norm_vs_original": 9.159407837120705e-16
+        },
+        "real_stokes_thread4": {
+          "median_seconds": 0.3453797691036016,
+          "individual_seconds": [
+            0.35516176000237465,
+            0.3453797691036016,
+            0.2940405859844759
+          ],
+          "max_matrix_trace_norm_vs_original": 9.159407837120705e-16
+        }
+      }
+    }
+  ]
+}
