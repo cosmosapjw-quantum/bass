@@ -1,0 +1,39 @@
+test_baseline_FLRW_zero (test_sigma_matter.SigmaMassivePhysics.test_baseline_FLRW_zero) ... ok
+test_benchmark_same_source_and_worker_scope (test_sigma_matter.SigmaMassivePhysics.test_benchmark_same_source_and_worker_scope) ... ok
+test_direct_stress_ratio_input_reconstruction (test_sigma_matter.SigmaMassivePhysics.test_direct_stress_ratio_input_reconstruction) ... ok
+test_full_report_source_not_ionized (test_sigma_matter.SigmaMassivePhysics.test_full_report_source_not_ionized) ... ok
+test_initial_pi_tensor_independent (test_sigma_matter.SigmaMassivePhysics.test_initial_pi_tensor_independent) ... ok
+test_massive_cold_limit_suppresses_pi (test_sigma_matter.SigmaMassivePhysics.test_massive_cold_limit_suppresses_pi) ... ok
+test_massive_energy_continuity (test_sigma_matter.SigmaMassivePhysics.test_massive_energy_continuity) ... ok
+test_massive_positive_normalized_reference (test_sigma_matter.SigmaMassivePhysics.test_massive_positive_normalized_reference) ... ok
+test_massless_radiation_source_identity (test_sigma_matter.SigmaMassivePhysics.test_massless_radiation_source_identity) ... ok
+test_model_export_physical_double_source_contract (test_sigma_matter.SigmaMassivePhysics.test_model_export_physical_double_source_contract) ... FAIL
+test_native_original_REI_crate_bridge_positive_negative (test_sigma_matter.SigmaMassivePhysics.test_native_original_REI_crate_bridge_positive_negative) ... ok
+test_non_baryonic_budget_double_counting_guard (test_sigma_matter.SigmaMassivePhysics.test_non_baryonic_budget_double_counting_guard) ... ok
+test_original_AX03_frozen_source (test_sigma_matter.SigmaMassivePhysics.test_original_AX03_frozen_source) ... ok
+test_original_BASS_massive_kinetic_hierarchy_J (test_sigma_matter.SigmaMassivePhysics.test_original_BASS_massive_kinetic_hierarchy_J) ... ok
+test_radiation_only_parent_Einstein_Vlasov (test_sigma_matter.SigmaMassivePhysics.test_radiation_only_parent_Einstein_Vlasov) ... ok
+test_shear_generated_from_zero_initial_sigma (test_sigma_matter.SigmaMassivePhysics.test_shear_generated_from_zero_initial_sigma) ... ok
+test_sigma_conversion_exact_LRS (test_sigma_matter.SigmaMassivePhysics.test_sigma_conversion_exact_LRS) ... ok
+test_sigma_initial_constraint (test_sigma_matter.SigmaMassivePhysics.test_sigma_initial_constraint) ... ok
+test_signed_shear_even_H_zero_initial_pi (test_sigma_matter.SigmaMassivePhysics.test_signed_shear_even_H_zero_initial_pi) ... ok
+test_stress_free_original_REI_AX03_q_signed (test_sigma_matter.SigmaMassivePhysics.test_stress_free_original_REI_AX03_q_signed) ... ok
+test_total_constraint_independent_H_raychaudhuri (test_sigma_matter.SigmaMassivePhysics.test_total_constraint_independent_H_raychaudhuri) ... ok
+test_total_einstein_shear_source_initial (test_sigma_matter.SigmaMassivePhysics.test_total_einstein_shear_source_initial) ... ok
+test_true_convergence_sampled_not_global (test_sigma_matter.SigmaMassivePhysics.test_true_convergence_sampled_not_global) ... ok
+
+======================================================================
+FAIL: test_model_export_physical_double_source_contract (test_sigma_matter.SigmaMassivePhysics.test_model_export_physical_double_source_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-axbi-sigma-massive-20261015/research/rei_axbi_sigma_matter_20261015/test_sigma_matter.py", line 200, in test_model_export_physical_double_source_contract
+    self.assertIn("Fermi",meta["source_massive_quadrature"])
+AssertionError: 'Fermi' not found in 'original BASS bianchi/matter/freestream.py cached Q,DQ,FD momentum quadrature; angular GL32'
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.763s
+
+FAILED (failures=1)
+MASSIVE_COLD 30.0 0.014042977688245466
+MASSIVE_COLD 300.0 0.00014373652059454067
+MASSIVE_COLD 3000.0 1.4377095937458131e-06

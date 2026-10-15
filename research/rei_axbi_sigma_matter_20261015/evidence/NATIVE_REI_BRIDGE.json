@@ -1,0 +1,39 @@
+{
+  "schema": "bass.rei.axbi.source_native_sigma_matter_bridge.v1",
+  "actual_REI_git_SHA": "0fcb2dddf5de6b583c2e00f150abff0b2afb6315",
+  "original_AXBI_SHA256": "65f10dced178aa85bb1c92da0b35350a0eec2d3d3de05630c900b5df4ec1e254",
+  "original_Bianchi_geometry_SHA256": "0c0bb17168b36a67af6e3e2a3ada835bc77db3dbc73d06e13075f6019ec11289",
+  "native_bridge_Rust_sha256": "4bb666e4d517ca9b93f8ef25d1bd7dac3a19f878e6f600a64e77ca56227b7c2d",
+  "public_history_sha256": "143044ae747b167c498bb67884420a1543f347a4504c2fbd6da04365856a083e",
+  "cargo_positive_exit_code": 0,
+  "result": {
+    "schema": "rei.axbi.sigma_matter_original_crate_bridge.v1",
+    "rows": 7014,
+    "cases": 14,
+    "original_Rust_AX03_parity_samples": 5,
+    "max_original_b_abs_diff": 2.019391598384601e-14,
+    "max_original_H_relative_diff": 3.3306690738754696e-16,
+    "science_claim": "READ_ONLY_BACKGROUND_SUPPLIER_NOT_NATIVE_CHEMISTRY"
+  },
+  "negative_controls": [
+    {
+      "field": "H_mean_per_s",
+      "exit_code": 3,
+      "message": "AXBI_SIGMA_MASSIVE_REJECT:EINSTEIN_HAMILTONIAN"
+    },
+    {
+      "field": "Pi_m_J_m3",
+      "exit_code": 3,
+      "message": "AXBI_SIGMA_MASSIVE_REJECT:KINETIC_STRESS_TRACE"
+    },
+    {
+      "field": "Sigma",
+      "exit_code": 3,
+      "message": "AXBI_SIGMA_MASSIVE_REJECT:SIGMA_NORMALIZATION"
+    }
+  ],
+  "source_identity": "original unchanged rei_microphysics crate, parent q stressfree comparator",
+  "no_owner_source_mutation": true,
+  "no_native_EoR_solver_launched": true,
+  "coupled_chemistry_science_admission": "NOT_ISSUED"
+}
