@@ -1,0 +1,97 @@
+{
+  "schema": "bass.rei.pr165.return_to_chatgpt.v1",
+  "date_kst": "2026-10-16",
+  "repository": "cosmosapjw-quantum/bass",
+  "implementation_commit": "60c43d97b85cef37ca8c2e2ba1b2fac587285beb",
+  "branch": "research/pr165-native-loop-20261016",
+  "draft_pr": "https://github.com/cosmosapjw-quantum/bass/pull/166",
+  "base_commit_bass_pr165": "2d1d061fe63f8dcb957646af5b4c86b0430dd3e9",
+  "physical_model_commit_bass_pr164": "3c39bbbf46b6663e7c40277e194fd0ef48118472",
+  "current_rei_pr150_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "source_identity_sha256": {
+    "pr164_csv": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
+    "pr164_producer_receipt": "98eddf4673780f0bbca711b373a3e0746cfafc8190674c8d2d6c4de658dc3eed",
+    "bundled_native_geometry": "b406e60184d68fd4014dbee42250b8cf4645f48d1580caf44b336eac0fd93037",
+    "fresh_native_geometry": "5e5087cc74973b403ce8eb9d27c1147d98b55b2b75dd175b2fc6e6143fbcb3bc",
+    "fresh_hhe_component_input": "109f30de4ab3f4f3b8c2702cfa66ca6a1d6410cbc33d9dbede8a7619af928eb1"
+  },
+  "changed_paths": [
+    "research/rei_pr165_source_intake_20261016/native_rust/src/main.rs",
+    "research/rei_pr165_source_intake_20261016/source_table.py",
+    "research/rei_pr165_source_intake_20261016/tests/test_source_table.py",
+    "research/rei_pr165_source_intake_20261016/continuation_20261016/",
+    "research/rei_pr165_native_hhe_component_20261016/"
+  ],
+  "toolchains": {
+    "ncp_rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "ncp_cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+    "local_rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "local_cargo": "cargo 1.99.0 (5f94df478 2026-08-27)"
+  },
+  "executed_commands": [
+    {"where": "local isolated BASS worktree, PR165 folder", "command": "python -m unittest discover -s tests -v", "exit_code": 0, "result": "16/16 after guard repair", "raw": "continuation_20261016/logs/pr165-python-after-hamiltonian.log"},
+    {"where": "local isolated BASS worktree, source_pr164 folder", "command": "python -m unittest -v test_kinetic_tangent test_export_bridge", "exit_code": 0, "result": "14/14", "raw": "continuation_20261016/logs/pr164-python.log"},
+    {"where": "local isolated Cargo staging", "command": "CARGO_HOME=<isolated> CARGO_TARGET_DIR=<isolated> cargo test --offline --manifest-path <staged>/Cargo.toml", "exit_code": 0, "result": "actual REI crate and adapter compile; 0 Rust unit tests", "raw": "continuation_20261016/logs/cargo-test-readback.log"},
+    {"where": "local isolated Cargo staging", "command": "cargo run --offline --release --manifest-path <staged>/Cargo.toml -- <fresh>/NATIVE_GEOMETRY.csv", "exit_code": 0, "result": "968 rows, 8 cases, exact input-byte hash readback", "raw": "continuation_20261016/logs/cargo-run-readback.log"},
+    {"where": "NCP task-owned directory", "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 taskset -c 48-51 timeout 900 python3 continuation_20261016/refinement_matched.py --out ../matched_n121_241_481_retry", "exit_code": 0, "result": "121/241/481 matched-point source-only refinement passed", "raw": "continuation_20261016/ncp/matched_evidence.tar.gz"},
+    {"where": "NCP task-owned directory", "command": "CARGO_BUILD_JOBS=4 RAYON_NUM_THREADS=4 taskset -c 48-51 timeout 600 cargo run --offline --release --manifest-path rei_pr165_native_hhe_component_20261016/Cargo.toml -- rei_pr165_native_hhe_component_20261016/COLD_FLRW_COMPONENT_INPUT.txt", "exit_code": 0, "result": "fresh fixed-initial COLD_FLRW H/He component passed", "raw": "research/rei_pr165_native_hhe_component_20261016/ncp/hhe_evidence.tar.gz"}
+  ],
+  "preserved_first_failures": [
+    {"exit_code": 143, "cause": "local shared Cargo package-cache lock; only this waiting cargo was terminated", "raw": "continuation_20261016/logs/cargo-test-first.log"},
+    {"exit_code": 1, "cause": "NCP matched refinement script staged at wrong directory for Python imports", "raw": "continuation_20261016/ncp/matched_evidence.tar.gz:matched_stderr.log"},
+    {"exit_codes": [101, 101], "cause": "NCP separate REI crate staged without compile-time include contract files, then at wrong parent level", "raw": "research/rei_pr165_native_hhe_component_20261016/ncp/hhe_evidence.tar.gz"},
+    {"exit_code": 1, "cause": "pre-repair 1% late H-squared fixture bypassed Hamiltonian guard and failed later at RAYCHAUDHURI_ROW", "raw": "continuation_20261016/logs/hamiltonian-negative-first.log"}
+  ],
+  "physical_and_numerical_residuals": {
+    "normalized_hamiltonian_max_original_968": 2.2087755397254195e-16,
+    "normalized_hamiltonian_threshold": 3e-12,
+    "producer_row_raychaudhuri_max_relative": 4.756592377159441e-16,
+    "producer_clock_vs_integrated_max_relative": 2.3151692135772128e-10,
+    "native_relative_volume_max": 6.661338147750939e-16,
+    "native_signed_shear_residual_max": 0.0,
+    "native_Sigma_residual_max": 0.0,
+    "kinetic_energy_work_integral": "PASS threshold 5e-10 in PR164 test; exact residual NOT_MEASURED in this return",
+    "matched_H_relative_max_121_241_481": [2.968580936624221e-11, 1.2001510896197942e-12, 1.34781075189494e-13],
+    "matched_b_absolute_max_121_241_481": [3.468726174349346e-12, 3.463171589779268e-12, 3.471919800268619e-12],
+    "matched_s_over_href_absolute_max_121_241_481": [3.963693785963536e-10, 1.05709186103122e-10, 9.862595344670114e-11],
+    "matched_proper_time_relative_max_121_241_481": [7.674448021473664e-12, 6.4865553230670715e-12, 6.723976173381744e-12],
+    "hhe_component_proper_dt_s": 845007622480.9552,
+    "hhe_newton_max": 6.464529857022083e-17,
+    "hhe_photon_number_balance_per_H": -1.6093625997831706e-20,
+    "hhe_total_energy_balance_eV_per_H": 4.336808689942018e-19,
+    "hhe_HII_balance_per_H": -1.9905e-20,
+    "hhe_HeII_balance_per_H": 5.8234e-22,
+    "hhe_HeIII_balance_per_H": -2.3666e-30,
+    "stellar_gas_momentum_balance": "NOT_EVALUATED_OPEN_RESERVOIR"
+  },
+  "ncp_resources_and_performance": {
+    "host_logical_cpus": 64,
+    "preflight_memory_available_gib_approx": 122,
+    "preflight_root_disk_available_gib_approx": 24,
+    "production_full005": "ALL_FULL_CASES_COMPLETE_PENDING_SCIENTIFIC_POSTPROCESS; no matching live PID at preflight; old checkpoints/logs untouched",
+    "new_affinity": "48-51",
+    "max_new_build_jobs": 4,
+    "max_new_runtime_workers": 1,
+    "matched_refinement_wall_s": 11.15,
+    "matched_refinement_max_rss_kib": 88200,
+    "hhe_build_and_run_wall_s": 7.32,
+    "hhe_build_and_run_max_rss_kib": 341592,
+    "remote_task_directory_bytes_after_hhe_archive": 16721185,
+    "authorized_hard_limits": {"max_workers": 16, "additional_ram_gib": 16, "additional_disk_gib": 4, "additional_wall_s": 1800}
+  },
+  "backup": {
+    "archive_local_path": "/tmp/bass_pr165_delivery_60c43d97_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz",
+    "archive_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e",
+    "archive_contains_sha256sums": true,
+    "dropbox": {"remote": "dbx:BASS_PR165_NATIVE_LOOP_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz", "id": "id:BSpOijBcT10AAAAAAD9Eyg", "create_only": true, "download_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e", "verified": true},
+    "google_drive": {"remote": "gdrv:BASS_PR165_NATIVE_LOOP_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz", "id": "1jzf691R9dZmSh3CCO8VTIg6-psMOMzCP", "create_only": true, "download_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e", "verified": true}
+  },
+  "review": "Independent Astra read-only scoped PASS for source/native intake, matched refinement, fixed-initial HHe component, exact-byte readback, and Hamiltonian guard repair; no full scientific admission",
+  "incomplete_scientific_obligations": [
+    "HOLD_API_BACKGROUND_SEAM: REI Driver owns concrete AxbiBackground; evolving BASS geometry is not coupled to chemistry/transport",
+    "NOT_RUN: source-bound checkpoint and rejection of old AX08/PR150 restart schema; no old checkpoint reused",
+    "NOT_RUN: H/He time-step refinement and 121/241/481 chemistry convergence; measured grids cover source-only geometry interpolation",
+    "NOT_EVALUATED: anisotropic H/He history, momentum Q^a closure, polarized Thomson, stellar recoil, full EoR, empirical fit, continuum limit"
+  ],
+  "next_action": "In a separate REI owner branch, add an opt-in source-bound background interface across point, interval, transport, chemistry, validation and restart paths; then run a fresh same-clock evolving H/He mini-trial with a new checkpoint identity under a separately reviewed bounded contract."
+}
