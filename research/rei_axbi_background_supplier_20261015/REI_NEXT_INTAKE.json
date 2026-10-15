@@ -1,0 +1,47 @@
+{
+  "schema": "bass.rei.axbi.background_supplier.next_v1",
+  "source_project": "rei_bianchi",
+  "source_subsystem": "AX03 original physical-density-fixed axisymmetric Bianchi I",
+  "supplied_physics": [
+    "proper_elapsed_s(t from mean z20)",
+    "a,b,H,Hflrw,s,Sigma,axis geometry",
+    "proper n_H/n_He and isotropic mean CMB reference",
+    "exact real-ray Killing photon energy/direction/Jacobian"
+  ],
+  "q_ref_primary": [
+    0,
+    0.005,
+    -0.005,
+    0.01,
+    -0.01
+  ],
+  "q_ref_counterfactual": [
+    0.01
+  ],
+  "actual_verified": [
+    "source family exact SHA",
+    "actual Rust AxbiBackground parity 30 rows",
+    "actual Rust FlatFlrwBackground parity 11 rows",
+    "independent mpmath70 quadrature 30 rows",
+    "exact signed dust + shear analytical limit",
+    "compiled stdlib Rust streaming CSV consumer and negative corrupted H test",
+    "actual benchmark 6 x501"
+  ],
+  "native_REI_repo_modifications": 0,
+  "production_integration": "NOT_MERGED",
+  "next_actions": [
+    "Issue a scoped intake into rei_bianchi source-owner-consistent branch, do not change original AX03 until actual short-step interpolation/clock error validated",
+    "Bind 3006 CSV rows and 7530 Killing ray rows via SHA+scenario ID and actual source clock instead of passing ln(a) as proper seconds",
+    "Check signed control same H/b parity and exact FLRW q0 with radiation and baryon densities across actual driver timeline",
+    "Import only actual stress moments from ionizing photon RT and a physical CMB perturbation to replace conditional Omega_r free-streaming proxy",
+    "Run actual H/He abundance and temperature histories in native solver, scientific admission not issued"
+  ],
+  "held": [
+    "all Bianchi 11 types",
+    "fully coupled anisotropic CMB/ionizing stress",
+    "physical primordial shear observational admission",
+    "native EoR abundance plot",
+    "rigorous global interpolation bound"
+  ],
+  "previous_FA03_C10": "READY_NOT_EXECUTED_NO_SCOPE_CHANGE"
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "bass.rei.axbi.native_consumer_negative_test.v1",
+  "input_sha256": "4f7e409b59f4e1636697a03b8980031ff767eb7c75a6b09b25422c0faf52b26a",
+  "compiler": "actual rustc --edition=2021 -O",
+  "positive": {
+    "code": 0,
+    "actual": {
+      "schema": "rei.axbi.source_background_table_consumer.v1",
+      "rows": 3006,
+      "cases": 6,
+      "n_per_case": 501,
+      "constraint_checks": "PASS",
+      "checksum": 4443.168797893787,
+      "owner_REI_source_modified": false
+    }
+  },
+  "negative": {
+    "code": 3,
+    "rejection": "REI_AXBI_TABLE_REJECT:HAMILTONIAN_SHEAR_CONSTRAINT"
+  },
+  "original_input_identity_preserved": true,
+  "original_owner_Rust_files_changed": false
+}
