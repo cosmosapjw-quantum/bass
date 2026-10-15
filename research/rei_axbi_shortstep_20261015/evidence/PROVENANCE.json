@@ -1,0 +1,79 @@
+{
+  "schema": "bass.rei.axbi.C8_host_provenance.v1",
+  "observed_utc": "2026-10-15T05:45:18.142304+00:00",
+  "parent_bass_commit": "ecec91d725e306b5688b1c4aed467b31222d08ae",
+  "frozen_AX03_family_sha": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "2.4.2",
+    "scipy": "1.17.0",
+    "mpmath": "1.3.0"
+  },
+  "selected_stage": "C8_numerical_accuracy_reproducibility",
+  "actual_result": {
+    "source_cases": 6,
+    "n_short_intervals": 90,
+    "MP80_GL4_dt_max_relative": 2.2903079824291173e-16,
+    "MP80_Hermite501_dt_max_relative": 5.794301303454278e-10,
+    "MP80_naive_dt_max_relative": 1.2404637264237184,
+    "actual_native_Rust_GL4_dt_max_relative": 2.2903079824291173e-16,
+    "native_invalid_frozen_q_exit3": 3,
+    "C8_user_threads": [
+      1,
+      2,
+      4
+    ],
+    "CPU_90intervals_median_seconds": {
+      "naive": 0.029110055067576468,
+      "hermite": 0.0004661260172724724,
+      "gauss4": 0.005441111046820879,
+      "gauss8": 0.004208170925267041,
+      "gauss4_vector_workers1": 0.0006355770165100694,
+      "gauss4_vector_workers2": 0.0013199270470067859,
+      "gauss4_vector_workers4": 0.001283728051930666
+    },
+    "fixed_a_same_q_0_clock_end_shift_seconds": {
+      "0.005": -62259467800.0,
+      "-0.005": -62259467800.0,
+      "0.01": -249032577712.0,
+      "-0.01": -249032577712.0
+    }
+  },
+  "source_authority_gates": {
+    "old_native_direct_subtraction_hold": true,
+    "old_native_hold_number": 356,
+    "background_Rust_original_source_mutated": false,
+    "production_background_replaced": false,
+    "actual_native_HII_He_thermo_science_started": false,
+    "full_rigorous_global_time_interval_error": null,
+    "source_full_CMB_ionizing_radiation_feedback_certified": false
+  },
+  "tests": [
+    {
+      "suite": "C8_shortstep",
+      "n_tests": 29,
+      "pass": true,
+      "exit": 0,
+      "log": "evidence/REGRESSION_C8_shortstep.log",
+      "sha256": "53ef08716ecf1e8e8d9d9ab3b6ded13daef883383f6025549286297190659c0b"
+    },
+    {
+      "suite": "C5_C7_parent_supplier",
+      "n_tests": 33,
+      "pass": true,
+      "exit": 0,
+      "log": "evidence/REGRESSION_C5_C7_parent_supplier.log",
+      "sha256": "8f96aa337c9b78f71422289218cb90d4ebc3f2f8de4ccf954b67e3acdde09207"
+    }
+  ],
+  "new_test_passed": 29,
+  "inherited_supplier_test_passed": 33,
+  "aggregate_tests_passed": 62,
+  "native_subagents": "NOT_RUN_TOOLS_UNEXPOSED",
+  "local_codex": "NOT_USED",
+  "Wolfram15_1_exact_identities": [
+    "Hermite stable cubic difference=0",
+    "photon volume-log=0",
+    "GL4 positive weights and sum 1"
+  ]
+}

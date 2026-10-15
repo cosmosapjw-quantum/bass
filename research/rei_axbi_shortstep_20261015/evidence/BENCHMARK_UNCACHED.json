@@ -1,0 +1,86 @@
+{
+  "schema": "bass.rei.axbi.shortstep_runtime_benchmark.v1",
+  "source": "original real-AX03 q family + SAME_H",
+  "physical_sample_cases": 6,
+  "paired_intervals": 90,
+  "mean_scale_values": [
+    0.05,
+    0.1,
+    0.18
+  ],
+  "relative_nominal_steps": [
+    0.0001,
+    1e-08,
+    1e-10,
+    1e-12,
+    "nextafter"
+  ],
+  "init_bg_once_s": 0.05025677802041173,
+  "init_Hermite_once_s": 0.017548469942994416,
+  "timings": {
+    "naive": {
+      "median_s": 0.0262311149854213,
+      "repeat_s": [
+        0.026031154906377196,
+        0.0262311149854213,
+        0.02611471398267895,
+        0.028132810024544597,
+        0.028551907977089286
+      ],
+      "checksums": [
+        58011894878874.75,
+        1.3938603723726625e-06
+      ]
+    },
+    "hermite": {
+      "median_s": 0.0005659179296344519,
+      "repeat_s": [
+        0.0005729519762098789,
+        0.0006004839669913054,
+        0.0005413920152932405,
+        0.0005659179296344519,
+        0.0005001539830118418
+      ],
+      "checksums": [
+        58011894861965.64,
+        1.3938603725214239e-06
+      ]
+    },
+    "gauss4": {
+      "median_s": 0.013792854035273194,
+      "repeat_s": [
+        0.013917019939981401,
+        0.01255789992865175,
+        0.012764003011398017,
+        0.013792854035273194,
+        0.017712261993438005
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722034e-06
+      ]
+    },
+    "gauss8": {
+      "median_s": 0.017740535899065435,
+      "repeat_s": [
+        0.02198054501786828,
+        0.017740535899065435,
+        0.021372647024691105,
+        0.01664170203730464,
+        0.016513937967829406
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722038e-06
+      ]
+    }
+  },
+  "conclusions": {
+    "fastest_method": "hermite",
+    "naive_numerical_correct": false,
+    "hermite_satisfies_prior_stable_relative_target_1e-9": true,
+    "gauss4_satisfies_prior_stable_relative_target_1e-9": true
+  },
+  "explicit_limitations": "89 source cases? Actually 90 exact f64 input intervals; medians on same 90; no full native Rust production solver performance, no global interval proof",
+  "whole_REI_solver_speedup": null
+}

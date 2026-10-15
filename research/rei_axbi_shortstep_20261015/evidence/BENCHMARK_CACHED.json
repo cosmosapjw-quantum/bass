@@ -1,0 +1,86 @@
+{
+  "schema": "bass.rei.axbi.shortstep_runtime_benchmark.v1",
+  "source": "original real-AX03 q family + SAME_H",
+  "physical_sample_cases": 6,
+  "paired_intervals": 90,
+  "mean_scale_values": [
+    0.05,
+    0.1,
+    0.18
+  ],
+  "relative_nominal_steps": [
+    0.0001,
+    1e-08,
+    1e-10,
+    1e-12,
+    "nextafter"
+  ],
+  "init_bg_once_s": 0.05592444690410048,
+  "init_Hermite_once_s": 0.020565085927955806,
+  "timings": {
+    "naive": {
+      "median_s": 0.032804645015858114,
+      "repeat_s": [
+        0.032804645015858114,
+        0.03740952501539141,
+        0.03950435493607074,
+        0.03067800495773554,
+        0.0264970330754295
+      ],
+      "checksums": [
+        58011894878874.75,
+        1.3938603723726625e-06
+      ]
+    },
+    "hermite": {
+      "median_s": 0.0005176150007173419,
+      "repeat_s": [
+        0.0004582429537549615,
+        0.00046205997932702303,
+        0.0005753650330007076,
+        0.0005181269953027368,
+        0.0005176150007173419
+      ],
+      "checksums": [
+        58011894861965.64,
+        1.3938603725214239e-06
+      ]
+    },
+    "gauss4": {
+      "median_s": 0.003813754068687558,
+      "repeat_s": [
+        0.004039843915961683,
+        0.003786071087233722,
+        0.0037858299911022186,
+        0.0040181620279327035,
+        0.003813754068687558
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722034e-06
+      ]
+    },
+    "gauss8": {
+      "median_s": 0.003788264002650976,
+      "repeat_s": [
+        0.003817570977844298,
+        0.0036050459602847695,
+        0.0043029350927099586,
+        0.0037236210191622376,
+        0.003788264002650976
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722038e-06
+      ]
+    }
+  },
+  "conclusions": {
+    "fastest_method": "hermite",
+    "naive_numerical_correct": false,
+    "hermite_satisfies_prior_stable_relative_target_1e-9": true,
+    "gauss4_satisfies_prior_stable_relative_target_1e-9": true
+  },
+  "explicit_limitations": "90 exact float64 input intervals; medians on same physical 90, not a native whole-solver benchmark or a rigorous global interval bound",
+  "whole_REI_solver_speedup": null
+}
