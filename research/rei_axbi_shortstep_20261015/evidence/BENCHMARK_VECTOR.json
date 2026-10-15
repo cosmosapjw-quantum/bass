@@ -1,0 +1,131 @@
+{
+  "schema": "bass.rei.axbi.shortstep_runtime_benchmark.v1",
+  "source": "original real-AX03 q family + SAME_H",
+  "physical_sample_cases": 6,
+  "paired_intervals": 90,
+  "mean_scale_values": [
+    0.05,
+    0.1,
+    0.18
+  ],
+  "relative_nominal_steps": [
+    0.0001,
+    1e-08,
+    1e-10,
+    1e-12,
+    "nextafter"
+  ],
+  "init_bg_once_s": 0.09018813993316144,
+  "init_Hermite_once_s": 0.035135686048306525,
+  "timings": {
+    "naive": {
+      "median_s": 0.029110055067576468,
+      "repeat_s": [
+        0.029586058924905956,
+        0.032397347036749125,
+        0.029110055067576468,
+        0.02862364100292325,
+        0.026076525100506842
+      ],
+      "checksums": [
+        58011894878874.75,
+        1.3938603723726625e-06
+      ]
+    },
+    "hermite": {
+      "median_s": 0.0004661260172724724,
+      "repeat_s": [
+        0.0004724870668724179,
+        0.00045812001917511225,
+        0.0004638609243556857,
+        0.00047456100583076477,
+        0.0004661260172724724
+      ],
+      "checksums": [
+        58011894861965.64,
+        1.3938603725214239e-06
+      ]
+    },
+    "gauss4": {
+      "median_s": 0.005441111046820879,
+      "repeat_s": [
+        0.007304079947061837,
+        0.007687878096476197,
+        0.005441111046820879,
+        0.003653798019513488,
+        0.003573835943825543
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722034e-06
+      ]
+    },
+    "gauss8": {
+      "median_s": 0.004208170925267041,
+      "repeat_s": [
+        0.003978764987550676,
+        0.0043572429567575455,
+        0.004291769000701606,
+        0.004208170925267041,
+        0.0035992140183225274
+      ],
+      "checksums": [
+        58011894880238.59,
+        1.3938603723722038e-06
+      ]
+    },
+    "gauss4_vector_workers1": {
+      "median_s": 0.0006355770165100694,
+      "repeat_s": [
+        0.0006399250123649836,
+        0.0006220509530976415,
+        0.0006324609275907278,
+        0.0006416080286726356,
+        0.0006355770165100694
+      ],
+      "checksums": [
+        58011894880238.586,
+        1.3938603723722034e-06
+      ],
+      "max_relative_disagreement_to_scalar_GL4": 2.220446049250313e-16
+    },
+    "gauss4_vector_workers2": {
+      "median_s": 0.0013199270470067859,
+      "repeat_s": [
+        0.0013199270470067859,
+        0.0014481899561360478,
+        0.0011654830304905772,
+        0.0013344238977879286,
+        0.0012958899606019258
+      ],
+      "checksums": [
+        58011894880238.586,
+        1.3938603723722034e-06
+      ],
+      "max_relative_disagreement_to_scalar_GL4": 2.220446049250313e-16
+    },
+    "gauss4_vector_workers4": {
+      "median_s": 0.001283728051930666,
+      "repeat_s": [
+        0.001359160989522934,
+        0.0012792689958587289,
+        0.0012444130843505263,
+        0.0012843490112572908,
+        0.001283728051930666
+      ],
+      "checksums": [
+        58011894880238.586,
+        1.3938603723722034e-06
+      ],
+      "max_relative_disagreement_to_scalar_GL4": 2.220446049250313e-16
+    }
+  },
+  "conclusions": {
+    "fastest_method": "hermite",
+    "naive_numerical_correct": false,
+    "hermite_satisfies_prior_stable_relative_target_1e-9": true,
+    "gauss4_satisfies_prior_stable_relative_target_1e-9": true
+  },
+  "explicit_limitations": "90 exact float64 input intervals; medians on same physical 90, not a native whole-solver benchmark or a rigorous global interval bound",
+  "whole_REI_solver_speedup": null
+}
