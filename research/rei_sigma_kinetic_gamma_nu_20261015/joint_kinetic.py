@@ -28,6 +28,7 @@ sys.path.insert(0,str(HERE.parent/"rei_axbi_sigma_matter_20261015"))
 from species_hierarchy import SpeciesHierarchy
 from lrs_boltzmann import SourceLock,GAMMA_PER_NE,SmoothElectronHistory
 from sigma_matter import MassiveMoments,InitialStress,verify_source_bytes,signed_q_from_sigma
+from stable_moments import StableMassiveMoments
 
 PARENT_REI_HEAD="5d41df647c4fd624d8a1b574f67fdd0b82ff5102"
 PARENT_BASS_HEAD="9e50f936f3289cb0c7c8127772cf9fb8d172d7a8"
@@ -92,7 +93,8 @@ class KineticGammaNuMassive(SpeciesHierarchy):
     def __init__(self,source:SourceLock,*,Sigma_ref:float=0.,orientation:int=0,
                  kappa_gamma:float=0.,kappa_nu:float=0.,
                  massive_fraction:float=0.,massive_A:float=0.,m_over_Tref:float=30.,
-                 ne_source=None,ellmax:int=8,angular_n:int=32):
+                 ne_source=None,ellmax:int=8,angular_n:int=32,
+                 stable_massive_pi:bool=False):
         verify_original_sources()
         if not (math.isfinite(massive_fraction) and 0<=massive_fraction <=
                 (source.omega_m-float(verify_original_sources()["cosmology"]["Omega_b"]))/source.omega_m):
@@ -111,7 +113,11 @@ class KineticGammaNuMassive(SpeciesHierarchy):
         self.fm=massive_fraction
         self.Am=massive_A
         self.m_over_Tref=m_over_Tref
-        self.mass=MassiveMoments(m_over_Tref,angular_n=angular_n)
+        if not isinstance(stable_massive_pi,bool):
+            raise ValueError("stable_massive_pi must be an explicit boolean")
+        self.stable_massive_pi=stable_massive_pi
+        self.mass=(StableMassiveMoments if stable_massive_pi else MassiveMoments)(
+            m_over_Tref,angular_n=angular_n)
         self.matter_dust_omega=source.omega_m*(1-massive_fraction)
         self.mass_normalizer=source.omega_m*massive_fraction/source.aref**3
         self.matter_max_fraction=(source.omega_m-float(verify_original_sources()["cosmology"]["Omega_b"]))/source.omega_m
@@ -132,9 +138,13 @@ class KineticGammaNuMassive(SpeciesHierarchy):
         Eg,Ng,En,Nn=[y[4+i*self.n:4+(i+1)*self.n] for i in range(4)]
         if Eg[0]<=0 or En[0]<=0:raise ValueError("positive radiation brightness")
         s=v*self.source.href
-        Mr,pp,pa=self.mass.evaluate(x,b,self.Am)
+        if self.stable_massive_pi:
+            Mr,pp,pa,delta_m=self.mass.evaluate_with_delta(x,b,self.Am)
+        else:
+            Mr,pp,pa=self.mass.evaluate(x,b,self.Am)
+            delta_m=pa-pp
         rho_m=self.mass_normalizer*Mr
-        pi_m=self.mass_normalizer*(pa-pp)/3
+        pi_m=self.mass_normalizer*delta_m/3
         pbar_m=self.mass_normalizer*(2*pp+pa)/3
         rho_rad=(self.omega_gamma*Eg[0]+self.omega_nu*En[0])/a**4
         pi_g=self.omega_gamma*Eg[2]/(3*a**4)
@@ -216,7 +226,9 @@ class KineticGammaNuMassive(SpeciesHierarchy):
           "rho_nu_fraction_of_rounded_radiation":self.f_nu,
           "nonbaryonic_massive_fraction_of_total_matter":self.fm,
           "source_constraint":"Hamiltonian includes radiation gamma+nu plus one massive kinetic fraction of Omega_m plus remaining dust; no double counting",
-          "Thomson_species":"gamma-only one-way original q0 HHe electron donor"
+          "Thomson_species":"gamma-only one-way original q0 HHe electron donor",
+          "massive_pi_evaluation":("stable_inverse_energy" if self.stable_massive_pi
+                                   else "legacy_pressure_subtraction")
         }
     def constraint_and_work(self,x,y):
         f=self.fields(x,y)

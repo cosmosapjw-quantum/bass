@@ -39,7 +39,7 @@ def cases():
       ("GAMMA_ONLY_THOMSON",dict(args,Sigma_ref=0.,orientation=0,kappa_nu=0.,real_donor=True))
     ]
 
-def execute(outdir:Path,n=401):
+def execute(outdir:Path,n=401,*,stable_massive_pi:bool=False):
     outdir=outdir.resolve()
     if outdir.exists():raise FileExistsError(outdir)
     outdir.mkdir(parents=True)
@@ -50,7 +50,8 @@ def execute(outdir:Path,n=401):
     for name,params in settings:
         params=params.copy()
         with_donor=params.pop("real_donor",False)
-        model=KineticGammaNuMassive(src,ne_source=donor if with_donor else None,**params)
+        model=KineticGammaNuMassive(src,ne_source=donor if with_donor else None,
+                                  stable_massive_pi=stable_massive_pi,**params)
         p,fields,wall=model.integrate(n=n,rtol=2e-12,atol=8e-14)
         state_radiation0=model.initial_tensors()
         stage=[]
@@ -108,6 +109,8 @@ def execute(outdir:Path,n=401):
     sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
     receipt={"schema":"bass.rei.axbi.massive_gamma_nu_einstein_background.v1",
       "source_model":"frozen AX03 + independently sourced BASS FD96 massive and REI gamma+masslessnu Boltzmann",
+      "massive_pi_evaluation":("stable_inverse_energy" if stable_massive_pi else
+                               "legacy_pressure_subtraction"),
       "source_parent_BASS_head":PARENT_BASS_HEAD,"source_parent_REI_head":PARENT_REI_HEAD,
       "AX03_family_source_sha256":"46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
       "source_q_ref_is_only_legacy_parity_adapter":True,
@@ -134,5 +137,7 @@ if __name__=="__main__":
     a=argparse.ArgumentParser()
     a.add_argument("--out",type=Path,required=True)
     a.add_argument("--points",type=int,default=401)
+    a.add_argument("--stable-massive-pi",action="store_true",
+                   help="Opt-in cancellation-resistant FD96 anisotropic stress")
     args=a.parse_args()
-    execute(args.out,args.points)
+    execute(args.out,args.points,stable_massive_pi=args.stable_massive_pi)

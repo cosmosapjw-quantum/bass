@@ -1,0 +1,67 @@
+{
+  "schema": "bass.rei.stable_pi.research_bridge.v1",
+  "date": "2026-10-15",
+  "stage": "R5/R7/R9 and C5/C6/C7/C8/C9/C10 bounded opt-in source-stability implementation",
+  "repo": "cosmosapjw-quantum/bass",
+  "source_head": "a16c44d28357428b92f15d709eee86ca7bba4f21",
+  "parent_source_pins": {
+    "bass_massive": "9e50f936f3289cb0c7c8127772cf9fb8d172d7a8",
+    "rei_gamma_nu": "5d41df647c4fd624d8a1b574f67fdd0b82ff5102",
+    "ax03_sha256": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0"
+  },
+  "mode": {
+    "default": "legacy_pressure_subtraction",
+    "optin": "stable_inverse_energy",
+    "python_parameter": "stable_massive_pi=True",
+    "cli_flag": "--stable-massive-pi",
+    "harmonic_convention": "LRS Bianchi I, (-,+,+,+), sigma=diag(-s,-s,2s), Sigma=sqrt3 abs(s)/H",
+    "units": "SI proper time, J/m^3 stress; separate massive Omega_m fraction",
+    "massive_pi": "(P_parallel-P_perp)/3"
+  },
+  "producer": {
+    "command": "python3 research/rei_sigma_kinetic_gamma_nu_20261015/run_joint.py --stable-massive-pi --points 401 --out NEW_DIR",
+    "csv": "evidence/STABLE_PI_CAMPAIGN/REI_GAMMANU_MASSIVE_BACKGROUND.csv",
+    "receipt": "evidence/STABLE_PI_CAMPAIGN/RESULTS.json",
+    "source_sha256": "fe40e744494c268e8d55db8686de865f35aeba419f72d40af93453de162fe4e2",
+    "cases": 8,
+    "samples_per_case": 401,
+    "rows": 3208,
+    "original_ax08_electron_source": "one-way read-only"
+  },
+  "consumer": {
+    "command": "python3 research/rei_sigma_kinetic_gamma_nu_20261015/native_bridge.py --repo ACTUAL_REI_REPO --target EXTERNAL_CARGO_DIR --csv PRODUCER_CSV --out NEW_JSON",
+    "crate": "rei_microphysics::axbi_background::BackgroundPoint",
+    "source_identity_gate": true,
+    "input_producer_manifest_sha_gate": true,
+    "validation": "read-only Rust physical geometry/Hamiltonian/number/stress",
+    "rust_receipt": "evidence/STABLE_PI_REI_NATIVE_BRIDGE.json",
+    "max_constraint_relative": 3.3306690738754696e-16,
+    "negative_input_types": [
+      "H_mean_per_s",
+      "pi_massive_J_m3",
+      "Sigma",
+      "gamma_number_N0"
+    ],
+    "negative_checks_rejected": 4
+  },
+  "verification": {
+    "unit_tests_pass": 64,
+    "xact_exact_zeros": 7,
+    "energy_pressure_abs_parity": 3.3306690738754696e-16,
+    "max_final_sigma_vs_original": 3.5432865409107395e-14,
+    "complete_axisymmetric_background": true,
+    "science_beyond_scope": [
+      "native_hhe_source_feedback",
+      "full_polarized_thomson",
+      "stellar_emission_momentum_closure",
+      "cold_z20_to4_HHe_native_chemistry",
+      "calibrated_matter_species",
+      "precision_observational_likelihood"
+    ]
+  },
+  "scientific_admission": "BACKGROUND_SOURCE_ONLY_NOT_NATIVE_PRODUCTION",
+  "main_and_native_owner_modified": false,
+  "native_subagent": "NOT_RUN_UNAVAILABLE",
+  "ncp": "NOT_RUN_REMOTE_ACCESS_PREFLIGHT_BLOCKED",
+  "next_action": "Owner-controlled source-conditioned REI native chemistry and new-version checkpoint, followed by clock/photons/thermal ledger and convergence tests"
+}
