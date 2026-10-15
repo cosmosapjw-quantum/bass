@@ -1,0 +1,29 @@
+Needs["xAct`xTensor`"];
+xAct`xTensor`$DefInfoQ=False;
+DefManifold[AXBIM,4,{a,b,c,d,e,f}];
+DefMetric[-1,g[-a,-b],CD,{";","D"}];
+DefTensor[u[a],AXBIM];DefTensor[axis[a],AXBIM];DefTensor[ray[a],AXBIM];
+DefConstantSymbol[s];DefConstantSymbol[mu];DefConstantSymbol[Ec];DefConstantSymbol[Cc];
+rules=Join@@(MakeRule[#,MetricOn->All,ContractMetrics->True]&/@{
+{u[a]u[-a],-1},{axis[a]axis[-a],1},{ray[a]ray[-a],1},
+{u[a]axis[-a],0},{u[a]ray[-a],0},{axis[a]ray[-a],mu}});
+cn[x_]:=FullSimplify[FixedPoint[ToCanonical[ContractMetric[Expand[#/.rules]]]&,x,12]];
+h[a_,b_]:=g[a,b]+u[a]u[b];
+shear[a_,b_]:=s(3axis[a]axis[b]-h[a,b]);
+screen[a_,b_]:=h[a,b]-ray[a]ray[b];
+p[a_]:=(Ec/Cc)(u[a]+ray[a]);
+vals=<|
+"AxisymmetricShearTraceFree"->cn[shear[a,b]h[-a,-b]],
+"ShearInvariantHalf"->cn[shear[a,b]shear[-a,-b]/2-3s^2],
+"AnisotropicPhotonEnergyAngular"->cn[shear[a,b]ray[-a]ray[-b]-s(3mu^2-1)],
+"ScreenRank2"->cn[screen[a,-a]-2],
+"ScreenIdempotent"->cn[screen[a,-b]screen[b,-d]-screen[a,-d]],
+"PhotonNull"->cn[p[a]p[-a]],
+"ObserverComovingPhotonEnergy"->cn[-Cc u[-a]p[a]-Ec]|>;
+out=<|"kernel"->System`$Version,"xTensor_version"->xAct`xTensor`$Version,
+"checks"->Map[ToString[#,InputForm]&,vals],
+"all_zero"->And@@Map[#===0&,Values[vals]],
+"scope"->"Original REI AX03 LRS Bianchi I (-+++) stress-free geometric constraints, no anisotropic stress feedback or chemistry"|>;
+Export["/home/cosmosapjw/worktrees/bass-rei-axbi-background-20261015/research/rei_axbi_background_supplier_20261015/evidence/XACT_BACKGROUND.json",out,"RawJSON"];
+Print[ExportString[out,"RawJSON"]];
+If[TrueQ[out["all_zero"]],Exit[0],Exit[1]];

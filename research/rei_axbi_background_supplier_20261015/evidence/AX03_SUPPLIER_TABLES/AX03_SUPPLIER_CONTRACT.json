@@ -1,0 +1,157 @@
+{
+  "schema": "bass.rei.axbi.table_consumer_contract.v1",
+  "source_background_family_sha256": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
+  "source_lock": {
+    "schema": "rei.axbi.background_family.v1",
+    "node_id": "AX03",
+    "frozen_base": "1865fcec018ba0d2478321c9c2fac39490669697",
+    "scientific_authority": "/root/ax_authority",
+    "cosmology": {
+      "H0_km_s_Mpc": 67.4,
+      "Mpc_cm": 3.085677581491367e+24,
+      "H0_per_s": 2.1842852410855026e-18,
+      "Omega_m": 0.315,
+      "Omega_b": 0.049309230511847414,
+      "Omega_r": 9.2e-05,
+      "Omega_lambda": 0.6849080000000001,
+      "X_He4": 0.2454,
+      "Tcmb0_K": 2.7255,
+      "source": "https://arxiv.org/abs/1807.06209",
+      "radiation_scope": "rounded approximate isotropic radiation background"
+    },
+    "clock": {
+      "a_ref": 0.047619047619047616,
+      "a_end": 0.2,
+      "b_ref": 0,
+      "time_ref_s": 0,
+      "label": "elapsed proper seconds from zbar20; not absolute cosmic age"
+    },
+    "q_amp": 0.01,
+    "q_ref_family": [
+      0,
+      0.005,
+      -0.005,
+      0.01,
+      -0.01
+    ],
+    "q_ref_definition": "s_ref/H_FLRW(a_ref), fixed signed case parameter",
+    "Sigma_definition": "s/H instantaneous",
+    "primary": "H=hypot(H_FLRW,s); s=q_ref H_FLRW(a_ref)(a_ref/a)^3",
+    "same_h": {
+      "family": "SameHDiagnostic",
+      "q_ref": 0.01,
+      "mean_H": "H_FLRW(a)",
+      "scope": "counterfactual; not primary physical-density-fixed family"
+    },
+    "metric": "a_perp=a exp(-b); a_parallel=a exp(2b); H_perp=H-s; H_parallel=H+2s; sigma_squared=3s²",
+    "numerical_policy": {
+      "method": "composite Simpson ln(a), direct point evaluation; bounded64 clock bisection",
+      "default_panels": 4096,
+      "allowed_even_panels": [
+        2,
+        65536
+      ],
+      "clock_refinement_relative_target": 1e-07,
+      "b_refinement_absolute_target": 1e-09,
+      "constraint_shear_relative_target": 1e-12
+    },
+    "physical_scope": "conditional stress-free prescribed EoR family; not CMB-admitted primordial shear",
+    "feedback_scope": {
+      "estimate": "delta_s=a^-3 integral a³(8piG/3c²)DeltaP dt; sampled trapezoidal perturbative diagnostic",
+      "required_stress_components": [
+        "actual ionizing radiation quadrupole",
+        "initially isotropic CMB free-stream anisotropic stress"
+      ],
+      "max_abs_delta_s_over_H_ceiling": 0.0001,
+      "max_extra_energy_over_background_ceiling": 0.0001,
+      "actual_history_status": "NOT_MEASURED",
+      "effect_precision": "must be assessed separately against abundance response"
+    },
+    "parity": {
+      "baseline": "reflection-even IC/emissivity and symmetric microphysics; axisymmetry alone insufficient",
+      "normalized_J1_tolerance": 1e-12,
+      "quadrupole": "retained in RT",
+      "exact_scalar_plus_minus_symmetry": false
+    }
+  },
+  "model": "original REI AX03 StressFree prescribed Bianchi I; geometry-only physical density fixed plus SAME_H counterfactual",
+  "native_Rust_integration_status": "NOT_APPLIED_OWNER_REPO_READ_ONLY",
+  "n_cases": 6,
+  "sample_count_per_case": 501,
+  "rows_background": 3006,
+  "rows_photon": 7530,
+  "boundary": {
+    "a_ref": 0.047619047619047616,
+    "a_end": 0.2,
+    "proper_t_ref_s": 0,
+    "redshift_mean_ref": 20.0,
+    "redshift_mean_end": 4.0
+  },
+  "units": {
+    "proper_elapsed_s": "SI elapsed proper seconds from zbar20, not absolute age",
+    "H_flrw_per_s": "SI s^-1",
+    "H_mean_per_s": "SI s^-1",
+    "shear_s_per_s": "SI s^-1",
+    "a": "dimensionless mean scale factor",
+    "zbar": "1/a-1 mean redshift",
+    "n_H_cm3": "physical H nuclei per cm^3, frozen baryon mass approximation",
+    "n_He_cm3": "physical He nuclei per cm^3, frozen baryon mass approximation",
+    "Tbar_CMB_K": "isotropic reference T0/a only; NOT exact direction-dependent CMB color temperature",
+    "b": "dimensionless axes convention",
+    "mu_face": "orthonormal longitudinal direction cosine at late endpoint",
+    "energy_early_over_face": "dimensionless Killing photon frequency ratio",
+    "jacobian_dOmega_early_over_face": "dimensionless solid-angle Jacobian"
+  },
+  "scientific_locks": {
+    "same_h": "counterfactual only",
+    "reference_CMB_feedback": "NOT_INCLUDED",
+    "ionizing_radiation_backreaction": "NOT_INCLUDED",
+    "full_ionization_history": "NOT_ATTEMPTED",
+    "native_axbi_science_admission": "NOT_ISSUED",
+    "ordinary_z_isotropic_assumption": "zbar is mean-scale chart not a unique photon observed redshift"
+  },
+  "fields_background": [
+    "family",
+    "q_ref",
+    "row",
+    "ln_a_over_aref",
+    "a",
+    "zbar",
+    "proper_elapsed_s",
+    "b",
+    "H_flrw_per_s",
+    "H_mean_per_s",
+    "shear_s_per_s",
+    "sigma_s_over_H",
+    "sigma_tensor_squared_per_s2",
+    "H_perp_per_s",
+    "H_parallel_per_s",
+    "a_perp",
+    "a_parallel",
+    "n_H_cm3",
+    "n_He_cm3",
+    "Tbar_CMB_K",
+    "dt_dln_a_s",
+    "db_dln_a",
+    "dproper_t_dz_s",
+    "volume_a_perp2_a_parallel"
+  ],
+  "fields_photon": [
+    "family",
+    "q_ref",
+    "row",
+    "zbar",
+    "proper_elapsed_s",
+    "mu_face",
+    "energy_early_over_face",
+    "mu_early",
+    "jacobian_dOmega_early_over_face",
+    "number_volume_invariant",
+    "geometry_volume_factor"
+  ],
+  "file_sha256": {
+    "AX03_BACKGROUND.csv": "4f7e409b59f4e1636697a03b8980031ff767eb7c75a6b09b25422c0faf52b26a",
+    "AX03_PHOTON_KILLING.csv": "2a84a2111f4d736517156b6592bb6b7c0792f457e631552e8ee133a03b7c2ce5"
+  },
+  "data_identity": "full CSV content sha256; decimal binary64 serialization; not equivalent to original Rust Simpson binary64 bit identity"
+}
