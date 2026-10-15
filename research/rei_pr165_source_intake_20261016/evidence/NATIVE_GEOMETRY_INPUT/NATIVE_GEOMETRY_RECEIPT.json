@@ -1,0 +1,59 @@
+{
+  "schema": "bass.rei.pr165.native_geometry_only.v1",
+  "parent_bass_commit": "3c39bbbf46b6663e7c40277e194fd0ef48118472",
+  "parent_source_csv_sha256": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
+  "parent_source_receipt_sha256": "98eddf4673780f0bbca711b373a3e0746cfafc8190674c8d2d6c4de658dc3eed",
+  "geometry_csv_sha256": "b406e60184d68fd4014dbee42250b8cf4645f48d1580caf44b336eac0fd93037",
+  "geometry_columns": [
+    "case",
+    "x",
+    "a",
+    "b",
+    "time_s",
+    "h_flrw_per_s",
+    "h_per_s",
+    "s_per_s",
+    "sigma_signed",
+    "Sigma",
+    "h_perp_per_s",
+    "h_parallel_per_s"
+  ],
+  "rows": 968,
+  "cases": [
+    "COLD_FLRW",
+    "WARM_ISOTROPIC",
+    "MASSIVE_A_PLUS",
+    "MASSIVE_A_MINUS",
+    "MASS3_A_PLUS",
+    "MASS300_A_PLUS",
+    "SIGNED_PLUS",
+    "SIGNED_MINUS"
+  ],
+  "params": {
+    "H0_per_s": 2.1842852410855026e-18,
+    "Omega_m": 0.315,
+    "Omega_r": 9.2e-05,
+    "Omega_lambda": 0.6849080000000001,
+    "a_ref": 0.047619047619047616,
+    "a_end": 0.2,
+    "x_end": 1.4350845252893227
+  },
+  "native_type": "rei_microphysics::axbi_background::BackgroundPoint",
+  "semantics": {
+    "sigma": "signed s/H",
+    "Sigma": "sqrt(3) abs(s)/H",
+    "h_flrw_per_s": "cold-FLRW reference ONLY, not kinetic mean H",
+    "time_s": "new positive integral dx/H using Hermite log H; does not read old AX08 restart clock",
+    "source_import": "geometry-only opt-in; chemistry source and checkpoint remain unchanged"
+  },
+  "max_input_knots_differences": {
+    "s_over_h": 1.734723475976807e-18,
+    "b": 0.0,
+    "H": 3.552713678800501e-15,
+    "proper_time": 2.3151692135772128e-10
+  },
+  "max_producer_integrated_clock_relative": 2.3151692135772128e-10,
+  "native_cargo_build": "NOT_RUN_IN_CHATGPT_SESSION",
+  "native_HHe_driver_activated": false,
+  "full_EoR_science": "NOT_ADMITTED"
+}
