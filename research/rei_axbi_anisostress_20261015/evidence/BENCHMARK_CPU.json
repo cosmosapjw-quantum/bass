@@ -1,0 +1,52 @@
+{
+  "schema": "bass.rei.axbi.initial_stress_cpu_bench.v1",
+  "host_settings": "real user Ubuntu; warmed per-scope three repeats, original q/A/eta cases",
+  "moment_loop": {
+    "n_b_values": 4096,
+    "angular_GL_n": 64,
+    "vector_wall_median_s": 0.00334382604341954,
+    "scalar_wall_median_s": 0.09771489398553967,
+    "vector_speedup": 29.222481288414222,
+    "chunked_wall_median_s": 0.0027014949591830373,
+    "chunked_speedup": 36.17067418666951,
+    "max_abs_component_difference": 0.0,
+    "max_abs_chunk_disagreement": 0.0,
+    "tracemalloc_vector_bytes": 10652264,
+    "tracemalloc_chunked_bytes": 534496,
+    "tracemalloc_scalar_bytes": 969100
+  },
+  "separate_17_case_ODE_solves": [
+    {
+      "threads": 1,
+      "median_seconds": 0.3095920439809561,
+      "seconds": [
+        0.31921836105175316,
+        0.29363484599161893,
+        0.3095920439809561
+      ],
+      "max_absolute_ref_disagreement": 0.0
+    },
+    {
+      "threads": 2,
+      "median_seconds": 0.35713894397486,
+      "seconds": [
+        0.35713894397486,
+        0.37329638900700957,
+        0.35131924704182893
+      ],
+      "max_absolute_ref_disagreement": 0.0
+    },
+    {
+      "threads": 4,
+      "median_seconds": 0.3996768760262057,
+      "seconds": [
+        0.3730138459941372,
+        0.3996768760262057,
+        0.4336615060456097
+      ],
+      "max_absolute_ref_disagreement": 0.0
+    }
+  ],
+  "native_AX08_coupled_science_solver_speedup": null,
+  "parallelism_conclusion": "Only keep separate-case threads if measured native runtime is faster at fixed physics; no subagent claims"
+}
