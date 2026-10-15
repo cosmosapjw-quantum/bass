@@ -207,7 +207,11 @@ class BackgroundTable:
                 rho=row["massive_rho_norm"];pbar=row["massive_pbar_norm"];delta=row["massive_deltaP_norm"]
                 check(rho>=0 and pbar>=0 and pbar<=rho/3+1e-19 and pbar-delta/3>=-1e-16 and pbar+2*delta/3>=-1e-16,"KINETIC_PRESSURE_CONE")
                 predicted_h2=H0*H0*(OM*(1-fm)/a**3+OR/a**4+OL+rho)+s*s
-                check(close(h*h,predicted_h2,rtol=3e-12,atol=1e-34),"EINSTEIN_HAMILTONIAN")
+                observed_h2=h*h
+                h2_scale=max(abs(observed_h2),abs(predicted_h2))
+                check(math.isfinite(h2_scale) and h2_scale>0 and
+                      abs(observed_h2-predicted_h2)/h2_scale<=3e-12,
+                      "EINSTEIN_HAMILTONIAN")
                 check(close(row["dH_db_per_s"],-H0*H0*delta/h,atol=1e-31),"H_B_DERIVATIVE")
                 predicted_hp=(H0*H0*(-3*OM*(1-fm)/a**3-4*OR/a**4-3*(rho+pbar))-6*s*s)/(2*h)
                 self.producer_raychaudhuri_max_rel=max(self.producer_raychaudhuri_max_rel,abs(predicted_hp-row["dH_dln_a_per_s"])/max(abs(predicted_hp),1e-300))

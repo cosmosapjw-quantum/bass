@@ -1,0 +1,40 @@
+{
+  "schema": "bass.rei.pr165.ncp_hhe_component_execution.v1",
+  "scope": "one fresh COLD_FLRW initial-event H/He component with frozen a and b; no evolving BASS geometry driver",
+  "host": "NCP SSH root, host address omitted from public record",
+  "remote_task_directory": "/root/BASS_PR165_NATIVE_TRIAL_20261016_001",
+  "bass_pr165_commit": "2d1d061fe63f8dcb957646af5b4c86b0430dd3e9",
+  "bass_pr164_commit": "3c39bbbf46b6663e7c40277e194fd0ef48118472",
+  "rei_pr150_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "original_source_csv_sha256": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
+  "original_producer_receipt_sha256": "98eddf4673780f0bbca711b373a3e0746cfafc8190674c8d2d6c4de658dc3eed",
+  "component_input_sha256": "109f30de4ab3f4f3b8c2702cfa66ca6a1d6410cbc33d9dbede8a7619af928eb1",
+  "transferred_component_source_tar_sha256": "a941a0b3d9807d7f829e5e013b21d47159b77bb49352213abc3b1a45f4b09bec",
+  "transferred_rei_crate_tar_sha256": "95281efd149d568ff0465731eed823f373ce13f6af902c9862340e41ea4f7c94",
+  "transferred_rei_include_contracts_tar_sha256": "a6e6a3bb15e19bfb71729d1c3eeba8e4600f8241183a5f019023138f0fbbca73",
+  "ncp_main_rs_sha256": "263ba8c2bf7a19a952d46c01bc3036bea6a7885ea3d125fde732f30b09a5c117",
+  "ncp_binary_sha256": "8150ea6866b5ea39f4740103a21c48bd049db8a9bd99fa326a1de691a28e94ba",
+  "staged_manifest_change": "Only rei_microphysics path changed to the separately staged exact PR150 crate; no owner REI source file modified",
+  "run_command": "CARGO_BUILD_JOBS=4 RAYON_NUM_THREADS=4 /usr/bin/time -v taskset -c 48-51 timeout 600 /root/.cargo/bin/cargo run --offline --release --manifest-path rei_pr165_native_hhe_component_20261016/Cargo.toml -- rei_pr165_native_hhe_component_20261016/COLD_FLRW_COMPONENT_INPUT.txt",
+  "attempts": [
+    {"exit_code": 101, "cause": "nine missing compile-time include_str contract files in staged crate layout", "raw_log": "hhe_evidence.tar.gz:hhe_stderr_first.log"},
+    {"exit_code": 101, "cause": "contract files extracted one directory too high for source relative include path", "raw_log": "hhe_evidence.tar.gz:hhe_stderr_second.log"},
+    {"exit_code": 0, "wall_seconds": 7.32, "max_rss_kib": 341592, "cpu_affinity": "48-51", "build_jobs": 4, "workers_runtime": 1, "raw_log": "hhe_evidence.tar.gz:hhe_stdout_third.log"}
+  ],
+  "result": {
+    "proper_dt_s": 845007622480.9552,
+    "rhs_evaluations": 13,
+    "max_newton_residual": 6.464529857022083e-17,
+    "absorption_number_residual": -1.6093625997831706e-20,
+    "number_residual": 1.6093625997831706e-20,
+    "energy_residual": 4.336808689942018e-19,
+    "temperature_k": 8.24808965921746,
+    "chemical_fractions": [0.00020332995402843473, 0.000003218109829490952, 4.904871946027496e-14]
+  },
+  "evidence_archive_sha256": "dda78674a5483da58e4175138f4def5536c071d620ce06f1dcff20acb26ec678",
+  "remote_task_directory_bytes_after_archive": 16721185,
+  "production_checkpoint_reused": false,
+  "source_bound_new_checkpoint": "NOT_RUN_API_BACKGROUND_SEAM",
+  "evolving_native_HHe": "HOLD_API_BACKGROUND_SEAM",
+  "stellar_gas_momentum_exchange": "OPEN_RESERVOIR_NOT_EVALUATED"
+}

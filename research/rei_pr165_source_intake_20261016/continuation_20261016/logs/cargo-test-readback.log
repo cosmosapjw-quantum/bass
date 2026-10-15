@@ -1,0 +1,22 @@
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /home/cosmosapjw/worktrees/rei-pr150-pr165-readonly-20261016/rust/rei_microphysics/src/axbi_driver.rs:311:18
+    |
+311 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+311 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+311 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: `rei_microphysics` (lib) generated 1 warning (run `cargo fix --lib -p rei_microphysics` to apply 1 suggestion)
+   Compiling bass_rei_pr165_native_intake v0.1.0 (/tmp/bass-pr165-native-loop.YFXSiIwv/cargo-stage)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running unittests src/main.rs (/tmp/bass-pr165-native-loop.YFXSiIwv/cargo-target-isolated/debug/deps/bass_rei_pr165_native_intake-79003d7bd87f79ce)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
