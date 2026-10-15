@@ -1,0 +1,90 @@
+{
+  "schema": "bass.rei.axbi.initial_stress.parallel_and_vector_cpu.v1",
+  "source_cases": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      -0.2
+    ],
+    [
+      0.005,
+      0.0
+    ],
+    [
+      -0.005,
+      0.0
+    ],
+    [
+      0.005,
+      0.2
+    ],
+    [
+      0.005,
+      -0.2
+    ],
+    [
+      0.01,
+      0.0
+    ],
+    [
+      0.01,
+      0.2
+    ],
+    [
+      -0.01,
+      0.2
+    ]
+  ],
+  "n_cases": 10,
+  "DOP853_parallel_workers": {
+    "1": {
+      "median_s": 0.1459618994849734,
+      "repeats_s": [
+        0.1427223039790988,
+        0.14544414798729122,
+        0.148635467980057,
+        0.14647965098265558
+      ],
+      "exact_output_identity": true
+    },
+    "2": {
+      "median_s": 0.16950989153701812,
+      "repeats_s": [
+        0.16927132103592157,
+        0.18621602491475642,
+        0.16406667802948505,
+        0.16974846203811467
+      ],
+      "exact_output_identity": true
+    },
+    "4": {
+      "median_s": 0.17376812041038647,
+      "repeats_s": [
+        0.17960245092399418,
+        0.16516312200110406,
+        0.18067195394542068,
+        0.16793378989677876
+      ],
+      "exact_output_identity": true
+    }
+  },
+  "vectorized_RK4_128_GL16": {
+    "median_s": 0.03836613305611536,
+    "repetitions_s": [
+      0.0403016529744491,
+      0.0397042001131922,
+      0.03646738291718066,
+      0.03702806599903852
+    ],
+    "max_delta_b_requirement": 2e-09
+  },
+  "performance_scope": "actual CPU same q+kappa cases, source locked, no native coupled REI trial",
+  "native_subagent": "NOT_RUN"
+}
