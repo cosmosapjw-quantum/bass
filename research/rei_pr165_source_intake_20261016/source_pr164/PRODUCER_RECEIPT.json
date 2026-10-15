@@ -1,0 +1,138 @@
+{
+  "schema": "bass.rei.proposed_background_point_tangent.v1",
+  "source": "BASS PR163 FD96 mass; isotropic Omega_r only; no gamma/nu anisotropic hierarchy",
+  "date": "2026-10-16 KST",
+  "cases": 8,
+  "points_per_case": 121,
+  "rows": 968,
+  "csv_sha256": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
+  "state_columns": [
+    "case",
+    "x",
+    "a",
+    "zbar",
+    "proper_elapsed_s",
+    "b",
+    "H_mean_per_s",
+    "s_per_s",
+    "Sigma",
+    "signed_s_over_H",
+    "H_cold_FLRW_reference_per_s",
+    "massive_rho_norm",
+    "massive_pbar_norm",
+    "massive_deltaP_norm",
+    "massive_partial_b_deltaP_norm",
+    "massive_deltaP_A_norm",
+    "dH_db_per_s",
+    "db_dA",
+    "d(s_per_s)_dA",
+    "dH_dln_a_per_s",
+    "H_perp_per_s",
+    "H_parallel_per_s"
+  ],
+  "cases_receipt": [
+    {
+      "case": "COLD_FLRW",
+      "params": {
+        "fraction": 0.0,
+        "mass": 30.0,
+        "A": 0.0,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 0.0,
+      "max_independent_Raychaudhuri_rel_error": 4.607536574496862e-11
+    },
+    {
+      "case": "WARM_ISOTROPIC",
+      "params": {
+        "fraction": 0.1,
+        "mass": 30.0,
+        "A": 0.0,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 0.0,
+      "max_independent_Raychaudhuri_rel_error": 4.951417054144258e-11
+    },
+    {
+      "case": "MASSIVE_A_PLUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 30.0,
+        "A": 0.5,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 2.8870757715017777e-05,
+      "max_independent_Raychaudhuri_rel_error": 4.592748403808855e-11
+    },
+    {
+      "case": "MASSIVE_A_MINUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 30.0,
+        "A": -0.5,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 2.8872365145213945e-05,
+      "max_independent_Raychaudhuri_rel_error": 4.692868316169552e-11
+    },
+    {
+      "case": "MASS3_A_PLUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 3.0,
+        "A": 0.5,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 0.0014593755706042663,
+      "max_independent_Raychaudhuri_rel_error": 4.9155568504488656e-11
+    },
+    {
+      "case": "MASS300_A_PLUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 300.0,
+        "A": 0.5,
+        "Sigma_ref": 0.0,
+        "orientation": 1
+      },
+      "Sigma_end": 2.925007558651904e-07,
+      "max_independent_Raychaudhuri_rel_error": 5.061351338042641e-11
+    },
+    {
+      "case": "SIGNED_PLUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 30.0,
+        "A": 0.5,
+        "Sigma_ref": 0.017319642115231484,
+        "orientation": 1
+      },
+      "Sigma_end": 0.002027153734517743,
+      "max_independent_Raychaudhuri_rel_error": 5.237166256222281e-11
+    },
+    {
+      "case": "SIGNED_MINUS",
+      "params": {
+        "fraction": 0.1,
+        "mass": 30.0,
+        "A": 0.5,
+        "Sigma_ref": 0.017319642115231484,
+        "orientation": -1
+      },
+      "Sigma_end": 0.001969389230738419,
+      "max_independent_Raychaudhuri_rel_error": 4.707456646713126e-11
+    }
+  ],
+  "consumer_contract": {
+    "native_geometry_requires": "a,b,time_s,H_per_s,s_per_s,sigma_signed=s/H",
+    "user_Sigma": "sqrt3 abs(s)/H",
+    "adoption": "NOT_ADOPTED_OWNER_REI_REQUIRES_NEW_SOURCE_CHECKPOINT",
+    "gamma_nu_HHe": "NOT_INCLUDED_IN_THIS_SUPPLIER"
+  },
+  "claim": "read-only typed table, numerically validated Python, NOT Rust type-checked"
+}
