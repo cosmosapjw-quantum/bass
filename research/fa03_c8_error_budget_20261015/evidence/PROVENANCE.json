@@ -1,0 +1,86 @@
+{
+  "schema": "bass.fa03.c8.executable_science.v1",
+  "date_utc": "2026-10-15T01:28:38.457306+00:00",
+  "source_commit": "049f615f29175e2fddd3860374dd23e2296a394b",
+  "physical_source_sha256": {
+    "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+    "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+  },
+  "environment": {
+    "python": "3.12.3",
+    "numpy": "2.4.2",
+    "mpmath": "1.3.0",
+    "os": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "wolfram_remote": "15.0.0",
+    "xTensor": "1.3.0",
+    "wolfram_connector": "15.0.1"
+  },
+  "selected_stage": "C8_NUMERICAL_ACCURACY_AND_REPRODUCIBILITY",
+  "user_mode": "DIRECT_IN_CHAT_CODING_NO_CODEX",
+  "native_subagents": "NOT_RUN_NO_NATIVE_DELEGATION_TOOLS",
+  "error_corrected": {
+    "original_failure": "FROZEN_FA03_K_MISSING_OBSERVER_L_UNDERBOUNDED_SOURCE",
+    "source_witness": 4.185045378374459,
+    "refuted_old_source_bound": "837/200",
+    "corrected_source_bound": "41931/10000",
+    "error_containing_sources": [
+      "evidence/SPECTRAL_CERT_PRECORRECTION.json",
+      "evidence/C8_CONVERGENCE_AND_BENCHMARK_PRECORRECTION.json"
+    ],
+    "new_exact_gl_n_bound": "(41931/9600)*25**(-2*n)",
+    "source_files_modified": false
+  },
+  "reused_original_R8_theorem": "FIXED_36_RAYS_TRACE_NORM_LT_4.75E-7_UNCHANGED",
+  "reported_GL_energy_bounds": {
+    "3": "13977/781250000000",
+    "4": "13977/488281250000000",
+    "5": "13977/305175781250000000",
+    "6": "13977/190734863281250000000"
+  },
+  "real_FA03_ODE_energy_quadrature_upper": "ADMITTED_MODEL_SPECIFIC_EXACT_TIME_FIXED_REAL_RAYS",
+  "madeup_coeff_manufactured_rk4_bound": "EXACT_FRACTION_MANUFACTURED_ONLY",
+  "real_RK4_true_error_enclosure": "NOT_COMPUTED",
+  "real_complex_angle_M4": "NOT_COMPUTED",
+  "radial_GL3_certified_error": "NOT_COMPUTED",
+  "complete_binary64_source_provider_error": "NOT_COMPUTED",
+  "numerical_output": {
+    "matrix_36rays_time64_vs1024": 6.7097771497819225e-12,
+    "matrix_36rays_time128_vs1024": 4.185527809070635e-13,
+    "float_ne4_vs_ne24_36rays": 1.1102230246251565e-16
+  },
+  "host_benchmark": {
+    "36": {
+      "new_GL4_wall_median": 0.04086197598371655,
+      "old_Jones_GL8_speedup": 4.470486497727827,
+      "GL8_real_to_GL4_real_speedup": 0.9900823443587813
+    },
+    "144": {
+      "new_GL4_wall_median": 0.06378183991182595,
+      "old_Jones_GL8_speedup": 7.433228308922592,
+      "GL8_real_to_GL4_real_speedup": 1.4050738126956657
+    },
+    "480": {
+      "new_GL4_wall_median": 0.13909695099573582,
+      "old_Jones_GL8_speedup": 10.852213856728051,
+      "GL8_real_to_GL4_real_speedup": 1.343841512185121
+    }
+  },
+  "tracemalloc_480_GL4_peak": 2170072,
+  "tracemalloc_480_GL8_peak": 4243784,
+  "threads_480_ne4": {
+    "1": 0.22630452900193632,
+    "2": 0.3615005760220811,
+    "4": 0.5493823379511014
+  },
+  "new_C8_tests": 23,
+  "inherited_C7": 34,
+  "inherited_C6": 18,
+  "inherited_C5": 15,
+  "total_tests_pass": 90,
+  "xact_exact_zero_groups": 7,
+  "rei_owner_HEAD_at_last_read": "450bad5712d6bc3c58598ea8421232128411b573",
+  "rei_critical_admission": "NOT_ISSUED",
+  "REI_owner_write_count": 0,
+  "REI_solver_job_starts": 0,
+  "next_stage": "C9_READY_NOT_EXECUTED"
+}

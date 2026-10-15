@@ -1,0 +1,33 @@
+Needs["xAct`xTensor`"];
+xAct`xTensor`$DefInfoQ=False;
+DefManifold[C8M,4,{a,b,c,d,e,f}];
+DefMetric[-1,g[-a,-b],CD,{";","D"}];
+DefTensor[uu[a],C8M];
+DefTensor[zz[a],C8M];
+DefTensor[nn[a],C8M];
+DefConstantSymbol[sh];DefConstantSymbol[mu];DefConstantSymbol[Eph];DefConstantSymbol[Cc];
+rules=Join@@(MakeRule[#,MetricOn->All,ContractMetrics->True]&/@{
+{uu[a]uu[-a],-1},{zz[a]zz[-a],1},{nn[a]nn[-a],1},
+{uu[a]zz[-a],0},{uu[a]nn[-a],0},{nn[a]zz[-a],mu}});
+cn[x_]:=FullSimplify[FixedPoint[ToCanonical[ContractMetric[Expand[#/.rules]]]&,x,12]];
+hh[a_,b_]:=g[a,b]+uu[a]uu[b];
+ss[a_,b_]:=sh(3zz[a]zz[b]-hh[a,b]);
+screen[a_,b_]:=hh[a,b]-nn[a]nn[b];
+kk[a_]:=(Eph/Cc)(uu[a]+nn[a]);
+checks=<|
+"TracefreeAnisotropicShear"->cn[ss[a,b]hh[-a,-b]],
+"PositiveHalfShearNorm"->cn[ss[a,b]ss[-a,-b]/2-3sh^2],
+"SignedShearRayDirectional"->cn[ss[a,b]nn[-a]nn[-b]-sh(3mu^2-1)],
+"ObserverScreenRank2"->cn[screen[a,-a]-2],
+"ScreenIdempotence"->cn[screen[a,-b]screen[b,-d]-screen[a,-d]],
+"PhotonNull"->cn[kk[a]kk[-a]],
+"ObserverEnergySign"->cn[-Cc uu[-a]kk[a]-Eph]
+|>;
+out=<|"wolfram_version"->System`$Version,
+"xTensor_version"->xAct`xTensor`$Version,
+"checks"->Map[ToString[#,InputForm]&,checks],
+"all_zero"->And@@Map[#===0&,Values[checks]],
+"scope"->"C8 geometric normal-frame and screen sign check only; complex-energy spectral proof separate"|>;
+Export["/home/cosmosapjw/worktrees/bass-fa03-c8-error-budget-20261015/research/fa03_c8_error_budget_20261015/evidence/XACT_C8.json",out,"RawJSON"];
+Print[ExportString[out,"RawJSON"]];
+If[TrueQ[out["all_zero"]],Exit[0],Exit[1]];

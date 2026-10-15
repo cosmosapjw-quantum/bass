@@ -1,0 +1,669 @@
+{
+  "schema": "bass.fa03.c8.empirical_numerics_and_matched_energy.v1",
+  "source_sha256": {
+    "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+    "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+  },
+  "valid_rigorous_spectral_cert": {
+    "source_sha256": {
+      "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+      "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+    },
+    "signature": "(-,+,+,+)",
+    "detector": "any positive normal-weight real ray average within frozen FA03 cap, including original36",
+    "observer": {
+      "chi": "1/125",
+      "psi": "1/100",
+      "delta_rad": "1/50"
+    },
+    "normalized_e_interval": [
+      "49/50",
+      "51/50"
+    ],
+    "complex_energy_disk": "|e-1|<=1/2",
+    "epsilon_bound": "|epsilon|<=1/10 (real)",
+    "k_upper": "8/5",
+    "k_lower": "positive",
+    "min_real_part_absorption_factor": "33/50",
+    "P3_2x2_principal_minor": "79/400",
+    "P3_trace": "1",
+    "complex_energy_source_trace_bound": "837/200",
+    "exact_propagated_spectral_trace_bound": "837/400",
+    "time_span": "1/2",
+    "Gauss_Taylor_ratio": "1/25",
+    "trace_norm_mean_error_exact": "(837/192)*(1/25)^(2*n)",
+    "scientific_scope": "exact ODE finite-energy quadrature only; no RK4, input source, numerical quadrature weights roundoff, full angular cap, empirical atomic accuracy",
+    "not_validated": {
+      "time_RK4_global_error": null,
+      "binary64_roundoff": null,
+      "continuous_cap_angular_error": null,
+      "empirical_photoionization": null
+    }
+  },
+  "grids": [
+    [
+      3,
+      12
+    ],
+    [
+      6,
+      24
+    ],
+    [
+      10,
+      48
+    ]
+  ],
+  "epsilon": [
+    -0.1,
+    0,
+    0.1
+  ],
+  "convergence": [
+    {
+      "grid": [
+        3,
+        12
+      ],
+      "rays": 36,
+      "same_source_epoch": "FA03 fixed Kasner observer and energy band",
+      "time_reference": {
+        "steps": 1024,
+        "energy_GL": 6,
+        "status": "fine-discretization comparator, NOT exact ODE"
+      },
+      "time_refinements": [
+        {
+          "steps": 16,
+          "max_eps_error_vs_1024_same_GL6": 1.7344991466374739e-09,
+          "successive_step_difference": null,
+          "max_stokes_psd_eigen_error": 0.1261627459267165,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 32,
+          "max_eps_error_vs_1024_same_GL6": 1.0771183644420529e-10,
+          "successive_step_difference": 1.6267897875576086e-09,
+          "max_stokes_psd_eigen_error": 0.1261627466425672,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 64,
+          "max_eps_error_vs_1024_same_GL6": 6.7097771497819225e-12,
+          "successive_step_difference": 1.0100209633327128e-10,
+          "max_stokes_psd_eigen_error": 0.126162746686721,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 128,
+          "max_eps_error_vs_1024_same_GL6": 4.185527809070635e-13,
+          "successive_step_difference": 6.291224930463638e-12,
+          "max_stokes_psd_eigen_error": 0.12616274668946256,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 256,
+          "max_eps_error_vs_1024_same_GL6": 2.609448157934614e-14,
+          "successive_step_difference": 3.9245836270365656e-13,
+          "max_stokes_psd_eigen_error": 0.1261627466896335,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 512,
+          "max_eps_error_vs_1024_same_GL6": 1.5645782522982946e-15,
+          "successive_step_difference": 2.452997138667551e-14,
+          "max_stokes_psd_eigen_error": 0.1261627466896442,
+          "source_identity": "unchanged FA03"
+        }
+      ],
+      "energy_refinements": [
+        {
+          "ne": 2,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 9.152251179145311e-10,
+          "exact_ODE_energy_quadrature_bound_trace": 1.116e-05,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/25000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 3,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 8.326672684688674e-17,
+          "exact_ODE_energy_quadrature_bound_trace": 1.7856e-08,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/15625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 4,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.1102230246251565e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 2.85696e-11,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/9765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 5,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.1274368112207335e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 4.571136e-14,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/6103515625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 6,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 8.886119947416683e-17,
+          "exact_ODE_energy_quadrature_bound_trace": 7.3138176e-17,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/3814697265625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 8,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.1102230246251565e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 1.8723373056e-22,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/1490116119384765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        }
+      ],
+      "absolute_time_error_certified": null,
+      "absolute_roundoff_error_certified": null,
+      "continuous_cap_angular_error_certified": null
+    },
+    {
+      "grid": [
+        6,
+        24
+      ],
+      "rays": 144,
+      "same_source_epoch": "FA03 fixed Kasner observer and energy band",
+      "time_reference": {
+        "steps": 1024,
+        "energy_GL": 6,
+        "status": "fine-discretization comparator, NOT exact ODE"
+      },
+      "time_refinements": [
+        {
+          "steps": 16,
+          "max_eps_error_vs_1024_same_GL6": 1.7344991221511435e-09,
+          "successive_step_difference": null,
+          "max_stokes_psd_eigen_error": 0.12616274592671647,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 32,
+          "max_eps_error_vs_1024_same_GL6": 1.077117876181055e-10,
+          "successive_step_difference": 1.6267898117185456e-09,
+          "max_stokes_psd_eigen_error": 0.1261627466425672,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 64,
+          "max_eps_error_vs_1024_same_GL6": 6.709714964119673e-12,
+          "successive_step_difference": 1.010021096906819e-10,
+          "max_stokes_psd_eigen_error": 0.126162746686721,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 128,
+          "max_eps_error_vs_1024_same_GL6": 4.185281396121217e-13,
+          "successive_step_difference": 6.291187363723269e-12,
+          "max_stokes_psd_eigen_error": 0.1261627466894626,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 256,
+          "max_eps_error_vs_1024_same_GL6": 2.5971879451483907e-14,
+          "successive_step_difference": 3.925562619097238e-13,
+          "max_stokes_psd_eigen_error": 0.12616274668963345,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 512,
+          "max_eps_error_vs_1024_same_GL6": 1.4910712685182506e-15,
+          "successive_step_difference": 2.4480992977173847e-14,
+          "max_stokes_psd_eigen_error": 0.12616274668964417,
+          "source_identity": "unchanged FA03"
+        }
+      ],
+      "energy_refinements": [
+        {
+          "ne": 2,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 9.152249513810773e-10,
+          "exact_ODE_energy_quadrature_bound_trace": 1.116e-05,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/25000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 3,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.3877787807814457e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 1.7856e-08,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/15625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 4,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.665334536937735e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 2.85696e-11,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/9765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 5,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.3877787807814457e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 4.571136e-14,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/6103515625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 6,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.942890293094024e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 7.3138176e-17,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/3814697265625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 8,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.942890293094024e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 1.8723373056e-22,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/1490116119384765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        }
+      ],
+      "absolute_time_error_certified": null,
+      "absolute_roundoff_error_certified": null,
+      "continuous_cap_angular_error_certified": null
+    },
+    {
+      "grid": [
+        10,
+        48
+      ],
+      "rays": 480,
+      "same_source_epoch": "FA03 fixed Kasner observer and energy band",
+      "time_reference": {
+        "steps": 1024,
+        "energy_GL": 6,
+        "status": "fine-discretization comparator, NOT exact ODE"
+      },
+      "time_refinements": [
+        {
+          "steps": 16,
+          "max_eps_error_vs_1024_same_GL6": 1.734499188455995e-09,
+          "successive_step_difference": null,
+          "max_stokes_psd_eigen_error": 0.1261627459267165,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 32,
+          "max_eps_error_vs_1024_same_GL6": 1.0771185409942014e-10,
+          "successive_step_difference": 1.626789811878241e-09,
+          "max_stokes_psd_eigen_error": 0.12616274664256713,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 64,
+          "max_eps_error_vs_1024_same_GL6": 6.709763544476108e-12,
+          "successive_step_difference": 1.0100212766712629e-10,
+          "max_stokes_psd_eigen_error": 0.12616274668672103,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 128,
+          "max_eps_error_vs_1024_same_GL6": 4.1862604441510914e-13,
+          "successive_step_difference": 6.291138126367755e-12,
+          "max_stokes_psd_eigen_error": 0.12616274668946248,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 256,
+          "max_eps_error_vs_1024_same_GL6": 2.6093991687260556e-14,
+          "successive_step_difference": 3.925321181279604e-13,
+          "max_stokes_psd_eigen_error": 0.12616274668963354,
+          "source_identity": "unchanged FA03"
+        },
+        {
+          "steps": 512,
+          "max_eps_error_vs_1024_same_GL6": 1.5828588896845342e-15,
+          "successive_step_difference": 2.4511674880962937e-14,
+          "max_stokes_psd_eigen_error": 0.12616274668964406,
+          "source_identity": "unchanged FA03"
+        }
+      ],
+      "energy_refinements": [
+        {
+          "ne": 2,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 9.15225117914531e-10,
+          "exact_ODE_energy_quadrature_bound_trace": 1.116e-05,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/25000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 3,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 8.326672684688673e-17,
+          "exact_ODE_energy_quadrature_bound_trace": 1.7856e-08,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/15625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 4,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.1102230246251565e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 2.85696e-11,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/9765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 5,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.3877787807814457e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 4.571136e-14,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/6103515625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 6,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 1.1102230246251565e-16,
+          "exact_ODE_energy_quadrature_bound_trace": 7.3138176e-17,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/3814697265625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        },
+        {
+          "ne": 8,
+          "steps": 128,
+          "empirical_trace_difference_vs_GL24": 8.326672684688675e-17,
+          "exact_ODE_energy_quadrature_bound_trace": 1.8723373056e-22,
+          "exact_ODE_energy_quadrature_bound_fraction": "279/1490116119384765625000000",
+          "time_RK4_error_certified": false,
+          "angular_continuum_error_certified": false
+        }
+      ],
+      "absolute_time_error_certified": null,
+      "absolute_roundoff_error_certified": null,
+      "continuous_cap_angular_error_certified": null
+    }
+  ],
+  "benchmark": [
+    {
+      "rays": 36,
+      "steps": 128,
+      "epsilon": [
+        -0.1,
+        0,
+        0.1
+      ],
+      "reference_Jones_energy_order": 8,
+      "energy_choices": [
+        4,
+        5,
+        6,
+        8
+      ],
+      "repetitions": 3,
+      "measured": {
+        "real_stokes_GL4": {
+          "median_s": 0.04086197598371655,
+          "seconds": [
+            0.04123798501677811,
+            0.03715870506130159,
+            0.04086197598371655
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 2.224778752963664e-16,
+          "measured_speedup_vs_original_Jones_GL8": 4.470486497727827,
+          "measured_speedup_vs_real_GL8": 0.9900823443587813,
+          "source_locked_certified_spectral_error": 2.85696e-11,
+          "nominal_state_bytes": 13824
+        },
+        "real_stokes_GL5": {
+          "median_s": 0.03980250901076943,
+          "seconds": [
+            0.04123227403033525,
+            0.03980250901076943,
+            0.03861717402469367
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 3.3306690791986083e-16,
+          "measured_speedup_vs_original_Jones_GL8": 4.589482332791068,
+          "measured_speedup_vs_real_GL8": 1.0164364504293903,
+          "source_locked_certified_spectral_error": 4.571136e-14,
+          "nominal_state_bytes": 17280
+        },
+        "real_stokes_GL6": {
+          "median_s": 0.038737040013074875,
+          "seconds": [
+            0.03835399798117578,
+            0.03882147907279432,
+            0.038737040013074875
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 2.2899119434397566e-16,
+          "measured_speedup_vs_original_Jones_GL8": 4.715716839593995,
+          "measured_speedup_vs_real_GL8": 1.0443937111208028,
+          "source_locked_certified_spectral_error": 7.3138176e-17,
+          "nominal_state_bytes": 20736
+        },
+        "real_stokes_GL8": {
+          "median_s": 0.0404567209770903,
+          "seconds": [
+            0.0404567209770903,
+            0.043699754984118044,
+            0.03981156600639224
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 2.2825228762828677e-16,
+          "measured_speedup_vs_original_Jones_GL8": 4.515267364577742,
+          "measured_speedup_vs_real_GL8": 1.0,
+          "source_locked_certified_spectral_error": 1.8723373056e-22,
+          "nominal_state_bytes": 27648
+        },
+        "original_separate_Jones_GL8": {
+          "median_s": 0.18267291190568358,
+          "seconds": [
+            0.18133739498443902,
+            0.18267291190568358,
+            0.18296015402302146
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 0.0,
+          "nominal_state_bytes": 55296
+        }
+      },
+      "memory_scope": "nominal storage for state arrays, not full transient RSS",
+      "matched_accuracy_scope": "fixed identical RK4 step count, with separately recorded exact ODE spectral GL bound; no claimed total certified error"
+    },
+    {
+      "rays": 144,
+      "steps": 128,
+      "epsilon": [
+        -0.1,
+        0,
+        0.1
+      ],
+      "reference_Jones_energy_order": 8,
+      "energy_choices": [
+        4,
+        5,
+        6,
+        8
+      ],
+      "repetitions": 3,
+      "measured": {
+        "real_stokes_GL4": {
+          "median_s": 0.06378183991182595,
+          "seconds": [
+            0.06591163494158536,
+            0.06378183991182595,
+            0.06237868499010801
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 4.200180745301645e-16,
+          "measured_speedup_vs_original_Jones_GL8": 7.433228308922592,
+          "measured_speedup_vs_real_GL8": 1.4050738126956657,
+          "source_locked_certified_spectral_error": 2.85696e-11,
+          "nominal_state_bytes": 55296
+        },
+        "real_stokes_GL5": {
+          "median_s": 0.06821683002635837,
+          "seconds": [
+            0.0677024710457772,
+            0.07355062500573695,
+            0.06821683002635837
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 5.055878280797508e-16,
+          "measured_speedup_vs_original_Jones_GL8": 6.949970818705056,
+          "measured_speedup_vs_real_GL8": 1.3137255564503103,
+          "source_locked_certified_spectral_error": 4.571136e-14,
+          "nominal_state_bytes": 69120
+        },
+        "real_stokes_GL6": {
+          "median_s": 0.07435626396909356,
+          "seconds": [
+            0.0703789460239932,
+            0.07435626396909356,
+            0.08168592001311481
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 3.9356437313437204e-16,
+          "measured_speedup_vs_original_Jones_GL8": 6.376126942375923,
+          "measured_speedup_vs_real_GL8": 1.2052541131289758,
+          "source_locked_certified_spectral_error": 7.3138176e-17,
+          "nominal_state_bytes": 82944
+        },
+        "real_stokes_GL8": {
+          "median_s": 0.08961819298565388,
+          "seconds": [
+            0.08972374093718827,
+            0.08961819298565388,
+            0.07600097300019115
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 3.9472488206863226e-16,
+          "measured_speedup_vs_original_Jones_GL8": 5.290276028034269,
+          "measured_speedup_vs_real_GL8": 1.0,
+          "source_locked_certified_spectral_error": 1.8723373056e-22,
+          "nominal_state_bytes": 110592
+        },
+        "original_separate_Jones_GL8": {
+          "median_s": 0.47410497802775353,
+          "seconds": [
+            0.4740943080978468,
+            0.47410497802775353,
+            0.4782462150324136
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 0.0,
+          "nominal_state_bytes": 221184
+        }
+      },
+      "memory_scope": "nominal storage for state arrays, not full transient RSS",
+      "matched_accuracy_scope": "fixed identical RK4 step count, with separately recorded exact ODE spectral GL bound; no claimed total certified error"
+    },
+    {
+      "rays": 480,
+      "steps": 128,
+      "epsilon": [
+        -0.1,
+        0,
+        0.1
+      ],
+      "reference_Jones_energy_order": 8,
+      "energy_choices": [
+        4,
+        5,
+        6,
+        8
+      ],
+      "repetitions": 3,
+      "measured": {
+        "real_stokes_GL4": {
+          "median_s": 0.13909695099573582,
+          "seconds": [
+            0.13918772095348686,
+            0.13909695099573582,
+            0.1359196020057425
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 1.831867990665073e-15,
+          "measured_speedup_vs_original_Jones_GL8": 10.852213856728051,
+          "measured_speedup_vs_real_GL8": 1.343841512185121,
+          "source_locked_certified_spectral_error": 2.85696e-11,
+          "nominal_state_bytes": 184320
+        },
+        "real_stokes_GL5": {
+          "median_s": 0.15426163701340556,
+          "seconds": [
+            0.15426163701340556,
+            0.14765918091870844,
+            0.1550645800307393
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 1.9151347175095897e-15,
+          "measured_speedup_vs_original_Jones_GL8": 9.785387269638326,
+          "measured_speedup_vs_real_GL8": 1.211735208995645,
+          "source_locked_certified_spectral_error": 4.571136e-14,
+          "nominal_state_bytes": 230400
+        },
+        "real_stokes_GL6": {
+          "median_s": 0.1647142100846395,
+          "seconds": [
+            0.16489452996756881,
+            0.1647142100846395,
+            0.1559927089838311
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 1.831867990665072e-15,
+          "measured_speedup_vs_original_Jones_GL8": 9.16441792270913,
+          "measured_speedup_vs_real_GL8": 1.1348398955402637,
+          "source_locked_certified_spectral_error": 7.3138176e-17,
+          "nominal_state_bytes": 276480
+        },
+        "real_stokes_GL8": {
+          "median_s": 0.18692425696644932,
+          "seconds": [
+            0.18692425696644932,
+            0.18307947902940214,
+            0.19056944805197418
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 1.8873791418961468e-15,
+          "measured_speedup_vs_original_Jones_GL8": 8.075516166398275,
+          "measured_speedup_vs_real_GL8": 1.0,
+          "source_locked_certified_spectral_error": 1.8723373056e-22,
+          "nominal_state_bytes": 368640
+        },
+        "original_separate_Jones_GL8": {
+          "median_s": 1.509509859024547,
+          "seconds": [
+            1.4771639870014042,
+            1.509509859024547,
+            1.5843562779482454
+          ],
+          "max_tracenorm_vs_original_Jones_GL8": 0.0,
+          "nominal_state_bytes": 737280
+        }
+      },
+      "memory_scope": "nominal storage for state arrays, not full transient RSS",
+      "matched_accuracy_scope": "fixed identical RK4 step count, with separately recorded exact ODE spectral GL bound; no claimed total certified error"
+    }
+  ],
+  "replay_limitation": "Timing varies by host/other load; state numerical values/source SHAs can be compared.",
+  "numeric_roundoff_admission": null,
+  "exact_time_ODE_error_admission": null,
+  "continuous_angular_cap_certified_error": null,
+  "native_rei_abundance_scientific_admission": null,
+  "elapsed_s": 22.115384661010467
+}

@@ -1,0 +1,31 @@
+test_RK4_empirical_fourth_order (test_c8.C8ErrorTests.test_RK4_empirical_fourth_order) ... ok
+test_bad_tolerance_fails_closed (test_c8.C8ErrorTests.test_bad_tolerance_fails_closed) ... ok
+test_benchmark_matched_source_and_numerical_output (test_c8.C8ErrorTests.test_benchmark_matched_source_and_numerical_output) ... ok
+test_complex_energy_source_trace_global_envelope (test_c8.C8ErrorTests.test_complex_energy_source_trace_global_envelope) ... FAIL
+test_differentiate_exact_vs_empirical_errors (test_c8.C8ErrorTests.test_differentiate_exact_vs_empirical_errors) ... ok
+test_exact_bernstein_identity_and_integral (test_c8.C8ErrorTests.test_exact_bernstein_identity_and_integral) ... ok
+test_exact_gauss_decay (test_c8.C8ErrorTests.test_exact_gauss_decay) ... ok
+test_exact_global_manufactured_bounds (test_c8.C8ErrorTests.test_exact_global_manufactured_bounds) ... ok
+test_exact_spectral_bound_rational (test_c8.C8ErrorTests.test_exact_spectral_bound_rational) ... ok
+test_fa03_ray_contraction_physical_domain (test_c8.C8ErrorTests.test_fa03_ray_contraction_physical_domain) ... ok
+test_manufactured_error_real_decreased_under_exact_contractivity (test_c8.C8ErrorTests.test_manufactured_error_real_decreased_under_exact_contractivity) ... ok
+test_minimum_order_selection_exact (test_c8.C8ErrorTests.test_minimum_order_selection_exact) ... ok
+test_no_generic_parallel_speed_claim (test_c8.C8ErrorTests.test_no_generic_parallel_speed_claim) ... ok
+test_normalized_energy_legendre_weights_positive (test_c8.C8ErrorTests.test_normalized_energy_legendre_weights_positive) ... ok
+test_roundoff_can_exceed_tiny_exact_energy_bound (test_c8.C8ErrorTests.test_roundoff_can_exceed_tiny_exact_energy_bound) ... ok
+test_source_original_sha_bind (test_c8.C8ErrorTests.test_source_original_sha_bind) ... ok
+test_source_sha_tamper_rejected (test_c8.C8ErrorTests.test_source_sha_tamper_rejected) ... ok
+test_spectral_complex_energy_Hermitian_G_nonnegative (test_c8.C8ErrorTests.test_spectral_complex_energy_Hermitian_G_nonnegative) ... ok
+
+======================================================================
+FAIL: test_complex_energy_source_trace_global_envelope (test_c8.C8ErrorTests.test_complex_energy_source_trace_global_envelope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-fa03-c8-error-budget-20261015/research/fa03_c8_error_budget_20261015/test_c8.py", line 82, in test_complex_energy_source_trace_global_envelope
+    self.assertLess(max(b.trace_norm(X) for X in Bs),float(c.B_TRACE_BOUND)+1e-12)
+AssertionError: 4.185045378374459 not less than 4.185000000001
+
+----------------------------------------------------------------------
+Ran 18 tests in 1.112s
+
+FAILED (failures=1)
