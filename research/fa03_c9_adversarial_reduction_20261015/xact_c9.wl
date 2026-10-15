@@ -1,0 +1,30 @@
+Needs["xAct`xTensor`"];
+xAct`xTensor`$DefInfoQ=False;
+DefManifold[C9AuditM,4,{a,b,c,d,e,f}];
+DefMetric[-1,g[-a,-b],CD,{";","D"}];
+DefTensor[obs[a],C9AuditM];
+DefTensor[ray[a],C9AuditM];
+DefConstantSymbol[E0];
+DefConstantSymbol[C0];
+subs=Join@@(MakeRule[#,MetricOn->All,ContractMetrics->True]&/@{
+{obs[a]obs[-a],-1},{ray[a]ray[-a],1},{obs[a]ray[-a],0}
+});
+cn[expr_]:=FullSimplify[FixedPoint[ToCanonical[ContractMetric[Expand[#/.subs]]]&,expr,12]];
+sp[a_,b_]:=g[a,b]+obs[a]obs[b]-ray[a]ray[b];
+p[a_]:=(E0/C0)(obs[a]+ray[a]);
+vals=<|
+"ScreenTrace2"->cn[sp[a,-a]-2],
+"ObserverTransverse"->cn[sp[a,-b]obs[b]],
+"PropagationTransverse"->cn[sp[a,-b]ray[b]],
+"ProjectorSquare"->cn[sp[a,-b]sp[b,-c]-sp[a,-c]],
+"PhotonNull"->cn[p[a]p[-a]],
+"ObserverEnergyConvention"->cn[-C0 obs[-a]p[a]-E0],
+"ScreenNullP"->cn[sp[a,-b]p[b]]
+|>;
+out=<|"wolfram_version"->System`$Version,"xTensor_version"->xAct`xTensor`$Version,
+"checks"->Map[ToString[#,InputForm]&,vals],
+"all_zero"->And@@Map[#===0&,Values[vals]],
+"scope"->"Same exact frozen (-+++) normal-frame sign conventions; C9 numeric roundoff theorem is independent and not proved by xAct"|>;
+Export["/home/cosmosapjw/worktrees/bass-fa03-c9-adversarial-reduction-20261015/research/fa03_c9_adversarial_reduction_20261015/evidence/XACT_C9.json",out,"RawJSON"];
+Print[ExportString[out,"RawJSON"]];
+If[TrueQ[out["all_zero"]],Exit[0],Exit[1]];
