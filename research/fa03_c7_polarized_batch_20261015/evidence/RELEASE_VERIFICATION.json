@@ -1,0 +1,71 @@
+{
+  "schema": "bass.fa03.c7.release_verification.v1",
+  "verified_utc": "2026-10-15T01:00:16.735138+00:00",
+  "source_parent_commit": "76cfa950a6504a219365b31e9358dec9e4c05f66",
+  "selected_stage": "C7",
+  "python": "3.12.3",
+  "numpy": "2.4.2",
+  "tests": [
+    {
+      "name": "C7_physics",
+      "expected_tests": 19,
+      "passed": true,
+      "exit_code": 0,
+      "log_file": "evidence/VERIFY_C7_physics.log",
+      "log_sha256": "89f621552bfe574dd85b1db168471385e1d147b962f3231e543616f1665589c3"
+    },
+    {
+      "name": "C7_real_stokes",
+      "expected_tests": 15,
+      "passed": true,
+      "exit_code": 0,
+      "log_file": "evidence/VERIFY_C7_real_stokes.log",
+      "log_sha256": "8464ffb087b2012420f917ce467857d4db092df1f11823eaa52a7b02756aa5ca"
+    },
+    {
+      "name": "C6_inherited",
+      "expected_tests": 18,
+      "passed": true,
+      "exit_code": 0,
+      "log_file": "evidence/VERIFY_C6_inherited.log",
+      "log_sha256": "4302982a7d6f18528fcd6a8a67dc10c882fb7601236b64c661ceb5ae8db9732c"
+    },
+    {
+      "name": "C5_inherited",
+      "expected_tests": 15,
+      "passed": true,
+      "exit_code": 0,
+      "log_file": "evidence/VERIFY_C5_inherited.log",
+      "log_sha256": "60f9a0cfcecd0d26cc21d270896764ccdd4325fd27da4a52c207ac824ff3d72f"
+    }
+  ],
+  "total_passed": 67,
+  "artifact_checks": {
+    "source_sha256": {
+      "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+      "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+    },
+    "benchmark_sha256": "75af34e793de4b1a0eed7a64d6af86d71052c95dd554f996e8231d5747801e94",
+    "xact_sha256": "dfe41008e1ef9bf1b69949ad3d58bb0261a2ab7db3eb938e04030c153a275eb9",
+    "xact_groups_pass": 7,
+    "ray_cases": [
+      36,
+      144,
+      480
+    ],
+    "measured_speedups": {
+      "36": 4.811555926169884,
+      "144": 5.885175407247833,
+      "480": 8.016067110448867
+    },
+    "physical_comparisons_pass": true,
+    "fully_certified_continuum_cap_error": null
+  },
+  "native_subagents": "NOT_RUN_UNAVAILABLE",
+  "local_codex": "NOT_USED",
+  "rei_owner_files_mutated": 0,
+  "rei_solver_jobs_launched": 0,
+  "science_status": "PASS_SCOPED_FIXED_FA03_NON_GREY_POLARIZED_TRANSPORT_ONLY",
+  "next_stage": "C8_READY_NOT_RUN",
+  "log_formatting_normalization": "terminal blank-line trimming only; original test records, commands and exit codes remain unchanged"
+}

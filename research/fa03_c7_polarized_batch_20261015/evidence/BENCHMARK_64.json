@@ -1,0 +1,221 @@
+{
+  "schema": "bass.fa03.c7.real_benchmark.v1",
+  "python": "3.12.3",
+  "numpy": "2.4.2",
+  "original_source_sha256": {
+    "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+    "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+  },
+  "repetitions": 3,
+  "cases": [
+    {
+      "nr": 3,
+      "nphi": 12,
+      "rays": 36,
+      "steps": 64,
+      "ne": 8,
+      "eps": [
+        -0.1,
+        0.0,
+        0.1
+      ],
+      "parallel_ray_chunks": 4,
+      "chunk_max_rays": 9,
+      "state_bytes_batch_unpartitioned": 55296,
+      "state_bytes_per_ray_chunk": 13824,
+      "time": {
+        "original_separate_eps": {
+          "median_s": 0.09846397896762937,
+          "repeat_s": [
+            0.09851610695477575,
+            0.09846397896762937,
+            0.09659867198206484
+          ],
+          "max_disagreement_vs_source": null
+        },
+        "fused_batched_eps": {
+          "median_s": 0.04945559601765126,
+          "repeat_s": [
+            0.05114799703005701,
+            0.04945559601765126,
+            0.04919627704657614
+          ],
+          "max_disagreement_vs_source": 3.333568052978276e-16,
+          "speedup_vs_original": 1.9909572807996585
+        },
+        "fused_chunked_serial": {
+          "median_s": 0.10585871990770102,
+          "repeat_s": [
+            0.10493310505989939,
+            0.10585871990770102,
+            0.14463363005779684
+          ],
+          "max_disagreement_vs_source": 3.0562854245305707e-16,
+          "speedup_vs_single_batch": 0.46718490513367206
+        },
+        "fused_thread2": {
+          "median_s": 0.1334219629643485,
+          "repeat_s": [
+            0.16346346901264042,
+            0.1334219629643485,
+            0.1296708609443158
+          ],
+          "max_disagreement_vs_source": 3.0562854245305707e-16,
+          "speedup_vs_single_batch": 0.3706705771587713
+        },
+        "fused_thread4": {
+          "median_s": 0.13149227504618466,
+          "repeat_s": [
+            0.13149227504618466,
+            0.13417016400489956,
+            0.11867892905138433
+          ],
+          "max_disagreement_vs_source": 3.0562854245305707e-16,
+          "speedup_vs_single_batch": 0.37611027720282986
+        }
+      }
+    },
+    {
+      "nr": 6,
+      "nphi": 24,
+      "rays": 144,
+      "steps": 64,
+      "ne": 8,
+      "eps": [
+        -0.1,
+        0.0,
+        0.1
+      ],
+      "parallel_ray_chunks": 4,
+      "chunk_max_rays": 36,
+      "state_bytes_batch_unpartitioned": 221184,
+      "state_bytes_per_ray_chunk": 55296,
+      "time": {
+        "original_separate_eps": {
+          "median_s": 0.26608408405445516,
+          "repeat_s": [
+            0.272973540937528,
+            0.25293831003364176,
+            0.26608408405445516
+          ],
+          "max_disagreement_vs_source": null
+        },
+        "fused_batched_eps": {
+          "median_s": 0.2160682009998709,
+          "repeat_s": [
+            0.19322969508357346,
+            0.2469289710279554,
+            0.2160682009998709
+          ],
+          "max_disagreement_vs_source": 5.551561987262181e-16,
+          "speedup_vs_original": 1.2314819247956534
+        },
+        "fused_chunked_serial": {
+          "median_s": 0.21174484002403915,
+          "repeat_s": [
+            0.2293559319805354,
+            0.21174484002403915,
+            0.19922009797301143
+          ],
+          "max_disagreement_vs_source": 5.551672950339826e-16,
+          "speedup_vs_single_batch": 1.020417786687699
+        },
+        "fused_thread2": {
+          "median_s": 0.3248684060527012,
+          "repeat_s": [
+            0.3605521690333262,
+            0.3248684060527012,
+            0.3213744390523061
+          ],
+          "max_disagreement_vs_source": 5.551672950339826e-16,
+          "speedup_vs_single_batch": 0.6650945335842219
+        },
+        "fused_thread4": {
+          "median_s": 0.4383530210470781,
+          "repeat_s": [
+            0.3916318919509649,
+            0.4383530210470781,
+            0.49224274698644876
+          ],
+          "max_disagreement_vs_source": 5.551672950339826e-16,
+          "speedup_vs_single_batch": 0.4929091180522871
+        }
+      }
+    },
+    {
+      "nr": 10,
+      "nphi": 48,
+      "rays": 480,
+      "steps": 64,
+      "ne": 8,
+      "eps": [
+        -0.1,
+        0.0,
+        0.1
+      ],
+      "parallel_ray_chunks": 4,
+      "chunk_max_rays": 120,
+      "state_bytes_batch_unpartitioned": 737280,
+      "state_bytes_per_ray_chunk": 184320,
+      "time": {
+        "original_separate_eps": {
+          "median_s": 0.7695743719814345,
+          "repeat_s": [
+            0.9101278790039942,
+            0.761377559043467,
+            0.7695743719814345
+          ],
+          "max_disagreement_vs_source": null
+        },
+        "fused_batched_eps": {
+          "median_s": 0.8313580680405721,
+          "repeat_s": [
+            0.8007523800479248,
+            0.8313580680405721,
+            0.9197160840267316
+          ],
+          "max_disagreement_vs_source": 9.159339953157541e-16,
+          "speedup_vs_original": 0.9256834107537375
+        },
+        "fused_chunked_serial": {
+          "median_s": 0.7280668679159135,
+          "repeat_s": [
+            0.726811722968705,
+            0.8139245809288695,
+            0.7280668679159135
+          ],
+          "max_disagreement_vs_source": 9.159408325635495e-16,
+          "speedup_vs_single_batch": 1.1418704856331796
+        },
+        "fused_thread2": {
+          "median_s": 1.2088374240556732,
+          "repeat_s": [
+            1.3063236689195037,
+            1.2088374240556732,
+            1.0406026610871777
+          ],
+          "max_disagreement_vs_source": 9.159408325635495e-16,
+          "speedup_vs_single_batch": 0.6877335624267402
+        },
+        "fused_thread4": {
+          "median_s": 1.7132137599401176,
+          "repeat_s": [
+            1.660131347947754,
+            1.7132137599401176,
+            1.7688739310251549
+          ],
+          "max_disagreement_vs_source": 9.159408325635495e-16,
+          "speedup_vs_single_batch": 0.4852623107986424
+        }
+      }
+    }
+  ],
+  "performance_scope": "actual warmed per-case median wall time, same source and checked physical output; excludes setup external Git and comparison test costs",
+  "parallel_scope": "ThreadPoolExecutor actual disjoint deterministic ray partitions, NumPy memory buffers, not multiprocessing native solver",
+  "memory_scope": "state-array nominal bytes only, not peak RSS",
+  "claim_gate": {
+    "native_REI_speedup": null,
+    "whole_BASS_solver_speedup": null,
+    "rigorous_error_bound": null
+  }
+}
