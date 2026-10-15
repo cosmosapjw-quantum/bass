@@ -1,8 +1,8 @@
 # BASS PR164: self-consistent massive Einstein–Vlasov tangent
 
-2026-10-16 KST. Source parent: BASS PR163 \`9ea46052358ba3e190317347d7f0001bab23c398\`. This isolated research addition implements **one new missing stage**: nonlinear LRS Bianchi-I Einstein evolution of the source-normalized massive FD96 species together with an analytic first-order sensitivity to its initial angular quadrupole amplitude \(A\). The radiation background is **isotropic and prescribed**; no native REI H/He chemistry, gamma/nu multipole evolution, E/B Thomson or stellar radiation is included. No merge into production.
+2026-10-16 KST. Source parent: BASS PR163 `9ea46052358ba3e190317347d7f0001bab23c398`. This isolated research addition implements **one new missing stage**: nonlinear LRS Bianchi-I Einstein evolution of the source-normalized massive FD96 species together with an analytic first-order sensitivity to its initial angular quadrupole amplitude \(A\). The radiation background is **isotropic and prescribed**; no native REI H/He chemistry, gamma/nu multipole evolution, E/B Thomson or stellar radiation is included. No merge into production.
 
-The original \`bianchi/matter/freestream.py\` Gauss–Legendre FD96 + GL32 quadrature rule is **reconstructed from its formula** (Git blob \`8467932c3281f9d426712b3a582f2aae3a484692\`), not imported or byte-copied. It reproduces the previously published \(m/T_{\rm ref}=30\) source normalization \(\mathcal N=54.478197513209125\). AX03 cosmology/time source: frozen \`REI_BACKGROUND_FAMILY_LOCK.json\` Git blob \`7bfd190fe4cc722c2813c70e036d0279a0d83641\`; \(a_{\rm ref}=1/21\), \(a_{\rm end}=1/5\), signature \((-+++)\).
+The original `bianchi/matter/freestream.py` Gauss–Legendre FD96 + GL32 quadrature rule is **reconstructed from its formula** (Git blob `8467932c3281f9d426712b3a582f2aae3a484692`), not imported or byte-copied. It reproduces the previously published \(m/T_{\rm ref}=30\) source normalization \(\mathcal N=54.478197513209125\). AX03 cosmology/time source: frozen `REI_BACKGROUND_FAMILY_LOCK.json` Git blob `7bfd190fe4cc722c2813c70e036d0279a0d83641`; \(a_{\rm ref}=1/21\), \(a_{\rm end}=1/5\), signature \((-+++)\).
 
 With \(x=\ln(a/a_{\rm ref})\), \(s=\dot b\), \(\Sigma=\sqrt3|s|/H\), \(v=s/H_{\rm ref}\), \(T=H_{\rm ref}t_{\rm elapsed}\), \(C_m=\Omega_m f_m/a_{\rm ref}^3\), the **source-owned** dynamics is
 
@@ -30,14 +30,14 @@ An important reference correction: \(A=0\), \(s=0\) yields an **isotropic kineti
 
 ## Reproduction
 
-\`\`\`bash
+```bash
 cd research/rei_einstein_tangent_20261016
 OPENBLAS_NUM_THREADS=1 python3 -m unittest -v test_kinetic_tangent test_export_bridge
 OPENBLAS_NUM_THREADS=1 python3 run_campaign.py --out /tmp/bass_pr164_campaign.json
 OPENBLAS_NUM_THREADS=1 python3 export_rei_bridge.py --out /tmp/bass_pr164_rei_table --points 121
-\`\`\`
+```
 
-The proposed \`REI_HANDOFF.json\` explicitly distinguishes signed \`s/H\` from \(\Sigma\) and does not assert Rust type validation or native REI adoption. A complete source/output/evidence archive is backed up to the user's Google Drive \`BASS_BACKUPS/BASS_PR164_Einstein_Vlasov_Tangent_20261016.zip\` and ChatGPT Library \`/BASS/BASS_PR164_Einstein_Vlasov_Tangent_20261016.zip\`, with independently downloaded archive/SHA-256 byte checks. Main/full original BASS PR163, REI PR150/152, BASS_HE PR66 and bass_cr PR72 are not mutated.
+The proposed `REI_HANDOFF.json` explicitly distinguishes signed `s/H` from \(\Sigma\) and does not assert Rust type validation or native REI adoption. A complete source/output/evidence archive is backed up to the user's Google Drive `BASS_BACKUPS/BASS_PR164_Einstein_Vlasov_Tangent_20261016.zip` and ChatGPT Library `/BASS/BASS_PR164_Einstein_Vlasov_Tangent_20261016.zip`, with independently downloaded archive/SHA-256 byte checks. Main/full original BASS PR163, REI PR150/152, BASS_HE PR66 and bass_cr PR72 are not mutated.
 
 **Admission:** derived, Python-implementation-verified, numerically checked **only** for this LRS massive/cold-dust/isotropic-radiation system and proposed typed-table boundary. Not a source-locked all-species CMB/chemistry Einstein production solver. Next: owner-approved opt-in native geometry supplier and source-versioned fresh H/He checkpoint, ensuring photon/gas/matter four-momentum ledgers before EoR admission.
 
