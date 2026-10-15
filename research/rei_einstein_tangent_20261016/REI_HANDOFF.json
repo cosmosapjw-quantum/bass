@@ -1,0 +1,36 @@
+{
+  "schema": "bass.rei.einstein_vlasov_tangent_handoff.v1",
+  "date": "2026-10-16 KST",
+  "parent_bass_pr": 163,
+  "parent_commit": "9ea46052358ba3e190317347d7f0001bab23c398",
+  "source_authority": {
+    "freestream_git_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
+    "ax03_lock_git_blob": "7bfd190fe4cc722c2813c70e036d0279a0d83641",
+    "identity_type": "SOURCE_FORMULA_RECONSTRUCTION_NOT_BYTE_COPY",
+    "FD96_m30_norm": 54.478197513209125
+  },
+  "state": ["b", "v_signed=s/Href", "tau_dimensionless=Href*proper_elapsed_s", "partial_A_b", "partial_A_v", "partial_A_tau"],
+  "input_bounds": {
+    "a_ref": 0.047619047619047616, "a_end": 0.2,
+    "mass_over_Tref": "3 to 1e5", "A": "-1 to +2", "fm": "0..(Omega_m-Omega_b)/Omega_m", "Sigma_ref": "0..0.07", "metric": "(-,+,+,+), LRS Bianchi I"
+  },
+  "proposed_receiver": {
+    "csv": "bridge_campaign/PROPOSED_REI_BACKGROUND.csv",
+    "manifest": "bridge_campaign/PRODUCER_RECEIPT.json",
+    "rows": 968,
+    "native_rust_type_checked": false,
+    "native_chemistry_adopted": false,
+    "requires_fresh_checkpoint": true,
+    "signed_shear_not_equal_Sigma": true
+  },
+  "verification": {
+    "container_python_tests": 14,
+    "container_python_status": "PASS",
+    "full_gamma_neutrino_hierarchy": "NOT_IMPLEMENTED",
+    "xact_current_turn": "NOT_RUN",
+    "wolfram_symbolic_four_checks": "ZERO",
+    "NCP_current_turn": "BLOCKED_DESKTOP_COMMANDER_QUOTA",
+    "native_subagent": "NOT_RUN_NO_NATIVE_DELEGATION"
+  },
+  "next_stage": "source-versioned opt-in native rei_microphysics supplier and same-clock HHe trial with four-momentum audit"
+}
