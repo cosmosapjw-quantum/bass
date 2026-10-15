@@ -1,0 +1,60 @@
+{
+  "schema": "bass.fa03.c9.measured_peak_allocation.v1",
+  "rows": [
+    {
+      "rays": 36,
+      "method": "einsum",
+      "tracemalloc_peak_bytes": 15893,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 36,
+      "method": "pairwise",
+      "tracemalloc_peak_bytes": 77048,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 36,
+      "method": "math_fsum",
+      "tracemalloc_peak_bytes": 171434,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 144,
+      "method": "einsum",
+      "tracemalloc_peak_bytes": 57365,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 144,
+      "method": "pairwise",
+      "tracemalloc_peak_bytes": 302936,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 144,
+      "method": "math_fsum",
+      "tracemalloc_peak_bytes": 661257,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 480,
+      "method": "einsum",
+      "tracemalloc_peak_bytes": 186389,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 480,
+      "method": "pairwise",
+      "tracemalloc_peak_bytes": 628728,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    },
+    {
+      "rays": 480,
+      "method": "math_fsum",
+      "tracemalloc_peak_bytes": 2185450,
+      "scope": "math_fsum includes full physical time solver; other two reduction only"
+    }
+  ],
+  "notes": "tracemalloc not whole RSS; math_fsum includes full solver so compare only einsum vs pairwise within pre-solved state"
+}

@@ -1,0 +1,152 @@
+{
+  "schema": "bass.fa03.c9.actual_audit_results.v1",
+  "date_utc": "2026-10-15T04:12:49.641309+00:00",
+  "parent_source_commit": "6812bac3148afa292189f0bdec3e5994a5b892b0",
+  "physical_source_sha256": {
+    "fa02.py": "1e89e75f7a08d2eec1851a58e602c2683b1888a37b3e1fe10b1be4234756eee5",
+    "fa03.py": "ad865127da7c2f9ea613541571f9b842f9da7630af9bb951a3df5968ad44ecf7"
+  },
+  "source_immutable": true,
+  "corrected_finding": {
+    "id": "C9-F01",
+    "object": "C8 aggregation_roundoff gamma_N claim for opaque einsum with triple product",
+    "reproducible_failure": "binary64 exact-dyadic triple-product n1 error greater than gamma1",
+    "status": "FIXED_NEW_SCOPED_PATH; OLD_C8_OPAQUE_EINSUM_NOT_ADMITTED",
+    "positive_exact_witness": {
+      "ray_weight": 0.9412270713189991,
+      "energy_weight": 0.5406840691765105,
+      "stokes_sample": 0.3222052946869389,
+      "relative_rounding_error": "93984357203585759167554104969/624077805847433095029197190585688951419720055",
+      "relative_rounding_error_over_unit_u": 1.3564588008572758,
+      "incorrect_old_gamma_1": "1/9007199254740991",
+      "corrected_2_multiply_gamma_2": "1/4503599627370495",
+      "old_claim_refuted": true
+    },
+    "replacement_error_model": "balanced tree with two products per term and ceil(log2N) additions; exact supplied binary64 input weights and inputs, no entire solver error"
+  },
+  "retained_C8_spectral_theorem": "(41931/9600)*(1/25)**(2*n), exact continuous-time F on frozen real rays; model-specific",
+  "independent_spectral_tests": {
+    "dps": 70,
+    "cases": [
+      [
+        "1.0",
+        "-0.1"
+      ],
+      [
+        "1.3",
+        "0.1"
+      ],
+      [
+        "1.615",
+        "0.1"
+      ]
+    ],
+    "tested_gl_cases": 18,
+    "pass_all": true,
+    "time_varying_FA03_independent_highprecision": "NOT_RUN"
+  },
+  "host_python": "3.12.3",
+  "host_numpy": "2.4.2",
+  "host_mpmath": "1.3.0",
+  "native_wolfram_xact": {
+    "version": "15.0.0 for Linux x86 (64-bit) (May 26, 2026)",
+    "checks": 7,
+    "zeros": true
+  },
+  "Wolfram_cloud_C9": {
+    "version": "15.0.1",
+    "complex_hermitian_generator_zero": true,
+    "observer_inequalities": [
+      true,
+      true
+    ],
+    "exact_gl4_bound": "13977/488281250000000",
+    "corrected_binary64_pairwise_depth_480_GL4": 11,
+    "corrected_binary64_pairwise_total_roundings_480_GL4": 13
+  },
+  "measured_actual": {
+    "36": {
+      "whole_solver_times_s": {
+        "legacy_C7_real": 0.038198073976673186,
+        "C9_pairwise": 0.04022885498125106,
+        "C9_math_fsum": 0.04383635404519737
+      },
+      "reducer_time_s": {
+        "numpy_einsum": 4.801107570528984e-05,
+        "pairwise_numpy": 4.836102016270161e-05,
+        "math_fsum": 0.00013408297672867775
+      },
+      "exact_fraction_roundoff_abs_stokes": {
+        "numpy_einsum": 2.3263972975284854e-17,
+        "pairwise_numpy": 5.025918512884681e-17,
+        "math_fsum": 2.3263972975284854e-17
+      },
+      "new_conditional_pre_reconstruction_trace_bound": 2.326281171226616e-15
+    },
+    "144": {
+      "whole_solver_times_s": {
+        "legacy_C7_real": 0.06725237192586064,
+        "C9_pairwise": 0.06683771999087185,
+        "C9_math_fsum": 0.08672010898590088
+      },
+      "reducer_time_s": {
+        "numpy_einsum": 4.780001472681761e-05,
+        "pairwise_numpy": 9.278510697185993e-05,
+        "math_fsum": 0.0003781740088015795
+      },
+      "exact_fraction_roundoff_abs_stokes": {
+        "numpy_einsum": 4.387243539046441e-17,
+        "pairwise_numpy": 1.2946608012188814e-17,
+        "math_fsum": 1.2946608012188814e-17
+      },
+      "new_conditional_pre_reconstruction_trace_bound": 2.791552573322566e-15
+    },
+    "480": {
+      "whole_solver_times_s": {
+        "legacy_C7_real": 0.15361829206813127,
+        "C9_pairwise": 0.1701534759486094,
+        "C9_math_fsum": 0.15656405198387802
+      },
+      "reducer_time_s": {
+        "numpy_einsum": 7.054302841424942e-05,
+        "pairwise_numpy": 0.00024785695131868124,
+        "math_fsum": 0.0012014269595965743
+      },
+      "exact_fraction_roundoff_abs_stokes": {
+        "numpy_einsum": 4.779090536818744e-17,
+        "pairwise_numpy": 3.681984721741117e-17,
+        "math_fsum": 1.869130401384666e-17
+      },
+      "new_conditional_pre_reconstruction_trace_bound": 3.02418776455291e-15
+    }
+  },
+  "thread_benchmark": {
+    "36": {
+      "1": 5.402206443250179e-05,
+      "2": 0.0005715889856219292,
+      "3": 0.0005173860117793083
+    },
+    "144": {
+      "1": 9.798503015190363e-05,
+      "2": 0.0005994909442961216,
+      "3": 0.0006018260028213263
+    },
+    "480": {
+      "1": 0.0002077319659292698,
+      "2": 0.0006080570165067911,
+      "3": 0.0007926259422674775
+    }
+  },
+  "new_tests_passed": 24,
+  "inherited_C5_to_C8_tests_passed": 90,
+  "total_tests_passed": 114,
+  "REI_latest_read_head": "e4db1ba1a8c22c7e443650fd4f51d8a3c31a4b1e",
+  "REI_science_goal_status": "IN_PROGRESS",
+  "REI_scientific_admission": "NOT_ISSUED",
+  "REI_repo_mutated": false,
+  "native_REI_solver_started": false,
+  "native_subagents": "NOT_RUN_TOOLS_UNEXPOSED",
+  "local_codex": "NOT_USED",
+  "external_independent_scientist_review": "NOT_RUN",
+  "original_R8_fixed36_theorem": "UNCHANGED"
+}
