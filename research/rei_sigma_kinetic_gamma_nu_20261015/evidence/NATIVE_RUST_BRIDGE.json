@@ -1,0 +1,44 @@
+{
+  "schema": "bass.rei.axbi.gamma_nu_massive_native_bridge.v1",
+  "original_Rust_AXBI_sha256": "65f10dced178aa85bb1c92da0b35350a0eec2d3d3de05630c900b5df4ec1e254",
+  "original_Rust_geometry_sha256": "0c0bb17168b36a67af6e3e2a3ada835bc77db3dbc73d06e13075f6019ec11289",
+  "native_bridge_rust_source_sha256": "61536d70de25fb3c992adf2b9bf54373076266fc5417886547b293bf456ffb74",
+  "public_background_csv_sha256": "bb1753f5f9e70bdce22f0f1f1e7f68426510c9786a4e102993030e6b2fa914a7",
+  "original_user_REI_source_git_head": "0fcb2dddf5de6b583c2e00f150abff0b2afb6315",
+  "cargo_original_Rust_rei_microphysics_type_check": true,
+  "cargo_positive_exit_code": 0,
+  "physical_checker_output": {
+    "schema": "rei.axbi.gamma_nu_massive_real_Rust_bridge.v1",
+    "rows": 3208,
+    "cases": 8,
+    "max_constraint_relative": 3.3306690738754696e-16,
+    "max_sigma_absolute": 0.0,
+    "source": "real rei_microphysics BackgroundPoint geometry",
+    "native_source_chemistry_changed": false
+  },
+  "negative_inputs": [
+    {
+      "mutated_field": "H_mean_per_s",
+      "rejection": "AXBI_JOINT_KINETIC_REJECT:EINSTEIN_HAMILTONIAN",
+      "exit_code": 3
+    },
+    {
+      "mutated_field": "pi_massive_J_m3",
+      "rejection": "AXBI_JOINT_KINETIC_REJECT:TENSOR_PI_SUM",
+      "exit_code": 3
+    },
+    {
+      "mutated_field": "Sigma",
+      "rejection": "AXBI_JOINT_KINETIC_REJECT:SIGMA_SHEAR_CONVENTION",
+      "exit_code": 3
+    },
+    {
+      "mutated_field": "gamma_number_N0",
+      "rejection": "AXBI_JOINT_KINETIC_REJECT:NUMBER_CONSERVATION",
+      "exit_code": 3
+    }
+  ],
+  "original_source_checkout_mutated": false,
+  "actual_native_chemistry_Einstein_solver_modified": false,
+  "science_source_model": "initial Sigma+gamma+masslessnu+FD96 massive, one-way actual AX08 electron opacity"
+}

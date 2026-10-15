@@ -1,0 +1,209 @@
+{
+  "schema": "bass.rei.axbi.gamma_nu_massive_actual_parallel_bench.v1",
+  "n_cases": 12,
+  "case_params": [
+    {
+      "Sigma_ref": 0.0,
+      "orientation": 0,
+      "kappa_gamma": 0.0,
+      "kappa_nu": -0.1,
+      "massive_fraction": 0.2,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.008660145786698617,
+      "orientation": 1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": -0.25,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.008660145786698617,
+      "orientation": -1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.2,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.017319642115231484,
+      "orientation": 1,
+      "kappa_gamma": 0.0,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.017319642115231484,
+      "orientation": -1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": -0.1,
+      "massive_fraction": 0.2,
+      "massive_A": -0.25,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.0,
+      "orientation": 0,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.008660145786698617,
+      "orientation": 1,
+      "kappa_gamma": 0.0,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.2,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.008660145786698617,
+      "orientation": -1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": -0.25,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.017319642115231484,
+      "orientation": 1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": -0.1,
+      "massive_fraction": 0.2,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.017319642115231484,
+      "orientation": -1,
+      "kappa_gamma": 0.0,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.0,
+      "orientation": 0,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.2,
+      "massive_A": -0.25,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    },
+    {
+      "Sigma_ref": 0.008660145786698617,
+      "orientation": 1,
+      "kappa_gamma": 0.2,
+      "kappa_nu": 0.2,
+      "massive_fraction": 0.1,
+      "massive_A": 0.5,
+      "m_over_Tref": 30.0,
+      "ellmax": 8
+    }
+  ],
+  "serial": {
+    "wall_median_s": 0.6644043000414968,
+    "repeat_s": [
+      0.7172361159464344,
+      0.6644043000414968,
+      0.6584533010609448
+    ]
+  },
+  "process": [
+    {
+      "workers": 2,
+      "wall_median_s": 0.470704321982339,
+      "samples_s": [
+        0.4120457220124081,
+        0.470704321982339,
+        0.4818335199961439
+      ],
+      "max_abs_endpoint_disagreement_vs_single": 0.0,
+      "speedup_vs_serial": 1.4115109401235229
+    },
+    {
+      "workers": 4,
+      "wall_median_s": 0.29172433994244784,
+      "samples_s": [
+        0.3121004869462922,
+        0.2891387529671192,
+        0.29172433994244784
+      ],
+      "max_abs_endpoint_disagreement_vs_single": 0.0,
+      "speedup_vs_serial": 2.2775072528146683
+    }
+  ],
+  "moment_1024": {
+    "n": 1024,
+    "BASS_FD_radial": 96,
+    "GL_angular": 32,
+    "comparisons": {
+      "scalar_1024": {
+        "median_s": 0.07357558805961162,
+        "repeats_s": [
+          0.07938129303511232,
+          0.07357558805961162,
+          0.07284092996269464
+        ],
+        "max_abs_vs_chunked128": 0.0,
+        "tracemalloc_peak_bytes": 322812
+      },
+      "full_array_1024": {
+        "median_s": 0.09872791403904557,
+        "repeats_s": [
+          0.09872791403904557,
+          0.07569609605707228,
+          0.10144563007634133
+        ],
+        "max_abs_vs_chunked128": 0.0,
+        "tracemalloc_peak_bytes": 101600144
+      },
+      "chunked128_1024": {
+        "median_s": 0.01929731690324843,
+        "repeats_s": [
+          0.021620098035782576,
+          0.01929731690324843,
+          0.01725806202739477
+        ],
+        "max_abs_vs_chunked128": 0.0,
+        "tracemalloc_peak_bytes": 12817320
+      },
+      "chunked64_1024": {
+        "median_s": 0.019354867050424218,
+        "repeats_s": [
+          0.018167210975661874,
+          0.020145341055467725,
+          0.019354867050424218
+        ],
+        "max_abs_vs_chunked128": 0.0,
+        "tracemalloc_peak_bytes": 6472104
+      }
+    }
+  },
+  "actual_scope": "same BASS FD96 and REI gamma/nu source, real DOP853 12 independent cases or only massive moments, no coupled HHe native solver speedup",
+  "hardware_claim": "one observed authorized Ubuntu CPU, timing includes per-call process-pool lifecycle",
+  "native_chatgpt_subagents": "NOT_RUN_UNEXPOSED",
+  "total_wall_s": 7.160669794073328
+}

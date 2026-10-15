@@ -1,0 +1,33 @@
+Needs["xAct`xTensor`"];
+xAct`xTensor`$DefInfoQ=False;
+DefManifold[GAMMANUVLASOV,4,{a,b,c,d,e,f}];
+DefMetric[-1,g[-a,-b],CD,{";","D"}];
+DefTensor[uu[a],GAMMANUVLASOV];
+DefTensor[zz[a],GAMMANUVLASOV];
+DefTensor[nn[a],GAMMANUVLASOV];
+DefConstantSymbol[sh];DefConstantSymbol[pp];DefConstantSymbol[mu];
+rules=Join@@(MakeRule[#,MetricOn->All,ContractMetrics->True]&/@{
+ {uu[a]uu[-a],-1},{zz[a]zz[-a],1},{nn[a]nn[-a],1},
+ {uu[a]zz[-a],0},{uu[a]nn[-a],0},{zz[a]nn[-a],mu}});
+cn[x_]:=FullSimplify[FixedPoint[ToCanonical[ContractMetric[Expand[#/.rules]]]&,x,12]];
+h[a_,b_]:=g[a,b]+uu[a]uu[b];
+s0[a_,b_]:=sh(3zz[a]zz[b]-h[a,b]);
+p0[a_,b_]:=pp(3zz[a]zz[b]-h[a,b]);
+vals=<|
+ "shear_tracefree"->cn[s0[a,b]h[-a,-b]],
+ "pi_tracefree"->cn[p0[a,b]h[-a,-b]],
+ "shear_half_norm"->cn[s0[a,b]s0[-a,-b]/2-3sh^2],
+ "stress_LRS_half_norm"->cn[p0[a,b]p0[-a,-b]/2-3pp^2],
+ "stress_shear_work"->cn[s0[a,b]p0[-a,-b]-6sh pp],
+ "angular_Pi_contraction"->cn[p0[a,b]nn[-a]nn[-b]-pp(3mu^2-1)],
+ "axis_longitudinal_Pi"->cn[p0[a,b]zz[-a]zz[-b]-2pp],
+ "axis_longitudinal_s"->cn[s0[a,b]zz[-a]zz[-b]-2sh]
+|>;
+out=<|"wolfram_version"->System`$Version,
+ "xTensor_version"->xAct`xTensor`$Version,
+ "checks"->Map[ToString[#,InputForm]&,vals],
+ "all_zero"->And@@Map[#===0&,Values[vals]],
+ "scope"->"non-tilted Bianchi I, exact comoving shear and gamma+nu+FD Pi tensor normalization, no sourced full Einstein geometry theorem"|>;
+Export["/home/cosmosapjw/worktrees/bass-rei-sigma-massive-gamnu-20261015/research/rei_sigma_kinetic_gamma_nu_20261015/evidence/XACT_JOINT.json",out,"RawJSON"];
+Print[ExportString[out,"RawJSON"]];
+If[TrueQ[out["all_zero"]],Exit[0],Exit[1]];
