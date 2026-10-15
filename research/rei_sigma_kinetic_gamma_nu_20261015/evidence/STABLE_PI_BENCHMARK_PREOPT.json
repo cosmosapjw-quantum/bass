@@ -1,0 +1,82 @@
+{
+  "schema": "bass.rei.stable_pi.matched_component_benchmark.v1",
+  "n": 1024,
+  "angular_nodes": 32,
+  "radial_nodes": 96,
+  "mass_over_Tref": 30.0,
+  "angular_initial_A": 0.5,
+  "max_abs_energy_pressure_parity": 3.3306690738754696e-16,
+  "max_abs_delta_pi_legacy_vs_stable_on_finite_b": 1.734723475976807e-17,
+  "tiny_b_sign_control": [
+    {
+      "b": 0.0,
+      "legacy": 1.0299920638612292e-18,
+      "stable": 0.0
+    },
+    {
+      "b": 1e-16,
+      "legacy": 7.589415207398531e-19,
+      "stable": -2.323484613627355e-19
+    },
+    {
+      "b": 1e-14,
+      "legacy": -2.2171934427328566e-17,
+      "stable": -2.3234846136273322e-17
+    },
+    {
+      "b": 1e-12,
+      "legacy": -2.3223610534639505e-15,
+      "stable": -2.3234846136250434e-15
+    },
+    {
+      "b": 1e-10,
+      "legacy": -2.323474529095093e-13,
+      "stable": -2.3234846133961316e-13
+    }
+  ],
+  "methods": {
+    "legacy_chunk32": {
+      "median_s": 0.017238070955500007,
+      "minimum_s": 0.017089881002902985,
+      "peak_python_trace_bytes": 3299496,
+      "repeats": 7
+    },
+    "legacy_chunk128": {
+      "median_s": 0.05834447999950498,
+      "minimum_s": 0.05558809998910874,
+      "peak_python_trace_bytes": 12817320,
+      "repeats": 7
+    },
+    "stable_chunk16": {
+      "median_s": 0.0345216270070523,
+      "minimum_s": 0.033857304020784795,
+      "peak_python_trace_bytes": 2927392,
+      "repeats": 7
+    },
+    "stable_chunk32": {
+      "median_s": 0.03145633405074477,
+      "minimum_s": 0.030464111943729222,
+      "peak_python_trace_bytes": 5725600,
+      "repeats": 7
+    },
+    "stable_chunk64": {
+      "median_s": 0.03769021399784833,
+      "minimum_s": 0.03545632993336767,
+      "peak_python_trace_bytes": 11322016,
+      "repeats": 7
+    },
+    "stable_chunk128": {
+      "median_s": 0.08848385908640921,
+      "minimum_s": 0.07591549807693809,
+      "peak_python_trace_bytes": 22514848,
+      "repeats": 7
+    },
+    "stable_chunk256": {
+      "median_s": 0.06466516410000622,
+      "minimum_s": 0.05909743998199701,
+      "peak_python_trace_bytes": 44900536,
+      "repeats": 7
+    }
+  },
+  "scope": "FD96 source vectorized component only; benchmark deliberately excludes native HHe chemistry and data IO"
+}

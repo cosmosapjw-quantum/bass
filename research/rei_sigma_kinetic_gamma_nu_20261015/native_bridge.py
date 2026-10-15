@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 OWN_REI_SHA="65f10dced178aa85bb1c92da0b35350a0eec2d3d3de05630c900b5df4ec1e254"
 OWN_GEOMETRY_SHA="0c0bb17168b36a67af6e3e2a3ada835bc77db3dbc73d06e13075f6019ec11289"
 
-def run(repo:Path,output:Path,target:Path):
+def run(repo:Path,output:Path,target:Path,*,csv_input:Path|None=None):
     if output.exists():raise FileExistsError(output)
     verify_original_sources()
     repo=repo.resolve();target=target.resolve()
@@ -18,8 +18,14 @@ def run(repo:Path,output:Path,target:Path):
         p=crate/"src"/file
         if sha256_file(p)!=sha:raise RuntimeError("ORIGINAL_REI_RUST_SOURCE_CHANGED:"+file)
     c=source_lock()
-    csv=HERE/"evidence/JOINT_CAMPAIGN/REI_GAMMANU_MASSIVE_BACKGROUND.csv"
+    csv=(HERE/"evidence/JOINT_CAMPAIGN/REI_GAMMANU_MASSIVE_BACKGROUND.csv"
+         if csv_input is None else Path(csv_input).resolve())
     source_sha=sha256_file(csv)
+    if csv_input is not None:
+        receipt_path=csv.parent/"RESULTS.json"
+        producer_receipt=json.loads(receipt_path.read_text())
+        if producer_receipt["csv_sha256"]!=source_sha or producer_receipt["n_rows"]!=3208:
+            raise RuntimeError("SOURCE_CSV_DOES_NOT_MATCH_PINNED_PRODUCER_RECEIPT")
     with tempfile.TemporaryDirectory(prefix="bass_rei_joint_kinetic_") as tmp:
         r=Path(tmp);(r/"src").mkdir()
         (r/"src/main.rs").write_bytes((HERE/"rust_rei_joint.rs").read_bytes())
@@ -64,6 +70,8 @@ def run(repo:Path,output:Path,target:Path):
        "original_Rust_geometry_sha256":OWN_GEOMETRY_SHA,
        "native_bridge_rust_source_sha256":sha256_file(HERE/"rust_rei_joint.rs"),
        "public_background_csv_sha256":source_sha,
+       "background_pi_mode":("original_existing_campaign" if csv_input is None
+                            else producer_receipt.get("massive_pi_evaluation","UNSPECIFIED")),
        "original_user_REI_source_git_head":subprocess.check_output(["git","-C",str(repo),"rev-parse","HEAD"],text=True).strip(),
        "cargo_original_Rust_rei_microphysics_type_check":True,
        "cargo_positive_exit_code":0,
@@ -83,5 +91,7 @@ if __name__=="__main__":
     p.add_argument("--repo",type=Path,required=True)
     p.add_argument("--target",type=Path,required=True)
     p.add_argument("--out",type=Path,required=True)
+    p.add_argument("--csv",type=Path,default=None,
+                   help="Opt-in 8x401 cases CSV with matching producer RESULTS.json")
     a=p.parse_args()
-    run(a.repo,a.out,a.target)
+    run(a.repo,a.out,a.target,csv_input=a.csv)
