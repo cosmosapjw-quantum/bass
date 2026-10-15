@@ -1,0 +1,15 @@
+{
+  "schema": "bass.rei.axbi.red_photon_jacobian.v1",
+  "stage": "PRE_PUBLICATION_DIAGNOSED_AND_REPAIRED",
+  "old_unpublished_file_sha256": "c89c5c43f534212a93439b315eb9bfb928e3a1e8f3f8d38977d19b13333317de",
+  "bug": "incorrect exp(-3b) factor in dmu_current/dmu_ref, phase-volume not preserved",
+  "example": {
+    "b": 0.0063,
+    "mu_ref": 0.6,
+    "bad_jac": 0.9825205481158243,
+    "correct_jac": 1.00126678034463,
+    "relative_error": -0.018722514914909394
+  },
+  "symbolic_wolfram_identity": "D[mu*exp(-2b)/R,mu] - R^-3 == 0",
+  "action": "regenerate immutable published input with true Jacobian and exact regression, original temp bad data outside published worktree"
+}

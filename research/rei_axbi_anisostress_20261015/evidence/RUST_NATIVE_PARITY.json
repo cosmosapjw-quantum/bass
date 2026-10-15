@@ -1,0 +1,361 @@
+{
+  "schema": "bass.rei.axbi.initial_stress_native_rust_parity.v1",
+  "source_lock_SHA256": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
+  "Rust_source_SHA256": "93a8af983f3b28af2798b3eb5229844b72405744b4f28deb5d8a2e9cb7db037d",
+  "native_actual_rustc_exit_code": 0,
+  "actual_native_rust_test_steps": 4096,
+  "Rust_method": "independent fixed RK4 with independent Legendre64 roots/weights from Newton, no scipy",
+  "Python_method": "DOP853 with NumPy Legendre128 real source",
+  "n_positive_source_cases": 8,
+  "max_absolute_b_difference": 1.3209919269563386e-15,
+  "max_absolute_s_over_H_difference": 2.351200831252065e-15,
+  "max_relative_proper_time_difference": 5.882945172181583e-13,
+  "cases": [
+    {
+      "q_ref": 0.0,
+      "A": 0.0,
+      "eta": 0.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279489144155792e+16,
+          "python_reference": 4.2794891441532744e+16,
+          "absolute_difference": 25176.0,
+          "relative_difference": 5.882945172181583e-13
+        },
+        "b_end": {
+          "actual_native_rust": 0.0,
+          "python_reference": 0.0,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0,
+          "python_reference": 0.0,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834892342272402e-17,
+          "python_reference": 1.3834892342272404e-17,
+          "absolute_difference": 1.5407439555097887e-33,
+          "relative_difference": 1.113665301754505e-16
+        },
+        "M0_end": {
+          "actual_native_rust": 0.9999999999999998,
+          "python_reference": 1.0,
+          "absolute_difference": 2.220446049250313e-16,
+          "relative_difference": 2.220446049250313e-16
+        },
+        "Mdelta_end": {
+          "actual_native_rust": -1.942890293094024e-16,
+          "python_reference": 6.4063337967823486e-15,
+          "absolute_difference": 6.600622826091751e-15,
+          "relative_difference": 1.0303276468995397
+        }
+      }
+    },
+    {
+      "q_ref": 0.0,
+      "A": 1.0,
+      "eta": 1.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279489378384138e+16,
+          "python_reference": 4.279489378384117e+16,
+          "absolute_difference": 208.0,
+          "relative_difference": 4.8603929489956644e-15
+        },
+        "b_end": {
+          "actual_native_rust": 0.00042054871193707025,
+          "python_reference": 0.0004205487119377826,
+          "absolute_difference": 7.123750374316007e-16,
+          "relative_difference": 1.693918010470549e-12
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0002945799992876615,
+          "python_reference": 0.0002945799992865965,
+          "absolute_difference": 1.065011794032511e-15,
+          "relative_difference": 3.6153567676411135e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834891278005813e-17,
+          "python_reference": 1.3834891278005813e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 0.9998321139597881,
+          "python_reference": 0.9998321139597945,
+          "absolute_difference": 6.439293542825908e-15,
+          "relative_difference": 6.44037479184715e-15
+        },
+        "Mdelta_end": {
+          "actual_native_rust": 0.1992071977046759,
+          "python_reference": 0.1992071977046862,
+          "absolute_difference": 1.0297318553398327e-14,
+          "relative_difference": 5.169149846012863e-14
+        }
+      }
+    },
+    {
+      "q_ref": 0.0,
+      "A": -1.0,
+      "eta": 1.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279489378498031e+16,
+          "python_reference": 4.279489378498014e+16,
+          "absolute_difference": 168.0,
+          "relative_difference": 3.925701997161247e-15
+        },
+        "b_end": {
+          "actual_native_rust": -0.0004206633430630413,
+          "python_reference": -0.00042066334306373675,
+          "absolute_difference": 6.954614835408268e-16,
+          "relative_difference": 1.6532495521851404e-12
+        },
+        "s_over_H_end": {
+          "actual_native_rust": -0.00029475924582813586,
+          "python_reference": -0.0002947592458270388,
+          "absolute_difference": 1.0970499682294577e-15,
+          "relative_difference": 3.721850913111623e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.38348912772823e-17,
+          "python_reference": 1.38348912772823e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 0.9998319672839006,
+          "python_reference": 0.9998319672838942,
+          "absolute_difference": 6.328271240363392e-15,
+          "relative_difference": 6.329334775676892e-15
+        },
+        "Mdelta_end": {
+          "actual_native_rust": -0.1994469562355123,
+          "python_reference": -0.19944695623551012,
+          "absolute_difference": 2.192690473634684e-15,
+          "relative_difference": 1.0993852776803075e-14
+        }
+      }
+    },
+    {
+      "q_ref": 0.01,
+      "A": 0.0,
+      "eta": 0.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.2794642408977704e+16,
+          "python_reference": 4.2794642408977736e+16,
+          "absolute_difference": 32.0,
+          "relative_difference": 7.477571536685357e-16
+        },
+        "b_end": {
+          "actual_native_rust": 0.005892916695356827,
+          "python_reference": 0.005892916695355837,
+          "absolute_difference": 9.896597430447684e-16,
+          "relative_difference": 1.6794056223885055e-13
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.001154643884854712,
+          "python_reference": 0.001154643884856483,
+          "absolute_difference": 1.770935828537823e-15,
+          "relative_difference": 1.5337506669928299e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834901564638158e-17,
+          "python_reference": 1.3834901564638158e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 1.0000554067072978,
+          "python_reference": 1.000055406707298,
+          "absolute_difference": 2.220446049250313e-16,
+          "relative_difference": 2.2203230284621681e-16
+        },
+        "Mdelta_end": {
+          "actual_native_rust": -0.009389073083098571,
+          "python_reference": -0.009389073083090551,
+          "absolute_difference": 8.019626629440779e-15,
+          "relative_difference": 8.541446592724786e-13
+        }
+      }
+    },
+    {
+      "q_ref": 0.01,
+      "A": 0.0,
+      "eta": 1.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279464144932876e+16,
+          "python_reference": 4.279464144932873e+16,
+          "absolute_difference": 32.0,
+          "relative_difference": 7.47757170436626e-16
+        },
+        "b_end": {
+          "actual_native_rust": 0.005883516261090381,
+          "python_reference": 0.0058835162610893854,
+          "absolute_difference": 9.957312752106873e-16,
+          "relative_difference": 1.692408469737651e-13
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0011446601581967576,
+          "python_reference": 0.0011446601581985105,
+          "absolute_difference": 1.7529380724745636e-15,
+          "relative_difference": 1.53140481034421e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834901953437507e-17,
+          "python_reference": 1.3834901953437507e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 1.0000552303247725,
+          "python_reference": 1.0000552303247727,
+          "absolute_difference": 2.220446049250313e-16,
+          "relative_difference": 2.2203234200667223e-16
+        },
+        "Mdelta_end": {
+          "actual_native_rust": -0.009374158458320413,
+          "python_reference": -0.009374158458312323,
+          "absolute_difference": 8.090750291955828e-15,
+          "relative_difference": 8.630908393469217e-13
+        }
+      }
+    },
+    {
+      "q_ref": 0.01,
+      "A": 1.0,
+      "eta": 1.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279469945643733e+16,
+          "python_reference": 4.279469945643737e+16,
+          "absolute_difference": 40.0,
+          "relative_difference": 9.346951960888938e-16
+        },
+        "b_end": {
+          "actual_native_rust": 0.00630238288276003,
+          "python_reference": 0.006302382882758709,
+          "absolute_difference": 1.3209919269563386e-15,
+          "relative_difference": 2.0960197936722433e-13
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0014374619688548543,
+          "python_reference": 0.0014374619688572055,
+          "absolute_difference": 2.351200831252065e-15,
+          "relative_difference": 1.6356612433519125e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834882381630705e-17,
+          "python_reference": 1.3834882381630707e-17,
+          "absolute_difference": 1.5407439555097887e-33,
+          "relative_difference": 1.1136661035553975e-16
+        },
+        "M0_end": {
+          "actual_native_rust": 0.9975537284293745,
+          "python_reference": 0.9975537284293817,
+          "absolute_difference": 7.216449660063518e-15,
+          "relative_difference": 7.234146346608918e-15
+        },
+        "Mdelta_end": {
+          "actual_native_rust": 0.18816761740297058,
+          "python_reference": 0.18816761740298474,
+          "absolute_difference": 1.4155343563970746e-14,
+          "relative_difference": 7.522730934970223e-14
+        }
+      }
+    },
+    {
+      "q_ref": 0.01,
+      "A": -1.0,
+      "eta": 1.0,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279458808282266e+16,
+          "python_reference": 4.27945880828226e+16,
+          "absolute_difference": 56.0,
+          "relative_difference": 1.308576680107781e-15
+        },
+        "b_end": {
+          "actual_native_rust": 0.005464537835117476,
+          "python_reference": 0.005464537835116585,
+          "absolute_difference": 8.916478666520788e-16,
+          "relative_difference": 1.6316985874305978e-13
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0008516824394738518,
+          "python_reference": 0.0008516824394753697,
+          "absolute_difference": 1.5178830414797062e-15,
+          "relative_difference": 1.7822171400113771e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.383491941975475e-17,
+          "python_reference": 1.383491941975475e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 1.0022249558145218,
+          "python_reference": 1.002224955814515,
+          "absolute_difference": 6.661338147750939e-15,
+          "relative_difference": 6.646549867975722e-15
+        },
+        "Mdelta_end": {
+          "actual_native_rust": -0.20715304512733512,
+          "python_reference": -0.20715304512733262,
+          "absolute_difference": 2.4980018054066022e-15,
+          "relative_difference": 1.2058725971762244e-14
+        }
+      }
+    },
+    {
+      "q_ref": 0.01,
+      "A": 1.0,
+      "eta": 0.2,
+      "errors": {
+        "dt_s": {
+          "actual_native_rust": 4.279465346740582e+16,
+          "python_reference": 4.279465346740581e+16,
+          "absolute_difference": 16.0,
+          "relative_difference": 3.7387848022151333e-16
+        },
+        "b_end": {
+          "actual_native_rust": 0.005974868954834237,
+          "python_reference": 0.005974868954833215,
+          "absolute_difference": 1.0226194890883278e-15,
+          "relative_difference": 1.7115345906642963e-13
+        },
+        "s_over_H_end": {
+          "actual_native_rust": 0.0012112994158290115,
+          "python_reference": 0.0012112994158307842,
+          "absolute_difference": 1.7726705520137997e-15,
+          "relative_difference": 1.463445394958762e-12
+        },
+        "H_end": {
+          "actual_native_rust": 1.3834897885859154e-17,
+          "python_reference": 1.3834897885859154e-17,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "M0_end": {
+          "actual_native_rust": 0.9976771839905495,
+          "python_reference": 0.9976771839905568,
+          "absolute_difference": 7.327471962526033e-15,
+          "relative_difference": 7.344531958942131e-15
+        },
+        "Mdelta_end": {
+          "actual_native_rust": 0.18877994408875937,
+          "python_reference": 0.188779944088773,
+          "absolute_difference": 1.3627987627273797e-14,
+          "relative_difference": 7.218980645987102e-14
+        }
+      }
+    }
+  ],
+  "native_REI_original_science_run_executed": false,
+  "all_positive_and_dust_background_only": true
+}
