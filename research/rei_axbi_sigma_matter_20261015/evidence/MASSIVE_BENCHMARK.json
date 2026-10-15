@@ -1,0 +1,103 @@
+{
+  "schema": "bass.rei.axbi.initial_sigma_massive_pi_real_benchmark.v1",
+  "source": "original BASS FD radial Q,DQ and original AX03 cosmology, positive GL32 angular",
+  "moments_input": {
+    "n": 1024,
+    "mass_over_Tref": 30,
+    "A": 0.5,
+    "chunk": 128
+  },
+  "moments": [
+    {
+      "method": "scalar_1024",
+      "median_seconds": 0.06328443600796163,
+      "repeat_seconds": [
+        0.06328443600796163,
+        0.062232009950093925,
+        0.06402775505557656
+      ],
+      "tracemalloc_peak_bytes": 320660,
+      "maximum_absolute_difference_vs_scalar": 0.0
+    },
+    {
+      "method": "full_vector_1024",
+      "median_seconds": 0.05475138605106622,
+      "repeat_seconds": [
+        0.043104170938022435,
+        0.05475138605106622,
+        0.06097313296049833
+      ],
+      "tracemalloc_peak_bytes": 101600144,
+      "maximum_absolute_difference_vs_scalar": 0.0
+    },
+    {
+      "method": "chunk128_vector",
+      "median_seconds": 0.01628086098935455,
+      "repeat_seconds": [
+        0.015497865970246494,
+        0.01628086098935455,
+        0.01644478109665215
+      ],
+      "tracemalloc_peak_bytes": 12817320,
+      "maximum_absolute_difference_vs_scalar": 0.0
+    },
+    {
+      "method": "chunk128_two_threads",
+      "median_seconds": 0.01089765306096524,
+      "repeat_seconds": [
+        0.009627605089917779,
+        0.012192108086310327,
+        0.01089765306096524
+      ],
+      "tracemalloc_peak_bytes": 25607059,
+      "maximum_absolute_difference_vs_scalar": 0.0
+    },
+    {
+      "method": "chunk128_four_threads",
+      "median_seconds": 0.017870535026304424,
+      "repeat_seconds": [
+        0.009666408062912524,
+        0.017870535026304424,
+        0.03388264507520944
+      ],
+      "tracemalloc_peak_bytes": 50879310,
+      "maximum_absolute_difference_vs_scalar": 0.0
+    }
+  ],
+  "ode_case_count": 14,
+  "ode": [
+    {
+      "workers": 1,
+      "median_seconds": 0.46330477099400014,
+      "repeat_seconds": [
+        0.45909551507793367,
+        0.46620210900437087,
+        0.46330477099400014
+      ],
+      "max_source_endpoint_error": 0.0
+    },
+    {
+      "workers": 2,
+      "median_seconds": 0.6473293320741504,
+      "repeat_seconds": [
+        0.6473293320741504,
+        0.6465971579309553,
+        0.6769780489848927
+      ],
+      "max_source_endpoint_error": 0.0
+    },
+    {
+      "workers": 4,
+      "median_seconds": 0.7474057299550623,
+      "repeat_seconds": [
+        0.7474057299550623,
+        0.7372669909382239,
+        0.7621161499992013
+      ],
+      "max_source_endpoint_error": 0.0
+    }
+  ],
+  "native_REI_ion_history_speedup": null,
+  "memory_scope": "tracemalloc Python NumPy temporary peaks, not process peak RSS or owner Rust",
+  "parallel_scope": "actual Python ThreadPoolExecutor two/four workers; labels do not imply faster"
+}

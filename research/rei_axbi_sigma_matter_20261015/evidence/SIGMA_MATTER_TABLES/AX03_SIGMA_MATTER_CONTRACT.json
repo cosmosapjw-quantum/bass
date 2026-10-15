@@ -1,0 +1,332 @@
+{
+  "schema": "bass.rei.axbi.sigma_matter_initial_pi.v1",
+  "source_family_sha256": "46f818c2f9de890c72f71fa3cc70366b28c42ca0d65190bd905b6310023e7af0",
+  "source_massive_quadrature": "original BASS bianchi/matter/freestream.py cached Q,DQ,FD momentum quadrature; angular GL32",
+  "original_reference_literature": "Lewis and Challinor 2002 astro-ph/0203507 J^(i) moment hierarchy",
+  "model": "self-consistent Bianchi-I collisionless massless radiation plus source-energy normalized MASSIVE matter subset of Omega_m",
+  "important_scientific_scope": "not physical ionizing chemistry, collisionful Thomson transfer, observed CMB anisotropy, coupled baryon anisotropic viscosity",
+  "units": {
+    "Sigma": "sqrt(sigma_ab*sigma^ab/2)/H>=0",
+    "shear_orientation": "initial sign(s)",
+    "signed_s_over_H": "signed LRS shear s/H distinct from Sigma/sqrt(3)",
+    "Pi_r_J_m3": "radiation LRS Pi, diag(-Pi,-Pi,2Pi)",
+    "Pi_m_J_m3": "massive collisionless LRS Pi, diag(-Pi,-Pi,2Pi)",
+    "H_mean_per_s": "s^-1",
+    "proper_elapsed_s": "elapsed SI seconds since mean zbar=20",
+    "n_H_cm3": "background baryon H nuclei untouched",
+    "Tbar_CMB_K": "T0/a isotropic reference, not directional CMB temperature"
+  },
+  "initial_parameters": {
+    "Sigma_ref": "non-negative scalar",
+    "shear_orientation": "signed +/-1",
+    "radiation_fraction": "fraction of ORIGINAL Omega_r transferred from perfect to massless Vlasov",
+    "massive_matter_fraction": "fraction of ORIGINAL Omega_m, <=nonbaryonic budget, transferred to massive Vlasov",
+    "radiation_A": "positive initial Wrad=1+Ar P2, Ar in [-1,2]",
+    "massive_matter_A": "positive initial Wmatter=1+Am P2, Am in [-1,2]",
+    "mass_over_Tref": "thermal comoving momentum to mass ratio input, not measured DM mass"
+  },
+  "energy_bookkeeping": "Omega_m and Omega_r each split into perfect vs kinetic fractions at a_ref; a0 energy constraint unchanged",
+  "source_solver_sha256": "1857567475b1c8586298f868e5420aae7a72e8e1ba69cce6a5b21bfca4fdd790",
+  "history_sha256": "143044ae747b167c498bb67884420a1543f347a4504c2fbd6da04365856a083e",
+  "n_cases": 14,
+  "n_per_case": 501,
+  "history_rows": 7014,
+  "cases": [
+    {
+      "case_id": "BASE_ZERO",
+      "initial": {
+        "Sigma_ref": 0.0,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.0,
+        "radiation_A": 0.0,
+        "massive_matter_fraction": 0.0,
+        "massive_matter_A": 0.0,
+        "mass_over_Tref": 30.0
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 0.0,
+      "Sigma_end": 0.0,
+      "b_end": 0.0,
+      "signed_s_over_H_end": 0.0,
+      "t_end_s": 4.279489144152195e+16,
+      "Pi_r_end_J_m3": 0.0,
+      "Pi_m_end_J_m3": 0.0,
+      "ODE_nfev": 167
+    },
+    {
+      "case_id": "SHEAR_PLUS_SIGMA",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.0,
+        "radiation_A": 0.0,
+        "massive_matter_fraction": 0.0,
+        "massive_matter_A": 0.0,
+        "mass_over_Tref": 30.0
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 0.0,
+      "Sigma_end": 0.0019999018732349827,
+      "b_end": 0.00589291669535104,
+      "signed_s_over_H_end": 0.0011546438848650542,
+      "t_end_s": 4.2794642408977656e+16,
+      "Pi_r_end_J_m3": -0.0,
+      "Pi_m_end_J_m3": -0.0,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_MINUS_SIGMA",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": -1,
+        "radiation_fraction": 0.0,
+        "radiation_A": 0.0,
+        "massive_matter_fraction": 0.0,
+        "massive_matter_A": 0.0,
+        "mass_over_Tref": 30.0
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 0.0,
+      "Sigma_end": 0.0019999018732349827,
+      "b_end": -0.00589291669535104,
+      "signed_s_over_H_end": -0.0011546438848650542,
+      "t_end_s": 4.2794642408977656e+16,
+      "Pi_r_end_J_m3": 0.0,
+      "Pi_m_end_J_m3": 0.0,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "RADIATION_ONLY_SEED",
+      "initial": {
+        "Sigma_ref": 0.0,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.0,
+        "massive_matter_A": 0.0,
+        "mass_over_Tref": 30.0
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 0.0,
+      "Sigma_end": 5.1080239056928115e-05,
+      "b_end": 4.207608905584994e-05,
+      "signed_s_over_H_end": 2.9491189769787886e-05,
+      "t_end_s": 4.27948914649849e+16,
+      "Pi_r_end_J_m3": 2.9346390090964697e-13,
+      "Pi_m_end_J_m3": -0.0,
+      "ODE_nfev": 182
+    },
+    {
+      "case_id": "MASSIVE_MATTER_ONLY_SEED",
+      "initial": {
+        "Sigma_ref": 0.0,
+        "shear_orientation": 1,
+        "radiation_fraction": 0,
+        "radiation_A": 0,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 2.8870758133652143e-05,
+      "b_end": 3.304649858379342e-05,
+      "signed_s_over_H_end": 1.6668539980172643e-05,
+      "t_end_s": 4.280685026597153e+16,
+      "Pi_r_end_J_m3": -0.0,
+      "Pi_m_end_J_m3": 8.131857514449017e-14,
+      "ODE_nfev": 197
+    },
+    {
+      "case_id": "RADIATION_AND_MATTER_SEED",
+      "initial": {
+        "Sigma_ref": 0.0,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 7.99318343367073e-05,
+      "b_end": 7.512051254411849e-05,
+      "signed_s_over_H_end": 4.6148666071118534e-05,
+      "t_end_s": 4.280685031622581e+16,
+      "Pi_r_end_J_m3": 2.930614857366112e-13,
+      "Pi_m_end_J_m3": 8.124328931285915e-14,
+      "ODE_nfev": 197
+    },
+    {
+      "case_id": "RADIATION_MINUS_MATTER_PLUS",
+      "initial": {
+        "Sigma_ref": 0.0,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": -0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": -9.147649735780298e-11,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 2.226811358702718e-05,
+      "b_end": -9.058301982440451e-06,
+      "signed_s_over_H_end": -1.2856501373815305e-05,
+      "t_end_s": 4.280685026264258e+16,
+      "Pi_r_end_J_m3": -2.938736175565539e-13,
+      "Pi_m_end_J_m3": 8.139392355157322e-14,
+      "ODE_nfev": 182
+    },
+    {
+      "case_id": "SHEAR_PLUS_RAD_PLUS",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.0,
+        "massive_matter_A": 0.0,
+        "mass_over_Tref": 30.0
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 0.0,
+      "Sigma_end": 0.002042023138572199,
+      "b_end": 0.0059301228893026406,
+      "signed_s_over_H_end": 0.0011789626087461034,
+      "t_end_s": 4.279464752704576e+16,
+      "Pi_r_end_J_m3": 2.2205680880817952e-13,
+      "Pi_m_end_J_m3": -0.0,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_PLUS_MATTER_PLUS",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0,
+        "radiation_A": 0,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 0.0020271537338356627,
+      "b_end": 0.005925340840527512,
+      "signed_s_over_H_end": 0.0011703777539187749,
+      "t_end_s": 4.280660262949886e+16,
+      "Pi_r_end_J_m3": -0.0,
+      "Pi_m_end_J_m3": 7.084714714979055e-14,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_PLUS_BOTH_PLUS",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 0.0020692519593327246,
+      "b_end": 0.005962542912074785,
+      "signed_s_over_H_end": 0.0011946831757419093,
+      "t_end_s": 4.280660777382473e+16,
+      "Pi_r_end_J_m3": 2.2166528918034018e-13,
+      "Pi_m_end_J_m3": 7.078149006490841e-14,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_PLUS_BOTH_MINUS",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": -0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": -0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": -9.147649735780298e-11,
+      "initial_matter_Pi_J_m3": -1.0472302266802902e-10,
+      "Sigma_end": 0.0019104064084693735,
+      "b_end": 0.005812942107985115,
+      "signed_s_over_H_end": 0.001102973654191379,
+      "t_end_s": 4.280659343454603e+16,
+      "Pi_r_end_J_m3": -3.5961517338214007e-13,
+      "Pi_m_end_J_m3": -8.985144201534193e-14,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_MINUS_BOTH_PLUS",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": -1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 0.0019093044609117518,
+      "b_end": -0.005812266113358575,
+      "signed_s_over_H_end": -0.0011023374444723533,
+      "t_end_s": 4.2806593386404536e+16,
+      "Pi_r_end_J_m3": 3.6505692887002806e-13,
+      "Pi_m_end_J_m3": 9.185143507173798e-14,
+      "ODE_nfev": 272
+    },
+    {
+      "case_id": "SHEAR_HALF_PLUS_BOTH",
+      "initial": {
+        "Sigma_ref": 0.008660145786698617,
+        "shear_orientation": 1,
+        "radiation_fraction": 0.5,
+        "radiation_A": 0.2,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 30
+      },
+      "initial_radiation_Pi_J_m3": 9.147649735780715e-11,
+      "initial_matter_Pi_J_m3": 1.04723022668031e-10,
+      "Sigma_end": 0.0010745818641922323,
+      "b_end": 0.0030188688222923627,
+      "signed_s_over_H_end": 0.0006204101285576753,
+      "t_end_s": 4.280679147734258e+16,
+      "Pi_r_end_J_m3": 2.5728822429515083e-13,
+      "Pi_m_end_J_m3": 7.599431094782391e-14,
+      "ODE_nfev": 257
+    },
+    {
+      "case_id": "SHEAR_PLUS_COLD_MATTER",
+      "initial": {
+        "Sigma_ref": 0.017319642115231484,
+        "shear_orientation": 1,
+        "radiation_fraction": 0,
+        "radiation_A": 0,
+        "massive_matter_fraction": 0.1,
+        "massive_matter_A": 0.5,
+        "mass_over_Tref": 1000
+      },
+      "initial_radiation_Pi_J_m3": 0.0,
+      "initial_matter_Pi_J_m3": 9.649131686622803e-14,
+      "Sigma_end": 0.001999926727833848,
+      "b_end": 0.005892946361864489,
+      "signed_s_over_H_end": 0.0011546582346743995,
+      "t_end_s": 4.279465334939135e+16,
+      "Pi_r_end_J_m3": -0.0,
+      "Pi_m_end_J_m3": 6.432653521359379e-17,
+      "ODE_nfev": 272
+    }
+  ],
+  "native_REI_science_admission": "NOT_ISSUED",
+  "source_revision_note": "Added fail-closed byte guards to the original BASS massive FD radial and J hierarchy and immutable radiation solver; no physics/quadrature values or output CSV were changed"
+}
