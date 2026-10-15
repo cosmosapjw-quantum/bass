@@ -129,6 +129,28 @@ class SourceTableTests(unittest.TestCase):
         a,p,c=self._modified(key="H_mean_per_s",value=1e-19)
         with a,self.assertRaises(SourceTableError):BackgroundTable(p,c)
 
+    def test_reject_late_cold_one_percent_hamiltonian_excess(self):
+        temp=tempfile.TemporaryDirectory()
+        with temp:
+            folder=pathlib.Path(temp.name)
+            csv_path=folder/"PROPOSED_REI_BACKGROUND.csv"
+            receipt_path=folder/"PRODUCER_RECEIPT.json"
+            with (self.basedir/"PROPOSED_REI_BACKGROUND.csv").open(newline="") as handle:
+                rows=list(csv.DictReader(handle))
+            row=[r for r in rows if r["case"]=="COLD_FLRW"][-1]
+            changed_h=float(row["H_mean_per_s"])*math.sqrt(1.01)
+            row["H_mean_per_s"]=str(changed_h)
+            row["H_perp_per_s"]=str(changed_h)
+            row["H_parallel_per_s"]=str(changed_h)
+            with csv_path.open("w",newline="") as handle:
+                writer=csv.DictWriter(handle,fieldnames=list(rows[0]),lineterminator="\n")
+                writer.writeheader();writer.writerows(rows)
+            receipt=json.loads((self.basedir/"PRODUCER_RECEIPT.json").read_text())
+            receipt["csv_sha256"]=hashlib.sha256(csv_path.read_bytes()).hexdigest()
+            receipt_path.write_text(json.dumps(receipt,indent=2))
+            with self.assertRaisesRegex(SourceTableError,"EINSTEIN_HAMILTONIAN"):
+                BackgroundTable(receipt_path,csv_path)
+
     def test_reject_fake_isotropic_cold_history(self):
         a,p,c=self._modified(case="WARM_ISOTROPIC",key="massive_rho_norm",value=1e5)
         with a,self.assertRaisesRegex(SourceTableError,"EINSTEIN_HAMILTONIAN"):

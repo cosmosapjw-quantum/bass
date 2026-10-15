@@ -1,0 +1,19 @@
+{
+  "schema": "bass.rei.pr165.ncp_matched_refinement_execution.v1",
+  "host": "NCP SSH root, host address omitted from public record",
+  "remote_task_directory": "/root/BASS_PR165_NATIVE_TRIAL_20261016_001",
+  "source_commit_bass_pr165": "2d1d061fe63f8dcb957646af5b4c86b0430dd3e9",
+  "source_commit_bass_pr164": "3c39bbbf46b6663e7c40277e194fd0ef48118472",
+  "source_commit_rei_pr150": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "transferred_source_tar_sha256": "19233871717459fa6d0a457588f2088adc97ec82734abb8e62ad2eba2b73bb9e",
+  "ncp_source_csv_sha256": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
+  "ncp_producer_receipt_sha256": "98eddf4673780f0bbca711b373a3e0746cfafc8190674c8d2d6c4de658dc3eed",
+  "ncp_refinement_script_sha256": "3876093ebeef0db35114734901385f0aa67c5c79cd9733b140bec9a327931dc5",
+  "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /usr/bin/time -v -o ../matched_time_retry.log taskset -c 48-51 timeout 900 /root/REI_LRS_CASEB_V4_20261016/.venv/bin/python3 continuation_20261016/refinement_matched.py --out ../matched_n121_241_481_retry",
+  "first_attempt": {"exit_code": 1, "cause": "script transferred to wrong directory; ModuleNotFoundError: export_rei_bridge", "raw_log": "matched_evidence.tar.gz:matched_stderr.log"},
+  "retry": {"exit_code": 0, "wall_seconds": 11.15, "max_rss_kib": 88200, "cpu_affinity": "48-51", "workers": 1, "output_archive_sha256": "356ee11593a3237bcdf5722d60fb43c18c8a6dce2a3bf5ced5f0766571605932", "raw_log": "matched_evidence.tar.gz:matched_time_retry.log"},
+  "earlier_default_grid_diagnostic": {"exit_code": 0, "grids": [61, 121, 241], "classification": "supplemental only; not the requested matched-grid result"},
+  "remote_task_directory_bytes_after_archive": 7178866,
+  "production_process_observation": "No running REI full_campaign/axbi process at read-only preflight; preexisting full005 receipt says ALL_FULL_CASES_COMPLETE_PENDING_SCIENTIFIC_POSTPROCESS; no old checkpoint was used or modified",
+  "scientific_scope": "source-only background interpolation; no native H/He convergence"
+}

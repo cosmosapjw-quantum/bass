@@ -1,0 +1,18 @@
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /home/cosmosapjw/worktrees/rei-pr150-pr165-readonly-20261016/rust/rei_microphysics/src/axbi_driver.rs:311:18
+    |
+311 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+311 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+311 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: `rei_microphysics` (lib) generated 1 warning (run `cargo fix --lib -p rei_microphysics` to apply 1 suggestion)
+   Compiling bass_rei_pr165_native_intake v0.1.0 (/tmp/bass-pr165-native-loop.YFXSiIwv/cargo-stage)
+    Finished `release` profile [optimized] target(s) in 0.31s
+     Running `/tmp/bass-pr165-native-loop.YFXSiIwv/cargo-target-isolated/release/bass_rei_pr165_native_intake /tmp/bass-pr165-native-loop.YFXSiIwv/native-geometry/NATIVE_GEOMETRY.csv`
+{"schema":"bass.rei.native_geometry_pr165.v1","input_sha256":"5e5087cc74973b403ce8eb9d27c1147d98b55b2b75dd175b2fc6e6143fbcb3bc","input_byte_len":225673,"rows":968,"cases":8,"max_sigma_signed_abs":0.00000000000000000e0,"max_Sigma_abs":0.00000000000000000e0,"max_relative_volume":6.66133814775093924e-16,"native_background_point_type_checked":true,"native_chemistry_driver_changed":false}

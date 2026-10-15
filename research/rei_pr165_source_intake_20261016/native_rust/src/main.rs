@@ -7,8 +7,9 @@
 use rei_microphysics::axbi_background::BackgroundPoint;
 use std::collections::BTreeMap;
 use std::env;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::fs;
+use std::io::{BufRead, BufReader, Cursor, Write};
+use std::process::{Command, Stdio};
 
 fn fail(msg:&str)->! { eprintln!("BASS_REI_PR165_REJECT:{msg}"); std::process::exit(3); }
 fn approximate(x:f64, y:f64, atol:f64, rtol:f64)->bool {
@@ -19,11 +20,28 @@ fn num(fields:&[&str], header:&[&str], name:&str)->f64 {
     let y=fields[j].parse::<f64>().unwrap_or_else(|_|fail("COLUMN_FLOAT_PARSE"));
     if !y.is_finite(){fail("COLUMN_NONFINITE");} y
 }
+fn sha256_read_bytes(bytes:&[u8])->String {
+    let mut child=Command::new("sha256sum")
+        .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null())
+        .spawn().unwrap_or_else(|_|fail("SHA256SUM_SPAWN"));
+    let mut stdin=child.stdin.take().unwrap_or_else(||fail("SHA256SUM_STDIN"));
+    stdin.write_all(bytes).unwrap_or_else(|_|fail("SHA256SUM_WRITE"));
+    drop(stdin);
+    let output=child.wait_with_output().unwrap_or_else(|_|fail("SHA256SUM_WAIT"));
+    if !output.status.success(){fail("SHA256SUM_FAILED");}
+    let stdout=std::str::from_utf8(&output.stdout).unwrap_or_else(|_|fail("SHA256SUM_UTF8"));
+    let digest=stdout.split_whitespace().next().unwrap_or_else(||fail("SHA256SUM_OUTPUT"));
+    if digest.len()!=64 || !digest.bytes().all(|c|c.is_ascii_hexdigit()) {
+        fail("SHA256SUM_DIGEST");
+    }
+    digest.to_owned()
+}
 fn main(){
     let args:Vec<String>=env::args().collect();
     if args.len()!=2 {fail("USAGE_NATIVE_GEOMETRY_CSV");}
-    let input=File::open(&args[1]).unwrap_or_else(|_|fail("CSV_IO"));
-    let mut lines=BufReader::new(input).lines();
+    let input=fs::read(&args[1]).unwrap_or_else(|_|fail("CSV_IO"));
+    let input_sha256=sha256_read_bytes(&input);
+    let mut lines=BufReader::new(Cursor::new(input.as_slice())).lines();
     let first=lines.next().unwrap_or_else(||fail("CSV_EMPTY"))
         .unwrap_or_else(|_|fail("CSV_HEADER_IO"));
     let columns:Vec<&str>=first.split(',').collect();
@@ -83,6 +101,6 @@ fn main(){
         entry.0+=1;entry.1=x;entry.2=t;n+=1;
     }
     if n!=968 || cases.len()!=8 || cases.values().any(|z|z.0!=121){fail("INCOMPLETE_COHORT");}
-    println!("{{\"schema\":\"bass.rei.native_geometry_pr165.v1\",\"rows\":{},\"cases\":{},\"max_sigma_signed_abs\":{:.17e},\"max_Sigma_abs\":{:.17e},\"max_relative_volume\":{:.17e},\"native_background_point_type_checked\":true,\"native_chemistry_driver_changed\":false}}",
-        n,cases.len(),max_abs_signed,max_abs_sigma,max_relative_volume);
+    println!("{{\"schema\":\"bass.rei.native_geometry_pr165.v1\",\"input_sha256\":\"{}\",\"input_byte_len\":{},\"rows\":{},\"cases\":{},\"max_sigma_signed_abs\":{:.17e},\"max_Sigma_abs\":{:.17e},\"max_relative_volume\":{:.17e},\"native_background_point_type_checked\":true,\"native_chemistry_driver_changed\":false}}",
+        input_sha256,input.len(),n,cases.len(),max_abs_signed,max_abs_sigma,max_relative_volume);
 }
