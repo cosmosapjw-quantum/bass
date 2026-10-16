@@ -1,0 +1,77 @@
+{
+  "schema": "bass.lrs.retarded_response.dag.v1",
+  "date_kst": "2026-10-16",
+  "basis_commit": "03a01d21ed21e7d32737ca5e5f6d889a7203aa70",
+  "new_branch": "research/bass-pr169-lrs-volterra-response-20261016",
+  "native_subagent": "NOT_RUN_NO_NATIVE_DISPATCH",
+  "stages": [
+    {
+      "id": "S1",
+      "task": "Source-bound derivation, Volterra theorem, Wolfram angular/power-law kernel identities",
+      "status": "PUBLISHED_CHECKPOINT_BACKUP_READBACK_PASS",
+      "artifact": [
+        "THEORY_KO.md"
+      ],
+      "backup": "S1_THEORY.zip: eefd2ebe1530834d7bc526786806a74fab53c8300c911e5f2a1c59d97e078946",
+      "github": "GIT_VERIFIED",
+      "commit": "14a0c595550e67bbd341523d76485cabd4ae3cbc"
+    },
+    {
+      "id": "S2",
+      "task": "FD96 source-native alpha/kappa + retarded Volterra solver and independent tangent reference",
+      "status": "PUBLISHED_CHECKPOINT_BACKUP_READBACK_PASS",
+      "backup": "S2_KERNEL.zip SHA256 4e66cee15c27c9f5ca47de26a457efc11c912401af1750ccee25347bd21ce530",
+      "github": "GIT_VERIFIED",
+      "evidence": [
+        "lrs_retarded.py",
+        "test_retarded.py",
+        "S2_CONTRACTION_KO.md",
+        "evidence/S2_UNIT_TEST.log"
+      ],
+      "commit": "5766d019d48b52c4fac6e10a7f003dd1d21959f2"
+    },
+    {
+      "id": "S3",
+      "task": "Nonlinear PR164 matched initial-value experiment, angular/time convergence, scientific review",
+      "status": "PUBLISHED_CHECKPOINT_BACKUP_READBACK_PASS",
+      "backup": "S3_CAMPAIGN.zip SHA256 63e2e806b005f795bef6393127a5ee6936aeb1b77c1afe9011d44d65dfe98916",
+      "github": "GIT_VERIFIED",
+      "evidence": [
+        "S3_POSITIVITY_KO.md",
+        "run_campaign.py",
+        "test_campaign.py",
+        "evidence/S3_CAMPAIGN_FINAL/RESULTS.json",
+        "evidence/S3_CAMPAIGN_FINAL/LRS_RESPONSE.csv"
+      ],
+      "commit": "ec3fe4aac41c19693041cab6503a2d1fd0b68ddf"
+    },
+    {
+      "id": "S4",
+      "task": "Publish final reproducible bundle, create-only cloud and Codex/NCP handoff",
+      "status": "PUBLISHED_DRAFT_CLOUD_AND_LIBRARY_READBACK_PASS",
+      "backup": "BASS_PR169_LRS_CAUSAL_RESPONSE_20261016.zip SHA256 23b59095777fe23e8a2ec60d02403a5a17967b62af3d361e0bb73a5847412f8e",
+      "github": "https://github.com/cosmosapjw-quantum/bass/pull/169",
+      "evidence": [
+        "SCIENCE_REPORT_KO.md",
+        "CODEX_HANDOFF_KO.md",
+        "RUN_LOCAL.sh",
+        "high_precision.py",
+        "test_high_precision.py",
+        "evidence/S4_MP70.json",
+        "evidence/S4_CAMPAIGN_FINAL/RESULTS.json",
+        "evidence/S4_TESTS_ALL.log"
+      ],
+      "commit": "e45ab2de63a5bb7b531bddf535bb02836cc9cb07"
+    },
+    {
+      "id": "S5",
+      "task": "Native REI owner integration only after independent source and quadrature gates",
+      "status": "FUTURE_HOLD_NATIVE_REI_COLLISION_AND_BACKREACTION_NOT_RUN",
+      "backup": "NA",
+      "github": "NA"
+    }
+  ],
+  "latest_pr": 169,
+  "latest_verified_head_before_receipt": "e45ab2de63a5bb7b531bddf535bb02836cc9cb07",
+  "science_claim": "source-only linear Einstein-Vlasov LRS causal response; no REI chemistry or photon pi_ab callback"
+}
