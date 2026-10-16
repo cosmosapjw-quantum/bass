@@ -9,7 +9,7 @@
       "task": "original source and theorem",
       "status": "DERIVED_CAS_VERIFIED",
       "evidence": "STAGE1_THEOREM.md",
-      "backup": "local STAGE1_THEORY.zip; GitHub commit; Google Drive upload BLOCKED_CONTAINER_SESSION"
+      "backup": "Checkpoint commit in BASS GitHub; stage-specific ZIP nested inside final SHA-verified Library+Google Drive archive"
     },
     {
       "id": "S2",
@@ -19,7 +19,7 @@
       "depends": [
         "S1"
       ],
-      "backup": "local STAGE2_CODE.zip SHA a65a7b59...; GitHub branch published; cloud provider upload BLOCKED_CONTAINER_SESSION"
+      "backup": "Checkpoint commit in BASS GitHub; stage-specific ZIP nested inside final SHA-verified Library+Google Drive archive"
     },
     {
       "id": "S3",
@@ -29,12 +29,12 @@
         "S2"
       ],
       "evidence": "STAGE2_NUMERIC_EVIDENCE.json; STAGE3_DYNAMICS.md; einstein_stress_lag.py; test_dynamics.py; high_precision_check.py",
-      "backup": "GitHub durable stage3 commits, sandbox stage3 ZIP; Google Drive/Library upload blocked by expired container session"
+      "backup": "Checkpoint commit in BASS GitHub; stage-specific ZIP nested inside final SHA-verified Library+Google Drive archive"
     },
     {
       "id": "S4",
       "task": "BASS-specific scientific audit, handoff & durable backups",
-      "status": "SCIENTIFIC_SCOPE_REVIEW_VERIFIED_BACKUP_READBACK_PASS",
+      "status": "PUBLISHED_VERIFIED_FINAL_ARCHIVE_READBACK_PASS",
       "depends": [
         "S3"
       ]
@@ -55,7 +55,7 @@
         "S3"
       ],
       "evidence": "GENERAL_DIAGONAL_THEORY.md; nonlrs_convexity.py",
-      "backup": "GitHub commit; local sandbox snapshot"
+      "backup": "Checkpoint commit in BASS GitHub; stage-specific ZIP nested inside final SHA-verified Library+Google Drive archive"
     }
   ],
   "user_conventions": {
@@ -69,5 +69,14 @@
   "ncp": "NOT_RUN_LIGHT_SANDBOX_SCOPE",
   "github_PR": "PENDING",
   "updated": "2026-10-16 KST",
-  "backup_receipt": "STAGE4_DELIVERY.json"
+  "backup_receipt": "STAGE4_DELIVERY.json",
+  "publication": {
+    "pr": 167,
+    "base": "02149a6830dfe7ed214b77f5309e38350d2659fb",
+    "archive_sha256": "63f9c6273f58cbf2ab80cc0b98bf9101c920bba0638e351a37cad04dd2f4306f",
+    "google_drive_readback": true,
+    "library_readback": true,
+    "dropbox": "NOT_RUN"
+  },
+  "runtime_note": "ChatGPT local sandbox executed 25 original local unittest, one SymPy check, two MP54 root checks and 300 manufactured nonLRS Hessian controls; separate GitHub compact tests are newly published and not executed in CI."
 }
