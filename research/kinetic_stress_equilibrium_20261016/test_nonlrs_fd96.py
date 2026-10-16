@@ -53,6 +53,8 @@ class NonLRSFD96(unittest.TestCase):
         odd=lambda n:1.+.4*n[:,0]*n[:,1]
         with self.assertRaisesRegex(ValueError,'OFFDIAGONAL_SOURCE_PARITY'):
             f.moments(.7,u,modifier=odd)
+        with self.assertRaisesRegex(ValueError,'OFFDIAGONAL_SOURCE_PARITY'):
+            f.moments(.7,u,modifier=lambda n:1e-14*(1.+.4*n[:,0]))
         full=f.moments(.7,u,modifier=odd,diagonal_only=False)
         self.assertGreater(abs(full.pressure[0,1])/full.rho,1e-3)
         for bad in (lambda n:np.zeros(len(n)),
@@ -127,6 +129,17 @@ class NonLRSFD96(unittest.TestCase):
             self.assertGreater(row['min_hessian_eigen'],0.)
             self.assertLess(row['offdiagonal_over_rho'],1e-12)
             self.assertAlmostEqual(sum(row['signed_shear_over_H']),0.,places=14)
+
+    def test_default_angular_grid_is_not_full_chart_certificate(self):
+        args=dict(mass=3.,A=.5,radial=96)
+        state=(1.,-.3)
+        h24=FD96Diagonal(**args,polar=24,azimuth=24).moments(0.,state).hessian2
+        h48=FD96Diagonal(**args,polar=48,azimuth=48).moments(0.,state).hessian2
+        ref=FD96Diagonal(**args,polar=64,azimuth=64).moments(0.,state)
+        d24=np.max(abs(h24-ref.hessian2))/ref.rho
+        d48=np.max(abs(h48-ref.hessian2))/ref.rho
+        self.assertGreater(d24,5e-7)
+        self.assertLess(d48,2e-10)
 
 
 if __name__=='__main__': unittest.main()

@@ -29,6 +29,14 @@
       "classification": "public diagnostic input validation defect, original positive source and archived default campaign unaffected",
       "repair": "reject negative/nonfinite original or reflected factors, zero/nonfinite angular total, nonfinite or nonpositive tensor result",
       "regression": "zero, negative, NaN and 1.7e308 modifiers; target 7/7 PASS"
+    },
+    {
+      "stage": "independent_parity_scale_review",
+      "error": "1e-14*(1+0.4*n_x) is reflection odd but absolute parity defect 7.9153e-15 passed a fixed 1e-12 threshold",
+      "classification": "false diagonal-source admission under positive rescaling",
+      "repair": "divide reflection difference by actual nonzero modifier amplitude, with no unit floor; reject zero factor before ratio",
+      "regression": "scaled odd positive modifier rejected; 8/8 target tests pass",
+      "first_repair_test_failure": "initial normalized-ratio patch divided by zero on the all-zero negative control; constructor subsequently rejects zero factor before parity loop"
     }
   ]
 }

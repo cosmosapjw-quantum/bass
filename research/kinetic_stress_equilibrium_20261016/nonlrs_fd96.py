@@ -107,7 +107,8 @@ class FD96Diagonal:
             factor = np.asarray(modifier(n), dtype=float)
             if factor.shape != (len(n),):
                 raise ValueError("FD96_ANGULAR_MODIFIER_SHAPE")
-            if not np.all(np.isfinite(factor)) or np.min(factor) < 0.0:
+            if (not np.all(np.isfinite(factor)) or np.min(factor) < 0.0 or
+                    np.max(factor) <= 0.0):
                 raise ValueError("FD96_NONPOSITIVE_PHASE_SPACE_WEIGHT")
             parity = 0.0
             for i in range(3):
@@ -118,7 +119,9 @@ class FD96Diagonal:
                     raise ValueError("FD96_ANGULAR_MODIFIER_SHAPE")
                 if not np.all(np.isfinite(counterpart)) or np.min(counterpart) < 0.0:
                     raise ValueError("FD96_NONPOSITIVE_PHASE_SPACE_WEIGHT")
-                parity = max(parity, float(np.max(np.abs(factor - counterpart))))
+                amplitude = max(float(np.max(np.abs(factor))),
+                                float(np.max(np.abs(counterpart))))
+                parity = max(parity, float(np.max(np.abs(factor - counterpart))) / amplitude)
         aw = self.wang * base * factor
         with np.errstate(over="ignore"):
             total = np.sum(aw)
