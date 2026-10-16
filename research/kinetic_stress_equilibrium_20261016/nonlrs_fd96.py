@@ -107,6 +107,8 @@ class FD96Diagonal:
             factor = np.asarray(modifier(n), dtype=float)
             if factor.shape != (len(n),):
                 raise ValueError("FD96_ANGULAR_MODIFIER_SHAPE")
+            if not np.all(np.isfinite(factor)) or np.min(factor) < 0.0:
+                raise ValueError("FD96_NONPOSITIVE_PHASE_SPACE_WEIGHT")
             parity = 0.0
             for i in range(3):
                 reflected = n.copy()
@@ -114,9 +116,14 @@ class FD96Diagonal:
                 counterpart = np.asarray(modifier(reflected), dtype=float)
                 if counterpart.shape != factor.shape:
                     raise ValueError("FD96_ANGULAR_MODIFIER_SHAPE")
+                if not np.all(np.isfinite(counterpart)) or np.min(counterpart) < 0.0:
+                    raise ValueError("FD96_NONPOSITIVE_PHASE_SPACE_WEIGHT")
                 parity = max(parity, float(np.max(np.abs(factor - counterpart))))
         aw = self.wang * base * factor
-        if not np.all(np.isfinite(aw)) or np.min(aw) < -1e-15:
+        with np.errstate(over="ignore"):
+            total = np.sum(aw)
+        if (not np.all(np.isfinite(aw)) or np.min(aw) < 0.0 or
+                not np.isfinite(total) or total <= 0.0):
             raise ValueError("FD96_NONPOSITIVE_PHASE_SPACE_WEIGHT")
         return aw, parity
 
@@ -137,14 +144,20 @@ class FD96Diagonal:
         w = p * p
         E = np.sqrt(self.mass**2 + np.sum(w, axis=2))
         weight = self.radial_weight[:, None] * aw[None, :] * (r**3 / (4.0 * np.pi * self.norm))
-        rho = float(np.sum(weight * E))
-        pressure = np.einsum("ra,rai,raj->ij", weight / E, p, p)
+        with np.errstate(over="ignore", invalid="ignore"):
+            rho = float(np.sum(weight * E))
+            pressure = np.einsum("ra,rai,raj->ij", weight / E, p, p)
         pbar = float(np.trace(pressure) / 3.0)
         pi = pressure - np.eye(3) * pbar
-        diag = np.einsum("ra,rai->i", 2.0 * weight / E, w)
-        cross = np.einsum("ra,rai,raj->ij", weight / E**3, w, w)
-        h3 = np.diag(diag) - cross
-        h2 = B.T @ h3 @ B
+        with np.errstate(over="ignore", invalid="ignore"):
+            diag = np.einsum("ra,rai->i", 2.0 * weight / E, w)
+            cross = np.einsum("ra,rai,raj->ij", weight / E**3, w, w)
+            h3 = np.diag(diag) - cross
+            h2 = B.T @ h3 @ B
+        if not (np.isfinite(rho) and rho > 0.0 and
+                np.all(np.isfinite(pressure)) and np.all(np.isfinite(h3)) and
+                np.all(np.isfinite(h2))):
+            raise ValueError("FD96_NONFINITE_TENSOR_RESULT")
         offdiag = float(np.max(np.abs(pressure - np.diag(np.diag(pressure)))))
         if diagonal_only and offdiag > 2e-12 * rho:
             raise ValueError("FD96_OFFDIAGONAL_STRESS")

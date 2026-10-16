@@ -55,6 +55,13 @@ class NonLRSFD96(unittest.TestCase):
             f.moments(.7,u,modifier=odd)
         full=f.moments(.7,u,modifier=odd,diagonal_only=False)
         self.assertGreater(abs(full.pressure[0,1])/full.rho,1e-3)
+        for bad in (lambda n:np.zeros(len(n)),
+                    lambda n:np.full(len(n),-1e-16),
+                    lambda n:np.full(len(n),np.nan)):
+            with self.assertRaisesRegex(ValueError,'NONPOSITIVE_PHASE_SPACE_WEIGHT'):
+                f.moments(.7,u,modifier=bad,diagonal_only=False)
+        with self.assertRaisesRegex(ValueError,'NONPOSITIVE_PHASE_SPACE_WEIGHT'):
+            f.moments(0.,(-1.,0.),modifier=lambda n:np.full(len(n),1.7e308),diagonal_only=False)
 
     def test_derivatives_hessian_and_work(self):
         f=FD96Diagonal(3.,.5)

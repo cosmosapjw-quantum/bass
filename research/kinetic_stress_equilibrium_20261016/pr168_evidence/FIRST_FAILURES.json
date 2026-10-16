@@ -22,6 +22,13 @@
         "FD96_TENSOR_CAMPAIGN.json": "2bdaa3593de9ac0e95f352b15819e605506df71a6e288ae913f791774cd6d383",
         "NONLRS_IVP.json": "abbdc9e58cae383d11cf5ec0cd62ecf4c1bea95e8a7ae6285ef59203091e1a8d"
       }
+    },
+    {
+      "stage": "independent_modifier_guard_review",
+      "error": "all-zero modifier produced rho=0; -1e-16 modifier produced a negative finite density; huge finite modifier could overflow tensor results",
+      "classification": "public diagnostic input validation defect, original positive source and archived default campaign unaffected",
+      "repair": "reject negative/nonfinite original or reflected factors, zero/nonfinite angular total, nonfinite or nonpositive tensor result",
+      "regression": "zero, negative, NaN and 1.7e308 modifiers; target 7/7 PASS"
     }
   ]
 }

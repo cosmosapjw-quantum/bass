@@ -15,3 +15,5 @@ LRS `β=(−b,−b,2b)`의 원래 PR167 에너지·평균압력·`ΔP`·각 방�
 Kinetic neutral point는 고정 source의 에너지 정류점일 뿐 Einstein 진화에 강제하는 closure가 아니다. 등방 압력도 실제 전단 0을 뜻하지 않는다. Full non-LRS BASS production solver, momentum counterpart, REI callback과 EoR admission은 별도 `HOLD`다.
 
 첫 직접 실행은 script import 경로 때문에 exit 1이었고 경로를 명시해 수정한 뒤 exit 0으로 재실행했다. 독립 검토의 최초 대조에서는 angular grid점만 양수인 `A=2,C=.001`이 연속구면에서 음수가 될 수 있고, `C≠0`의 축 permutation에서 부호가 뒤집히는 결함을 확인했다. 구면 quadratic의 세 축 계수를 직접 검사하고 원래 x/y 라벨을 permutation에 실어 보냈다. 수정 후 7개 표적 테스트, 전체 23개 unittest가 모두 통과했고 기존 campaign/IVP JSON은 재실행 SHA-256까지 동일했다. [FIRST_FAILURES.json](pr168_evidence/FIRST_FAILURES.json)에 실패와 수정 범위를 보존한다.
+
+추가 독립 검토는 공개 진단 modifier에서 all-zero·미세 음수·overflow를 허용할 수 있음을 발견했다. 반사된 weight까지 비음수·유한인지, 전체 angular weight가 유한 양수인지, 결과 tensor가 유한 양수인지 검사하도록 수정하고 음성 대조를 추가했다. 이 입력 검사 수선은 원래 `C=0` 계산과 유효 `C=.2` 계산의 연산자를 변경하지 않는다.
