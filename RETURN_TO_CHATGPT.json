@@ -1,97 +1,428 @@
 {
-  "schema": "bass.rei.pr165.return_to_chatgpt.v1",
-  "date_kst": "2026-10-16",
-  "repository": "cosmosapjw-quantum/bass",
-  "implementation_commit": "60c43d97b85cef37ca8c2e2ba1b2fac587285beb",
-  "branch": "research/pr165-native-loop-20261016",
-  "draft_pr": "https://github.com/cosmosapjw-quantum/bass/pull/166",
-  "base_commit_bass_pr165": "2d1d061fe63f8dcb957646af5b4c86b0430dd3e9",
-  "physical_model_commit_bass_pr164": "3c39bbbf46b6663e7c40277e194fd0ef48118472",
-  "current_rei_pr150_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
-  "source_identity_sha256": {
-    "pr164_csv": "5a7844834b50fbc046995678a6aaf936252a81e49de1593604eee30641274133",
-    "pr164_producer_receipt": "98eddf4673780f0bbca711b373a3e0746cfafc8190674c8d2d6c4de658dc3eed",
-    "bundled_native_geometry": "b406e60184d68fd4014dbee42250b8cf4645f48d1580caf44b336eac0fd93037",
-    "fresh_native_geometry": "5e5087cc74973b403ce8eb9d27c1147d98b55b2b75dd175b2fc6e6143fbcb3bc",
-    "fresh_hhe_component_input": "109f30de4ab3f4f3b8c2702cfa66ca6a1d6410cbc33d9dbede8a7619af928eb1"
+  "schema": "bass.pr168.return_to_chatgpt.v1",
+  "created_kst": "2026-10-16T13:08:32.451293+09:00",
+  "identity": {
+    "repository": "https://github.com/cosmosapjw-quantum/bass",
+    "parent_pr167_commit": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
+    "parent_pr166_commit": "02149a6830dfe7ed214b77f5309e38350d2659fb",
+    "original_freestream_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
+    "original_pr164_tangent_blob": "1cab2bf7eab5a306ab207206ca3a0fc793dc9163",
+    "branch": "research/bass-pr168-nonlrs-fd96-20261016",
+    "first_stage_commit": "a12dce3d84ce97ce408317c815a87f09f8cdda4f",
+    "review_repair_commit": "a66a13d0e3c62ba7131ca0634c328a6c24afc16e",
+    "reviewed_science_commit": "b1163f288a791d3f161b3f6a3ac6eaa9be6d5d8c",
+    "reviewed_tree": "b81fbc738d7bb739a12ea87a1041ae2639e3e050",
+    "final_report_commit": "self-referential; exact final HEAD is reported in chat and PR",
+    "draft_pr": "https://github.com/cosmosapjw-quantum/bass/pull/168",
+    "pr167_unmerged": true
   },
-  "changed_paths": [
-    "research/rei_pr165_source_intake_20261016/native_rust/src/main.rs",
-    "research/rei_pr165_source_intake_20261016/source_table.py",
-    "research/rei_pr165_source_intake_20261016/tests/test_source_table.py",
-    "research/rei_pr165_source_intake_20261016/continuation_20261016/",
-    "research/rei_pr165_native_hhe_component_20261016/"
+  "changed_files": [
+    "nonlrs_fd96.py",
+    "nonlrs_campaign.py",
+    "nonlrs_strong_grid.py",
+    "nonlrs_mp_check.py",
+    "nonlrs_einstein_ivp.py",
+    "test_nonlrs_fd96.py",
+    "PR168_DAG.json",
+    "PR168_RESULTS_KO.md",
+    "pr168_evidence/*",
+    "pr168_recovery/*",
+    "RETURN_TO_CHATGPT.json"
   ],
-  "toolchains": {
-    "ncp_rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
-    "ncp_cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
-    "local_rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
-    "local_cargo": "cargo 1.99.0 (5f94df478 2026-08-27)"
+  "source_contract": {
+    "metric_signature": "(-,+,+,+)",
+    "beta": "(u,v,-u-v)",
+    "signed_shear": "sigma_i=dot(beta_i), stored separately",
+    "Sigma": "sqrt(sum sigma_i^2/2)/H",
+    "original_angular_source": "C=0, W=1+A P2(n_z), A in [-1,2]",
+    "triaxial_extension": "C=.2 separately positive W=1+A P2(n_z)+C(nx^2-ny^2); NOT original axisymmetric source",
+    "radial": "original freestream FD96 q^2/(exp(q)+1), GL96 default",
+    "normalization": "4pi times PR164/PR167 reference energy integral",
+    "production_solver": "NOT_MODIFIED"
   },
-  "executed_commands": [
-    {"where": "local isolated BASS worktree, PR165 folder", "command": "python -m unittest discover -s tests -v", "exit_code": 0, "result": "16/16 after guard repair", "raw": "continuation_20261016/logs/pr165-python-after-hamiltonian.log"},
-    {"where": "local isolated BASS worktree, source_pr164 folder", "command": "python -m unittest -v test_kinetic_tangent test_export_bridge", "exit_code": 0, "result": "14/14", "raw": "continuation_20261016/logs/pr164-python.log"},
-    {"where": "local isolated Cargo staging", "command": "CARGO_HOME=<isolated> CARGO_TARGET_DIR=<isolated> cargo test --offline --manifest-path <staged>/Cargo.toml", "exit_code": 0, "result": "actual REI crate and adapter compile; 0 Rust unit tests", "raw": "continuation_20261016/logs/cargo-test-readback.log"},
-    {"where": "local isolated Cargo staging", "command": "cargo run --offline --release --manifest-path <staged>/Cargo.toml -- <fresh>/NATIVE_GEOMETRY.csv", "exit_code": 0, "result": "968 rows, 8 cases, exact input-byte hash readback", "raw": "continuation_20261016/logs/cargo-run-readback.log"},
-    {"where": "NCP task-owned directory", "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 taskset -c 48-51 timeout 900 python3 continuation_20261016/refinement_matched.py --out ../matched_n121_241_481_retry", "exit_code": 0, "result": "121/241/481 matched-point source-only refinement passed", "raw": "continuation_20261016/ncp/matched_evidence.tar.gz"},
-    {"where": "NCP task-owned directory", "command": "CARGO_BUILD_JOBS=4 RAYON_NUM_THREADS=4 taskset -c 48-51 timeout 600 cargo run --offline --release --manifest-path rei_pr165_native_hhe_component_20261016/Cargo.toml -- rei_pr165_native_hhe_component_20261016/COLD_FLRW_COMPONENT_INPUT.txt", "exit_code": 0, "result": "fresh fixed-initial COLD_FLRW H/He component passed", "raw": "research/rei_pr165_native_hhe_component_20261016/ncp/hhe_evidence.tar.gz"}
+  "tests_and_build": [
+    {
+      "command": "python3 -m compileall -q research/kinetic_stress_equilibrium_20261016/nonlrs_*.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s research/kinetic_stress_equilibrium_20261016 -p test*.py",
+      "exit_code": 0,
+      "count": "24/24",
+      "wall_s": 3.83,
+      "max_rss_kib": 107632
+    },
+    {
+      "command": "python3 -m pytest -q tests/test_m10_freestream.py",
+      "exit_code": 0,
+      "count": "7/7"
+    },
+    {
+      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_campaign.py --out .../FD96_TENSOR_CAMPAIGN.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_strong_grid.py --out .../STRONG_ANISOTROPY_GRID.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_mp_check.py --out .../MP50_FIXED_NODES.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_einstein_ivp.py --out .../NONLRS_IVP.json",
+      "exit_code": 0
+    },
+    {
+      "command": "gh pr checks 168",
+      "status": "NO_CHECKS_REPORTED",
+      "native_ci": "NOT_RUN"
+    }
   ],
-  "preserved_first_failures": [
-    {"exit_code": 143, "cause": "local shared Cargo package-cache lock; only this waiting cargo was terminated", "raw": "continuation_20261016/logs/cargo-test-first.log"},
-    {"exit_code": 1, "cause": "NCP matched refinement script staged at wrong directory for Python imports", "raw": "continuation_20261016/ncp/matched_evidence.tar.gz:matched_stderr.log"},
-    {"exit_codes": [101, 101], "cause": "NCP separate REI crate staged without compile-time include contract files, then at wrong parent level", "raw": "research/rei_pr165_native_hhe_component_20261016/ncp/hhe_evidence.tar.gz"},
-    {"exit_code": 1, "cause": "pre-repair 1% late H-squared fixture bypassed Hamiltonian guard and failed later at RAYCHAUDHURI_ROW", "raw": "continuation_20261016/logs/hamiltonian-negative-first.log"}
+  "results": {
+    "lrs_24_states_max_abs_reference_density_units": {
+      "rho_diff": 3.3306690738754696e-16,
+      "pbar_diff": 5.551115123125783e-17,
+      "delta_diff": 1.2212453270876722e-15,
+      "p_perp_diff": 4.163336342344337e-16,
+      "p_parallel_diff": 8.326672684688674e-16,
+      "hessian_b_diff": 6.661338147750939e-16,
+      "offdiagonal_max": 3.611534852061245e-18
+    },
+    "near_isotropic_radial_convergence": [
+      {
+        "radial": 64,
+        "rho_relative": 2.9422041070587925e-16,
+        "pressure_max_relative": 5.516632700735236e-17,
+        "hessian_max_relative": 3.6777551338234906e-17,
+        "pi_max_relative": 4.597193917279363e-17
+      },
+      {
+        "radial": 96,
+        "rho_relative": 2.9422041070587925e-16,
+        "pressure_max_relative": 6.436071484191109e-17,
+        "hessian_max_relative": 7.355510267646981e-17,
+        "pi_max_relative": 5.516632700735236e-17
+      },
+      {
+        "radial": 128,
+        "rho_relative": 0.0,
+        "pressure_max_relative": 3.6777551338234906e-17,
+        "hessian_max_relative": 7.355510267646981e-17,
+        "pi_max_relative": 5.516632700735236e-17
+      },
+      {
+        "radial": 160,
+        "rho_relative": 0.0,
+        "pressure_max_relative": 0.0,
+        "hessian_max_relative": 0.0,
+        "pi_max_relative": 0.0
+      }
+    ],
+    "near_isotropic_angular_convergence": [
+      {
+        "polar": 16,
+        "azimuth": 16,
+        "rho_relative": 2.353763285647034e-15,
+        "pressure_max_relative": 4.063919422874957e-15,
+        "hessian_max_relative": 3.86863062526893e-13,
+        "pi_max_relative": 4.183446464724221e-15
+      },
+      {
+        "polar": 24,
+        "azimuth": 24,
+        "rho_relative": 1.7653224642352755e-15,
+        "pressure_max_relative": 8.458836807794028e-16,
+        "hessian_max_relative": 1.3607693995146915e-15,
+        "pi_max_relative": 7.263566389301394e-16
+      },
+      {
+        "polar": 32,
+        "azimuth": 32,
+        "rho_relative": 1.7653224642352755e-15,
+        "pressure_max_relative": 9.010500077867552e-16,
+        "hessian_max_relative": 1.3975469508529264e-15,
+        "pi_max_relative": 7.72328578102933e-16
+      },
+      {
+        "polar": 48,
+        "azimuth": 48,
+        "rho_relative": 0.0,
+        "pressure_max_relative": 0.0,
+        "hessian_max_relative": 0.0,
+        "pi_max_relative": 0.0
+      }
+    ],
+    "strong_anisotropy_state": {
+      "mass": 3.0,
+      "A": 0.5,
+      "x": 0.0,
+      "beta": [
+        1.0,
+        -0.3,
+        -0.7
+      ],
+      "radial": 96
+    },
+    "strong_anisotropy_gl24_vs_gl96": {
+      "polar": 24,
+      "azimuth": 24,
+      "rho_relative": 7.501329545388846e-09,
+      "pressure_max_relative": 8.026154458965579e-08,
+      "pi_max_relative": 6.701414718737994e-08,
+      "hessian2_max_relative": 9.913791649463748e-07,
+      "offdiagonal_over_rho": 4.2406578603733544e-18,
+      "hessian2_min_eigen": 0.17868739383943577
+    },
+    "strong_anisotropy_gl48_vs_gl96": {
+      "polar": 48,
+      "azimuth": 48,
+      "rho_relative": 2.0280026506649002e-13,
+      "pressure_max_relative": 3.702279270816647e-12,
+      "pi_max_relative": 3.2196979582491186e-12,
+      "hessian2_max_relative": 7.42582243306225e-11,
+      "offdiagonal_over_rho": 3.8411892982901187e-19,
+      "hessian2_min_eigen": 0.17868656448970033
+    },
+    "strong_anisotropy_gl64_vs_gl96": {
+      "polar": 64,
+      "azimuth": 64,
+      "rho_relative": 2.481821425638864e-15,
+      "pressure_max_relative": 8.775011469223127e-15,
+      "pi_max_relative": 7.223873078198836e-15,
+      "hessian2_max_relative": 2.2708666044595606e-13,
+      "offdiagonal_over_rho": 4.778585090972475e-19,
+      "hessian2_min_eigen": 0.17868656440110348
+    },
+    "mp50_fixed_binary64_nodes": {
+      "schema": "bass.fd96.nonlrs.mp50_fixed_binary64_nodes.v1",
+      "decimal_digits": 50,
+      "grid": [
+        32,
+        16,
+        16
+      ],
+      "source": "original FD96 radial functional form on fixed binary64 quadrature nodes, C=.2 explicit angular extension",
+      "rho_error": 3.387800112643045e-17,
+      "pressure_diagonal_max_error": 1.4923139684287616e-18,
+      "offdiagonal_xy_error": -9.509945411379178e-20,
+      "hessian_max_error": 6.938893903907228e-18,
+      "normalized_denominator": 0.09425124940980482,
+      "scope": "fixed quadrature nodes and weights; not continuum quadrature accuracy"
+    },
+    "triaxial_2d_neutral_root": {
+      "C": 0.2,
+      "angular": 48,
+      "beta2": [
+        0.01379528555210261,
+        -0.0779461778412526
+      ],
+      "pressure_tracefree_gradient": [
+        -1.734723475976807e-18,
+        -1.734723475976807e-18
+      ],
+      "residual_per_rho": 1.8420629022954742e-17,
+      "hessian_min_eigen": 0.0137566105711673,
+      "weight_min": 1.746748489816333e-302,
+      "offdiagonal_over_rho": 9.139646395472726e-20
+    },
+    "source_only_ivp": {
+      "states": 15,
+      "nfev": 32,
+      "hamiltonian": {
+        "raw": -2.469778667604089e-16,
+        "denominator": 0.9157840814301814,
+        "normalized": 2.6969006315845016e-16,
+        "x": 0.025,
+        "units": "reference-density/natural 8piG=1 units",
+        "tolerance_normalized": 1e-13
+      },
+      "raychaudhuri": {
+        "raw": -2.6921909146437883e-11,
+        "denominator": 0.9592221415008493,
+        "normalized": 2.80663966996367e-11,
+        "x": 0.03125,
+        "units": "H_x or rho_x natural units",
+        "tolerance_normalized": 2e-09
+      },
+      "kinetic_energy_work": {
+        "raw": -2.0758506025231327e-10,
+        "denominator": 3.109600240384118,
+        "normalized": 6.675618864329359e-11,
+        "x": 0.034375,
+        "units": "H_x or rho_x natural units",
+        "tolerance_normalized": 2e-09
+      },
+      "hamiltonian_caveat": "H constructed from constraint at each state; residual partly algebraic",
+      "min_hessian_eigen": 0.23348193730867528,
+      "max_offdiagonal_over_rho": 1.4473677661889463e-17
+    }
+  },
+  "review": {
+    "status": "SCOPED_PASS",
+    "reviewed_source_blobs": [
+      "a78bf0fbeebfa945685762d9155152288a22b56f",
+      "c6855743e8c1ebb089ac314cb722cae2f640a7f1",
+      "9f7b527ae32cc714ac8a4e07bfeb993ed97abc09",
+      "7b03b8c7d0ad56467832d18f490319d54476ea9e",
+      "2952c9d26461c5525244900aabed1d71f0204047"
+    ],
+    "confirmed_repairs": [
+      "continuous angular positivity",
+      "C permutation covariance",
+      "zero/negative/nonfinite modifier rejection",
+      "scale-independent reflection parity"
+    ],
+    "claim_ceiling": [
+      "original C=0 source tensor and sampled LRS reduction",
+      "separate positive C=.2 triaxial extension",
+      "bounded source-only Einstein IVP"
+    ],
+    "hold": [
+      "uniform full |beta_i|<=1 chart quadrature accuracy",
+      "continuum quadrature error bound",
+      "full non-LRS BASS production solver",
+      "general off-diagonal Einstein evolution",
+      "stress-neutral root as dynamic closure",
+      "REI matter callback and chemistry admission"
+    ]
+  },
+  "first_failures": "pr168_evidence/FIRST_FAILURES.json",
+  "DAG": [
+    {
+      "id": "N1",
+      "task": "Full-sphere original FD96 tensor and constrained Hessian",
+      "status": "IMPLEMENTATION_VERIFIED",
+      "evidence": [
+        "nonlrs_fd96.py",
+        "test_nonlrs_fd96.py",
+        "pr168_evidence/FD96_TENSOR_CAMPAIGN.json"
+      ]
+    },
+    {
+      "id": "N2",
+      "task": "Original LRS parity, reflection and permutation, independent momentum/angular refinement",
+      "depends": [
+        "N1"
+      ],
+      "status": "NUMERICALLY_CHECKED_SAMPLED__FULL_CHART_ACCURACY_HOLD",
+      "evidence": [
+        "pr168_evidence/FD96_TENSOR_CAMPAIGN.json",
+        "pr168_evidence/STRONG_ANISOTROPY_GRID.json",
+        "pr168_evidence/MP50_FIXED_NODES.json",
+        "pr168_evidence/PYTHON_TESTS.stderr"
+      ]
+    },
+    {
+      "id": "N3",
+      "task": "Source-only non-LRS Einstein IVP and conservation",
+      "depends": [
+        "N2"
+      ],
+      "status": "NUMERICALLY_CHECKED_SOURCE_ONLY",
+      "evidence": [
+        "nonlrs_einstein_ivp.py",
+        "pr168_evidence/NONLRS_IVP.json"
+      ]
+    },
+    {
+      "id": "N4",
+      "task": "Independent scientific review and claim decision",
+      "depends": [
+        "N3"
+      ],
+      "status": "SCOPED_PASS_FULL_CHART_ACCURACY_HOLD",
+      "reviewed_source_blobs": [
+        "a78bf0fbeebfa945685762d9155152288a22b56f",
+        "c6855743e8c1ebb089ac314cb722cae2f640a7f1",
+        "9f7b527ae32cc714ac8a4e07bfeb993ed97abc09",
+        "7b03b8c7d0ad56467832d18f490319d54476ea9e",
+        "2952c9d26461c5525244900aabed1d71f0204047"
+      ]
+    },
+    {
+      "id": "N5",
+      "task": "GitHub Draft PR, recoverable bundle, Dropbox and Google Drive create-only readback",
+      "depends": [
+        "N4"
+      ],
+      "status": "PUBLISHED_DRAFT_DUAL_READBACK_PASS",
+      "pr": 168,
+      "backup_receipt": "pr168_recovery/BACKUP_RECEIPTS.json"
+    },
+    {
+      "id": "N6",
+      "task": "Opt-in independent REI matter-stress response callback",
+      "depends": [
+        "N4"
+      ],
+      "status": "HOLD_FULL_CHART_QUADRATURE_AND_GENERAL_EINSTEIN_SOURCE_ADMISSION"
+    }
   ],
-  "physical_and_numerical_residuals": {
-    "normalized_hamiltonian_max_original_968": 2.2087755397254195e-16,
-    "normalized_hamiltonian_threshold": 3e-12,
-    "producer_row_raychaudhuri_max_relative": 4.756592377159441e-16,
-    "producer_clock_vs_integrated_max_relative": 2.3151692135772128e-10,
-    "native_relative_volume_max": 6.661338147750939e-16,
-    "native_signed_shear_residual_max": 0.0,
-    "native_Sigma_residual_max": 0.0,
-    "kinetic_energy_work_integral": "PASS threshold 5e-10 in PR164 test; exact residual NOT_MEASURED in this return",
-    "matched_H_relative_max_121_241_481": [2.968580936624221e-11, 1.2001510896197942e-12, 1.34781075189494e-13],
-    "matched_b_absolute_max_121_241_481": [3.468726174349346e-12, 3.463171589779268e-12, 3.471919800268619e-12],
-    "matched_s_over_href_absolute_max_121_241_481": [3.963693785963536e-10, 1.05709186103122e-10, 9.862595344670114e-11],
-    "matched_proper_time_relative_max_121_241_481": [7.674448021473664e-12, 6.4865553230670715e-12, 6.723976173381744e-12],
-    "hhe_component_proper_dt_s": 845007622480.9552,
-    "hhe_newton_max": 6.464529857022083e-17,
-    "hhe_photon_number_balance_per_H": -1.6093625997831706e-20,
-    "hhe_total_energy_balance_eV_per_H": 4.336808689942018e-19,
-    "hhe_HII_balance_per_H": -1.9905e-20,
-    "hhe_HeII_balance_per_H": 5.8234e-22,
-    "hhe_HeIII_balance_per_H": -2.3666e-30,
-    "stellar_gas_momentum_balance": "NOT_EVALUATED_OPEN_RESERVOIR"
+  "resources": {
+    "execution": "local Ubuntu bounded Python only",
+    "ncp": "NOT_RUN; no heavy job required; owner NCP processes/checkpoints untouched",
+    "test_wall_s": 3.83,
+    "test_max_rss_kib": 107632
   },
-  "ncp_resources_and_performance": {
-    "host_logical_cpus": 64,
-    "preflight_memory_available_gib_approx": 122,
-    "preflight_root_disk_available_gib_approx": 24,
-    "production_full005": "ALL_FULL_CASES_COMPLETE_PENDING_SCIENTIFIC_POSTPROCESS; no matching live PID at preflight; old checkpoints/logs untouched",
-    "new_affinity": "48-51",
-    "max_new_build_jobs": 4,
-    "max_new_runtime_workers": 1,
-    "matched_refinement_wall_s": 11.15,
-    "matched_refinement_max_rss_kib": 88200,
-    "hhe_build_and_run_wall_s": 7.32,
-    "hhe_build_and_run_max_rss_kib": 341592,
-    "remote_task_directory_bytes_after_hhe_archive": 16721185,
-    "authorized_hard_limits": {"max_workers": 16, "additional_ram_gib": 16, "additional_disk_gib": 4, "additional_wall_s": 1800}
+  "recovery": {
+    "schema": "bass.pr168.backup.v1",
+    "created_kst": "2026-10-16T13:08:04.453850+09:00",
+    "source_commit": "b1163f288a791d3f161b3f6a3ac6eaa9be6d5d8c",
+    "required_pr167_base": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
+    "package": "bass-pr168-source-20261016-001.tar.gz",
+    "size_bytes": 28552,
+    "sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
+    "bundle_verify_exit_code": 0,
+    "disposable_restore_exit_code": 0,
+    "clouds": {
+      "dropbox": {
+        "path": "dbx:BASS_BACKUPS/BASS_PR168_NONLRS_FD96_20261016_001/bass-pr168-source-20261016-001.tar.gz",
+        "create_only": "rclone copyto --immutable to preflight absent path",
+        "upload_exit_code": 0,
+        "readback_exit_code": 0,
+        "readback_sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
+        "readback_match": true
+      },
+      "google_drive": {
+        "path": "gdrv:BASS_BACKUPS/BASS_PR168_NONLRS_FD96_20261016_001/bass-pr168-source-20261016-001.tar.gz",
+        "create_only": "rclone copyto --immutable to preflight absent path",
+        "upload_exit_code": 0,
+        "readback_exit_code": 0,
+        "readback_sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
+        "readback_match": true
+      }
+    }
   },
-  "backup": {
-    "archive_local_path": "/tmp/bass_pr165_delivery_60c43d97_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz",
-    "archive_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e",
-    "archive_contains_sha256sums": true,
-    "dropbox": {"remote": "dbx:BASS_PR165_NATIVE_LOOP_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz", "id": "id:BSpOijBcT10AAAAAAD9Eyg", "create_only": true, "download_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e", "verified": true},
-    "google_drive": {"remote": "gdrv:BASS_PR165_NATIVE_LOOP_20261016/BASS_PR165_NATIVE_LOOP_60c43d97_20261016.tar.gz", "id": "1jzf691R9dZmSh3CCO8VTIg6-psMOMzCP", "create_only": true, "download_sha256": "163985283d79be626d6741e829187a0e48adeb24f7a5c7fd31b8d11a1d7a861e", "verified": true}
+  "science_status": {
+    "DERIVED": [
+      "positive fixed-source tensor Hessian from PR167 theory",
+      "pressure gradient and energy-work equations"
+    ],
+    "NUMERICALLY_CHECKED": [
+      "original FD96 tensor and LRS parity",
+      "independent sampled grid refinements incl strong beta",
+      "MP50 fixed-node arithmetic",
+      "source-only non-LRS IVP"
+    ],
+    "IMPLEMENTATION_VERIFIED": [
+      "finite positive source and parity guards",
+      "axis permutation",
+      "sampled 2D roots",
+      "24 Python tests"
+    ],
+    "HOLD": [
+      "full-chart GL24 accuracy",
+      "continuum quadrature certificate",
+      "general offdiagonal Einstein solver",
+      "REI callback",
+      "full radiation/chemistry/EoR"
+    ],
+    "NOT_RUN": [
+      "NCP heavy calculation",
+      "REI owner branch mutation",
+      "GitHub CI, no checks reported"
+    ]
   },
-  "review": "Independent Astra read-only scoped PASS for source/native intake, matched refinement, fixed-initial HHe component, exact-byte readback, and Hamiltonian guard repair; no full scientific admission",
-  "incomplete_scientific_obligations": [
-    "HOLD_API_BACKGROUND_SEAM: REI Driver owns concrete AxbiBackground; evolving BASS geometry is not coupled to chemistry/transport",
-    "NOT_RUN: source-bound checkpoint and rejection of old AX08/PR150 restart schema; no old checkpoint reused",
-    "NOT_RUN: H/He time-step refinement and 121/241/481 chemistry convergence; measured grids cover source-only geometry interpolation",
-    "NOT_EVALUATED: anisotropic H/He history, momentum Q^a closure, polarized Thomson, stellar recoil, full EoR, empirical fit, continuum limit"
-  ],
-  "next_action": "In a separate REI owner branch, add an opt-in source-bound background interface across point, interval, transport, chemistry, validation and restart paths; then run a fresh same-clock evolving H/He mini-trial with a new checkpoint identity under a separately reviewed bounded contract."
+  "next_first_action": "Design an adaptive angular error gate using GL48/64/96 comparisons at strong anisotropy, then validate a source-bound non-LRS production IVP with original radiation/matter allocation; only after this reopen an independent REI opt-in callback contract."
 }
