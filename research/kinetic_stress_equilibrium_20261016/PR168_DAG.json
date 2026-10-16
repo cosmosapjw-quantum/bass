@@ -1,0 +1,17 @@
+{
+  "schema": "bass.fd96.nonlrs.dag.v1",
+  "immutable_parent_pr167": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
+  "original_freestream_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
+  "pr164_tangent_blob": "1cab2bf7eab5a306ab207206ca3a0fc793dc9163",
+  "states": [
+    {"id": "N1", "task": "Full-sphere original FD96 tensor and constrained Hessian", "status": "IMPLEMENTATION_VERIFIED", "evidence": ["nonlrs_fd96.py", "test_nonlrs_fd96.py", "pr168_evidence/FD96_TENSOR_CAMPAIGN.json"]},
+    {"id": "N2", "task": "Original LRS parity, reflection and permutation, independent momentum/angular refinement", "depends": ["N1"], "status": "NUMERICALLY_CHECKED_SAMPLED__FULL_CHART_ACCURACY_HOLD", "evidence": ["pr168_evidence/FD96_TENSOR_CAMPAIGN.json", "pr168_evidence/STRONG_ANISOTROPY_GRID.json", "pr168_evidence/MP50_FIXED_NODES.json", "pr168_evidence/PYTHON_TESTS.stderr"]},
+    {"id": "N3", "task": "Source-only non-LRS Einstein IVP and conservation", "depends": ["N2"], "status": "NUMERICALLY_CHECKED_SOURCE_ONLY", "evidence": ["nonlrs_einstein_ivp.py", "pr168_evidence/NONLRS_IVP.json"]},
+    {"id": "N4", "task": "Independent scientific review and claim decision", "depends": ["N3"], "status": "SCOPED_PASS_FULL_CHART_ACCURACY_HOLD", "reviewed_source_blobs": ["a78bf0fbeebfa945685762d9155152288a22b56f", "c6855743e8c1ebb089ac314cb722cae2f640a7f1", "9f7b527ae32cc714ac8a4e07bfeb993ed97abc09", "7b03b8c7d0ad56467832d18f490319d54476ea9e", "2952c9d26461c5525244900aabed1d71f0204047"]},
+    {"id": "N5", "task": "GitHub Draft PR, recoverable bundle, Dropbox and Google Drive create-only readback", "depends": ["N4"], "status": "PUBLISHED_DRAFT_DUAL_READBACK_PASS", "pr": 168, "backup_receipt": "pr168_recovery/BACKUP_RECEIPTS.json"},
+    {"id": "N6", "task": "Opt-in independent REI matter-stress response callback", "depends": ["N4"], "status": "HOLD_FULL_CHART_QUADRATURE_AND_GENERAL_EINSTEIN_SOURCE_ADMISSION"}
+  ],
+  "scope": "Source-only diagonal Bianchi I in 8piG=1; C=0 original PR164 axisymmetric angular extension; C!=0 separate positive triaxial FD96-radial extension. No full radiation or REI chemistry claim.",
+  "ncp": "NOT_RUN_LIGHT_LOCAL_CASES",
+  "user_convention": "signature (-,+,+,+); Sigma=sqrt(sum_i sigma_i^2/2)/H, signed sigma_i separately"
+}
