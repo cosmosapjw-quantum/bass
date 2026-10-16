@@ -1,0 +1,38 @@
+{
+  "schema": "bass.rei.kinetic_stress_equilibrium.candidate.v1",
+  "kind": "SOURCE_ONLY_REFERENCE",
+  "metric": "(-,+,+,+)",
+  "conventions": {
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "dot b",
+    "Sigma": "sqrt3 abs(s)/H, signed s separately"
+  },
+  "source": "BASS FD96 frozen canonical q,mu source; q radial GL96/angles GL32; W=1+A P2",
+  "inputs": {
+    "m_over_Tref": "[3,100000]",
+    "x": "[0,ln(21/5)]",
+    "A": "[-1,2]",
+    "b": "[-1,1]"
+  },
+  "returns": [
+    "rho",
+    "pbar",
+    "delta=Pparallel-Pperp",
+    "chi_b=partial_b_delta strictly negative",
+    "delta_A",
+    "b_star",
+    "dbstar/dA",
+    "dbstar/dx"
+  ],
+  "scientific_scope": "b_star is an instantaneous kinetic stress minimizer at fixed canonical source/gauge and NOT signed shear or global dynamics closure",
+  "external_native_rei": "NOT_RUN",
+  "blocked": [
+    "momentum Q^a",
+    "stellar recoil",
+    "full photon/neutrino anisotropic multipoles",
+    "H/He chemistry closure",
+    "observational EoR science"
+  ],
+  "future": "Explicit source-locked optional BASS callback tested before REI owner adoption"
+}
