@@ -1,0 +1,58 @@
+{
+  "schema": "bass.pr170.source_age_memory.dag.v1",
+  "project": "BASS LRS non-tilted source-age radiation memory",
+  "baseline": "6fb32b51390e4f722692505bf7a3ace2448aada6",
+  "stages": [
+    {
+      "id": "S0",
+      "name": "PR169 restore backup retry",
+      "status": "VERIFIED_PUBLISH_PENDING",
+      "evidence": [
+        "S0_BACKUP_RECEIPT.json"
+      ]
+    },
+    {
+      "id": "S1",
+      "name": "Exact kinetic cohort stress and memory theorem, symbolic check",
+      "status": "PENDING",
+      "requires": [
+        "S0"
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Source-age photon stress implementation + manufactured tests",
+      "status": "PENDING",
+      "requires": [
+        "S1"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "Source-locked BASS PR169 b history + old/source photon cohorts and error study",
+      "status": "PENDING",
+      "requires": [
+        "S2"
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "Final report, independent checks, GitHub draft and two-store backup",
+      "status": "PENDING",
+      "requires": [
+        "S3"
+      ]
+    },
+    {
+      "id": "S5",
+      "name": "Optional REI native transport HHe integration with signed radiation feedback",
+      "status": "HOLD_NATIVE_OWNER_NOT_RUN",
+      "requires": [
+        "S4"
+      ]
+    }
+  ],
+  "native_subagent": "NOT_RUN_NOT_EXPOSED",
+  "NCP": "NOT_RUN",
+  "claim": "Source-only photon radiation stress diagnostic, not native REI or full EoR"
+}
