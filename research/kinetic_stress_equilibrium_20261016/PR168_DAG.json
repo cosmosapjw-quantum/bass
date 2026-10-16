@@ -1,0 +1,17 @@
+{
+  "schema": "bass.fd96.nonlrs.dag.v1",
+  "immutable_parent_pr167": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
+  "original_freestream_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
+  "pr164_tangent_blob": "1cab2bf7eab5a306ab207206ca3a0fc793dc9163",
+  "states": [
+    {"id": "N1", "task": "Full-sphere original FD96 tensor and constrained Hessian", "status": "IMPLEMENTATION_VERIFIED", "evidence": ["nonlrs_fd96.py", "test_nonlrs_fd96.py", "pr168_evidence/FD96_TENSOR_CAMPAIGN.json"]},
+    {"id": "N2", "task": "Original LRS parity, reflection and permutation, independent momentum/angular refinement", "depends": ["N1"], "status": "NUMERICALLY_CHECKED", "evidence": ["pr168_evidence/FD96_TENSOR_CAMPAIGN.json", "pr168_evidence/MP50_FIXED_NODES.json", "pr168_evidence/PYTHON_TESTS.stderr"]},
+    {"id": "N3", "task": "Source-only non-LRS Einstein IVP and conservation", "depends": ["N2"], "status": "NUMERICALLY_CHECKED_SOURCE_ONLY", "evidence": ["nonlrs_einstein_ivp.py", "pr168_evidence/NONLRS_IVP.json"]},
+    {"id": "N4", "task": "Independent scientific review and claim decision", "depends": ["N3"], "status": "IN_REVIEW"},
+    {"id": "N5", "task": "GitHub Draft PR, recoverable bundle, Dropbox and Google Drive create-only readback", "depends": ["N4"], "status": "READY"},
+    {"id": "N6", "task": "Opt-in independent REI matter-stress response callback", "depends": ["N4"], "status": "HOLD_BASS_SOURCE_ADMISSION_AND_REI_OWNER_CONTRACT"}
+  ],
+  "scope": "Source-only diagonal Bianchi I in 8piG=1; C=0 original PR164 axisymmetric angular extension; C!=0 separate positive triaxial FD96-radial extension. No full radiation or REI chemistry claim.",
+  "ncp": "NOT_RUN_LIGHT_LOCAL_CASES",
+  "user_convention": "signature (-,+,+,+); Sigma=sqrt(sum_i sigma_i^2/2)/H, signed sigma_i separately"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "bass.fd96.nonlrs.first_failures.v1",
+  "items": [
+    {
+      "stage": "direct_cli_import",
+      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_einstein_ivp.py --out research/kinetic_stress_equilibrium_20261016/pr168_evidence/NONLRS_IVP.json",
+      "exit_code": 1,
+      "error": "ModuleNotFoundError: No module named 'bianchi'",
+      "classification": "script import path when invoked by filename",
+      "repair": "nonlrs_fd96.py prepends its pinned repository root before original freestream import",
+      "repeat_exit_code": 0,
+      "raw_stderr": "NOT_PERSISTED; first failure appeared in command tool output and is transcribed here"
+    },
+    {
+      "stage": "independent_scientific_review",
+      "error": "A=2,C=.001 admitted negative continuous angular source W(e_y)=-.001 between sampled nodes; triaxial C changed sign under x/y permutation",
+      "classification": "physical positivity and axis covariance blockers",
+      "repair": "analytically enforce three angular coefficients nonnegative; carry original labelled transverse axes through permutation",
+      "regression": "test_positive_triaxial_fd96_radial_extension_has_genuine_2d_root, including negative source and three C!=0 permutations",
+      "repeat_target_tests": "7/7 PASS",
+      "unchanged_evidence_sha256": {
+        "FD96_TENSOR_CAMPAIGN.json": "2bdaa3593de9ac0e95f352b15819e605506df71a6e288ae913f791774cd6d383",
+        "NONLRS_IVP.json": "abbdc9e58cae383d11cf5ec0cd62ecf4c1bea95e8a7ae6285ef59203091e1a8d"
+      }
+    }
+  ]
+}
