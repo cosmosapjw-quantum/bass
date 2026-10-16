@@ -1,0 +1,14 @@
+{
+  "schema": "bass.pr170.s2.source_age_photon_stress.v1",
+  "implementation": "born_photon_stress.py",
+  "test": "python -m unittest -v test_born_photon_stress",
+  "sandbox_tests": 20,
+  "final_status": "PASS",
+  "final_exit_code": 0,
+  "initial_failure_preserved": "evidence/S2_TESTS_FIRST.log",
+  "initial_failure_root_cause": "half-normalized GL weights were multiplied by an extra 1/2 when mapping from [-1,1] to [0,x], affecting source and energy ledgers; plus zero-time empty-source positivity gate",
+  "repair": "use x*w_half rather than x/2*w_half, exact empty old-stock at zero; no changed scientific input or tolerance",
+  "repaired_log": "evidence/S2_TESTS_REPAIRED.log",
+  "independent_scientific_admission": "DERIVED_NUMERICALLY_CHECKED_SOURCE_ONLY; native REI NOT_RUN",
+  "NCP": "NOT_RUN"
+}
