@@ -74,6 +74,12 @@ class FD96Retarded:
         if not 0<=x_end<=XMAX+1e-12:raise ValueError('CONTRACTION_DOMAIN')
         return (5./6.)*(self.fraction/(1-self.fraction))*self.kappa0*(1-math.exp(-x_end))
 
+    def proven_unforced_bound(self, x_end:float=XMAX)->float:
+        """Uniform positive g(x) upper bound independent of m (linear response)."""
+        if not 0<=x_end<=XMAX+1e-12:raise ValueError('UNFORCED_BOUND_DOMAIN')
+        return (2./15.)*(self.fraction/(1.-self.fraction))*(
+            x_end-(2./3.)*(-math.expm1(-1.5*x_end)))
+
     def tangent_ode(self, x_eval:np.ndarray|None=None, *, rtol:float=2e-12):
         if x_eval is None: x_eval=np.linspace(0.,XMAX,513)
         xs=np.asarray(x_eval,dtype=float)

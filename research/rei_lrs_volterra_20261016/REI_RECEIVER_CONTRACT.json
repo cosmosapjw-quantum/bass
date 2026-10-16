@@ -1,0 +1,19 @@
+{
+  "schema": "bass.rei.lrs.volterra_source_linear_response.v1",
+  "source_parent_pr": 168,
+  "source_parent_commit": "03a01d21ed21e7d32737ca5e5f6d889a7203aa70",
+  "original_fd96_git_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
+  "physical_approximation": "A-variation around A=b=s=0, collisionless massive FD96; other radiation isotropic; no tilted electrons; no feedback from ionizing photons; no chemistry",
+  "metric_signature": "(-,+,+,+)",
+  "lrs_geometry": "a_perp=a exp(-b), a_parallel=a exp(2b)",
+  "shear_definition": "s=dot b, Sigma=sqrt(3)|s|/H, sign(s) separately",
+  "x_clock": "x=ln(a/a_ref), a_ref=1/21, x_end=ln(21/5), dt/dx=1/Hbar",
+  "units": {"H_bar":"1/s", "alpha":"dimensionless FD reference density", "kappa":"dimensionless FD reference density", "b_per_A":"dimensionless", "s_per_href_per_A":"dimensionless", "signed_s_over_H_per_A":"dimensionless", "Sigma_per_abs_A":"dimensionless"},
+  "output": "evidence/S3_CAMPAIGN_FINAL/LRS_RESPONSE.csv",
+  "tested_mass_over_Tref": [3,30,300],
+  "tested_fraction": 0.1,
+  "analytic_bound": "0 <=(1-q)g(x)<=b_A(x)<=g(x), s_A(x)>0 for x>0, q<0.141094",
+  "verification": {"sandbox_python_unittest": 21, "wolfram_exact_zeros": 7, "parent_PR164_tangent_comparison": "PASS", "native_Rust": "NOT_RUN", "NCP": "NOT_RUN"},
+  "not_admitted": ["Finite-A guaranteed shear sign", "Photon/nu π_ab total sourcing", "Gas Q^a and stellar recoil", "Full Einstein-Boltzmann", "Full EoR", "Previous REI checkpoint transport"],
+  "next_owner_action": "Opt-in diagnostic only: compare the published BASS PR169 first-order response with fresh PR159 or later REI BASS source-only geometry on matched initial A and q; never add this response to an already sourced geometry. Any actual matter-source callback requires an energy-momentum source budget and a new checkpoint."
+}
