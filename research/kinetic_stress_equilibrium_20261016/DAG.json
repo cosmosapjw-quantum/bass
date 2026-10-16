@@ -1,0 +1,58 @@
+{
+  "schema": "bass.kinetic_equilibrium.dag.v1",
+  "base": "02149a6830dfe7ed214b77f5309e38350d2659fb",
+  "scope": "BASS FD96 LRS collisionless matter; REI chemistry no mutation",
+  "branch": "research/bass-pr167-kinetic-stress-equilibrium-20261016",
+  "states": [
+    {
+      "id": "S1",
+      "task": "original source and theorem",
+      "status": "DERIVED_CAS_VERIFIED",
+      "evidence": "STAGE1_THEOREM.md",
+      "backup": "local STAGE1_THEORY.zip; GitHub commit; Google Drive upload BLOCKED_CONTAINER_SESSION"
+    },
+    {
+      "id": "S2",
+      "task": "portable source-formula FD96 stress-neutral root, positive susceptibility and root response",
+      "status": "PENDING",
+      "evidence": "STAGE2 code/tests",
+      "depends": [
+        "S1"
+      ]
+    },
+    {
+      "id": "S3",
+      "task": "numerical parameter campaign, source fidelity, limiting formulas, falsification",
+      "status": "PENDING",
+      "depends": [
+        "S2"
+      ]
+    },
+    {
+      "id": "S4",
+      "task": "BASS-specific scientific audit, handoff & durable backups",
+      "status": "PENDING",
+      "depends": [
+        "S3"
+      ]
+    },
+    {
+      "id": "S5",
+      "task": "optional REI owner-approved matter stress callback",
+      "status": "FUTURE_NOT_STARTED",
+      "depends": [
+        "S4"
+      ]
+    }
+  ],
+  "user_conventions": {
+    "metric": "(-,+,+,+)",
+    "Sigma": "sqrt3 abs(s)/H, signed s separate",
+    "positive_distribution": "-1<=A<=2",
+    "mass_domain": "m>=3",
+    "chart": "|b|<=1 for numerical admission"
+  },
+  "native_subagent": "NOT_RUN_NO_NATIVE_TOOLS",
+  "ncp": "NOT_RUN_LIGHT_SANDBOX_SCOPE",
+  "github_PR": "PENDING"
+}
