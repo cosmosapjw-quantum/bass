@@ -6,7 +6,7 @@ from __future__ import annotations
 import csv,hashlib,json,math,pathlib,sys,argparse
 HERE=pathlib.Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent))
-pinned=HERE.parents[1]/'rei_einstein_tangent_20261016'
+pinned=HERE.parent/'rei_einstein_tangent_20261016'
 if pinned.joinpath('kinetic_tangent.py').exists():
     sys.path.insert(0,str(pinned))
 else:
