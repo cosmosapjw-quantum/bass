@@ -136,7 +136,11 @@ class FD96Retarded:
         m=EinsteinTangent(mass=self.mass,fraction=self.fraction,A=float(A),Sigma_ref=0,orientation=1)
         exact=m.endpoint(rtol=2e-12,atol=2e-14,n=51)
         tangent=self.tangent_ode(np.array([0.,XMAX])).y[:,-1]
-        return {'A':A,'b_exact':exact['b'],'v_exact':exact['signed_s_over_H'],
+        linear_signed=A*self.href*tangent[1]/self.coefficients(XMAX).hubble
+        return {'A':A,'b_exact':exact['b'],
+                'signed_s_over_H_exact':exact['signed_s_over_H'],
+                'signed_s_over_H_linear':float(linear_signed),
+                'signed_s_over_H_absolute_remainder':abs(exact['signed_s_over_H']-linear_signed),
                 'b_linear':A*tangent[0],
                 'b_absolute_remainder':abs(exact['b']-A*tangent[0]),
                 'b_relative_linear_error':abs(exact['b']-A*tangent[0])/max(abs(exact['b']),1e-30),
