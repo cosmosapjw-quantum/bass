@@ -24,15 +24,17 @@
     {
       "id": "S3",
       "task": "numerical parameter campaign, source fidelity, limiting formulas, falsification",
-      "status": "READY_FOR_BASS_EINSTEIN_DYNAMICS",
+      "status": "NUMERICALLY_CHECKED_SANDBOX_45_ROOTS_972_EINSTEIN_ROWS_2_MP54",
       "depends": [
         "S2"
-      ]
+      ],
+      "evidence": "STAGE2_NUMERIC_EVIDENCE.json; STAGE3_DYNAMICS.md; einstein_stress_lag.py; test_dynamics.py; high_precision_check.py",
+      "backup": "GitHub durable stage3 commits, sandbox stage3 ZIP; Google Drive/Library upload blocked by expired container session"
     },
     {
       "id": "S4",
       "task": "BASS-specific scientific audit, handoff & durable backups",
-      "status": "PENDING",
+      "status": "READY_FOR_INDEPENDENT_SCOPE_AUDIT_AND_HANDOFF",
       "depends": [
         "S3"
       ]
@@ -44,6 +46,16 @@
       "depends": [
         "S4"
       ]
+    },
+    {
+      "id": "S3B",
+      "task": "diagonal non-LRS Hessian positivity",
+      "status": "DERIVED_WOLFRAM_VERIFIED_MANUFACTURED_TEST_PASS",
+      "depends": [
+        "S3"
+      ],
+      "evidence": "GENERAL_DIAGONAL_THEORY.md; nonlrs_convexity.py",
+      "backup": "GitHub commit; local sandbox snapshot"
     }
   ],
   "user_conventions": {
