@@ -1,0 +1,71 @@
+test_b_shape_and_nan_rejections (test_born_photon_stress.PhotonSourceTests.test_b_shape_and_nan_rejections) ... ok
+test_constant_b_exact_flrw (test_born_photon_stress.PhotonSourceTests.test_constant_b_exact_flrw) ... FAIL
+test_direct_quadrature_finite_anisotropy (test_born_photon_stress.PhotonSourceTests.test_direct_quadrature_finite_anisotropy) ... ok
+test_energy_continuity_finite_difference (test_born_photon_stress.PhotonSourceTests.test_energy_continuity_finite_difference) ... FAIL
+test_invalid_mu_and_birth_orders (test_born_photon_stress.PhotonSourceTests.test_invalid_mu_and_birth_orders) ... ok
+test_linear_error_is_second_order (test_born_photon_stress.PhotonSourceTests.test_linear_error_is_second_order) ... ok
+test_massless_source_strict_stress_opposes_deformation (test_born_photon_stress.PhotonSourceTests.test_massless_source_strict_stress_opposes_deformation) ... ok
+test_momentum_pressure_positive (test_born_photon_stress.PhotonSourceTests.test_momentum_pressure_positive) ... ok
+test_near_zero_stress_rationalization (test_born_photon_stress.PhotonSourceTests.test_near_zero_stress_rationalization) ... ok
+test_ode_two_moments_vs_independent_age_quadrature (test_born_photon_stress.PhotonSourceTests.test_ode_two_moments_vs_independent_age_quadrature) ... FAIL
+test_quadratic_stress_improves_accuracy (test_born_photon_stress.PhotonSourceTests.test_quadratic_stress_improves_accuracy) ... ok
+test_refinement_angular_integral (test_born_photon_stress.PhotonSourceTests.test_refinement_angular_integral) ... ok
+test_refinement_birth_integral (test_born_photon_stress.PhotonSourceTests.test_refinement_birth_integral) ... ok
+test_rho_exact_over_isotropic_energy (test_born_photon_stress.PhotonSourceTests.test_rho_exact_over_isotropic_energy) ... ok
+test_small_d_taylor_coefficients (test_born_photon_stress.PhotonSourceTests.test_small_d_taylor_coefficients) ... ok
+test_source_at_birth_has_zero_quadrupole (test_born_photon_stress.PhotonSourceTests.test_source_at_birth_has_zero_quadrupole) ... ERROR
+test_source_shape_and_sign_rejections (test_born_photon_stress.PhotonSourceTests.test_source_shape_and_sign_rejections) ... ok
+test_stress_monotonicity (test_born_photon_stress.PhotonSourceTests.test_stress_monotonicity) ... ok
+test_whole_history_physical_volume_energy_ledger (test_born_photon_stress.PhotonSourceTests.test_whole_history_physical_volume_energy_ledger) ... FAIL
+test_zero_anisotropy_has_exact_zero_pressure (test_born_photon_stress.PhotonSourceTests.test_zero_anisotropy_has_exact_zero_pressure) ... ok
+
+======================================================================
+ERROR: test_source_at_birth_has_zero_quadrupole (test_born_photon_stress.PhotonSourceTests.test_source_at_birth_has_zero_quadrupole)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/test_born_photon_stress.py", line 74, in test_source_at_birth_has_zero_quadrupole
+    p=model.point(0.)
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/born_photon_stress.py", line 153, in point
+    raise ArithmeticError('POSITIVE_KINETIC_ENERGY_OR_CONVEXITY')
+ArithmeticError: POSITIVE_KINETIC_ENERGY_OR_CONVEXITY
+
+======================================================================
+FAIL: test_constant_b_exact_flrw (test_born_photon_stress.PhotonSourceTests.test_constant_b_exact_flrw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/test_born_photon_stress.py", line 83, in test_constant_b_exact_flrw
+    self.assertAlmostEqual(p.rho,expected,delta=5e-13)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.688163113362762 != 1.7005261116364254 within 5e-13 delta (0.012362998273663495 difference)
+
+======================================================================
+FAIL: test_energy_continuity_finite_difference (test_born_photon_stress.PhotonSourceTests.test_energy_continuity_finite_difference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/test_born_photon_stress.py", line 101, in test_energy_continuity_finite_difference
+    self.assertLess(abs(deriv-model.energy_rhs(x)),4e-9)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.12104442460444975 not less than 4e-09
+
+======================================================================
+FAIL: test_ode_two_moments_vs_independent_age_quadrature (test_born_photon_stress.PhotonSourceTests.test_ode_two_moments_vs_independent_age_quadrature)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/test_born_photon_stress.py", line 92, in test_ode_two_moments_vs_independent_age_quadrature
+    self.assertAlmostEqual(pt.isotropic_rho,sol.y[0,j],delta=4e-12)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.6070340335121601 != np.float64(0.6167972662136609) within 4e-12 delta (np.float64(0.009763232701500812) difference)
+
+======================================================================
+FAIL: test_whole_history_physical_volume_energy_ledger (test_born_photon_stress.PhotonSourceTests.test_whole_history_physical_volume_energy_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/bass_pr170_source_age_memory_20261016/test_born_photon_stress.py", line 106, in test_whole_history_physical_volume_energy_ledger
+    self.assertLess(abs(q['energy_residual']),7e-11)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.4998382575895765 not less than 7e-11
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.061s
+
+FAILED (failures=4, errors=1)

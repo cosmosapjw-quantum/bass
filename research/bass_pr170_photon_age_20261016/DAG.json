@@ -1,0 +1,17 @@
+{
+  "schema": "bass.pr170.source_age_memory.dag.v3",
+  "baseline": "6fb32b51390e4f722692505bf7a3ace2448aada6",
+  "recovery_date_utc": "2026-10-18",
+  "stages": [
+    {"id":"S0","status":"PUBLISHED_BACKUP_CHECKPOINT_REUSED","commit":"e5eac1eaf679a09e83833f29e87333067a614dd2"},
+    {"id":"S1","requires":["S0"],"status":"DERIVED_PUBLISHED_CHECKPOINT_REUSED","commit":"ab0647851441652930698aa1c7cb0709669ea651"},
+    {"id":"S2","requires":["S1"],"status":"IMPLEMENTATION_VERIFIED_PUBLISHED_CHECKPOINT_REUSED","commit":"90af8509ab746b9e5bf45eab052f0799475a3366"},
+    {"id":"S3","requires":["S2"],"status":"NUMERICALLY_CHECKED_PUBLISHED_CHECKPOINT_REUSED","commit":"a923b568ed91f4dbfa10c02baa35725060ab74d5","cases":18,"rows":1170},
+    {"id":"S4","requires":["S3"],"status":"PUBLISHED_DRAFT_DUAL_CLOUD_READBACK_VERIFIED","implementation_commit":"8a74a891ac40a9ceae1ba8c637b2df8d78e875dd","pr":170,"scientific_tests_pass":36,"packaging_tests_pass":3,"total_tests_pass":39,"original_archive_sha256":"2b462b77bcca8257431a026928c06dadee31d5178a4925d3520189ca7c437274","closeout_archive_sha256":"9d309682ac156b6db6c253b84281c8562ff85d81a0b51f875a581e125d491aa3","dropbox_readback":"PASS_55_PAYLOADS","google_drive_readback":"PASS_55_PAYLOADS","chatgpt_library_readback":"PASS_55_PAYLOADS","replay":"EXACT_HISTORY_AND_RESULTS_BYTES_AND_MP70_PASS","record":"RETURN_TO_CHATGPT.json"},
+    {"id":"S5","requires":["S4"],"status":"HOLD_NATIVE_SOURCE_OWNER_NOT_RUN","first_action":"Read the current native REI source units and photon number/spectrum ownership; construct a bounded source-matched interface without adding existing BASS stress twice."}
+  ],
+  "native_subagent":"NOT_RUN_UNEXPOSED",
+  "NCP":"NOT_RUN_NOT_REQUIRED_FOR_CLOSEOUT",
+  "scope":"Source-only BASS photon-age stress and conditional initial-radiation first variation; no native REI or EoR admission",
+  "backup_semantics":"S0-S3 snapshots remain in the immutable original archive included inside the final closeout ZIP. Final Git publication metadata is separately preserved in RETURN_TO_CHATGPT.json. No claim that the ZIP is a complete Git clone."
+}

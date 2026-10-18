@@ -1,0 +1,63 @@
+{
+  "schema":"bass.pr170.interruption_recovery.closeout.v1",
+  "date_utc":"2026-10-18",
+  "classification":"RUNTIME_INTERRUPTION_RECOVERY",
+  "repo":"cosmosapjw-quantum/bass",
+  "pr":"https://github.com/cosmosapjw-quantum/bass/pull/170",
+  "branch":"research/bass-pr170-source-age-photon-stress-20261016",
+  "parent_pr169":"6fb32b51390e4f722692505bf7a3ace2448aada6",
+  "interrupted_at":"a923b568ed91f4dbfa10c02baa35725060ab74d5",
+  "verified_implementation_commit":"8a74a891ac40a9ceae1ba8c637b2df8d78e875dd",
+  "verified_implementation_tree":"e3b82e1164074a5b4935dd108258e0bc413417cc",
+  "closeout_scope":"Recover and publish the missing S4 files; exact source replay and durable backup. No new scientific operator or REI/NCP execution.",
+  "verification":{
+    "original_archive":{"bytes":330800,"sha256":"2b462b77bcca8257431a026928c06dadee31d5178a4925d3520189ca7c437274","manifest_payloads_verified":40},
+    "scientific_tests":36,
+    "packaging_tests":3,
+    "total_tests":39,
+    "command":"OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 python -m unittest -v test_born_photon_stress test_bass_campaign test_high_precision test_prepare_git",
+    "exit_code":0,
+    "latest_test_seconds":1.784,
+    "latest_test_log_in_closeout_zip":"evidence/FINAL_39_TESTS_20261018.log",
+    "packaging_red_green":"Expected no-op preparation failures preserved, corrected minimal restoration code passed all three tests; physics sources unchanged.",
+    "full_replay":{"command":"bash RUN_GIT_REPLAY.sh","exit_code":0,"history_and_results":"EXACT_BYTE_MATCH","rows":1170,"cases":18,"mp70":"PASS","log_in_closeout_zip":"evidence/GIT_ONLY_REPLAY.log","replayed_before_second_interruption":true},
+    "source_binding":{"verified_exact_git_blobs":8,"record_in_closeout_zip":"evidence/EXACT_IMPLEMENTATION_BINDING.json"},
+    "environment":{"python":"3.13.5","numpy":"2.3.5","scipy":"1.17.0","mpmath":"1.3.0"},
+    "note":"Earlier chat count 35 was incorrect; final scientific suite is 36. Three packaging tests are not additional physical validation."
+  },
+  "retained_scientific_results":{
+    "max_abs_energy_ledger":2.7200464103316335e-15,
+    "max_trajectory_scaled_first_order_stress_error":0.0003913921903492959,
+    "mp70_vs_gl128_F_max_abs":9.992007221626409e-15,
+    "mp70_vs_gl128_D_max_abs":3.597122599785507e-14,
+    "normalization":"Bolometric normalized physical-volume density from the original passive photon source. Not an eV/H native chemistry ledger.",
+    "birth_source":"Positive manufactured S(x), not MD14 or native REI source.",
+    "moment_reduction":"U'=-4U+S; M'=-4M+S b; DeltaP=-(8/5)(U b-M), valid only to first order in anisotropy.",
+    "conditional_old_radiation":"A fraction of already counted Omega_r is reinterpreted, not added as new energy density. No newly emitted photon feedback in the Einstein experiment."
+  },
+  "backups":{
+    "archive":"BASS_PR170_RECOVERY_CLOSEOUT_20261018.zip",
+    "bytes":631343,
+    "sha256":"9d309682ac156b6db6c253b84281c8562ff85d81a0b51f875a581e125d491aa3",
+    "zip_entries":56,
+    "manifest_payloads":55,
+    "dropbox":{"path":"/BASS_BACKUPS/BASS_PR170_RECOVERY_CLOSEOUT_20261018.zip","file_id":"id:BSpOijBcT10AAAAAAD-6rw","uploaded":true,"independent_raw_readback":"SHA256_AND_55_PAYLOADS_PASS"},
+    "google_drive":{"path":"/Google Drive/BASS_BACKUPS/BASS_PR170_RECOVERY_CLOSEOUT_20261018.zip","file_id":"1-PEb3pFS54xM11cmSznZC4aPtXqMCEsB","uploaded":true,"independent_raw_readback":"SHA256_AND_55_PAYLOADS_PASS"},
+    "chatgpt_library":{"path":"/BASS/PR170_SOURCE_AGE_20261016/BASS_PR170_RECOVERY_CLOSEOUT_20261018.zip","file_id":"file_00000000cdfc81fa8d68ef203e09553a","independent_raw_readback":"SHA256_AND_55_PAYLOADS_PASS"},
+    "restore_scope":"Runnable research source plus unchanged original stage archive and fresh logs. Not a full Git clone. Final publication metadata lives in this commit and a separately backed-up closeout receipt."
+  },
+  "failures_preserved":[
+    "Runtime interruption left S4 blobs unattached; branch head remained S3 until recovery.",
+    "Direct sandbox temporary Dropbox URL download rejected; requests DNS failed. Files raw materialization succeeded.",
+    "Git-only raw CSV absent by design; restored from exact hash-bound gzip using minimal prepare_git.py. Existing changed raw CSV or compressed data rejected.",
+    "A tree creation attempted to reference S4 blobs not yet present; those exact blobs were uploaded before a successful tree creation. No branch was moved by the failed tree request."
+  ],
+  "native_subagent":"NOT_RUN_UNEXPOSED",
+  "NCP":"NOT_RUN_NOT_NEEDED",
+  "CI":"No CI PASS is claimed; current workflow status is to be read from GitHub separately.",
+  "scientific_admission":"DERIVED_NUMERICALLY_CHECKED_IMPLEMENTATION_VERIFIED_FOR_SCOPED_BASS_SOURCE_ONLY",
+  "hold":["Native REI source matching and photon number/spectrum","Absorption, Thomson, H/He chemistry and polarization","Gas/emitter Q^a reservoir partner","New source-bound native checkpoint","Full EoR or observation-level validation"],
+  "next_first_action":"Read current native source units and source identities. In an independent owner branch establish a same-clock bolometric comparison before any physics callback; keep BASS stress from being counted twice.",
+  "execution_prompt":"COPYABLE_CODEX_PROMPT_KO.md",
+  "auto_merge":false
+}

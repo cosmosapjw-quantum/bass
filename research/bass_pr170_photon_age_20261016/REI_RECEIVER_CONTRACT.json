@@ -1,0 +1,11 @@
+{
+ "schema":"bass.rei.pr170.passive_born_isotropic_photon_stress.v1",
+ "source_bass_parent_commit":"6fb32b51390e4f722692505bf7a3ace2448aada6",
+ "geometry":"non-tilted LRS Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b)",
+ "signed_shear":"s=dot b, geometry_point.sigma=s/H; Sigma=sqrt(3)|s|/H nonnegative",
+ "input":{"x":"ln(a/a_ref); a_ref=1/21", "b_of_x":"BASS source-bound given geometry, no backreaction from this passive diagnostic", "rho_old":"physical bolometric density at x=0, normalized in caller's fixed energy unit", "S_of_x":"nonnegative local physical bolometric energy-density injection per unit ln(a), i.e. j_proper/H; NOT native photon count rate", "born_angular_source":"isotropic in local orthonormal emission frame", "transport":"collisionless Killing characteristics; no absorption, polarization, Thomson"},
+ "output":{"rho":"physical bolometric radiation energy density in same units as input", "DeltaP":"P_parallel-P_perp in same density units", "pi_diagonal":"(-DeltaP/3,-DeltaP/3,2DeltaP/3)", "linear_memory":"U,M; Delta_linear=-(8/5)(U*b-M)", "energy_ledger":"drho/dx = -4rho + S - 2(db/dx)DeltaP", "BASS_Gamma_lane":"f_gamma of existing Omega_r, S=0 ONLY, first-order around isotropy"},
+ "ownership":{"energy_stock":"do not add source/tracer rho to BASS/REI existing Ωr a second time", "emission_gas_partner":"OPEN", "absorption_nuclei_heat_and_binding":"NOT_IMPLEMENTED", "momentum_Qa_recoil":"OPEN", "Thomson_polarization":"NOT_IMPLEMENTED", "native_REI_adoption":"NOT_RUN", "checkpoint":"do not reuse PR159/167 or original REI production checkpoint"},
+ "verification":{"sandbox_python_tests":36,"independent_MP70_angular_control":"PASS","original_BASS_history":"18 cases, 1170 rows PASS scoped","actual_user_NCP":"NOT_RUN"},
+ "admission":"SOURCE_ONLY_DERIVED_NUMERICALLY_CHECKED; no physical REI photon likelihood, native material or EoR predictions"
+}
