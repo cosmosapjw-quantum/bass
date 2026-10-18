@@ -1,0 +1,11 @@
+{
+  "schema": "bass.research.dag.v1",
+  "parent": {"pr": 170, "head": "0f6f90e63b78a45cdd03b8991fa2e708c05a10fc"},
+  "nodes": [
+    {"id": "P0", "name": "PR170 immutable recovery and regression", "status": "PARTIAL", "evidence": ["evidence/RUN_GIT_REPLAY.stdout.log", "evidence/TEST_PREPARE_GIT.stdout.log", "evidence/REPLAY_NUMERICAL_COMPARISON.json"], "result": "36 science tests PASS; 3 recovery tests PASS; exact-byte replay wrapper EXIT 1"},
+    {"id": "P1", "name": "PR150 native source and timing intake", "status": "PASS_SCOPED", "evidence": ["evidence/native_source_snapshot", "evidence/REI_PR150_AXBI_SOURCES_CARGO_TEST_EXACT_ROOT.log"], "result": "immutable source/transport/driver snapshots and midpoint injection path audited"},
+    {"id": "P2", "name": "same-clock bolometric convention control", "status": "PASS_SCOPED", "depends_on": ["P1"], "evidence": ["rei_native_bolometric_control.py", "test_rei_native_bolometric_control.py", "evidence/NATIVE_SAME_CLOCK_BOLOMETRIC_CONTROL.json"], "result": "Python mapping control reproduces PR150 source fractions plus GL8 transport representation; no observed native ledger parity claim"},
+    {"id": "P3", "name": "independent REI owner source-bound injection ledger", "status": "HOLD", "depends_on": ["P2"], "blocking_requirement": "new REI source identity, native SourceLedger measurement, source-bound checkpoint and restart comparison"},
+    {"id": "P4", "name": "BASS--REI reactive coupling", "status": "HOLD", "depends_on": ["P3"], "blocking_requirement": "H/He/Qa/polarization ownership remains unimplemented and unverified"}
+  ]
+}
