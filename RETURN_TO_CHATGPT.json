@@ -1,428 +1,47 @@
 {
-  "schema": "bass.pr168.return_to_chatgpt.v1",
-  "created_kst": "2026-10-16T13:08:32.451293+09:00",
-  "identity": {
-    "repository": "https://github.com/cosmosapjw-quantum/bass",
-    "parent_pr167_commit": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
-    "parent_pr166_commit": "02149a6830dfe7ed214b77f5309e38350d2659fb",
-    "original_freestream_blob": "8467932c3281f9d426712b3a582f2aae3a484692",
-    "original_pr164_tangent_blob": "1cab2bf7eab5a306ab207206ca3a0fc793dc9163",
-    "branch": "research/bass-pr168-nonlrs-fd96-20261016",
-    "first_stage_commit": "a12dce3d84ce97ce408317c815a87f09f8cdda4f",
-    "review_repair_commit": "a66a13d0e3c62ba7131ca0634c328a6c24afc16e",
-    "reviewed_science_commit": "b1163f288a791d3f161b3f6a3ac6eaa9be6d5d8c",
-    "reviewed_tree": "b81fbc738d7bb739a12ea87a1041ae2639e3e050",
-    "final_report_commit": "self-referential; exact final HEAD is reported in chat and PR",
-    "draft_pr": "https://github.com/cosmosapjw-quantum/bass/pull/168",
-    "pr167_unmerged": true
+  "schema": "bass.return_to_chatgpt.v1",
+  "research": "PR171 BASS--REI native bolometric boundary control",
+  "base": {
+    "bass_pr170_head": "0f6f90e63b78a45cdd03b8991fa2e708c05a10fc",
+    "verified_pr170_implementation": "8a74a891ac40a9ceae1ba8c637b2df8d78e875dd",
+    "rei_native_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177"
   },
-  "changed_files": [
-    "nonlrs_fd96.py",
-    "nonlrs_campaign.py",
-    "nonlrs_strong_grid.py",
-    "nonlrs_mp_check.py",
-    "nonlrs_einstein_ivp.py",
-    "test_nonlrs_fd96.py",
-    "PR168_DAG.json",
-    "PR168_RESULTS_KO.md",
-    "pr168_evidence/*",
-    "pr168_recovery/*",
-    "RETURN_TO_CHATGPT.json"
+  "implementation_commit": "f8f693741fe829f5e40658334cb660f272345c3f",
+  "implementation_tree": "e0f612c76b45732d5e4aee082d0ab3397c236c7e",
+  "changed_path": "research/bass_pr171_rei_bolometric_contract_20261018/",
+  "native_identity": {
+    "source_sha256": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe",
+    "transport_sha256": "9d2d97881ca7b9b58d68dbeffad937e16ca8af237b3d9ba01de0fb5e00b67aa7",
+    "driver_sha256": "41c969a5308070c0a27708cf7443a96f83bdb2a7685edd5ee8819c46a8e96414",
+    "source_id": "MD14_Z002_FESC_BB50K_13P6_100_V1"
+  },
+  "commands": [
+    {"command": "bash research/bass_pr170_photon_age_20261016/RUN_GIT_REPLAY.sh", "exit_code": 1, "result": "36 science tests pass; byte replay assertion fails"},
+    {"command": "python -m unittest -v test_prepare_git", "exit_code": 0, "tests": 3},
+    {"command": "python -m unittest -v test_rei_native_bolometric_control", "exit_code": 0, "tests": 9},
+    {"command": "cargo test axbi_sources --lib", "exit_code": 0, "tests_selected": 0, "rust": "1.99.0"}
   ],
-  "source_contract": {
-    "metric_signature": "(-,+,+,+)",
-    "beta": "(u,v,-u-v)",
-    "signed_shear": "sigma_i=dot(beta_i), stored separately",
-    "Sigma": "sqrt(sum sigma_i^2/2)/H",
-    "original_angular_source": "C=0, W=1+A P2(n_z), A in [-1,2]",
-    "triaxial_extension": "C=.2 separately positive W=1+A P2(n_z)+C(nx^2-ny^2); NOT original axisymmetric source",
-    "radial": "original freestream FD96 q^2/(exp(q)+1), GL96 default",
-    "normalization": "4pi times PR164/PR167 reference energy integral",
-    "production_solver": "NOT_MODIFIED"
+  "residuals": {
+    "same_clock_bolometric_relative": {"max": 1.9027643611451086e-16, "denominator": "max(abs(S),abs(n_H*E_REI))", "unit": "dimensionless", "tolerance": 3e-16, "scope": "Python binary64 mapping control"},
+    "pr170_replay_energy": {"raw": 2.6645352591003757e-15, "unit": "parent caller energy-density unit", "tolerance": 3e-10},
+    "pr170_replay_memory": {"raw": 1.0401082772837356e-11, "unit": "parent caller energy-density unit", "tolerance": 5e-10},
+    "pr170_replay_linear_stress_fraction": {"raw": 0.0003913921903492817, "unit": "dimensionless", "tolerance": 0.001}
   },
-  "tests_and_build": [
-    {
-      "command": "python3 -m compileall -q research/kinetic_stress_equilibrium_20261016/nonlrs_*.py",
-      "exit_code": 0
-    },
-    {
-      "command": "python3 -m unittest discover -s research/kinetic_stress_equilibrium_20261016 -p test*.py",
-      "exit_code": 0,
-      "count": "24/24",
-      "wall_s": 3.83,
-      "max_rss_kib": 107632
-    },
-    {
-      "command": "python3 -m pytest -q tests/test_m10_freestream.py",
-      "exit_code": 0,
-      "count": "7/7"
-    },
-    {
-      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_campaign.py --out .../FD96_TENSOR_CAMPAIGN.json",
-      "exit_code": 0
-    },
-    {
-      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_strong_grid.py --out .../STRONG_ANISOTROPY_GRID.json",
-      "exit_code": 0
-    },
-    {
-      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_mp_check.py --out .../MP50_FIXED_NODES.json",
-      "exit_code": 0
-    },
-    {
-      "command": "python3 research/kinetic_stress_equilibrium_20261016/nonlrs_einstein_ivp.py --out .../NONLRS_IVP.json",
-      "exit_code": 0
-    },
-    {
-      "command": "gh pr checks 168",
-      "status": "NO_CHECKS_REPORTED",
-      "native_ci": "NOT_RUN"
-    }
-  ],
-  "results": {
-    "lrs_24_states_max_abs_reference_density_units": {
-      "rho_diff": 3.3306690738754696e-16,
-      "pbar_diff": 5.551115123125783e-17,
-      "delta_diff": 1.2212453270876722e-15,
-      "p_perp_diff": 4.163336342344337e-16,
-      "p_parallel_diff": 8.326672684688674e-16,
-      "hessian_b_diff": 6.661338147750939e-16,
-      "offdiagonal_max": 3.611534852061245e-18
-    },
-    "near_isotropic_radial_convergence": [
-      {
-        "radial": 64,
-        "rho_relative": 2.9422041070587925e-16,
-        "pressure_max_relative": 5.516632700735236e-17,
-        "hessian_max_relative": 3.6777551338234906e-17,
-        "pi_max_relative": 4.597193917279363e-17
-      },
-      {
-        "radial": 96,
-        "rho_relative": 2.9422041070587925e-16,
-        "pressure_max_relative": 6.436071484191109e-17,
-        "hessian_max_relative": 7.355510267646981e-17,
-        "pi_max_relative": 5.516632700735236e-17
-      },
-      {
-        "radial": 128,
-        "rho_relative": 0.0,
-        "pressure_max_relative": 3.6777551338234906e-17,
-        "hessian_max_relative": 7.355510267646981e-17,
-        "pi_max_relative": 5.516632700735236e-17
-      },
-      {
-        "radial": 160,
-        "rho_relative": 0.0,
-        "pressure_max_relative": 0.0,
-        "hessian_max_relative": 0.0,
-        "pi_max_relative": 0.0
-      }
-    ],
-    "near_isotropic_angular_convergence": [
-      {
-        "polar": 16,
-        "azimuth": 16,
-        "rho_relative": 2.353763285647034e-15,
-        "pressure_max_relative": 4.063919422874957e-15,
-        "hessian_max_relative": 3.86863062526893e-13,
-        "pi_max_relative": 4.183446464724221e-15
-      },
-      {
-        "polar": 24,
-        "azimuth": 24,
-        "rho_relative": 1.7653224642352755e-15,
-        "pressure_max_relative": 8.458836807794028e-16,
-        "hessian_max_relative": 1.3607693995146915e-15,
-        "pi_max_relative": 7.263566389301394e-16
-      },
-      {
-        "polar": 32,
-        "azimuth": 32,
-        "rho_relative": 1.7653224642352755e-15,
-        "pressure_max_relative": 9.010500077867552e-16,
-        "hessian_max_relative": 1.3975469508529264e-15,
-        "pi_max_relative": 7.72328578102933e-16
-      },
-      {
-        "polar": 48,
-        "azimuth": 48,
-        "rho_relative": 0.0,
-        "pressure_max_relative": 0.0,
-        "hessian_max_relative": 0.0,
-        "pi_max_relative": 0.0
-      }
-    ],
-    "strong_anisotropy_state": {
-      "mass": 3.0,
-      "A": 0.5,
-      "x": 0.0,
-      "beta": [
-        1.0,
-        -0.3,
-        -0.7
-      ],
-      "radial": 96
-    },
-    "strong_anisotropy_gl24_vs_gl96": {
-      "polar": 24,
-      "azimuth": 24,
-      "rho_relative": 7.501329545388846e-09,
-      "pressure_max_relative": 8.026154458965579e-08,
-      "pi_max_relative": 6.701414718737994e-08,
-      "hessian2_max_relative": 9.913791649463748e-07,
-      "offdiagonal_over_rho": 4.2406578603733544e-18,
-      "hessian2_min_eigen": 0.17868739383943577
-    },
-    "strong_anisotropy_gl48_vs_gl96": {
-      "polar": 48,
-      "azimuth": 48,
-      "rho_relative": 2.0280026506649002e-13,
-      "pressure_max_relative": 3.702279270816647e-12,
-      "pi_max_relative": 3.2196979582491186e-12,
-      "hessian2_max_relative": 7.42582243306225e-11,
-      "offdiagonal_over_rho": 3.8411892982901187e-19,
-      "hessian2_min_eigen": 0.17868656448970033
-    },
-    "strong_anisotropy_gl64_vs_gl96": {
-      "polar": 64,
-      "azimuth": 64,
-      "rho_relative": 2.481821425638864e-15,
-      "pressure_max_relative": 8.775011469223127e-15,
-      "pi_max_relative": 7.223873078198836e-15,
-      "hessian2_max_relative": 2.2708666044595606e-13,
-      "offdiagonal_over_rho": 4.778585090972475e-19,
-      "hessian2_min_eigen": 0.17868656440110348
-    },
-    "mp50_fixed_binary64_nodes": {
-      "schema": "bass.fd96.nonlrs.mp50_fixed_binary64_nodes.v1",
-      "decimal_digits": 50,
-      "grid": [
-        32,
-        16,
-        16
-      ],
-      "source": "original FD96 radial functional form on fixed binary64 quadrature nodes, C=.2 explicit angular extension",
-      "rho_error": 3.387800112643045e-17,
-      "pressure_diagonal_max_error": 1.4923139684287616e-18,
-      "offdiagonal_xy_error": -9.509945411379178e-20,
-      "hessian_max_error": 6.938893903907228e-18,
-      "normalized_denominator": 0.09425124940980482,
-      "scope": "fixed quadrature nodes and weights; not continuum quadrature accuracy"
-    },
-    "triaxial_2d_neutral_root": {
-      "C": 0.2,
-      "angular": 48,
-      "beta2": [
-        0.01379528555210261,
-        -0.0779461778412526
-      ],
-      "pressure_tracefree_gradient": [
-        -1.734723475976807e-18,
-        -1.734723475976807e-18
-      ],
-      "residual_per_rho": 1.8420629022954742e-17,
-      "hessian_min_eigen": 0.0137566105711673,
-      "weight_min": 1.746748489816333e-302,
-      "offdiagonal_over_rho": 9.139646395472726e-20
-    },
-    "source_only_ivp": {
-      "states": 15,
-      "nfev": 32,
-      "hamiltonian": {
-        "raw": -2.469778667604089e-16,
-        "denominator": 0.9157840814301814,
-        "normalized": 2.6969006315845016e-16,
-        "x": 0.025,
-        "units": "reference-density/natural 8piG=1 units",
-        "tolerance_normalized": 1e-13
-      },
-      "raychaudhuri": {
-        "raw": -2.6921909146437883e-11,
-        "denominator": 0.9592221415008493,
-        "normalized": 2.80663966996367e-11,
-        "x": 0.03125,
-        "units": "H_x or rho_x natural units",
-        "tolerance_normalized": 2e-09
-      },
-      "kinetic_energy_work": {
-        "raw": -2.0758506025231327e-10,
-        "denominator": 3.109600240384118,
-        "normalized": 6.675618864329359e-11,
-        "x": 0.034375,
-        "units": "H_x or rho_x natural units",
-        "tolerance_normalized": 2e-09
-      },
-      "hamiltonian_caveat": "H constructed from constraint at each state; residual partly algebraic",
-      "min_hessian_eigen": 0.23348193730867528,
-      "max_offdiagonal_over_rho": 1.4473677661889463e-17
-    }
+  "replay": {"status": "BYTE_IDENTITY_MISMATCH", "reference_history_sha256": "0a643f7c51e853ad15b9b2682c5534cdfcf9d25fda219bd3275023074cb2d444", "replayed_history_sha256": "30c5907e09f204cb20885aef4379b5e0bb98e3c2702bd61c65b5998e154b9d87", "max_abs_field_difference": 1.4408801408960503e-11, "rows": 1170},
+  "claims": {
+    "DERIVED": ["S=j_proper/H with dx/dt=H", "proper n_H=n_H0/a^3 conversion"],
+    "NUMERICALLY_CHECKED": ["four same-clock controls", "PR170 36 science tests", "PR170 3 recovery tests", "PR171 9 boundary tests"],
+    "IMPLEMENTATION_VERIFIED": ["immutable REI source snapshots", "Simpson source fraction and GL8 transport moment distinction", "midpoint source clock intake"],
+    "HOLD": ["observed Rust SourceLedger parity", "finite-step native source accuracy", "source-bound checkpoint/restart", "H/He reactive integration", "gas/emitter Qa, recoil, polarization, full EoR"],
+    "NOT_RUN": ["NCP", "new REI owner branch execution", "native reactive checkpoint"]
   },
-  "review": {
-    "status": "SCOPED_PASS",
-    "reviewed_source_blobs": [
-      "a78bf0fbeebfa945685762d9155152288a22b56f",
-      "c6855743e8c1ebb089ac314cb722cae2f640a7f1",
-      "9f7b527ae32cc714ac8a4e07bfeb993ed97abc09",
-      "7b03b8c7d0ad56467832d18f490319d54476ea9e",
-      "2952c9d26461c5525244900aabed1d71f0204047"
-    ],
-    "confirmed_repairs": [
-      "continuous angular positivity",
-      "C permutation covariance",
-      "zero/negative/nonfinite modifier rejection",
-      "scale-independent reflection parity"
-    ],
-    "claim_ceiling": [
-      "original C=0 source tensor and sampled LRS reduction",
-      "separate positive C=.2 triaxial extension",
-      "bounded source-only Einstein IVP"
-    ],
-    "hold": [
-      "uniform full |beta_i|<=1 chart quadrature accuracy",
-      "continuum quadrature error bound",
-      "full non-LRS BASS production solver",
-      "general off-diagonal Einstein evolution",
-      "stress-neutral root as dynamic closure",
-      "REI matter callback and chemistry admission"
-    ]
+  "resources": {"local": "Python venv, single-thread numerical tests", "NCP": "NOT_RUN; no heavy computation required"},
+  "recovery": {"incremental_bundle": "research/bass_pr171_rei_bolometric_contract_20261018/BASS_PR171_INCREMENTAL.bundle", "sha256": "da4e8b6397b393bff582dde511975a4cd6dc8821df375fdd6bb0222d4b5a51fc", "requires_base": "0f6f90e63b78a45cdd03b8991fa2e708c05a10fc", "verify": "git bundle verify: PASS"},
+  "backup": {
+    "package_sha256": "3ac34df20cb41ff75e6f23f87b6886de2f499ce407441e66ae830e19b2d018fd",
+    "package": "BASS_PR171_REI_BOLOMETRIC_20261018_4e8ad8c.tar.gz",
+    "dropbox": {"path": "dbx:/BASS_BACKUPS/BASS_PR171_REI_BOLOMETRIC_20261018_3ac34df20cb41ff75e6f23f87b6886de2f499ce407441e66ae830e19b2d018fd.tar.gz", "create_only": true, "readback_sha256": "3ac34df20cb41ff75e6f23f87b6886de2f499ce407441e66ae830e19b2d018fd", "status": "PASS"},
+    "google_drive": {"path": "gdrv:/BASS_BACKUPS/BASS_PR171_REI_BOLOMETRIC_20261018_3ac34df20cb41ff75e6f23f87b6886de2f499ce407441e66ae830e19b2d018fd.tar.gz", "create_only": true, "readback_sha256": "3ac34df20cb41ff75e6f23f87b6886de2f499ce407441e66ae830e19b2d018fd", "status": "PASS"}
   },
-  "first_failures": "pr168_evidence/FIRST_FAILURES.json",
-  "DAG": [
-    {
-      "id": "N1",
-      "task": "Full-sphere original FD96 tensor and constrained Hessian",
-      "status": "IMPLEMENTATION_VERIFIED",
-      "evidence": [
-        "nonlrs_fd96.py",
-        "test_nonlrs_fd96.py",
-        "pr168_evidence/FD96_TENSOR_CAMPAIGN.json"
-      ]
-    },
-    {
-      "id": "N2",
-      "task": "Original LRS parity, reflection and permutation, independent momentum/angular refinement",
-      "depends": [
-        "N1"
-      ],
-      "status": "NUMERICALLY_CHECKED_SAMPLED__FULL_CHART_ACCURACY_HOLD",
-      "evidence": [
-        "pr168_evidence/FD96_TENSOR_CAMPAIGN.json",
-        "pr168_evidence/STRONG_ANISOTROPY_GRID.json",
-        "pr168_evidence/MP50_FIXED_NODES.json",
-        "pr168_evidence/PYTHON_TESTS.stderr"
-      ]
-    },
-    {
-      "id": "N3",
-      "task": "Source-only non-LRS Einstein IVP and conservation",
-      "depends": [
-        "N2"
-      ],
-      "status": "NUMERICALLY_CHECKED_SOURCE_ONLY",
-      "evidence": [
-        "nonlrs_einstein_ivp.py",
-        "pr168_evidence/NONLRS_IVP.json"
-      ]
-    },
-    {
-      "id": "N4",
-      "task": "Independent scientific review and claim decision",
-      "depends": [
-        "N3"
-      ],
-      "status": "SCOPED_PASS_FULL_CHART_ACCURACY_HOLD",
-      "reviewed_source_blobs": [
-        "a78bf0fbeebfa945685762d9155152288a22b56f",
-        "c6855743e8c1ebb089ac314cb722cae2f640a7f1",
-        "9f7b527ae32cc714ac8a4e07bfeb993ed97abc09",
-        "7b03b8c7d0ad56467832d18f490319d54476ea9e",
-        "2952c9d26461c5525244900aabed1d71f0204047"
-      ]
-    },
-    {
-      "id": "N5",
-      "task": "GitHub Draft PR, recoverable bundle, Dropbox and Google Drive create-only readback",
-      "depends": [
-        "N4"
-      ],
-      "status": "PUBLISHED_DRAFT_DUAL_READBACK_PASS",
-      "pr": 168,
-      "backup_receipt": "pr168_recovery/BACKUP_RECEIPTS.json"
-    },
-    {
-      "id": "N6",
-      "task": "Opt-in independent REI matter-stress response callback",
-      "depends": [
-        "N4"
-      ],
-      "status": "HOLD_FULL_CHART_QUADRATURE_AND_GENERAL_EINSTEIN_SOURCE_ADMISSION"
-    }
-  ],
-  "resources": {
-    "execution": "local Ubuntu bounded Python only",
-    "ncp": "NOT_RUN; no heavy job required; owner NCP processes/checkpoints untouched",
-    "test_wall_s": 3.83,
-    "test_max_rss_kib": 107632
-  },
-  "recovery": {
-    "schema": "bass.pr168.backup.v1",
-    "created_kst": "2026-10-16T13:08:04.453850+09:00",
-    "source_commit": "b1163f288a791d3f161b3f6a3ac6eaa9be6d5d8c",
-    "required_pr167_base": "fe48e9a90a14bc6bad09941763a15aad34505e2c",
-    "package": "bass-pr168-source-20261016-001.tar.gz",
-    "size_bytes": 28552,
-    "sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
-    "bundle_verify_exit_code": 0,
-    "disposable_restore_exit_code": 0,
-    "clouds": {
-      "dropbox": {
-        "path": "dbx:BASS_BACKUPS/BASS_PR168_NONLRS_FD96_20261016_001/bass-pr168-source-20261016-001.tar.gz",
-        "create_only": "rclone copyto --immutable to preflight absent path",
-        "upload_exit_code": 0,
-        "readback_exit_code": 0,
-        "readback_sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
-        "readback_match": true
-      },
-      "google_drive": {
-        "path": "gdrv:BASS_BACKUPS/BASS_PR168_NONLRS_FD96_20261016_001/bass-pr168-source-20261016-001.tar.gz",
-        "create_only": "rclone copyto --immutable to preflight absent path",
-        "upload_exit_code": 0,
-        "readback_exit_code": 0,
-        "readback_sha256": "b9c10b309311cf40fa5660c90995febc821ba15e3752f9d7865e649847029b11",
-        "readback_match": true
-      }
-    }
-  },
-  "science_status": {
-    "DERIVED": [
-      "positive fixed-source tensor Hessian from PR167 theory",
-      "pressure gradient and energy-work equations"
-    ],
-    "NUMERICALLY_CHECKED": [
-      "original FD96 tensor and LRS parity",
-      "independent sampled grid refinements incl strong beta",
-      "MP50 fixed-node arithmetic",
-      "source-only non-LRS IVP"
-    ],
-    "IMPLEMENTATION_VERIFIED": [
-      "finite positive source and parity guards",
-      "axis permutation",
-      "sampled 2D roots",
-      "24 Python tests"
-    ],
-    "HOLD": [
-      "full-chart GL24 accuracy",
-      "continuum quadrature certificate",
-      "general offdiagonal Einstein solver",
-      "REI callback",
-      "full radiation/chemistry/EoR"
-    ],
-    "NOT_RUN": [
-      "NCP heavy calculation",
-      "REI owner branch mutation",
-      "GitHub CI, no checks reported"
-    ]
-  },
-  "next_first_action": "Design an adaptive angular error gate using GL48/64/96 comparisons at strong anisotropy, then validate a source-bound non-LRS production IVP with original radiation/matter allocation; only after this reopen an independent REI opt-in callback contract."
+  "next_first_action": "On a separate REI owner branch, emit and record an actual SourceLedger at the same BASS-bound midpoint with a new source identity; compare finite-step energy and then create only a source-bound checkpoint/restart control."
 }
