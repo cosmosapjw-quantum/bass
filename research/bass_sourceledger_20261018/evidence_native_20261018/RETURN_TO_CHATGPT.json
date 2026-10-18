@@ -1,0 +1,1194 @@
+{
+  "schema": "bass.sourceledger.execution.v1",
+  "started_utc": "2026-10-18T11:23:06.187694+00:00",
+  "status": "PASS_SCOPED_SOURCE_LEDGER",
+  "native_admission": "MEASURED_PINNED_NATIVE_SOURCE_ONLY",
+  "commands": [
+    {
+      "label": "toolchain",
+      "argv": [
+        "/home/cosmosapjw/.cargo/bin/cargo",
+        "--version"
+      ],
+      "exit_code": 0,
+      "wall_s": 0.015755056985653937
+    },
+    {
+      "label": "lock",
+      "argv": [
+        "/home/cosmosapjw/.cargo/bin/cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/probe/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "wall_s": 0.06401878001634032
+    },
+    {
+      "label": "build",
+      "argv": [
+        "/home/cosmosapjw/.cargo/bin/cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/probe/Cargo.toml",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "wall_s": 10.936311287921853
+    },
+    {
+      "label": "measure",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/INPUT.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/NATIVE.jsonl"
+      ],
+      "exit_code": 0,
+      "wall_s": 0.31438389304094017
+    },
+    {
+      "label": "NEGATIVE_DT.tsv",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/NEGATIVE_DT.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/NEGATIVE_DT.tsv.jsonl"
+      ],
+      "exit_code": 3,
+      "wall_s": 0.0015405099838972092
+    },
+    {
+      "label": "NEGATIVE_SUPPORT.tsv",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/NEGATIVE_SUPPORT.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/NEGATIVE_SUPPORT.tsv.jsonl"
+      ],
+      "exit_code": 3,
+      "wall_s": 0.0016019539907574654
+    },
+    {
+      "label": "EMPTY.tsv",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/EMPTY.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/EMPTY.tsv.jsonl"
+      ],
+      "exit_code": 3,
+      "wall_s": 0.0015247500268742442
+    },
+    {
+      "label": "MISSING_END.tsv",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/MISSING_END.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/MISSING_END.tsv.jsonl"
+      ],
+      "exit_code": 3,
+      "wall_s": 0.001580183976329863
+    },
+    {
+      "label": "REVERSE_TIME.tsv",
+      "argv": [
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/target/release/bass_sourceledger_probe",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/research/bass_sourceledger_20261018/fixtures/REVERSE_TIME.tsv",
+        "/home/cosmosapjw/worktrees/bass-pr173-sourceledger-native-20261018/native_output_20261018/REVERSE_TIME.tsv.jsonl"
+      ],
+      "exit_code": 3,
+      "wall_s": 0.00361016602255404
+    }
+  ],
+  "owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "host": "cosmosapjw",
+  "logical_cpus": 24,
+  "python": "3.12.3",
+  "limits": {
+    "cargo_jobs": 2,
+    "total_wall_s": 1800,
+    "native_source_threads": 1,
+    "source_stage_bytes": 67108864
+  },
+  "fixture_manifest_sha256": "c1eb7456d054206cb49aaaa4b35b444273bb149344c8ef87c4c6ce1c53361764",
+  "stage": {
+    "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "source_files": 146,
+    "source_bytes": 1421057,
+    "original_pins": {
+      "axbi_sources.rs": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe",
+      "axbi_covariant_transport.rs": "9d2d97881ca7b9b58d68dbeffad937e16ca8af237b3d9ba01de0fb5e00b67aa7",
+      "axbi_driver.rs": "41c969a5308070c0a27708cf7443a96f83bdb2a7685edd5ee8819c46a8e96414"
+    },
+    "files": {
+      "configs/rei_fastest_v1/science_scenario_v1.json": "c83d2d43adda663707f99af2b45576eb4478cd94d3440a21fd21eaed32b5f2c1",
+      "docs/atomic_reionization_handoff_20261004_v1/runtime_inputs/ft03_first_interval.json": "ac91f00689e734b4e57957ef758bfa51dde5dfcc31f6a69763c6cb13f33cde93",
+      "docs/fastest_track_chat/REI-AXBI-GOAL-20261014/OUTPUT_CONTRACT.json": "6d52963fc3bfe5dab9b78353c539ef38b87d9e0217495b2ccb6a5ce535cfca57",
+      "research/axbi_goal_20261014/scenario/AX05_NUMERICAL_CONTRACT.md": "7403a1d0dcdbc3aa32d80c2f9bdd6ea5112e2b68432776c9de62bae5dd8c4054",
+      "research/axbi_goal_20261014/scenario/SCENARIO_LOCK.json": "07aa11d2d3fd47d2ed95e9d9161f6205e4d9ba386c27ad43d2b298fcd86d1696",
+      "research/flrw_covariant_transport_20261015/BACKGROUND_CACHE_CONTRACT.md": "3387824f90c9c4a4b743e13f42fdff0abf5a92582fa924753f366936e4306be0",
+      "research/flrw_covariant_transport_20261015/HPC_CONTRACT.md": "bdf7689c13152b2c30519c45a4e3b20abde3c511c82a81caaeb43d2bc24ed5fa",
+      "research/flrw_covariant_transport_20261015/INACTIVE_POOL_CONTRACT.md": "52743f7f1f037748a9ecb3e87772908672563ec6c4851a83d7283997535267ff",
+      "research/flrw_covariant_transport_20261015/NATIVE_CONTRACT.md": "069756073f7a8f35ae0558accab5ac396a4288cdd18b759f232edde7d4b61d60",
+      "research/flrw_covariant_transport_20261015/OUTPUT_ALLOCATION_005_CONTRACT.md": "b38ddb96c57c8c977acac0e9f59cbe52c734da63c0f8c9e3fb08d453e0a9668a",
+      "research/flrw_jacobian_columns_20261016/CONTRACT.json": "d729650ee2a7be7aeaf513cac0fac40c57dd43091ec5f6deff302773265f05fa",
+      "rust/rei_microphysics/Cargo.lock": "d7cbe31e7171939a4c438f4e313e5aff1f881199c8720b2fa9b2f4859b6c7407",
+      "rust/rei_microphysics/Cargo.toml": "e04b3802c2555b612305bb900e1e9d509c2a4039a6deacf20d65ddf7e5249407",
+      "rust/rei_microphysics/examples/axbi_background_cache.rs": "388feeb0cefb8f54ce3b552aed167d9d2cd06e371f743923171d71d18bd7a7a2",
+      "rust/rei_microphysics/examples/axbi_covariant_partition_diagnostic.rs": "0b87638e641162c593a328cbac49b16647758e8ea09e5c4a8e799b0ea4fb46e6",
+      "rust/rei_microphysics/examples/axbi_covariant_step_diagnostic.rs": "8b78f8c74be2068285f83ed464556e01241ff52cdf724218c5dc1f807114a64a",
+      "rust/rei_microphysics/examples/axbi_hpc_scaling.rs": "ea83999c88f09230811636a4236ebff752144c21de529e7481f265f83426eb61",
+      "rust/rei_microphysics/examples/axbi_plus_resource_continuation.rs": "242903c733cc44caaa038b5ab5e3d3d12f882e06093fba5aeb8022a41e655a1a",
+      "rust/rei_microphysics/examples/axbi_q_batch_bench.rs": "571e3c11737a5daaa01f8de9f5df0e2a8539888752e3625251d3e31d7b313927",
+      "rust/rei_microphysics/examples/axbi_q_capacity_pilot.rs": "d3997bbf446775a77e652d4240eed4f93a44f0812c9c64d46732786486f5793f",
+      "rust/rei_microphysics/examples/axbi_q_closure_pilot.rs": "8072ccf5a606c3af94e4abe7578be1e59be2cbee06f9036558354a427e503073",
+      "rust/rei_microphysics/examples/axbi_q_grid_bench.rs": "4c37eb79fe3c27121ab08185aa9925c0025b6053b377c771437da273a797a990",
+      "rust/rei_microphysics/examples/axbi_q_grid_pilot.rs": "9d2d2e7265205845a82cb837d41014ee8c12b23239ae20924a05db42f14a5f10",
+      "rust/rei_microphysics/examples/axbi_q_reference_pilot.rs": "98ce8fb6fa182b18a594f16ac8bb349d7fd1c33cdbdf7501d71ccb08493a8782",
+      "rust/rei_microphysics/examples/axbi_q_support_pilot.rs": "1e4985b42d05df9f81cad91aa6f0fd659af78f907a24fbd52916de3c2f30ba1e",
+      "rust/rei_microphysics/examples/axbi_reionization.rs": "b45be75a3361e487063cd0b6488049ed179b703b35025b4a7ab70c51f406ef0f",
+      "rust/rei_microphysics/examples/axbi_resource_continuation.rs": "2efaca95b4391be94eb1895253de68421deb6f6a26afbf2fa11741b3b4dec507",
+      "rust/rei_microphysics/examples/axbi_signed_resource_continuation.rs": "9c74fce940416eef11a963094406e45323e26d9d7c453a9efbfd0a5843505c1c",
+      "rust/rei_microphysics/examples/axisym_manufactured_probe.rs": "ea21486706ed396f24c6c0385d1f6ce61d6c2accb486e153cd222b0cef9928e7",
+      "rust/rei_microphysics/examples/eval_fixture.rs": "f6820b533f33aab8defa6dfef1112337a2ad2664f7845d47c79bdd3f0b143bf1",
+      "rust/rei_microphysics/examples/first_interval.rs": "b22ac6bd4b4373946c38351cd7596392dcb8532a7d8088c62fe70d7b70e08a59",
+      "rust/rei_microphysics/examples/flrw_integration_probe.rs": "651c8739ae7710fef75e8b1594b7308a96cd4debd6a1e51b32a3689eb74c1c57",
+      "rust/rei_microphysics/examples/flrw_jacobian_profile.rs": "82214aab67682f73cc0eca681eb7e113fd86a5de3a220d3e297d4183678dde83",
+      "rust/rei_microphysics/examples/flrw_three_probe.rs": "1c248506edd1cecd6f31a3d5e2da263137c33a5a5038e88b87d70905e0dd8979",
+      "rust/rei_microphysics/examples/ft03_fixture.rs": "259f661ecaa8795d80ffc5822f89095367780df1f594cfb071368d486de86faf",
+      "rust/rei_microphysics/examples/he_rct_probe.rs": "d5556f188e9e45d276ed301d348d09f7f6b507130ee27574ac47f435846fc917",
+      "rust/rei_microphysics/examples/hhe_fixture.rs": "cbe1ef923e853a2b60750596fa145fb237f714766854155c10010a693186e897",
+      "rust/rei_microphysics/examples/igm_foundation_probe.rs": "06d8485a6747974fb3ea971b5625818cd47433f1376c9e9f7e8c05c6b50f4899",
+      "rust/rei_microphysics/examples/interval_probe.rs": "f2b3c06a58a3e26428976e62733c103444719ee01efbeda24c71184536153b8d",
+      "rust/rei_microphysics/examples/map_certificate.rs": "7dab5315138ee2b7a72c160581fce5736e1d9190f51837010c2fa842aac4df24",
+      "rust/rei_microphysics/examples/paired_history.rs": "b4f2bd67f0276766792ac8ff6dd53f314c5d507def726d8524a8af5b4bd076a3",
+      "rust/rei_microphysics/examples/rux_science.rs": "f894abaf98bc1df2b1dd13636e239482ac5edc3b300a667f02e61726c3e246fd",
+      "rust/rei_microphysics/src/adaptive_history.rs": "88f85b00e8a4cb487c98c1a2e473a4c356c5558f5df0154502c4afcf585d5d73",
+      "rust/rei_microphysics/src/angular_photons.rs": "8da6478182f70b285e7456490469d7a7708c969d200ab93d4d468f34c0fe82db",
+      "rust/rei_microphysics/src/atomic_provider.rs": "b0b572d3940a7a1f740e09d5f43c60236ec61511e8bdbcc68e60395ec7e107d3",
+      "rust/rei_microphysics/src/axbi_background.rs": "2cc74f708f0dc3d0a3d67cde75c4cc3f98ff79badbdc91e456396818e3edca6e",
+      "rust/rei_microphysics/src/axbi_covariant_transport.rs": "9d2d97881ca7b9b58d68dbeffad937e16ca8af237b3d9ba01de0fb5e00b67aa7",
+      "rust/rei_microphysics/src/axbi_driver.rs": "41c969a5308070c0a27708cf7443a96f83bdb2a7685edd5ee8819c46a8e96414",
+      "rust/rei_microphysics/src/axbi_parallel.rs": "239c5a2bd3dd9e4033462fc18aeda5ff12d6f7f9a6ac8c7e24e4529a274a5ca6",
+      "rust/rei_microphysics/src/axbi_q_advance.rs": "dbc6592733053265b9dffb49917f43bf05669bc3cf5fbf729675a87ff0a26f88",
+      "rust/rei_microphysics/src/axbi_q_capacity.rs": "76506ba27b1f155f71ed7316d66a26e0b72f91e6576b9c93df9e650c64a3fa85",
+      "rust/rei_microphysics/src/axbi_q_closure.rs": "8c114090f11e5220659860e0ac4d9f03537b219d8384827e2bf8702d5d276c26",
+      "rust/rei_microphysics/src/axbi_q_grid.rs": "516f2b4d0ecfadfbbb9f7b281f0c2638def852a4965e55c0a92c5a1318f52ee1",
+      "rust/rei_microphysics/src/axbi_q_reference.rs": "8bf73c279baca7c94fc73ae39d157e79f04061c066d737593da75d3a4b1378bd",
+      "rust/rei_microphysics/src/axbi_rates.rs": "e0d4d7e5d3a1b704af95ae54b63bb5e0c49e1fb68fdc4b0e7465dc92feeaf361",
+      "rust/rei_microphysics/src/axbi_sources.rs": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe",
+      "rust/rei_microphysics/src/axisym_contract.rs": "1e2aaaa71091c4ff578eab3c64587aeb63017d1ea3c6c08d6370ba5690baa1b6",
+      "rust/rei_microphysics/src/axisym_coupling.rs": "60e6aab18e088f35aa62164a3be375eef1a9a61f4b1de1468fbc9e89939dd89f",
+      "rust/rei_microphysics/src/axisym_radiation.rs": "8134004a4aed69d60e991bd42c1d4b673ed7f6c75c4ecd6f50da07ab47103d62",
+      "rust/rei_microphysics/src/axisym_sources.rs": "15a391503df57adfb2c00d6b7c7925a7d91222ebbfbc6be8607057eb501e7b34",
+      "rust/rei_microphysics/src/bianchi_i.rs": "0c0bb17168b36a67af6e3e2a3ada835bc77db3dbc73d06e13075f6019ec11289",
+      "rust/rei_microphysics/src/coupled_primary.rs": "915d0a898100a54d04a525227e7fbeb870e321fcc14aaa91afd61352b6d4cf4b",
+      "rust/rei_microphysics/src/coverage.rs": "0c542eaf42cd8ece217a2f02cc7fbb500f0bea8b983c1f18d44c96d0aea050c1",
+      "rust/rei_microphysics/src/deuterium_atomic.rs": "52dcd49d4811ae4e6883655c2ee389b9e126a14512ca6e0d0d205e2c6934fecb",
+      "rust/rei_microphysics/src/deuterium_charge_exchange.rs": "482e81d29bf33981ec56bf76dad1c8da5b9a4e162a6813a727e61fec86588cc0",
+      "rust/rei_microphysics/src/flrw_three_equations.rs": "c3b538cade78ef493296b6822cdd4db237f6e27c79565646016e39d0e5079daf",
+      "rust/rei_microphysics/src/ft03_controlled.rs": "61e11471482bb49d99e5d0eb79504d3f67538fbe6361653a0462d1abb0b672db",
+      "rust/rei_microphysics/src/ft03_interval.rs": "886580a810b8ec29c8f0b6199c0e35d82fde1f46d984a5f8f1da304326a42a42",
+      "rust/rei_microphysics/src/ft03_rates.rs": "1a97cd7a3555deeb4d8700376cd84580c5102127773bc3a235a29c33b0c1542f",
+      "rust/rei_microphysics/src/group_rates.rs": "393786f3c473d98dbf57752967ba63cf07f055dfff9027a1d00770d2ef73a6a4",
+      "rust/rei_microphysics/src/he_rct.rs": "e077cdf628dfefc07f0dfbfae0688a9330f363d3c11163166406ef0a1e1218b4",
+      "rust/rei_microphysics/src/hhe_events.rs": "c100b08e034089c2d67b2102769ccdd51f1d29a2f388d6bb2dfe7984af93b290",
+      "rust/rei_microphysics/src/homogeneous_rates.rs": "50000b7cd7b1f7c9536cfe92a1f932add545bb951cc32b8a63c4affecfca3f47",
+      "rust/rei_microphysics/src/hydrogen_step.rs": "d3a4515dd2cb4e723095db6c750531acc3999fe0d5fa856707e520ec93056fb6",
+      "rust/rei_microphysics/src/igm_background.rs": "ebe5d4ba0a61133512cecfe50791794a50aa22132bcc5189170e5668cbf1871f",
+      "rust/rei_microphysics/src/igm_rates.rs": "310164e620617f3089d488bd1f9668996b4a4cbd191383e45303def176ef81cf",
+      "rust/rei_microphysics/src/igm_state.rs": "1651b00a517d67aaa71b38d3c69af6413570adfc38b591a3ed25284f039e0ae0",
+      "rust/rei_microphysics/src/igm_thermal.rs": "30515d96270ec73a37829ba298513a42112991168479d3cb40f33b67fd469ab2",
+      "rust/rei_microphysics/src/interval_ad.rs": "b14a16a24ba55d1d915fc890348bbafccf3c9df4566c04bbf06d38cdac2ef2dd",
+      "rust/rei_microphysics/src/interval_math.rs": "e4639a4386feee536dbe7e7ffb1260f26fa00697b6b05477083c182ddf03de18",
+      "rust/rei_microphysics/src/isotope_state.rs": "a3a750c3751ea30621482c341e89f690e517c3ad122e56231d2810c62afe8708",
+      "rust/rei_microphysics/src/joint_affine.rs": "5782ec4a2fdb8885af4056dca26e60bb31b585a7ce5de0c18cccbb143ae5f8b3",
+      "rust/rei_microphysics/src/lib.rs": "e7bf2828e810c7e427b84c0ce92bd1a2f9e10c8ac257f74fddd7d9a8d12502e0",
+      "rust/rei_microphysics/src/lift.rs": "632474da40f075051f77ed618b65af13fba133ea6bbee6e49325aeb2578d1871",
+      "rust/rei_microphysics/src/microstep.rs": "e03cc1512cdd2b60735b1ab655c8e6657423c18ee4ad55ca1d30f24ad4974e53",
+      "rust/rei_microphysics/src/paired_runtime.rs": "b6c1d2a07ab51ff02318139ae18387b77f61859c08037347f788524df770ebe7",
+      "rust/rei_microphysics/src/rux_adapter.rs": "1b77eec6158a412f4a3d8c436ae7bcd09efecfd7d35c222080067a3b6f60c2f0",
+      "rust/rei_microphysics/src/thermal.rs": "6d7be31934bb33a46c0911d28b62e34d22027e08a8a1945c5d7d32bf32f79b8a",
+      "rust/rei_microphysics/tests/adaptive_history.rs": "947058017cb5ced67ff2ddbf3973228eaf469fc75a83ba6c919cdc9349065460",
+      "rust/rei_microphysics/tests/atomic_provider.rs": "2eda20476d2938fc980c9822be40fb3d2bfc9e8c4e778c87ca86ddeee535af89",
+      "rust/rei_microphysics/tests/axbi_background.rs": "1fea5be465650f5dafecf9f48e296f04a4453e7285170c95bbc39163f92bc399",
+      "rust/rei_microphysics/tests/axbi_background_cache.rs": "2276b9ef5e0de5b939dfada7adce0f7bdb39296074b45a7dc787de1656aabf62",
+      "rust/rei_microphysics/tests/axbi_covariant_driver.rs": "e020ffa73d39b44377bf6c2c43bcc6811c201cb78bc772a3b3e4fd06a6aba58f",
+      "rust/rei_microphysics/tests/axbi_covariant_partition.rs": "9e64285e2f3bb6cdd538871034feb4e464448cb26d3a30cea67c827b9c9a0e69",
+      "rust/rei_microphysics/tests/axbi_covariant_transport.rs": "07aedc6b1d13283d470187d208528e4958e6deeed08d1cdded10c77503738a0d",
+      "rust/rei_microphysics/tests/axbi_driver.rs": "90dd2fdc2bf570eaf209490607cd93137111ed4960afcae18a2bdec1518cf662",
+      "rust/rei_microphysics/tests/axbi_inactive_driver.rs": "2557f3037ab18f060871674b70d83e8ac7d3e2d840508a3b47aa9c893f4b589f",
+      "rust/rei_microphysics/tests/axbi_jacobian_parallel.rs": "65c00e05f0a2dac3d167f6daf3f35c0e74b66f7b764e8f27568a0eba749a4b12",
+      "rust/rei_microphysics/tests/axbi_output_allocation_005.rs": "18830a1f034bcf601ade23647b10a5901dfa7daec107e48c9f9dd08dd239f07e",
+      "rust/rei_microphysics/tests/axbi_plus_resource_continuation.rs": "00dc02b2f54da9d89398f68155baaf084ae361ce9e308cdae57a66caece039bd",
+      "rust/rei_microphysics/tests/axbi_q_capacity.rs": "6852e8c47fafc6db7b10d895fb481449a0f1e127f169514007c62e6382ad2ba6",
+      "rust/rei_microphysics/tests/axbi_q_closure.rs": "e617c5afbeec7f517824b3c822a54ce87fa28d87457c505077018dc44c8a49ce",
+      "rust/rei_microphysics/tests/axbi_q_event.rs": "d0a5a34caec95a8656e5cbcee633f096dabbfb280814fdb4275f51e51aa18810",
+      "rust/rei_microphysics/tests/axbi_q_grid.rs": "767edd5df4c8e4516258a6903ee988c906a3f475610f21dee74ae916c8762ada",
+      "rust/rei_microphysics/tests/axbi_q_reference.rs": "30e73e4665893518fd4307fb014ee88ad07b7d3aa548dd006b382752eefbd88d",
+      "rust/rei_microphysics/tests/axbi_q_support.rs": "d309aa13bc21eb573afcac5be2c511c83d789b779dc1f251f06818162a849d8a",
+      "rust/rei_microphysics/tests/axbi_rates.rs": "475d492bcea4cd74ec5dc5aed6ee0640d91ceba1afb56be3d040564670679b36",
+      "rust/rei_microphysics/tests/axbi_resource_continuation.rs": "4c75a5e1bb9f8844f9a4ffa145a6f61008a1099d2c877a6d23b4dc2f2cdffcc4",
+      "rust/rei_microphysics/tests/axbi_signed_resource_continuation.rs": "86d3ded72106bd08f9720076ab935da79d001960cebf9245dcf22685fe85805f",
+      "rust/rei_microphysics/tests/axbi_sources.rs": "067dc29ca07a381169be8b3e6d8d5bfae1707f33a2c04918524a076fb0250d07",
+      "rust/rei_microphysics/tests/axbi_transport_parallel.rs": "cabcacb9629131fae3f03a7ae1b4aad2452510fe24c9750cfa04b37aaa1f4888",
+      "rust/rei_microphysics/tests/axisym_contract.rs": "3474c135f63d03c22467a6960b97093c0c9d1c020a760c57ff418b9b3fd1a91f",
+      "rust/rei_microphysics/tests/axisym_coupling.rs": "0c5f2722c5fea0664c1346087976feeffea8eacca83b0053891114a5d829adeb",
+      "rust/rei_microphysics/tests/axisym_radiation.rs": "0127bf5a750fb22535718e2e65463c3e6ec4e4fc0eadebf511677f707101ca56",
+      "rust/rei_microphysics/tests/axisym_sources.rs": "addf029d13f6e45a6901e806a6659cd97d67ce557fb1ab193f0a3dc2b574efdc",
+      "rust/rei_microphysics/tests/bianchi_i.rs": "ada327045cae86cd3111436b000da7d2b585b9c19cdb176f1a2d6c998d85a446",
+      "rust/rei_microphysics/tests/coupled_primary.rs": "4358e0f6c5acbc9e1b4903b6ea01b550b74d6ab3e07f00f1140f354c6cd13952",
+      "rust/rei_microphysics/tests/data/igm_grackle/LICENSE": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "rust/rei_microphysics/tests/data/igm_grackle/README.md": "2cea3c393da1d0ec55e8b2173b4226267a1f583e9625f530514c61a43469afc1",
+      "rust/rei_microphysics/tests/data/igm_grackle/grackle_literal_reference.c": "13a1b252a790dc32bdb765399841471a54765f1a390426ee5db821ce9589c594",
+      "rust/rei_microphysics/tests/data/igm_grackle/grackle_literal_reference.csv": "50ece50b98792c6c0210d6b11e2aec29b4caa4acd96ff9e09a31274dcdff4565",
+      "rust/rei_microphysics/tests/data/igm_grackle/manifest.json": "1e4e076f94f4e4e2b6cadaa830ffb628a4ca54143b27e843db7631372c2bdc63",
+      "rust/rei_microphysics/tests/data/igm_grackle/upstream_grackle_macros.h": "716e17085df3fe3650dca47502739868a8851c8c11690310e74333fb97e30b5e",
+      "rust/rei_microphysics/tests/data/igm_grackle/upstream_phys_constants.h": "8ec4d3bc1faf75106d568d6ac2c3d30055f9c89839715196a7d5241b7ed93737",
+      "rust/rei_microphysics/tests/deuterium_atomic.rs": "bf4adab447356f3535918edff9f85c2310b007b23f7418b89f598f41393195e5",
+      "rust/rei_microphysics/tests/deuterium_charge_exchange.rs": "6c6300fdb78719e5b919a1d814e3d53b74b697c0acbae8c86ee91abc2eb79fe1",
+      "rust/rei_microphysics/tests/fixtures/forward_inputs.json": "088de58a4d80f90d18b0bc8f1b829dd1df0e4b1d889f64b88a3c434da1a7ae38",
+      "rust/rei_microphysics/tests/flrw_three_equations.rs": "5a50e8c364ba2a945c3397a3957cecb91a04fbf70199eea112ae63ce9248f1e1",
+      "rust/rei_microphysics/tests/forward.rs": "ee6ed13d567e3f83cd9a6d13927be79481a9fef986a9ef62ac5bdfd897c313b4",
+      "rust/rei_microphysics/tests/ft03_controlled.rs": "dea4d4dab4afdc3e80ce3efd20c1cf1e032e0cc67e4b8e430c27c19ecfabfc60",
+      "rust/rei_microphysics/tests/ft03_interval.rs": "d6866d9d7dda6420fe6cdaffeae9f17fceb1e335a97b98c9b3a7d36909c8eea7",
+      "rust/rei_microphysics/tests/he_flrw02_absorption.rs": "a1223f89a1c54c731df5c505415af969077ab7a94e920ce2e9efc955090dad54",
+      "rust/rei_microphysics/tests/he_rct.rs": "485cec72c31a71a1221807bfed4433b8e29bf2be49d81c1299d1313d3609c940",
+      "rust/rei_microphysics/tests/hhe_events.rs": "9048174c8e2bc411308d9b1709fff777d9182036a580948cf69e91cfec9bbfa5",
+      "rust/rei_microphysics/tests/hhe_fixture.rs": "0cc9a2e2a4a571400928a69f3ddcd9900321cf4b0e5c85c9d317f6c28352a8f1",
+      "rust/rei_microphysics/tests/homogeneous_rates.rs": "629507a2ffc02410c057d5426d48382f4c5af9a35eb0bc5e9dba9d7ba9e2d597",
+      "rust/rei_microphysics/tests/hydrogen_step.rs": "8e0ef4262ca7204c9463ccbaf18941f100b2dce838069ed01304f1760f317fde",
+      "rust/rei_microphysics/tests/igm_foundation.rs": "dda2f3abb9de2fdd8a84fa2b666d46230cb4fc1ebf8751c79574b74487faf506",
+      "rust/rei_microphysics/tests/igm_rates.rs": "b70e2817108ceb77f875a3ab522365186b09a97cadf2062decff1865f3d6ade8",
+      "rust/rei_microphysics/tests/igm_thermal.rs": "043333afcdbf38df053e8eae7988e178825baeb7d8c98c16b7f760841ed9410c",
+      "rust/rei_microphysics/tests/interval_math.rs": "6770c2f58b246782194b196520676e9cce68a3b8c7abb718d870f643f46865f9",
+      "rust/rei_microphysics/tests/isotope_state.rs": "1d24c979b8b0f0c49e86446fdd45920611231391d6727526ddb38a2d48482148",
+      "rust/rei_microphysics/tests/joint_affine_bound.rs": "0f5789aca59212bc1875efdb7f8260fb1c9941cd19657aada4e38e87c27c126b",
+      "rust/rei_microphysics/tests/joint_parent_affine.rs": "fe2fb7b70cae570eabc6804fb353772746fc0f4df5ccf95bfc94e35c51765589",
+      "rust/rei_microphysics/tests/radiation_conservation.rs": "8746f6e8b32bc34e222bab9dfdbf84fc4044076fd81742913062b62aa8067408",
+      "rust/rei_microphysics/tests/rux_adapter.rs": "0c9d1c23f776669c8187e56eb02ca078cae72654b57feb0452ccec93d60542c6"
+    }
+  },
+  "probe_sha256": "e8b9f8de9e4f7a382c4d2237d67955aaa94c7d498eeaf599f7d5ecdae5501686",
+  "binary_sha256": "e64732a17cc97718852804df03e388d6ad0a4c8fc65c47c1d203ee2e4e59c6cb",
+  "validation": {
+    "schema": "bass.sourceledger.validation.v1",
+    "cases": 58,
+    "rows": 58,
+    "scope": "SOURCE_ONLY_NATIVE_VS_MATCHED_DISCRETE_ORACLE",
+    "targets": {
+      "cross_language_relative": 5e-11,
+      "ledger_relative": 1e-11,
+      "normalization": "number by emitted photons/H; energy,stress,work by emitted eV/H; floor1e-30"
+    },
+    "defects": [
+      {
+        "id": "POINT_M0.2_A8",
+        "normalized_differences": {
+          "inventory_n": 3.305940619815132e-16,
+          "inventory_u": 2.608675119459964e-16,
+          "delta": 2.893998960650897e-16,
+          "dipole": 2.0380274370780968e-18,
+          "ledger_n": 6.611881239630264e-16,
+          "ledger_u": 2.608675119459964e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.0537685725660734e-15,
+          "ray_energy_ref_l1": 7.678039022118888e-16
+        }
+      },
+      {
+        "id": "POINT_M0.2_A16",
+        "normalized_differences": {
+          "inventory_n": 1.652970309907566e-16,
+          "inventory_u": 3.9130126791899463e-16,
+          "delta": 2.985710195319412e-16,
+          "dipole": 4.585561733425718e-18,
+          "ledger_n": 1.652970309907566e-15,
+          "ledger_u": 1.3043375597299822e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 6.431087611984125e-16,
+          "ray_energy_ref_l1": 6.78365445312014e-16
+        }
+      },
+      {
+        "id": "POINT_M0.2_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 1.5603647565129178e-16,
+          "dipole": 2.2927808667128588e-17,
+          "ledger_n": 1.983564371889079e-15,
+          "ledger_u": 5.217350238919928e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.2820205274693251e-15,
+          "ray_energy_ref_l1": 9.82417214795321e-16
+        }
+      },
+      {
+        "id": "POINT_P0.0_A8",
+        "normalized_differences": {
+          "inventory_n": 1.6529703099075658e-16,
+          "inventory_u": 0.0,
+          "delta": 8.8857996256605e-16,
+          "dipole": 0.0,
+          "ledger_n": 3.3059406198151316e-16,
+          "ledger_u": 3.9130126791899453e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.7769430831506334e-15,
+          "ray_energy_ref_l1": 1.8480048201953417e-15
+        }
+      },
+      {
+        "id": "POINT_P0.0_A16",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.304337559729982e-16,
+          "delta": 3.851871856077603e-16,
+          "dipole": 1.222816462246858e-17,
+          "ledger_n": 6.611881239630264e-16,
+          "ledger_u": 2.608675119459964e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.2655553935229803e-15,
+          "ray_energy_ref_l1": 1.2199247505864676e-15
+        }
+      },
+      {
+        "id": "POINT_P0.0_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.304337559729982e-16,
+          "delta": 6.893627805916663e-16,
+          "dipole": 7.642602889042863e-18,
+          "ledger_n": 9.917821859445396e-16,
+          "ledger_u": 1.5652050716759783e-15,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.0881663993129176e-15,
+          "ray_energy_ref_l1": 2.2541431344376193e-15
+        }
+      },
+      {
+        "id": "POINT_P0.2_A8",
+        "normalized_differences": {
+          "inventory_n": 1.652970309907566e-16,
+          "inventory_u": 1.304337559729982e-16,
+          "delta": 1.499988193689479e-15,
+          "dipole": 3.260843899324955e-17,
+          "ledger_n": 9.917821859445396e-16,
+          "ledger_u": 2.608675119459964e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 3.553886166301267e-15,
+          "ray_energy_ref_l1": 3.883182579906861e-15
+        }
+      },
+      {
+        "id": "POINT_P0.2_A16",
+        "normalized_differences": {
+          "inventory_n": 1.652970309907566e-16,
+          "inventory_u": 1.304337559729982e-16,
+          "delta": 2.0380274370780965e-16,
+          "dipole": 8.152109748312387e-18,
+          "ledger_n": 1.652970309907566e-16,
+          "ledger_u": 1.304337559729982e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1385303384429136e-15,
+          "ray_energy_ref_l1": 2.2567080089968418e-15
+        }
+      },
+      {
+        "id": "POINT_P0.2_A32",
+        "normalized_differences": {
+          "inventory_n": 1.652970309907566e-16,
+          "inventory_u": 2.608675119459964e-16,
+          "delta": 1.829129624777592e-15,
+          "dipole": 6.11408231123429e-18,
+          "ledger_n": 2.3141584338705926e-15,
+          "ledger_u": 1.304337559729982e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 4.364874724599667e-15,
+          "ray_energy_ref_l1": 4.998607989930914e-15
+        }
+      },
+      {
+        "id": "ZERO_DT",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 0.0,
+          "dipole": 0.0,
+          "ledger_n": 0.0,
+          "ledger_u": 0.0,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 0.0,
+          "ray_energy_ref_l1": 0.0
+        }
+      },
+      {
+        "id": "COLD_midpoint_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 2.1800720496969939e-16,
+          "inventory_u": 1.720266746652169e-16,
+          "delta": 7.149858665773077e-16,
+          "dipole": 5.3758335832880285e-18,
+          "ledger_n": 4.3601440993939877e-16,
+          "ledger_u": 3.440533493304338e-16,
+          "work": 2.3653667766467324e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.79855944100002e-15,
+          "ray_energy_ref_l1": 1.734895466845013e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 2.1800720496969939e-16,
+          "inventory_u": 0.0,
+          "delta": 5.987334653387044e-16,
+          "dipole": 3.359895989555019e-17,
+          "ledger_n": 4.3601440993939877e-16,
+          "ledger_u": 1.7202667466521696e-16,
+          "work": 1.2902000599891272e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.176665687119342e-15,
+          "ray_energy_ref_l1": 2.1960885117813126e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 2.154210641909482e-16,
+          "inventory_u": 1.6998598431992988e-16,
+          "delta": 6.37447441199737e-16,
+          "dipole": 1.0624124019995617e-17,
+          "ledger_n": 4.308421283818964e-16,
+          "ledger_u": 1.6998598431992988e-16,
+          "work": 0.0,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.7233685135275855e-15,
+          "ray_energy_ref_l1": 1.6005282807155973e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.627465691841429e-16,
+          "dipole": 9.296108517496167e-18,
+          "ledger_n": 2.1542106419094824e-16,
+          "ledger_u": 5.099579529597897e-16,
+          "work": 8.499299215996495e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1449542680575273e-15,
+          "ray_energy_ref_l1": 2.2021452940342265e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 3.389555553344111e-16,
+          "delta": 7.520576383982246e-16,
+          "dipole": 3.1777083312601037e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 1.6947777766720555e-16,
+          "work": 2.965861109176097e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.7450632907399945e-15,
+          "ray_energy_ref_l1": 1.5817104203255561e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 2.1477702039876865e-16,
+          "inventory_u": 0.0,
+          "delta": 6.189911020267079e-16,
+          "dipole": 7.944270828150262e-18,
+          "ledger_n": 6.44331061196306e-16,
+          "ledger_u": 1.694777776672056e-16,
+          "work": 2.542166665008084e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.2341843957887536e-15,
+          "ray_energy_ref_l1": 2.2384026930500066e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 2.146161652093341e-16,
+          "inventory_u": 1.6935084891113576e-16,
+          "delta": 6.77403395644543e-16,
+          "dipole": 1.587664208541898e-17,
+          "ledger_n": 2.146161652093341e-16,
+          "ledger_u": 0.0,
+          "work": 6.350656834167592e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.797410383628173e-15,
+          "ray_energy_ref_l1": 1.6024160116616243e-15
+        }
+      },
+      {
+        "id": "COLD_midpoint_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 2.1461616520933415e-16,
+          "inventory_u": 0.0,
+          "delta": 6.264658356204907e-16,
+          "dipole": 1.9845802606773728e-17,
+          "ledger_n": 2.1461616520933415e-16,
+          "ledger_u": 1.693508489111358e-16,
+          "work": 1.905197050250278e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.2098758261398625e-15,
+          "ray_energy_ref_l1": 2.2414076078611984e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.34934024216918e-16,
+          "dipole": 5.2911168684743164e-18,
+          "ledger_n": 4.2914334374115667e-16,
+          "ledger_u": 1.6931573979117813e-16,
+          "work": 4.232893494779453e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.4483587851264037e-15,
+          "ray_energy_ref_l1": 1.8726909341300555e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.840070243578529e-16,
+          "dipole": 2.843975316804946e-17,
+          "ledger_n": 4.291433437411567e-16,
+          "ledger_u": 3.3863147958235635e-16,
+          "work": 1.9048020726507545e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.2354009721829397e-15,
+          "ray_energy_ref_l1": 2.1998477840684393e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 2.1456313552511474e-16,
+          "inventory_u": 3.386180077420646e-16,
+          "delta": 7.354359855647965e-16,
+          "dipole": 2.6454531854848796e-17,
+          "ledger_n": 2.1456313552511474e-16,
+          "ledger_u": 0.0,
+          "work": 8.465450193551615e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.4885317527054835e-15,
+          "ray_energy_ref_l1": 1.7597195220243196e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6930900387103233e-16,
+          "delta": 6.2068945364439e-16,
+          "dipole": 3.207611987400417e-17,
+          "ledger_n": 2.1456313552511478e-16,
+          "ledger_u": 5.07927011613097e-16,
+          "work": 2.1163625483879041e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.310744393135709e-15,
+          "ray_energy_ref_l1": 2.215159750881576e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 2.1456259667397384e-16,
+          "inventory_u": 3.3861715734108884e-16,
+          "delta": 6.560707423483596e-16,
+          "dipole": 2.6454465417272568e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 1.6930857867054442e-16,
+          "work": 3.597807296749069e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.8640125586051476e-15,
+          "ray_energy_ref_l1": 1.4889849175565439e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.021697690606669e-16,
+          "dipole": 3.968169812590886e-18,
+          "ledger_n": 2.145625966739739e-16,
+          "ledger_u": 3.386171573410889e-16,
+          "work": 3.8094430200872504e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.2244106702059638e-15,
+          "ray_energy_ref_l1": 2.2828282022008004e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 2.145625629116935e-16,
+          "inventory_u": 3.3861710405832875e-16,
+          "delta": 6.507797468621005e-16,
+          "dipole": 5.819981476002524e-17,
+          "ledger_n": 2.145625629116935e-16,
+          "ledger_u": 3.3861710405832875e-16,
+          "work": 4.2327138007291093e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.7433208236575098e-15,
+          "ray_energy_ref_l1": 1.6694673381908226e-15
+        }
+      },
+      {
+        "id": "COLD_gl2_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.693085520291644e-16,
+          "delta": 6.206877971850421e-16,
+          "dipole": 2.3809015129101242e-17,
+          "ledger_n": 4.291251258233872e-16,
+          "ledger_u": 3.386171040583288e-16,
+          "work": 3.5978067306197433e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.162388329344412e-15,
+          "ray_energy_ref_l1": 2.198225996823896e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.7022373156361225e-16,
+          "delta": 5.745050940271914e-16,
+          "dipole": 2.6597458056814415e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 6.80894926254449e-16,
+          "work": 1.276677986727092e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.9010532819249226e-15,
+          "ray_energy_ref_l1": 1.670558214836386e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.017674885354262e-16,
+          "dipole": 5.9844280627832436e-18,
+          "ledger_n": 2.1572235823261535e-16,
+          "ledger_u": 1.361789852508898e-15,
+          "work": 1.0638983222725766e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.194300862647384e-15,
+          "ray_energy_ref_l1": 2.121094034762295e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.151034080814634e-16,
+          "dipole": 1.0512314450642109e-17,
+          "ledger_n": 4.2630789358352013e-16,
+          "ledger_u": 3.363940624205475e-16,
+          "work": 1.0512314450642109e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.5586882359147456e-15,
+          "ray_energy_ref_l1": 1.8415776637720318e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.840904716638022e-16,
+          "dipole": 3.285098265825659e-18,
+          "ledger_n": 6.394618403752804e-16,
+          "ledger_u": 6.72788124841095e-16,
+          "work": 2.1024628901284218e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.312220743127804e-15,
+          "ray_energy_ref_l1": 2.290742947618869e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.921635277218446e-16,
+          "dipole": 5.240385201078271e-18,
+          "ledger_n": 2.1251434088346474e-16,
+          "ledger_u": 0.0,
+          "work": 6.288462241293926e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.6469861418468516e-15,
+          "ray_energy_ref_l1": 1.944661120586811e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.780799924939468e-16,
+          "dipole": 2.6201926005391355e-18,
+          "ledger_n": 1.0625717044173238e-15,
+          "ledger_u": 0.0,
+          "work": 1.2576924482587851e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.179932262343666e-15,
+          "ray_energy_ref_l1": 2.1402448539791625e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 2.123545955082041e-16,
+          "inventory_u": 1.6756627341849058e-16,
+          "delta": 6.388464174079954e-16,
+          "dipole": 2.6182230221639155e-17,
+          "ledger_n": 2.123545955082041e-16,
+          "ledger_u": 0.0,
+          "work": 4.1891568354622645e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.791741899600472e-15,
+          "ray_energy_ref_l1": 1.7637547986308552e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_midpoint_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.949911817867498e-16,
+          "dipole": 1.800028327737692e-17,
+          "ledger_n": 6.370637865246123e-16,
+          "ledger_u": 3.3513254683698116e-16,
+          "work": 1.2567470506386795e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.134329586885192e-15,
+          "ray_energy_ref_l1": 2.185158239442974e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 3.350628390024285e-16,
+          "delta": 4.659467604877521e-16,
+          "dipole": 5.235356859412945e-18,
+          "ledger_n": 2.123104255845429e-16,
+          "ledger_u": 3.350628390024285e-16,
+          "work": 2.512971292518214e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.539250585487936e-15,
+          "ray_energy_ref_l1": 1.6069944819219498e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.307343016229873e-16,
+          "dipole": 3.435702938989745e-17,
+          "ledger_n": 2.123104255845429e-16,
+          "ledger_u": 1.6753141950121424e-16,
+          "work": 1.256485646259107e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.064221286249716e-15,
+          "ray_energy_ref_l1": 2.110575218010339e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.229825450573543e-16,
+          "dipole": 2.6175737187283792e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 0.0,
+          "work": 1.256435384989622e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.003599491328477e-15,
+          "ray_energy_ref_l1": 1.852339665093105e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 2.1230193285599758e-16,
+          "inventory_u": 0.0,
+          "delta": 5.7979257869833595e-16,
+          "dipole": 1.0797491589754565e-17,
+          "ledger_n": 4.2460386571199517e-16,
+          "ledger_u": 8.376235899930813e-16,
+          "work": 1.4658412824878924e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1918515958531314e-15,
+          "ray_energy_ref_l1": 2.231734536256753e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752429497010257e-16,
+          "delta": 6.753323140982259e-16,
+          "dipole": 2.6175671089078527e-17,
+          "ledger_n": 4.2460279351474346e-16,
+          "ledger_u": 1.6752429497010257e-16,
+          "work": 8.376214748505128e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.831099547032331e-15,
+          "ray_energy_ref_l1": 1.7853773587770943e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 5.954965172765364e-16,
+          "dipole": 3.7300331301936894e-17,
+          "ledger_n": 2.1230139675737168e-16,
+          "ledger_u": 0.0,
+          "work": 6.282161061378845e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.2100907123374827e-15,
+          "ray_energy_ref_l1": 2.3405181312718477e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752426846479967e-16,
+          "delta": 5.33983605731549e-16,
+          "dipole": 3.664593372667493e-17,
+          "ledger_n": 2.1230136316754033e-16,
+          "ledger_u": 1.6752426846479967e-16,
+          "work": 4.606917382781991e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.4595718717768398e-15,
+          "ray_energy_ref_l1": 1.6514734607952575e-15
+        }
+      },
+      {
+        "id": "MASSIVE_PLUS_gl2_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752426846479972e-16,
+          "delta": 5.568873143107209e-16,
+          "dipole": 1.37422251475031e-17,
+          "ledger_n": 2.1230136316754033e-16,
+          "ledger_u": 3.3504853692959944e-16,
+          "work": 8.376213423239986e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.178576879066908e-15,
+          "ray_energy_ref_l1": 2.1717433939680877e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 3.4044746301179136e-16,
+          "delta": 5.479076357846017e-16,
+          "dipole": 2.127796643823696e-17,
+          "ledger_n": 2.157223581594719e-16,
+          "ledger_u": 5.10671194517687e-16,
+          "work": 3.617254294500283e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.4965738597313363e-15,
+          "ray_energy_ref_l1": 1.5561364185255915e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 2.157223581594719e-16,
+          "inventory_u": 0.0,
+          "delta": 5.31284224504729e-16,
+          "dipole": 5.984428060754144e-18,
+          "ledger_n": 1.2943341489568314e-15,
+          "ledger_u": 5.106711945176869e-16,
+          "work": 4.2555932876473914e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1580662470562794e-15,
+          "ray_energy_ref_l1": 2.1568508447946617e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.307388668212501e-16,
+          "dipole": 5.256157223510417e-18,
+          "ledger_n": 2.1315394671833301e-16,
+          "ledger_u": 1.6819703115233334e-16,
+          "work": 1.2614777336425002e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.6252988437272893e-15,
+          "ray_energy_ref_l1": 1.8303485307332353e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.681970311523334e-16,
+          "delta": 5.873755697272892e-16,
+          "dipole": 1.2154863579367843e-17,
+          "ledger_n": 6.39461840154999e-16,
+          "ledger_u": 3.363940623046668e-16,
+          "work": 2.7332017562254175e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1248784063483824e-15,
+          "ray_energy_ref_l1": 2.224771795408112e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 2.1251434080996573e-16,
+          "inventory_u": 0.0,
+          "delta": 6.760096907052961e-16,
+          "dipole": 2.0961540797063443e-17,
+          "ledger_n": 4.2502868161993146e-16,
+          "ledger_u": 0.0,
+          "work": 1.2576924478238065e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.8462183357865773e-15,
+          "ray_energy_ref_l1": 1.8999562662528867e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.439123313597927e-16,
+          "dipole": 1.9651444497246978e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 5.030769791295226e-16,
+          "work": 8.384616318825377e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1400858226878578e-15,
+          "ray_energy_ref_l1": 2.1444359328663097e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.912108776119766e-16,
+          "dipole": 2.6182230212574872e-17,
+          "ledger_n": 2.12354595434687e-16,
+          "ledger_u": 0.0,
+          "work": 6.283735251017969e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.698836763477496e-15,
+          "ray_energy_ref_l1": 1.7860808078101244e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_midpoint_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.444101411069992e-16,
+          "dipole": 1.86548390264596e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 8.37831366802396e-16,
+          "work": 1.466204891904193e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.1874182350049594e-15,
+          "ray_energy_ref_l1": 2.111203329856811e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N4_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.675314194432049e-16,
+          "delta": 5.654185406208165e-16,
+          "dipole": 1.0470713715200305e-17,
+          "ledger_n": 2.1231042551102835e-16,
+          "ledger_u": 1.675314194432049e-16,
+          "work": 2.9317998402560854e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.7648304120604233e-15,
+          "ray_energy_ref_l1": 1.9194656301849457e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N4_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.675314194432049e-16,
+          "delta": 6.112279131248178e-16,
+          "dipole": 1.8978168608800553e-17,
+          "ledger_n": 2.1231042551102835e-16,
+          "ledger_u": 3.350628388864098e-16,
+          "work": 2.512971291648073e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.105688165517582e-15,
+          "ray_energy_ref_l1": 2.144054268600481e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N8_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.675247179406005e-16,
+          "delta": 5.653959230495267e-16,
+          "dipole": 1.57054423069313e-17,
+          "ledger_n": 4.2460386556495e-16,
+          "ledger_u": 1.675247179406005e-16,
+          "work": 8.376235897030025e-17,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.5922644958685626e-15,
+          "ray_energy_ref_l1": 1.673800901320436e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N8_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 0.0,
+          "delta": 6.226553481268804e-16,
+          "dipole": 1.930460616893639e-17,
+          "ledger_n": 4.2460386556495e-16,
+          "ledger_u": 0.0,
+          "work": 1.8846530768317556e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.231658207490782e-15,
+          "ray_energy_ref_l1": 2.288922732555696e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N16_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752429491208638e-16,
+          "delta": 5.444539584642807e-16,
+          "dipole": 2.0940536864010798e-17,
+          "ledger_n": 0.0,
+          "ledger_u": 1.6752429491208638e-16,
+          "work": 3.3504858982417276e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.6984111734707887e-15,
+          "ray_energy_ref_l1": 1.6961084899544582e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N16_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.675242949120864e-16,
+          "delta": 6.36068807244328e-16,
+          "dipole": 2.912043407651502e-17,
+          "ledger_n": 2.123013966838486e-16,
+          "ledger_u": 6.700971796483456e-16,
+          "work": 3.559891266881836e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.076573036313894e-15,
+          "ray_energy_ref_l1": 2.2205630888219547e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N32_A8",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752426840678356e-16,
+          "delta": 5.863349394237424e-16,
+          "dipole": 2.0940533550847945e-17,
+          "ledger_n": 2.1230136309401724e-16,
+          "ledger_u": 1.6752426840678356e-16,
+          "work": 1.0470266775423973e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 1.6718732343653858e-15,
+          "ray_energy_ref_l1": 1.5622046242625837e-15
+        }
+      },
+      {
+        "id": "MASSIVE_MINUS_gl2_N32_A32",
+        "normalized_differences": {
+          "inventory_n": 0.0,
+          "inventory_u": 1.6752426840678356e-16,
+          "delta": 6.082570604847864e-16,
+          "dipole": 1.177905012235197e-17,
+          "ledger_n": 2.1230136309401724e-16,
+          "ledger_u": 1.6752426840678356e-16,
+          "work": 1.465837348559356e-16,
+          "proper_nh": 0.0,
+          "ray_number_l1": 2.099793169351764e-15,
+          "ray_energy_ref_l1": 2.2135881595577863e-15
+        }
+      }
+    ]
+  },
+  "negative_controls": [
+    {
+      "name": "NEGATIVE_DT.tsv",
+      "exit_code": 3,
+      "no_output": true
+    },
+    {
+      "name": "NEGATIVE_SUPPORT.tsv",
+      "exit_code": 3,
+      "no_output": true
+    },
+    {
+      "name": "EMPTY.tsv",
+      "exit_code": 3,
+      "no_output": true
+    },
+    {
+      "name": "MISSING_END.tsv",
+      "exit_code": 3,
+      "no_output": true
+    },
+    {
+      "name": "REVERSE_TIME.tsv",
+      "exit_code": 3,
+      "no_output": true
+    }
+  ],
+  "not_admitted": [
+    "continuum quadrature accuracy",
+    "HHe/opacity",
+    "source-age reactive history",
+    "new checkpoint",
+    "Q^a/EoR"
+  ],
+  "wall_s": 12.0226080090506,
+  "children_peak_rss_kib_linux": 322288
+}
