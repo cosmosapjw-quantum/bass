@@ -1,0 +1,35 @@
+# BASS PR170: Bianchi-I source-age photon stress and first-order Einstein memory
+
+2026-10-16 KST. 원본 BASS [PR169](https://github.com/cosmosapjw-quantum/bass/pull/169) `6fb32b51390e4f722692505bf7a3ace2448aada6`의 연구 결과를 직접 재사용하였다. 사용자의 목표는 **non-tilted, axisymmetric Bianchi I**이며, REI native H/He chemistry와 source birth/opacity/cooling 소스는 별도 owner로 보존한다. 이 보고서의 어떤 결과도 REI production 실행 또는 observational EoR admission을 의미하지 않는다.
+
+## 독립적인 과학적 성과
+
+1. **Exact source-age Bianchi null-geodesic energy and stress:** 초기 birth-local isotropic photon cohort of age `u` has `d=b(x)-b(u)`, `R(mu,d)=sqrt[(1-mu²)exp(2d)+mu²exp(-4d)]`, `rho_u(x)=rho_birth exp[-4(x-u)]F(d)` and `Delta_u(x)=rho_birth exp[-4(x-u)]D(d)` where F,D are exact positive birth-local angular integrals. Their identities `F'=-2D`, `F''>0`, `F(0)=1`, `D'(0)=-8/5` were verified by Wolfram and also by independent MP70 elementary angular antiderivative. Thus `rho_u >= rho_birth exp[-4age]` and `sign Delta=-sign d`. The sign concerns integrated shear **since birth**, not instantaneous s/H.
+2. **Exact energy work with source:** For positive isotropic bolometric energy source `S(x)=j_proper/H`, `rho'=-4rho+S-2b'Delta`; pressure principal values `Pperp=(rho-Delta)/3`, `Ppar=(rho+2Delta)/3`, `sigma_ab pi^ab=2sDelta`. The external emitter/gas reservoir has not been included.
+3. **Causal linear moment compression:** `U'=-4U+S`, `M'=-4M+S b`, `Delta_linear=-(8/5)(Ub-M)`, old cohort at `x=0` initializes `(U,M)=(rho_old,rho_old b0)`. This is first order in anisotropy only; finite-d exact angular integrals still retain all birth ages.
+4. **Source-only Einstein optical upper bound:** If a fraction `f_gamma<=1` of **already counted original Omega_r** was initially-isotropic collisionless radiation at reference epoch and `S=0` for that lane, the first-order gamma stress is `Delta_gamma/A=-(8/5) f_gamma (Omega_r/a_ref^4)e^-4x B`. It is **not an extra Omega_r density term**. A rigorous conservative contraction bound based on the positive `Omega_m(1-f_m) a^-3` dust term is
+
+   `q_gamma <= (16/15) f_gamma Omega_r/[Omega_m(1-f_m)a_ref] * (1-3e^-X+2e^(-3X/2))`, `X=ln(21/5)`,
+
+   with exact factor identity `(1-exp(-X/2))²(1+2exp(-X/2))`. The old coarse bound used `(1-e^-X)` instead. Wolfram independently verified the age-kernel integral. Under `f_gamma=1, f_m=0.1` the **tighter** bound is `0.00376593169592033`; actual positive `T_gamma[1]` computed through an independent DOP853 forced ODE is m=3/30/300 `0.0034320089260858944/0.0033688792721185516/0.003367433364764769`, each below that bound. Coupled source-plus-photon memory is conditional and no new photons are fed into the Einstein part in this run.
+
+These are direct constructive mathematical reductions, not a literature novelty claim. Relevant primary papers: Fleury, Pitrou, Uzan, [Phys. Rev. D 91 043511 (2015)](https://doi.org/10.1103/PhysRevD.91.043511), Bianchi I photon Killing momenta; Heinzle & Uggla, [CQG 23 3463 (2006)](https://doi.org/10.1088/0264-9381/23/10/016), Einstein–Vlasov dynamical system.
+
+## Sandbox scientific executions and error bars
+
+- **S2 first failure preserved:** `leggauss` weights were pre-halved for birth angular means and accidentally multiplied by half again in continuous emission-time integrals. Initial 20 tests were 15 PASS, 4 FAIL, 1 ERROR; after correcting age and energy work weights and allowing zero inventory at exactly x=0 with nonzero emissivity, 20/20 PASS. See `evidence/S2_TESTS_FIRST.log` and `evidence/S2_TESTS_REPAIRED.log`.
+- **S3 actual original BASS model:** `reference_kinetic_tangent.py` has verified Git blob `1cab2bf7eab5a306ab207206ca3a0fc793dc9163`. Exact BASS FD96 PR169 massive Einstein IVP, tested mass/Tref=3,30,300 and A=±0.5, three positive cohort conditions = **18 scenarios ×65 = 1,170 rows**, `evidence/S3_CAMPAIGN_FINAL/HISTORY.csv` with entire JSON summary. No native REI radiation transfer, chemistry, opacity or NCP.
+- **S3 error controls:** max absolute error of integrated kinetic photon continuity/energy-source ledger `2.7200464103316335e-15` in normalized physical-volume density; max direct old/newborn linear memory `(U,M)` vs independent DOP853 `1.0400992567216605e-11`; max trajectory-wise relative exact Delta vs first-order approximation `3.913921903492959e-4`. Source-old and newborn contributions add exactly at fixed prescribed b to floating precision.
+- **Manufactured angular-age refinement:** signed strongly anisotropic waveform `b=0.28sin(1.6x)+0.02x`, positive `S=.32(1+.22cos3.7x)`: GL8 angular Delta difference vs discrete GL256 ≈`5.72e-7`; GL16 `2.97e-10`, GL32 `1.27e-16`. This is discrete reference, not certified continuum bound; angular support not a Verner fit-cut evaluation.
+- **Conditional f_gamma=1 initially-isotropic old-radiation first-variation:** BASS final `b_A` suppression relative to original source-only massive tangent was m=3/30/300 `0.0857856%/0.0896739%/0.0898160%`. The source-free instantaneous signed local Delta_gamma/Delta_massive endpoint ratio in the original nonlinear BASS background at A=+0.5 was `−0.0071681/−0.0095571/−0.0096300`. These distinct measures are not interchangeable. `f_gamma=1` is an extreme *conditional stock-reallocation scenario* because original Omega_r groups photons and other relativistic species.
+- **S4 independent high-precision control:** analytic elementary massless F(d) (arcsin/asinh) differentiated numerically by MP70 vs GL128 10 signed |d|≤0.62 cases: max abs F difference `9.992007221626409e-15`, max abs Delta difference `3.597122599785507e-14`. New and inherited local **36 Python tests PASS**, and `RUN_LOCAL.sh` independently regenerated identical source campaign `HISTORY.csv`/`RESULTS.json` SHA-256 on a fresh create-only temporary directory.
+
+## Scoped blockers / native roadmap
+
+- Actual new emission cohorts are **passive photon bolometric tracer** with manufactured `S(x)` (not native MD14 source or REI opacity). Source emission energy and momentum partners are external and **not closed**.
+- Native REI PR159/167+ photosources, Thomson/Verner, H/He chemistry, polarization and gas `Q^a` need their own science/ownership admission. NEVER add this photo-stress as a second term to prescribed REI `b(x)` already generated by massive BASS source. A callback must specify which isotropic Omega_r stock is being replaced, its source identity, and create a new source-bound checkpoint.
+- `native_subagent: NOT_RUN_UNEXPOSED`. User's Ubuntu, NCP and native Rust source compilation: NOT_RUN in this sandbox cycle. Sandbox tests and both cloud copy readbacks are the admitted evidence.
+
+## Stage DAG and public evidence
+
+`DAG.json` and stage-specific ZIP checkpoints S0–S3 in `backups/` provide bounded progress. The physical derivation is in `stages/S1_THEORY_KO.md`, code and first failure in `stages/S2_CODE_KO.md`, BASS physical figures in `stages/S3_ORIGINAL_BASS_KO.md`, and end-to-end `evidence/S4_FINAL_TESTS.log` + MP70 JSON complete acceptance. S5 is native REI integration **HOLD** until explicit source ownership and positive photon number/chemical four-momentum ledgers are determined.

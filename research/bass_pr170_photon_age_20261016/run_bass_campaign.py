@@ -10,7 +10,7 @@ import numpy as np
 from born_photon_stress import BornIsotropicRadiation,XMAX,angular_f_delta
 from coupled_lrs_gamma import integrate as integrate_old_gamma, gamma_contraction_bound
 HERE=pathlib.Path(__file__).resolve().parent
-sys.path.insert(0,str(HERE/'pr169_original'))
+sys.path.append(str(HERE/'pr169_original'))
 from reference_kinetic_tangent import EinsteinTangent,AREF,OMEGA_R
 
 

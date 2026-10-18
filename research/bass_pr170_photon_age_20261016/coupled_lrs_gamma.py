@@ -13,7 +13,7 @@ import math,sys
 import numpy as np
 from scipy.integrate import solve_ivp
 HERE=Path(__file__).resolve().parent
-sys.path.insert(0,str(HERE/'pr169_original'))
+sys.path.append(str(HERE/'pr169_original'))
 from lrs_retarded import FD96Retarded
 from reference_kinetic_tangent import H0,AREF,OMEGA_R,OMEGA_M,XMAX
 
@@ -36,6 +36,22 @@ def gamma_contraction_bound(f_gamma:float,f_m:float,x_end:float=XMAX):
         raise ValueError('PHOTON_ENERGY_ALLOCATION_DOMAIN')
     # Conservative dust-lower-bound inequality for Hbar^2.
     return (16/15)*f_gamma*OMEGA_R/(OMEGA_M*(1-f_m)*AREF)*(1-math.exp(-x_end))
+
+
+def gamma_contraction_bound_tight(f_gamma:float,f_m:float,x_end:float=XMAX):
+    """Sharper dust-lower-bound Volterra estimate; no model fitting.
+
+    Keeping 1-exp[-3/2(x-u)] when integrating yields
+    qγ <= (16/15) fγ Ωr/[Ωm(1-fm)aref] [1-3 exp(-x)+2 exp(-3x/2)].
+    The expression is nonnegative for x>=0; expm1 guards near x=0.
+    """
+    if not (math.isfinite(f_gamma) and 0<=f_gamma<=1 and
+            math.isfinite(f_m) and 0<=f_m<1 and 0<=x_end<=XMAX+1e-12):
+        raise ValueError('PHOTON_ENERGY_ALLOCATION_DOMAIN')
+    e=math.exp(-x_end/2)
+    # 1-3e^-x+2e^-3x/2=(1-e)^2(1+2e), stable at small x.
+    bracket=(-math.expm1(-x_end/2))**2*(1+2*e)
+    return (16/15)*f_gamma*OMEGA_R/(OMEGA_M*(1-f_m)*AREF)*bracket
 
 
 def integrate(mass:float,f_gamma:float,x_eval:np.ndarray|None=None)->FeedbackResult:
