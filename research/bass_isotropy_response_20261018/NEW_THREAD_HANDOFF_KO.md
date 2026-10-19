@@ -12,7 +12,8 @@ Path research/bass_isotropy_response_20261018/
 부모 PR173 4e2d1fa820d6f7baae1069b615fb82a08d53403b
 과거 P2 구현930406550ce6d4d1b2e87f016c5c18fba48c4ccd, 과거 마감a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc.
 새 S2 게시87149cdb673c250ccbb36dda5d43a38f0f7dd7b7, 새 S3 게시a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e.
-최신 native source 및 최종 마감 commit은 현재PR와 PUBLICATION_CLOSEOUT.json/최신댓글에서 직접 확정해.
+검증된 native source commit b30a2044be1ae04a68d8319f47d15a5bed751668, tree bf3a57343140fda867bae9ea94932d9c1475f53b.
+이 파일을 포함한 최종 마감 commit은 현재 PR와 PUBLICATION_CLOSEOUT.json/최신 마감 댓글에서 직접 확정해.
 검증된 native61-input SHA256=16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23.
 
 먼저 Dropbox /BASS_BACKUPS 및 Google Drive /BASS_BACKUPS에서 새 실행결과를 읽고 GitHub HEAD/PR와 대조해.
@@ -21,6 +22,8 @@ Drive에는 binary upload 서비스 정지에 대한 정확한 ZIP bytes의 Base
 README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json,
 THEORY_KO.md, S3_THEORY_KO.md, S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md,
 CODEX_HANDOFF_KO.md, 실제 source/receipt/independent review를 읽어.
+
+2026-10-19 마감 시 Google Drive의 raw ZIP/Docs/Sheets 내용 쓰기가 응답하지 않았고 새 백업 readback은 미완료다. 생성된 빈 Doc/Sheet를 성공으로 세지 말고, 재조회로 원격 effect부터 확인하라. 상세 receipt는 delivery/DRIVE_FINAL_READBACK.json이다. Dropbox 세 단계는 provider hash와 remote manifest 범위에서 확인됐다.
 
 완료: 기존 Python15 및 PR173 native58/negative5 재사용; 원 balance.rs5실행PASS;
 새 S3 Python14/Rust16/CLI valid1+negative7/동일입력43/최종reuse guards13 PASS;

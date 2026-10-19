@@ -1,7 +1,8 @@
 # 복사해서 사용할 Codex 인계
 
 아래 블록 전체가 작업 지시다. 과거의 NOT_RUN 표시보다 최신 실제 source/receipt를 따른다.
-Native source 게시 commit과 클라우드 객체는 PUBLICATION_CLOSEOUT.json의 후속 마감값으로 고정한다.
+검증된 native source commit은 b30a2044be1ae04a68d8319f47d15a5bed751668이다.
+이 문서를 포함한 마감 commit의 exact identity와 마지막 보충 archive는 PR174의 최신 마감 댓글에서 직접 확인한다.
 
 ```text
 $physmath-research-loop로 BASS 연구를 이어서 수행하라.
@@ -16,6 +17,8 @@ S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md, 각 실행 receipt와 독립 review를 �
 Drive ZIP 업로드 서비스가 멈춰 native-document Base64 carrier가 사용될 수 있다.
 Carrier이면 manifest 순서로 텍스트를 직접 읽고 원 ZIP bytes/SHA를 복원·검증하라. 사용자에게 ZIP 다운로드를 시키지 마라.
 
+2026-10-19 마감 시 Google Drive의 raw ZIP/Docs/Sheets 내용 쓰기가 응답하지 않았고 새 백업 readback은 미완료다. 생성된 빈 Doc/Sheet를 성공으로 세지 말고, 재조회로 원격 effect부터 확인하라. 상세 receipt는 delivery/DRIVE_FINAL_READBACK.json이다. Dropbox 세 단계는 provider hash와 remote manifest 범위에서 확인됐다.
+
 고정 identity:
 - 최초 검증 P2 구현 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
 - 2026-10-18 마감 a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc
@@ -23,6 +26,8 @@ Carrier이면 manifest 순서로 텍스트를 직접 읽고 원 ZIP bytes/SHA를
 - 원 REI source 0e25846433170d0f420c4cda44a0bedbf02cd177
 - S2 Rust5 실행 게시 87149cdb673c250ccbb36dda5d43a38f0f7dd7b7
 - S3 유도/P24 캠페인 게시 a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e
+- 실제 검증 native source 게시 b30a2044be1ae04a68d8319f47d15a5bed751668
+- native source tree bf3a57343140fda867bae9ea94932d9c1475f53b
 - 검증된 native61-input SHA256 16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23
 - native raw JSONL SHA256 a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff
 

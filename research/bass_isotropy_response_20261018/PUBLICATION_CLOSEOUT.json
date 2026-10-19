@@ -1,15 +1,211 @@
 {
-  "schema": "bass.pr174.publication_closeout.v3",
+  "schema": "bass.pr174.publication_closeout.v4",
   "date_utc": "2026-10-19",
-  "stage": "NATIVE_SOURCE_PUBLICATION_IN_PROGRESS",
+  "stage": "BLOCKED_GOOGLE_DRIVE_CONTENT_WRITE",
+  "scientific_work": "PASS_SCOPED_S2_S3_S5",
+  "repository": "cosmosapjw-quantum/bass",
+  "branch": "research/bass-isotropy-checkpoint-recovery-20261018",
+  "pr_url": "https://github.com/cosmosapjw-quantum/bass/pull/174",
+  "draft": true,
+  "source_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
+  "source_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
+  "original_rei_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "parent_pr173_commit": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
+  "original_p2_implementation": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
+  "prior_closeout_commit": "a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc",
+  "S2_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
+  "S3_commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
+  "native_source_aggregate_sha256": "16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23",
+  "native_output_sha256": "a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff",
   "historical_closeout": "history/20261018_PUBLICATION_CLOSEOUT.json",
   "current_return": "RETURN_TO_CHATGPT.json",
   "DAG": "DAG.json",
-  "physics_and_test_status": "S3_RESULTS_KO.md",
-  "native_scope": "PASS_SCOPED: original owner actual compilation,7 new native tests,20 rows,6 runner regressions,independent adapter review. Source-age/spectral convergence/production not admitted.",
-  "dual_cloud": "Per-stage receipts are appended after upload and independent readback.",
+  "scientific_results": [
+    "S3_THEORY_KO.md",
+    "S3_RESULTS_KO.md",
+    "NATIVE_ADAPTER_KO.md"
+  ],
+  "cloud_backups": [
+    {
+      "stage": "S2_RUST",
+      "source_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
+      "source_tree": "fa0b4ab86feacbbcad249ca25df9b95cbdda5da6",
+      "archive_name": "BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip",
+      "archive_bytes": 34578,
+      "archive_sha256": "c624a140000066cb278b0f1dbd946932f8f2069ce48f752c1710ced1879b28ef",
+      "manifest_payloads": 24,
+      "dropbox": {
+        "status": "PASS_SCOPED_PROVIDER_HASH_AND_EXTRACTED_CONTENT",
+        "object_id": "id:BSpOijBcT10AAAAAAD_Ppg",
+        "revision": "65e2ad8f9b4c10af03d47",
+        "provider_content_hash": "f04717cf91b30cbae4e90451da92ed43207f1397851e4adcb5200e052627d852",
+        "provider_hash_matches_local_archive": true,
+        "raw_remote_archive_downloaded": false,
+        "receipt": "delivery/stage1_dropbox_readback.json"
+      },
+      "google_drive": {
+        "status": "NOT_VERIFIED_UPLOAD_STALLED_EMPTY_CARRIER",
+        "restored_archives": 0
+      }
+    },
+    {
+      "stage": "S3_RESPONSE",
+      "source_commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
+      "source_tree": "0ec77ae9245c3e9c6380456645d2bee5d47c5abc",
+      "archive_name": "BASS_S3_P24_RESPONSE_20261019_a7938ad5.zip",
+      "archive_bytes": 554697,
+      "archive_sha256": "7d040f80cc4edee2a32c490938f59c2526c934f543ae64c4acd548bf1b8958d3",
+      "manifest_payloads": 79,
+      "dropbox": {
+        "status": "PASS_SCOPED_PROVIDER_HASH_MANIFEST_AND_EXTRACTED_CONTENT",
+        "object_id": "id:BSpOijBcT10AAAAAAD_PrA",
+        "revision": "65e2b617d7c350af03d47",
+        "provider_content_hash": "bffe769f85ab06ba1daf456c673bccee2eeac34913dc812231f95a25ddfcf1d3",
+        "provider_hash_matches_local_archive": true,
+        "raw_remote_archive_downloaded": false,
+        "receipt": "delivery/stage2_dropbox_readback.json"
+      },
+      "google_drive": {
+        "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+        "restored_archives": 0
+      }
+    },
+    {
+      "stage": "S5_NATIVE",
+      "source_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
+      "source_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
+      "archive_name": "BASS_NATIVE_ADAPTER_20261019_b30a2044.zip",
+      "archive_bytes": 853265,
+      "archive_sha256": "f262e35974fb8b741fb7a37fd14bc17054a8966f992ecf778368e28f9706dc98",
+      "manifest_payloads": 114,
+      "dropbox": {
+        "status": "PASS_SCOPED_PROVIDER_HASH_MANIFEST_AND_EXTRACTED_CONTENT",
+        "object_id": "id:BSpOijBcT10AAAAAAD_PrQ",
+        "revision": "65e2b80af1d290af03d47",
+        "provider_content_hash": "10c52f3b0cf2ae4f0364228476533683689c760267f58befd5b2b3ca5096295e",
+        "provider_hash_matches_local_archive": true,
+        "raw_remote_archive_downloaded": false,
+        "receipt": "delivery/stage3_dropbox_readback.json"
+      },
+      "google_drive": {
+        "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+        "restored_archives": 0
+      }
+    }
+  ],
+  "drive_final": {
+    "schema": "bass.drive.final_readback.v1",
+    "status": "BLOCKED_ENVIRONMENT_NO_ACK_AND_NO_BACKUP_CONTENT",
+    "checked_utc": "2026-10-19 06:43:16.664 UTC",
+    "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+    "folder_direct_children": 33,
+    "fresh_exact_archive_name_matches": [],
+    "summary_ko": "원 ZIP 업로드 1회와 Docs 두 크기(47,183자/2,048자), Sheets 103자 쓰기가 모두 ack 없이 정지했다. 각각 622.5초, 671.9초, 413.2초, 205.7초 후 root가 응답 없는 호출을 중단했다. Fresh readback에서 새 ZIP은 폴더에 없고 Doc 및 Sheet probe 내용도 비어 있다. Browser plugin은 originating browser context가 없어 연결하지 못했다. 따라서 이번 세 단계의 Google Drive 백업/복원 readback은 미완료이며, 기존 2026-10-18 백업의 검증 결과와 구별한다.",
+    "classified_as": "ENVIRONMENT_OR_SERVICE_ERROR; no internal cause established and no automatic approval rejection observed",
+    "no_auto_review_rejection_observed": true,
+    "attempts": [
+      {
+        "tool": "google_drive_upload_file",
+        "dispatches": 1,
+        "payload_bytes": 34578,
+        "ack": false,
+        "aborted_after_seconds": 622.5,
+        "effect_at_readback": "No matching new ZIP in destination folder"
+      },
+      {
+        "tool": "google_drive_batch_update_document",
+        "dispatches": 1,
+        "payload_characters": 47183,
+        "ack": false,
+        "aborted_after_seconds": 671.9,
+        "effect_at_readback": "Empty document and unchanged revision"
+      },
+      {
+        "tool": "google_drive_batch_update_document",
+        "dispatches": 1,
+        "payload_characters": 2048,
+        "ack": false,
+        "aborted_after_seconds": 413.2,
+        "effect_at_readback": "Empty document and unchanged revision"
+      },
+      {
+        "tool": "google_drive_batch_update_spreadsheet",
+        "dispatches": 1,
+        "payload_characters": 103,
+        "ack": false,
+        "aborted_after_seconds": 205.7,
+        "effect_at_readback": "A1:B1 values=null"
+      }
+    ],
+    "observed_created_objects": [
+      {
+        "id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+        "kind": "native Google Doc",
+        "content_status": "EMPTY_NOT_A_BACKUP",
+        "moved_to_backup_folder": false
+      },
+      {
+        "id": "1dlSMfVvF89BXMYczHeMRBYenLt8oqgKWInE8RAutZgA",
+        "kind": "native Google Sheet",
+        "content_status": "PROBED_RANGE_EMPTY_NOT_A_BACKUP",
+        "moved_to_backup_folder": false
+      }
+    ],
+    "stages": {
+      "1": {
+        "status": "NOT_VERIFIED_UPLOAD_STALLED_EMPTY_CARRIER",
+        "restored_archives": 0
+      },
+      "2": {
+        "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+        "restored_archives": 0
+      },
+      "3": {
+        "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+        "restored_archives": 0
+      }
+    },
+    "raw_zip_bytes_or_carriers_restored": 0,
+    "dual_cloud_complete": false,
+    "browser_plugin": {
+      "status": "UNAVAILABLE_NO_ORIGINATING_BROWSER_CONTEXT",
+      "receipt": "delivery/BROWSER_BACKUP_FALLBACK.json"
+    },
+    "cloud_browser_used": false,
+    "pending_action": "Freshly inspect destination and recorded object identities before any retry; use an available authorized content-write path to upload the exact prepared archives and independently verify bytes plus all manifest payloads. Never infer success from file creation alone or repeat completed science as a storage workaround.",
+    "receipt_refs": [
+      "delivery/stage1_drive_upload_stall.json",
+      "delivery/stage1_drive_document_stalls.json",
+      "delivery/drive_sheet_probe.json",
+      "delivery/DRIVE_FINAL_FOLDER_READBACK.json",
+      "delivery/BROWSER_BACKUP_FALLBACK.json"
+    ],
+    "retained_archive_source_commits": [
+      "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
+      "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
+      "b30a2044be1ae04a68d8319f47d15a5bed751668"
+    ],
+    "local_receipt_assembly_note": "An initial assertion compared an interim Sheet status label while its owning agent finalized that label. It stopped before writing this composite or editing DAG. The final assembly checks the actual returned values=null and isError=false evidence; no remote operation or scientific workload was repeated."
+  },
+  "final_metadata_archive": {
+    "status": "POST_COMMIT_CREATE_AND_INDEPENDENT_READBACK",
+    "record_location": "PR174 final closeout comment and exact STAGE_GIT.json in the external final metadata ZIP",
+    "reason": "The source file cannot contain the hash of its own containing commit or an archive that contains that hash. No scientific replay is needed for metadata closeout."
+  },
+  "ci": {
+    "exact_source_head_actions_returned": 0,
+    "ci_pass_claimed": false,
+    "evidence": "delivery/FINAL_PR_PREFLIGHT.json"
+  },
+  "resource_receipt": "delivery/RESOURCE_CLOSEOUT.json",
+  "source_age_and_coupled_evolution": "NOT_RUN",
+  "finite_bin_spectral_convergence": "NOT_ADMITTED",
+  "production_admission": false,
   "auto_merge": false,
-  "S2_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
-  "S3_commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
-  "cloud_status": "S2/S3 Dropbox provider-hash+manifest readback PASS_SCOPED; Drive raw upload stalled and exact-byte native-document carrier fallback is in progress. Exact receipts follow."
+  "remaining_scientific_obligations": [
+    "Finite-d continuum angular error and angular refinement envelope",
+    "Exact rank1 executable certificate",
+    "Fixed-owner finite-bin spectral refinement and residual diagnosis",
+    "Source-age convolution and coupled Einstein/shear feedback"
+  ]
 }

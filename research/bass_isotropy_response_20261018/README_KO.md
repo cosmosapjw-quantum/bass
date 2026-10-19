@@ -21,6 +21,8 @@ P4를 맞춰도 고차 moments와 유한-d angular error는 남는다.
 S2 게시 commit은 `87149cdb673c250ccbb36dda5d43a38f0f7dd7b7`, S3 게시 commit은
 `a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e`다. 기존 Python15 및 PR173 native58/
 negative5는 원본 증거를 재사용했고 새 실행으로 세지 않는다.
+실제 native source 게시 commit은 `b30a2044be1ae04a68d8319f47d15a5bed751668`,
+tree는 `bf3a57343140fda867bae9ea94932d9c1475f53b`다.
 
 ## Native 결과의 범위
 
@@ -57,3 +59,10 @@ spectral owner를 유지하고 feasibility 실패를 음의 weights나 tolerance
 고정 owner spectral refinement/잔차 설명, source-age 합성과 coupled shear feedback이다.
 현재 P2/P4 일치나 제한 native ledger 통과를 continuum, 전체 finite-bin 보존,
 REI production 또는 full EoR 승인으로 확대하지 않는다. Draft PR174는 merge하지 않는다.
+
+## 최종 게시·백업 확인
+
+2026-10-19 마감 시 Google Drive의 raw ZIP/Docs/Sheets 내용 쓰기가 응답하지 않았고 새 백업 readback은 미완료다. 생성된 빈 Doc/Sheet를 성공으로 세지 말고, 재조회로 원격 effect부터 확인하라. 상세 receipt는 delivery/DRIVE_FINAL_READBACK.json이다. Dropbox 세 단계는 provider hash와 remote manifest 범위에서 확인됐다.
+
+상세 객체·hash·readback 범위는 [CLOUD_READBACK_KO.md](CLOUD_READBACK_KO.md)와
+[PUBLICATION_CLOSEOUT.json](PUBLICATION_CLOSEOUT.json)을 따른다.

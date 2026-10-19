@@ -1,0 +1,212 @@
+{
+  "schema": "bass.drive.native_document_stalls.v1",
+  "status": "SERVICE_ERROR_WRITE_STALLED_REMOTE_DOCUMENT_EMPTY",
+  "recorder": "theory_s3",
+  "authorization": "User-requested staged backups in Google Drive /BASS_BACKUPS; native Docs carrier fallback authorized by root. No raw upload retry.",
+  "archive": {
+    "name": "BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip",
+    "bytes": 34578,
+    "sha256": "c624a140000066cb278b0f1dbd946932f8f2069ce48f752c1710ced1879b28ef",
+    "local_payload_manifest_files_verified": 24
+  },
+  "destination": {
+    "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+    "folder_name": "BASS_BACKUPS"
+  },
+  "document": {
+    "id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+    "title": "BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip__BASE64_BACKUP",
+    "url": "https://docs.google.com/document/d/1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8/edit?usp=drivesdk",
+    "creation_acknowledged": true,
+    "native_mime_type": "application/vnd.google-apps.document",
+    "observed_parent_ids": [
+      "0APYlhWMPor0ZUk9PVA"
+    ],
+    "moved_to_backup_folder": false,
+    "last_observed_modified_time": "2026-10-19T06:12:09.787Z",
+    "document_created_in_my_drive_root": true,
+    "preserved": true
+  },
+  "prior_raw_upload_stall": {
+    "receipt": "/workspace/scratch/f49816986ef8/delivery/stage1_drive_upload_stall.json",
+    "tool": "mcp__codex_apps__google_drive_upload_file",
+    "elapsed_before_user_abort_seconds": 622.5,
+    "acknowledgement_received": false,
+    "retried_by_this_agent": false
+  },
+  "insert_attempts": [
+    {
+      "ordinal": 1,
+      "tool": "mcp__codex_apps__google_drive_batch_update_document",
+      "document_id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+      "tab_id": "t.0",
+      "index": 1,
+      "write_control": {
+        "requiredRevisionId": "AHj4eMQx9M-rG_gndqAHQBSREjbFd7-_8GSh4SEJBcafY-Gkmc2DOYiDUAxWIISEoHLjnHGaxbyOYsOV1uJo1Zgtof-mgGme_i_B1TTdPKI"
+      },
+      "text_characters": 47183,
+      "text_utf8_sha256": "640377715f2e4152c83de0ca97b701ee56fea37d8f401f1decc84acba6e5f8b1",
+      "payload_snapshot": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage1_part1.txt",
+      "base64_layout": "One uninterrupted 46,104-character Base64 paragraph",
+      "exact_started_utc": null,
+      "exact_start_not_recorded": true,
+      "payload_prepared_utc": "2026-10-19T06:13:04.815046+00:00",
+      "actual_tool_result": "aborted by user after 671.9s",
+      "elapsed_before_abort_seconds": 671.9,
+      "acknowledgement_received": false,
+      "returned_revision": null,
+      "exec_directive": {
+        "yield_time_ms": 1000,
+        "max_output_tokens": 1500
+      },
+      "resumable_cell_id": null,
+      "cell_id_exposed": false,
+      "abort_origin": "Root interrupted unresponsive tool call; no automatic-approval rejection was returned.",
+      "effect_observed_before_next_attempt": "Fresh get_document by root and this agent confirmed empty body and unchanged revision."
+    },
+    {
+      "ordinal": 2,
+      "tool": "mcp__codex_apps__google_drive_batch_update_document",
+      "document_id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+      "tab_id": "t.0",
+      "index": 1,
+      "write_control": {
+        "requiredRevisionId": "AHj4eMQx9M-rG_gndqAHQBSREjbFd7-_8GSh4SEJBcafY-Gkmc2DOYiDUAxWIISEoHLjnHGaxbyOYsOV1uJo1Zgtof-mgGme_i_B1TTdPKI"
+      },
+      "text_characters": 2048,
+      "text_utf8_sha256": "26774221cb9cd406fba80f6f2070dc5059922a8fd84ff2f83321854436b2d1bd",
+      "payload_snapshot": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage1_part1_wrapped.txt",
+      "payload_selection": "First 2,048 ASCII characters",
+      "base64_layout": "80 characters per Base64 line in the complete 47,759-character wrapped source",
+      "exact_started_utc": null,
+      "exact_start_not_recorded": true,
+      "payload_prepared_utc": "2026-10-19T06:28:06.778366+00:00",
+      "actual_tool_result": "aborted by user after 413.2s",
+      "elapsed_before_abort_seconds": 413.2,
+      "acknowledgement_received": false,
+      "returned_revision": null,
+      "exec_directive": {
+        "yield_time_ms": 1000,
+        "max_output_tokens": 1200
+      },
+      "resumable_cell_id": null,
+      "cell_id_exposed": false,
+      "abort_origin": "Root interrupted unresponsive tool call and prohibited further Docs writes/uploads.",
+      "effect_observed_after_abort": "Fresh get_document_text plus get_document confirm no inserted carrier content as of the readback window."
+    }
+  ],
+  "post_abort_readback": {
+    "began_utc": "2026-10-19 06:35:52 UTC",
+    "completed_utc": "2026-10-19 06:35:54 UTC",
+    "methods": [
+      "google_drive_get_document_text",
+      "google_drive_get_document",
+      "google_drive_get_file_metadata"
+    ],
+    "text_paragraphs": [],
+    "body_text": "\n",
+    "body_text_characters": 1,
+    "nonwhitespace_characters": 0,
+    "revision_id": "AHj4eMQx9M-rG_gndqAHQBSREjbFd7-_8GSh4SEJBcafY-Gkmc2DOYiDUAxWIISEoHLjnHGaxbyOYsOV1uJo1Zgtof-mgGme_i_B1TTdPKI",
+    "revision_unchanged_from_initial_empty_document": true,
+    "tab_bodies": [
+      {
+        "tab_id": "t.0",
+        "body": {
+          "content": [
+            {
+              "endIndex": 1,
+              "sectionBreak": {
+                "sectionStyle": {
+                  "columnSeparatorStyle": "NONE",
+                  "contentDirection": "LEFT_TO_RIGHT",
+                  "sectionType": "CONTINUOUS"
+                }
+              }
+            },
+            {
+              "startIndex": 1,
+              "endIndex": 2,
+              "paragraph": {
+                "elements": [
+                  {
+                    "startIndex": 1,
+                    "endIndex": 2,
+                    "textRun": {
+                      "content": "\n",
+                      "textStyle": {}
+                    }
+                  }
+                ],
+                "paragraphStyle": {
+                  "namedStyleType": "NORMAL_TEXT",
+                  "direction": "LEFT_TO_RIGHT"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+      "title": "BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip__BASE64_BACKUP",
+      "mime_type": "application/vnd.google-apps.document",
+      "size": "1024",
+      "url": "https://docs.google.com/document/d/1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8/edit?usp=drivesdk",
+      "display_url": "https://docs.google.com/document/d/1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8/edit?usp=drivesdk",
+      "file_or_folder": "file",
+      "created_time": null,
+      "modified_time": "2026-10-19T06:12:09.787Z",
+      "parent_ids": [
+        "0APYlhWMPor0ZUk9PVA"
+      ],
+      "drive_id": null,
+      "current_user_can_share": null,
+      "has_augmented_permissions": null,
+      "shared": null,
+      "permissions": null,
+      "source_visibility_status": "access_not_verified"
+    }
+  },
+  "local_carrier_snapshots": [
+    {
+      "path": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage1_part1.txt",
+      "bytes": 47183,
+      "sha256": "640377715f2e4152c83de0ca97b701ee56fea37d8f401f1decc84acba6e5f8b1",
+      "modified_time_utc": "2026-10-19T06:13:04.815046+00:00"
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage1_part1_wrapped.txt",
+      "bytes": 47759,
+      "sha256": "77dd180c490d0d43e4f3cd06f5e8ff73ef6fa3d6525583085a221371a6615d9a",
+      "modified_time_utc": "2026-10-19T06:28:06.778366+00:00"
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage1_local_manifest.json",
+      "bytes": 975,
+      "sha256": "fd33bf6911183a50c956575d2cad79b697d9601b779210f6eac3ccbc340fef35",
+      "modified_time_utc": "2026-10-19T06:13:04.815199+00:00"
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/drive_carrier_work/stage2_local_manifest.json",
+      "bytes": 2248,
+      "sha256": "7a86ae2e35744549f30c65c13d1e3c24a1f81cefa2338363e20b0ee1b4264bf6",
+      "modified_time_utc": "2026-10-19T06:13:04.829117+00:00"
+    }
+  ],
+  "outcome": {
+    "remote_carrier_payload_present": false,
+    "archive_decoded_from_drive": false,
+    "remote_archive_sha256_verified": false,
+    "remote_payload_manifest_verified": false,
+    "google_drive_binary_zip_object_created_by_this_agent": false,
+    "google_drive_stage_backup_pass": false,
+    "stages2_and3_carrier_mutations_started": false,
+    "local_original_archives_unchanged": true,
+    "additional_docs_write_or_upload_after_final_abort": false,
+    "reason": "Creation and read operations succeeded; both large and small Docs insert operations remained unacknowledged until interrupted. No inserted text was observed afterward.",
+    "cause_attribution": "Underlying cause unconfirmed. Long paragraph/large payload was a hypothesis; the 2,048-character wrapped attempt also stalled.",
+    "next_action": "Preserve this empty document and all receipts. No further Google Docs write/upload in this session. Fresh readback is required before any future reuse."
+  }
+}
