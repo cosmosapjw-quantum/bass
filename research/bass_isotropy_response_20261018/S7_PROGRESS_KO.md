@@ -36,3 +36,12 @@ ODE 또는 native 실행을 반복하지 않는다. R2 판정은 아직 실행 �
 R2 재판정, 실제 결과 문서/DAG, source·readback·handoff 게시와 두-cloud 백업을 마친다.
 새 S8/production/fullEoR 작업으로 자동 확대하지 않는다. Full native coupled MD14,
 full tangent 실행 및 반응성 전체 이력은 후속 연구다.
+
+
+## Stage 3 — R2 실제 재판정과 R3 한 이력 수정 사전등록
+
+Stage 2 `c689dcf1`의 2,195,973-byte ZIP은 Drive raw/SHA256/CRC 및 manifest 93/93, Dropbox의 전체 object content hash와 size가 일치했다.
+
+R2는 원래 물리 실행을 반복하지 않았다. Native 808/808 birth exact moment PASS; 42개 물리 측정과 9개 support 실패 불변. 큰 b 정확도 실패 2개는 유지된다. Coupled는 640개 제약 birth 중 하나의 참된 M4 초과를 발견했고 원래 FAIL을 보존했다.
+
+R3는 `b03_n32_P24_K64` 한 이력의 **새 birth**에만 기존 P24 API의 내부 `atol=1e-15`를 지정한다. 최종 exact gate `3/10^15`, support, 원 owner 및 여섯 R2 소스는 동일하다. 두 표적 테스트 PASS; 본 이력은 이 단계 게시와 readback 이후에만 실행한다. 비교는 SHA로 고정한 원래 이력과 GL128 bytes에 대해 시행한다.

@@ -222,8 +222,9 @@ angular rule에 대한 spectrum 오차를 보여준다. 같은 native 계산의 
 native 측정 7.8978 s였다. Child peak RSS는 337,564 KiB,
 Python peak RSS는 42,644 KiB, 전체 출력은 11,867,400 bytes였다.
 Native thread 1, BLAS thread 1, owner staging worker 상한 4였다.
-새 Rust cohort 테스트 5개 PASS(기존 21개는 filter되어 실행하지 않음),
-R1 Python guard 11개 PASS를 게시 후 측정했다. R2 코드 guard는 14개 PASS다.
+게시 전 개발 검증은 새 Rust cohort 테스트 5개 PASS(기존 21개는 filter되어
+실행하지 않음), R1 Python guard 11개 PASS였다. 사전등록 게시/readback 뒤
+위 native 캠페인을 측정했다. R2 게시 전 코드 guard는 14개 PASS다.
 
 ## 7. 원래 moment 실패와 R2 산술 교정
 
@@ -251,8 +252,10 @@ Raw SHA, 원래 execution receipt SHA, 원래 사전등록 SHA, 원래 구현 �
 불변 native dependency를 모두 검사한 뒤 같은 결과를 재분석한다.
 원래 native 캠페인·source injection·projection은 다시 실행하지 않는다.
 
-R2 게시/readback 이후의 명령은 다음과 같다. `.gz`는 runner가 직접 읽고
-압축 hash와 복원 내용 hash를 검사하므로 사전 압축 해제는 필요 없다.
+R2는 [게시 커밋 c689dcf](https://github.com/cosmosapjw-quantum/bass/commit/c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a)의
+code·계약·R1 증거에 대한 독립 Git readback 후 실제 실행했다.
+분석은 Git에 보관한 `.gz`를 직접 읽었다. Runner가 압축 hash와 복원 내용
+hash를 검사하므로 사전 압축 해제는 필요 없다. 재현 명령은 다음과 같다.
 
 ```bash
 python3 run_native_cohorts.py \
@@ -261,8 +264,32 @@ python3 run_native_cohorts.py \
   --timeout 1800
 ```
 
-현재 이 문서의 상태: **R2 코드·14개 guard·계약 준비 완료, R2 게시 후 재분석 대기**.
-큰 b에서의 `9.9453e-4` 정확도 실패는 산술 교정 대상이 아니며 그대로 유지한다.
+실제 실행에서는 `--publication-receipt delivery/s7/NATIVE_PUBLICATION_R2.json`으로
+API로 복구한 workspace의 독립 게시 증거를 제공했고,
+`--out evidence_s7_native/revalidate_r2`에 새 결과를 썼다.
+
+[R2 분석](evidence_s7_native/revalidate_r2/ANALYSIS_R2.json)과
+[실행 receipt](evidence_s7_native/revalidate_r2/RETURN_NATIVE_COHORTS_R2.json)의 실제 결과는
+**51개 case, 측정 42개, feasibility failure 9개, integrity gate PASS,
+accuracy target FAIL**이다. 최종 상태는 `COMPLETED_WITH_RETAINED_GATE_FAILURES`다.
+R1의 `birth_time_031` observer false rejection만 제거되었고, 큰 b의 두 case
+`angular_017`, `slab_large_b_050`는 각각 `−9.945297565870925e-4`,
+`−9.945297565871203e-4`로 고정 `1e-6` 목표에 계속 실패한다.
+
+R2는 2026-10-19 10:25 UTC에 시작하여 Python 분석 8.3137 s,
+peak RSS 40,196 KiB, 기록된 출력 65,902 bytes를 사용했다.
+Native 재실행과 새 컴파일은 각각 **0회**다. Worker 1, BLAS thread 1,
+RAM 16 GiB, disk 4 GiB, job 1,800 s 상한을 유지했다.
+
+R2 입력 raw의 SHA-256은
+`4b544414a434abfb56edbf38c89807aa221b3083185bcfc2499e9f53f6db8122`,
+R2 분석의 SHA-256은
+`f544d08069e758de3fde2af15702e1358151ab3a3b31f58d0096b218bb78485c`다.
+사후 독립 비교에서 42개 측정 case의 원래 모든 물리 metric, birth-time 결과,
+9개 support failure와 R1 원본 파일의 hash가 같음을 확인했다.
+새 exact moment field와 observer 판정 이외의 기존 결과를 바꾸지 않았다.
+검산은 [R2 재사용 identity 기록](evidence_s7_native/revalidate_r2/REUSE_IDENTITY.json)에 남겼다.
+이 native 결과를 다른 coupled Python 캠페인의 moment 판정에 대신 적용하지 않는다.
 
 ## 8. 남은 의무
 

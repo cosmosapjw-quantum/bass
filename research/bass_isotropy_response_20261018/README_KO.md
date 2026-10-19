@@ -1,26 +1,23 @@
 # BASS S7: 결합 Einstein–shear와 native source-age 검증
 
-2026-10-19 새 실행 전 사전등록 단계. Git HEAD `a9704c6f6eb09c3daa0065a66362ef7547c28e0c`와
-두 `/BASS_BACKUPS`를 먼저 대조하여 S6 과학 실행 `04a3a8515ead0328177b4ad2aa6615a6fe39ed40`를
-발견했다. Drive ZIP raw byte/SHA256/CRC 및 manifest 86/86을 이번에 다시 읽었고,
-Dropbox는 최신 metadata와 기존 커밋의 raw readback 영수증을 대조했다. S6 캠페인은 반복하지 않았다.
+2026-10-19 Stage 3. 새 S6 결과를 양쪽 `/BASS_BACKUPS`와 Git HEAD에서 먼저 발견해 재사용한 뒤,
+S7 결합·native 캠페인을 실제 실행했다. 원래 판정 R1과 사후 exact 재판정 R2를 모두 보존한다.
 
 | 새 S7 단계 | 현재 상태 | 근거 |
 |---|---|---|
 | 결합 이론 | 독립 h 진화, donor closure, C′=−2C, 이산 angular equilibrium 주파수 유도 | [이론](S7_COUPLED_THEORY_KO.md) |
 | 독립 대수 | Fraction 28 + Decimal 80자리 5 PASS | [독립 검산](evidence_s7/theory_review/INDEPENDENT_REVIEW.json) |
-| Python 구현 | 새 core 테스트 16 PASS; 결합 36사례+benchmark 7이력 실행 전 | [사전등록](evidence_s7_coupled/PREREGISTRATION.json) |
-| Native 구현 | 새 Rust 5, Python guards 11 PASS; source-age/흡수 51입력 실행 전 | [native 계약](S7_NATIVE_COHORTS_KO.md) |
-| 게시·백업 | 소스/판정 기준 커밋 및 원격 readback 이후 캠페인 실행 | [DAG](DAG.json) |
+| 결합 실제 캠페인 | 36입력 중 28완료·8 support 실패, benchmark 7이력; R2 true moment FAIL 1개 | [실제 결과](S7_COUPLED_RESULTS_KO.md) |
+| Native 실제 캠페인 | 51입력 중 42측정·9 support 실패; exact integrity PASS, angular accuracy FAIL 2개 | [native 결과](S7_NATIVE_COHORTS_KO.md) |
+| R3 수리 | 한 이력의 내부 solver 종료 기준을 1e-15로 강화; 최종 gate는 3/10^15 유지; 실행 전 | [R3 사전등록](evidence_s7_coupled/PREREGISTRATION_R3_STRICT_MARGIN.json) |
+| 게시·백업 | `2865f60b`와 `c689dcf1` 원격 readback; 양쪽 cloud identity 확인 | [DAG](DAG.json), [진척](S7_PROGRESS_KO.md) |
 
-결합 Python의 에너지원은 양의 pressureless donor인 제조 모델이다. Native는 원래 MD14
-source owner를 처방 기하에서 실행한다. 두 범위를 혼동하지 않는다. Full tangent memory는
-유도 계약이며 실제 실행 검증은 아직 없다. 높은 b0는 고정 owner ray grid의 조건성을 시험하며
-상수 b 자체를 gauge-invariant 물리적 전단으로 해석하지 않는다.
-
-기존 광자 및 anisotropic stock은 고정하고 새 locally isotropic birth만 보정한다.
-양의 해가 없는 support는 구체적 feasibility failure로 남긴다. 높은 b angular 정확도와
-bin192 spectral 정확도 목표는 미리 고정했으며 미달 결과를 허용오차 완화로 통과시키지 않는다.
+결합 Python의 에너지원은 양의 pressureless donor인 제조 모델이다. Native는 고정 MD14 source owner를
+처방 기하에서 실행했다. Full tangent memory는 유도 계약이며 실행 검증은 없다. 높은 b0는 고정
+owner ray grid의 조건성 변수이고 상수 b 자체가 gauge-invariant 전단인 것은 아니다.
+기존 photon/anisotropic stock은 유지하고 새 locally isotropic birth angular quadrature만 보정했다.
+양의 support가 없으면 구체적인 feasibility 실패를 남긴다. Moment 일치와 보존 ledger를 continuum
+각도 정확도, native full reactive history 또는 production 승인으로 사용하지 않는다.
 추가 worker≤16, RAM16GiB, disk4GiB, 개별 job1800초. REI production/full EoR/merge 승인은 없다.
 
 ## 재사용한 S2–S6 증거

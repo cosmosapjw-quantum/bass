@@ -1,0 +1,163 @@
+{
+  "schema": "bass.s7.figure_audit.v1",
+  "utc": "2026-10-19T10:24:35.919393+00:00",
+  "status": "PASS_SCOPED_VISUAL_QA",
+  "scope": "Scientific plotting and source fidelity only; no simulation or scientific admission gates rerun.",
+  "reviewer": "/root/s6_rank1",
+  "visual_readback": {
+    "method": "Actual PNGs inspected through view_image after render; combined approximately 180 mm design width and separate approximately 90 mm designs.",
+    "paths": [
+      "S7_SUMMARY_RUN01.png",
+      "S7_RADIATION_LINEAR_SINGLE_COLUMN.png",
+      "S7_COUPLED_ANGULAR_SINGLE_COLUMN.png",
+      "S7_NATIVE_ANGULAR_SINGLE_COLUMN.png"
+    ],
+    "final_findings": {
+      "title_legend_overlap": false,
+      "footer_axis_label_overlap": false,
+      "clipped_titles_or_axis_labels": false,
+      "data_obscured_by_inset_or_legend": false,
+      "missing_failed_cases": false,
+      "fabricated_error_for_infeasible_support": false
+    },
+    "single_column_solution": "The linear benchmark uses separate trajectory/error axes; the angular panels use vertical facets at 3.54-inch width rather than shrinking the combined figure.",
+    "semantic_review": [
+      "Original run01 labels and retained moment/accuracy failure circles are visible.",
+      "Both 27-case angular blocks are complete, with 8 coupled and 9 native infeasible supports in separate strips.",
+      "The coupled y=s/H* observable is distinguished in the caption from q=s/H and native A=DeltaP/U.",
+      "b0 is labeled a fixed-grid reference offset and never physical shear.",
+      "All off-panel native gate failures are explicitly preserved in provenance and caption.",
+      "The native 1e-6 line is identified as the preregistered large-b target, not an admission claim for every comparison point.",
+      "Near floating-point-level native b0=0 errors are shown without an invented convergence fit."
+    ]
+  },
+  "repairs": [
+    {
+      "finding": "Initial combined legend overlapped panel A title.",
+      "repair": "Moved plot area downward and separated title/subtitle/legend rows.",
+      "closed_by": "Final combined PNG view."
+    },
+    {
+      "finding": "Single-column benchmark title was clipped; its inset labels crowded the trajectory.",
+      "repair": "Wrapped title and split the trajectory and error views into separate stacked axes.",
+      "closed_by": "Final single-column benchmark PNG view."
+    },
+    {
+      "finding": "Initial single-column angular footer overlapped the final x-axis label.",
+      "repair": "Increased bottom margin, wrapped main title and separated explanatory text.",
+      "closed_by": "Final coupled/native single-column PNG views."
+    },
+    {
+      "finding": "Native high-offset failure annotation initially crowded measured curves.",
+      "repair": "Moved label below the target line with an explicit pointer to the failed data point.",
+      "closed_by": "Final summary and native single-column PNG views."
+    },
+    {
+      "finding": "Default Matplotlib configuration directory was read-only, causing a fallback-cache warning in the initial successful render.",
+      "repair": "Selected writable /tmp/bass-s7-mpl-cache before Matplotlib import.",
+      "closed_by": "Subsequent renders completed without this warning."
+    }
+  ],
+  "actual_source_hash_checks": [
+    {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s7_coupled/run01/RETURN_S7_COUPLED.json",
+      "sha256": "43efcc1d468365a474681021fb826b2350bd82bb0d04b417c8ae57a0beab8995",
+      "unchanged": true
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s7_coupled/run01/ANGULAR_COMPARISONS.json",
+      "sha256": "234a173b214c154286906a3a02253d626c6b78bedd5fdb9ec80a6ac0459e3658",
+      "unchanged": true
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s7_coupled/run01/RADIATION_LINEAR_BENCHMARK.json",
+      "sha256": "ff7db875df436a6c6c508b075c3ad5c8da5f85372540c3717c01583337353944",
+      "unchanged": true
+    },
+    {
+      "path": "/workspace/scratch/f49816986ef8/native_s7_run01/ANALYSIS.json",
+      "sha256": "8f776e49214a054951ed941c8fac50f3624735dc546ee0305918d2a2f488b8ee",
+      "unchanged": true
+    }
+  ],
+  "formats": [
+    {
+      "path": "S7_SUMMARY_RUN01.svg",
+      "width": "518.4pt",
+      "height": "813.6pt",
+      "xml_parsed": true,
+      "sha256": "82459233c52f1657030fd644c19366c7dcd14f0ffdac0f539e0c1c7f173b55a3"
+    },
+    {
+      "path": "S7_SUMMARY_RUN01.png",
+      "pixels": [
+        1584,
+        2486
+      ],
+      "mode": "RGBA",
+      "sha256": "45b4c2adc20cd9f898a8989656f7576a5e833549fb498f72566ffe767505cdd8"
+    },
+    {
+      "path": "S7_RADIATION_LINEAR_SINGLE_COLUMN.svg",
+      "width": "254.88pt",
+      "height": "349.2pt",
+      "xml_parsed": true,
+      "sha256": "4b7f2ca8ad1b9a78d977d69ea5de417fd6abf40e9fbb458ecdd207de83d8f106"
+    },
+    {
+      "path": "S7_RADIATION_LINEAR_SINGLE_COLUMN.png",
+      "pixels": [
+        778,
+        1067
+      ],
+      "mode": "RGBA",
+      "sha256": "e26932aee468e126d2668bfc1789dc9a276490ba0e8bb22f7509d88f927ded8d"
+    },
+    {
+      "path": "S7_COUPLED_ANGULAR_SINGLE_COLUMN.svg",
+      "width": "254.88pt",
+      "height": "561.6pt",
+      "xml_parsed": true,
+      "sha256": "bfd384c8a8a90e680bde4730b129bcab34e5a59021b622ab1e70d88f093841ac"
+    },
+    {
+      "path": "S7_COUPLED_ANGULAR_SINGLE_COLUMN.png",
+      "pixels": [
+        778,
+        1716
+      ],
+      "mode": "RGBA",
+      "sha256": "2fd46e89369de14b8f5b2293201eb8e23a671bad7044c049ab8f533b9afb4fa6"
+    },
+    {
+      "path": "S7_NATIVE_ANGULAR_SINGLE_COLUMN.svg",
+      "width": "254.88pt",
+      "height": "561.6pt",
+      "xml_parsed": true,
+      "sha256": "3feb9ccaa16985708ee576c83f2b01685d9ba3b22d497c4161b08b7457eb0edd"
+    },
+    {
+      "path": "S7_NATIVE_ANGULAR_SINGLE_COLUMN.png",
+      "pixels": [
+        778,
+        1716
+      ],
+      "mode": "RGBA",
+      "sha256": "1692ccdc86d71005137f0aa07959d2c059d130ac8634bd78fb7aa8c92b2410ad"
+    }
+  ],
+  "source_script_sha256": "edc0a923d80bb55740738261bff443696694d091a78ce2f6f5d15c379a5436c0",
+  "plot_data_sha256": "5e7d8b545169de6d2e8822974a7c4aab54c937449b6204fec2a979c8d8dc605a",
+  "caption_sha256": "1c2ea6ba17ee69d4073fb49f903f5ea7e7f6e0f508bf83482ff92f4cff101a1d",
+  "data_changes_during_layout_repairs": false,
+  "science_runs_during_figure_task": 0,
+  "commands": [
+    "python3 evidence_s7/figures/sourceplot.py --coupled-run evidence_s7_coupled/run01 --native-analysis /workspace/scratch/f49816986ef8/native_s7_run01/ANALYSIS.json",
+    "python3 evidence_s7/figures/sourceplot.py --data evidence_s7/figures/PLOT_DATA_RUN01.json"
+  ],
+  "remaining_limitations": [
+    "Visual QA is a bounded reviewer assessment, not a new scientific validation.",
+    "The original run01 failures remain even if separately published exact-moment reanalysis later changes observer classification.",
+    "No native coupled gravity or full EoR/production approval follows from these figures."
+  ]
+}
