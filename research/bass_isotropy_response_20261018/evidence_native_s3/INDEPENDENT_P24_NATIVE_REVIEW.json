@@ -1,0 +1,51 @@
+{
+  "schema": "bass.s3.independent_p24_native_review.v1",
+  "status": "PASS_SCOPED_FULLRANK_SUPPORTS",
+  "reviewer_role": "native integration agent reviewing P24 projection authored by separate theory agent",
+  "review_scope": "P24 Rust module and its actual native consumption; this is not an independent review of the adapter authored by this reviewer",
+  "reviewed_source": "balance_p24.rs",
+  "reviewed_sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+  "checks": [
+    {
+      "item": "finite support geometry",
+      "finding": "Squared-direction convex lower and upper hull checks precede optimization; margins within64eps are unresolved, not admitted."
+    },
+    {
+      "item": "rank1 meaning",
+      "finding": "Affine-compatible rank1 supports are FEASIBILITY_UNRESOLVED_RANK1, not mathematical infeasibility; exact rank1 solve is not implemented."
+    },
+    {
+      "item": "nested solve direction",
+      "finding": "Inner P2 mean increases with lambda2 by Var(P2); constrained outer P4 slope equals Var(P4)-Cov(P2,P4)^2/Var(P2)>=0. Code bracket and bisection directions match."
+    },
+    {
+      "item": "KL and normalization",
+      "finding": "Accepted weights use q exp(lambda2 P2+lambda4 P4)/Z with max-log stabilization; positive-prior normalization and full-positive accepted output are checked."
+    },
+    {
+      "item": "fixed acceptance",
+      "finding": "Output tolerance<=3e-15, both moments and normalization checked; no tolerance increase fallback. Reflection residual is independently checked."
+    },
+    {
+      "item": "native input equivalence",
+      "finding": "Actual REI ray_geometry supplies mu and prior without substituting a separate research grid.7 new native tests and20 changed-adapter measurement rows passed."
+    },
+    {
+      "item": "state/spectrum boundary",
+      "finding": "P24 function only returns a weight vector. In native consumption, original spectral owner compiled from57 exact files; birth-only adapter tests and data provide scoped consumption evidence."
+    }
+  ],
+  "concrete_blocking_defects": [],
+  "remaining": [
+    "Full floating-point convergence near singular supports is not proved; code reports explicit numeric/unresolved errors.",
+    "Rank1 affine-compatible supports remain an implementation limitation.",
+    "No continuum angular accuracy, native spectral refinement certification, or reactive/production admission."
+  ],
+  "evidence": [
+    "run01/changed_native_tests.stdout",
+    "run01/NATIVE_ADAPTER.jsonl",
+    "run01/RETURN_NATIVE_ADAPTER.json",
+    "run01/NATIVE_SOURCE_AGGREGATE.json"
+  ],
+  "additional_tests_performed_by_reviewer": "Existing prepared native consumption matrix only; no duplicate standalone P24 test campaign."
+}

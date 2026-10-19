@@ -1,0 +1,34 @@
+{
+  "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "compile_exit": 0,
+  "run_exit": 0,
+  "source_sha256": "fb4d5c0e6f86f1d1394a5f4a702af68d1c0accc095bfd177b3a7594d9c80d21c",
+  "adapter_sha256": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+  "result": {
+    "status": "PASS_P2_NATIVE_ADAPTER_PREFLIGHT",
+    "b": 0.2,
+    "n_mu": 8,
+    "n_energy": 96,
+    "weight_m2": 2.229119666630197e-16,
+    "weight_m4": -0.008956375870583047,
+    "energy_m2": 2.011759315415102e-16,
+    "energy_m4": -0.008956375870583053,
+    "ledger_n_residual": -1.4230153513872246e-19,
+    "ledger_u_residual": -1.0842021724855044e-19
+  },
+  "P24": "NOT_RUN_PENDING_MODULE",
+  "source_snapshot": "driver_source.rs.snapshot",
+  "compile_command": [
+    "rustc",
+    "--edition=2021",
+    "-O",
+    "-C",
+    "codegen-units=1",
+    "native_reference/p2_adapter_preflight.rs",
+    "--extern",
+    "rei_microphysics=native_reference/librei_microphysics.rlib",
+    "-o",
+    "native_reference/p2_adapter_preflight"
+  ],
+  "purpose": "New adapter P2-only nonempty-stock preflight while P24 implementation is pending; not the completed original 58-case campaign."
+}

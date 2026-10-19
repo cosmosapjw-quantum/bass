@@ -1,30 +1,65 @@
-# Codex/NCP: BASS PR174의 기존 Rust 후보 실행
+# 복사해서 사용할 Codex 인계
 
-$physmath-research-loop로 아래 한정 작업을 직접 수행해. 사용자에게 다운로드, ZIP, 첨부, 수동 명령이나 경로 설정을 요청하지 마.
+아래 블록 전체가 작업 지시다. 과거의 NOT_RUN 표시보다 최신 실제 source/receipt를 따른다.
+Native source 게시 commit과 클라우드 객체는 PUBLICATION_CLOSEOUT.json의 후속 마감값으로 고정한다.
 
-Repository: https://github.com/cosmosapjw-quantum/bass
-Draft PR174: https://github.com/cosmosapjw-quantum/bass/pull/174
-Branch: research/bass-isotropy-checkpoint-recovery-20261018
-검증된 구현 commit: 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
-연구 폴더: research/bass_isotropy_response_20261018/
-계보 PR173: 4e2d1fa820d6f7baae1069b615fb82a08d53403b
+```text
+$physmath-research-loop로 BASS 연구를 이어서 수행하라.
+저장소 https://github.com/cosmosapjw-quantum/bass
+Draft PR https://github.com/cosmosapjw-quantum/bass/pull/174
+브랜치 research/bass-isotropy-checkpoint-recovery-20261018
+연구 경로 research/bass_isotropy_response_20261018/
 
-먼저 백업과 GitHub에서 더 새로운 실행결과가 있는지 확인하고 독립 worktree를 준비해. README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json과 최신 PR 댓글을 읽어. Git-only checkout에 필요한 소스와 테스트가 모두 있으므로 별도 파일 전달은 필요 없어.
+먼저 Dropbox /BASS_BACKUPS와 Google Drive /BASS_BACKUPS의 새 실행결과를 현재 GitHub HEAD/PR174 최신 댓글과 대조하라.
+README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, S3_THEORY_KO.md,
+S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md, 각 실행 receipt와 독립 review를 읽어라.
+Drive ZIP 업로드 서비스가 멈춰 native-document Base64 carrier가 사용될 수 있다.
+Carrier이면 manifest 순서로 텍스트를 직접 읽고 원 ZIP bytes/SHA를 복원·검증하라. 사용자에게 ZIP 다운로드를 시키지 마라.
 
-PR173의 원본 SourceLedger58행과 5개 negative control은 완료된 별개 작업이다. 새 balance.rs 실행으로 오인하거나 불필요하게 반복하지 마. PR174의 Python 테스트는 15개 통과했고 balance.rs의 5개 작성된 테스트는 아직 NOT_RUN이다. 새 실행결과가 이미 올라왔다면 그 결과부터 확인해 중복을 피하라.
+고정 identity:
+- 최초 검증 P2 구현 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
+- 2026-10-18 마감 a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc
+- 부모 PR173 4e2d1fa820d6f7baae1069b615fb82a08d53403b
+- 원 REI source 0e25846433170d0f420c4cda44a0bedbf02cd177
+- S2 Rust5 실행 게시 87149cdb673c250ccbb36dda5d43a38f0f7dd7b7
+- S3 유도/P24 캠페인 게시 a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e
+- 검증된 native61-input SHA256 16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23
+- native raw JSONL SHA256 a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff
 
-격리 환경에서 requirements.txt를 설치하고 `python -m unittest -v test_balance test_properties`를 실행해. physics source SHA256은 angular_balance.py=1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9, balance.rs=3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a다.
+완료 증거를 이유 없이 반복하지 마라:
+PR173 native58/negative5, 기존 Python15, 기존 Rust5, 새 Python14,
+새 Rust P24 16, CLI valid1/negative7, Python/Rust 같은 입력43, 최종 reuse guards13,
+native 새 테스트7/실제20행/runner regressions6, 초기 P2 preflight는 완료됐다.
+S3는165rule 중146측정·19구체적 지지실패,1606response points를 저장했다.
+이론 D의0~3차 전개·양의 반례·exact support1023개도 검산했다.
+저장 측정 recovery의 F1/F2는 수정 및 독립 검토로 닫았다.
+현재 native 범위는 sandbox에서 실제 실행됐으며 NCP 미실행 의무가 아니다.
 
-Rust가 있는 로컬에서 새 절대경로 출력 폴더를 만들어 아래를 실행해:
-```bash
-rustc --edition=2021 --test balance.rs -o "$OUT/balance_tests"
-"$OUT/balance_tests" --nocapture
-rustc --edition=2021 -O balance.rs -o "$OUT/balance_probe"
+물리: non-tilted axisymmetric Bianchi I, signature(-,+,+,+),
+a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H.
+새로 선언된 등방 source만 보정하라. 기존 광자장·물리적 비등방 source를 재가중/초기화하지 마라.
+Reflection parity, 양의 weights, source frame 및 고정 spectral owner를 유지하라.
+각 birth/cohort의 weights를 이후 수송에서 고정하라. Angular refinement와 moment 제약의 효과를 분리하라.
+P2=P4=0이어도 P6/고차 응답은 남는다. Rank1 float ambiguity는 unresolved이며 음수weights/tolerance완화로 우회하지 마라.
+
+다음 실제 미완료 의무 중 필요한 범위부터 진행하라:
+(1) 저장 R,D kernel과 raw measurements에서 finite-d continuum error/고차 moments 및 source-age 합성 오차의 명확한 기준을 유도.
+(2) exact rank1 지지의 입력 certificate와 실행 경로 설계.
+(3) 고정 spectral owner의 source-panel/energy-bin refinement를 angular 변화와 분리하고 잔차5.369926725506957e-12를 설명.
+(4) 검증된 birth cohorts를 합성한 history와 Einstein/shear feedback은 별도 후속 단계.
+P6 제약 알고리즘, source-history 실행, spectral convergence가 이미 완료됐다고 가정하지 마라.
+
+새 소스 변경 때문에 제한 native 재검증이 실제로 필요할 때만 준비된 runner를 사용하라.
+연구 경로에서:
+python3 run_native_adapter.py --out /absolute/new/bass_s3_native_output --workers 4 --timeout 1800
+Runner는 고정57개 owner 파일을 자동 취득/검증하고 표준 라이브러리 Rust로 컴파일한다.
+기존 checkout은 --rei-repo, 검증 가능한 staging은 --owner-root, compiler는 --rustc로 지정할 수 있다.
+이미 완료된 같은20행을 인계 확인만을 위해 재실행하지 마라.
+
+기존 owner 작업을 보존하고 추가workers16 / RAM16GiB / disk4GiB / 개별job1800초를 상한으로 둬라.
+NCP가 필요한 새로운 작업은 여기서 코드·설정·입력·원래 gate를 완성한 뒤 compile/작은수정/실행만 남겨라.
+명령·환경·source/commit·종료코드·stdout/stderr·자원·raw 결과·feasibility/수치/구현/환경 실패를 반환하고
+단계별 DAG, GitHub 게시, 양쪽 백업 및 확인한 readback 범위를 갱신하라.
+사용자에게 과거 대화, 파일 첨부, ZIP 다운로드, 사전 명령 실행을 요청하지 마라.
+충분한 별도 검증 없이 REI production/full EoR/merge로 확대하지 마라.
 ```
-OUT은 Codex가 생성·설정해. 실제 5개 테스트의 이름과 결과, exit code, source/binary SHA를 기록해. Cargo 또는 전체 REI driver 빌드는 이 독립 후보에 필요 없다. 최초 실패와 수정 diff를 보존하고 작은 호환성 수선 이외의 알고리즘·tolerance 변경은 별도 연구로 구분해.
-
-NCP가 실제로 필요할 때만 사용자 Ubuntu에서 `ssh -i /home/cosmosapjw/.ssh/ncp_key root@49.50.142.2 -p 22`를 직접 사용해. 기존 PID/affinity/checkpoint와 CPU/RAM/disk, /root/.cargo/bin/rustc 버전을 먼저 확인해. 기본 1 thread, 추가 worker<=16, RAM<=16GiB, disk<=4GiB, job<=1800초이며 owner 작업을 중단하거나 재시작하지 마.
-
-이 작업은 기존 P2-only 후보의 compile/test다. P4 연구나 native source injection 채택, 기존 광자 stock 재가중, 물리적 anisotropic source 초기화, H/He, Q^a, polarization, checkpoint/EoR를 함께 실행하지 마.
-
-실제 결과를 RETURN_TO_CHATGPT.json에 기록하고 단계별 DAG, 별도 결과 commit/push와 Draft PR, Dropbox·Google Drive create-only 백업 및 실제 다운로드 해시 검증까지 수행해. 자동 병합하지 말고 수행하지 못한 부분은 정확한 NOT_RUN/BLOCKED로 보고해.

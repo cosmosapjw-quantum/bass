@@ -1,0 +1,179 @@
+{
+  "schema": "bass.s3.results_document_saved_evidence_audit.v1",
+  "status": "PASS_NO_REQUIRED_DOCUMENT_CORRECTION",
+  "audited_utc": "2026-10-19T06:09:47.886539+00:00",
+  "target": "S3_RESULTS_KO.md",
+  "target_sha256": "efe3dd24c223535e79899cdd43c75f37b88de73c1b98fa4a69b5333b65eddac1",
+  "publication_reference": {
+    "commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
+    "source": "parent-confirmed stage2 publication; no external publication performed by this audit"
+  },
+  "method": "Read saved exact theory results, measured JSON rows, execution receipts/logs and source snapshots; recompute arithmetic and displayed rounding only. No optimizer, native, unit-test, Decimal-exp, quadrature or exact-support-enumeration rerun.",
+  "counts": {
+    "attempted_rules": 165,
+    "measured_rules": 146,
+    "rejected_rules": 19,
+    "response_points": 1606,
+    "prior_successes": 55,
+    "P2_successes": 48,
+    "P24_successes": 43,
+    "P2_mean_failures": 7,
+    "P24_mean_failures": 7,
+    "P24_upper_failures": 5,
+    "exact_rational_supports": 1023
+  },
+  "theory_checks": {
+    "D_derivatives_Legendre_0_to_3_match": true,
+    "P2_counterexample_slope_bias": "-11/40",
+    "P24_counterexample_leading_A_error": "-(27/140)d^2",
+    "GL4_counterexample_leading_A_error": "-(144/245)d^3",
+    "Decimal80_max_derivative_check_error": "2.074589843749728510083007848516869984899480478635E-12",
+    "derivatives_not_Taylor_coefficients_correctly_distinguished": true,
+    "normalized_A_and_unnormalized_G_correctly_distinguished": true
+  },
+  "displayed_finite_d_table_checks": [
+    {
+      "n_mu": 8,
+      "constraint": "P2",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "1.147667639e-2",
+      "saved_A_abs_error": 0.011476676390620444,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 8,
+      "constraint": "P24",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "6.688501221e-3",
+      "saved_A_abs_error": 0.006688501220723175,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 16,
+      "constraint": "P2",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "3.29404253e-4",
+      "saved_A_abs_error": 0.00032940425326144496,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 16,
+      "constraint": "P24",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "2.83195803e-4",
+      "saved_A_abs_error": 0.00028319580311741976,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 32,
+      "constraint": "P2",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "1.582720707e-7",
+      "saved_A_abs_error": 1.582720707271612e-07,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 32,
+      "constraint": "P24",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "1.579665306e-7",
+      "saved_A_abs_error": 1.5796653063393506e-07,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 64,
+      "constraint": "P2",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "5.390e-14",
+      "saved_A_abs_error": 5.390132784555135e-14,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 64,
+      "constraint": "P24",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "5.312e-14",
+      "saved_A_abs_error": 5.312417172831374e-14,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 128,
+      "constraint": "P2",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "5.884e-15",
+      "saved_A_abs_error": 5.88418203051333e-15,
+      "correct_at_displayed_precision": true
+    },
+    {
+      "n_mu": 128,
+      "constraint": "P24",
+      "birth_b": 0.3,
+      "d": 0.2,
+      "displayed": "9.437e-16",
+      "saved_A_abs_error": 9.43689570931383e-16,
+      "correct_at_displayed_precision": true
+    }
+  ],
+  "saved_execution_checks": {
+    "old_Rust_tests_now_pass": 5,
+    "new_Python_tests": 14,
+    "new_Rust_tests": 16,
+    "CLI_valid_cases": 1,
+    "CLI_negative_controls": 7,
+    "same_input_Rust_Python_cases": 43,
+    "final_reuse_guard_tests": 13,
+    "receipt_counts_and_saved_logs_match": true
+  },
+  "source_provenance_checks": [
+    {
+      "path": "evidence_s3/campaign/ANGULAR_CAMPAIGN.json",
+      "sha256": "01f3d130d10a318d411f10252f928057dd79a5145ba419aee5094b988102f03d",
+      "matches": true
+    },
+    {
+      "path": "evidence_s3/campaign/source_snapshot/run_s3_campaign.py",
+      "sha256": "8e171badca059edee5f9e7d8dee0d0e8dcfbfe885d498ecd7895095bd95b7ff1",
+      "matches": true
+    },
+    {
+      "path": "evidence_s3/campaign_first_failure/run_s3_campaign_before_plot_fix.py",
+      "sha256": "76ce92ac1482430f9d85268688c388248f2adccf4e86fcbde72bcd38ca208843",
+      "matches": true
+    },
+    {
+      "path": "run_s3_campaign.py",
+      "sha256": "28160640be0db83e8f539898cae765ff689f1a09e0974d8a7a12739f7c042caa",
+      "matches": true
+    },
+    {
+      "path": "test_campaign_reuse.py",
+      "sha256": "7ed485b5915fa481cd1923b47ab986386914ca94b00a900fabe6ad233c819e5c",
+      "matches": true
+    }
+  ],
+  "measurement_physics_sources_unchanged": true,
+  "scope_checks": [
+    "Moment constraint and angular refinement are compared on identical support/prior.",
+    "The outer covariance derivative is positive in the accepted full-rank domain; rank1 is explicitly unresolved.",
+    "P2/P4 constraints do not certify higher-moment or finite-d continuum angular accuracy.",
+    "Native transfer/tangent results are reported in their own evidence lane.",
+    "Source-age convolution and coupled Einstein evolution are explicitly not claimed as executed.",
+    "F1/F2 are closed; saved physical measurements are identified as unaffected.",
+    "Production/full EoR/merge remains unadmitted."
+  ],
+  "required_corrections": [],
+  "remaining_unverified_by_this_audit": [
+    "No new external literature lookup; comparison used the saved exact theory and source records.",
+    "No claim that the scoped experiments prove global continuum or native spectral convergence."
+  ],
+  "deliverable_note": "FINAL_HANDOFF_NOTES_KO.md records completed-state reuse and next unmet obligations; main handoff documents and implementation sources were not edited."
+}
