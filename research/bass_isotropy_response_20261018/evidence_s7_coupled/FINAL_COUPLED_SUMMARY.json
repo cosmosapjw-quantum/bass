@@ -1,0 +1,174 @@
+{
+  "schema": "bass.s7.coupled.final_scoped_summary.v1",
+  "status": "R3_ONE_HISTORY_REPAIR_PASS_WITH_R1_R2_FAILURES_RETAINED",
+  "R1": {
+    "commit": "2865f60bf0a247eaab4997c222ad82ae22a4c8fa",
+    "status": "FAIL",
+    "main_attempts": 36,
+    "main_completed": 28,
+    "main_float_observer_gate_failures": 2,
+    "positive_support_feasibility_failures": 8,
+    "independent_benchmark_histories": 7,
+    "solver_seconds": 20.145776704004675,
+    "maxrss_kib": 91788
+  },
+  "R2": {
+    "commit": "c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a",
+    "status": "FAIL",
+    "history_executions": 0,
+    "histories_reanalyzed": 28,
+    "birth_rule_digests_checked": 1968,
+    "old_stock_digests_checked": 56,
+    "raw_files_unchanged_in_R2_readback": 41,
+    "constrained_M2_pass": 640,
+    "constrained_P24_M4_pass": 255,
+    "constrained_P24_M4_total": 256,
+    "true_exact_failures": 1,
+    "original_float_false_failures_resolved": 3,
+    "exact_failure_kind": "EXACT_BINARY64_BIRTH_MOMENT_EXCESS",
+    "max_exact_P24_M4_abs": 3.0005964896306507e-15,
+    "analysis_seconds": 10.71528546999616,
+    "maxrss_kib": 106580
+  },
+  "R3": {
+    "commit": "f993bf7121af7bb6d69698244089201e28868ebc",
+    "status": "PASS_ONE_REPAIRED_HISTORY",
+    "history_executions": 1,
+    "benchmark_executions": 0,
+    "case": {
+      "id": "b03_n32_P24_K64",
+      "config": {
+        "K": 64,
+        "n": 32,
+        "mode": "P24",
+        "b0": 0.3,
+        "y0": 0.08,
+        "donor0": 0.7,
+        "old_isotropic": 0.16,
+        "old_anisotropic": 0.04,
+        "eta": 0.4,
+        "cosmological_constant": 0.1,
+        "decay_lambda": 0.7,
+        "birth_end": 0.8,
+        "x_end": 1.2,
+        "old_n": 128
+      }
+    },
+    "strict_projector_atol": 1e-15,
+    "exact_admission_gate_rational": "3/1000000000000000",
+    "births_exact_admitted": 64,
+    "max_exact_moment_abs": 9.609516240597228e-16,
+    "gate_results": {
+      "hamiltonian": true,
+      "cohort_energy": true,
+      "event_energy": true,
+      "birth_moments": true,
+      "frozen_all_stock": true,
+      "positive_all_stock": true,
+      "reflection_all_stock": true,
+      "donor_endpoint": true,
+      "background_positive": true,
+      "old_stock_matches_original": true,
+      "strict_projection_calls_64": true,
+      "birth_count_64": true,
+      "frozen_R2_sources_and_inputs_unchanged": true
+    },
+    "max_hamiltonian_relative": 5.3718200627954895e-14,
+    "max_cohort_energy_relative": 2.4709402061770517e-15,
+    "max_event_energy_relative": 1.7095757961814805e-16,
+    "trajectory_comparisons": {
+      "R3_minus_original_R1": {
+        "max_abs_difference": {
+          "h": 2.220446049250313e-16,
+          "b": 1.6653345369377348e-16,
+          "y": 2.0816681711721685e-17,
+          "E_donor": 0.0,
+          "E_radiation": 5.551115123125783e-17,
+          "Pi": 8.673617379884035e-18,
+          "Sigma": 5.551115123125783e-17
+        },
+        "endpoint_difference": {
+          "x": 1.2,
+          "h": 1.6653345369377348e-16,
+          "b": -1.6653345369377348e-16,
+          "y": 1.5178830414797062e-18,
+          "E_donor": 0.0,
+          "E_radiation": 8.673617379884035e-19,
+          "Pi": 1.1926223897340549e-18,
+          "Sigma": 3.469446951953614e-18
+        }
+      },
+      "R3_minus_original_GL128": {
+        "max_abs_difference": {
+          "h": 3.552713678800501e-15,
+          "b": 7.260303469536211e-13,
+          "y": 4.4984675706682964e-13,
+          "E_donor": 0.0,
+          "E_radiation": 9.381384558082573e-15,
+          "Pi": 8.122365627305506e-13,
+          "Sigma": 2.13315476393916e-12
+        },
+        "endpoint_difference": {
+          "x": 1.2,
+          "h": 2.3869795029440866e-15,
+          "b": -7.260303469536211e-13,
+          "y": -3.8323901344061717e-13,
+          "E_donor": 0.0,
+          "E_radiation": 3.007143145605795e-15,
+          "Pi": -2.3886410427734206e-13,
+          "Sigma": -1.9471316919927872e-12
+        }
+      }
+    },
+    "solver_seconds": 3.1736488370006555,
+    "maxrss_kib": 84140
+  },
+  "limits": {
+    "workers": 1,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "job_seconds": 1800
+  },
+  "source_sha256_current_R3": {
+    "coupled_cohorts.py": "dbdae568fd47a3ffd041ebb47ae09ffefb4b026369ad5f73e48b8d8f2a155c58",
+    "run_s7_coupled.py": "a5d2944f1aba23ec986edc438914575501c8126dbcd4e4cbdefe6ec6d2f30e2c",
+    "test_s7_coupled.py": "65fcb658a81e07d31e232970030a7da1b6c678291117e577fe4365131ac3fac6",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee",
+    "run_s7_strict_margin.py": "e94a378a97ef20463809f852219b41ee3a863a45a7d07db2a0b40b19da0243ee",
+    "test_s7_strict_margin.py": "99a050680da586ed779b6d70e2deff2694e72319fe0ac8a960356109c960348d"
+  },
+  "test_groups": {
+    "original_core": 16,
+    "R2_exact_observer_reuse_guards": 4,
+    "R3_strict_margin_guards": 2
+  },
+  "receipt_files": {
+    "R1": {
+      "path": "evidence_s7_coupled/run01/RETURN_S7_COUPLED.json",
+      "sha256": "43efcc1d468365a474681021fb826b2350bd82bb0d04b417c8ae57a0beab8995"
+    },
+    "R2": {
+      "path": "evidence_s7_coupled/revalidate_r2/RETURN_S7_COUPLED_REANALYSIS.json",
+      "sha256": "762c2079e84bccf72deb2feabaecf3a00e6d8c5bfc1899ab261c8e104c8d195c"
+    },
+    "R3": {
+      "path": "evidence_s7_coupled/strict_margin_r3/RETURN_S7_STRICT_MARGIN_R3.json",
+      "sha256": "d9a81b31ef910bb0563f0e6e1ffbc025f2c037e28a3c1d9b98787a164b2635a4"
+    }
+  },
+  "report": "S7_COUPLED_RESULTS_KO.md",
+  "fixed_spectral_owner": "rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "scope": "Closed manufactured positive donor+radiation+Lambda, independently evolved Raychaudhuri; not actual MD14/native owner feedback. Only one R3 history uses stricter internal margin; R1/R2 artifacts remain immutable.",
+  "remaining_obligations": [
+    "Strict-margin coverage beyond the one fixed case",
+    "Eight positive support infeasibilities require distinct support refinement",
+    "Actual owner source energy closure and native finite-bin photon/energy conservation",
+    "Full coupled tangent including birth geometry/ray/weight derivatives",
+    "Long source-age and finite-d continuum angular accuracy"
+  ],
+  "production_admitted": false,
+  "full_EoR_admitted": false,
+  "NCP_used": false
+}

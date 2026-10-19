@@ -1,7 +1,7 @@
 {
-  "schema": "bass.isotropy.continuation_return.v6",
+  "schema": "bass.isotropy.continuation_return.v7",
   "date_utc": "2026-10-19",
-  "stage": "S7_R2_EXECUTED_R3_PREREG_READY",
+  "stage": "S7_BOUNDED_COMPLETE_WITH_RETAINED_FAILURES",
   "baseline_commit": "a9704c6f6eb09c3daa0065a66362ef7547c28e0c",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
@@ -41,17 +41,21 @@
     "native_finite_bin_spectral_convergence_admission": false,
     "source_age_and_coupled_evolution": "not_run",
     "publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
-    "publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b"
+    "publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
+    "historical_scope": "Original S5 adapter receipt; current S7 native status is S7_coupled_native."
   },
-  "NCP": "NOT_RUN_CURRENT_NATIVE_SCOPE_COMPLETED_IN_SANDBOX",
+  "NCP": "NOT_RUN_ALL_SCOPED_S7_EXECUTIONS_COMPLETED_IN_SANDBOX",
   "prior_results_reused": [
     "PR173 native58 plus negative5",
-    "PR174 original Python15"
+    "PR174 original Python15",
+    "S2 Rust5",
+    "S3 P24 derivation/campaign and S5 native adapter",
+    "S6 04a3a851 finite-d/rank1/spectral/source-age results in original scopes"
   ],
   "publication": {
-    "status": "PASS_SCOPED_DUAL_CLOUD_RECOVERY",
-    "current_scientific_source_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
-    "current_scientific_source_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
+    "status": "S7_STAGE1_3_VERIFIED_FINAL_METADATA_POSTCOMMIT_PROOF_IN_PR",
+    "current_scientific_source_commit": "f993bf7121af7bb6d69698244089201e28868ebc",
+    "current_scientific_source_tree": "c920ba0ecf008c296f815edc5d7f28a45ae06d36",
     "containing_metadata_commit_identity": "Read the commit containing this file and final PR174 closeout comment; post-commit archive records its exact SHA without a self-hash cycle.",
     "closeout": "PUBLICATION_CLOSEOUT.json",
     "dropbox_stages_verified": 3,
@@ -62,15 +66,39 @@
     "previous_metadata_supplement_verified_in_both_clouds": true,
     "previous_metadata_commit": "b69c7791b71064fd4b82fd7b2b3706860d84a29e",
     "historical_drive_failure_receipt": "delivery/DRIVE_FINAL_READBACK.json",
-    "recovery_supplement_identity": "Latest PR174 cloud-recovery closeout comment and STAGE_GIT.json/GIT_READBACK.json in the post-commit recovery ZIP."
+    "recovery_supplement_identity": "Latest PR174 cloud-recovery closeout comment and STAGE_GIT.json/GIT_READBACK.json in the post-commit recovery ZIP.",
+    "historical_pre_S7": {
+      "status": "PASS_SCOPED_DUAL_CLOUD_RECOVERY",
+      "current_scientific_source_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
+      "current_scientific_source_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
+      "containing_metadata_commit_identity": "Read the commit containing this file and final PR174 closeout comment; post-commit archive records its exact SHA without a self-hash cycle.",
+      "closeout": "PUBLICATION_CLOSEOUT.json",
+      "dropbox_stages_verified": 3,
+      "drive_stages_verified": 3,
+      "drive_receipt": "delivery/DRIVE_RECOVERY_READBACK.json",
+      "dropbox_archives_verified": 4,
+      "drive_archives_verified": 4,
+      "previous_metadata_supplement_verified_in_both_clouds": true,
+      "previous_metadata_commit": "b69c7791b71064fd4b82fd7b2b3706860d84a29e",
+      "historical_drive_failure_receipt": "delivery/DRIVE_FINAL_READBACK.json",
+      "recovery_supplement_identity": "Latest PR174 cloud-recovery closeout comment and STAGE_GIT.json/GIT_READBACK.json in the post-commit recovery ZIP."
+    },
+    "S7_cloud_receipts": [
+      "delivery/s7/S7_STAGE1_CLOUD_READBACK.json",
+      "delivery/s7/S7_STAGE2_CLOUD_READBACK.json",
+      "delivery/s7/S7_STAGE3_CLOUD_READBACK.json"
+    ],
+    "final_metadata_receipt": "Latest PR174 closeout comment and final archive GIT_READBACK.json; no self-referential SHA field."
   },
   "scope": "Only new explicitly locally isotropic source angular quadrature; fixed birth weights, original spectral owner, existing radiation preserved.",
   "remaining_obligations": [
-    "Execute committed S7 closed manufactured donor/Einstein campaign",
-    "Execute committed fixed-owner native source-age and frozen-opacity campaign",
-    "Review high-b fixed-grid and spectral accuracy target failures without relaxing gates",
-    "Full tangent execution and fully coupled native MD14 energy-budget/reactive history remain outside this bounded stage",
-    "Publish each stage and verify two-cloud readback; no production/full EoR/merge"
+    "Large-b native angular support/refinement beyond n_mu<=32: retain the 1e-6 failure and separate grid changes from new constraints.",
+    "Generalization of the stricter internal P24 margin beyond the single repaired history: new scoped source/preregistration and changed-case verification required.",
+    "Full coupled tangent execution including current geometry, birth geometry, source-frame directions and projection-weight derivatives; current Duhamel check is an identity diagnostic.",
+    "Native MD14 source with a physically closed energy-supply/Einstein feedback history: not implemented or executed by S7.",
+    "Full reactive absorption/chemistry and finite-bin spectral accuracy through an evolving history: single frozen-opacity slab is insufficient.",
+    "Long source ages and large finite-d continuum angular accuracy; S6 non-interval certificate and failed pre-asymptotic rate gate remain scoped.",
+    "No REI production, full EoR or merge admission from S7; preserve original owner work and all retained failures."
   ],
   "production_admission": false,
   "auto_merge": false,
@@ -84,7 +112,7 @@
   },
   "S3_publication_commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
   "native_source_aggregate": "16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23",
-  "native_output_sha256": "a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff",
+  "native_output_sha256": "4b544414a434abfb56edbf38c89807aa221b3083185bcfc2499e9f53f6db8122",
   "checks": {
     "theory": "pass_scoped",
     "positive_projection": "pass_scoped",
@@ -101,7 +129,7 @@
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Run only committed R3 strict-margin history after remote prereg/source readback; do not repeat S2-S6 or full S7.",
+  "next_first_action": "Inspect both /BASS_BACKUPS and current PR174 HEAD/comments for newer execution evidence before selecting the next bounded unit; do not repeat completed S2-S7.",
   "storage_recovery_science_rerun": false,
   "S6": {
     "status": "PASS_SCOPED_PARTIAL_S6_COUPLED_NOT_RUN",
@@ -202,7 +230,7 @@
     ]
   },
   "S7_coupled_native": {
-    "status": "R2_EXACT_REANALYSIS_COMPLETE_R3_ONE_HISTORY_PREREG_READY",
+    "status": "BOUNDED_RESEARCH_COMPLETED_WITH_RETAINED_FAILURES",
     "scope": "Closed manufactured donor+collisionless Einstein/shear validation and fixed-owner native source-age/frozen-opacity tests; bounded research lane.",
     "baseline_commit": "a9704c6f6eb09c3daa0065a66362ef7547c28e0c",
     "baseline_tree": "9a465c205f4a9125d1fe1b2eff3b3427fa63f834",
@@ -212,8 +240,8 @@
     "R3_R6": "complete: closed donor derivation, independent h evolution, C prime=-2C, finite-rule coupled spectrum, 28 exact+5 Decimal checks",
     "C1_C5": "complete: frozen new Python/Rust source; 16 coupled core, 5 Rust cohort and 11 Python native guards passed",
     "R7_C6_C8": "actual coupled36attempts28complete+8supportfailures and7benchmarks; native51attempts42measured+9supportfailures",
-    "R9_C9": "Complete R2 exact dyadic observer reanalysis on immutable raw; true coupled excess identified; targeted stricter internal P24 margin prepared without changing admission gate.",
-    "R10_C10": "Stage1 and Stage2 dual-cloud identities verified; Stage3 publishes actual R2 evidence and new R3 contract before one history.",
+    "R9_C9": "Closed exact-observer bug investigation and one stricter-internal-margin repair; no tolerance relaxation or failure erasure.",
+    "R10_C10": "Final results, source, DAG and handoffs prepared for a finite metadata publication. Stage1-3 cloud identities complete. Final post-commit archive/readback proof belongs to latest PR174 closeout comment and archive GIT_READBACK.json.",
     "theory_refs": [
       "evidence_s7/WOLFRAM_COUPLED_ALGEBRA.json",
       "evidence_s7/PRIMARY_LITERATURE.json"
@@ -221,7 +249,9 @@
     "admission": {
       "production": false,
       "full_EoR": false,
-      "auto_merge": false
+      "auto_merge": false,
+      "continuum_angular_accuracy": false,
+      "full_native_history": false
     },
     "preregistrations": [
       "evidence_s7_coupled/PREREGISTRATION.json",
@@ -238,28 +268,71 @@
       "native": "COMPLETED_WITH_RETAINED_GATE_FAILURES: one f64 moment observer and genuine high-b angular accuracy target failure"
     },
     "reanalysis_status": {
-      "coupled": "FAIL_RETAINED: 639/640 exact constrained births PASS; one true M4 excess -3.0005964896306507e-15",
-      "native": "808/808 exact constrained births PASS; two genuine high-b angular accuracy target FAIL retained"
+      "coupled": "FAIL_RETAINED: all640 M2 constraints PASS, 255/256 P24 M4 PASS; one true exact excess",
+      "native": "808/808 constrained births PASS; physical metrics and nine support failures identical; high-b accuracy FAIL remains"
     },
     "cloud_stage1": "delivery/s7/S7_STAGE1_CLOUD_READBACK.json",
     "reanalysis_publication_commit": "c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a",
     "cloud_stage2": "delivery/s7/S7_STAGE2_CLOUD_READBACK.json",
     "strict_margin_R3": {
-      "status": "PREREG_READY_NOT_EXECUTED",
+      "status": "PASS_ONE_REPAIRED_HISTORY",
+      "preregistration_commit": "f993bf7121af7bb6d69698244089201e28868ebc",
       "preregistration": "evidence_s7_coupled/PREREGISTRATION_R3_STRICT_MARGIN.json",
       "sha256": "082c4b5aa2c718e05bbcea8ef4601c6eda67f377108ae51765a664542ea176f3",
       "case": "b03_n32_P24_K64",
       "internal_atol": 1e-15,
       "exact_admission": "3/1000000000000000",
-      "histories_to_execute": 1,
+      "history_executions": 1,
+      "benchmark_executions": 0,
+      "births_passed": 64,
+      "max_exact_moment": 9.609516240597228e-16,
+      "old_stock_matches_original": true,
       "all_R2_sources_unchanged": true,
-      "targeted_tests_passed": 2
+      "targeted_tests_passed": 2,
+      "wall_seconds": 3.1736488370006555,
+      "maxrss_kib": 84140,
+      "receipt": "evidence_s7_coupled/strict_margin_r3/RETURN_S7_STRICT_MARGIN_R3.json"
     },
     "failure_receipts": [
       "evidence_s7_coupled/run01/RETURN_S7_COUPLED.json",
       "evidence_s7_coupled/revalidate_r2/RETURN_S7_COUPLED_REANALYSIS.json",
       "evidence_s7_native/run01/RETURN_NATIVE_COHORTS.json",
       "evidence_s7_native/revalidate_r2/RETURN_NATIVE_COHORTS_R2.json"
-    ]
-  }
+    ],
+    "completion_means": "Derivation, scoped code, discriminating executions, exact reanalysis and one justified repair completed; not all scientific gates passed.",
+    "source_commit": "f993bf7121af7bb6d69698244089201e28868ebc",
+    "source_tree": "c920ba0ecf008c296f815edc5d7f28a45ae06d36",
+    "R8_result_judgment": "Original coupled R1/R2 FAIL retained; R3 only one history PASS. Native integrity PASS but two high-b accuracy failures retained. Eight coupled and nine native support failures remain concrete.",
+    "evidence": {
+      "theory": "S7_COUPLED_THEORY_KO.md",
+      "independent_algebra": "evidence_s7/theory_review/INDEPENDENT_REVIEW.json",
+      "coupled_R1": "evidence_s7_coupled/run01/RETURN_S7_COUPLED.json",
+      "coupled_R2": "evidence_s7_coupled/revalidate_r2/RETURN_S7_COUPLED_REANALYSIS.json",
+      "coupled_R3": "evidence_s7_coupled/strict_margin_r3/RETURN_S7_STRICT_MARGIN_R3.json",
+      "native_R1": "evidence_s7_native/run01/RETURN_NATIVE_COHORTS.json",
+      "native_R2": "evidence_s7_native/revalidate_r2/RETURN_NATIVE_COHORTS_R2.json",
+      "native_reuse_identity": "evidence_s7_native/revalidate_r2/REUSE_IDENTITY.json",
+      "R2_true_failure": "evidence_s7_coupled/EXACT_MOMENT_FAILURES_R2.json"
+    },
+    "cloud_stage3": "delivery/s7/S7_STAGE3_CLOUD_READBACK.json",
+    "remaining": [
+      "Large-b native angular support/refinement beyond n_mu<=32: retain the 1e-6 failure and separate grid changes from new constraints.",
+      "Generalization of the stricter internal P24 margin beyond the single repaired history: new scoped source/preregistration and changed-case verification required.",
+      "Full coupled tangent execution including current geometry, birth geometry, source-frame directions and projection-weight derivatives; current Duhamel check is an identity diagnostic.",
+      "Native MD14 source with a physically closed energy-supply/Einstein feedback history: not implemented or executed by S7.",
+      "Full reactive absorption/chemistry and finite-bin spectral accuracy through an evolving history: single frozen-opacity slab is insufficient.",
+      "Long source ages and large finite-d continuum angular accuracy; S6 non-interval certificate and failed pre-asymptotic rate gate remain scoped.",
+      "No REI production, full EoR or merge admission from S7; preserve original owner work and all retained failures."
+    ],
+    "not_executed": [
+      "full tangent",
+      "native Einstein feedback",
+      "full reactive history",
+      "large-b native n_mu>32"
+    ],
+    "NCP": "Not used: all scoped S7 code and native Rust execution completed locally. Optional reproduction pipeline is prepared; new scientific obligations require new code/contracts.",
+    "updated_at_utc": "2026-10-19T10:44:24.420964+00:00"
+  },
+  "historical_S5_native_output_sha256": "a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff",
+  "native_output_role": "S7 original native JSONL bytes; Git stores lossless gzip and validates decoded SHA"
 }

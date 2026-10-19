@@ -1,8 +1,8 @@
-# S7 실제 결합 실행과 R2 exact moment 재분석
+# S7 실제 결합 실행, exact moment 재분석과 한 개 history의 수정
 
 작성일: 2026-10-19. 범위는 non-tilted axisymmetric Bianchi I의 **양의 manufactured donor + collisionless radiation + Λ**이다. 새 출생 cohort의 angular rule을 고정한 뒤 실제 전단과 Hubble 변수를 함께 진화시켰다. 실제 MD14 emissivity의 에너지 공급 성분이나 native spectral owner의 전체 Einstein 결합은 이 실행에 포함하지 않았다.
 
-**최종 판정은 FAIL이다.** 최초 36개 main history 시도에서 28개를 완주하고 8개에서 양의 support feasibility 실패를 얻었다. 완주한 history의 보존·양성·반사 대칭·기존 stock 불변성은 통과했다. R2에서 모든 1,968개 birth rule의 원래 digest를 대조하고 실제 binary64 입력의 Legendre moment를 유리수로 계산한 결과, 640개 constrained birth 중 하나의 \(P_4\) residual이 고정 gate \(3\times10^{-15}\)를 넘었다. 해당 실패를 tolerance 변경이나 음의 weight로 우회하지 않았다.
+**한 개 history의 수치 수정은 통과했으며, 최초 전체 campaign의 FAIL 기록은 유지한다.** 최초 36개 main history 시도에서 28개를 완주하고 8개에서 양의 support feasibility 실패를 얻었다. 완주한 history의 보존·양성·반사 대칭·기존 stock 불변성은 통과했다. R2에서 모든 1,968개 birth rule의 원래 digest를 대조하고 실제 binary64 입력의 Legendre moment를 유리수로 계산한 결과, 640개 constrained birth 중 하나의 \(P_4\) residual이 고정 gate \(3\times10^{-15}\)를 넘었다. 별도 게시·사전 등록한 R3에서는 그 한 history의 신규 출생에만 내부 projector 정지 조건 \(10^{-15}\)를 적용했다. 64개 birth가 모두 같은 admission gate \(3\times10^{-15}\)를 통과했다. R1/R2의 FAIL, 여덟 support 실패, 아직 검증하지 않은 다른 grid의 stricter-projector 도입 의무는 남아 있다.
 
 ## 1. 실행과 재분석의 서로 다른 identity
 
@@ -17,6 +17,11 @@
 | R2 실제 재분석 | 2026-10-19 10:25:03–10:25:15 UTC, 기존 28개 history의 frozen birth rule 재구성 |
 | R2 판정 | FAIL: 27 history gate 통과, 1 exact moment 실패, 기존 8 feasibility 실패 유지 |
 | R2 결과 SHA-256 | 762c2079e84bccf72deb2feabaecf3a00e6d8c5bfc1899ab261c8e104c8d195c |
+| R3 한 개 history source/prereg 게시 | commit f993bf7121af7bb6d69698244089201e28868ebc, tree c920ba0ecf008c296f815edc5d7f28a45ae06d36 |
+| R3 prereg SHA-256 | 082c4b5aa2c718e05bbcea8ef4601c6eda67f377108ae51765a664542ea176f3 |
+| R3 실제 실행 | 2026-10-19 10:39:40–10:39:44 UTC, b03_n32_P24_K64 history 하나 |
+| R3 판정 | PASS_ONE_REPAIRED_HISTORY; 64/64 exact moment, 보존·양성·parity·old-stock 불변성 통과 |
+| R3 결과 SHA-256 | d9a81b31ef910bb0563f0e6e1ffbc025f2c037e28a3c1d9b98787a164b2635a4 |
 
 R2는 ODE, benchmark, Duhamel 적분을 다시 실행하지 않았다. 최초 실행의 41개 JSON 파일 전체는 원래 SHA-256과 일치한다. 모든 ray 재구성은 분석용이며 기존 trajectory를 변경하지 않았다. Original run01 FAIL 기록과 R2 FAIL 기록을 각각 보존한다.
 
@@ -28,6 +33,8 @@ R2는 ODE, benchmark, Duhamel 적분을 다시 실행하지 않았다. 최초 �
 - [R2 process receipt](evidence_s7_coupled/REANALYSIS_R2_PROCESS.json)
 - [원본 41개 파일 manifest](evidence_s7_coupled/REVALIDATION_ORIGIN.json)
 - [정확한 실패 witness와 분류](evidence_s7_coupled/EXACT_MOMENT_FAILURES_R2.json)
+- [R3 한 개 history의 결과](evidence_s7_coupled/strict_margin_r3/RETURN_S7_STRICT_MARGIN_R3.json)
+- [R3 실제 process receipt](evidence_s7_coupled/STRICT_MARGIN_R3_PROCESS.json)
 
 ## 2. 실제 진화시킨 닫힌 모델
 
@@ -102,10 +109,12 @@ Main 36개 입력은 다음과 같이 사전 등록했다.
 |---|---:|---:|---:|
 | 최초 main+benchmark | 20.1458 s | 91,788 KiB | 6,199,564 bytes, 41 files |
 | R2 분석만 | 10.7153 s | 106,580 KiB | 9,389,071 bytes, 29 files |
+| R3 수정한 history 하나 | 3.17365 s | 84,140 KiB | 555,456 bytes, 3 files |
 
 실행기는 worker 1과 BLAS/OMP/MKL thread 1을 지정하며, RAM 16 GiB, disk 4 GiB, job 1800초 상한을 유지한다. 실제 NCP 작업은 사용하지 않았다. Main solver는 DOP853, rtol \(5\times10^{-13}\), atol \(5\times10^{-15}\), max_step 0.08이다.
 
 기존 source stage의 핵심 테스트 16개가 통과했고, R2에서는 ODE를 다시 풀지 않는 observer/reuse guard 4개를 추가 실행하여 통과했다. 네 검사는 실제 false-failure witness의 exact 통과, 진짜 threshold 초과의 거절, 바뀐 cohort digest 거절, 바뀐 raw byte 거절이다. 서로 다른 source identity와 실행 로그를 합쳐 단일 반복 실행으로 부르지 않는다.
+R3에서는 true exact failure witness를 동일한 μ와 양의 parity weights로 수정하는 검사와, admission gate를 넘은 입력을 계속 거절하는 검사 두 개를 사전 실행했다. 이후 publication readback을 받은 뒤 history 하나만 실행했다.
 
 ## 4. 보존 검사의 실제 수치
 
@@ -149,7 +158,7 @@ digest 84b55ba5aa06b5ac408994e0a94b51fcfba72fc5f33bb66ea32a60951ac22954이다.
 정확한 초과량은 \(5.964896306508056\times10^{-19}\)다.
 양의 weight, 반사 대칭, 정규화는 유지되므로 이는 support의 기하학적 infeasibility가 아니라 **EXACT_BINARY64_BIRTH_MOMENT_EXCESS**로 분류한다.
 
-R2에서 새 weight나 더 엄격한 projector stopping rule을 도입하지 않았다. 그 변경은 별도 source identity와 사전 등록, 새로운 실행의 의무를 만든다. 현재 tiny residual을 근거로 gate를 확대하거나 전체 campaign을 PASS로 부르지 않는다.
+R2에서 새 weight나 더 엄격한 projector stopping rule을 도입하지 않았다. 그 변경은 별도 source identity와 사전 등록, 새로운 실행의 의무를 만들며 §8의 R3에서 그 한 history에 한해 수행했다. Tiny residual을 근거로 gate를 확대하거나 전체 campaign을 PASS로 부르지 않는다.
 
 ## 6. Angular refinement와 P4 제약의 서로 다른 효과
 
@@ -239,9 +248,34 @@ Discrete midpoint source contribution과 연속 source contribution의 정확한
 
 그러나 \(\delta\Pi\) 자체를 두 결합 trajectory에서 측정했으므로 이것은 prescribed-background source forcing의 독립 예측이 아니다. \(\delta b(x)\), birth \(\delta b(u)\), 변하는 source-frame μ, projection α의 미분과 기억항을 포함한 full tangent solver는 남은 의무다.
 
-## 8. 남은 의무와 실행 가능한 handoff
+## 8. R3: 한 개 history의 stricter internal margin 수정
 
-1. Exact M4 residual 실패를 유지한 채, 더 엄격한 **내부** projector 정지 조건 또는 exact-aware projection 방법을 별도 source/prereg로 설계·시험한다. Admission gate \(3/10^{15}\), 양성, parity는 변경하지 않는다. 현재 R2는 observer만 수정했고 이 알고리즘 개선은 아직 실행하지 않았다.
+실제 실행 source는 commit f993bf7121af7bb6d69698244089201e28868ebc이다. 새 runner의 SHA-256은 e94a378a97ef20463809f852219b41ee3a863a45a7d07db2a0b40b19da0243ee, targeted test의 SHA-256은 99a050680da586ed779b6d70e2deff2694e72319fe0ac8a960356109c960348d다. 원래 R2의 여섯 source hash는 그대로 유지했다. 한 history의 solver 시간은 3.17365초, 최대 RSS는 84,140 KiB였다. 이 실행은 최초 R1/R2를 재판정하는 실행이 아니라, 별도 source identity 아래 한 입력을 수정한 새 결과다.
+
+R2의 실제 exact 실패를 대상으로 별도 [run_s7_strict_margin.py](run_s7_strict_margin.py)를 준비했다. R2의 여섯 source 파일, 기존 P24 알고리즘 파일, owner는 바꾸지 않았다. 원래 callback을 보관하고 고정된 한 입력 b03_n32_P24_K64의 신규 isotropic birth에만 기존 P24 API의 atol을 \(10^{-15}\)로 지정한 다음 callback을 복구한다. 기존 physical anisotropic stock은 이 경로를 거치지 않는다.
+
+R3는 초기 조건, midpoint donor 전달, ODE rtol/atol 및 exact admission gate를 유지했다. 고정 SHA-256으로 묶은 원래 target trajectory와 GL128 reference를 재사용했으며 새 reference나 benchmark를 실행하지 않았다. 305개 관측 시각이 동일함을 요구하여 보간 없이 비교했다.
+
+| R3 검사 | 실제 결과 |
+|---|---:|
+| 적용된 stricter 신규 birth | 64 |
+| exact P2/P4 admission | 64/64 통과 |
+| 최대 exact moment absolute residual | \(9.6095162\times10^{-16}\) |
+| Hamiltonian relative residual | \(5.3718201\times10^{-14}\) |
+| 개별 cohort energy relative residual | \(2.4709402\times10^{-15}\) |
+| Event total energy relative jump | \(1.7095758\times10^{-16}\) |
+| 기존 두 old-stock digest | R1과 동일 |
+| R3−R1 max \(|\delta y|\) | \(2.0816682\times10^{-17}\) |
+| R3−R1 max \(|\delta h|\) | \(2.2204460\times10^{-16}\) |
+| R3−원래 GL128 max \(|\delta y|\) | \(4.4984676\times10^{-13}\) |
+
+실패한 하나의 birth만 사후에 고치는 방식이 아니라, geometry feedback이 반영되는 해당 history의 64개 신규 출생을 모두 더 엄격한 내부 정지 조건으로 다시 계산했다. 보존·양성·parity·frozen stock·원본 source/input identity gate도 전부 통과했다. 이 수정의 trajectory 변화는 원래 floating-point 적분 오차 수준이며, acceptance 실패를 숨기는 근거로 사용하지 않는다. Moment admission과 trajectory 비교는 계속 별도 판단이다.
+
+R3의 새 분포가 이 한 입력에서 통과했다는 결과를 다른 n, b, source history의 일반적인 수렴 보증으로 확대하지 않는다. R1은 원래 float observer의 FAIL, R2는 정확한 M4 초과의 FAIL로 보관하고, R3만 PASS_ONE_REPAIRED_HISTORY로 기록한다.
+
+## 9. 남은 의무와 실행 가능한 handoff
+
+1. R3의 내부 stopping margin은 한 history에서만 실제 검증했다. 다른 grid/history에 도입하려면 변경된 범위를 새로 사전 등록하고 필요한 history를 검증해야 한다. Admission gate \(3/10^{15}\), 양성, parity는 변경하지 않는다. 원래 R1/R2 실패 기록도 유지한다.
 2. 양의 해가 없는 8개 support에는 angular support refinement가 필요하다. Moment constraint 추가와 refinement 효과를 계속 따로 측정한다.
 3. Actual owner emissivity를 결합하려면 에너지 공급 성분을 포함한 closure, source/frame/spectral provenance, finite-bin photon·energy 수송 검산이 추가로 필요하다. 고정 spectral owner는 rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177이다.
 4. Coupled full tangent의 birth geometry/weight derivative와 긴 source-age·큰 finite-d angular 정확도 의무를 완료하지 않았다. Native lane의 별도 finite-bin/큰 b 실패 판정도 이 결과로 대체하지 않는다.
@@ -257,4 +291,14 @@ python run_s7_coupled.py \
   --out evidence_s7_coupled/revalidate_r2_new
 ~~~
 
-후속 source를 수정하면 기존 prereg 검증이 실패하도록 준비되어 있다. 새 알고리즘의 source/prereg를 먼저 게시·readback한 다음 필요한 변경 history만 새 실행으로 남겨야 한다. 현재 FAIL 상태에서 REI production, full EoR 또는 merge를 승인하지 않는다.
+후속 source를 수정하면 기존 prereg 검증이 실패하도록 준비되어 있다. 새 알고리즘의 source/prereg를 먼저 게시·readback한 다음 필요한 변경 history만 새 실행으로 남겨야 한다. R3의 한 history 통과로 REI production, full EoR 또는 merge를 승인하지 않는다.
+
+R3 한 history의 재현 명령도 별도로 준비되어 있다. 현재 세션에서 이미 실제 실행했으므로 재현이 독립적으로 필요한 경우에만 새 디렉터리에서 사용한다.
+
+~~~bash
+python run_s7_strict_margin.py \
+  --prereg evidence_s7_coupled/PREREGISTRATION_R3_STRICT_MARGIN.json \
+  --prereg-commit f993bf7121af7bb6d69698244089201e28868ebc \
+  --publication-receipt delivery/s7/COUPLED_PUBLICATION_R3.json \
+  --out evidence_s7_coupled/strict_margin_r3_new
+~~~

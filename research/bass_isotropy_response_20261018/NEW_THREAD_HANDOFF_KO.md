@@ -1,65 +1,48 @@
-# 새 대화용 복사 인계
+# 새 대화 handoff — BASS S7 실제 완료 상태
+
+아래 block은 그대로 다음 대화에 붙여 넣을 수 있다. 최신 metadata commit은 이 파일을 담은 commit과 PR174 최종 closeout에서 확인한다.
 
 ```text
-$physmath-research-loop를 사용해 BASS의 다음 이론 연구와 샌드박스 경량 코딩을 이어서 수행해줘.
-과거 대화·ZIP 다운로드·파일 첨부·사전 명령 실행을 사용자에게 요청하지 마.
+$physmath-research-loop를 사용해 BASS의 다음 제한된 이론+코딩 연구 단위를 이어서 수행하라.
+사용자에게 과거 대화·ZIP다운로드·파일첨부·사전명령 실행을 요청하지 말라.
+시작 전 Dropbox와 Google Drive의 /BASS_BACKUPS에서 새 실행을 확인하고 현재GitHub HEAD/PR174댓글과 대조하라. 새 결과가 있으면 먼저 재사용하고 완료된 캠페인을 반복하지 말라.
 
 Repo https://github.com/cosmosapjw-quantum/bass
-Draft PR174 https://github.com/cosmosapjw-quantum/bass/pull/174
+PR https://github.com/cosmosapjw-quantum/bass/pull/174 (draft/unmerged)
 Branch research/bass-isotropy-checkpoint-recovery-20261018
-Path research/bass_isotropy_response_20261018/
-원 REI owner 0e25846433170d0f420c4cda44a0bedbf02cd177
-부모 PR173 4e2d1fa820d6f7baae1069b615fb82a08d53403b
-과거 P2 구현930406550ce6d4d1b2e87f016c5c18fba48c4ccd, 과거 마감a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc.
-새 S2 게시87149cdb673c250ccbb36dda5d43a38f0f7dd7b7, 새 S3 게시a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e.
-검증된 native source commit b30a2044be1ae04a68d8319f47d15a5bed751668, tree bf3a57343140fda867bae9ea94932d9c1475f53b.
-이 파일을 포함한 최종 마감 commit은 현재 PR와 PUBLICATION_CLOSEOUT.json/최신 마감 댓글에서 직접 확정해.
-검증된 native61-input SHA256=16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23.
+Lane research/bass_isotropy_response_20261018/
+Fixed owner cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177
+Source MD14_Z002_FESC_BB50K_13P6_100_V1
+ParentPR173 4e2d1fa820d6f7baae1069b615fb82a08d53403b
+Original verified implementation 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
+Original closeout a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc
+Reused S6 science 04a3a8515ead0328177b4ad2aa6615a6fe39ed40
+Reused S6 closeout a9704c6f6eb09c3daa0065a66362ef7547c28e0c
+S7 actual initial execution 2865f60bf0a247eaab4997c222ad82ae22a4c8fa
+S7 exact-analysis R2 code c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a
+S7 R3 source and one repaired history f993bf7121af7bb6d69698244089201e28868ebc
+R3 source tree c920ba0ecf008c296f815edc5d7f28a45ae06d36
+Latest metadata HEAD: verify containing commit and final PR174 closeout before any work.
 
-먼저 Dropbox /BASS_BACKUPS 및 Google Drive /BASS_BACKUPS에서 새 실행결과를 읽고 GitHub HEAD/PR와 대조해.
-Drive 폴더 ID는 1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y이며 네 백업은 원본 binary ZIP이다. 현재 readback과 역사적 실패 영수증을 구별하라.
-README_KO.md, S6_THEORY_KO.md, S6_RESULTS_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json,
-THEORY_KO.md, S3_THEORY_KO.md, S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md,
-CODEX_HANDOFF_KO.md, 실제 source/receipt/independent review를 읽어.
+Read README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, THEORY_KO.md, angular_balance.py, balance.rs, test_properties.py, NEW_THREAD_HANDOFF_KO.md, latest PR comments. Then S7_COUPLED_THEORY_KO.md, S7_COUPLED_RESULTS_KO.md, S7_NATIVE_COHORTS_KO.md, S7_RESULTS_KO.md, CODEX_HANDOFF_KO.md, CLOUD_READBACK_KO.md and machine receipts.
 
-2026-10-19 17:07 KST에 승인된 cloud Browser로 원본 ZIP 네 개를 Drive에 저장하고, 별도 connector로 전체 raw ZIP을 다시 읽어 원본 byte equality/SHA256/CRC 및 단계별 manifest 항목252/252를 확인했다. Dropbox도 네 원본의 provider hash·remote manifest·가능한 추출 내용 readback이 이미 확인됐다. 현재 영수증은 delivery/DRIVE_RECOVERY_READBACK.json이며 과거 delivery/DRIVE_FINAL_READBACK.json의 쓰기 실패는 당시 기록으로 보존한다. 빈 Doc/Sheet는 백업으로 세지 않는다. 이번에는 native-document carrier를 사용하지 않았다.
+Completed/reuse:
+- Original native SourceLedger58/negative5; P2Python15; balance.rs5; S3P24 derivation,algorithm,campaign; S5nativeadapter; S6finite-d/rank1/spectral/source-age.
+- S7closed manufactured donor+Einstein/shear:36attempts,28complete,8support failures;7benchmarks; H independently evolved, C'=-2C.
+- Independent theory Fraction28+Decimal5PASS. q'=-q+A,A'=-(8/5-36M4/35)q; positive M2=0 => 1<=kappa<=2. General residual-M4 nonlinear spectrum NOT_RUN.
+- Native51cases,42measured,9supportfailures,source owner57filesunchanged; old physical anisotropic stock preserved.
+- NativeR2exact808/808PASS,42physicalmetrics and9supportfailures unchanged. High-b n32 P24 angular error -9.9453e-4 FAIL vs1e-6 in2rows.
+- CoupledR2exactM2 640/640,M4 255/256; true M4=-3.0005964896306507e-15 at birth50,b03_n32_P24_K64. Original R1/R2FAIL preserved.
+- R3one history:existing P24internalatol1e-15, exactadmission3/10^15 unchanged,64/64PASS,max9.6095e-16. Oldstockidentical. Othergrid/history generalization NOT_VALIDATED.
+- Nativebin192single frozen-opacity BEslab errors N=-2.071e-8,U=-1.105e-8 normalized by before-inventory; target1e-4PASS. Full reactivehistory NOT_ADMITTED.
+- S6rateFAIL38/344 and constraintworsening44/238 preserved.
+- All current S7 code/compile/light executions completed in sandbox and pushed; NCP notused. Optional reproduce pipeline ready; do not rerun without independent need.
 
-완료: 기존 Python15 및 PR173 native58/negative5 재사용; 원 balance.rs5실행PASS;
-새 S3 Python14/Rust16/CLI valid1+negative7/동일입력43/최종reuse guards13 PASS;
-165rule 중146측정과19실제support실패,1606response points;
-D의0~3차 Legendre 유도와1023 exact-support검산;
-원 owner에 새 native source adapter를 실제 연결한 tests7+20측정행+runner6 PASS.
-독립 Python/Rust/native 검토 완료. NCP는 실행하지 않았으며 현재 native 검증은 sandbox에서 끝났어.
-새 결과가 없거나 관련 source가 바뀌지 않았다면 이미 끝난 캠페인을 반복하지 마.
+Remaining: high-b native angular support/refinement, general strict-margin admission, full birth-memory tangent, native MD14 energy-supply/Einstein coupling, evolving reactive/spectral history. These require a new finite research unit; do not claim they are implemented already.
 
-S6(2026-10-19) 완료 범위: 유한 d 오차의 정확한 moment 분해와 엄밀 tail(ρ(d)=sqrt(coth(3|d|/2)), 저장 146rule/1460점),
-refinement 수렴률 ρ*=min(ρ(b),ρ(b+d))는 사전gate FAIL(38/344, pre-asymptotic) 보존·held-out PASS,
-P2→P24 변화의 ℓ=4/ℓ≥6 분리, exact rank1 certificate Python 경로(rank1_certificate.py),
-5.369926725506957e-12=owner Simpson-32 기준값 절단 오차(native 26행 run01/run02 PASS, commit된 사전등록 R2),
-처방 기하 source-age cohort 합성 PASS, test_s6 22 PASS, 독립 code/theory 검토 반영.
-S6 결과는 S6_THEORY_KO.md, S6_RESULTS_KO.md, evidence_s6/를 읽어라. 이미 끝난 S6 실행을 반복하지 마라.
-핵심 유도: F=<R>, G=<D>, A=G/F, M_l=<P_l>.
-D'(0)=-(8/5)P0-(10/7)P2+(36/35)P4.
-M2=0이면 A'(0)=-8/5+(36/35)M4.
-M2=M4=0이어도 A''(0)=16/7+(216/77)M6.
-P4 제약과 angular refinement는 서로 다른 효과이며 continuum accuracy를 자동 보증하지 않아.
-Native에서는 birth-energy 정규화 G'를 측정했으며 ledger와 source-cell energy 진단을 별도로 확인했어.
-
-다음 미완료 의무:
-(1) evidence_s6/COUPLED_FEEDBACK_CONTRACT.json에 따른 coupled Einstein/shear 실행(식 ds/dt+3Hs=(8πG/3c²)ΔP는 owner axbi_background.rs omitted_feedback과 일치 확인, 실행은 안 됨).
-(2) native source-age cohort 합성. (3) transport/absorption/history 범위의 spectral 수렴.
-(4) |b+d|≳0.6에서 native n_mu≤32 angular 해상도 부족의 실제 영향 측정.
-P6 이상 제약 알고리즘, coupled history, 전체 spectral 수렴이 완료됐다고 가정하지 마라.
-
-Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b),
-s=dot b, Sigma=sqrt(3)|s|/H를 유지해. 새 명시적 등방 source angular quadrature만 보정하고
-old photons 및 물리적 anisotropic source를 초기화/재가중하지 마. Birth weights, 양의weights,
-reflection parity, source frame, 고정spectral owner를 유지해. 불가능한 support는 구체적 실패로 남기고
-음의weights·허용오차 완화로 우회하지 마. P2/P4 일치만으로 전체 native finite-bin 보존을 승인하지 마.
-
-가능한 유도·코드·경량 테스트는 여기서 수행하고 단계별 DAG·게시·이중 백업/readback을 남겨.
-새 native 실행이 필요하면 NCP에는 compile/작은수정/실행만 남겨. 기존 owner 작업을 보존하고
-추가worker16 / RAM16GiB / disk4GiB / 개별job1800초 상한을 지켜.
-최종본문에 실제결과·실패종류·남은의무·source/commit/PR·cloudreadback과 갱신한 두 복사prompt를 출력해.
-충분한 별도 검증 없이 REI production/full EoR/merge로 확대하지 마.
+Conventions (-,+,+,+), non-tiltedaxisymmetricBianchiI; a_perp=a exp(-b),a_parallel=a exp(2b),s=dotb,Sigma=sqrt(3)|s|/H.
+Only new explicitly locallyisotropic birth angular quadrature; preserve existingphoton/physicalanisotropicsource,positiveweights,reflectionparity,sourceframe,fixedspectralowner. No negativeweights/tolerancewidening to bypass feasibility. No continuum/native fullhistory admission from P2/P4/ledger alone.
+Preserve ownerwork; additionalworkers<=16,RAM16GiB,disk4GiB,eachjob1800s.
+Backup/publish/DAG eachstage; no auto REIproduction/fullEoR/merge.
+Cloud1-3 freshDrive rawZIP/SHA/CRC/manifest and freshDropboxproviderhash+size verified; rawDropbox NOT_READ thisturn. Finalarchive proof in latestPRcloseout.
 ```

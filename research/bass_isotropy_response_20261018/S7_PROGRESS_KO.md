@@ -45,3 +45,14 @@ Stage 2 `c689dcf1`의 2,195,973-byte ZIP은 Drive raw/SHA256/CRC 및 manifest 93
 R2는 원래 물리 실행을 반복하지 않았다. Native 808/808 birth exact moment PASS; 42개 물리 측정과 9개 support 실패 불변. 큰 b 정확도 실패 2개는 유지된다. Coupled는 640개 제약 birth 중 하나의 참된 M4 초과를 발견했고 원래 FAIL을 보존했다.
 
 R3는 `b03_n32_P24_K64` 한 이력의 **새 birth**에만 기존 P24 API의 내부 `atol=1e-15`를 지정한다. 최종 exact gate `3/10^15`, support, 원 owner 및 여섯 R2 소스는 동일하다. 두 표적 테스트 PASS; 본 이력은 이 단계 게시와 readback 이후에만 실행한다. 비교는 SHA로 고정한 원래 이력과 GL128 bytes에 대해 시행한다.
+
+
+## Stage 4 — 한 이력의 R3 수리 실제 완료와 최종 인계
+
+Stage3 f993bf7121af7bb6d69698244089201e28868ebc/treec920ba0ecf008c296f815edc5d7f28a45ae06d36의 source8개·변경blob67개·R3계약 rawbytes readback을 완료한 뒤 한 이력만 실행했다. PR댓글6265305130이 실행 전 계약을 기록한다.
+
+R3는64/64 birth exactgate PASS, 최대moment9.6095162e−16이다. 기존stock은 같고 Hamiltonian5.3718201e−14, R3−R1 max|δh|2.2204460e−16/max|δy|2.0816682e−17이다. 실제3.17365초/RSS84140KiB. R1/R2FAIL과8개 coupled/9개 native feasibility실패, native high-b 정확도2개FAIL을 유지한다. 전체 캠페인 또는 benchmark를 반복하지 않았다.
+
+Stage3 ZIP1,811,170bytes/SHA256a2e230c60ca5bb9bb04df9abe23b875cab69f769c98cf192728ff82f665fd6e1, Drive rawmanifest68/68, Dropboxfull-objecthash+size가 일치했다. 현재 단계에는 실제R3증거·결과·DAG·handoff를 게시한다. 최종 commit/ref/tree를 읽고 마지막 ZIP을 두 클라우드에 보관한 뒤 마지막 post-upload proof를 PR174closeout에 남기는 유한 마감 절차를 따른다.
+
+S7는 제조donor의 결합진화와 처방기하nativecohort/slab범위에서 완료했다. Fulltangent/nativeMD14feedback/fullreactivehistory는 다음 별도 연구 의무다. REIproduction/fullEoR/merge 승인은 없다.
