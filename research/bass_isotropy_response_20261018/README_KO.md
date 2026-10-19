@@ -1,10 +1,39 @@
+# BASS S7: 결합 Einstein–shear와 native source-age 검증
+
+2026-10-19 새 실행 전 사전등록 단계. Git HEAD `a9704c6f6eb09c3daa0065a66362ef7547c28e0c`와
+두 `/BASS_BACKUPS`를 먼저 대조하여 S6 과학 실행 `04a3a8515ead0328177b4ad2aa6615a6fe39ed40`를
+발견했다. Drive ZIP raw byte/SHA256/CRC 및 manifest 86/86을 이번에 다시 읽었고,
+Dropbox는 최신 metadata와 기존 커밋의 raw readback 영수증을 대조했다. S6 캠페인은 반복하지 않았다.
+
+| 새 S7 단계 | 현재 상태 | 근거 |
+|---|---|---|
+| 결합 이론 | 독립 h 진화, donor closure, C′=−2C, 이산 angular equilibrium 주파수 유도 | [이론](S7_COUPLED_THEORY_KO.md) |
+| 독립 대수 | Fraction 28 + Decimal 80자리 5 PASS | [독립 검산](evidence_s7/theory_review/INDEPENDENT_REVIEW.json) |
+| Python 구현 | 새 core 테스트 16 PASS; 결합 36사례+benchmark 7이력 실행 전 | [사전등록](evidence_s7_coupled/PREREGISTRATION.json) |
+| Native 구현 | 새 Rust 5, Python guards 11 PASS; source-age/흡수 51입력 실행 전 | [native 계약](S7_NATIVE_COHORTS_KO.md) |
+| 게시·백업 | 소스/판정 기준 커밋 및 원격 readback 이후 캠페인 실행 | [DAG](DAG.json) |
+
+결합 Python의 에너지원은 양의 pressureless donor인 제조 모델이다. Native는 원래 MD14
+source owner를 처방 기하에서 실행한다. 두 범위를 혼동하지 않는다. Full tangent memory는
+유도 계약이며 실제 실행 검증은 아직 없다. 높은 b0는 고정 owner ray grid의 조건성을 시험하며
+상수 b 자체를 gauge-invariant 물리적 전단으로 해석하지 않는다.
+
+기존 광자 및 anisotropic stock은 고정하고 새 locally isotropic birth만 보정한다.
+양의 해가 없는 support는 구체적 feasibility failure로 남긴다. 높은 b angular 정확도와
+bin192 spectral 정확도 목표는 미리 고정했으며 미달 결과를 허용오차 완화로 통과시키지 않는다.
+추가 worker≤16, RAM16GiB, disk4GiB, 개별 job1800초. REI production/full EoR/merge 승인은 없다.
+
+## 재사용한 S2–S6 증거
+
+아래는 S7 실행 전의 검증된 이력이다. [이전 문서](history/20261019_PRE_S7_README_KO.md)를 보존한다.
+
 # BASS S3·native·S6: birth isotropy, 유한 d 오차, spectral 잔차
 
 2026-10-19 S6 갱신. [S6_THEORY_KO.md](S6_THEORY_KO.md), [S6_RESULTS_KO.md](S6_RESULTS_KO.md).
 
 | S6 결과 | 판정 | 근거 |
 |---|---|---|
-| 유한 d 오차의 정확한 moment 분해 \(\mathcal A_\alpha-\mathcal A_{\rm iso}=\sum k_\ell(d)M_\ell/F_\alpha\), \(\rho(d)=\sqrt{\coth(3|d|/2)}\), 엄밀 tail | PASS(146 저장 rule, 1460점) | [r3](evidence_s6/finite_d_r3/RETURN_S6_FINITE_D.json) |
+| 유한 d 오차의 정확한 moment 분해 \(\mathcal A_\alpha-\mathcal A_{\rm iso}=\sum k_\ell(d)M_\ell/F_\alpha\), \(\rho(d)=\sqrt{\coth(3|d|/2)}\), 비구간 30자리 quadrature 및 명시적 arithmetic floor를 사용한 tail 수치 평가 | PASS(146 저장 rule, 1460점) | [r3](evidence_s6/finite_d_r3/RETURN_S6_FINITE_D.json) |
 | Refinement 수렴률 \(\rho_*=\min(\rho(b),\rho(b+d))\) | 사전 gate **FAIL 보존**(38/344, pre-asymptotic), held-out PASS | [held-out](evidence_s6/refinement_holdout_r2/RETURN_S6_REFINEMENT_HOLDOUT.json) |
 | 제약 vs refinement 분리 | P2→P24 변화=ℓ=4 목표항+ℓ≥6 부수항(≤47%); 238쌍 중 44쌍 악화 | [CONSTRAINT_EFFECT](evidence_s6/finite_d_r3/CONSTRAINT_EFFECT.json) |
 | Exact rank1 certificate 실행 경로 | PASS(Python, exact Fraction) | `rank1_certificate.py` |
@@ -79,11 +108,3 @@ transport/absorption/history 범위의 spectral 수렴, native n_mu≤32의 큰 
 현재 P2/P4 일치나 제한 native ledger 통과를 continuum, 전체 finite-bin 보존,
 REI production 또는 full EoR 승인으로 확대하지 않는다. Draft PR174는 merge하지 않는다.
 
-## 최종 게시·백업 확인
-
-2026-10-19 17:07 KST에 승인된 cloud Browser로 원본 ZIP 네 개를 Drive에 저장하고, 별도 connector로 전체 raw ZIP을 다시 읽어 원본 byte equality/SHA256/CRC 및 단계별 manifest 항목252/252를 확인했다. Dropbox도 네 원본의 provider hash·remote manifest·가능한 추출 내용 readback이 이미 확인됐다. 현재 영수증은 delivery/DRIVE_RECOVERY_READBACK.json이며 과거 delivery/DRIVE_FINAL_READBACK.json의 쓰기 실패는 당시 기록으로 보존한다. 빈 Doc/Sheet는 백업으로 세지 않는다. 이번에는 native-document carrier를 사용하지 않았다.
-
-현재 S7 및 R10/C10은 위 네 원본의 이중 백업 범위에서 완료다. 과학 S6 의무는 pending으로 유지한다.
-이 복구 metadata를 포함한 commit과 마지막 보충 ZIP/readback은 PR174의 최신 cloud-recovery 댓글에서 확인한다.
-상세 객체·hash·검증 범위는 [CLOUD_READBACK_KO.md](CLOUD_READBACK_KO.md)와
-[PUBLICATION_CLOSEOUT.json](PUBLICATION_CLOSEOUT.json)을 따른다. 소스와 과학 실행을 반복하지 않았다.
