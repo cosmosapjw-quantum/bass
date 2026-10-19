@@ -1,0 +1,119 @@
+{
+  "schema": "BASS_S9_RUNNER_COMPLEMENTARY_REVIEW_V1",
+  "status": "REVISE_TWO_RUNNER_FAILURE_PATHS_BEFORE_PUBLICATION",
+  "reviewer": "/root/s8_final_visual_close",
+  "created_utc": "2026-10-19 13:40:41 UTC",
+  "scope": "Narrow prepublication end-to-end campaign, preparation, observer/reference, failure classification, resource and event-restart contract review. Mathematical RHS/JVP/Ft/AD checks belong to the separate theory reviewer.",
+  "workflow_version": "physmath-research-loop 1.0.0",
+  "reviewed_snapshot": {
+    "s9_vigilode/PREREGISTRATION.json": "0d88545f6524c672896d54cf0f48b5f2cb27c460f11528ad2832f6351ae3a48f",
+    "s9_vigilode/campaign.py": "9443f9155ecfc156bfb709af1fb9bbfa6a69716b2244a6ae8f5758d31679f655",
+    "s9_vigilode/prepare.py": "30919314c8f953cde83def2402156bdcbdbea878c786127ef6455d56c00ab3fa",
+    "s9_vigilode/analyze.py": "3bd8152857c21a01c069aeb6f98a5497a30bf0f85e6cb4a1b3ba211811346d20",
+    "s9_vigilode/prepare_input.py": "ecff7a111afdc636ff2453a56b937cd53a4c37b5cd19d36250f2255a7f93ca8a",
+    "s9_vigilode/src/lib.rs": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+    "s9_vigilode/src/main.rs": "1a5e3b605decb8e225ca40657032d86686f1e0f9405fff5f17156e8407752ba2",
+    "s9_vigilode/HOWTO_KO.md": "c3918489b5d6d2e4da0875f7cd0d5c59eb7a3d7c4c6a5d63e7a1a0cbaf7cd5a6"
+  },
+  "findings": [
+    {
+      "id": "RUNNER01",
+      "severity": "prepublication_repair",
+      "classification": "implementation/provenance_guard",
+      "status": "OPEN_AWAITING_TARGETED_REPAIR",
+      "location": "prepare.py binary attestation and campaign.py prepared build admission",
+      "observed": "prepare.py copies current source and records its hashes, but can include an existing target/debug binary after --test only; campaign.py accepts any successful command containing build OR test.",
+      "impact": "A reused work directory could pair a stale binary with newly copied client source hashes. This is a reachable runner path, not an observed failure of the present binary.",
+      "minimal_repair": "Require the exact successful cargo build --locked --bin bass-s9-vigilode with bound source/binary receipt, or an explicit verified reusable build attestation. Test-only preparation must not claim to build the existing binary.",
+      "current_binary_qualification": "The actual final_preparation/PREPARATION_RETURN.json contains a successful exact build invocation, source lib204d and binary69d884d. Its validity is not refuted by this static finding."
+    },
+    {
+      "id": "RUNNER02",
+      "severity": "prepublication_repair",
+      "classification": "implementation/output_failure_recording",
+      "status": "OPEN_AWAITING_TARGETED_REPAIR",
+      "location": "campaign.py raw JSON load/assess before PROCESS.json",
+      "observed": "RAW exists -> json.loads -> assess execute before saving PROCESS, without a readback/observer exception handler.",
+      "impact": "A truncated existing RAW or observer exception can terminate the matrix before recording the process outcome and classified failure for that case. Original raw/log bytes remain but the promised receipt/checkpoint is missing.",
+      "minimal_repair": "Write PROCESS immediately after process termination, preserve RAW/log, catch and classify readback/observer exceptions, write ASSESSMENT and checkpoint before continuing. Keep timeout exit124 independently visible."
+    }
+  ],
+  "passed_scoped_checks": [
+    {
+      "check": "frozen_source_and_input_identity",
+      "result": "pass",
+      "evidence": "Read-only SHA256 comparison: all prereg source and input entries matched."
+    },
+    {
+      "check": "reused_reference_identity",
+      "result": "pass",
+      "evidence": "All153 reference rows exactly equal the primal members of existing S8 ANALYTIC_TANGENT.json, whose SHA is6f10d47ebd398eb5dde6f551414e218ea7573fe7f87bf668ad2be02c1f47e7a4."
+    },
+    {
+      "check": "observer_grid_and_reference_independence",
+      "result": "pass",
+      "evidence": "Input times equal the153 reference x values in strict order. Input has only2 initial cohorts at u=0; future reference birth b(u) is absent."
+    },
+    {
+      "check": "matrix_and_criterion_framing",
+      "result": "pass",
+      "evidence": "Eight prereg cases:2 actual solver arms x3 tolerances plus2 analytic FLRW controls. Fine-reference1e-9, established conservation gates, exact3/10^15 moment gate remain distinct; diagnostic tolerance rows are retained."
+    },
+    {
+      "check": "initial_stock_identity",
+      "result": "pass",
+      "evidence": "Initial cohort digest list exactly matches original S8 raw; input control builds a separate synthetic FLRW stock rather than mutating production stock."
+    },
+    {
+      "check": "failure_semantics",
+      "result": "pass_scoped",
+      "evidence": "Driver distinguishes support infeasible/unresolved, angular precision, exact admission, stock, solver and input/numeric failures. Completed histories retain per-quality-gate booleans rather than treating process exit0 as blanket admission."
+    },
+    {
+      "check": "event_restart_and_memory",
+      "result": "pass_scoped_static",
+      "evidence": "Each fixed birth endpoint is reached through an exact output schedule; state stays continuous, donor transfer and new cohort are recorded, bank snapshot and actual upstream driver/workspace are recreated for the next segment. Observed birth value is replaced by the right-hand bank, matching S8 convention."
+    },
+    {
+      "check": "raw_prefix_and_existing_output_preservation",
+      "result": "pass_scoped_except_RUNNER02",
+      "evidence": "Driver receipts retain completed segment observations, events, old stock hashes and pending support/candidate on failure; campaign rejects existing CAMPAIGN_RETURN and creates fresh case directories."
+    },
+    {
+      "check": "bounded_resources_and_scope",
+      "result": "pass_scoped_static",
+      "evidence": "Sequential8 histories, worker1, build default2 <=16, per-process1800s with process-group termination, small three/four-dimensional state and fixed angular support. RAM16GiB/disk4GiB are declared operational bounds; this review makes no campaign resource measurement or speedup claim."
+    }
+  ],
+  "existing_build": {
+    "receipt": "evidence_s9/vigilode_intake/final_preparation/PREPARATION_RETURN.json",
+    "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
+    "successful_command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--bin",
+      "bass-s9-vigilode"
+    ],
+    "source_binding": "src/lib.rs204d3fa9, Cargo/Cargo.lock/main/tests hashes match frozen prereg snapshot",
+    "reuse_decision": "Preserve actual successful build; guard repair in Python need not rerun scientific histories or unchanged Rust compile."
+  },
+  "execution_accounting": {
+    "new_scientific_histories": 0,
+    "historical_reruns": 0,
+    "new_tests": 0,
+    "figure_audits": 0,
+    "code_mutations": 0,
+    "read_only_metadata_check_executed": true
+  },
+  "next_action": "Root/implementation owner applies the two minimal Python runner repairs, records focused checks and new prereg/source identity, then closes these specific findings before the fixed8-case campaign.",
+  "claims_not_admitted": [
+    "new S9 scientific campaign pass",
+    "continuum angular accuracy",
+    "native finite-bin conservation",
+    "native MD14 feedback",
+    "portable speedup",
+    "production/full EoR"
+  ]
+}
+

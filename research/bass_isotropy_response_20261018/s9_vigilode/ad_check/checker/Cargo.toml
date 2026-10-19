@@ -1,0 +1,20 @@
+[package]
+name = "bass-s9-ad-check"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+publish = false
+description = "Independent directional AD checks of the frozen-bank BASS primal JVP and explicit x derivative"
+
+[dependencies]
+num-dual = { version = "=0.15.1", path = "../vendor/num-dual-0.15.1", default-features = false }
+
+[lib]
+path = "../src/lib.rs"
+
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "bass-s9-ad-check"
+path = "../src/main.rs"

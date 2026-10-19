@@ -1,0 +1,35 @@
+[package]
+name = "bass-s9-vigilode"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94.1"
+license = "MIT"
+description = "Isolated BASS closed-donor cohort client of pinned VigilODE"
+
+# prepare.py creates this documented runtime layout and verifies every upstream
+# byte before compilation. Neither the upstream repository nor BASS owners are edited.
+[dependencies]
+rodas5p-core = { path = "../../vigilode/crates/rodas5p-core" }
+rodas5p-integrators = { path = "../../vigilode/crates/rodas5p-integrators" }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = { version = "=1.0.151", features = ["float_roundtrip"] }
+sha2 = "=0.10.9"
+hex = "=0.4.3"
+num-rational = "=0.4.2"
+num-bigint = "=0.4.6"
+num-traits = "=0.2.19"
+
+[profile.dev]
+opt-level = 1
+debug = 0
+incremental = false
+codegen-units = 1
+
+[profile.release]
+opt-level = 2
+debug = 0
+incremental = false
+codegen-units = 1
+lto = false
+
+[workspace]

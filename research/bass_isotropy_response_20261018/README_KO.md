@@ -1,35 +1,31 @@
-# BASS isotropy / shear response — S8 완료, S9 연계 연구 시작
+# BASS isotropy / shear response — S8 게시·백업 완료, S9 소스 실행 준비
 
-[S8 실제 결과](S8_RESULTS_KO.md) · [전체 tangent](S8_TANGENT_RESULTS_KO.md) · [native refinement](S8_NATIVE_REFINEMENT_KO.md) · [DAG](DAG.json) · [RETURN](RETURN_TO_CHATGPT.json) · [Codex 인계](CODEX_HANDOFF_KO.md)
+[S8 결과](S8_RESULTS_KO.md) · [S9 이론](S9_THEORY_KO.md) · [Rust package 검토](S9_THEORY_PACKAGE_REVIEW_KO.md) · [DAG](DAG.json) · [RETURN](RETURN_TO_CHATGPT.json) · [실행 HOWTO](s9_vigilode/HOWTO_KO.md) · [Codex 인계](CODEX_HANDOFF_KO.md)
 
-## 현재 결과
+## 지금 준비된 S9
 
-S8의 닫힌 manufactured donor 모형에서 전체 출생 기억 tangent를 실제 검증했다. 계획된 8개 적분은 원래 7개 이력의 재사용과 아직 실행되지 않았던 gauge 1개로 완료했고 최종 10개 gate가 통과했다. 원래 JSON 직렬화 exit1은 별도 실패 기록으로 보존했다. Richardson joint(h,b,y) 최대 오차는 1.0230572e-10, birth geometry·direction·weight 항을 각각 생략한 3개 control은 모두 거부됐다.
+관련 GitHub와 cloud backup의 새 실행결과 intake를 완료하고 실제 고정 VigilODE를 호출하는 Rust client를 작성했다. 공개 근거는 [PUBLIC_RELATED_INTAKE.json](evidence_s9/intake/PUBLIC_RELATED_INTAKE.json)이며, 확인한 관련 roots와 결과 시점의 coverage를 명시한다. VigilODE 구현은 `a21d573980f66fe02891bd216153443b5352f921`, 원 결과 게시 commit은 `ac1cd2a4738c2441c92e5fdae5f70aba35e53544`다.
 
-Native 새 birth의 angular grid를 GL64/128/256으로 세밀하게 하고 각 grid에서 prior/P2/P2P4를 비교했다. 18개 입력 중17개를 측정했고 n256의6개 target이 모두1e-6를 만족했다. 낮은 해상도의8개 목표 미달과 b0=0.9,n64,P2P4의 STRICT_INTERIOR 지지에서 발생한 INNER_P2_PRECISION_LIMIT 1개를 유지한다. 이 수치 실패를 support infeasibility라고 부르지 않는다.
+두 경로는 실제 `mf_into_ls` workspace와 `SmallProblem<4>`다. 기존 S8 closed manufactured donor의 h,b,y를 적분하고, clock arm은 x를 네 번째 상태로 진화시킨다. 새 birth의 b(u)는 계산 중인 실제 상태에서 얻으며, 고정 birth마다 새 immutable bank와 driver/workspace로 재시작한다. 기존 S8 primal 153행은 비교 전용으로 재사용한다.
 
-원 REI spectral owner57파일과 기존 n32 photon stock을 보존했다. 새 moment matching, 이 표본의 angular accuracy, native ledger, full reactive spectral/history 보존은 서로 다른 판정이다.
+Rust adapter 계약검사 5개, 독립 num-dual 단위검사 9개, runner guard 10개가 통과했다. 실제 callback 190개 query vector/38개 bank-state point에서 RHS·JVP·explicit time partial을 비교했고, 최대 scaled JVP 오차는 `4.2848454134986243e-16`이었다. 과거 AD cargo exit101은 unit9 통과 후 rustdoc 실행 경로 오류였고, 원 기록을 보존한 채 별도 doctest만 exit0으로 확인했다.
 
-## Source와 게시
+`num-rational0.4.2`, `num-bigint0.4.6`, `num-integer0.1.46`로 binary64 입력의 P2/P4 admission을 정확한 유리수로 비교한다. `num-dual0.15.1`은 독립 개발 검증에 실제 적용했다. 새 moment constraint나 angular refinement는 이 S9 matrix에서 바꾸지 않는다.
 
-- Repository: https://github.com/cosmosapjw-quantum/bass
-- Draft PR174: https://github.com/cosmosapjw-quantum/bass/pull/174
-- Branch: research/bass-isotropy-checkpoint-recovery-20261018
-- S8 original source/prereg: 4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613
-- S8 serializer recovery source/prereg: 2e6b4a150559b0bea52938896a901f6d438f3582
-- Final S8 metadata identity: 이 문서를 담은 commit과 PR174의 게시 후 closeout comment.
-- Fixed spectral owner: cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177
+**S9의 실제 history 8개는 아직 실행하지 않았다.** Source/preregistration은 고정했고 GitHub 게시와 두 cloud readback이 다음 단계다. 실제 source commit은 게시 후 영수증에 기록한다. Prereg SHA는 `7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507`다.
 
-S2의 원 Rust5테스트, S3 유도·양의 P2/P4 알고리즘·캠페인, native adapter, S6와S7의 실제 실행은 완료 증거를 재사용했다. [이전 README](history/20261019_PRE_S8_FINAL_README_KO.md)에 옛 단계의 설명을 그대로 보존했다.
+## 완료한 S8
 
-## 다음 사용자가 요청한 작업
+S8 최종 결과·그림·handoff를 `276172ca6cac9cf6b38561fdf9ba0103e1beb9cf`에 게시했고 네 단계의 이중백업을 검증했다. 최종 확인은 [PR comment6268573867](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6268573867)과 [cloud receipt](delivery/s8/S8_STAGE3_CLOUD_READBACK.json)에 있다.
 
-S9에서는 관련 GitHub와 cloud backup에서 새 실행결과를 먼저 확인한다. 특히 cosmosapjw-quantum/vigilode의 현재 source와 최신 benchmark를 실제 읽고, 현재 문제에 유용한 Rust package/API를 적용하는 코드와 경량 비교를 준비한다. 새 S9 실행은 별도 사전등록·게시·백업 순서로 기록한다. S8 수치 실패나 미실행 native full feedback를 완료했다고 가정하지 않는다.
+전체 birth-memory tangent는 기존7개 이력 재사용과 gauge1개로 총8개 적분을 완료해 최종10/10gatePASS했다. 원 직렬화 exit1을 보존했다. Richardson joint 최대오차는 `1.0230571945157863e-10`이고 birth kernel-shift·mu_b·alpha_b 생략 대조군3개를 모두 기각했다.
 
-## 고정 계약
+Native는18개 입력 중17개를 측정했고 n2566개 target이1e-6를 만족했다. 낮은 해상도8개 목표 미달과 STRICT_INTERIOR 지지의 `b0=0.9,n64,P2P4: INNER_P2_PRECISION_LIMIT`1개를 보존했다. 원 owner57파일과 기존 n32 stock은 그대로 유지했다. S2–S7의 완료 근거, S6 rate38/344FAIL·44/238constraint악화, S7 support·exact moment 실패도 재사용·보존한다.
 
-Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H. 새 명시적 isotropic birth angular quadrature만 보정한다. 양의 weights, reflection parity, source frame을 지키고 기존 physical anisotropic photon stock을 초기화하지 않는다. 양의 해가 없는 support는 witness를 남긴다. 음의 weights나 tolerance 완화로 우회하지 않는다.
+## 실행 및 고정 계약
 
-추가 worker16, RAM16GiB, disk4GiB, 각 job1800초가 상한이다. 기존 owner 작업을 보존하고 REI production/full EoR/merge를 자동 승인하지 않는다. S8 범위는 샌드박스에서 실제 완료했고 NCP 실행은 필요하지 않았다. 새 관련 결과를 확인하기 위해 사용자에게 과거 대화·ZIP·첨부·사전 명령을 요청하지 않는다.
+NCP 준비·실행 명령과 실패 반환 계약은 [HOWTO](s9_vigilode/HOWTO_KO.md)에 있다. 현재 실제로 빌드한 binary는 Python runner만 수정한 뒤 `verified_prior_build`로 재사용했다. [준비 receipt](evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json) SHA는 `671818a3c3761594cb21bbbb933bd9ed6e5bf764fb7ceda720b45eee7e5c44f1`다. Source 게시와 두 백업 검증이 확인된 뒤 고정8개 입력을 실행한다.
 
-![S8 요약](evidence_s8/figures/run01/S8_SUMMARY_180mm.png)
+Non-tilted axisymmetric Bianchi I, signature(-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H. 새 명시적 isotropic birth angular quadrature만 보정하며 기존 physical anisotropic photon stock을 초기화하지 않는다. 양의 weights, reflection parity, source frame, 고정 REI owner `0e25846433170d0f420c4cda44a0bedbf02cd177`를 유지한다.
+
+추가worker<=16, RAM16GiB, disk4GiB, 각job1800초를 유지한다. 과학적 admission은 각 actual receipt가 소유한다. Native finite-bin/history, 실제 MD14 feedback, continuum accuracy, REI production/full EoR/merge는 별도 의무로 남는다.

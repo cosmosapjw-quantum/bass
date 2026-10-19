@@ -1,0 +1,229 @@
+{
+  "schema": "BASS_S9_VIGILODE_PREREGISTRATION_V1",
+  "question": "Can actual pinned VigilODE integrate the closed manufactured donor with immutable birth memory, analytic JVP/Ft, and exact event restarts while preserving the S8 contracts?",
+  "state": [
+    "h=H/Hstar",
+    "b",
+    "y=s/Hstar"
+  ],
+  "metric_signature": "(-,+,+,+)",
+  "a_perp": "a exp(-b)",
+  "a_parallel": "a exp(2b)",
+  "Sigma": "sqrt(3)*abs(y)/h",
+  "source_sha256": {
+    "Cargo.toml": "bf1e519de633de008f68663e7b37409362873df6a4bdc383a8bd87338cb5aa1a",
+    "Cargo.lock": "9b36525d5ff2aa03649ab7bbd3816fc8695ca0880429ea85b26046943f28ec88",
+    "src/lib.rs": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+    "src/main.rs": "1a5e3b605decb8e225ca40657032d86686f1e0f9405fff5f17156e8407752ba2",
+    "tests/adapter_contracts.rs": "9cd59487161875fe1f21cd7c98bc14b282a51679ba358887ffbdcacf7494cec3",
+    "prepare.py": "26c3c3737755732a47f5eda2424d88a3926e8654e0a1afdd78f4cee68e009408",
+    "prepare_input.py": "ecff7a111afdc636ff2453a56b937cd53a4c37b5cd19d36250f2255a7f93ca8a",
+    "analyze.py": "3bd8152857c21a01c069aeb6f98a5497a30bf0f85e6cb4a1b3ba211811346d20",
+    "campaign.py": "fa0bfb97126ff2dd3b2cd534ff13534cf9255ac17773f1d632f7ec436529bc66",
+    "build_binding.py": "8a027a4e8cf6b5722772ae464e3c11a99def5a48b720ee3908f17889123dcf6a",
+    "test_runner_guards.py": "4e2cc73e6380af136fd318892791a9b9aa4fdc0c006a752defa8677b1a6c3fb0",
+    "freeze.py": "5cf337d23480ecc56da740d1aadb1db22f22b0e73c21cb654afa5e92053fe299",
+    "VIGILODE_SOURCE.json": "f4172bf41d2d5ce5487a82e1f9d550d07505e2a469452a5501025d7d15a4177c"
+  },
+  "input_sha256": {
+    "inputs/base.json": "178145d2e504a00957ca43a19343bf56c937363e9a48eab88333e57923a5ceb0",
+    "reference/S8_PRIMAL.json": "c1dcf72978e1660d481aa44b60842bb73236701c9509bb5d9f017e03ea77ddac",
+    "INPUT_PROVENANCE.json": "6c772ee03a8afb3eda814fcd8c797d3cae5b6e431e37efc71b6f457a89d2c694"
+  },
+  "unchanged_balance_owner_sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+  "vigilode_source": "a21d573980f66fe02891bd216153443b5352f921",
+  "vigilode_publication": "ac1cd2a4738c2441c92e5fdae5f70aba35e53544",
+  "fixed_spectral_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "S8_primary_source": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+  "S8_resume_source": "2e6b4a150559b0bea52938896a901f6d438f3582",
+  "cases": [
+    {
+      "name": "closed_mf_into_ls_r0",
+      "model": "S8_closed_donor",
+      "claim_role": "tolerance_diagnostic",
+      "solver": {
+        "arm": "mf_into_ls",
+        "rtol": 1e-08,
+        "atol": 1e-10,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "closed_mf_into_ls_r1",
+      "model": "S8_closed_donor",
+      "claim_role": "tolerance_diagnostic",
+      "solver": {
+        "arm": "mf_into_ls",
+        "rtol": 1e-10,
+        "atol": 1e-12,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "closed_mf_into_ls_r2",
+      "model": "S8_closed_donor",
+      "claim_role": "primary_fine",
+      "solver": {
+        "arm": "mf_into_ls",
+        "rtol": 1e-12,
+        "atol": 1e-14,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "flrw_mf_into_ls_fine",
+      "model": "analytic_FLRW",
+      "claim_role": "analytic_control",
+      "solver": {
+        "arm": "mf_into_ls",
+        "rtol": 1e-12,
+        "atol": 1e-14,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "closed_small_clock4_r0",
+      "model": "S8_closed_donor",
+      "claim_role": "tolerance_diagnostic",
+      "solver": {
+        "arm": "small_clock4",
+        "rtol": 1e-08,
+        "atol": 1e-10,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "closed_small_clock4_r1",
+      "model": "S8_closed_donor",
+      "claim_role": "tolerance_diagnostic",
+      "solver": {
+        "arm": "small_clock4",
+        "rtol": 1e-10,
+        "atol": 1e-12,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "closed_small_clock4_r2",
+      "model": "S8_closed_donor",
+      "claim_role": "primary_fine",
+      "solver": {
+        "arm": "small_clock4",
+        "rtol": 1e-12,
+        "atol": 1e-14,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    },
+    {
+      "name": "flrw_small_clock4_fine",
+      "model": "analytic_FLRW",
+      "claim_role": "analytic_control",
+      "solver": {
+        "arm": "small_clock4",
+        "rtol": 1e-12,
+        "atol": 1e-14,
+        "initial_step": 0.001,
+        "max_step": 0.04,
+        "max_attempts": 100000,
+        "linear_rtol": 1e-13,
+        "linear_atol": 1e-15
+      }
+    }
+  ],
+  "integration_count": 8,
+  "reference_policy": "Reuse the existing 153 S8 primal rows; no S8 ODE rerun and no reference birth b(u) in solver inputs.",
+  "event_policy": "Land exactly on every fixed birth x, transfer positive donor energy with continuous h,b,y, append newly admitted isotropic cohort, restart a fresh driver/workspace and immutable bank.",
+  "angular_policy": {
+    "new_birth_mode": "P24",
+    "nodes": 16,
+    "projection_internal_tol": 1e-15,
+    "moment_gate_exact": "3/1000000000000000",
+    "reflection_abs": 0,
+    "grid": "Original NumPy leggauss coordinate nodes/weights; b(u) computed by the native primary state",
+    "angular_refinement": false,
+    "new_moment_constraint_change": false,
+    "scope": "The prior P24 admission algorithm is reused. This S9 matrix isolates the ODE adapter and event cache contract."
+  },
+  "linear_policy": "Actual Gmres into least-squares workspace, restart8/maxiter40; analytic JVP and explicit analytic partial_t; no mass, no preconditioner, no inner-forcing path.",
+  "small_policy": "Actual SmallProblem<4> uses autonomous [h,b,y,x], xprime=1, analytic 4x4 Jacobian with Ft as column4; default fixed-size direct solver.",
+  "gates": {
+    "hamiltonian_relative": 1e-11,
+    "cohort_energy_relative": 1e-11,
+    "event_energy_relative": 1e-13,
+    "donor_endpoint_relative": 3e-14,
+    "fine_reference_abs": 1e-09,
+    "clock_abs": 1e-12
+  },
+  "gate_reasoning": {
+    "conservation": "Preserve the established S7/S8 Hamiltonian, cohort-energy, event-energy and donor gates unchanged.",
+    "fine_reference_abs": "A predeclared absolute 1e-9 bound on h,b,y for the fine bootstrap client comparison; this is a numerical comparison against an existing numerical reference, not a rigorous solution enclosure.",
+    "refinement": "All three tolerances are retained. Output clipping can produce an error floor, so no fabricated power-law or timing superiority is required.",
+    "clock_abs": "The exact auxiliary solution is x itself; compare the evolved clock at every requested point."
+  },
+  "negative_development_controls": [
+    "invalid/negative exact-moment input",
+    "positive but non-P24 support",
+    "reflection perturbation and immutable hash change",
+    "zero/nonfinite background",
+    "nonzero donor-transfer RHS/Ft/Jacobian cache jumps",
+    "independent num-dual directional JVP/Ft and omitted-Ft controls"
+  ],
+  "failure_policy": "Record feasibility, unresolved geometry, angular precision, exact-admission, stock-contract, solver, timeout and input/I/O failures separately. No negative weights, relaxed tolerance, oracle birth state or silent support change.",
+  "limits": {
+    "workers": 1,
+    "additional_worker_cap": 16,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "job_seconds": 1800
+  },
+  "publication_order": [
+    "source and prereg freeze",
+    "GitHub source readback",
+    "Dropbox readback",
+    "Drive readback",
+    "bounded campaign",
+    "raw results and DAG publication",
+    "dual backup readback"
+  ],
+  "not_admitted": [
+    "continuum angular accuracy",
+    "native finite-bin photon/energy conservation",
+    "actual REI/MD14 owner feedback",
+    "full birth-memory parameter tangent in this new native client",
+    "generic continuous residual authority",
+    "dense interpolation accuracy",
+    "portable speedup claim",
+    "REI production",
+    "full EoR",
+    "merge"
+  ],
+  "skill_policy": "User-selected physmath-research-loop policy; reuse evidence, independent theory/package review, typed gates and no automatic production expansion"
+}
