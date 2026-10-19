@@ -1,3 +1,11 @@
+# 이론 문서 안내: S1 보존 및 완료된 S3
+
+2026-10-19의 새 collisionless derivative/P4 유도와 양의 P2/P4 feasibility는
+[S3_THEORY_KO.md](S3_THEORY_KO.md), 실제 수치 결과는 [S3_RESULTS_KO.md](S3_RESULTS_KO.md)를 따른다.
+아래 원문은 2026-10-18 S1의 이력이다. 원문 말미의 NOT_RUN은 해당 S1 시점의 상태다.
+
+---
+
 # BASS LRS: 양의 이산 source-isotropy 보정과 방향 지지 조건
 
 기준: BASS PR172 b163c5a08fe105c9df1d32f8e7d538e514ee9d16; native REI snapshot 0e25846433170d0f420c4cda44a0bedbf02cd177. 2026-10-18 신규 백업 조사에서 PR172 게시 보충본 이후의 native 측정은 확인하지 못했다. 조사 범위는 Dropbox/Google Drive BASS_BACKUPS이며 전체 개인 파일 탐색으로 확대하지 않았다.
