@@ -12,12 +12,11 @@ Draft PR https://github.com/cosmosapjw-quantum/bass/pull/174
 연구 경로 research/bass_isotropy_response_20261018/
 
 먼저 Dropbox /BASS_BACKUPS와 Google Drive /BASS_BACKUPS의 새 실행결과를 현재 GitHub HEAD/PR174 최신 댓글과 대조하라.
-README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, S3_THEORY_KO.md,
+README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S3_THEORY_KO.md,
 S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md, 각 실행 receipt와 독립 review를 읽어라.
-Drive ZIP 업로드 서비스가 멈춰 native-document Base64 carrier가 사용될 수 있다.
-Carrier이면 manifest 순서로 텍스트를 직접 읽고 원 ZIP bytes/SHA를 복원·검증하라. 사용자에게 ZIP 다운로드를 시키지 마라.
+Drive 폴더 ID는 1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y이며 네 백업은 원본 binary ZIP이다. 현재 readback과 역사적 실패 영수증을 구별하라.
 
-2026-10-19 마감 시 Google Drive의 raw ZIP/Docs/Sheets 내용 쓰기가 응답하지 않았고 새 백업 readback은 미완료다. 생성된 빈 Doc/Sheet를 성공으로 세지 말고, 재조회로 원격 effect부터 확인하라. 상세 receipt는 delivery/DRIVE_FINAL_READBACK.json이다. Dropbox 세 단계는 provider hash와 remote manifest 범위에서 확인됐다.
+2026-10-19 17:07 KST에 승인된 cloud Browser로 원본 ZIP 네 개를 Drive에 저장하고, 별도 connector로 전체 raw ZIP을 다시 읽어 원본 byte equality/SHA256/CRC 및 단계별 manifest 항목252/252를 확인했다. Dropbox도 네 원본의 provider hash·remote manifest·가능한 추출 내용 readback이 이미 확인됐다. 현재 영수증은 delivery/DRIVE_RECOVERY_READBACK.json이며 과거 delivery/DRIVE_FINAL_READBACK.json의 쓰기 실패는 당시 기록으로 보존한다. 빈 Doc/Sheet는 백업으로 세지 않는다. 이번에는 native-document carrier를 사용하지 않았다.
 
 고정 identity:
 - 최초 검증 P2 구현 930406550ce6d4d1b2e87f016c5c18fba48c4ccd

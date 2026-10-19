@@ -1,7 +1,7 @@
 {
-  "schema": "bass.isotropy.continuation_return.v4",
+  "schema": "bass.isotropy.continuation_return.v5",
   "date_utc": "2026-10-19",
-  "stage": "SCIENTIFIC_UNIT_COMPLETE_CLOUD_CLOSEOUT_BLOCKED",
+  "stage": "SCIENTIFIC_UNIT_COMPLETE_FOUR_ARCHIVES_DUAL_CLOUD_VERIFIED",
   "baseline_commit": "a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
@@ -49,14 +49,20 @@
     "PR174 original Python15"
   ],
   "publication": {
-    "status": "BLOCKED_GOOGLE_DRIVE_CONTENT_WRITE",
+    "status": "PASS_SCOPED_DUAL_CLOUD_RECOVERY",
     "current_scientific_source_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
     "current_scientific_source_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
     "containing_metadata_commit_identity": "Read the commit containing this file and final PR174 closeout comment; post-commit archive records its exact SHA without a self-hash cycle.",
     "closeout": "PUBLICATION_CLOSEOUT.json",
     "dropbox_stages_verified": 3,
-    "drive_stages_verified": 0,
-    "drive_receipt": "delivery/DRIVE_FINAL_READBACK.json"
+    "drive_stages_verified": 3,
+    "drive_receipt": "delivery/DRIVE_RECOVERY_READBACK.json",
+    "dropbox_archives_verified": 4,
+    "drive_archives_verified": 4,
+    "previous_metadata_supplement_verified_in_both_clouds": true,
+    "previous_metadata_commit": "b69c7791b71064fd4b82fd7b2b3706860d84a29e",
+    "historical_drive_failure_receipt": "delivery/DRIVE_FINAL_READBACK.json",
+    "recovery_supplement_identity": "Latest PR174 cloud-recovery closeout comment and STAGE_GIT.json/GIT_READBACK.json in the post-commit recovery ZIP."
   },
   "scope": "Only new explicitly locally isotropic source angular quadrature; fixed birth weights, original spectral owner, existing radiation preserved.",
   "remaining_obligations": [
@@ -85,9 +91,10 @@
     "native_spectral_convergence": "not_run",
     "coupled_shear_evolution": "not_run",
     "production_full_EoR": "not_run",
-    "dual_cloud_closeout": "blocked_environment"
+    "dual_cloud_closeout": "pass_scoped_four_original_archives"
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Fresh backup/PR comparison, then resolve only remaining storage/scientific obligations; reuse completed measurements unless source/input changes require new evidence."
+  "next_first_action": "Fresh backup/PR comparison; reuse verified S2/S3/native evidence, then address pending S6 obligations. The completed four-archive storage recovery is not a reason to repeat scientific runs.",
+  "storage_recovery_science_rerun": false
 }

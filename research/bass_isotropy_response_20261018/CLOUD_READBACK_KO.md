@@ -1,41 +1,48 @@
-# 실제 클라우드 readback과 게시 범위
+# 실제 클라우드 readback과 복구 완료 범위
 
-2026-10-19. S2, S3, 실제 native adapter의 source와 실행 증거를 서로 다른 세 commit으로 게시했다.
-각 commit의 전체 remote Git tree와 branch ref를 다시 읽어 모든 새 blob identity와 변경 경로를 확인했다.
-검증된 마지막 과학 source는 `b30a2044be1ae04a68d8319f47d15a5bed751668`이고 tree는 `bf3a57343140fda867bae9ea94932d9c1475f53b`다.
+2026-10-19 08:07 UTC / 17:07 KST. 사용자 승인 후 cloud Browser로 네 원본 ZIP의 Google Drive 저장을 복구했다.
+업로드 UI와 별도 connector readback을 구분했으며, 다음은 실제 원격 바이트에서 확인한 결과다.
 
-## Dropbox
+| 단계 | 원본 ZIP | bytes | Drive 객체 ID | manifest 항목 |
+|---|---|---:|---|---:|
+| S2_RUST | `BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip` | 34578 | `1TfPwVyfgsGJ1wqjtWLq9aze28cSxOMsi` | 24/24 |
+| S3_RESPONSE | `BASS_S3_P24_RESPONSE_20261019_a7938ad5.zip` | 554697 | `1qRR2sQbKewphYdlFI5068ajO8FdYwaZ9` | 79/79 |
+| S5_NATIVE | `BASS_NATIVE_ADAPTER_20261019_b30a2044.zip` | 853265 | `1crznW0ckVSumZCf34W75mx3g5ws6dYiJ` | 114/114 |
+| PREVIOUS_FINAL_METADATA | `BASS_PR174_S3_NATIVE_CLOSEOUT_20261019_b69c7791.zip` | 95901 | `1-Pjuh0hq8gGA2bxJRZoXhXSVuCzTwhs1` | 35/35 |
 
-| 단계 | ZIP bytes | Manifest payloads | 실제 객체 |
-|---|---:|---:|---|
-| S2_RUST | 34578 | 24 | `id:BSpOijBcT10AAAAAAD_Ppg` |
-| S3_RESPONSE | 554697 | 79 | `id:BSpOijBcT10AAAAAAD_PrA` |
-| S5_NATIVE | 853265 | 114 | `id:BSpOijBcT10AAAAAAD_PrQ` |
+## 원격 검증 방법
 
-세 객체의 fresh metadata 크기와 provider content hash가 로컬 원 ZIP bytes로 계산한 Dropbox block hash와 일치했다.
-원격에서 추출한 root MANIFEST도 각각 24/79/114개 payload의 로컬 manifest와 일치했다.
-원격 추출 텍스트는 가능한 항목을 비교했다. 이 검증에서 raw Dropbox ZIP bytes를 다시 다운로드했다고 주장하지 않는다.
-Rust 파일의 빈 추출, 중첩 ZIP·PNG/PDF의 본문 미제공, owner JSON의 두 중간점 encoding artifact를 별도 기록했다.
-원본 ZIP과 source는 수정하지 않았다. Native ZIP에는 고정 original owner 입력 57개가 포함된다.
+Google Drive: 업로드 후 독립된 connector로 완전한 raw ZIP bytes를 다시 읽었다. 원본과 전체 bytes가 같고,
+SHA256·크기·ZIP CRC 및 원격 root manifest의 모든 payload SHA256가 일치했다. 네 archive의 manifest 항목
+합계252개에는 단계 사이 중복 보관된 파일도 포함된다. Rust·바이너리·중첩 ZIP도 확인했으며 추출 텍스트에 의존하지 않는다.
+네 파일은 모두 지정 폴더에 각각 하나씩 존재한다. 각 payload 결과는 delivery/drive_recovery/에 보존했다.
 
-| ZIP | SHA256 |
-|---|---|
-| `BASS_S2_RUST_EXECUTED_20261019_87149cdb.zip` | `c624a140000066cb278b0f1dbd946932f8f2069ce48f752c1710ced1879b28ef` |
-| `BASS_S3_P24_RESPONSE_20261019_a7938ad5.zip` | `7d040f80cc4edee2a32c490938f59c2526c934f543ae64c4acd548bf1b8958d3` |
-| `BASS_NATIVE_ADAPTER_20261019_b30a2044.zip` | `f262e35974fb8b741fb7a37fd14bc17054a8966f992ecf778368e28f9706dc98` |
+Dropbox: 네 원본의 실제 remote metadata 크기/provider content hash가 원 ZIP bytes로 계산한 Dropbox block hash와
+일치했고 원격 root manifest 및 제공되는 추출 텍스트도 비교했다. Dropbox의 raw ZIP을 독립 다운로드한 결과는 아니다.
+이 검증 범위와 이전 Rust 빈 추출·중첩 binary 미제공·owner JSON 추출 encoding artifact는 그대로 보존한다.
 
-## Google Drive
+| 단계 | 원본 ZIP SHA256 | Dropbox 객체 ID |
+|---|---|---|
+| S2_RUST | `c624a140000066cb278b0f1dbd946932f8f2069ce48f752c1710ced1879b28ef` | `id:BSpOijBcT10AAAAAAD_Ppg` |
+| S3_RESPONSE | `7d040f80cc4edee2a32c490938f59c2526c934f543ae64c4acd548bf1b8958d3` | `id:BSpOijBcT10AAAAAAD_PrA` |
+| S5_NATIVE | `f262e35974fb8b741fb7a37fd14bc17054a8966f992ecf778368e28f9706dc98` | `id:BSpOijBcT10AAAAAAD_PrQ` |
+| PREVIOUS_FINAL_METADATA | `45731aff760569ca4340a4ab2dde36620ef7d6757932cacb6c733b97c121284d` | `id:BSpOijBcT10AAAAAAD_Prg` |
 
-상태: **BLOCKED_ENVIRONMENT_NO_ACK_AND_NO_BACKUP_CONTENT**.
+## 이전 실패의 처리
 
-원 ZIP 업로드 1회와 Docs 두 크기(47,183자/2,048자), Sheets 103자 쓰기가 모두 ack 없이 정지했다. 각각 622.5초, 671.9초, 413.2초, 205.7초 후 root가 응답 없는 호출을 중단했다. Fresh readback에서 새 ZIP은 폴더에 없고 Doc 및 Sheet probe 내용도 비어 있다. Browser plugin은 originating browser context가 없어 연결하지 못했다. 따라서 이번 세 단계의 Google Drive 백업/복원 readback은 미완료이며, 기존 2026-10-18 백업의 검증 결과와 구별한다.
+Raw ZIP connector upload, Docs 두 크기 쓰기, Sheets 소량 쓰기는 당시 ack 없이 정지했다.
+실패 상세는 delivery/DRIVE_FINAL_READBACK.json, 이전 마감은 b69c7791b71064fd4b82fd7b2b3706860d84a29e에
+보존한다. 새 복구는 그 실패를 소급해서 성공으로 변경하지 않는다. connector 쓰기 경로 자체를 수리했다고 주장하지 않는다.
+승인된 cloud Browser의 기존 로그인 세션과 문서화된 file chooser를 이용했다. 새 공유 권한을 부여하지 않았다.
+빈 Doc/Sheet 또는 그 파일 이름을 백업으로 세지 않았고, Base64 문서 carrier는 사용하지 않았다.
 
-정확한 API 요청·ack 여부·중단 시간·fresh readback·관측된 객체는 `delivery/DRIVE_FINAL_READBACK.json` 및 연결된 원 영수증에 있다.
-생성된 빈 문서나 probe용 Sheet의 존재를 백업 성공으로 세지 않는다. 실제 내용을 읽어 원 ZIP SHA와 payload를 복원한 경우만 해당 범위의 성공으로 판정한다.
+## 게시·과학 범위
 
-## 마감과 재개
-
-이 파일을 포함한 metadata commit의 exact SHA와 마지막 보충 ZIP/readback은 PR174의 최종 마감 댓글에 기록한다.
-이 유한한 순서로 자신의 commit SHA를 파일에 다시 넣느라 무한히 commit/backup을 반복하지 않는다.
-새 과학 결과 없이 기존 테스트나 수치 캠페인을 다시 실행하지 않는다. 다음 세션은 양쪽 백업과 현재 HEAD/최신 댓글을 먼저 대조한다.
-별도 검증이 필요한 S6(유한-d continuum error, rank1 certificate, spectral refinement, source-age/coupled feedback)는 미완료로 유지한다.
+검증된 native source는 `b30a2044be1ae04a68d8319f47d15a5bed751668`이며 원 owner는
+`cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177`로 고정돼 있다.
+S2/S3/native 과학 코드와 측정은 다시 실행하지 않았다. 기존 tracked Python/Rust32개는 검증된 source와 같다.
+S7 및 R10/C10은 위 네 archive의 이중 백업 범위에서 완료다. 현재 metadata의 exact commit/tree와 새 복구 보충본은
+그 commit을 만든 뒤 한 번 패키징하고 두 provider에서 readback한 후 PR174 최신 댓글에 기록한다.
+파일이 자기 commit/ZIP hash를 포함하게 만드는 무한 게시 순환은 만들지 않는다.
+S6(유한-d continuum angular error, exact rank1 실행 certificate, spectral refinement, source-age/coupled feedback)는
+pending이다. P2/P4 일치를 전체 continuum/native spectral 보존 또는 production/full EoR/merge 승인으로 확대하지 않는다.

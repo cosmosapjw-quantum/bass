@@ -62,7 +62,9 @@ REI production 또는 full EoR 승인으로 확대하지 않는다. Draft PR174�
 
 ## 최종 게시·백업 확인
 
-2026-10-19 마감 시 Google Drive의 raw ZIP/Docs/Sheets 내용 쓰기가 응답하지 않았고 새 백업 readback은 미완료다. 생성된 빈 Doc/Sheet를 성공으로 세지 말고, 재조회로 원격 effect부터 확인하라. 상세 receipt는 delivery/DRIVE_FINAL_READBACK.json이다. Dropbox 세 단계는 provider hash와 remote manifest 범위에서 확인됐다.
+2026-10-19 17:07 KST에 승인된 cloud Browser로 원본 ZIP 네 개를 Drive에 저장하고, 별도 connector로 전체 raw ZIP을 다시 읽어 원본 byte equality/SHA256/CRC 및 단계별 manifest 항목252/252를 확인했다. Dropbox도 네 원본의 provider hash·remote manifest·가능한 추출 내용 readback이 이미 확인됐다. 현재 영수증은 delivery/DRIVE_RECOVERY_READBACK.json이며 과거 delivery/DRIVE_FINAL_READBACK.json의 쓰기 실패는 당시 기록으로 보존한다. 빈 Doc/Sheet는 백업으로 세지 않는다. 이번에는 native-document carrier를 사용하지 않았다.
 
-상세 객체·hash·readback 범위는 [CLOUD_READBACK_KO.md](CLOUD_READBACK_KO.md)와
-[PUBLICATION_CLOSEOUT.json](PUBLICATION_CLOSEOUT.json)을 따른다.
+현재 S7 및 R10/C10은 위 네 원본의 이중 백업 범위에서 완료다. 과학 S6 의무는 pending으로 유지한다.
+이 복구 metadata를 포함한 commit과 마지막 보충 ZIP/readback은 PR174의 최신 cloud-recovery 댓글에서 확인한다.
+상세 객체·hash·검증 범위는 [CLOUD_READBACK_KO.md](CLOUD_READBACK_KO.md)와
+[PUBLICATION_CLOSEOUT.json](PUBLICATION_CLOSEOUT.json)을 따른다. 소스와 과학 실행을 반복하지 않았다.

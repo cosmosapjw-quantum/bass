@@ -1,5 +1,5 @@
 {
-  "schema": "bass.isotropy.research_dag.v7",
+  "schema": "bass.isotropy.research_dag.v8",
   "date_utc": "2026-10-19",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
@@ -84,7 +84,8 @@
     "S2_RUST_EXECUTED",
     "S3_P24_RESPONSE",
     "S5_NATIVE_ADAPTER",
-    "FINAL_CLOUD_READBACK_CLOSEOUT"
+    "FINAL_CLOUD_READBACK_CLOSEOUT",
+    "CLOUD_BROWSER_FOUR_ARCHIVE_RECOVERY"
   ],
   "remaining_obligations": [
     "Finite-d continuum angular error and angular refinement envelope",
@@ -211,15 +212,16 @@
       {
         "id": "R10",
         "name": "종료·재개",
-        "status": "blocked",
+        "status": "complete",
         "evidence_refs": [
           "S3_RESULTS_KO.md",
           "NATIVE_ADAPTER_KO.md",
           "RETURN_TO_CHATGPT.json",
           "PUBLICATION_CLOSEOUT.json",
-          "CLOUD_READBACK_KO.md"
+          "CLOUD_READBACK_KO.md",
+          "delivery/DRIVE_RECOVERY_READBACK.json"
         ],
-        "reason": "Scientific unit and handoff are complete; required second-cloud content write/readback remains blocked. See PUBLICATION_CLOSEOUT.json."
+        "reason": "Current scientific unit and four original archives are verified in both clouds; the finite recovery supplement will be recorded in the latest PR174 comment after post-commit upload and independent readback. S6 remains pending."
       },
       {
         "id": "C1",
@@ -321,15 +323,16 @@
       {
         "id": "C10",
         "name": "판정·인계",
-        "status": "blocked",
+        "status": "complete",
         "evidence_refs": [
           "S3_RESULTS_KO.md",
           "NATIVE_ADAPTER_KO.md",
           "RETURN_TO_CHATGPT.json",
           "PUBLICATION_CLOSEOUT.json",
-          "CLOUD_READBACK_KO.md"
+          "CLOUD_READBACK_KO.md",
+          "delivery/DRIVE_RECOVERY_READBACK.json"
         ],
-        "reason": "Scientific unit and handoff are complete; required second-cloud content write/readback remains blocked. See PUBLICATION_CLOSEOUT.json."
+        "reason": "Current scientific unit and four original archives are verified in both clouds; the finite recovery supplement will be recorded in the latest PR174 comment after post-commit upload and independent readback. S6 remains pending."
       }
     ]
   },
@@ -387,15 +390,23 @@
   ],
   "resume_head_role": "Last verified scientific source commit; current containing commit additionally publishes metadata receipts.",
   "S7_publication_closeout": {
-    "status": "blocked",
+    "status": "complete",
     "git_source_publication": "PASS_THREE_ORDERED_COMMITS_AND_TREE_READBACKS",
-    "dropbox": "PASS_SCOPED_THREE_ARCHIVES",
-    "google_drive": "BLOCKED_ENVIRONMENT_NO_ACK_AND_NO_BACKUP_CONTENT",
+    "dropbox": "PASS_SCOPED_FOUR_ARCHIVES_PROVIDER_HASH_AND_CONTENT",
+    "google_drive": "PASS_FOUR_COMPLETE_RAW_ZIP_READBACKS",
     "source_and_science_complete": true,
-    "dual_cloud_complete": false,
+    "dual_cloud_complete": true,
     "receipts": "PUBLICATION_CLOSEOUT.json",
     "handoffs_prepared": true,
-    "blocking_reason": "Drive content writes returned no acknowledgement; fresh readback has not established backups.",
-    "post_commit_supplement": "Exact containing metadata commit, final metadata ZIP and its independent Dropbox readback are recorded in the final PR174 comment to avoid a self-referential commit cycle."
-  }
+    "blocking_reason": null,
+    "post_commit_supplement": "Latest PR174 cloud-recovery closeout comment and STAGE_GIT.json/GIT_READBACK.json in the post-commit recovery ZIP.",
+    "completion_scope": "S2/S3/native/previous b69 metadata archives; the post-commit recovery supplement will be verified and recorded externally after publication, without a self-hash cycle.",
+    "verified_at_utc": "2026-10-19T08:07:00.078057+00:00",
+    "drive_manifest_payloads_verified": 252,
+    "historical_blocker": "delivery/DRIVE_FINAL_READBACK.json",
+    "recovery_receipt": "delivery/DRIVE_RECOVERY_READBACK.json"
+  },
+  "latest_storage_intake": "delivery/cloud_recovery_intake_20261019.json",
+  "latest_storage_recovery": "delivery/DRIVE_RECOVERY_READBACK.json",
+  "storage_recovery_science_rerun": false
 }
