@@ -1,0 +1,75 @@
+{
+  "schema": "bass.s2.rust_execution.v1",
+  "time_utc": "2026-10-19T04:51:45.453803+00:00",
+  "baseline_commit": "a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc",
+  "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
+  "source_file": "balance.rs",
+  "source_sha256": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+  "executions": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/scratch/f49816986ef8/toolchains/rust-1.94.1/bin/rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.3792038150022563,
+      "log": "evidence_s2_rust/version.log"
+    },
+    {
+      "name": "compile_test",
+      "command": [
+        "/workspace/scratch/f49816986ef8/toolchains/rust-1.94.1/bin/rustc",
+        "--edition=2021",
+        "--test",
+        "balance.rs",
+        "-o",
+        "/workspace/scratch/f49816986ef8/build/bass_s2/balance_tests"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5098007590022462,
+      "log": "evidence_s2_rust/compile_test.log"
+    },
+    {
+      "name": "five_tests",
+      "command": [
+        "/workspace/scratch/f49816986ef8/build/bass_s2/balance_tests",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.0023810640013834927,
+      "log": "evidence_s2_rust/five_tests.log"
+    },
+    {
+      "name": "compile_cli",
+      "command": [
+        "/workspace/scratch/f49816986ef8/toolchains/rust-1.94.1/bin/rustc",
+        "--edition=2021",
+        "-O",
+        "balance.rs",
+        "-o",
+        "/workspace/scratch/f49816986ef8/build/bass_s2/balance_probe"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.3547869800022454,
+      "log": "evidence_s2_rust/compile_cli.log"
+    }
+  ],
+  "new_physics_campaign": false,
+  "prior_python_15": "REUSED_EXACT_SOURCE_IDENTITY",
+  "prior_native_58_and_negative_5": "REUSED_NOT_RERUN",
+  "status": "IMPLEMENTATION_VERIFIED_5_TESTS",
+  "binaries": [
+    {
+      "name": "balance_probe",
+      "bytes": 4063848,
+      "sha256": "ba6d38976799803cd2fe6529134d6e0d9ab5a70ed59348d78888d809cf68fc10"
+    },
+    {
+      "name": "balance_tests",
+      "bytes": 6349744,
+      "sha256": "9ba801f2d627733578b65f51365ef631a4cf586a6ba496750bfb1f03a31c0b3e"
+    }
+  ]
+}
