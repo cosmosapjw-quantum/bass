@@ -1,0 +1,26 @@
+{
+  "schema": "bass.s8.wolfram_partials.v1",
+  "date_utc": "2026-10-19T11:28:09.091Z",
+  "tool": "Wolfram Language evaluator",
+  "time_constraint_seconds": 45,
+  "conventions": {
+    "signature": "(-,+,+,+)",
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "dot b",
+    "Sigma": "sqrt(3)|s|/H"
+  },
+  "checked": {
+    "ray_mu_b": "d mu / db = -3 mu(1-mu^2)",
+    "angular_Jacobian": "d mu / d z = R(b,z)^(-3)",
+    "prior_log_score": "d log(R(b,z)^(-3))/db=6 P2(mu)",
+    "R_d_plus_2D": "R_d=-2D",
+    "D_d_formula": "D_d=(-4 B-A)/R+2 N^2/R^3, A=e^(2d)(1-mu^2), B=e^(-4d)mu^2,N=B-A/2",
+    "R_mu_formula": "R_mu=mu(e^(-4d)-e^(2d))/R",
+    "D_mu_formula": "D_mu=mu(2e^(-4d)+e^(2d))/R-N mu(e^(-4d)-e^(2d))/R^3",
+    "linearized_C_propagation": "delta C'=-2 delta C on smooth intervals, C=h^2-y^2-Ed-Er-L, independently evolved h"
+  },
+  "result": "Out[1]= <|\"ray_mu_b\" -> 0, \"angular_Jacobian\" -> 0, \"prior_log_score\" -> 0, \"R_d_plus_2D\" -> 0, \"D_d_formula\" -> 0, \"R_mu_formula\" -> 0, \"D_mu_formula\" -> 0, \"linearized_C_propagation\" -> 0|>",
+  "assumptions": "Real b,d,z,mu with |z|<1 and |mu|<1 for ray expressions; h>0 for tangent constraint. Donor transfer parameter and birth times fixed; between impulses Ed'=-3Ed. Positive-energy and feasibility admission remain separate.",
+  "scope": "Symbolic identities only; no nonlinear-history or native scientific execution implied."
+}

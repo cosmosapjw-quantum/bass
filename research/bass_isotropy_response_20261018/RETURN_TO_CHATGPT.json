@@ -1,8 +1,8 @@
 {
-  "schema": "bass.isotropy.continuation_return.v7",
-  "date_utc": "2026-10-19",
-  "stage": "S7_BOUNDED_COMPLETE_WITH_RETAINED_FAILURES",
-  "baseline_commit": "a9704c6f6eb09c3daa0065a66362ef7547c28e0c",
+  "schema": "bass.isotropy.continuation_return.v8",
+  "date_utc": "2026-10-19T11:31:36.915669+00:00",
+  "stage": "S8_SOURCE_AND_PREREGISTRATION_IN_PROGRESS",
+  "baseline_commit": "fe083a28e066a95e2191bcc6a090adf53605453f",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
   "original_rei_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
@@ -117,19 +117,20 @@
     "theory": "pass_scoped",
     "positive_projection": "pass_scoped",
     "native_new_source_transfer": "pass_scoped",
-    "coupled_shear_evolution": "not_run",
+    "coupled_shear_evolution": "S7 scoped execution complete: originalR1/R2FAIL retained, R3onehistoryPASS; see S7_coupled_native",
     "production_full_EoR": "not_run",
-    "dual_cloud_closeout": "pass_scoped_four_original_archives",
+    "dual_cloud_closeout": "S7fourarchives completed and preserved; latestDrivefreshraw22/22, Dropboxfreshmetadata with historicalproviderhashproof; S8stagearchivepending",
     "finite_d_certificate": "pass_scoped",
     "refinement_rate_preregistered": "fail_preserved",
     "refinement_rate_holdout": "pass",
     "rank1_certificate": "pass_scoped_python",
     "native_spectral_source_deposition": "pass_scoped_explained",
-    "source_age_prescribed": "pass_scoped"
+    "source_age_prescribed": "pass_scoped",
+    "historical_coupled_shear_evolution_before_S7": "not_run"
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Inspect both /BASS_BACKUPS and current PR174 HEAD/comments for newer execution evidence before selecting the next bounded unit; do not repeat completed S2-S7.",
+  "next_first_action": "Continue S8 tangent and native refinement code from S8_PROGRESS_KO.md; do not rerun S7. Freeze/preregister/publish/dual-backup before new scientific campaign.",
   "storage_recovery_science_rerun": false,
   "S6": {
     "status": "PASS_SCOPED_PARTIAL_S6_COUPLED_NOT_RUN",
@@ -334,5 +335,43 @@
     "updated_at_utc": "2026-10-19T10:44:24.420964+00:00"
   },
   "historical_S5_native_output_sha256": "a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff",
-  "native_output_role": "S7 original native JSONL bytes; Git stores lossless gzip and validates decoded SHA"
+  "native_output_role": "S7 original native JSONL bytes; Git stores lossless gzip and validates decoded SHA",
+  "S8": {
+    "status": "IN_PROGRESS_SOURCE_AND_PREREGISTRATION",
+    "baseline_commit": "fe083a28e066a95e2191bcc6a090adf53605453f",
+    "baseline_tree": "6fb0f5fb693318cb9476a635817a4ea7025127ba",
+    "fresh_intake": "evidence_s8/intake/FRESH_CLOUD_GITHUB_INTAKE.json",
+    "selected_leaves": [
+      "initial-shear full birth-memory tangent including positiveKL weight derivative",
+      "native high-b GL64/128/256 new-source angular refinement with spectral owner unchanged"
+    ],
+    "actual_scientific_campaigns_run": false,
+    "symbolic_checks": "evidence_s8/WOLFRAM_PARTIALS.json",
+    "literature": "evidence_s8/PRIMARY_LITERATURE.json",
+    "old_S2_S7_reexecuted": false,
+    "write_ownership": {
+      "root": "integration/DAG/PR/cloud",
+      "s6_backup_intake": "new S8 tangent source and evidence",
+      "s7_native_cohorts": "new S8 native angular extension source and evidence",
+      "s6_rank1": "one complementary independent theory/API/figure review pass"
+    },
+    "next_action": "Freeze code/preregistration after targeted development checks, publish with exact Git readback and two-cloud backup, then execute bounded new cases.",
+    "outside_selected_scope": [
+      "native physicalMD14 energy supply closure",
+      "evolving full reactive history",
+      "fullEoR/production/merge"
+    ],
+    "constraints": {
+      "source_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "source_ID": "MD14_Z002_FESC_BB50K_13P6_100_V1",
+      "new_birth_only": true,
+      "positive_weights": true,
+      "exact_reflection": true,
+      "fixed_spectral_owner": true,
+      "old_stock_not_reweighted": true,
+      "exact_admission": "3/1000000000000000",
+      "old_failures_preserved": true
+    },
+    "updated_at_utc": "2026-10-19T11:31:36.915669+00:00"
+  }
 }

@@ -1,0 +1,83 @@
+{
+  "schema": "bass.s8.primary_literature.v1",
+  "searched_at_utc": "2026-10-19T11:31:36.915669+00:00",
+  "searches": [
+    {
+      "provider": "SciSpace",
+      "query": "How do the collisionless fourth angular moment and the history of photon emission enter the linearized Einstein–Vlasov shear response in spatially homogeneous locally rotationally symmetric Bianchi I cosmologies?",
+      "returned": 10,
+      "used_for": "discovery only; original Einstein–Vlasov papers retained, rotation-torque and modified-gravity results excluded as outside fixed scope"
+    },
+    {
+      "provider": "Exa",
+      "query": "Find original mathematical references deriving derivatives of finite exponential-family moment matching or entropy projections when both sufficient statistics and prior probabilities depend on a parameter, using the covariance or Fisher information matrix.",
+      "returned": 5,
+      "sources_reviewed": 5,
+      "used_for": "located the finite discrete phi-projection differentiability paper; unrelated lambda-exponential family and explanatory reviews not used as proof"
+    }
+  ],
+  "sources": [
+    {
+      "id": "LNT2020",
+      "title": "On the future of solutions to the massless Einstein-Vlasov system in a Bianchi I cosmology",
+      "authors": [
+        "Ho Lee",
+        "Ernesto Nungesser",
+        "Paul Tod"
+      ],
+      "url": "https://arxiv.org/html/1911.04937v2",
+      "version": "arXiv:1911.04937v2 (2020-02-05)",
+      "relation": "supports reused cosmological model",
+      "read_locations": [
+        "Section2.1 conserved covariant momenta and Einstein equations",
+        "Section2.2 stress-moment hierarchy",
+        "Section3 small-anisotropy linearization (S7 mapping reused)"
+      ],
+      "convention_mapping": "Paper uses 8piG=c=1 and k_ab=+dotg_ab/2. BASS a_perp=a exp(-b),a_parallel=a exp(2b),q=s/H. Previously verified q=2Sigma_plus,A=6w_plus preserved. Our manufactured positive donor and new finite angular birth rules are additional stated numerical-model ingredients."
+    },
+    {
+      "id": "GKM2024",
+      "title": "On the differentiability of phi-projections in the discrete finite case",
+      "authors": [
+        "Gery Geenens",
+        "Ivan Kojadinovic",
+        "Tommaso Martini"
+      ],
+      "url": "https://arxiv.org/pdf/2407.05997",
+      "relation": "contextual and supports regularity method",
+      "read_locations": [
+        "Theorem19 and Corollary20",
+        "Corollary31",
+        "Proposition32",
+        "AppendixB implicit-function proof"
+      ],
+      "verified_content": "Interior unique finite projections with invertible constrained Hessian admit an implicit Jacobian. Linear equality sets with a positive interior fall within the stated framework.",
+      "mapping_and_limit": "Their fixed equality-set sensitivity is a primary comparison, not a ready-made BASS moving-support formula. We directly differentiate both q(b) and T(b) and retain the additional mean(T_b)+Cov(T,v) terms. Positive covariance and strict support feasibility are explicit hypotheses. No novelty or global boundary-smoothness claim."
+    },
+    {
+      "id": "DLMF3.5",
+      "title": "NIST Digital Library of Mathematical Functions, Section3.5 Quadrature",
+      "url": "https://dlmf.nist.gov/3.5",
+      "relation": "supports standard angular construction",
+      "read_locations": [
+        "Section3.5(v), equations3.5.18–3.5.20_1",
+        "Gauss–Legendre Formula, equation3.5.21"
+      ],
+      "verified_content": "Gauss nodes are zeros of the corresponding orthogonal polynomial, the weights are positive, and the rule is exact for degree at most2n−1. The Legendre weight is1 on[-1,1].",
+      "scope": "Supports standard finite GL node/weight construction only. Moving angular map, KL correction, finite-d accuracy and native finite-bin ledgers are checked by our specific derivations and experiments."
+    }
+  ],
+  "access_failures": [
+    {
+      "url": "https://people.eecs.berkeley.edu/~wainwrig/Papers/WaiJor08_FTML.pdf",
+      "status": "HTTP404",
+      "action": "not used; directly read GKM primary paper instead"
+    },
+    {
+      "url": "https://arxiv.org/html/2407.05997v1",
+      "status": "web extractor internal error; Exa returned abstract only",
+      "action": "fullPDF read for actual theorem/proof locations"
+    }
+  ],
+  "claim_policy": "Search snippets are discovery. No claim of exhaustive review, new strong no-go theorem, continuum certification, or native production admission."
+}
