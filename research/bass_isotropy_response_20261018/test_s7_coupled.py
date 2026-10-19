@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import shutil
 from dataclasses import replace
 import numpy as np
 from coupled_cohorts import (Config, Cohort, BirthRuleFailure, diagnostics, initial_bank,
@@ -124,6 +125,53 @@ class PreregistrationGuards(unittest.TestCase):
             p.write_text(json.dumps(campaign_definition())); r.write_text('{}')
             with self.assertRaisesRegex(ValueError, 'PUBLICATION_RECEIPT_MISMATCH'):
                 verify_preregistration(p, '0'*40, r)
+
+
+class ExactMomentObserver(unittest.TestCase):
+    """Target the observed arithmetic failure without repeating its ODE history."""
+    @classmethod
+    def setUpClass(cls):
+        cls.evidence = Path(__file__).resolve().parent/'evidence_s7_coupled'
+        cls.raw = json.loads((cls.evidence/'run01/b03_n8_P2_K64.json').read_text())
+        cls.config = Config(**cls.raw['case']['config'])
+        cls.event = cls.raw['events'][43]
+
+    def test_known_float_false_failure_passes_exact_same_gate(self):
+        from fractions import Fraction
+        from run_s7_coupled import reconstruct_birth_certificate
+        cert = reconstruct_birth_certificate(self.event, self.config)
+        exact = cert['exact_moment_certificate']
+        self.assertGreater(self.event['birth_M2'], 3e-15)
+        self.assertEqual(exact['gate_rational'], str(Fraction(3, 10**15)))
+        self.assertLessEqual(abs(Fraction(exact['M2_exact'])), Fraction(3, 10**15))
+        self.assertTrue(exact['pass'])
+        self.assertTrue(cert['digest_matches_execution'])
+        self.assertTrue(cert['positive_weights'] and cert['reflection_exact'])
+
+    def test_true_exact_moment_exceed_is_rejected(self):
+        from coupled_cohorts import exact_birth_moment_certificate
+        from fractions import Fraction
+        # Positive normalized parity pairs, with a true small residual above gate.
+        m = math.sqrt((1+1e-14)/3)
+        cert = exact_birth_moment_certificate([-m, m], [0.5, 0.5], 'P2')
+        self.assertGreater(abs(Fraction(cert['M2_exact'])), Fraction(3, 10**15))
+        self.assertFalse(cert['pass'])
+
+    def test_reconstructed_birth_cannot_replace_execution_digest(self):
+        from run_s7_coupled import reconstruct_birth_certificate
+        event = dict(self.event); event['birth_rule_sha256'] = '0'*64
+        with self.assertRaisesRegex(ValueError, 'BIRTH_DIGEST_MISMATCH'):
+            reconstruct_birth_certificate(event, self.config)
+
+    def test_changed_raw_byte_cannot_be_reanalyzed(self):
+        from run_s7_coupled import campaign_definition, verify_reuse_inputs
+        with tempfile.TemporaryDirectory() as td:
+            copied = Path(td)/'run01'
+            shutil.copytree(self.evidence/'run01', copied)
+            target = copied/'ANGULAR_COMPARISONS.json'
+            target.write_bytes(target.read_bytes()+b'\n')
+            with self.assertRaisesRegex(ValueError, 'RAW_HASH_MISMATCH'):
+                verify_reuse_inputs(copied, campaign_definition())
 
 
 if __name__ == '__main__':

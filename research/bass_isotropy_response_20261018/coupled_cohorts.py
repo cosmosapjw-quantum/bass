@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from functools import lru_cache
+from fractions import Fraction
 import hashlib
 import math
 import numpy as np
@@ -25,6 +26,42 @@ ATOL = 5e-15
 GATES = {'hamiltonian_relative': 1e-11, 'cohort_energy_relative': 1e-11,
          'event_energy_relative': 1e-13, 'moment_abs': 3e-15,
          'parity_abs': 0.0, 'donor_endpoint_relative': 3e-14}
+MOMENT_GATE_EXACT = Fraction(3, 10**15)
+
+
+@lru_cache(maxsize=4096)
+def _exact_moment_sums(mu, alpha):
+    """Exact dyadic-input polynomial sums; no transcendental kernel is certified."""
+    norm = m2 = m4 = Fraction(0)
+    for m, w in zip(mu, alpha):
+        fm, fw = Fraction.from_float(m), Fraction.from_float(w)
+        z = fm*fm
+        norm += fw
+        m2 += fw*(3*z-1)/2
+        m4 += fw*(35*z*z-30*z+3)/8
+    return norm, m2, m4
+
+
+def exact_birth_moment_certificate(mu, alpha, mode):
+    """Certify the same sum(alpha P_l) functional against exactly 3/10^15.
+
+    The original S7 observer evaluated this polynomial in binary64 and used a
+    BLAS dot product. Near its gate, polynomial ordering alone changed verdicts.
+    This observer computes the polynomial of the actual binary64 inputs exactly.
+    Normalization remains a separate criterion; normalized moments are diagnostic.
+    It neither changes nodes/weights nor certifies continuum angular accuracy.
+    """
+    mu, alpha = np.asarray(mu, dtype=float), np.asarray(alpha, dtype=float)
+    if mu.ndim != 1 or alpha.shape != mu.shape or not len(mu) or not np.isfinite(mu).all() or not np.isfinite(alpha).all() or np.any(alpha <= 0):
+        raise ValueError('COUPLED_EXACT_MOMENT_INPUT')
+    norm, m2, m4 = _exact_moment_sums(tuple(map(float, mu)), tuple(map(float, alpha)))
+    constrained = mode in ('P2', 'P24')
+    passed = (abs(m2) <= MOMENT_GATE_EXACT and (mode != 'P24' or abs(m4) <= MOMENT_GATE_EXACT)) if constrained else True
+    return {'criterion': 'Exact sum(alpha_i P_l(mu_i)) on the actual binary64 inputs',
+            'gate_rational': str(MOMENT_GATE_EXACT), 'applies': constrained, 'pass': bool(passed),
+            'sum_alpha_exact': str(norm), 'M2_exact': str(m2), 'M4_exact': str(m4),
+            'M2': float(m2), 'M4': float(m4),
+            'normalized_M2_exact': str(m2/norm), 'normalized_M4_exact': str(m4/norm)}
 
 
 @dataclass(frozen=True)
@@ -294,6 +331,7 @@ def solve_history(config, *, donor_subtraction=True):
                        'C_before': C_before, 'C_after': C_after,
                        'birth_M2': float(np.dot(alpha, (3*mu**2-1)/2)),
                        'birth_M4': float(np.dot(alpha, (35*mu**4-30*mu**2+3)/8)),
+                       'exact_moment_certificate': exact_birth_moment_certificate(mu, alpha, config.mode),
                        'birth_min_weight': float(np.min(alpha)),
                        'birth_rule_sha256': bank.birth_digests[-1]})
         transfers += 1
@@ -322,14 +360,16 @@ def diagnostics(history, sample_count=241):
     event_error = max((abs(e['energy_jump'])/(e['donor_before']+e['radiation_before'])
                        for e in history.events), default=0.0)
     constraint = max(r['C_relative'] for r in rows)
-    moment = max((max(abs(e['birth_M2']), abs(e['birth_M4']) if config.mode == 'P24' else 0)
+    legacy_moment = max((max(abs(e['birth_M2']), abs(e['birth_M4']) if config.mode == 'P24' else 0)
+                  for e in history.events), default=0.0) if config.mode in ('P2', 'P24') else None
+    moment = max((max(abs(e['exact_moment_certificate']['M2']), abs(e['exact_moment_certificate']['M4']) if config.mode == 'P24' else 0)
                   for e in history.events), default=0.0) if config.mode in ('P2', 'P24') else None
     expected_donor = config.donor0*math.exp(-3*config.x_end-config.decay_lambda*config.birth_end) if len(history.births) else config.donor0*math.exp(-3*config.x_end)
     donor_error = abs(history.donor(config.x_end)-expected_donor)/expected_donor if expected_donor else 0.0
     gates = {'hamiltonian': constraint <= GATES['hamiltonian_relative'],
              'cohort_energy': max_identity <= GATES['cohort_energy_relative'],
              'event_energy': event_error <= GATES['event_energy_relative'],
-             'birth_moments': moment is None or moment <= GATES['moment_abs'],
+             'birth_moments': all(e['exact_moment_certificate']['pass'] for e in history.events),
              'frozen_all_stock': history.bank.unchanged(),
              'positive_all_stock': all(c.energy_birth > 0 and np.all(c.alpha > 0) for c in history.bank.cohorts),
              'reflection_all_stock': all(np.array_equal(c.mu, -c.mu[::-1]) and np.array_equal(c.alpha, c.alpha[::-1]) for c in history.bank.cohorts),
@@ -338,6 +378,7 @@ def diagnostics(history, sample_count=241):
     return {'gate_results': {k: bool(v) for k, v in gates.items()},
             'max_hamiltonian_relative': constraint, 'max_cohort_energy_relative': max_identity,
             'max_event_energy_relative': event_error, 'max_birth_moment_abs': moment,
+            'max_legacy_f64_birth_moment_abs': legacy_moment,
             'donor_endpoint_relative': donor_error, 'cohorts': len(history.bank.cohorts),
             'nfev': history.nfev, 'old_stock_digests': history.bank.birth_digests[:sum(c.role.startswith('old') for c in history.bank.cohorts)],
             'trajectory': rows, 'events': history.events}

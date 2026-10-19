@@ -5,8 +5,10 @@
 이 경로는 고정 REI owner `0e25846433170d0f420c4cda44a0bedbf02cd177`의
 `AxbiSource`, `CovariantTransport`, `AtomicProvider`를 무변경 컴파일한다.
 S3 native adapter, P2/P24 알고리즘, S6 검증을 수정하거나 다시 실행하지 않는다.
-새 실행 입력과 gate는 `evidence_s7_native/PREREGISTRATION.json`에 고정하고,
-그 파일과 구현의 게시 readback 뒤에만 캠페인을 실행한다.
+새 실행 입력과 gate는 `evidence_s7_native/PREREGISTRATION.json`에 고정했고,
+[사전등록 게시 커밋 2865f60](https://github.com/cosmosapjw-quantum/bass/commit/2865f60bf0a247eaab4997c222ad82ae22a4c8fa)의
+파일 내용·blob readback 뒤에 캠페인을 실행했다. R2는 같은 native 결과를
+재사용하는 validator 산술 교정이며 아래에 따로 기록한다.
 
 물리는 non-tilted axisymmetric Bianchi I, signature `(-,+,+,+)`,
 `a_perp=a exp(-b)`, `a_parallel=a exp(2b)`, `s=dot b`,
@@ -119,8 +121,154 @@ readback의 repo/path/commit/blob/SHA256를 담은 `--publication-receipt`를 �
 최대 추가 worker 16, RAM 16GiB, 출력 disk 4GiB, 개별 job 1800초다.
 이 실험은 native thread 1, owner staging worker 4를 기본으로 한다.
 
-## 실행 상태
+## 6. 실제 run01 결과
 
-캠페인 실행 전. 새 Rust cohort 테스트 5개와 Python evidence guard 11개의
-개발 검증 후 사전등록 게시를 기다린다. 실제 실행·실패·자원 기록은
-`evidence_s7_native/`의 immutable receipt에 추가한다.
+원래 owner 57개 파일을 검증하고 무변경 컴파일했다. 새 native 실행은 1회,
+51개 case 중 42개를 끝까지 측정했고 9개는 구체적인 positive support 실패였다.
+Native 실행 자체는 모든 case를 기록하고 exit 0으로 완료했다. 이후 Python
+validator가 아래의 부동소수점 moment 경계 문제 때문에 exit 2를 반환했다.
+이 원래 판정은 [run01 receipt](evidence_s7_native/run01/RETURN_NATIVE_COHORTS.json)와
+[원래 분석](evidence_s7_native/run01/ANALYSIS.json)에 그대로 남겼다.
+
+Raw JSONL은 1,794,091 bytes이며 SHA256은
+`4b544414a434abfb56edbf38c89807aa221b3083185bcfc2499e9f53f6db8122`다.
+Git에서는 [lossless gzip](evidence_s7_native/run01/NATIVE_COHORTS.jsonl.gz)(365,100 bytes)으로 보관한다.
+[RAW_STORAGE](evidence_s7_native/run01/RAW_STORAGE.json)에 압축 hash, 복원 byte 수와 raw hash가 있다.
+원래 실행의 11개 입력 파일도 `run01/source_snapshot/`에 각각 기존 SHA256과
+대조하여 보존했다. 이 중 runner/test 원문은 이미 독립 readback한 S7 stage1
+백업에서 복원했으며 현재 수정본으로 바꾸지 않았다.
+
+### 6.1 Conservation과 이력
+
+| 사전 gate | 실제 최대값 | 결과 |
+|---|---:|---|
+| Native frozen R,D kernel 상대차 ≤3e-14 | 3.686e-16 | PASS |
+| 매 birth의 기존 stock + 증분 ledger 상대차 ≤1e-11 | 8.876e-15 | PASS |
+| Per-H energy 연속식 상대 잔차 ≤1e-11 | 4.968e-13 | PASS |
+| Native absorption N/U ledger 상대차 ≤1e-11 | 3.036e-16 | PASS |
+| 독립 source spectrum GL32/64 차이 ≤1e-11 | 8.097e-16 | PASS |
+| Midpoint 출생시간 doubling 비율 3.5–4.5 | 3.898–4.000 | PASS |
+
+K=8에서 K=128로 늘릴 때 P24의 native ΔP/H와 같은 finite angular rule의
+연속 출생시간 기준 사이 차이는 `−2.8706e-4 → −1.1602e-6 eV/H`로 줄었다.
+이것은 angular refinement와 별도로 측정한 출생시간 quadrature 오차다.
+다른 source history나 결합 geometry의 시간 오차까지 승인하는 값은 아니다.
+
+### 6.2 큰 누적 b에서의 실제 native angular 오차
+
+아래는 같은 16개 birth와 같은 source spectrum에서 측정한
+`δA=A_native−A_continuum`이다. 모든 case의 `b'=0.2`와 `d=0.2(x−u)`는 같다.
+`b0`는 고정 native reference ray grid에 대한 누적 비등방을 바꾸므로,
+continuum kernel 자체를 바꾸지 않고 grid의 조건이 나빠지는 효과를 보여준다.
+
+| b0 / 관측 b | n_mu | prior δA | P2 δA | P24 δA |
+|---|---:|---:|---:|---:|
+| 0 / 0.2 | 8 | −1.9591e-4 | −9.6427e-5 | −4.7633e-5 |
+| 0 / 0.2 | 16 | −7.6497e-9 | −6.1435e-9 | −4.7284e-9 |
+| 0 / 0.2 | 32 | −2.36e-16 | −2.50e-16 | −2.50e-16 |
+| 0.6 / 0.8 | 8 | −2.8416e-1 | mean 불가능 | mean 불가능 |
+| 0.6 / 0.8 | 16 | −1.3635e-1 | −2.1087e-2 | upper hull 불가능 |
+| 0.6 / 0.8 | 32 | −1.4285e-2 | −3.3193e-3 | **−9.9453e-4** |
+| 0.9 / 1.1 | 8 | −3.5893e-1 | mean 불가능 | mean 불가능 |
+| 0.9 / 1.1 | 16 | −3.1438e-1 | mean 불가능 | mean 불가능 |
+| 0.9 / 1.1 | 32 | −1.9217e-1 | 9번째 birth에서 mean 불가능 | upper hull 불가능 |
+
+큰 b의 n32/P24 사전 정확도 목표 `|δA|≤1e-6`은 **실패**했다.
+실제 `|δA|=9.94529756587e-4`로 목표의 약 995배다.
+Panel을 32에서 64로 바꾼 별도 native slab case도 같은 angular 실패를 보였다.
+양의 P2/P4 조건은 이 grid의 continuum angular 정확도를 승인하지 못한다.
+
+9개 feasibility 실패는 독립 Python hull 검사와 일치했다. 예를 들어
+`b0=0.6,n16,P24` 첫 birth에서 가능한 upper `E[z²]`는
+`0.18387221855494668`로 목표 `1/5`보다 `0.016127781445053335` 작다.
+`b0=0.9,n32,P2`는 0-based birth index 8, `u=0.425`에서
+`max z=0.3304721961595297<1/3`가 되어 실패했다.
+음의 weights나 허용오차 변경으로 이 실패를 우회하지 않았다.
+
+### 6.3 Finite-bin merged spectrum의 흡수 오차
+
+다음은 n_mu=16, K=16, P24, panel=64의 고정 angular rule에서,
+원래 source-cell spectrum의 직접 GL64 적분과 native merged-cohort
+흡수 상태를 비교한 값이다. Number는 `N_before`, energy는 `U_before`로 나눴다.
+
+| n_energy | (N_native−N_reference)/N_before | (U_native−U_reference)/U_before | (N_merged−N_separate)/N_before |
+|---:|---:|---:|---:|
+| 24 | −1.14056e-3 | −1.28616e-3 | −1.08741e-3 |
+| 48 | −2.18353e-5 | −2.42079e-5 | −2.69526e-5 |
+| 96 | −5.09602e-7 | −5.69825e-7 | +7.06510e-8 |
+| 192 | −2.07098e-8 | −1.10523e-8 | +1.45162e-8 |
+
+Bin192의 사전 목표 `max(|δN|/N_before,|δU|/U_before)≤1e-4`는 통과했다.
+그러나 bin24에서는 ledger가 1e-11보다 훨씬 잘 보존되어도 실제 photon/energy
+흡수 상태의 오차가 1e-3 수준이다. Source-age를 합친 두 moment spectrum은
+각 cohort를 따로 유지한 spectrum과 다른 흡수 응답을 갖는다.
+
+같은 bin96에서 panel을 8→16→32→64로 늘려도 photon 상대 오차는
+`−5.096022564e-7` 수준에서 변하지 않았다(차이 2.03e-16 이내).
+이는 S6에서 해결한 source-cell Simpson 기준값 오차와 이번 native
+merged-spectrum reconstruction 오차를 분리한다. K=8/16/32와 n_mu=8/16/32의
+별도 slab case도 기록했다. Angular 변경으로 spectral 오차가 단조 감소한다고
+가정하지 않았고, 단일 frozen-opacity slab의 성공을 전체 reactive history로 확대하지 않았다.
+
+![Native angular와 finite-bin 흡수 오차](evidence_s7_native/figures/native_cohort_accuracy.png)
+
+왼쪽은 고정 birth grid의 angular 오차와 support 실패를, 오른쪽은 같은 finite
+angular rule에 대한 spectrum 오차를 보여준다. 같은 native 계산의 서로 다른
+정확도 의무다. 그림은 저장된 run01 분석을 읽어 그렸고 물리 캠페인은 재실행하지 않았다.
+
+### 6.4 실제 자원과 테스트
+
+총 27.3575 s 중 원래 owner compile 10.3067 s, 새 probe compile 1.6739 s,
+native 측정 7.8978 s였다. Child peak RSS는 337,564 KiB,
+Python peak RSS는 42,644 KiB, 전체 출력은 11,867,400 bytes였다.
+Native thread 1, BLAS thread 1, owner staging worker 상한 4였다.
+새 Rust cohort 테스트 5개 PASS(기존 21개는 filter되어 실행하지 않음),
+R1 Python guard 11개 PASS를 게시 후 측정했다. R2 코드 guard는 14개 PASS다.
+
+## 7. 원래 moment 실패와 R2 산술 교정
+
+`birth_time_031`의 P2 birth index 11(`u=0.2875,b=0.0575,n_mu=16`)에서
+R1 NumPy validator는 `ΣαP2=−3.0080105073437835e-15`를 계산해
+고정 gate `3e-15`를 넘었다. 같은 저장 μ,α에 Rust 곱셈 순서를 사용하면
+`−2.987193825632062e-15`, **정확한 dyadic 유리수 연산**으로 계산하면
+`−2.9993863364154428e-15`다. 참된 저장-discrete moment는 원래 gate 안이다.
+
+[Exact audit](evidence_s7_native/EXACT_MOMENT_AUDIT_RUN01.json)는 808개의
+constrained birth 전체에서 P2 최대 `2.9993863364154428e-15`,
+P24 조건의 P4 최대 `2.952205259391513e-15`로 전부 `3/10^15` 이하임을 확인했다.
+이는 validator의 multiplication association에 따른 경계 false rejection이다.
+
+R2는 저장 binary64 μ,α를 정확한 `Fraction`으로 바꾸고 원래 functional
+`Σα_i P_l(μ_i)`를 정확히 계산한다. **Gate `3/10^15`, 양성, 반사 대칭,
+별도 normalization 조건과 모든 물리적 목표는 그대로다.** α를 몰래
+재정규화하지 않는다. Exact normalization과 normalized moment는 진단으로
+따로 기록하고 원래 f64 moment도 보존한다. 이 교정은 저장된 ray/weight에
+관한 것이며 continuum μ나 continuum angular 정확도 인증이 아니다.
+
+`PREREGISTRATION_R2.json`은 run01 결과를 본 뒤 작성한 **분석 산술 교정 계약**임을
+명시한다. 원래 physical prediction의 사전등록을 소급 주장하지 않는다.
+Raw SHA, 원래 execution receipt SHA, 원래 사전등록 SHA, 원래 구현 게시 커밋,
+불변 native dependency를 모두 검사한 뒤 같은 결과를 재분석한다.
+원래 native 캠페인·source injection·projection은 다시 실행하지 않는다.
+
+R2 게시/readback 이후의 명령은 다음과 같다. `.gz`는 runner가 직접 읽고
+압축 hash와 복원 내용 hash를 검사하므로 사전 압축 해제는 필요 없다.
+
+```bash
+python3 run_native_cohorts.py \
+  --revalidate-existing evidence_s7_native/run01 \
+  --out /absolute/scratch/bass_s7_native_analysis_r2 \
+  --timeout 1800
+```
+
+현재 이 문서의 상태: **R2 코드·14개 guard·계약 준비 완료, R2 게시 후 재분석 대기**.
+큰 b에서의 `9.9453e-4` 정확도 실패는 산술 교정 대상이 아니며 그대로 유지한다.
+
+## 8. 남은 의무
+
+큰 누적 |b|에서 n_mu≤32로는 부족한 angular 정확도는 실제 native 결과로 확인했다.
+새 angular refinement 지원과 그 별도 검증이 필요하다. 이번 frozen-opacity
+slab의 bin 수렴은 full absorption history, ionization/thermal feedback 또는
+source-history별 전역 오차 인증을 대신하지 않는다.
+Native Einstein 결합 full history는 이 probe에서 실행하지 않았으며,
+REI production/full EoR/merge를 승인하지 않는다.

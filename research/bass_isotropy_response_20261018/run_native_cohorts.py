@@ -9,7 +9,10 @@ Git-data readback receipt in an API-backed workspace without a .git checkout.
 from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
+from fractions import Fraction
+import gzip
 import hashlib
+import io
 import json
 import math
 import os
@@ -37,6 +40,17 @@ PINNED = ('native_cohort_probe.rs', 'run_native_cohorts.py', 'test_native_cohort
           'native_adapter.rs', 'balance.rs', 'balance_p24.rs', 'run_native_adapter.py',
           'native_owner_manifest.json', 'angular_balance.py', 'angular_p24.py', 's6_io.py')
 BUILD = ('native_cohort_probe.rs', 'native_adapter.rs', 'balance.rs', 'balance_p24.rs')
+MAX_RAW_BYTES = 64*1024**2
+REUSE_RUN01 = {
+    'source_publication_commit': '2865f60bf0a247eaab4997c222ad82ae22a4c8fa',
+    'preregistration_sha256': 'f90a0fd7af186b56f2e1bc12ee305a8916301e4917b41a5d8d9b800a62e7e8d8',
+    'files_sha256': {
+        'NATIVE_COHORTS.jsonl': '4b544414a434abfb56edbf38c89807aa221b3083185bcfc2499e9f53f6db8122',
+        'ANALYSIS.json': '8f776e49214a054951ed941c8fac50f3624735dc546ee0305918d2a2f488b8ee',
+        'RETURN_NATIVE_COHORTS.json': 'afc45dd4f0ceada6093528a93162485c82ed4596ffef7ba865c50464de2c6949',
+    },
+    'changed_files_allowed_for_reanalysis': ['run_native_cohorts.py', 'test_native_cohorts.py'],
+}
 
 
 def matrix():
@@ -65,7 +79,16 @@ def matrix():
 
 def contract():
     return {
-        'schema': 'bass.native.cohorts.s7.preregistration.v1',
+        'schema': 'bass.native.cohorts.s7.preregistration.v2',
+        'analysis_revision': {
+            'revision': 2,
+            'reason': 'Run01 exposed a multiplication-association false moment rejection; exact dyadic arithmetic corrects the validator.',
+            'timing': 'Prepared after run01 observations and before R2 reanalysis; not a new preregistered physical prediction.',
+            'arithmetic': 'Exact Fraction sum(alpha_i * P_l(mu_i)) on stored binary64 inputs, without renormalizing alpha.',
+            'gate': '3/10^15 exactly; the existing separate normalization and all physical gates remain unchanged.',
+            'native_execution': 'Unchanged; reanalysis must bind the exact original raw data and execution receipt.',
+        },
+        'reuse_from': json.loads(json.dumps(REUSE_RUN01)),
         'owner_repo': 'cosmosapjw-quantum/rei_bianchi', 'owner_commit': REI_SHA, 'source_id': SOURCE_ID,
         'pinned_sha256': {n: digest((ROOT/n).read_bytes()) for n in PINNED},
         'physics': {'signature': '(-,+,+,+)', 'a_perp': 'a exp(-b)', 'a_parallel': 'a exp(2b)',
@@ -117,7 +140,7 @@ def verify_publication(prereg_path, prereg, receipt_path=None):
         commit = r.get('commit', '')
         if (r.get('schema') != 'bass.git.preregistered.file.v1' or r.get('repo') != REPO
                 or len(commit) != 40 or any(x not in '0123456789abcdef' for x in commit)
-                or r.get('path') != LANE+'evidence_s7_native/PREREGISTRATION.json'
+                or r.get('path') != LANE+'evidence_s7_native/PREREGISTRATION_R2.json'
                 or r.get('remote_readback') is not True
                 or r.get('git_blob_sha') != blob(prereg_path.read_bytes())
                 or r.get('sha256') != digest(prereg_path.read_bytes())):
@@ -151,6 +174,59 @@ def kernels(d, mu):
     b = np.exp(-4*d)*mu*mu
     r = np.sqrt(a+b)
     return r, (b-.5*a)/r
+
+
+def exact_moments(mu, alpha):
+    """Evaluate the original discrete functional with exact dyadic inputs."""
+    if len(mu)!=len(alpha):raise ValueError('EXACT_MOMENT_SHAPE')
+    ms=[Fraction.from_float(float(m)) for m in mu]
+    ws=[Fraction.from_float(float(a)) for a in alpha]
+    zs=[m*m for m in ms]
+    norm=sum(ws,Fraction(0))
+    m2=sum((w*(3*z-1)/2 for w,z in zip(ws,zs)),Fraction(0))
+    m4=sum((w*(35*z*z-30*z+3)/8 for w,z in zip(ws,zs)),Fraction(0))
+    return norm,m2,m4
+
+
+def read_native_raw(path):
+    """Read plain JSONL or its repository gzip representation without staging."""
+    path=Path(path)
+    compressed_path=path if path.suffix=='.gz' else path.with_name(path.name+'.gz')
+    if path.suffix!='.gz' and path.exists():
+        with path.open('rb') as f:raw=f.read(MAX_RAW_BYTES+1)
+    else:
+        packed=compressed_path.read_bytes()
+        meta_path=compressed_path.parent/'RAW_STORAGE.json'
+        meta=json.loads(meta_path.read_text()) if meta_path.exists() else None
+        if meta and (meta.get('schema')!='bass.lossless.raw_storage.v1' or meta.get('gzip_sha256')!=digest(packed)):
+            raise ValueError('RAW_STORAGE_IDENTITY')
+        with gzip.GzipFile(fileobj=io.BytesIO(packed),mode='rb') as f:raw=f.read(MAX_RAW_BYTES+1)
+        if meta and (meta.get('raw_sha256')!=digest(raw) or meta.get('raw_bytes')!=len(raw)):
+            raise ValueError('RAW_STORAGE_CONTENT_IDENTITY')
+    if len(raw)>MAX_RAW_BYTES:raise ValueError('RAW_INPUT_TOO_LARGE')
+    return raw
+
+
+def verify_existing_run(existing, prereg):
+    """Reject substituted outputs, old receipts, or changed native dependencies."""
+    spec=prereg['reuse_from']
+    for name,sha in spec['files_sha256'].items():
+        raw=read_native_raw(existing/name) if name=='NATIVE_COHORTS.jsonl' else (existing/name).read_bytes()
+        if digest(raw)!=sha:
+            raise ValueError('REUSE_ARTIFACT_IDENTITY:'+name)
+    previous=json.loads((existing/'RETURN_NATIVE_COHORTS.json').read_text())
+    if (previous.get('owner_commit')!=REI_SHA or previous.get('source_id')!=SOURCE_ID
+            or previous.get('publication',{}).get('commit')!=spec['source_publication_commit']
+            or previous.get('preregistration_sha256')!=spec['preregistration_sha256']
+            or previous.get('native_output_sha256')!=spec['files_sha256']['NATIVE_COHORTS.jsonl']
+            or set(previous.get('pinned_sha256',{}))!=set(PINNED)):
+        raise ValueError('REUSE_EXECUTION_IDENTITY')
+    allowed=set(spec['changed_files_allowed_for_reanalysis'])
+    if any(previous['pinned_sha256'][n]!=prereg['pinned_sha256'][n] for n in PINNED if n not in allowed):
+        raise ValueError('REUSE_NATIVE_INPUT_CHANGED')
+    if not any(c.get('label')=='measure_native_cohorts' and c.get('exit_code')==0 for c in previous['commands']):
+        raise ValueError('REUSE_NATIVE_NOT_COMPLETED')
+    return previous
 
 
 def check_birth_geometry(row, birth, index, gates):
@@ -204,7 +280,7 @@ def continuous_reference(row, order):
 def validate(path, prereg):
     def reject(v):
         raise ValueError('NATIVE_NONFINITE_JSON:'+v)
-    recs = [json.loads(l, parse_constant=reject) for l in path.read_text().splitlines() if l.strip()]
+    recs = [json.loads(l, parse_constant=reject) for l in read_native_raw(path).decode('utf-8').splitlines() if l.strip()]
     if not recs:
         raise ValueError('MISSING_COMPLETION')
     done = recs.pop()
@@ -236,7 +312,7 @@ def validate(path, prereg):
         measured.append(row)
         if len(row['births'])!=row['cohorts'] or row.get('source_id')!=SOURCE_ID:
             raise ValueError('BIRTH_HISTORY_IDENTITY')
-        pred_n = []; pred_u=[]; pred_p=[]; iso_u=[]; iso_p=[]; moments=[]
+        pred_n = []; pred_u=[]; pred_p=[]; iso_u=[]; iso_p=[]; moments=[]; exact_values=[]; witnesses=[]
         iso_mu, iso_w = np.polynomial.legendre.leggauss(256); iso_w*=.5
         for j,birth in enumerate(row['births']):
             u=.8*(j+.5)/row['cohorts']; mu=np.asarray(birth['mu']); alpha=np.asarray(birth['alpha']); energy=np.asarray(birth['energy_alpha'])
@@ -251,8 +327,15 @@ def validate(path, prereg):
                 check(max(abs(alpha-expected_prior))<=g['source_frame_mu_absolute'],'PRIOR_JACOBIAN_BINDING',row,max(abs(alpha-expected_prior)))
             check(max(abs(mu+mu[::-1]))<=g['reflection_absolute'] and max(abs(alpha-alpha[::-1]))<=g['reflection_absolute'], 'REFLECTION',row)
             m2,m4=angular_p24.legendre24(mu); v2=math.fsum(alpha*m2); v4=math.fsum(alpha*m4)
+            norm,e2,e4=exact_moments(mu,alpha); exact_values.append([float(e2),float(e4)])
             if row['mode']!='prior':
-                check(abs(v2)<=g['moment_absolute'] and (row['mode']!='P2P4' or abs(v4)<=g['moment_absolute']), 'MOMENTS',row,[v2,v4])
+                exact_gate=Fraction(str(g['moment_absolute']))
+                check(abs(e2)<=exact_gate and (row['mode']!='P2P4' or abs(e4)<=exact_gate), 'MOMENTS',row,[float(e2),float(e4)])
+                if abs(e2)>exact_gate*Fraction(29,30) or (row['mode']=='P2P4' and abs(e4)>exact_gate*Fraction(29,30)):
+                    witnesses.append({'birth_index':j,'f64_moments':[v2,v4],
+                                      'exact_moments':[[str(e2.numerator),str(e2.denominator)],[str(e4.numerator),str(e4.denominator)]],
+                                      'exact_weight_sum':[str(norm.numerator),str(norm.denominator)],
+                                      'normalized_exact_moments_diagnostic':[float(e2/norm),float(e4/norm)]})
             check(abs(birth['n_birth']/birth['source_amount']-1)<=g['photon_source_relative'], 'PHOTON_SOURCE',row)
             check(abs(birth['source_amount']/(float(source_rate(u))*.8/row['cohorts']/1e-16)-1)<=g['photon_source_relative'], 'OWNER_EMISSIVITY',row)
             r,d=kernels(row['beta']*(row['x_observe']-u),mu)
@@ -279,6 +362,8 @@ def validate(path, prereg):
         metric.update(native_kernel_relative=kernel_res,continuum_same_births_a=iso_a,
                       angular_a_error=row['a_response']-iso_a, a_response=row['a_response'],
                       max_weight_moments=np.max(np.abs(moments),axis=0).tolist(),
+                      max_exact_weight_moments=np.max(np.abs(exact_values),axis=0).tolist(),
+                      exact_moment_boundary_witnesses=witnesses,
                       max_native_ledger_relative=max(row['max_increment_ledger_n_relative'],row['max_increment_ledger_u_relative']),
                       continuity_relative=max(abs(row['energy_continuity_per_h_relative']),abs(row['energy_continuity_half_h_relative'])))
         if row['b0']==.6 and row['n_mu']==32 and row['mode']=='P2P4':
@@ -317,10 +402,47 @@ def validate(path, prereg):
                     lo,hi=g['birth_midpoint_ratio'];check(lo<=ratio<=hi,'BIRTH_MIDPOINT_RATIO',group[0],ratio)
         age.append({'mode':mode,'continuous_reference':ref192.tolist(),'reference_96_192':(ref96-ref192).tolist(),'errors':errors,'ratios':ratios})
     integrity=[f for f in failures if not f['gate'].endswith('_ACCURACY_TARGET')]
-    return {'schema':'bass.native.cohorts.s7.analysis.v1','rows':len(recs),'measured':len(measured),
+    return {'schema':'bass.native.cohorts.s7.analysis.v2','rows':len(recs),'measured':len(measured),
+            'moment_arithmetic': 'Exact Fraction unnormalized weighted sums on stored dyadic alpha/mu; fixed decimal gate3/10^15; f64 moments retained as diagnostics.',
             'support_or_numerical_failures':support,'gate_failures':failures,'integrity_gates_pass':not integrity,
             'accuracy_targets_pass':not failures,'metrics':metrics,'birth_time':age,
             'status':'PASS_SCOPED_NATIVE_COHORTS' if not failures else 'COMPLETED_WITH_RETAINED_GATE_FAILURES'}
+
+
+def revalidate_existing(a):
+    if not 1<=a.timeout<=1800:raise ValueError('EXECUTION_LIMIT')
+    prereg_path=a.prereg.resolve();prereg=json.loads(prereg_path.read_text())
+    published=verify_publication(prereg_path,prereg,a.publication_receipt)
+    previous=verify_existing_run(a.revalidate_existing.resolve(),prereg)
+    out=a.out.resolve()
+    if out.exists():raise FileExistsError(out)
+    out.mkdir(parents=True);started=time.monotonic()
+    receipt={'schema':'bass.native.cohorts.s7.reanalysis.v2','started_utc':datetime.now(timezone.utc).isoformat(),
+             'status':'STARTED','native_rerun':False,'new_compilation':False,
+             'old_execution_publication':previous['publication'], 'original_status':previous['status'],
+             'new_analysis_publication':published,'preregistration_sha256':digest(prereg_path.read_bytes()),
+             'pinned_sha256':prereg['pinned_sha256'],'reused_artifacts_sha256':prereg['reuse_from']['files_sha256'],
+             'limits':{'additional_workers':1,'blas_threads':1,'ram_bytes':RAM,'disk_bytes':DISK,'job_seconds':a.timeout},
+             'numpy_version':np.__version__}
+    try:
+        resource.setrlimit(resource.RLIMIT_AS,(RAM,RAM));resource.setrlimit(resource.RLIMIT_FSIZE,(DISK,DISK));signal.alarm(a.timeout)
+        analysis=validate(a.revalidate_existing.resolve()/'NATIVE_COHORTS.jsonl',prereg)
+        write_json_once(out/'ANALYSIS_R2.json',analysis,indent=2)
+        receipt.update(status=analysis['status'],rows=analysis['rows'],measured=analysis['measured'],
+                       integrity_gates_pass=analysis['integrity_gates_pass'],accuracy_targets_pass=analysis['accuracy_targets_pass'],
+                       analysis_sha256=digest((out/'ANALYSIS_R2.json').read_bytes()))
+        verify_existing_run(a.revalidate_existing.resolve(),prereg)
+        if prereg['pinned_sha256']!={n:digest((ROOT/n).read_bytes()) for n in PINNED}:raise ValueError('SOURCE_CHANGED_DURING_REANALYSIS')
+        receipt['disk_bytes_used']=sum(p.stat().st_size for p in out.rglob('*') if p.is_file())
+        if receipt['disk_bytes_used']>DISK:raise RuntimeError('DISK_LIMIT')
+    except Exception as e:
+        receipt.update(status='FAILED',failure_class=type(e).__name__,failure=str(e));raise
+    finally:
+        signal.alarm(0);receipt['elapsed_seconds']=time.monotonic()-started
+        receipt['python_peak_rss_kib_linux']=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        receipt['admission']={'REI_production':False,'full_EoR':False,'merge':False,'native_coupled_Einstein':False,'full_reactive_history':False}
+        write_json_once(out/'RETURN_NATIVE_COHORTS_R2.json',receipt,indent=2)
+    return receipt
 
 
 def run(a):
@@ -395,8 +517,9 @@ def run(a):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--out',type=Path);p.add_argument('--prereg',type=Path,default=ROOT/'evidence_s7_native/PREREGISTRATION.json')
+    p=argparse.ArgumentParser();p.add_argument('--out',type=Path);p.add_argument('--prereg',type=Path,default=ROOT/'evidence_s7_native/PREREGISTRATION_R2.json')
     p.add_argument('--prepare',action='store_true');p.add_argument('--publication-receipt',type=Path)
+    p.add_argument('--revalidate-existing',type=Path,help='Reanalyse exactly pinned run01 raw files; do not compile or execute native code.')
     p.add_argument('--owner-root',type=Path);p.add_argument('--rei-repo',type=Path);p.add_argument('--rustc')
     p.add_argument('--workers',type=int,default=4);p.add_argument('--timeout',type=int,default=1800)
     a=p.parse_args()
@@ -404,7 +527,7 @@ def main():
         a.prereg.parent.mkdir(parents=True,exist_ok=True);write_json_once(a.prereg,contract(),indent=2)
         print(json.dumps({'preregistration':str(a.prereg),'cases':len(matrix()),'status':'PREPARED_NOT_EXECUTED'}));return
     if not a.out:p.error('--out required for execution')
-    r=run(a);print(json.dumps({k:r[k] for k in ('status','rows','measured','integrity_gates_pass','accuracy_targets_pass','elapsed_seconds')}))
+    r=revalidate_existing(a) if a.revalidate_existing else run(a);print(json.dumps({k:r[k] for k in ('status','rows','measured','integrity_gates_pass','accuracy_targets_pass','elapsed_seconds')}))
     if not r['integrity_gates_pass']:raise SystemExit(2)
 
 

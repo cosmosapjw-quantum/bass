@@ -5,6 +5,8 @@ Use --write-prereg FILE first. Publish source and that file, then supply either
 --git-root CHECKOUT or --publication-receipt JSON with --prereg-commit SHA.
 The external receipt must attest remote Git readback, not merely local intent.
 This harness requires no NCP-specific source edits.
+--revalidate-existing reuses the immutable first execution; it never integrates
+a history. R2 changes the birth moment observer arithmetic, not the gates/rays.
 """
 from __future__ import annotations
 import argparse
@@ -31,6 +33,10 @@ HERE = Path(__file__).resolve().parent
 SOURCE_FILES = ('coupled_cohorts.py', 'run_s7_coupled.py', 'test_s7_coupled.py',
                 'angular_balance.py', 'angular_p24.py', 's6_io.py')
 LANE = 'research/bass_isotropy_response_20261018'
+ORIGIN_PATH = HERE/'evidence_s7_coupled/REVALIDATION_ORIGIN.json'
+UNCHANGED_PLAN_KEYS = ('physics', 'algorithm', 'cases', 'solver', 'gates', 'additional_gates',
+                       'birth_refinement', 'radiation_linear_benchmark', 'isotropic_donor_benchmark',
+                       'limits', 'failure_policy', 'not_admitted')
 
 
 def source_hashes():
@@ -54,7 +60,8 @@ def campaign_definition():
                 cases.append({'id': f'b{tag}_n{n}_{mode}_K64', 'axis': 'angular',
                               'reference': f'ref_b{tag}_K64',
                               'config': asdict(cc.Config(K=64, n=n, mode=mode, b0=b))})
-    return {'schema': 'bass.s7.coupled.preregistration.v1',
+    origin_raw = ORIGIN_PATH.read_bytes()
+    return {'schema': 'bass.s7.coupled.preregistration.v2',
             'physics': 'Closed manufactured donor + collisionless radiation + Lambda; not MD14/native owner history.',
             'algorithm': cc.ALGORITHM_ID, 'source_sha256': source_hashes(),
             'cases': cases, 'solver': {'method': 'DOP853', 'rtol': cc.RTOL, 'atol': cc.ATOL, 'max_step': 0.08},
@@ -75,6 +82,18 @@ def campaign_definition():
                  'continuous_Er': 'exp(-4x)[Er0+lambda Ed0 expm1((1-lambda)min(x,T))/(1-lambda)]',
                  'discrete_injection_over_continuous': '(1-lambda)/lambda*sinh(lambda Delta/2)/sinh((1-lambda)Delta/2)'},
             'limits': {'workers': 1, 'ram_bytes': 16*1024**3, 'disk_bytes': 4*1024**3, 'job_seconds': 1800},
+            'observer_revision': {
+                'id': 'R2_EXACT_DYADIC_BIRTH_MOMENT_OBSERVER',
+                'criterion': 'Unnormalized exact sum(alpha_i P_l(mu_i)) on stored/reconstructed binary64 inputs',
+                'moment_gate_rational': '3/1000000000000000',
+                'P2_modes': ['P2', 'P24'], 'P4_modes': ['P24'],
+                'normalization': 'Separate unchanged Cohort.create normalization criterion',
+                'unchanged': ['weights', 'nodes', 'projector tolerance', 'source event', 'ODE', 'physical gates'],
+                'legacy': 'Original run01 float observer FAIL remains immutable; exact reanalysis is a separate result.',
+                'scope': 'Exact polynomial moments of actual binary64 rays; no continuum/native conservation admission.'},
+            'revalidation_origin': {'path': str(ORIGIN_PATH.relative_to(HERE)),
+                                    'sha256': hashlib.sha256(origin_raw).hexdigest(),
+                                    'record': json.loads(origin_raw)},
             'failure_policy': 'Record positive-support infeasibility with geometry/witness; retain numerical failures; no negative weights or gate relaxation.',
             'not_admitted': ['MD14 feedback', 'native cohort transport', 'spectral convergence', 'production', 'full EoR', 'merge']}
 
@@ -111,6 +130,174 @@ def verify_preregistration(path, commit, receipt_path=None, git_root=None):
         raise ValueError('S7_COMMITTED_READBACK_REQUIRED')
     return plan, {'commit': commit, 'preregistration_sha256': sha256,
                   'preregistration_git_blob_sha': blob, 'verification_method': method}
+
+
+def verify_reuse_inputs(raw_dir, plan):
+    """Bind existing bytes and the unchanged experiment before any reanalysis."""
+    origin = plan['revalidation_origin']['record']
+    if hashlib.sha256(ORIGIN_PATH.read_bytes()).hexdigest() != plan['revalidation_origin']['sha256']:
+        raise ValueError('S7_REUSE_ORIGIN_CHANGED')
+    entries = origin['files']
+    names = [entry['path'] for entry in entries]
+    if len(names) != len(set(names)) or any(Path(n).name != n for n in names):
+        raise ValueError('S7_REUSE_MANIFEST_INVALID')
+    if set(p.name for p in raw_dir.iterdir()) != set(names):
+        raise ValueError('S7_REUSE_RAW_FILE_SET_CHANGED')
+    records = {}
+    for entry in entries:
+        raw = (raw_dir/entry['path']).read_bytes()
+        if len(raw) != entry['bytes'] or hashlib.sha256(raw).hexdigest() != entry['sha256']:
+            raise ValueError('S7_REUSE_RAW_HASH_MISMATCH: '+entry['path'])
+        records[entry['path']] = json.loads(raw)
+    process_raw = (raw_dir.parent/'RUN01_PROCESS.json').read_bytes()
+    if hashlib.sha256(process_raw).hexdigest() != origin['process_receipt_sha256']:
+        raise ValueError('S7_REUSE_PROCESS_RECEIPT_CHANGED')
+    old_prereg_raw = (raw_dir.parent/'PREREGISTRATION.json').read_bytes()
+    if hashlib.sha256(old_prereg_raw).hexdigest() != origin['execution_preregistration_sha256']:
+        raise ValueError('S7_REUSE_EXECUTION_PREREG_CHANGED')
+    old_plan = json.loads(old_prereg_raw)
+    if any(plan[k] != old_plan[k] for k in UNCHANGED_PLAN_KEYS):
+        raise ValueError('S7_REUSE_PHYSICAL_EXPERIMENT_CHANGED')
+    original = records['RETURN_S7_COUPLED.json']
+    if (original['preregistration']['commit'] != origin['execution_commit'] or
+        original['preregistration']['preregistration_sha256'] != origin['execution_preregistration_sha256'] or
+        original['source_sha256'] != origin['execution_source_sha256'] or
+        old_plan['source_sha256'] != origin['execution_source_sha256'] or
+        original['status'] != origin['raw_run01_status']):
+        raise ValueError('S7_REUSE_EXECUTION_IDENTITY_CHANGED')
+    for name in ('angular_balance.py', 'angular_p24.py', 's6_io.py'):
+        if source_hashes()[name] != origin['execution_source_sha256'][name]:
+            raise ValueError('S7_REUSE_PROJECTOR_OR_IO_CHANGED: '+name)
+    return records
+
+
+def reconstruct_birth_certificate(event, config):
+    """Reconstruct only a frozen rule and require its original execution digest."""
+    mu, alpha = cc.birth_rule(event['b_birth'], config.n, config.mode)
+    cohort = cc.Cohort.create(event['u'], event['b_birth'], event['energy_birth'],
+                              mu, alpha, 'new_isotropic_'+config.mode)
+    digest = cohort.digest()
+    if digest != event['birth_rule_sha256']:
+        raise ValueError('S7_REUSE_BIRTH_DIGEST_MISMATCH')
+    return {'u': event['u'], 'b_birth': event['b_birth'], 'energy_birth': event['energy_birth'],
+            'role': cohort.role, 'birth_rule_sha256': digest, 'digest_matches_execution': True,
+            'mu': mu.tolist(), 'alpha': alpha.tolist(),
+            'positive_weights': bool(np.all(alpha > 0)),
+            'reflection_exact': bool(np.array_equal(mu, -mu[::-1]) and np.array_equal(alpha, alpha[::-1])),
+            'normalization_residual_f64': abs(math.fsum(alpha)-1),
+            'legacy_run01_M2': event['birth_M2'], 'legacy_run01_M4': event['birth_M4'],
+            'exact_moment_certificate': cc.exact_birth_moment_certificate(mu, alpha, config.mode)}
+
+
+def revalidate_existing(raw_dir, plan, publication, out):
+    """Analysis-only R2; all ODE histories, benchmarks and force integrals are reused."""
+    started = time.monotonic()
+    records = verify_reuse_inputs(raw_dir, plan)
+    out.mkdir(parents=True, exist_ok=False)
+    origin = plan['revalidation_origin']['record']
+    raw_hashes = {r['path']: r['sha256'] for r in origin['files']}
+    original = records['RETURN_S7_COUPLED.json']
+    summaries, failures = [], []
+    birth_count = constrained_count = old_count = 0
+    legacy_false_births = []
+    for case in plan['cases']:
+        name = case['id']+'.json'
+        if name not in records:
+            failure = records[case['id']+'.failure.json']
+            if failure['id'] != case['id'] or failure['config'] != case['config']:
+                raise ValueError('S7_REUSE_FAILURE_CONFIG_CHANGED')
+            failures.append(failure)
+            continue
+        raw = records[name]
+        if raw['case'] != case:
+            raise ValueError('S7_REUSE_CASE_CONFIG_CHANGED')
+        config = cc.Config(**case['config']); config.validate()
+        old_bank = cc.initial_bank(config)
+        if old_bank.birth_digests != raw['old_stock_digests']:
+            raise ValueError('S7_REUSE_OLD_STOCK_DIGEST_MISMATCH')
+        if len(raw['events']) != len(cc.event_times(config)):
+            raise ValueError('S7_REUSE_EVENT_COUNT_CHANGED')
+        audited = []
+        for index, (event, u) in enumerate(zip(raw['events'], cc.event_times(config))):
+            if event['u'] != float(u):
+                raise ValueError('S7_REUSE_EVENT_TIME_CHANGED')
+            cert = reconstruct_birth_certificate(event, config)
+            cert['birth_index'] = index
+            audited.append(cert)
+            exact = cert['exact_moment_certificate']
+            if exact['applies']:
+                constrained_count += 1
+                legacy_abs = max(abs(event['birth_M2']), abs(event['birth_M4']) if config.mode == 'P24' else 0)
+                if legacy_abs > plan['gates']['moment_abs'] and exact['pass']:
+                    legacy_false_births.append({'id': case['id'], 'birth_index': index,
+                                               'u': event['u'], 'legacy_max_abs': legacy_abs,
+                                               'exact_M2': exact['M2'], 'exact_M4': exact['M4']})
+        gates = dict(raw['gate_results'])
+        gates['birth_moments'] = all(e['exact_moment_certificate']['pass'] for e in audited)
+        exact_max = max((max(abs(e['exact_moment_certificate']['M2']),
+                            abs(e['exact_moment_certificate']['M4']) if config.mode == 'P24' else 0)
+                         for e in audited), default=0.0) if config.mode in ('P2', 'P24') else None
+        trajectory_hash = hashlib.sha256(json.dumps(raw['trajectory'], sort_keys=True,
+                                                    separators=(',', ':'), allow_nan=False).encode()).hexdigest()
+        result = {'schema': 'bass.s7.coupled.case_reanalysis.v2', 'case': case,
+                  'status': 'PASS_SCOPED_REANALYSIS' if all(gates.values()) else 'FAIL',
+                  'execution_commit': origin['execution_commit'], 'analysis_commit': publication['commit'],
+                  'original_raw_sha256': raw_hashes[name], 'trajectory_canonical_sha256': trajectory_hash,
+                  'trajectory_reexecuted': False, 'ray_reconstruction_used_for_evolution': False,
+                  'original_gate_results': raw['gate_results'], 'gate_results': gates,
+                  'max_legacy_f64_birth_moment_abs': raw['max_birth_moment_abs'],
+                  'max_exact_birth_moment_abs': exact_max,
+                  'old_stock_digests': old_bank.birth_digests, 'old_stock_digest_matches': True,
+                  'births': audited,
+                  'unchanged_physics_diagnostics': {k: raw[k] for k in ('max_hamiltonian_relative',
+                       'max_cohort_energy_relative', 'max_event_energy_relative', 'donor_endpoint_relative',
+                       'cohorts', 'nfev')}}
+        write_json_once(out/(case['id']+'.exact_reanalysis.json'), result, indent=1)
+        summaries.append({k: v for k, v in result.items() if k not in ('births', 'case')} |
+                         {'id': case['id'], 'axis': case['axis'], 'config': case['config'],
+                          'birth_count': len(audited), 'old_stock_count': len(old_bank.cohorts)})
+        birth_count += len(audited); old_count += len(old_bank.cohorts)
+        print(case['id']+' '+result['status']+' REUSED_TRAJECTORY', flush=True)
+        check_disk(out)
+    if len(summaries) != original['cases_completed'] or len(summaries)+len(failures) != original['cases_attempted']:
+        raise ValueError('S7_REUSE_CASE_INVENTORY_CHANGED')
+    verify_reuse_inputs(raw_dir, plan)
+    gates = dict(original['gate_results'])
+    gates['all_completed_history_gates'] = all(all(s['gate_results'].values()) for s in summaries)
+    gates.update({'all_birth_digests_match': True, 'all_old_stock_digests_match': True,
+                  'raw_inputs_unchanged': True, 'same_physical_cases_and_gates': True})
+    receipt = {'schema': 'bass.s7.coupled.exact_reanalysis_return.v2',
+               'status': 'PASS_SCOPED_REANALYSIS' if all(gates.values()) else 'FAIL',
+               'original_execution_status': original['status'], 'original_gate_results': original['gate_results'],
+               'gate_results': gates, 'execution_commit': origin['execution_commit'],
+               'execution_preregistration_sha256': origin['execution_preregistration_sha256'],
+               'execution_source_sha256': origin['execution_source_sha256'],
+               'analysis_publication': publication, 'analysis_source_sha256': source_hashes(),
+               'raw_origin_sha256': plan['revalidation_origin']['sha256'],
+               'raw_files_bound_and_unchanged': len(origin['files']),
+               'trajectory_reexecuted': False, 'benchmark_reexecuted': False,
+               'ray_reconstruction_used_for_evolution': False,
+               'observer_revision': plan['observer_revision'], 'scope': plan['physics'],
+               'cases_attempted_in_original_execution': original['cases_attempted'],
+               'histories_reanalyzed': len(summaries), 'feasibility_failures_reused': failures,
+               'birth_rules_reconstructed': birth_count, 'constrained_birth_rules': constrained_count,
+               'old_stock_cohorts_digest_verified': old_count,
+               'legacy_float_false_failures_exact_pass': legacy_false_births,
+               'cases': summaries,
+               'unchanged_execution_results': {k: original[k] for k in ('max_hamiltonian_relative',
+                   'max_cohort_energy_relative', 'max_event_energy_relative', 'max_duhamel_identity_abs',
+                   'reference_n128_vs256_max', 'radiation_linear_error_ratios',
+                   'isotropic_donor_continuous_error_ratios', 'birth_refinement')},
+               'wall_seconds': time.monotonic()-started,
+               'maxrss_kib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+               'disk_bytes_used': check_disk(out), 'limits': plan['limits'],
+               'NCP': 'NOT_USED; analysis-only local reuse of the original local manufactured campaign',
+               'not_admitted': plan['not_admitted']}
+    write_json_once(out/'RETURN_S7_COUPLED_REANALYSIS.json', receipt, indent=2)
+    print(json.dumps({k: receipt[k] for k in ('status', 'original_execution_status', 'gate_results',
+                        'histories_reanalyzed', 'birth_rules_reconstructed', 'constrained_birth_rules',
+                        'old_stock_cohorts_digest_verified', 'wall_seconds')}, indent=2))
+    return 0 if all(gates.values()) else 2
 
 
 def linear_benchmark(plan):
@@ -186,6 +373,8 @@ def main():
     parser.add_argument('--publication-receipt', type=Path)
     parser.add_argument('--git-root', type=Path)
     parser.add_argument('--out', type=Path)
+    parser.add_argument('--revalidate-existing', type=Path,
+                        help='Reuse immutable run01 bytes; exact moment analysis only, no ODE execution')
     args = parser.parse_args()
     if args.write_prereg:
         args.write_prereg.parent.mkdir(parents=True, exist_ok=True)
@@ -195,6 +384,8 @@ def main():
         parser.error('--prereg and --out are required for execution')
     plan, publication = verify_preregistration(args.prereg, args.prereg_commit, args.publication_receipt, args.git_root)
     apply_limits()
+    if args.revalidate_existing:
+        return revalidate_existing(args.revalidate_existing, plan, publication, args.out)
     args.out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
     histories, summaries, failures = {}, [], []
