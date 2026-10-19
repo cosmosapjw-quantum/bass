@@ -11,11 +11,11 @@
 | 보존 단계 | 실제 작업·판정 | 다음 행동 |
 |---|---|---|
 | S8 Stage0 | `2d5d2348` 게시·원격 readback, 양쪽 클라우드 백업 완료; Drive raw ZIP manifest10/10 및 Dropbox provider hash 일치 | post-upload receipt를 Stage1에 포함 |
-| S8 Stage1 | source/prereg 고정; tangent12 + native Rust6/Python11 + 독립 Fraction24/Decimal7 PASS | 이 source snapshot 게시·readback·이중 백업 |
-| S8 Stage2 | 과학 캠페인 미실행 | 사전등록 게시 readback 뒤 새로운 입력만 실행 |
+| S8 Stage1 | `4508e5de` source·prereg 게시, 원격21파일 원바이트 대조, Drive35/35 payload·Dropbox provider hash 일치 | 새8적분·18native 입력 실행 |
+| S8 Stage2 | native18입력17측정, finest6 PASS·저해상도8목표 미달·수치 실패1; tangent7적분 저장 후 JSON 직렬화 실패 | 원자료·실패·최소 재개 사전등록 게시·백업 후 미실행 gauge1개만 수행 |
 | S8 Closeout | 미완료 | 실제 결과·실패·그림·DAG·복사 가능한 인계·이중 readback |
 
-Tangent 구현은 초기 `y0=s0/H*`를 섭동한다. `h0`의 도함수, 현재기하, 각 출생의 `b(u)`, source-frame `mu`, 양의 KL weights의 implicit derivative를 포함한다. 저장된 두 nonlinear history의 forcing을 접선식 입력으로 쓰지 않는다. 고정 출생시간·donor에서 event sensitivity를 처리하고 중앙차분 nonlinear history 세 쌍 및 항 누락 negative controls와 비교한다. 고정된 실행 수는 tangent 적분8개와 native 새 case18개다. 정식 캠페인은 아직0회다.
+Tangent 구현은 초기 `y0=s0/H*`를 섭동한다. `h0`의 도함수, 현재기하, 각 출생의 `b(u)`, source-frame `mu`, 양의 KL weights의 implicit derivative를 포함한다. 저장된 두 nonlinear history의 forcing을 접선식 입력으로 쓰지 않는다. 고정 출생시간·donor에서 event sensitivity를 처리하고 중앙차분 nonlinear history 세 쌍 및 항 누락 negative controls와 비교한다. 고정된 실행 수는 tangent 적분8개와 native 새 case18개다. Stage1 게시·이중 readback 후 원래18 native 입력과 tangent7적분을 실제 수행했다. 남은 gauge1개는 아래 재개 사전등록을 따른다.
 
 Native 경로는 원 `AxbiSource.angular_cells`와 `CovariantTransport`의 공개 인터페이스를 이용한다. 새 source의 GL64/128/256만 추가하고 spectral cell/rate/integral 소유자는 원본 그대로 유지한다. 기존 n32 stock은 원래 block에서 보존하며 새 grid로 remesh하지 않는다. 동일 새 support의 prior/P2/P24와 고정 birth/bin/panel에서의 n 변화는 별도 비교다. S7의 n32 오차와 feasibility 실패는 불변 기준으로 재사용한다.
 
@@ -34,3 +34,9 @@ Source owner: `cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf0
 ## Stage1 source freeze
 
 `evidence_s8_tangent/PREREGISTRATION.json` SHA256 `6f88cac768b78c324705590bf6a7e5b2912311f3a4c9494d958a1e4ed2c2ba58`; `evidence_s8_native/PREREGISTRATION.json` SHA256 `df1752714e285ffff797e531fc4c5104e9b129266458f746ff0741a3aeff225c`. Pin된 소스8개/14개를 각각 대조했다. 독립 검토의 publication receipt path binding 및 finest feasibility 분류 finding2개는 고정 전에 닫았다. `S8_THEORY_REVIEW_KO.md`는 prepublication 검토 PASS이고 과학 campaign PASS가 아니다.
+
+## Stage2 실제 실행과 제한된 수선
+
+Native 원 owner57개 불변,17측정의 native kernel/discrete 응답 차이는 수치 정밀도 범위였고 기존32-ray block SHA가 보존됐다. 그러나 `b9_n64_P2P4`는 엄밀한 내부 support에서 `INNER_P2_PRECISION_LIMIT`로 중단돼 campaign integrity는 FAIL이다. 256-ray 여섯 목표의 PASS와 구분한다. 미증명 solver 변경이나 재실행으로 덮지 않는다.
+
+Tangent는 원7개 이력의 byte hash와 exit1 로그를 고정했다. `gate_results.richardson_accuracy`의 NumPy boolean이 JSON serializer에 걸린 구현 오류다. 새 `run_s8_tangent_resume.py`와 사전등록은 기존7raw를 SHA-bound로 재사용하고 bool 값의 의미만 유지해 직렬화하며, 미실행 gauge1개만 적분한다. 원 source·원 prereg·물리식·gate는 변경하지 않는다. serializer 회귀2개 PASS, gauge는 재개 사전등록의 게시·백업 전까지0회다.

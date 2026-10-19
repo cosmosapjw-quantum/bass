@@ -1,0 +1,34 @@
+PRIMARY_ANALYTIC PASS
+FD_EPS0_MINUS PASS
+FD_EPS0_PLUS PASS
+FD_EPS1_MINUS PASS
+FD_EPS1_PLUS PASS
+FD_EPS2_MINUS PASS
+FD_EPS2_PLUS PASS
+Traceback (most recent call last):
+  File "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/run_s8_tangent.py", line 310, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/run_s8_tangent.py", line 267, in main
+    write_json_once(args.out/'FINITE_DIFFERENCE_ASSESSMENT.json', assessment, indent=1)
+  File "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s6_io.py", line 22, in write_json_once
+    text = json.dumps(value, allow_nan=False, **kw)+'\n'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
