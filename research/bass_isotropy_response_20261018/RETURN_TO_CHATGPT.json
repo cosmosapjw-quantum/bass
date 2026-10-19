@@ -1,7 +1,7 @@
 {
-  "schema": "bass.isotropy.continuation_return.v5",
+  "schema": "bass.isotropy.continuation_return.v6",
   "date_utc": "2026-10-19",
-  "stage": "SCIENTIFIC_UNIT_COMPLETE_FOUR_ARCHIVES_DUAL_CLOUD_VERIFIED",
+  "stage": "S6_SCOPED_COMPLETE_COUPLED_FEEDBACK_PENDING",
   "baseline_commit": "a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
@@ -66,10 +66,10 @@
   },
   "scope": "Only new explicitly locally isotropic source angular quadrature; fixed birth weights, original spectral owner, existing radiation preserved.",
   "remaining_obligations": [
-    "Finite-d continuum angular error and angular refinement envelope",
-    "Exact rank1 executable certificate",
-    "Fixed-owner finite-bin spectral refinement and residual diagnosis",
-    "Source-age convolution and coupled Einstein/shear feedback"
+    "Coupled Einstein/shear feedback execution",
+    "Native source-age cohort composition",
+    "Transport/absorption/history spectral convergence",
+    "Measured impact of native n_mu<=32 for |b+d|>~0.6"
   ],
   "production_admission": false,
   "auto_merge": false,
@@ -88,13 +88,116 @@
     "theory": "pass_scoped",
     "positive_projection": "pass_scoped",
     "native_new_source_transfer": "pass_scoped",
-    "native_spectral_convergence": "not_run",
     "coupled_shear_evolution": "not_run",
     "production_full_EoR": "not_run",
-    "dual_cloud_closeout": "pass_scoped_four_original_archives"
+    "dual_cloud_closeout": "pass_scoped_four_original_archives",
+    "finite_d_certificate": "pass_scoped",
+    "refinement_rate_preregistered": "fail_preserved",
+    "refinement_rate_holdout": "pass",
+    "rank1_certificate": "pass_scoped_python",
+    "native_spectral_source_deposition": "pass_scoped_explained",
+    "source_age_prescribed": "pass_scoped"
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Fresh backup/PR comparison; reuse verified S2/S3/native evidence, then address pending S6 obligations. The completed four-archive storage recovery is not a reason to repeat scientific runs.",
-  "storage_recovery_science_rerun": false
+  "next_first_action": "Fresh backup/PR comparison; reuse S2/S3/S5/S6 evidence; next is the coupled Einstein/shear execution per evidence_s6/COUPLED_FEEDBACK_CONTRACT.json and native source-age composition.",
+  "storage_recovery_science_rerun": false,
+  "S6": {
+    "status": "PASS_SCOPED_PARTIAL_S6_COUPLED_NOT_RUN",
+    "date_utc": "2026-10-19",
+    "theory": "S6_THEORY_KO.md",
+    "results": "S6_RESULTS_KO.md",
+    "intake": "evidence_s6/INTAKE.json",
+    "S6a_finite_d": {
+      "status": "PASS_SCOPED_CERTIFICATE_PREREGISTERED_RATE_GATE_FAILED_HOLDOUT_PASS",
+      "identity": "A_alpha-A_iso=sum_l k_l(d) M_l/F_alpha",
+      "rho": "sqrt(coth(3|d|/2))",
+      "rho_star": "min(rho(b),rho(b+d))",
+      "stored_rules": 146,
+      "certificate_points": 1460,
+      "max_stored_reproduction": 2.220446049250313e-16,
+      "max_tail_L100": 1.0047069459823797e-22,
+      "G5_rate_gate": "FAIL 38/344 pre-asymptotic (2n ln rho*<=6.38); preserved",
+      "holdout": {
+        "status": "PASS",
+        "asymptotic_pairs": 30,
+        "ratio_range": [
+          0.78060615263164,
+          1.0053117173164674
+        ],
+        "rejections": 8
+      },
+      "S6_4_theorem_points": 910,
+      "S6_4_min_bound_over_actual": 3.472307428681136,
+      "constraint_effect": {
+        "above_noise_pairs": 238,
+        "improved": 194,
+        "worsened": 44,
+        "max_collateral_over_targeted": 0.4684768442514991
+      },
+      "receipts": [
+        "evidence_s6/finite_d_r1/RETURN_S6_FINITE_D.json",
+        "evidence_s6/finite_d_r2/RETURN_S6_FINITE_D.json",
+        "evidence_s6/finite_d_r3/RETURN_S6_FINITE_D.json",
+        "evidence_s6/refinement_holdout/RETURN_S6_REFINEMENT_HOLDOUT.json",
+        "evidence_s6/refinement_holdout_r2/RETURN_S6_REFINEMENT_HOLDOUT.json"
+      ]
+    },
+    "S6b_rank1": {
+      "status": "PASS_SCOPED_PYTHON_EXACT_CERTIFICATE_PATH",
+      "module": "rank1_certificate.py",
+      "certificate_schema": "bass.rank1_support_certificate.v1",
+      "native_or_rust": "not built; native n_mu 8/16/32 has >=4 distinct z",
+      "real_campaign_use": "none (0 UNRESOLVED_RANK1 rows)",
+      "binding_half_width_z": "2^-48"
+    },
+    "S6c_spectral": {
+      "status": "PASS_SCOPED_SOURCE_DEPOSITION_RESIDUAL_EXPLAINED",
+      "explanation": "5.369926725506957e-12 = GL8 (native deposition) vs Simpson-32 (AxbiSource cell energy mean) mismatch; Simpson reference truncation, cps^-4; GL8 within 1e-16 of 40-digit reference; max is +1 ulp of 5.369704680902032e-12",
+      "native_runs": {
+        "run01": "evidence_s6/spectral/run01",
+        "run02_committed_prereg": "evidence_s6/spectral/run02_r2prereg"
+      },
+      "preregistration_commit": "18a4f96f5e3b0a560993f5f295cabf674d0e1445",
+      "rows": 26,
+      "max_native_minus_predicted": 2.220446049250313e-16,
+      "doubling_ratios": [
+        16.25190256498714,
+        16.061488204767713,
+        16.015562913907285,
+        16.06382978723404
+      ],
+      "scope": "source deposition only; not transport/absorption/history spectral convergence"
+    },
+    "S6d_source_age": {
+      "status": "PASS_SCOPED_PRESCRIBED_GEOMETRY_COHORTS",
+      "max_identity_relative": 2.990602486719942e-15,
+      "birth_ratio_range": [
+        3.898863473342775,
+        4.028640874658705
+      ],
+      "leading_P4_formula_underestimate": "1.33-2.08x at d<=0.3",
+      "receipts": [
+        "evidence_s6/source_age/RETURN_S6_SOURCE_AGE.json",
+        "evidence_s6/source_age_r2/RETURN_S6_SOURCE_AGE.json"
+      ],
+      "attempt0": "evidence_s6/source_age_attempt0_impl_fail (implementation failure)",
+      "coupled_feedback": "NOT_RUN; contract evidence_s6/COUPLED_FEEDBACK_CONTRACT.json; equation matched to owner axbi_background.rs omitted_feedback"
+    },
+    "tests": {
+      "test_s6": 22,
+      "log": "evidence_s6/TEST_S6_R2.log"
+    },
+    "independent_review": {
+      "code": "evidence_s6/INDEPENDENT_CODE_REVIEW.md",
+      "theory": "evidence_s6/INDEPENDENT_THEORY_REVIEW.md"
+    },
+    "NCP": "NOT_RUN_NOT_REQUIRED_FOR_S6_SCOPE",
+    "remaining": [
+      "Coupled Einstein/shear feedback execution",
+      "Native source-age cohort composition",
+      "Transport/absorption/history spectral convergence",
+      "Measured impact of native n_mu<=32 for |b+d|>~0.6"
+    ]
+  }
 }

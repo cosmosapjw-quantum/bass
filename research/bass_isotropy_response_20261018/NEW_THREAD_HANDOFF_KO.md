@@ -18,7 +18,7 @@ Path research/bass_isotropy_response_20261018/
 
 먼저 Dropbox /BASS_BACKUPS 및 Google Drive /BASS_BACKUPS에서 새 실행결과를 읽고 GitHub HEAD/PR와 대조해.
 Drive 폴더 ID는 1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y이며 네 백업은 원본 binary ZIP이다. 현재 readback과 역사적 실패 영수증을 구별하라.
-README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json,
+README_KO.md, S6_THEORY_KO.md, S6_RESULTS_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json,
 THEORY_KO.md, S3_THEORY_KO.md, S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md,
 CODEX_HANDOFF_KO.md, 실제 source/receipt/independent review를 읽어.
 
@@ -32,6 +32,12 @@ D의0~3차 Legendre 유도와1023 exact-support검산;
 독립 Python/Rust/native 검토 완료. NCP는 실행하지 않았으며 현재 native 검증은 sandbox에서 끝났어.
 새 결과가 없거나 관련 source가 바뀌지 않았다면 이미 끝난 캠페인을 반복하지 마.
 
+S6(2026-10-19) 완료 범위: 유한 d 오차의 정확한 moment 분해와 엄밀 tail(ρ(d)=sqrt(coth(3|d|/2)), 저장 146rule/1460점),
+refinement 수렴률 ρ*=min(ρ(b),ρ(b+d))는 사전gate FAIL(38/344, pre-asymptotic) 보존·held-out PASS,
+P2→P24 변화의 ℓ=4/ℓ≥6 분리, exact rank1 certificate Python 경로(rank1_certificate.py),
+5.369926725506957e-12=owner Simpson-32 기준값 절단 오차(native 26행 run01/run02 PASS, commit된 사전등록 R2),
+처방 기하 source-age cohort 합성 PASS, test_s6 22 PASS, 독립 code/theory 검토 반영.
+S6 결과는 S6_THEORY_KO.md, S6_RESULTS_KO.md, evidence_s6/를 읽어라. 이미 끝난 S6 실행을 반복하지 마라.
 핵심 유도: F=<R>, G=<D>, A=G/F, M_l=<P_l>.
 D'(0)=-(8/5)P0-(10/7)P2+(36/35)P4.
 M2=0이면 A'(0)=-8/5+(36/35)M4.
@@ -39,9 +45,11 @@ M2=M4=0이어도 A''(0)=16/7+(216/77)M6.
 P4 제약과 angular refinement는 서로 다른 효과이며 continuum accuracy를 자동 보증하지 않아.
 Native에서는 birth-energy 정규화 G'를 측정했으며 ledger와 source-cell energy 진단을 별도로 확인했어.
 
-미완료: finite-d continuum angular error/고차 moments, exact rank1의 실행 certificate,
-고정 spectral owner refinement 및 에너지 상대차5.369926725506957e-12 설명,
-실제 source-age 합성과 coupled Einstein/shear feedback. P6 제약이나 history 실행이 완료됐다고 가정하지 마.
+다음 미완료 의무:
+(1) evidence_s6/COUPLED_FEEDBACK_CONTRACT.json에 따른 coupled Einstein/shear 실행(식 ds/dt+3Hs=(8πG/3c²)ΔP는 owner axbi_background.rs omitted_feedback과 일치 확인, 실행은 안 됨).
+(2) native source-age cohort 합성. (3) transport/absorption/history 범위의 spectral 수렴.
+(4) |b+d|≳0.6에서 native n_mu≤32 angular 해상도 부족의 실제 영향 측정.
+P6 이상 제약 알고리즘, coupled history, 전체 spectral 수렴이 완료됐다고 가정하지 마라.
 
 Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b),
 s=dot b, Sigma=sqrt(3)|s|/H를 유지해. 새 명시적 등방 source angular quadrature만 보정하고

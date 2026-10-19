@@ -1,0 +1,106 @@
+{
+  "schema": "bass.s6a.refinement_holdout.v1",
+  "status": "PASS_SCOPED",
+  "gates": {
+    "asymptotic_x_min": 10.0,
+    "asymptotic_ratio": [
+      0.7,
+      1.4
+    ],
+    "all_pairs_ratio_max": 1.4,
+    "floor": 1e-11
+  },
+  "grid": {
+    "b": [
+      -0.5,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "n": [
+      12,
+      24,
+      48,
+      96,
+      192
+    ],
+    "d": [
+      -0.15,
+      -0.05,
+      0.05,
+      0.15
+    ]
+  },
+  "rules_attempted": 60,
+  "rules_measured": 52,
+  "rejections": [
+    {
+      "b": -0.5,
+      "n": 12,
+      "mode": "P24",
+      "error": "INFEASIBLE_P24_UPPER"
+    },
+    {
+      "b": 0.5,
+      "n": 12,
+      "mode": "P24",
+      "error": "INFEASIBLE_P24_UPPER"
+    },
+    {
+      "b": 0.7,
+      "n": 12,
+      "mode": "P2",
+      "error": "INFEASIBLE_ANGULAR_SUPPORT"
+    },
+    {
+      "b": 0.7,
+      "n": 12,
+      "mode": "P24",
+      "error": "INFEASIBLE_P24_MEAN"
+    },
+    {
+      "b": 0.9,
+      "n": 12,
+      "mode": "P2",
+      "error": "INFEASIBLE_ANGULAR_SUPPORT"
+    },
+    {
+      "b": 0.9,
+      "n": 12,
+      "mode": "P24",
+      "error": "INFEASIBLE_P24_MEAN"
+    },
+    {
+      "b": 0.9,
+      "n": 24,
+      "mode": "P2",
+      "error": "INFEASIBLE_ANGULAR_SUPPORT"
+    },
+    {
+      "b": 0.9,
+      "n": 24,
+      "mode": "P24",
+      "error": "INFEASIBLE_P24_MEAN"
+    }
+  ],
+  "pairs": 100,
+  "asymptotic_pairs": 30,
+  "failures": [],
+  "asymptotic_ratio_range": [
+    0.78060615263164,
+    1.0053117173164674
+  ],
+  "all_ratio_max": 1.0751751151356792,
+  "preasymptotic_ratio_min": 0.43231805428923475,
+  "source_sha256": {
+    "finite_d_error.py": "f8f78c387a4582e4c7d09b313e7a700f5ca75874ec0658f104045e86b664bdf7",
+    "run_s6_refinement_holdout.py": "8e66e24f8f82dc480151e719b6e84ceae7d28eca0f4a2770af149178a5092b7a",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee"
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "wall_seconds": 1.6178761119954288,
+  "maxrss_kib": 39832,
+  "disk_bytes_used": 35875
+}

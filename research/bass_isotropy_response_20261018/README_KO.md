@@ -1,4 +1,23 @@
-# BASS S3와 native 새 source 보정: 실제 실행 완료
+# BASS S3·native·S6: birth isotropy, 유한 d 오차, spectral 잔차
+
+2026-10-19 S6 갱신. [S6_THEORY_KO.md](S6_THEORY_KO.md), [S6_RESULTS_KO.md](S6_RESULTS_KO.md).
+
+| S6 결과 | 판정 | 근거 |
+|---|---|---|
+| 유한 d 오차의 정확한 moment 분해 \(\mathcal A_\alpha-\mathcal A_{\rm iso}=\sum k_\ell(d)M_\ell/F_\alpha\), \(\rho(d)=\sqrt{\coth(3|d|/2)}\), 엄밀 tail | PASS(146 저장 rule, 1460점) | [r3](evidence_s6/finite_d_r3/RETURN_S6_FINITE_D.json) |
+| Refinement 수렴률 \(\rho_*=\min(\rho(b),\rho(b+d))\) | 사전 gate **FAIL 보존**(38/344, pre-asymptotic), held-out PASS | [held-out](evidence_s6/refinement_holdout_r2/RETURN_S6_REFINEMENT_HOLDOUT.json) |
+| 제약 vs refinement 분리 | P2→P24 변화=ℓ=4 목표항+ℓ≥6 부수항(≤47%); 238쌍 중 44쌍 악화 | [CONSTRAINT_EFFECT](evidence_s6/finite_d_r3/CONSTRAINT_EFFECT.json) |
+| Exact rank1 certificate 실행 경로 | PASS(Python, exact Fraction) | `rank1_certificate.py` |
+| 5.369926725506957e-12 설명 | Simpson-32 기준값 절단 오차(GL8 native는 1e-16 이내), cps⁻⁴; native 26행 2회 PASS | [run02](evidence_s6/spectral/run02_r2prereg/RETURN_SPECTRAL_REFINEMENT.json) |
+| Source-age cohort 합성(처방 기하) | PASS; 결합 Einstein feedback **미실행**(계약만) | [source_age_r2](evidence_s6/source_age_r2/RETURN_S6_SOURCE_AGE.json) |
+
+Moment 제약만으로 보장되는 오차는 차수당 약 \(\rho(d)^2\)배만 줄어든다. d=0.2에서 이 상한으로
+1e-6을 보장하는 데 충분한 차수는 P2…P24다. 현재 native n_mu≤32는 \(\max(|b|,|b+d|)\gtrsim0.6\)에서
+angular 해상도가 부족할 것으로 예측된다. 독립 code/theory 검토의 지적은 모두 반영했다.
+
+---
+
+## (이전) S3와 native 새 source 보정: 실제 실행 완료
 
 2026-10-19. **P2 birth isotropy와 이후 collisionless shear response는 서로 다른 조건**임을
 직접 유도·검산했다. 양의 P2/P4 Python/Rust 보정, 분리된 angular 캠페인 및 고정 REI
@@ -37,8 +56,8 @@ non-tilted local orthonormal frame을 명시해야 한다.
 Measured native derivative와 실제 energy-moment 식의 차이는 최대 `1.30149e-10`이었다.
 이 native quantity는 birth energy로 나눈 `G'(0)`이다. A의 현재 energy 정규화와 구별한다.
 
-Native energy와 고정 source-cell 평균의 최대 상대 차이 `5.36993e-12`는 그대로 남긴
-진단값이다. 24/96-bin 비교만으로 spectral convergence를 인증하지 않는다.
+Native energy와 고정 source-cell 평균의 최대 상대 차이 `5.36993e-12`는 S6에서 owner 기준값
+(Simpson-32)의 절단 오차로 설명됐다. 24/96-bin 비교만으로 spectral convergence를 인증하지 않는다.
 Native job은 Rust1.94.1로14.96초, 관측된 child peak RSS339804KiB,
 생성 disk16409633bytes였다. NCP는 실행하지 않았고 현재 native 범위의 미실행 의무는 없다.
 
@@ -55,8 +74,8 @@ spectral owner를 유지하고 feasibility 실패를 음의 weights나 tolerance
 보존한다. [Codex handoff](CODEX_HANDOFF_KO.md), [새 대화 handoff](NEW_THREAD_HANDOFF_KO.md)는
 이미 완료된 캠페인을 반복하지 않고 새 백업·PR 결과를 먼저 대조하도록 한다.
 
-남은 연구는 finite-d continuum error/고차 moment, exact rank1 실행 certificate,
-고정 owner spectral refinement/잔차 설명, source-age 합성과 coupled shear feedback이다.
+S6 이후 남은 연구는 coupled Einstein/shear feedback 실행, native source-age 합성,
+transport/absorption/history 범위의 spectral 수렴, native n_mu≤32의 큰 비등방 영향 측정이다.
 현재 P2/P4 일치나 제한 native ledger 통과를 continuum, 전체 finite-bin 보존,
 REI production 또는 full EoR 승인으로 확대하지 않는다. Draft PR174는 merge하지 않는다.
 

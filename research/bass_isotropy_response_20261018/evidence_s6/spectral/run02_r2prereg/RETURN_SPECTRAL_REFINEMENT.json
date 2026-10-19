@@ -1,0 +1,123 @@
+{
+  "schema": "bass.s6c.spectral_refinement.v1",
+  "started_utc": "2026-10-19T09:17:29.121577+00:00",
+  "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "preregistration": "/home/cosmosapjw/worktrees/bass-pr174-s6-20261019/research/bass_isotropy_response_20261018/evidence_s6/spectral/PREREGISTRATION_R2.json",
+  "preregistration_sha256": "fda9d2c49796bba03b6e93acadecbcc8f05d700c1e1e1dcd3b4192e48cf6ed3e",
+  "limits": {
+    "additional_workers": 4,
+    "native_threads": 1,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "job_seconds": 1800
+  },
+  "implementation_sha256": {
+    "native_adapter.rs": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+    "spectral_probe.rs": "550606111498dc46d7b3ac743a5dd8e735a5c7195b8e427c9824a236dc69f33a",
+    "balance.rs": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+    "balance_p24.rs": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14"
+  },
+  "runner_sha256": "38b9ae64d4b9fc7c5de5c2511490a0b4e1f201379ee90dd480240cb2bfe65bc4",
+  "spectral_residual_sha256": "59575174d214bb1609eb6028e57901487ef4f871f0c3baca6be844254ef899af",
+  "commands": [
+    {
+      "label": "compiler_version",
+      "args": [
+        "/home/cosmosapjw/.cargo/bin/rustc",
+        "-Vv"
+      ],
+      "exit_code": 0,
+      "seconds": 2.753556962008588
+    },
+    {
+      "label": "compile_owner",
+      "args": [
+        "/home/cosmosapjw/.cargo/bin/rustc",
+        "--crate-name",
+        "rei_microphysics",
+        "--crate-type",
+        "rlib",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/owner_source/rust/rei_microphysics/src/lib.rs",
+        "-o",
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/build/librei_microphysics.rlib"
+      ],
+      "exit_code": 0,
+      "seconds": 16.63363046804443
+    },
+    {
+      "label": "compile_spectral_probe",
+      "args": [
+        "/home/cosmosapjw/.cargo/bin/rustc",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/build/spectral_probe.rs",
+        "--extern",
+        "rei_microphysics=/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/build/librei_microphysics.rlib",
+        "-o",
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/build/spectral_probe"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8467529430054128
+    },
+    {
+      "label": "measure_spectral_refinement",
+      "args": [
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/build/spectral_probe",
+        "/tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/SPECTRAL_REFINEMENT.jsonl"
+      ],
+      "exit_code": 0,
+      "seconds": 0.05129941203631461
+    }
+  ],
+  "status": "PASS_SCOPED_SPECTRAL_REFINEMENT",
+  "preregistration_commit": "18a4f96f5e3b0a560993f5f295cabf674d0e1445",
+  "source_mode": "PINNED_RAW_GITHUB_BLOBS",
+  "owner_verification": {
+    "files": 57,
+    "bytes": 614313,
+    "all_git_blob_sha_and_sha256_match": true
+  },
+  "elapsed_seconds": 26.791763629065827,
+  "rustc_version": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+  "validation": {
+    "gates": {
+      "per_row": true,
+      "spread_over_n_energy": true,
+      "cps_doubling_ratio": true,
+      "spread_over_angular": true
+    },
+    "row_failures": [],
+    "spread_over_n_energy": {
+      "4": 2.220446049250313e-16,
+      "8": 0.0,
+      "16": 2.220446049250313e-16,
+      "32": 0.0,
+      "64": 0.0
+    },
+    "cps_doubling_ratio": {
+      "4->8": 16.25190256498714,
+      "8->16": 16.061488204767713,
+      "16->32": 16.015562913907285,
+      "32->64": 16.06382978723404
+    },
+    "angular_spread_cps64": 0.0,
+    "max_abs_native_minus_predicted": 2.220446049250313e-16,
+    "max_abs_photon_relative": 4.440892098500626e-16,
+    "max_derivative_abs": 1.2999379350731033e-10
+  },
+  "native_output_sha256": "c400db5f51e1bc09f73ee0085bca20ce80017f9c570d1c628a42b10bc6b0c40e",
+  "artifact_sha256": {
+    "spectral_probe": "930d30f362803915c79c6081209f8db3d342c6cef0326ee35b5d00f786a00453",
+    "librei_microphysics.rlib": "e5d5f55214cf89bb74ad7f2b0a4019649163b03ca50a770e04ae28bea0925127"
+  },
+  "artifact_sha256_note": "Build-path dependent; not a reproducibility key. Use native_output_sha256.",
+  "disk_bytes_used": 11896503,
+  "children_peak_rss_kib_linux": 330660,
+  "scope": "Source deposition only: photon/energy totals, ledgers, energy moments and frozen-birth linear response vs panels and bins. Not transport, absorption or history convergence."
+}

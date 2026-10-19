@@ -12,7 +12,7 @@ Draft PR https://github.com/cosmosapjw-quantum/bass/pull/174
 연구 경로 research/bass_isotropy_response_20261018/
 
 먼저 Dropbox /BASS_BACKUPS와 Google Drive /BASS_BACKUPS의 새 실행결과를 현재 GitHub HEAD/PR174 최신 댓글과 대조하라.
-README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S3_THEORY_KO.md,
+README_KO.md, S6_THEORY_KO.md, S6_RESULTS_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S3_THEORY_KO.md,
 S3_RESULTS_KO.md, NATIVE_ADAPTER_KO.md, 각 실행 receipt와 독립 review를 읽어라.
 Drive 폴더 ID는 1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y이며 네 백업은 원본 binary ZIP이다. 현재 readback과 역사적 실패 영수증을 구별하라.
 
@@ -39,6 +39,12 @@ S3는165rule 중146측정·19구체적 지지실패,1606response points를 저�
 저장 측정 recovery의 F1/F2는 수정 및 독립 검토로 닫았다.
 현재 native 범위는 sandbox에서 실제 실행됐으며 NCP 미실행 의무가 아니다.
 
+S6(2026-10-19) 완료 범위: 유한 d 오차의 정확한 moment 분해와 엄밀 tail(ρ(d)=sqrt(coth(3|d|/2)), 저장 146rule/1460점),
+refinement 수렴률 ρ*=min(ρ(b),ρ(b+d))는 사전gate FAIL(38/344, pre-asymptotic) 보존·held-out PASS,
+P2→P24 변화의 ℓ=4/ℓ≥6 분리, exact rank1 certificate Python 경로(rank1_certificate.py),
+5.369926725506957e-12=owner Simpson-32 기준값 절단 오차(native 26행 run01/run02 PASS, commit된 사전등록 R2),
+처방 기하 source-age cohort 합성 PASS, test_s6 22 PASS, 독립 code/theory 검토 반영.
+S6 결과는 S6_THEORY_KO.md, S6_RESULTS_KO.md, evidence_s6/를 읽어라. 이미 끝난 S6 실행을 반복하지 마라.
 물리: non-tilted axisymmetric Bianchi I, signature(-,+,+,+),
 a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H.
 새로 선언된 등방 source만 보정하라. 기존 광자장·물리적 비등방 source를 재가중/초기화하지 마라.
@@ -46,12 +52,11 @@ Reflection parity, 양의 weights, source frame 및 고정 spectral owner를 유
 각 birth/cohort의 weights를 이후 수송에서 고정하라. Angular refinement와 moment 제약의 효과를 분리하라.
 P2=P4=0이어도 P6/고차 응답은 남는다. Rank1 float ambiguity는 unresolved이며 음수weights/tolerance완화로 우회하지 마라.
 
-다음 실제 미완료 의무 중 필요한 범위부터 진행하라:
-(1) 저장 R,D kernel과 raw measurements에서 finite-d continuum error/고차 moments 및 source-age 합성 오차의 명확한 기준을 유도.
-(2) exact rank1 지지의 입력 certificate와 실행 경로 설계.
-(3) 고정 spectral owner의 source-panel/energy-bin refinement를 angular 변화와 분리하고 잔차5.369926725506957e-12를 설명.
-(4) 검증된 birth cohorts를 합성한 history와 Einstein/shear feedback은 별도 후속 단계.
-P6 제약 알고리즘, source-history 실행, spectral convergence가 이미 완료됐다고 가정하지 마라.
+다음 미완료 의무:
+(1) evidence_s6/COUPLED_FEEDBACK_CONTRACT.json에 따른 coupled Einstein/shear 실행(식 ds/dt+3Hs=(8πG/3c²)ΔP는 owner axbi_background.rs omitted_feedback과 일치 확인, 실행은 안 됨).
+(2) native source-age cohort 합성. (3) transport/absorption/history 범위의 spectral 수렴.
+(4) |b+d|≳0.6에서 native n_mu≤32 angular 해상도 부족의 실제 영향 측정.
+P6 이상 제약 알고리즘, coupled history, 전체 spectral 수렴이 완료됐다고 가정하지 마라.
 
 새 소스 변경 때문에 제한 native 재검증이 실제로 필요할 때만 준비된 runner를 사용하라.
 연구 경로에서:
