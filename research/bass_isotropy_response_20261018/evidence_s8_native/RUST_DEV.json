@@ -1,0 +1,44 @@
+{
+  "schema": "bass.native.angular.s8.development.v1",
+  "science_campaign_executed": false,
+  "original_owner_rlib_reused_sha256": "5bcc32786e6fc0fbf9180603aa586f59046504b25be9ece46d3ab2297dca125c",
+  "original_owner_execution_commit": "2865f60bf0a247eaab4997c222ad82ae22a4c8fa",
+  "source_sha256": {
+    "native_angular_refinement.rs": "5e127f1a78f584172f542c1c00dd1475ebb2707e0897772dee1b207ed652bf39",
+    "native_adapter.rs": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+    "balance.rs": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+    "balance_p24.rs": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14"
+  },
+  "commands": [
+    {
+      "label": "compile_new_tests",
+      "args": [
+        "/workspace/scratch/f49816986ef8/toolchains/rust-1.94.1/bin/rustc",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "--test",
+        "/workspace/scratch/f49816986ef8/native_s8_dev01/native_angular_refinement.rs",
+        "--extern",
+        "rei_microphysics=/workspace/scratch/f49816986ef8/native_s7_run01/build/librei_microphysics.rlib",
+        "-o",
+        "/workspace/scratch/f49816986ef8/native_s8_dev01/native_s8_tests"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5793114590051118
+    },
+    {
+      "label": "new_native_tests",
+      "args": [
+        "/workspace/scratch/f49816986ef8/native_s8_dev01/native_s8_tests",
+        "s8_tests::",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 0.007927943006507121
+    }
+  ],
+  "status": "PASS"
+}
