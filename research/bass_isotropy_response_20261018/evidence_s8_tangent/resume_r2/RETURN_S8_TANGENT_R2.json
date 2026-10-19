@@ -1,0 +1,362 @@
+{
+  "schema": "bass.s8.full_birth_memory_tangent.resume_return.v1",
+  "status": "PASS_SCOPED_FULL_BIRTH_MEMORY_TANGENT",
+  "gate_results": {
+    "reused_analytic_conservation_and_tangent": true,
+    "all_six_reused_nonlinear_history_gates": true,
+    "central_difference_order2": true,
+    "finest_central_accuracy": true,
+    "richardson_accuracy": true,
+    "all_three_omission_controls_rejected": true,
+    "gauge_conservation": true,
+    "source_frame_gauge": true,
+    "reused_raw_bytes_unchanged": true,
+    "frozen_sources_unchanged": true
+  },
+  "analytic_summary": {
+    "schema": "bass.s8.tangent.diagnostics.v1",
+    "parameter": "y0",
+    "modes": [
+      "full",
+      "omit_birth_memory",
+      "omit_mu_b",
+      "omit_alpha_b"
+    ],
+    "gate_results": {
+      "hamiltonian": true,
+      "cohort_energy": true,
+      "event_energy": true,
+      "birth_moments": true,
+      "frozen_all_stock": true,
+      "positive_all_stock": true,
+      "reflection_all_stock": true,
+      "donor_endpoint": true,
+      "background_positive": true,
+      "linearized_constraint": true,
+      "linearized_constraint_propagation": true,
+      "per_cohort_tangent_energy": true,
+      "source_event_tangent_energy": true,
+      "frozen_tangent_memory": true
+    },
+    "max_linearized_constraint_scaled": 1.0489191719766415e-14,
+    "max_linearized_constraint_propagation_scaled": 1.0067142588549513e-16,
+    "max_per_cohort_tangent_energy_relative": 3.813235559021515e-16,
+    "max_source_event_tangent_energy_scaled": 9.972862005348015e-18,
+    "max_covariance_condition": 1.9606408694880881,
+    "min_covariance_eigenvalue": 0.10204854390257768,
+    "max_birth_moment_derivative_residual": 2.0816681711721685e-16,
+    "primal_diagnostics": {
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 1.1585638987958979e-14,
+      "max_cohort_energy_relative": 2.2147081839242414e-15,
+      "max_event_energy_relative": 2.1558497777419566e-16,
+      "max_birth_moment_abs": 9.714938250381626e-16,
+      "max_legacy_f64_birth_moment_abs": 1.0755285551056204e-15,
+      "donor_endpoint_relative": 0.0,
+      "cohorts": 34,
+      "nfev": 1161,
+      "old_stock_digests": [
+        "9447a8197e42b049e94a581bca960f0a92488bdb33bcab250324935f677adcc0",
+        "f930c76d16a1f0c48336b8dcd8733fef05272e17b3bb24c8eef3a3cf6a888120"
+      ]
+    },
+    "old_stock_digests": [
+      "9447a8197e42b049e94a581bca960f0a92488bdb33bcab250324935f677adcc0",
+      "f930c76d16a1f0c48336b8dcd8733fef05272e17b3bb24c8eef3a3cf6a888120"
+    ],
+    "nfev": 1161
+  },
+  "nonlinear_histories": [
+    {
+      "id": "FD_EPS0_MINUS.json",
+      "epsilon": 0.02,
+      "sign": -1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 6.932476569326166e-14,
+      "max_covariance_condition": 1.9304072517640922,
+      "min_covariance_eigenvalue": 0.10363158253581391
+    },
+    {
+      "id": "FD_EPS0_PLUS.json",
+      "epsilon": 0.02,
+      "sign": 1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 4.899125947662095e-14,
+      "max_covariance_condition": 1.996416296797181,
+      "min_covariance_eigenvalue": 0.10024163508226619
+    },
+    {
+      "id": "FD_EPS1_MINUS.json",
+      "epsilon": 0.01,
+      "sign": -1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 6.3298837554272e-14,
+      "max_covariance_condition": 1.9448777704919935,
+      "min_covariance_eigenvalue": 0.10286732496164873
+    },
+    {
+      "id": "FD_EPS1_PLUS.json",
+      "epsilon": 0.01,
+      "sign": 1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 5.290226607550083e-14,
+      "max_covariance_condition": 1.9777878990663615,
+      "min_covariance_eigenvalue": 0.10117375273232523
+    },
+    {
+      "id": "FD_EPS2_MINUS.json",
+      "epsilon": 0.005,
+      "sign": -1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 6.067664371683725e-14,
+      "max_covariance_condition": 1.9525921739254954,
+      "min_covariance_eigenvalue": 0.10246484658816167
+    },
+    {
+      "id": "FD_EPS2_PLUS.json",
+      "epsilon": 0.005,
+      "sign": 1,
+      "gate_results": {
+        "hamiltonian": true,
+        "cohort_energy": true,
+        "event_energy": true,
+        "birth_moments": true,
+        "frozen_all_stock": true,
+        "positive_all_stock": true,
+        "reflection_all_stock": true,
+        "donor_endpoint": true,
+        "background_positive": true
+      },
+      "max_hamiltonian_relative": 5.547834114851178e-14,
+      "max_covariance_condition": 1.96903545272368,
+      "min_covariance_eigenvalue": 0.10161823602720745
+    }
+  ],
+  "order2_ratios": {
+    "b": [
+      3.9994693076493584,
+      3.9998673044051856
+    ],
+    "y": [
+      3.999394986426375,
+      3.9998487718633644
+    ],
+    "h_b_y_joint": [
+      3.9994693076493584,
+      3.9998673044051856
+    ]
+  },
+  "fine_richardson_max_abs_error": {
+    "h": 8.655187677675258e-12,
+    "b": 1.0230571945157863e-10,
+    "y": 5.967948357721298e-12,
+    "E_radiation": 4.770038856093117e-12,
+    "Pi": 1.1916679448775724e-11,
+    "Sigma": 2.975748536471201e-10
+  },
+  "negative_controls": [
+    {
+      "mode": "omit_birth_memory",
+      "max_abs_y_error_after_x_start": 0.005604466821960211,
+      "error_over_full_tangent_error": 49625.43663547895,
+      "rejected_by_preregistered_criterion": true
+    },
+    {
+      "mode": "omit_mu_b",
+      "max_abs_y_error_after_x_start": 0.004221625901789941,
+      "error_over_full_tangent_error": 37380.90265198483,
+      "rejected_by_preregistered_criterion": true
+    },
+    {
+      "mode": "omit_alpha_b",
+      "max_abs_y_error_after_x_start": 0.004206095301310206,
+      "error_over_full_tangent_error": 37243.3850513813,
+      "rejected_by_preregistered_criterion": true
+    }
+  ],
+  "gauge_max_h_y_abs": 0.0,
+  "gauge_max_b_minus_one_abs": 0.0,
+  "gauge_primal_diagnostics": {
+    "gate_results": {
+      "hamiltonian": true,
+      "cohort_energy": true,
+      "event_energy": true,
+      "birth_moments": true,
+      "frozen_all_stock": true,
+      "positive_all_stock": true,
+      "reflection_all_stock": true,
+      "donor_endpoint": true,
+      "background_positive": true
+    },
+    "max_hamiltonian_relative": 1.1364128943362259e-13,
+    "max_cohort_energy_relative": 1.4522705048029857e-15,
+    "max_event_energy_relative": 1.5051416631803296e-16,
+    "max_birth_moment_abs": null,
+    "max_legacy_f64_birth_moment_abs": null,
+    "donor_endpoint_relative": 0.0,
+    "cohorts": 10,
+    "nfev": 483,
+    "old_stock_digests": [
+      "9447a8197e42b049e94a581bca960f0a92488bdb33bcab250324935f677adcc0",
+      "f930c76d16a1f0c48336b8dcd8733fef05272e17b3bb24c8eef3a3cf6a888120"
+    ]
+  },
+  "publication": {
+    "repo": "cosmosapjw-quantum/bass",
+    "path": "research/bass_isotropy_response_20261018/evidence_s8_tangent/PREREGISTRATION_RESUME_R2.json",
+    "commit": "2e6b4a150559b0bea52938896a901f6d438f3582",
+    "preregistration_sha256": "0fefa71f865961400c05a071c9c83ef07f2baceb1845cfe789384892c3a62631",
+    "preregistration_git_blob_sha": "c70e11c92404fe549e02edb0e7728a79134fa649",
+    "verification_method": "parent Git connector exact remote ref/tree/blob readback receipt"
+  },
+  "source_sha256": {
+    "coupled_cohorts.py": "dbdae568fd47a3ffd041ebb47ae09ffefb4b026369ad5f73e48b8d8f2a155c58",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee",
+    "s8_tangent_math.py": "9e76ea1021eae75a9a581cd688864d84b8f0968f7d4c85b426b8eafa3b2f742e",
+    "s8_tangent.py": "b5216551a7a1cf5ec27d8dc8b7680bd2e62bce8f93b40101e66bda1b28a589aa",
+    "run_s8_tangent.py": "e6c2d3b77fd684e6df86085d88de96736b48514ff105900526d678c622ec1c81",
+    "test_s8_tangent.py": "c149e06edf801bd177f239b45d6363c1bb29eb412a7bc4425a8979cc5410235f",
+    "run_s8_tangent_resume.py": "0fc495005c44be72f9266e5bbd2aec13043b84662b963dddd19ef7b92ee6f32c",
+    "test_s8_tangent_resume.py": "c730a6c28121b98c71d9c8f290d91be5bc672c39c4af63e6831463082567dabc"
+  },
+  "original_execution_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+  "original_failure_retained": {
+    "kind": "implementation/serialization_failure",
+    "exit_code": 1,
+    "field": "assessment.gate_results.richardson_accuracy",
+    "unsupported_type": "numpy.bool",
+    "original_files_preserved": true
+  },
+  "reused_history_sha256": {
+    "ANALYTIC_TANGENT.json": "6f10d47ebd398eb5dde6f551414e218ea7573fe7f87bf668ad2be02c1f47e7a4",
+    "FD_EPS0_MINUS.json": "3efb01dc784bdfb4b31e2d47f19b1519aac33b1a5d4d08792c2b409f74230d2b",
+    "FD_EPS0_PLUS.json": "5c4c91bde5710ce6f3d4b8ff83dded1fd775cc8fc6885bc62ed32706d3cdafda",
+    "FD_EPS1_MINUS.json": "26816948077792373c680ebd428a1321cdb76fb98e0a0374cf87fca27a7af67b",
+    "FD_EPS1_PLUS.json": "670f51f0573ec0de505f57acb8524f3be040ccd3c5b9bd43bd69c8056651a442",
+    "FD_EPS2_MINUS.json": "161315d3c586cc3c3e57d1faef29b9aef53ed5fbe486756acd100ea99c1d102f",
+    "FD_EPS2_PLUS.json": "14a6d7a822160e59f784ba87342a6fa03e0afd771a6dbaafa812cf67cbdc7403"
+  },
+  "reused_receipt_sha256": {
+    "evidence_s8_tangent/PREREGISTRATION.json": "6f88cac768b78c324705590bf6a7e5b2912311f3a4c9494d958a1e4ed2c2ba58",
+    "evidence_s8_tangent/CAMPAIGN_R1_PROCESS_RETURN.json": "3fe4742f1718c185e37b2e0ee65f6e502fd8a72f9a543c10a53b518ee47aa020",
+    "evidence_s8_tangent/CAMPAIGN_R1.log": "ea2ebefb699dbc884607a365dec82ec9e227d4e82a7d7b3f8d6282a13e96f0d6",
+    "delivery/s8/TANGENT_PUBLICATION.json": "a4183a92b6db4603b0c2a54722379b2e66e73b86c704fd4953817af4fe5e6f60"
+  },
+  "integration_accounting": {
+    "original_completed": 7,
+    "new_integrations_attempted": 1,
+    "new_integrations_completed": 1,
+    "historical_reruns": 0,
+    "complete_planned_total": 8
+  },
+  "wall_seconds": 0.13000303199805785,
+  "original_process_wall_seconds": 9.801321730999916,
+  "maxrss_kib": 84288,
+  "disk_bytes_used_before_receipt": 232158,
+  "limits": {
+    "workers": 1,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "job_seconds": 1800
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "scope": "Full birth-memory tangent of closed manufactured donor+radiation+Lambda; old physical stock transported without projection.",
+  "not_admitted": [
+    "differentiability across feasibility/rank boundaries",
+    "exact derivative of discrete stopping decisions",
+    "continuum angular accuracy",
+    "actual MD14/native spectral-owner feedback",
+    "native finite-bin photon/energy conservation",
+    "production",
+    "full EoR",
+    "merge"
+  ],
+  "skill_context_used": {
+    "name": "physmath-research-loop",
+    "version": "1.3.0",
+    "package": "skill://plugins_6acdfbba921881919e0c17843706aef4/physmath-research-loop",
+    "resources_read": [
+      "SKILL.md",
+      "references/POLICY_INTEGRATION.md",
+      "references/CODING_LOOP.md",
+      "references/THEORY_LOOP.md",
+      "references/SUBAGENT_MODE.md"
+    ],
+    "selected_scope": "S8 theory R3-R9 and coding C2-C9; publication/readback before scientific campaign",
+    "applied": [
+      "reuse frozen S7 evidence without replay",
+      "positive new-birth-only projection",
+      "exact admission unchanged",
+      "one production/verification pass with complementary independent review",
+      "typed source identity and bounded productive repair"
+    ],
+    "worker": "/root/s6_backup_intake",
+    "parent": "/root",
+    "independent_theory_reviewer": "/root/s6_rank1"
+  },
+  "NCP": "NOT_USED; bounded local gauge integration only"
+}

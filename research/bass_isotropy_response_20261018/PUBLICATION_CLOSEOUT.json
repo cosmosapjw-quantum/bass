@@ -1,14 +1,14 @@
 {
-  "schema": "bass.pr174.publication_closeout.v6",
-  "date_utc": "2026-10-19",
-  "stage": "S7 final scoped result and handoff",
-  "scientific_work": "COMPLETED_WITH_RETAINED_SCIENTIFIC_FAILURES",
+  "schema": "bass.isotropy.publication_closeout.v7",
+  "date_utc": "2026-10-19T12:54:14.154914+00:00",
+  "stage": "S8_FINAL_RESULTS_HANDOFF_READY_FOR_PUBLICATION",
+  "scientific_work": "All scoped derivations, implementations, discriminating executions and visual review completed. Native numerical and coarse-grid accuracy failures remain; no blanket scientific PASS.",
   "repository": "cosmosapjw-quantum/bass",
   "branch": "research/bass-isotropy-checkpoint-recovery-20261018",
   "pr_url": "https://github.com/cosmosapjw-quantum/bass/pull/174",
   "draft": true,
-  "source_commit": "f993bf7121af7bb6d69698244089201e28868ebc",
-  "source_tree": "c920ba0ecf008c296f815edc5d7f28a45ae06d36",
+  "source_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+  "source_tree": "419af8976fbfa15a3882f6f3720e461c8415e277",
   "original_rei_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
   "parent_pr173_commit": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "original_p2_implementation": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -165,9 +165,9 @@
     "old_failure_receipt_is_historical": true
   },
   "final_metadata_archive": {
-    "status": "FINITE_POSTCOMMIT_ARCHIVE_AND_READBACK_RECORDED_IN_PR",
-    "scope": "Final R3 results, reports, DAG/handoffs and Stage3 cloud receipt; incremental archive following three S7 source/evidence archives.",
-    "identity_location": "Final S7 PR174 closeout comment and GIT_READBACK.json/MANIFEST.json in final archive",
+    "status": "FINITE_POSTCOMMIT_ARCHIVE_READBACK_TO_BE_RECORDED_IN_PR",
+    "scope": "Final S8 tangent gauge/assessment, native report, unchanged scientific figures, DAG and handoffs; incremental supplement to S8 stages0-2.",
+    "identity_location": "PR174 final S8 comment and archive GIT_READBACK.json/MANIFEST.json; post-upload receipt also carried by following S9 stage.",
     "self_referential_commit_cycle": false
   },
   "ci": {
@@ -180,15 +180,15 @@
   "production_admission": false,
   "auto_merge": false,
   "remaining_scientific_obligations": [
-    "Large-b native angular support/refinement beyond n_mu<=32: retain the 1e-6 failure and separate grid changes from new constraints.",
-    "Generalization of the stricter internal P24 margin beyond the single repaired history: new scoped source/preregistration and changed-case verification required.",
-    "Full coupled tangent execution including current geometry, birth geometry, source-frame directions and projection-weight derivatives; current Duhamel check is an identity diagnostic.",
-    "Native MD14 source with a physically closed energy-supply/Einstein feedback history: not implemented or executed by S7.",
-    "Full reactive absorption/chemistry and finite-bin spectral accuracy through an evolving history: single frozen-opacity slab is insufficient.",
-    "Long source ages and large finite-d continuum angular accuracy; S6 non-interval certificate and failed pre-asymptotic rate gate remain scoped.",
-    "No REI production, full EoR or merge admission from S7; preserve original owner work and all retained failures."
+    "S9 user-requested VigilODE/Rust adaptation: finish fresh related GitHub/cloud intake, inspect current pinned implementation/benchmarks, derive analytic JVP and time partials, implement and execute a bounded exact-birth comparison.",
+    "P24 INNER_P2_PRECISION_LIMIT on native b9_n64 at a STRICT_INTERIOR support: no same-gate stable repair demonstrated; preserve numerical failure and earlier support witnesses.",
+    "Tangent generalization across initial conditions and source ages; feasibility/rank boundaries and solver stopping decisions are outside the smooth-branch derivative proof.",
+    "Finite-d continuum angular accuracy beyond the measured n64/128/256, b0=0.6/0.9 grid; retain S6 rate failures and nonmonotonic constraint effects.",
+    "Native MD14 source with physically closed energy supply and Einstein feedback; manufactured donor does not establish astrophysical coupling.",
+    "Evolving full reactive absorption/chemistry and finite-bin spectral/history photon/energy conservation.",
+    "No REI production, full EoR or merge admission; preserve existing owner work and fixed spectral owner."
   ],
-  "verified_at_utc": "2026-10-19T10:44:24.420964+00:00",
+  "verified_at_utc": "2026-10-19T12:54:14.154914+00:00",
   "pre_recovery_metadata_commit": "b69c7791b71064fd4b82fd7b2b3706860d84a29e",
   "pre_recovery_metadata_tree": "e0ddb18ae504c19b003697c9fa7a32a2f9f30ac0",
   "drive_failure_history": "delivery/DRIVE_FINAL_READBACK.json",
@@ -311,7 +311,7 @@
     "NCP": "Not used: all scoped S7 code and native Rust execution completed locally. Optional reproduction pipeline is prepared; new scientific obligations require new code/contracts.",
     "updated_at_utc": "2026-10-19T10:44:24.420964+00:00"
   },
-  "NCP": "NOT_RUN_ALL_SCOPED_S7_EXECUTIONS_COMPLETED_IN_SANDBOX",
+  "NCP": "NOT_USED_FOR_S8; all scoped S8 scientific executions completed locally.",
   "historical_S5_source": {
     "commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
     "tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
@@ -479,5 +479,574 @@
     }
   ],
   "historical_S5_native_output_sha256": "a552cfa04fe2bd1c4141191da24e9417da0121a05597f4daa121a51cbe7022ff",
-  "native_output_role": "S7 original native JSONL bytes; Git stores lossless gzip and validates decoded SHA"
+  "native_output_role": "S7 original native JSONL bytes; Git stores lossless gzip and validates decoded SHA",
+  "S8": {
+    "status": "BOUNDED_RESEARCH_COMPLETED_WITH_RETAINED_NUMERICAL_AND_ACCURACY_FAILURES",
+    "baseline_commit": "fe083a28e066a95e2191bcc6a090adf53605453f",
+    "baseline_tree": "6fb0f5fb693318cb9476a635817a4ea7025127ba",
+    "fresh_intake": "evidence_s8/intake/FRESH_CLOUD_GITHUB_INTAKE.json",
+    "selected_leaves": [
+      "initial-shear full birth-memory tangent including positiveKL weight derivative",
+      "native high-b GL64/128/256 new-source angular refinement with spectral owner unchanged"
+    ],
+    "actual_scientific_campaigns_run": true,
+    "symbolic_checks": "evidence_s8/WOLFRAM_PARTIALS.json",
+    "literature": "evidence_s8/PRIMARY_LITERATURE.json",
+    "old_S2_S7_reexecuted": false,
+    "write_ownership": {
+      "root": "integration/DAG/PR/cloud",
+      "s6_backup_intake": "new S8 tangent source and evidence",
+      "s7_native_cohorts": "new S8 native angular extension source and evidence",
+      "s6_rank1": "one complementary independent theory/API/figure review pass"
+    },
+    "next_action": "Final S8 results/figures/handoff publication and dual backup; then proceed with explicitly requested S9 VigilODE/Rust adaptation after fresh related intake.",
+    "outside_selected_scope": [
+      "native physicalMD14 energy supply closure",
+      "evolving full reactive history",
+      "fullEoR/production/merge"
+    ],
+    "constraints": {
+      "source_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "source_ID": "MD14_Z002_FESC_BB50K_13P6_100_V1",
+      "new_birth_only": true,
+      "positive_weights": true,
+      "exact_reflection": true,
+      "fixed_spectral_owner": true,
+      "old_stock_not_reweighted": true,
+      "exact_admission": "3/1000000000000000",
+      "old_failures_preserved": true
+    },
+    "updated_at_utc": "2026-10-19T12:54:14.154914+00:00",
+    "stage0_commit": "2d5d23488d372fb1a670f2031512ef6c0cd1b9a1",
+    "stage0_comment": 6266712424,
+    "stage0_cloud_receipt": "delivery/s8/S8_STAGE0_CLOUD_READBACK.json",
+    "preregistrations": {
+      "evidence_s8_tangent/PREREGISTRATION.json": {
+        "sha256": "6f88cac768b78c324705590bf6a7e5b2912311f3a4c9494d958a1e4ed2c2ba58",
+        "git_blob_sha": "831abb23938d6d5b5c065511899eb89e6486ea29",
+        "pinned_source_files": 8
+      },
+      "evidence_s8_native/PREREGISTRATION.json": {
+        "sha256": "df1752714e285ffff797e531fc4c5104e9b129266458f746ff0741a3aeff225c",
+        "git_blob_sha": "825c10901370e67059fb881796e60af474cb9c70",
+        "pinned_source_files": 14
+      }
+    },
+    "development_checks": {
+      "tangent_tests": 12,
+      "native_rust_tests": 6,
+      "native_python_initial_guards": 10,
+      "native_python_classification_guard": 1,
+      "independent_fraction_checks": 24,
+      "independent_decimal_checks": 7,
+      "science_campaigns_run": 0
+    },
+    "independent_prepublication_review": "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+    "planned_scientific_campaign": {
+      "tangent_integrations": 8,
+      "native_new_cases": 18,
+      "native_historical_baselines_reused": 6
+    },
+    "source_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+    "source_tree": "419af8976fbfa15a3882f6f3720e461c8415e277",
+    "source_readback": "delivery/s8/S8_STAGE1_GIT_READBACK.json",
+    "source_cloud_readback": "delivery/s8/S8_STAGE1_CLOUD_READBACK.json",
+    "stage1_comment": 6266797566,
+    "actual_counts": {
+      "tangent_complete_integrations": 8,
+      "tangent_gauge_unrun": 0,
+      "native_attempts": 18,
+      "native_measured": 17,
+      "native_finest_targets_pass": 6,
+      "native_lower_resolution_target_misses": 8,
+      "native_numerical_failures": 1,
+      "historical_reexecutions": 0,
+      "tangent_gauge_new_executions": 1,
+      "tangent_final_gates_pass": 10,
+      "tangent_final_gate_count": 10
+    },
+    "tangent_original_failure": {
+      "classification": "implementation_output_serialization",
+      "exit_code": 1,
+      "field": "gate_results.richardson_accuracy",
+      "type": "numpy.bool_",
+      "seven_history_bytes_preserved": true,
+      "evidence": "evidence_s8_tangent/RUN01_SERIALIZATION_DIAGNOSIS.json"
+    },
+    "native_original_failure": {
+      "classification": "PROJECTION_NUMERICAL_FAILURE",
+      "case_id": "b9_n64_P2P4",
+      "cause": "INNER_P2_PRECISION_LIMIT",
+      "support": "STRICT_INTERIOR",
+      "failed_birth": 11,
+      "failed_u": 0.5750000000000001,
+      "gates_unchanged": true,
+      "evidence": "evidence_s8_native/run01/ANALYSIS.json"
+    },
+    "resume_preregistration": "evidence_s8_tangent/PREREGISTRATION_RESUME_R2.json",
+    "resume_source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582",
+    "resume_source_tree": "77f5f82980bd2d08d842a3e9889549a00412b411",
+    "resume_source_readback": "delivery/s8/S8_STAGE2_GIT_READBACK.json",
+    "resume_cloud_readback": "delivery/s8/S8_STAGE2_CLOUD_READBACK.json",
+    "stage2_comment": 6267055749,
+    "results": "S8_RESULTS_KO.md",
+    "tangent_results": "S8_TANGENT_RESULTS_KO.md",
+    "native_results": "S8_NATIVE_REFINEMENT_KO.md",
+    "figure_audit": "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json",
+    "tangent_final": {
+      "status": "PASS_SCOPED_FULL_BIRTH_MEMORY_TANGENT",
+      "receipt": "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+      "sha256": "65319f6d6598af4565d6246b3fca5068f03c8f8c7ff479a0e9182831c3b6893d",
+      "gate_results": {
+        "reused_analytic_conservation_and_tangent": true,
+        "all_six_reused_nonlinear_history_gates": true,
+        "central_difference_order2": true,
+        "finest_central_accuracy": true,
+        "richardson_accuracy": true,
+        "all_three_omission_controls_rejected": true,
+        "gauge_conservation": true,
+        "source_frame_gauge": true,
+        "reused_raw_bytes_unchanged": true,
+        "frozen_sources_unchanged": true
+      },
+      "integration_accounting": {
+        "original_completed": 7,
+        "new_integrations_attempted": 1,
+        "new_integrations_completed": 1,
+        "historical_reruns": 0,
+        "complete_planned_total": 8
+      },
+      "max_richardson_joint": 1.0230571945157863e-10,
+      "omission_controls_rejected": 3,
+      "max_linearized_constraint_scaled": 1.0489191719766415e-14,
+      "gauge_max_h_y_abs": 0.0,
+      "gauge_max_b_minus_one_abs": 0.0
+    },
+    "native_final": {
+      "receipt": "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+      "integrity_gates_pass": false,
+      "finest_accuracy_targets_pass": true,
+      "n256_targets_pass": 6,
+      "lower_resolution_target_misses": 8,
+      "numerical_failures": 1,
+      "exact_constrained_births_pass": 176,
+      "raw_sha256": "e72fe3952929f63333872627e0d76e30c489c9e7f8f141d4fd79ca28f3a26e09",
+      "new_source_grid_only": true,
+      "old_stock_same_original_n32_block": true
+    },
+    "remaining": [
+      "P24 INNER_P2_PRECISION_LIMIT on native b9_n64 at a STRICT_INTERIOR support: no same-gate stable repair demonstrated; preserve numerical failure and earlier support witnesses.",
+      "Tangent generalization across initial conditions and source ages; feasibility/rank boundaries and solver stopping decisions are outside the smooth-branch derivative proof.",
+      "Finite-d continuum angular accuracy beyond the measured n64/128/256, b0=0.6/0.9 grid; retain S6 rate failures and nonmonotonic constraint effects.",
+      "Native MD14 source with physically closed energy supply and Einstein feedback; manufactured donor does not establish astrophysical coupling.",
+      "Evolving full reactive absorption/chemistry and finite-bin spectral/history photon/energy conservation.",
+      "No REI production, full EoR or merge admission; preserve existing owner work and fixed spectral owner."
+    ],
+    "completion_means": "All scoped derivations, implementations, discriminating executions and visual review completed. Native numerical and coarse-grid accuracy failures remain; no blanket scientific PASS.",
+    "historical_loop_mapping": {
+      "workflow_version": "physmath-research-loop1.3.0",
+      "selected_scope": "S8 bounded full birth-memory tangent and native new-source angular refinement; closed with retained failures. New user request starts S9 separately.",
+      "historical_mapping": "S7_coupled_native.historical_loop_mapping",
+      "stages": [
+        {
+          "id": "R1",
+          "name": "연구 위치·계약",
+          "status": "complete",
+          "evidence_refs": [
+            "evidence_s8/intake/FRESH_CLOUD_GITHUB_INTAKE.json",
+            "evidence_s8/intake/POLICY_AND_SCOPE_REVIEW.json"
+          ],
+          "reason": "Fresh branch/PR/comments and both cloud descendants matched final S7 baseline. Completed campaigns retained and not rerun."
+        },
+        {
+          "id": "R2",
+          "name": "근거·재사용",
+          "status": "complete",
+          "evidence_refs": [
+            "evidence_s8/intake/FRESH_CLOUD_GITHUB_INTAKE.json",
+            "evidence_s8/intake/POLICY_AND_SCOPE_REVIEW.json"
+          ],
+          "reason": "Fresh branch/PR/comments and both cloud descendants matched final S7 baseline. Completed campaigns retained and not rerun."
+        },
+        {
+          "id": "R3",
+          "name": "주장·전제 정렬",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "R4",
+          "name": "가설·표현 탐색",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "R5",
+          "name": "구성적 유도",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "R6",
+          "name": "독립 검증",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "R7",
+          "name": "판별 검증",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "R8",
+          "name": "결과 판정",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "R9",
+          "name": "정식 결과·코딩 연결",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "R10",
+          "name": "종료·재개",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "C1",
+          "name": "목표·baseline",
+          "status": "complete",
+          "evidence_refs": [
+            "evidence_s8/intake/FRESH_CLOUD_GITHUB_INTAKE.json",
+            "evidence_s8/intake/POLICY_AND_SCOPE_REVIEW.json"
+          ],
+          "reason": "Fresh branch/PR/comments and both cloud descendants matched final S7 baseline. Completed campaigns retained and not rerun."
+        },
+        {
+          "id": "C2",
+          "name": "식–데이터–코드",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C3",
+          "name": "수치 설계",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C4",
+          "name": "실행 DAG·자원",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C5",
+          "name": "구현",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C6",
+          "name": "구현 검증",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C7",
+          "name": "과학 검증",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "C8",
+          "name": "수치·재현성",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        },
+        {
+          "id": "C9",
+          "name": "독립 검토",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_TANGENT_THEORY_KO.md",
+            "S8_NATIVE_REFINEMENT_KO.md",
+            "evidence_s8/theory_review/PHYSICS_CODE_REVIEW.json",
+            "evidence_s8_tangent/PREPUBLICATION_FREEZE.json",
+            "evidence_s8_native/PREREGISTRATION.json"
+          ],
+          "reason": "Frozen moving-source tangent/native angular extension; targeted development checks and one complementary independent prepublication review complete. Scientific campaign remains unrun."
+        },
+        {
+          "id": "C10",
+          "name": "판정·인계",
+          "status": "complete",
+          "evidence_refs": [
+            "S8_RESULTS_KO.md",
+            "evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json",
+            "evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json",
+            "evidence_s8/figures/run01/FIGURE_AUDIT08_07.json"
+          ],
+          "reason": "8/8 tangent integrations and10/10finalgates; native18attempts17measured1retainedprecisionfailure; source/raw identities and visual review complete. Final publication/readback identity belongs to the finite postcommit archive/PR receipt."
+        }
+      ]
+    },
+    "closure_workflow_version": "physmath-research-loop1.0.0",
+    "science_workflow_version_preserved": "1.3.0"
+  },
+  "S9": {
+    "status": "FRESH_RELATED_GITHUB_CLOUD_INTAKE_IN_PROGRESS",
+    "user_requested": true,
+    "workflow_version": "physmath-research-loop1.0.0",
+    "scope": "Inspect all discovered relevant GitHub/backups for new results, especially cosmosapjw-quantum/vigilode; apply a useful current Rust solver/package to this BASS lane with bounded local verification and staged publication/backups.",
+    "new_scientific_execution": false,
+    "source_owner_unchanged": true,
+    "limits": {
+      "additional_workers": 16,
+      "ram_bytes": 17179869184,
+      "disk_bytes": 4294967296,
+      "individual_job_seconds": 1800,
+      "actual_native_fetch_workers": 4,
+      "actual_native_threads": 1
+    },
+    "admission": {
+      "production": false,
+      "full_EoR": false,
+      "merge": false
+    }
+  },
+  "S8_cloud_backups": [
+    {
+      "schema": "bass.s8.dual-cloud-readback.v1",
+      "verified_at_utc": "2026-10-19T12:01:17.807919+00:00",
+      "stage": "s8_stage0",
+      "archive": {
+        "schema": "bass.s7.archive.identity.v1",
+        "name": "BASS_S8_INTAKE_THEORY_CHECKPOINT_20261019_2d5d2348.zip",
+        "path": "/workspace/scratch/f49816986ef8/delivery/BASS_S8_INTAKE_THEORY_CHECKPOINT_20261019_2d5d2348.zip",
+        "bytes": 62109,
+        "sha256": "9e27c3cb170d61b70acf84674c2ff32a2ce9b08ee42f88c296dde6a773a83fec",
+        "dropbox_content_hash": "94099a77b07be0f45f00725c70f2de57d44630ffdd56bf3724925e8011c62198",
+        "payloads": 10,
+        "source_commit": "2d5d23488d372fb1a670f2031512ef6c0cd1b9a1",
+        "source_tree": "310c82a6d198d34234fe5d57442e277913b5c3d5",
+        "crc_ok": true
+      },
+      "google_drive": {
+        "id": "1zk2wSTt4VNOtOzeXTFgXtss2tHtWUY2U",
+        "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+        "created_time": "2026-10-19T11:59:50.530Z",
+        "raw_byte_equality": true,
+        "sha256_match": true,
+        "crc_ok": true,
+        "manifest_verified": 10,
+        "manifest_count": 10,
+        "proof_scope": "Complete independent connector raw ZIP readback; exact bytes, SHA256, ZIP CRC, all manifest sizes/hashes and Git blobs"
+      },
+      "dropbox": {
+        "download_link_metadata": {
+          "content_hash": "94099a77b07be0f45f00725c70f2de57d44630ffdd56bf3724925e8011c62198",
+          "expiration_in_sec": 600,
+          "id": "id:BSpOijBcT10AAAAAAD_Qzg",
+          "name": "BASS_S8_INTAKE_THEORY_CHECKPOINT_20261019_2d5d2348.zip",
+          "path": "ns:183516487//BASS_BACKUPS/BASS_S8_INTAKE_THEORY_CHECKPOINT_20261019_2d5d2348.zip",
+          "path_display": "/BASS_BACKUPS/BASS_S8_INTAKE_THEORY_CHECKPOINT_20261019_2d5d2348.zip",
+          "size": 62109
+        },
+        "proof_scope": "Independent provider complete-object content_hash and size; raw Dropbox ZIP was not downloaded."
+      },
+      "dropbox_provider_content_hash_match": true,
+      "admission": "Backup identity only. No new scientific/production admission.",
+      "next_receipt_note": "This post-upload receipt is outside its own archive; publish it in the following stage to avoid a self-hash cycle."
+    },
+    {
+      "schema": "bass.s8.dual-cloud-readback.v1",
+      "verified_at_utc": "2026-10-19T12:05:14.542479+00:00",
+      "stage": "s8_stage1",
+      "archive": {
+        "schema": "bass.s8.archive.identity.v1",
+        "name": "BASS_S8_PREREG_TANGENT_NATIVE_REFINEMENT_20261019_4508e5de.zip",
+        "path": "/workspace/scratch/f49816986ef8/delivery/BASS_S8_PREREG_TANGENT_NATIVE_REFINEMENT_20261019_4508e5de.zip",
+        "bytes": 123122,
+        "sha256": "ae0ccedaaccc25044f77fa28129b9b1cfc9dd699674aa4dc204c6454dabcae71",
+        "dropbox_content_hash": "4487e9b07ec0657a908c388daa3547ed313463478665650e33f5ebeab60cc9d4",
+        "payloads": 35,
+        "source_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+        "source_tree": "419af8976fbfa15a3882f6f3720e461c8415e277",
+        "crc_ok": true
+      },
+      "google_drive": {
+        "id": "1VS_Z1G2VeWgtWLrmmS6yV1CPeZNXdrpw",
+        "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+        "created_time": "2026-10-19T12:04:33.421Z",
+        "raw_byte_equality": true,
+        "sha256_match": true,
+        "crc_ok": true,
+        "manifest_verified": 35,
+        "manifest_count": 35,
+        "proof_scope": "Complete independent connector raw ZIP readback; exact bytes, SHA256, ZIP CRC, all manifest sizes/hashes and Git blobs"
+      },
+      "dropbox": {
+        "download_link_metadata": {
+          "content_hash": "4487e9b07ec0657a908c388daa3547ed313463478665650e33f5ebeab60cc9d4",
+          "expiration_in_sec": 600,
+          "id": "id:BSpOijBcT10AAAAAAD_Q0A",
+          "name": "BASS_S8_PREREG_TANGENT_NATIVE_REFINEMENT_20261019_4508e5de.zip",
+          "path": "ns:183516487//BASS_BACKUPS/BASS_S8_PREREG_TANGENT_NATIVE_REFINEMENT_20261019_4508e5de.zip",
+          "path_display": "/BASS_BACKUPS/BASS_S8_PREREG_TANGENT_NATIVE_REFINEMENT_20261019_4508e5de.zip",
+          "size": 123122
+        },
+        "proof_scope": "Independent provider whole-object content_hash/size; not raw Dropbox download."
+      },
+      "dropbox_provider_content_hash_match": true,
+      "admission": "Backup identity only. No new scientific/production admission.",
+      "next_receipt_note": "This post-upload receipt is outside its own archive; publish it in the following stage to avoid a self-hash cycle."
+    },
+    {
+      "schema": "bass.s8.dual-cloud-readback.v1",
+      "verified_at_utc": "2026-10-19T12:19:28.206171+00:00",
+      "stage": "s8_stage2",
+      "archive": {
+        "schema": "bass.s8.archive.identity.v1",
+        "name": "BASS_S8_NATIVE_RESULTS_TANGENT_RESUME_20261019_2e6b4a15.zip",
+        "path": "/workspace/scratch/f49816986ef8/delivery/BASS_S8_NATIVE_RESULTS_TANGENT_RESUME_20261019_2e6b4a15.zip",
+        "bytes": 1435308,
+        "sha256": "de7b33947029ff5cd17fd38560a0665a6209e73e97ab0fa80dd7db949d00c0e4",
+        "dropbox_content_hash": "820a26b62888806cea620a2f218c5e0336f59ac0106a5f5e7a0cfff15a5a8f2b",
+        "payloads": 39,
+        "source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582",
+        "source_tree": "77f5f82980bd2d08d842a3e9889549a00412b411",
+        "crc_ok": true
+      },
+      "google_drive": {
+        "id": "1U82SIahJaMmJQnAe40GkdXw48mVIHYou",
+        "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+        "created_time": "2026-10-19T12:17:31.259Z",
+        "raw_byte_equality": true,
+        "sha256_match": true,
+        "crc_ok": true,
+        "manifest_verified": 39,
+        "manifest_count": 39,
+        "proof_scope": "Complete independent connector raw ZIP readback; exact bytes, SHA256, ZIP CRC, all manifest sizes/hashes and Git blobs"
+      },
+      "dropbox": {
+        "download_link_metadata": {
+          "content_hash": "820a26b62888806cea620a2f218c5e0336f59ac0106a5f5e7a0cfff15a5a8f2b",
+          "expiration_in_sec": 600,
+          "id": "id:BSpOijBcT10AAAAAAD_Q0g",
+          "name": "BASS_S8_NATIVE_RESULTS_TANGENT_RESUME_20261019_2e6b4a15.zip",
+          "path": "ns:183516487//BASS_BACKUPS/BASS_S8_NATIVE_RESULTS_TANGENT_RESUME_20261019_2e6b4a15.zip",
+          "path_display": "/BASS_BACKUPS/BASS_S8_NATIVE_RESULTS_TANGENT_RESUME_20261019_2e6b4a15.zip",
+          "size": 1435308
+        },
+        "proof_scope": "Independent provider whole-object content_hash/size; not raw Dropbox download."
+      },
+      "dropbox_provider_content_hash_match": true,
+      "admission": "Backup identity only. No new scientific/production admission.",
+      "next_receipt_note": "This post-upload receipt is outside its own archive; publish it in the following stage to avoid a self-hash cycle."
+    }
+  ]
 }

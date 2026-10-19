@@ -1,48 +1,87 @@
-# 새 대화 handoff — BASS S7 실제 완료 상태
+# 새 대화 handoff — S8 실제 완료와 S9 사용자 요청
 
-아래 block은 그대로 다음 대화에 붙여 넣을 수 있다. 최신 metadata commit은 이 파일을 담은 commit과 PR174 최종 closeout에서 확인한다.
+## 먼저 읽을 상태
+
+이 문서를 담은 commit, PR174의 최신 HEAD/comments, 관련 GitHub와 Dropbox/Google Drive의 BASS_BACKUPS 및 관련 결과 폴더를 대조한다. 새 실행결과를 발견하면 우선 반영하고 이미 완료한 입력을 단순 복구 목적으로 재실행하지 않는다. 사용자에게 과거 대화·ZIP다운로드·파일첨부·사전명령을 요청하지 않는다.
 
 ```text
-$physmath-research-loop를 사용해 BASS의 다음 제한된 이론+코딩 연구 단위를 이어서 수행하라.
-사용자에게 과거 대화·ZIP다운로드·파일첨부·사전명령 실행을 요청하지 말라.
-시작 전 Dropbox와 Google Drive의 /BASS_BACKUPS에서 새 실행을 확인하고 현재GitHub HEAD/PR174댓글과 대조하라. 새 결과가 있으면 먼저 재사용하고 완료된 캠페인을 반복하지 말라.
-
-Repo https://github.com/cosmosapjw-quantum/bass
-PR https://github.com/cosmosapjw-quantum/bass/pull/174 (draft/unmerged)
-Branch research/bass-isotropy-checkpoint-recovery-20261018
-Lane research/bass_isotropy_response_20261018/
-Fixed owner cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177
-Source MD14_Z002_FESC_BB50K_13P6_100_V1
-ParentPR173 4e2d1fa820d6f7baae1069b615fb82a08d53403b
-Original verified implementation 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
-Original closeout a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc
-Reused S6 science 04a3a8515ead0328177b4ad2aa6615a6fe39ed40
-Reused S6 closeout a9704c6f6eb09c3daa0065a66362ef7547c28e0c
-S7 actual initial execution 2865f60bf0a247eaab4997c222ad82ae22a4c8fa
-S7 exact-analysis R2 code c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a
-S7 R3 source and one repaired history f993bf7121af7bb6d69698244089201e28868ebc
-R3 source tree c920ba0ecf008c296f815edc5d7f28a45ae06d36
-Latest metadata HEAD: verify containing commit and final PR174 closeout before any work.
-
-Read README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, THEORY_KO.md, angular_balance.py, balance.rs, test_properties.py, NEW_THREAD_HANDOFF_KO.md, latest PR comments. Then S7_COUPLED_THEORY_KO.md, S7_COUPLED_RESULTS_KO.md, S7_NATIVE_COHORTS_KO.md, S7_RESULTS_KO.md, CODEX_HANDOFF_KO.md, CLOUD_READBACK_KO.md and machine receipts.
-
-Completed/reuse:
-- Original native SourceLedger58/negative5; P2Python15; balance.rs5; S3P24 derivation,algorithm,campaign; S5nativeadapter; S6finite-d/rank1/spectral/source-age.
-- S7closed manufactured donor+Einstein/shear:36attempts,28complete,8support failures;7benchmarks; H independently evolved, C'=-2C.
-- Independent theory Fraction28+Decimal5PASS. q'=-q+A,A'=-(8/5-36M4/35)q; positive M2=0 => 1<=kappa<=2. General residual-M4 nonlinear spectrum NOT_RUN.
-- Native51cases,42measured,9supportfailures,source owner57filesunchanged; old physical anisotropic stock preserved.
-- NativeR2exact808/808PASS,42physicalmetrics and9supportfailures unchanged. High-b n32 P24 angular error -9.9453e-4 FAIL vs1e-6 in2rows.
-- CoupledR2exactM2 640/640,M4 255/256; true M4=-3.0005964896306507e-15 at birth50,b03_n32_P24_K64. Original R1/R2FAIL preserved.
-- R3one history:existing P24internalatol1e-15, exactadmission3/10^15 unchanged,64/64PASS,max9.6095e-16. Oldstockidentical. Othergrid/history generalization NOT_VALIDATED.
-- Nativebin192single frozen-opacity BEslab errors N=-2.071e-8,U=-1.105e-8 normalized by before-inventory; target1e-4PASS. Full reactivehistory NOT_ADMITTED.
-- S6rateFAIL38/344 and constraintworsening44/238 preserved.
-- All current S7 code/compile/light executions completed in sandbox and pushed; NCP notused. Optional reproduce pipeline ready; do not rerun without independent need.
-
-Remaining: high-b native angular support/refinement, general strict-margin admission, full birth-memory tangent, native MD14 energy-supply/Einstein coupling, evolving reactive/spectral history. These require a new finite research unit; do not claim they are implemented already.
-
-Conventions (-,+,+,+), non-tiltedaxisymmetricBianchiI; a_perp=a exp(-b),a_parallel=a exp(2b),s=dotb,Sigma=sqrt(3)|s|/H.
-Only new explicitly locallyisotropic birth angular quadrature; preserve existingphoton/physicalanisotropicsource,positiveweights,reflectionparity,sourceframe,fixedspectralowner. No negativeweights/tolerancewidening to bypass feasibility. No continuum/native fullhistory admission from P2/P4/ledger alone.
-Preserve ownerwork; additionalworkers<=16,RAM16GiB,disk4GiB,eachjob1800s.
-Backup/publish/DAG eachstage; no auto REIproduction/fullEoR/merge.
-Cloud1-3 freshDrive rawZIP/SHA/CRC/manifest and freshDropboxproviderhash+size verified; rawDropbox NOT_READ thisturn. Finalarchive proof in latestPRcloseout.
+Repository: https://github.com/cosmosapjw-quantum/bass
+PR: https://github.com/cosmosapjw-quantum/bass/pull/174 (draft/unmerged)
+Branch: research/bass-isotropy-checkpoint-recovery-20261018
+Lane: research/bass_isotropy_response_20261018/
+S8 source/prereg: 4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613
+S8 resume source/prereg: 2e6b4a150559b0bea52938896a901f6d438f3582
+Fixed REI source: cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177
+SourceID: MD14_Z002_FESC_BB50K_13P6_100_V1
+Original implementation: 930406550ce6d4d1b2e87f016c5c18fba48c4ccd
+Original closeout: a9c3e495fb460b3ec25bfa297b89c8fbd09c07fc
+Parent PR173: 4e2d1fa820d6f7baae1069b615fb82a08d53403b
 ```
+
+## 이미 완료된 작업
+
+S2 Rust5, S3 P2/P4 유도·양의 projection·반례·수치캠페인, native adapter, S6와S7의 제한된 실제 실행은 재사용한다. S6 rate38/344FAIL과44/238constraint악화, S7 support 및 원 exact momentFAIL은 역사로 보존한다.
+
+S8은 전체 초기 signed-shear tangent를 실제8개 적분으로 검증해 최종10/10gatePASS했다. 원래7개 raw생성 뒤 numpy.bool 직렬화에서 exit1; source/raw/failure를 보존하고 별도2e6복구로 gauge1개만 실행했다. Historical rerun0. Richardsonjoint1.0230572e-10; birth kernel-shift, mu_b, alpha_b 생략control3/3거부. LinearizedHamiltonian1.0489192e-14. 기존 stock hash불변.
+
+Native GL64/128/256 ×prior/P2/P24 ×b0=.6/.9를 실제18개 시도해17측정, n2566개targetPASS, 낮은해상도8개targetFAIL, b9_n64_P24의INNER_P2_PRECISION_LIMIT 1개가 있다. 이 지지는STRICT_INTERIOR이며 음의해/허용오차완화없이실패를남겼다. 기존n32stock은원별도block을보존하고 새gridblock을합산했다. 고정 owner57파일불변. ActualMD14energy-supply/Einsteinfeedback와fullreactivehistory는여전히미실행이다.
+
+주요 입력:
+
+```text
+README_KO.md
+DAG.json
+RETURN_TO_CHATGPT.json
+PUBLICATION_CLOSEOUT.json
+THEORY_KO.md
+angular_balance.py
+balance.rs
+test_properties.py
+NEW_THREAD_HANDOFF_KO.md
+S8_RESULTS_KO.md
+S8_TANGENT_THEORY_KO.md
+S8_TANGENT_RESULTS_KO.md
+S8_NATIVE_REFINEMENT_KO.md
+evidence_s8_tangent/resume_r2/RETURN_S8_TANGENT_R2.json
+evidence_s8_native/run01/RETURN_NATIVE_ANGULAR_REFINEMENT.json
+evidence_s8/figures/run01/FIGURE_AUDIT08_07.json
+delivery/s8/S8_STAGE0_CLOUD_READBACK.json
+delivery/s8/S8_STAGE1_CLOUD_READBACK.json
+delivery/s8/S8_STAGE2_CLOUD_READBACK.json
+```
+
+## S9의 현재 사용자 요청과 실행 순서
+
+physmath-research-loop1.0.0의 이론10단계·코딩10단계를 적용한다. S8 과학 실행의 기존1.3.0provenance를 바꾸지 않는다. 새 관련 backup/GitHub intake가 우선이며, cosmosapjw-quantum/vigilode의 최신 실제 implementation·PR·benchmark를 읽는다. Rust의 특화 package를 조사하고 실제BASS문제에적용하는코드·경량검증까지진행한다. 새결과를확인하기전solver선택이나benchmarkPASS를가정하지않는다.
+
+기존 owner checkout/branch를 건드리지 않고 격리된 새 작업 경로에서 코드·사전등록을 준비한다. Native source와 spectral owner는 위 고정 commit을 유지한다. New-birth snapshot과 기존 photon stock의 변화가 혼합되지 않도록 API를 설계한다. 시간의존RHS라면 analytic JVP뿐 아니라 explicit time partial도 확인한다. 적분기의 cache는 새 birth가 생기는 불연속에서 유효한지 검증한다. NCP에는 준비된 code의 compile/작은 수정/실행만 남도록 이곳에서 가능한 구현과 검증을 완료해push한다.
+
+S8만을 완료하기 위한 NCP의무는 없다. 기존native실행을 독립재현할 필요가 실제생겼을 때에만 아래 준비된명령을 사용할 수 있다. 결과를덮어쓰지않는새out을지정한다. JSONreceipt의integrityfalse/finestaccuracytrue/precisionfailure를 함께읽고exitcode를전체PASS로바꾸지않는다.
+
+```bash
+python3 research/bass_isotropy_response_20261018/run_s8_native_refinement.py \
+  --prereg research/bass_isotropy_response_20261018/evidence_s8_native/PREREGISTRATION.json \
+  --publication-receipt research/bass_isotropy_response_20261018/delivery/s8/NATIVE_PUBLICATION.json \
+  --out /tmp/bass_s8_native_independent_reproduction \
+  --workers 4 --timeout 1800
+```
+
+원 owner를검증가능한로컬복사에서읽으려면 --owner-root, 기존git소유자작업을읽기만하려면 --rei-repo, compiler를명시하려면 --rustc를사용한다. 의존성준비가필요하면현재manifest를검증한다. Source변경시옛prereg의hashgate실패는정상이며새계약과게시후변경입력만실행한다.
+
+## 유지할 물리·자원·게시 계약
+
+```text
+non-tilted axisymmetric Bianchi I; signature(-,+,+,+)
+a_perp=a exp(-b); a_parallel=a exp(2b); s=dot b
+Sigma=sqrt(3)|s|/H
+새 명시적 isotropic birth angular quadrature만 보정
+기존 photon/physical anisotropic stock 초기화·재보정 금지
+positiveweights/reflection/sourceframe/fixedspectralowner 유지
+support infeasibility와 numericalprecision failure를 구분
+음의weights와 tolerance완화로 우회 금지
+P2/P4일치만으로 continuum/nativefinite-bin/history 승인 금지
+추가workers<=16; RAM16GiB; disk4GiB; 각job1800초
+기존owner작업보존; REIproduction/fullEoR/merge 자동확대 금지
+```
+
+매단계 결과·source·실패·DAG·게시·두cloudidentity를 남긴다. GoogleDrive는전체rawZIP의bytes/SHA/CRC/manifest/Gitblobreadback, Dropbox는freshproviderwholeobjecthash/size의실제증거범위를구분한다. FinalS8postuploadreceipt는PRcomment와다음S9checkpoint에보존한다. 최신HEAD는이문서의containingcommit과PRreadback으로확인하고과학source4508/복구2e6과구별한다.
