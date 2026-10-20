@@ -2515,7 +2515,7 @@
   "historical_pre_S9_resume_head": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
   "historical_latest_storage_intake": "delivery/s6_intake_20261019/INTAKE.json",
   "S10_optimization": {
-    "status": "C6_PASS_READY_FIXED_BENCHMARK",
+    "status": "C7_C8_PASS_C9_IN_PROGRESS",
     "user_requested_at_utc": "2026-10-20T05:30:42Z",
     "skill_version": "physmath-research-loop1.3.0",
     "contract": "S10_OPTIMIZATION_KO.md",
@@ -2598,26 +2598,36 @@
       },
       "C6": {
         "objective_status": "PASS_11_TARGETED_TESTS",
-        "publication_status": "current_checkpoint_payload",
-        "dual_backup_status": "pending_upload_drive_blocked",
+        "publication_status": "PUBLISHED_FULL_TREE_VERIFIED",
+        "dual_backup_status": "DROPBOX_FULL_BYTES_VERIFIED_DRIVE_BLOCKED",
         "build_source": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
         "receipt": "evidence_s10/c6/tests_r1_PROCESS.json",
         "test_log": "evidence_s10/c6/tests_r1.log",
         "history_run_count_from_passed_test_code": 30,
-        "expected_preintegration_failures": 7
+        "expected_preintegration_failures": 7,
+        "commit": "477eca7d13bba4f69e063ad9b024225ee06cc395",
+        "tree": "1b7e4fad8685a2d9b799ef20fcc433c59e2213b2",
+        "cloud_receipt": "delivery/s10/c6/S10_C6_CLOUD_READBACK.json",
+        "pr_comment": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6284654377"
       },
       "C7": {
-        "objective_status": "pending_representative_release_raw",
-        "publication_status": "pending",
-        "dual_backup_status": "pending"
+        "objective_status": "PASS_68_OF_68_SCIENCE_AND_STRICT_EQUIVALENCE",
+        "publication_status": "current_checkpoint_payload",
+        "dual_backup_status": "pending_upload_drive_blocked",
+        "assessment": "evidence_s10/analysis_r1/S10_ASSESSMENT.json",
+        "report": "S10_RESULTS_KO.md",
+        "source": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8"
       },
       "C8": {
-        "objective_status": "pending_preregistered_timing",
-        "publication_status": "pending",
-        "dual_backup_status": "pending"
+        "objective_status": "FIXED_MEASUREMENTS_COMPLETE_WITH_REGRESSION_RETAINED",
+        "publication_status": "current_checkpoint_payload",
+        "dual_backup_status": "pending_upload_drive_blocked",
+        "assessment": "evidence_s10/analysis_r1/S10_ASSESSMENT.json",
+        "report": "S10_RESULTS_KO.md",
+        "source": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8"
       },
       "C9": {
-        "objective_status": "pending",
+        "objective_status": "one_scoped_independent_review_in_progress",
         "publication_status": "pending",
         "dual_backup_status": "pending"
       },
@@ -2638,6 +2648,19 @@
     "execution_binding": "s10_optimization/SOURCE_MANIFEST.json",
     "planned_benchmark_history_calls": 496,
     "planned_C6_run_calls": 30,
-    "performance_unique_existing_inputs": 4
+    "performance_unique_existing_inputs": 4,
+    "actual_benchmark_history_calls": 496,
+    "actual_unique_existing_physical_inputs": 4,
+    "actual_C6_run_calls": 30,
+    "actual_performance_numerical_failures": 0,
+    "actual_performance_regressions": [
+      {
+        "n": 16,
+        "cohorts": 2,
+        "trace": "changing",
+        "mode": "simd_cache",
+        "median_paired_speedup": 0.9498173837599284
+      }
+    ]
   }
 }

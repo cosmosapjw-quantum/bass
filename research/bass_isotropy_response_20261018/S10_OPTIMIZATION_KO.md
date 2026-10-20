@@ -29,13 +29,13 @@
 | C1 목표·baseline | 완료 | `62d6bc14` full tree readback 완료 | Dropbox 전체 bytes·CRC·11 payload 일치; Drive connector 무응답으로 미완료 |
 | R2 외부 문헌·코드 재사용 | SciSpace 2 + Exa 3 검색, primary 9묶음 관련 절 검토 완료 | `8138a014` full tree readback | Dropbox 전체 bytes·35 payload 일치; Drive 미완료 |
 | C2 코드·수식·비용 대응 | 원 source/counter 대응 완료; 실제 시간 점유율 주장 없음 | `8138a014` full tree readback | Dropbox 전체 bytes·35 payload 일치; Drive 미완료 |
-| C3 알고리즘·수치 설계 | 수치·소유권·cache 계약 완료 | 대기 | 대기 |
-| C4 병렬화·실행 DAG | 고정 7회 paired benchmark 사전등록 완료 | 대기 | 대기 |
-| C5 구현 | 신규 crate 구현 완료; compile/test/benchmark 미실행 | 대기 | 대기 |
-| C6 구현 검증 | release build 및 targeted11/11 PASS | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
-| C7 과학 검증 | 대기 | 대기 | 대기 |
-| C8 정확도 대비 성능 | 대기 | 대기 | 대기 |
-| C9 독립 검토 | 대기 | 대기 | 대기 |
+| C3 알고리즘·수치 설계 | 완료 | `d5a17364` full tree readback | Dropbox 전체 bytes·30 payload 일치; Drive 미완료 |
+| C4 병렬화·실행 DAG | 고정 7회 사전등록 완료 | `d5a17364` full tree readback | C3와 같은 archive/readback |
+| C5 구현 | 신규 crate 구현 완료; 후속 C6–C8 실제 실행 완료 | `d5a17364` full tree readback | C3와 같은 archive/readback |
+| C6 구현 검증 | release build 및 targeted11/11 PASS | `477eca7d` full tree readback | Dropbox 전체 bytes·15 payload 일치; Drive 미완료 |
+| C7 과학 검증 | 68/68 gate, 전체 출력 strict identity PASS | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
+| C8 정확도 대비 성능 | 고정 표본 완료, 회귀1조건 보존 | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
+| C9 독립 검토 | 원자료 재계산·code 검토 진행 중 | 대기 | 대기 |
 | C10 판정·인계 | 대기 | 대기 | 대기 |
 
 실제 MD14 공급부/응력 closure와 native Einstein feedback, P6 제약, 전체 reactive finite-bin spectral history 및 넓은 continuum angular 보증은 기존의 미완료 과학 의무로 유지한다. 이번 사용자의 최적화 우선순위는 그 의무들을 완료했다는 의미가 아니다.
@@ -59,3 +59,7 @@ Rust1.94.1 release/offline/locked/jobs2 빌드1회가 164.782401714초, exit0으
 Targeted test는 `--test-threads=1`로 11/11 PASS. signed-zero와 전체 cache key, 새 bank/same point, 변하는 JVP 방향, 원 오류 우선순위, scalar fallback/tail, 큰 공통 x/u, 짧은 history와 전체 과학 receipt identity, worker cap/order를 확인했다. 테스트 코드에서 실행된 run30회는 정상23회와 예상 input failure7회이며 performance 표본과 구분한다. AVX2 term symbol의 실제 binary에는 packed sqrt/div가 있으며 FMA instruction은 없었다. 이 검사는 해당 symbol 범위이고 upstream 전체 binary의 FMA 사용을 금지했다는 의미가 아니다.
 
 원source37파일 hash와 owner repo/runtime bytes가 유지됨을 확인했다. 아직 고정 performance timing은 수행하지 않았다.
+
+## C7/C8 실제 결과
+
+사전등록한1260 kernel timing batches,280 serial timed calls,42 parallel timed batches,378 preparation samples와108 allocation records가 모두 완료됐다. 대표24 RAW와 모든 반복 출력이 strict identity를 통과했고 기존 science68/68 PASS다. 전체 MF history SIMD+cache paired 중앙비는2.973/4.115, closed small은1.055(IQR0.957–1.243)다. Changing n16/cohort2의0.950 회귀를 지우지 않았다. [종합 결과·원표본](S10_RESULTS_KO.md)에 정확도·준비비용·자원·실패종류를 기록했다. 이전 절의 실행 전 문장은 당시 checkpoint의 이력이며 최신 상태는 이 절과 DAG다.

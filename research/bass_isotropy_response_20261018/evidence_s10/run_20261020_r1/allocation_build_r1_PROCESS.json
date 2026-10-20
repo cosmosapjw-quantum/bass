@@ -1,0 +1,80 @@
+{
+  "schema": "BASS_S10_PROCESS_V1",
+  "phase": "allocation_build",
+  "attempt": "r1",
+  "started_at_utc": "2026-10-20T06:11:21.171551+00:00",
+  "status": "completed",
+  "command": [
+    "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/rust/bin/cargo",
+    "--config",
+    "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/build/client/s9_vigilode/.cargo/config.toml",
+    "build",
+    "--release",
+    "--offline",
+    "--locked",
+    "--features",
+    "allocation-probe",
+    "--bin",
+    "s10-benchmark"
+  ],
+  "cwd": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/build/client/s10_optimization",
+  "timeout_seconds": 1800,
+  "published_source_commit": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+  "published_source_tree": "95785be65c196c68d61b79dafb32f4cedfd7702d",
+  "source_manifest_sha256": "4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17",
+  "git_readback_sha256": "3cf9eec8c6747869a3de9f2d30737f8050cec24daf438281a710e9dd1dd652e3",
+  "environment_overrides": {
+    "RUSTC": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/rust/bin/rustc",
+    "RUSTDOC": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/rust/bin/rustdoc",
+    "CARGO_HOME": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/build/cargo_home",
+    "CARGO_TARGET_DIR": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/build/target",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_NET_OFFLINE": "true",
+    "RAYON_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "rustflags": "unset",
+  "limits": {
+    "compile_jobs": 2,
+    "independent_history_workers": [
+      1,
+      2,
+      4
+    ],
+    "maximum_job_seconds": 1800,
+    "maximum_added_disk_bytes": 4294967296,
+    "actual_cgroup_cpu_quota": "800000 100000",
+    "actual_cgroup_memory_limit": "8589934592"
+  },
+  "toolchain": {
+    "rustc_verbose": "rustc 1.94.1 (e408947bf 2026-03-25)\nbinary: rustc\ncommit-hash: e408947bfd200af42db322daf0fadfe7e26d3bd1\ncommit-date: 2026-03-25\nhost: x86_64-unknown-linux-gnu\nrelease: 1.94.1\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.94.1 (29ea6fb6a 2026-03-24)",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "offline_config_sha256": "cfe0b251c8d0097dfd9276438b07fd7774e5df7709b2a9555786a6e8b6bc1c80",
+    "reused_S9_preparation_receipt_sha256": "3d6c9a1693e6b88d09520af3031fbccc1f19e1293246149add54a6b40f19dfa5",
+    "original_S9_lock_sha256": "9b36525d5ff2aa03649ab7bbd3816fc8695ca0880429ea85b26046943f28ec88",
+    "new_lock_sha256": "b86b0510a9246e6b55007718feb8d968e4a7b1bd20a05d4f7b82b1b55d7dc9e0"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "elapsed_seconds": 4.843258914999751,
+  "finished_at_utc": "2026-10-20T06:11:26.035924+00:00",
+  "log": {
+    "path": "/workspace/scratch/a1783628e7a7/intake/optimization/execution_r1/allocation_build_r1.log",
+    "sha256": "2b10e1b14ae0e42f44039b3e8fff16520adb59263482fe4edfb82100cf5cf606",
+    "bytes": 3055
+  },
+  "child_maxrss_kib": 245984,
+  "child_maxrss_scope": "Linux RUSAGE_CHILDREN maximum individual-child RSS, not simultaneous process-tree peak",
+  "cgroup_memory_current_bytes": 8503435264,
+  "allocation_binary": {
+    "path": "/workspace/scratch/a1783628e7a7/runtime_s9_20261020/build/target/release/s10-benchmark",
+    "sha256": "4ab9bf3013f0ef599a9bd06b5e6458f04ca697c727250e58bc8750ca6f8474b3",
+    "bytes": 739912,
+    "allocation_probe_feature": true
+  },
+  "runtime_total_bytes": 1552386874,
+  "disk_cap_pass_runtime_only": true
+}
