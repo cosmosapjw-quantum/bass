@@ -1,51 +1,58 @@
-# BASS — S9 실제 이력과 S10 최적화 결과
+# BASS — S11 양의 P246와 유한 전단 응답
 
-**S10의 연구·구현·정확도·성능·독립 검토와 두 인계를 완료했다.** 원 과학 출력을 유지한 matrix-free history에서 SIMD+exact-cache의 중앙 가속비2.973/4.115를 관측했다. Closed small/clock4는1.055(IQR0.957–1.243)로 일관된 이득을 인정하지 않고, 작은 changing-state kernel의0.950 회귀를 보존했다. [전체 결과와 모든 후보 표](S10_RESULTS_KO.md), [C10 판정](evidence_s10/C10_DECISION.json)을 먼저 읽는다.
+**새 P246 birth 알고리즘과 등록한 물리·수학 검증을 완료했다.** 새 Python/Rust projector는 기존 source frame과 방향 support를 유지하며 엄격히 양의 reflection weights를 돌려준다. 저장된 S8 입력의 새 pointwise P24는 원 gate를 통과했고, 같은 n64 support의 P246은 양의 해가 없어 정확히 거부했다. 고정 7-ray의 유한-d 최대 오차가 P24보다 약 1.549배 커진 반례도 보존한다.
 
-**S9 실제 결과와 S10 C1–C10의 원 ZIP 8개를 Dropbox와 Google Drive 양쪽에서 검증했다.** 전체 4,189,549 bytes가 봉인된 원본과 일치하고 SHA256·ZIP CRC·317개 manifest payload 항목을 통과했다. 317은 checkpoint 사이의 중복을 포함한다. [통합 원격 readback](delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json)과 [단계별 index](delivery/s10/CLOUD_CHECKPOINT_INDEX.json)가 각 객체를 연결한다. 이번 변경은 배송 metadata 복구이며 과학·build/test/ODE/benchmark 재실행은 0회다. 이 파일이 포함된 복구 metadata commit·별도 보충 ZIP·마지막 두 provider readback은 [PR174 최신 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)의 postcommit 증거를 읽는다.
+[전체 S11 결과](s11_p246/RESULTS_KO.md) · [기계 판독 ledger](s11_p246/RESULT_LEDGER.json) · [이론](s11_p246/THEORY.md) · [DAG](DAG.json) · [현재 closeout](PUBLICATION_CLOSEOUT.json)
 
-복구 provenance: 과거 단계 cloud receipt 7개는 원문 bytes를 복구했다. 마지막 C10의 과거 postcommit receipt 원문은 선택한 ZIP에 들어 있지 않아 복구하지 못했고, 원 PR 댓글의 hash·판정과 이번 새 전체 원격 검증을 구분해 보존했다. 복구용 `FINAL_DROPBOX_ARCHIVE_INDEX.json`은 새로 재구성한 metadata이며 원 index bytes의 복원이라고 표시하지 않는다.
+**신규 S11 배송은 GitHub와 Dropbox에서 보존됐고, 새 Google Drive 복사는 미완료다.** C1/C2–C5/C6–C9 세 ZIP은 Dropbox 전체 원격 bytes·SHA256·provider hash·CRC·manifest/Git readback을 통과했다. Drive upload 두 번과 별도 copy 요청 한 번은 응답 없이 중단됐고 확인한 새 ID가 없다. 후속 C10 metadata의 정확한 containing HEAD/tree, 마지막 ZIP·JSON과 readback은 [PR174 최신 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)이 소유한다. 아직 확인하지 않은 배송 성공을 기입하지 않는다. [새 cloud index](delivery/s11/CLOUD_CHECKPOINT_INDEX.json), [C10 판정](delivery/s11/C10_DECISION.json), [cloud 상세](CLOUD_READBACK_KO.md).
 
-## 현재 검증 범위
+## S11 실제 결과
 
-| 범위 | 실제 결과 |
+| 항목 | 판정과 범위 |
 |---|---|
-| S9 처음 실행한 고정 캠페인 | 8/8완료,140/140 quality 판정,1224관측,192exact birth instance; 독립 검토 PASS_SCOPED |
-| S10 targeted 구현 검증 | release11/11; 정상short run23·예상input failure7 |
-| S10 kernel proof | 108records×64queries, 여섯mode bit identity |
-| S10 전체 과학 출력 | 대표24RAW와 모든 반복의 timing제외 scientific fields 동일, 기존68gate PASS |
-| S10 성능 반복 | micro1260timed,prep378,serial304호출+parallel192호출; 고유 물리입력4개 |
-| S10 별도 할당 계측 | 108rows; 다섯최적화 mode의 등록 evaluation 구간 allocation0, 준비비용 별도 |
-| S10 C9 독립 검토 | 155/155,612관측·64birth 직접 계산; code/science finding0, 문서finding1수정확인 |
-| Delivery | 원8archive Dropbox+Drive fullbytes/SHA256/CRC/manifest PASS; 복구 metadata의 별도 postcommit 증거는 PR174참조 |
+| Main 새 고정 검증 | 101/101; 14입력·차수 쌍 중 12양의 결과와 2예상 P6 infeasibility |
+| Exact gate | 원 normalization/P2/P4 `3/10^15` 유지; P6도 같은 기준. Rust 최대 실제 exact 잔차 `1.0280045769226785e-16` |
+| 구현 대조 | Python/Rust 저장 weight 최대 차이 `6.938893903907228e-17` |
+| S8 pointwise | 원 b9/n64 birth11 입력에서 새 동시 P24 해법 PASS. 원 failed native history는 변경·재실행하지 않음 |
+| P246 support | b9/n64의 `z_max≈0.619510<5/7`; exact 음수 facet. 음의 weights나 tolerance 완화로 우회하지 않음 |
+| 응답 | 기존 S3 P8 cubic 재사용, 새 P8/P10 quartic 유도. 국소 bias 차수 P24≈2, P246≈3, cubic 제거 후≈4 |
+| 유한 d 반례 | 고정49점 `[-0.6,0.6]`에서 dyadic P24 최대bias `0.02204259946`, P246 `0.03414707019`, 비율 `1.54913989382294` |
+| 새 수학 단위 | 별도 recovery25/25; 사라진 새 단위의 원 evidence와 재측정 receipt를 구분 |
+| C9 | 독립 수학·응답235/235, provenance152/152. 서로 겹치는 검사 집합이며 합산하지 않음 |
 
-## 정확한 source 역할
+P246의 모멘트 일치와 작은 d의 차수 개선은 모든 support/strain의 angular 정확도나 full native finite-bin 보존을 보증하지 않는다. 49점 최대값은 연속구간 supremum이 아니다. 기존 S8 `INNER_P2_PRECISION_LIMIT` 실패와 낮은 해상도/angular 실패를 유지한다.
+
+![S11 고정 support와 유한 strain 결과](s11_p246/evidence/figure/S11_P246_RESPONSE.png)
+
+[PNG](s11_p246/evidence/figure/S11_P246_RESPONSE.png) · [PDF](s11_p246/evidence/figure/S11_P246_RESPONSE.pdf) · [SVG](s11_p246/evidence/figure/S11_P246_RESPONSE.svg) · [고정49점 CSV](s11_p246/evidence/figure/ANGULAR_RESPONSE_GRID.csv)
+
+## 고정 identity와 증거
 
 | 역할 | Commit |
 |---|---|
-| 원 S9 과학 source | `4b30957cb008aad8019bb1a673937fc67bd017e8` |
-| S9 실제 결과 | `a40311796f9aac5ea5e0e58c630bee2a78443353` |
-| S10 실행 구현·사전등록 | `d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8` |
-| S10 실제 원표본·분석 | `26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a` |
-| S10 독립 검토·문서수정 | `0771f0610987eb9f900674e83063912150733255` |
-| 원 REI spectral owner | `0e25846433170d0f420c4cda44a0bedbf02cd177` |
-| 실제 VigilODE | `a21d573980f66fe02891bd216153443b5352f921` |
+| S11 계약·read-only intake | `e9f8eccc8d86764ebebe9bb98cc68ecb9aad09d8` |
+| S11 실행 전 source/input | `7fb9b83cba01d37ce4cabbc4772527710601cd96` |
+| S11 실제 결과·독립 검토 | `85d5833b4486d14855b84a9d967f5819788d05e5` |
+| 완료한 S10 배송 metadata | `d0c0313d6c063037fd8e067744aee66235df1a58` |
+| S10 실행 source / 결과 / C9 | `d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8` / `26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a` / `0771f0610987eb9f900674e83063912150733255` |
+| 고정 original REI owner | `0e25846433170d0f420c4cda44a0bedbf02cd177` |
 
-원 C10 판정 metadata `a85605302bb0317022eb06b498eb05b9d621de6a`를 부모로 한 이번 배송 복구는 위 실행 source를 바꾸지 않는다. Frozen manifest SHA256은 `4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17`이다. PR은 Draft이며 base PR173 `4e2d1fa820d6f7baae1069b615fb82a08d53403b`를 유지한다.
+S11 source tree는 `963a43f26df1f9c6f462b9df9a2c34cf99f525c9`, 결과 tree는 `fd3e994212059228501e26f7bf3d3b96462ba1d5`다. 실행 source는 main 전에 게시했고 18개 source/input의 bytes·SHA256·Git blob을 연결했다. [Main receipt](s11_p246/evidence/run_r1/PROCESS_RECEIPT.json), [원시 호출](s11_p246/evidence/run_r1/EXECUTIONS.json), [물리 C9](s11_p246/evidence/c9_physics/C9_REVIEW_RESULTS_KO.md), [provenance C9](s11_p246/evidence/c9_provenance/AUDIT_REPORT_KO.md)를 읽는다. 후자는 Rust 작성자의 감사이므로 독립 범위는 root runner/provenance이며 단독 Rust 승인이 아니다. 다른 검토자가 frozen Rust core를 별도로 읽었다.
 
-## 읽는 순서와 실행 재사용
+## 완료된 S9/S10은 재사용한다
 
-1. [현재 반환 metadata](RETURN_TO_CHATGPT.json), [DAG](DAG.json), [출판 마감](PUBLICATION_CLOSEOUT.json), [cloud readback](CLOUD_READBACK_KO.md).
-2. [S10 최적화 계약/단계](S10_OPTIMIZATION_KO.md), [유도](S10_THEORY_KO.md), [결과](S10_RESULTS_KO.md), [고정 protocol](evidence_s10/c4/BENCHMARK_PROTOCOL.json).
-3. [실제 실행 receipt](evidence_s10/run_20261020_r1/EXPERIMENT_POSTCHECK.json), [독립 검토](evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json), [C10 판정](evidence_s10/C10_DECISION.json).
-4. [새 연구 대화용 인계](NEW_THREAD_HANDOFF_KO.md), [Codex/NCP 인계](CODEX_HANDOFF_KO.md).
+2026-10-20의 **원8ZIP+복구보충1ZIP=9ZIP·4,399,983bytes·중복 포함383payload**, 최종 JSON24,280bytes의 양쪽 전체 검증은 완료 상태 그대로다. 초기 intake는 양쪽 최종 JSON bytes/SHA256과 기존9ZIP metadata identity를 대조했다. 원 ZIP CRC/manifest 증거를 재사용했고 이전 캠페인을 다시 돌리지 않았다. [원 최종 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6289844952), [현재 read-only intake](s11_p246/CLOUD_INTAKE.json).
 
-S9/S10의 완료 source·입력·gate가 맞는 증거를 재사용한다. Cloud 복구나 metadata 확인을 이유로 완료한 과학 캠페인을 반복하지 않는다. 현재 범위는 샌드박스에서 끝났고 추가 NCP 실행 의무가 없다. 같은 source의 재현이 별도로 필요할 때만 기존 pinned/offline runtime와 execute wrapper의 gate를 따른다. Frozen source의 README/PREREG/NOT_RUN은 사전등록 시점 기록이므로 실제 결과를 덮어씌워 고치지 않는다.
+S9 고정8history, S10 targeted11/11·kernel108/108·대표RAW24/24 scientific identity·science68/68·원C9 155/155를 보존한다. MF closed2.973배·FLRW4.115배는 원 고정 workload 결과다. Closed small/clock4의1.055배(IQR0.957–1.243)는 일관된 이득을 승인하지 않고 changing n16/cohort2 `0.9498173837599284`배 성능 회귀를 유지한다. [S10 전체 결과](S10_RESULTS_KO.md).
 
-## 물리 계약과 남은 연구
+## 물리 계약과 남은 의무
 
-Non-tilted axisymmetric Bianchi I,(-,+,+,+),a_perp=a exp(-b),a_parallel=a exp(2b),s=dot b,Sigma=sqrt(3)|s|/H. 기존 photons·physical anisotropic stock·birth data·source frame·reflection·양의 weights·고정spectral owner는 불변이다. 새 명시적 isotropic birth만 원 admission을 통과한다. 허용오차 완화·음수weights·재가중으로 실패를 우회하지 않는다.
+Non-tilted axisymmetric Bianchi I, `(-,+,+,+)`, `a_perp=a exp(-b)`, `a_parallel=a exp(2b)`, `s=dot b`, `Sigma=sqrt(3)|s|/H`를 유지한다. 새 명시적 isotropic birth quadrature만 보정하며 기존 photons·physical anisotropic stock·birth weights·source frame·reflection·양수성·고정 owner를 보존한다.
 
-S6 finite-d/rank1/source-deposition 설명의 제한된 완료는 재사용한다. P2/P4 일치나 S10 bit identity가 continuum/full native finite-bin 보증을 뜻하지 않는다. P6 알고리즘, 넓은 angular 범위, 실제 MD14 공급부의 에너지·시간·응력 closure와 native Einstein feedback, full reactive finite-bin spectral history, 이 Rust client의 full parameter tangent는 남아 있다. S6 rate38/344FAIL, above-noise P4악화44/238, S7 angular FAIL2rows, S8 낮은해상도8fails와 INNER_P2_PRECISION_LIMIT를 보존한다.
+실제 MD14 정규화/donor closure와 native Einstein/shear shared-Q 결합, evolving reactive full finite-bin spectral history, 더 넓은 finite-d/angular 고차 moment, 새 Rust client의 full birth-memory parameter tangent는 계속 미완료다. 확인한 [PR175](https://github.com/cosmosapjw-quantum/bass/pull/175)의 normalizer/event adapter는 재사용 대상으로 기록했으며 native 물리 완료로 세지 않는다. `5.369926725506957e-12`의 제한된 source-deposition 설명을 전체 spectral-history 수렴으로 바꾸지 않는다.
 
-추가worker16/RAM16GiB/추가disk4GiB/개별job1800초 상한. 실제환경8CPU/8GiB, build2, 독립이력1/2/4를 측정했고 이번4job묶음의 후속우선선택은2workers다. REIproduction/fullEoR/merge 또는 CI PASS를 승인하지 않는다.
+[새 연구 대화 인계](NEW_THREAD_HANDOFF_KO.md) · [Codex/NCP 인계](CODEX_HANDOFF_KO.md) · [현재 반환 JSON](RETURN_TO_CHATGPT.json).
+
+현재 NCP 재실행 의무는 없다. 추가worker≤16/RAM≤16GiB/disk≤4GiB/개별job≤1800초를 지켰다. 실제환경8CPU/8GiB, main science process1, 기록된 main wall2.37586초·최대 개별child RSS238364KiB, 관측 task allocated disk약1.28GiB다. Runtime refresh로 잃은 초기 smoke raw는 PASS 근거에서 제외했고, 복구 후 게시 source에 결박된 main receipt를 사용한다. [자원 및 복구 기록](s11_p246/evidence/runtime_recovery/RESOURCE_CLOSEOUT.json).
+
+과거 campaign·native history·ODE·benchmark·NCP 재실행과 새 자동 최적화 cycle은0회다. Draft를 유지하며 REIproduction/fullEoR/merge로 확대하지 않는다.

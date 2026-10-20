@@ -1,6 +1,6 @@
 {
-  "schema": "bass.isotropy.research_dag.v15",
-  "date_utc": "2026-10-20T18:10:14.107487+00:00",
+  "schema": "bass.isotropy.research_dag.v16",
+  "date_utc": "2026-10-20T18:27:11.075902+00:00",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
   "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -56,10 +56,10 @@
     "final_metadata_backup": "Recorded separately in publication supplement and PR comment after upload/readback."
   },
   "new_projection_native": "PASS_SCOPED_NEW_BIRTH_ADAPTER",
-  "NCP": "NOT_USED_FOR_S9; completed registered8 once; no NCP replay obligation for this scope; new physical/native scope requires its own source/input/gates.",
+  "NCP": "NOT_RUN_NO_REPLAY_OBLIGATION_FOR_COMPLETED_CURRENT_SCOPE",
   "native_subagent": "COMPLETED_ACTUAL_EXECUTION_AND_INDEPENDENT_REVIEW",
   "auto_merge": false,
-  "resume_head": "0771f0610987eb9f900674e83063912150733255",
+  "resume_head": "85d5833b4486d14855b84a9d967f5819788d05e5",
   "S5": {
     "status": "PASS_SCOPED_NATIVE_ADAPTER",
     "stage_status": "complete",
@@ -106,15 +106,33 @@
     "S10_C10_CONTAINING_METADATA",
     "S11_C1_INTAKE_CONTRACT",
     "S11_C2_C5_FROZEN_SOURCE_INPUT",
-    "S11_C6_C9_RESULT_AND_REVIEW"
+    "S11_C6_C9_RESULT_AND_REVIEW",
+    "S11_C10_METADATA_HANDOFF"
   ],
   "remaining_obligations": [
-    "Actual MD14 normalization/donor closure and native Einstein/shear use of the same Q: PR175 adapter/theory reused; physical donor/event inputs and native history remain unexecuted.",
-    "P246 algorithm is implemented and PASS_SCOPED on the registered fixed supports. General near-boundary robustness and native integration are not admitted.",
-    "S8 INNER_P2_PRECISION_LIMIT: archived birth11 pointwise P24 solved by new algorithm; original full native history failure and low-resolution angular failures remain preserved without replay.",
-    "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation and convergence remain open.",
-    "Wider finite-d/angular/high-moment convergence remains open. Preserve S6 rate38/344 failures, worsening44/238, and S11 7-ray finite-d worsening1.54913989382294.",
-    "Full birth-memory parameter tangent in the new Rust client remains open; earlier S8 evidence is separate."
+    {
+      "id": "actual_MD14_and_native_shared_Q",
+      "status": "OPEN",
+      "scope": "Physical donor closure/normalization, measured paired-event inputs, native Einstein/shear shared-Q coupling and validation; reuse PR175 components."
+    },
+    {
+      "id": "evolving_reactive_full_finite_bin_spectral_history",
+      "status": "OPEN"
+    },
+    {
+      "id": "broader_finite_d_angular_higher_moments",
+      "status": "OPEN",
+      "preserve": "49point1.54913989382294 worsening and both P246 support failures."
+    },
+    {
+      "id": "new_Rust_full_birth_memory_parameter_tangent",
+      "status": "OPEN"
+    },
+    {
+      "id": "S8_history",
+      "status": "HISTORICAL_FAILURE_PRESERVED",
+      "scope": "New pointwise P24 repair does not complete or rewrite original history."
+    }
   ],
   "native_source_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
   "limits": {
@@ -225,274 +243,264 @@
     "status_role": "Historical bounded S6 scope; later S7/S8/S9 executions are tracked in their own nodes and reused. This historical label does not reopen those completed campaigns."
   },
   "physmath_loop_mapping": {
-    "workflow_version": "physmath-research-loop1.0.0",
-    "selected_scope": "Unchanged source/prereg S9 actual8 histories, independent raw review, result figures and publication/dual readback; S6-S8 retained evidence reused.",
+    "workflow": "physmath-research-loop",
+    "selected_scope": "S11 positiveP246 fixedsupport and angular response",
     "stages": [
       {
         "id": "R1",
-        "name": "연구 위치·계약",
-        "status": "reused",
-        "evidence_refs": [
-          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
-          "evidence_s9/vigilode_intake/INTAKE.json",
-          "s9_vigilode/INPUT_PROVENANCE.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R2",
-        "name": "근거·재사용",
-        "status": "reused",
-        "evidence_refs": [
-          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
-          "evidence_s9/vigilode_intake/INTAKE.json",
-          "s9_vigilode/INPUT_PROVENANCE.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R3",
-        "name": "주장·전제 정렬",
-        "status": "reused",
-        "evidence_refs": [
-          "S9_THEORY_KO.md",
-          "S9_THEORY_PACKAGE_REVIEW_KO.md",
-          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R4",
-        "name": "가설·표현 탐색",
-        "status": "reused",
-        "evidence_refs": [
-          "S9_THEORY_KO.md",
-          "S9_THEORY_PACKAGE_REVIEW_KO.md",
-          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R5",
-        "name": "구성적 유도",
-        "status": "reused",
-        "evidence_refs": [
-          "S9_THEORY_KO.md",
-          "S9_THEORY_PACKAGE_REVIEW_KO.md",
-          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R6",
-        "name": "독립 검증",
-        "status": "reused",
-        "evidence_refs": [
-          "S9_THEORY_KO.md",
-          "S9_THEORY_PACKAGE_REVIEW_KO.md",
-          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R7",
-        "name": "판별 검증",
-        "status": "complete",
-        "evidence_refs": [
-          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
-          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R8",
-        "name": "결과 판정",
-        "status": "complete",
-        "evidence_refs": [
-          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
-          "evidence_s9/resume_20261020/science_review/INDEPENDENT_S9_ACTUAL_REVIEW_KO.md",
-          "evidence_s9/resume_20261020/science_review/INDEPENDENT_RECOMPUTATION.json",
-          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "PHYS-MATH followed by PHYS-MATH-CODE both PASS_SCOPED on8actual histories,1224observations and192exact birth certificate instances; independent stored-state recomputation, no new integrations or old tests. Publication/dual readback remains separate inR10/C10."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R9",
-        "name": "정식 결과·코딩 연결",
-        "status": "complete",
-        "evidence_refs": [
-          "S9_THEORY_KO.md",
-          "S9_RESULTS_KO.md",
-          "evidence_s9/RESULT_SUMMARY_20261020.json",
-          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Formal results connect the unchanged theory/code to the completed fixed8-history manufactured donor campaign and PASS_SCOPED independent review. PhysicalMD14 closure and wider native/continuum histories remain pending."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "R10",
-        "name": "종료·재개",
-        "status": "in_progress",
-        "evidence_refs": [
-          "S9_RESULTS_KO.md",
-          "evidence_s9/RESULT_SUMMARY_20261020.json",
+        "status": "partial_delivery_only",
+        "evidence": [
+          "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
           "PUBLICATION_CLOSEOUT.json",
-          "CODEX_HANDOFF_KO.md",
-          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
-          "delivery/s9/S9_STAGE1_CLOUD_FINAL_STATUS.json",
-          "delivery/s10/CLOUD_CHECKPOINT_INDEX.json"
+          "NEW_THREAD_HANDOFF_KO.md",
+          "CODEX_HANDOFF_KO.md"
         ],
-        "reason": "S9 result commita4031179 and full Dropbox raw ZIP verification are complete. Scientific decision and handoff are available; delivery is partial solely because the new Drive copy is blocked. No science replay is required."
+        "reason": "Science/Git/Dropbox preserved. New Drive write endpoints returned no response; dual-cloud completion is not asserted."
       },
       {
         "id": "C1",
-        "name": "목표·baseline",
-        "status": "reused",
-        "evidence_refs": [
-          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
-          "evidence_s9/vigilode_intake/INTAKE.json",
-          "s9_vigilode/INPUT_PROVENANCE.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C2",
-        "name": "식–데이터–코드",
-        "status": "reused",
-        "evidence_refs": [
-          "s9_vigilode/PREREGISTRATION.json",
-          "s9_vigilode/src/lib.rs",
-          "s9_vigilode/campaign.py",
-          "s9_vigilode/HOWTO_KO.md",
-          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C3",
-        "name": "수치 설계",
-        "status": "reused",
-        "evidence_refs": [
-          "s9_vigilode/PREREGISTRATION.json",
-          "s9_vigilode/src/lib.rs",
-          "s9_vigilode/campaign.py",
-          "s9_vigilode/HOWTO_KO.md",
-          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C4",
-        "name": "실행 DAG·자원",
-        "status": "reused",
-        "evidence_refs": [
-          "s9_vigilode/PREREGISTRATION.json",
-          "s9_vigilode/src/lib.rs",
-          "s9_vigilode/campaign.py",
-          "s9_vigilode/HOWTO_KO.md",
-          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C5",
-        "name": "구현",
-        "status": "reused",
-        "evidence_refs": [
-          "s9_vigilode/PREREGISTRATION.json",
-          "s9_vigilode/src/lib.rs",
-          "s9_vigilode/campaign.py",
-          "s9_vigilode/HOWTO_KO.md",
-          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C6",
-        "name": "구현 검증",
-        "status": "reused",
-        "evidence_refs": [
-          "s9_vigilode/PREREGISTRATION.json",
-          "s9_vigilode/src/lib.rs",
-          "s9_vigilode/campaign.py",
-          "s9_vigilode/HOWTO_KO.md",
-          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
-          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
-          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
-          "evidence_s9/runner_review/CLOSEOUT.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C7",
-        "name": "과학 검증",
-        "status": "complete",
-        "evidence_refs": [
-          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
-          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C8",
-        "name": "수치·재현성",
-        "status": "complete",
-        "evidence_refs": [
-          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
-          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C9",
-        "name": "독립 검토",
-        "status": "complete",
-        "evidence_refs": [
-          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
-          "evidence_s9/resume_20261020/science_review/INDEPENDENT_S9_ACTUAL_REVIEW_KO.md",
-          "evidence_s9/resume_20261020/science_review/INDEPENDENT_RECOMPUTATION.json",
-          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        "status": "complete_scoped",
+        "evidence": [
+          "s11_p246/CONTRACT.json",
+          "s11_p246/THEORY.md",
+          "s11_p246/RESULTS_KO.md",
+          "s11_p246/evidence/run_r1/RETURN.json",
+          "s11_p246/evidence/c9_physics/RETURN.json",
+          "s11_p246/evidence/c9_provenance/AUDIT_R1.json"
         ],
-        "reason": "PHYS-MATH followed by PHYS-MATH-CODE both PASS_SCOPED on8actual histories,1224observations and192exact birth certificate instances; independent stored-state recomputation, no new integrations or old tests. Publication/dual readback remains separate inR10/C10."
+        "reason": "Bounded new S11 unit; completed S9/S10 reused."
       },
       {
         "id": "C10",
-        "name": "판정·인계",
-        "status": "in_progress",
-        "evidence_refs": [
-          "S9_RESULTS_KO.md",
-          "evidence_s9/RESULT_SUMMARY_20261020.json",
+        "status": "partial_delivery_only",
+        "evidence": [
+          "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
           "PUBLICATION_CLOSEOUT.json",
-          "CODEX_HANDOFF_KO.md",
-          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
-          "delivery/s9/S9_STAGE1_CLOUD_FINAL_STATUS.json",
-          "delivery/s10/CLOUD_CHECKPOINT_INDEX.json"
+          "NEW_THREAD_HANDOFF_KO.md",
+          "CODEX_HANDOFF_KO.md"
         ],
-        "reason": "S9 result commita4031179 and full Dropbox raw ZIP verification are complete. Scientific decision and handoff are available; delivery is partial solely because the new Drive copy is blocked. No science replay is required."
+        "reason": "Science/Git/Dropbox preserved. New Drive write endpoints returned no response; dual-cloud completion is not asserted."
       }
     ]
   },
@@ -580,7 +588,7 @@
       ]
     }
   ],
-  "resume_head_role": "Last verified checkpoint before this C10 metadata commit. Resolve the current branch ref and final delivery comment before resuming; source roles are separately fixed.",
+  "resume_head_role": "Pinned S11 scientific result and reviews, not the containing final metadata commit.",
   "S7_publication_closeout": {
     "status": "complete",
     "git_source_publication": "PASS_THREE_ORDERED_COMMITS_AND_TREE_READBACKS",
@@ -2258,7 +2266,7 @@
     "result_cloud_readback": "delivery/s9/S9_STAGE1_CLOUD_FINAL_STATUS.json",
     "drive_recovery_receipt": "delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json"
   },
-  "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json",
+  "current_result_summary": "s11_p246/RESULT_LEDGER.json",
   "S10_next_physics": {
     "status": "in_progress_in_S11",
     "next_action": "Reuse the completed S9 eight histories. Next physics unit: bind the fixed MD14 owner's per-H band-energy/time convention to a specified donor stress-energy supply and derive/implement the native Einstein source bridge with one shared Q. Keep the separate S8 inner-P2 numerical precision failure and wider angular/reactive-history obligations explicit.",
@@ -2732,8 +2740,8 @@
     "date_utc": "2026-10-20T11:00:48.565403+00:00"
   },
   "current_optimization_result": "S10_RESULTS_KO.md",
-  "current_delivery_index": "delivery/s10/CLOUD_CHECKPOINT_INDEX.json",
-  "active_metadata_publication_policy": "This is a delivery-only recovery metadata child of a85605302bb0317022eb06b498eb05b9d621de6a. The executed optimization source remains d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8. Exact containing commit/tree, the finite postcommit supplement and its dual-cloud readback are owned by the latest PR174 delivery comment and postcommit receipt; no self-referential commit/hash or unperformed supplement upload is asserted here.",
+  "current_delivery_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+  "active_metadata_publication_policy": "S11 scientific source/result identities are fixed separately. This containing metadata commit and its final finite supplement are identified by postcommit readback and the final PR174 delivery comment. Do not confuse metadata with executed source. New Drive delivery is incomplete; S10 completed delivery remains reused.",
   "source_roles": {
     "S9_scientific_source": {
       "commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
@@ -2760,43 +2768,52 @@
     "S10_original_C10_decision_metadata": {
       "commit": "a85605302bb0317022eb06b498eb05b9d621de6a",
       "tree": "e1d04268e647b6cb6d33374b64598fa3ec0d4131"
+    },
+    "S11_executed_source": {
+      "commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+      "tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9"
+    },
+    "S11_results_and_reviews": {
+      "commit": "85d5833b4486d14855b84a9d967f5819788d05e5",
+      "tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5"
+    },
+    "S10_completed_delivery_metadata": {
+      "commit": "d0c0313d6c063037fd8e067744aee66235df1a58",
+      "tree": "e62a42c3227114a5657538a75e034af5a5823703"
     }
   },
-  "latest_storage_intake_role": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json.",
+  "latest_storage_intake_role": "Historical pre-S9 science intake. The current S11 delivery index is delivery/s11/CLOUD_CHECKPOINT_INDEX.json; the completed original S9/S10 dual-provider delivery is preserved separately.",
   "latest_storage_recovery_role": "Historical2026-10-19 recovery; does not establish today new Drive copies.",
   "current_delivery_recovery": {
-    "status": "ORIGINAL_EIGHT_ARCHIVES_DUAL_CLOUD_FULL_BYTES_VERIFIED",
-    "verified_at_utc": "2026-10-20T11:00:48.565403+00:00",
-    "metadata_parent_commit": "a85605302bb0317022eb06b498eb05b9d621de6a",
-    "metadata_parent_tree": "e1d04268e647b6cb6d33374b64598fa3ec0d4131",
-    "science_source_commit": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
-    "fixed_REI_spectral_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
-    "archive_count": 8,
-    "total_zip_bytes": 4189549,
-    "manifest_payload_entries_including_repeated_files": 317,
-    "count_scope": "317 repeated checkpoint payload entries; not unique files or science cases.",
-    "drive_receipt": "delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json",
-    "drive_receipt_sha256": "29cd5777221a179a2af73775efc10e2671b35b4c922fd262fb966ef7d1b7b05b",
-    "dropbox_receipt": "delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json",
-    "dropbox_receipt_sha256": "2fdfeaacbb7825ceb4bd32755f8965ada54841580d3651c33e7f336599fb7677",
-    "current_drive_blocker": null,
-    "delivery_only": true,
-    "science_build_test_ODE_benchmark_reruns": 0,
-    "browser_uploads": 0,
-    "authorization": "User explicitly approved browser fallback, then explicitly requested Google Drive plugin retry.",
-    "recovery_path": "Google Drive plugin upload followed by metadata/raw-file readback.",
-    "restore_provenance": {
-      "historical_cloud_receipts_exact_bytes_restored": 7,
-      "historical_C10_postcommit_receipt_exact_bytes_restored": false,
-      "historical_C10_postcommit_receipt_sha256": "a6511b07af261aa8edcf0bea252b816c0d5dfab75a6f9a84e40017142a60d5ee",
-      "historical_C10_proof_source": "Original PR174 delivery comment and restored earlier recovery receipt preserve the digest/outcome. Current fresh full-byte verification is a distinct receipt.",
-      "FINAL_DROPBOX_ARCHIVE_INDEX_exact_original_bytes_restored": false,
-      "FINAL_DROPBOX_ARCHIVE_INDEX_role": "New reconstruction from verified original archives and surviving metadata; not a claim of byte-identical index restoration.",
-      "provenance_receipt": "delivery/s10/dropbox_restore_20261020/METADATA_RESTORE_PROVENANCE.json"
+    "status": "PARTIAL_NEW_DRIVE_WRITE_NO_RESPONSE",
+    "scope": "S11 only; completed S9/S10 delivery is separate and remains closed",
+    "checkpoint_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+    "Git_result_publication": "85d5833b4486d14855b84a9d967f5819788d05e5",
+    "Dropbox_stage1_3": "COMPLETE_FULL_REMOTE_BYTES_SHA256_PROVIDERHASH_CRC_MANIFEST_GIT",
+    "Drive_new_stage1_3": "NOT_CONFIRMED",
+    "Drive_attempts": {
+      "upload_file_attempts": 2,
+      "upload_no_response_seconds": [
+        1604.0,
+        1197.8
+      ],
+      "alternate_copy_file_attempts": 1,
+      "copy_no_response_seconds": 344.6,
+      "update_file_calls": 0,
+      "returned_operation_or_new_file_IDs": [],
+      "read_only_final_and_pending_name_matches_at_182353": 0,
+      "server_side_pending_outcome": "UNKNOWN; later completion cannot be ruled out",
+      "old_original_objects_mutated": false,
+      "interrupted_by": "root assistant, not a user cancellation",
+      "repeat_mutations_stopped": true,
+      "receipts": [
+        "UPLOAD_INTERRUPTION_RECEIPT.json",
+        "DRIVE_ALTERNATE_INTERRUPTED_COPY.json",
+        "DRIVE_ALTERNATE_NAME_LOOKUP.json"
+      ]
     },
-    "historical_failures": "Earlier connector no-response attempts and browser secure-auth/runtime timeouts remain historical. Browser authentication success was not observed. They are not a current Drive backup blocker.",
-    "postcommit_supplement": "Not yet created in this containing metadata. Read latest PR174 delivery comment/postcommit receipt for exact identity and verified outcome.",
-    "production_full_EoR_merge_admitted": false
+    "final_C10_metadata_supplement": "Containing metadata HEAD/tree, finite final supplement, final JSON and actual readback are owned by the final PR174 delivery comment, after this commit exists. No future write success or self-hash asserted.",
+    "delivery_science_build_test_ODE_benchmark_NCP_replays": 0
   },
   "historical_delivery_before_drive_recovery_20261020": {
     "metadata_commit": "a85605302bb0317022eb06b498eb05b9d621de6a",
@@ -2831,7 +2848,7 @@
     "historical_stage_receipt_files_unchanged": true
   },
   "S11": {
-    "status": "PASS_SCOPED_SCIENCE_COMPLETE_DELIVERY_PENDING",
+    "status": "SCIENCE_COMPLETE_PUBLICATION_DROPBOX_COMPLETE_DRIVE_INCOMPLETE",
     "contract": "s11_p246/CONTRACT.json",
     "intake": "s11_p246/INTAKE_KO.md",
     "parent_head": "d0c0313d6c063037fd8e067744aee66235df1a58",
@@ -2839,7 +2856,7 @@
     "R1_R4_C1_C4": "complete",
     "R5_C5": "complete_published_before_main_run",
     "R6_R9_C6_C9": "complete",
-    "R10_C10": "in_progress_publication_and_dual_cloud_readback",
+    "R10_C10": "PARTIAL_DELIVERY_DRIVE_WRITE_TOOL_NO_RESPONSE",
     "completed_campaigns_replayed": 0,
     "new_optimization_cycles": 0,
     "shared_Q_PR175_reused": "4940770c7904ed6f6fd5caca8e525905593bb683",
@@ -2940,7 +2957,57 @@
         "S11_C10_DELIVERY"
       ]
     ],
-    "delivery_replay_policy": "Packing, uploads and readback must not rerun any science/build/test/ODE/benchmark/NCP."
+    "delivery_replay_policy": "Packing, uploads and readback must not rerun any science/build/test/ODE/benchmark/NCP.",
+    "result_and_review_commit": "85d5833b4486d14855b84a9d967f5819788d05e5",
+    "result_and_review_tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5",
+    "main_source_unchanged_after_run": true,
+    "delivery": {
+      "status": "PARTIAL_NEW_DRIVE_WRITE_NO_RESPONSE",
+      "scope": "S11 only; completed S9/S10 delivery is separate and remains closed",
+      "checkpoint_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+      "Git_result_publication": "85d5833b4486d14855b84a9d967f5819788d05e5",
+      "Dropbox_stage1_3": "COMPLETE_FULL_REMOTE_BYTES_SHA256_PROVIDERHASH_CRC_MANIFEST_GIT",
+      "Drive_new_stage1_3": "NOT_CONFIRMED",
+      "Drive_attempts": {
+        "upload_file_attempts": 2,
+        "upload_no_response_seconds": [
+          1604.0,
+          1197.8
+        ],
+        "alternate_copy_file_attempts": 1,
+        "copy_no_response_seconds": 344.6,
+        "update_file_calls": 0,
+        "returned_operation_or_new_file_IDs": [],
+        "read_only_final_and_pending_name_matches_at_182353": 0,
+        "server_side_pending_outcome": "UNKNOWN; later completion cannot be ruled out",
+        "old_original_objects_mutated": false,
+        "interrupted_by": "root assistant, not a user cancellation",
+        "repeat_mutations_stopped": true,
+        "receipts": [
+          "UPLOAD_INTERRUPTION_RECEIPT.json",
+          "DRIVE_ALTERNATE_INTERRUPTED_COPY.json",
+          "DRIVE_ALTERNATE_NAME_LOOKUP.json"
+        ]
+      },
+      "final_C10_metadata_supplement": "Containing metadata HEAD/tree, finite final supplement, final JSON and actual readback are owned by the final PR174 delivery comment, after this commit exists. No future write success or self-hash asserted.",
+      "delivery_science_build_test_ODE_benchmark_NCP_replays": 0
+    },
+    "S10_original_delivery_reused": {
+      "status": "COMPLETE_REUSED",
+      "metadata_head": "d0c0313d6c063037fd8e067744aee66235df1a58",
+      "metadata_tree": "e62a42c3227114a5657538a75e034af5a5823703",
+      "ZIP_count": 9,
+      "ZIP_bytes": 4399983,
+      "payload_entries_including_duplicates": 383,
+      "historical_full_remote_bytes_SHA256_CRC_manifest_both_providers": "PASS_REUSED_NOT_REDOWNLOADED",
+      "final_JSON_bytes": 24280,
+      "final_JSON_sha256": "98a88ff10828d9d6d0794237da87db76fb68875db38457c7fb18c04aedcfdb3c",
+      "final_JSON_current_both_byte_readback": "PASS",
+      "final_JSON_Drive": "1IJFuu_qDoNoMXiU-9a7wxE4E5bZeJCqm",
+      "final_JSON_Dropbox": "id:BSpOijBcT10AAAAAAD_UAg",
+      "final_delivery_comment": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6289844952",
+      "read_only_intake": "s11_p246/CLOUD_INTAKE.json"
+    }
   },
   "historical_remaining_obligations_before_S11": [
     "Actual MD14 source energy-supply/stress closure and native Einstein feedback: conditional Q bridge derived; owner time/band/fesc ownership and physical donor model must be bound before physical execution.",
@@ -2950,5 +3017,376 @@
     "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation.",
     "P6-constrained algorithm is not implemented/admitted by S9; moment matching and the source-deposition test do not certify the whole continuum/native evolution."
   ],
-  "current_physics_result_summary": "s11_p246/RESULT_LEDGER.json"
+  "current_physics_result_summary": "s11_p246/RESULT_LEDGER.json",
+  "historical_S10_current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json",
+  "historical_S10_current_delivery_index": "delivery/s10/CLOUD_CHECKPOINT_INDEX.json",
+  "historical_S10_active_metadata_publication_policy": "This is a delivery-only recovery metadata child of a85605302bb0317022eb06b498eb05b9d621de6a. The executed optimization source remains d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8. Exact containing commit/tree, the finite postcommit supplement and its dual-cloud readback are owned by the latest PR174 delivery comment and postcommit receipt; no self-referential commit/hash or unperformed supplement upload is asserted here.",
+  "historical_S10_current_delivery_recovery": {
+    "status": "ORIGINAL_EIGHT_ARCHIVES_DUAL_CLOUD_FULL_BYTES_VERIFIED",
+    "verified_at_utc": "2026-10-20T11:00:48.565403+00:00",
+    "metadata_parent_commit": "a85605302bb0317022eb06b498eb05b9d621de6a",
+    "metadata_parent_tree": "e1d04268e647b6cb6d33374b64598fa3ec0d4131",
+    "science_source_commit": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+    "fixed_REI_spectral_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "archive_count": 8,
+    "total_zip_bytes": 4189549,
+    "manifest_payload_entries_including_repeated_files": 317,
+    "count_scope": "317 repeated checkpoint payload entries; not unique files or science cases.",
+    "drive_receipt": "delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json",
+    "drive_receipt_sha256": "29cd5777221a179a2af73775efc10e2671b35b4c922fd262fb966ef7d1b7b05b",
+    "dropbox_receipt": "delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json",
+    "dropbox_receipt_sha256": "2fdfeaacbb7825ceb4bd32755f8965ada54841580d3651c33e7f336599fb7677",
+    "current_drive_blocker": null,
+    "delivery_only": true,
+    "science_build_test_ODE_benchmark_reruns": 0,
+    "browser_uploads": 0,
+    "authorization": "User explicitly approved browser fallback, then explicitly requested Google Drive plugin retry.",
+    "recovery_path": "Google Drive plugin upload followed by metadata/raw-file readback.",
+    "restore_provenance": {
+      "historical_cloud_receipts_exact_bytes_restored": 7,
+      "historical_C10_postcommit_receipt_exact_bytes_restored": false,
+      "historical_C10_postcommit_receipt_sha256": "a6511b07af261aa8edcf0bea252b816c0d5dfab75a6f9a84e40017142a60d5ee",
+      "historical_C10_proof_source": "Original PR174 delivery comment and restored earlier recovery receipt preserve the digest/outcome. Current fresh full-byte verification is a distinct receipt.",
+      "FINAL_DROPBOX_ARCHIVE_INDEX_exact_original_bytes_restored": false,
+      "FINAL_DROPBOX_ARCHIVE_INDEX_role": "New reconstruction from verified original archives and surviving metadata; not a claim of byte-identical index restoration.",
+      "provenance_receipt": "delivery/s10/dropbox_restore_20261020/METADATA_RESTORE_PROVENANCE.json"
+    },
+    "historical_failures": "Earlier connector no-response attempts and browser secure-auth/runtime timeouts remain historical. Browser authentication success was not observed. They are not a current Drive backup blocker.",
+    "postcommit_supplement": "Not yet created in this containing metadata. Read latest PR174 delivery comment/postcommit receipt for exact identity and verified outcome.",
+    "production_full_EoR_merge_admitted": false
+  },
+  "completed_S9_S10_delivery": {
+    "status": "COMPLETE_REUSED",
+    "metadata_head": "d0c0313d6c063037fd8e067744aee66235df1a58",
+    "metadata_tree": "e62a42c3227114a5657538a75e034af5a5823703",
+    "ZIP_count": 9,
+    "ZIP_bytes": 4399983,
+    "payload_entries_including_duplicates": 383,
+    "historical_full_remote_bytes_SHA256_CRC_manifest_both_providers": "PASS_REUSED_NOT_REDOWNLOADED",
+    "final_JSON_bytes": 24280,
+    "final_JSON_sha256": "98a88ff10828d9d6d0794237da87db76fb68875db38457c7fb18c04aedcfdb3c",
+    "final_JSON_current_both_byte_readback": "PASS",
+    "final_JSON_Drive": "1IJFuu_qDoNoMXiU-9a7wxE4E5bZeJCqm",
+    "final_JSON_Dropbox": "id:BSpOijBcT10AAAAAAD_UAg",
+    "final_delivery_comment": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6289844952",
+    "read_only_intake": "s11_p246/CLOUD_INTAKE.json"
+  },
+  "current_S11_science": {
+    "status": "COMPLETE_SCOPED",
+    "unit": "positive_P246_birth_response",
+    "source_commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+    "source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
+    "result_and_review_commit": "85d5833b4486d14855b84a9d967f5819788d05e5",
+    "result_and_review_tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5",
+    "main_checks": {
+      "passed": 101,
+      "total": 101
+    },
+    "exact_math_recovery_checks": {
+      "passed": 25,
+      "total": 25
+    },
+    "physics_C9_checks": {
+      "passed": 235,
+      "total": 235
+    },
+    "provenance_C9_checks": {
+      "passed": 152,
+      "total": 152
+    },
+    "counts_are_separate_overlapping_sets": true,
+    "results": "s11_p246/RESULTS_KO.md",
+    "ledger": "s11_p246/RESULT_LEDGER.json",
+    "admission": "New declared isotropic birth on fixed support; positive reflection-even weights and exact original3e-15moment gate; scoped collisionless angular diagnostics.",
+    "old_S8_history_rewritten": false,
+    "pointwise_S8_P24_repair": "PASS; original failed native history retained without replay",
+    "finite_d_negative_result": "49-point dyadic7ray P246 maximum angular bias / P24 maximum =1.54913989382294; no universal monotone improvement",
+    "broader_physics_admission": false,
+    "owner": "0e25846433170d0f420c4cda44a0bedbf02cd177"
+  },
+  "production_admission": false,
+  "current_scope_replay_counters": {
+    "completed_campaigns": 0,
+    "old_native_histories": 0,
+    "ODEs": 0,
+    "benchmarks": 0,
+    "optimization_cycles": 0,
+    "NCPs": 0,
+    "new_S11_admitted_main_runs": 1,
+    "new_math_recovery_runs": 1,
+    "new_C9_readonly_runs": 2
+  },
+  "historical_physmath_loop_before_S11": {
+    "workflow_version": "physmath-research-loop1.0.0",
+    "selected_scope": "Unchanged source/prereg S9 actual8 histories, independent raw review, result figures and publication/dual readback; S6-S8 retained evidence reused.",
+    "stages": [
+      {
+        "id": "R1",
+        "name": "연구 위치·계약",
+        "status": "reused",
+        "evidence_refs": [
+          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
+          "evidence_s9/vigilode_intake/INTAKE.json",
+          "s9_vigilode/INPUT_PROVENANCE.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R2",
+        "name": "근거·재사용",
+        "status": "reused",
+        "evidence_refs": [
+          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
+          "evidence_s9/vigilode_intake/INTAKE.json",
+          "s9_vigilode/INPUT_PROVENANCE.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R3",
+        "name": "주장·전제 정렬",
+        "status": "reused",
+        "evidence_refs": [
+          "S9_THEORY_KO.md",
+          "S9_THEORY_PACKAGE_REVIEW_KO.md",
+          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R4",
+        "name": "가설·표현 탐색",
+        "status": "reused",
+        "evidence_refs": [
+          "S9_THEORY_KO.md",
+          "S9_THEORY_PACKAGE_REVIEW_KO.md",
+          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R5",
+        "name": "구성적 유도",
+        "status": "reused",
+        "evidence_refs": [
+          "S9_THEORY_KO.md",
+          "S9_THEORY_PACKAGE_REVIEW_KO.md",
+          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R6",
+        "name": "독립 검증",
+        "status": "reused",
+        "evidence_refs": [
+          "S9_THEORY_KO.md",
+          "S9_THEORY_PACKAGE_REVIEW_KO.md",
+          "evidence_s9/WOLFRAM_PRIMAL_JVP.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "R7",
+        "name": "판별 검증",
+        "status": "complete",
+        "evidence_refs": [
+          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
+          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        ],
+        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+      },
+      {
+        "id": "R8",
+        "name": "결과 판정",
+        "status": "complete",
+        "evidence_refs": [
+          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
+          "evidence_s9/resume_20261020/science_review/INDEPENDENT_S9_ACTUAL_REVIEW_KO.md",
+          "evidence_s9/resume_20261020/science_review/INDEPENDENT_RECOMPUTATION.json",
+          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        ],
+        "reason": "PHYS-MATH followed by PHYS-MATH-CODE both PASS_SCOPED on8actual histories,1224observations and192exact birth certificate instances; independent stored-state recomputation, no new integrations or old tests. Publication/dual readback remains separate inR10/C10."
+      },
+      {
+        "id": "R9",
+        "name": "정식 결과·코딩 연결",
+        "status": "complete",
+        "evidence_refs": [
+          "S9_THEORY_KO.md",
+          "S9_RESULTS_KO.md",
+          "evidence_s9/RESULT_SUMMARY_20261020.json",
+          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json"
+        ],
+        "reason": "Formal results connect the unchanged theory/code to the completed fixed8-history manufactured donor campaign and PASS_SCOPED independent review. PhysicalMD14 closure and wider native/continuum histories remain pending."
+      },
+      {
+        "id": "R10",
+        "name": "종료·재개",
+        "status": "in_progress",
+        "evidence_refs": [
+          "S9_RESULTS_KO.md",
+          "evidence_s9/RESULT_SUMMARY_20261020.json",
+          "PUBLICATION_CLOSEOUT.json",
+          "CODEX_HANDOFF_KO.md",
+          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
+          "delivery/s9/S9_STAGE1_CLOUD_FINAL_STATUS.json",
+          "delivery/s10/CLOUD_CHECKPOINT_INDEX.json"
+        ],
+        "reason": "S9 result commita4031179 and full Dropbox raw ZIP verification are complete. Scientific decision and handoff are available; delivery is partial solely because the new Drive copy is blocked. No science replay is required."
+      },
+      {
+        "id": "C1",
+        "name": "목표·baseline",
+        "status": "reused",
+        "evidence_refs": [
+          "evidence_s9/intake/PUBLIC_RELATED_INTAKE.json",
+          "evidence_s9/vigilode_intake/INTAKE.json",
+          "s9_vigilode/INPUT_PROVENANCE.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C2",
+        "name": "식–데이터–코드",
+        "status": "reused",
+        "evidence_refs": [
+          "s9_vigilode/PREREGISTRATION.json",
+          "s9_vigilode/src/lib.rs",
+          "s9_vigilode/campaign.py",
+          "s9_vigilode/HOWTO_KO.md",
+          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C3",
+        "name": "수치 설계",
+        "status": "reused",
+        "evidence_refs": [
+          "s9_vigilode/PREREGISTRATION.json",
+          "s9_vigilode/src/lib.rs",
+          "s9_vigilode/campaign.py",
+          "s9_vigilode/HOWTO_KO.md",
+          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C4",
+        "name": "실행 DAG·자원",
+        "status": "reused",
+        "evidence_refs": [
+          "s9_vigilode/PREREGISTRATION.json",
+          "s9_vigilode/src/lib.rs",
+          "s9_vigilode/campaign.py",
+          "s9_vigilode/HOWTO_KO.md",
+          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C5",
+        "name": "구현",
+        "status": "reused",
+        "evidence_refs": [
+          "s9_vigilode/PREREGISTRATION.json",
+          "s9_vigilode/src/lib.rs",
+          "s9_vigilode/campaign.py",
+          "s9_vigilode/HOWTO_KO.md",
+          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C6",
+        "name": "구현 검증",
+        "status": "reused",
+        "evidence_refs": [
+          "s9_vigilode/PREREGISTRATION.json",
+          "s9_vigilode/src/lib.rs",
+          "s9_vigilode/campaign.py",
+          "s9_vigilode/HOWTO_KO.md",
+          "evidence_s9/theory_review/AD_UNIT_OBSERVATIONS.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+          "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+          "evidence_s9/theory_review/S9_INDEPENDENT_REVIEW_RECEIPT.json",
+          "evidence_s9/runner_review/CLOSEOUT.json"
+        ],
+        "reason": "Previous theory/development evidence retained; current Git/cloud/source-input identities matched. Fresh compile is separately recorded for this runtime."
+      },
+      {
+        "id": "C7",
+        "name": "과학 검증",
+        "status": "complete",
+        "evidence_refs": [
+          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
+          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        ],
+        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+      },
+      {
+        "id": "C8",
+        "name": "수치·재현성",
+        "status": "complete",
+        "evidence_refs": [
+          "evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json",
+          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        ],
+        "reason": "Eight actual histories completed once and all unchanged preregistered gates passed; scope is the fixed manufactured donor model."
+      },
+      {
+        "id": "C9",
+        "name": "독립 검토",
+        "status": "complete",
+        "evidence_refs": [
+          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
+          "evidence_s9/resume_20261020/science_review/INDEPENDENT_S9_ACTUAL_REVIEW_KO.md",
+          "evidence_s9/resume_20261020/science_review/INDEPENDENT_RECOMPUTATION.json",
+          "evidence_s9/RESULT_SUMMARY_20261020.json"
+        ],
+        "reason": "PHYS-MATH followed by PHYS-MATH-CODE both PASS_SCOPED on8actual histories,1224observations and192exact birth certificate instances; independent stored-state recomputation, no new integrations or old tests. Publication/dual readback remains separate inR10/C10."
+      },
+      {
+        "id": "C10",
+        "name": "판정·인계",
+        "status": "in_progress",
+        "evidence_refs": [
+          "S9_RESULTS_KO.md",
+          "evidence_s9/RESULT_SUMMARY_20261020.json",
+          "PUBLICATION_CLOSEOUT.json",
+          "CODEX_HANDOFF_KO.md",
+          "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json",
+          "delivery/s9/S9_STAGE1_CLOUD_FINAL_STATUS.json",
+          "delivery/s10/CLOUD_CHECKPOINT_INDEX.json"
+        ],
+        "reason": "S9 result commita4031179 and full Dropbox raw ZIP verification are complete. Scientific decision and handoff are available; delivery is partial solely because the new Drive copy is blocked. No science replay is required."
+      }
+    ]
+  },
+  "historical_S10_latest_storage_intake_role": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json."
 }

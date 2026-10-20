@@ -1,0 +1,75 @@
+{
+  "schema": "BASS_S11_FINAL_METADATA_REVIEW_R2_V1",
+  "recorded_at_utc": "2026-10-20T18:38:52.589051+00:00",
+  "reviewer": "p6_theory",
+  "status": "PASS_SCOPED_METADATA_M1_M2_M3_CLOSED",
+  "scope": "Focused read-only closure of the three R1 active metadata pointers and matching historical values; exact file identities checked. No scientific recomputation, broad retesting, source edit, cloud action or browser initialization.",
+  "prior_review": {
+    "path": "delivery/s11/final_metadata_review/FINAL_METADATA_REVIEW_R1.json",
+    "bytes": 8353,
+    "sha256": "756e6959d84fcf0dc1dcab915dff4d04f949a25e9c0ae2693cc282b1113a0fd4",
+    "copy_matches_original_review_bytes": true,
+    "original_findings_preserved": true
+  },
+  "reviewed_input_manifest": [
+    {
+      "path": "RETURN_TO_CHATGPT.json",
+      "bytes": 117175,
+      "sha256": "a593bbb44a5cc2e000ad912bdafe34be33c27276c87e51ff1bdafad8eb87b6be",
+      "matches_root_frozen_identity": true
+    },
+    {
+      "path": "DAG.json",
+      "bytes": 162751,
+      "sha256": "26f04c7f79952c8a439242fdff9390e7c5ccaeef96a1ae94a561a1bbb9e24d90",
+      "matches_root_frozen_identity": true
+    },
+    {
+      "path": "PUBLICATION_CLOSEOUT.json",
+      "bytes": 137123,
+      "sha256": "fdeb3d344083beb7d56763b6c37b3e7bc785ccb85e2fb6114255afe9daf1635e",
+      "matches_root_frozen_identity": true
+    }
+  ],
+  "closures": [
+    {
+      "id": "M1",
+      "status": "CLOSED",
+      "file": "RETURN_TO_CHATGPT.json",
+      "active": {
+        "current_scientific_source_commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+        "current_scientific_source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
+        "status": "S11_SCOPED_SCIENCE_PUBLISHED_DROPBOX_STAGE1_3_VERIFIED_DRIVE_UNCONFIRMED_C10_POSTCOMMIT_PENDING",
+        "current_cloud_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+        "source_identity_policy": "This is S11 C10 delivery metadata after result/review commit 85d5833b4486d14855b84a9d967f5819788d05e5. The executed S11 source remains 7fb9b83cba01d37ce4cabbc4772527710601cd96 (tree 963a43f26df1f9c6f462b9df9a2c34cf99f525c9); S9/S10 execution and completed original delivery identities remain historical and unchanged. Exact containing metadata commit/tree and the finite final C10 ZIP/JSON readbacks belong to the postcommit final PR174 delivery record. Three prior S11 checkpoints have full Dropbox readback; new Drive writes have no confirmed object or completion. No self-referential hash, unperformed transfer, full native history completion, or old campaign replay is asserted here."
+      },
+      "historical_key": "historical_S10_publication_before_S11",
+      "all_original_observed_pointer_values_exactly_preserved": true,
+      "judgment_ko": "현재 publication은 S11 source7fb/tree963a, Dropbox stage1–3 검증, Drive 미확정 및 후속 C10 postcommit으로 정렬됐고 원 S9/S10 publication 값은 history로 보존됐다."
+    },
+    {
+      "id": "M2",
+      "status": "CLOSED",
+      "file": "DAG.json",
+      "active_pointer": "/latest_storage_intake_role",
+      "active_value": "Historical pre-S9 science intake. The current S11 delivery index is delivery/s11/CLOUD_CHECKPOINT_INDEX.json; the completed original S9/S10 dual-provider delivery is preserved separately.",
+      "historical_key": "historical_S10_latest_storage_intake_role",
+      "historical_value_exactly_preserved": true,
+      "judgment_ko": "역사적 pre-S9 intake 역할과 현재 S11 cloud index를 명확히 구분했다."
+    },
+    {
+      "id": "M3",
+      "status": "CLOSED",
+      "file": "PUBLICATION_CLOSEOUT.json",
+      "active_pointer": "/source_identity_policy",
+      "active_value": "This is S11 C10 delivery metadata after result/review commit 85d5833b4486d14855b84a9d967f5819788d05e5. The executed S11 source remains 7fb9b83cba01d37ce4cabbc4772527710601cd96 (tree 963a43f26df1f9c6f462b9df9a2c34cf99f525c9); S9/S10 execution and completed original delivery identities remain historical and unchanged. Exact containing metadata commit/tree and the finite final C10 ZIP/JSON readbacks belong to the postcommit final PR174 delivery record. Three prior S11 checkpoints have full Dropbox readback; new Drive writes have no confirmed object or completion. No self-referential hash, unperformed transfer, full native history completion, or old campaign replay is asserted here.",
+      "historical_key": "historical_S10_source_identity_policy",
+      "historical_value_exactly_preserved": true,
+      "judgment_ko": "현재 정책은 S11 source/result와 후속 containing metadata 역할을 구분하며 원 S10 완료·신규 Drive 미확정·postcommit 자기 identity 경계를 유지한다."
+    }
+  ],
+  "open_findings_in_requested_scope": [],
+  "publication_judgment": "The three metadata corrections are closed for the exact files listed above. This does not assert new Drive completion or preapprove an unperformed final ZIP/JSON readback.",
+  "reviewer_authorship_limit": "Reviewer authored handoffs and R1 review; root authored these three corrections. R2 is a focused metadata review, not another independent scientific pass.",
+  "modified_repo_files": []
+}

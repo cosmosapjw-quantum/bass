@@ -1,3 +1,35 @@
+# S11 신규 배송 — GitHub·Dropbox 보존, 새 Drive 복사 미완료
+
+**S11 C1/C2–C5/C6–C9 세 ZIP은 Dropbox의 전체 원격 bytes·SHA256·provider hash·CRC·manifest/Git 검증을 완료했다. 새 Drive 복사는 확인되지 않아 이중 배송 완료를 선언하지 않는다.** 기존 S10의 원9ZIP·최종JSON 이중 배송은 이미 완료됐으며 이 새 장애 때문에 되돌리지 않는다.
+
+| S11 단계 | 봉인 ZIP bytes | SHA256 | Dropbox ID | payload |
+|---|---:|---|---|---:|
+| C1 | 40,857 | `73653cbbd5e8b01b10f4e95513514bb8d8db6f5415a80724fa79d0e58185e028` | `id:BSpOijBcT10AAAAAAD_aBg` | 6 |
+| C2–C5 | 157,012 | `978d030a8cf4f7db583ed74c14413566cfca93d1b886e5d5feb22a2857d118c8` | `id:BSpOijBcT10AAAAAAD_aBw` | 44 |
+| C6–C9 | 2,581,659 | `399e036594bf809ad29f9450a2f4c2549522ab4228a60224fab571ccb2939099` | `id:BSpOijBcT10AAAAAAD_aCQ` | 121 |
+
+합계2,779,528bytes·171payload entries이며 단계 사이 중복을 포함한다. 결과 ZIP의121은 게시된120Git파일과 별도 보존한 실행binary1개다. Binary를 source로 주장하지 않는다. [현재 index](delivery/s11/CLOUD_CHECKPOINT_INDEX.json), [C10 판정](delivery/s11/C10_DECISION.json), 단계별 [C1](delivery/s11/stage1/DROPBOX_FULL_READBACK.json)·[C2–C5](delivery/s11/stage2/DROPBOX_FULL_READBACK.json)·[C6–C9](delivery/s11/stage3/DROPBOX_FULL_READBACK.json) 원격 검증을 읽는다.
+
+실행 source `7fb9b83cba01d37ce4cabbc4772527710601cd96`, 결과/검토 `85d5833b4486d14855b84a9d967f5819788d05e5`를 구별한다. 이 문서가 포함된 C10 metadata의 정확한HEAD/tree·마지막ZIP/JSON·postcommit readback은 [PR174 최신 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)이 소유한다. 자기hash나 아직 수행하지 않은 최종 전송 성공을 선기록하지 않는다.
+
+## 새 Drive 장애의 실제 범위
+
+C1 `upload_file` 두 호출은 provider 응답/새ID/operationID 없이1604.0초·1197.8초 뒤 root가 중단했다. 별도 `copy_file` endpoint로 새 pending copy를 만드는 시도도344.6초 뒤 응답 없이 중단했다. 새copyID가 없었으므로 `update_file`은0회다. 원본S10파일을 수정하는 호출은 없었다. Tool의 `aborted by user` 원문은 **root assistant가 대기를 중단한 것**이며 사용자 취소로 해석하지 않는다.
+
+18:23:53UTC의 read-only 검색에서 `/BASS_BACKUPS`의 C1 최종명과 `BASS_S11_C1_PENDING_CONTENT_20261020_e9f8eccc.zip`은 관측되지 않았다. 이것은 지연된 서버 작업의 사후 완료까지 배제하지 않으므로 재시도 전 exact-name/ID 대조가 필요하다. 반복 쓰기는 중단했다. Read-only Drive와 Dropbox 전송은 정상 응답했지만 새 Drive write의 구체적인 내부 원인은 확정하지 않았다. [업로드 중단](delivery/s11/UPLOAD_INTERRUPTION_RECEIPT.json), [별도copy 중단](delivery/s11/DRIVE_ALTERNATE_INTERRUPTED_COPY.json), [마지막 이름 대조](delivery/s11/DRIVE_ALTERNATE_NAME_LOOKUP.json).
+
+과학·build/test·ODE·benchmark·NCP를 재실행해서 해결할 장애가 아니다. 배송에 필요한 ZIP·source/result/Git readback·manifest는 그대로 보존됐다. 연결 Browser plugin의 문서화된 초기 접속은 originating browser context가 필요하다는 응답으로 사용할 수 없었다. 페이지 조회·로그인·업로드는0회다. [브라우저 경계](delivery/s11/BROWSER_DELIVERY_BOUNDARY.json)에 실제 응답을 보존했다. Cloud Browser로 대체하려면 연결 서비스 도구의 반복 오류 후 fallback에 별도 사용자 승인을 요구하는 브라우저 도구 지침을 따라야 한다. 이 승인은 아직 요청하지 않았으며, 이미 허용된 GitHub·Dropbox 배송은 계속 마친다.
+
+## 재사용한 원 S10 최종 배송
+
+[2026-10-20 최종 댓글6289844952](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6289844952)의 원8ZIP+복구보충1개는 양쪽 전체bytes/SHA256/CRC/manifest PASS,9ZIP·4,399,983bytes·중복포함383payload다. 최종JSON24,280bytes SHA256`98a88ff10828d9d6d0794237da87db76fb68875db38457c7fb18c04aedcfdb3c`의 양쪽 전체bytes도 초기read-only intake에서 다시 일치했다. [S11 intake](s11_p246/CLOUD_INTAKE.json)는 원ZIP전체재다운로드 대신 완료한과거CRC/manifest증거를 재사용했음을 명시한다.
+
+---
+
+## 아래는 S10 및 이전 시점의 보존된 역사적 기록
+
+아래8ZIP/보충ZIP생성전/Drivepending 등의 표현은 각 문서 작성 시점이다. 현재 원S10완료와 새S11Drive미완료는 위 구분을 따른다.
+
 # S9/S10 원8개 archive — Google Drive 배송 복구 완료
 
 **Google Drive 플러그인의 승인된 재시도로 원8ZIP의 이중 백업과 전체 원격 readback을 완료했다.** Dropbox에서 복구한 봉인 원본과 Drive에서 받은 전체 bytes가 일치했다. SHA256·ZIP CRC·manifest의 크기/해시/Git blob과 각 archive의 원 publication commit/tree를 확인했다.

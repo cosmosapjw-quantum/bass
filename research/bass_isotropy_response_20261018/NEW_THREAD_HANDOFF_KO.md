@@ -1,69 +1,60 @@
-# 새 ChatGPT 대화용 handoff — S10 결과 재사용과 남은 물리 연구
+# 새 연구 대화 handoff — S11 완료 증거 재사용
 
-아래 단일 블록을 새 연구 대화에 복사한다. 고정 과학 source·실제 결과·독립 검토를 보존하며, 이 파일이 포함된 최종 metadata commit은 PR174 최종 배송 댓글과 Git ref/readback에서 확인한다.
+원문은 history/20261020_BEFORE_S11_NEW_THREAD_HANDOFF_KO.md에 정확히 보존했다.
 
 ```text
-$physmath-research-loop를 사용해 BASS의 현재 완료 증거를 재사용하고 사용자가 선택한 다음 물리 연구만 이어라. 과거 대화·ZIP 다운로드·파일 첨부·사전 명령 실행을 사용자에게 요청하지 마라. 새 자동 최적화 주기를 열거나 완료한 실행을 반복하지 마라.
+$physmath-research-loop를 사용해 BASS의 완료된 S9/S10/S11 증거를 재사용하고 후속 물리 연구만 이어라. 과거 대화·ZIP 다운로드·첨부·사전 명령을 요청하지 마라. 완료 캠페인·solver·자동 최적화 주기를 반복하지 마라.
 
-[고정 위치와 identity]
+[고정 위치와 게시 identity]
 Repo: https://github.com/cosmosapjw-quantum/bass
 Draft PR174: https://github.com/cosmosapjw-quantum/bass/pull/174
 Branch: research/bass-isotropy-checkpoint-recovery-20261018
 Lane: research/bass_isotropy_response_20261018/
-S9 불변 실행 source: 4b30957cb008aad8019bb1a673937fc67bd017e8
-S9 결과 게시: a40311796f9aac5ea5e0e58c630bee2a78443353
-S10 불변 실행 source: d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8
-S10 source tree: 95785be65c196c68d61b79dafb32f4cedfd7702d
-Source/input manifest SHA256: 4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17
-C6 검증 checkpoint: 477eca7d13bba4f69e063ad9b024225ee06cc395
-C7/C8 결과 commit: 26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a
-C7/C8 tree: 925f3cf75683b83c8b292cea4ce596059b36265d
-C9 검토 commit: 0771f0610987eb9f900674e83063912150733255
-C9 tree: 1c93fb37dce78cbd54691d072aaf35209a94894c
-고정 VigilODE: a21d573980f66fe02891bd216153443b5352f921
-고정 original REI spectral owner: 0e25846433170d0f420c4cda44a0bedbf02cd177
-부모 PR173: 4e2d1fa820d6f7baae1069b615fb82a08d53403b
-SourceID: MD14_Z002_FESC_BB50K_13P6_100_V1
-최종 metadata HEAD: 이 파일이 포함된 HEAD는 PR174 최종 배송 댓글/Git ref 및 postcommit readback을 대조하라. 위 source/result/review 고정값과 혼동하지 마라.
+S11 단위: s11_p246/
+Stage 1 계약/intake: e9f8eccc8d86764ebebe9bb98cc68ecb9aad09d8
+S11 실행 source: 7fb9b83cba01d37ce4cabbc4772527710601cd96
+Source tree: 963a43f26df1f9c6f462b9df9a2c34cf99f525c9
+S11 결과+독립 검토: 85d5833b4486d14855b84a9d967f5819788d05e5
+Result tree: fd3e994212059228501e26f7bf3d3b96462ba1d5
+진행 댓글: https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6298011330
+최종 containing metadata commit/tree·cloud ID는 이후 최종 PR 배송 댓글·Git ref/readback을 따른다. 자기 hash를 꾸미거나 source/result와 혼동하지 마라.
 
-[첫 행동과 읽을 파일]
-현재 GitHub ref/commit/full tree 및 PR 최신 배송 댓글을 읽고 Dropbox /BASS_BACKUPS와 Drive /BASS_BACKUPS의 저장 결과를 read-only로 대조한다. Drive folder ID=1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y. PR 요약 HEAD가 늦게 갱신된 원 관측은 보존하고 Git Data ref/commit/tree의 실제 검증을 따른다.
-README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S10_OPTIMIZATION_KO.md, S10_THEORY_KO.md, S10_RESULTS_KO.md를 읽는다.
-고정 입력/실행 gate는 s10_optimization/SOURCE_MANIFEST.json, evidence_s10/c4/BENCHMARK_PROTOCOL.json, evidence_s10/run_20261020_r1/EXPERIMENT_POSTCHECK.json을 확인한다.
-실제 검토는 evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json, C9_REVIEW_KO.md, INDEPENDENT_RECOMPUTATION.json, C9_CLOSEOUT.json을 읽는다. C9 receipt SHA256=1b63d46ebe2b576acacd828b77ac5fdf85e3461de84991305f708b2ea5513c29.
-S9_RESULTS_KO.md 및 evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json, evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json도 연결해 S9 완료 근거를 재사용한다. S6–S8는 기존 결과/실패 receipt를 재사용한다.
+[먼저 읽기]
+현재 GitHub ref/commit/full tree·최신 PR 댓글과 Dropbox·Drive /BASS_BACKUPS를 read-only로 대조한다. Drive folder ID=1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y.
+README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md와 이 handoff 전체를 읽는다.
+s11_p246/의 RESULTS_KO.md, RESULT_LEDGER.json, CONTRACT.json, CONTRACT_ADDENDUM.json, THEORY.md를 읽는다. 그 아래 evidence/run_r1/의 RETURN.json·PROCESS_RECEIPT.json·EXECUTIONS.json, evidence/c9_physics/의 RETURN.json·C9_REVIEW_RESULTS_KO.md·C9_PROCESS_R1.json, evidence/c9_provenance/의 AUDIT_R1.json·AUDIT_REPORT_KO.md·AUDIT_R1_PROCESS_RECEIPT.json, evidence/figure/FIGURE_STATS.json을 확인한다.
+원 S10_RESULTS_KO.md와 evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json, S9_RESULTS_KO.md도 재사용한다. 과거 NOT_RUN·미구현 P6·Drive pending 문장을 현재 판정으로 승계하지 않는다.
 
-[실제 완료 범위]
-S9 고정8 history가 8/8완료·140 gate assertion PASS다. 140은 독립 실험 수가 아니다. 이 S9 matrix의 NCP 재실행 의무는 없다.
-S10은 원 문제·gate·birth/P24·stock·owner·solver를 유지한 isolated opt-in crate다. stream/prepared/exact-cache/SIMD/독립 history 병렬화를 비교했다. 원 S9/VigilODE 기본 경로를 교체하지 않았다.
-C6 targeted11/11, kernel strict proof108/108, 네 입력×여섯 mode의 대표RAW24/24 scientific bytes 동일, serial/parallel digest 동일, science68/68을 통과했다. Benchmark history496회는 기존 네 입력의 성능 반복이며 새 물리 사례496개가 아니다.
-C9 단일 독립 pass는155/155 checks와 science68/68 PASS_SCOPED다. 문서 표현 finding1건을 같은 pass에서 닫았다. 준비 데이터는 immutable mu²와 weight이고 1-z는 평가 중 계산한다. code/tolerance 변경·ODE/benchmark 재실행은 없었다. 별도 host/compiler 재현은 아니다.
-MF simd_cache의 paired median 가속비는 closed2.973배, FLRW4.115배다. closed small/clock4는1.055배, Q1–Q3=0.957–1.243으로 일관된 이득을 승인하지 않는다. changing-state n16/cohort2 simd_cache0.949817은 성능 회귀로 보존한다.
-별도 allocation binary에서 최적화 다섯 mode의 평가 구간은 allocation/reallocation0회·0bytes였다. setup/caller clone/whole-history 전체 할당 또는 peak RAM이0이라는 뜻은 아니다. IQR은 신뢰구간이 아니며 다른 CPU/입력으로 portable speedup을 주장하지 않는다.
-현재 완료 증거를 확인하기 위한 build/test/history/timing 재연은 필요 없다. 현재 범위의 NCP 실행 의무도 없다.
+[S11에서 실제로 완료한 범위]
+고정 reflection support의 양의 P24/P246 KL projector 구현·검토 완료: Python Decimal 동시 Newton+Fraction certificate, 독립 Rust 동시 Newton. 기존 P24/owner/history에 자동 연결하지 않았다.
+Main 101/101 PASS_SCOPED, exit0·빈 stderr·wall2.376초. 14쌍 중12양의 성공/2예상 infeasible·24exact certificate·660angular response.
+Physics C9 235/235·provenance C9 152/152는 별도 검토다. 152 검토자는 Rust 작성자이므로 Rust의 단독 독립 승인이 아니다. 별도 physics source 검토·저장 결과 재계산을 함께 읽는다. Solver/history 재실행은 없다.
+정확 norm/P2/P4 gate 3/10^15를 유지하고 P6에도 적용했다. 음수 weights·tolerance 완화는 없다.
+S8 저장 b9_n64/birth11 입력에서 P24 점별 계산을 복구했다. 원 INNER_P2_PRECISION_LIMIT receipt/history는 보존하며 전체 S8 재실행 성공으로 바꾸지 않는다. 같은 support의 P6는 실제 infeasible이다. P24_only의 P6도 min facet slack=-1/42로 실패한다.
+S3 cubic/P8 재사용, quartic/P8/P10 추가 검토. 고정 d=k/40, k=-24..24의 49점에서 dyadic uniform 최대 각응답 오차는 P24 0.02204259946, P246 0.03414707019로 1.54913989382294배 악화했다. 이는 구간 supremum이나 history 오차가 아니다. P6가 모든 finite-d에서 개선된다고 주장하지 않는다.
+Runtime reset으로 소실된 smoke raw receipt는 TRANSCRIPT_ONLY_NOT_DURABLE, PASS에서 제외한다. 새 S11 수학 복구25/25의 실제 receipt는 evidence/theory/RECOVERY_RECEIPT.json이며 복구 범위는 evidence/runtime_recovery/ROOT_RECOVERY.json을 따른다.
 
-[보존할 입력·물리 gate]
-Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H를 유지한다.
-새 명시적 등방 birth angular quadrature만 보정한다. 기존 광자장·physical anisotropic stock·birth weights를 초기화하거나 재가중하지 않는다. 양의 weights, reflection parity, source frame, 고정 spectral owner와 balance owner를 유지한다.
-원 gate: exact normalization/P2/P4=3/10^15, fine reference absolute1e-9, Hamiltonian/cohort energy relative1e-11, event energy1e-13, donor endpoint3e-14, clock absolute1e-12. Feasibility/precision 실패를 음수 weight나 gate 완화로 우회하지 않는다.
-P2/P4 일치만으로 continuum 또는 full native finite-bin 보존을 승인하지 않는다. 새 문제의 input/gate는 필요한 과학적 의존성을 먼저 정의한 뒤 별도 사전등록한다.
+[원 S9/S10과 배송 완료 유지]
+원 S10 metadata HEAD=d0c0313d6c063037fd8e067744aee66235df1a58
+Tree=e62a42c3227114a5657538a75e034af5a5823703
+S10 source=d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8
+Result=26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a
+Review=0771f0610987eb9f900674e83063912150733255
+원 최종 배송 댓글: https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6289844952
+2026-10-20 원8ZIP+복구1ZIP=9ZIP·4,399,983bytes·중복 포함 payload383항목. 양쪽 전체 bytes/SHA256/CRC/manifest와 최종 JSON 전체 바이트·내용 검증 PASS다. 신규 Drive 문제로 원 완료를 취소하지 않는다.
+S9 고정8history 완료, S10 targeted11/11·kernel108/108·대표 RAW24/24 scientific identity·science68/68·원 C9 155/155를 재사용한다.
+MF 가속비 closed2.973·FLRW4.115는 원 고정 workload 결과다. Closed small 1.055(IQR0.957–1.243)의 이득 불확실성과 changing n16/cohort2의 0.949817배 회귀를 보존한다. 기존 배송 복구에서 과학/build/test/ODE/benchmark/NCP 재실행은 0회다.
 
-[배송 상태와 제한]
-S9 실제 결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8/C9/C10의 봉인 원8ZIP은 Dropbox와 Google Drive 양쪽의 전체 원격 bytes/SHA256/CRC/manifest 검증을 완료했다. 총4,189,549bytes·317manifest payload 항목이며 checkpoint 중복을 포함한다. 단계별 객체·hash·원 commit/tree는 delivery/s10/CLOUD_CHECKPOINT_INDEX.json, Drive 실제 증거는 delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json, Dropbox 실제 복구 증거는 delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json을 읽는다.
-원 C10 판정 metadata=a85605302bb0317022eb06b498eb05b9d621de6a, tree=e1d04268e647b6cb6d33374b64598fa3ec0d4131. 이는 실행 source나 이번 배송 복구 containing commit과 구별한다. 이번 복구 metadata의 정확한 commit/tree·별도 postcommit 보충 ZIP·마지막 이중 readback은 최신 PR174 배송 댓글과 postcommit receipt에서 확인한다. 자기 commit/hash 또는 미확인 보충본 성공을 꾸미지 않는다.
-과거 connector 무응답과 승인 후 browser 보안 로그인/runtime timeout은 역사적 실패로 남긴다. 브라우저 인증 성공·업로드는 관측하지 않았다. 사용자가 명시한 Google Drive 플러그인 재시도가 성공해 원8ZIP의 현재 Drive blocker는 해소됐다. 사용자 업로드 승인을 다시 요구하지 않는다. 실패 receipt와 빈 Docs/Sheets를 완료 백업으로 세지 않는다.
-배송 복구를 위한 과학/build/test/ODE/benchmark 재실행은0회이며 추가 NCP 의무도 없다. 과학 source·owner·남은 physics 의무·원 실패를 그대로 보존한다.
+[신규 S11 cloud 상태: C10 이중 완료 아님]
+작성 시 Dropbox stage1/2/3 전체 readback PASS, stage3=id:BSpOijBcT10AAAAAAD_aCQ. Drive 신규 upload2회+copy_file1회는 무응답·서버 결과 미확정이다. copy344.6초 무응답, 18:23 UTC read-only reconcile은 pending/최종 이름 미관측. update_file 미호출이다.
+최종 객체·hash·provider별 검증은 이후 최종 댓글/closeout의 실제 관측을 따른다. 요청·객체 존재·전체 readback을 구분하며 신규 이중 완료를 선포하지 않는다. 원 S10은 완료다.
 
-[진짜 남은 연구와 재개 원칙]
-새 자동 최적화 cycle을 열지 말고, 사용자가 선택한 후속 물리 의무를 최소 계산 가능한 계약으로 구체화한다:
-1) 실제 MD14 source의 시간/physical·comoving volume/방출·흡수/에너지 공급·응력 정규화와 native Einstein/shear feedback의 동일 Q 연결.
-2) 아직 구현하지 않은 P6 제약 알고리즘.
-3) evolving reactive absorption/chemistry와 full finite-bin spectral-history photon/energy 보존·수렴.
-4) S8 b0=.9,n64,P24 STRICT_INTERIOR의 INNER_P2_PRECISION_LIMIT 원 실패.
-5) 더 넓은 finite-d continuum/angular accuracy와 고차 moment 범위.
-6) 새 Rust client의 full birth-memory parameter tangent.
-S6의5.369926725506957e-12 source-deposition 잔차 설명과 기존 rank1/finite-d/cohort 증거는 재사용하되 full spectral history 완료로 확대하지 않는다. S6 rate38/344 실패·P4악화44/238, S7 원 실패, S8 낮은 해상도8미달·precision1실패를 보존한다.
-가능한 유도·코드·경량 gate는 여기서 완성한다. 새 NCP 작업이 실제로 필요할 때만 source·입력·gate·게시/backup 상태를 먼저 준비해 compile/작은 호환 수정/등록 실행만 남긴다.
-기존 owner 작업과 사용자 변경을 보존한다. 추가workers≤16, RAM≤16GiB, disk≤4GiB, 개별job≤1800초. 현재 관측 환경은8CPU/8GiB이며 build2, 독립history 권장2workers다. 새 환경의 실제 자원은 별도로 확인한다.
-실행·게시·provider별 backup/readback·DAG 상태를 구분해 기록하고 실제 결과·실패 종류·남은 의무·source/result/review/PR·두 handoff를 반환한다. REI production/full EoR/merge로 확대하지 않는다.
+[보존할 물리와 남은 의무]
+Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H.
+고정 original REI owner=0e25846433170d0f420c4cda44a0bedbf02cd177.
+새 명시적 등방 birth angular quadrature만 보정한다. 기존 광자장·physical anisotropic stock·birth weights를 초기화·재가중하지 않는다. 양의 weights·reflection parity·source frame·고정 owner를 유지한다. Feasibility/rank/boundary/precision 실패를 분리하며 음수 weight나 gate 완화로 우회하지 않는다.
+원 fine reference abs1e-9, Hamiltonian/cohort energy rel1e-11, event1e-13, donor endpoint3e-14, clock abs1e-12를 유지한다. P2/P4/P6 일치만으로 continuum/full native finite-bin 보존을 승인하지 않는다.
+남은 의무: 실제 MD14 정규화·donor closure/native Einstein·shear shared-Q; evolving reactive full finite-bin spectral history; 원 S8 precision/history; 더 넓은 finite-d/angular 고차 moment; 새 Rust client full birth-memory parameter tangent. PR175 adapter 검토는 실제 MD14/native feedback 완료가 아니다.
+5.369926725506957e-12는 제한된 source-deposition 설명이다. Full spectral-history 수렴 완료가 아니다. S6 rate38/344 실패·P4악화44/238, S7 실패, S8 낮은 해상도8미달·precision1실패를 보존한다.
+현재 NCP 재실행 의무는 없다. 후속 물리 의존성만 별도 계약·고정 gate로 진행한다. 추가worker≤16/RAM≤16GiB/disk≤4GiB/개별job≤1800초. 기존 owner 작업·사용자 변경·원 RAW, 단계별 DAG·게시·provider별 backup/readback을 보존한다. REI production/full EoR/merge로 확대하지 마라.
 ```
