@@ -1,0 +1,35 @@
+{
+  "schema": "BASS_S12_OWNED_PROCESS_V1",
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-c",
+    "import signal,subprocess,sys,time; signal.signal(signal.SIGTERM,signal.SIG_IGN); subprocess.Popen([sys.executable,'-c',sys.argv[1],sys.argv[2],sys.argv[3]]); time.sleep(10)",
+    "import os,pathlib,signal,sys,time; signal.signal(signal.SIGTERM,signal.SIG_IGN); pathlib.Path(sys.argv[1]).write_text(str(os.getpid())); time.sleep(3); pathlib.Path(sys.argv[2]).write_text('late')",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_xh3toji7/runs/case_interrupt/20261020T213145_95c15e3d88c9/nested-ready",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_xh3toji7/runs/case_interrupt/20261020T213145_95c15e3d88c9/nested-late"
+  ],
+  "cwd": "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_xh3toji7/runs/case_interrupt/20261020T213145_95c15e3d88c9",
+  "started_utc": "2026-10-20T21:31:45.532033+00:00",
+  "status": "INTERRUPTED",
+  "timeout_s": 5,
+  "exit_code": 143,
+  "input_sha256": null,
+  "limits": {
+    "address_space_bytes": null,
+    "file_bytes": null
+  },
+  "cleanup_actions": [
+    "SIGTERM",
+    "SIGKILL"
+  ],
+  "pid": 19,
+  "owned_process_group": 19,
+  "signal": 15,
+  "child_returncode": -9,
+  "elapsed_s": 1.6347372890013503,
+  "ended_utc": "2026-10-20T21:31:47.166764+00:00",
+  "stdout_path": "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_xh3toji7/runs/case_interrupt/20261020T213145_95c15e3d88c9/nested.stdout",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_path": "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_xh3toji7/runs/case_interrupt/20261020T213145_95c15e3d88c9/nested.stderr",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

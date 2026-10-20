@@ -1,0 +1,228 @@
+{
+  "schema": "BASS_S12_NATIVE_EXECUTION_V1",
+  "status": "COMPILED_NOT_EXECUTED",
+  "started_utc": "2026-10-20T22:12:09.942820+00:00",
+  "source_commit": "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+  "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "argv": [
+    "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/native_followup/run.py",
+    "--source-commit",
+    "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+    "--owner-root",
+    "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/owner_source",
+    "--out",
+    "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5",
+    "--rustc",
+    "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+    "--download-workers",
+    "1",
+    "--compile-only"
+  ],
+  "commands": [
+    {
+      "label": "compiler_version",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "-Vv"
+      ],
+      "status": "PASS",
+      "stdout": "compiler_version.stdout",
+      "stderr": "compiler_version.stderr",
+      "owned_child_pgid": 401318,
+      "exit_code": 0,
+      "elapsed_seconds": 0.04391460599435959,
+      "stdout_bytes": 196,
+      "stdout_sha256": "a834181975ab3494d51a1a01e4a9d4321fecd674a52e3db3cf93b3b84b6fc2c1",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile_pinned_owner",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "--crate-name",
+        "rei_microphysics",
+        "--crate-type",
+        "rlib",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/owner_source/rust/rei_microphysics/src/lib.rs",
+        "-o",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/librei_microphysics.rlib"
+      ],
+      "status": "PASS",
+      "stdout": "compile_pinned_owner.stdout",
+      "stderr": "compile_pinned_owner.stderr",
+      "owned_child_pgid": 401320,
+      "exit_code": 0,
+      "elapsed_seconds": 10.212852272001328,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile_s12_followup",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_followup.rs",
+        "--extern",
+        "rei_microphysics=/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/librei_microphysics.rlib",
+        "-C",
+        "link-arg=-Wl,--threads=1",
+        "-o",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_followup"
+      ],
+      "status": "PASS",
+      "stdout": "compile_s12_followup.stdout",
+      "stderr": "compile_s12_followup.stderr",
+      "owned_child_pgid": 401348,
+      "exit_code": 0,
+      "elapsed_seconds": 1.8338541700068163,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 6692,
+      "stderr_sha256": "22eb42f58bd9721c7f1a1205b2035b5e0f02a4c89cff032b04a34a0243507e69"
+    }
+  ],
+  "downloads": [],
+  "completed_old_cases_replayed": 0,
+  "case_count": 1,
+  "native_histories_attempted": 0,
+  "native_histories_executed": 0,
+  "resume_semantics": "Archival initial-state wrapper; only source verification or compilation is allowed after the fixed-support proof.",
+  "fixed_support_guard": {
+    "first_infeasible_birth": 13,
+    "observer_source_commit": "be773dbf36bbe74b42e89e51c61dcd56ef2e6687",
+    "certificate_sha256": "b41b05e89e1d9b67d6c89701813ab3d510c4be2bcd4e1ff7d3e9fdb81c9c39a5",
+    "gate_exact": "3/1000000000000000",
+    "native_history_execution_allowed": false
+  },
+  "resources_before": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cgroup_cpu_quota_cores": [
+      8.0
+    ],
+    "ram_available_bytes_observed": 1463635968,
+    "child_address_space_cap_bytes": 926765056,
+    "task_allocated_bytes": 15491072,
+    "disk_free_bytes": 15359594496,
+    "native_threads": 1,
+    "existing_owner_processes_modified": false,
+    "admission_note": "Root batch resource scheduler remains responsible for whole-batch reservations; no exclusive CPU claim."
+  },
+  "source_binding": {
+    "method": "full immutable Git raw byte readback",
+    "source_commit": "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+    "manifest_sha256": "fd1cb1f4a3f8fc963e516712f5f77949f153aeb2f3ed02cc205d4eceff5d36cc",
+    "files": [
+      {
+        "path": "CONTRACT.json",
+        "bytes": 2950,
+        "sha256": "b9c749b577b0d51e45584f981516323ba95813b54f6dbf3c14074a9c7e447221",
+        "git_blob": "ac898bc20fa71aebd689f70dc19d74c666c87cc7"
+      },
+      {
+        "path": "balance.rs",
+        "bytes": 5857,
+        "sha256": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+        "git_blob": "90baeb34cead226e8315453384de3955bab114e2"
+      },
+      {
+        "path": "balance_p24.rs",
+        "bytes": 18737,
+        "sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+        "git_blob": "98f52a944fdb7d2a814b10ceb8dddc2d7cbd17b4"
+      },
+      {
+        "path": "inputs/BASELINE_IDENTITY.json",
+        "bytes": 848,
+        "sha256": "060b3cc12f8897381cff9666c23c6b2c890a17a8a24a75d1980bf1aefaadc2b4",
+        "git_blob": "6180aca931eb03da9b9c69cd1e08b4eed65db04b"
+      },
+      {
+        "path": "inputs/ORIGINAL_S8_FAILURE.json",
+        "bytes": 4889,
+        "sha256": "d1a0cf8180da93f85d95296bf94a09b8da86f2b3f2c521f8adcf5eb4cb8447c6",
+        "git_blob": "251c3afc337f08c4cde8f3671179473cb71a9f28"
+      },
+      {
+        "path": "native_adapter.rs",
+        "bytes": 6246,
+        "sha256": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+        "git_blob": "214643d55af222219b39ee85b7d61e7010df1a07"
+      },
+      {
+        "path": "native_followup.rs",
+        "bytes": 17335,
+        "sha256": "e20cf9120fa8c3a23fa2d1bb82dca14c818324dfa9536d5a94863b04cc89eb9a",
+        "git_blob": "1ad561fe3a4241757e23f1481dfe7362937e9b13"
+      },
+      {
+        "path": "native_owner_manifest.json",
+        "bytes": 13601,
+        "sha256": "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2",
+        "git_blob": "55610a8ff930dc374044079f73a6638d348ddf3f"
+      },
+      {
+        "path": "run.py",
+        "bytes": 23977,
+        "sha256": "011612eb3e8d868acf717acdc89bce07069b163ad95c2264878510758fed5e1e",
+        "git_blob": "572aa95293d1b71611de643061055e8c4f1790c9"
+      },
+      {
+        "path": "s11_projector.rs",
+        "bytes": 20567,
+        "sha256": "1f937f16dcb5a7dbdce92a66881d45276b67b202c56bdc232c1d281ad7fc6fcb",
+        "git_blob": "326c83c124f1c5b8c99b97050915030ad5969e2c"
+      },
+      {
+        "path": "validate.py",
+        "bytes": 17473,
+        "sha256": "de115d658fb733f0e08da02dc9b5e0bdfcc1225e42bb490340422f4af1a7a3c6",
+        "git_blob": "ed36d5ad8d8c36d4b6a477c8eff78e6d3b187c82"
+      }
+    ]
+  },
+  "owner_verification_before": {
+    "commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "files": 57,
+    "bytes": 614313,
+    "all_git_blob_sha256_size_pass": true
+  },
+  "rustc_version": "rustc 1.94.1 (e408947bf 2026-03-25)\nbinary: rustc\ncommit-hash: e408947bfd200af42db322daf0fadfe7e26d3bd1\ncommit-date: 2026-03-25\nhost: x86_64-unknown-linux-gnu\nrelease: 1.94.1\nLLVM version: 21.1.8\n",
+  "compiled_sha256": {
+    "librei_microphysics.rlib": "c84521cd2fa5c18b4d3b2f44125428bcc864524a663965406a3a463b48268713",
+    "native_followup": "dd836e7388794624f45bcc63c2e1ebecc9bde68e17b9842b1889d520690d6ed4"
+  },
+  "owner_verification_after": {
+    "commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "files": 57,
+    "bytes": 614313,
+    "all_git_blob_sha256_size_pass": true
+  },
+  "elapsed_seconds": 13.491861556991353,
+  "finished_utc": "2026-10-20T22:12:23.434680+00:00",
+  "wrapper_exit_code": 0,
+  "children_peak_rss_kib_linux": 391232,
+  "python_peak_rss_kib_linux": 25268,
+  "task_allocated_bytes_end": 25501696
+}

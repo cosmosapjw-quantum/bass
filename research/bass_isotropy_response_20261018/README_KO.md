@@ -1,8 +1,31 @@
-# 현재 후속 단계: S12
+# BASS — S12 출생 기억 접선과 고정 workload 최적화
 
-2026-10-21 KST. [S12 계약·진척](s12_birth_memory/README_KO.md)과 [고정 계약](s12_birth_memory/CONTRACT.json)을 먼저 읽는다. S11 최종 게시 복구는 [댓글6301060073](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6301060073)에 있다. 아래 S11 결과와 기존 실패는 그대로 보존한다.
+**새 Rust full birth-memory tangent와 제한된 샌드박스 검증을 완료했다.** Core269/269, short history72/72, 독립 물리585/585를 통과했다. 같은 정확도에서 fused core의 paired median은1.372535배,4case/2worker는1.218038배였다. 실제 NCP64 실행은 quota로 `NOT_RUN`, 새 Drive 배송은 pending이다.
 
----
+[전체 S12 결과](S12_RESULTS_KO.md) · [결과 ledger](s12_birth_memory/RESULT_LEDGER.json) · [이론](s12_birth_memory/THEORY_KO.md) · [DAG](DAG.json) · [최종 closeout](PUBLICATION_CLOSEOUT.json)
+
+| 역할 | 고정 identity 또는 실제 상태 |
+|---|---|
+| 새 Rust 과학 source | `f4cd0d53760783e6a58c3b0a98c64311ca489d28` |
+| Python parity/PID namespace 검증 수리 | `4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06`; Rust/binary/input/gate 유지 |
+| 저장 native support 관측기 | `be773dbf36bbe74b42e89e51c61dcd56ef2e6687` |
+| NCP 실행 패키지 source | `8247645d04695bdbfa48eb2fe74757dacf7d2636` |
+| C8 제한 검증 | launcher19/19, 저장 short-data 집계62/62; full positive NCP chain 미실행 |
+| Native compile-only | 13.491862초 PASS; native history0회 |
+| 현재 결과·배송 HEAD/tree | 실제 Git ref, 결과/metadata receipt와 [PR174 최종 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174) |
+
+**원 고정 native n64 case는 birth13부터 기존 tolerance로도 양의 P24 해가 불가능하다.** 저장 support의 `Z=max(mu²)=0.5908471918238073<3/5`와 모든 polygon facet의 exact rational 검사가 이를 보인다. Birth11 점별 precision 수리와 전체16birth 완료를 구분한다. 원 case는 NCP queue에서 제외하고 wrapper도 verify/compile-only만 허용한다. 기존 photon field·physical anisotropic stock·이전 birth weights는 바꾸지 않았다.
+
+![S12 실제 결과](s12_birth_memory/evidence/figure/S12_RESULTS.png)
+
+[PNG](s12_birth_memory/evidence/figure/S12_RESULTS.png) · [PDF](s12_birth_memory/evidence/figure/S12_RESULTS.pdf) · [CSV](s12_birth_memory/evidence/figure/S12_PLOT_DATA.csv) · [새 대화용 전체 handoff](NEW_THREAD_HANDOFF_KO.md) · [Codex/NCP handoff](CODEX_HANDOFF_KO.md)
+
+NCP는 자동 build1+새 extended history14+고정64pack 비교1+ensemble1의17job을 준비했다. Actual affinity/quota/RAM/owner load와 최초 봉인 manifest를 사용한다. 실제 MD14/native Einstein·shear shared-Q, evolving reactive full finite-bin spectral history, 더 넓은 finite-d/angular 고차 moment는 남아 있다. 새 short manufactured tangent 검증을 이 물리 의무의 완료로 바꾸지 않는다.
+
+S9/S10/S11 완료 증거와 실패·회귀를 재사용하며 완료 캠페인은 재실행하지 않았다. S10 원9ZIP·4,399,983bytes·중복 포함383payload+최종 JSON은 양쪽 완료다. S11/S12의 새 Drive는 응답·ID가 확인되지 않아 pending이며 추가 쓰기를 하지 않는다. `5.369926725506957e-12`는 제한된 source-deposition 결과다. REI production/full EoR/merge 또는 자동 다음 최적화 단위로 확대하지 않는다.
+
+<details>
+<summary>보존된 S11 완료 기록과 당시 미완료 상태</summary>
 
 # BASS — S11 양의 P246와 유한 전단 응답
 
@@ -62,3 +85,5 @@ Non-tilted axisymmetric Bianchi I, `(-,+,+,+)`, `a_perp=a exp(-b)`, `a_parallel=
 현재 NCP 재실행 의무는 없다. 추가worker≤16/RAM≤16GiB/disk≤4GiB/개별job≤1800초를 지켰다. 실제환경8CPU/8GiB, main science process1, 기록된 main wall2.37586초·최대 개별child RSS238364KiB, 관측 task allocated disk약1.28GiB다. Runtime refresh로 잃은 초기 smoke raw는 PASS 근거에서 제외했고, 복구 후 게시 source에 결박된 main receipt를 사용한다. [자원 및 복구 기록](s11_p246/evidence/runtime_recovery/RESOURCE_CLOSEOUT.json).
 
 과거 campaign·native history·ODE·benchmark·NCP 재실행과 새 자동 최적화 cycle은0회다. Draft를 유지하며 REIproduction/fullEoR/merge로 확대하지 않는다.
+
+</details>

@@ -1,7 +1,7 @@
 {
   "schema": "bass.isotropy.return.v12",
-  "date_utc": "2026-10-20T18:27:11.075902+00:00",
-  "stage": "S11_SCIENCE_COMPLETE_NEW_DRIVE_DELIVERY_INCOMPLETE",
+  "date_utc": "2026-10-20T22:20:35.173969+00:00",
+  "stage": "S12_SCOPED_RESEARCH_COMPLETE_NCP_NOT_RUN_NEW_DRIVE_PENDING",
   "baseline_commit": "fe083a28e066a95e2191bcc6a090adf53605453f",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
@@ -44,7 +44,16 @@
     "publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
     "historical_scope": "Original S5 adapter receipt; current S7 native status is S7_coupled_native."
   },
-  "NCP": "NOT_RUN_NO_REPLAY_OBLIGATION_FOR_COMPLETED_CURRENT_SCOPE",
+  "NCP": {
+    "status": "NOT_RUN_SERVICE_MONTHLY_QUOTA",
+    "requested_cpu_cores": 64,
+    "requested_ram_GiB": 128,
+    "current_hardware_observed": false,
+    "remote_process_calls": 0,
+    "retry_or_reconnect_after_explicit_quota_notice": false,
+    "ready_jobs": 17,
+    "old_NCP_campaign": "2026-10-15 complete; not backlog"
+  },
   "prior_results_reused": [
     "PR173 native58 plus negative5",
     "PR174 original Python15",
@@ -53,94 +62,67 @@
     "S6 04a3a851 finite-d/rank1/spectral/source-age results in original scopes"
   ],
   "publication": {
-    "status": "S11_SCOPED_SCIENCE_PUBLISHED_DROPBOX_STAGE1_3_VERIFIED_DRIVE_UNCONFIRMED_C10_POSTCOMMIT_PENDING",
-    "current_scientific_source_commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
-    "current_scientific_source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
-    "source_identity_policy": "This is S11 C10 delivery metadata after result/review commit 85d5833b4486d14855b84a9d967f5819788d05e5. The executed S11 source remains 7fb9b83cba01d37ce4cabbc4772527710601cd96 (tree 963a43f26df1f9c6f462b9df9a2c34cf99f525c9); S9/S10 execution and completed original delivery identities remain historical and unchanged. Exact containing metadata commit/tree and the finite final C10 ZIP/JSON readbacks belong to the postcommit final PR174 delivery record. Three prior S11 checkpoints have full Dropbox readback; new Drive writes have no confirmed object or completion. No self-referential hash, unperformed transfer, full native history completion, or old campaign replay is asserted here.",
-    "S8_source_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
-    "S8_resume_source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582",
-    "S8_final": {
-      "status": "PUBLISHED_AND_DUAL_BACKUP_VERIFIED",
-      "commit": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
-      "tree": "b021e10a8d4776fdcbede3c03885e08995dd6d48",
-      "pr_comment_id": 6268573867,
-      "pr_comment_url": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6268573867",
-      "git_readback": "delivery/s8/S8_STAGE3_GIT_READBACK.json",
-      "cloud_readback": "delivery/s8/S8_STAGE3_CLOUD_READBACK.json",
-      "pr_readback": "delivery/s8/S8_FINAL_PR_READBACK.json",
-      "archive_sha256": "cf4cc9b03b243afb6f055469e57193def5db01fc2610b14c537bd8968ffc3efc",
-      "archive_bytes": 916060,
-      "drive_object_id": "1z8ovrEJWOLJla5rbRCOvCYmh2AKcld3e",
-      "dropbox_object_id": "id:BSpOijBcT10AAAAAAD_Q3w"
+    "status": "RESULTS_READY_FOR_PUBLICATION_C10_IN_PROGRESS",
+    "source_roles": {
+      "scientific_source": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+      "scientific_tree": "a9048818707ef3f446528631c3b5d6c8171116cc",
+      "verification_source": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+      "static_input_publication": "094971e58d1dac98b8625f6178385d55cad73a81",
+      "stored_support_observer_source": "be773dbf36bbe74b42e89e51c61dcd56ef2e6687",
+      "C8_delivery_source": "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+      "C8_delivery_tree": "47d90048b2fe96f05a32711209b7d52bc2c7eee1",
+      "original_REI_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "result_commit": "identified by external postcommit result receipt",
+      "result_tree": "identified by external postcommit result receipt",
+      "containing_metadata_commit": "actual Git HEAD and final PR174 postcommit comment; never equate to executed scientific source"
     },
-    "S9_preregistration": {
-      "path": "s9_vigilode/PREREGISTRATION.json",
-      "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507",
-      "source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
-      "source_commit_role": "Actual unchanged scientific source already published/read back before this execution.",
-      "source_publication_readback": true,
-      "dropbox_readback": true,
-      "drive_readback": true,
-      "gate_receipt_path": "evidence_s9/SOURCE_PUBLICATION_GATE.json",
-      "gate_receipt_status": "VERIFIED_CURRENT_TURN",
-      "source_tree": "8e4abf3820d06bae6cbec307e4f69de74195d14b",
-      "gate_receipt_sha256": "3682dce97d7f89dd4e178a4bae16a6d7e328db197bae31ec2fdca78134df4717"
-    },
-    "closeout": "PUBLICATION_CLOSEOUT.json",
-    "S9_results": {
-      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
-      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
-      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
-      "status": "PUBLISHED_VERIFIED",
-      "unexpected_changed_paths": 0
-    },
-    "S10_results": {
-      "commit": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
-      "tree": "925f3cf75683b83c8b292cea4ce596059b36265d"
-    },
-    "S10_review": {
-      "commit": "0771f0610987eb9f900674e83063912150733255",
-      "tree": "1c93fb37dce78cbd54691d072aaf35209a94894c"
-    },
-    "current_cloud_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
-    "current_result_and_review_commit": "85d5833b4486d14855b84a9d967f5819788d05e5",
-    "current_result_and_review_tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5"
+    "prior_stage_Dropbox": 6,
+    "new_Drive": "PENDING_UNKNOWN_SERVER_OUTCOME_NO_MORE_WRITES",
+    "final_delivery_identity_owner": "Postcommit final PR174 comment and exact final JSON, external to containing commit"
   },
   "scope": "New declared isotropic birth on fixed support; positive reflection-even weights and exact original3e-15moment gate; scoped collisionless angular diagnostics.",
   "remaining_obligations": [
     {
       "id": "actual_MD14_and_native_shared_Q",
       "status": "OPEN",
-      "scope": "Physical donor closure/normalization, measured paired-event inputs, native Einstein/shear shared-Q coupling and validation; reuse PR175 components."
+      "scope": "Actual donor normalization, paired event physical input and native Einstein/shear shared-Q closure; PR175 components are reusable, not physical completion."
     },
     {
       "id": "evolving_reactive_full_finite_bin_spectral_history",
       "status": "OPEN"
     },
     {
-      "id": "broader_finite_d_angular_higher_moments",
-      "status": "OPEN",
-      "preserve": "49point1.54913989382294 worsening and both P246 support failures."
+      "id": "P6_and_broader_finite_d_angular_higher_moments",
+      "status": "S11_ALGORITHM_SCOPED_COMPLETE_BROADER_PHYSICS_OPEN",
+      "preserve": "P6 support infeasibility and registered49point1.54913989382294 worsening; no continuum guarantee."
     },
     {
       "id": "new_Rust_full_birth_memory_parameter_tangent",
-      "status": "OPEN"
+      "status": "S12_SHORT_MANUFACTURED_PASS_SCOPED_EXTENDED_NCP_NOT_RUN",
+      "scope": "Fixed event coordinates and donor amplitudes; actual native/reactive, moving event and donor-normalization tangent remain outside approval."
     },
     {
-      "id": "S8_history",
-      "status": "HISTORICAL_FAILURE_PRESERVED",
-      "scope": "New pointwise P24 repair does not complete or rewrite original history."
+      "id": "S8_INNER_P2_PRECISION_LIMIT_and_fixed_native_history",
+      "status": "BIRTH11_POINTWISE_REPAIR_REUSED_FULL16BIRTH_BLOCKED_FROM_BIRTH13",
+      "scope": "Original failure preserved; exact unchanged-support impossibility at existing gates. New future-birth support needs a separate physical contract."
     }
   ],
   "production_admission": false,
   "auto_merge": false,
   "limits": {
-    "additional_workers": 16,
-    "ram_bytes": 17179869184,
-    "disk_bytes": 4294967296,
-    "individual_job_seconds": 1800,
-    "actual_native_fetch_workers": 4,
-    "actual_native_threads": 1
+    "sandbox": {
+      "additional_workers_max": 16,
+      "RAM_GiB_max": 16,
+      "actual_CPU_cap": 8,
+      "actual_RAM_GiB_cap": 8
+    },
+    "NCP_requested": {
+      "workers_max": 64,
+      "RAM_GiB_max": 128,
+      "respect_observed_resources_and_owner_load": true
+    },
+    "disk_GiB_max": 4,
+    "individual_job_seconds_max": 1800
   },
   "S3_publication_commit": "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
   "native_source_aggregate": "16a5efa08f31b9ef7cdabe5158f3e654586d25097be5f3aab19c88fdb6b23d23",
@@ -165,7 +147,7 @@
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Read current Git/PR and new delivery receipts read-only. Reuse S11 source/result/C9 and closed S9/S10. For any Drive retry reconcile exact final/pending names first and transfer sealed bytes only; no science/build/test/history/benchmark/NCP replay. Follow only the next separately bounded physical obligation.",
+  "next_first_action": "Read actual Git HEAD/latest PR comments and exact Dropbox/Drive delivery records read-only. Reuse completed evidence. Do not request user chats, attachments, downloads or precommands. Do not replay old campaigns or fixed native16birth; continue only already authorized ready S12 NCP jobs if valid service access is independently available, otherwise preserve NOT_RUN and stop automatic new loops.",
   "storage_recovery_science_rerun": false,
   "S6": {
     "status": "PASS_SCOPED_PARTIAL_S6_COUPLED_NOT_RUN",
@@ -1760,7 +1742,7 @@
     "final_metadata_identity": "Containing commit plus latest PR174 closeout/comment and final archive GIT_READBACK.json",
     "resume_source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582"
   },
-  "current_result_summary": "s11_p246/RESULT_LEDGER.json",
+  "current_result_summary": "s12_birth_memory/RESULT_LEDGER.json",
   "baseline_commit_role": "Historical S7 baseline; current S9 scientific source and result publication are separate fields.",
   "S10_optimization": {
     "status": "RESEARCH_CODE_REVIEW_DECISION_COMPLETE_ORIGINAL_EIGHT_ARCHIVES_DUAL_CLOUD_VERIFIED",
@@ -1955,8 +1937,8 @@
     "date_utc": "2026-10-20T11:00:48.565403+00:00"
   },
   "current_optimization_result": "S10_RESULTS_KO.md",
-  "current_delivery_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
-  "active_metadata_publication_policy": "S11 scientific source/result identities are fixed separately. This containing metadata commit and its final finite supplement are identified by postcommit readback and the final PR174 delivery comment. Do not confuse metadata with executed source. New Drive delivery is incomplete; S10 completed delivery remains reused.",
+  "current_delivery_index": "s12_birth_memory/delivery/CLOUD_CHECKPOINT_INDEX.json",
+  "active_metadata_publication_policy": "S12 executed Rust source f4, verifier4e36, observerbe773 and delivery824 are separate identities. Result commit is identified by its postcommit receipt. The containing final metadata commit/tree and its finite last ZIP/JSON are identified by the external final PR174 comment and full readback; no self-reference. S10 dual-provider delivery remains complete. New Drive is pending; NCP is NOT_RUN.",
   "source_roles": {
     "S9_scientific_source": {
       "commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
@@ -1995,6 +1977,19 @@
     "S10_completed_delivery_metadata": {
       "commit": "d0c0313d6c063037fd8e067744aee66235df1a58",
       "tree": "e62a42c3227114a5657538a75e034af5a5823703"
+    },
+    "S12": {
+      "scientific_source": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+      "scientific_tree": "a9048818707ef3f446528631c3b5d6c8171116cc",
+      "verification_source": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+      "static_input_publication": "094971e58d1dac98b8625f6178385d55cad73a81",
+      "stored_support_observer_source": "be773dbf36bbe74b42e89e51c61dcd56ef2e6687",
+      "C8_delivery_source": "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+      "C8_delivery_tree": "47d90048b2fe96f05a32711209b7d52bc2c7eee1",
+      "original_REI_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "result_commit": "identified by external postcommit result receipt",
+      "result_tree": "identified by external postcommit result receipt",
+      "containing_metadata_commit": "actual Git HEAD and final PR174 postcommit comment; never equate to executed scientific source"
     }
   },
   "current_delivery_recovery": {
@@ -2213,5 +2208,322 @@
       "tree": "1c93fb37dce78cbd54691d072aaf35209a94894c"
     },
     "current_cloud_index": "delivery/s10/CLOUD_CHECKPOINT_INDEX.json"
-  }
+  },
+  "historical_S11_active_fields_before_S12": {
+    "stage": "S11_SCIENCE_COMPLETE_NEW_DRIVE_DELIVERY_INCOMPLETE",
+    "publication": {
+      "status": "S11_SCOPED_SCIENCE_PUBLISHED_DROPBOX_STAGE1_3_VERIFIED_DRIVE_UNCONFIRMED_C10_POSTCOMMIT_PENDING",
+      "current_scientific_source_commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+      "current_scientific_source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
+      "source_identity_policy": "This is S11 C10 delivery metadata after result/review commit 85d5833b4486d14855b84a9d967f5819788d05e5. The executed S11 source remains 7fb9b83cba01d37ce4cabbc4772527710601cd96 (tree 963a43f26df1f9c6f462b9df9a2c34cf99f525c9); S9/S10 execution and completed original delivery identities remain historical and unchanged. Exact containing metadata commit/tree and the finite final C10 ZIP/JSON readbacks belong to the postcommit final PR174 delivery record. Three prior S11 checkpoints have full Dropbox readback; new Drive writes have no confirmed object or completion. No self-referential hash, unperformed transfer, full native history completion, or old campaign replay is asserted here.",
+      "S8_source_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+      "S8_resume_source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582",
+      "S8_final": {
+        "status": "PUBLISHED_AND_DUAL_BACKUP_VERIFIED",
+        "commit": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
+        "tree": "b021e10a8d4776fdcbede3c03885e08995dd6d48",
+        "pr_comment_id": 6268573867,
+        "pr_comment_url": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6268573867",
+        "git_readback": "delivery/s8/S8_STAGE3_GIT_READBACK.json",
+        "cloud_readback": "delivery/s8/S8_STAGE3_CLOUD_READBACK.json",
+        "pr_readback": "delivery/s8/S8_FINAL_PR_READBACK.json",
+        "archive_sha256": "cf4cc9b03b243afb6f055469e57193def5db01fc2610b14c537bd8968ffc3efc",
+        "archive_bytes": 916060,
+        "drive_object_id": "1z8ovrEJWOLJla5rbRCOvCYmh2AKcld3e",
+        "dropbox_object_id": "id:BSpOijBcT10AAAAAAD_Q3w"
+      },
+      "S9_preregistration": {
+        "path": "s9_vigilode/PREREGISTRATION.json",
+        "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507",
+        "source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+        "source_commit_role": "Actual unchanged scientific source already published/read back before this execution.",
+        "source_publication_readback": true,
+        "dropbox_readback": true,
+        "drive_readback": true,
+        "gate_receipt_path": "evidence_s9/SOURCE_PUBLICATION_GATE.json",
+        "gate_receipt_status": "VERIFIED_CURRENT_TURN",
+        "source_tree": "8e4abf3820d06bae6cbec307e4f69de74195d14b",
+        "gate_receipt_sha256": "3682dce97d7f89dd4e178a4bae16a6d7e328db197bae31ec2fdca78134df4717"
+      },
+      "closeout": "PUBLICATION_CLOSEOUT.json",
+      "S9_results": {
+        "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+        "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+        "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+        "status": "PUBLISHED_VERIFIED",
+        "unexpected_changed_paths": 0
+      },
+      "S10_results": {
+        "commit": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
+        "tree": "925f3cf75683b83c8b292cea4ce596059b36265d"
+      },
+      "S10_review": {
+        "commit": "0771f0610987eb9f900674e83063912150733255",
+        "tree": "1c93fb37dce78cbd54691d072aaf35209a94894c"
+      },
+      "current_cloud_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+      "current_result_and_review_commit": "85d5833b4486d14855b84a9d967f5819788d05e5",
+      "current_result_and_review_tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5"
+    },
+    "current_result_summary": "s11_p246/RESULT_LEDGER.json",
+    "current_delivery_index": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+    "active_metadata_publication_policy": "S11 scientific source/result identities are fixed separately. This containing metadata commit and its final finite supplement are identified by postcommit readback and the final PR174 delivery comment. Do not confuse metadata with executed source. New Drive delivery is incomplete; S10 completed delivery remains reused.",
+    "next_first_action": "Read current Git/PR and new delivery receipts read-only. Reuse S11 source/result/C9 and closed S9/S10. For any Drive retry reconcile exact final/pending names first and transfer sealed bytes only; no science/build/test/history/benchmark/NCP replay. Follow only the next separately bounded physical obligation.",
+    "remaining_obligations": [
+      {
+        "id": "actual_MD14_and_native_shared_Q",
+        "status": "OPEN",
+        "scope": "Physical donor closure/normalization, measured paired-event inputs, native Einstein/shear shared-Q coupling and validation; reuse PR175 components."
+      },
+      {
+        "id": "evolving_reactive_full_finite_bin_spectral_history",
+        "status": "OPEN"
+      },
+      {
+        "id": "broader_finite_d_angular_higher_moments",
+        "status": "OPEN",
+        "preserve": "49point1.54913989382294 worsening and both P246 support failures."
+      },
+      {
+        "id": "new_Rust_full_birth_memory_parameter_tangent",
+        "status": "OPEN"
+      },
+      {
+        "id": "S8_history",
+        "status": "HISTORICAL_FAILURE_PRESERVED",
+        "scope": "New pointwise P24 repair does not complete or rewrite original history."
+      }
+    ],
+    "NCP": "NOT_RUN_NO_REPLAY_OBLIGATION_FOR_COMPLETED_CURRENT_SCOPE",
+    "limits": {
+      "additional_workers": 16,
+      "ram_bytes": 17179869184,
+      "disk_bytes": 4294967296,
+      "individual_job_seconds": 1800,
+      "actual_native_fetch_workers": 4,
+      "actual_native_threads": 1
+    }
+  },
+  "active_unit": "S12",
+  "current_physics_result_summary": "s12_birth_memory/RESULT_LEDGER.json",
+  "source_identity_policy": "S12 executed Rust source f4, verifier4e36, observerbe773 and delivery824 are separate identities. Result commit is identified by its postcommit receipt. The containing final metadata commit/tree and its finite last ZIP/JSON are identified by the external final PR174 comment and full readback; no self-reference. S10 dual-provider delivery remains complete. New Drive is pending; NCP is NOT_RUN.",
+  "current_S12_science": {
+    "schema": "BASS_S12_RESULT_LEDGER_V1",
+    "written_utc": "2026-10-20T22:20:35.173969+00:00",
+    "status": "PASS_SCOPED_NEW_S12_RESEARCH_NCP_NOT_RUN_DRIVE_PENDING",
+    "source_roles": {
+      "scientific_source": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+      "scientific_tree": "a9048818707ef3f446528631c3b5d6c8171116cc",
+      "verification_source": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+      "static_input_publication": "094971e58d1dac98b8625f6178385d55cad73a81",
+      "stored_support_observer_source": "be773dbf36bbe74b42e89e51c61dcd56ef2e6687",
+      "C8_delivery_source": "8247645d04695bdbfa48eb2fe74757dacf7d2636",
+      "C8_delivery_tree": "47d90048b2fe96f05a32711209b7d52bc2c7eee1",
+      "original_REI_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "result_commit": "identified by external postcommit result receipt",
+      "result_tree": "identified by external postcommit result receipt",
+      "containing_metadata_commit": "actual Git HEAD and final PR174 postcommit comment; never equate to executed scientific source"
+    },
+    "metrics": {
+      "core_checks": {
+        "passed": 269,
+        "total": 269
+      },
+      "history_checks": {
+        "passed": 72,
+        "total": 72
+      },
+      "history_recovery": {
+        "reused": 5,
+        "new_R2_processes": 11,
+        "R2_logical_records": 16,
+        "total_distinct_Rust_history_processes": 14,
+        "Python_reference_processes": 2,
+        "final_restore_processes": 1
+      },
+      "fine_Richardson_max_absolute": 7.923659645081571e-11,
+      "raw_fine_FD_scaled": 5.2611342089052926e-11,
+      "Python_Rust_scaled": 3.483131098619846e-15,
+      "MF6_clock7_scaled": 1.623443460779953e-15,
+      "baseline_fused_history_scaled": 0.0,
+      "fused_paired_speedup_median": 1.372535191944467,
+      "fused_paired_speedup_IQR": [
+        1.3680560824512806,
+        1.4071498342403799
+      ],
+      "case_parallel_paired_speedup_median": 1.2180376690502004,
+      "case_parallel_paired_speedup_IQR": [
+        1.1874303525148253,
+        1.4316390045734226
+      ],
+      "case_parallel_scientific_byte_identity_outputs": 32,
+      "case_parallel_actual_workers": 2,
+      "case_parallel_actual_packs": 4,
+      "infrastructure_R2": "14/14 PASS; first12/14 retained",
+      "C8_launcher_controls": {
+        "passed": 19,
+        "total": 19,
+        "actual_child_processes": 3,
+        "scope": "Two version probes plus forbidden-profile Python invocation. Synthetic capacity fixtures are not hardware evidence."
+      },
+      "C8_aggregate_controls": {
+        "passed": 62,
+        "total": 62,
+        "scope": "Stored SHORT data arithmetic/input controls only; full production receipt chain false."
+      },
+      "native_compile_only": {
+        "status": "COMPILED_NOT_EXECUTED",
+        "elapsed_seconds": 13.491861556991353,
+        "binary_sha256": "dd836e7388794624f45bcc63c2e1ebecc9bde68e17b9842b1889d520690d6ed4",
+        "native_histories": 0
+      },
+      "native_guard": {
+        "status": "BLOCKED_KNOWN_FIXED_SUPPORT_INFEASIBLE",
+        "exit_code": 2,
+        "commands": 0,
+        "downloads": 0,
+        "native_histories": 0
+      }
+    },
+    "independent_reviews": {
+      "physics": "585/585 PASS_SCOPED",
+      "stored_support": "565/565 PASS_SCOPED",
+      "figure": "79/79 PASS_SCOPED",
+      "raw_provenance": "23/23 groups,664 file identities; pre-C8-execution cutoff",
+      "results_document": "31/31 initial document review; final status addendum separately read",
+      "C8_provenance_supplement": "5/5 groups,117 file identities; provenance only, not independent own-code functional approval",
+      "C8_root_readback": "13/13 source and receipt checks; no new execution",
+      "C8_static": "No blocking finding in final launcher and aggregate; not full NCP execution approval",
+      "do_not_sum_overlapping_check_counts": true,
+      "independence": "Per-report author/reviewer boundaries retained. Root independently reviews p6 support observer/native guard; p6 reviews root Rust/figure; cloud provenance excludes own launcher approval."
+    },
+    "fixed_support_result": {
+      "birth0_to12": "STRICT_INTERIOR",
+      "birth13_to15": "OUTSIDE_AT_EXISTING_GATE",
+      "birth13_Z": 0.5908471918238073,
+      "necessary_Z": "3/5",
+      "gate_exact": "3/1000000000000000",
+      "weights_modified": false,
+      "native_history_calls": 0
+    },
+    "execution_bounds": {
+      "sandbox_user_workers_max": 16,
+      "sandbox_user_ram_GiB_max": 16,
+      "observed_cpu_cap": 8,
+      "observed_ram_GiB_cap": 8,
+      "disk_GiB_max": 4,
+      "individual_job_seconds_max": 1800,
+      "actual_NCP_executions": 0,
+      "completed_campaign_replays": 0,
+      "automatic_next_unit_started": false
+    },
+    "NCP_prepared": {
+      "fixed_jobs": 17,
+      "extended_histories": 14,
+      "fixed_case_packs": 64,
+      "fixed_input_files": 81,
+      "actual_status": "NOT_RUN_SERVICE_MONTHLY_QUOTA",
+      "hardware_currently_observed": false,
+      "full_positive_launcher_and_production_ensemble_chain": "NOT_RUN"
+    },
+    "remaining_obligations": [
+      {
+        "id": "actual_MD14_and_native_shared_Q",
+        "status": "OPEN",
+        "scope": "Actual donor normalization, paired event physical input and native Einstein/shear shared-Q closure; PR175 components are reusable, not physical completion."
+      },
+      {
+        "id": "evolving_reactive_full_finite_bin_spectral_history",
+        "status": "OPEN"
+      },
+      {
+        "id": "P6_and_broader_finite_d_angular_higher_moments",
+        "status": "S11_ALGORITHM_SCOPED_COMPLETE_BROADER_PHYSICS_OPEN",
+        "preserve": "P6 support infeasibility and registered49point1.54913989382294 worsening; no continuum guarantee."
+      },
+      {
+        "id": "new_Rust_full_birth_memory_parameter_tangent",
+        "status": "S12_SHORT_MANUFACTURED_PASS_SCOPED_EXTENDED_NCP_NOT_RUN",
+        "scope": "Fixed event coordinates and donor amplitudes; actual native/reactive, moving event and donor-normalization tangent remain outside approval."
+      },
+      {
+        "id": "S8_INNER_P2_PRECISION_LIMIT_and_fixed_native_history",
+        "status": "BIRTH11_POINTWISE_REPAIR_REUSED_FULL16BIRTH_BLOCKED_FROM_BIRTH13",
+        "scope": "Original failure preserved; exact unchanged-support impossibility at existing gates. New future-birth support needs a separate physical contract."
+      }
+    ],
+    "evidence": [
+      {
+        "path": "s12_birth_memory/evidence/core_run01/RETURN.json",
+        "bytes": 70419,
+        "sha256": "659971decc6487622c4dc231b36fbe8a4f1a9bc85f39c4140ff1f5fda74243f0"
+      },
+      {
+        "path": "s12_birth_memory/evidence/history_run02/SUMMARY.json",
+        "bytes": 3014,
+        "sha256": "7955be9ca7362fd6b90bd794f55f970d2668cd3bccbe2dded407b9005c95aa17"
+      },
+      {
+        "path": "s12_birth_memory/evidence/history_run02/FD_RICHARDSON.json",
+        "bytes": 12325,
+        "sha256": "21e9871ff611df24af942d163f7b78f1ccbba6f68949c1eb8fb9621f05cb1581"
+      },
+      {
+        "path": "s12_birth_memory/evidence/history_run02/CROSS_IMPLEMENTATION.json",
+        "bytes": 11982,
+        "sha256": "5f2200fe05b6002f45fae31e0c59e04cc028318b158f0878d22f87a330724362"
+      },
+      {
+        "path": "s12_birth_memory/evidence/history_run02/OMISSION_CONTROLS.json",
+        "bytes": 9531,
+        "sha256": "e4fb48b9eefc8f89702c5bdc579769bfd654602355a3784203005aaf3ef0ba54"
+      },
+      {
+        "path": "s12_birth_memory/evidence/core_run01/PERFORMANCE.json",
+        "bytes": 7970,
+        "sha256": "910e4589d53baad2df86677a0291fc3d1dc3fe1ea65ef3cdbbc2407e043b942c"
+      },
+      {
+        "path": "s12_birth_memory/evidence/case_parallel_run02/bench/RETURN.json",
+        "bytes": 2962,
+        "sha256": "aa59bab0126b82c0ae8e08cc39db35a52d579ae88d5f1017016aaffd21e40531"
+      },
+      {
+        "path": "s12_birth_memory/evidence/c8_launcher_run01/RETURN_C8_VERIFICATION.json",
+        "bytes": 7895,
+        "sha256": "6d4308868553ad5fb89bd9be4d23f0c2ad092aafca77d939928741783bd42065"
+      },
+      {
+        "path": "s12_birth_memory/evidence/c8_aggregate_run01/RETURN_VERIFY_AGGREGATE.json",
+        "bytes": 120040,
+        "sha256": "5c6bc978406770fe068136ac15a4d55036d2da74330055453c0645ccbf801236"
+      },
+      {
+        "path": "s12_birth_memory/evidence/native_compile/8247645d_r5/RETURN_NATIVE_FOLLOWUP.json",
+        "bytes": 8602,
+        "sha256": "04a1371ae0e2de1e255adc819775bacf20541fb25bacbebdbae2cb03b1d65b36"
+      },
+      {
+        "path": "s12_birth_memory/evidence/native_compile/8247645d_guard_r1/RETURN_NATIVE_FOLLOWUP.json",
+        "bytes": 1742,
+        "sha256": "64f7e8cca6d2257353cc755ebe750e12d9538652b8b33546616e6e329bad5693"
+      },
+      {
+        "path": "s12_birth_memory/evidence/support_run01/result/RETURN_SUPPORT_PREFLIGHT.json",
+        "bytes": 687389,
+        "sha256": "b41b05e89e1d9b67d6c89701813ab3d510c4be2bcd4e1ff7d3e9fdb81c9c39a5"
+      }
+    ],
+    "preserved_prior_results": [
+      "S9fixed8",
+      "S10targeted11/11 kernel108/108 RAW24/24 science68/68 C9155/155",
+      "closed2.973x FLRW4.115x fixedworkload only",
+      "closed-small uncertainty",
+      "changingn16/cohort2 0.9498173837599284 regression",
+      "S11P246 finite-grid worsening1.54913989382294"
+    ],
+    "source_deposition_scope": "5.369926725506957e-12 remains limited source deposition; not full spectral-history convergence",
+    "production_or_full_EoR_or_merge": false
+  },
+  "legacy_field_scope_notice": "Earlier S0-S11 nested/source/recovery fields are preserved historical evidence. Active S12 status is current_S12_science, publication, current_result_summary, current_delivery_index, NCP and remaining_obligations; older PASS/NOT_RUN fields must not override these scoped records."
 }

@@ -1,3 +1,24 @@
+# S12 현재 백업/readback 상태
+
+현재까지 검증된 S12 Dropbox는 6ZIP·1,316,030bytes·중복 포함 payload297항목이다. 아래 각 ZIP은 전체 원격 bytes/SHA256/provider hash/CRC/manifest/Git blob 검증 PASS다.
+
+| 단계 | 고정 ZIP | bytes | payload | SHA256 |
+|---|---|---:|---:|---|
+| stage1 | BASS_S12_C1_20261021_e48e0d56.zip | 52352 | 8 | `432a3aa206cbf6a803db47e23eeb928a4b6030f043363d97c920a713d9422bb1` |
+| stage2 | BASS_S12_C2_C5_20261021_f4cd0d53.zip | 264364 | 63 | `14a1d01d0693cf81db16b8c3b816a160981b6e98cfe2a35a8cdfe067f9387536` |
+| stage2_repair | BASS_S12_C6_REPAIR_20261021_4e3615dd.zip | 130367 | 35 | `9398776be5981feea8b907933bda2d930442a09cda63c1af87beada9e378b5d8` |
+| stage3_inputs | BASS_S12_C7_INPUTS_20261021_094971e5.zip | 264552 | 97 | `3419bd00431f31455522a599306daa8f640774a5d1c35f2537098ff822b60d06` |
+| stage3_support | BASS_S12_C7_SUPPORT_20261021_be773dbf.zip | 172381 | 44 | `1c8e7fa1d8470f5acab9d22952e89fa2bd44538dcdbb5be70d4e88ae2e8ea5fa` |
+| stage4_c8_source | BASS_S12_C8_SOURCE_20261021_8247645d.zip | 432014 | 50 | `d97b57d760664e1214ce5556b7802982e0e10c80603b28b8839e7ddcdbc28d67` |
+
+각 provider ID와 원문 receipt는 [S12 cloud index](s12_birth_memory/delivery/CLOUD_CHECKPOINT_INDEX.json)에 있다. 최종 containing metadata HEAD/tree와 마지막 finite ZIP/JSON은 게시 뒤의 실제 readback 및 최종 PR174 배송 댓글이 소유한다. 이 파일 안에 자기 hash를 만들지 않는다.
+
+**새 S11/S12 Google Drive 배송은 미완료다.** 이전 write는 응답·ID가 없고 서버 결과가 불확정이다. 이번 단계들의 추가 Drive write는0회이며 더 이상 재시도/우회를 하지 않는다. 새 객체가 독립적인 read-only 대조에서 보이면 full bytes로 확인하기 전까지 PASS로 올리지 않는다. 원 S10의 양쪽9ZIP·4,399,983bytes·payload383항목+최종 JSON 완료는 그대로 유지한다.
+
+NCP의 첫 config 호출은 월 quota와 명시적 no-retry/reconnect를 반환했다. 실제 새 NCP process0회, current64/128 hardware 미관측이다. 배송/metadata 처리 중 과학/build/test/ODE/benchmark/NCP 재실행0회다. 아래는 이전 단계의 역사적 기록이며 현재 S12 판단은 위 index와 최신 최종 댓글을 따른다.
+
+<!-- S12_CLOUD_CURRENT_END -->
+
 # S11 신규 배송 — GitHub·Dropbox 보존, 새 Drive 복사 미완료
 
 **S11 C1/C2–C5/C6–C9 세 ZIP은 Dropbox의 전체 원격 bytes·SHA256·provider hash·CRC·manifest/Git 검증을 완료했다. 새 Drive 복사는 확인되지 않아 이중 배송 완료를 선언하지 않는다.** 기존 S10의 원9ZIP·최종JSON 이중 배송은 이미 완료됐으며 이 새 장애 때문에 되돌리지 않는다.

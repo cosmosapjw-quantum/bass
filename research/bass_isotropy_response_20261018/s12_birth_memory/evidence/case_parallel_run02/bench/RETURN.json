@@ -1,0 +1,109 @@
+{
+  "schema": "BASS_S12_CASE_PARALLEL_V1",
+  "status": "PASS_EXECUTION_IDENTITY",
+  "source_commit": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+  "binary_sha256": "25905570282ffe68696481d82f9b6f89107c2f838e5e58dfb17de0987c324fe5",
+  "cases_manifest_sha256": "a4ea15c2d22617e4bf5fb1691755500ebe927fb74a68db1445805b083e87343e",
+  "profile": "sandbox",
+  "requested_workers": 2,
+  "cases": 4,
+  "repeat": 128,
+  "warmup_pairs": 1,
+  "measured_pairs": 3,
+  "pairs": [
+    {
+      "pair": 0,
+      "warmup": true,
+      "order": [
+        "serial",
+        "parallel"
+      ],
+      "serial": {
+        "wall_s": 0.04673260799609125,
+        "workers": 1,
+        "observed_peak_case_workers": 1,
+        "scientific_identity_count": 4
+      },
+      "parallel": {
+        "wall_s": 0.023504002994741313,
+        "workers": 2,
+        "observed_peak_case_workers": 2,
+        "scientific_identity_count": 4
+      },
+      "speedup": 1.9882829323391
+    },
+    {
+      "pair": 1,
+      "warmup": false,
+      "order": [
+        "parallel",
+        "serial"
+      ],
+      "parallel": {
+        "wall_s": 0.023323410001466982,
+        "workers": 2,
+        "observed_peak_case_workers": 2,
+        "scientific_identity_count": 4
+      },
+      "serial": {
+        "wall_s": 0.03837261500302702,
+        "workers": 1,
+        "observed_peak_case_workers": 1,
+        "scientific_identity_count": 4
+      },
+      "speedup": 1.6452403400966447
+    },
+    {
+      "pair": 2,
+      "warmup": false,
+      "order": [
+        "serial",
+        "parallel"
+      ],
+      "serial": {
+        "wall_s": 0.035891631996491924,
+        "workers": 1,
+        "observed_peak_case_workers": 1,
+        "scientific_identity_count": 4
+      },
+      "parallel": {
+        "wall_s": 0.03102603499428369,
+        "workers": 2,
+        "observed_peak_case_workers": 2,
+        "scientific_identity_count": 4
+      },
+      "speedup": 1.1568230359794502
+    },
+    {
+      "pair": 3,
+      "warmup": false,
+      "order": [
+        "parallel",
+        "serial"
+      ],
+      "parallel": {
+        "wall_s": 0.029645937000168487,
+        "workers": 2,
+        "observed_peak_case_workers": 2,
+        "scientific_identity_count": 4
+      },
+      "serial": {
+        "wall_s": 0.036109868000494316,
+        "workers": 1,
+        "observed_peak_case_workers": 1,
+        "scientific_identity_count": 4
+      },
+      "speedup": 1.2180376690502004
+    }
+  ],
+  "speedup_median": 1.2180376690502004,
+  "speedup_q25": 1.1874303525148253,
+  "speedup_q75": 1.4316390045734226,
+  "scientific_identity": "Full stdout bytes across every serial/parallel timing repeat",
+  "ray_cohort_reduction_order_changed": false,
+  "completed_campaign_replays": 0,
+  "started_utc": "2026-10-20T21:51:03.712739+00:00",
+  "ended_utc": "2026-10-20T21:51:03.979387+00:00",
+  "error": null,
+  "scope": "New fixed whole-core batches; not native spectral/history convergence; not a comparison with old NCP64 results"
+}

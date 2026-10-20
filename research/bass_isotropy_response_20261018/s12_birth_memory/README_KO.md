@@ -11,9 +11,9 @@
 | C4–C5 구현 | 사전 등록한 물리 gate·실패·자원 정책, Rust build147.60초 PASS |
 | C6 새 샌드박스 검증 | core269/269, history72/72, 수리 후 infrastructure14/14 |
 | C7 동일 정확도 성능 | fused paired median1.372535배; 4case/2worker1.218038배,32개 raw output identity |
-| C8 확장 실행 준비 | 고정81개 입력 파일,17job NCP DAG와 sealed resume launcher 소스 준비; 제한 검증은 게시 후 수행 |
-| C9 독립 검토 | 물리585/585, 저장 support exact565/565; C8·최종 provenance 검토 진행 |
-| C10 배송 | 단계별 Git·Dropbox 전체 readback; 새 Drive pending, 실제 NCP NOT_RUN |
+| C8 확장 실행 준비 | 고정81개 입력 파일,17job NCP DAG, 게시 후 launcher19/19·집계기62/62; 실제 NCP NOT_RUN |
+| C9 독립 검토 | 물리585/585, support565/565, 그림79/79, provenance23그룹+별도5그룹; 범위별 보고서 보존 |
+| C10 배송 | 단계별 Git·Dropbox 전체 readback; 최종 containing metadata는 외부 배송 댓글, 새 Drive pending, 실제 NCP NOT_RUN |
 
 자세한 결과·실패·수치·그림은 상위 `S12_RESULTS_KO.md`와 `evidence/`, `independent_review/`를 따른다. 현재 DAG와 provider별 배송 상태는 상위 `DAG.json`, `RETURN_TO_CHATGPT.json`, `PUBLICATION_CLOSEOUT.json`이 요약한다.
 

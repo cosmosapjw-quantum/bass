@@ -1,0 +1,150 @@
+warning: constant `ID` is never used
+ --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance.rs:7:11
+  |
+7 | pub const ID: &str = "BASS_LRS_SOURCE_KL_P2_V1";
+  |           ^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `multiplier`, `residual`, and `iterations` are never read
+ --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance.rs:9:51
+  |
+9 | pub struct Projection { pub weights:Vec<f64>, pub multiplier:f64, pub residual:f64, pub iterations:usize }
+  |            ---------- fields in this struct       ^^^^^^^^^^          ^^^^^^^^          ^^^^^^^^^^
+  |
+  = note: `Projection` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: function `run` is never used
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance.rs:56:4
+   |
+56 | fn run()->Result<(),String>{
+   |    ^^^
+
+warning: function `main` is never used
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance.rs:88:4
+   |
+88 | fn main(){if let Err(e)=run(){eprintln!("BALANCE_ERROR {}",e);std::process::exit(3);}}
+   |    ^^^^
+
+warning: constant `ID` is never used
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance_p24.rs:12:11
+   |
+12 | pub const ID: &str = "BASS_LRS_SOURCE_KL_P24_V1";
+   |           ^^
+
+warning: fields `multipliers`, `residuals`, and `iterations` are never read
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance_p24.rs:20:9
+   |
+18 | pub struct Projection {
+   |            ---------- fields in this struct
+19 |     pub weights: Vec<f64>,
+20 |     pub multipliers: [f64; 2],
+   |         ^^^^^^^^^^^
+21 |     pub residuals: [f64; 2],
+   |         ^^^^^^^^^
+22 |     /// Number of evaluated nested distributions, including bracket searches.
+23 |     pub iterations: usize,
+   |         ^^^^^^^^^^
+   |
+   = note: `Projection` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: function `run` is never used
+   --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance_p24.rs:291:4
+    |
+291 | fn run() -> Result<(), String> {
+    |    ^^^
+
+warning: function `main` is never used
+   --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/balance_p24.rs:345:4
+    |
+345 | fn main() {
+    |    ^^^^
+
+warning: constant `ADAPTER_ID` is never used
+ --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_adapter.rs:7:11
+  |
+7 | pub const ADAPTER_ID: &str = "BASS_NEW_ISOTROPIC_SOURCE_ANGULAR_ADAPTER_V1";
+  |           ^^^^^^^^^^
+
+warning: variants `PhysicallyAnisotropic` and `Unspecified` are never constructed
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_adapter.rs:12:51
+   |
+12 | pub enum EmissionKind { LocallyIsotropicNewBirth, PhysicallyAnisotropic, Unspecified }
+   |          ------------ variants in this enum       ^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^
+   |
+   = note: `EmissionKind` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: variant `OtherOrUnspecified` is never constructed
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_adapter.rs:14:53
+   |
+14 | pub enum EmissionFrame { NonTiltedLocalOrthonormal, OtherOrUnspecified }
+   |          ------------- variant in this enum         ^^^^^^^^^^^^^^^^^^
+   |
+   = note: `EmissionFrame` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `original_ledger`, `weight_moments`, `photon_moments`, `energy_moments`, `min_weight`, and `max_ray_rescaling` are never read
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/native_adapter.rs:28:9
+   |
+27 | pub struct BirthReceipt {
+   |            ------------ fields in this struct
+28 |     pub original_ledger: SourceLedger,
+   |         ^^^^^^^^^^^^^^^
+29 |     pub added: SourceLedger,
+30 |     pub weight_moments: [f64; 2],
+   |         ^^^^^^^^^^^^^^
+31 |     pub photon_moments: [f64; 2],
+   |         ^^^^^^^^^^^^^^
+32 |     pub energy_moments: [f64; 2],
+   |         ^^^^^^^^^^^^^^
+33 |     pub min_weight: f64,
+   |         ^^^^^^^^^^
+34 |     pub max_ray_rescaling: f64,
+   |         ^^^^^^^^^^^^^^^^^
+   |
+   = note: `BirthReceipt` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `message` is never read
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/s11_projector.rs:27:9
+   |
+25 | pub struct ProjectError {
+   |            ------------ field in this struct
+26 |     pub status: &'static str,
+27 |     pub message: String,
+   |         ^^^^^^^
+   |
+   = note: `ProjectError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `distinct_squared_nodes`, `facet_count`, and `minimum_certified_slack_lower` are never read
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/s11_projector.rs:39:9
+   |
+38 | pub struct SupportCertificate {
+   |            ------------------ fields in this struct
+39 |     pub distinct_squared_nodes: usize,
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+40 |     pub facet_count: usize,
+   |         ^^^^^^^^^^^
+41 |     pub minimum_certified_slack_lower: f64,
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `SupportCertificate` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `lambda`, `iterations`, `residuals`, and `support` are never read
+  --> /workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/8247645d_r5/build/s11_projector.rs:47:9
+   |
+45 | pub struct Projected {
+   |            --------- fields in this struct
+46 |     pub weights: Vec<f64>,
+47 |     pub lambda: Vec<f64>,
+   |         ^^^^^^
+48 |     pub iterations: usize,
+   |         ^^^^^^^^^^
+49 |     /// Normalization minus one, followed by P2, P4, and (if order=6) P6.
+50 |     pub residuals: Vec<f64>,
+   |         ^^^^^^^^^
+51 |     pub support: SupportCertificate,
+   |         ^^^^^^^
+   |
+   = note: `Projected` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: 15 warnings emitted
+

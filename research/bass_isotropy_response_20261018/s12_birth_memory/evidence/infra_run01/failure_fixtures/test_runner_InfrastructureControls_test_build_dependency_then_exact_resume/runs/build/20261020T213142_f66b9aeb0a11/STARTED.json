@@ -1,0 +1,65 @@
+{
+  "schema": "BASS_S12_JOB_STARTED_V1",
+  "job_id": "build",
+  "started_at_utc": "2026-10-20T21:31:42.390973+00:00",
+  "manifest_sha256": "2d1d94f94692d6b3eed59f78344deec80ee8bf979a0c94fde1e91b3b7ade0386",
+  "identity_sha256": "f190c44d8daefd48de3daeba44dff686e1c4753dc3493cfa3c524f370d0e2baa",
+  "identity": {
+    "schema": "BASS_S12_JOB_MANIFEST_V1",
+    "job": {
+      "id": "build",
+      "kind": "build",
+      "needs": [],
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "{repo}/helper.py",
+        "pass",
+        "{run}/result.json",
+        "{repo}/input.json"
+      ],
+      "input_files": {
+        "input.json": "2d50ff3e362e7fc165a45b526370bdf80e9a43c974ff30ebf01eeb94cc490000"
+      },
+      "cpus": 1,
+      "ram_bytes": 134217728,
+      "timeout_s": 5,
+      "output_budget_bytes": 1048576,
+      "artifacts": [
+        "result.json"
+      ],
+      "accept": []
+    },
+    "source_files": {
+      "helper.py": "b9cf7243771f6c14803b3453e0fa4a7a9818ca9c8a442dca4e84cf5d20effe43"
+    },
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "BLIS_NUM_THREADS": "1"
+    },
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "executable_realpath": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "dependencies": {}
+  },
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_1rmgf7mc/repo/helper.py",
+    "pass",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_1rmgf7mc/runs/build/20261020T213142_f66b9aeb0a11/result.json",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_1rmgf7mc/repo/input.json"
+  ],
+  "cwd": "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_1rmgf7mc/runs/build/20261020T213142_f66b9aeb0a11",
+  "assigned_cpus": [
+    0
+  ],
+  "declared_cpu_ram_timeout_output": {
+    "cpus": 1,
+    "ram_bytes": 134217728,
+    "timeout_s": 5,
+    "output_budget_bytes": 1048576
+  }
+}

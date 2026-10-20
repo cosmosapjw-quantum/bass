@@ -1,0 +1,71 @@
+{
+  "schema": "BASS_S12_JOB_STARTED_V1",
+  "job_id": "case",
+  "started_at_utc": "2026-10-20T21:31:50.632574+00:00",
+  "manifest_sha256": "c438b9b4625c110fd45a3536c6fde2098e7bd2d4f791236b1496726701823648",
+  "identity_sha256": "e6389c9f98c29fb98cc7f56984d75daad33d4d52b5f51db109ed19b08da7cb83",
+  "identity": {
+    "schema": "BASS_S12_JOB_MANIFEST_V1",
+    "job": {
+      "id": "case",
+      "kind": "new_rust_history",
+      "needs": [],
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "{repo}/helper.py",
+        "sleep",
+        "{run}/result.json",
+        "{repo}/input.json"
+      ],
+      "input_files": {
+        "input.json": "2d50ff3e362e7fc165a45b526370bdf80e9a43c974ff30ebf01eeb94cc490000"
+      },
+      "cpus": 1,
+      "ram_bytes": 134217728,
+      "timeout_s": 0.25,
+      "output_budget_bytes": 1048576,
+      "artifacts": [
+        "result.json"
+      ],
+      "accept": [
+        {
+          "artifact": "result.json",
+          "pointer": "/status",
+          "equals": "PASS_SCOPED"
+        }
+      ]
+    },
+    "source_files": {
+      "helper.py": "b9cf7243771f6c14803b3453e0fa4a7a9818ca9c8a442dca4e84cf5d20effe43"
+    },
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "BLIS_NUM_THREADS": "1"
+    },
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "executable_realpath": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "dependencies": {}
+  },
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_37g46tfs/repo/helper.py",
+    "sleep",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_37g46tfs/runs/case/20261020T213150_19a86bffbfd3/result.json",
+    "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_37g46tfs/repo/input.json"
+  ],
+  "cwd": "/workspace/scratch/14e1021f8231/runtime_s12/infrastructure_f4cd0d53/run01/tmp/bass_s12_infra_37g46tfs/runs/case/20261020T213150_19a86bffbfd3",
+  "assigned_cpus": [
+    0
+  ],
+  "declared_cpu_ram_timeout_output": {
+    "cpus": 1,
+    "ram_bytes": 134217728,
+    "timeout_s": 0.25,
+    "output_budget_bytes": 1048576
+  }
+}
