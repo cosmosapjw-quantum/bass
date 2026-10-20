@@ -12,7 +12,8 @@
 | NCP 실행 패키지 source | `8247645d04695bdbfa48eb2fe74757dacf7d2636` |
 | C8 제한 검증 | launcher19/19, 저장 short-data 집계62/62; full positive NCP chain 미실행 |
 | Native compile-only | 13.491862초 PASS; native history0회 |
-| 현재 결과·배송 HEAD/tree | 실제 Git ref, 결과/metadata receipt와 [PR174 최종 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174) |
+| 결과·원자료·독립 검토 | `fd8a9aafeaaf29afeab04e9d2876db087e90d24b`; tree `1e29262dd8925fdd0f40fcc7e14e559c333816f6`; [결과 게시/readback](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6303258342) |
+| containing metadata HEAD/tree | 실제 Git ref와 [PR174 최종 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)이 외부에서 확정; 실행 source와 구분 |
 
 **원 고정 native n64 case는 birth13부터 기존 tolerance로도 양의 P24 해가 불가능하다.** 저장 support의 `Z=max(mu²)=0.5908471918238073<3/5`와 모든 polygon facet의 exact rational 검사가 이를 보인다. Birth11 점별 precision 수리와 전체16birth 완료를 구분한다. 원 case는 NCP queue에서 제외하고 wrapper도 verify/compile-only만 허용한다. 기존 photon field·physical anisotropic stock·이전 birth weights는 바꾸지 않았다.
 

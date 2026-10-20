@@ -1,6 +1,6 @@
 # S12 현재 백업/readback 상태
 
-현재까지 검증된 S12 Dropbox는 6ZIP·1,316,030bytes·중복 포함 payload297항목이다. 아래 각 ZIP은 전체 원격 bytes/SHA256/provider hash/CRC/manifest/Git blob 검증 PASS다.
+현재까지 검증된 S12 Dropbox는 7ZIP·4,197,561bytes·중복 포함 payload907항목이다. 아래 각 ZIP은 전체 원격 bytes/SHA256/provider hash/CRC/manifest/Git blob 검증 PASS다.
 
 | 단계 | 고정 ZIP | bytes | payload | SHA256 |
 |---|---|---:|---:|---|
@@ -10,6 +10,7 @@
 | stage3_inputs | BASS_S12_C7_INPUTS_20261021_094971e5.zip | 264552 | 97 | `3419bd00431f31455522a599306daa8f640774a5d1c35f2537098ff822b60d06` |
 | stage3_support | BASS_S12_C7_SUPPORT_20261021_be773dbf.zip | 172381 | 44 | `1c8e7fa1d8470f5acab9d22952e89fa2bd44538dcdbb5be70d4e88ae2e8ea5fa` |
 | stage4_c8_source | BASS_S12_C8_SOURCE_20261021_8247645d.zip | 432014 | 50 | `d97b57d760664e1214ce5556b7802982e0e10c80603b28b8839e7ddcdbc28d67` |
+| stage5_results | BASS_S12_C6_C9_RESULTS_20261021_fd8a9aaf.zip | 2881531 | 610 | `7b88604747a28a1d9ae1ec800061bb0b6b8c64a91a3874ef78f16dc9fa482f54` |
 
 각 provider ID와 원문 receipt는 [S12 cloud index](s12_birth_memory/delivery/CLOUD_CHECKPOINT_INDEX.json)에 있다. 최종 containing metadata HEAD/tree와 마지막 finite ZIP/JSON은 게시 뒤의 실제 readback 및 최종 PR174 배송 댓글이 소유한다. 이 파일 안에 자기 hash를 만들지 않는다.
 
