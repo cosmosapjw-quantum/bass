@@ -27,11 +27,11 @@
 | 단계 | objective 상태 | 게시 | 이중 백업/readback |
 |---|---|---|---|
 | C1 목표·baseline | 완료 | `62d6bc14` full tree readback 완료 | Dropbox 전체 bytes·CRC·11 payload 일치; Drive connector 무응답으로 미완료 |
-| R2 외부 문헌·코드 재사용 | SciSpace 2 + Exa 3 검색, primary 9묶음 관련 절 검토 완료 | 현재 checkpoint payload | 단계 archive 업로드 대기; Drive 미완료 |
-| C2 코드·수식·비용 대응 | 원 source/counter 대응 완료; 실제 시간 점유율 주장 없음 | 현재 checkpoint payload | 단계 archive 업로드 대기; Drive 미완료 |
-| C3 알고리즘·수치 설계 | streaming/immutable SoA/exact cache/ordered SIMD 설계 중 | 대기 | 대기 |
-| C4 병렬화·실행 DAG | release paired benchmark 사전등록 중 | 대기 | 대기 |
-| C5 구현 | 신규 opt-in crate 작성 중; baseline source 불변 | 대기 | 대기 |
+| R2 외부 문헌·코드 재사용 | SciSpace 2 + Exa 3 검색, primary 9묶음 관련 절 검토 완료 | `8138a014` full tree readback | Dropbox 전체 bytes·35 payload 일치; Drive 미완료 |
+| C2 코드·수식·비용 대응 | 원 source/counter 대응 완료; 실제 시간 점유율 주장 없음 | `8138a014` full tree readback | Dropbox 전체 bytes·35 payload 일치; Drive 미완료 |
+| C3 알고리즘·수치 설계 | 수치·소유권·cache 계약 완료 | 대기 | 대기 |
+| C4 병렬화·실행 DAG | 고정 7회 paired benchmark 사전등록 완료 | 대기 | 대기 |
+| C5 구현 | 신규 crate 구현 완료; compile/test/benchmark 미실행 | 대기 | 대기 |
 | C6 구현 검증 | 대기 | 대기 | 대기 |
 | C7 과학 검증 | 대기 | 대기 | 대기 |
 | C8 정확도 대비 성능 | 대기 | 대기 | 대기 |
@@ -45,3 +45,9 @@
 [R2 재사용 조사](evidence_s10/r2/R2_REUSE_KO.md), [C2 비용 지도](evidence_s10/c2/CODE_COST_MAP_KO.md)를 보존했다. 원8이력의 counter와 읽은 code를 대응한 정적 합계는 full eval 62,025회, angular node 방문 29,732,096회, moment 관련 Vec 구성 요청 1,138,493회다. P24는 distribution 평가 487,258회다. 이 값은 실제 malloc 계측·시간 점유율·RSS가 아니다.
 
 실제 SIMD 후보는 stable std::arch의 runtime feature guard + scalar fallback이다. 확인한 Pulp0.22.3은 대안이며 이번 직접 채택으로 표시하지 않는다. Rayon1.12.0의 이미 잠긴 vendor를 독립 작업용으로 재사용한다. 기존 callback source·P24 owner·exact certificate는 수정하지 않고 별도 opt-in crate를 만든다. 모든 variant는 이력 관측·event·cohort·solver counter의 동일성을 검증한다. 성능 이득은 아직 측정 전이다.
+
+## C3/C4/C5 실행 전 checkpoint
+
+[C3 설계](evidence_s10/c3/C3_DESIGN_KO.md), [C4 사전등록](evidence_s10/c4/PREREG_KO.md), [machine protocol](evidence_s10/c4/BENCHMARK_PROTOCOL.json), [격리 crate](s10_optimization/README_KO.md)를 게시한다. 여섯 variant와 11개 targeted test는 작성되었으며 아직 실행 전이다. Kernel 1,260 paired timing samples와 preparation378, benchmark history496회(고유 물리 입력4개), 별도C6 run30회(예상적분23·예상입력실패7)를 고정했다. 원 완료 캠페인의 과학표본 수를 늘렸다고 보고하지 않는다.
+
+읽기 전용 runtime preflight에서 새 sibling crate가 기존 vendor config를 상속하지 않는 점과 embedded test input 누락을 발견했다. execute.py는 명시 --config와 검증된 원 fixture의 create-only materialization을 사용한다. compile 실패나 과학 실패가 아니라 실행 전 준비 수정이다. 모든 실행은 원 repo execute.py에서 시작하며 새 source manifest·성공 build receipt·binary hash·C6 gate를 확인한다.

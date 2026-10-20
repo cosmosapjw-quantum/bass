@@ -1,0 +1,751 @@
+{
+  "schema": "BASS_S10_C4_BENCHMARK_PROTOCOL_V1",
+  "stage": "C4",
+  "status": "DESIGN_COMPLETED_EXECUTION_BINDING_PENDING",
+  "created_utc": "2026-10-20T05:56:52.483396+00:00",
+  "objective": "Fixed-cost paired performance comparison of six exact-contract implementations of the existing S9 physics; no new scientific campaign.",
+  "author": "/root/science_reuse_and_review",
+  "scope_of_this_artifact": {
+    "implementation_edits": 0,
+    "compiles": 0,
+    "benchmarks": 0,
+    "scientific_integrations": 0,
+    "metadata_reads_and_hashes_only": true
+  },
+  "skill_context_used": [
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/SKILL.md",
+      "sha256": "ccb300f5b871e7e9df2ce289bc4533f4121a335b36a3b67bfa86742ca930d3a5",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/STAGE_SELECTION.md",
+      "sha256": "a57d92f6f31ffbcf753bcfcd7f8ba027a0cb26ca2195304571a76b3efba1a9f5",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/POLICY_INTEGRATION.md",
+      "sha256": "a844f7c6d30bc7075d81bde0595b023d2a824c71250f826ce364f9a54bfc1cd0",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/SUBAGENT_MODE.md",
+      "sha256": "d84fc9c0e6c229e350f2855edff545ee9dac05cd7b7958b0b97e82b92bb0c48e",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/STAGE_GUIDE_KO.md",
+      "sha256": "87e4a6a714b19c7791549c913b9898a8aadff27d24b2105aa654374139e80800",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/CODING_LOOP.md",
+      "sha256": "b9e3d6217c243590683bee2ddfe5bb63293206c188b70137a6380e4765442c60",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    }
+  ],
+  "read_source_snapshots": {
+    "authority": "Design alignment only. These hashes do not replace the future execution source freeze.",
+    "files": [
+      {
+        "path": "s10_optimization/src/bin/s10-benchmark.rs",
+        "sha256": "2161256ee588e9baef1a3a67af6874b15c9243b5cdcfdc5f11fffb396379dbf3"
+      },
+      {
+        "path": "s10_optimization/src/lib.rs",
+        "sha256": "e05e73b640cc04919c5bac6c40d8d1564a4a3bcae125f6f146eb05fae6397bb7"
+      },
+      {
+        "path": "s10_optimization/tests/targeted.rs",
+        "sha256": "654bd70b41514f355088dd41264ba7c377b38d852c2dcb757d6854346db11407"
+      },
+      {
+        "path": "s10_optimization/src/fixtures.rs",
+        "sha256": "622541806c26a1f2eb364389b0839d6852a5da1771fe36b064a70f602f836718"
+      },
+      {
+        "path": "S10_OPTIMIZATION_KO.md",
+        "sha256": "99546c27b8df9b044dbd432fc96dbd40abf5f85b1612a4422377961996df2054"
+      },
+      {
+        "path": "s9_vigilode/PREREGISTRATION.json",
+        "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507"
+      }
+    ]
+  },
+  "provenance": {
+    "baseline_scientific_source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+    "S9_result_publication_commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+    "baseline_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+    "vigilode_source_commit": "a21d573980f66fe02891bd216153443b5352f921",
+    "fixed_spectral_owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "S8_reference": {
+      "path": "s9_vigilode/reference/S8_PRIMAL.json",
+      "sha256": "c1dcf72978e1660d481aa44b60842bb73236701c9509bb5d9f017e03ea77ddac"
+    },
+    "S9_preregistration": {
+      "path": "s9_vigilode/PREREGISTRATION.json",
+      "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507"
+    },
+    "R2_reuse": {
+      "path": "evidence_s10/r2/REUSE_SOURCES.json",
+      "intake_sha256": "be61d884790e84086b355f0ae31d444e019722f47ecee17bd5eae3f57c21ffbf"
+    }
+  },
+  "physics_lock": {
+    "metric_signature": "(-,+,+,+)",
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "dot b",
+    "Sigma": "sqrt(3)*abs(s)/H",
+    "birth_mode": "P24 only at new explicitly isotropic births",
+    "source_frame": "unchanged",
+    "positive_weights": true,
+    "reflection_exact": true,
+    "original_stock_and_birth_data": "immutable; no reset/reweight",
+    "exact_moment_bound": "3/1000000000000000",
+    "no_changes": [
+      "source or spectral owner",
+      "P24 admission",
+      "solver tolerance/steps/output schedule",
+      "birth transfer/restarts",
+      "spectral binning",
+      "FMA/reassociation/fast-math",
+      "new P6 constraint",
+      "new closure or history input"
+    ]
+  },
+  "modes": [
+    "baseline",
+    "stream",
+    "prepared",
+    "cache",
+    "simd",
+    "simd_cache"
+  ],
+  "mode_semantics": {
+    "baseline": "Original bass_s9_vigilode::run and original FrozenBank evaluation.",
+    "stream": "Remove transient Vec allocations; retain node/cohort order and scalar Neumaier operation graph.",
+    "prepared": "Stream plus immutable per-bank mu^2/weight prepared data.",
+    "cache": "Prepared plus bounded bank-local exact-key RHS/Jacobian slots; recompute each Jv for the supplied direction.",
+    "simd": "Stable std::arch packed-f64 element operations, scalar ordered Neumaier reduction; runtime feature guard and scalar fallback.",
+    "simd_cache": "SIMD plus exact-key separate RHS/JVP slots."
+  },
+  "dependencies": {
+    "SIMD": "stable std::arch; required packed f64 sqrt/div intrinsics are AVX; implementation may conservatively require AVX2 at runtime and must report this distinction",
+    "rayon": "1.12.0 existing lock/vendor; independent input histories only",
+    "not_adopted": [
+      "pulp 0.22.3 (investigated alternative)",
+      "wide",
+      "nightly portable SIMD",
+      "Wolfram dd algebraic transformation"
+    ]
+  },
+  "binding_before_authoritative_run": {
+    "status": "PENDING_PARENT_SOURCE_FREEZE",
+    "receipt": "EXECUTION_BINDING.json or equivalent explicit manifest",
+    "required": [
+      "both C4 artifact hashes",
+      "all s10 source/test/harness/Cargo.toml/Cargo.lock hashes",
+      "original S9 source hashes and immutable owner binding",
+      "locked vendor/dependency checksums",
+      "rustc -Vv, cargo version, target triple, profile and feature flags",
+      "RUSTFLAGS and target-cpu/target-feature, no fast-math/FMA/reassociation",
+      "timing binary SHA256 and allocation binary SHA256 separately",
+      "exact command/environment/cwd plus monotonic wall clock scope",
+      "4 INPUT.json hashes and stored S9 raw/reference hashes",
+      "synthetic bank and query generator source hash plus materialized or canonical dataset digest",
+      "selected SIMD backend/runtime CPU features",
+      "CPU/cgroup/RAM/disk quotas and effective worker/build caps",
+      "actual source publication and cloud readback state, without calling pending operations complete"
+    ]
+  },
+  "release_comparison": {
+    "profile": "Both baseline and candidates in the same matched release build and binary; original S9 library is the baseline dependency.",
+    "stored_debug_comparison": "Use unchanged S9 scientific gates against stored S8/analytic FLRW and original S9 RAW; no bitwise requirement across debug/release.",
+    "within_release_comparison": "Strict f64 to_bits for kernel and exact canonical scientific receipt bytes/digest for histories, all six modes. Signed zero retained.",
+    "history_excluded_fields": [
+      "elapsed_seconds"
+    ],
+    "history_retained": "All other original fields including input, observations, events, exact certificates, final cohorts, old-stock digests, segments, counters, status and failure.",
+    "failure_policy": "A within-release difference is a FAILED_CANDIDATE even if scientific tolerances pass. Never accept by loosening tolerance or deleting a scientific field."
+  },
+  "kernel": {
+    "grid": [
+      {
+        "nodes": 16,
+        "cohorts": 2,
+        "calls_per_batch": 8192
+      },
+      {
+        "nodes": 16,
+        "cohorts": 16,
+        "calls_per_batch": 4096
+      },
+      {
+        "nodes": 16,
+        "cohorts": 64,
+        "calls_per_batch": 1024
+      },
+      {
+        "nodes": 64,
+        "cohorts": 2,
+        "calls_per_batch": 8192
+      },
+      {
+        "nodes": 64,
+        "cohorts": 16,
+        "calls_per_batch": 1024
+      },
+      {
+        "nodes": 64,
+        "cohorts": 64,
+        "calls_per_batch": 256
+      },
+      {
+        "nodes": 256,
+        "cohorts": 2,
+        "calls_per_batch": 2048
+      },
+      {
+        "nodes": 256,
+        "cohorts": 16,
+        "calls_per_batch": 256
+      },
+      {
+        "nodes": 256,
+        "cohorts": 64,
+        "calls_per_batch": 64
+      }
+    ],
+    "traces": [
+      "changing",
+      "jvp_reuse"
+    ],
+    "grid_order": "nodes ascending outer loop, cohorts ascending inner loop; trace order changing then jvp_reuse",
+    "fixture": {
+      "generator": "s10_optimization/src/bin/s10-benchmark.rs::bank; distinct from tests/fixtures::synthetic_bank",
+      "classification": "Synthetic immutable possibly anisotropic frozen-stock kernel bank; not a P24 birth certificate or continuum-angular refinement.",
+      "mu_i": "(2*i+1)/n - 1, i=0..n-1",
+      "alpha_i": "1/n > 0",
+      "reflection": "exact dyadic mirrored pairs for n=16,64,256",
+      "cohort_u_j": "j*0.003",
+      "cohort_b_birth_j": "(j%5)*0.01 - 0.02",
+      "cohort_energy_birth_j": "(j+1)/(K+1)",
+      "role": "synthetic_fixed_anisotropic_stock",
+      "bank_constants": {
+        "donor0": 0.7,
+        "decay_lambda": 0.7,
+        "exposure": 0.8,
+        "cosmological_constant": 0.1
+      },
+      "validation": "Cohort::validate each before kernel measurements"
+    },
+    "query": {
+      "changing_p": "i%32",
+      "jvp_reuse_p": "(i/16)%32 using integer division",
+      "x": "0.8 + p*0.001",
+      "state": [
+        "1.1 + p*0.01",
+        "0.3 + p*0.002",
+        "0.08 - p*0.0001"
+      ],
+      "direction": [
+        "0.3 + (i%16)*0.01",
+        "-0.2",
+        "0.1 - (i%7)*0.003"
+      ],
+      "order": "Evaluate the source expression in its frozen Rust order. Changing calls eval; jvp_reuse calls jvp. Each batch restarts i=0."
+    },
+    "fixed_batch_formula": "max(64,min(8192,1048576/(nodes*cohorts))) with integer floor",
+    "adapt_to_measured_time": false,
+    "identity_proof": {
+      "queries_per_mode_trace_grid": 64,
+      "comparisons": 6912,
+      "baseline_and_candidate_calls": 13824,
+      "output": "MICRO_PROOF.json",
+      "timed": false,
+      "note": "Each comparison invokes baseline and tested mode, including the baseline-self mode. This is not 6912 independent scientific cases."
+    },
+    "warmup": {
+      "batches_per_mode_trace_grid": 1,
+      "total_batches": 108,
+      "timed": false,
+      "note": "Follows identity probes; not a cold-cache measurement. Persistent evaluators are used across timed batches."
+    },
+    "paired_timing": {
+      "rounds": 7,
+      "candidate_pairs_per_round": 5,
+      "samples_per_pair": 2,
+      "batches": 1260,
+      "candidate_index": "1 + ((ci+round)%5), ci=0..4",
+      "pair_order": "baseline,candidate when (ci+round)%2==0; candidate,baseline otherwise",
+      "output": "MICRO_SAMPLES.jsonl",
+      "includes": [
+        "query generation",
+        "black_box",
+        "eval or JVP return handling"
+      ],
+      "excludes": [
+        "Evaluator preparation",
+        "source validation",
+        "comparison/hash",
+        "serialization/file I/O",
+        "counter diagnostics"
+      ]
+    },
+    "diagnostics": {
+      "calls_per_mode_trace_grid": 64,
+      "batches": 108,
+      "calls": 6912,
+      "fresh_evaluator": true,
+      "timing_claim": false,
+      "counters": "Cache/kernel computation counters are workload observations, not elapsed-time measurements."
+    }
+  },
+  "preparation": {
+    "function": "Evaluator::new(owned_bank,mode)",
+    "grid_cells": 9,
+    "modes": 6,
+    "warmups_per_mode_grid": 1,
+    "warmups": 54,
+    "rounds": 7,
+    "timed_samples": 378,
+    "mode_order": "MODES[(offset+round)%6], offset=0..5",
+    "output": "PREPARE_SAMPLES.jsonl",
+    "includes": [
+      "actual evaluator allocation/preparation"
+    ],
+    "excludes": [
+      "caller bank.clone",
+      "evaluator drop",
+      "serialization and file writes"
+    ],
+    "timer_resolution_caution": true,
+    "interpretation": "Single preparation samples may be sub-microsecond/timer-noise dominated. Report separately; any break-even estimate is descriptive and workload-specific. Do not add repetitions after seeing times."
+  },
+  "whole_history": {
+    "cases": [
+      {
+        "name": "closed_mf_into_ls_r2",
+        "source_root": "evidence_s9/run_20261020_r1/closed_mf_into_ls_r2",
+        "role": "closed_fine",
+        "files": {
+          "INPUT.json": "d7b43857ceb0429b7936b41fdb0931db70a06e15cd20258a0eb3f788587d1e20",
+          "RAW.json": "f777e2b40a77bbc291483ee838cce70b779c0d27d5f42e47406e955619217ea6",
+          "ASSESSMENT.json": "ca25806e40c820857bb3fb5b09f0e6c98546a1a1c84fedc43cf68457d81a5a6f",
+          "PROCESS.json": "d7a39862d23861c7bef0e43cb0e91a17e25e4f135d1543ee3bdf84c6a3b49068"
+        },
+        "stored_observations": 153,
+        "stored_birth_events": 32,
+        "stored_segments": 33,
+        "stored_quality_gate_count": 18
+      },
+      {
+        "name": "closed_small_clock4_r2",
+        "source_root": "evidence_s9/run_20261020_r1/closed_small_clock4_r2",
+        "role": "closed_fine",
+        "files": {
+          "INPUT.json": "2fad5839b2c143f39b99e48bfef27b6f4b62d70e0c8ab42d4726675f054c5935",
+          "RAW.json": "f4d2648f46bb32d6b0c7ac57783cb1f5e67b1ea783b274c4438ab40f214f5e99",
+          "ASSESSMENT.json": "9bffd30bcd323121887eb7d2c68396d81ef78975dcd658b866c26245c9ca88ea",
+          "PROCESS.json": "19fce3f67191b6e4c599654faf537dba2eb47311a5f840a353ad8f26478e9f87"
+        },
+        "stored_observations": 153,
+        "stored_birth_events": 32,
+        "stored_segments": 33,
+        "stored_quality_gate_count": 18
+      },
+      {
+        "name": "flrw_mf_into_ls_fine",
+        "source_root": "evidence_s9/run_20261020_r1/flrw_mf_into_ls_fine",
+        "role": "analytic_FLRW_fine",
+        "files": {
+          "INPUT.json": "40f3cf7926b0a71258482f29866dc6bf6773c7f297a97ab3682fcb52e625e6c3",
+          "RAW.json": "f3bccc4b7abb3234bb4f9e958ef951d755e2500a71bef62029a61a067599afa4",
+          "ASSESSMENT.json": "3426e93dcb20000389cc2f257c135f20dcf7edd695412a59c433e7460c4d5d87",
+          "PROCESS.json": "a4da71ffeb99982bb15dd049212ea795f0dfba259cf9ba305cad4868be66c812"
+        },
+        "stored_observations": 153,
+        "stored_birth_events": 0,
+        "stored_segments": 1,
+        "stored_quality_gate_count": 16
+      },
+      {
+        "name": "flrw_small_clock4_fine",
+        "source_root": "evidence_s9/run_20261020_r1/flrw_small_clock4_fine",
+        "role": "analytic_FLRW_fine",
+        "files": {
+          "INPUT.json": "926d24080ff59c62534207a2e9a2e70ebc8c2498739435759070f7fc28346ea7",
+          "RAW.json": "1db87721d38e270ee7b36745af1ca33fb8c4459bd34cbff89f570ee5267362a2",
+          "ASSESSMENT.json": "4eea5d8ad24091f05c7556088273b3a171e3a0b8bc54260a0f59b1395ba077d2",
+          "PROCESS.json": "4eb55603162b0b0fcb5309f74739a59563cce7f6a7f1f45f902c9cc9518af32f"
+        },
+        "stored_observations": 153,
+        "stored_birth_events": 0,
+        "stored_segments": 1,
+        "stored_quality_gate_count": 16
+      }
+    ],
+    "case_order": [
+      "closed_mf_into_ls_r2",
+      "closed_small_clock4_r2",
+      "flrw_mf_into_ls_fine",
+      "flrw_small_clock4_fine"
+    ],
+    "warmups_per_mode_case": 1,
+    "warmup_invocations": 24,
+    "full_raw_receipts": 24,
+    "full_raw_policy": "Persist first warmup per case and mode. This is the representative receipt reused for all repeated scientific digests.",
+    "rounds": 7,
+    "candidate_pairs_per_round": 5,
+    "timed_invocations": 280,
+    "total_invocations": 304,
+    "pair_order": "same rotation/parity as kernel",
+    "timed_scope": "Exactly one run_with_mode(owned_input,mode) call; caller input.clone before Instant, receipt remains live through elapsed read, hash/serialization/drop afterward. Internal receipt/input clones and setup performed by run_with_mode remain included.",
+    "repeat_storage": [
+      "case",
+      "candidate",
+      "mode",
+      "round",
+      "pair order",
+      "outer seconds",
+      "internal elapsed_seconds diagnostic",
+      "status",
+      "scientific_sha256",
+      "exact equality"
+    ],
+    "outputs": [
+      "24 case_mode.json representative RAW files",
+      "HISTORY_SAMPLES.jsonl",
+      "EXPECTED_HISTORY_HASHES.json"
+    ],
+    "inference": "Four unique existing physical workloads; performance repetitions are not new independent science cases."
+  },
+  "parallel": {
+    "modes": [
+      "baseline",
+      "simd_cache"
+    ],
+    "workers": [
+      1,
+      2,
+      4
+    ],
+    "jobs_per_batch": 4,
+    "input_order": [
+      "closed_mf_into_ls_r2",
+      "closed_small_clock4_r2",
+      "flrw_mf_into_ls_fine",
+      "flrw_small_clock4_fine"
+    ],
+    "warmup_batches_per_mode_worker": 1,
+    "warmup_batches": 6,
+    "rounds": 7,
+    "timed_batches": 42,
+    "total_batches": 48,
+    "history_invocations": 192,
+    "pair_order": "baseline,simd_cache for even rounds; reversed for odd rounds",
+    "pool_policy": "New local Rayon pool per run_independent call; no global pool and no inner moment reduction/threading.",
+    "timed_scope": "Includes pool construction and entire run_independent batch; input Vec clone and digest/file I/O/drop outside. Pool teardown follows the actual API boundary and is included when completed before return.",
+    "identity": "Every ordered output digest equals the corresponding serial representative. Completion and input-index order mandatory.",
+    "output": "PARALLEL_SAMPLES.jsonl",
+    "interpretation": "End-to-end four-job latency/throughput including per-call pool cost; not kernel-only scaling."
+  },
+  "allocation_probe": {
+    "enabled_plan": true,
+    "separate_binary": true,
+    "feature": "allocation-probe",
+    "timing_binary_feature_enabled": false,
+    "runs": 1,
+    "grid_cells": 9,
+    "modes": 6,
+    "traces": 2,
+    "rows": 108,
+    "calls_per_row": 64,
+    "evaluation_calls": 6912,
+    "counted_setup_regions": 54,
+    "uncounted_fresh_evaluator_constructions": 108,
+    "history_invocations": 0,
+    "setup_excludes_caller_bank_clone": true,
+    "measures": [
+      "combined alloc/alloc_zeroed/realloc calls",
+      "total bytes requested by those calls",
+      "separate Evaluator::new setup allocation requests"
+    ],
+    "not_measured": [
+      "live bytes",
+      "peak resident memory",
+      "allocation/free balance",
+      "allocation cost as a time fraction"
+    ],
+    "output": "ALLOCATION_PROBE.json",
+    "claim_rule": "Never use instrumented durations for speedup. Atomic instrumentation is compiled out in the timing binary."
+  },
+  "C6_targeted_verification": {
+    "source": "s10_optimization/tests/targeted.rs",
+    "test_functions_observed": 11,
+    "run_invocations_observed_in_design": 30,
+    "expected_short_completed_integrations": 23,
+    "expected_preintegration_input_failures": 7,
+    "benchmark_invocations_excluded": true,
+    "targeted_checks": [
+      "ordered kernel equality over the fixed grid",
+      "SIMD scalar fallback and vector tail n=4/6/16",
+      "large equal x and birth u without exponent splitting",
+      "separate RHS/JVP slots and new directions",
+      "each x/h/b/y bit-key coordinate and signed zero",
+      "new bank at same point; original evaluator stays immutable",
+      "nonfinite/invalid domain and direction error precedence; recovery",
+      "short no-birth and one-birth full scientific receipt equality",
+      "expected input failure receipt equality",
+      "Rayon ordered output and worker cap",
+      "scientific comparator retains signed zero and status"
+    ],
+    "new_scientific_case_claim": false,
+    "FMA_negative_control": "Not added: no FMA implementation is admitted. Existing signed-zero/status comparator control and operation-order review target the present risks.",
+    "execution_status": "NOT_RUN_BY_C4_AGENT"
+  },
+  "planned_counts": {
+    "performance_history_invocations": 496,
+    "performance_serial_history_invocations": 304,
+    "performance_parallel_history_invocations": 192,
+    "C6_additional_run_invocations": 30,
+    "combined_run_invocations": 526,
+    "expected_completed_integrations_including_C6": 519,
+    "expected_input_failure_invocations": 7,
+    "independent_physical_inputs_for_performance": 4,
+    "micro_timed_batches": 1260,
+    "micro_warmup_batches": 108,
+    "prepare_timed_samples": 378,
+    "prepare_warmups": 54,
+    "allocation_probe_history_invocations": 0,
+    "interpretation": "Counts bind to the inspected harness/tests at final freeze. New tests or schema changes require an explicit pre-run amendment, not retroactive count adjustment."
+  },
+  "science_gates": {
+    "hamiltonian_relative": 1e-11,
+    "cohort_energy_relative": 1e-11,
+    "event_energy_relative": 1e-13,
+    "donor_endpoint_relative": 3e-14,
+    "fine_reference_abs": 1e-09,
+    "clock_abs": 1e-12,
+    "exact_birth_moment_bound": "3/1000000000000000",
+    "reflection_abs": 0,
+    "scope": "Original 68 applicable S9 quality-gate decisions for these four workloads; assess the new baseline release RAW and compare canonical identical candidates. No S8 ODE rerun.",
+    "required_structural_checks": [
+      "finite positive background",
+      "exact requested output schedule",
+      "unchanged old-stock raw data and digests",
+      "all previous births immutable",
+      "32 positive exact-admitted births and 33 fresh segments for each closed workload",
+      "0 births and 1 segment for each FLRW control",
+      "153 output observations per workload",
+      "right-bank event output and event continuity",
+      "nonzero event callback jump where original donor transfer requires it",
+      "actual analytic JVP/Ft work for MF and direct/clock work for small mode",
+      "unchanged solver counters and output clipping within release"
+    ]
+  },
+  "statistics": {
+    "primary_samples": 7,
+    "summaries": [
+      "all raw samples",
+      "median",
+      "Q1",
+      "Q3",
+      "IQR",
+      "per-pair baseline_time/candidate_time"
+    ],
+    "quantile": "linear interpolation at (N-1)*p; for N=7, Q1=(s[1]+s[2])/2, Q3=(s[4]+s[5])/2 in zero-based sorted samples",
+    "pairing_key": [
+      "workload or grid/trace",
+      "candidate",
+      "round"
+    ],
+    "never_pool_baseline": "Each candidate uses its adjacent baseline sample. Baseline samples across candidates are not substitutes for pairing.",
+    "parallel_metrics": [
+      "end-to-end batch latency",
+      "4/seconds histories per second",
+      "descriptive worker scaling T1/Tw and efficiency/(workers) with seven round-index ratios"
+    ],
+    "worker_scaling_caveat": "Workers are measured in separate blocks; round-index ratios are descriptive, not temporally adjacent causal comparisons.",
+    "preparation": "Report median/IQR separately; no speedup claim when timer dominated.",
+    "normalization": "micro seconds/calls; do not divide cache timing by theoretical full-ray visits as if all were evaluated.",
+    "short_sample_policy": "Report SHORT_BATCH or TIMER_RESOLUTION_CAUTION; do not tune repeat count from observed elapsed time.",
+    "aggregation": "Report all 18 kernel workloads and all 4 histories, including regressions. No unregistered weighted overall speedup.",
+    "no_claims": [
+      "portable speedup",
+      "statistical population confidence from seven container samples",
+      "fixed power-law speedup",
+      "performance inferred solely from fewer counters/allocations"
+    ]
+  },
+  "resources": {
+    "user_caps": {
+      "additional_workers": 16,
+      "ram_bytes": 17179869184,
+      "disk_bytes": 4294967296,
+      "individual_job_seconds": 1800
+    },
+    "current_observed_envelope": {
+      "cpu_quota": 8,
+      "ram_bytes": 8589934592
+    },
+    "chosen_build_jobs": 2,
+    "chosen_parallel_workers": [
+      1,
+      2,
+      4
+    ],
+    "simultaneous_timing_processes": 1,
+    "no_concurrent_build_during_timing": true,
+    "no_nested_parallelism": true,
+    "owner_work": "Preserve prior owner jobs and files.",
+    "RSS": "Only call it peak RSS with a measurement covering the whole relevant process tree/lifetime; sparse /proc samples are observed lower bounds."
+  },
+  "DAG": [
+    {
+      "id": "freeze",
+      "depends_on": [],
+      "action": "Parent freezes source, protocol, datasets, environment/commands and publication/readback state."
+    },
+    {
+      "id": "build",
+      "depends_on": [
+        "freeze"
+      ],
+      "action": "One matched release timing build and separate allocation-feature build; record actual build timings outside benchmark. Productive compile repairs preserve receipts and rebind changed source."
+    },
+    {
+      "id": "C6",
+      "depends_on": [
+        "build"
+      ],
+      "action": "Run only preregistered targeted changed-surface tests; preserve raw output and failure classes."
+    },
+    {
+      "id": "benchmarks",
+      "depends_on": [
+        "C6"
+      ],
+      "action": "Sequential micro(including prepare), serial history, parallel batch, separate allocation probe. Fixed warmups/rounds; within-release equality gates are live."
+    },
+    {
+      "id": "C7_C8",
+      "depends_on": [
+        "benchmarks"
+      ],
+      "action": "Evaluate unchanged scientific gates on saved representative release RAW; compare stored S9/S8 and derive all performance statistics from saved samples only."
+    },
+    {
+      "id": "independent_review",
+      "depends_on": [
+        "C7_C8"
+      ],
+      "action": "One parent-requested scope-bound independent review of implementation/bindings/raw/stats. No benchmark replay for agreement."
+    },
+    {
+      "id": "C10",
+      "depends_on": [
+        "independent_review"
+      ],
+      "action": "Publish scoped decisions, failed candidates and remaining duties; parent records GitHub plus two backup/readback states and updates both handoffs."
+    }
+  ],
+  "failure_policy": {
+    "classes": [
+      "SOURCE_BINDING_MISMATCH",
+      "C6_CONTRACT_FAILURE",
+      "MICRO_BIT_IDENTITY_FAILURE",
+      "HISTORY_BIT_IDENTITY_OR_COMPLETION_FAILURE",
+      "REPEATED_HISTORY_IDENTITY_FAILURE",
+      "PARALLEL_IDENTITY_FAILURE",
+      "SCIENTIFIC_GATE_FAILURE",
+      "DOMAIN_EXPECTED_FAILURE",
+      "TIMEOUT",
+      "RESOURCE_LIMIT",
+      "BUILD_OR_IO_FAILURE",
+      "INCOMPLETE_SAMPLES",
+      "SHORT_BATCH",
+      "TIMER_RESOLUTION_CAUTION",
+      "CLOUD_READBACK_PENDING"
+    ],
+    "raw_preservation": "Append raw JSONL/exit/time/command and failed scientific output when available. Never overwrite an old run directory.",
+    "retry": "An unchanged failed operation gets at most one diagnostic retry. A diagnosed material repair is one scope-bounded repair episode with only affected reruns, new source/input identity and preserved old failures.",
+    "no_adaptive_sampling": "No extra rounds, quicker inputs, tolerance widening or best-run selection after seeing a timing.",
+    "partial_results": "A timeout/resource failure preserves completed pairs; incomplete seven-round cells are INCOMPLETE and cannot be silently promoted. Finish unaffected authorized analysis.",
+    "claims_separated": [
+      "RESULT_VALIDITY",
+      "PROVENANCE_VALIDITY",
+      "PACKAGING_VALIDITY"
+    ],
+    "positive_exit": "A passing gate advances to the next DAG node; finite review does not open another research cycle."
+  },
+  "independent_review_plan": {
+    "status": "PLANNED_NOT_EXECUTED",
+    "scope": "Actual new kernel/cache/SIMD/runner changes; immutable bindings; strict comparisons; derived timing statistics and unchanged science gates.",
+    "physics_first": [
+      "same non-tilted Bianchi I equations and fixed spectral/source authority",
+      "no reweighting of old stock",
+      "birth transfer and exact admission unchanged",
+      "no new approximation/closure or continuum inference"
+    ],
+    "code_then": [
+      "original ordered floating operation graph",
+      "CPU guard/fallback and lane tail",
+      "exact state/bank cache lifetime and direction recomputation",
+      "scientific field exclusions restricted to elapsed_seconds",
+      "instrumentation absent from timing binary",
+      "timed boundaries, fixed sample counts, partial failures",
+      "raw-pair statistical recomputation"
+    ],
+    "verification": "Read saved raw/counters and independently recompute small summary statistics; no same analyze function as sole evidence, no history integration or old campaign rerun.",
+    "budget": "One scoped primary independent pass; at most one risk-justified fresh adversarial pass for an actual material defect under the skill policy."
+  },
+  "primary_citations": [
+    {
+      "url": "https://llvm.org/docs/Vectorizers.html",
+      "claim": "Elementwise SIMD and floating reduction reassociation are distinct; keep original scalar reduction order."
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/std/arch/",
+      "claim": "Runtime CPU feature guarding and scalar fallback for architecture intrinsics."
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_sqrt_pd.html",
+      "claim": "Packed f64 square root intrinsic requires AVX."
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_div_pd.html",
+      "claim": "Packed f64 division intrinsic requires AVX."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rayon-rs/rayon/v1.12.0/src/iter/mod.rs",
+      "claim": "Parallel reduction order is not a scalar floating reproducibility guarantee; parallelize independent histories."
+    },
+    {
+      "url": "https://docs.rs/rayon/1.12.0/rayon/struct.ThreadPoolBuilder.html",
+      "claim": "Explicit local thread pool construction and configured worker count."
+    },
+    {
+      "url": "https://hal.science/hal-00949355v3/file/superaccumulator.pdf",
+      "claim": "Accurate compensated arithmetic alone does not license arbitrary reduction ordering."
+    },
+    {
+      "url": "https://arxiv.org/html/1701.06528",
+      "claim": "Approximate Jacobian reuse has method/order conditions; this design uses identical-point memoization only."
+    }
+  ],
+  "not_admitted": [
+    "continuum angular certification",
+    "P6 algorithm completion",
+    "native finite-bin global conservation",
+    "actual REI/MD14 feedback closure",
+    "full spectral history convergence",
+    "portable speedup",
+    "REI production",
+    "full EoR",
+    "merge"
+  ],
+  "publication_status": "C4 design artifact only. No current source freeze, run, GitHub publication or cloud success is asserted by this file."
+}

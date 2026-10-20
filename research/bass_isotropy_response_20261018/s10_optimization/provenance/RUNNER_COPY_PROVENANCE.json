@@ -1,0 +1,80 @@
+{
+  "schema": "BASS_S10_RUNNER_COPY_PROVENANCE_V1",
+  "original_source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+  "original_path": "research/bass_isotropy_response_20261018/s9_vigilode/src/lib.rs",
+  "original_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+  "original_bytes": 23410,
+  "owner_path": "../balance_p24.rs",
+  "owner_sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+  "sections": [
+    {
+      "name": "projected_birth",
+      "original_start_line": 239,
+      "original_end_line": 247,
+      "sha256": "846b2ad7036d814f0d615b598f8ccd3efde8d624d860fa9098746a78fa0daf3f"
+    },
+    {
+      "name": "validate_input",
+      "original_start_line": 273,
+      "original_end_line": 300,
+      "sha256": "54fd856a14fefc72bd90033cb7ac9d25b3bbe7c0dfd865aa8094480b5d2dca07"
+    },
+    {
+      "name": "observe",
+      "original_start_line": 307,
+      "original_end_line": 313,
+      "sha256": "56892de7c4ac53f8c27ee1f2e1e432188f47cf06bfec49cdd460076a2f183a1a"
+    },
+    {
+      "name": "run_and_run_inner",
+      "original_start_line": 334,
+      "original_end_line": 441,
+      "sha256": "eefa139dcedb96610081f08f3e32594b20b0485360bfa60a4a412903f015b149"
+    }
+  ],
+  "non_original_extract_prefix": "imports/documentation/mode import; excerpt is a provenance comparison file and is not compiled",
+  "changes": [
+    {
+      "before": "pub fn run(input:Input) -> RunReceipt {",
+      "after": "pub(crate) fn run_candidate(input:Input,mode:Mode) -> RunReceipt {"
+    },
+    {
+      "before": "let result=run_inner(&input,&mut receipt);",
+      "after": "let result=run_inner(&input,&mut receipt,mode);"
+    },
+    {
+      "before": "fn run_inner(input:&Input,receipt:&mut RunReceipt) -> Result<(),String> {",
+      "after": "fn run_inner(input:&Input,receipt:&mut RunReceipt,mode:Mode) -> Result<(),String> {"
+    },
+    {
+      "before": "let problem=ode_problem(shared).map_err(|e|e.to_string())?;",
+      "after": "let problem=crate::adapter::ode_problem(shared,mode).map_err(|e|e.to_string())?;"
+    },
+    {
+      "before": "let problem=ClockProblem(shared);",
+      "after": "let problem=crate::adapter::ClockProblem::new(shared,mode);"
+    }
+  ],
+  "changed_scientific_formula": false,
+  "baseline_calls_original_run_directly": true,
+  "candidate_scope": "solver callbacks only; administrative observations and pre/post-birth eval remain original",
+  "validation_status": "SOURCE_WRITTEN_NOT_COMPILED_NOT_RUN",
+  "files": [
+    {
+      "path": "provenance/S9_LIB_ORIGINAL.rs",
+      "bytes": 23410,
+      "sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b"
+    },
+    {
+      "path": "provenance/S9_RUNNER_EXTRACT.rs",
+      "bytes": 11074,
+      "sha256": "88c304b0d252e0ecb6034ba50815af45bb7cbd7e3aea8a56af98f3884556640e"
+    },
+    {
+      "path": "provenance/RUNNER_CALLBACK_DIFF.patch",
+      "bytes": 2856,
+      "sha256": "97c7d38997902f17d0dce3164d61cbdbbdb6cad78391790580e59d0275e5a5f1"
+    }
+  ],
+  "runner_sha256": "93205a1912e4f8d63a175280ddb6e633e5a894d3776c226a53877d04929a1f80"
+}
