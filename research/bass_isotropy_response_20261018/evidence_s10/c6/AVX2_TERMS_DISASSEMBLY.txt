@@ -1,0 +1,43 @@
+
+/workspace/scratch/a1783628e7a7/intake/optimization/execution_r1/s10-benchmark-timing.bin:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000b8bd0 <bass_s10_optimization::kernel::avx2_terms>:
+   b8bd0:	c5 fd 10 16          	vmovupd (%rsi),%ymm2
+   b8bd4:	c4 e2 7d 19 c0       	vbroadcastsd %xmm0,%ymm0
+   b8bd9:	c4 e2 7d 19 1d 3e 9e 	vbroadcastsd -0x961c2(%rip),%ymm3        # 22a20 <__abi_tag+0x22724>
+   b8be0:	f6 ff 
+   b8be2:	c5 e5 5c da          	vsubpd %ymm2,%ymm3,%ymm3
+   b8be6:	c5 fd 59 c3          	vmulpd %ymm3,%ymm0,%ymm0
+   b8bea:	c4 e2 7d 19 c9       	vbroadcastsd %xmm1,%ymm1
+   b8bef:	c5 f5 59 ca          	vmulpd %ymm2,%ymm1,%ymm1
+   b8bf3:	c5 f5 58 d0          	vaddpd %ymm0,%ymm1,%ymm2
+   b8bf7:	c5 fd 51 d2          	vsqrtpd %ymm2,%ymm2
+   b8bfb:	48 89 f8             	mov    %rdi,%rax
+   b8bfe:	c4 e2 7d 19 1d a9 9e 	vbroadcastsd -0x96157(%rip),%ymm3        # 22ab0 <__abi_tag+0x227b4>
+   b8c05:	f6 ff 
+   b8c07:	c5 fd 59 db          	vmulpd %ymm3,%ymm0,%ymm3
+   b8c0b:	c4 e2 7d 19 25 5c 9d 	vbroadcastsd -0x962a4(%rip),%ymm4        # 22970 <__abi_tag+0x22674>
+   b8c12:	f6 ff 
+   b8c14:	c5 f5 59 e4          	vmulpd %ymm4,%ymm1,%ymm4
+   b8c18:	c5 dd 5c c0          	vsubpd %ymm0,%ymm4,%ymm0
+   b8c1c:	c5 fd 5e c2          	vdivpd %ymm2,%ymm0,%ymm0
+   b8c20:	c5 f5 58 cb          	vaddpd %ymm3,%ymm1,%ymm1
+   b8c24:	c5 f5 58 d9          	vaddpd %ymm1,%ymm1,%ymm3
+   b8c28:	c5 f5 59 db          	vmulpd %ymm3,%ymm1,%ymm3
+   b8c2c:	c5 ed 59 e2          	vmulpd %ymm2,%ymm2,%ymm4
+   b8c30:	c5 ed 59 e4          	vmulpd %ymm4,%ymm2,%ymm4
+   b8c34:	c5 e5 5e dc          	vdivpd %ymm4,%ymm3,%ymm3
+   b8c38:	c5 fd 10 22          	vmovupd (%rdx),%ymm4
+   b8c3c:	c5 fd 58 c3          	vaddpd %ymm3,%ymm0,%ymm0
+   b8c40:	c5 dd 59 da          	vmulpd %ymm2,%ymm4,%ymm3
+   b8c44:	c5 dd 59 c9          	vmulpd %ymm1,%ymm4,%ymm1
+   b8c48:	c5 f5 5e ca          	vdivpd %ymm2,%ymm1,%ymm1
+   b8c4c:	c5 dd 59 c0          	vmulpd %ymm0,%ymm4,%ymm0
+   b8c50:	c5 fd 11 1f          	vmovupd %ymm3,(%rdi)
+   b8c54:	c5 fd 11 4f 20       	vmovupd %ymm1,0x20(%rdi)
+   b8c59:	c5 fd 11 47 40       	vmovupd %ymm0,0x40(%rdi)
+   b8c5e:	c5 f8 77             	vzeroupper
+   b8c61:	c3                   	ret

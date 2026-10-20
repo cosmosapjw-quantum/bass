@@ -32,7 +32,7 @@
 | C3 알고리즘·수치 설계 | 수치·소유권·cache 계약 완료 | 대기 | 대기 |
 | C4 병렬화·실행 DAG | 고정 7회 paired benchmark 사전등록 완료 | 대기 | 대기 |
 | C5 구현 | 신규 crate 구현 완료; compile/test/benchmark 미실행 | 대기 | 대기 |
-| C6 구현 검증 | 대기 | 대기 | 대기 |
+| C6 구현 검증 | release build 및 targeted11/11 PASS | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
 | C7 과학 검증 | 대기 | 대기 | 대기 |
 | C8 정확도 대비 성능 | 대기 | 대기 | 대기 |
 | C9 독립 검토 | 대기 | 대기 | 대기 |
@@ -51,3 +51,11 @@
 [C3 설계](evidence_s10/c3/C3_DESIGN_KO.md), [C4 사전등록](evidence_s10/c4/PREREG_KO.md), [machine protocol](evidence_s10/c4/BENCHMARK_PROTOCOL.json), [격리 crate](s10_optimization/README_KO.md)를 게시한다. 여섯 variant와 11개 targeted test는 작성되었으며 아직 실행 전이다. Kernel 1,260 paired timing samples와 preparation378, benchmark history496회(고유 물리 입력4개), 별도C6 run30회(예상적분23·예상입력실패7)를 고정했다. 원 완료 캠페인의 과학표본 수를 늘렸다고 보고하지 않는다.
 
 읽기 전용 runtime preflight에서 새 sibling crate가 기존 vendor config를 상속하지 않는 점과 embedded test input 누락을 발견했다. execute.py는 명시 --config와 검증된 원 fixture의 create-only materialization을 사용한다. compile 실패나 과학 실패가 아니라 실행 전 준비 수정이다. 모든 실행은 원 repo execute.py에서 시작하며 새 source manifest·성공 build receipt·binary hash·C6 gate를 확인한다.
+
+## C6 실제 구현 검증
+
+Rust1.94.1 release/offline/locked/jobs2 빌드1회가 164.782401714초, exit0으로 끝났다. Timing binary SHA256은 `375d95ae4dfdd96fef96c8b96a17fa966e0cd6b14063b14a79d867c2233f8265`이며 allocation-probe feature는 꺼져 있다. 원고정VigilODE의 dead-code 경고4개는 보존했고 신규 compile failure는 없다.
+
+Targeted test는 `--test-threads=1`로 11/11 PASS. signed-zero와 전체 cache key, 새 bank/same point, 변하는 JVP 방향, 원 오류 우선순위, scalar fallback/tail, 큰 공통 x/u, 짧은 history와 전체 과학 receipt identity, worker cap/order를 확인했다. 테스트 코드에서 실행된 run30회는 정상23회와 예상 input failure7회이며 performance 표본과 구분한다. AVX2 term symbol의 실제 binary에는 packed sqrt/div가 있으며 FMA instruction은 없었다. 이 검사는 해당 symbol 범위이고 upstream 전체 binary의 FMA 사용을 금지했다는 의미가 아니다.
+
+원source37파일 hash와 owner repo/runtime bytes가 유지됨을 확인했다. 아직 고정 performance timing은 수행하지 않았다.
