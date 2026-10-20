@@ -1,47 +1,71 @@
-# Codex / NCP handoff — S9 재실행 없이 다음 native bridge 준비
+# Codex / NCP handoff — 검증된 S10을 보존하는 다음 구현
 
-이 인계는 local/Codex/NCP에서 다음 구현·실행 단위를 준비하기 위한 것이다. 새 ChatGPT 연구 대화는 [NEW_THREAD_HANDOFF_KO.md](NEW_THREAD_HANDOFF_KO.md)를 사용한다.
-
-## source와 완료 상태
+아래 단일 블록은 local/Codex/NCP 실행자에게 전달할 수 있다. 현재 S9/S10 실행을 다시 돌리는 지시가 아니며, 고정 결과를 읽어 사용자가 선택한 새 물리 의존성의 구현 계약을 준비한다.
 
 ```text
-Repository: https://github.com/cosmosapjw-quantum/bass
-Draft PR174: https://github.com/cosmosapjw-quantum/bass/pull/174
-Branch: research/bass-isotropy-checkpoint-recovery-20261018
-Lane: research/bass_isotropy_response_20261018/
-S9 실행 source: 4b30957cb008aad8019bb1a673937fc67bd017e8
-S9 source tree: 8e4abf3820d06bae6cbec307e4f69de74195d14b
-S9 prereg SHA256: 7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507
-VigilODE 구현: a21d573980f66fe02891bd216153443b5352f921
-REI spectral owner: 0e25846433170d0f420c4cda44a0bedbf02cd177
-SourceID: MD14_Z002_FESC_BB50K_13P6_100_V1
-부모 PR173: 4e2d1fa820d6f7baae1069b615fb82a08d53403b
-현재 S9 결과 publication: a40311796f9aac5ea5e0e58c630bee2a78443353; 원격 tree/blob readback 완료
-현재 결과 ZIP의 Drive·Dropbox readback: PENDING — 최종 배송 영수증에서 실제 완료 상태 확인
+$physmath-research-loop를 적용해 BASS의 이미 완료한 S9/S10 증거를 재사용하고 사용자가 선택한 후속 물리 구현만 진행하라. 사용자에게 과거 대화·ZIP 다운로드·첨부·사전 명령을 요청하지 않는다. 이 handoff로 새 자동 최적화 cycle 또는 과거 build/test/ODE/benchmark 재실행을 시작하지 않는다.
+
+[repo·source·결과 identity]
+Repo=https://github.com/cosmosapjw-quantum/bass
+Draft PR174=https://github.com/cosmosapjw-quantum/bass/pull/174
+Branch=research/bass-isotropy-checkpoint-recovery-20261018
+Lane=research/bass_isotropy_response_20261018/
+S9 원 실행source=4b30957cb008aad8019bb1a673937fc67bd017e8
+S9 실제 결과=a40311796f9aac5ea5e0e58c630bee2a78443353
+S10 실행source=d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8
+S10 sourcetree=95785be65c196c68d61b79dafb32f4cedfd7702d
+Source/input manifest SHA256=4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17
+C6 checkpoint=477eca7d13bba4f69e063ad9b024225ee06cc395
+C7/C8 result=26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a
+C7/C8 tree=925f3cf75683b83c8b292cea4ce596059b36265d
+C9 review=0771f0610987eb9f900674e83063912150733255
+C9 tree=1c93fb37dce78cbd54691d072aaf35209a94894c
+VigilODE=a21d573980f66fe02891bd216153443b5352f921
+REI spectral owner=0e25846433170d0f420c4cda44a0bedbf02cd177
+Parent PR173=4e2d1fa820d6f7baae1069b615fb82a08d53403b
+SourceID=MD14_Z002_FESC_BB50K_13P6_100_V1
+최종 metadata HEAD: 이 파일이 포함된 최종 metadata HEAD는 PR174 최종 배송 댓글/Git ref와 postcommit tree/blob readback을 대조하라. 위 source/result/review identity는 고정값이다.
+Timing binary SHA256=375d95ae4dfdd96fef96c8b96a17fa966e0cd6b14063b14a79d867c2233f8265
+Allocation-probe binary SHA256=4ab9bf3013f0ef599a9bd06b5e6458f04ca697c727250e58bc8750ca6f8474b3
+두 binary는 서로 다른 계측 목적이며 timing 표본에 allocation 계측을 섞지 않았다.
+
+[첫 행동: read-only identity 대조]
+현재 Git ref/commit/full tree, PR174 최종 배송 댓글과 Dropbox /BASS_BACKUPS·Drive /BASS_BACKUPS의 저장 결과를 읽는다. Drive folder ID=1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y. PR 요약 HEAD의 원 stale 관측은 보존하고 실제 Git Data ref/commit/tree 검증을 따른다.
+README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S10_OPTIMIZATION_KO.md, S10_THEORY_KO.md, S10_RESULTS_KO.md를 읽는다.
+s10_optimization/SOURCE_MANIFEST.json, evidence_s10/c4/BENCHMARK_PROTOCOL.json, s10_optimization/provenance/RUNNER_COPY_PROVENANCE.json 및 RUNNER_CALLBACK_DIFF.patch를 읽어 원 source·input·실제 변경 범위를 확인한다.
+실행 증거는 evidence_s10/c6/tests_r1_PROCESS.json와 tests_r1.log, evidence_s10/run_20261020_r1/EXPERIMENT_POSTCHECK.json, measurements/*, evidence_s10/analysis_r1/S10_ASSESSMENT.json이다.
+독립 검토는 evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json, C9_REVIEW_KO.md, source_contracts_note.md, INDEPENDENT_RECOMPUTATION.json, C9_CLOSEOUT.json이다. Receipt SHA256=1b63d46ebe2b576acacd828b77ac5fdf85e3461de84991305f708b2ea5513c29.
+S9_RESULTS_KO.md와 evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json, 실제 독립 dual review를 읽어 원 완료 범위를 확인한다. S6–S8 원 evidence도 재사용한다. 역사적 NOT_RUN/source-only/prior-build 문장을 현재 상태로 승계하지 않는다.
+
+[완료된 코드와 범위]
+원 s9_vigilode, balance_p24.rs, 고정 VigilODE/REI owner는 변경하지 않았다. 새 isolated opt-in crate s10_optimization에서 baseline/stream/prepared/cache/simd/simd_cache 여섯 mode를 비교했다.
+Baseline run은 원 S9 run을 직접 호출한다. Candidate runner는 원 birth/P24/exact certificate/event/observation/solver-counter 처리에서 선언된 다섯 callback/mode 치환만 적용한 provenance가 있다.
+원 성분별 Neumaier 순서·괄호를 보존한 streaming accumulator, immutable mu²/weight SoA(1-z는 평가 중 계산), private Arc bank, full(x,h,b,y).to_bits key, RHS/Ft와 JVP-base 각각1slot을 사용한다. 새 v마다 Jv를 다시 계산하고 새 birth/segment에는 새 bank/cache/workspace다.
+SIMD는 stable std::arch의 ray별 packed f64 연산과 보수적 AVX2 runtime guard, scalar tail/fallback을 사용한다. Ordered scalar reduction, 원 multiply/divide 괄호, scalar exp를 유지한다. Symbol 범위의 no-FMA 근거를 upstream binary 전체에 확대하지 않는다.
+Rayon1.12.0은 독립history만 workers1/2/4로 실행하고 입력 순서로 결과를 모은다. Birth 내부 합산·시간 적분 내부의 병렬 reduction은 없다.
+S9는 고정8history 8/8완료·140gate assertion PASS이며 현재 scope의 NCP 재실행 의무가 없다.
+S10 release C6 targeted11/11, kernel proof108/108, 전체 대표RAW24/24 scientific bytes 동일, serial/parallel digest 동일, science68/68 PASS다. 실제 benchmark496history 호출은 기존 네 입력의 반복이다.
+C9 단일 독립 pass155/155 checks와 science68/68 PASS_SCOPED, code/science finding0, 문서 finding1closed다. 수정은 prepared 데이터 표현뿐이며 code/tolerance 변경·solver/benchmark 재연0이다. 다른 host/compiler 재현은 아니다.
+MF simd_cache paired median은 closed2.973배·FLRW4.115배였다. Closed small/clock4는1.055배(IQR0.957–1.243)로 일관된 이득을 승인하지 않는다. Changing n16/cohort2의0.949817은 실제 성능 회귀다. 평가 구간 최적화 allocation/reallocation0은 setup·caller clone·whole-history 전체 할당0이 아니다.
+Rust1.94.1/LLVM21.1.8, release opt-level2/codegen-units1/LTOoff, locked/offline, fast-math/RUSTFLAGS없음에서 얻은 제한 결과다. 원 source/lock/owner 보존과 runtime hash는 receipt를 재사용한다. 현재 결과 확인을 위한 추가 compile/test/benchmark/적분은 필요 없다.
+
+[새 코드가 보존해야 할 입력·gate]
+Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H.
+새 명시적 isotropic birth quadrature만 보정하며 기존 photon/physical anisotropic stock·birth weights는 초기화하거나 재가중하지 않는다. 양성·reflection parity·source frame·고정 spectral/balance owner를 유지한다.
+현재 exact normalization/P2/P4 gate3/10^15, fine reference abs1e-9, Hamiltonian/cohort energy rel1e-11, event energy1e-13, donor endpoint3e-14, clock abs1e-12를 임의 완화하지 않는다. Feasibility와 numerical precision 실패를 음수 weight나 tolerance 변경으로 우회하지 않는다.
+같은 point exact-cache를 approximate Jacobian reuse로 바꾸거나 exp(x-u)를 별도 지수곱으로 분해하면 별도 수치 계약이다. P2/P4 일치만으로 continuum/full finite-bin 보존을 승인하지 않는다. 전체 scientific receipt 동등성은 elapsed_seconds만 제외한 관측·event·segment·최종cohort·counters·failure까지 포함한다.
+
+[보존할 실패·배송 상태]
+신규 compile/strict identity/science 실패0, C6 예상입력실패7, 위 성능 회귀/불확실성을 구분한다. 고정 VigilODE dead-code경고4개와 문헌 취득 실패, 과거 환경/runner/Drive 실패 receipt를 삭제하지 않는다.
+S6 rate38/344 실패·P4악화44/238, S7원실패, S8낮은해상도8미달 및 b0=.9/n64/P24 STRICT_INTERIOR의 INNER_P2_PRECISION_LIMIT를 보존한다.
+오늘 S9결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8 Dropbox 전체 ZIP bytes/SHA256/CRC/manifest는 검증됐다. C9를 포함한 최종 provider 상태·object ID는 PUBLICATION_CLOSEOUT.json/CLOUD_READBACK_KO.md가 연결한 최종 delivery index 및 각 stage CLOUD_READBACK.json을 우선한다. 최종 C10 자기commit/미확인cloud ID를 꾸미지 않는다.
+Drive는 새 content write 무응답으로 blocked다. 2026-10-20 06:22UTC의 직접항목48개 listing에서 당시 관련 archive6개와 staging copy1개의 exact 이름 일치0개를 관측했다. 해당 범위 밖의 전체 Drive 파일 부재로 일반화하지 않는다. 과거 S6–S8/S9source의 원 Drive 성공은 별도 보존한다.
+무응답이 확인된 동일 upload/copy 경로를 반복하지 않는다. 현재 검증된 대체 쓰기 경로가 없어 mutation을 중단했다. 브라우저fallback은 브라우저 도구 지침에 따른 명시적 사용자 승인 후에만 진행한다. 빈 Doc/Sheet와 실패 receipt는 백업 완료가 아니다. Dropbox 성공과 Drive 미완료를 분리하고 이중백업 완료라고 쓰지 않는다.
+
+[다음에 구현할 실제 의무]
+새 optimization cycle을 자동으로 열지 말고 사용자가 선택한 후속 물리 단위의 식·data·owner 의존성을 먼저 정식화한다. 남은 범위는 실제 MD14의 source time/체적/energy supply/stress normalization과 native Einstein/shear의 shared-Q 결합, 미구현P6, evolving reactive full finite-bin spectral-history 보존/수렴, S8 precision failure, 더 넓은 finite-d/angular accuracy, 새 Rust client의 full birth-memory parameter tangent다.
+S6 fixed-owner source-deposition 차이5.369926725506957e-12 설명은 원 범위로 재사용한다. 이를 실제 reactive/full-history spectral 수렴이나 MD14 feedback 완료로 바꾸지 않는다.
+가능한 유도·코드·입력·negative control·고정 gate를 샌드박스에서 먼저 완성하고 변경된 의존성만 검증한다. 새 NCP가 필요하면 검증 가능한 source/input/prereg와 게시/provider별백업상태를 먼저 남겨 compile·작은 호환수정·등록실행만 맡긴다. 현재 완료범위의 NCP의무는 없다.
+추가worker≤16/RAM≤16GiB/disk≤4GiB/개별job≤1800초. 현재관측은8CPU/8GiB, 기본build2, 이번 workload의 독립history 후속권장2workers다. 새 환경의 compiler·실제quota·disk를 읽고 기존 owner 작업·사용자변경·실행중job을 보존한다.
+결과 경로와 원RAW를 덮어쓰지 않는다. source/result/review/metadata identity, 실제 command/exit/binary/input hash, gate, resource 관측범위, 실패종류, 남은일, GitHub/PR, provider별readback과 두handoff를 반환한다. REI production/full EoR/merge로 확대하지 않는다.
 ```
-
-S9는 2026-10-20 현재 Rust 1.94.1로 새 locked build를 성공한 뒤 고정 8개 history를 한 번 실행해 8/8 완료, 140개 gate assertion PASS를 얻었다. 독립 이론·수치/구현·기록 검토는 각각 PASS_SCOPED다. 140은 독립 테스트 수가 아니다. **이 S9 matrix의 NCP 재실행 의무는 없다.** 과거 NOT_RUN과 verified_prior_build는 역사 기록이다. [Dual receipt](evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json)와 [독립 검토 보고](evidence_s9/resume_20261020/science_review/INDEPENDENT_S9_ACTUAL_REVIEW_KO.md)를 직접 확인한다.
-
-현재 build receipt는 `evidence_s9/resume_20261020/runtime/PREPARATION_RETURN.json`이며 mode=fresh_build, new_compilation_performed=true다. 새 binary SHA256은 `69de3e8739488524cdbe53f9e4bd71f8125717138bf06085b5f51a082060582f`다. 실제 결과는 `evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json`, 각 case의 `RAW.json`/`PROCESS.json`/`ASSESSMENT.json`, `evidence_s9/RESULT_SUMMARY_20261020.json`, `S9_RESULTS_KO.md`에 있다. Resource 측정 범위는 `evidence_s9/resume_20261020/CURRENT_EXECUTION_RESOURCE_CLARIFICATION.json`을 읽는다. 관측된 /proc RSS를 전체 compiler peak로 해석하지 않는다.
-
-## 실행자가 먼저 할 일
-
-현재 branch/PR 최신 댓글과 두 BASS_BACKUPS의 새 결과를 확인해 위 source와 실제 raw receipt를 대조한다. 사용자의 과거 대화·첨부·ZIP 다운로드·사전 명령을 요구하지 않는다. `README_KO.md`, `DAG.json`, `RETURN_TO_CHATGPT.json`, `PUBLICATION_CLOSEOUT.json`, `CLOUD_READBACK_KO.md`, `S9_RESULTS_KO.md`, [현재 cloud intake](evidence_s9/resume_20261020/CURRENT_CLOUD_INTAKE.json) 및 실제 독립 검토 receipt를 읽는다. 새 실행환경의 compiler·Python·자원은 현재 실행으로 확인하고 과거 runtime 실패를 현재 blocker로 승계하지 않는다.
-
-S6–S8 완료 evidence와 실패를 재사용한다. S6 rate 38/344 FAIL·P4 제약 44/238 악화, S7 support/exact-moment 실패, S8 native 18 attempt/17 measured/낮은 해상도 8 FAIL/STRICT_INTERIOR precision 1 FAIL을 지우지 않는다. S8 tangent 10/10 gate PASS와 n256의 6 target PASS도 각각의 범위로 보존한다. r0/r1 observation과 step count가 같았던 S9 plateau에서 수렴차수·portable speedup을 추정하지 않는다.
-
-## 다음 개발 단위
-
-다음 대상은 실제 MD14 공급부의 source time·stress·energy bridge와 native Einstein/shear feedback이다. 고정 REI owner의 실제 반환을 읽어 physical/comoving volume, 시간 변수, 방출·흡수·에너지 공급 소유권과 응력 정규화의 대응을 먼저 완성한다. 새 bridge가 기존 immutable birth cohort와 결합할 입력·출력 계약, 계산식, negative control, 보존식 gate를 구현한다. 기존 S9 manufactured donor의 성공을 실제 astrophysical source coupling의 완료로 바꾸지 않는다.
-
-새 NCP 캠페인이 필요한 경우 ChatGPT/샌드박스에서 가능한 코드·입력·사전 gate를 먼저 완성한다. 새 source와 prereg를 게시하고 원격 hash 및 이중백업/readback을 확보한 뒤 NCP에는 현재 자원 확인, locked compile, 작고 구체적인 호환 수정, 등록된 실제 native 실행만 맡긴다. 새 campaign 명령은 그 실행 계약이 완성된 뒤 해당 새 단위에 기록한다. [S9 HOWTO](s9_vigilode/HOWTO_KO.md)의 과거8개 명령은 명시적 재현 연구를 위한 기록이며 다음 작업 지시가 아니다.
-
-P6 제약 알고리즘은 아직 구현하지 않았다. Full reactive transport/absorption/history spectral 수렴, native finite-bin photon/energy 보존, continuum angular accuracy의 추가 범위, 새 client의 full parameter tangent는 미완료다. 새 변경에 의존하는 검사만 실행하고 source가 같은 S8·S9 또는 AD/adapter/runner 개발 검증을 관성적으로 반복하지 않는다.
-
-## 고정 물리·실행 계약
-
-Non-tilted axisymmetric Bianchi I; (-,+,+,+); a_perp=a exp(-b); a_parallel=a exp(2b); s=dot b; Sigma=sqrt(3)|s|/H. 새 등방 birth angular quadrature만 보정하며 기존 photon stock·physical anisotropic source·birth weights를 초기화하거나 재가중하지 않는다. 양의 weights, reflection parity, source frame, 고정 spectral owner와 원 balance owner를 유지한다. 지지 feasibility와 numerical precision을 구분하고 음수 weights·허용오차 완화·oracle birth b로 실패를 우회하지 않는다.
-
-기존 owner 작업·사용자 변경·실행 중 job을 보존한다. 추가 worker≤16, RAM≤16GiB, disk≤4GiB, 개별 job≤1800초; 기본 새 build2/campaign1을 유지한다. 결과 경로를 덮어쓰지 않고 raw와 원 failure를 보존한다. 이론/수치/구현/환경/권한/입력 의존성 실패를 구분하며 timeout·잘린 raw·observer 실패도 실제 과정과 함께 반환한다.
-
-각 완료 단위에서 실행·게시·백업/readback·DAG 상태를 따로 기록한다. 최종 반환에는 실제 명령·exit code·source/tree/binary/input hash·gate·자원 측정 범위·실패 유형·미실행 의무·GitHub PR/commit·cloud readback을 포함한다. REI production/full EoR/merge는 별도의 충분한 검증과 사용자 범위에 따라 다룬다.

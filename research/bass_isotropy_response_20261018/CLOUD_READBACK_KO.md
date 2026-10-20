@@ -1,8 +1,36 @@
+# Cloud readback — S9/S10 현재 배송 상태
+
+## 2026-10-20 C10 마감 시점
+
+**아래7개 이전 단계 archive는 Dropbox 전체 원격 bytes·SHA256·CRC·payload manifest/Git blob readback을 완료했다. Drive 새 복사는 미완료다.** [기계 판독 index](delivery/s10/CLOUD_CHECKPOINT_INDEX.json)는 stage별 commit/tree·객체·원 receipt를 연결한다. 원격 임시 download URL은 공개하지 않는다.
+
+| 단계 | Commit | ZIP bytes | SHA256 | Dropbox ID | payload수 |
+|---|---|---:|---|---|---:|
+| S9_ACTUAL | `a4031179` | 1,724,949 | `1d7993575b796f6d5bf2d78e7775d11a7a22bb7c3457e8aec1c2f0304241aea3` | `id:BSpOijBcT10AAAAAAD_SMg` | 123 |
+| S10_C1 | `62d6bc14` | 108,190 | `e95e2492e9d58aef410518e04224a0e8b12b1218c31d30e0c16635e5e4fb4a15` | `id:BSpOijBcT10AAAAAAD_SNA` | 11 |
+| S10_R2_C2 | `8138a014` | 428,337 | `743601cd092cc1bbb01756e79c53f7a8476e8f3fd143ca6b9baeb75e9e9aff15` | `id:BSpOijBcT10AAAAAAD_SNg` | 35 |
+| S10_C3_C5 | `d5a17364` | 130,693 | `bbbf95c63d88d24b7b7478faa7344e43d3787de16a307382a7cebf9f40618f9e` | `id:BSpOijBcT10AAAAAAD_SOA` | 30 |
+| S10_C6 | `477eca7d` | 60,506 | `1cd0453971fdc94206d6589e727cac0a1df4a77bc67291fffb7e8104b9108711` | `id:BSpOijBcT10AAAAAAD_SPQ` | 15 |
+| S10_C7_C8 | `26e9e1ba` | 1,460,006 | `ec8cef6194abfe93c0309129bd546e1bc14389859796599720ef77ea35979219` | `id:BSpOijBcT10AAAAAAD_SQw` | 70 |
+| S10_C9 | `0771f061` | 146,597 | `0cce35c86caad58ca0270ffa232978bc8a8d66bf9720c48fad66d92e72c1cd2b` | `id:BSpOijBcT10AAAAAAD_SRQ` | 16 |
+
+Payload 합계는300개이며 여러 checkpoint의 중복파일을 포함한다. 고유 과학 결과300개라는 의미가 아니다. 현재 최종 C10 metadata ZIP은 containing commit을 만든 뒤 포장하므로 자기 hash를 이 표에 미리 넣지 않는다. **그 마지막8번째 archive의 실제 commit/tree/hash/Dropbox readback은 PR174 최종 배송 댓글과 postcommit receipt를 읽는다.** 이전7개와 마지막1개를 함께 복구하면 이번 세션의 전체 배송 묶음이다.
+
+Drive `/BASS_BACKUPS` folder `1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y`에 대한 초기 업로드와 한 번의 diagnostic retry는 provider response/operation ID 없이 무응답이었다. 별도 staging-copy 진단도 무응답으로 controller가 중단했다. 응답의 “aborted by user”는 root controller가 대기를 중단한 상황이며 실제 사용자 취소 지시나 provider가 반환한 오류라고 해석하지 않는다. files.update의 content 쓰기는 시도하지 않았다. 기존 backup은 수정·삭제하지 않았다.
+
+마지막 [읽기 전용 대조](delivery/s10/FINAL_DRIVE_READONLY_RECONCILIATION.json)는06:22:12.355UTC에 직접항목48개, 그 시점의 관련7파일명 일치0개를 확인했다. 해당7개는 S9actual와 S10C1/R2C2/C3C5/C6/C7C8, 당시staging 이름이며 이후 C9/C10 쓰기는 애초 시도하지 않았다. 따라서 지연생성 object를 성공으로 재사용할 증거도 없었다. 반복 mutation은 중단했고 브라우저는 사용하지 않았다.
+
+Browser fallback은 연결 서비스의 반복 오류 후 사용자 승인을 요구하는 브라우저 도구 지침 때문에 별도 승인이 필요하다. 승인되면 이미 봉인한 ZIP bytes를 그대로 Drive에 올리고 원격 전체 bytes/SHA256/CRC/manifest를 확인하는 배송 복구만 수행한다. 새과학실행·사용자ZIP다운로드·파일첨부·사전명령을 요구하지 않는다. 과거의 완성된 두provider백업·복구와 빈Doc/Sheet·실패영수증은 각각 원래 범위를 유지한다.
+
+## 역사적 intake와 이전 단계 검증
+
+아래는 S9 실행 전에 완료한 storage 대조 및 그 이전 scope의 증거다. 아래 시점 표현과 예전 pending 상태를 위의 새 결과 배송 상태로 혼동하지 않는다.
+
 # Cloud readback — S9 source 재확인과 실제 결과 배송
 
 ## 2026-10-20 현재 intake와 실행 전 gate
 
-사용자가 제공한 `3694d6e1` 이후에 S6·S7·S8 결과와 S9 source/preregistration의 게시·이중 백업이 이미 있었다. 현재 GitHub PR174의 source HEAD `4b30957cb008aad8019bb1a673937fc67bd017e8`, tree `8e4abf3820d06bae6cbec307e4f69de74195d14b`와 마지막 [S9 prereg 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6269099795)을 실제로 읽어 두 클라우드의 최신 결과와 대조했다.
+사용자가 제공한 `3694d6e1` 이후에 S6·S7·S8 결과와 S9 source/preregistration의 게시·이중 백업이 이미 있었다. S9 실행 전 intake에서 확인한 GitHub PR174 source HEAD `4b30957cb008aad8019bb1a673937fc67bd017e8`, tree `8e4abf3820d06bae6cbec307e4f69de74195d14b`와 마지막 [S9 prereg 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6269099795)을 실제로 읽어 두 클라우드의 최신 결과와 대조했다.
 
 Google Drive `/BASS_BACKUPS` 직접 항목 48개와 Dropbox `/BASS_BACKUPS` 33개를 조사했다. Drive는 top_k1000 요청에서 후속 pagination을 노출하지 않았고 Dropbox는 has_more=false였다. 이 확인 범위에서 최신 S9 객체는 미실행 source/preregistration ZIP이었으므로, 이미 끝난 S6–S8을 재실행하지 않고 그 고정 S9 여덟 이력만 실행했다.
 

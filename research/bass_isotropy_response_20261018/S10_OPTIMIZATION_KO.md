@@ -35,8 +35,8 @@
 | C6 구현 검증 | release build 및 targeted11/11 PASS | `477eca7d` full tree readback | Dropbox 전체 bytes·15 payload 일치; Drive 미완료 |
 | C7 과학 검증 | 68/68 gate, 전체 출력 strict identity PASS | `26e9e1ba` full tree readback | Dropbox 전체 bytes·70 payload 일치; Drive 미완료 |
 | C8 정확도 대비 성능 | 고정 표본 완료, 회귀1조건 보존 | `26e9e1ba` full tree readback | C7과 같은 archive/readback |
-| C9 독립 검토 | 155/155,68/68 PASS; 문서finding1수정확인 | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
-| C10 판정·인계 | 대기 | 대기 | 대기 |
+| C9 독립 검토 | 155/155,68/68 PASS; 문서finding1수정확인 | `0771f061` full tree readback | Dropbox 전체 bytes·16payload 일치; Drive 미완료 |
+| C10 판정·인계 | 범위판정·두handoff 완료 | 현재containing metadata; 최종댓글에readback | 이전7Dropbox완료; 현재ZIP postcommit검증; Drive미완료 |
 
 실제 MD14 공급부/응력 closure와 native Einstein feedback, P6 제약, 전체 reactive finite-bin spectral history 및 넓은 continuum angular 보증은 기존의 미완료 과학 의무로 유지한다. 이번 사용자의 최적화 우선순위는 그 의무들을 완료했다는 의미가 아니다.
 
@@ -67,3 +67,7 @@ Targeted test는 `--test-threads=1`로 11/11 PASS. signed-zero와 전체 cache k
 ## C9 실제 독립 검토
 
 [독립 receipt](evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json)와[원자료 재계산](evidence_s10/c9_review_r1/INDEPENDENT_RECOMPUTATION.json)을 보존했다. Code/science finding0, 문서representation finding1은 같은 pass에서 직접 수정 확인해 닫았다. 검토 당시 보고서 원bytes와 후속상태 안내만 추가한 현재 문서의 차이도[closure](evidence_s10/c9_review_r1/C9_CLOSEOUT.json)에 기록했다. 새compile/ODE/benchmark재실행0이다.
+
+## C10 판정과 배송 경계
+
+[판정](evidence_s10/C10_DECISION.json), [새대화handoff](NEW_THREAD_HANDOFF_KO.md), [Codexhandoff](CODEX_HANDOFF_KO.md)를 완성했다. 과학·구현·검토는 현재범위에서 완료했고 새최적화주기를 자동 시작하지 않는다. 현재남은배송의무는 Drive의두번째복사다. 자기commit/hash는생성후최종PR댓글이소유하며 이전7개Dropbox객체는[provider별index](delivery/s10/CLOUD_CHECKPOINT_INDEX.json)에결속한다. Cloud수리때과학실행을반복하지않는다.
