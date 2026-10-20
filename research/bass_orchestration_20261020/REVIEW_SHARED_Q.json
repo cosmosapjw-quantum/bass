@@ -1,0 +1,36 @@
+{
+  "reviewer": "/root/orch_hh",
+  "method": "independent current C/header source read; not a separate numerical test",
+  "result": "PASS_SCOPED_SOURCE_REVIEW",
+  "findings": [
+    {
+      "id": "two_sum_sign",
+      "status": "closed",
+      "evidence": "residual_d+residual_r=(D+R)-(Dprime+Rprime); returned negative sum has correct total balance-defect sign"
+    },
+    {
+      "id": "SI_clock",
+      "status": "closed",
+      "evidence": "Q=nH*q*eV_J,S=Q/H or Q=H*S for proper density and explicit non-tilted frame"
+    },
+    {
+      "id": "scaled_product",
+      "status": "closed",
+      "evidence": "frexp mantissas remain bounded and exponent sums fit int for binary64 factors; final scalbn handles range"
+    },
+    {
+      "id": "native_scope",
+      "status": "closed",
+      "evidence": "No dynamics activation"
+    }
+  ],
+  "limits": [
+    "No independent new numerical test by reviewer",
+    "No full cosmological trajectory accepted"
+  ],
+  "implementation_followup": {
+    "original_diagnostic": "rounded credit minus rounded debit could hide real total-energy loss",
+    "correction": "TwoSum residuals; independent Fraction test donor1e20/radiation1/transfer1e19 reports defect -1",
+    "test_receipt": "shared_q_bridge/TEST_RECEIPT.json"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "input": "Clear[h,s,k,ud,ur,pd,pir,qq,ll]; con=h^2-s^2-k(ud+ur)-ll; hd=-h^2-2s^2-k(ud+2ur+3pd)/2+ll; sd=-3h s+k pir; udd=-3h(ud+pd)-qq; urd=-4h ur-2s pir+qq; <|\"constraint_propagation_residual\"->Expand[2h hd-2s sd-k(udd+urd)+2h con],\"source_cancellation\"->Expand[-qq+qq],\"source_mismatch_residual\"->Expand[2h hd-2s sd-k(udd+urd+deltaQ)+2h con],\"jump_constraint_change\"->Expand[(h^2-s^2-k((ud-deltaU)+(ur+deltaU))-ll)-con]|>",
+  "time_constraint_s": 20,
+  "actual_tool_response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= <|\"constraint_propagation_residual\" -> 0, \"source_cancellation\" -> 0, \"source_mismatch_residual\" -> -(deltaQ*k), \"jump_constraint_change\" -> 0|>"
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "xAct": "not_run; reduced-variable algebra verified directly"
+}

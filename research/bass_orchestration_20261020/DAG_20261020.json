@@ -1,0 +1,111 @@
+{
+  "schema": "bass.orchestration.shared_q.v1",
+  "cutoff": "2026-10-17T09:55:50Z",
+  "scope": "Recent all-branch metadata intake and additive shared-Q normalization; no native dynamics",
+  "source_head": "a85605302bb0317022eb06b498eb05b9d621de6a",
+  "status": "LOCAL_COMPLETE_PENDING_PARENT_PUBLICATION",
+  "nodes": [
+    {
+      "id": "I0",
+      "status": "complete",
+      "result": "259branches/251heads/7recentheads; 5recentPRs",
+      "evidence": "intake/ALL_BRANCH_HEADS_72H.json"
+    },
+    {
+      "id": "R1_R4",
+      "status": "complete",
+      "evidence": "THEORY_SHARED_Q.md",
+      "result": "source geometry clock and nominal/deposited ownership fixed"
+    },
+    {
+      "id": "R5_R7",
+      "status": "complete",
+      "evidence": "WOLFRAM_SHARED_Q.json",
+      "result": "conditional Cdot+2HC=0; mismatch=-kδQ; exact jump0"
+    },
+    {
+      "id": "C1_C5",
+      "status": "complete",
+      "evidence": "shared_q_bridge/shared_q_bridge.c",
+      "result": "pure C99 normalization/event implementation"
+    },
+    {
+      "id": "C6_C8",
+      "status": "complete",
+      "evidence": "shared_q_bridge/TEST_RECEIPT.json",
+      "result": "11 tests pass with independent Decimal/Fraction oracles"
+    },
+    {
+      "id": "C9",
+      "status": "complete",
+      "evidence": "REVIEW_SHARED_Q.json",
+      "result": "independent source review scoped pass"
+    },
+    {
+      "id": "R8_R10_C10",
+      "status": "complete",
+      "evidence": "NCP_HANDOFF_KO.md",
+      "result": "reusable conditional contract and exact compile/input/return instructions"
+    },
+    {
+      "id": "S9_S10",
+      "status": "reused",
+      "evidence": "intake/S9_RESULTS_KO.md;intake/S10_RESULTS_KO.md",
+      "result": "no replays"
+    },
+    {
+      "id": "PHYSICAL_SHARED_Q_HISTORY",
+      "status": "input_dependent",
+      "depends": [
+        "signed physical donor closure/IC",
+        "actual paired proper radiation-event export"
+      ],
+      "result": "prescribed MD14 source has no reservoir owner; cumulative reference-comoving injection is not local deltaU"
+    },
+    {
+      "id": "PUBLICATION_BACKUP",
+      "status": "pending_parent",
+      "result": "No remote mutation by this lane; parent supplies commit/provider acknowledgement"
+    }
+  ],
+  "edges": [
+    [
+      "I0",
+      "R1_R4"
+    ],
+    [
+      "R1_R4",
+      "R5_R7"
+    ],
+    [
+      "R5_R7",
+      "C1_C5"
+    ],
+    [
+      "C1_C5",
+      "C6_C8"
+    ],
+    [
+      "C6_C8",
+      "C9"
+    ],
+    [
+      "C9",
+      "R8_R10_C10"
+    ],
+    [
+      "R8_R10_C10",
+      "PUBLICATION_BACKUP"
+    ]
+  ],
+  "failures": [
+    {
+      "class": "test_oracle",
+      "evidence": "shared_q_bridge/TEST_RECEIPT_INITIAL_TEST_ORACLE_ERROR.json",
+      "resolved": true,
+      "reason": "first overflow fixture was actually representable; changed n1 to1e20 without production/tolerance change"
+    }
+  ],
+  "external_runs": 0,
+  "history_replays": 0
+}
