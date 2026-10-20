@@ -1,6 +1,6 @@
 {
   "schema": "CROSS_REPO_DELIVERY_V1",
-  "status": "PUBLISHED_REVIEWED_CODE_BACKED_UP",
+  "status": "PUBLISHED_CONTINUATION_BACKED_UP_PHYSICAL_INPUT_DEPENDENT",
   "repository": "cosmosapjw-quantum/bass",
   "unit": "research/bass_orchestration_20261020",
   "branch": "research/orchestration-20261020-next-loop",
@@ -62,5 +62,48 @@
   "physics_admission": "SCOPED_ONLY_SEE_INDEPENDENT_REVIEW",
   "original_budgets": "PRESERVED",
   "central_orchestration_pr": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/212",
-  "publication_tree": "6bd49afcd8d040ebf88afcae71ce15a931a3a966"
+  "publication_tree": "6bd49afcd8d040ebf88afcae71ce15a931a3a966",
+  "continuation": {
+    "evidence_commit": "543a64691ee149cd255db0b29123a369258b8104",
+    "pr_head_before_update": "56137bcbe1f32ae6948a4992970bf652fc233f37",
+    "checkout_used": "clean isolated worktree based on current PR175 head",
+    "compile": "PASS_SCOPED",
+    "tests": "PASS_SCOPED 11/11",
+    "physical_shared_q_history": "INPUT_DEPENDENT",
+    "input_missing_path": "research/bass_orchestration_20261020/input_missing.json",
+    "first_failure": "shared_q_bridge/TEST_RECEIPT_INITIAL_TEST_ORACLE_ERROR.json retained; receipt text is sole cause record; no extra cause inferred",
+    "final_backup": {
+      "archive": "ORCHESTRATION_S2_SHARED_Q_CONTINUATION_20261020_R3.zip",
+      "bytes": 20663,
+      "sha256": "32bde54dab98690512df326b387ee47123a84b4ebf6e93fb81b9e8a00e77d9b0",
+      "dropbox": {
+        "status": "completed",
+        "file_id": "id:BSpOijBcT10AAAAAAD_Z1w",
+        "path": "/BASS_DERIVATION_DOSSIERS_20260912/ORCHESTRATION_S2_SHARED_Q_CONTINUATION_20261020_R3.zip",
+        "size": 20663,
+        "verification": "provider acknowledgement and size; no Dropbox raw ZIP readback"
+      },
+      "google_drive": {
+        "status": "uploaded_and_raw_readback_verified",
+        "file_id": "17RQDNrPpvmqxdRKKiO4LnfknLkwsmXOu",
+        "parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+        "size": 20663,
+        "verification": "downloaded raw ZIP bytes equal local bytes; SHA256 matches"
+      }
+    },
+    "backup_attempt_history": [
+      {
+        "artifact": "ORCHESTRATION_S2_SHARED_Q_CONTINUATION_20261020.zip",
+        "dropbox_file_id": "id:BSpOijBcT10AAAAAAD_ZlA",
+        "event": "A source-only PR172 archive was briefly uploaded under this name in error, immediately identified and moved to Dropbox deleted-files; it is not claimed as a successful backup."
+      },
+      {
+        "artifact": "ORCHESTRATION_S2_SHARED_Q_CONTINUATION_20261020_R2.zip",
+        "dropbox_file_id": "id:BSpOijBcT10AAAAAAD_Ztg",
+        "google_drive_file_id": "1Nvqd9kvStP6X6uzSUnVE_snv7ki8uw7v",
+        "event": "Superseded by R3 after the working-directory test rerun updated TEST_RECEIPT.json; left as separate historical snapshots."
+      }
+    ],
+    "scope": "Compile and adapter tests only; no native dynamics or physical-history execution."
+  }
 }
