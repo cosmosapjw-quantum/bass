@@ -1,0 +1,181 @@
+{
+  "schema": "BASS_S11_P246_CONTRACT_V1",
+  "date_utc": "2026-10-20",
+  "unit": "S11_positive_P246_birth_response",
+  "objective": "Implement positive fixed-support P2/P4/P6 information projection; resolve the isolated S8 P24 solver precision input at the unchanged final gate; measure the higher-moment response on a fixed new diagnostic matrix.",
+  "baseline": {
+    "head": "d0c0313d6c063037fd8e067744aee66235df1a58",
+    "tree": "e62a42c3227114a5657538a75e034af5a5823703",
+    "S9_source": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+    "S10_source": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+    "S10_result": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
+    "S10_review": "0771f0610987eb9f900674e83063912150733255",
+    "REI_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "new_shared_Q_PR175": "4940770c7904ed6f6fd5caca8e525905593bb683"
+  },
+  "geometry": {
+    "model": "non-tilted axisymmetric Bianchi I",
+    "signature": "(-,+,+,+)",
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "dot b",
+    "Sigma": "sqrt(3)|s|/H",
+    "angular_frame": "birth source frame, fixed mu and weights after birth",
+    "dimensionless": [
+      "mu",
+      "b",
+      "d",
+      "M_l",
+      "DeltaP/U"
+    ]
+  },
+  "ownership": {
+    "declared_isotropic_birth_required": true,
+    "existing_stock_mutation": false,
+    "existing_birth_weights_mutation": false,
+    "spectral_owner_mutation": false,
+    "old_P24_path_mutation": false,
+    "source_frame_required": true,
+    "reflection": "exact mirrored new input and output; asymmetric inputs are rejected, not averaged"
+  },
+  "algorithms": {
+    "python": "80-digit Decimal simultaneous dual Newton, exact Fraction support/certificate on the actual binary64 mu/weights",
+    "rust": "std-only compensated simultaneous dual Newton with conservative outward-interval support preflight; final exact certificate is separate",
+    "objective": "min sum alpha_i log(alpha_i/q_i)",
+    "constraints": "sum alpha=1; M2=M4=M6=0; every alpha>0"
+  },
+  "gates": {
+    "normalization_exact": "3/1000000000000000",
+    "P2_exact": "3/1000000000000000",
+    "P4_exact": "3/1000000000000000",
+    "P6_exact_new": "3/1000000000000000",
+    "cross_implementation_weight_absolute_new": 1e-12,
+    "source_mu_prior_identity": "exact binary64 bits",
+    "new_anisotropy_frame_domain_rejections": "required",
+    "continuum_reference": "independent 80-digit analytic integral and finite ray sum; diagnostic errors reported without admitting unregistered continuum tolerance",
+    "response_coefficient_relative_new": 0.02,
+    "response_order_step": "halving positive |d| from 1e-3 to2.5e-4; slopes and signed leading coefficients; no small-d Taylor use for large real strain"
+  },
+  "fixed_new_inputs": {
+    "dyadic_positive": {
+      "mu": [
+        -1,
+        -0.75,
+        -0.5,
+        0,
+        0.5,
+        0.75,
+        1
+      ],
+      "priors": [
+        "uniform",
+        "symmetric [1,2,3,4,3,2,1]"
+      ]
+    },
+    "P24_feasible_P246_infeasible": {
+      "mu": [
+        -1,
+        -0.5,
+        -0.25,
+        0,
+        0.25,
+        0.5,
+        1
+      ],
+      "prior": "uniform"
+    },
+    "archived_S8_supports": [
+      {
+        "case_prefix": "b9_n64",
+        "birth_index": 11,
+        "orders": [
+          4,
+          6
+        ]
+      },
+      {
+        "case_prefix": "b9_n128",
+        "birth_index": 11,
+        "orders": [
+          4,
+          6
+        ]
+      },
+      {
+        "case_prefix": "b9_n256",
+        "birth_index": 11,
+        "orders": [
+          4,
+          6
+        ]
+      },
+      {
+        "case_prefix": "b6_n64",
+        "birth_index": 11,
+        "orders": [
+          4,
+          6
+        ]
+      }
+    ],
+    "archived_data_source": "evidence_s8_native/run01/NATIVE_ANGULAR_REFINEMENT.jsonl.gz @ d0c0313d",
+    "birth_u": 0.5750000000000001,
+    "strain_grid": {
+      "min": -0.6,
+      "max": 0.6,
+      "count": 49
+    },
+    "domain_controls": [
+      "false isotropic declaration",
+      "asymmetric mu",
+      "asymmetric prior",
+      "zero or negative prior",
+      "NaN/inf",
+      "out-of-range mu",
+      "duplicate mu",
+      "rank-deficient support"
+    ]
+  },
+  "scope_of_S8_repair": "new pointwise angular projector on the exact recorded failure support; original S8 failed history/receipt remains unchanged, no native history replay",
+  "reuse": {
+    "completed_S9_histories": 8,
+    "completed_S10_targeted": 11,
+    "kernel": 108,
+    "representative_scientific_RAW": 24,
+    "science_gates": 68,
+    "C9_checks": 155,
+    "completed_campaign_replays": 0,
+    "optimization_cycles_started": 0
+  },
+  "preserved_failures": [
+    "S8 INNER_P2_PRECISION_LIMIT historical outcome",
+    "S6 rate38/344 and P4-worsening44/238",
+    "S7 original failures",
+    "S8 eight low-resolution misses",
+    "closed small speedup uncertainty",
+    "changing n16/cohort2 speedup0.9498173837599284"
+  ],
+  "limits": {
+    "additional_workers": 16,
+    "RAM_bytes": 17179869184,
+    "added_disk_bytes": 4294967296,
+    "individual_job_seconds": 1800,
+    "planned_compile_jobs": 1,
+    "planned_science_workers": 1,
+    "actual_cgroup_RAM_bytes": 8589934592,
+    "actual_cpu_quota_cores": 8
+  },
+  "remaining_independent_obligations": [
+    "Physical MD14 donor closure and measured paired-event export/native Einstein integration; reuse PR175 normalizer instead of recreating it",
+    "Evolving reactive full finite-bin spectral history",
+    "New Rust client full birth-memory parameter tangent",
+    "Broader finite-d/angular accuracy outside registered diagnostics"
+  ],
+  "publication_plan": [
+    "R1-R4/C1-C4 intake and contract",
+    "R5/C5 source and input before verification",
+    "R6-R9/C6-C9 results, independent audits and figure",
+    "R10/C10 final decision, DAG, handoff and dual provider readback"
+  ],
+  "status": "PREREGISTERED_NOT_RUN"
+}

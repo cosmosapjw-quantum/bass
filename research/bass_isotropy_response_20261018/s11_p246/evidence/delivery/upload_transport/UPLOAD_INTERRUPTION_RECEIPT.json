@@ -1,0 +1,67 @@
+{
+  "schema": "BASS_S11_CLOUD_UPLOAD_INTERRUPTION_RECEIPT_V1",
+  "recorded_at_utc": "2026-10-20T18:12:00Z",
+  "status": "NEW_STAGE_DUAL_BACKUP_UNCOMPLETED_TRANSPORT_NO_RESPONSE",
+  "stage1": {
+    "archive": "BASS_S11_C1_20261020_e9f8eccc.zip",
+    "bytes": 40857,
+    "sha256": "73653cbbd5e8b01b10f4e95513514bb8d8db6f5415a80724fa79d0e58185e028",
+    "publication_commit": "e9f8eccc8d86764ebebe9bb98cc68ecb9aad09d8",
+    "publication_tree": "a73917718005524ee32617b58732c65581d7378b"
+  },
+  "attempts": [
+    {
+      "id": "drive_attempt1",
+      "tool": "mcp__codex_apps__google_drive_upload_file",
+      "input_file_uri": "/workspace/scratch/14e1021f8231/bass_delivery_s11/stage1/BASS_S11_C1_20261020_e9f8eccc.zip",
+      "file_name": "BASS_S11_C1_20261020_e9f8eccc.zip",
+      "parent_folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+      "invoked": true,
+      "provider_response_received": false,
+      "operation_id": null,
+      "remote_file_id": null,
+      "functions_running_cell_id": null,
+      "tool_literal_result": "aborted by user after 1604.0s",
+      "observed_orchestration_action": "Root assistant interrupted overdue task; literal tool label is preserved and is not evidence of user cancellation",
+      "following_dropbox_call": "Not reached: sequential execution awaited Drive first",
+      "result": "TOOLING_INTERRUPTION_NO_PROVIDER_RESPONSE",
+      "subsequent_readonly_check": "Drive exact-name search results=[] and Dropbox exact path NOT_FOUND"
+    },
+    {
+      "id": "drive_attempt2",
+      "tool": "mcp__codex_apps__google_drive_upload_file",
+      "input_file_uri": "/workspace/scratch/14e1021f8231/bass_delivery_s11/stage1/BASS_S11_C1_20261020_e9f8eccc.zip",
+      "file_name": "BASS_S11_C1_20261020_e9f8eccc.zip",
+      "parent_folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+      "invoked": true,
+      "precondition": "Fresh exact-name absence checked after first interruption",
+      "exec_directive": {
+        "yield_time_ms": 1000,
+        "max_output_tokens": 1000
+      },
+      "provider_response_received": false,
+      "operation_id": null,
+      "remote_file_id": null,
+      "functions_running_cell_id": null,
+      "tool_literal_result": "aborted by user after 1197.8s",
+      "observed_orchestration_action": "Root assistant interrupted overdue task; literal tool label is preserved and is not evidence of user cancellation",
+      "result": "TOOLING_INTERRUPTION_NO_PROVIDER_RESPONSE",
+      "yield_result": "Upload invocation did not expose a running cell ID despite the 1-second directive; no wait/terminate handle was available"
+    }
+  ],
+  "dropbox_upload_invocations": 0,
+  "stage2_upload_invocations": 0,
+  "any_upload_success_evidenced": false,
+  "post_interruption_readonly": {
+    "at_utc": "2026-10-20T18:12:00Z",
+    "stage1_drive": "results=[]",
+    "stage1_dropbox": "NOT_FOUND",
+    "stage2_drive": "results=[]",
+    "stage2_dropbox": "NOT_FOUND"
+  },
+  "failure_class": "environment/tooling transport",
+  "cause_scope": "No provider response was returned. File-parameter bridge, credential, URL expiry, and provider-service subcauses were not established.",
+  "decision": "No further mutations after root interruption; root will diagnose an alternate supported transfer path.",
+  "science_build_test_ODE_benchmark_NCP_runs": 0,
+  "existing_S10_delivery": "Completed prior evidence remains reused and unchanged"
+}

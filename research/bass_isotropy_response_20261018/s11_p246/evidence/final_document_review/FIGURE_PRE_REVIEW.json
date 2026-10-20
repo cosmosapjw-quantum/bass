@@ -1,0 +1,121 @@
+{
+  "schema": "BASS_S11_PRE_FINAL_FIGURE_FACTUAL_REVIEW_V1",
+  "status": "PASS_NUMERIC_WITH_PRESENTATION_NOTES",
+  "checked_files": {
+    "S11_P246_RESPONSE.png": {
+      "sha256": "c804dd5f86664b3076f5e4b5efbca0797d6d7fb135f17a928ac8eeced917fd49",
+      "bytes": 413024
+    },
+    "S11_P246_RESPONSE.pdf": {
+      "sha256": "123a60848367e19abd7b5969bf9952a0366b17b927abeb895ae1363ed8dfcd1c",
+      "bytes": 52581
+    },
+    "S11_P246_RESPONSE.svg": {
+      "sha256": "0ff163ab0a8dc2f0fe8f249dea6f716e1e3501ba524767042404006830a382d3",
+      "bytes": 225322
+    },
+    "FIGURE_REVIEW.json": {
+      "sha256": "4486eac8c2e3f64031a96193afa427091462cef558b4e31c30f9cdb74d0dd4eb",
+      "bytes": 1265
+    },
+    "ANGULAR_RESPONSE_GRID.csv": {
+      "sha256": "b57f1fd9f3b2886ea74ef83aee23b41956d5b3d900c3c2de4c02ada87923869b",
+      "bytes": 158792
+    },
+    "plot_results.py": {
+      "sha256": "e5e505b2858ebc06523a9eb8d1a2749893549830fddbd09c516c725a11962c95",
+      "bytes": 8134
+    },
+    "FIGURE_STATS.json": {
+      "sha256": "1e614f07417a8478837b6090cd35b97c976b506cb9df54f5eb30f9f4c1aadb55",
+      "bytes": 5786
+    }
+  },
+  "checks": [
+    {
+      "id": "CSV_588_rows_exact_match_stored_grid",
+      "pass": true
+    },
+    {
+      "id": "data_hash:RETURN.json",
+      "pass": true
+    },
+    {
+      "id": "data_hash:PROJECTIONS.json",
+      "pass": true
+    },
+    {
+      "id": "data_hash:ANGULAR_RESPONSES.json",
+      "pass": true
+    },
+    {
+      "id": "data_hash:SMALL_STRAIN_CHECKS.json",
+      "pass": true
+    },
+    {
+      "id": "maximum:dyadic_uniform_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:dyadic_uniform_P6",
+      "pass": true
+    },
+    {
+      "id": "maximum:dyadic_biased_prior_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:dyadic_biased_prior_P6",
+      "pass": true
+    },
+    {
+      "id": "maximum:P24_only_support_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:b9_n64_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:b9_n128_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:b9_n128_P6",
+      "pass": true
+    },
+    {
+      "id": "maximum:b9_n256_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:b9_n256_P6",
+      "pass": true
+    },
+    {
+      "id": "maximum:b6_n64_P4",
+      "pass": true
+    },
+    {
+      "id": "maximum:b6_n64_P6",
+      "pass": true
+    }
+  ],
+  "check_count": 17,
+  "pass_count": 17,
+  "visual_inspection": "Actual PNG viewed through image tool. Axis labels, frame d=b(x)-b(u), exact moment gate, finite-d signed counterexample, nonzero-d omission, and factorized collisionless scope footer are present.",
+  "presentation_notes": [
+    {
+      "id": "title_positive_moments",
+      "severity": "minor",
+      "observation": "Title says positive birth moments; constrained moments M2/M4/M6 target zero. Suggested positive birth weights."
+    },
+    {
+      "id": "panel_b_annotation_overlap",
+      "severity": "minor",
+      "observation": "Lower-left white annotation overlays orange P246 curve near d=-0.6, hiding part of the counterexample endpoint. Move into unused area or below panel."
+    }
+  ],
+  "scope": "Read-only figure and stored-data integrity review; no plotting, solver, compiler, history, ODE, benchmark, or NCP run.",
+  "reviewer_authored_Rust_but_not_plot_or_Python_runner": true
+}

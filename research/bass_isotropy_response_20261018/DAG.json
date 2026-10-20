@@ -1,6 +1,6 @@
 {
   "schema": "bass.isotropy.research_dag.v15",
-  "date_utc": "2026-10-20T11:00:48.565403+00:00",
+  "date_utc": "2026-10-20T18:10:14.107487+00:00",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
   "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -103,15 +103,18 @@
     "S10_C6",
     "S10_C7_C8",
     "S10_C9",
-    "S10_C10_CONTAINING_METADATA"
+    "S10_C10_CONTAINING_METADATA",
+    "S11_C1_INTAKE_CONTRACT",
+    "S11_C2_C5_FROZEN_SOURCE_INPUT",
+    "S11_C6_C9_RESULT_AND_REVIEW"
   ],
   "remaining_obligations": [
-    "Actual MD14 source energy-supply/stress closure and native Einstein feedback: conditional Q bridge derived; owner time/band/fesc ownership and physical donor model must be bound before physical execution.",
-    "S8 native b0=.9,n64,P24 INNER_P2_PRECISION_LIMIT on STRICT_INTERIOR support remains a numerical failure; no repair or replay performed in S9.",
-    "Higher-moment/finite-d continuum accuracy outside measured supports and strains; retain S6 rate38/344FAIL and constraint-worsening44/238 above-noise pairs.",
-    "Full parameter tangent in this Rust client; S8 birth-memory tangent evidence is separately reused.",
-    "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation.",
-    "P6-constrained algorithm is not implemented/admitted by S9; moment matching and the source-deposition test do not certify the whole continuum/native evolution."
+    "Actual MD14 normalization/donor closure and native Einstein/shear use of the same Q: PR175 adapter/theory reused; physical donor/event inputs and native history remain unexecuted.",
+    "P246 algorithm is implemented and PASS_SCOPED on the registered fixed supports. General near-boundary robustness and native integration are not admitted.",
+    "S8 INNER_P2_PRECISION_LIMIT: archived birth11 pointwise P24 solved by new algorithm; original full native history failure and low-resolution angular failures remain preserved without replay.",
+    "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation and convergence remain open.",
+    "Wider finite-d/angular/high-moment convergence remains open. Preserve S6 rate38/344 failures, worsening44/238, and S11 7-ray finite-d worsening1.54913989382294.",
+    "Full birth-memory parameter tangent in the new Rust client remains open; earlier S8 evidence is separate."
   ],
   "native_source_owner": "cosmosapjw-quantum/rei_bianchi@0e25846433170d0f420c4cda44a0bedbf02cd177",
   "limits": {
@@ -2828,15 +2831,15 @@
     "historical_stage_receipt_files_unchanged": true
   },
   "S11": {
-    "status": "in_progress",
+    "status": "PASS_SCOPED_SCIENCE_COMPLETE_DELIVERY_PENDING",
     "contract": "s11_p246/CONTRACT.json",
     "intake": "s11_p246/INTAKE_KO.md",
     "parent_head": "d0c0313d6c063037fd8e067744aee66235df1a58",
     "unit": "positive_P246_birth_response",
     "R1_R4_C1_C4": "complete",
-    "R5_C5": "source_frozen_pending_published_execution",
-    "R6_R9_C6_C9": "pending",
-    "R10_C10": "pending",
+    "R5_C5": "complete_published_before_main_run",
+    "R6_R9_C6_C9": "complete",
+    "R10_C10": "in_progress_publication_and_dual_cloud_readback",
     "completed_campaigns_replayed": 0,
     "new_optimization_cycles": 0,
     "shared_Q_PR175_reused": "4940770c7904ed6f6fd5caca8e525905593bb683",
@@ -2855,6 +2858,97 @@
     "runtime_recovery": "s11_p246/evidence/runtime_recovery/ROOT_RECOVERY.json",
     "new_math_recovery_checks": "25/25; separate new unit recovery, not a past campaign",
     "prepublication_review": "s11_p246/evidence/prepublication_review/S11_INDEPENDENT_SOURCE_REVIEW_R1.json",
-    "main_targeted_run": "not yet executed"
-  }
+    "main_targeted_run": {
+      "status": "PASS_SCOPED",
+      "checks": 101,
+      "passed": 101,
+      "projection_pairs": 14,
+      "positive_pairs": 12,
+      "expected_infeasible_pairs": 2,
+      "angular_response_rows": 660,
+      "receipt": "s11_p246/evidence/run_r1/PROCESS_RECEIPT.json",
+      "result": "s11_p246/evidence/run_r1/RETURN.json",
+      "wall_seconds": 2.3758596949919593
+    },
+    "source_commit": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+    "source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
+    "independent_reviews": [
+      {
+        "role": "independent_math_and_main_source_readback",
+        "checks": 235,
+        "passed": 235,
+        "receipt": "s11_p246/evidence/c9_physics/C9_PROCESS_R1.json",
+        "report": "s11_p246/evidence/c9_physics/C9_REVIEW_RESULTS_KO.md"
+      },
+      {
+        "role": "independent_root_runner_and_provenance_review; auditor_authored_Rust",
+        "checks": 152,
+        "passed": 152,
+        "receipt": "s11_p246/evidence/c9_provenance/AUDIT_R1_PROCESS_RECEIPT.json",
+        "report": "s11_p246/evidence/c9_provenance/AUDIT_REPORT_KO.md"
+      }
+    ],
+    "check_count_policy": "101,235,152 and reused S10 155 are separate overlapping check sets, not new physical histories.",
+    "exact_moment_gate": "3/1000000000000000",
+    "max_Rust_exact_residual": 1.0280045769226785e-16,
+    "S8_pointwise_P24": "PASS on unchanged archived b9_n64 birth11 input; original native history failure remains preserved, no history replay.",
+    "P246_support_failures": [
+      "P24_only_support: exact minimum facet slack -1/42",
+      "b9_n64: exact minimum facet slack approximately -0.019107014686788677; zmax<5/7"
+    ],
+    "finite_d_counterexample": {
+      "support": "uniform dyadic 7-ray",
+      "registered_grid_count": 49,
+      "d_range": [
+        -0.6,
+        0.6
+      ],
+      "P24_max_abs_angular_bias": 0.022042599461602856,
+      "P246_max_abs_angular_bias": 0.03414707018952904,
+      "ratio": 1.54913989382294,
+      "interpretation": "grid maxima only; local order improvement does not ensure monotone finite-d improvement"
+    },
+    "results": "s11_p246/RESULTS_KO.md",
+    "result_ledger": "s11_p246/RESULT_LEDGER.json",
+    "figure": "s11_p246/evidence/figure/S11_P246_RESPONSE.svg",
+    "full_native_spectral_history_admission": false,
+    "production_full_EoR_merge": false,
+    "new_NCP_obligation": false,
+    "stage_edges": [
+      [
+        "S10_DELIVERY_COMPLETE_REUSED",
+        "S11_C1_INTAKE_CONTRACT"
+      ],
+      [
+        "PR175_READ_ONLY_REUSED",
+        "S11_C1_INTAKE_CONTRACT"
+      ],
+      [
+        "S11_C1_INTAKE_CONTRACT",
+        "S11_C2_C5_FROZEN_SOURCE_INPUT"
+      ],
+      [
+        "S11_C2_C5_FROZEN_SOURCE_INPUT",
+        "S11_MAIN_R1"
+      ],
+      [
+        "S11_MAIN_R1",
+        "S11_C9_READBACK"
+      ],
+      [
+        "S11_C9_READBACK",
+        "S11_C10_DELIVERY"
+      ]
+    ],
+    "delivery_replay_policy": "Packing, uploads and readback must not rerun any science/build/test/ODE/benchmark/NCP."
+  },
+  "historical_remaining_obligations_before_S11": [
+    "Actual MD14 source energy-supply/stress closure and native Einstein feedback: conditional Q bridge derived; owner time/band/fesc ownership and physical donor model must be bound before physical execution.",
+    "S8 native b0=.9,n64,P24 INNER_P2_PRECISION_LIMIT on STRICT_INTERIOR support remains a numerical failure; no repair or replay performed in S9.",
+    "Higher-moment/finite-d continuum accuracy outside measured supports and strains; retain S6 rate38/344FAIL and constraint-worsening44/238 above-noise pairs.",
+    "Full parameter tangent in this Rust client; S8 birth-memory tangent evidence is separately reused.",
+    "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation.",
+    "P6-constrained algorithm is not implemented/admitted by S9; moment matching and the source-deposition test do not certify the whole continuum/native evolution."
+  ],
+  "current_physics_result_summary": "s11_p246/RESULT_LEDGER.json"
 }
