@@ -1,0 +1,42 @@
+{
+  "status": "CORRECTION",
+  "original_exact_restored_file": "P246_THEORY_AND_ALGORITHM_REVIEW.md",
+  "original_sha256": "253e6e8fdec0e5bf5c16914b1dd372c37b2fb0ea49cf5c6c3c86a5118bc883f1",
+  "revised_file": "P246_THEORY_AND_ALGORITHM_REVIEW_REVISED.md",
+  "revised_sha256": "b1d7c37f1b1243dfbb25d8bcbc1cd2b0e04e72f4177e97267d4edaaa6b92a3d7",
+  "changes": [
+    {
+      "target": "Rank-deficient support paragraph",
+      "before": "A cubic with dyadic coefficients",
+      "after": "A monic cubic with dyadic coefficients",
+      "reason": "The denominator argument requires leading coefficient1; e.g.7 z^3-1 is a nonmonic dyadic counterexample to the broader wording. All support-vanishing polynomials used by the proof are monic, so formulas/controls are unchanged."
+    },
+    {
+      "target": "KL existence proof",
+      "before": "Compactness of the feasible simplex after strict positivity stated",
+      "after": "First minimize on the closed nonnegative simplex, then prove positivity.",
+      "reason": "The strict-positive feasible subset is open; existence argument must begin with its compact closure."
+    },
+    {
+      "target": "Boundary classification paragraph",
+      "before": "A zero facet puts the target on the boundary",
+      "after": "All facet slacks nonnegative and at least one zero imply feasible boundary membership.",
+      "reason": "A single zero slack does not imply membership if another slack is negative; actual code and exact checks already use all facet signs."
+    },
+    {
+      "target": "Fixed P24-feasible/P246-infeasible control",
+      "before": "P24 lower and upper gaps are 1/30 and 2/15",
+      "after": "Minimum lower P24 gap is 1/30 and the upper gap is 2/15.",
+      "reason": "The support has three lower facets; 1/30 names their minimum, not every lower slack."
+    },
+    {
+      "target": "Mathematical duplicate grouping versus concrete API",
+      "before": "General moment geometry describes grouping duplicate squared nodes without restating API input restrictions.",
+      "after": "Concrete S11 input directions are strictly sorted and distinct; duplicate stored directions are rejected.",
+      "reason": "The mathematical grouping result is more general than the isolated API and does not authorize rewriting a caller's support."
+    }
+  ],
+  "scientific_formulas_changed": false,
+  "additional_executions_required": false,
+  "previous_revised_sha256": "e7334f461fea8f3d0948ed2a547dfe7929371ae98f0fff208d30124e2c0b55d1"
+}

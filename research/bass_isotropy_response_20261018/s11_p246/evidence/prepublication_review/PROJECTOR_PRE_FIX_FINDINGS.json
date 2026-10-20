@@ -1,0 +1,56 @@
+{
+  "reviewed_source": "bass_work/research/bass_isotropy_response_20261018/s11_p246/projector.py",
+  "source_sha256": "f2861a50b6953dd795057c5429e517cc26d5dadda13070ddea6e6d7715d0cdb5",
+  "scope": "Public exact_certificate input contract; project_birth already rejects these inputs.",
+  "findings": [
+    {
+      "id": "S11-C9-01",
+      "severity": "medium",
+      "target": "exact_certificate: order domain",
+      "observed_input": {
+        "mu": [
+          -0.5,
+          0.5
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "order": 0
+      },
+      "observed_result": "PASS_SCOPED",
+      "cause": "range(2, order+1, 2) is empty and only normalization/positivity/parity are checked.",
+      "minimal_fix": "Require order in (4,6) before evaluating moments.",
+      "status": "OPEN"
+    },
+    {
+      "id": "S11-C9-02",
+      "severity": "medium",
+      "target": "exact_certificate: source-frame cosine domain",
+      "observed_input": {
+        "mu": [
+          -1.25,
+          -0.75,
+          -0.5,
+          0,
+          0.5,
+          0.75,
+          1.25
+        ],
+        "nonnegative_orbit_mass_exact": [
+          "8797/23625",
+          "388/3675",
+          "2404/4725",
+          "244/18375"
+        ],
+        "order": 6
+      },
+      "observed_result": "PASS_SCOPED",
+      "observed_max_abs_residual": 2.7755575615628914e-17,
+      "cause": "Finite values are checked, but |mu|<=1 is omitted. Valid polynomial moments do not validate the angular coordinate domain.",
+      "minimal_fix": "Reject abs(mu)>1 before evaluating moments.",
+      "status": "OPEN"
+    }
+  ],
+  "observation_provenance": "Current-turn execution of two direct certificate calls; source body confirmed unchanged in subsequent read and preserved bytewise here. No physical campaign was run."
+}
