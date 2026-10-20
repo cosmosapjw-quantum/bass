@@ -2,12 +2,15 @@
 
 A support with two distinct z=mu^2 values admits strictly positive P2=P4=0
 weights iff z1<1/3<z2 and 15 z1 z2 - 5(z1+z2) + 3 = 0 (S3 Theorem, m=2). In
-binary64 this equality is undecidable, so angular_p24 reports
-FEASIBILITY_UNRESOLVED_RANK1. Here the caller supplies the exact support as an
-integer quadratic c2 z^2 + c1 z + c0 whose two roots are the z values. Every
-check below is exact (Fraction); the float rays are bound to the roots by a
-sign-change isolation interval. No tolerance is widened; the final binary64
-weights pass the unchanged 3e-15 direct moment gate.
+binary64, polynomial equality is decidable using exact dyadic arithmetic.
+Rounded rays alone do not uniquely identify the intended algebraic support;
+the floating-point classifier angular_p24 reports FEASIBILITY_UNRESOLVED_RANK1
+for its ambiguous rank-one cases. Here the caller supplies that intended exact
+support as an integer quadratic c2 z^2 + c1 z + c0. Fraction arithmetic verifies
+the algebraic support and each sign-change isolation interval. Binding certifies
+proximity to a unique exact root, not equality of the rounded ray to that root.
+The final binary64 weights are separately checked with the unchanged 3e-15
+direct floating-point moment gate. No tolerance is widened.
 """
 from __future__ import annotations
 from dataclasses import dataclass

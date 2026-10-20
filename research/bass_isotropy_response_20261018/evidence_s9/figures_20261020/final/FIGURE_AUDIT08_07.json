@@ -1,0 +1,106 @@
+{
+  "schema": "BASS_S9_FIGURE_AUDIT08_07_V1",
+  "reviewed_utc": "2026-10-20T04:04:26.790898+00:00",
+  "reviewer": "independent cloud_intake reporting agent; no scientific ODE execution",
+  "order": [
+    "08-Figure-Hostile-Audit.txt",
+    "07-Figure-Residual-Error-Pass.txt"
+  ],
+  "initial_ledger": "../AUDIT08_INITIAL.json",
+  "final_figure_directory": "final",
+  "target_width_mm": 180,
+  "direct_inspection": [
+    "S9_01_trajectories_residuals.png",
+    "S9_02_fixed_gates.png",
+    "S9_03_work_diagnostics.png"
+  ],
+  "closed_findings": [
+    {
+      "id": "08-L1",
+      "priority": "P1",
+      "repair": "Removed Figure1 suptitle, moved completion count to panel(a) title.",
+      "validation": "No title/legend collision in final PNG."
+    },
+    {
+      "id": "08-L2",
+      "priority": "P1",
+      "repair": "Moved Figure3 legend above both panels.",
+      "validation": "Jacobian curve and labels remain visible in final PNG."
+    },
+    {
+      "id": "08-S1",
+      "priority": "P2",
+      "repair": "Preserved coincident r0/r1 observation curves and added exact-data overlap note to captions.",
+      "validation": "Each arm actual RAW observations arrays compared equal for r0/r1; no order estimate."
+    },
+    {
+      "id": "08-S2",
+      "priority": "P2",
+      "repair": "Added MF circles and Small+clock open squares at identical RHS counts.",
+      "validation": "Both marker shapes visible at all three identical-count coordinates."
+    }
+  ],
+  "residual_error_list": [],
+  "print_size_risks": [
+    "Figures target180mm width. Reduction to90mm would halve8–9pt text to4–4.5pt; this reduced use is not approved."
+  ],
+  "final_micro_repairs": [
+    "Only title/legend position and coincident-data markers changed; source data, scales, thresholds and case states unchanged."
+  ],
+  "bounded_verification": [
+    {
+      "question": "Do all final labels fit with no overlaps?",
+      "answer": "Yes, direct inspection of all three final PNGs at their rendered resolution found no remaining overlaps or clipping."
+    },
+    {
+      "question": "Do residual plots preserve physical zeros?",
+      "answer": "Yes, absolute residuals use a symlog scale with a linear region at1e-17; no division by h,b,y."
+    },
+    {
+      "question": "Are reported passes supported by actual completion?",
+      "answer": "All8cases have RAW completed, ASSESSMENT completed/allquality true and PROCESS exit0. Future incomplete prefixes remain p or n/a in helper."
+    },
+    {
+      "question": "Does the elapsed plot claim a portable speedup?",
+      "answer": "No, caption and panel title restrict elapsed data to the current host and include process/I/O overhead."
+    }
+  ],
+  "frozen_source_input_mismatches": [],
+  "scientific_campaign_reruns_by_reporting_agent": 0,
+  "figures": [
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_01_trajectories_residuals.png",
+      "bytes": 207621,
+      "sha256": "c87bee458db9b3d39d4d5125257b9019de1fc707704d5da1371f695a1d87c8ea"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_01_trajectories_residuals.svg",
+      "bytes": 142508,
+      "sha256": "33c596ac9608d7846ef10e927ce10f427d178bb10d8cb6a628d72ec4592bde34"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_02_fixed_gates.png",
+      "bytes": 170115,
+      "sha256": "b38b4824938469fe302d8cb1271aa7f23e9e41f9ad636eb8667e695b0bdf923c"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_02_fixed_gates.svg",
+      "bytes": 36161,
+      "sha256": "afd28148ee5f53b6d997cb5fc5cbff2564c825134e3a96272959b0f6b4f21ea6"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_03_work_diagnostics.png",
+      "bytes": 89085,
+      "sha256": "ae982866ea60f88b83e55947ea942e68f5c4c6bfbc07ed4044c00d4e34d46ae3"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/final/S9_03_work_diagnostics.svg",
+      "bytes": 37108,
+      "sha256": "5c8ddfdbb1789abbb7ba61c05dc670e216c0c2ff73ad22a2cfb9c2bbd2505344"
+    }
+  ],
+  "caption_sha256": "31d541a1a4c6ad83cd5548e1fc881ef4d10d88baff99ba5487e6854a9ad01bfd",
+  "helper_sha256": "185a7f2431434738e1c90dba7b9d00af5bad7e494232416ceb8673f45fea79e8",
+  "final_verdict": "PASS",
+  "scope": "Recorded sample/gate/work visualization at180mm, not scientific model admission."
+}

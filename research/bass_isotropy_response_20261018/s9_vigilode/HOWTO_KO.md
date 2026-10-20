@@ -1,8 +1,12 @@
-# S9: NCP에서 컴파일·작은 수정·실행만 남기는 handoff
+# S9 실행 기록과 명시적 재현용 HOWTO
+
+> **현재 상태(2026-10-20): S9 고정 8개 history는 이미 8/8 완료, 140개 gate assertion PASS이며 독립 dual 검토는 PASS_SCOPED다. 140은 독립 테스트 수가 아니다. NCP 재실행 의무는 없다. 아래 build/campaign 명령은 명시적인 재현 연구에만 사용하는 역사적 절차이고 다음 작업 지시가 아니다. 다음 구현 범위는 [Codex/NCP 인계](../CODEX_HANDOFF_KO.md)를 따른다.**
+
+실제 실행 source는 `4b30957cb008aad8019bb1a673937fc67bd017e8`, tree는 `8e4abf3820d06bae6cbec307e4f69de74195d14b`다. 현재 fresh build는 [PREPARATION_RETURN](../evidence_s9/resume_20261020/runtime/PREPARATION_RETURN.json), 실제 8개 결과는 [CAMPAIGN_RETURN](../evidence_s9/run_20261020_r1/CAMPAIGN_RETURN.json), 독립 검토는 [DUAL_REVIEW_RECEIPT](../evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json)에 있다. 기존 S6–S8·개발 검증은 재사용했고 고정 source 13/input 3은 유지했다. rtol 1e-8/1e-10 observation 동일 plateau에서 형식적 수렴차수·portable speedup을 주장하지 않았다. 현재 결과 publication은 이 문서의 containing commit이며 최종 배송 receipt/PR 댓글에서 실제 hash를 확인한다. 현재 결과 ZIP의 양쪽 cloud readback은 PENDING이다.
 
 이 디렉터리는 고정 VigilODE를 실제로 호출하는 독립 연구 client다. 기존 REI/BASS owner에 변경을 가하지 않고, 검증된 S8 manufactured closed donor 모델을 Rust로 적분한다. 해의 상태는 `[h,b,y]`이고 h는 Raychaudhuri 방정식으로 독립 진화한다. `Sigma=sqrt(3)|y|/h`다.
 
-## 이미 준비한 것
+## 준비해 실행한 것
 
 - 실제 upstream `mf_into_ls`와 `SmallProblem<4>`를 호출하는 Rust 코드, pinned Cargo.lock, NCP source fetch 및 전체 hash 검증 loader.
 - analytic RHS/JVP/Ft, 실제 해의 birth b(u), 고정 birth 시각에서 새 immutable bank/workspace로 restart하는 경로.
@@ -10,7 +14,7 @@
 - 기존 old isotropic/physical anisotropic cohort의 raw 배열과 SHA256을 동일하게 가져오는 입력. 기존 stock을 관측 시각에 재투영하지 않는다.
 - 이미 완료한 S8 primal 153개 출력값을 비교 전용으로 추출한 reference. 저장된 reference birth b(u)는 solver input에 없다.
 - 각 실패에도 중단 전 raw prefix, 실제 failure 종류, 문제 support 또는 candidate를 남기는 CLI.
-- source 게시와 양쪽 cloud readback 이후에만 실행할 고정 8-case matrix, 독립 Python Fraction/complex-step observer.
+- source 게시와 양쪽 cloud readback을 확인한 뒤 실제 실행한 고정 8-case matrix, 독립 Python Fraction/complex-step observer.
 
 ## 실행환경
 
@@ -18,7 +22,7 @@ Rust **1.94.1 이상**, Python3가 필요하다. 일반 준비·실행·분석�
 
 기본 실행은 1개 history씩 순차 수행하고 build는 2 jobs다. 추가 worker 최대16, RAM16GiB, 추가 disk4GiB, 개별 job1800초의 기존 상한을 유지한다. 입력/결과를 새 task directory에 놓고 기존 owner worktree와 기존 run 파일을 보존한다. 이 작은 모델에서 MF의 workspace 장점이 속도 우위로 이어진다는 주장은 하지 않는다. 4차원 clock arm은 오차 norm 차원도 달라 고정 accuracy gate로 비교한다.
 
-## 일반 NCP 실행
+## 명시적 재현에만 쓰는 과거 NCP 실행 절차
 
 기존 checkout을 덮어쓰지 않는 새 디렉터리에서 게시된 연구 branch를 받는다. root의 closeout에 적힌 **S9 source commit, prereg hash, source 게시·Dropbox·Drive readback**을 확인한다. `evidence_s9/SOURCE_PUBLICATION_GATE.json`은 root가 그 검증을 마친 뒤 남기는 실제 영수증이다.
 
@@ -30,7 +34,7 @@ cd "$task_dir/bass/research/bass_isotropy_response_20261018"
 
 python3 s9_vigilode/prepare.py \
   --work-dir "$task_dir/runtime" \
-  --jobs 2 --test --build
+  --jobs 2 --build
 
 python3 s9_vigilode/campaign.py \
   --binary "$task_dir/runtime/target/debug/bass-s9-vigilode" \
@@ -54,7 +58,7 @@ Binary attestation은 실제 성공한 `cargo build --locked --bin bass-s9-vigil
 | S8 resume source | `2e6b4a150559b0bea52938896a901f6d438f3582` |
 | REI 고정 spectral owner | `0e25846433170d0f420c4cda44a0bedbf02cd177` |
 
-## 기존 source와 offline vendor 재사용
+## 명시적 재현 시 기존 source와 offline vendor 재사용
 
 이미 고정 upstream checkout 및 검증된 vendor가 있으면 다운로드 없이 다음 형태로 준비한다. `--vigilode-root`는 전체 selected-file hash를 검사한다. source directory를 수정하지 않는다.
 
@@ -64,7 +68,7 @@ python3 s9_vigilode/prepare.py \
   --vigilode-root /path/to/verified/vigilode \
   --vendor /path/to/verified/cargo_vendor \
   --cargo /path/to/cargo --rustc /path/to/rustc \
-  --jobs 2 --test --build
+  --jobs 2 --build
 ```
 
 전체 upstream Cargo.lock의 registry package 118개를 가진 검증된 vendor를 재사용할 수 있다. 실제 S9 Cargo.lock은 총97개 package(93개 registry, BASS client와 VigilODE 3 crates)이며, `num-rational0.4.2`, `num-bigint0.4.6`, `num-integer0.1.46`를 포함한다. 118개 모두를 이 client에서 컴파일했다는 뜻은 아니다. development AD checker의 `num-dual0.15.1`은 production dependency가 아니다. 독립 callback 검증은 `ad_check/compare_callbacks.py --help`를 참고하고 이미 게시한 raw 결과를 우선 재사용한다.
@@ -79,30 +83,12 @@ python3 s9_vigilode/prepare.py \
 
 feasibility, unresolved geometry, angular precision, exact admission, stock contract, solver failure, timeout을 서로 구별한다. `INNER_P2_PRECISION_LIMIT` 등은 tolerance를 늘려 없애지 않는다. 정확한 candidate가 admission에서 거부되면 `pending_birth`에 남긴다. 수정이 필요하면 같은 실패 결과를 보존한 상태에서 원인에 해당하는 코드만 작게 고치고 새 source/prereg/hash를 게시한 뒤 별도 결과 디렉터리로 실행한다.
 
-## 반드시 남는 의무
+## 다음 연구와 남은 의무
+
+다음 연구는 실제 MD14 공급부의 source time·stress·energy bridge를 구성하고 native Einstein/shear feedback에 연결하는 것이다. 새 실행이 필요하면 source·입력·고정 gate와 양쪽 readback을 먼저 완성한다. P6 제약 알고리즘은 미구현이고 full reactive spectral/history 수렴은 미완료다.
 
 S9의 성공 범위는 실제 Rust solver client가 같은 manufactured donor/cohort 모델을 적분하고 기존 보존·birth contract를 지킨다는 데 한정된다. 새로운 native client의 full parameter tangent, 실제 REI/MD14 source owner 피드백, native finite-bin photon/energy 보존, continuum angular accuracy는 별도 의무다. `P2=P4=0`이나 이 작은 closed-history 결과만으로 REI production 또는 full EoR를 승인하지 않는다. Generic upstream continuous-residual authority도 이 `OdeProblem` callback에 자동 부여하지 않는다.
 
-## 복사 가능한 Codex 지시
+## 후속 실행 인계
 
-```text
-BASS Draft PR174의 research/bass-isotropy-checkpoint-recovery-20261018에서
-research/bass_isotropy_response_20261018/s9_vigilode 연구를 이어라.
-먼저 관련 GitHub PR/branch와 Dropbox/Drive BASS_BACKUPS 및 VigilODE/REI
-관련 backup의 새 실행결과를 현재 closeout/hash와 대조하고 새 결과를 재사용하라.
-source/prereg/양쪽 readback 영수증이 실제 일치하는지 확인하라.
-
-현재 client는 VigilODE a21d573980f66fe02891bd216153443b5352f921의 실제
-mf_into_ls workspace 및 SmallProblem<4>를 사용한다. analytic RHS/JVP/Ft,
-고정 birth 시각 restart, 현재 해의 b(u), 양의 P24/정확한 Fraction gate,
-기존 stock 및 spectral owner0e25846433170d0f420c4cda44a0bedbf02cd177를 보존하라.
-원래 balance_p24.rs를 고치거나 생존 광자장을 재투영하지 마라.
-
-이미 완료된 S8 history/AD/adapter 계약 검증을 반복하지 말고 새 evidence를 우선 읽어라.
-NCP에서는 HOWTO_KO.md대로 컴파일/작은 원인별 수정/고정 8-case 실행만 수행하라.
-실패 raw와 정확한 support/candidate를 남기고 tolerance/음의 weight/oracle birth b로
-실패를 우회하지 마라. 각각 source/result 게시, dual backup/readback, DAG 상태를 남겨라.
-추가 workers16/RAM16GiB/disk4GiB/job1800s 상한을 유지하라.
-continuum accuracy, native finite-bin photon/energy 보존, production/full EoR는
-이 결과만으로 승인하지 마라. 최종 source/commit/PR 및 남은 의무를 본문에 출력하라.
-```
+현재 Codex/NCP 인계는 [CODEX_HANDOFF_KO.md](../CODEX_HANDOFF_KO.md), 새 ChatGPT 연구 인계는 [NEW_THREAD_HANDOFF_KO.md](../NEW_THREAD_HANDOFF_KO.md)에 있다. 최신 GitHub/백업·source·gate를 직접 읽고 기존 owner 작업 및 실행 중 job을 보존한다. 사용자에게 과거 대화·첨부·ZIP다운로드·사전명령을 요청하지 않는다. 새 캠페인이 필요할 때만 그 단위의 등록된 compile/작은수정/실행 계약을 따른다.
