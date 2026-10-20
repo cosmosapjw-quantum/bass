@@ -26,16 +26,22 @@
 
 | 단계 | objective 상태 | 게시 | 이중 백업/readback |
 |---|---|---|---|
-| C1 목표·baseline | 계약 작성 완료; 현재 source/results identity 재사용 | 진행 중 | 진행 중 |
-| R2 외부 문헌·코드 재사용 | 조사 시작 | 미완료 | 미완료 |
-| C2 코드·수식·비용 대응 | 조사 시작 | 미완료 | 미완료 |
-| C3 알고리즘·수치 설계 | 대기 | 미완료 | 미완료 |
-| C4 병렬화·실행 DAG | 대기 | 미완료 | 미완료 |
-| C5 구현 | 대기 | 미완료 | 미완료 |
-| C6 구현 검증 | 대기 | 미완료 | 미완료 |
-| C7 과학 검증 | 대기 | 미완료 | 미완료 |
-| C8 정확도 대비 성능 | 대기 | 미완료 | 미완료 |
-| C9 독립 검토 | 대기 | 미완료 | 미완료 |
-| C10 판정·인계 | 대기 | 미완료 | 미완료 |
+| C1 목표·baseline | 완료 | `62d6bc14` full tree readback 완료 | Dropbox 전체 bytes·CRC·11 payload 일치; Drive connector 무응답으로 미완료 |
+| R2 외부 문헌·코드 재사용 | SciSpace 2 + Exa 3 검색, primary 9묶음 관련 절 검토 완료 | 현재 checkpoint payload | 단계 archive 업로드 대기; Drive 미완료 |
+| C2 코드·수식·비용 대응 | 원 source/counter 대응 완료; 실제 시간 점유율 주장 없음 | 현재 checkpoint payload | 단계 archive 업로드 대기; Drive 미완료 |
+| C3 알고리즘·수치 설계 | streaming/immutable SoA/exact cache/ordered SIMD 설계 중 | 대기 | 대기 |
+| C4 병렬화·실행 DAG | release paired benchmark 사전등록 중 | 대기 | 대기 |
+| C5 구현 | 신규 opt-in crate 작성 중; baseline source 불변 | 대기 | 대기 |
+| C6 구현 검증 | 대기 | 대기 | 대기 |
+| C7 과학 검증 | 대기 | 대기 | 대기 |
+| C8 정확도 대비 성능 | 대기 | 대기 | 대기 |
+| C9 독립 검토 | 대기 | 대기 | 대기 |
+| C10 판정·인계 | 대기 | 대기 | 대기 |
 
 실제 MD14 공급부/응력 closure와 native Einstein feedback, P6 제약, 전체 reactive finite-bin spectral history 및 넓은 continuum angular 보증은 기존의 미완료 과학 의무로 유지한다. 이번 사용자의 최적화 우선순위는 그 의무들을 완료했다는 의미가 아니다.
+
+## R2/C2에서 선택한 구현
+
+[R2 재사용 조사](evidence_s10/r2/R2_REUSE_KO.md), [C2 비용 지도](evidence_s10/c2/CODE_COST_MAP_KO.md)를 보존했다. 원8이력의 counter와 읽은 code를 대응한 정적 합계는 full eval 62,025회, angular node 방문 29,732,096회, moment 관련 Vec 구성 요청 1,138,493회다. P24는 distribution 평가 487,258회다. 이 값은 실제 malloc 계측·시간 점유율·RSS가 아니다.
+
+실제 SIMD 후보는 stable std::arch의 runtime feature guard + scalar fallback이다. 확인한 Pulp0.22.3은 대안이며 이번 직접 채택으로 표시하지 않는다. Rayon1.12.0의 이미 잠긴 vendor를 독립 작업용으로 재사용한다. 기존 callback source·P24 owner·exact certificate는 수정하지 않고 별도 opt-in crate를 만든다. 모든 variant는 이력 관측·event·cohort·solver counter의 동일성을 검증한다. 성능 이득은 아직 측정 전이다.

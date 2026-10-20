@@ -1,0 +1,748 @@
+{
+  "request": {
+    "searchQuestion": "Which primary research papers explain when reusing right-hand-side evaluations, Jacobians, or Jacobian-vector-product data reduces the cost of implicit ordinary differential equation solvers without changing the solved equations, and how do they distinguish exact memoization at an identical state from approximate reuse across different states or steps?"
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Found 10 relevant papers on 'Which primary research papers explain when reusing right-hand-side evaluations, Jacobians, or Jacobian-vector-product data reduces the cost of implicit ordinary differential equation solvers without changing the solved equations, and how do they distinguish exact memoization at an identical state from approximate reuse across different states or steps?'.\n\n\n1. Matrix-Free Jacobian Chaining\n   ID: 1dd7f871av\n   2024 · Uwe Naumann\n   DOI: 10.48550/arxiv.2406.11862\n   Abstract: The efficient computation of Jacobians represents a fundamental challenge in computational science and engineering. Large-scale modular numerical simulation programs can be regarded as sequences of evaluations of in our case differentiable subprograms with corresponding elemental Jacobians. The latter are typically not available. Tangent and adjoint versions of the individual subprograms are assumed to be given as results of algorithmic differentiation instead. The classical (Jacobian) Matrix Chain Product problem is reformulated in terms of matrix-free Jacobian-matrix (tangents) and matrix-Jacobian products (adjoints), subject to limited memory for storing information required by latter. All numerical results can be reproduced using an open-source reference implementation. \n\n2. Optimization of Generalized Jacobian Chain Products without Memory Constraints.\n   ID: 1fp4rkol45\n   2020 · Uwe Naumann · arXiv: Numerical Analysis\n   Abstract: The efficient computation of Jacobians represents a fundamental challenge in computational science and engineering. Large-scale modular numerical simulation programs can be regarded as sequences of evaluations of in our case differentiable modules with corresponding local Jacobians. The latter are typically not available. Tangent and adjoint versions of the individual modules are assumed to be given as results of algorithmic differentiation instead. The classical (Jacobian) matrix chain product formulation is extended with the optional evaluation of matrix-free Jacobian-matrix and matrix-Jacobian products as tangents and adjoints. We propose a dynamic programming algorithm for the minimization of the computational cost of such generalized Jacobian chain products without considering constraints on the available persistent system memory. In other words, the naive evaluation of an adjoint of the entire simulation program is assumed to be a feasible option. No checkpointing is required. Under the given assumptions we obtain optimal solutions which improve the best state of the art methods by factors of up to seven on a set of randomly generated problem instances of growing size.\n\n3. Automating Steady and Unsteady Adjoints: Efficiently Utilizing Implicit and Algorithmic Differentiation\n   ID: 2sh2u6hj\n   2023 · Andrew Ning, Taylor G. McDonnell\n   Abstract: Algorithmic differentiation (AD) has become increasingly capable and straightforward to use. However, AD is inefficient when applied directly to solvers, a feature of most engineering analyses. We can leverage implicit differentiation to define a general AD rule, making adjoints automatic. Furthermore, we can leverage the structure of differential equations to automate unsteady adjoints in a memory efficient way. We also derive a technique to speed up explicit differential equation solvers, which have no iterative solver to exploit. All of these techniques are demonstrated on problems of various sizes, showing order of magnitude speed-ups with minimal code changes. Thus, we can enable users to easily compute accurate derivatives across complex analyses with internal solvers, or in other words, automate adjoints using a combination of AD and implicit differentiation.\n\n4. Partial Evaluation of Automatic Differentiation for Differential-Algebraic Equations Solvers\n   ID: 1dx5i2xdzb\n   2023 · Oscar Eriksson, Viktor Palmkvist, David Broman\n   DOI: 10.1145/3624007.3624054\n   Abstract: Differential-Algebraic Equations (DAEs) are the foundation of high-level equation-based languages for modeling physical dynamical systems. Simulating models in such languages requires a transformation known as index reduction that involves differentiating individual equations before numerical integration. Commercial and open-source implementations typically perform index reduction by symbolic differentiation (SD) and produce a Jacobian callback function with forward-mode automatic differentiation (AD). The former results in efficient runtime code, and the latter is asymptotically efficient in both runtime and code size. However, AD introduces runtime overhead caused by a non-standard representation of real numbers, and SD is not always applicable in models with general recursion. This work proposes a new approach that uses partial evaluation of AD in the context of numerical DAE solving to combine the strengths of the two differentiation methods while mitigating their weaknesses. Moreover, our approach selectively specializes partial derivatives of the Jacobian by exploiting structural knowledge while respecting a user-defined bound on the code size. Our evaluation shows that the new method both enables expressive modeling from AD and retains the efficiency of SD for many practical applications.\n\n5. Storage space reduction for the solution of systems of ordinary differential equations by pipelining and overlapping of vectors\n   ID: 4alkwuyb0b\n   2010 · Matthias Korch, Thomas Rauber\n   DOI: 10.1109/IPDPSW.2010.5470768\n   Abstract: Systems of ordinary differential equations (ODEs) arise from the mathematical modeling of time-dependent processes. Many sequential and parallel numerical methods have been proposed that can simulate processes described by ODE systems with known initial state. One disadvantage common to the proposed methods is the large amount of storage space required if the ODE systems consist of many equations. Not only do they have to keep the solution of the ODE system corresponding to the current time step in memory, but also several intermediate solutions or results of evaluations of the right hand side function of the ODE system. In this paper, we present an approach based on pipelining and overlapping of vectors which can reduce the storage space of typical ODE solution methods such as Runge-Kutta (RK) and extrapolation methods. We analyze and compare the scalability of different implementation variants of embedded and iterated RK methods on several modern parallel computer systems. Our experiments show that, due to an increased locality of memory references, our approach leads to a good scalability behavior even on large numbers of processors.\n\n6. Stability Analysis of the Matrix-Free Linearly Implicit Euler Method\n   ID: 1d92o9rzo4\n   2013 · Adrian Sandu, Amik St-Cyr\n   DOI: 10.1007/978-3-642-35275-1_47\n   Abstract: Implicit time stepping methods are useful for the simulation of large scale PDE systems because they avoid the time step limitations imposed by explicit stability conditions. To alleviate the challenges posed by computational and memory constraints, many applications solve the resulting linear systems by iterative methods where the Jacobian-vector products are approximated by finite differences. This paper explains the relation between a linearly implicit Euler method, solved using a Jacobian-free Krylov method, and explicit Runge-Kutta methods. The case with preconditioning is equivalent to a Rosenbrock-W method where the approximate Jacobian, inverted at each stage, corresponds directly to the preconditioner. The accuracy of the resulting Runge-Kutta methods can be controlled by constraining the Krylov solution. Numerical experiments confirm the theoretical findings.\n\n7. EPIRK- W and EPIRK- K Time Discretization Methods\n   ID: 7612aaht0l\n   2019 · Mahesh Narayanamurthi, Paul Tranquilli, Adrian Sandu · Journal of Scientific Computing\n   DOI: 10.1007/S10915-018-0761-3\n   Abstract: Exponential integrators are special time discretization methods where the traditional linear system solves used by implicit schemes are replaced with computing the action of matrix exponential-like functions on a vector. A very general formulation of exponential integrators is offered by the Exponential Propagation Iterative methods of Runge–Kutta type (EPIRK) family of schemes. The use of Jacobian approximations is an important strategy to drastically reduce the overall computational costs of implicit schemes while maintaining the quality of their solutions. This paper extends the EPIRK class to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions. Specifically, we develop two new families of methods: EPIRK-W integrators that can accommodate any approximation of the Jacobian, and EPIRK-K integrators that rely on a specific Krylov-subspace projection of the exact Jacobian. Classical order conditions theories are constructed for these families. Practical EPIRK-W methods of order three and EPIRK-K methods of order four are developed. Numerical experiments indicate that the methods proposed herein are computationally favorable when compared to a representative state-of-the-art exponential integrator, and a Rosenbrock–Krylov integrator.\n\n8. Theoretically optimal inexact spectral deferred correction methods\n   ID: 3kjjt066c0\n   2018 · Martin Weiser, Sunayana Ghosh\n   DOI: 10.2140/CAMCOS.2018.13.53\n   Abstract: In several inital value problems with particularly expensive right hand side evaluation or implicit step computation, there is a trade-off between accuracy and computational effort. We consider inexact spectral deferred correction (SDC) methods for solving such initial value problems. SDC methods are interpreted as fixed point iterations and, due to their corrective iterative nature, allow to exploit the accuracy-work-tradeoff for a reduction of the total computational effort. On one hand we derive error models bounding the total error in terms of the evaluation errors. On the other hand, we define work models describing the computational effort in terms of the evaluation accuracy. Combining both, a theoretically optimal local tolerance selection is worked out by minimizing the total work subject to achieving the requested tolerance. The properties of optimal local tolerances and the predicted efficiency gain compared to simpler heuristics, and a reasonable practical performance, are illustrated on simple numerical examples.\n\n9. Obtaining Accurate Derivatives Across Adaptive-Step Integration\n   ID: 38jojlipp6\n   2024 · Kaushik Ponnapalli, Robert Falck\n   DOI: 10.2514/6.2024-0160\n   Abstract: Obtaining derivatives through the integration of a set of ordinary differential equations is of interest to a number of fields of research. Approaches for doing so that are available in the literature, however, do not account for details associated with variable step integrator that cause inaccuracies in the total derivatives. In this paper, we explore the causes of the accumulation of derivative error in adaptive-step Runge-Kutta integration schemes and propose a solution to eliminate them. The new algorithm proposed is a transformation of each step of a Runge-Kutta integration into a set of residual equations. This work demonstrates the improvement in accuracy of total derivatives when the new algorithm is utilized. \n\n10. EPIRK-W and EPIRK-K time discretization methods\n   ID: 47cl1biwfy\n   2017 · Mahesh Narayanamurthi, Paul Tranquilli, Adrian Sandu · arXiv: Numerical Analysis\n   Abstract: Exponential integrators are special time discretization methods where the traditional linear system solves used by implicit schemes are replaced with computing the action of matrix exponential-like functions on a vector. A very general formulation of exponential integrators is offered by the Exponential Propagation Iterative methods of Runge-Kutta type (EPIRK) family of schemes. The use of Jacobian approximations is an important strategy to drastically reduce the overall computational costs of implicit schemes while maintaining the quality of their solutions. This paper extends the EPIRK class to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions. Specifically, we develop two new families of methods: EPIRK-W integrators that can accommodate any approximation of the Jacobian, and EPIRK-K integrators that rely on a specific Krylov-subspace projection of the exact Jacobian. Classical order conditions theories are constructed for these families. A practical EPIRK-W method of order three and an EPIRK-K method of order four are developed. Numerical experiments indicate that the methods proposed herein are computationally favorable when compared to existing exponential integrators."
+      }
+    ],
+    "structuredContent": {
+      "searchTerm": "Which primary research papers explain when reusing right-hand-side evaluations, Jacobians, or Jacobian-vector-product data reduces the cost of implicit ordinary differential equation solvers without changing the solved equations, and how do they distinguish exact memoization at an identical state from approximate reuse across different states or steps?",
+      "papers": [
+        {
+          "id": 4035721086,
+          "title": "Matrix-Free Jacobian Chaining",
+          "is_archived": false,
+          "full_slug": "matrix-free-jacobian-chaining-1dd7f871av",
+          "journal": null,
+          "conference_series": null,
+          "date": "2024-04-11T00:00:00Z",
+          "is_oa": null,
+          "publication_type": "Preprint",
+          "doi": "10.48550/arxiv.2406.11862",
+          "unique_id": "1dd7f871av",
+          "abstract": "The efficient computation of Jacobians represents a fundamental challenge in computational science and engineering. Large-scale modular numerical simulation programs can be regarded as sequences of evaluations of in our case differentiable subprograms with corresponding elemental Jacobians. The latter are typically not available. Tangent and adjoint versions of the individual subprograms are assumed to be given as results of algorithmic differentiation instead. The classical (Jacobian) Matrix Chain Product problem is reformulated in terms of matrix-free Jacobian-matrix (tangents) and matrix-Jacobian products (adjoints), subject to limited memory for storing information required by latter. All numerical results can be reproduced using an open-source reference implementation. ",
+          "authors": {
+            "total": 1,
+            "data": [
+              {
+                "display_name": "Uwe Naumann",
+                "full_slug": null
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 0,
+            "data": []
+          },
+          "fulltext_url": "pdf/matrix-free-jacobian-chaining-1dd7f871av.pdf",
+          "fulltext_url_no_follow": false,
+          "paper_urls": {
+            "order": [
+              "Pdf"
+            ],
+            "data": {
+              "Pdf": [
+                "https://arxiv.org/pdf/2406.11862"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": null
+            }
+          },
+          "tldr": "Matrix-free Jacobian chaining efficiently computes Jacobians of large-scale modular numerical simulation programs by leveraging matrix-free Jacobian-matrix and matrix-Jacobian products subject to limited memory constraints.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 3010839298,
+          "title": "Optimization of Generalized Jacobian Chain Products without Memory Constraints.",
+          "is_archived": false,
+          "full_slug": "optimization-of-generalized-jacobian-chain-products-without-1fp4rkol45",
+          "journal": {
+            "display_name": "arXiv: Numerical Analysis",
+            "official_page": null,
+            "issn": null,
+            "alias": null,
+            "id": 2595313807,
+            "slug": "arxiv-numerical-analysis",
+            "unique_id": "36dm9vah",
+            "full_slug": "arxiv-numerical-analysis-36dm9vah"
+          },
+          "conference_series": null,
+          "date": "2020-03-12T00:00:00Z",
+          "is_oa": true,
+          "publication_type": "Posted Content",
+          "doi": null,
+          "unique_id": "1fp4rkol45",
+          "abstract": "The efficient computation of Jacobians represents a fundamental challenge in computational science and engineering. Large-scale modular numerical simulation programs can be regarded as sequences of evaluations of in our case differentiable modules with corresponding local Jacobians. The latter are typically not available. Tangent and adjoint versions of the individual modules are assumed to be given as results of algorithmic differentiation instead. The classical (Jacobian) matrix chain product formulation is extended with the optional evaluation of matrix-free Jacobian-matrix and matrix-Jacobian products as tangents and adjoints. We propose a dynamic programming algorithm for the minimization of the computational cost of such generalized Jacobian chain products without considering constraints on the available persistent system memory. In other words, the naive evaluation of an adjoint of the entire simulation program is assumed to be a feasible option. No checkpointing is required. Under the given assumptions we obtain optimal solutions which improve the best state of the art methods by factors of up to seven on a set of randomly generated problem instances of growing size.",
+          "authors": {
+            "total": 1,
+            "data": [
+              {
+                "display_name": "Uwe Naumann",
+                "id": 2462414061,
+                "slug": "uwe-naumann",
+                "unique_id": "1k9c50ffkt",
+                "full_slug": "uwe-naumann-1k9c50ffkt"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 0,
+            "data": []
+          },
+          "fulltext_url": "https://arxiv.org/pdf/2003.05755.pdf",
+          "fulltext_url_no_follow": true,
+          "paper_urls": {
+            "order": [
+              "Html",
+              "Others"
+            ],
+            "data": {
+              "Html": [
+                "https://dblp.uni-trier.de/db/journals/corr/corr2003.html#abs-2003-05755",
+                "https://arxiv.org/abs/2003.05755"
+              ],
+              "Others": [
+                "http://dblp.uni-trier.de/db/journals/corr/corr2003.html#abs-2003-05755"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 7
+            }
+          },
+          "tldr": "A dynamic programming algorithm is proposed for the minimization of the computational cost of such generalized Jacobian chain products without considering constraints on the available persistent system memory.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 4004453790,
+          "title": "Automating Steady and Unsteady Adjoints: Efficiently Utilizing Implicit and Algorithmic Differentiation",
+          "is_archived": false,
+          "full_slug": "automating-steady-and-unsteady-adjoints-efficiently-2sh2u6hj",
+          "journal": null,
+          "conference_series": null,
+          "date": "2023-06-27T00:00:00Z",
+          "is_oa": false,
+          "publication_type": null,
+          "doi": null,
+          "unique_id": "2sh2u6hj",
+          "abstract": "Algorithmic differentiation (AD) has become increasingly capable and straightforward to use. However, AD is inefficient when applied directly to solvers, a feature of most engineering analyses. We can leverage implicit differentiation to define a general AD rule, making adjoints automatic. Furthermore, we can leverage the structure of differential equations to automate unsteady adjoints in a memory efficient way. We also derive a technique to speed up explicit differential equation solvers, which have no iterative solver to exploit. All of these techniques are demonstrated on problems of various sizes, showing order of magnitude speed-ups with minimal code changes. Thus, we can enable users to easily compute accurate derivatives across complex analyses with internal solvers, or in other words, automate adjoints using a combination of AD and implicit differentiation.",
+          "authors": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Andrew Ning",
+                "full_slug": null
+              },
+              {
+                "display_name": "Taylor G. McDonnell",
+                "id": 2782370228,
+                "slug": "taylor-g-mcdonnell",
+                "unique_id": "2nh5bd9mg6",
+                "full_slug": "taylor-g-mcdonnell-2nh5bd9mg6"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 0,
+            "data": []
+          },
+          "metrics": {
+            "citations": {
+              "total": null
+            }
+          },
+          "tldr": "In this paper , the authors leverage implicit differentiation to define a general AD rule, making adjoints automatic, and leverage the structure of differential equations to automate unsteady adjoint in a memory efficient way.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 4020015592,
+          "title": "Partial Evaluation of Automatic Differentiation for Differential-Algebraic Equations Solvers",
+          "is_archived": false,
+          "full_slug": "partial-evaluation-of-automatic-differentiation-for-1dx5i2xdzb",
+          "journal": null,
+          "conference_series": null,
+          "date": "2023-10-22T00:00:00Z",
+          "is_oa": null,
+          "publication_type": "Book",
+          "doi": "10.1145/3624007.3624054",
+          "unique_id": "1dx5i2xdzb",
+          "abstract": "Differential-Algebraic Equations (DAEs) are the foundation of high-level equation-based languages for modeling physical dynamical systems. Simulating models in such languages requires a transformation known as index reduction that involves differentiating individual equations before numerical integration. Commercial and open-source implementations typically perform index reduction by symbolic differentiation (SD) and produce a Jacobian callback function with forward-mode automatic differentiation (AD). The former results in efficient runtime code, and the latter is asymptotically efficient in both runtime and code size. However, AD introduces runtime overhead caused by a non-standard representation of real numbers, and SD is not always applicable in models with general recursion. This work proposes a new approach that uses partial evaluation of AD in the context of numerical DAE solving to combine the strengths of the two differentiation methods while mitigating their weaknesses. Moreover, our approach selectively specializes partial derivatives of the Jacobian by exploiting structural knowledge while respecting a user-defined bound on the code size. Our evaluation shows that the new method both enables expressive modeling from AD and retains the efficiency of SD for many practical applications.",
+          "authors": {
+            "total": 3,
+            "data": [
+              {
+                "display_name": "Oscar Eriksson",
+                "id": 3005088837,
+                "slug": "oscar-eriksson",
+                "unique_id": "50qm5spawg",
+                "full_slug": "oscar-eriksson-50qm5spawg",
+                "affiliation_full_slug": "royal-institute-of-technology-1g8qvoge"
+              },
+              {
+                "display_name": "Viktor Palmkvist",
+                "id": 2904206787,
+                "slug": "viktor-palmkvist",
+                "unique_id": "11ati4hvv8",
+                "full_slug": "viktor-palmkvist-11ati4hvv8",
+                "affiliation_full_slug": "royal-institute-of-technology-1g8qvoge"
+              },
+              {
+                "display_name": "David Broman",
+                "id": 2161207228,
+                "slug": "david-broman",
+                "unique_id": "3akj7rkmut",
+                "full_slug": "david-broman-3akj7rkmut",
+                "affiliation_full_slug": "royal-institute-of-technology-1g8qvoge"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 1,
+            "data": [
+              {
+                "display_name": "Royal Institute of Technology",
+                "city": "Stockholm",
+                "region": null,
+                "country": "Sweden",
+                "id": 86987016,
+                "slug": "royal-institute-of-technology",
+                "unique_id": "1g8qvoge",
+                "full_slug": "royal-institute-of-technology-1g8qvoge"
+              }
+            ]
+          },
+          "metrics": {
+            "citations": {
+              "total": null
+            }
+          },
+          "tldr": "This work proposes a new approach that uses partial evaluation of AD in the context of numerical DAE solving to combine the strengths of the two differentiation methods while mitigating their weaknesses, and selectively specializes partial derivatives of the Jacobian by exploiting structural knowledge while respecting a user-defined bound on the code size.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 2060075377,
+          "title": "Storage space reduction for the solution of systems of ordinary differential equations by pipelining and overlapping of vectors",
+          "is_archived": false,
+          "full_slug": "storage-space-reduction-for-the-solution-of-systems-of-4alkwuyb0b",
+          "journal": null,
+          "conference_series": {
+            "display_name": "IEEE International Symposium on Parallel & Distributed Processing, Workshops and Phd Forum",
+            "id": 2755980765,
+            "slug": "ieee-international-symposium-on-parallel-distributed",
+            "unique_id": "3950qu9p",
+            "full_slug": "ieee-international-symposium-on-parallel-distributed-3950qu9p"
+          },
+          "date": "2010-04-19T00:00:00Z",
+          "is_oa": false,
+          "publication_type": "Proceedings Article",
+          "doi": "10.1109/IPDPSW.2010.5470768",
+          "unique_id": "4alkwuyb0b",
+          "abstract": "Systems of ordinary differential equations (ODEs) arise from the mathematical modeling of time-dependent processes. Many sequential and parallel numerical methods have been proposed that can simulate processes described by ODE systems with known initial state. One disadvantage common to the proposed methods is the large amount of storage space required if the ODE systems consist of many equations. Not only do they have to keep the solution of the ODE system corresponding to the current time step in memory, but also several intermediate solutions or results of evaluations of the right hand side function of the ODE system. In this paper, we present an approach based on pipelining and overlapping of vectors which can reduce the storage space of typical ODE solution methods such as Runge-Kutta (RK) and extrapolation methods. We analyze and compare the scalability of different implementation variants of embedded and iterated RK methods on several modern parallel computer systems. Our experiments show that, due to an increased locality of memory references, our approach leads to a good scalability behavior even on large numbers of processors.",
+          "authors": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Matthias Korch",
+                "id": 2041253024,
+                "slug": "matthias-korch",
+                "unique_id": "519cq22a3c",
+                "full_slug": "matthias-korch-519cq22a3c",
+                "affiliation_full_slug": "university-of-bayreuth-b4jhj3c3"
+              },
+              {
+                "display_name": "Thomas Rauber",
+                "id": 1850417542,
+                "slug": "thomas-rauber",
+                "unique_id": "4xvl8btj3z",
+                "full_slug": "thomas-rauber-4xvl8btj3z",
+                "affiliation_full_slug": "university-of-bayreuth-b4jhj3c3"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 1,
+            "data": [
+              {
+                "display_name": "University of Bayreuth",
+                "city": "Bayreuth",
+                "region": "Bayern",
+                "country": "Germany",
+                "id": 54009628,
+                "slug": "university-of-bayreuth",
+                "unique_id": "b4jhj3c3",
+                "full_slug": "university-of-bayreuth-b4jhj3c3"
+              }
+            ]
+          },
+          "fulltext_url": null,
+          "fulltext_url_no_follow": true,
+          "paper_urls": {
+            "order": [
+              "Html",
+              "Others"
+            ],
+            "data": {
+              "Html": [
+                "http://yadda.icm.edu.pl/yadda/element/bwmeta1.element.ieee-000005470768",
+                "https://dblp.uni-trier.de/db/conf/ipps/ipdps2010w.html#KorchR10"
+              ],
+              "Others": [
+                "http://dx.doi.org/10.1109/IPDPSW.2010.5470768",
+                "http://ieeexplore.ieee.org/document/5470768/"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 2
+            }
+          },
+          "tldr": "This paper presents an approach based on pipelining and overlapping of vectors which can reduce the storage space of typical ODE solution methods such as Runge-Kutta (RK) and extrapolation methods and analyzes and compares the scalability of different implementation variants of embedded and iterated RK methods on several modern parallel computer systems.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 25574064,
+          "title": "Stability Analysis of the Matrix-Free Linearly Implicit Euler Method",
+          "is_archived": false,
+          "full_slug": "stability-analysis-of-the-matrix-free-linearly-implicit-1d92o9rzo4",
+          "journal": null,
+          "conference_series": null,
+          "date": "2013-01-01T00:00:00Z",
+          "is_oa": false,
+          "publication_type": "Book Chapter",
+          "doi": "10.1007/978-3-642-35275-1_47",
+          "unique_id": "1d92o9rzo4",
+          "abstract": "Implicit time stepping methods are useful for the simulation of large scale PDE systems because they avoid the time step limitations imposed by explicit stability conditions. To alleviate the challenges posed by computational and memory constraints, many applications solve the resulting linear systems by iterative methods where the Jacobian-vector products are approximated by finite differences. This paper explains the relation between a linearly implicit Euler method, solved using a Jacobian-free Krylov method, and explicit Runge-Kutta methods. The case with preconditioning is equivalent to a Rosenbrock-W method where the approximate Jacobian, inverted at each stage, corresponds directly to the preconditioner. The accuracy of the resulting Runge-Kutta methods can be controlled by constraining the Krylov solution. Numerical experiments confirm the theoretical findings.",
+          "authors": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Adrian Sandu",
+                "id": 2160076523,
+                "slug": "adrian-sandu",
+                "unique_id": "4bvz0bigvs",
+                "full_slug": "adrian-sandu-4bvz0bigvs",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Amik St-Cyr",
+                "id": 2077638049,
+                "slug": "amik-st-cyr",
+                "unique_id": "28b0mdf0lu",
+                "full_slug": "amik-st-cyr-28b0mdf0lu",
+                "affiliation_full_slug": "national-center-for-atmospheric-research-f92io488"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Virginia Tech",
+                "city": "Blacksburg",
+                "region": "Virginia",
+                "country": "United States",
+                "id": 859038795,
+                "slug": "virginia-tech",
+                "unique_id": "1qdxqc03",
+                "full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "National Center for Atmospheric Research",
+                "city": "Boulder",
+                "region": "Colorado",
+                "country": "United States",
+                "id": 107766831,
+                "slug": "national-center-for-atmospheric-research",
+                "unique_id": "f92io488",
+                "full_slug": "national-center-for-atmospheric-research-f92io488"
+              }
+            ]
+          },
+          "fulltext_url": null,
+          "fulltext_url_no_follow": true,
+          "paper_urls": {
+            "order": [
+              "Html"
+            ],
+            "data": {
+              "Html": [
+                "https://link.springer.com/chapter/10.1007/978-3-642-35275-1_47",
+                "https://dblp.uni-trier.de/db/series/lncse/lncse91.html#SanduS13"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 3
+            }
+          },
+          "tldr": "The relation between a linearly implicit Euler method, solved using a Jacobian-free Krylov method, and explicit Runge-Kutta methods is explained.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 2582624052,
+          "title": "EPIRK- W and EPIRK- K Time Discretization Methods",
+          "is_archived": false,
+          "full_slug": "epirk-w-and-epirk-k-time-discretization-methods-7612aaht0l",
+          "journal": {
+            "display_name": "Journal of Scientific Computing",
+            "official_page": "https://www.springer.com/journal/10915",
+            "issn": "0885-7474",
+            "alias": null,
+            "id": 151550017,
+            "slug": "journal-of-scientific-computing",
+            "unique_id": "102qdcew",
+            "full_slug": "journal-of-scientific-computing-102qdcew"
+          },
+          "conference_series": null,
+          "date": "2019-01-01T00:00:00Z",
+          "is_oa": true,
+          "publication_type": "Journal Article",
+          "doi": "10.1007/S10915-018-0761-3",
+          "unique_id": "7612aaht0l",
+          "abstract": "Exponential integrators are special time discretization methods where the traditional linear system solves used by implicit schemes are replaced with computing the action of matrix exponential-like functions on a vector. A very general formulation of exponential integrators is offered by the Exponential Propagation Iterative methods of Runge–Kutta type (EPIRK) family of schemes. The use of Jacobian approximations is an important strategy to drastically reduce the overall computational costs of implicit schemes while maintaining the quality of their solutions. This paper extends the EPIRK class to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions. Specifically, we develop two new families of methods: EPIRK-W integrators that can accommodate any approximation of the Jacobian, and EPIRK-K integrators that rely on a specific Krylov-subspace projection of the exact Jacobian. Classical order conditions theories are constructed for these families. Practical EPIRK-W methods of order three and EPIRK-K methods of order four are developed. Numerical experiments indicate that the methods proposed herein are computationally favorable when compared to a representative state-of-the-art exponential integrator, and a Rosenbrock–Krylov integrator.",
+          "authors": {
+            "total": 4,
+            "data": [
+              {
+                "display_name": "Mahesh Narayanamurthi",
+                "id": 2581126303,
+                "slug": "mahesh-narayanamurthi",
+                "unique_id": "40o1tgdf15",
+                "full_slug": "mahesh-narayanamurthi-40o1tgdf15",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Paul Tranquilli",
+                "id": 2056172202,
+                "slug": "paul-tranquilli",
+                "unique_id": "4w312rq7tu",
+                "full_slug": "paul-tranquilli-4w312rq7tu",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Adrian Sandu",
+                "id": 2160076523,
+                "slug": "adrian-sandu",
+                "unique_id": "4bvz0bigvs",
+                "full_slug": "adrian-sandu-4bvz0bigvs",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Mayya Tokman",
+                "id": 2433816297,
+                "slug": "mayya-tokman",
+                "unique_id": "4krx4pzk5a",
+                "full_slug": "mayya-tokman-4krx4pzk5a",
+                "affiliation_full_slug": "university-of-california-merced-ci30pkg3"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Virginia Tech",
+                "city": "Blacksburg",
+                "region": "Virginia",
+                "country": "United States",
+                "id": 859038795,
+                "slug": "virginia-tech",
+                "unique_id": "1qdxqc03",
+                "full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "University of California, Merced",
+                "city": "Merced",
+                "region": "California",
+                "country": "United States",
+                "id": 156087764,
+                "slug": "university-of-california-merced",
+                "unique_id": "ci30pkg3",
+                "full_slug": "university-of-california-merced-ci30pkg3"
+              }
+            ]
+          },
+          "fulltext_url": null,
+          "fulltext_url_no_follow": true,
+          "paper_urls": {
+            "order": [
+              "Html",
+              "Others"
+            ],
+            "data": {
+              "Html": [
+                "https://dblp.uni-trier.de/db/journals/corr/corr1701.html#NarayanamurthiT17",
+                "https://arxiv.org/abs/1701.06528"
+              ],
+              "Others": [
+                "https://link.springer.com/content/pdf/10.1007%2Fs10915-018-0761-3.pdf"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 24
+            }
+          },
+          "tldr": "The EPIRK class is extended to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions, and two new families of methods are developed that can accommodate any approximation of the Jacobian, andEPIRK-K integrators that rely on a specific Krylov-subspace projection of the exact Jacobian.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 2791760620,
+          "title": "Theoretically optimal inexact spectral deferred correction methods",
+          "is_archived": false,
+          "full_slug": "theoretically-optimal-inexact-spectral-deferred-correction-3kjjt066c0",
+          "journal": null,
+          "conference_series": null,
+          "date": "2018-02-17T00:00:00Z",
+          "is_oa": false,
+          "publication_type": "Journal Article",
+          "doi": "10.2140/CAMCOS.2018.13.53",
+          "unique_id": "3kjjt066c0",
+          "abstract": "In several inital value problems with particularly expensive right hand side evaluation or implicit step computation, there is a trade-off between accuracy and computational effort. We consider inexact spectral deferred correction (SDC) methods for solving such initial value problems. SDC methods are interpreted as fixed point iterations and, due to their corrective iterative nature, allow to exploit the accuracy-work-tradeoff for a reduction of the total computational effort. On one hand we derive error models bounding the total error in terms of the evaluation errors. On the other hand, we define work models describing the computational effort in terms of the evaluation accuracy. Combining both, a theoretically optimal local tolerance selection is worked out by minimizing the total work subject to achieving the requested tolerance. The properties of optimal local tolerances and the predicted efficiency gain compared to simpler heuristics, and a reasonable practical performance, are illustrated on simple numerical examples.",
+          "authors": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Martin Weiser",
+                "id": 2114655110,
+                "slug": "martin-weiser",
+                "unique_id": "4is9n3rs6o",
+                "full_slug": "martin-weiser-4is9n3rs6o",
+                "affiliation_full_slug": "zuse-institute-berlin-1fnuq2tz"
+              },
+              {
+                "display_name": "Sunayana Ghosh",
+                "id": 2659500048,
+                "slug": "sunayana-ghosh",
+                "unique_id": "39cux658fj",
+                "full_slug": "sunayana-ghosh-39cux658fj",
+                "affiliation_full_slug": "zuse-institute-berlin-1fnuq2tz"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 1,
+            "data": [
+              {
+                "display_name": "Zuse Institute Berlin",
+                "city": "Berlin",
+                "region": null,
+                "country": "Germany",
+                "id": 195893171,
+                "slug": "zuse-institute-berlin",
+                "unique_id": "1fnuq2tz",
+                "full_slug": "zuse-institute-berlin-1fnuq2tz"
+              }
+            ]
+          },
+          "fulltext_url": "/pdf/theoretically-optimal-inexact-spectral-deferred-correction-3kjjt066c0.pdf",
+          "fulltext_url_no_follow": false,
+          "paper_urls": {
+            "order": [
+              "Pdf",
+              "Html"
+            ],
+            "data": {
+              "Html": [
+                "https://msp.org/camcos/2018/13-1/p03.xhtml",
+                "https://opus4.kobv.de/opus4-zib/frontdoor/index/index/docId/5314"
+              ],
+              "Pdf": [
+                "https://msp.org/camcos/2018/13-1/camcos-v13-n1-p03-s.pdf",
+                "https://opus4.kobv.de/opus4-zib/files/5314/ZR-16-52.pdf"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 8
+            }
+          },
+          "tldr": "In this article, inexact spectral deferred correction (SDC) methods are interpreted as fixed point iterations and, due to their corrective iterative nature, allow to exploit the accuracy-work-tradeoff for a reduction of the total computational effort.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 4040842042,
+          "title": "Obtaining Accurate Derivatives Across Adaptive-Step Integration",
+          "is_archived": false,
+          "full_slug": "obtaining-accurate-derivatives-across-adaptive-step-38jojlipp6",
+          "journal": null,
+          "conference_series": null,
+          "date": "2024-01-04T00:00:00Z",
+          "is_oa": null,
+          "publication_type": "Journal Article",
+          "doi": "10.2514/6.2024-0160",
+          "unique_id": "38jojlipp6",
+          "abstract": "Obtaining derivatives through the integration of a set of ordinary differential equations is of interest to a number of fields of research. Approaches for doing so that are available in the literature, however, do not account for details associated with variable step integrator that cause inaccuracies in the total derivatives. In this paper, we explore the causes of the accumulation of derivative error in adaptive-step Runge-Kutta integration schemes and propose a solution to eliminate them. The new algorithm proposed is a transformation of each step of a Runge-Kutta integration into a set of residual equations. This work demonstrates the improvement in accuracy of total derivatives when the new algorithm is utilized. ",
+          "authors": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Kaushik Ponnapalli",
+                "full_slug": null
+              },
+              {
+                "display_name": "Robert Falck",
+                "full_slug": null
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 0,
+            "data": []
+          },
+          "metrics": {
+            "citations": {
+              "total": null
+            }
+          },
+          "tldr": "The new algorithm eliminates derivative error accumulation in adaptive-step Runge-Kutta integration schemes.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        },
+        {
+          "id": 2950616778,
+          "title": "EPIRK-W and EPIRK-K time discretization methods",
+          "is_archived": false,
+          "full_slug": "epirk-w-and-epirk-k-time-discretization-methods-47cl1biwfy",
+          "journal": {
+            "display_name": "arXiv: Numerical Analysis",
+            "official_page": null,
+            "issn": null,
+            "alias": null,
+            "id": 2595836090,
+            "slug": "arxiv-numerical-analysis",
+            "unique_id": "wycezbdq",
+            "full_slug": "arxiv-numerical-analysis-wycezbdq"
+          },
+          "conference_series": null,
+          "date": "2017-01-23T00:00:00Z",
+          "is_oa": true,
+          "publication_type": "Posted Content",
+          "doi": null,
+          "unique_id": "47cl1biwfy",
+          "abstract": "Exponential integrators are special time discretization methods where the traditional linear system solves used by implicit schemes are replaced with computing the action of matrix exponential-like functions on a vector. A very general formulation of exponential integrators is offered by the Exponential Propagation Iterative methods of Runge-Kutta type (EPIRK) family of schemes. The use of Jacobian approximations is an important strategy to drastically reduce the overall computational costs of implicit schemes while maintaining the quality of their solutions. This paper extends the EPIRK class to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions. Specifically, we develop two new families of methods: EPIRK-W integrators that can accommodate any approximation of the Jacobian, and EPIRK-K integrators that rely on a specific Krylov-subspace projection of the exact Jacobian. Classical order conditions theories are constructed for these families. A practical EPIRK-W method of order three and an EPIRK-K method of order four are developed. Numerical experiments indicate that the methods proposed herein are computationally favorable when compared to existing exponential integrators.",
+          "authors": {
+            "total": 4,
+            "data": [
+              {
+                "display_name": "Mahesh Narayanamurthi",
+                "id": 2581126303,
+                "slug": "mahesh-narayanamurthi",
+                "unique_id": "40o1tgdf15",
+                "full_slug": "mahesh-narayanamurthi-40o1tgdf15",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Paul Tranquilli",
+                "id": 2056172202,
+                "slug": "paul-tranquilli",
+                "unique_id": "4w312rq7tu",
+                "full_slug": "paul-tranquilli-4w312rq7tu",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Adrian Sandu",
+                "id": 2160076523,
+                "slug": "adrian-sandu",
+                "unique_id": "4bvz0bigvs",
+                "full_slug": "adrian-sandu-4bvz0bigvs",
+                "affiliation_full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "Mayya Tokman",
+                "id": 2433816297,
+                "slug": "mayya-tokman",
+                "unique_id": "4krx4pzk5a",
+                "full_slug": "mayya-tokman-4krx4pzk5a",
+                "affiliation_full_slug": "university-of-california-merced-ci30pkg3"
+              }
+            ]
+          },
+          "affiliations": {
+            "total": 2,
+            "data": [
+              {
+                "display_name": "Virginia Tech",
+                "city": "Blacksburg",
+                "region": "Virginia",
+                "country": "United States",
+                "id": 859038795,
+                "slug": "virginia-tech",
+                "unique_id": "1qdxqc03",
+                "full_slug": "virginia-tech-1qdxqc03"
+              },
+              {
+                "display_name": "University of California, Merced",
+                "city": "Merced",
+                "region": "California",
+                "country": "United States",
+                "id": 156087764,
+                "slug": "university-of-california-merced",
+                "unique_id": "ci30pkg3",
+                "full_slug": "university-of-california-merced-ci30pkg3"
+              }
+            ]
+          },
+          "fulltext_url": null,
+          "fulltext_url_no_follow": true,
+          "paper_urls": {
+            "order": [
+              "Html"
+            ],
+            "data": {
+              "Html": [
+                "https://arxiv.org/abs/1701.06528"
+              ]
+            },
+            "is_show": true
+          },
+          "metrics": {
+            "citations": {
+              "total": 9
+            }
+          },
+          "tldr": "In this article, the authors extend the EPIRK class to allow the use of inexact Jacobians as arguments of the matrix exponential-like functions, which is an important strategy to drastically reduce the overall computational costs of implicit schemes while maintaining the quality of their solutions.",
+          "podcast": null,
+          "podcast_generation_allowed": true,
+          "entity_type": "PAPER"
+        }
+      ]
+    },
+    "isError": false
+  }
+}

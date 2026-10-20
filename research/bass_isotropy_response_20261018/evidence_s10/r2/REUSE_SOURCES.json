@@ -1,0 +1,678 @@
+{
+  "schema": "bass.s10.optimization.r2_reuse.v1",
+  "status": "R2_COMPLETED_SCOPED",
+  "utc": "2026-10-20T05:40:36.266450+00:00",
+  "stage": "R2",
+  "scope": "Publicprimarypapers andofficialLLVM/Rust/upstreamcode reuse only; no scientificruns,codechanges,dependencyinstalls or externalmutations.",
+  "skill_context_used": [
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/SKILL.md",
+      "sha256": "ccb300f5b871e7e9df2ce289bc4533f4121a335b36a3b67bfa86742ca930d3a5"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/STAGE_SELECTION.md",
+      "sha256": "a57d92f6f31ffbcf753bcfcd7f8ba027a0cb26ca2195304571a76b3efba1a9f5"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/POLICY_INTEGRATION.md",
+      "sha256": "a844f7c6d30bc7075d81bde0595b023d2a824c71250f826ce364f9a54bfc1cd0"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/SUBAGENT_MODE.md",
+      "sha256": "d84fc9c0e6c229e350f2855edff545ee9dac05cd7b7958b0b97e82b92bb0c48e"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/STAGE_GUIDE_KO.md",
+      "sha256": "87e4a6a714b19c7791549c913b9898a8aadff27d24b2105aa654374139e80800"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/THEORY_LOOP.md",
+      "sha256": "fdef572bcbe50c2dc0db246a09ff1c6c17ed17050464df5b6514184365801aed"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/openai-curated-remote/app-69ea4ed2cf7c8191b742ef3622479ddd/4.0.1/skills/Search/SKILL.md",
+      "sha256": "8197653a4fb9245f0caf7fff3cbc3a0507a28a20814839605e7216ea4f97a58d"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/openai-curated-remote/app-69ea4ed2cf7c8191b742ef3622479ddd/4.0.1/skills/Search/references/searching.md",
+      "sha256": "6300d89ceeb001d531456dcce91614045c23114c7cc8a79d1d31d7b8a78d7472"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/openai-curated-remote/app-69ea4ed2cf7c8191b742ef3622479ddd/4.0.1/skills/Search/references/patterns-code.md",
+      "sha256": "473cf8d03c3e3d56a3aca80ce2127f8138fbb689055f026ea022004d61ba6e68"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/openai-curated-remote/app-69ea4ed2cf7c8191b742ef3622479ddd/4.0.1/skills/Search/references/patterns-papers.md",
+      "sha256": "2bef88dc43b2e0364a23abd868d19180bd3cddff60c49525c9822da80db14341"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/openai-curated-remote/app-69ea4ed2cf7c8191b742ef3622479ddd/4.0.1/skills/Search/references/source-quality.md",
+      "sha256": "e8c40d5f5139530bde191af80849610091b11fb1fd3578ca5f11d00223bea8e1"
+    }
+  ],
+  "counts": {
+    "distinct_searches": 5,
+    "scispace_searches": 2,
+    "scispace_returned_candidates": 20,
+    "exa_searches": 3,
+    "exa_requested_numResults_sum": 21,
+    "exa_returned_candidate_records": 21,
+    "exa_exact_unique_candidate_urls": 21,
+    "verified_primary_source_families": 9,
+    "fetch_url_attempts": 25,
+    "fetch_successful_content_responses": 23,
+    "fetch_unique_successful_urls": 22,
+    "fetch_failed_url_responses": 2,
+    "entire_papers_claimed_read": 0
+  },
+  "count_semantics": "Exa numResults sum counts requested candidate slots, not verified/fullread sources. Families group multiple primary URLs. Relevant sections were read; capped whole documents are not claimed complete. Exa clean content hashes do not prove originalPDF/repository byteidentity.",
+  "searches": [
+    {
+      "tool": "SciSpace",
+      "receipt": "raw/scispace_reproducible_reductions.json",
+      "request": {
+        "searchQuestion": "Which primary research papers establish accurate and reproducible parallel floating-point summation for scientific simulations, and what performance and numerical reproducibility tradeoffs matter when reducing small arrays repeatedly inside ODE right-hand-side and Jacobian-vector-product evaluations?"
+      },
+      "returned_candidates": 10
+    },
+    {
+      "tool": "Exa",
+      "receipt": "raw/exa_compiler_simd.json",
+      "request": {
+        "numResults": 7,
+        "objective": "Prioritize official LLVM vectorizer documentation and official Rust documentation. Extract the exact conditions under which floating-point reductions are vectorized, reassociation or fast-math requirements, stable std::arch CPU feature dispatch, and portable std::simd stability. Exclude forums, personal blogs and third-party summaries.",
+        "query": "Official LLVM loop vectorizer documentation floating-point reductions ordered reductions reassociation flags and official Rust std::arch stable SIMD CPU runtime detection portable SIMD unstable documentation"
+      },
+      "returned_candidates": 7
+    },
+    {
+      "tool": "Exa",
+      "receipt": "raw/exa_rust_upstream.json",
+      "request": {
+        "numResults": 7,
+        "objective": "Prioritize original upstream GitHub repositories and authoritative crate documentation for Rust Rayon, pulp and wide. Find SIMD sqrt/div APIs, runtime architecture dispatch, versions and licenses, and explicit guarantees or warnings for floating-point parallel reductions. Exclude comparisons and unofficial summaries.",
+        "query": "Official upstream Rust Rayon parallel iterator floating point reduction order documentation pulp runtime SIMD dispatch sqrt f64 wide f64x4 crate GitHub license"
+      },
+      "returned_candidates": 7
+    },
+    {
+      "tool": "Exa",
+      "receipt": "raw/exa_summation_papers.json",
+      "request": {
+        "numResults": 7,
+        "objective": "Find original author papers, author-hosted PDFs or institutional repository full texts, and corresponding upstream code. Prioritize Collange/Defour/Graillat/Iakymchuk deterministic parallel summation, Demmel/Nguyen reproducible summation and Neumaier compensated summation. Extract the algorithmic conditions and limits for vectorization and reproducibility, not promotional speedup claims.",
+        "query": "Original research paper full text deterministic bit accurate parallel floating point summation Collange Defour Graillat Iakymchuk ExBLAS ReproBLAS Demmel Nguyen compensated summation"
+      },
+      "returned_candidates": 7
+    },
+    {
+      "tool": "SciSpace",
+      "receipt": "raw/scispace_ode_reuse.json",
+      "request": {
+        "searchQuestion": "Which primary research papers explain when reusing right-hand-side evaluations, Jacobians, or Jacobian-vector-product data reduces the cost of implicit ordinary differential equation solvers without changing the solved equations, and how do they distinguish exact memoization at an identical state from approximate reuse across different states or steps?"
+      },
+      "returned_candidates": 10
+    }
+  ],
+  "fetches": [
+    {
+      "url": "https://llvm.org/docs/Vectorizers.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/std/arch/",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/std/simd/",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/wide/latest/wide/struct.f64x4.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/pulp/0.22.3/pulp/trait.Simd.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/rayon/1.12.0/rayon/iter/trait.ParallelIterator.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_compiler_simd.json",
+      "max_characters": 30000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://arxiv.org/html/1701.06528",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_ode_theory.json",
+      "max_characters": 80000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://sundials.readthedocs.io/en/latest/cvode/Usage/SIM.html#user-supplied-functions",
+      "status": "CRAWL_NOT_FOUND",
+      "receipt": "raw/exa_fetch_ode_theory.json",
+      "max_characters": 80000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://hal.science/hal-00949355v3/file/superaccumulator.pdf",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://perso.lip6.fr/Stef.Graillat/papers/SIAMEX14.pdf",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://escholarship.org/content/qt5wm5z58d/qt5wm5z58d.pdf?t=p21mk2",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/wide/latest/wide/",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://github.com/Lokathor/wide",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://crates.io/crates/wide",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://crates.io/crates/pulp",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://crates.io/crates/rayon",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/rayon/1.12.0/rayon/struct.ThreadPoolBuilder.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_papers_packages.json",
+      "max_characters": 45000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Lokathor/wide/main/Cargo.toml",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/sarah-quinones/pulp/main/pulp/Cargo.toml",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rayon-rs/rayon/v1.12.0/src/iter/mod.rs",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/wide/1.7.1/wide/struct.f64x4.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_sqrt_pd.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_div_pd.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://sundials.readthedocs.io/en/latest/cvode/Usage/SIM.html",
+      "status": "CRAWL_NOT_FOUND",
+      "receipt": "raw/exa_fetch_precision_ode.json",
+      "max_characters": 70000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    },
+    {
+      "url": "https://docs.rs/pulp/0.22.3/pulp/trait.Simd.html",
+      "status": "CONTENT_RETRIEVED",
+      "receipt": "raw/exa_fetch_pulp_api.json",
+      "max_characters": 160000,
+      "claim": "cleaned_content_read_not_remote_file_bytes"
+    }
+  ],
+  "sources": [
+    {
+      "id": "P1",
+      "title": "Numerical Reproducibility for the Parallel Reduction on Multi- and Many-Core Architectures",
+      "kind": "primary_author_paper",
+      "version_identity": "HAL hal-00949355v3, preprint submitted9Feb2015; supplied v3 URL preserved; fetched extraction capped45000chars",
+      "primary_urls": [
+        "https://hal.science/hal-00949355v3/file/superaccumulator.pdf",
+        "https://perso.lip6.fr/Stef.Graillat/papers/SIAMEX14.pdf"
+      ],
+      "verified_locations": [
+        "Sec2.1 floating-point expansions; Algorithm1 TwoSum",
+        "Sec3.1; Algorithm2 ExpansionAccumulate and nonzero residual transfer to superaccumulator",
+        "Sec3 hierarchy and Sec4 target/problem-dependent performance"
+      ],
+      "reusable_principle_or_api": [
+        "Round-to-nearest error-free TwoSum transfers rounding residue through a finite expansion; remaining residue is sent to a superaccumulator.",
+        "Separates SIMD/local filtering from exact global accumulation and final rounding."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Compensated or fixed-length sums alone are not the full exact algorithm.",
+        "Large-array reported performance does not estimate speedup for16ray cohorts; fixed overhead matters."
+      ],
+      "adoption_conditions": [
+        "Retain sequential compensated reduction first; use exact-order-independent accumulator only if cross-schedule bitwise reproducibility becomes an actual requirement.",
+        "A library/algorithm port would need its own numerical contract and small-array benchmarks."
+      ],
+      "license": {
+        "status": "paper_reference_only",
+        "note": "No source implementation copied; paper access is not a code license."
+      },
+      "evidence_receipts": [
+        "raw/scispace_reproducible_reductions.json",
+        "raw/exa_summation_papers.json",
+        "raw/exa_fetch_papers_packages.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "P2",
+      "title": "Using Accurate Arithmetics to Improve Numerical Reproducibility and Stability in Parallel Applications",
+      "kind": "primary_author_paper",
+      "version_identity": "YunHe/ChrisDing institutional archive text; retrieved metadata2000-05-08; SciSpace points to2001journal DOI10.1023/A:1008153532043; not asserted byte-identical editions",
+      "primary_urls": [
+        "https://escholarship.org/content/qt5wm5z58d/qt5wm5z58d.pdf?t=p21mk2"
+      ],
+      "verified_locations": [
+        "Self-compensated/doubly-compensated summation discussion",
+        "Sensitivity Regarding to Summation Order",
+        "Double-Double Precision Arithmetic and MPI summation discussion"
+      ],
+      "reusable_principle_or_api": [
+        "Compensation improves error in sensitive global sums with only a few accumulator values.",
+        "Parallel combination must account for the rounding information as well as local sums."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Accuracy improvement in its examples does not prove order-independent Neumaier sums.",
+        "Its climate-data size, reduction tree and processor experiments differ from the current small kernel."
+      ],
+      "adoption_conditions": [
+        "Remove transient materialization while preserving each component input and accumulator operation order.",
+        "Do not replace current compensated sums by ordinary parallel addition solely on this paper."
+      ],
+      "license": {
+        "status": "paper_reference_only",
+        "note": "Algorithmic principle reused; no implementation copied."
+      },
+      "evidence_receipts": [
+        "raw/scispace_reproducible_reductions.json",
+        "raw/exa_fetch_papers_packages.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "P3",
+      "title": "EPIRK-W and EPIRK-K time discretization methods",
+      "kind": "primary_author_paper",
+      "version_identity": "arXiv1701.06528,2017preprint; SciSpace also lists2019journal DOI10.1007/s10915-018-0761-3; fetchedHTMLtext capped80000chars",
+      "primary_urls": [
+        "https://arxiv.org/html/1701.06528"
+      ],
+      "verified_locations": [
+        "Introduction, Rosenbrock/ROW discussion aroundEq2",
+        "Eq11 and Order conditions theory for EPIRK-W methods",
+        "Theorem3.2 andTable3 matching of B-series coefficients"
+      ],
+      "reusable_principle_or_api": [
+        "Replacing exact Jacobians by approximations changes the numerical method and introduces method-specific order conditions.",
+        "Useful boundary for distinguishing exact memoization at an identical evaluation point from approximate reuse across points."
+      ],
+      "accuracy_reproducibility_limits": [
+        "EPIRK/ROW theory is not automatically a theorem for the fixed VigilODE client.",
+        "Approximate Jacobian or changed Krylov tolerance is beyond an exact cache optimization."
+      ],
+      "adoption_conditions": [
+        "Cache unchanged computed coefficients only under identical full point and immutable-bank identity.",
+        "If Jacobian information is reused across changed points, treat it as a separately derived and validated algorithm."
+      ],
+      "license": {
+        "status": "paper_reference_only",
+        "note": "No EPIRK implementation copied and no solver replacement proposed."
+      },
+      "evidence_receipts": [
+        "raw/scispace_ode_reuse.json",
+        "raw/exa_fetch_ode_theory.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "D1",
+      "title": "LLVM Auto-Vectorization documentation",
+      "kind": "official_compiler_documentation",
+      "version_identity": "llvm.org current documentation as retrieved2026-10-20; not tied to the installed rustc backend release",
+      "primary_urls": [
+        "https://llvm.org/docs/Vectorizers.html"
+      ],
+      "verified_locations": [
+        "Reductions",
+        "Vectorization of function calls",
+        "Loop andSLP vectorizer description"
+      ],
+      "reusable_principle_or_api": [
+        "Most-target floating reductions require reassociation-related flags; ordered reductions on some targets preserve order/result with different performance.",
+        "Elementwise intrinsic math such as sqrt is a distinct vectorization opportunity."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Enabling broad fast-math is an arithmetic-contract change.",
+        "Documentation describes capability, not evidence that this Rust loop vectorizes or becomes faster."
+      ],
+      "adoption_conditions": [
+        "Keep current compiler semantics; inspect/measure selected lanewise kernel independently of reduction.",
+        "Record target features/compiler version and leave compensation update order explicit."
+      ],
+      "license": {
+        "status": "documentation_reference_only",
+        "code_copied": false
+      },
+      "evidence_receipts": [
+        "raw/exa_compiler_simd.json",
+        "raw/exa_fetch_compiler_simd.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "D2",
+      "title": "Rust1.94.1 std::arch and AVX packed f64 arithmetic",
+      "kind": "official_standard_library_documentation",
+      "version_identity": "explicit1.94.1 documentation URLs; _mm256_sqrt_pd/_mm256_div_pd available withAVX",
+      "primary_urls": [
+        "https://doc.rust-lang.org/1.94.1/std/arch/",
+        "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_sqrt_pd.html",
+        "https://doc.rust-lang.org/1.94.1/core/arch/x86_64/fn._mm256_div_pd.html"
+      ],
+      "verified_locations": [
+        "CPUFeatureDetection: static anddynamic",
+        "Differences from pure hardware behavior",
+        "Function signatures and target-feature availability"
+      ],
+      "reusable_principle_or_api": [
+        "Stable architecture intrinsics plus cfg guards and is_x86_feature_detected permit local runtime dispatch with scalar fallback.",
+        "Packed sqrt/div operate lane by lane; avoid horizontal reduction when preserving scalar accumulation order."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Wrong CPUfeature assumptions are unsafe.",
+        "NaN/rounding-environment behavior follows Rust semantics; target-cpu=native binaries are target-bound.",
+        "Same math does not itself prove all kernel output bits identical."
+      ],
+      "adoption_conditions": [
+        "Keep scalar fallback and runtime detection for distributable builds.",
+        "Bound unsafe code to validated loads/stores/intrinsics; scalar-reduce lanes in original ray order.",
+        "Check selected scalar/SIMD outputs and original science gates without tolerance changes."
+      ],
+      "license": {
+        "status": "standard_library_use",
+        "note": "No third-party dependency added; Rust license files not separately inspected in this R2 task."
+      },
+      "evidence_receipts": [
+        "raw/exa_compiler_simd.json",
+        "raw/exa_fetch_compiler_simd.json",
+        "raw/exa_fetch_precision_ode.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "D3",
+      "title": "Rust1.94.1 portable SIMD status",
+      "kind": "official_standard_library_documentation",
+      "version_identity": "std::simd underRust1.94.1 explicitly nightly-only portable_simd #86656",
+      "primary_urls": [
+        "https://doc.rust-lang.org/1.94.1/std/simd/"
+      ],
+      "verified_locations": [
+        "APIstability banner",
+        "What is portable",
+        "Operations section"
+      ],
+      "reusable_principle_or_api": [
+        "Documents architecture-neutral vector semantics and stability boundary."
+      ],
+      "accuracy_reproducibility_limits": [
+        "The currently fixed stable toolchain cannot use this unstable API as an ordinary stable dependency."
+      ],
+      "adoption_conditions": [
+        "Retain stable toolchain and use std::arch or a pinned stable wrapper if SIMD is selected."
+      ],
+      "license": {
+        "status": "documentation_reference_only"
+      },
+      "evidence_receipts": [
+        "raw/exa_fetch_compiler_simd.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "C1",
+      "title": "Rayon parallel iterator and bounded thread pools",
+      "kind": "official_upstream_code_and_crate_docs",
+      "version_identity": "confirmedpublished1.12.0; officialv1.12.0source; MSRV1.80fromregistry",
+      "primary_urls": [
+        "https://raw.githubusercontent.com/rayon-rs/rayon/v1.12.0/src/iter/mod.rs",
+        "https://docs.rs/rayon/1.12.0/rayon/struct.ThreadPoolBuilder.html",
+        "https://crates.io/crates/rayon"
+      ],
+      "verified_locations": [
+        "ParallelIterator::reduce,reduce_with,sum comments",
+        "ThreadPoolBuilder::num_threads/build/build_global"
+      ],
+      "reusable_principle_or_api": [
+        "Independent work items can run via par_iter or bounded thread pool.",
+        "Upstream explicitly leaves sum/reduce combination order unspecified."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Floating-point par_iter().sum() is not a deterministic equivalent of the original sequential compensated sum.",
+        "Small inner tasks can be dominated by scheduling; nested pools can oversubscribe."
+      ],
+      "adoption_conditions": [
+        "Prefer independent complete histories/banks or benchmark batches with stable outputIDs.",
+        "Keep each history solver/bank private; do not mix birth-state timelines.",
+        "Cap total active execution atactual8CPU/8GiB anduserlimits; do not mix parallel throughput with serial latency."
+      ],
+      "license": {
+        "spdx": "MIT OR Apache-2.0",
+        "verified_in": "crates.io plus upstream README",
+        "code_copied": false
+      },
+      "evidence_receipts": [
+        "raw/exa_rust_upstream.json",
+        "raw/exa_fetch_papers_packages.json",
+        "raw/exa_fetch_precision_ode.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "C2",
+      "title": "Pulp runtime SIMD abstraction",
+      "kind": "official_crate_docs_and_upstream_manifest",
+      "version_identity": "confirmedAPI/registry0.22.3; upstreammainCargo.toml declares0.23.0, recorded as different development snapshot",
+      "primary_urls": [
+        "https://docs.rs/pulp/0.22.3/pulp/trait.Simd.html",
+        "https://docs.rs/pulp/latest/pulp/",
+        "https://crates.io/crates/pulp",
+        "https://raw.githubusercontent.com/sarah-quinones/pulp/main/pulp/Cargo.toml"
+      ],
+      "verified_locations": [
+        "Arch::new/dispatch andWithSimd examples",
+        "Simd::sqrt_f64s,div_f64s,mul_f64s,mul_add_f64s,reduce_sum_f64s",
+        "Published feature list; main manifest version/license"
+      ],
+      "reusable_principle_or_api": [
+        "Safe generic SIMD with runtime architecture dispatch and scalar/tail handling.",
+        "Provides needed lanewise sqrt/div primitives."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Publishedversion andmain are not identical.",
+        "Horizontal reduction andmul_add can change the old operation graph; relaxed-simd is a distinctfeature.",
+        "New dependency/dispatch overhead may outweigh benefit for16lanes."
+      ],
+      "adoption_conditions": [
+        "If selected, pin an actual published version/checksum and features before vendoring; do not treatmain as published0.22.3.",
+        "Use separate mul/add and orderedscalarreduction for an operation-order preserving candidate.",
+        "Keep manualstd::arch as a no-new-dependency competitor."
+      ],
+      "license": {
+        "spdx": "MIT",
+        "verified_in": "registry0.22.3 andmainmanifest"
+      },
+      "evidence_receipts": [
+        "raw/exa_rust_upstream.json",
+        "raw/exa_fetch_compiler_simd.json",
+        "raw/exa_fetch_papers_packages.json",
+        "raw/exa_fetch_precision_ode.json",
+        "raw/exa_fetch_pulp_api.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    },
+    {
+      "id": "C3",
+      "title": "Wide f64x4 stable SIMD wrapper",
+      "kind": "official_upstream_code_and_crate_docs",
+      "version_identity": "API/registry1.7.1; MSRV1.89; main manifest same version string but not treated as published crate bytes",
+      "primary_urls": [
+        "https://docs.rs/wide/1.7.1/wide/struct.f64x4.html",
+        "https://github.com/Lokathor/wide",
+        "https://crates.io/crates/wide",
+        "https://raw.githubusercontent.com/Lokathor/wide/main/Cargo.toml"
+      ],
+      "verified_locations": [
+        "f64x4::sqrt,Div,reduce_add,mul_add,exp",
+        "READMEEnablingSIMDinstructions andcompile-time-only feature detection",
+        "Cargo.toml license/rust-version"
+      ],
+      "reusable_principle_or_api": [
+        "Convenient stable f64x4 sqrt anddivision; docs distinguish exact basic operations from unspecified-precision transcendental/reduction APIs."
+      ],
+      "accuracy_reproducibility_limits": [
+        "Runtime feature detection is not supported bywide according to upstreamREADME.",
+        "reduce_add order is not fixed; mul_add single versus double rounding depends onhardware.",
+        "Registry dependencylisting andmovingmainmanifest are not byte identities; no source lock createdhere."
+      ],
+      "adoption_conditions": [
+        "Use only in a build-target-pinned SIMD variant withscalarfallback strategy explicitlyselected.",
+        "Do not substitute reduce_add,exp ormul_add for fixedscalarsequences withoutdistinctnumericalvalidation."
+      ],
+      "license": {
+        "spdx": "Zlib OR Apache-2.0 OR MIT",
+        "verified_in": "registry andmanifest; GitHubsummarysinglelicense disregarded"
+      },
+      "evidence_receipts": [
+        "raw/exa_fetch_compiler_simd.json",
+        "raw/exa_fetch_papers_packages.json",
+        "raw/exa_fetch_precision_ode.json"
+      ],
+      "verification": "Exa fetched primary content; relevant sections read and cross-mapped; no claim of complete reading of capped documents",
+      "code_copied": false,
+      "dependency_installed": false
+    }
+  ],
+  "recommended_order": [
+    "Original-order streamingNeumaier andimmutablepreparedSoA",
+    "Full-point immutable-bank exactmemoization of sharedcoefficients",
+    "Lanewise stableSIMDsqrt/div withoriginal-order scalarreduction",
+    "Coarse independenthistory/ensembleparallelism withboundedworkers"
+  ],
+  "derived_application_notes": [
+    "Preserving each accumulator inputbits andfloatingoperationorder is sufficient for arithmeticsequenceidentity; interleaving independentaccumulators does not change their dependencygraphs under the fixedFPenvironment.",
+    "Exactcache key must include allfunctionarguments that affect the cachedquantity plusimmutablebankgeneration. Cache J coefficients independentofv; cachedJv output additionallydepends onv.",
+    "Precomputing repeated mu*mu is different from rewriting exp(2*(b-birth_b)) as exp(2*b)*exp(-2*birth_b), which changes floatingoperations andrange."
+  ],
+  "not_adopted": [
+    "Broadfastmath",
+    "Unorderedparallel/horizontalreductions as an implicit replacement",
+    "ApproximatecrossstateJacobian reuse",
+    "Assumedportable speedup frompaper/platform numbers",
+    "Unpinnedlatestcrate/main"
+  ],
+  "scientific_integrations": 0,
+  "code_modifications": 0,
+  "dependencies_installed": 0,
+  "external_mutations": 0,
+  "failures_retained": [
+    {
+      "type": "CRAWL_NOT_FOUND",
+      "object": "SUNDIALS oldSIM.html andfragment path",
+      "attempts": 2,
+      "outcome": "Excluded as supportingevidence; no furtherretry. ODEscopeboundary supported byfetchedprimaryEPIRKpaper."
+    }
+  ],
+  "next_action": "Parent selects exact optimizationcandidate; derive itsoperation/cachecontract andimplement boundedbenchmark inC3-C8."
+}

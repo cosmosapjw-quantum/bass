@@ -1,0 +1,4851 @@
+{
+  "schema": "BASS_S10_C2_CODE_COST_MAP_V1",
+  "created_utc": "2026-10-20T05:39:57.018098+00:00",
+  "status": "C2_STATIC_MAPPING_COMPLETE",
+  "selected_stage": "C2",
+  "skill_context_used": {
+    "version": "1.3.0",
+    "paths": [
+      {
+        "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/SKILL.md",
+        "bytes": 7060,
+        "sha256": "ccb300f5b871e7e9df2ce289bc4533f4121a335b36a3b67bfa86742ca930d3a5",
+        "git_blob_sha": "00e9dbf294ffe09c8819698c120e036d99ef02d9",
+        "selected_section": "full document"
+      },
+      {
+        "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/STAGE_SELECTION.md",
+        "bytes": 4196,
+        "sha256": "a57d92f6f31ffbcf753bcfcd7f8ba027a0cb26ca2195304571a76b3efba1a9f5",
+        "git_blob_sha": "bef0ad61c5e8a69d7f01b16fc993b843e65019d7",
+        "selected_section": "full document"
+      },
+      {
+        "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/POLICY_INTEGRATION.md",
+        "bytes": 7991,
+        "sha256": "a844f7c6d30bc7075d81bde0595b023d2a824c71250f826ce364f9a54bfc1cd0",
+        "git_blob_sha": "7308a3c042189aae640b10870dcc1f58d27ca7eb",
+        "selected_section": "full document"
+      },
+      {
+        "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/CODING_LOOP.md",
+        "bytes": 4458,
+        "sha256": "b9e3d6217c243590683bee2ddfe5bb63293206c188b70137a6380e4765442c60",
+        "git_blob_sha": "108625e88b2f16dd2bc541762f76a6d46c257a8d",
+        "selected_section": "C2 execution-grade completion contract"
+      },
+      {
+        "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/SUBAGENT_MODE.md",
+        "bytes": 7498,
+        "sha256": "d84fc9c0e6c229e350f2855edff545ee9dac05cd7b7958b0b97e82b92bb0c48e",
+        "git_blob_sha": "ae61989dfa0ffaf299ebc4fa4fa616de5583b984",
+        "selected_section": "full document"
+      }
+    ],
+    "applied_contract": "Source/authority first; formulas, normalization, time variables, IC/BC, closure and exact function/data correspondence; distinguish measured counters from static work and future speed tests.",
+    "native_child_task": "/root/s9_runtime_prepare",
+    "parent": "/root",
+    "no_recursive_review": true
+  },
+  "scope": {
+    "source_modified": false,
+    "compiles": 0,
+    "scientific_histories_executed": 0,
+    "benchmarks_executed": 0,
+    "external_writes": 0,
+    "external_reads": 0,
+    "only_outputs_under": "intake/optimization/c2"
+  },
+  "identity": {
+    "BASS_scientific_source": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+    "BASS_actual_results_commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+    "vigilode_source": "a21d573980f66fe02891bd216153443b5352f921",
+    "spectral_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "typed_checks": "BYTE identity for locked source/input/receipt hashes; STRUCTURAL mapping and counter-derived static work; no new NUMERICAL or SCIENTIFIC_EQUIVALENCE claim",
+    "source_input_receipt_checks_pass": true,
+    "source_unchanged_during_inspection": true,
+    "preregistration": {
+      "path": "bass/research/bass_isotropy_response_20261018/s9_vigilode/PREREGISTRATION.json",
+      "bytes": 8973,
+      "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507",
+      "git_blob_sha": "20c6cb9f42215bbe3a0e3ca4e8c462a24f649a63"
+    },
+    "original_execution": {
+      "path": "bass/research/bass_isotropy_response_20261018/evidence_s9/run_20261020_r1/CURRENT_EXECUTION.json",
+      "bytes": 5006,
+      "sha256": "2616becf9b91e19a33c6de10031695f3fe71b48a41e7669f678e89f5a2738ff7",
+      "git_blob_sha": "17beffa3eec6a8e9c4ada361ece394ab277a1b8a"
+    },
+    "preparation": {
+      "path": "intake/runtime/PREPARATION_RETURN.json",
+      "bytes": 4029,
+      "sha256": "3d6c9a1693e6b88d09520af3031fbccc1f19e1293246149add54a6b40f19dfa5",
+      "git_blob_sha": "97f0204a311f86ef779860250e62b54acfe46f33"
+    }
+  },
+  "formulas": {
+    "time": "x = ln(a/a_ref); y = s/H_star; h = H/H_star; no physical dimensional unit conversion performed by this adapter",
+    "cohort": "d=b-b_birth, a=exp(2d)*(1-mu^2), c=exp(-4d)*mu^2, R=sqrt(a+c), N=c-a/2, D=N/R, D_b=(-4c-a)/R+2N^2/R^3; [E,Pi,Pi_b]=energy_birth*exp(-4*(x-u))*sum(alpha*[R,D,D_b])",
+    "donor": "E_d=donor0*exp(-3*x-lambda*exposure); exposure frozen in each segment",
+    "rhs": "[(-h*h-2*y*y-E_d/2-E+Lambda)/h, y/h, -3*y+Pi/h]",
+    "IC": "h0=sqrt(y0*y0+donor0+old_isotropic+old_anisotropic+Lambda); b0,y0 from input",
+    "event": "u_j=(j+1/2)*birth_end/k; w=E_d_before*(-expm1(-lambda*du)); fixed state, append positive P24-certified new cohort, exposure=(j+1)*du, new bank/driver",
+    "objective": "new-birth KL projection alpha_i proportional q_i*exp(lambda2*P2(mu_i)+lambda4*P4(mu_i)); sum alpha=1, sum alpha P2=sum alpha P4=0 to unchanged gates"
+  },
+  "static_cost_model": {
+    "C": "current cohort count",
+    "N": "sum of stored angular nodes over current cohorts",
+    "eval": "O(N+C); 3*C+1 exp expressions; N sqrt expressions; C+1 explicit Vec constructions, requested numeric payload 24*(N+C) bytes; not simultaneous live bytes or measured allocator calls",
+    "eval_transient_live_payload_upper_shape": "24*(C+max cohort node count), excluding allocator capacity rounding/metadata, stack and output structs",
+    "callbacks": "All RHS, analytic Ft, JVP and Small Jacobian callbacks call the same full eval once; JVP then performs a 3x3 matrix-vector operation.",
+    "admin": "initial observe + each successful segment scheduled output after initial + before/after birth eval + right-bank observation replacement; total observations+3*births",
+    "projection": "E evaluated distributions => 2*E explicit Vec constructions and n*E exp expressions; fixed overhead geometry/q/p2/p4/logq separate; not Newton iteration count",
+    "compiler_caveat": "Compiler may hoist expressions/elide allocations; only allocation/instruction instrumentation can establish actual runtime events."
+  },
+  "cases": [
+    {
+      "case": "closed_mf_into_ls_r0",
+      "arm": "mf_into_ls",
+      "rtol": 1e-08,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 218,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 1744,
+        "direct_factorizations": 0,
+        "direct_solve_calls": 0,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 218,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 0,
+        "jvp_calls": 10246,
+        "jvp_vectors": 10246,
+        "linear_iterations": 5232,
+        "linear_matvec_vectors": 10246,
+        "linear_matvecs": 8502,
+        "linear_solve_failures": 0,
+        "linear_solves": 1744,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 20928,
+        "orthogonalization_vector_updates": 22672,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 6976,
+        "preconditioner_vectors": 6976,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1744,
+        "rhs_evaluations": 1744
+      },
+      "static_solver_eval_calls": 12208,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 12457,
+      "static_solver_node_visits_sqrt": 6823936,
+      "static_total_node_visits_sqrt": 6961664,
+      "static_solver_cohort_visits": 255584,
+      "static_total_cohort_visits": 260706,
+      "static_solver_exp_calls": 778960,
+      "static_total_exp_calls": 794575,
+      "static_solver_vec_requests": 267792,
+      "static_total_vec_requests": 273163,
+      "static_solver_vec_payload_bytes_requested": 169908480,
+      "static_total_vec_payload_bytes_requested": 173336880,
+      "projection_distribution_evaluations": 81023,
+      "projection_min_per_birth": 2286,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1296368,
+      "static_projection_evaluated_vec_requests": 162046,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 237,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 310370,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 224,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 4,
+          "jvp": 188,
+          "jacobian": 0,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 2464,
+          "accepted": 44,
+          "rhs": 352,
+          "ft": 44,
+          "jvp": 2068,
+          "jacobian": 0,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "closed_mf_into_ls_r1",
+      "arm": "mf_into_ls",
+      "rtol": 1e-10,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 218,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 1744,
+        "direct_factorizations": 0,
+        "direct_solve_calls": 0,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 218,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 0,
+        "jvp_calls": 10246,
+        "jvp_vectors": 10246,
+        "linear_iterations": 5232,
+        "linear_matvec_vectors": 10246,
+        "linear_matvecs": 8502,
+        "linear_solve_failures": 0,
+        "linear_solves": 1744,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 20928,
+        "orthogonalization_vector_updates": 22672,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 6976,
+        "preconditioner_vectors": 6976,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1744,
+        "rhs_evaluations": 1744
+      },
+      "static_solver_eval_calls": 12208,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 12457,
+      "static_solver_node_visits_sqrt": 6823936,
+      "static_total_node_visits_sqrt": 6961664,
+      "static_solver_cohort_visits": 255584,
+      "static_total_cohort_visits": 260706,
+      "static_solver_exp_calls": 778960,
+      "static_total_exp_calls": 794575,
+      "static_solver_vec_requests": 267792,
+      "static_total_vec_requests": 273163,
+      "static_solver_vec_payload_bytes_requested": 169908480,
+      "static_total_vec_payload_bytes_requested": 173336880,
+      "projection_distribution_evaluations": 81023,
+      "projection_min_per_birth": 2286,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1296368,
+      "static_projection_evaluated_vec_requests": 162046,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 237,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 310371,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 224,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 4,
+          "jvp": 188,
+          "jacobian": 0,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 336,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 6,
+          "jvp": 282,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 280,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 5,
+          "jvp": 235,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 2464,
+          "accepted": 44,
+          "rhs": 352,
+          "ft": 44,
+          "jvp": 2068,
+          "jacobian": 0,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "closed_mf_into_ls_r2",
+      "arm": "mf_into_ls",
+      "rtol": 1e-12,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 305,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 2440,
+        "direct_factorizations": 0,
+        "direct_solve_calls": 0,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 305,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 0,
+        "jvp_calls": 14335,
+        "jvp_vectors": 14335,
+        "linear_iterations": 7320,
+        "linear_matvec_vectors": 14335,
+        "linear_matvecs": 11895,
+        "linear_solve_failures": 0,
+        "linear_solves": 2440,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 29280,
+        "orthogonalization_vector_updates": 31720,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 9760,
+        "preconditioner_vectors": 9760,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 2440,
+        "rhs_evaluations": 2440
+      },
+      "static_solver_eval_calls": 17080,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 17329,
+      "static_solver_node_visits_sqrt": 9891840,
+      "static_total_node_visits_sqrt": 10029568,
+      "static_solver_cohort_visits": 379120,
+      "static_total_cohort_visits": 384242,
+      "static_solver_exp_calls": 1154440,
+      "static_total_exp_calls": 1170055,
+      "static_solver_vec_requests": 396200,
+      "static_total_vec_requests": 401571,
+      "static_solver_vec_payload_bytes_requested": 246503040,
+      "static_total_vec_payload_bytes_requested": 249931440,
+      "projection_distribution_evaluations": 81260,
+      "projection_min_per_birth": 2291,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1300160,
+      "static_projection_evaluated_vec_requests": 162520,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 238,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 310530,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 224,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 4,
+          "jvp": 188,
+          "jacobian": 0,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 392,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 7,
+          "jvp": 329,
+          "jacobian": 0,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 4704,
+          "accepted": 84,
+          "rhs": 672,
+          "ft": 84,
+          "jvp": 3948,
+          "jacobian": 0,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "closed_small_clock4_r0",
+      "arm": "small_clock4",
+      "rtol": 1e-08,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 218,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 0,
+        "direct_factorizations": 218,
+        "direct_solve_calls": 1744,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 0,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 218,
+        "jvp_calls": 0,
+        "jvp_vectors": 0,
+        "linear_iterations": 0,
+        "linear_matvecs": 0,
+        "linear_solve_failures": 0,
+        "linear_solves": 1744,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 0,
+        "orthogonalization_vector_updates": 0,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 0,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1744,
+        "rhs_evaluations": 1744
+      },
+      "static_solver_eval_calls": 1962,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 2211,
+      "static_solver_node_visits_sqrt": 1096704,
+      "static_total_node_visits_sqrt": 1234432,
+      "static_solver_cohort_visits": 41076,
+      "static_total_cohort_visits": 46198,
+      "static_solver_exp_calls": 125190,
+      "static_total_exp_calls": 140805,
+      "static_solver_vec_requests": 43038,
+      "static_total_vec_requests": 48409,
+      "static_solver_vec_payload_bytes_requested": 27306720,
+      "static_total_vec_payload_bytes_requested": 30735120,
+      "projection_distribution_evaluations": 81151,
+      "projection_min_per_birth": 2320,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1298416,
+      "static_projection_evaluated_vec_requests": 162302,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 237,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 309047,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 36,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 4,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 396,
+          "accepted": 44,
+          "rhs": 352,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 44,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "closed_small_clock4_r1",
+      "arm": "small_clock4",
+      "rtol": 1e-10,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 218,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 0,
+        "direct_factorizations": 218,
+        "direct_solve_calls": 1744,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 0,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 218,
+        "jvp_calls": 0,
+        "jvp_vectors": 0,
+        "linear_iterations": 0,
+        "linear_matvecs": 0,
+        "linear_solve_failures": 0,
+        "linear_solves": 1744,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 0,
+        "orthogonalization_vector_updates": 0,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 0,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1744,
+        "rhs_evaluations": 1744
+      },
+      "static_solver_eval_calls": 1962,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 2211,
+      "static_solver_node_visits_sqrt": 1096704,
+      "static_total_node_visits_sqrt": 1234432,
+      "static_solver_cohort_visits": 41076,
+      "static_total_cohort_visits": 46198,
+      "static_solver_exp_calls": 125190,
+      "static_total_exp_calls": 140805,
+      "static_solver_vec_requests": 43038,
+      "static_total_vec_requests": 48409,
+      "static_solver_vec_payload_bytes_requested": 27306720,
+      "static_total_vec_payload_bytes_requested": 30735120,
+      "projection_distribution_evaluations": 81151,
+      "projection_min_per_birth": 2320,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1298416,
+      "static_projection_evaluated_vec_requests": 162302,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 237,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 309048,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 36,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 4,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 54,
+          "accepted": 6,
+          "rhs": 48,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 6,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 45,
+          "accepted": 5,
+          "rhs": 40,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 5,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 396,
+          "accepted": 44,
+          "rhs": 352,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 44,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "closed_small_clock4_r2",
+      "arm": "small_clock4",
+      "rtol": 1e-12,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 2,
+      "initial_nodes": [
+        128,
+        128
+      ],
+      "births": 32,
+      "birth_nodes": 16,
+      "segments_count": 33,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 305,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 0,
+        "direct_factorizations": 305,
+        "direct_solve_calls": 2440,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 0,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 305,
+        "jvp_calls": 0,
+        "jvp_vectors": 0,
+        "linear_iterations": 0,
+        "linear_matvecs": 0,
+        "linear_solve_failures": 0,
+        "linear_solves": 2440,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 0,
+        "orthogonalization_vector_updates": 0,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 0,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 2440,
+        "rhs_evaluations": 2440
+      },
+      "static_solver_eval_calls": 2745,
+      "static_admin_eval_calls": 249,
+      "static_total_eval_calls": 2994,
+      "static_solver_node_visits_sqrt": 1589760,
+      "static_total_node_visits_sqrt": 1727488,
+      "static_solver_cohort_visits": 60930,
+      "static_total_cohort_visits": 66052,
+      "static_solver_exp_calls": 185535,
+      "static_total_exp_calls": 201150,
+      "static_solver_vec_requests": 63675,
+      "static_total_vec_requests": 69046,
+      "static_solver_vec_payload_bytes_requested": 39616560,
+      "static_total_vec_payload_bytes_requested": 43044960,
+      "projection_distribution_evaluations": 81650,
+      "projection_min_per_birth": 2301,
+      "projection_max_per_birth": 2637,
+      "static_projection_node_exp_calls": 1306400,
+      "static_projection_evaluated_vec_requests": 163300,
+      "static_exact_certificate_calls": 32,
+      "static_exact_from_float_calls": 1024,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 57,
+          "max_denominator_bits": 57
+        },
+        "m2_exact": {
+          "max_numerator_bits": 118,
+          "max_denominator_bits": 172
+        },
+        "m4_exact": {
+          "max_numerator_bits": 238,
+          "max_denominator_bits": 288
+        }
+      },
+      "static_birth_support_calls": 64,
+      "static_birth_support_exp_expressions": 3072,
+      "static_cohort_clone_angular_nodes": 34304,
+      "static_cohort_clone_mu_alpha_bytes": 548864,
+      "output_clipped_steps": 119,
+      "raw_output_bytes": 309336,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 2,
+          "angular_nodes": 256,
+          "callback_evals": 36,
+          "accepted": 4,
+          "rhs": 32,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 4,
+          "admin_evals": 5
+        },
+        {
+          "index": 1,
+          "cohort_count": 3,
+          "angular_nodes": 272,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 2,
+          "cohort_count": 4,
+          "angular_nodes": 288,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 3,
+          "cohort_count": 5,
+          "angular_nodes": 304,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 4,
+          "cohort_count": 6,
+          "angular_nodes": 320,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 5,
+          "cohort_count": 7,
+          "angular_nodes": 336,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 6,
+          "cohort_count": 8,
+          "angular_nodes": 352,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 7,
+          "cohort_count": 9,
+          "angular_nodes": 368,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 8,
+          "cohort_count": 10,
+          "angular_nodes": 384,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 9,
+          "cohort_count": 11,
+          "angular_nodes": 400,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 10,
+          "cohort_count": 12,
+          "angular_nodes": 416,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 11,
+          "cohort_count": 13,
+          "angular_nodes": 432,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 12,
+          "cohort_count": 14,
+          "angular_nodes": 448,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 13,
+          "cohort_count": 15,
+          "angular_nodes": 464,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 14,
+          "cohort_count": 16,
+          "angular_nodes": 480,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 15,
+          "cohort_count": 17,
+          "angular_nodes": 496,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 16,
+          "cohort_count": 18,
+          "angular_nodes": 512,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 17,
+          "cohort_count": 19,
+          "angular_nodes": 528,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 18,
+          "cohort_count": 20,
+          "angular_nodes": 544,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 19,
+          "cohort_count": 21,
+          "angular_nodes": 560,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 20,
+          "cohort_count": 22,
+          "angular_nodes": 576,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 21,
+          "cohort_count": 23,
+          "angular_nodes": 592,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 22,
+          "cohort_count": 24,
+          "angular_nodes": 608,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 23,
+          "cohort_count": 25,
+          "angular_nodes": 624,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 24,
+          "cohort_count": 26,
+          "angular_nodes": 640,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 25,
+          "cohort_count": 27,
+          "angular_nodes": 656,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 26,
+          "cohort_count": 28,
+          "angular_nodes": 672,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 27,
+          "cohort_count": 29,
+          "angular_nodes": 688,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 28,
+          "cohort_count": 30,
+          "angular_nodes": 704,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 29,
+          "cohort_count": 31,
+          "angular_nodes": 720,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 30,
+          "cohort_count": 32,
+          "angular_nodes": 736,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 7
+        },
+        {
+          "index": 31,
+          "cohort_count": 33,
+          "angular_nodes": 752,
+          "callback_evals": 63,
+          "accepted": 7,
+          "rhs": 56,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 7,
+          "admin_evals": 6
+        },
+        {
+          "index": 32,
+          "cohort_count": 34,
+          "angular_nodes": 768,
+          "callback_evals": 756,
+          "accepted": 84,
+          "rhs": 672,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 84,
+          "admin_evals": 42
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "flrw_mf_into_ls_fine",
+      "arm": "mf_into_ls",
+      "rtol": 1e-12,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 1,
+      "initial_nodes": [
+        128
+      ],
+      "births": 0,
+      "birth_nodes": 16,
+      "segments_count": 1,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 238,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 1904,
+        "direct_factorizations": 0,
+        "direct_solve_calls": 0,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 238,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 0,
+        "jvp_calls": 7830,
+        "jvp_vectors": 7830,
+        "linear_iterations": 2362,
+        "linear_matvec_vectors": 7830,
+        "linear_matvecs": 5926,
+        "linear_solve_failures": 0,
+        "linear_solves": 1904,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 6116,
+        "orthogonalization_vector_updates": 8014,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 4260,
+        "preconditioner_vectors": 4260,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1904,
+        "rhs_evaluations": 1904
+      },
+      "static_solver_eval_calls": 9972,
+      "static_admin_eval_calls": 153,
+      "static_total_eval_calls": 10125,
+      "static_solver_node_visits_sqrt": 1276416,
+      "static_total_node_visits_sqrt": 1296000,
+      "static_solver_cohort_visits": 9972,
+      "static_total_cohort_visits": 10125,
+      "static_solver_exp_calls": 39888,
+      "static_total_exp_calls": 40500,
+      "static_solver_vec_requests": 19944,
+      "static_total_vec_requests": 20250,
+      "static_solver_vec_payload_bytes_requested": 30873312,
+      "static_total_vec_payload_bytes_requested": 31347000,
+      "projection_distribution_evaluations": 0,
+      "projection_min_per_birth": 0,
+      "projection_max_per_birth": 0,
+      "static_projection_node_exp_calls": 0,
+      "static_projection_evaluated_vec_requests": 0,
+      "static_exact_certificate_calls": 0,
+      "static_exact_from_float_calls": 0,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        },
+        "m2_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        },
+        "m4_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        }
+      },
+      "static_birth_support_calls": 0,
+      "static_birth_support_exp_expressions": 0,
+      "static_cohort_clone_angular_nodes": 512,
+      "static_cohort_clone_mu_alpha_bytes": 8192,
+      "output_clipped_steps": 151,
+      "raw_output_bytes": 86030,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 1,
+          "angular_nodes": 128,
+          "callback_evals": 9972,
+          "accepted": 238,
+          "rhs": 1904,
+          "ft": 238,
+          "jvp": 7830,
+          "jacobian": 0,
+          "admin_evals": 152
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    },
+    {
+      "case": "flrw_small_clock4_fine",
+      "arm": "small_clock4",
+      "rtol": 1e-12,
+      "receipt_status": "completed",
+      "input_and_raw_match_process_receipt": true,
+      "initial_cohorts": 1,
+      "initial_nodes": [
+        128
+      ],
+      "births": 0,
+      "birth_nodes": 16,
+      "segments_count": 1,
+      "observations": 153,
+      "counters": {
+        "accepted_steps": 232,
+        "block_linear_iterations": 0,
+        "block_linear_solves": 0,
+        "block_matvecs": 0,
+        "block_preconditioner_apps": 0,
+        "diagnostic_matvecs": 0,
+        "direct_factorizations": 232,
+        "direct_solve_calls": 1856,
+        "fallback_steps": 0,
+        "fast_accepts": 0,
+        "fast_attempts": 0,
+        "forced_stage_solves": 0,
+        "ft_calls": 0,
+        "harmonic_ritz_solves": 0,
+        "jacobian_builds": 232,
+        "jvp_calls": 0,
+        "jvp_vectors": 0,
+        "linear_iterations": 0,
+        "linear_matvecs": 0,
+        "linear_solve_failures": 0,
+        "linear_solves": 1856,
+        "local_error_failures": 0,
+        "mass_matvecs": 0,
+        "nonfinite_step_failures": 0,
+        "nonlinear_failures": 0,
+        "nonlinear_iterations": 0,
+        "nonlinear_jacobian_evaluations": 0,
+        "nonlinear_residual_evaluations": 0,
+        "nonlinear_solve_failures": 0,
+        "nonlinear_solves": 0,
+        "orthogonalization_inner_products": 0,
+        "orthogonalization_vector_updates": 0,
+        "phi_actions": 0,
+        "phi_dense_oracle_calls": 0,
+        "phi_krylov_vectors": 0,
+        "phi_projected_exponentials": 0,
+        "phi_restarts": 0,
+        "preconditioner_apps": 0,
+        "recycle_cross_operator_refreshes": 0,
+        "recycle_dropped_vectors": 0,
+        "recycle_projection_calls": 0,
+        "recycle_refresh_matvecs": 0,
+        "recycle_same_operator_uses": 0,
+        "recycle_updates": 0,
+        "recycle_vectors_selected": 0,
+        "rejected_steps": 0,
+        "rhs_batch_calls": 0,
+        "rhs_calls": 1856,
+        "rhs_evaluations": 1856
+      },
+      "static_solver_eval_calls": 2088,
+      "static_admin_eval_calls": 153,
+      "static_total_eval_calls": 2241,
+      "static_solver_node_visits_sqrt": 267264,
+      "static_total_node_visits_sqrt": 286848,
+      "static_solver_cohort_visits": 2088,
+      "static_total_cohort_visits": 2241,
+      "static_solver_exp_calls": 8352,
+      "static_total_exp_calls": 8964,
+      "static_solver_vec_requests": 4176,
+      "static_total_vec_requests": 4482,
+      "static_solver_vec_payload_bytes_requested": 6464448,
+      "static_total_vec_payload_bytes_requested": 6938136,
+      "projection_distribution_evaluations": 0,
+      "projection_min_per_birth": 0,
+      "projection_max_per_birth": 0,
+      "static_projection_node_exp_calls": 0,
+      "static_projection_evaluated_vec_requests": 0,
+      "static_exact_certificate_calls": 0,
+      "static_exact_from_float_calls": 0,
+      "exact_certificate_output_integer_sizes": {
+        "sum_alpha_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        },
+        "m2_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        },
+        "m4_exact": {
+          "max_numerator_bits": 0,
+          "max_denominator_bits": 0
+        }
+      },
+      "static_birth_support_calls": 0,
+      "static_birth_support_exp_expressions": 0,
+      "static_cohort_clone_angular_nodes": 512,
+      "static_cohort_clone_mu_alpha_bytes": 8192,
+      "output_clipped_steps": 151,
+      "raw_output_bytes": 88469,
+      "segments": [
+        {
+          "index": 0,
+          "cohort_count": 1,
+          "angular_nodes": 128,
+          "callback_evals": 2088,
+          "accepted": 232,
+          "rhs": 1856,
+          "ft": 0,
+          "jvp": 0,
+          "jacobian": 232,
+          "admin_evals": 152
+        }
+      ],
+      "timing_interpretation": "Original debug-profile timing is deliberately not used to estimate or claim a speedup."
+    }
+  ],
+  "aggregate_static_work": {
+    "static_solver_eval_calls": 60225,
+    "static_admin_eval_calls": 1800,
+    "static_total_eval_calls": 62025,
+    "static_total_node_visits_sqrt": 29732096,
+    "static_total_cohort_visits": 1076468,
+    "static_total_exp_calls": 3291429,
+    "static_total_vec_requests": 1138493,
+    "static_total_vec_payload_bytes_requested": 739405536,
+    "projection_distribution_evaluations": 487258,
+    "static_projection_node_exp_calls": 7796128,
+    "static_projection_evaluated_vec_requests": 974516,
+    "static_exact_certificate_calls": 192,
+    "static_exact_from_float_calls": 6144,
+    "static_birth_support_calls": 384,
+    "raw_output_bytes": 2033201
+  },
+  "aggregate_original_counters": {
+    "accepted_steps": 1952,
+    "block_linear_iterations": 0,
+    "block_linear_solves": 0,
+    "block_matvecs": 0,
+    "block_preconditioner_apps": 0,
+    "diagnostic_matvecs": 7832,
+    "direct_factorizations": 973,
+    "direct_solve_calls": 7784,
+    "fallback_steps": 0,
+    "fast_accepts": 0,
+    "fast_attempts": 0,
+    "forced_stage_solves": 0,
+    "ft_calls": 979,
+    "harmonic_ritz_solves": 0,
+    "jacobian_builds": 973,
+    "jvp_calls": 42657,
+    "jvp_vectors": 42657,
+    "linear_iterations": 20146,
+    "linear_matvec_vectors": 42657,
+    "linear_matvecs": 34825,
+    "linear_solve_failures": 0,
+    "linear_solves": 15616,
+    "local_error_failures": 0,
+    "mass_matvecs": 0,
+    "nonfinite_step_failures": 0,
+    "nonlinear_failures": 0,
+    "nonlinear_iterations": 0,
+    "nonlinear_jacobian_evaluations": 0,
+    "nonlinear_residual_evaluations": 0,
+    "nonlinear_solve_failures": 0,
+    "nonlinear_solves": 0,
+    "orthogonalization_inner_products": 77252,
+    "orthogonalization_vector_updates": 85078,
+    "phi_actions": 0,
+    "phi_dense_oracle_calls": 0,
+    "phi_krylov_vectors": 0,
+    "phi_projected_exponentials": 0,
+    "phi_restarts": 0,
+    "preconditioner_apps": 27972,
+    "preconditioner_vectors": 27972,
+    "recycle_cross_operator_refreshes": 0,
+    "recycle_dropped_vectors": 0,
+    "recycle_projection_calls": 0,
+    "recycle_refresh_matvecs": 0,
+    "recycle_same_operator_uses": 0,
+    "recycle_updates": 0,
+    "recycle_vectors_selected": 0,
+    "rejected_steps": 0,
+    "rhs_batch_calls": 0,
+    "rhs_calls": 15616,
+    "rhs_evaluations": 15616
+  },
+  "reusable_packages": [
+    {
+      "name": "bytemuck",
+      "version": "1.25.2",
+      "license_declared": "Zlib OR Apache-2.0 OR MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/bytemuck-1.25.2/LICENSE-APACHE",
+          "bytes": 10398,
+          "sha256": "e3ba223bb1423f0aad8c3dfce0fe3148db48926d41e6fbc3afbbf5ff9e1c89cb",
+          "git_blob_sha": "136d90045663ab0acaeff2a3ecf0013c968de8c9"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/bytemuck-1.25.2/LICENSE-MIT",
+          "bytes": 1110,
+          "sha256": "9df9ba60a11af705f2e451b53762686e615d86f76b169cf075c3237730dbd7e2",
+          "git_blob_sha": "164045faadd4919ae0ed983a982b9ee4140e9802"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/bytemuck-1.25.2/LICENSE-ZLIB",
+          "bytes": 851,
+          "sha256": "84b34dd7608f7fb9b17bd588a6bf392bf7de504e2716f024a77d89f1b145a151",
+          "git_blob_sha": "d70707c75a249e0c7aec9e88e060422f8d12e017"
+        }
+      ],
+      "repository": "https://github.com/Lokathor/bytemuck",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/bytemuck-1.25.2/Cargo.toml",
+        "bytes": 3107,
+        "sha256": "7b99bce6fd19ac16efd0fa94051b95f6cee7945f9d76842e072e4176a152794c",
+        "git_blob_sha": "955454f4f0b18b888c7fa5aa47482b8c899df264"
+      },
+      "cargo_lock_checksum": "95832e849adfb21180ccb6826a99da14e5d266ae5c2e668e1602cf234f153797",
+      "cargo_lock_dependencies": [
+        "bytemuck_derive"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "aarch64_simd",
+            "wasm_simd"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/bytemuck-4a663b7c965a50a1/lib-bytemuck.json",
+            "bytes": 935,
+            "sha256": "edc4a063b2cf6f10b89c9ef61140dbea31ca72662c873b0c15bd1d9f2641a3d0",
+            "git_blob_sha": "30c74c55343364af5e7ad6c78e473785d4b8d1b2"
+          }
+        }
+      ],
+      "declared_features": {
+        "aarch64_simd": [],
+        "align_offset": [],
+        "alloc_uninit": [],
+        "avx512_simd": [],
+        "const_zeroed": [],
+        "derive": [
+          "bytemuck_derive"
+        ],
+        "extern_crate_alloc": [],
+        "extern_crate_std": [
+          "extern_crate_alloc"
+        ],
+        "impl_core_error": [],
+        "latest_stable_rust": [
+          "aarch64_simd",
+          "avx512_simd",
+          "align_offset",
+          "alloc_uninit",
+          "const_zeroed",
+          "derive",
+          "impl_core_error",
+          "min_const_generics",
+          "must_cast",
+          "must_cast_extra",
+          "pod_saturating",
+          "track_caller",
+          "transparentwrapper_extra",
+          "wasm_simd",
+          "zeroable_atomics",
+          "zeroable_maybe_uninit",
+          "zeroable_unwind_fn"
+        ],
+        "min_const_generics": [],
+        "must_cast": [],
+        "must_cast_extra": [
+          "must_cast"
+        ],
+        "nightly_docs": [],
+        "nightly_float": [],
+        "nightly_portable_simd": [
+          "rustversion"
+        ],
+        "nightly_stdsimd": [],
+        "pod_saturating": [],
+        "track_caller": [],
+        "transparentwrapper_extra": [],
+        "unsound_ptr_pod_impl": [],
+        "wasm_simd": [],
+        "zeroable_atomics": [],
+        "zeroable_maybe_uninit": [],
+        "zeroable_unwind_fn": []
+      }
+    },
+    {
+      "name": "cpufeatures",
+      "version": "0.2.17",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/cpufeatures-0.2.17/LICENSE-APACHE",
+          "bytes": 10849,
+          "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5",
+          "git_blob_sha": "78173fa2e753d614bb0aa5ad125ddbbe70b282c4"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/cpufeatures-0.2.17/LICENSE-MIT",
+          "bytes": 1082,
+          "sha256": "ae9baa7beea910273c2f384c2a6b721fb7bd02bda3436074a1072e4ee689f985",
+          "git_blob_sha": "0cd648f76b488a00f8fa6bf50b3120c7e1d8464b"
+        }
+      ],
+      "repository": "https://github.com/RustCrypto/utils",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/cpufeatures-0.2.17/Cargo.toml",
+        "bytes": 1836,
+        "sha256": "25160ea4dfa195721d352d42827b882a41f18f4c55fff58e5c3878ecae84ca44",
+        "git_blob_sha": "0b79182c56df94452d3f9cd1d26377a980037801"
+      },
+      "cargo_lock_checksum": "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280",
+      "cargo_lock_dependencies": [
+        "libc"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/cpufeatures-03613828c1384238/lib-cpufeatures.json",
+            "bytes": 355,
+            "sha256": "b824cff01cefa6fe886aa0ea5c8cd5f85438569d99d9ecc8e7d0b4ec6e28e648",
+            "git_blob_sha": "08468dd82f04c6501c8d82600c404b02b75fd252"
+          }
+        }
+      ],
+      "declared_features": {}
+    },
+    {
+      "name": "crossbeam-deque",
+      "version": "0.8.7",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-deque-0.8.7/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-deque-0.8.7/LICENSE-MIT",
+          "bytes": 1099,
+          "sha256": "5734ed989dfca1f625b40281ee9f4530f91b2411ec01cb748223e7eb87e201ab",
+          "git_blob_sha": "068d491fd551ae2531f4d28583245719a2e19e2d"
+        }
+      ],
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/crossbeam-deque-0.8.7/Cargo.toml",
+        "bytes": 1880,
+        "sha256": "c9632c8308c019ec51fe44db580bb727dbd50e53bd970daa7a48fe4e776ab8a9",
+        "git_blob_sha": "498222fe1f229bedd370e7dfb6c2b5ef59106007"
+      },
+      "cargo_lock_checksum": "5181e0de7b61eb03a81e347d6dd8797bae9da5146707b51077e2d71a54ec0ceb",
+      "cargo_lock_dependencies": [
+        "crossbeam-epoch",
+        "crossbeam-utils"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "default",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/crossbeam-deque-02dfcd3d46c2013a/lib-crossbeam_deque.json",
+            "bytes": 607,
+            "sha256": "791f4c4a4060b47ea9d71c416ae6bc5ef0825da462fa0b379a36540b6af22aa2",
+            "git_blob_sha": "3ff05923a9d52bfc518ecc192fc49fa7d4322744"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std"
+        ],
+        "std": [
+          "crossbeam-epoch/std",
+          "crossbeam-utils/std"
+        ]
+      }
+    },
+    {
+      "name": "crossbeam-epoch",
+      "version": "0.9.20",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-epoch-0.9.20/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-epoch-0.9.20/LICENSE-MIT",
+          "bytes": 1099,
+          "sha256": "5734ed989dfca1f625b40281ee9f4530f91b2411ec01cb748223e7eb87e201ab",
+          "git_blob_sha": "068d491fd551ae2531f4d28583245719a2e19e2d"
+        }
+      ],
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/crossbeam-epoch-0.9.20/Cargo.toml",
+        "bytes": 2052,
+        "sha256": "aa33b807f5f74c0336045aecd27e90f9f4c8e0fceceb3967fdc154237b76c3a6",
+        "git_blob_sha": "d11b056a3b64a4868191ccb9b394d324ee2f648f"
+      },
+      "cargo_lock_checksum": "2d6914041f254d6e9176c01941b21115dcfb7089e55135a35411081bd106ef3f",
+      "cargo_lock_dependencies": [
+        "crossbeam-utils"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "alloc",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/crossbeam-epoch-f950ca0f49501e03/lib-crossbeam_epoch.json",
+            "bytes": 587,
+            "sha256": "1db1750e4f2366cb0736604a21475449201345d6842ee11db3dc5cde3bf29b36",
+            "git_blob_sha": "de919bcdfa1b03d65bc40c8ea0e2187444e036bc"
+          }
+        }
+      ],
+      "declared_features": {
+        "alloc": [],
+        "default": [
+          "std"
+        ],
+        "loom": [
+          "loom-crate",
+          "crossbeam-utils/loom"
+        ],
+        "nightly": [
+          "crossbeam-utils/nightly"
+        ],
+        "std": [
+          "alloc",
+          "crossbeam-utils/std"
+        ]
+      }
+    },
+    {
+      "name": "crossbeam-utils",
+      "version": "0.8.22",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-utils-0.8.22/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/crossbeam-utils-0.8.22/LICENSE-MIT",
+          "bytes": 1099,
+          "sha256": "5734ed989dfca1f625b40281ee9f4530f91b2411ec01cb748223e7eb87e201ab",
+          "git_blob_sha": "068d491fd551ae2531f4d28583245719a2e19e2d"
+        }
+      ],
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/crossbeam-utils-0.8.22/Cargo.toml",
+        "bytes": 2053,
+        "sha256": "c72b40382ceeea681815419eefa47b02c00afeb97ff27fb365d6c14af1b14ab4",
+        "git_blob_sha": "35a789e465ba7ab85670f6f63ad2339836529d06"
+      },
+      "cargo_lock_checksum": "61803da095bee82a81bb1a452ecc25d3b2f1416d1897eb86430c6159ef717c17",
+      "cargo_lock_dependencies": [],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "default",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/crossbeam-utils-72db1f0f0e47974a/lib-crossbeam_utils.json",
+            "bytes": 495,
+            "sha256": "2d9d38643b4537ecadbb19f05039afdbc24e019bc3991b6f6974942eec96bacf",
+            "git_blob_sha": "8f101f27d958e841dcab506c1110d5a65286505a"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std"
+        ],
+        "nightly": [],
+        "std": []
+      }
+    },
+    {
+      "name": "faer",
+      "version": "0.24.4",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/faer-0.24.4/COPYING.EIGEN.MPL2",
+          "bytes": 16853,
+          "sha256": "1905e1009a9d8444c2573d0f9e96d34188a6f098a5c359694f2d9043a7445323",
+          "git_blob_sha": "4df4a88ebc04b2c867fe6cef8aea477be4f7b6c1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/faer-0.24.4/COPYING.LAPACK.BSD",
+          "bytes": 2577,
+          "sha256": "7e4bc07b4d1691c7b503816c232467ac808bdb3f260a7f4f203ca0e3e44311ad",
+          "git_blob_sha": "8337cd58a92e43923051eb90ebafc9cc384090fd"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/faer-0.24.4/COPYING.SUITE_SPARSE.AMD.BSD",
+          "bytes": 1922,
+          "sha256": "748448bad56ee129a9222d63da70513428b41e9ff804b401a0be37a7b5151bf9",
+          "git_blob_sha": "fd6225bfe32312dea584f6608c18bfc3b1e55d51"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/faer-0.24.4/COPYING.SUITE_SPARSE.COLAMD.BSD",
+          "bytes": 1792,
+          "sha256": "0e92b7bb3e216b8a4d1357b3d828043a4f758f762b2abc30b3440cf78063f80f",
+          "git_blob_sha": "6abd8a41cd8f741bcceadbffd6eb0ffa2ef19bf0"
+        }
+      ],
+      "repository": "https://codeberg.org/sarah-quinones/faer",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/faer-0.24.4/Cargo.toml",
+        "bytes": 5521,
+        "sha256": "89afbab9a191adc4a4d28d7b91db271935bb3800f0ce838fa5de8e32fa3ad117",
+        "git_blob_sha": "be78066866dc489d21338193885b325bb763e591"
+      },
+      "cargo_lock_checksum": "5ab6df3dd147fe8d702a288b95bcd8fcc499ab572fc80da6828f60cd4d524d67",
+      "cargo_lock_dependencies": [
+        "bytemuck",
+        "dyn-stack",
+        "equator 0.6.0",
+        "faer-traits",
+        "gemm",
+        "generativity",
+        "libm",
+        "nano-gemm",
+        "num-complex",
+        "num-traits",
+        "private-gemm-x86",
+        "pulp",
+        "reborrow"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "linalg",
+            "sparse",
+            "sparse-linalg",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/faer-578d93e9825fa808/lib-faer.json",
+            "bytes": 1320,
+            "sha256": "07498be6d7313339aa32a5d35c03f112b4263daeb41bc77f608d63621bf77b25",
+            "git_blob_sha": "fb5fcc586952fc1d29a96cb83384bc08ea81ec76"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std",
+          "rayon",
+          "sparse-linalg",
+          "rand",
+          "npy"
+        ],
+        "linalg": [],
+        "nightly": [
+          "pulp/x86-v4",
+          "gemm/x86-v4",
+          "nano-gemm/x86-v4"
+        ],
+        "npy": [
+          "std",
+          "dep:npyz"
+        ],
+        "perf-warn": [
+          "dep:log"
+        ],
+        "rand": [
+          "num-complex/rand",
+          "dep:rand",
+          "dep:rand_distr"
+        ],
+        "rayon": [
+          "dep:rayon",
+          "gemm/rayon",
+          "private-gemm-x86?/rayon",
+          "dep:spindle"
+        ],
+        "sparse": [],
+        "sparse-linalg": [
+          "sparse",
+          "linalg"
+        ],
+        "std": [
+          "faer-traits/std",
+          "pulp/std",
+          "gemm/std",
+          "nano-gemm/std",
+          "libm/arch",
+          "dep:private-gemm-x86"
+        ],
+        "unstable": []
+      }
+    },
+    {
+      "name": "faer-traits",
+      "version": "0.24.0",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [],
+      "repository": "https://codeberg.org/sarah-quinones/faer",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/faer-traits-0.24.0/Cargo.toml",
+        "bytes": 1633,
+        "sha256": "1eb5e67dbda2cc37fbd8bce4df5380e3d75d93eaf7abb13e3097c45e00c2280f",
+        "git_blob_sha": "d33bfffcc9e9edd00053fbb4e09c2aca074fa4c7"
+      },
+      "cargo_lock_checksum": "b87d23ed7ab1f26c0cba0e5b9e061a796fbb7dc170fa8bee6970055a1308bb0f",
+      "cargo_lock_dependencies": [
+        "bytemuck",
+        "dyn-stack",
+        "generativity",
+        "libm",
+        "num-complex",
+        "num-traits",
+        "pulp",
+        "qd",
+        "reborrow"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/faer-traits-023ebf52a8ffae63/lib-faer_traits.json",
+            "bytes": 923,
+            "sha256": "fd529ddda8c01b71d972956277560fdf3910c257bd6cdc718685fa610be43e43",
+            "git_blob_sha": "804695f68f1523246033ef358828f22814e17e97"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std"
+        ],
+        "std": [
+          "pulp/std",
+          "qd/std",
+          "num-traits/std",
+          "num-complex/std",
+          "libm/arch"
+        ]
+      }
+    },
+    {
+      "name": "gemm",
+      "version": "0.19.0",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/gemm-0.19.0/LICENSE",
+          "bytes": 1062,
+          "sha256": "d64f878c89bd5f1e5ada7e4aad57690b122727cf5229b7b87ea1980c188da1d9",
+          "git_blob_sha": "84e3f4435bfe437a7e2a1db5f6d701ffd0638fae"
+        }
+      ],
+      "repository": "https://github.com/sarah-ek/gemm/",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/gemm-0.19.0/Cargo.toml",
+        "bytes": 3226,
+        "sha256": "2ba5a0a79689c5f4d642004b6e59324cdcfc165f7c8bcd7f8c1118d431b7e575",
+        "git_blob_sha": "8b279e4d4a25c9d86b7491dc7c4ebb2cdd9afea6"
+      },
+      "cargo_lock_checksum": "aa0673db364b12263d103b68337a68fbecc541d6f6b61ba72fe438654709eacb",
+      "cargo_lock_dependencies": [
+        "dyn-stack",
+        "gemm-c32",
+        "gemm-c64",
+        "gemm-common",
+        "gemm-f16",
+        "gemm-f32",
+        "gemm-f64",
+        "num-complex",
+        "num-traits",
+        "paste",
+        "raw-cpuid",
+        "seq-macro"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/gemm-2e2e37128cc57156/lib-gemm.json",
+            "bytes": 1138,
+            "sha256": "c0171c4742dbd920528518a274f835cb8c7c9348ffbe8f28fb25f34700aec3f6",
+            "git_blob_sha": "d24ace68652228c50259763d63ceb2ac0dc2649a"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std",
+          "rayon",
+          "f16"
+        ],
+        "experimental-apple-amx": [
+          "gemm-common/experimental-apple-amx",
+          "gemm-f32/experimental-apple-amx",
+          "gemm-f64/experimental-apple-amx",
+          "gemm-c32/experimental-apple-amx",
+          "gemm-c64/experimental-apple-amx",
+          "gemm-f16?/experimental-apple-amx"
+        ],
+        "f16": [
+          "gemm-f16",
+          "gemm-common/f16"
+        ],
+        "rayon": [
+          "std",
+          "gemm-common/rayon",
+          "gemm-f32/rayon",
+          "gemm-f64/rayon",
+          "gemm-c32/rayon",
+          "gemm-c64/rayon",
+          "gemm-f16?/rayon"
+        ],
+        "std": [
+          "dyn-stack/std",
+          "gemm-common/std",
+          "gemm-f32/std",
+          "gemm-f64/std",
+          "gemm-c32/std",
+          "gemm-c64/std",
+          "gemm-f16?/std"
+        ],
+        "wasm-simd128-enable": [
+          "gemm-common/wasm-simd128-enable"
+        ],
+        "x86-v4": [
+          "gemm-common/x86-v4",
+          "gemm-f32/x86-v4",
+          "gemm-f64/x86-v4",
+          "gemm-c32/x86-v4",
+          "gemm-c64/x86-v4",
+          "gemm-f16?/x86-v4"
+        ]
+      }
+    },
+    {
+      "name": "gemm-common",
+      "version": "0.19.0",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/gemm-common-0.19.0/LICENSE",
+          "bytes": 1062,
+          "sha256": "d64f878c89bd5f1e5ada7e4aad57690b122727cf5229b7b87ea1980c188da1d9",
+          "git_blob_sha": "84e3f4435bfe437a7e2a1db5f6d701ffd0638fae"
+        }
+      ],
+      "repository": "https://github.com/sarah-ek/gemm/",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/gemm-common-0.19.0/Cargo.toml",
+        "bytes": 2075,
+        "sha256": "6fc1ea0cdfe6fee9ea0a51e9a06cac0b6aa7c9b628e0b2d6a9f03cde7a5d6ef9",
+        "git_blob_sha": "a74fdbcbd7955adac93461237642e42460a2ddd3"
+      },
+      "cargo_lock_checksum": "88027625910cc9b1085aaaa1c4bc46bb3a36aad323452b33c25b5e4e7c8e2a3e",
+      "cargo_lock_dependencies": [
+        "bytemuck",
+        "dyn-stack",
+        "half",
+        "libm",
+        "num-complex",
+        "num-traits",
+        "once_cell",
+        "paste",
+        "pulp",
+        "raw-cpuid",
+        "seq-macro",
+        "sysctl"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "std",
+            "sysctl"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/gemm-common-50681ac5b15eaf34/lib-gemm_common.json",
+            "bytes": 1101,
+            "sha256": "4ddf383117de76070ca510ce62db8a075be07b0b22fefc23e4e7e4483e19a2c9",
+            "git_blob_sha": "ee2e9335ef25c7886dfa74343fd07dd5a0d484e3"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std",
+          "rayon",
+          "f16"
+        ],
+        "experimental-apple-amx": [
+          "std"
+        ],
+        "f16": [
+          "half"
+        ],
+        "rayon": [
+          "dep:rayon",
+          "std"
+        ],
+        "std": [
+          "pulp/std",
+          "dyn-stack/std",
+          "once_cell/std",
+          "sysctl"
+        ],
+        "wasm-simd128-enable": [],
+        "x86-v4": [
+          "pulp/x86-v4"
+        ]
+      }
+    },
+    {
+      "name": "nano-gemm",
+      "version": "0.2.2",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [],
+      "repository": "https://github.com/sarah-ek/nano-gemm/",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/nano-gemm-0.2.2/Cargo.toml",
+        "bytes": 2153,
+        "sha256": "3e88e60c9a7f100b4d0c69c551f98b55022524b59c2d680221931c9ffc3ac17c",
+        "git_blob_sha": "144ed5a11f804454290de04f86a5b3dd618b0d80"
+      },
+      "cargo_lock_checksum": "9e04345dc84b498ff89fe0d38543d1f170da9e43a2c2bcee73a0f9069f72d081",
+      "cargo_lock_dependencies": [
+        "equator 0.2.2",
+        "nano-gemm-c32",
+        "nano-gemm-c64",
+        "nano-gemm-codegen",
+        "nano-gemm-core",
+        "nano-gemm-f32",
+        "nano-gemm-f64",
+        "num-complex"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/nano-gemm-2198969ee3291a6e/lib-nano_gemm.json",
+            "bytes": 838,
+            "sha256": "d9cb5d1d4f5a72f8d67909b0ed4341152ae92f9c52d930749cb86ded5e2c33a0",
+            "git_blob_sha": "9f6cbe12a1dcbeb29589b0107d91f35013bb4eab"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std"
+        ],
+        "std": [],
+        "x86-v4": [
+          "nano-gemm-f32/x86-v4",
+          "nano-gemm-f64/x86-v4",
+          "nano-gemm-c32/x86-v4",
+          "nano-gemm-c64/x86-v4"
+        ]
+      }
+    },
+    {
+      "name": "num-bigint",
+      "version": "0.4.6",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/num-bigint-0.4.6/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/num-bigint-0.4.6/LICENSE-MIT",
+          "bytes": 1071,
+          "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "git_blob_sha": "39d4bdb5acd313c1a92dbeaa1c379aaf0596a315"
+        }
+      ],
+      "repository": "https://github.com/rust-num/num-bigint",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/num-bigint-0.4.6/Cargo.toml",
+        "bytes": 2045,
+        "sha256": "a6042603541ecb91ec1f5c158679c0b47090462434e2a53e65f78395994f223f",
+        "git_blob_sha": "0218bbdfcec73647fd410388eb5656ffbefce07f"
+      },
+      "cargo_lock_checksum": "a5e44f723f1133c9deac646763579fdb3ac745e418f2a7af9cd0c431da1f20b9",
+      "cargo_lock_dependencies": [
+        "num-integer",
+        "num-traits"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "default",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/num-bigint-ca9cfd858ec75a4e/lib-num_bigint.json",
+            "bytes": 570,
+            "sha256": "db0f1458a991467a9f6e3504ec92559ea49577b2297c4f92cf5a31cc132308b8",
+            "git_blob_sha": "21942805aeae056b50ab07b80aec5b065d09573d"
+          }
+        }
+      ],
+      "declared_features": {
+        "arbitrary": [
+          "dep:arbitrary"
+        ],
+        "default": [
+          "std"
+        ],
+        "quickcheck": [
+          "dep:quickcheck"
+        ],
+        "rand": [
+          "dep:rand"
+        ],
+        "serde": [
+          "dep:serde"
+        ],
+        "std": [
+          "num-integer/std",
+          "num-traits/std"
+        ]
+      }
+    },
+    {
+      "name": "num-rational",
+      "version": "0.4.2",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/num-rational-0.4.2/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/num-rational-0.4.2/LICENSE-MIT",
+          "bytes": 1071,
+          "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "git_blob_sha": "39d4bdb5acd313c1a92dbeaa1c379aaf0596a315"
+        }
+      ],
+      "repository": "https://github.com/rust-num/num-rational",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/num-rational-0.4.2/Cargo.toml",
+        "bytes": 1724,
+        "sha256": "5d0e183e1c4b1ad6fe8a288f51ee840ae06c72be900608ea4c3ccc0380e62d01",
+        "git_blob_sha": "3f23cd13c43a4bf9f6b2e3f6ef9cf3a597c9e0fb"
+      },
+      "cargo_lock_checksum": "f83d14da390562dca69fc84082e73e548e1ad308d24accdedd2720017cb37824",
+      "cargo_lock_dependencies": [
+        "num-bigint",
+        "num-integer",
+        "num-traits"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "default",
+            "num-bigint",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/num-rational-a68d5ae905bbe640/lib-num_rational.json",
+            "bytes": 648,
+            "sha256": "7a2e405651f118481b3d6b1e16686c90a4ead2cc41a5ea662db378459fae2d48",
+            "git_blob_sha": "806207f565a674f10f96a597acd2b30e6bd5efd9"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "num-bigint",
+          "std"
+        ],
+        "num-bigint": [
+          "dep:num-bigint"
+        ],
+        "num-bigint-std": [
+          "num-bigint/std"
+        ],
+        "serde": [
+          "dep:serde"
+        ],
+        "std": [
+          "num-bigint?/std",
+          "num-integer/std",
+          "num-traits/std"
+        ]
+      }
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/num-traits-0.2.19/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/num-traits-0.2.19/LICENSE-MIT",
+          "bytes": 1071,
+          "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "git_blob_sha": "39d4bdb5acd313c1a92dbeaa1c379aaf0596a315"
+        }
+      ],
+      "repository": "https://github.com/rust-num/num-traits",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/num-traits-0.2.19/Cargo.toml",
+        "bytes": 1296,
+        "sha256": "dd701a0da6cce7e6e047cc944b2330f3c5e48cd64329e10942ea7d9299d435be",
+        "git_blob_sha": "97ceb1b6d87832c5b0289c0c8e6bfc8dce53f2ea"
+      },
+      "cargo_lock_checksum": "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841",
+      "cargo_lock_dependencies": [
+        "autocfg",
+        "libm"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "default",
+            "i128",
+            "std"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/num-traits-1daf35f945faf91c/lib-num_traits.json",
+            "bytes": 491,
+            "sha256": "5b00d61ecb9d9a4cbd2882608b0ac06502d7bc734e4ef05d089b952bc5dab544",
+            "git_blob_sha": "0d22b201da4cfdc3c9f2749f23f97f25b090b22d"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std"
+        ],
+        "i128": [],
+        "libm": [
+          "dep:libm"
+        ],
+        "std": []
+      }
+    },
+    {
+      "name": "num_cpus",
+      "version": "1.17.0",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/num_cpus-1.17.0/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/num_cpus-1.17.0/LICENSE-MIT",
+          "bytes": 1063,
+          "sha256": "391a5396cec6230bfabd4ef4eb2350eb895bc5efce377a2218f5702ed020d3e3",
+          "git_blob_sha": "5e854c5fbb45ba8ad407446c71b755b1077270d9"
+        }
+      ],
+      "repository": "https://github.com/seanmonstar/num_cpus",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/num_cpus-1.17.0/Cargo.toml",
+        "bytes": 1207,
+        "sha256": "c9b91e8556fe8b2b4c06ff359f3f9ce9c2b8191fb90a57b982e08f9b05f1a657",
+        "git_blob_sha": "d9758d0b9b12273f3e4f5dc8354ca55904e22871"
+      },
+      "cargo_lock_checksum": "91df4bbde75afed763b708b7eee1e8e7651e02d97f6d5dd763e89367e957b23b",
+      "cargo_lock_dependencies": [
+        "hermit-abi",
+        "libc"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/num_cpus-aadaec01b5dbd93a/lib-num_cpus.json",
+            "bytes": 405,
+            "sha256": "60f2fcffbfd04628b1a709b25ffa384b9e1e5476f5ddcd84c939fcfe908f85a7",
+            "git_blob_sha": "1faefd038fbf999854a9c26ec49d71ad83e8949b"
+          }
+        }
+      ],
+      "declared_features": {}
+    },
+    {
+      "name": "private-gemm-x86",
+      "version": "0.1.20",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/private-gemm-x86-0.1.20/LICENSE",
+          "bytes": 1083,
+          "sha256": "4263a9907c8e8d799f714d5cf2ec18663772f09e7eef3eeaaab074ea29ee1358",
+          "git_blob_sha": "19f1e9ce5c9dfee7b76baf02403628faef037e90"
+        }
+      ],
+      "repository": "https://github.com/sarah-quinones/gemm-x64-v2/",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/private-gemm-x86-0.1.20/Cargo.toml",
+        "bytes": 2292,
+        "sha256": "c2eb97236a00822b6ed56e5b21a38497855b56653cbda78704750a90ae809c7f",
+        "git_blob_sha": "5df1f1623e596674548056521ef45fc704ad4ecd"
+      },
+      "cargo_lock_checksum": "0af8c3e5087969c323f667ccb4b789fa0954f5aa650550e38e81cf9108be21b5",
+      "cargo_lock_dependencies": [
+        "defer",
+        "interpol",
+        "num_cpus",
+        "raw-cpuid"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/private-gemm-x86-e955895a84793dcb/lib-private_gemm_x86.json",
+            "bytes": 586,
+            "sha256": "7ba162485ed3881384ecb480aa45cb38be731553afa1ad9acd9e545b618ab479",
+            "git_blob_sha": "c1d0ca27fdb7469bd1cbbb00ea2c45b59823fa47"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std",
+          "rayon"
+        ],
+        "rayon": [
+          "std",
+          "dep:rayon",
+          "dep:spindle",
+          "dep:crossbeam"
+        ],
+        "std": [
+          "dep:sysctl"
+        ]
+      }
+    },
+    {
+      "name": "pulp",
+      "version": "0.22.3",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/pulp-0.22.3/LICENSE",
+          "bytes": 1062,
+          "sha256": "d64f878c89bd5f1e5ada7e4aad57690b122727cf5229b7b87ea1980c188da1d9",
+          "git_blob_sha": "84e3f4435bfe437a7e2a1db5f6d701ffd0638fae"
+        }
+      ],
+      "repository": "https://github.com/sarah-quinones/pulp/",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/pulp-0.22.3/Cargo.toml",
+        "bytes": 2660,
+        "sha256": "b9d9fe17a5a2188b06a704d5810b4b68b82474816d238f2442501495abb1e4df",
+        "git_blob_sha": "cbadee30ff210b5c6fd4ca099c6498d566162392"
+      },
+      "cargo_lock_checksum": "046aa45b989642ec2e4717c8e72d677b13edd831a4d3b6cf37d9a3e54912496a",
+      "cargo_lock_dependencies": [
+        "bytemuck",
+        "cfg-if",
+        "libm",
+        "num-complex",
+        "paste",
+        "pulp-wasm-simd-flag",
+        "raw-cpuid",
+        "reborrow",
+        "version_check"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [
+            "std",
+            "x86-v3"
+          ],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/pulp-2dc788446ff7761d/lib-pulp.json",
+            "bytes": 1004,
+            "sha256": "31bdf9686a9910557aa27510df420bbbc715c675a6224449330e48d058775b7b",
+            "git_blob_sha": "4ff10f47cb9051d8a1290b63fc7bcaa584a935e8"
+          }
+        }
+      ],
+      "declared_features": {
+        "default": [
+          "std",
+          "x86-v3",
+          "relaxed-simd"
+        ],
+        "macro": [
+          "dep:pulp-macro"
+        ],
+        "nightly": [
+          "bytemuck/nightly_stdsimd"
+        ],
+        "relaxed-simd": [
+          "pulp-wasm-simd-flag/relaxed-simd"
+        ],
+        "std": [],
+        "x86-v3": [],
+        "x86-v4": [
+          "bytemuck/avx512_simd"
+        ]
+      }
+    },
+    {
+      "name": "raw-cpuid",
+      "version": "11.6.0",
+      "license_declared": "MIT",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/raw-cpuid-11.6.0/LICENSE.md",
+          "bytes": 1080,
+          "sha256": "cdd45f4d0c552c3a51725728215919e0dedb1e1af250f130e7c2d60eef6721fe",
+          "git_blob_sha": "e734b146b0e85be2bdae74ac4043b9077fd3ff80"
+        }
+      ],
+      "repository": "https://github.com/gz/rust-cpuid",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/raw-cpuid-11.6.0/Cargo.toml",
+        "bytes": 2516,
+        "sha256": "b364555a704c16d75d761c26a611f8a36a8e0ffe91d28e3a495226cec9278694",
+        "git_blob_sha": "e5fcdb6f7c7389f697998e829630bddae3d670d4"
+      },
+      "cargo_lock_checksum": "498cd0dc59d73224351ee52a95fee0f1a617a2eae0e7d9d720cc622c73a54186",
+      "cargo_lock_dependencies": [
+        "bitflags"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/raw-cpuid-a22b15024a453bfc/lib-raw_cpuid.json",
+            "bytes": 523,
+            "sha256": "b875b149784b5e7f3e72d7ba11ee972e39fce3186a94120e4da82c0eee1221a7",
+            "git_blob_sha": "22a575fdeacd6881851f7e0a46eaa5c540febe27"
+          }
+        }
+      ],
+      "declared_features": {
+        "cli": [
+          "display",
+          "clap"
+        ],
+        "display": [
+          "std",
+          "termimad",
+          "serde_json",
+          "serialize"
+        ],
+        "serialize": [
+          "serde",
+          "serde_derive"
+        ],
+        "std": []
+      }
+    },
+    {
+      "name": "rayon",
+      "version": "1.12.0",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/rayon-1.12.0/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/rayon-1.12.0/LICENSE-MIT",
+          "bytes": 1071,
+          "sha256": "0621878e61f0d0fda054bcbe02df75192c28bde1ecc8289cbd86aeba2dd72720",
+          "git_blob_sha": "25597d5838fa4cd7ff5c3c2bb1d1b4c3731eda7f"
+        }
+      ],
+      "repository": "https://github.com/rayon-rs/rayon",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/rayon-1.12.0/Cargo.toml",
+        "bytes": 2358,
+        "sha256": "bcc6eda50025991d8db6ccaaad2e26477072a359762451a4e55a7e700ad0e42d",
+        "git_blob_sha": "0fc560d8764bc467fe2f3c15d4d8989e7da09a48"
+      },
+      "cargo_lock_checksum": "fb39b166781f92d482534ef4b4b1b2568f42613b53e5b6c160e24cfbfa30926d",
+      "cargo_lock_dependencies": [
+        "either",
+        "rayon-core"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/rayon-23b34947b50b1c8e/lib-rayon.json",
+            "bytes": 481,
+            "sha256": "56fea5bd0152ea742a576d1ec42f9833b0a87f89e53e50ddb8da207ec8b92968",
+            "git_blob_sha": "8fa0859a0dbde13bacfe83def66b45911b96f32f"
+          }
+        }
+      ],
+      "declared_features": {
+        "web_spin_lock": [
+          "dep:wasm_sync",
+          "rayon-core/web_spin_lock"
+        ]
+      }
+    },
+    {
+      "name": "rayon-core",
+      "version": "1.13.0",
+      "license_declared": "MIT OR Apache-2.0",
+      "license_file_declared": null,
+      "license_notice_files": [
+        {
+          "path": "runtime_s9_20261020/vendor/rayon-core-1.13.0/LICENSE-APACHE",
+          "bytes": 10847,
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "git_blob_sha": "16fe87b06e802f094b3fbb0894b137bca2b16ef1"
+        },
+        {
+          "path": "runtime_s9_20261020/vendor/rayon-core-1.13.0/LICENSE-MIT",
+          "bytes": 1071,
+          "sha256": "0621878e61f0d0fda054bcbe02df75192c28bde1ecc8289cbd86aeba2dd72720",
+          "git_blob_sha": "25597d5838fa4cd7ff5c3c2bb1d1b4c3731eda7f"
+        }
+      ],
+      "repository": "https://github.com/rayon-rs/rayon",
+      "cargo_manifest": {
+        "path": "runtime_s9_20261020/vendor/rayon-core-1.13.0/Cargo.toml",
+        "bytes": 1937,
+        "sha256": "ab50ad4709436f6bda04e5345444f1197b1eda2bd3b49f9412c0cb318111b5a2",
+        "git_blob_sha": "7a521f87be2121918483a5a8d7fe8a7e12e10c63"
+      },
+      "cargo_lock_checksum": "22e18b0f0062d30d4230b2e85ff77fdfe4326feb054b9783a3460d8435c8ab91",
+      "cargo_lock_dependencies": [
+        "crossbeam-deque",
+        "crossbeam-utils"
+      ],
+      "compiled_feature_evidence": [
+        {
+          "features": [],
+          "evidence": {
+            "path": "runtime_s9_20261020/build/target/debug/.fingerprint/rayon-core-a658df3a776e3094/lib-rayon_core.json",
+            "bytes": 575,
+            "sha256": "ac225c9858b6227e6c392f4602a534d544d0832d747d244325abf26859b1c03c",
+            "git_blob_sha": "f6afc16e6a1f5dcd24857433bf0817baaa028b32"
+          }
+        }
+      ],
+      "declared_features": {
+        "web_spin_lock": [
+          "dep:wasm_sync"
+        ]
+      }
+    }
+  ],
+  "cpu_capabilities": {
+    "observed_utc": "2026-10-20T05:39:57.119519+00:00",
+    "machine": "x86_64",
+    "cpu_models": [
+      "AMD EPYC 9V74 80-Core Processor"
+    ],
+    "logical_visible": 9,
+    "affinity_cpu_count": 9,
+    "common_exposed_cpu_flags": [
+      "3dnowprefetch",
+      "abm",
+      "adx",
+      "aes",
+      "apic",
+      "arat",
+      "arch_capabilities",
+      "avx",
+      "avx2",
+      "avx512_bf16",
+      "avx512_bitalg",
+      "avx512_vbmi2",
+      "avx512_vnni",
+      "avx512_vpopcntdq",
+      "avx512bw",
+      "avx512cd",
+      "avx512dq",
+      "avx512f",
+      "avx512ifma",
+      "avx512vbmi",
+      "avx512vl",
+      "bmi1",
+      "bmi2",
+      "clflush",
+      "clflushopt",
+      "clwb",
+      "clzero",
+      "cmov",
+      "cmp_legacy",
+      "constant_tsc",
+      "cpuid",
+      "cr8_legacy",
+      "cx16",
+      "cx8",
+      "de",
+      "erms",
+      "extd_apicid",
+      "f16c",
+      "flushbyasid",
+      "fma",
+      "fpu",
+      "fsgsbase",
+      "fsrm",
+      "fxsr",
+      "fxsr_opt",
+      "gfni",
+      "ht",
+      "hypervisor",
+      "invpcid",
+      "lahf_lm",
+      "lm",
+      "mca",
+      "mce",
+      "misalignsse",
+      "mmx",
+      "mmxext",
+      "movbe",
+      "msr",
+      "mtrr",
+      "nonstop_tsc",
+      "nopl",
+      "npt",
+      "nrip_save",
+      "nx",
+      "osvw",
+      "pae",
+      "pat",
+      "pausefilter",
+      "pcid",
+      "pclmulqdq",
+      "pdpe1gb",
+      "pfthreshold",
+      "pge",
+      "pni",
+      "popcnt",
+      "pse",
+      "pse36",
+      "rdpid",
+      "rdrand",
+      "rdseed",
+      "rdtscp",
+      "rep_good",
+      "sep",
+      "sha_ni",
+      "smap",
+      "smep",
+      "sse",
+      "sse2",
+      "sse4_1",
+      "sse4_2",
+      "sse4a",
+      "ssse3",
+      "syscall",
+      "topoext",
+      "tsc",
+      "tsc_adjust",
+      "tsc_deadline_timer",
+      "tsc_known_freq",
+      "tsc_scale",
+      "umip",
+      "v_vmsave_vmload",
+      "vaes",
+      "vmcb_clean",
+      "vme",
+      "vmmcall",
+      "vpclmulqdq",
+      "x2apic",
+      "xgetbv1",
+      "xsave",
+      "xsavec",
+      "xsaveerptr",
+      "xsaveopt",
+      "xsaves",
+      "xtopology"
+    ],
+    "cgroup": {
+      "cpu.max": "800000 100000",
+      "memory.max": "8589934592",
+      "memory.current": "7687479296",
+      "memory.peak": "8592080896",
+      "cpuset.cpus.effective": "0-8"
+    },
+    "memory_stat_selected_bytes": {
+      "anon": 162189312,
+      "file": 7074328576,
+      "kernel": 449777664,
+      "shmem": 0,
+      "inactive_file": 1006718976,
+      "active_file": 6067589120,
+      "slab": 443958984
+    },
+    "cpu_quota_effective_cores": 8.0,
+    "memory_limit_bytes": 8589934592,
+    "interpretation": "Exposed virtual CPU flags and shared cgroup counters only; no vector instruction, clock or throughput benchmark; current/peak memory are not task RSS."
+  },
+  "fixed_gates": {
+    "hamiltonian_relative": 1e-11,
+    "cohort_energy_relative": 1e-11,
+    "event_energy_relative": 1e-13,
+    "donor_endpoint_relative": 3e-14,
+    "fine_reference_abs": 1e-09,
+    "clock_abs": 1e-12
+  },
+  "fixed_angular_policy": {
+    "new_birth_mode": "P24",
+    "nodes": 16,
+    "projection_internal_tol": 1e-15,
+    "moment_gate_exact": "3/1000000000000000",
+    "reflection_abs": 0,
+    "grid": "Original NumPy leggauss coordinate nodes/weights; b(u) computed by the native primary state",
+    "angular_refinement": false,
+    "new_moment_constraint_change": false,
+    "scope": "The prior P24 admission algorithm is reused. This S9 matrix isolates the ODE adapter and event cache contract."
+  },
+  "open_measurements": [
+    "release-profile allocation counts/bytes and peak RSS by phase",
+    "kernel/JVP cache hit-miss and state-bank identity trace",
+    "projection versus exact-rational versus ODE versus JSON wall/CPU breakdown",
+    "matched-accuracy scalar vs SIMD and deterministic thread-count sensitivity",
+    "warmup/repeated independent timing, dispersion, cgroup CPU throttling and memory accounting"
+  ],
+  "no_speedup_claim": true
+}
