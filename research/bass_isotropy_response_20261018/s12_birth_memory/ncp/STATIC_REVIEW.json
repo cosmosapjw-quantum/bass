@@ -1,0 +1,220 @@
+{
+  "schema": "BASS_S12_INFRASTRUCTURE_STATIC_REVIEW_V1",
+  "created_utc": "2026-10-20T21:25:47.881228+00:00",
+  "reviewer": "/root/cloud_intake",
+  "scope": "Complementary source review of resource, provenance, process ownership, receipt and packaging boundaries; numerical native physics reviewed separately.",
+  "independence": "Reviewer authored ncp infrastructure; native_followup and process_control/prepare were authored by other agents. This is not an independent audit of the reviewer own implementation.",
+  "status": "STATIC_FINDINGS_CLOSED_DYNAMIC_VERIFICATION_PENDING",
+  "containing_source_commit": "Bound by the external stage C2-C5 publication receipt, avoiding a self-reference.",
+  "reviewed_source_identities": {
+    "ncp/resources.py": {
+      "bytes": 9654,
+      "sha256": "06f20bfee2a2d4afe0889d4a5e5580f0a412b330042652c66223d4dd9b5651e4"
+    },
+    "ncp/runner.py": {
+      "bytes": 25530,
+      "sha256": "7336041e692f0bcace134e0e1d9487b6b82b19975e8d2f14a0d983b8934ebeed"
+    },
+    "ncp/bundle.py": {
+      "bytes": 7810,
+      "sha256": "1271ba3b8941495ba7fc99031adbc9f276f269098c70b84f0d133340e7e4ceef"
+    },
+    "ncp/test_runner.py": {
+      "bytes": 16564,
+      "sha256": "9257029987515c8f2eba76b63247f65831c808059c4d1fcbffac32ea28e7c8cb"
+    },
+    "ncp/README_KO.md": {
+      "bytes": 8705,
+      "sha256": "cde864e61ea9e229e2c0281d56dcfeeeef3a679f10aa94b61b52cea9aad1546e"
+    },
+    "process_control.py": {
+      "bytes": 5387,
+      "sha256": "627e0e80a0cf0aa2001d03b7e65bc7f527f9062a60042aa9f79500525860f04c"
+    },
+    "prepare.py": {
+      "bytes": 8940,
+      "sha256": "123b6e63ab8ba6eb37645e6e8cb68afaae210e94381643adbe369c2e7f4f9c4e"
+    },
+    "native_followup/run.py": {
+      "bytes": 22366,
+      "sha256": "e751ef4d5a4efb8917373ab7c53726c59a2f22cc7f4a655365bd8929f84901e3"
+    },
+    "native_followup/validate.py": {
+      "bytes": 17473,
+      "sha256": "de115d658fb733f0e08da02dc9b5e0bdfcc1225e42bb490340422f4af1a7a3c6"
+    },
+    "native_followup/CONTRACT.json": {
+      "bytes": 2336,
+      "sha256": "3779730bf79408396f93691ebfc21a8a50a22227bd7a30c40bc882f50b77fcd6"
+    },
+    "native_followup/SOURCE_MANIFEST.json": {
+      "bytes": 2741,
+      "sha256": "de187d6f5e46c820d5feb9663cadbc67be6d2e4c488932b5f2cf7c4f49563476"
+    },
+    "native_followup/native_owner_manifest.json": {
+      "bytes": 13601,
+      "sha256": "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2"
+    }
+  },
+  "native_runtime_manifest_readonly_byte_check": {
+    "files": 11,
+    "payload_bytes": 130255,
+    "all_size_sha256_gitblob_match": true,
+    "checks": [
+      {
+        "path": "CONTRACT.json",
+        "pass": true
+      },
+      {
+        "path": "balance.rs",
+        "pass": true
+      },
+      {
+        "path": "balance_p24.rs",
+        "pass": true
+      },
+      {
+        "path": "inputs/BASELINE_IDENTITY.json",
+        "pass": true
+      },
+      {
+        "path": "inputs/ORIGINAL_S8_FAILURE.json",
+        "pass": true
+      },
+      {
+        "path": "native_adapter.rs",
+        "pass": true
+      },
+      {
+        "path": "native_followup.rs",
+        "pass": true
+      },
+      {
+        "path": "native_owner_manifest.json",
+        "pass": true
+      },
+      {
+        "path": "run.py",
+        "pass": true
+      },
+      {
+        "path": "s11_projector.rs",
+        "pass": true
+      },
+      {
+        "path": "validate.py",
+        "pass": true
+      }
+    ]
+  },
+  "finding_closures": [
+    {
+      "id": "I01_NESTED_CHILD_INTERRUPTION",
+      "severity": "execution_blocker",
+      "status": "CLOSED_STATIC_PENDING_DYNAMIC",
+      "original_issue": "An outer wrapper termination could leave its separately created child process group running.",
+      "resolution": "Production run_owned and native ChildGuard install TERM/INT handlers, block signals across spawn registration, restore child signal masks, and terminate only the exact newly created child PGID. Inner cleanup is below the outer two-second grace.",
+      "evidence_files": [
+        "process_control.py",
+        "native_followup/run.py"
+      ],
+      "dynamic_check": "test_production_helper_cleans_nested_session_and_preserves_other_job interrupt subcase"
+    },
+    {
+      "id": "I02_NEGATIVE_LEDGER_DENOMINATORS",
+      "severity": "observer_false_pass",
+      "status": "CLOSED_STATIC",
+      "original_issue": "Combined and control inventories could produce negative normalized residuals without positive N/U guards.",
+      "resolution": "inventory requires finite positive number and energy; reconstructed and reference energies also require positivity. Ledger residuals require finite nonnegative values. Signed anisotropic stress remains allowed. Numerical tolerance values are unchanged.",
+      "evidence_files": [
+        "native_followup/validate.py",
+        "native_followup/CONTRACT.json"
+      ]
+    },
+    {
+      "id": "I03_PARENT_EXIT_WITH_LIVE_DESCENDANT",
+      "severity": "execution_boundary",
+      "status": "CLOSED_STATIC_PENDING_DYNAMIC",
+      "original_issue": "A zero-exit parent could leave an owned-session writer alive and be reported complete.",
+      "resolution": "Both helper implementations probe only their exact owned PGID after parent reap. A surviving group becomes a failure and is cleaned; the actual parent exit code is retained.",
+      "evidence_files": [
+        "process_control.py",
+        "native_followup/run.py"
+      ],
+      "dynamic_check": "test_production_helper_cleans_nested_session_and_preserves_other_job normal_exit subcase"
+    },
+    {
+      "id": "I04_NESTED_SESSION_RESOURCE_ACCOUNTING",
+      "severity": "resource_blocker",
+      "status": "CLOSED_STATIC_PENDING_DYNAMIC",
+      "original_issue": "Exact-PGID-only observation omitted nested-session compiler and native process RAM/CPU.",
+      "resolution": "Read one procfs process table and aggregate owned PGID members plus their observed PPID descendants. Report observed PIDs, nested live count and RSS. Ancestry is accounting only; signal targeting remains exact owned PGID.",
+      "evidence_files": [
+        "ncp/resources.py"
+      ],
+      "dynamic_check": "Existing production helper test requires real child/grandchild PID, positive nested RSS, and at least three live processes in the outer owner observation."
+    },
+    {
+      "id": "I05_OWNER_SYMLINK_BUNDLE_CONFLICT",
+      "severity": "integration",
+      "status": "CLOSED_STATIC",
+      "original_issue": "Optional owner reuse made a run-tree symlink that the strict return-bundle utility rejects.",
+      "resolution": "prepare copies the pinned, verified upstream files to a new local runtime tree and verifies each copy. The existing owner source is read-only.",
+      "evidence_files": [
+        "prepare.py",
+        "ncp/bundle.py"
+      ]
+    }
+  ],
+  "preserved_boundaries": [
+    "Only one previously incomplete b9_n64_P2P4 native case is in the reviewed native contract; no completed S8/S9/S10/S11 campaign is authorized here.",
+    "Original owner 0e25846433170d0f420c4cda44a0bedbf02cd177, one-case CSV, full runtime source hashes and old-stock full-array SHA256 are checked by the native wrapper/observer.",
+    "Native angular accuracy remains a separate diagnostic; process/packaging success is not full spectral-history or native Einstein/shear shared-Q completion.",
+    "Job attempts and outer completed receipts are create-only. The native final JSON is create-only and fsynced; the outer atomic receipt and JSON acceptance gates remain the completion authority.",
+    "Only source/input/command/dependency/artifact-identical PASS is eligible for resume; failures and interruptions remain separate attempts.",
+    "No signal is sent from a load estimate or inferred descendant PID. Only process groups created by the job wrappers are termination targets.",
+    "CPU64/RAM128GiB is a requested NCP ceiling; actual affinity/cgroup/free-memory/load bound admission. No actual NCP64 execution is claimed.",
+    "Disk protection is reservation plus sampled allocated-block checks and per-file limits, not a newly installed filesystem hard quota."
+  ],
+  "limitations": [
+    "Procfs observations are not atomic or continuous. Reparenting before observation may remove ancestry; reviewed wrappers retain supervision until owned children finish.",
+    "RSS is sampled and may count shared pages more than once; it is not an exact continuous peak.",
+    "Load admission does not reserve other owners future capacity. Existing owner work is never stopped to obtain resources.",
+    "No inference of scientific correctness follows from this source review or from infrastructure packaging."
+  ],
+  "dynamic_verification": {
+    "status": "NOT_RUN_SOURCE_FREEZE_REQUIRED",
+    "tests_authored": 14,
+    "test_names": [
+      "test_exact_pass_resume_and_changed_artifact",
+      "test_failed_attempt_is_preserved_and_never_skipped",
+      "test_zero_exit_does_not_bypass_scientific_json_gate",
+      "test_build_dependency_then_exact_resume",
+      "test_failed_dependency_blocks_only_its_descendant",
+      "test_hash_mismatch_is_rejected_before_execution",
+      "test_reserved_load_refuses_new_process",
+      "test_aggregate_output_budget_is_enforced_even_on_zero_exit",
+      "test_task_disk_cap_and_system_free_space_refuse_admission",
+      "test_global_disk_cap_breach_marks_active_job_failed",
+      "test_timeout_kills_own_descendants_not_other_job",
+      "test_production_helper_cleans_nested_session_and_preserves_other_job",
+      "test_atomic_receipt_cannot_overwrite_history",
+      "test_bundle_rejects_changed_payload_even_with_new_archive_sha"
+    ],
+    "production_helper_subcases": [
+      "outer interrupt with TERM-resistant nested child/grandchild",
+      "zero-exit parent with surviving nested child"
+    ],
+    "test_execution_count": 0,
+    "build_execution_count": 0,
+    "native_history_execution_count": 0,
+    "completed_campaign_reexecution_count": 0,
+    "ncp64_execution_count": 0
+  },
+  "cloud_boundary": {
+    "new_drive_mutations": 0,
+    "browser_used": false,
+    "s12_c1_dropbox_full_readback": "PASS already sealed in stage1; separate receipt",
+    "later_stage_backups": "Await exact frozen source manifest and publication receipt."
+  }
+}

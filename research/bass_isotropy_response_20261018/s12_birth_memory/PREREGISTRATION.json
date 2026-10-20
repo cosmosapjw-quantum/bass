@@ -1,0 +1,55 @@
+{
+  "schema": "BASS_S12_LIGHTWEIGHT_PREREGISTRATION_V1",
+  "recorded_before_scientific_execution": true,
+  "core": {
+    "points": 24,
+    "old_stock": "GL16 positive physical anisotropy 1+0.4P2; unchanged",
+    "new_birth": "GL32 coordinate support at b_birth0.65, S11 Decimal P24 exact certificate, energy0.07, birth0.18, B_j0.12",
+    "strains": [-0.6, -0.3, -0.1, 0.0, 0.2, 0.6],
+    "oracle": "Independent W,V direct chain rule; complex-step all6state columns and explicitx at1e-28",
+    "scaled_derivative_gate": 2e-11,
+    "scaled_baseline_fused_gate": 2e-13,
+    "negative_inputs": ["negative physical weight", "broken physical reflection", "broken tangent reflection", "nonfinite input", "negative h", "future cohort evaluation", "trailing input"]
+  },
+  "histories": {
+    "new_base_cases": ["P24 y0 full", "source_frame_GL y0 full", "source_frame_GL b0 gauge"],
+    "config": {"k": 4, "n": 32, "b0": 0.65, "y0": 0.025, "donor0": 0.8, "old_isotropic": 0.015, "old_anisotropic": 0.01, "cosmological_constant": 0.7, "decay_lambda": 0.9, "birth_end": 0.3, "x_end": 0.4},
+    "old_stock": "GL128 physical source-frame distributions, fixed across y0 perturbations",
+    "primary_driver": "small_clock7",
+    "additional_driver_check": "mf_into_ls6 only on new P24 full case",
+    "additional_driver_state6_scaled_gate": 1e-9,
+    "MF6_clock7_state6_scaled_gate": 1e-9,
+    "baseline_fused_history_state6_scaled_gate": 2e-13,
+    "rtol": 3e-13, "atol": 3e-15, "max_step": 0.025,
+    "Python_independent_reference": "One new primary P24 history, DOP853 rtol3e-14/atol3e-16/max_step0.0125; never old S8 runner",
+    "Python_Rust_state6_scaled_gate": 1e-9,
+    "paired_FD": "P24 y0 only, plus/minus steps1e-4,5e-5,2.5e-5; donor and event coordinates fixed",
+    "Richardson_h_b_y_max_absolute_gate": 1e-8,
+    "raw_fine_FD_scaled_gate": 1e-6,
+    "negative_controls": ["omit_birth_memory", "omit_mu_b", "omit_alpha_b"],
+    "negative_control_interpretation": "Report each full-versus-omitted error; require each P24 control to exceed ten times the maximum full-vs-Richardson error for identification; no demand that identically zero GL mu/alpha terms create a failure",
+    "primal_and_tangent_constraints_event_gates": 1e-11,
+    "source_frame_gauge_absolute_gate": 1e-11,
+    "baseline_fused_history": "Primary P24 full case, common output state6 scaled gate2e-13; identical physical inputs",
+    "checkpoint": "Exact final-checkpoint serialization and same-source/input/binary resume only; no interrupted intermediate-boundary or prefix execution claim",
+    "Sigma_derivative": "Only when signed y !=0; signed shear is primary"
+  },
+  "performance": {
+    "fixture": "Same24point core batch with same immutable48rays and full augmented callbacks",
+    "timed_repetitions_per_sample": 2000,
+    "warmup_pairs": 2,
+    "measured_pairs": 7,
+    "order": "Alternate baseline-first/fused-first; each process emits diagnostic fields checked against its corresponding untimed output",
+    "report": "raw paired seconds, medians, IQR, per-pair ratios; preparation and parsing separately retained; no minimum speedup gate",
+    "old_S10_benchmark_replay": false
+  },
+  "case_parallel": {
+    "fixture": "Immutable copies of the new core24point fixture; pack i increases every x by i*1e-4, leaving support/weights/reductions fixed",
+    "sandbox": {"packs": 4, "workers": 2, "repeat": 128, "warmup_pairs": 1, "measured_pairs": 3},
+    "NCP": {"packs": 64, "workers_requested_max": 64, "repeat": 1024, "warmup_pairs": 2, "measured_pairs": 7},
+    "gate": "Every serial/parallel raw scientific stdout byte identical for each fixed pack; no minimum speedup",
+    "measurement": "Whole-batch wall time includes subprocess and file costs; separate inner core timing retained",
+    "NCP_status_before_actual_receipt": "NOT_RUN"
+  },
+  "scope": "New short manufactured-history verification and kernel optimization, not native full spectral convergence or an NCP64 result"
+}

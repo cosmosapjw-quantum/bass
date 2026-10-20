@@ -89,7 +89,8 @@
     "constraint_tangent_energy_event_absolute_scaled": 1e-11,
     "native_ledger": 1e-11,
     "native_n64_angular_error": "Report against the unchanged 1e-6 target as a diagnostic; do not promote to original n256 finest-grid admission",
-    "Richardson_fine_h_b_y_max_absolute": 1e-08
+    "Richardson_fine_h_b_y_max_absolute": 1e-08,
+    "source_frame_gauge_h_theta_y_theta_b_theta_minus1_absolute": 1e-11
   },
   "new_acceptance": {
     "analytic_core_against_independent_complex_step_scaled": 2e-11,
@@ -109,7 +110,8 @@
     ],
     "performance": "Paired alternating baseline/fused runs, identical inputs/output observables/accuracy gates, raw timings and median/IQR retained. No minimum speedup is assumed; regressions remain results.",
     "parallelism": "Independent whole cases only; preserve each ray/cohort reduction order. Validate serial/parallel scientific output identity on a bounded sandbox subset; actual64-core result remains NOT_RUN until its receipt exists.",
-    "history_FD_interpretation": "The new raw scaled centered-FD check is additional; preserve S8 fine Richardson max absolute h,b,y gate1e-8 separately. Neither replaces the other."
+    "history_FD_interpretation": "The new raw scaled centered-FD check is additional; preserve S8 fine Richardson max absolute h,b,y gate1e-8 separately. Neither replaces the other.",
+    "source_frame_gauge_interpretation": "Preserve existing absolute max(|h_theta|,|y_theta|,|b_theta-1|)<=1e-11; additional scaled1e-10 is not a replacement."
   },
   "fixed_lightweight_scope": {
     "core_points": "24 deterministic points spanning signed b-b_birth, positive/negative shear, nonzero memory terms and two-cohort mixtures; include old physical anisotropy",
@@ -180,5 +182,6 @@
     ],
     "source_deposition_number_scope": "5.369926725506957e-12 remains a limited source-deposition result, not full spectral-history convergence",
     "merge": false
-  }
+  },
+  "C1_to_source_clarification": "Explicitly retain the existing S8 absolute gauge1e-11 alongside the new scaled diagnostic. No gate relaxed, no data inspected for changing a threshold."
 }

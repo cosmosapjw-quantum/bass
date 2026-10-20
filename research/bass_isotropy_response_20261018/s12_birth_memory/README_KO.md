@@ -1,6 +1,6 @@
 # S12: Rust 출생 기억 접선과 제한된 계산 최적화
 
-2026-10-21 KST / 2026-10-20 UTC. 현재 단계는 C1 계약·최신 증거 대조다.
+2026-10-21 KST / 2026-10-20 UTC. 현재 단계는 C2–C5 소스 고정이다.
 
 S11 이후 새 실행 결과를 찾기 위해 현재 PR174/175, research refs96개,
 최근 PR10개, main, 연결된 대화 검색, Dropbox·Drive의 BASS_BACKUPS와
@@ -37,11 +37,11 @@ moment와 미분을 모은다. 기준 구현과 같은 정확도·같은 출력�
 
 | 단계 | 현재 상태 | 다음 증거 |
 |---|---|---|
-| C1 최신 대조·계약 | 완료, 게시 준비 | 고정 CONTRACT.json 및 intake |
-| C2–C3 방정식·수치 map | 진행 | 전체 augmented derivative와 원문 비교 |
-| C4–C5 자원·구현 | 준비 | bounded NCP launcher, Rust core와 adapter |
+| C1 최신 대조·계약 | e48e0d56 게시·Dropbox 전체 readback 완료 | CONTRACT.json, intake, delivery/stage1 |
+| C2–C3 방정식·수치 map | 유도·CAS51항등식·원문 대조 완료 | THEORY_KO.md, WOLFRAM_DERIVATIVES.json |
+| C4–C5 자원·구현 | 구현·고정 검증설계·정적 finding 수정 완료 | PREREGISTRATION.json, src/, ncp/, static_review/ |
 | C6–C8 검증·관측량·성능 | NOT_RUN | 새 source commit 이후 실제 receipt |
-| C9 독립 검토 | NOT_RUN | 구현자와 분리한 수식·코드/증거 검토 |
+| C9 독립 검토 | 정적 검토만 완료, 실행 증거 검토 대기 | 구현자와 분리한 수식·코드/증거 검토 |
 | C10 배송·handoff | 진행 예정 | Git 게시, 양쪽 provider별 실제 상태 |
 
 최신 사용자 요청의 NCP64코어/128GiB는 새 자원 목표다. 현재 원격 도구의
@@ -49,6 +49,20 @@ moment와 미분을 모은다. 기준 구현과 같은 정확도·같은 출력�
 명시했다. 실제 장치 자원과 실행을 확인하지 못했으며 원격 process 실행은0회다.
 NCP용 배치는 실제 CPU affinity·quota·남은 RAM·기존 작업을 확인하고,
 동일 source/input/output 증거를 갖춘 완료 작업만 건너뛰도록 준비한다.
+
+이번 source checkpoint 이전 새 compile/history/benchmark는0회다. 원문과
+Wolfram 계산, AST/rustfmt, pinned dependency readback은 별도로 기록했다.
+고정 소스 게시 후에만 C6의 새 짧은14 Rust history, 독립 Python history1,
+최종 checkpoint restore1, 24점 core 및 동일 정확도 paired timing을 실행한다.
+Sandbox case 병렬 검증은4개 pack·2worker이고 NCP용64개 pack과 구분한다.
+각 pack 안의 ray/cohort 순회 순서는 바꾸지 않는다.
+
+`prepare.py`는 source binding과178개 pinned VigilODE source를 확인하고
+사설 work directory에서 compile만 한다. 기존 owner를 복사해 쓰는 경우에도
+고정 파일만 읽고 검증하며 원본을 변경하지 않는다. `process_control.py`는
+각 wrapper가 만든 child group의 중단과 잔여 child를 처리한다. 인프라 검증14개는
+실제 helper·원자적 receipt·resume·resource gate를 검사하는 새 테스트다.
+소스 동결 시점에는 아직 실행하지 않았다.
 
 정확한 물리·소유권·admission·scope·자원 제한은 [CONTRACT.json](CONTRACT.json)에 있다.
 실제 MD14/shared-Q와 evolving reactive full spectral history는 물리 입력과

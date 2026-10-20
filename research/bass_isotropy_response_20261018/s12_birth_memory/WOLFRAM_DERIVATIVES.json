@@ -1,0 +1,32 @@
+{
+  "schema": "BASS_S12_WOLFRAM_DERIVATIVES_V1",
+  "call1": {
+    "code": "ClearAll[\"Global`*\"];\nww=Exp[2 dd](1-mm^2); vv=Exp[-4 dd] mm^2; rr=Sqrt[ww+vv]; stress=(vv-ww/2)/rr;\nnpoly=ww^2+14 ww vv+4 vv^2;\nd1=-npoly/(2 rr^3);\nd2=(-ww^3+60 ww^2 vv-12 ww vv^2+8 vv^3)/(2 rr^5);\nrm=mm(Exp[-4 dd]-Exp[2 dd])/rr;\nnm=4 mm[(-Exp[2 dd]+7 Exp[-4 dd])ww+(-7 Exp[2 dd]+4 Exp[-4 dd])vv];\ndmix=-nm/(2 rr^3)+3 npoly rm/(2 rr^4);\nasm=Element[{dd,mm},Reals]&&-1<mm<1;\nkernel=FullSimplify[{D[rr,dd]+2 stress,D[stress,dd]-d1,D[stress,{dd,2}]-d2,D[stress,dd,mm]-dmix},Assumptions->asm];\nmemE=at rr-aa bj D[rr,dd]+aa mt D[rr,mm];\nmemP=at stress-aa bj D[stress,dd]+aa mt D[stress,mm];\nmemIdentity=FullSimplify[D[memE,dd]+2 memP,Assumptions->asm];\nfh=(-hh^2-2 yy^2-ed/2-en+lam)/hh;\njm={{-2-fh/hh,2 pp/hh,-4 yy/hh},{-yy/hh^2,0,1/hh},{-pp/hh^2,pb/hh,-3}};\nss={sh,sb,sy}; force={-me/hh,0,mp/hh};\nf={fh,yy/hh,-3 yy+pp/hh}; g=jm.ss+force; aug=Join[f,g];\ndb[expr_]:=-2 pp D[expr,en]+pb D[expr,pp]+pbb D[expr,pb]-2 mp D[expr,me]+mpb D[expr,mp];\ndx[expr_]:=-3 ed D[expr,ed]-4(en D[expr,en]+pp D[expr,pp]+pb D[expr,pb]+me D[expr,me]+mp D[expr,mp]);\naa0=2 yy^2+ed/2+en-lam;\nlm={{-2 aa0 sh/hh^3-2 pp sb/hh^2+4 yy sy/hh^2+me/hh^2,-2 pp sh/hh^2+2 pb sb/hh+2 mp/hh,4 yy sh/hh^2-4 sy/hh},{2 yy sh/hh^3-sy/hh^2,0,-sh/hh^2},{2 pp sh/hh^3-pb sb/hh^2-mp/hh^2,-pb sh/hh^2+pbb sb/hh+mpb/hh,0}};\nactualJ=Table[{D[aug[[i]],hh],db[aug[[i]]],D[aug[[i]],yy],D[aug[[i]],sh],D[aug[[i]],sb],D[aug[[i]],sy]},{i,6}];\nexpectedJ=ArrayFlatten[{{jm,ConstantArray[0,{3,3}]},{lm,jm}}];\njac=Simplify[actualJ-expectedJ];\npt=Join[{(3 ed/2+4 en)/hh,0,-4 pp/hh},{(-3 ed/2-4 en)sh/hh^2-8 pp sb/hh+4 me/hh,0,4 pp sh/hh^2-4 pb sb/hh-4 mp/hh}];\nclock=Simplify[(dx/@aug)-pt];\nct=2 hh sh-2 yy sy+2 pp sb-me;\nprop=Simplify[D[ct,hh]f[[1]]+db[ct]f[[2]]+D[ct,yy]f[[3]]+D[ct,sh]g[[1]]+D[ct,sb]g[[2]]+D[ct,sy]g[[3]]+dx[ct]+2 ct];\ngauge=Simplify[g/.{sh->0,sb->1,sy->0,me->2 pp,mp->-pb}];\nExportString[<|\"kernel_difference4\"->kernel,\"memory_derivative_difference\"->memIdentity,\"augmented_jacobian_difference6x6\"->jac,\"partial_x_difference6\"->clock,\"constraint_tangent_propagation_difference\"->prop,\"source_frame_gauge_rhs3\"->gauge|>,\"RawJSON\"]",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Export::jsonstrictencoding: Expression \"Times\" cannot be exported as \"JSON\".\nGeneral::messages: Messages were generated which may indicate errors.\n\nOut[1]= $Failed"
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    },
+    "status": "FAILED_OUTPUT_SERIALIZATION_DUE_TO_INPUT_BRACKET_ERROR"
+  },
+  "repair": "nm raw derivative multiplication incorrectly used [] in call1; corrected to multiplication (). Mathematical assumptions/gates unchanged.",
+  "call2": {
+    "code": "ClearAll[\"Global`*\"];\nww=Exp[2 dd](1-mm^2); vv=Exp[-4 dd] mm^2; rr=Sqrt[ww+vv]; stress=(vv-ww/2)/rr;\nnpoly=ww^2+14 ww vv+4 vv^2;\nd1=-npoly/(2 rr^3);\nd2=(-ww^3+60 ww^2 vv-12 ww vv^2+8 vv^3)/(2 rr^5);\nrm=mm(Exp[-4 dd]-Exp[2 dd])/rr;\nnm=4 mm ((-Exp[2 dd]+7 Exp[-4 dd])ww+(-7 Exp[2 dd]+4 Exp[-4 dd])vv);\ndmix=-nm/(2 rr^3)+3 npoly rm/(2 rr^4);\nasm=Element[{dd,mm},Reals]&&-1<mm<1;\nkernel=FullSimplify[{D[rr,dd]+2 stress,D[stress,dd]-d1,D[stress,{dd,2}]-d2,D[stress,dd,mm]-dmix},Assumptions->asm];\nmemE=at rr-aa bj D[rr,dd]+aa mt D[rr,mm];\nmemP=at stress-aa bj D[stress,dd]+aa mt D[stress,mm];\nmemIdentity=FullSimplify[D[memE,dd]+2 memP,Assumptions->asm];\nfh=(-hh^2-2 yy^2-ed/2-en+lam)/hh;\njm={{-2-fh/hh,2 pp/hh,-4 yy/hh},{-yy/hh^2,0,1/hh},{-pp/hh^2,pb/hh,-3}};\nss={sh,sb,sy}; force={-me/hh,0,mp/hh};\nf={fh,yy/hh,-3 yy+pp/hh}; g=jm.ss+force; aug=Join[f,g];\ndb[expr_]:=-2 pp D[expr,en]+pb D[expr,pp]+pbb D[expr,pb]-2 mp D[expr,me]+mpb D[expr,mp];\ndx[expr_]:=-3 ed D[expr,ed]-4(en D[expr,en]+pp D[expr,pp]+pb D[expr,pb]+me D[expr,me]+mp D[expr,mp]);\naa0=2 yy^2+ed/2+en-lam;\nlm={{-2 aa0 sh/hh^3-2 pp sb/hh^2+4 yy sy/hh^2+me/hh^2,-2 pp sh/hh^2+2 pb sb/hh+2 mp/hh,4 yy sh/hh^2-4 sy/hh},{2 yy sh/hh^3-sy/hh^2,0,-sh/hh^2},{2 pp sh/hh^3-pb sb/hh^2-mp/hh^2,-pb sh/hh^2+pbb sb/hh+mpb/hh,0}};\nactualJ=Table[{D[aug[[i]],hh],db[aug[[i]]],D[aug[[i]],yy],D[aug[[i]],sh],D[aug[[i]],sb],D[aug[[i]],sy]},{i,6}];\nexpectedJ=ArrayFlatten[{{jm,ConstantArray[0,{3,3}]},{lm,jm}}];\njac=Simplify[actualJ-expectedJ];\npt=Join[{(3 ed/2+4 en)/hh,0,-4 pp/hh},{(-3 ed/2-4 en)sh/hh^2-8 pp sb/hh+4 me/hh,0,4 pp sh/hh^2-4 pb sb/hh-4 mp/hh}];\nclock=Simplify[(dx/@aug)-pt];\nct=2 hh sh-2 yy sy+2 pp sb-me;\nprop=Simplify[D[ct,hh]f[[1]]+db[ct]f[[2]]+D[ct,yy]f[[3]]+D[ct,sh]g[[1]]+D[ct,sb]g[[2]]+D[ct,sy]g[[3]]+dx[ct]+2 ct];\ngauge=Simplify[g/.{sh->0,sb->1,sy->0,me->2 pp,mp->-pb}];\nExportString[<|\"kernel_difference4\"->kernel,\"memory_derivative_difference\"->memIdentity,\"augmented_jacobian_difference6x6\"->jac,\"partial_x_difference6\"->clock,\"constraint_tangent_propagation_difference\"->prop,\"source_frame_gauge_rhs3\"->gauge|>,\"RawJSON\"]",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Out[1]= \"{\\n\\t\\\"kernel_difference4\\\":[\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0\\n\\t],\\n\\t\\\"memory_derivative_difference\\\":0,\\n\\t\\\"augmented_jacobian_difference6x6\\\":[\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t]\\n\\t],\\n\\t\\\"partial_x_difference6\\\":[\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0\\n\\t],\\n\\t\\\"constraint_tangent_propagation_difference\\\":0,\\n\\t\\\"source_frame_gauge_rhs3\\\":[\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0\\n\\t]\\n}\""
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  "scope": "Analytic scalar kernel, frozen-memory decomposition, full augmented6 Jacobian and clock column, linearized constraint propagation and source-frame GL gauge; no ODE/history/benchmark was run"
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "BASS_S12_NATIVE_AUTHOR_REVISION_R2",
+  "timestamp_utc": "2026-10-20T21:22:20.363356+00:00",
+  "requested_by": "root after independent cloud review",
+  "author": "p6_theory; not an independent review of this native wrapper",
+  "findings": [
+    {
+      "id": "NATIVE_WRAPPER_SIGNAL_PROPAGATION",
+      "before": "Wrapper TERM/INT could leave its start_new_session child process group running; timeout cleanup could wait 2+2 seconds.",
+      "change": "ChildGuard installs TERM/INT handlers, registers only the owned child process group under a blocked-signal spawn window, forwards TERM then waits at most0.75 seconds and sends KILL with at most0.15 seconds reap. Child inherits the restored original signal mask. Separate INTERRUPTION.json is fsynced before unwind, retaining actual signal/group/cleanup. No unrelated owner process enumeration or kill is used.",
+      "functions": [
+        "run.py:ChildGuard",
+        "run.py:command",
+        "run.py:run"
+      ],
+      "status": "IMPLEMENTED_PENDING_INDEPENDENT_READ_AND_POST_FREEZE_PROCESS_FIXTURE"
+    },
+    {
+      "id": "NATIVE_NEGATIVE_DENOMINATOR_FALSE_PASS",
+      "before": "Combined and same-grid number/energy denominators were finite but not required positive, permitting negative relative residuals to compare below positive gates.",
+      "change": "Strict finite positive number and energy validated for old/reference/combined/same-grid inventories and reconstructed/reference denominators. Signed stress remains allowed. Reported and computed ledger/kernel/reference residuals must be finite nonnegative before gate comparison. Existing numeric tolerances unchanged.",
+      "functions": [
+        "validate.py:positive",
+        "validate.py:nonnegative_residual",
+        "validate.py:inventory",
+        "validate.py:validate"
+      ],
+      "status": "IMPLEMENTED_PENDING_INDEPENDENT_READ_AND_POST_FREEZE_CORRUPTED_INPUT_FIXTURE"
+    }
+  ],
+  "before": [
+    {
+      "path": "run.py",
+      "bytes": 17516,
+      "sha256": "ccb667e11bb9472228e720f83ddeab2e58bab8a6e5e33ac42815cb4f9f9c23d7"
+    },
+    {
+      "path": "validate.py",
+      "bytes": 16380,
+      "sha256": "d875afd6318c549b1e3bcfb6c8590a37cb47b02d1daefe5e721822ada7b912f8"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "bytes": 2741,
+      "sha256": "f2131ba349d163e4dfabc9aca664bbb05cbd0bd6d1fd858d70e707adeb919e86"
+    },
+    {
+      "path": "README_KO.md",
+      "bytes": 5741,
+      "sha256": "985b73e61ac690ffb9e3663676a8714c611366bd786f39628079d5914b43ae4e"
+    }
+  ],
+  "after": [
+    {
+      "path": "run.py",
+      "bytes": 21868,
+      "sha256": "d9492402b63dc9ed01c2f4f9f83390a55448c0aa4cd36ec33026b2f87010579f"
+    },
+    {
+      "path": "validate.py",
+      "bytes": 17473,
+      "sha256": "de115d658fb733f0e08da02dc9b5e0bdfcc1225e42bb490340422f4af1a7a3c6"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "bytes": 2741,
+      "sha256": "31024569934b5b9b58edc952e2037469db816740794bfb891f84d3483394c4a7"
+    },
+    {
+      "path": "README_KO.md",
+      "bytes": 6313,
+      "sha256": "c9c4c4031205d9cf53fc5721ec0d6bebca6684762ebf43214131f7ab0d7b0b3c"
+    }
+  ],
+  "runtime_manifest_files": 11,
+  "runtime_manifest_payload_bytes": 129757,
+  "verification_performed": [
+    "Python AST syntax parse only for run.py and validate.py",
+    "Regenerated full byte/SHA256/Git blob runtime source manifest"
+  ],
+  "not_performed": [
+    "No source module imported",
+    "No child process interruption fixture executed",
+    "No corrupted-inventory numerical fixture executed",
+    "No Rust compile",
+    "No native or ODE solver execution",
+    "No old campaign rerun"
+  ],
+  "counts": {
+    "python_AST_parses": 2,
+    "Rust_compile_calls": 0,
+    "native_history_calls": 0,
+    "ODE_solver_calls": 0,
+    "old_campaign_calls": 0
+  },
+  "physics_scope_unchanged": true
+}

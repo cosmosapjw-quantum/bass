@@ -1,6 +1,6 @@
 {
   "schema": "bass.isotropy.research_dag.v17",
-  "date_utc": "2026-10-20T18:27:11.075902+00:00",
+  "date_utc": "2026-10-20T21:28:56.446701+00:00",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
   "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -108,7 +108,8 @@
     "S11_C2_C5_FROZEN_SOURCE_INPUT",
     "S11_C6_C9_RESULT_AND_REVIEW",
     "S11_C10_METADATA_HANDOFF",
-    "S12_C1_CONTRACT"
+    "S12_C1_CONTRACT",
+    "S12_C2_C5_FROZEN_SOURCE_PREREG"
   ],
   "remaining_obligations": [
     {
@@ -3392,28 +3393,28 @@
   "historical_S10_latest_storage_intake_role": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json.",
   "active_unit": "S12",
   "S12": {
-    "status": "C1_CONTRACT_FIXED_C2_C3_IN_PROGRESS",
+    "status": "C2_C5_SOURCE_FIXED_C6_NOT_RUN",
     "baseline_head": "44bac536f6add11f8d2d4b3aa585a1c2f9049664",
     "contract": "s12_birth_memory/CONTRACT.json",
     "intake": "s12_birth_memory/intake/CURRENT_INTAKE.json",
     "selected_scope": "one explicitly requested new coding unit C1-C10",
     "stages": {
       "C1": "COMPLETE_CONTRACT_FIXED",
-      "C2": "IN_PROGRESS",
-      "C3": "IN_PROGRESS",
-      "C4": "PREPARING",
-      "C5": "PREPARING",
+      "C2": "COMPLETE_THEORY_CAS_51_IDENTITIES",
+      "C3": "COMPLETE_NUMERICAL_MAP",
+      "C4": "COMPLETE_PREREGISTERED_RESOURCE_AND_FAILURE_CONTRACT",
+      "C5": "SOURCE_AUTHORED_STATIC_FINDINGS_CLOSED_NOT_COMPILED",
       "C6": "NOT_RUN",
       "C7": "NOT_RUN",
       "C8": "NOT_RUN",
-      "C9": "NOT_RUN",
+      "C9": "STATIC_REVIEWS_ONLY_DYNAMIC_PENDING",
       "C10": "PENDING"
     },
     "NCP": "NOT_RUN_CURRENT_SERVICE_QUOTA;64CPU/128GiB requested;actual hardware unverified",
     "completed_campaign_replays": 0,
     "prior_NCP_status_scope": "Top-level historical NCP field belongs to completed S9/S10/S11; S12 has new explicit execution authorization.",
     "drive_delivery": "PENDING_UNKNOWN_SERVER_OUTCOME",
-    "dropbox_delivery": "C1_PENDING_UPLOAD",
+    "dropbox_delivery": "C1_FULL_BYTES_SHA_CRC_MANIFEST_GIT_PASS",
     "allowed_ready_backlog": [
       "new Rust full birth-memory client",
       "single incomplete S8 native b9_n64_P2P4"
@@ -3421,6 +3422,36 @@
     "blocked_physics_inputs": [
       "actual MD14/native Einstein shared-Q donor/deposition contract",
       "evolving reactive full finite-bin closure"
+    ],
+    "C1_commit": "e48e0d5632634f6be2af63cf9059c8dd104882de",
+    "stage_delivery": {
+      "C1": {
+        "commit": "e48e0d5632634f6be2af63cf9059c8dd104882de",
+        "Dropbox": "delivery/stage1/DROPBOX_FULL_READBACK.json",
+        "Drive": "NOT_UPLOADED_PENDING_UNKNOWN_PREVIOUS_WRITE_OUTCOME"
+      },
+      "C2_C5": {
+        "publication": "containing commit; external source binding records exact SHA before C6",
+        "Dropbox": "PENDING_STAGE_BACKUP",
+        "Drive": "PENDING_NO_NEW_WRITE"
+      }
+    },
+    "source_execution_policy": "Before C6, full Git tree readback and source binding; preserve failed attempt/source and publish any repair before admitted rerun.",
+    "fixed_new_execution_scope": {
+      "Rust_short_histories": 14,
+      "Python_independent_short_reference": 1,
+      "final_checkpoint_restore_only": 1,
+      "core_points": 24,
+      "core_timing_warmup_pairs": 2,
+      "core_timing_measured_pairs": 7,
+      "sandbox_case_parallel_packs": 4,
+      "sandbox_case_parallel_workers": 2,
+      "NCP_requested_max_workers": 64
+    },
+    "static_reviews": [
+      "s12_birth_memory/static_review/PHYSICS_R2.json",
+      "s12_birth_memory/static_review/NCP_WRAPPER_R2.json",
+      "s12_birth_memory/ncp/STATIC_REVIEW.json"
     ]
   }
 }
