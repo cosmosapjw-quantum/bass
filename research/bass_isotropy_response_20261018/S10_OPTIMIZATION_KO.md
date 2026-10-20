@@ -33,9 +33,9 @@
 | C4 병렬화·실행 DAG | 고정 7회 사전등록 완료 | `d5a17364` full tree readback | C3와 같은 archive/readback |
 | C5 구현 | 신규 crate 구현 완료; 후속 C6–C8 실제 실행 완료 | `d5a17364` full tree readback | C3와 같은 archive/readback |
 | C6 구현 검증 | release build 및 targeted11/11 PASS | `477eca7d` full tree readback | Dropbox 전체 bytes·15 payload 일치; Drive 미완료 |
-| C7 과학 검증 | 68/68 gate, 전체 출력 strict identity PASS | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
-| C8 정확도 대비 성능 | 고정 표본 완료, 회귀1조건 보존 | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
-| C9 독립 검토 | 원자료 재계산·code 검토 진행 중 | 대기 | 대기 |
+| C7 과학 검증 | 68/68 gate, 전체 출력 strict identity PASS | `26e9e1ba` full tree readback | Dropbox 전체 bytes·70 payload 일치; Drive 미완료 |
+| C8 정확도 대비 성능 | 고정 표본 완료, 회귀1조건 보존 | `26e9e1ba` full tree readback | C7과 같은 archive/readback |
+| C9 독립 검토 | 155/155,68/68 PASS; 문서finding1수정확인 | 현재 checkpoint | Dropbox 대기; Drive 미완료 |
 | C10 판정·인계 | 대기 | 대기 | 대기 |
 
 실제 MD14 공급부/응력 closure와 native Einstein feedback, P6 제약, 전체 reactive finite-bin spectral history 및 넓은 continuum angular 보증은 기존의 미완료 과학 의무로 유지한다. 이번 사용자의 최적화 우선순위는 그 의무들을 완료했다는 의미가 아니다.
@@ -63,3 +63,7 @@ Targeted test는 `--test-threads=1`로 11/11 PASS. signed-zero와 전체 cache k
 ## C7/C8 실제 결과
 
 사전등록한1260 kernel timing batches,280 serial timed calls,42 parallel timed batches,378 preparation samples와108 allocation records가 모두 완료됐다. 대표24 RAW와 모든 반복 출력이 strict identity를 통과했고 기존 science68/68 PASS다. 전체 MF history SIMD+cache paired 중앙비는2.973/4.115, closed small은1.055(IQR0.957–1.243)다. Changing n16/cohort2의0.950 회귀를 지우지 않았다. [종합 결과·원표본](S10_RESULTS_KO.md)에 정확도·준비비용·자원·실패종류를 기록했다. 이전 절의 실행 전 문장은 당시 checkpoint의 이력이며 최신 상태는 이 절과 DAG다.
+
+## C9 실제 독립 검토
+
+[독립 receipt](evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json)와[원자료 재계산](evidence_s10/c9_review_r1/INDEPENDENT_RECOMPUTATION.json)을 보존했다. Code/science finding0, 문서representation finding1은 같은 pass에서 직접 수정 확인해 닫았다. 검토 당시 보고서 원bytes와 후속상태 안내만 추가한 현재 문서의 차이도[closure](evidence_s10/c9_review_r1/C9_CLOSEOUT.json)에 기록했다. 새compile/ODE/benchmark재실행0이다.

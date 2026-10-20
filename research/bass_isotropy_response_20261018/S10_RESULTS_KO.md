@@ -1,5 +1,7 @@
 # S10 최적화 연구 결과 — 같은 과학 출력에서 비용 줄이기
 
+> **후속 C9 완료:** 한 번의 독립 검토에서 155/155 checks와68/68 science gate PASS. 문서 표현 finding1건은 같은 pass에서 수정 확인해 닫았다. [독립 review receipt](evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json), [검토 당시 결과보고서](evidence_s10/c9_review_r1/REVIEWED_S10_RESULTS_KO.md). 아래 C7/C8 checkpoint 당시 진행 상태 문장은 역사 기록이며, 최신 상태는 DAG와 이 안내를 따른다.
+
 ## 현재 판정
 
 **고정 네 입력의 전체 과학 출력을 유지한 상태에서 matrix-free history의 SIMD+exact-cache 중앙 가속비 2.973배와 4.115배를 관측했다.** 같은 방법의 small/clock4 closed-donor 이력은 1.055배, IQR 0.957–1.243으로 일관된 이득을 인정하기 어렵다. 작은 changing-state kernel 한 조건의 중앙 가속비 0.950도 그대로 보존한다. 이번 결과는 opt-in 연구 client와 명시한 입력·CPU·compiler 범위이며 원 owner나 production 기본 경로를 교체하지 않는다.
@@ -38,7 +40,7 @@ q=c/(a+c)에 대해 D_b=-R(1/2+6q-9q²/2), q∈[0,1]이므로 양의 weight에�
 | 구현 | 비용을 바꾸는 부분 | 보존 조건 |
 |---|---|---|
 | stream | ray/cohort 임시 Vec를 세 개 보정 accumulator로 대체 | 각 성분의 원 합산 순서·분기·최종 sum+correction |
-| prepared | immutable mu², 1-mu², weight를 SoA로 준비 | 원 birth data 불변; 지수는 차이 d와 x-u로 계산 |
+| prepared | immutable mu², weight를 SoA로 준비; 1-z는 평가 시 계산 | 원 birth data 불변; 지수는 차이 d와 x-u로 계산 |
 | cache | bank-local RHS/Ft와 J 계수의 두 제한 slot | x,h,b,y의 정확한 to_bits key; 새 방향에는 새 Jv; 새 bank에는 새 cache |
 | simd | 4×f64 ray별 sqrt/div/mul | 원 괄호, ordered scalar reduction, scalar fallback/tail |
 | simd_cache | 위 SIMD와 exact cache 결합 | 위 두 조건 모두 |

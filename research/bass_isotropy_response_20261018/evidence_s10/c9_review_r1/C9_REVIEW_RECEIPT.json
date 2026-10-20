@@ -1,0 +1,216 @@
+{
+  "schema": "BASS_S10_C9_INDEPENDENT_REVIEW_RECEIPT_V1",
+  "status": "PASS_SCOPED",
+  "completed_at_utc": "2026-10-20T06:21:26.387675+00:00",
+  "review_stage": "C9",
+  "reviewer": "/root/science_reuse_and_review",
+  "review_budget": "One scope-bound independent pass; source specialist slice within that same pass; one actual documentation finding closed without a new cycle.",
+  "source_specialist": "/root/science_reuse_and_review/c9_source_contracts",
+  "independence": "Reviewers did not implement optimized source. Main reviewer authored C4; independent raw calculation imports no S9/S10 analyzer and executes no solver. This is not an independent-host/compiler replication.",
+  "source_commit": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+  "source_tree": "95785be65c196c68d61b79dafb32f4cedfd7702d",
+  "source_manifest_sha256": "4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17",
+  "C7_C8_publication_before_doc_fix": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
+  "fixed_spectral_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "vigilode_source": "a21d573980f66fe02891bd216153443b5352f921",
+  "validity": {
+    "RESULT_VALIDITY": "PASS_SCOPED",
+    "PROVENANCE_VALIDITY": "PASS_SCOPED_FIXED_EXECUTION_AND_STORED_READBACK",
+    "REPORT_REPRESENTATION_VALIDITY": "PASS_SCOPED_AFTER_VERIFIED_SINGLE_FIX",
+    "PACKAGING_VALIDITY": "C9_PUBLICATION_AND_DUAL_CLOUD_DELIVERY_PARENT_PENDING; not inferred from science"
+  },
+  "execution": {
+    "command": [
+      "python",
+      "intake/optimization/c9_review_r1/INDEPENDENT_REVIEW.py"
+    ],
+    "cwd": "/workspace/scratch/a1783628e7a7",
+    "exit_code": 0,
+    "tool_observed_wall_time_seconds": 0.639701473,
+    "independent_raw_calculation_runs": 1,
+    "source_mutations": 0,
+    "compiles": 0,
+    "tests_rerun": 0,
+    "ODE_integrations": 0,
+    "benchmark_replays": 0,
+    "external_searches": 0,
+    "additional_calculation": "Only late report/closure/figure metadata SHA256 checks; no repeated physics calculation."
+  },
+  "checks": {
+    "independent_raw_checks": 155,
+    "independent_raw_passes": 155,
+    "raw_failures": 0,
+    "unchanged_science_gates": 68,
+    "science_passes": 68,
+    "observations": 612,
+    "exact_birth_certificates": 64,
+    "canonical_representative_hashes": 24,
+    "timed_history_digests": 280,
+    "timed_parallel_batch_order_and_digests": 42,
+    "micro_pair_statistic_groups": 90,
+    "history_pair_statistic_groups": 20,
+    "parallel_summary_groups": 6,
+    "preparation_summary_groups": 54
+  },
+  "counts": {
+    "micro_timed": 1260,
+    "micro_proof": 108,
+    "micro_diagnostic": 108,
+    "history_timed": 280,
+    "history_warmup_proof": 24,
+    "parallel_timed_batches": 42,
+    "parallel_warmup_batches": 6,
+    "prepare_timed": 378,
+    "allocation_rows": 108
+  },
+  "source_review": {
+    "status": "PASS_SCOPED_SOURCE_REVIEW",
+    "concrete_code_contract_findings": 0,
+    "original_runner_relation": "exact original excerpt plus declared five callback/mode substitutions",
+    "operation_graph": "ordered original scalar Neumaier channels, node/cohort order and term parentheses retained",
+    "cache": "immutable evaluator-owned bank, exact x/h/b/y to_bits, separate bounded RHS/JVP slots, new direction recomputes Jv",
+    "SIMD": "runtime AVX2 guard for AVX packed f64 operations, valid full lanes and scalar tail, symbol-scoped no-FMA evidence"
+  },
+  "findings": [
+    {
+      "id": "C9-DOC-01",
+      "parent_id": "F1_PREPARED_REPRESENTATION",
+      "classification": "representation_FIX_SOON",
+      "status": "CLOSED_VERIFIED_SAME_PASS",
+      "file": "S10_RESULTS_KO.md",
+      "before_sha256": "508978b74b19f816c6cba220048fcfd0fb563b59462eac04e9c0f4869de0ddb6",
+      "after_sha256": "9229dc6d9763dfb12a48cd2766172e5fc0518d68b09006727e9c629ec9ec6873",
+      "old_text": "immutable mu², 1-mu², weight를 SoA로 준비",
+      "verified_new_text": "immutable mu², weight를 SoA로 준비; 1-z는 평가 시 계산",
+      "evidence": {
+        "closure_path": "intake/optimization/C9_FINDING_CLOSURE.json",
+        "closure_sha256_at_review": "e2c47d9df0bd0779dc5f74d8a706a3f2d95d6f6670269717f40218b63eb42ebb",
+        "parent_receipt_status_at_review": "FIXED_AWAITING_SAME_REVIEW_CONFIRMATION",
+        "reviewer_confirmed_new_text": true,
+        "reviewer_confirmed_old_text_absent": true,
+        "reviewer_confirmed_current_after_sha256": true
+      },
+      "code_changes": 0,
+      "tolerance_changes": 0,
+      "ODE_or_benchmark_reruns": 0
+    }
+  ],
+  "statistics_interpretation": {
+    "IQR": "sample spread, not confidence interval",
+    "closed_small_clock4_simd_cache": {
+      "median": 1.0551887909522575,
+      "Q1": 0.9572132242316267,
+      "Q3": 1.2425557671751304,
+      "claim": "no consistent speed gain admitted"
+    },
+    "small_changing_kernel_simd_cache": {
+      "median": 0.9498173837599284,
+      "claim": "performance regression retained"
+    },
+    "worker2_vs4": "small observed difference for four unequal jobs; pool cost included, no portable or superlinear scaling claim",
+    "universal_equivalence": "not proved for every compiler/hardware/input"
+  },
+  "independent_physics_maxima": {
+    "hamiltonian_relative": 8.730986626880304e-13,
+    "energy_identity_fsum_complex_step_relative": 1.034074613179427e-15,
+    "original_analysis_energy_identity_relative_retained": 2.8503909994791273e-15,
+    "energy_note": "Different summation of derivative terms gives different rounding residual maxima; both use unchanged gate1e-11. Original result is preserved.",
+    "event_energy_relative": 2.1805516491514178e-16,
+    "donor_endpoint_relative": 0.0,
+    "clock_abs": 1.3322676295501878e-15,
+    "reference_h_b_y_abs": 3.681499549657019e-13
+  },
+  "late_artifact_review": {
+    "results_report_sha256": "9229dc6d9763dfb12a48cd2766172e5fc0518d68b09006727e9c629ec9ec6873",
+    "postcheck_sha256": "d9fd3f63ba2e5b3d99d0e6f25e34d19cc020c667efbd0d74921d250b5eb26917",
+    "visual_audit_sha256": "5ebf48043f8be349107f0735aa61d41520f7663733445c665bf3dcf5a59522d5",
+    "figure_file_hashes": [
+      {
+        "path": "01_kernel_speed.png",
+        "sha256_match": true
+      },
+      {
+        "path": "02_history_speed.png",
+        "sha256_match": true
+      },
+      {
+        "path": "03_parallel_throughput.png",
+        "sha256_match": true
+      }
+    ],
+    "visual_inspection": "Parent actual visual audit reused; this C9 reviewer did not re-render/re-view figures.",
+    "resource_snapshot": {
+      "runtime_and_execution_regular_file_bytes": 1563541784,
+      "whole_workspace_regular_file_logical_bytes": 2176546393,
+      "memory_events_snapshot": {
+        "low": "0",
+        "high": "0",
+        "max": "221426",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "scope": "post-run snapshot, not process-tree/lifetime peak; max counter not assumed zero"
+    }
+  },
+  "skill_context_used": [
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/SKILL.md",
+      "sha256": "ccb300f5b871e7e9df2ce289bc4533f4121a335b36a3b67bfa86742ca930d3a5",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/STAGE_SELECTION.md",
+      "sha256": "a57d92f6f31ffbcf753bcfcd7f8ba027a0cb26ca2195304571a76b3efba1a9f5",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/POLICY_INTEGRATION.md",
+      "sha256": "a844f7c6d30bc7075d81bde0595b023d2a824c71250f826ce364f9a54bfc1cd0",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/SUBAGENT_MODE.md",
+      "sha256": "d84fc9c0e6c229e350f2855edff545ee9dac05cd7b7958b0b97e82b92bb0c48e",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/STAGE_GUIDE_KO.md",
+      "sha256": "87e4a6a714b19c7791549c913b9898a8aadff27d24b2105aa654374139e80800",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    },
+    {
+      "path": "/root/.codex/plugins/cache/created-by-me-remote/physmath-research-loop/1.3.0/skills/physmath-research-loop/references/CODING_LOOP.md",
+      "sha256": "b9e3d6217c243590683bee2ddfe5bb63293206c188b70137a6380e4765442c60",
+      "use": "C4 bounded DAG/resource/preregistration; prior unchanged core context reused"
+    }
+  ],
+  "remaining_obligations": [
+    "Parent C9 publication and final cloud/handoff state update.",
+    "Drive blocked remains distinct from Dropbox verified readback.",
+    "P6, broader finite-d continuum angular accuracy, full reactive finite-bin/spectral history convergence and actual owner/Einstein feedback closure remain outside this optimization completion.",
+    "No REI production/full EoR/merge approval."
+  ],
+  "artifacts": [
+    {
+      "path": "intake/optimization/c9_review_r1/INDEPENDENT_REVIEW.py",
+      "bytes": 27679,
+      "sha256": "c5bb0854263bb053d4e67da05445a09f4e13663e61a8cfbe7609728ff28bcbaa"
+    },
+    {
+      "path": "intake/optimization/c9_review_r1/INDEPENDENT_RECOMPUTATION.json",
+      "bytes": 293201,
+      "sha256": "6b20fc40580b0c08c528e78ebb343c2a6f8311e15424f9a879709faea4882fb8"
+    },
+    {
+      "path": "intake/optimization/c9_review_r1/source_contracts_note.md",
+      "bytes": 7141,
+      "sha256": "956b4d87228ffb4d4318fdc43e00d86744f26975c175be8e61cc2e7674657c6e"
+    },
+    {
+      "path": "intake/optimization/c9_review_r1/C9_REVIEW_KO.md",
+      "bytes": 14236,
+      "sha256": "205b47b029b144cef8cf395f7eab7b9577bb045f8edc9966144eacfd99b00970"
+    }
+  ]
+}
