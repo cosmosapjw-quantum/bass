@@ -1,8 +1,12 @@
 # S12: S8의 한 수치 실패에 대한 native 후속 코드
 
-**코드 준비 상태이며 실제 native history는 아직 실행하지 않았다.** 현 NCP 연결은 월 사용 한도 때문에 차단되어 있다. 이 디렉터리의 존재, source manifest, compile-only 통과는 실행 receipt 또는 과학 통과를 대신하지 않는다. 실제 새 실행의 source commit은 상위 S12 게시 receipt와 ready-job batch가 전달한다.
+**이 디렉터리는 source 확인·컴파일만 허용하는 보존 코드다. 실제 native history는 0회이며 고정 support의 birth 13부터 양의 P2/P4 해가 불가능하므로 NCP 실행 목록에서 제외했다.** 현 NCP 연결의 월 사용 한도와 별개로, 이 case의 실제 history 실행은 물리 조건 때문에 차단된다. source manifest와 compile-only 통과는 과학 통과를 대신하지 않는다. 실제 컴파일 source commit은 상위 S12 게시 receipt가 제공한다.
 
-대상은 `b9_n64_P2P4` 한 행이다. 기존 18행 campaign의 17개 완료 사례는 호출하지 않는다. 기존 실패 raw에 complete prefix bank가 없으므로 초기 상태부터 진행하는 한 번의 새 수선 시도이며 checkpoint resume가 아니다. 고정된 dispatch는 birth0–10 `legacy_P24`, birth11–15 `S11_P24`다. 완료되지 않았던 suffix에만 simultaneous P24를 연결한다. 각 birth가 만들어진 뒤에는 weights와 native state를 그대로 동결한다.
+보존한 대상은 `b9_n64_P2P4` 한 행이다. 기존 18행 campaign의 17개 완료 사례는 호출하지 않는다. 당초 초기 상태부터 한 번 수선하려던 코드였으나 저장된 완료 raw의 exact support 검사 후 실제 실행을 차단했다. 원 실패 raw에는 complete prefix bank가 없어 checkpoint resume로 표현할 수도 없다. 고정된 dispatch는 birth0–10 `legacy_P24`, birth11–15 `S11_P24`다. 완료되지 않았던 suffix에만 simultaneous P24를 연결한다. 각 birth가 만들어진 뒤에는 weights와 native state를 그대로 동결한다.
+
+## 고정 support 차단 근거
+
+완료 raw의 동일 geometry support를 재사용한 observer `be773dbf36bbe74b42e89e51c61dcd56ef2e6687`에서 birth 13의 `Z=max μ²=0.5908471918238073`를 확인했다. 양의 P2/P4 정규화는 `E[z]=1/3`, `E[z²]=1/5`를 요구하고 `z(Z-z)≥0`이므로 `Z≥3/5`가 필요하다. full polygon exact certificate는 원 gate `3/10^15`에서도 birth 13–15가 불가능함을 확인한다. 결과 SHA256는 `b41b05e89e1d9b67d6c89701813ab3d510c4be2bcd4e1ff7d3e9fdb81c9c39a5`다. birth 11의 정밀도 수리가 전체 16-birth 해의 존재를 보장하지 않는다. 새로운 명시적 등방 birth support 보정은 별도 사전 등록 연구이며 기존 stock/weights 변경으로 우회하지 않는다.
 
 ## 입력과 코드 권위
 
@@ -16,11 +20,11 @@
 
 ## 실행과 검증 경로
 
-[run.py](run.py)는 Python 표준 라이브러리만 사용한다. Root의 게시된 NCP ready job이 실제 고정 `--source-commit`과 새 `--out`을 인자로 전달한다. 사용자가 과거 파일이나 사전 명령을 제공할 필요가 없다.
+[run.py](run.py)는 Python 표준 라이브러리만 사용한다. `--source-commit`과 새 `--out`을 받지만, `--verify-only` 또는 `--compile-only` 중 하나가 반드시 필요하다. 두 옵션이 모두 없으면 네트워크·컴파일·projector·history 이전에 `BLOCKED_KNOWN_FIXED_SUPPORT_INFEASIBLE` receipt와 exit 2로 거절한다. 이 고정 native history는 NCP ready job에 포함하지 않는다. 사용자가 과거 파일이나 사전 명령을 제공할 필요가 없다.
 
-Runner는 source manifest와 모든 runtime 파일을 해당 Git commit의 전체 원격 bytes와 대조한 후, 고정 REI owner를 자동으로 materialize한다. owner의 파일별 크기·SHA256·Git blob을 검사하며 archive를 다운로드하거나 기존 owner 작업을 덮어쓰지 않는다. 이미 검증 가능한 owner source가 있으면 `--owner-root`를 통해 읽기 전용으로 재사용할 수 있다. 그 다음 pinned owner rlib와 새 probe를 `rustc --edition=2021 -O -C codegen-units=1`로 빌드하고, 생성한 정확히 한 행의 CASES.csv만 실행한다.
+Runner는 source manifest와 모든 runtime 파일을 해당 Git commit의 전체 원격 bytes와 대조한 후, 고정 REI owner를 자동으로 materialize한다. owner의 파일별 크기·SHA256·Git blob을 검사하며 archive를 다운로드하거나 기존 owner 작업을 덮어쓰지 않는다. 이미 검증 가능한 owner source가 있으면 `--owner-root`를 통해 읽기 전용으로 재사용할 수 있다. 그 다음 compile-only에서 pinned owner rlib와 보존 probe를 `rustc --edition=2021 -O -C codegen-units=1`로 빌드한다. 최종 linker thread는 1로 제한한다. binary를 실행하지 않는다.
 
-`--verify-only`는 source/input 확인만, `--compile-only`는 새 probe까지 compile만 수행한다. 두 모드는 `native_histories_executed=0`과 각각의 상태를 남긴다. 실제 case 실행은 raw·stdout/stderr·명령·exit code·source binding·compiled SHA256·owner 재검증·RSS·disk·elapsed를 create-only receipt에 묶는다. numerical failure row 뒤에 binary completion marker가 있어도 과학 성공으로 취급하지 않는다. 분석 실패·source 변경·nonzero exit는 wrapper nonzero로 끝난다.
+`--verify-only`는 source/input 확인만, `--compile-only`는 새 probe까지 compile만 수행한다. 두 모드는 `native_histories_executed=0`과 각각의 상태를 남긴다. 아래 실제 case 실행/분석 경로는 과거 설계 추적을 위해 보존하지만 현재 guard 때문에 도달하지 않는다. 보존된 case 실행 경로는 raw·stdout/stderr·명령·exit code·source binding·compiled SHA256·owner 재검증·RSS·disk·elapsed를 create-only receipt에 묶는다. numerical failure row 뒤에 binary completion marker가 있어도 과학 성공으로 취급하지 않는다. 분석 실패·source 변경·nonzero exit는 wrapper nonzero로 끝난다.
 
 [validate.py](validate.py)는 projector나 history를 호출하지 않는 별도 observer다. 저장된 binary64의 Fraction norm/P2/P4 잔차를 원 gate `3/10^15`와 비교하고, 각 birth의 source frame·prior Jacobian·positivity·reflection·source amount·native inventories·old32 전체 bit digest를 확인한다. 원 native ledger `1e-11`, R/D kernel `3e-14`, per-H continuity `1e-11`도 유지한다. GL128/256 비교는 기존의 제한된 angular reference control이며, 새 표준 라이브러리 observer의 recurrence로 계산한다. 이는 evolving reactive/full spectral convergence 증거가 아니다.
 
@@ -32,4 +36,4 @@ Runner는 source manifest와 모든 runtime 파일을 해당 Git commit의 전�
 
 Wrapper가 SIGTERM 또는 SIGINT를 받으면 자신이 만든 현재 child process group에만 TERM을 보내고 최대0.75초 기다린 뒤 KILL을 보낸다. 마지막 reap 대기는 최대0.15초다. 중단의 실제 signal·명령·소유 child group·cleanup 결과를 `INTERRUPTION.json`에 먼저 보존하며, 정상적인 unwind가 가능하면 최종 receipt에도 `INTERRUPTED`와 exit code를 남긴다. 외부 scheduler의2초 grace 또는 강제 종료 때문에 최종 receipt가 없어도 별도 중단 기록은 과학 완료로 해석하지 않는다.
 
-이 후속이 실행되어 native 16 births와 ledger를 통과하더라도 actual MD14 normalization/native Einstein shared-Q, evolving reactive finite-bin spectral history, full EoR 또는 production 완료로 확대하지 않는다. 원 실패와 완료 증거는 그대로 남는다.
+현재 native 16-birth 완료는 불가능한 고정 support 때문에 승인하지 않는다. compile-only 성공을 actual MD14 normalization/native Einstein shared-Q, evolving reactive finite-bin spectral history, full EoR 또는 production 완료로 확대하지 않는다. 원 실패와 완료 증거는 그대로 남는다.

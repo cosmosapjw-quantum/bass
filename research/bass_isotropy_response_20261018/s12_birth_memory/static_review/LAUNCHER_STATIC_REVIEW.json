@@ -1,0 +1,99 @@
+{
+  "schema": "BASS_S12_C8_LAUNCHER_INDEPENDENT_STATIC_REVIEW_V1",
+  "utc": "2026-10-20T22:09:00.277975+00:00",
+  "reviewer": "c9_review_finish; launcher/toolchain authored by cloud_intake",
+  "status": "NO_BLOCKING_FINDING_IN_REVIEWED_STATIC_SCOPE__NOT_EXECUTED",
+  "source_files": [
+    {
+      "path": "bass_s12_intake/c8_staging/launch.py",
+      "bytes": 19106,
+      "sha256": "bc9afbcab0b9dad2d73d10bebd30586882b8a21cae02b21f4f66c88097b84736"
+    },
+    {
+      "path": "bass_s12_intake/c8_staging/toolchain.py",
+      "bytes": 15257,
+      "sha256": "d99967e393e6718d307757b1f90c1bfe2ab47b0ce1ab77578830cff243717b1d"
+    },
+    {
+      "path": "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/runner.py",
+      "bytes": 25530,
+      "sha256": "7336041e692f0bcace134e0e1d9487b6b82b19975e8d2f14a0d983b8934ebeed"
+    },
+    {
+      "path": "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/resources.py",
+      "bytes": 14170,
+      "sha256": "8e46d35d9897ac166000c8f3a5296716fa3cd3c93dc747ca4458e97137f6d60e"
+    },
+    {
+      "path": "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/bundle.py",
+      "bytes": 7810,
+      "sha256": "1271ba3b8941495ba7fc99031adbc9f276f269098c70b84f0d133340e7e4ceef"
+    },
+    {
+      "path": "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/process_control.py",
+      "bytes": 5387,
+      "sha256": "627e0e80a0cf0aa2001d03b7e65bc7f527f9062a60042aa9f79500525860f04c"
+    }
+  ],
+  "findings": [],
+  "reviewed_contracts": [
+    {
+      "id": "TWO_BINDINGS",
+      "finding": "Science and delivery binding identities remain distinct. Published readback flag, exact files/size/SHA256/Gitblob, duplicate/conflicting declarations and template/module membership are checked before any compiler/science job."
+    },
+    {
+      "id": "FROZEN_RESUME",
+      "finding": "The first actual invocation creates one JOB_MANIFEST without overwrite. Future invocations reconstruct it using the original resource observation, width, toolchain provenance, paths, template, bindings and Python bytes. Canonical inequality refuses resume; changing current owner load cannot silently alter identities or replay a completed performance job."
+    },
+    {
+      "id": "PREFLIGHT_SCOPE",
+      "finding": "Preflight-only creates an unsealed proposal, not a production width seal. NCP-only template prevents non-preflight sandbox execution. Existing sealed profile cannot change for actual run."
+    },
+    {
+      "id": "RESOURCES",
+      "finding": "Configured64CPU/128GiB is a ceiling, reduced by affinity/cgroup capacity and observed owner load. Case width is fixed once, current availability is used for admission/defer only. Per-job time cap1800s, disk cap4GiB, owner process exclusion and exact PASS resume remain inherited from existing reviewed runner."
+    },
+    {
+      "id": "TOOLCHAIN_IDENTITY",
+      "finding": "Private fallback pins official Rust1.94.1 archive URL/bytes/SHA. Only minimal regular files are extracted; unsafe/duplicate/traversal member paths fail. Each cached member and exact executable set is reread. Existing version/hash-identified toolchain does not claim archive identity."
+    },
+    {
+      "id": "BOOTSTRAP_BOUNDS",
+      "finding": "Toolchain stage bounds affinity to at most2 CPUs and uses1770s alarm, disk admission, fixed probe subprocess timeout/address-space/file budgets. run_owned controls only newly created process groups; signal/alarm/affinity state is restored in finally blocks."
+    },
+    {
+      "id": "SEALED_TOOLCHAIN",
+      "finding": "A resumed sealed toolchain is verified in place and cannot be silently replaced. Optional different rustc/cargo paths fail. Exact ready receipt and member set are required for private cache."
+    },
+    {
+      "id": "BUNDLE_STATUS",
+      "finding": "After a valid resolved manifest, local bundle includes declared source/input files and every attempt, including failure/interruption. Full ZIP bytes/CRC/manifest are checked. Packaging status is kept distinct from scientific status and no provider upload occurs."
+    },
+    {
+      "id": "BYTECODE",
+      "finding": "Final launch.py and toolchain.py set sys.dont_write_bytecode=True before local imports. This final delta avoids source-checkout __pycache__ writes without changing physics/runtime job source identities."
+    }
+  ],
+  "limitations": [
+    "This is static review only; no new launcher/toolchain/compiler/solver calls were made here.",
+    "NCP hardware and extended production jobs remain unobserved/NOT_RUN.",
+    "Read-only full remote Git authenticity is established by separately published source readback, not local flags alone.",
+    "The minimal private archive bootstrap full positive network/extraction path is not runtime tested in this review."
+  ],
+  "activity_counts": {
+    "source_edits": 0,
+    "compiler_calls": 0,
+    "toolchain_probe_calls": 0,
+    "network_calls": 0,
+    "projector_calls": 0,
+    "ODE_calls": 0,
+    "old_campaign_calls": 0
+  },
+  "not_added_to_independent_physics_585_count": true,
+  "verification_source_pending_execution": {
+    "path": "bass_s12_intake/c8_staging/verify_c8.py",
+    "bytes": 12615,
+    "sha256": "85d5b7ebf182ec5b32ccab748a05b1e828e3d670bbc608b9ddb68b816cbb367c",
+    "status": "STATIC_ONLY_NOT_EXECUTED"
+  }
+}

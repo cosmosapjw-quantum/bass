@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Compile/run only the previously failed S8 case under a new frozen S12 source.
+"""Verify/compile the archival S8 followup under a new frozen S12 source.
 
 No legacy campaign CLI is called. Owner materialization is automatic, pinned,
 small-file-only and read-only with respect to any supplied existing owner tree.
-The current NCP delivery can be ready while actual execution remains NOT_RUN.
+The fixed n64 history is blocked: its stored support is provably infeasible
+from birth13 at the original moment gates. Only verify/compile modes are allowed.
 """
 from __future__ import annotations
 
@@ -56,6 +57,10 @@ class JobInterrupted(Exception):
     def __init__(self, signum):
         self.signum = signum
         super().__init__("WRAPPER_SIGNAL:"+signal.Signals(signum).name)
+
+
+class FixedSupportBlocked(RuntimeError):
+    """The original support cannot satisfy positive P2/P4 from birth13."""
 
 
 class ChildGuard:
@@ -384,11 +389,23 @@ def run(args):
                "started_utc": datetime.now(timezone.utc).isoformat(), "source_commit": args.source_commit,
                "owner_commit": OWNER, "argv": sys.argv, "commands": [], "downloads": [],
                "completed_old_cases_replayed": 0, "case_count": 1,
-               "resume_semantics": "One new initial-state attempt of one previously failed case; not checkpoint resume."}
+               "native_histories_attempted": 0, "native_histories_executed": 0,
+               "resume_semantics": "Archival initial-state wrapper; only source verification or compilation is allowed after the fixed-support proof.",
+               "fixed_support_guard": {
+                   "first_infeasible_birth": 13,
+                   "observer_source_commit": "be773dbf36bbe74b42e89e51c61dcd56ef2e6687",
+                   "certificate_sha256": "b41b05e89e1d9b67d6c89701813ab3d510c4be2bcd4e1ff7d3e9fdb81c9c39a5",
+                   "gate_exact": "3/1000000000000000",
+                   "native_history_execution_allowed": False}}
     exit_code = 2
     guard = ChildGuard(out, receipt)
     guard.install()
     try:
+        if not (args.verify_only or args.compile_only):
+            raise FixedSupportBlocked(
+                "FIXED_B9_N64_SUPPORT_INFEASIBLE_FROM_BIRTH13: "
+                "Z=0.5908471918238073 < 3/5; positive P2/P4 cannot meet the unchanged gates. "
+                "Only --verify-only or --compile-only is allowed; new birth support requires a separate preregistered followup.")
         observation = resource_snapshot(out)
         receipt["resources_before"] = observation
         binding = verify_source(args.source_commit, deadline)
@@ -445,6 +462,10 @@ def run(args):
     except JobInterrupted as error:
         exit_code = 128+error.signum
         receipt.update(status="INTERRUPTED", failure_type=type(error).__name__, failure=str(error))
+    except FixedSupportBlocked as error:
+        exit_code = 2
+        receipt.update(status="BLOCKED_KNOWN_FIXED_SUPPORT_INFEASIBLE",
+                       failure_type=type(error).__name__, failure=str(error))
     except Exception as error:
         exit_code = 2
         receipt.update(status="FAILED", failure_type=type(error).__name__, failure=str(error))

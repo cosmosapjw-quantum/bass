@@ -2,6 +2,35 @@
 
 이 디렉터리는 새 S12의 고정 job DAG를 실행하고 결과를 보존하는 Python 표준 라이브러리 도구다. 기존 S9/S10/S11 캠페인을 재실행하지 않는다. 과학식, birth weights, angular/cohort reduction 순서는 여기서 변경하지 않는다. 실제 과학 job 목록과 입력은 부모가 고정하는 manifest가 소유한다.
 
+## 최종 실행 입구와 고정된17job
+
+실행 입구는 `launch.py`다. `JOB_TEMPLATE.json`에는 build1개, 새 extended Rust history14개,64개 고정 pack의 직렬/병렬 비교1개, ensemble 판정1개가 들어 있다. `inputs/`의81개 파일은 이미 Git에 게시한 고정 입력이며, 생성 시 solver를 호출하지 않았다. 입력이 준비됐다는 사실은 extended history가 통과했다는 뜻이 아니다. 실제 NCP 실행은 현재 `NOT_RUN`이다.
+
+`SCIENCE_BINDING.json`은 Rust 과학 source `f4cd0d53760783e6a58c3b0a98c64311ca489d28`의15개 불변 파일을 묶는다. `DELIVERY_BINDING.json`은 별도 C8 source commit의 launcher·resource·집계기·고정 입력을 묶으며, 변경되는 DAG·문서·결과는 포함하지 않는다. 현재 배송 HEAD가 과학 source commit과 같아야 한다는 잘못된 조건을 두지 않는다. 각 binding의 actual bytes/SHA256/Git blob을 먼저 확인한다.
+
+실행 주체인 Codex/NCP 담당자는 검증된 checkout과 별도의 work 디렉터리를 같은4GiB 측정 범위 아래에 둔다. 다음은 담당자가 실제 경로를 선택해 수행할 명령 형식이며, 사용자에게 선행 명령을 요구하는 절차가 아니다.
+
+```bash
+python3 REPO/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/launch.py \
+  --repo REPO \
+  --template REPO/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/JOB_TEMPLATE.json \
+  --binding REPO/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/SCIENCE_BINDING.json \
+  --delivery-binding REPO/research/bass_isotropy_response_20261018/s12_birth_memory/ncp/DELIVERY_BINDING.json \
+  --work-dir WORK --disk-root DISK_SCOPE --profile ncp
+```
+
+`REPO`와 `WORK`는 `DISK_SCOPE` 아래의 서로 다른 디렉터리다. launcher가 Rust1.94.1을 확인하고, 없으면 SHA256으로 고정한 공식 배포본에서 private toolchain의 필요한 regular files만 추출한다. 전역 toolchain 또는 owner 파일을 바꾸지 않는다. 기존 compiler를 명시하려면 `--rustc`와 `--cargo`의 실제 경로를 함께 전달할 수 있다. 해당 executable의 버전과 bytes identity만 주장하며 공식 archive와 같다고 추정하지 않는다. `--preflight-only`는 자원과 toolchain을 관측하고 proposal만 생성하며 실제 build/history를 실행하거나 최초 worker 폭을 봉인하지 않는다.
+
+첫 실제 실행은 `WORK/JOB_MANIFEST.json`을 create-only로 봉인한다. 이후 같은 명령은 **처음의 자원 관측값으로 같은 worker 폭과 job identity를 재구성**한다. 현재 owner load가 달라져도 완료 job의 identity를 바꾸지 않는다. 현재 가용 자원이 부족하면 실행을 보류한다. source/input/toolchain/경로가 바뀌면 명시적으로 거절하며 기존 PASS를 새 입력의 결과로 재사용하지 않는다.
+
+`aggregate.py`는14개 실제 history의 STARTED→dependency→build→upstream178파일→binary→input→stdout→assessment→outer receipt를 확인한다. 11개 full case의 과학 PASS와3개 omission control의 구조 PASS/물리 FAIL을 구분한 뒤 FD/Richardson·driver·baseline·gauge·omission을 판정한다. `AGGREGATE_INTERFACE_KO.md`가 정확한 CLI와 판정 scope를 설명한다. 이는 실제 native/reactive finite-bin closure 판정기가 아니다.
+
+`verify_c8.py`의64CPU/128GiB는 **명시적 synthetic resource fixture**다. 실제 sandbox에서 실행하는 것은 두 version probe와 금지 profile 거절1회다. `verify_aggregate.py`는 완료한 짧은 history bytes의 배열 연산과 입력 거부를 확인한다. 어떤 검증도 실제 NCP64 실행이나 production 전체 receipt chain 통과로 쓰지 않는다. 실제 receipt는 상위 `evidence/`에 따로 보존한다.
+
+### 실행 목록에서 제외한 원 native case
+
+기존 S8 `b9_n64_P2P4`16birth의 고정 support는 birth13부터 양의 P24 해가 기존 tolerance에서도 불가능하다. 원 birth11 precision repair와 별개의 obstruction이다. `JOB_TEMPLATE.json`의 `pending_exclusions`에 exact certificate SHA256과 observer source를 기록했다. `native_followup/run.py`는 archival verify/compile-only만 허용하고 full history를 거절한다. 이를 실행하기 위해 weights·support·tolerance를 즉석에서 바꾸지 않는다. 실제 MD14/shared-Q 및 evolving reactive full finite-bin도 필요한 물리 입력이 없으므로 queue에 넣지 않는다.
+
 ## 파일과 실행 경계
 
 - `resources.py`: Linux affinity, cgroup v1/v2 CPU/RAM 상한, 현재 가용 RAM, 현재 부하 및 할당 disk를 읽는다.

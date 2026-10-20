@@ -1,0 +1,41 @@
+--- before/toolchain.py
++++ after/toolchain.py
+@@ -184,9 +184,11 @@
+     return result
+ 
+ 
+-def _cached(cache_root, deadline):
++def _cached(cache_root, deadline, required_receipt=None):
+     for directory in sorted(cache_root.glob("rust-" + VERSION + "-*")):
+         receipt = directory/"READY.json"
++        if required_receipt is not None and receipt.resolve() != Path(required_receipt).resolve():
++            continue
+         try:
+             record = json.loads(receipt.read_bytes())
+             if record["status"] != "PASS_PRIVATE_PINNED_TOOLCHAIN" or record["archive"]["sha256"] != ARCHIVE_SHA256:
+@@ -214,6 +216,25 @@
+         except (OSError, ValueError, KeyError, TypeError):
+             continue
+     return None
++
++
++def verify_selected(record, cache_root, deadline):
++    """Verify the sealed toolchain in place; never replace it during resume."""
++    if "ready_receipt" in record:
++        ready = Path(record["ready_receipt"])
++        if not ready.resolve().is_relative_to(Path(cache_root).resolve()) or digest_file(ready) != record["ready_receipt_sha256"]:
++            raise ValueError("SEALED_TOOLCHAIN_READY_RECEIPT_CHANGED")
++        cached = _cached(Path(cache_root), deadline, required_receipt=ready)
++        if cached is None or cached[0]["executables"] != record["executables"]:
++            raise ValueError("SEALED_PRIVATE_TOOLCHAIN_CHANGED")
++    elif record.get("status") != "PASS_EXISTING_VERSION_HASH_IDENTIFIED":
++        raise ValueError("UNRECOGNIZED_SEALED_TOOLCHAIN_PROVENANCE")
++    for name in ("rustc", "cargo"):
++        remaining(deadline)
++        row = record["executables"][name]
++        if digest_file(row["path"]) != row["sha256"] or not row["version_output"].startswith(name+" "+VERSION+" "):
++            raise ValueError("SEALED_TOOLCHAIN_EXECUTABLE_CHANGED:"+name)
++    return record
+ 
+ 
+ def ensure_toolchain(cache_root, record_root, disk_root, deadline, *, archive_path=None,

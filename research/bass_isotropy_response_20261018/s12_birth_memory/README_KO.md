@@ -1,69 +1,42 @@
 # S12: Rust 출생 기억 접선과 제한된 계산 최적화
 
-2026-10-21 KST / 2026-10-20 UTC. 현재 단계는 C2–C5 소스 고정이다.
+2026-10-20 UTC / 2026-10-21 KST. 기존 S9/S10/S11 증거를 재사용한 새 C1–C10 한 단위다. 새 Rust 과학 source는 `f4cd0d53760783e6a58c3b0a98c64311ca489d28`, 검증 수리 source는 `4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06`이다. 이후 orchestration·관측기·배송 commit을 이 과학 source와 혼동하지 않는다.
 
-S11 이후 새 실행 결과를 찾기 위해 현재 PR174/175, research refs96개,
-최근 PR10개, main, 연결된 대화 검색, Dropbox·Drive의 BASS_BACKUPS와
-관측된 하위 폴더를 읽었다. 이 대조 범위에서 S11 이후 새 BASS 실행은
-발견하지 못했다. 검색 범위 밖의 모든 대화·저장소가 비어 있다는 뜻은 아니다.
+## 현재 관측 결과
 
-S11의 중단된 최종 게시를 복구했다:
-[최종 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6301060073).
-S11 소스7fb9b83c, 결과85d5833b, 배송 metadata44bac536은 서로 다른 identity다.
-S11 ZIP4개와 최종 JSON의 Dropbox 전체 readback은 완료됐다. 새 Drive
-업로드는 provider 응답과 ID를 받지 못했으므로 이중 배송 완료가 아니다.
-원 S10의 양쪽 provider 검증 완료는 그대로 재사용한다.
+| 단계 | 실제 상태 |
+|---|---|
+| C1 최신 대조·계약 | e48e0d56. 최신 PR/refs/대화와 Dropbox·Drive의 관측 범위를 대조하고 중단된 S11 최종 게시를 복구 |
+| C2–C3 유도·수치 map | full birth-memory tangent와 exact augmented Jacobian, Wolfram51개 항등식, SciSpace·Exa 원문 대조 |
+| C4–C5 구현 | 사전 등록한 물리 gate·실패·자원 정책, Rust build147.60초 PASS |
+| C6 새 샌드박스 검증 | core269/269, history72/72, 수리 후 infrastructure14/14 |
+| C7 동일 정확도 성능 | fused paired median1.372535배; 4case/2worker1.218038배,32개 raw output identity |
+| C8 확장 실행 준비 | 고정81개 입력 파일,17job NCP DAG와 sealed resume launcher 소스 준비; 제한 검증은 게시 후 수행 |
+| C9 독립 검토 | 물리585/585, 저장 support exact565/565; C8·최종 provenance 검토 진행 |
+| C10 배송 | 단계별 Git·Dropbox 전체 readback; 새 Drive pending, 실제 NCP NOT_RUN |
 
-## 이번 구현 대상
+자세한 결과·실패·수치·그림은 상위 `S12_RESULTS_KO.md`와 `evidence/`, `independent_review/`를 따른다. 현재 DAG와 provider별 배송 상태는 상위 `DAG.json`, `RETURN_TO_CHATGPT.json`, `PUBLICATION_CLOSEOUT.json`이 요약한다.
 
-S9/S10의 JVP는 고정된 bank에 대한 state 미분이다. 그 계약은 올바르며
-그대로 둔다. 새로운 Rust client에 각 출생에서 저장되는
-`B_j`, `mu_theta`, `alpha_theta`를 추가해, S8 Python에서 이미 유도·실행한
-전체 출생 기억 parameter tangent를 구현한다. 현재 상태의 기하 미분과
-과거 출생 기억 forcing을 분리해 이중 계산을 막는다.
+## 물리 계약과 구현
 
-새 evaluator는 angular kernel을 준비하고 한 번의 순회에서 필요한
-moment와 미분을 모은다. 기준 구현과 같은 정확도·같은 출력에서만
-속도를 비교한다. 전체6상태 stiff Jacobian의 아래쪽 왼쪽 block 및
-자율 clock 열을 포함한다. 블록 대각 근사는 정확 Jacobian으로 전달하지 않는다.
+Non-tilted axisymmetric Bianchi I, `(-,+,+,+)`, `a_perp=a exp(-b)`, `a_parallel=a exp(2b)`, `s=dot b`, `Sigma=sqrt(3)|s|/H`를 유지한다. owner는 `0e25846433170d0f420c4cda44a0bedbf02cd177`으로 고정한다. 새 명시적 등방 birth quadrature만 보정하고 기존 photon field·physical anisotropic stock·old birth weights를 보존한다. 음수 물리 weights와 tolerance 완화는 허용하지 않는다.
 
-미완료 native 사례는 S8 `b9_n64_P2P4` 한 건이다. 원 failed raw에는
-완전한 bank checkpoint가 없으므로, 새 namespace에서 한 case를 처음부터
-실행하도록 준비한다. 완료17행은 재실행하지 않는다. 새 projector는
-실패 지점부터 생성되는 명시적 등방 birth에만 적용하며 과거 weights를
-소급 변경하지 않는다. n64 angular 오차는 원 target 대비 진단으로 남긴다.
+기존 S9/S10 state JVP는 고정 bank 계약에서 유효하다. 새 Rust client는 각 출생에서 `B_j`, `mu_theta`, `alpha_theta`를 저장하고, 현재 기하 미분과 과거 birth-memory forcing을 분리한다. 아래 왼쪽 block을 포함한 전체6상태 Jacobian과 explicit-x/자율 clock 열을 구현했다. 현재 theta는 초기 shear y0이며 event 좌표·donor amplitude는 고정한다. source-frame GL b0 gauge를 별도로 검증했다. moving event와 parameter-dependent donor normalization까지 승인하지 않는다.
 
-## DAG와 실행 상태
+## 원 native case의 실행 admission 변경
 
-| 단계 | 현재 상태 | 다음 증거 |
-|---|---|---|
-| C1 최신 대조·계약 | e48e0d56 게시·Dropbox 전체 readback 완료 | CONTRACT.json, intake, delivery/stage1 |
-| C2–C3 방정식·수치 map | 유도·CAS51항등식·원문 대조 완료 | THEORY_KO.md, WOLFRAM_DERIVATIVES.json |
-| C4–C5 자원·구현 | 구현·고정 검증설계·정적 finding 수정 완료 | PREREGISTRATION.json, src/, ncp/, static_review/ |
-| C6–C8 검증·관측량·성능 | NOT_RUN | 새 source commit 이후 실제 receipt |
-| C9 독립 검토 | 정적 검토만 완료, 실행 증거 검토 대기 | 구현자와 분리한 수식·코드/증거 검토 |
-| C10 배송·handoff | 진행 예정 | Git 게시, 양쪽 provider별 실제 상태 |
+원 `CONTRACT.json`의 single native16birth 실행 계획은 C1 당시 사전 등록 기록이다. 이후 완료된 raw support의 exact 검토에서 **birth13–15가 기존 P2/P4·정규화 gate에도 불가능**함을 증명했다. birth13의 `max(mu^2)=0.5908471918238073`은 양의 P24에 필요한3/5보다 작다. 모든 finite-support moment-polygon facet도 exact rational로 검사했다. 원 birth11의64개 mu는 실패 raw와 bit 단위로 일치하며 weights를 다시 계산하지 않았다.
 
-최신 사용자 요청의 NCP64코어/128GiB는 새 자원 목표다. 현재 원격 도구의
-첫 config 읽기는 월 사용량 제한을 반환했고 재시도·재연결을 하지 말라고
-명시했다. 실제 장치 자원과 실행을 확인하지 못했으며 원격 process 실행은0회다.
-NCP용 배치는 실제 CPU affinity·quota·남은 RAM·기존 작업을 확인하고,
-동일 source/input/output 증거를 갖춘 완료 작업만 건너뛰도록 준비한다.
+따라서 원 고정 `b9_n64_P2P4`16birth case는 NCP 실행 목록에서 제외했다. `native_followup/run.py`는 archival verification/compile-only 용도로만 남기고 일반 history 실행을 거절한다. birth11 precision repair가 뒤쪽 support 불가능성을 없애지 않는다. 새 support refinement는 별도 물리 계약이 필요한 다음 연구다. 이 결론을 모든 n64 또는 새 Rust extended history의 불가능성으로 확대하지 않는다.
 
-이번 source checkpoint 이전 새 compile/history/benchmark는0회다. 원문과
-Wolfram 계산, AST/rustfmt, pinned dependency readback은 별도로 기록했다.
-고정 소스 게시 후에만 C6의 새 짧은14 Rust history, 독립 Python history1,
-최종 checkpoint restore1, 24점 core 및 동일 정확도 paired timing을 실행한다.
-Sandbox case 병렬 검증은4개 pack·2worker이고 NCP용64개 pack과 구분한다.
-각 pack 안의 ray/cohort 순회 순서는 바꾸지 않는다.
+## NCP와 백업
 
-`prepare.py`는 source binding과178개 pinned VigilODE source를 확인하고
-사설 work directory에서 compile만 한다. 기존 owner를 복사해 쓰는 경우에도
-고정 파일만 읽고 검증하며 원본을 변경하지 않는다. `process_control.py`는
-각 wrapper가 만든 child group의 중단과 잔여 child를 처리한다. 인프라 검증14개는
-실제 helper·원자적 receipt·resume·resource gate를 검사하는 새 테스트다.
-소스 동결 시점에는 아직 실행하지 않았다.
+`ncp/launch.py`는 `SCIENCE_BINDING.json`과 별도의 `DELIVERY_BINDING.json`, `JOB_TEMPLATE.json`을 확인하고 자동 private toolchain/build·실행·exact-PASS resume·return ZIP을 처리한다. 한 번 봉인한 worker 수와 source/input identity를 재개 시 변경하지 않는다. 실제 affinity/quota·가용 RAM·기존 부하를 관측하며, 기존 owner 작업에 signal하지 않는다. 최대 요청64CPU/128GiB, 개별 job1800초, 전체 작업 disk4GiB다. 실행 주체용 안내는 `ncp/README_KO.md`를 따른다.
 
-정확한 물리·소유권·admission·scope·자원 제한은 [CONTRACT.json](CONTRACT.json)에 있다.
-실제 MD14/shared-Q와 evolving reactive full spectral history는 물리 입력과
-별도 구현 의존성이 남아 있으며 대형 하드웨어로 완료 처리하지 않는다.
+현재 원격 도구의 첫 config 호출은 월 quota와 명시적 재시도 금지를 반환했다. 새 NCP remote process는0회이며 현재 hardware identity도 관측하지 못했다. 2026-10-15의 완료 NCP64 결과를 새 결과로 쓰거나 미완료 작업으로 재실행하지 않는다.
+
+S10의 양쪽9ZIP+최종 JSON 검증은 그대로 완료다. S11/S12의 새 Dropbox readback은 별도로 기록한다. Drive write의 응답과ID를 받지 못했으므로 새 이중 배송을 완료라고 쓰지 않는다. 추가 write 또는 우회 재연결을 하지 않는다.
+
+## 남은 의무
+
+실제 MD14 정규화/native Einstein·shear shared-Q, evolving reactive full finite-bin spectral history, 더 넓은 finite-d/angular 고차 moment와 P6의 적용 범위는 남아 있다. 새 Rust short manufactured full birth-memory 검증을 이 native 의무의 완료로 바꾸지 않는다. `5.369926725506957e-12`는 제한된 source-deposition 설명이다. P2/P4 일치만으로 continuum/full native finite-bin 보존을 승인하지 않는다. REI production·full EoR·merge로 확대하지 않으며 다음 최적화 단위를 자동 시작하지 않는다.
