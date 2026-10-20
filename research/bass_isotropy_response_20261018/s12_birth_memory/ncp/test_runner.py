@@ -94,6 +94,7 @@ class InfrastructureControls(unittest.TestCase):
                 "cpu_cap": len(affinity), "ram_cap_bytes": 512 << 20,
                 "ram_available_bytes": 512 << 20, "busy_cpus_estimate": 0,
                 "own_busy_cpus_estimate": 0, "own_process_groups": resources.process_groups(own_group_ids),
+                "procfs_namespace_proof": resources.procfs_identity(),
                 "disk_allocated_bytes": resources.allocated_bytes(disk_root), "disk_free_bytes": 1 << 32}
 
     def run_once(self, observation=None):
@@ -217,6 +218,11 @@ class InfrastructureControls(unittest.TestCase):
             other.terminate(); other.wait(timeout=3)
 
     def test_production_helper_cleans_nested_session_and_preserves_other_job(self):
+        namespace_proof = resources.procfs_identity()
+        self.assertEqual(namespace_proof["local_pid"], os.getpid())
+        self.assertEqual(namespace_proof["local_pgid"], os.getpgrp())
+        self.assertEqual(namespace_proof["pid_namespace"], os.readlink("/proc/self/ns/pid"))
+        self.assertEqual(namespace_proof["procfs_self_pid"], int(Path("/proc/self/stat").read_text().split(" ", 1)[0]))
         production = Path(__file__).resolve().parent.parent / "process_control.py"
         shutil.copyfile(production, self.repo / "process_control.py")
         (self.repo / "production_wrapper.py").write_text(PRODUCTION_WRAPPER)
@@ -244,11 +250,14 @@ class InfrastructureControls(unittest.TestCase):
                     nested = json.loads((recpath.parent / "nested-receipt.json").read_bytes())
                     nested_group = nested["owned_process_group"]
                     nested_groups.append(nested_group)
+                    (self.root / (mode + "_observed_resources.json")).write_text(json.dumps(nested_observations, indent=2))
                     if mode == "interrupt":
                         self.assertIn("TIMEOUT", outer["failures"])
                         self.assertEqual(nested["status"], "INTERRUPTED")
                         self.assertEqual(nested["signal"], signal.SIGTERM)
-                        self.assertTrue(any(nested_group in value["observed_pids"]
+                        self.assertTrue(any(nested_group in value["process_ids"]
+                            and value["namespace_proof"]["pid_namespace"] == namespace_proof["pid_namespace"]
+                            and len(value["procfs_pids"]) == len(value["process_ids"])
                             and value["nested_session_processes"] >= 2
                             and value["live_processes"] >= 3
                             and value["nested_session_rss_bytes"] > 0

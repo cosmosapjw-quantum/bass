@@ -1,6 +1,6 @@
 {
   "schema": "bass.isotropy.research_dag.v17",
-  "date_utc": "2026-10-20T21:28:56.446701+00:00",
+  "date_utc": "2026-10-20T21:40:48.387823+00:00",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
   "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -109,7 +109,8 @@
     "S11_C6_C9_RESULT_AND_REVIEW",
     "S11_C10_METADATA_HANDOFF",
     "S12_C1_CONTRACT",
-    "S12_C2_C5_FROZEN_SOURCE_PREREG"
+    "S12_C2_C5_FROZEN_SOURCE_PREREG",
+    "S12_C6_RECOVERY_SOURCE_R2"
   ],
   "remaining_obligations": [
     {
@@ -3393,7 +3394,7 @@
   "historical_S10_latest_storage_intake_role": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json.",
   "active_unit": "S12",
   "S12": {
-    "status": "C2_C5_SOURCE_FIXED_C6_NOT_RUN",
+    "status": "C6_PARTIAL_PASS_REPAIR_WITHIN_SAME_UNIT",
     "baseline_head": "44bac536f6add11f8d2d4b3aa585a1c2f9049664",
     "contract": "s12_birth_memory/CONTRACT.json",
     "intake": "s12_birth_memory/intake/CURRENT_INTAKE.json",
@@ -3403,11 +3404,11 @@
       "C2": "COMPLETE_THEORY_CAS_51_IDENTITIES",
       "C3": "COMPLETE_NUMERICAL_MAP",
       "C4": "COMPLETE_PREREGISTERED_RESOURCE_AND_FAILURE_CONTRACT",
-      "C5": "SOURCE_AUTHORED_STATIC_FINDINGS_CLOSED_NOT_COMPILED",
-      "C6": "NOT_RUN",
-      "C7": "NOT_RUN",
-      "C8": "NOT_RUN",
-      "C9": "STATIC_REVIEWS_ONLY_DYNAMIC_PENDING",
+      "C5": "SOURCE_FIXED_RUST_COMPILED",
+      "C6": "CORE269_PASS_HISTORY5_PREFIX_PASS_REFERENCE_PARITY_REPAIR",
+      "C7": "CORE_TIMINGS_MEASURED_COHORT_HISTORY_PENDING",
+      "C8": "NCP_INPUT_PREPARATION",
+      "C9": "STATIC_FINDING_CLOSURES_DYNAMIC_REVIEW_PENDING",
       "C10": "PENDING"
     },
     "NCP": "NOT_RUN_CURRENT_SERVICE_QUOTA;64CPU/128GiB requested;actual hardware unverified",
@@ -3431,8 +3432,8 @@
         "Drive": "NOT_UPLOADED_PENDING_UNKNOWN_PREVIOUS_WRITE_OUTCOME"
       },
       "C2_C5": {
-        "publication": "containing commit; external source binding records exact SHA before C6",
-        "Dropbox": "PENDING_STAGE_BACKUP",
+        "publication": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+        "Dropbox": "s12_birth_memory/delivery/stage2/DROPBOX_FULL_READBACK.json",
         "Drive": "PENDING_NO_NEW_WRITE"
       }
     },
@@ -3452,6 +3453,35 @@
       "s12_birth_memory/static_review/PHYSICS_R2.json",
       "s12_birth_memory/static_review/NCP_WRAPPER_R2.json",
       "s12_birth_memory/ncp/STATIC_REVIEW.json"
-    ]
+    ],
+    "scientific_source_commit": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+    "C6_observed": {
+      "Rust_build_exit": 0,
+      "Rust_build_seconds": 147.59995669599448,
+      "core": "269/269 PASS_SCOPED",
+      "fixed_core_paired_speedup_median": 1.372535191944467,
+      "fixed_core_paired_speedup_IQR": [
+        1.3680560824512806,
+        1.4071498342403799
+      ],
+      "completed_new_Rust_prefix_histories": 5,
+      "reference": "FAILED_NEW_REFERENCE_DERIVATIVE_PARITY; preserved; equivalent even/odd polynomial repair awaiting new verifier source run",
+      "infrastructure": "12/14 first suite; PID/procfs namespace mismatch; preserved, corrected source not rerun yet",
+      "native_compile_attempts": [
+        {
+          "attempt": "r1",
+          "status": "RAM_ADMISSION_REFUSAL",
+          "compiler_calls": 0
+        },
+        {
+          "attempt": "r2",
+          "status": "OWNER_PATH_SCOPE",
+          "compiler_calls": 0
+        }
+      ],
+      "no_threshold_relaxed": true,
+      "completed_campaign_replays": 0
+    },
+    "recovery_policy": "Rust binary/source/input identities unchanged; reuse five successful new histories only with full byte and current scientific gate checks. Do not repeat successful core timing. Failed Python reference and remaining nine Rust histories use new verification source."
   }
 }

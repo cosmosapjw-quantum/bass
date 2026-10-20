@@ -48,8 +48,12 @@ def birth_rule(b, grid, rule='P24'):
     alpha = np.asarray(proj.weights)
     lam = np.asarray([float(v) for v in proj.multipliers])
     mu_b = -3*mu*(1-mu*mu)
-    phi = np.column_stack(((3*mu*mu-1)/2, (35*mu**4-30*mu*mu+3)/8))
-    phi_b = np.column_stack((3*mu*mu_b, (35*mu**3-15*mu)*mu_b/2))
+    # Evaluate even polynomials in z and odd factors by multiplication. NumPy's
+    # generic signed power path need not produce mirrored binary64 cubes.
+    # This constructs only the new derivative; no weight averaging or repair.
+    z = mu*mu
+    phi = np.column_stack(((3*z-1)/2, (35*z*z-30*z+3)/8))
+    phi_b = np.column_stack((3*mu*mu_b, (35*z-15)*mu*mu_b/2))
     mass = math.fsum(alpha)
     average = lambda a: np.sum(alpha[:, None]*a, axis=0)/mass
     mean = average(phi)

@@ -1,0 +1,60 @@
+{
+  "schema": "BASS_S12_REFERENCE_REVISION_V1",
+  "recorded_utc": "2026-10-20T21:35:05.014581+00:00",
+  "finding": "Actual new independent Python history rejected NEW_REFERENCE_DERIVATIVE_PARITY after first five Rust histories passed internal scientific gates",
+  "failing_source_commit": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+  "raw_stderr_sha256": "69f939d2edc20d23e4ea1aa9ccab309a6f0a3626123a4fda7a9e4be12495bbdf",
+  "raw_stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/run_history_validation.py\", line 351, in <module>\n    python_child(sys.argv[2])\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/run_history_validation.py\", line 62, in python_child\n    result = ref.python_history(inp)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/reference.py\", line 212, in python_history\n    mu, alpha, mb, ab, diag = birth_rule(float(state[1]), inp['coordinate_grid'], inp['birth_rule'])\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/reference.py\", line 69, in birth_rule\n    raise ValueError('NEW_REFERENCE_DERIVATIVE_PARITY')\nValueError: NEW_REFERENCE_DERIVATIVE_PARITY\n",
+  "failed_runner_summary": {
+    "schema": "BASS_S12_HISTORY_VALIDATION_V1",
+    "status": "FAIL",
+    "source_commit": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+    "binary_sha256": "81ac86ad59d9d58bf01e0411fec807f07a05950e632ef8aa920d747f4b750518",
+    "started_utc": "2026-10-20T21:33:49.624759+00:00",
+    "ended_utc": "2026-10-20T21:33:50.768327+00:00",
+    "checks_passed": 20,
+    "checks_total": 22,
+    "process_records": 6,
+    "error": {
+      "type": "RuntimeError",
+      "message": "python_p24_reference:PROCESS_EXITED:1",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/run_history_validation.py\", line 202, in main\n    raw, _ = execute(py_tag, 'independent_python_reference',\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/run_history_validation.py\", line 111, in execute\n    raise RuntimeError(tag+':PROCESS_'+actual['status']+':'+str(actual['exit_code']))\nRuntimeError: python_p24_reference:PROCESS_EXITED:1\n"
+    },
+    "old_campaign_calls": 0,
+    "scope": "New short manufactured histories and exact final-checkpoint restore only; no native full spectral or actual NCP64 completion",
+    "assessment_statuses": {
+      "p24_y0_full": {
+        "status": "PASS_SCOPED_INTERNAL_GATES",
+        "full_scientific_pass": true,
+        "numerical_gates_pass": true
+      },
+      "gl_y0_full": {
+        "status": "PASS_SCOPED_INTERNAL_GATES",
+        "full_scientific_pass": true,
+        "numerical_gates_pass": true
+      },
+      "gl_b0_gauge": {
+        "status": "PASS_SCOPED_INTERNAL_GATES",
+        "full_scientific_pass": true,
+        "numerical_gates_pass": true
+      },
+      "p24_y0_mf6": {
+        "status": "PASS_SCOPED_INTERNAL_GATES",
+        "full_scientific_pass": true,
+        "numerical_gates_pass": true
+      },
+      "p24_y0_baseline": {
+        "status": "PASS_SCOPED_INTERNAL_GATES",
+        "full_scientific_pass": true,
+        "numerical_gates_pass": true
+      }
+    }
+  },
+  "source_before_sha256": "f97563de3b4bec4aaeee73ec07c5eb3253343991b82e3f2705026e0fb08ef533",
+  "source_after_sha256": "f8eddc54c891c9df7a8fca000d9dca14859ab88d631b103ed4728ab466bba1cb",
+  "repair": "Express new even P2/P4 polynomials in z=mu*mu and odd derivative factors by explicit multiplication; generic signed vector power may round mirrored cubes differently. No averaging, reweighting, tolerance change or old-stock modification.",
+  "evidence_status": "Corrected source not yet executed; actual failure preserved; do not claim closure until independent reference succeeds.",
+  "Rust_binary_changed": false,
+  "Rust_source_changed": false,
+  "completed_five_histories_replay_policy": "Reuse full hash-bound PASS receipts; run failed reference and remaining nine Rust cases only."
+}

@@ -30,6 +30,7 @@ REMOTE_PREFIX = "research/bass_isotropy_response_20261018/s12_birth_memory/nativ
 REPO = "cosmosapjw-quantum/bass"
 OWNER = "0e25846433170d0f420c4cda44a0bedbf02cd177"
 OWNER_REPO = "cosmosapjw-quantum/rei_bianchi"
+OWNER_MANIFEST_SHA256 = "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2"
 GiB = 1 << 30
 BUILD_FILES = ("native_followup.rs", "native_adapter.rs", "balance.rs", "balance_p24.rs", "s11_projector.rs")
 
@@ -193,14 +194,17 @@ def verify_local_source(binding):
 
 
 def owner_entries():
-    manifest = load_json((ROOT/"native_owner_manifest.json").read_bytes())
+    raw = (ROOT/"native_owner_manifest.json").read_bytes()
+    if sha(raw) != OWNER_MANIFEST_SHA256:
+        raise ValueError("ORIGINAL_OWNER_MANIFEST_SHA256")
+    manifest = load_json(raw)
     if manifest.get("repo") != OWNER_REPO or manifest.get("commit") != OWNER:
         raise ValueError("ORIGINAL_OWNER_AUTHORITY")
     rows = []
     for entry in manifest["files"]:
         path = safe_path(entry["path"])
-        if not path.startswith("rust/rei_microphysics/src/"):
-            raise ValueError("OWNER_PATH_SCOPE")
+        # The exact original57-file manifest also contains Cargo.toml, one
+        # example and nine owner contracts. Its pinned hash is the path allowlist.
         rows.append({"path": path, "bytes": entry["size"], "sha256": entry["sha256"], "git_blob": entry["sha"]})
     if len(rows) != 57 or len({e["path"] for e in rows}) != 57 or sum(e["bytes"] for e in rows) != 614313:
         raise ValueError("OWNER_MANIFEST_CARDINALITY")

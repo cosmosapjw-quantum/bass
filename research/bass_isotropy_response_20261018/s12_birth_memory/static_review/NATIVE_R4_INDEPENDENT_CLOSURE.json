@@ -1,0 +1,32 @@
+{
+  "schema": "BASS_S12_NATIVE_OWNER_ALLOWLIST_STATIC_CLOSURE_V1",
+  "reviewer": "/root/cloud_intake",
+  "reviewed_utc": "2026-10-20T21:38:23.427554+00:00",
+  "status": "CLOSED_STATIC_RUNTIME_VALIDATION_PENDING",
+  "reviewed_run_sha256": "72fd7e308ac6be1d48d8d82c13eaf2c1746909c292eeea6814f23ba3475365b8",
+  "reviewed_manifest_sha256": "a880a60828eebda1d4ad5e83b00af865bc4cd3b293108a21c8b814a36ea9d62a",
+  "root_cause": "Old lexical src-only whitelist contradicted the exact original 57-file owner manifest, which also includes Cargo.toml, an example and owner contracts.",
+  "resolution": "Verify the original owner manifest whole SHA256 first, then admit exactly its safe unique path list. Original owner commit,57files,614313bytes and per-file size/SHA256/Git blob remain fixed.",
+  "original_manifest_sha256": "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2",
+  "original_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "owner_file_count": 57,
+  "owner_file_bytes": 614313,
+  "src_files": 46,
+  "other_paths": [
+    "rust/rei_microphysics/Cargo.toml",
+    "docs/fastest_track_chat/REI-AXBI-GOAL-20261014/OUTPUT_CONTRACT.json",
+    "research/axbi_goal_20261014/scenario/AX05_NUMERICAL_CONTRACT.md",
+    "research/axbi_goal_20261014/scenario/SCENARIO_LOCK.json",
+    "research/flrw_covariant_transport_20261015/BACKGROUND_CACHE_CONTRACT.md",
+    "research/flrw_covariant_transport_20261015/HPC_CONTRACT.md",
+    "research/flrw_covariant_transport_20261015/INACTIVE_POOL_CONTRACT.md",
+    "research/flrw_covariant_transport_20261015/NATIVE_CONTRACT.md",
+    "research/flrw_covariant_transport_20261015/OUTPUT_ALLOCATION_005_CONTRACT.md",
+    "research/flrw_jacobian_columns_20261016/CONTRACT.json",
+    "rust/rei_microphysics/examples/axbi_reionization.rs"
+  ],
+  "runtime_manifest_all_files_local_hash_match": true,
+  "runtime_source_files": 11,
+  "review_science_build_native_executions": 0,
+  "scope": "Static inspection plus read-only metadata hashing; no compiler or history was invoked by this review."
+}
