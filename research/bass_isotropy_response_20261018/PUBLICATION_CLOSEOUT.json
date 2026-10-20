@@ -1,7 +1,7 @@
 {
   "schema": "bass.isotropy.publication_closeout.v9",
-  "date_utc": "2026-10-20T04:13:16.763171+00:00",
-  "stage": "S9_ACTUAL_RESULTS_AND_INDEPENDENT_REVIEW_COMPLETE_PUBLICATION_DUAL_READBACK_IN_PROGRESS",
+  "date_utc": "2026-10-20T05:38:27.667146+00:00",
+  "stage": "S9_RESULTS_PUBLISHED_DUAL_BACKUP_PENDING_S10_OPTIMIZATION_C1_STARTED",
   "scientific_work": "S6-S8 reused with failures retained; S9 actual8/8histories,140unchanged gate assertions,1224observations and192exact birth certificate instances complete. Independent PHYS-MATH then PHYS-MATH-CODE reviews PASS_SCOPED. New result publication and dual backup/readback remain pending.",
   "repository": "cosmosapjw-quantum/bass",
   "branch": "research/bass-isotropy-checkpoint-recovery-20261018",
@@ -27,7 +27,11 @@
     "S7_COUPLED_THEORY_KO.md",
     "S7_COUPLED_RESULTS_KO.md",
     "S7_NATIVE_COHORTS_KO.md",
-    "S7_RESULTS_KO.md"
+    "S7_RESULTS_KO.md",
+    "S8_RESULTS_KO.md",
+    "S9_RESULTS_KO.md",
+    "evidence_s9/RESULT_SUMMARY_20261020.json",
+    "evidence_s9/resume_20261020/science_review/DUAL_REVIEW_RECEIPT.json"
   ],
   "cloud_backups": [
     {
@@ -165,16 +169,20 @@
     "old_failure_receipt_is_historical": true
   },
   "final_metadata_archive": {
-    "status": "FINITE_POSTCOMMIT_ARCHIVE_READBACK_TO_BE_RECORDED_IN_PR",
-    "scope": "Final S8 tangent gauge/assessment, native report, unchanged scientific figures, DAG and handoffs; incremental supplement to S8 stages0-2.",
-    "identity_location": "PR174 final S8 comment and archive GIT_READBACK.json/MANIFEST.json; post-upload receipt also carried by following S9 stage.",
+    "status": "S9_RESULT_UPLOAD_READBACK_PENDING",
+    "result_commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+    "archive_name": "BASS_S9_ACTUAL_RESULTS_20261020_a4031179.zip",
+    "archive_bytes": 1724949,
+    "archive_sha256": "1d7993575b796f6d5bf2d78e7775d11a7a22bb7c3457e8aec1c2f0304241aea3",
+    "scope": "123committed payloads with actual S9 results/review/figures/unchanged science inputs and separate postcommit Git receipt",
+    "cloud_readback": "pending",
     "self_referential_commit_cycle": false
   },
   "ci": {
     "status": "Not claimed; exact final HEAD Actions readback belongs to final PR receipt",
     "ci_pass_claimed": false
   },
-  "resource_receipt": "delivery/s7/RESOURCE_SUMMARY.json",
+  "resource_receipt": "evidence_s9/resume_20261020/CURRENT_EXECUTION_RESOURCE_CLARIFICATION.json",
   "source_age_and_coupled_evolution": "S7/S8 manufactured closed donor and S9 actual pinned Rust integration executed; actual MD14 native Einstein coupling remains a separate pending physical closure.",
   "finite_bin_spectral_convergence": "S7_SINGLE_FROZEN_OPACITY_SLAB_SCOPED; full reactive/history accuracy not admitted",
   "production_admission": false,
@@ -187,7 +195,7 @@
     "Evolving reactive absorption/chemistry and full finite-bin spectral-history photon/energy conservation.",
     "P6-constrained algorithm is not implemented/admitted by S9; moment matching and the source-deposition test do not certify the whole continuum/native evolution."
   ],
-  "verified_at_utc": "2026-10-19 13:57:45 UTC",
+  "verified_at_utc": "2026-10-20T05:38:27.667146+00:00",
   "pre_recovery_metadata_commit": "b69c7791b71064fd4b82fd7b2b3706860d84a29e",
   "pre_recovery_metadata_tree": "e0ddb18ae504c19b003697c9fa7a32a2f9f30ac0",
   "drive_failure_history": "delivery/DRIVE_FINAL_READBACK.json",
@@ -912,7 +920,7 @@
     "storage_status": "FOUR_STAGES_DUAL_BACKUP_VERIFIED"
   },
   "S9": {
-    "status": "EIGHT_HISTORIES_COMPLETED_PASS_SCOPED_PENDING_RESULT_PUBLICATION_AND_DUAL_READBACK",
+    "status": "ACTUAL_RESULTS_PUBLISHED_PASS_SCOPED_DUAL_CLOUD_PENDING",
     "user_requested": true,
     "workflow_version": "physmath-research-loop1.0.0",
     "updated_at_utc": "2026-10-20T04:13:16.763171+00:00",
@@ -1127,7 +1135,10 @@
       "individual_job_seconds": 1800
     },
     "next_action": "Reuse the completed S9 eight histories. Next physics unit: bind the fixed MD14 owner's per-H band-energy/time convention to a specified donor stress-energy supply and derive/implement the native Einstein source bridge with one shared Q. Keep the separate S8 inner-P2 numerical precision failure and wider angular/reactive-history obligations explicit.",
-    "handoff": "s9_vigilode/HOWTO_KO.md",
+    "handoff": [
+      "CODEX_HANDOFF_KO.md",
+      "NEW_THREAD_HANDOFF_KO.md"
+    ],
     "admission": {
       "production": false,
       "full_EoR": false,
@@ -1737,8 +1748,15 @@
       "publication": {
         "source_and_both_clouds_read_back": true,
         "source_gate": "evidence_s9/SOURCE_PUBLICATION_GATE.json",
-        "result_publication_status": "pending",
-        "result_cloud_status": "pending"
+        "result_publication_status": "published_verified",
+        "result_cloud_status": "PARTIAL_DROPBOX_FULL_RAW_VERIFIED_DRIVE_PENDING",
+        "result_publication": {
+          "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+          "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+          "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+          "status": "PUBLISHED_VERIFIED",
+          "unexpected_changed_paths": 0
+        }
       },
       "science_status": "COMPLETED_SCOPED",
       "closeout_status": "IN_PROGRESS_RESULT_PUBLICATION_AND_DUAL_READBACK",
@@ -1792,7 +1810,16 @@
       "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
       "rust_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
       "original_successful_build_preserved": true
-    }
+    },
+    "result_publication": {
+      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+      "status": "PUBLISHED_VERIFIED",
+      "unexpected_changed_paths": 0
+    },
+    "reproduction_howto": "s9_vigilode/HOWTO_KO.md",
+    "result_cloud_readback": "delivery/s9/S9_STAGE1_CLOUD_READBACK.json"
   },
   "S8_cloud_backups": [
     {
@@ -1988,7 +2015,7 @@
       "dropbox_object_id": "id:BSpOijBcT10AAAAAAD_Q3w"
     }
   },
-  "source_identity_policy": "This prepared S9 source is identified by its frozen prereg SHA now and by the actual containing commit/tree after publication; no pre-push commit is invented.",
+  "source_identity_policy": "Executed immutable scientific source4b30957c/tree8e4abf38 remains separate from result publicationa4031179/tree4a85d637 and later closeout/optimization metadata.",
   "S8_final_publication": {
     "status": "PUBLISHED_AND_DUAL_BACKUP_VERIFIED",
     "commit": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
@@ -2003,6 +2030,21 @@
     "drive_object_id": "1z8ovrEJWOLJla5rbRCOvCYmh2AKcld3e",
     "dropbox_object_id": "id:BSpOijBcT10AAAAAAD_Q3w"
   },
-  "S9_publication_status": "SOURCE_AND_DUAL_READBACK_COMPLETE_ACTUAL_RESULTS_PASS_SCOPED_NEW_RESULT_PUBLICATION_PENDING",
-  "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json"
+  "S9_publication_status": "RESULT_COMMIT_VERIFIED_DUAL_CLOUD_PENDING",
+  "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json",
+  "result_publication": {
+    "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+    "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+    "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+    "status": "PUBLISHED_VERIFIED",
+    "unexpected_changed_paths": 0
+  },
+  "historical_S7_resource_receipt": "delivery/s7/RESOURCE_SUMMARY.json",
+  "historical_S8_final_metadata_archive": {
+    "status": "FINITE_POSTCOMMIT_ARCHIVE_READBACK_TO_BE_RECORDED_IN_PR",
+    "scope": "Final S8 tangent gauge/assessment, native report, unchanged scientific figures, DAG and handoffs; incremental supplement to S8 stages0-2.",
+    "identity_location": "PR174 final S8 comment and archive GIT_READBACK.json/MANIFEST.json; post-upload receipt also carried by following S9 stage.",
+    "self_referential_commit_cycle": false
+  },
+  "historical_source_verified_at_utc": "2026-10-19 13:57:45 UTC"
 }

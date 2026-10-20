@@ -1,7 +1,7 @@
 {
   "schema": "bass.isotropy.return.v11",
-  "date_utc": "2026-10-20T04:13:16.763171+00:00",
-  "stage": "S9_ACTUAL_RESULTS_AND_INDEPENDENT_REVIEW_COMPLETE_PUBLICATION_DUAL_READBACK_IN_PROGRESS",
+  "date_utc": "2026-10-20T05:38:27.667146+00:00",
+  "stage": "S9_RESULTS_PUBLISHED_DUAL_BACKUP_PENDING_S10_OPTIMIZATION_C1_STARTED",
   "baseline_commit": "fe083a28e066a95e2191bcc6a090adf53605453f",
   "original_implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
   "S2_publication_commit": "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
@@ -53,7 +53,7 @@
     "S6 04a3a851 finite-d/rank1/spectral/source-age results in original scopes"
   ],
   "publication": {
-    "status": "S9_SOURCE_VERIFIED_ACTUAL_RESULTS_AWAITING_PUBLICATION",
+    "status": "S9_ACTUAL_RESULTS_PUBLISHED_VERIFIED_DUAL_CLOUD_PENDING",
     "current_scientific_source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
     "current_scientific_source_tree": "8e4abf3820d06bae6cbec307e4f69de74195d14b",
     "source_identity_policy": "Scientific source remains4b30957c; new result/report commits are recorded separately after publication.",
@@ -86,7 +86,14 @@
       "source_tree": "8e4abf3820d06bae6cbec307e4f69de74195d14b",
       "gate_receipt_sha256": "3682dce97d7f89dd4e178a4bae16a6d7e328db197bae31ec2fdca78134df4717"
     },
-    "closeout": "PUBLICATION_CLOSEOUT.json"
+    "closeout": "PUBLICATION_CLOSEOUT.json",
+    "S9_results": {
+      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+      "status": "PUBLISHED_VERIFIED",
+      "unexpected_changed_paths": 0
+    }
   },
   "scope": "Only new explicitly locally isotropic source angular quadrature; fixed birth weights, original spectral owner, existing radiation preserved.",
   "remaining_obligations": [
@@ -116,7 +123,7 @@
     "native_new_source_transfer": "pass_scoped",
     "coupled_shear_evolution": "S7 scoped execution complete: originalR1/R2FAIL retained, R3onehistoryPASS; see S7_coupled_native",
     "production_full_EoR": "not_run",
-    "dual_cloud_closeout": "S8 stages0/1/2/3 complete; Drive full raw ZIP identities and Dropbox provider whole-object hashes verified. S9 source/dual backup pending.",
+    "dual_cloud_closeout": "S9 source/prereg dual readback verified. Actual result publicationa4031179verified; new result archive dual upload/readback pending. Drive first upload gave no provider result; root stopped unanswered call.",
     "finite_d_certificate": "pass_scoped",
     "refinement_rate_preregistered": "fail_preserved",
     "refinement_rate_holdout": "pass",
@@ -125,11 +132,11 @@
     "source_age_prescribed": "pass_scoped",
     "historical_coupled_shear_evolution_before_S7": "not_run",
     "S9_development": "PASS_SCOPED: Rust5, AD9, runner10, actual callback190 vectors; original environment failure and both repaired runner findings retained.",
-    "S9_scientific_campaign": "NOT_RUN:8 planned histories after source/publication gate."
+    "S9_scientific_campaign": "PASS_SCOPED:8/8completed,failed0,140gate assertions,1224observations,192exact birth certificate instances; actual raw and independent review linked."
   },
   "native_publication_commit": "b30a2044be1ae04a68d8319f47d15a5bed751668",
   "native_publication_tree": "bf3a57343140fda867bae9ea94932d9c1475f53b",
-  "next_first_action": "Reuse the completed S9 eight histories. Next physics unit: bind the fixed MD14 owner's per-H band-energy/time convention to a specified donor stress-energy supply and derive/implement the native Einstein source bridge with one shared Q. Keep the separate S8 inner-P2 numerical precision failure and wider angular/reactive-history obligations explicit.",
+  "next_first_action": "User-selected S10 optimization loop: reuse completed S9 science, finish prior delivery, trace costs and reuse primary literature/code, implement and benchmark matched-accuracy optimizations, publish/backup each completed stage. Actual MD14 physical source bridge stays pending.",
   "storage_recovery_science_rerun": false,
   "S6": {
     "status": "PASS_SCOPED_PARTIAL_S6_COUPLED_NOT_RUN",
@@ -768,7 +775,7 @@
     "storage_status": "FOUR_STAGES_DUAL_BACKUP_VERIFIED"
   },
   "S9": {
-    "status": "EIGHT_HISTORIES_COMPLETED_PASS_SCOPED_PENDING_RESULT_PUBLICATION_AND_DUAL_READBACK",
+    "status": "ACTUAL_RESULTS_PUBLISHED_PASS_SCOPED_DUAL_CLOUD_PENDING",
     "user_requested": true,
     "workflow_version": "physmath-research-loop1.0.0",
     "updated_at_utc": "2026-10-20T04:13:16.763171+00:00",
@@ -983,7 +990,10 @@
       "individual_job_seconds": 1800
     },
     "next_action": "Reuse the completed S9 eight histories. Next physics unit: bind the fixed MD14 owner's per-H band-energy/time convention to a specified donor stress-energy supply and derive/implement the native Einstein source bridge with one shared Q. Keep the separate S8 inner-P2 numerical precision failure and wider angular/reactive-history obligations explicit.",
-    "handoff": "s9_vigilode/HOWTO_KO.md",
+    "handoff": [
+      "CODEX_HANDOFF_KO.md",
+      "NEW_THREAD_HANDOFF_KO.md"
+    ],
     "admission": {
       "production": false,
       "full_EoR": false,
@@ -1593,8 +1603,15 @@
       "publication": {
         "source_and_both_clouds_read_back": true,
         "source_gate": "evidence_s9/SOURCE_PUBLICATION_GATE.json",
-        "result_publication_status": "pending",
-        "result_cloud_status": "pending"
+        "result_publication_status": "published_verified",
+        "result_cloud_status": "PARTIAL_DROPBOX_FULL_RAW_VERIFIED_DRIVE_PENDING",
+        "result_publication": {
+          "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+          "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+          "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+          "status": "PUBLISHED_VERIFIED",
+          "unexpected_changed_paths": 0
+        }
       },
       "science_status": "COMPLETED_SCOPED",
       "closeout_status": "IN_PROGRESS_RESULT_PUBLICATION_AND_DUAL_READBACK",
@@ -1648,7 +1665,16 @@
       "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
       "rust_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
       "original_successful_build_preserved": true
-    }
+    },
+    "result_publication": {
+      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+      "status": "PUBLISHED_VERIFIED",
+      "unexpected_changed_paths": 0
+    },
+    "reproduction_howto": "s9_vigilode/HOWTO_KO.md",
+    "result_cloud_readback": "delivery/s9/S9_STAGE1_CLOUD_READBACK.json"
   },
   "historical_S7_current_publication": {
     "current_scientific_source_commit": "f993bf7121af7bb6d69698244089201e28868ebc",
@@ -1697,5 +1723,6 @@
     "final_metadata_identity": "Containing commit plus latest PR174 closeout/comment and final archive GIT_READBACK.json",
     "resume_source_commit": "2e6b4a150559b0bea52938896a901f6d438f3582"
   },
-  "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json"
+  "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json",
+  "baseline_commit_role": "Historical S7 baseline; current S9 scientific source and result publication are separate fields."
 }

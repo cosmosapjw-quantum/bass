@@ -16,7 +16,7 @@ VigilODE 구현: a21d573980f66fe02891bd216153443b5352f921
 REI spectral owner: 0e25846433170d0f420c4cda44a0bedbf02cd177
 SourceID: MD14_Z002_FESC_BB50K_13P6_100_V1
 부모 PR173: 4e2d1fa820d6f7baae1069b615fb82a08d53403b
-현재 S9 결과 publication: 이 문서의 containing commit; 최종 배송 receipt/PR 댓글에서 실제 hash 확인
+현재 S9 결과 publication: a40311796f9aac5ea5e0e58c630bee2a78443353; 원격 tree/blob readback 완료
 현재 결과 ZIP의 Drive·Dropbox readback: PENDING — 최종 배송 영수증에서 실제 완료 상태 확인
 ```
 

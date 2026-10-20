@@ -1,6 +1,6 @@
 {
   "schema": "bass.isotropy.research_dag.v15",
-  "date_utc": "2026-10-20T04:13:16.763171+00:00",
+  "date_utc": "2026-10-20T05:38:27.667146+00:00",
   "parent_pr173": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
   "pr": 174,
   "implementation_commit": "930406550ce6d4d1b2e87f016c5c18fba48c4ccd",
@@ -56,10 +56,10 @@
     "final_metadata_backup": "Recorded separately in publication supplement and PR comment after upload/readback."
   },
   "new_projection_native": "PASS_SCOPED_NEW_BIRTH_ADAPTER",
-  "NCP": "NOT_USED_FOR_S8; S9 executable/source/HOWTO prepared. The8-history campaign is NOTRUN; current sandbox execution follows source/dual readback. NCP has compile or verified-build reuse/small fixes/fixed run only.",
+  "NCP": "NOT_USED_FOR_S9; completed registered8 once; no NCP replay obligation for this scope; new physical/native scope requires its own source/input/gates.",
   "native_subagent": "COMPLETED_ACTUAL_EXECUTION_AND_INDEPENDENT_REVIEW",
   "auto_merge": false,
-  "resume_head": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
+  "resume_head": "a40311796f9aac5ea5e0e58c630bee2a78443353",
   "S5": {
     "status": "PASS_SCOPED_NATIVE_ADAPTER",
     "stage_status": "complete",
@@ -564,7 +564,7 @@
       ]
     }
   ],
-  "resume_head_role": "Last independently verified published HEAD before this S9 source commit; S8 final result and dual backup complete.",
+  "resume_head_role": "Verified S9 result publication; actual unchanged scientific source remains4b30957cb008aad8019bb1a673937fc67bd017e8.",
   "S7_publication_closeout": {
     "status": "complete",
     "git_source_publication": "PASS_THREE_ORDERED_COMMITS_AND_TREE_READBACKS",
@@ -583,7 +583,7 @@
     "recovery_receipt": "delivery/DRIVE_RECOVERY_READBACK.json",
     "role": "Historical pre-S7 cloud recovery at08:07; S7 scientific closeout is S7_coupled_native and finalPRcomment6265614481."
   },
-  "latest_storage_intake": "delivery/s6_intake_20261019/INTAKE.json",
+  "latest_storage_intake": "evidence_s9/resume_20261020/CURRENT_CLOUD_INTAKE.json",
   "latest_storage_recovery": "delivery/DRIVE_RECOVERY_READBACK.json",
   "storage_recovery_science_rerun": false,
   "S7_coupled_native": {
@@ -1333,7 +1333,7 @@
     "storage_status": "FOUR_STAGES_DUAL_BACKUP_VERIFIED"
   },
   "S9": {
-    "status": "EIGHT_HISTORIES_COMPLETED_PASS_SCOPED_PENDING_RESULT_PUBLICATION_AND_DUAL_READBACK",
+    "status": "ACTUAL_RESULTS_PUBLISHED_PASS_SCOPED_DUAL_CLOUD_PENDING",
     "user_requested": true,
     "workflow_version": "physmath-research-loop1.0.0",
     "updated_at_utc": "2026-10-20T04:13:16.763171+00:00",
@@ -1548,7 +1548,10 @@
       "individual_job_seconds": 1800
     },
     "next_action": "Reuse the completed S9 eight histories. Next physics unit: bind the fixed MD14 owner's per-H band-energy/time convention to a specified donor stress-energy supply and derive/implement the native Einstein source bridge with one shared Q. Keep the separate S8 inner-P2 numerical precision failure and wider angular/reactive-history obligations explicit.",
-    "handoff": "s9_vigilode/HOWTO_KO.md",
+    "handoff": [
+      "CODEX_HANDOFF_KO.md",
+      "NEW_THREAD_HANDOFF_KO.md"
+    ],
     "admission": {
       "production": false,
       "full_EoR": false,
@@ -2158,8 +2161,15 @@
       "publication": {
         "source_and_both_clouds_read_back": true,
         "source_gate": "evidence_s9/SOURCE_PUBLICATION_GATE.json",
-        "result_publication_status": "pending",
-        "result_cloud_status": "pending"
+        "result_publication_status": "published_verified",
+        "result_cloud_status": "PARTIAL_DROPBOX_FULL_RAW_VERIFIED_DRIVE_PENDING",
+        "result_publication": {
+          "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+          "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+          "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+          "status": "PUBLISHED_VERIFIED",
+          "unexpected_changed_paths": 0
+        }
       },
       "science_status": "COMPLETED_SCOPED",
       "closeout_status": "IN_PROGRESS_RESULT_PUBLICATION_AND_DUAL_READBACK",
@@ -2213,7 +2223,16 @@
       "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
       "rust_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
       "original_successful_build_preserved": true
-    }
+    },
+    "result_publication": {
+      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+      "status": "PUBLISHED_VERIFIED",
+      "unexpected_changed_paths": 0
+    },
+    "reproduction_howto": "s9_vigilode/HOWTO_KO.md",
+    "result_cloud_readback": "delivery/s9/S9_STAGE1_CLOUD_READBACK.json"
   },
   "current_result_summary": "evidence_s9/RESULT_SUMMARY_20261020.json",
   "S10_next_physics": {
@@ -2492,5 +2511,53 @@
         "reason": "Source/preregistration and handoff frozen; containing-commit publication and both cloud readbacks are pending, followed by the approved8-case campaign."
       }
     ]
+  },
+  "historical_pre_S9_resume_head": "276172ca6cac9cf6b38561fdf9ba0103e1beb9cf",
+  "historical_latest_storage_intake": "delivery/s6_intake_20261019/INTAKE.json",
+  "S10_optimization": {
+    "status": "C1_CONTRACT_COMPLETE_PENDING_STAGE_PUBLICATION_AND_BACKUP",
+    "user_requested_at_utc": "2026-10-20T05:30:42Z",
+    "skill_version": "physmath-research-loop1.3.0",
+    "contract": "S10_OPTIMIZATION_KO.md",
+    "baseline_scientific_source": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+    "baseline_results": {
+      "commit": "a40311796f9aac5ea5e0e58c630bee2a78443353",
+      "tree": "4a85d637d318c2b3a0057754f91e8b2b374c05d9",
+      "git_readback": "delivery/s9/S9_STAGE1_GIT_READBACK.json",
+      "status": "PUBLISHED_VERIFIED",
+      "unexpected_changed_paths": 0
+    },
+    "selected_stages": [
+      "R2",
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7",
+      "C8",
+      "C9",
+      "C10"
+    ],
+    "selection_reason": "Explicit new deep code optimization/reuse/vectorization/parallelization research and per-stage publication request; keep the existing theory results and physical invariants. No new physical closure is implied.",
+    "stage_records": {
+      "C1": {
+        "objective_status": "complete",
+        "publication_status": "pending",
+        "dual_backup_status": "pending"
+      },
+      "R2": {
+        "objective_status": "in_progress",
+        "publication_status": "pending",
+        "dual_backup_status": "pending"
+      },
+      "C2": {
+        "objective_status": "in_progress",
+        "publication_status": "pending",
+        "dual_backup_status": "pending"
+      }
+    },
+    "prior_physical_obligations": "S10_next_physics remains pending under prior scope; user now prioritizes optimization."
   }
 }

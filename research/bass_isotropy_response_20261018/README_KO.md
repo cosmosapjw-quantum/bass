@@ -11,7 +11,7 @@
 | 실행한 S9 source | `4b30957cb008aad8019bb1a673937fc67bd017e8` |
 | Source tree | `8e4abf3820d06bae6cbec307e4f69de74195d14b` |
 | 사전등록 SHA256 | `7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507` |
-| 현재 결과 publication | 이 문서의 containing commit; 최종 배송 receipt/PR 댓글에서 실제 hash 확인 |
+| 현재 결과 publication | a40311796f9aac5ea5e0e58c630bee2a78443353; 원격 tree/blob readback 완료 |
 | 현재 결과 ZIP의 Drive·Dropbox readback | `PENDING` — 실제 업로드·검증 후 최종 배송 영수증으로 갱신 |
 
 Source 사전등록 자체는 실행 전에 두 provider에서 확인했다. [현재 cloud intake](evidence_s9/resume_20261020/CURRENT_CLOUD_INTAKE.json)를 우선 읽고 현재 결과 ZIP의 배송 상태와 이전 source 백업의 완료 상태를 구분한다. 최신 위치는 [PR174](https://github.com/cosmosapjw-quantum/bass/pull/174), [PUBLICATION_CLOSEOUT](PUBLICATION_CLOSEOUT.json), [CLOUD_READBACK](CLOUD_READBACK_KO.md)에서 확인한다.
@@ -44,3 +44,7 @@ S7의 manufactured donor–Einstein/shear 결합 및 native 제한 검증, S8의
 Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp(2b), s=dot b, Sigma=sqrt(3)|s|/H를 유지한다. 새 명시적 isotropic birth quadrature만 보정하고 기존 photon·physical anisotropic stock을 초기화하거나 재가중하지 않는다. 양의 weights, birth weights, reflection parity, source frame, REI owner `0e25846433170d0f420c4cda44a0bedbf02cd177`를 유지한다. 실패를 음수 weights나 gate 완화로 우회하지 않는다.
 
 새 NCP 캠페인이 필요할 때는 여기에서 source·입력·gate를 먼저 완성하고 새 실행에 필요한 컴파일·작은 호환 수정·실행만 남긴다. 기존 owner 작업과 실행 중 job을 보존하며 추가 worker≤16, RAM≤16 GiB, disk≤4 GiB, 개별 job≤1800초를 적용한다. REI production/full EoR/merge는 별도의 충분한 검증을 필요로 한다.
+
+## 현재 사용자 추가 요청 — 최적화 연구
+
+2026-10-20부터 [S10 최적화 계약과 단계 기록](S10_OPTIMIZATION_KO.md)에 따라 외부 문헌/코드 재사용, allocation/cache/SIMD/병렬화 설계·구현과 정확도 대비 성능을 조사한다. 이전 실제 MD14 physical closure의 의무는 남겨둔다. S9 결과 archive는 Dropbox에서 전체 원격 ZIP·SHA/CRC/manifest123개를 검증했고, Drive 업로드/readback은 아직 미완료다. [현재 부분 배송 영수증](delivery/s9/S9_STAGE1_CLOUD_READBACK.json)을 확인한다.
