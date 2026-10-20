@@ -49,9 +49,10 @@ Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp
 P2/P4 일치만으로 continuum 또는 full native finite-bin 보존을 승인하지 않는다. 새 문제의 input/gate는 필요한 과학적 의존성을 먼저 정의한 뒤 별도 사전등록한다.
 
 [배송 상태와 제한]
-오늘 S9 결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8의 Dropbox 전체 ZIP bytes·SHA256·CRC·manifest 검증은 완료됐다. C9를 포함한 최종 provider 상태와 object ID는 PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md가 연결하는 최종 delivery index 및 각 단계 CLOUD_READBACK.json을 우선한다. 이 인계는 최종 C10 자기 commit 또는 미확인 cloud ID를 만들어 넣지 않는다.
-새 Drive 내용 쓰기는 provider 무응답으로 blocked다. 2026-10-20 06:22 UTC metadata listing의 직접 항목48개에서 당시 관련 archive6개와 staging copy1개의 exact 이름 일치는0개였다. 이 관측을 계정 전체 검색/전체 파일 부재의 증명으로 확대하지 않는다. 과거 source/prereg 및 S6–S8의 Drive 검증 성공은 별도 역사적 사실이다.
-무응답이 확인된 같은 upload/copy 경로를 반복하지 않는다. 현재는 검증된 대체 쓰기 경로가 없어 mutation을 중단한 상태다. 브라우저 fallback은 브라우저 도구 지침에 따른 명시적 사용자 승인 후에만 진행한다. 실패 receipt와 빈 Docs/Sheets를 완료 백업으로 세지 않는다. Dropbox 완료와 Drive 미완료를 분리하며 이중백업 완료를 주장하지 않는다.
+S9 실제 결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8/C9/C10의 봉인 원8ZIP은 Dropbox와 Google Drive 양쪽의 전체 원격 bytes/SHA256/CRC/manifest 검증을 완료했다. 총4,189,549bytes·317manifest payload 항목이며 checkpoint 중복을 포함한다. 단계별 객체·hash·원 commit/tree는 delivery/s10/CLOUD_CHECKPOINT_INDEX.json, Drive 실제 증거는 delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json, Dropbox 실제 복구 증거는 delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json을 읽는다.
+원 C10 판정 metadata=a85605302bb0317022eb06b498eb05b9d621de6a, tree=e1d04268e647b6cb6d33374b64598fa3ec0d4131. 이는 실행 source나 이번 배송 복구 containing commit과 구별한다. 이번 복구 metadata의 정확한 commit/tree·별도 postcommit 보충 ZIP·마지막 이중 readback은 최신 PR174 배송 댓글과 postcommit receipt에서 확인한다. 자기 commit/hash 또는 미확인 보충본 성공을 꾸미지 않는다.
+과거 connector 무응답과 승인 후 browser 보안 로그인/runtime timeout은 역사적 실패로 남긴다. 브라우저 인증 성공·업로드는 관측하지 않았다. 사용자가 명시한 Google Drive 플러그인 재시도가 성공해 원8ZIP의 현재 Drive blocker는 해소됐다. 사용자 업로드 승인을 다시 요구하지 않는다. 실패 receipt와 빈 Docs/Sheets를 완료 백업으로 세지 않는다.
+배송 복구를 위한 과학/build/test/ODE/benchmark 재실행은0회이며 추가 NCP 의무도 없다. 과학 source·owner·남은 physics 의무·원 실패를 그대로 보존한다.
 
 [진짜 남은 연구와 재개 원칙]
 새 자동 최적화 cycle을 열지 말고, 사용자가 선택한 후속 물리 의무를 최소 계산 가능한 계약으로 구체화한다:

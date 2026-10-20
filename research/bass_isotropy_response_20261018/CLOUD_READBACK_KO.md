@@ -1,3 +1,36 @@
+# S9/S10 원8개 archive — Google Drive 배송 복구 완료
+
+**Google Drive 플러그인의 승인된 재시도로 원8ZIP의 이중 백업과 전체 원격 readback을 완료했다.** Dropbox에서 복구한 봉인 원본과 Drive에서 받은 전체 bytes가 일치했다. SHA256·ZIP CRC·manifest의 크기/해시/Git blob과 각 archive의 원 publication commit/tree를 확인했다.
+
+총8ZIP, 4,189,549 bytes, 317개 manifest payload 항목이며 317에는 checkpoint 사이 중복이 포함된다.
+
+| 단계 | ZIP | Drive object | Dropbox object | payload |
+|---|---|---|---|---:|
+| S9 | `BASS_S9_ACTUAL_RESULTS_20261020_a4031179.zip` | [1vAUNZCHQkNfbROH6AZU4nH1Cw80bR2Z1](https://drive.google.com/file/d/1vAUNZCHQkNfbROH6AZU4nH1Cw80bR2Z1/view) | `id:BSpOijBcT10AAAAAAD_SMg` | 123 |
+| C1 | `BASS_S10_C1_20261020_62d6bc14.zip` | [1RRUiR453swSQ5xCHGNomGHR6K_mhRSSh](https://drive.google.com/file/d/1RRUiR453swSQ5xCHGNomGHR6K_mhRSSh/view) | `id:BSpOijBcT10AAAAAAD_SNA` | 11 |
+| R2_C2 | `BASS_S10_R2_C2_20261020_8138a014.zip` | [1PcWfhIIoMXlzAUCdutJIATWNMz1INqVb](https://drive.google.com/file/d/1PcWfhIIoMXlzAUCdutJIATWNMz1INqVb/view) | `id:BSpOijBcT10AAAAAAD_SNg` | 35 |
+| C3_C5 | `BASS_S10_C3_C5_20261020_d5a17364.zip` | [1NKH1ilaob3gRYWOoOyvjUGsyYLK0JONf](https://drive.google.com/file/d/1NKH1ilaob3gRYWOoOyvjUGsyYLK0JONf/view) | `id:BSpOijBcT10AAAAAAD_SOA` | 30 |
+| C6 | `BASS_S10_C6_20261020_477eca7d.zip` | [16yszEKMWu6y7VpTVbbG-3RcePGuOd6kF](https://drive.google.com/file/d/16yszEKMWu6y7VpTVbbG-3RcePGuOd6kF/view) | `id:BSpOijBcT10AAAAAAD_SPQ` | 15 |
+| C7_C8 | `BASS_S10_C7_C8_20261020_26e9e1ba.zip` | [1JE-BXoppOnQlsfSri82sD2V8sLcmuvXZ](https://drive.google.com/file/d/1JE-BXoppOnQlsfSri82sD2V8sLcmuvXZ/view) | `id:BSpOijBcT10AAAAAAD_SQw` | 70 |
+| C9 | `BASS_S10_C9_20261020_0771f061.zip` | [1ouKuQECPz1JnnxzjMi303nbO_r582Uvg](https://drive.google.com/file/d/1ouKuQECPz1JnnxzjMi303nbO_r582Uvg/view) | `id:BSpOijBcT10AAAAAAD_SRQ` | 16 |
+| C10 | `BASS_S10_C10_20261020_a8560530.zip` | [1-9tol8BUxdd-6CD3NUQVY6mBzOjAgHL2](https://drive.google.com/file/d/1-9tol8BUxdd-6CD3NUQVY6mBzOjAgHL2/view) | `id:BSpOijBcT10AAAAAAD_SRg` | 17 |
+
+원본 SHA256·bytes·publication identity와 provider별 receipt는 [통합 index](delivery/s10/CLOUD_CHECKPOINT_INDEX.json)를 읽는다. [Drive 독립 전체 readback](delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json)과 [Dropbox 실제 복구 readback](delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json)을 구분해 보존했다.
+
+## 복구 범위와 역사적 실패
+
+과거 connector 무응답은 당시 receipt 그대로 보존한다. 사용자의 명시적 브라우저 승인 뒤에도 보안 로그인 요청과 브라우저 runtime 상태 조회는 시간 초과로 끝났고, 브라우저 인증 성공이나 업로드는 관측하지 않았다. 이후 사용자가 Google Drive 플러그인 재시도를 명시했고 이번 업로드·원격 검증이 성공했다. 현재 원8ZIP의 Drive blocker는 해소됐다. 빈 Doc/Sheet나 실패 receipt를 백업으로 세지 않았다.
+
+과학 source `d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8`, original REI owner `0e25846433170d0f420c4cda44a0bedbf02cd177`, 원 C10 판정 metadata `a85605302bb0317022eb06b498eb05b9d621de6a`를 보존했다. 이번 복구의 build/test/ODE/benchmark 재실행은0회다. 다음 물리 연구는 pending이며 REI production/full EoR/merge는 승인하지 않는다.
+
+이 문서가 포함된 복구 metadata 자체의 commit/tree와 별도 postcommit 보충 ZIP/마지막 readback은 최신 PR174 배송 댓글이 소유한다. 원8ZIP의 완료를 아직 만들지 않은 보충 ZIP의 성공으로 확대하지 않는다.
+
+---
+
+## 아래는 원 C10 metadata 시점의 역사적 cloud 기록
+
+다음의 blocked/pending/승인대기 표현은 당시 관측이다. 현재 상태는 위의 실제 성공 receipt를 따른다.
+
 # Cloud readback — S9/S10 현재 배송 상태
 
 ## 2026-10-20 C10 마감 시점

@@ -2,7 +2,9 @@
 
 **S10의 연구·구현·정확도·성능·독립 검토와 두 인계를 완료했다.** 원 과학 출력을 유지한 matrix-free history에서 SIMD+exact-cache의 중앙 가속비2.973/4.115를 관측했다. Closed small/clock4는1.055(IQR0.957–1.243)로 일관된 이득을 인정하지 않고, 작은 changing-state kernel의0.950 회귀를 보존했다. [전체 결과와 모든 후보 표](S10_RESULTS_KO.md), [C10 판정](evidence_s10/C10_DECISION.json)을 먼저 읽는다.
 
-오늘의 이전7개 archive는 GitHub 게시·Dropbox 전체 원격 bytes/SHA256/CRC/manifest 검증을 마쳤다. **Drive 새 두 번째 복사는 connector 무응답으로 blocked**다. 이 파일을 포함한 최종 C10 metadata archive의 정확한 commit/tree/hash와 마지막 Dropbox readback은 [PR174 최종 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)이 소유한다. 이 문서 안에서 자기 commit/hash 또는 이중백업 성공을 선기록하지 않는다.
+**S9 실제 결과와 S10 C1–C10의 원 ZIP 8개를 Dropbox와 Google Drive 양쪽에서 검증했다.** 전체 4,189,549 bytes가 봉인된 원본과 일치하고 SHA256·ZIP CRC·317개 manifest payload 항목을 통과했다. 317은 checkpoint 사이의 중복을 포함한다. [통합 원격 readback](delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json)과 [단계별 index](delivery/s10/CLOUD_CHECKPOINT_INDEX.json)가 각 객체를 연결한다. 이번 변경은 배송 metadata 복구이며 과학·build/test/ODE/benchmark 재실행은 0회다. 이 파일이 포함된 복구 metadata commit·별도 보충 ZIP·마지막 두 provider readback은 [PR174 최신 배송 댓글](https://github.com/cosmosapjw-quantum/bass/pull/174)의 postcommit 증거를 읽는다.
+
+복구 provenance: 과거 단계 cloud receipt 7개는 원문 bytes를 복구했다. 마지막 C10의 과거 postcommit receipt 원문은 선택한 ZIP에 들어 있지 않아 복구하지 못했고, 원 PR 댓글의 hash·판정과 이번 새 전체 원격 검증을 구분해 보존했다. 복구용 `FINAL_DROPBOX_ARCHIVE_INDEX.json`은 새로 재구성한 metadata이며 원 index bytes의 복원이라고 표시하지 않는다.
 
 ## 현재 검증 범위
 
@@ -15,7 +17,7 @@
 | S10 성능 반복 | micro1260timed,prep378,serial304호출+parallel192호출; 고유 물리입력4개 |
 | S10 별도 할당 계측 | 108rows; 다섯최적화 mode의 등록 evaluation 구간 allocation0, 준비비용 별도 |
 | S10 C9 독립 검토 | 155/155,612관측·64birth 직접 계산; code/science finding0, 문서finding1수정확인 |
-| Delivery | 이전7archive Dropbox fullbytes PASS; Drive blocked; 최종 C10 postcommit receipt는 PR174참조 |
+| Delivery | 원8archive Dropbox+Drive fullbytes/SHA256/CRC/manifest PASS; 복구 metadata의 별도 postcommit 증거는 PR174참조 |
 
 ## 정확한 source 역할
 
@@ -29,7 +31,7 @@
 | 원 REI spectral owner | `0e25846433170d0f420c4cda44a0bedbf02cd177` |
 | 실제 VigilODE | `a21d573980f66fe02891bd216153443b5352f921` |
 
-현재 C10 metadata는 위 실행 source를 바꾸지 않는다. Frozen manifest SHA256은 `4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17`이다. PR은 Draft이며 base PR173 `4e2d1fa820d6f7baae1069b615fb82a08d53403b`를 유지한다.
+원 C10 판정 metadata `a85605302bb0317022eb06b498eb05b9d621de6a`를 부모로 한 이번 배송 복구는 위 실행 source를 바꾸지 않는다. Frozen manifest SHA256은 `4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17`이다. PR은 Draft이며 base PR173 `4e2d1fa820d6f7baae1069b615fb82a08d53403b`를 유지한다.
 
 ## 읽는 순서와 실행 재사용
 

@@ -58,9 +58,10 @@ Non-tilted axisymmetric Bianchi I, (-,+,+,+), a_perp=a exp(-b), a_parallel=a exp
 [보존할 실패·배송 상태]
 신규 compile/strict identity/science 실패0, C6 예상입력실패7, 위 성능 회귀/불확실성을 구분한다. 고정 VigilODE dead-code경고4개와 문헌 취득 실패, 과거 환경/runner/Drive 실패 receipt를 삭제하지 않는다.
 S6 rate38/344 실패·P4악화44/238, S7원실패, S8낮은해상도8미달 및 b0=.9/n64/P24 STRICT_INTERIOR의 INNER_P2_PRECISION_LIMIT를 보존한다.
-오늘 S9결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8 Dropbox 전체 ZIP bytes/SHA256/CRC/manifest는 검증됐다. C9를 포함한 최종 provider 상태·object ID는 PUBLICATION_CLOSEOUT.json/CLOUD_READBACK_KO.md가 연결한 최종 delivery index 및 각 stage CLOUD_READBACK.json을 우선한다. 최종 C10 자기commit/미확인cloud ID를 꾸미지 않는다.
-Drive는 새 content write 무응답으로 blocked다. 2026-10-20 06:22UTC의 직접항목48개 listing에서 당시 관련 archive6개와 staging copy1개의 exact 이름 일치0개를 관측했다. 해당 범위 밖의 전체 Drive 파일 부재로 일반화하지 않는다. 과거 S6–S8/S9source의 원 Drive 성공은 별도 보존한다.
-무응답이 확인된 동일 upload/copy 경로를 반복하지 않는다. 현재 검증된 대체 쓰기 경로가 없어 mutation을 중단했다. 브라우저fallback은 브라우저 도구 지침에 따른 명시적 사용자 승인 후에만 진행한다. 빈 Doc/Sheet와 실패 receipt는 백업 완료가 아니다. Dropbox 성공과 Drive 미완료를 분리하고 이중백업 완료라고 쓰지 않는다.
+S9 실제 결과와 S10 C1/R2·C2/C3·C5/C6/C7·C8/C9/C10의 봉인 원8ZIP은 Dropbox와 Google Drive 양쪽의 전체 원격 bytes/SHA256/CRC/manifest 검증을 완료했다. 총4,189,549bytes·317manifest payload 항목이며 checkpoint 중복을 포함한다. 단계별 객체·hash·원 commit/tree는 delivery/s10/CLOUD_CHECKPOINT_INDEX.json, Drive 실제 증거는 delivery/s10/drive_recovery_20261020/EIGHT_ARCHIVE_DRIVE_READBACK.json, Dropbox 실제 복구 증거는 delivery/s10/dropbox_restore_20261020/EIGHT_ARCHIVE_RESTORE_READBACK.json을 읽는다.
+원 C10 판정 metadata=a85605302bb0317022eb06b498eb05b9d621de6a, tree=e1d04268e647b6cb6d33374b64598fa3ec0d4131. 이는 실행 source나 이번 배송 복구 containing commit과 구별한다. 이번 복구 metadata의 정확한 commit/tree·별도 postcommit 보충 ZIP·마지막 이중 readback은 최신 PR174 배송 댓글과 postcommit receipt에서 확인한다. 자기 commit/hash 또는 미확인 보충본 성공을 꾸미지 않는다.
+과거 connector 무응답과 승인 후 browser 보안 로그인/runtime timeout은 역사적 실패로 남긴다. 브라우저 인증 성공·업로드는 관측하지 않았다. 사용자가 명시한 Google Drive 플러그인 재시도가 성공해 원8ZIP의 현재 Drive blocker는 해소됐다. 사용자 업로드 승인을 다시 요구하지 않는다. 실패 receipt와 빈 Docs/Sheets를 완료 백업으로 세지 않는다.
+배송 복구를 위한 과학/build/test/ODE/benchmark 재실행은0회이며 추가 NCP 의무도 없다. 과학 source·owner·남은 physics 의무·원 실패를 그대로 보존한다.
 
 [다음에 구현할 실제 의무]
 새 optimization cycle을 자동으로 열지 말고 사용자가 선택한 후속 물리 단위의 식·data·owner 의존성을 먼저 정식화한다. 남은 범위는 실제 MD14의 source time/체적/energy supply/stress normalization과 native Einstein/shear의 shared-Q 결합, 미구현P6, evolving reactive full finite-bin spectral-history 보존/수렴, S8 precision failure, 더 넓은 finite-d/angular accuracy, 새 Rust client의 full birth-memory parameter tangent다.
