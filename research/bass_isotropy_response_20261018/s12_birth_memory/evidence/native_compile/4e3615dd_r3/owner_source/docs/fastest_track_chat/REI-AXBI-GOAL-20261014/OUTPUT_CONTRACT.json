@@ -1,0 +1,805 @@
+{
+  "schema": "rei.axbi.output_contract.v1",
+  "goal_id": "REI-AXBI-GOAL-20261014",
+  "science_status": "NOT_RUN",
+  "units_policy": "All numerical records specify frame, proper/comoving convention, clock origin and normalization; use explicit c,k_B and locked sigma_T.",
+  "tables": {
+    "history.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "frozen source/scenario/background/run identity",
+          "nullable": false
+        },
+        {
+          "name": "q_ref",
+          "unit": "1",
+          "semantics": "fixed campaign amplitude s_*/H_FLRW(a_*) at locked reference epoch; not instantaneous Sigma=s/H",
+          "nullable": false
+        },
+        {
+          "name": "Sigma",
+          "unit": "1",
+          "semantics": "instantaneous s/H along trajectory; distinct from fixed q_ref=s_*/H_FLRW(a_*)",
+          "nullable": false
+        },
+        {
+          "name": "time_s",
+          "unit": "s",
+          "semantics": "proper seconds with explicit origin",
+          "nullable": false
+        },
+        {
+          "name": "a",
+          "unit": "1",
+          "semantics": "mean scale factor in locked normalization",
+          "nullable": false
+        },
+        {
+          "name": "zbar",
+          "unit": "1",
+          "semantics": "a^-1-1; not observed redshift",
+          "nullable": false
+        },
+        {
+          "name": "b",
+          "unit": "1",
+          "semantics": "axisymmetric anisotropy",
+          "nullable": false
+        },
+        {
+          "name": "H_per_s",
+          "unit": "s^-1",
+          "semantics": "mean Hubble rate",
+          "nullable": false
+        },
+        {
+          "name": "s_per_s",
+          "unit": "s^-1",
+          "semantics": "db/dt",
+          "nullable": false
+        },
+        {
+          "name": "x_HII",
+          "unit": "1",
+          "semantics": "local homogeneous hydrogen ion fraction, not QV",
+          "nullable": false
+        },
+        {
+          "name": "x_HeII",
+          "unit": "1",
+          "semantics": "helium singly ionized fraction",
+          "nullable": false
+        },
+        {
+          "name": "x_HeIII",
+          "unit": "1",
+          "semantics": "helium doubly ionized fraction",
+          "nullable": false
+        },
+        {
+          "name": "nH_proper_cm3",
+          "unit": "cm^-3",
+          "semantics": "proper hydrogen nuclei density",
+          "nullable": false
+        },
+        {
+          "name": "ne_proper_cm3",
+          "unit": "cm^-3",
+          "semantics": "H/He charge-census solved electron density",
+          "nullable": false
+        },
+        {
+          "name": "temperature_K",
+          "unit": "K",
+          "semantics": "gas thermal state",
+          "nullable": false
+        },
+        {
+          "name": "Gamma_HI_per_s",
+          "unit": "s^-1",
+          "semantics": "species-resolved photoionization rate",
+          "nullable": false
+        },
+        {
+          "name": "Gamma_HeI_per_s",
+          "unit": "s^-1",
+          "semantics": "species-resolved photoionization rate",
+          "nullable": false
+        },
+        {
+          "name": "Gamma_HeII_per_s",
+          "unit": "s^-1",
+          "semantics": "species-resolved photoionization rate",
+          "nullable": false
+        },
+        {
+          "name": "photon_n_per_H",
+          "unit": "H^-1",
+          "semantics": "photon count per hydrogen nucleus",
+          "nullable": false
+        },
+        {
+          "name": "photon_u_eV_per_H",
+          "unit": "eV/H",
+          "semantics": "photon energy per hydrogen nucleus",
+          "nullable": false
+        },
+        {
+          "name": "J0_photon_u_eV_per_H",
+          "unit": "eV/H",
+          "semantics": "U_0=(1/nH_proper)*integral E*J_0(E,t) dE; solid-angle-integrated Legendre energy moment per H, not angular mean",
+          "nullable": false
+        },
+        {
+          "name": "J1_photon_u_eV_per_H",
+          "unit": "eV/H",
+          "semantics": "U_1=(1/nH_proper)*integral E*J_1(E,t) dE; solid-angle-integrated Legendre energy moment per H, not angular mean",
+          "nullable": false
+        },
+        {
+          "name": "J2_photon_u_eV_per_H",
+          "unit": "eV/H",
+          "semantics": "U_2=(1/nH_proper)*integral E*J_2(E,t) dE; solid-angle-integrated Legendre energy moment per H, not angular mean",
+          "nullable": false
+        },
+        {
+          "name": "x_HI",
+          "unit": "1",
+          "semantics": "derived neutral H fraction, sum xHI+xHII=1",
+          "nullable": false
+        },
+        {
+          "name": "x_HeI",
+          "unit": "1",
+          "semantics": "derived neutral He fraction, sum xHeI+xHeII+xHeIII=1",
+          "nullable": false
+        }
+      ],
+      "coverage": "full selected supported interval with actual saved samples; no endpoint-to-history reconstruction"
+    },
+    "spectra.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "frozen source/scenario/background/run identity",
+          "nullable": false
+        },
+        {
+          "name": "q_ref",
+          "unit": "1",
+          "semantics": "fixed campaign amplitude s_*/H_FLRW(a_*) at locked reference epoch; not instantaneous Sigma=s/H",
+          "nullable": false
+        },
+        {
+          "name": "Sigma",
+          "unit": "1",
+          "semantics": "instantaneous s/H along trajectory; distinct from fixed q_ref=s_*/H_FLRW(a_*)",
+          "nullable": false
+        },
+        {
+          "name": "time_s",
+          "unit": "s",
+          "semantics": "proper seconds with explicit origin",
+          "nullable": false
+        },
+        {
+          "name": "a",
+          "unit": "1",
+          "semantics": "mean scale factor in locked normalization",
+          "nullable": false
+        },
+        {
+          "name": "zbar",
+          "unit": "1",
+          "semantics": "a^-1-1; not observed redshift",
+          "nullable": false
+        },
+        {
+          "name": "energy_low_eV",
+          "unit": "eV",
+          "semantics": "lower bin edge",
+          "nullable": false
+        },
+        {
+          "name": "energy_high_eV",
+          "unit": "eV",
+          "semantics": "upper bin edge",
+          "nullable": false
+        },
+        {
+          "name": "mu_center",
+          "unit": "1",
+          "semantics": "cosine relative to symmetry axis",
+          "nullable": false
+        },
+        {
+          "name": "solid_angle_weight_sr",
+          "unit": "sr",
+          "semantics": "cell quadrature measure",
+          "nullable": false
+        },
+        {
+          "name": "photon_n_per_H",
+          "unit": "H^-1",
+          "semantics": "energy-angle-cell count per H",
+          "nullable": false
+        },
+        {
+          "name": "photon_u_eV_per_H",
+          "unit": "eV/H",
+          "semantics": "energy-angle-cell energy per H",
+          "nullable": false
+        }
+      ],
+      "closure": "actual energy/angle cell and within-bin closure, thresholds and boundary export accounted once"
+    },
+    "response_resolution.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "signed candidate",
+          "nullable": false
+        },
+        {
+          "name": "reference_case",
+          "unit": "1",
+          "semantics": "matched zero or explicitly named SAME_H reference",
+          "nullable": false
+        },
+        {
+          "name": "comparison_coordinate",
+          "unit": "1",
+          "semantics": "ZBAR or PROPER_TIME; exactly one matching coordinate selected before comparing",
+          "nullable": false
+        },
+        {
+          "name": "candidate_time_s",
+          "unit": "s",
+          "semantics": "candidate proper time with declared origin",
+          "nullable": false
+        },
+        {
+          "name": "reference_time_s",
+          "unit": "s",
+          "semantics": "reference proper time with declared origin; equals candidate only for PROPER_TIME matching after clock-origin reconciliation",
+          "nullable": false
+        },
+        {
+          "name": "candidate_zbar",
+          "unit": "1",
+          "semantics": "candidate mean redshift",
+          "nullable": false
+        },
+        {
+          "name": "reference_zbar",
+          "unit": "1",
+          "semantics": "reference mean redshift; equals candidate only for ZBAR matching",
+          "nullable": false
+        },
+        {
+          "name": "observable",
+          "unit": "1",
+          "semantics": "named quantity in history contract",
+          "nullable": false
+        },
+        {
+          "name": "difference",
+          "unit": "same as observable",
+          "semantics": "candidate minus reference",
+          "nullable": false
+        },
+        {
+          "name": "numerical_error_estimate",
+          "unit": "same as observable",
+          "semantics": "empirical or certified type explicitly labelled",
+          "nullable": true
+        },
+        {
+          "name": "error_kind",
+          "unit": "1",
+          "semantics": "EMPIRICAL_RESOLUTION or CERTIFIED_SCOPED_BOUND; never infer continuum theorem",
+          "nullable": false
+        },
+        {
+          "name": "absolute_resolution_floor",
+          "unit": "same as observable",
+          "semantics": "predeclared near-zero floor",
+          "nullable": false
+        },
+        {
+          "name": "result_class",
+          "unit": "1",
+          "semantics": "RESOLVED_RESPONSE / RESOLVED_NULL / UPPER_BOUND / RESOLUTION_LIMITED",
+          "nullable": false
+        }
+      ],
+      "sign_semantics": "candidate minus matched reference; retain both positive and negative shear; no exact scalar sign symmetry",
+      "matching_rule": "Different expansion histories generally cannot match proper time and mean redshift simultaneously. Record both candidate/reference coordinates and interpolate only along the declared comparison coordinate within supported overlap; keep Tgas branches time ordered."
+    },
+    "milestones.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "frozen case",
+          "nullable": false
+        },
+        {
+          "name": "x_HII_target",
+          "unit": "1",
+          "semantics": "0.1,0.5 or 0.9 local fraction",
+          "nullable": false
+        },
+        {
+          "name": "crossing_time_s",
+          "unit": "s",
+          "semantics": "locked crossing convention",
+          "nullable": true
+        },
+        {
+          "name": "crossing_zbar",
+          "unit": "1",
+          "semantics": "local milestone mean redshift",
+          "nullable": true
+        },
+        {
+          "name": "delta_time_s",
+          "unit": "s",
+          "semantics": "candidate minus zero",
+          "nullable": true
+        },
+        {
+          "name": "delta_zbar",
+          "unit": "1",
+          "semantics": "candidate minus zero",
+          "nullable": true
+        },
+        {
+          "name": "crossing_status",
+          "unit": "1",
+          "semantics": "REACHED or NOT_REACHED/censored; null never zero",
+          "nullable": false
+        }
+      ]
+    },
+    "segment_tau.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "frozen electron-history identity",
+          "nullable": false
+        },
+        {
+          "name": "start_time_s",
+          "unit": "s",
+          "semantics": "represented cosmic-time start",
+          "nullable": false
+        },
+        {
+          "name": "end_time_s",
+          "unit": "s",
+          "semantics": "represented cosmic-time end",
+          "nullable": false
+        },
+        {
+          "name": "sigma_T_cm2",
+          "unit": "cm^2",
+          "semantics": "one locked Thomson cross section",
+          "nullable": false
+        },
+        {
+          "name": "tau_segment",
+          "unit": "1",
+          "semantics": "c sigma_T integral ne dt; fixed-time cold comoving direction independent",
+          "nullable": false
+        },
+        {
+          "name": "delta_tau_segment",
+          "unit": "1",
+          "semantics": "matched candidate minus zero",
+          "nullable": false
+        },
+        {
+          "name": "tail_tau",
+          "unit": "1",
+          "semantics": "unknown remains null",
+          "nullable": true
+        },
+        {
+          "name": "tail_status",
+          "unit": "1",
+          "semantics": "UNKNOWN or supported explicit tail",
+          "nullable": false
+        },
+        {
+          "name": "endpoint_kind",
+          "unit": "1",
+          "semantics": "FIXED_COSMIC_TIME or actual RAY_OBSERVED_Z",
+          "nullable": false
+        },
+        {
+          "name": "mu_observer",
+          "unit": "1",
+          "semantics": "actual ray direction only where used",
+          "nullable": true
+        }
+      ]
+    },
+    "ledgers.csv": {
+      "columns": [
+        {
+          "name": "case_id",
+          "unit": "1",
+          "semantics": "run identity",
+          "nullable": false
+        },
+        {
+          "name": "time_s",
+          "unit": "s",
+          "semantics": "proper time",
+          "nullable": false
+        },
+        {
+          "name": "ledger_name",
+          "unit": "1",
+          "semantics": "nuclei/charge/photon/energy/axial-force ownership check",
+          "nullable": false
+        },
+        {
+          "name": "residual",
+          "unit": "ledger-specific declared unit",
+          "semantics": "signed residual with normalization explicitly bound",
+          "nullable": false
+        },
+        {
+          "name": "tolerance",
+          "unit": "same as residual",
+          "semantics": "scientifically frozen tolerance",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "unit": "1",
+          "semantics": "observed numerical control result, not global science admission",
+          "nullable": false
+        }
+      ]
+    },
+    "source_ic_response.csv": {
+      "columns": [
+        {
+          "name": "variant_id",
+          "unit": "1",
+          "semantics": "locked source or IC perturbation",
+          "nullable": false
+        },
+        {
+          "name": "reference_case",
+          "unit": "1",
+          "semantics": "matched baseline",
+          "nullable": false
+        },
+        {
+          "name": "variant_kind",
+          "unit": "1",
+          "semantics": "SOURCE or IC",
+          "nullable": false
+        },
+        {
+          "name": "observable",
+          "unit": "1",
+          "semantics": "named response",
+          "nullable": false
+        },
+        {
+          "name": "difference",
+          "unit": "same as observable",
+          "semantics": "variant minus baseline",
+          "nullable": false
+        },
+        {
+          "name": "assumption_reference",
+          "unit": "1",
+          "semantics": "source/domain/choice receipt; not posterior weight",
+          "nullable": false
+        }
+      ]
+    },
+    "abundances.csv": {
+      "columns": [
+        {
+          "name": "run_id",
+          "unit": "1",
+          "semantics": "frozen case/source/scenario/run identity",
+          "nullable": false
+        },
+        {
+          "name": "time_s",
+          "unit": "s",
+          "semantics": "proper cosmic seconds with bound origin; elapsed time must be labelled in clock metadata",
+          "nullable": false
+        },
+        {
+          "name": "zbar",
+          "unit": "1",
+          "semantics": "a^-1-1; not observed redshift",
+          "nullable": false
+        },
+        {
+          "name": "Tgas_K",
+          "unit": "K",
+          "semantics": "actual solved gas temperature; may be nonmonotonic/reheat",
+          "nullable": false
+        },
+        {
+          "name": "background_Tref_K",
+          "unit": "K",
+          "semantics": "optional T0/a model reference, not exact directional Bianchi CMB temperature",
+          "nullable": true
+        },
+        {
+          "name": "species_id",
+          "unit": "1",
+          "semantics": "explicit nucleus/charge-state/electron registry identifier",
+          "nullable": false
+        },
+        {
+          "name": "A",
+          "unit": "1",
+          "semantics": "nuclear mass number; electron 0 and excluded from baryon inventory",
+          "nullable": false
+        },
+        {
+          "name": "Z",
+          "unit": "1",
+          "semantics": "nuclear atomic number; electron not applicable/null",
+          "nullable": true
+        },
+        {
+          "name": "charge",
+          "unit": "elementary charge",
+          "semantics": "ionic charge; electron -1",
+          "nullable": false
+        },
+        {
+          "name": "nproper",
+          "unit": "cm^-3",
+          "semantics": "proper species number density",
+          "nullable": false
+        },
+        {
+          "name": "element_fraction",
+          "unit": "1",
+          "semantics": "n_species/n_element_total for H/He charge states; null for electron",
+          "nullable": true
+        },
+        {
+          "name": "Ybaryon",
+          "unit": "1",
+          "semantics": "n_species/n_b using complete selected-model baryon inventory; nuclear number abundance, or explicitly labelled electron ye; never partial-registry renormalization",
+          "nullable": false
+        },
+        {
+          "name": "electron_xe",
+          "unit": "1",
+          "semantics": "ne/nH for electron; null for nuclear species",
+          "nullable": true
+        },
+        {
+          "name": "normalization_registry",
+          "unit": "1",
+          "semantics": "registry ID binding complete selected-model baryon inventory and any omitted reservoir, element denominators, electron census and clock semantics",
+          "nullable": false
+        }
+      ],
+      "neutral_states": "H I=nH*(1-xHII), He I=nHe*(1-xHeII-xHeIII); reject invalid sums/negativity, never clip states",
+      "baryon_conservation": "n_b is the complete baryon inventory of the selected model, including any explicitly declared omitted reservoir; H/He-only baseline n_b=n_H+4*n_He. Electrons are excluded. The tracked sum is the full denominator only when the tracked nuclear registry is complete. Require nonnegative densities/charge fractions and per-element charge fractions summing to 1. Sum over all model nuclear species A_i*Y_i=1 within the locked tolerance. If a declared baryon reservoir is omitted from the tracked species, tracked sum A_i*Y_i may be <1 and its missing fraction must be explicitly recorded. Check electron charge census separately; never clip invalid states.",
+      "range_semantics": "0<=element charge fractions<=1 and per-element sum=1; Y uses complete selected-model n_b, not a partial tracked sum. Tracked sum A_iY_i may be below 1 with a declared omitted reservoir; electrons follow separate charge census.",
+      "inventory_semantics": "Fixed BBN/donor elemental totals are inputs; reionization charge fractions evolve. Unimplemented D/T/He3/Li extensions are explicitly missing optional, no full 17-network claim.",
+      "coverage": "actual complete selected supported time-ordered histories; full registry including any additional actually evolved species"
+    }
+  },
+  "angular_moment_convention": {
+    "spectral_definition": "J_l(E,t)=2*pi*integral_{-1}^{1} P_l(mu)*n_gamma(E,mu,t) dmu; n_gamma is proper photon number per volume, energy and solid angle. J_l is a solid-angle integral, not an angular average or specific intensity.",
+    "per_H_energy_moment": "U_l(t)=(1/nH_proper)*integral E*J_l(E,t) dE. With E in eV and consistent volume units U_l is eV/H.",
+    "output_mapping": {
+      "J0_photon_u_eV_per_H": "U_0",
+      "J1_photon_u_eV_per_H": "U_1",
+      "J2_photon_u_eV_per_H": "U_2"
+    },
+    "discrete_rule": "For energy-angle cell-integrated photon energy/H, U_l=sum_cells P_l(mu)*cell_energy_per_H; quadrature weights apply only to densities not already integrated. Never apply 2*pi/4*pi or cell weights twice.",
+    "J1": "U_1 and spectral J_1 vanish within locked tolerance only under reflection-even IC/emissivity and symmetric microphysics; axisymmetry alone is insufficient.",
+    "J2": "Quadrupole retained in RT. Pressure anisotropy is integral E*J_2 dE=nH_proper*U_2 with consistent units; geometric feedback is omitted only within quantified approximation scope."
+  },
+  "mandatory_final_artifacts": {
+    "data": [
+      "research/axbi_goal_20261014/runs/flrw/abundances.csv",
+      "research/axbi_goal_20261014/runs/paired/abundances.csv",
+      "research/axbi_goal_20261014/runs/flrw/history.csv",
+      "research/axbi_goal_20261014/runs/paired/history.csv",
+      "research/axbi_goal_20261014/runs/paired/spectra.csv",
+      "research/axbi_goal_20261014/convergence/response_resolution.csv",
+      "research/axbi_goal_20261014/robustness/source_ic_response.csv",
+      "research/axbi_goal_20261014/convergence/milestones.csv"
+    ],
+    "figures": [
+      "research/axbi_goal_20261014/figures/abundance_vs_time.png",
+      "research/axbi_goal_20261014/figures/abundance_vs_Tgas.png",
+      "research/axbi_goal_20261014/figures/flrw_bianchi_abundance_comparison.png",
+      "research/axbi_goal_20261014/figures/delta_abundance_resolution.png",
+      "research/axbi_goal_20261014/figures/FIGURE_MANIFEST.json"
+    ],
+    "manuscript": [
+      "research/axbi_goal_20261014/report/manuscript.tex",
+      "research/axbi_goal_20261014/report/manuscript.pdf"
+    ],
+    "provenance": [
+      "research/axbi_goal_20261014/driver/SPECIES_NORMALIZATION_REGISTRY.json",
+      "research/axbi_goal_20261014/report/REPRODUCIBILITY_MANIFEST.json",
+      "research/axbi_goal_20261014/reviews/CRITERIA_EVIDENCE.json",
+      "research/axbi_goal_20261014/reviews/SCIENTIFIC_DECISION.json"
+    ]
+  },
+  "required_return_fields": [
+    "node_id",
+    "requested_executor_identity",
+    "observed_executor_identity_or_null",
+    "owned_paths_and_diff",
+    "actual_argv_cwd_exit_wall_CPU_RSS",
+    "source_config_identity",
+    "raw_output_and_checkpoint_paths",
+    "observed_failures",
+    "numerical_controls_and_error_kind",
+    "physical_scope_and_approximation_validity",
+    "scientific_admission_from_authorized_reviewer_or_NOT_ISSUED",
+    "next_dependency_safe_command"
+  ],
+  "raw_and_checkpoint_contract": {
+    "raw": "Preserve actual stdout/stderr/config/run records under case/raw; do not fabricate historical absent streams",
+    "checkpoint": "Bind current driver/source/config and solved state, completed interval and resume command; missing future checkpoint is not present evidence",
+    "immutable_history": "Do not rewrite old receipts or retained frozen outputs"
+  },
+  "uncertainty_components": [
+    "numerical",
+    "atomic/rate/thermal model",
+    "source/escape/clumping",
+    "geometry/IC and omitted feedback",
+    "spectral/angular/spatial closure",
+    "tail where relevant"
+  ],
+  "admission": {
+    "cli_file_presence": "administrative evidence validation only",
+    "science": "Applicable main abundance-goal criteria plus independent AX15 scoped decision; scientifically accepted conditional full-history scope allowed. Tau/tail/full CMB nonblocking secondary.",
+    "empirical_vs_rigorous": "Explicitly distinguish convergence estimates from rigorous interval/continuum proof; old theorem work is not a blanket prerequisite",
+    "allowed_null_result": "Quantitatively resolved null or valid upper bound within declared supported family",
+    "goal_not_complete": "NOT_RUN/blocked-only manuscript, planning publication or no-ready-nodes state",
+    "no_forced_novelty_or_detection": true
+  },
+  "flagship": "complete nuclear/ion abundance histories and BBN-style plots",
+  "normalization_registry": {
+    "registry_id": "BASELINE_H_HE_CHARGE_AND_BARYON_V1",
+    "required_species": [
+      {
+        "species_id": "H_I",
+        "element": "H",
+        "A": 1,
+        "Z": 1,
+        "charge": 0,
+        "kind": "nucleus_charge_state",
+        "state": "derived nHI=nH*(1-xHII)"
+      },
+      {
+        "species_id": "H_II",
+        "element": "H",
+        "A": 1,
+        "Z": 1,
+        "charge": 1,
+        "kind": "nucleus_charge_state",
+        "state": "evolved xHII; nHII=nH*xHII"
+      },
+      {
+        "species_id": "He_I",
+        "element": "He",
+        "A": 4,
+        "Z": 2,
+        "charge": 0,
+        "kind": "nucleus_charge_state",
+        "state": "derived nHeI=nHe*(1-xHeII-xHeIII)"
+      },
+      {
+        "species_id": "He_II",
+        "element": "He",
+        "A": 4,
+        "Z": 2,
+        "charge": 1,
+        "kind": "nucleus_charge_state",
+        "state": "evolved xHeII; nHeII=nHe*xHeII"
+      },
+      {
+        "species_id": "He_III",
+        "element": "He",
+        "A": 4,
+        "Z": 2,
+        "charge": 2,
+        "kind": "nucleus_charge_state",
+        "state": "evolved xHeIII; nHeIII=nHe*xHeIII"
+      },
+      {
+        "species_id": "electron",
+        "element": null,
+        "A": 0,
+        "Z": null,
+        "charge": -1,
+        "kind": "electron",
+        "state": "charge-census ne; excluded from baryon inventory; nuclear Z not applicable"
+      }
+    ],
+    "additional_actually_evolved_species": "Every additional evolved nuclide/charge state must be listed with A,Z,charge,element, provenance, state semantics and normalization; never omit it from outputs silently.",
+    "unimplemented_optional_extensions": [
+      {
+        "species": "D",
+        "status": "NOT_IMPLEMENTED_OPTIONAL_EXTENSION"
+      },
+      {
+        "species": "T (tritium)",
+        "status": "NOT_IMPLEMENTED_OPTIONAL_EXTENSION"
+      },
+      {
+        "species": "He3",
+        "status": "NOT_IMPLEMENTED_OPTIONAL_EXTENSION"
+      },
+      {
+        "species": "Li charge states",
+        "status": "NOT_IMPLEMENTED_OPTIONAL_EXTENSION"
+      }
+    ],
+    "no_full_17_reaction_network_claim": true,
+    "element_fraction": {
+      "H": "x_Hq=n_Hq/n_H_total",
+      "He": "x_Heq=n_Heq/n_He_total",
+      "electron": "not an element charge fraction; null element_fraction, report ye or xe separately"
+    },
+    "baryon_inventory": "n_b is the complete baryon inventory of the selected model, including any explicitly declared omitted reservoir; H/He-only baseline n_b=n_H+4*n_He. Electrons are excluded. The tracked sum is the full denominator only when the tracked nuclear registry is complete.",
+    "BBN_number_abundance": "Y_i=n_i/n_b; per baryon in the complete selected-model inventory, distinct from element charge fraction. Do not renormalize to a partial tracked registry.",
+    "electron_normalizations": {
+      "ye": "ne/nb",
+      "xe": "ne/nH",
+      "must_label": "always name denominator; electrons excluded from nb sum"
+    },
+    "optional_mass_fraction": "X_i=A_i*Y_i, separately labelled baryon mass fraction; never mix with number/charge fractions",
+    "fixed_nuclear_vs_ionic": "Donor BBN total elemental/nuclear abundances are fixed input inventory (proper densities expand); reionization evolves charge-state fractions. Do not claim nuclear reaction/BBN synthesis from ionic evolution.",
+    "conservation": "Require nonnegative densities/charge fractions and per-element charge fractions summing to 1. Sum over all model nuclear species A_i*Y_i=1 within the locked tolerance. If a declared baryon reservoir is omitted from the tracked species, tracked sum A_i*Y_i may be <1 and its missing fraction must be explicitly recorded. Check electron charge census separately; never clip invalid states.",
+    "omitted_baryon_reservoir": {
+      "fraction": null,
+      "owner_node": "AX01 with AX05 registry",
+      "binding": "Explicitly record whether selected-model inventory is exactly H/He baseline, all tracked nuclear species, or includes a quantified omitted reservoir. A tracked sum below 1 is legitimate only with that declared inventory."
+    }
+  },
+  "mandatory_plot_contract": {
+    "time_axis": "proper cosmic seconds with bound origin; if only elapsed time available label elapsed correctly",
+    "gas_temperature": "Tgas may reheat/be nonmonotonic; plot parametric time-ordered trajectories with arrows/branch labels. Never sort by T to fabricate a single-valued Y(T).",
+    "optional_background_reference": "Tref=T0/a with selected model T0, distinctly labelled reference; not exact direction-dependent CMB temperature in Bianchi I.",
+    "logarithmic_abundance_axis": "Use where appropriate; exact zeros masked/annotated in display, never clip state or add a fabricated floor."
+  },
+  "secondary_optional_artifacts": [
+    "research/axbi_goal_20261014/observables/segment_tau.csv"
+  ],
+  "shear_parameter_convention": {
+    "q_ref": "s_*/H_FLRW(a_*)",
+    "Sigma": "s/H, instantaneous",
+    "reference_epoch": null,
+    "reference_epoch_owner": "AX03 with AX01",
+    "do_not_mix": true
+  },
+  "donor_four_velocity_map": {
+    "unit_normal": "n·n=-1",
+    "physical_four_velocity": "U=c n; U·U=-c^2",
+    "coordinate_convention": "x0=ct",
+    "required_donor_binding": "Record whether donor uses unit normal or physical four-velocity, coordinate/time units and the explicit conversion; do not silently interchange them."
+  }
+}

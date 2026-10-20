@@ -3394,7 +3394,7 @@
   "historical_S10_latest_storage_intake_role": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json.",
   "active_unit": "S12",
   "S12": {
-    "status": "C6_PASS_SCOPED_C7_C8_PREPARATION",
+    "status": "C7_PASS_SCOPED_C8_NATIVE_SUPPORT_PREFLIGHT_SOURCE_READY",
     "baseline_head": "44bac536f6add11f8d2d4b3aa585a1c2f9049664",
     "contract": "s12_birth_memory/CONTRACT.json",
     "intake": "s12_birth_memory/intake/CURRENT_INTAKE.json",
@@ -3406,8 +3406,8 @@
       "C4": "COMPLETE_PREREGISTERED_RESOURCE_AND_FAILURE_CONTRACT",
       "C5": "SOURCE_FIXED_RUST_COMPILED",
       "C6": "PASS_SCOPED_CORE269_HISTORY72_INFRASTRUCTURE14",
-      "C7": "CORE_PAIRED_TIMING_COMPLETE_CASE_PARALLEL_PENDING",
-      "C8": "FIXED_INPUTS_AND_SOURCE_BINDING_READY_CURRENT_NCP_NOT_RUN",
+      "C7": "PASS_CORE_TIMING_AND_CASE_PARALLEL_IDENTITY",
+      "C8": "FIXED_INPUTS_PUBLISHED_STORED_NATIVE_SUPPORT_OBSERVER_READY_NCP_NOT_RUN",
       "C9": "STATIC_FINDING_CLOSURES_DYNAMIC_REVIEW_PENDING",
       "C10": "PENDING"
     },
@@ -3439,6 +3439,11 @@
       "C6_REPAIR": {
         "publication": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
         "Dropbox": "s12_birth_memory/delivery/stage2_repair/DROPBOX_FULL_READBACK.json",
+        "Drive": "PENDING_NO_NEW_WRITE"
+      },
+      "C7_INPUTS": {
+        "publication": "094971e58d1dac98b8625f6178385d55cad73a81",
+        "Dropbox": "s12_birth_memory/delivery/stage3_inputs/DROPBOX_FULL_READBACK.json",
         "Drive": "PENDING_NO_NEW_WRITE"
       }
     },
@@ -3482,6 +3487,13 @@
           "attempt": "r2",
           "status": "OWNER_PATH_SCOPE",
           "compiler_calls": 0
+        },
+        {
+          "attempt": "r3",
+          "source": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+          "owner_compile": "PASS",
+          "wrapper_link": "FAIL_LLD_RESOURCE_TEMPORARILY_UNAVAILABLE",
+          "native_histories": 0
         }
       ],
       "no_threshold_relaxed": true,
@@ -3506,6 +3518,20 @@
       "solver_calls_during_generation": 0,
       "source_binding": "s12_birth_memory/ncp/SCIENCE_BINDING.json",
       "execution": "NOT_RUN"
+    },
+    "C7_observed": {
+      "sandbox_cases": 4,
+      "workers": 2,
+      "core_process_outputs": 32,
+      "scientific_byte_identity": true,
+      "measured_pairs": 3,
+      "speedup_paired_median": 1.2180376690502004,
+      "speedup_IQR": [
+        1.1874303525148253,
+        1.4316390045734226
+      ],
+      "first_wrong_manifest_path_attempt_core_children": 0,
+      "NCP64_result": false
     }
   }
 }

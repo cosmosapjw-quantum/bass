@@ -420,7 +420,8 @@ def run(args):
                     "--edition=2021", "-O", "-C", "codegen-units=1", owner/"rust/rei_microphysics/src/lib.rs", "-o", rlib],
                     out, deadline, observation["child_address_space_cap_bytes"], receipt, guard)
             command("compile_s12_followup", [rustc, "--edition=2021", "-O", "-C", "codegen-units=1",
-                    build/"native_followup.rs", "--extern", "rei_microphysics="+str(rlib), "-o", binary],
+                    build/"native_followup.rs", "--extern", "rei_microphysics="+str(rlib),
+                    "-C", "link-arg=-Wl,--threads=1", "-o", binary],
                     out, deadline, observation["child_address_space_cap_bytes"], receipt, guard)
             receipt["compiled_sha256"] = {p.name: sha(p.read_bytes()) for p in (rlib, binary)}
             if args.compile_only:
