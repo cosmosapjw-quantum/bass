@@ -1,3 +1,9 @@
+# 현재 후속 단계: S12
+
+2026-10-21 KST. [S12 계약·진척](s12_birth_memory/README_KO.md)과 [고정 계약](s12_birth_memory/CONTRACT.json)을 먼저 읽는다. S11 최종 게시 복구는 [댓글6301060073](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6301060073)에 있다. 아래 S11 결과와 기존 실패는 그대로 보존한다.
+
+---
+
 # BASS — S11 양의 P246와 유한 전단 응답
 
 **새 P246 birth 알고리즘과 등록한 물리·수학 검증을 완료했다.** 새 Python/Rust projector는 기존 source frame과 방향 support를 유지하며 엄격히 양의 reflection weights를 돌려준다. 저장된 S8 입력의 새 pointwise P24는 원 gate를 통과했고, 같은 n64 support의 P246은 양의 해가 없어 정확히 거부했다. 고정 7-ray의 유한-d 최대 오차가 P24보다 약 1.549배 커진 반례도 보존한다.
