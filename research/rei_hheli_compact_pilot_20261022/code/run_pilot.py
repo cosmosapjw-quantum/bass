@@ -331,7 +331,7 @@ def main(argv=None):
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--execute", action="store_true"); mode.add_argument("--plan", action="store_true")
     parser.add_argument("--manifest", type=Path, default=ROOT / "data/CAMPAIGN.json")
-    parser.add_argument("--output", type=Path, default=ROOT / "results/pilot")
+    parser.add_argument("--output", type=Path, default=ROOT / "results/pilot_v2")
     parser.add_argument("--workers", default="auto"); parser.add_argument("--max-workers", type=int)
     parser.add_argument("--memory-per-worker-mib", type=int, default=512)
     parser.add_argument("--peer-reservations", action="append", type=Path, default=[])

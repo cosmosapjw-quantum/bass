@@ -26,3 +26,11 @@ exactly the restriction of the unchanged donor initial vector.
 
 The physical scope and admission authority remain those in
 `FROZEN_CONTRACT.md`. Stage 2 starts only after the root finite-check gate.
+
+## Delivered dispatcher default
+
+The delivered dispatcher defaults to `results/pilot_v2`, the successful
+127-case campaign. A default `--execute` validates and reuses all completed
+cases without new integrations. The earlier Stage B entry default was
+`results/pilot`; that historical first attempt remains preserved there with
+its original trajectories and metadata serialization failures.

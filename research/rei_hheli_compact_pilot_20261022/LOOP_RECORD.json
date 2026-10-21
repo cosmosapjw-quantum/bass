@@ -1,6 +1,6 @@
 {
   "schema": "rei.hheli.loop_record.v1",
-  "updated_utc": "2026-10-21T15:44:21.230853+00:00",
+  "updated_utc": "2026-10-21T16:08:54.144395+00:00",
   "requested_executor_model": "gpt-6.1-sol",
   "observed_executor_model": null,
   "roles": {
@@ -71,25 +71,63 @@
       "full62_oracles": 2,
       "epochs_each": 193,
       "final_independent_admission": "PENDING"
+    },
+    {
+      "event": "CHECKPOINT_B_LOCAL_PACKAGE_READY",
+      "evidence": "delivery/STAGEB_PACKAGE.json",
+      "archive_sha256": "4de300e29c9ddfb2e816f9c594e4140cdb0e32096ef1965e2fe9f9c65d8de30e",
+      "remote_publication_status": "NOT_ATTEMPTED",
+      "remote_backup_status": "NOT_ATTEMPTED",
+      "note": "Post-freeze live metadata carried by checkpoint C."
+    },
+    {
+      "event": "STAGEA_ACTUAL_GIT_COMMIT_AND_DRAFT_PR_ACK",
+      "evidence": "delivery/STAGEA_PUBLICATION.json"
+    },
+    {
+      "event": "STAGEB_ACTUAL_GIT_COMMIT_AND_FROZEN_BLOB_VERIFICATION_ACK",
+      "evidence": "delivery/STAGEB_PUBLICATION.json"
+    },
+    {
+      "event": "STAGEB_ACTUAL_PROVIDER_BACKUP_ACK",
+      "evidence": "delivery/STAGEB_BACKUP.json",
+      "full_get_performed": false
+    },
+    {
+      "event": "DEFAULT_RESUME_USABILITY_FIX",
+      "evidence": "evidence/FINAL_RESUME_VERIFICATION.json",
+      "outcome": "127 complete_reused,0 new_workers,0 integrations/RHS; physical source base unchanged"
+    },
+    {
+      "event": "FINAL_INDEPENDENT_REVIEW_AND_ROOT_SCOPED_ADMISSION_PASS",
+      "evidence": [
+        "evidence/independent_review/FINAL_REVIEW.json",
+        "evidence/FINAL_DONOR_DELTA_REVIEW.json",
+        "evidence/ROOT_ADMISSION_C.json"
+      ],
+      "scientific_decision": "PASS_SCOPED_COMPLETED_SANDBOX_PRELIMINARY_PILOT",
+      "additional_ODE_required": false,
+      "progress": "29/30 complete;C10 remote delivery pending"
     }
   ],
   "checkpoints": {
     "A": {
-      "status": "LOCAL_PACKAGE_READY",
-      "publication_status": "UPLOAD_IN_PROGRESS_NO_COMMIT",
+      "status": "REMOTE_PUBLICATION_AND_PROVIDER_BACKUP_ACKNOWLEDGED",
+      "publication_status": "REMOTE_COMMITS_AND_REF_UPDATES_ACKNOWLEDGED",
       "backup_status": "PROVIDER_METADATA_ACKNOWLEDGED"
     },
     "B": {
-      "status": "ROOT_BOUNDARY_RELEASED_PREPARING_COMPACT_METADATA_SNAPSHOT",
-      "publication_status": "NOT_ATTEMPTED",
-      "backup_status": "NOT_ATTEMPTED"
+      "status": "REMOTE_PUBLICATION_AND_PROVIDER_BACKUP_ACKNOWLEDGED",
+      "publication_status": "REMOTE_COMMITS_AND_REF_UPDATES_ACKNOWLEDGED",
+      "backup_status": "PROVIDER_METADATA_ACKNOWLEDGED"
     },
     "C": {
-      "status": "WAITING_ROOT_FREEZE_BOUNDARY",
-      "publication_status": "NOT_ATTEMPTED",
+      "status": "ROOT_FINAL_FREEZE_AUTHORIZED_DELIVERY_PENDING",
+      "publication_status": "NOT_ATTEMPTED_FINAL_COMMIT_PENDING",
       "backup_status": "NOT_ATTEMPTED"
     }
   },
-  "next_executable_dependency": "Independent raw/plot review and final root scoped decision; checkpoint B packages compact metadata, checkpoint C preserves full successful raw arrays and figures.",
-  "prohibited_inference": "No saved/committed/backed-up status is inferred from a local file or prepared upload payload."
+  "next_executable_dependency": "Freeze checkpoint C, root uploads archive and single-GET verifies it, root publishes exact Git trees, then record final closing acknowledgements.",
+  "prohibited_inference": "No saved/committed/backed-up status is inferred from a local file or prepared upload payload.",
+  "scientific_admission": "PASS_SCOPED_COMPLETED_SANDBOX_PRELIMINARY_PILOT"
 }
