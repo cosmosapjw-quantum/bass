@@ -1,0 +1,61 @@
+{
+  "schema": "rei.accel03.sources.v1",
+  "date_kst": "2026-10-21",
+  "scispace": {
+    "status": "SEARCH_COMPLETED",
+    "question": "How do the momentum-weighted density, pressure, and anisotropic stress moments of a collisionless massive species redshift between relativistic and nonrelativistic limits, and which exact moment identities are used in cosmological Boltzmann solvers?",
+    "result_count": 10,
+    "role": "Discovery; broad results did not themselves establish the homogeneous finite-sum identities."
+  },
+  "exa": {
+    "status": "SEARCH_COMPLETED",
+    "requested_results": 5,
+    "query": "Find original papers and official CLASS code documentation deriving momentum-dependent massive neutrino pressure and anisotropic stress evolution in the relativistic to nonrelativistic transition, especially Lesgourgues Tram non cold dark matter 2011",
+    "adopted_primary": "https://arxiv.org/pdf/1104.2935"
+  },
+  "sources": [
+    {
+      "id": "CLASS_IV",
+      "url": "https://arxiv.org/pdf/1104.2935",
+      "authors": "Julien Lesgourgues and Thomas Tram",
+      "title": "The Cosmic Linear Anisotropy Solving System (CLASS) IV: Efficient implementation of non-cold relics",
+      "arxiv": "1104.2935",
+      "read_sections": [
+        "2.1",
+        "3.3",
+        "3.4"
+      ],
+      "adoption": "Momentum-weighted pressure/shear and extra velocity-weighted stress motivate retaining J4. The homogeneous fixed-weight identities in THEORY.md are directly derived; no perturbative fluid closure is imported."
+    },
+    {
+      "id": "NUMPY_DIVIDE",
+      "url": "https://numpy.org/doc/stable/reference/generated/numpy.divide.html",
+      "read_section": "out and where parameters",
+      "adoption": "Use initialized output arrays and masked elementwise division; unavailable zero-scale ratios stay explicit."
+    },
+    {
+      "id": "MATPLOTLIB_SCATTER",
+      "url": "https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.scatter.html",
+      "read_section": "masked arrays and actual coordinate scatter",
+      "adoption": "Plot actual case coordinates and color values, with explicit unavailable masks; no interpolation."
+    },
+    {
+      "id": "BASS_CR_C21N",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/0f45d0a422d79ccead565a8abaab860fcc230687/research/cr_c21n_mass_shell_cache_20261021/FINAL_CLOSEOUT_KO.md",
+      "content_commit": "5ecb8a6c4961302b7066b06278e72ecd2d77f8c9",
+      "adoption": "Prior project mass-shell response and ideal collisionless cancellation curvature; explicitly credited in CROSSLINEAGE_REUSE.md. Separate PR147/full-Frobenius lineage; no trajectory substitution or transfer of its curvature to the full warm C15 radiation model."
+    }
+  ],
+  "wolfram": {
+    "context": "SUCCESS_TO_TOOL_CONTEXT",
+    "evaluation": "SUCCESS_EXACT_SYMBOLIC",
+    "record": "evidence/WOLFRAM_RESPONSE.json",
+    "derived_residuals": [
+      0,
+      0
+    ],
+    "angular_integral": "2 alpha_m/5",
+    "negative_bracket_domain": "False"
+  },
+  "current_user_attachment_policy": "Five relevant text attachments unchanged against prior full intake; use figure semantic/legibility guidance once on new figures. Current user scope and current physmath1.0 override historical blanket reruns."
+}
