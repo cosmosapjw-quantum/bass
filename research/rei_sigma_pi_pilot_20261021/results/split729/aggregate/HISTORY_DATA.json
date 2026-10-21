@@ -1,0 +1,49 @@
+{
+  "schema": "rei.split.history_data_pointer.v1",
+  "original_name": "history.csv",
+  "original_bytes": 70618848,
+  "sha256": "139f3f75f535116483ff05dd96933611ac15896ce125c78d9394eb983bb58332",
+  "row_count": 47385,
+  "case_count": 729,
+  "reason": "Large history and raw group results are preserved in exact lossless remote verified multipart data backup; not in Git tree.",
+  "backup_status": "FULL_REMOTE_GET_AND_EXACT_ALL_PATHS_REASSEMBLY_VERIFIED",
+  "backup_index": {
+    "schema": "STAGE5_OUTER_INDEX_RECEIPT_V1",
+    "index_name": "BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json",
+    "local_path": "/workspace/scratch/0baf342a37e2/deliverables/BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json",
+    "upload_source_path": "/workspace/scratch/0baf342a37e2/deliverables/stage5_upload_ready/BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json",
+    "bytes": 47069,
+    "sha256": "df7ddc6648b06b775c105c7c85cd7ccc4f5827284eb95b7f631d91cd79b13340",
+    "dropbox_block_hash": "306ce6c1b09af397d786620699b49f70c7a563df461ae3863634cbe1b496ef18",
+    "dropbox_path": "/BASS_BACKUPS/BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json",
+    "status": "FULL_REMOTE_GET_VERIFIED",
+    "dropbox": {
+      "file_id": "id:BSpOijBcT10AAAAAAD_fdA",
+      "path_display": "/BASS_BACKUPS/BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json",
+      "modified_time": "2026-10-21T06:53:13Z",
+      "size": 47069,
+      "upload_attempts": 1,
+      "completion_polls": 1,
+      "full_get_requests": 1,
+      "http_status": 200,
+      "started_at_utc": "2026-10-21T06:54:30.989519+00:00",
+      "finished_at_utc": "2026-10-21T06:54:31.203803+00:00",
+      "sha256": "df7ddc6648b06b775c105c7c85cd7ccc4f5827284eb95b7f631d91cd79b13340",
+      "dropbox_block_hash": "306ce6c1b09af397d786620699b49f70c7a563df461ae3863634cbe1b496ef18",
+      "metadata_size_match": true,
+      "provider_block_hash_match": true,
+      "local_remote_exact_bytes_match": true,
+      "local_post_upload_hashes_unchanged": true
+    }
+  },
+  "restore_instructions": {
+    "download": "Download this INDEX and all18 PARTNN.zip files to the same directory. Each ZIP is independently valid; do not concatenate them.",
+    "extract_script": "Extract RESTORE_STAGE5_SPLIT729_DATA.py from PART01.zip.",
+    "verify_command": "python RESTORE_STAGE5_SPLIT729_DATA.py --index BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json --verify-only",
+    "restore_command": "python RESTORE_STAGE5_SPLIT729_DATA.py --index BASS_REI_PILOT_STAGE5_SPLIT729_DATA_20261021_INDEX.json --destination /your/empty/restore-directory",
+    "scope": "1715 exact original paths; existing destination files are never overwritten."
+  },
+  "payload_index_sha256": "47a89896ba1c148f547d8931a80700829b2ce5711b97f83810b190580f456db4",
+  "receipt": "../../../delivery/STAGE5_DATA_DELIVERY.json",
+  "science_execution_source": "82372ed8db68085868603d4267a630ed9cde6abb"
+}

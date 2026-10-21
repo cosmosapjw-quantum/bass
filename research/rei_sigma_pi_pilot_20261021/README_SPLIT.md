@@ -51,15 +51,15 @@ continue to cancel.
 
 ## Execution
 
-Prepare a fresh exact-source manifest after publication, then execute it with
-the existing shared executor. The following commands are examples for the
-current host; they do not describe a completed 729-case run.
+The actual run is **COMPLETE**: 729 cases, 243 successful groups, 47,385 history
+rows, and 5,832 stored gates passing. The first group was reused after changing
+worker width from one to eight. Execution source is
+`82372ed8db68085868603d4267a630ed9cde6abb`; figures have separate plot provenance.
+Do not repeat the completed sweep to populate additional CPU cores. The following
+commands only rebuild aggregates and figures from the saved verified outputs.
 
 ```bash
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
-python3 -m unittest -v test_split.py
-python3 split_sweep.py prepare --out results/split729/inputs_manifest --group-size 3 --nsteps 64
-python3 shared_executor.py results/split729/inputs_manifest/manifest.json --scope results/split729/scope --profile sandbox --max-workers 8
 python3 split_sweep.py aggregate --manifest results/split729/inputs_manifest/manifest.json --scope results/split729/scope --out results/split729/aggregate
 python3 split_plot.py --aggregate results/split729/aggregate --out results/split729/aggregate/sigma_pi_split
 ```
@@ -107,15 +107,18 @@ No timing or speedup claim is made. The tests do not execute the 729-case sweep.
 
 `split_plot.py` writes two 2×2 PNG/PDF figures and corresponding provenance:
 
-1. `_slices`: actual signed shear changes at initial signed Sigma 0, +.004 and
+1. `_slices`: actual signed endpoint shear minus the actual endpoint of the
+   same-initial-Sigma, zero-initial-matter-and-radiation-stress control, at Sigma 0, +.004 and
    -.004 on the nonuniform matter/radiation grid, with the exact cancellation
-   diagonal marked; a fourth panel shows actual shear change along that input
+   diagonal marked; a fourth panel shows that same paired response along the input
    cancellation plane for each initial shear.
 2. `_components`: separate matter and radiation stress changes at zero initial
-   shear, actual component trajectories for opposing initial stresses, and the
+   shear, actual-minus-initial component trajectories for opposing initial stresses, and the
    total stress norm generated from initial cancellation.
 
-All changes subtract actual initial states. Meshes use physical midpoint
+Component changes subtract actual initial states; shear panels subtract the
+actual matching control endpoint. Raw initial and final values are preserved.
+Meshes use physical midpoint
 edges from the full contract grid, masked missing cells and a zero-centered
 diverging color scale for signed changes. No fit, smoothing or interpolation
 is used. Separate component evolution and total-norm generation are labelled

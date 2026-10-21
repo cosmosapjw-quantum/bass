@@ -24,14 +24,31 @@ def change(row, field):
     return row['final_'+field]-row['initial_'+field]
 
 
-def slice_grid(cases,contract,sigma,field='signed_Sigma'):
+def zero_stress_controls(cases):
+    """Actual endpoint controls at each requested initial signed shear."""
+    controls = {}
+    for row in cases:
+        if row['signed_Pi_m_requested'] == 0 and row['signed_Pi_r_requested'] == 0:
+            key = row['signed_Sigma_requested']
+            if key in controls:
+                raise ValueError('DUPLICATE_ZERO_STRESS_CONTROL')
+            controls[key] = row
+    return controls
+
+
+def paired_response(row,controls,field='signed_Sigma'):
+    control = controls.get(row['signed_Sigma_requested'])
+    return np.nan if control is None else row['final_'+field]-control['final_'+field]
+
+
+def slice_grid(cases,contract,sigma,controls,field='signed_Sigma'):
     pm = signed_axis(contract['grid']['Pi_m_half'])
     pr = signed_axis(contract['grid']['Pi_r_half'])
     values = np.full((len(pr),len(pm)),np.nan)
     for row in cases:
         if row['signed_Sigma_requested'] == sigma:
             values[pr.index(row['signed_Pi_r_requested']),
-                   pm.index(row['signed_Pi_m_requested'])] = change(row,field)
+                   pm.index(row['signed_Pi_m_requested'])] = paired_response(row,controls,field)
     return pm,pr,np.ma.masked_invalid(values)
 
 
@@ -59,18 +76,22 @@ def canvas(title):
     return fig,axes
 
 
-def footer(fig,summary):
+def footer(fig,summary,kind):
+    delta_text = ('Shear response = endpoint minus same-initial-shear, zero-initial-stress control.'
+                  if kind == 'shear_response_slices_and_cancellation_plane' else
+                  'Component deltas subtract actual initial values; total norm uses the tensor sum.')
     fig.text(.05,.045,
         f"{summary['case_count']}/{summary['expected_case_count']} completed cases; 64 steps; L=8; native 8×8; independent positive P₂ matter/radiation seeds.\n"
         'Matter stress: massive Vlasov only; isotropic gas/dust contribute zero. Radiation: gamma + massless nu + evolving UV.\n'
         'Gas initially 12,000 K, xHII=0.4, xHeII=0.5; massive fraction=0.1, m/T=30; all stress switches, compression and feedback on.\n'
-        'Finite conditional response; full EoR, donor/escape Qᵃ closure and angular/spectral convergence remain open.\n'
-        f"Owner REI {summary['owner_ref']}; deltas subtract actual initial states. No fit or interpolation.",
+        'Finite conditional response; full EoR, donor/escape Qᵃ closure and angular/spectral convergence remain open.\n'+
+        delta_text+' No fit or interpolation.\n'+
+        f"Owner REI {summary['owner_ref']}.",
         fontsize=9,va='bottom',linespacing=1.5)
 
 
 def save(fig,base,folder,summary,kind):
-    footer(fig,summary)
+    footer(fig,summary,kind)
     for ext in ('png','pdf'):
         fig.savefig(base.with_suffix('.'+ext))
     plt.close(fig)
@@ -81,7 +102,9 @@ def save(fig,base,folder,summary,kind):
             'sha256':hashlib.sha256(path.read_bytes()).hexdigest()} for path in files],
         'plot_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'plot_helpers_sha256':hashlib.sha256((LANE/'plot_pilot.py').read_bytes()).hexdigest(),
-        'delta_definition':'actual signed endpoint minus actual signed initial; no requested-state substitution',
+        'delta_definition':('All shear panels: actual signed endpoint minus actual signed endpoint of the control with the same initial signed Sigma and both initial stresses zero; raw initial-to-final changes remain in cases.csv.'
+            if kind == 'shear_response_slices_and_cancellation_plane' else
+            'Panels A/B: actual signed endpoint minus actual signed initial. Panel C: actual signed component at each stored step minus its own actual initial value. Panel D: actual total stress norm without subtraction.'),
         'interpolation':'none; full contract mesh with midpoint edges and masked missing cells',
         'total_definition':'norm after signed D_m+D_r; component norms are never added as total',
         'figures':[str(base.with_suffix('.'+ext).resolve()) for ext in ('png','pdf')]}
@@ -91,10 +114,11 @@ def save(fig,base,folder,summary,kind):
 def plot_slices(cases,contract,folder,summary,out):
     fig,axes=canvas('Independent matter/radiation stress: shear response and cancellation')
     requested_slices=(0.,.004,-.004)
+    controls=zero_stress_controls(cases)
     shown=[r for r in cases if r['signed_Sigma_requested'] in requested_slices]
-    norm=zero_norm([change(r,'signed_Sigma') for r in shown])
+    norm=zero_norm([paired_response(r,controls) for r in shown if r['signed_Sigma_requested'] in controls])
     for ax,sigma in zip(axes.flat[:3],requested_slices):
-        pm,pr,values=slice_grid(cases,contract,sigma)
+        pm,pr,values=slice_grid(cases,contract,sigma,controls)
         image=ax.pcolormesh(midpoint_edges(pm)*1e4,midpoint_edges(pr)*1e4,values,
             shading='flat',cmap='coolwarm',norm=norm,rasterized=True)
         # This dashed line identifies the input cancellation subfamily; it is
@@ -105,7 +129,7 @@ def plot_slices(cases,contract,folder,summary,out):
             ylabel=r'Initial signed $\Pi_{r,h}\;(10^{-4})$',
             title=rf'Initial signed $\Sigma_h={sigma:+.4g}$')
         ax.legend(loc='upper right',fontsize=8)
-        fig.colorbar(image,ax=ax,pad=.025,label=r'$\Delta$ signed $\Sigma_h$')
+        fig.colorbar(image,ax=ax,pad=.025,label=r'Signed $\Sigma_{h,f}-\Sigma_{h,f}^{\rm control}$')
     ax=axes[1,1]
     sigmas=sorted({r['signed_Sigma_requested'] for r in cases})
     cmap=plt.get_cmap('coolwarm');snorm=Normalize(min(sigmas),max(sigmas))
@@ -114,9 +138,9 @@ def plot_slices(cases,contract,folder,summary,out):
             r['signed_Pi_m_requested']+r['signed_Pi_r_requested']==0),key=lambda r:r['signed_Pi_m_requested'])
         if rows:
             ax.plot([r['initial_signed_Pi_m'] for r in rows],
-                    [change(r,'signed_Sigma') for r in rows],'.-',lw=.85,ms=5,color=cmap(snorm(sigma)))
+                    [paired_response(r,controls) for r in rows],'.-',lw=.85,ms=5,color=cmap(snorm(sigma)))
     ax.set(xlabel=r'Initial signed $\Pi_{m,h}=-\Pi_{r,h}$',
-        ylabel=r'$\Delta$ signed $\Sigma_h$',title='Initial cancellation plane: total initially unresolved')
+        ylabel=r'Signed $\Sigma_{h,f}-\Sigma_{h,f}^{\rm control}$',title='Cancellation response relative to zero-stress control')
     ax.ticklabel_format(style='sci',axis='both',scilimits=(-3,3))
     fig.colorbar(plt.cm.ScalarMappable(norm=snorm,cmap=cmap),ax=ax,pad=.025,label=r'Initial signed $\Sigma_h$')
     save(fig,out.with_name(out.name+'_slices'),folder,summary,'shear_response_slices_and_cancellation_plane')
@@ -152,15 +176,15 @@ def plot_components(cases,history,contract,folder,summary,out):
         sign=1 if case['signed_Pi_m_requested']>0 else -1
         rows=sorted((r for r in history if r['case_id']==case['case_id']),key=lambda r:r['step'])
         z=[1/r['a']-1 for r in rows]
-        ax.plot(z,[r['signed_Pi_m'] for r in rows],color=colors[sign],lw=1.5,
+        ax.plot(z,[r['signed_Pi_m']-rows[0]['signed_Pi_m'] for r in rows],color=colors[sign],lw=1.5,
                 label=rf'Matter; $\Pi_{{m,i}}={sign*stressmax:+.4g}$')
-        ax.plot(z,[r['signed_Pi_r'] for r in rows],color=colors[sign],lw=1.3,ls='--',
+        ax.plot(z,[r['signed_Pi_r']-rows[0]['signed_Pi_r'] for r in rows],color=colors[sign],lw=1.3,ls='--',
                 label=rf'Radiation; $\Pi_{{r,i}}={-sign*stressmax:+.4g}$')
-    ax.set(xlabel=r'Mean redshift $z=1/a-1$',ylabel=r'Signed $\Pi_{m,h}$ / $\Pi_{r,h}$',
-           title='Opposing components evolve separately')
+    ax.set(xlabel=r'Mean redshift $z=1/a-1$',ylabel=r'$\Pi_{A,h}(z)-\Pi_{A,h}(z_i)$, signed; $A=m,r$',
+           title='Different evolution of initially opposing components')
     ax.invert_xaxis();ax.ticklabel_format(style='sci',axis='y',scilimits=(-3,3))
     ax.ticklabel_format(axis='x',style='plain',useOffset=False)
-    ax.legend(loc='center left',fontsize=8)
+    ax.legend(loc='upper left',fontsize=7)
     ax=axes[1,1]
     colors_sigma={0.:'#333333',.004:'#D55E00',-.004:'#0072B2'}
     for sigma in (0.,.004,-.004):
