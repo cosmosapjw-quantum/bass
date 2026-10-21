@@ -1,0 +1,64 @@
+{
+  "created_utc": "2026-10-21T15:33:40.210479+00:00",
+  "status": "PASS_SCOPED_OPERATIONAL_ADMISSION_REPAIR",
+  "scope": "Only resource admission and its actual plan; no repeated whole-science review.",
+  "reason": "Host load average can include jobs outside this process CPU affinity/quota and had falsely admitted zero workers despite measured free capacity.",
+  "reviewed_files_sha256": {
+    "code/run_pilot.py": "aaf1099ddb3cf6e2cfccfc43f746b08c050902a7b8729bf5007193fb06d58c11",
+    "code/verify_resource_policy.py": "922ba74551886dc89aff3bf293d026db1442525dbb83e073413cd633f8c6b20b",
+    "evidence/RESOURCE_POLICY_VERIFICATION.json": "05edb47ba1e7f54af4da8752df629df3b8509928a2439bae4046e228e84ffe89",
+    "evidence/RUNNER_PLAN.json": "0c84ca31a9711a4d50f7184170e2742da48aa8f0a308c5b5e1cf17f362ca1a87",
+    "FROZEN_CONTRACT.md": "5df4c7bae4bea03d3af30caa34f6ac7a1ab61494469e18896fb9a474bdd28c46"
+  },
+  "policy_checked": [
+    "0.3-second cgroup usage delta and affinity CPU idle-counter sampling bound the current admission.",
+    "Available CPU is limited by both quota-free and affinity-idle estimates, retaining one CPU reserve and unrealized peer reservation allowance.",
+    "Host load average is diagnostic only.",
+    "Missing measurement falls back to at most one worker; known fully busy measurement or memory exhaustion still prevents admission.",
+    "Existing memory constraints and sandbox/NCP caps remain.",
+    "No peer process is signalled or stopped."
+  ],
+  "targeted_tests_status": "PASS",
+  "targeted_test_count": 12,
+  "observed_plan": {
+    "status": "planned",
+    "selected_cases": 127,
+    "total_cases": 127,
+    "base_identity": "85a1389319c81f6abc6ac23e6116076859782eb8aa4e7f42a7d8eaabef98a03d",
+    "resources": {
+      "workers": 4,
+      "affinity_cores": 9,
+      "effective_cpu_quota": 8.0,
+      "load_1m": 1.61962890625,
+      "load_role": "diagnostic_only",
+      "sample_seconds": 0.3010165040032007,
+      "cgroup_used_cpu": 0.35760829910793,
+      "affinity_idle_cpu": 8.604301075268818,
+      "affinity_busy_cpu": 0.39569892473118173,
+      "affinity_sampled_cores": 9,
+      "measurement_errors": [],
+      "cpu_slots": 6,
+      "sampled_free_cpu_after_reserve": 6.64239170089207,
+      "cpu_reserve": 1.0,
+      "peer_unrealized_cpu": 0.0,
+      "already_observed_busy_cpu": 0.39569892473118173,
+      "cpu_admission_mode": "sampled_actual_capacity",
+      "memory_limit_bytes": 8589934592,
+      "memory_available_bytes": 7704252416,
+      "memory_reserve_bytes": 858993459,
+      "memory_per_worker_bytes": 536870912,
+      "peer_reservations": [],
+      "peer_reserved_cpu": 0,
+      "peer_reserved_bytes": 0,
+      "default_worker_cap": 4,
+      "host_claim": "observed current host; no NCP identity inferred"
+    }
+  },
+  "unchanged_scientific_source_hashes": {
+    "code/compact_system.py": true,
+    "code/compact_run.py": true
+  },
+  "new_ODE": 0,
+  "benchmark": 0,
+  "additional_requested_tests": []
+}

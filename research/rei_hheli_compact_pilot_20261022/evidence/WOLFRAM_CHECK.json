@@ -1,0 +1,52 @@
+{
+  "schema": "rei.hheli.wolfram_exact_algebra.v1",
+  "recorded_utc": "2026-10-21T15:24:25.786613+00:00",
+  "execution_authority": "root Astra",
+  "recording_role": "delegated mechanical transcription of root-reported actual tool execution",
+  "requested_tool": "Wolfram",
+  "operation": "wolframlanguageevaluator",
+  "timeConstraint": 30,
+  "observed_executor_model": null,
+  "execution_basis": "Root reported actual tool execution in this turn; no results inferred from a context-only call.",
+  "code_relation": "Reproducible standard finite-block algebra corresponding to reported outputs; not represented as a byte transcript of the root tool input.",
+  "wolfram_code": "ClearAll[gen, u, d, f, ia, ib, nb, s, p];\ngen[n_] := Sum[u[q] Outer[Times, UnitVector[n,q+1]-UnitVector[n,q], UnitVector[n,q]], {q,1,n-1}] + Sum[d[q] Outer[Times, UnitVector[n,q]-UnitVector[n,q+1], UnitVector[n,q+1]], {q,1,n-1}];\ngeneratorColumnSums = Simplify[Total[gen[#]] & /@ {2,3,4}];\nfractions = Array[f,4]; charge = Range[0,3];\nyA = ia fractions; yB = ib fractions;\nneOwner = nb charge.(yA+yB);\nneCompact = nb (ia+ib) charge.fractions;\nelectronResidual = Simplify[neOwner-neCompact];\n(* Both isotope generators use this same ne, T and UV. *)\ncommonFractions = Simplify[(yA+yB)/(ia+ib)];\nflowA = gen[4].yA; flowB = gen[4].yB;\nisotopeInvariantResidual = Simplify[{Total[(flowA-ia gen[4].commonFractions)^2], Total[(flowB-ib gen[4].commonFractions)^2]}];\nsigma = DiagonalMatrix[{-s,-s,2s}]; pi = DiagonalMatrix[{-p,-p,2p}];\nsigmaNormSquared = Tr[Transpose[sigma].sigma];\npiNormSquared = Tr[Transpose[pi].pi]; work = Tr[Transpose[pi].sigma];\nstateDimensions = {40+21+1,23+9+1}; coordinateReduction = (62-33)/62;\n{generatorColumnSums,electronResidual,isotopeInvariantResidual,sigmaNormSquared,piNormSquared,work,stateDimensions,coordinateReduction}",
+  "observed_output": {
+    "generatorColumnSums": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "electronResidual": 0,
+    "isotopeInvariantResidual": [
+      0,
+      0
+    ],
+    "sigmaNormSquared": "6*s^2",
+    "piNormSquared": "6*p^2",
+    "work": "6*p*s",
+    "stateDimensions": [
+      62,
+      33
+    ],
+    "coordinateReduction": "29/62"
+  },
+  "claim_scope": "Derived exact finite-block birth-death conservation, common-electron isotope-subspace equality, tensor contractions and coordinate counts.",
+  "not_evidence_for": [
+    "actual ODE trajectories",
+    "physical omitted-process error bound",
+    "performance speedup",
+    "independent review admission"
+  ]
+}

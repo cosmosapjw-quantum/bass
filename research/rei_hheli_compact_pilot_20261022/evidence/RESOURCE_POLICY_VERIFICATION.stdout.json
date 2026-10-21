@@ -1,0 +1,178 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "high_host_load_low_actual_use",
+      "quota": 8,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": 0.1,
+        "affinity_idle_cpu": 8.5,
+        "affinity_busy_cpu": 0.5,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 6,
+        "sampled_free_cpu_after_reserve": 6.9,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 0.5,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "full_actual_quota_use",
+      "quota": 8,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": 8,
+        "affinity_idle_cpu": 3,
+        "affinity_busy_cpu": 6,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 0,
+        "sampled_free_cpu_after_reserve": 0.0,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 8,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "full_actual_affinity_use",
+      "quota": 8,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": 0.1,
+        "affinity_idle_cpu": 0,
+        "affinity_busy_cpu": 9,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 0,
+        "sampled_free_cpu_after_reserve": 0.0,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 9,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "fractional_quota_enforced",
+      "quota": 2.5,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": 0.2,
+        "affinity_idle_cpu": 8.5,
+        "affinity_busy_cpu": 0.5,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 1,
+        "sampled_free_cpu_after_reserve": 1.2999999999999998,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 0.5,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "observed_peer_busy_not_double_counted",
+      "quota": 8,
+      "peers": 4,
+      "measurement": {
+        "cgroup_used_cpu": 4,
+        "affinity_idle_cpu": 5,
+        "affinity_busy_cpu": 4,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 3,
+        "sampled_free_cpu_after_reserve": 3.0,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 4,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "unrealized_peer_reservation_retained",
+      "quota": 8,
+      "peers": 4,
+      "measurement": {
+        "cgroup_used_cpu": 0.1,
+        "affinity_idle_cpu": 8.5,
+        "affinity_busy_cpu": 0.5,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 3,
+        "sampled_free_cpu_after_reserve": 3.4000000000000004,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 3.5,
+        "already_observed_busy_cpu": 0.5,
+        "cpu_admission_mode": "sampled_actual_capacity"
+      }
+    },
+    {
+      "name": "known_busy_prevents_missing_measurement_fallback",
+      "quota": 8,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": 8,
+        "affinity_idle_cpu": null,
+        "affinity_busy_cpu": null,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 0,
+        "sampled_free_cpu_after_reserve": 0.0,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 8,
+        "cpu_admission_mode": "incomplete_measurement_conservative_one_worker_fallback"
+      }
+    },
+    {
+      "name": "missing_measurement_fallback_one_only",
+      "quota": 8,
+      "peers": 0,
+      "measurement": {
+        "cgroup_used_cpu": null,
+        "affinity_idle_cpu": null,
+        "affinity_busy_cpu": null,
+        "load_1m": 100.0
+      },
+      "result": {
+        "cpu_slots": 1,
+        "sampled_free_cpu_after_reserve": 7.0,
+        "cpu_reserve": 1.0,
+        "peer_unrealized_cpu": 0.0,
+        "already_observed_busy_cpu": 0.0,
+        "cpu_admission_mode": "incomplete_measurement_conservative_one_worker_fallback"
+      }
+    },
+    {
+      "name": "memory_zero",
+      "actual_workers": 0,
+      "expected_workers": 0
+    },
+    {
+      "name": "memory_cap",
+      "actual_workers": 2,
+      "expected_workers": 2
+    },
+    {
+      "name": "sandbox_cap",
+      "actual_workers": 4,
+      "expected_workers": 4
+    },
+    {
+      "name": "ncp_request_cap",
+      "actual_workers": 63,
+      "expected_workers": 63
+    }
+  ],
+  "load_average": "diagnostic only; no admission dependence"
+}

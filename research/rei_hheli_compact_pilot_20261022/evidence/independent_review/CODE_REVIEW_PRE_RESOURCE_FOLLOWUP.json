@@ -1,0 +1,77 @@
+{
+  "schema": "rei.compact33.independent_code_review.v1",
+  "reviewer_agent": "/root/compact33_independent_review",
+  "created_utc": "2026-10-21T15:27:32.472960+00:00",
+  "status": "PASS_SCOPED_COMPACT_IMPLEMENTATION",
+  "next_executable_action": "Run the frozen 127-case compact campaign and two prescribed full62 comparisons within observed resources.",
+  "independence": {
+    "authored_contract": false,
+    "authored_donor": false,
+    "authored_new_code": false,
+    "new_ODE": 0,
+    "benchmark": 0,
+    "read_only_code_and_evidence_review": true
+  },
+  "reviewed_sha256": {
+    "FROZEN_CONTRACT.md": "b8c8d488dea26b3a54ecb05de617d2ca9d2cc57c3d09079d259574d597d83b2d",
+    "THEORY_KO.md": "e59c5553c72fba35583f9cf60b98fbd4b297487dabd6613b43ece4fc43ca5742",
+    "code/compact_system.py": "3ebf56b5a8f1f392681365ec0769364329f293f944a0de4a5add441c8cbc1c49",
+    "code/compact_run.py": "10857d4005fb7ee446d26a77ad4e90af19c09415d6c5e726ac588decda24ca5c",
+    "code/run_pilot.py": "cbe61c9a00f6b695a6a94af299cbac45c83a670fa4bf2916d01706480945ffe5",
+    "code/verify_compact.py": "c1b59be32b04a1e965ea52d36bd6773603dfdc55327bc3ce23c3ae67d25a9f3e",
+    "code/verify_freeze_cache.py": "24fea6c667fd9dd53fb03359cd127b0a2369e9021be65c6fbaf58a237725ced4",
+    "code/run_full62_oracles.py": "e9cce6704583482bbe5bb15a51d10a9606fce081ae659f88e5cd9c9767515c4f",
+    "data/CAMPAIGN.json": "644000bf402a13afdd8ffa2862f8bc3ba0bc147ff1f3082e318440852b008ed3",
+    "evidence/COMPACT_FINITE_VERIFICATION.json": "fd285dda6c456c5aad9079728ddbaee59fd64913e679b479a1c4c51f71c94d6e",
+    "evidence/FREEZE_CACHE_VERIFICATION.json": "c410b88744026ea2e8d5a1d58673e7009a5cc244e64102cbf9bcb47443736e43",
+    "evidence/GATES_EQUIVALENCE.json": "624ebb073203ee8f396de1900f0dc3fc0a185857c25a9a717afdc46176078e1b"
+  },
+  "finite_evidence_reused": {
+    "source": "evidence/COMPACT_FINITE_VERIFICATION.json",
+    "physics_source_hashes_unchanged": true,
+    "max_lifted_rhs_scaled_error": 8.881784197001252e-16,
+    "max_directional_jacobian_scaled_error": 6.2536923762592155e-09,
+    "RP_max_abs": 0.0,
+    "max_baryon_reconstruction_error": 2.220446049250313e-16,
+    "max_electron_reconstruction_error": 1.1102230246251565e-16
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "target": "scientific freeze dependency selection",
+      "status": "CLOSED",
+      "correction": "Exclude __pycache__, .pyc and .pyo; explicitly name compact_system.py and compact_run.py instead of including future plot/test modules.",
+      "evidence": "evidence/FREEZE_CACHE_VERIFICATION.json",
+      "observed_result": {
+        "status": "PASS",
+        "check": "freeze files and base invariant under cache and plotting.py presence/absence",
+        "fixture_paths": [
+          "vendor/rec_hheli/vendor/baseline/__pycache__/compact33_stage1_cache_fixture.pyc",
+          "vendor/rec_hheli/vendor/baseline/compact33_stage1_cache_fixture.pyo",
+          "code/plotting.py"
+        ],
+        "fixtures_cleaned": true,
+        "source_file_count": 39,
+        "base_identity": "701e8e0dd486c2fecab24692b5cdaafc95a29f0826c72c749aedca46d8b2dfbb"
+      }
+    }
+  ],
+  "theory_review": {
+    "status": "PASS_CONDITIONAL_DERIVATION",
+    "cancellation_curvature": "From S_prime=-(3+h)S+Pm+Pr, zero S and zero total P imply S_second=(Pm+Pr)_prime. Massive -5+beta and radiation -4 factors plus photon-only -0.9 Gamma/H Pgamma yield (beta-1)Pm-0.9 Gamma/H Pgamma.",
+    "ratio_domain": "beta=J4/J2 requires nonzero J2; the two cancellation cases meet that domain.",
+    "normalization": "FullFrobenius=sqrt(2)*halfcontraction; component signs retained before total norm."
+  },
+  "limits": [
+    "No trajectory result exists in this review stage.",
+    "The unchanged donor Friedmann gate is an algebraic same-definition consistency check, not an independent dynamics residual.",
+    "Finite angular positivity is evaluated on saved nodes/angles; no continuum positivity theorem or global convergence admission.",
+    "21 isotope/ion coverage is the declared prescribed T/UV photo/RR/DR finite model, with n/T initially zero, isotropic baryons and collisionless anisotropic nonbaryonic matter.",
+    "State-count reduction is not a measured speedup."
+  ],
+  "pending": [
+    "Inspect raw outputs for both full-interval comparison cases.",
+    "Inspect all requested campaign cases/epochs and retained donor gates.",
+    "Inspect actual figures and saved point/source correspondence."
+  ]
+}

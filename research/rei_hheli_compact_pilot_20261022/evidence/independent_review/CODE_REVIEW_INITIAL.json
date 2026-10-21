@@ -1,0 +1,48 @@
+{
+  "schema": "rei.compact33.independent_code_review.v1",
+  "reviewer_agent": "/root/compact33_independent_review",
+  "created_utc": "2026-10-21T15:26:21.781729+00:00",
+  "status": "ONE_TARGETED_RUNNER_REPAIR_PENDING",
+  "reviewed_sha256": {
+    "code/compact_system.py": "3ebf56b5a8f1f392681365ec0769364329f293f944a0de4a5add441c8cbc1c49",
+    "code/compact_run.py": "10857d4005fb7ee446d26a77ad4e90af19c09415d6c5e726ac588decda24ca5c",
+    "code/run_pilot.py": "cbe61c9a00f6b695a6a94af299cbac45c83a670fa4bf2916d01706480945ffe5",
+    "code/verify_compact.py": "c1b59be32b04a1e965ea52d36bd6773603dfdc55327bc3ce23c3ae67d25a9f3e",
+    "data/CAMPAIGN.json": "644000bf402a13afdd8ffa2862f8bc3ba0bc147ff1f3082e318440852b008ed3",
+    "evidence/COMPACT_FINITE_VERIFICATION.json": "fd285dda6c456c5aad9079728ddbaee59fd64913e679b479a1c4c51f71c94d6e",
+    "evidence/GATES_EQUIVALENCE.json": "624ebb073203ee8f396de1900f0dc3fc0a185857c25a9a717afdc46176078e1b",
+    "THEORY_KO.md": "e59c5553c72fba35583f9cf60b98fbd4b297487dabd6613b43ece4fc43ca5742"
+  },
+  "independence": {
+    "authored_code": false,
+    "authored_contract": false,
+    "new_ODE": 0,
+    "benchmark": 0
+  },
+  "accepted": [
+    "33-state mapping and full62 lift preserve all four even towers, independent isotope inventories, and tau.",
+    "RHS restriction and analytic Jacobian projection are implemented correctly.",
+    "All 21 abundances, raw reconstructed62 state, raw compact33 state, original initial62, full and half norm outputs are retained.",
+    "Donor acceptance expressions are preserved; independent source read agrees with recorded AST equivalence.",
+    "Finite RHS/Jacobian, electron/baryon reconstruction and eligibility guard outputs meet the fixed acceptance thresholds.",
+    "Initial cancellation curvature formula has correct H-normalization cancellation and photon-only Thomson term."
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "execution_portability",
+      "target": "data/CAMPAIGN.json identity_files and code/run_pilot.py freeze",
+      "observed": "The recursive vendor pattern includes five generated CPython bytecode cache files.",
+      "impact": "Campaign identity depends on locally generated interpreter/path-dependent caches; a source-only restore can change identity or fail frozen-input verification.",
+      "minimal_repair": "Exclude __pycache__, .pyc and .pyo when expanding scientific input files. Record explicit scientific source paths or finalize broad-pattern auxiliary files before freeze.",
+      "root_status": "AUTHORIZED_TARGETED_REPAIR",
+      "verification": "Adding/removing an untracked cache file must leave the frozen file list and base identity unchanged; refresh plan identity only."
+    }
+  ],
+  "theory_note": "beta_m=J4/J2 is used only for J2 nonzero; isotope-free isotropic stress case need not form the ratio.",
+  "pending": [
+    "Inspect single authorized dependency-selection repair and cache-invariance result.",
+    "Two paired full-interval implementation comparisons.",
+    "127-case actual output and plot/source review."
+  ]
+}
