@@ -1,0 +1,133 @@
+{
+  "schema": "bass.orchestration.shared_q.v1",
+  "cutoff": "2026-10-17T09:55:50Z",
+  "scope": "Recent all-branch metadata intake and additive shared-Q normalization; no native dynamics",
+  "source_head": "a85605302bb0317022eb06b498eb05b9d621de6a",
+  "status": "LOCAL_CONTINUATION_COMPLETE_PHYSICAL_INPUT_DEPENDENT",
+  "nodes": [
+    {
+      "id": "I0",
+      "status": "complete",
+      "result": "259branches/251heads/7recentheads; 5recentPRs",
+      "evidence": "intake/ALL_BRANCH_HEADS_72H.json"
+    },
+    {
+      "id": "R1_R4",
+      "status": "complete",
+      "evidence": "THEORY_SHARED_Q.md",
+      "result": "source geometry clock and nominal/deposited ownership fixed"
+    },
+    {
+      "id": "R5_R7",
+      "status": "complete",
+      "evidence": "WOLFRAM_SHARED_Q.json",
+      "result": "conditional Cdot+2HC=0; mismatch=-kδQ; exact jump0"
+    },
+    {
+      "id": "C1_C5",
+      "status": "complete",
+      "evidence": "shared_q_bridge/shared_q_bridge.c",
+      "result": "pure C99 normalization/event implementation"
+    },
+    {
+      "id": "C6_C8",
+      "status": "complete",
+      "evidence": "shared_q_bridge/TEST_RECEIPT.json",
+      "result": "11 tests pass with independent Decimal/Fraction oracles"
+    },
+    {
+      "id": "C9",
+      "status": "complete",
+      "evidence": "REVIEW_SHARED_Q.json",
+      "result": "independent source review scoped pass"
+    },
+    {
+      "id": "R8_R10_C10",
+      "status": "complete",
+      "evidence": "NCP_HANDOFF_KO.md",
+      "result": "reusable conditional contract and exact compile/input/return instructions"
+    },
+    {
+      "id": "S9_S10",
+      "status": "reused",
+      "evidence": "intake/S9_RESULTS_KO.md;intake/S10_RESULTS_KO.md",
+      "result": "no replays"
+    },
+    {
+      "id": "PHYSICAL_SHARED_Q_HISTORY",
+      "status": "input_dependent",
+      "depends": [
+        "signed physical donor closure/IC",
+        "actual paired proper radiation-event export"
+      ],
+      "result": "prescribed MD14 source has no reservoir owner; cumulative reference-comoving injection is not local deltaU"
+    },
+    {
+      "id": "PUBLICATION_BACKUP",
+      "status": "pending_parent",
+      "result": "No remote mutation by this lane; parent supplies commit/provider acknowledgement"
+    }
+  ],
+  "edges": [
+    [
+      "I0",
+      "R1_R4"
+    ],
+    [
+      "R1_R4",
+      "R5_R7"
+    ],
+    [
+      "R5_R7",
+      "C1_C5"
+    ],
+    [
+      "C1_C5",
+      "C6_C8"
+    ],
+    [
+      "C6_C8",
+      "C9"
+    ],
+    [
+      "C9",
+      "R8_R10_C10"
+    ],
+    [
+      "R8_R10_C10",
+      "PUBLICATION_BACKUP"
+    ]
+  ],
+  "failures": [
+    {
+      "class": "test_oracle",
+      "evidence": "shared_q_bridge/TEST_RECEIPT_INITIAL_TEST_ORACLE_ERROR.json",
+      "resolved": true,
+      "reason": "first overflow fixture was actually representable; changed n1 to1e20 without production/tolerance change"
+    }
+  ],
+  "external_runs": 0,
+  "history_replays": 0,
+  "continuation": {
+    "checkout_head": "56137bcbe1f32ae6948a4992970bf652fc233f37",
+    "pr_head_before_continuation": "56137bcbe1f32ae6948a4992970bf652fc233f37",
+    "compile": "PASS_SCOPED",
+    "evidence": "COMPILE_RECEIPT_20261020.json",
+    "tests": "PASS_SCOPED 11/11",
+    "test_evidence": "VALIDATION_RECEIPT_20261020.json",
+    "physical_shared_q_history": "input_dependent",
+    "missing_input_evidence": "input_missing.json",
+    "native_dynamics_executed": false,
+    "reused_completed": [
+      "S9",
+      "S10",
+      "existing independent source review",
+      "existing adapter source and first-failure receipt"
+    ],
+    "first_failure_preserved": "shared_q_bridge/TEST_RECEIPT_INITIAL_TEST_ORACLE_ERROR.json",
+    "first_failure_cause": "receipt states fixture expected overflow for a representable result; no other cause inferred",
+    "backup_lookup": "PR172 Drive archive inspected at selected text/source files; S10 Dropbox text extraction and exact source-owner provider searches; no physical donor closure or actual paired ΔU export found.",
+    "worktree": "/tmp/bass-pr175-clean-56137bc",
+    "local_state": "The original dirty checkout was left unchanged."
+  }
+}

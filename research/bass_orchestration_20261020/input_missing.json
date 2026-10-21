@@ -1,0 +1,43 @@
+{
+  "schema": "bass.shared_q.input_missing.v1",
+  "status": "INPUT_DEPENDENT",
+  "scope": "PHYSICAL_SHARED_Q_HISTORY only",
+  "checked_at_utc": "2026-10-20T11:50:00Z",
+  "missing_fields": [
+    {
+      "field": "source_owner_record.run19_revision_and_immutable_source_binary_input_hashes",
+      "required": "Exact REI RUN19 revision, source/binary/input hashes and owner record for MD14_Z002_FESC_BB50K_13P6_100_V1",
+      "observed": "NCP_HANDOFF identifies RUN19/PR211 c9deb933 and source blob 36d24eb13db3fc42321cb0ddb165e003c0a086c7 but directs complete identity to sibling rei_bianchi handoff; that handoff was not available in this BASS checkout or in exact Drive/Dropbox searches.",
+      "sources_checked": [
+        "BASS PR175 head 56137bcbe1f32ae6948a4992970bf652fc233f37 NCP_HANDOFF_KO.md",
+        "Google Drive exact query MD14_Z002_FESC_BB50K_13P6_100_V1 (0 results)",
+        "Dropbox exact query RUN19 MD14_Z002_FESC_BB50K_13P6_100_V1 (0 results)",
+        "Google Drive and Dropbox query rei_bianchi RUN19 MD14 handoff (0 results)"
+      ],
+      "coverage": "Exact pinned BASS handoff and provider search only; no broad unrelated repository or personal-file scan."
+    },
+    {
+      "field": "physical_donor_reservoir_closure_and_initial_conditions",
+      "required": "Owner-authorized donor U_d, pressure/closure, initial conditions and signed physical model",
+      "observed": "Not present in the BASS handoff or examined source-only backups. PR172 explicitly states no H/He, photon-energy reconstruction closure or Einstein feedback; S10 intake says prescribed MD14 REI geometry has no reservoir owner.",
+      "sources_checked": [
+        "BASS PR175 head research/bass_orchestration_20261020/NCP_HANDOFF_KO.md",
+        "Drive PR172 archive 1uA1WWfIrFsHr-LCfgTyQXN2mOURTVJQl: source/RESULTS_KO.md and source/deposition.py",
+        "Dropbox S10 final archive id:BSpOijBcT10AAAAAAD_SRg: CLOUD_READBACK_KO.md and included S9/S10 summaries"
+      ],
+      "coverage": "Text extraction and selected file inspection; not a complete provider archive byte-for-byte audit."
+    },
+    {
+      "field": "actual_paired_proper_radiation_event_export",
+      "required": "Actual deposited radiation ΔU in J/m^3 paired to same event/time/volume, plus nominal source integral separately, exact interval and frozen-volume/work ordering",
+      "observed": "No paired event export or event owner record identified. PR172 source-only package describes proper emissivity and quadrature but expressly excludes photon-energy reconstruction closure and feedback; it is not an actual paired ΔU event.",
+      "sources_checked": [
+        "BASS PR175 head research/bass_orchestration_20261020/NCP_HANDOFF_KO.md",
+        "Drive PR172 archive 1uA1WWfIrFsHr-LCfgTyQXN2mOURTVJQl: source/RESULTS_KO.md, source/deposition.py, source/reference/axbi_sources.rs, source/reference/pr171.py",
+        "Dropbox S10 final archive id:BSpOijBcT10AAAAAAD_SRg"
+      ],
+      "coverage": "Named source-only archive and handoff; no unrelated repositories or personal paths searched."
+    }
+  ],
+  "decision": "Do not synthesize missing physical inputs or mark paired history complete. Source-only adapter readiness remains reusable."
+}
