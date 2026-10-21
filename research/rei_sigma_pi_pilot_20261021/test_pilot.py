@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Small numerical-contract and prepared-context equivalence checks; no benchmark."""
 import math
+import json
+import tempfile
+from pathlib import Path
 import unittest
 import numpy as np
 import sweep
@@ -35,6 +38,25 @@ class PilotContractTests(unittest.TestCase):
             kappa_time=self.context.calibration['kappa_time'])
         with self.assertRaises(ValueError):
             initial_seed(**bad)
+
+    def test_numpy_scalar_export_boundary_stays_strict(self):
+        payload = {'gates': {'positive_common_P2_family': np.bool_(True)},
+                   'false_gate': np.bool_(False), 'value': np.float64(.4105784436521941),
+                   'count': np.int64(64)}
+        expected = {'gates': {'positive_common_P2_family': True},
+                    'false_gate': False, 'value': .4105784436521941, 'count': 64}
+        self.assertEqual(json.loads(sweep.canonical(payload)), expected)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'export.json'
+            sweep.write_json(path,payload)
+            self.assertEqual(json.loads(path.read_text()), expected)
+            for bad in (np.float64(float('nan')), np.float64(float('inf'))):
+                with self.assertRaises(ValueError):
+                    sweep.canonical({'bad': bad})
+                with self.assertRaises(ValueError):
+                    sweep.write_json(path,{'bad': bad})
+            with self.assertRaises(TypeError):
+                sweep.canonical({'bad': object()})
 
     def test_history_csv_preserves_nested_energies(self):
         row = {'a': .2, 'Hamiltonian_source_J_m3': {'gamma': 1e-12, 'massive': 2e-12}}

@@ -21,8 +21,17 @@ SOURCE_MANIFEST = SNAPSHOT / 'SOURCE_FETCH_MANIFEST.json'
 OWNER_REF = '80825585f9fe31d2ee0d5af545ada3fa1f52be72'
 
 
+def json_scalar(value):
+    """Convert exact NumPy scalars at export; retain strict JSON failures."""
+    import numpy as np
+    if isinstance(value, np.generic):
+        return value.item()
+    raise TypeError(f'Object of type {type(value).__name__} is not JSON serializable')
+
+
 def canonical(obj):
-    return json.dumps(obj, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+    return json.dumps(obj, sort_keys=True, separators=(',', ':'), allow_nan=False,
+                      default=json_scalar).encode()
 
 
 def digest(path):
@@ -31,7 +40,7 @@ def digest(path):
 
 def write_json(path, data, immutable=False):
     path = Path(path)
-    raw = json.dumps(data, indent=2, sort_keys=True, allow_nan=False) + '\n'
+    raw = json.dumps(data, indent=2, sort_keys=True, allow_nan=False, default=json_scalar) + '\n'
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and immutable:
         if json.loads(path.read_text()) != data:
@@ -317,7 +326,7 @@ def scalar_row(row, prefix=''):
             flattened[name] = value
         else:
             # Preserve any future nonscalar owner fields as exact JSON cells.
-            flattened[name] = json.dumps(value, sort_keys=True, allow_nan=False)
+            flattened[name] = json.dumps(value, sort_keys=True, allow_nan=False, default=json_scalar)
     return flattened
 
 
