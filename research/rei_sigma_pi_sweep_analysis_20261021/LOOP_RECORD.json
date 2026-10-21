@@ -1,9 +1,9 @@
 {
   "schema": "physmath.research_and_coding_loop.v1",
   "unit": "ACCEL03_PORTABLE_SWEEP_ANALYSIS_AND_MASSIVE_STRESS_RESPONSE",
-  "status": "STAGE_B_VERIFIED_LOCAL_DELIVERY_PENDING",
+  "status": "SCOPED_SCIENCE_COMPLETE_DELIVERY_IN_PROGRESS",
   "claim_ceiling": "Portable saved-result accounting/actual-sample figures and fixed-weight massive response identities only; no new solver run, benchmark, full EoR/non-LRS/Q^a/convergence claim.",
-  "stored_ncp_admission": "PASS_FROZEN_COMPARISONS_INDEPENDENT_ADMISSION_PENDING",
+  "stored_ncp_admission": "CONTROLLER_ADMITTED_WITHIN_FROZEN_SCOPE",
   "checkpoints": {
     "STAGE_A": {
       "status": "COMPLETE",
@@ -14,19 +14,21 @@
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
     "STAGE_B": {
-      "status": "VERIFIED_LOCAL",
+      "status": "COMPLETE",
       "scope": "C5-C8,R7-R9 implementation, bounded saved-result/response checks and figures",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING"
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     "STAGE_C": {
-      "status": "PENDING",
+      "status": "LOCAL_COMPLETE",
       "scope": "C9,C10,R10 independent review, scoped decision and delivery",
-      "publication": "PENDING",
-      "backup": "PENDING"
+      "publication": "PUBLICATION_PENDING",
+      "backup": "FULL_GET_BACKUP_PENDING"
     }
   },
-  "next_executable_action": "Publish/back up frozen Stage B while controller completes Stage C decision and handoffs.",
+  "next_executable_action": "Final Stage C publication and one full-GET restore verification, followed by actual receipt closeout.",
   "stopping_rule": "No solver/build/benchmark; frozen bounded checks; criterion failures to controller; one fresh independent review.",
   "steps": [
     {
@@ -42,7 +44,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -63,7 +65,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -82,7 +84,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -101,7 +103,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -119,7 +121,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -137,7 +139,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -157,9 +159,11 @@
       ],
       "result": "Stored bounded checks compared to frozen criteria; response/raw accounting and point-table evidence complete, with no solver/build/benchmark.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package."
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "R8",
@@ -173,13 +177,17 @@
         "results/ncp5/diagnostics.json",
         "results/baseline729/diagnostics.json",
         "evidence/MOMENT_RESPONSE_RAW.json",
-        "CROSSLINEAGE_REUSE.md"
+        "CROSSLINEAGE_REUSE.md",
+        "evidence/CONTROLLER_ADMISSION.json",
+        "SCOPED_DECISION.json"
       ],
       "result": "Massive fixed-weight derivative identities and signed cancellation diagnostics connected to saved outcomes; C21N comparison remains separate lineage and actual-sample plots invent no history.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package."
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "R9",
@@ -194,27 +202,36 @@
         "FROZEN_CONTRACT.md",
         "IMPLEMENTATION.md",
         "MOMENT_IMPLEMENTATION.md",
-        "PLOT_IMPLEMENTATION.md"
+        "PLOT_IMPLEMENTATION.md",
+        "SCOPED_DECISION.json",
+        "evidence/CONTROLLER_ADMISSION.json",
+        "evidence/INDEPENDENT_REVIEW.json"
       ],
-      "result": "Theory/finite-sum response connected to new analysis implementation and bounded output evidence; fresh review and controller final scoped decision recorded in Stage C.",
+      "result": "Controller admits bounded portable accounting/plots, fixed-weight massive response checks and stored NCP numerical equivalence within unchanged claim ceilings.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package."
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "R10",
       "name": "Conclusion and next-thread handoff",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "depends_on": [
         "C10"
       ],
-      "evidence": [],
-      "result": "Pending bounded validation, controller admission or independent review as assigned by frozen contract.",
+      "evidence": [
+        "NEXT_THREAD_HANDOFF.md",
+        "RESTORE_README.md",
+        "delivery/STAGEC_PREPARATION.json"
+      ],
+      "result": "Evidence-first next-thread and four-lane restore handoffs complete; scientific unit complete and final delivery in progress.",
       "checkpoint": "STAGE_C",
       "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Controller completes scoped decision/report/restore and executable handoffs in Stage C."
+      "backup": "FULL_GET_BACKUP_PENDING",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps."
     },
     {
       "id": "C1",
@@ -230,7 +247,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -249,7 +266,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -267,7 +284,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -286,7 +303,7 @@
       "checkpoint": "STAGE_A",
       "publication": "PUSHED",
       "backup": "ACK_OBSERVED_SIZE_MATCH",
-      "next_executable_transition": "Stage A immutable checkpoint preserved; proceed through completed local Stage B delivery.",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "publication_receipt": "delivery/STAGEA_PUBLICATION.json",
       "backup_receipt": "delivery/STAGEA_BACKUP.json"
     },
@@ -310,9 +327,9 @@
       ],
       "result": "Portable plan-driven aggregation, cancellation diagnostics, finite-sum massive response and actual-sample plotting implemented in the new lane only.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package.",
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "observed_work_counts": {
         "focused_tests": 12,
         "moment_response_points": 27,
@@ -326,7 +343,9 @@
         "new_solver_calls": 0,
         "new_builds": 0,
         "benchmarks": 0
-      }
+      },
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "C6",
@@ -342,9 +361,9 @@
       ],
       "result": "Preserved focused 12-test run and actual NCP5/baseline729/duplicate aggregation records; no tests rerun by checkpoint support.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package.",
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "observed_work_counts": {
         "focused_tests": 12,
         "moment_response_points": 27,
@@ -358,7 +377,9 @@
         "new_solver_calls": 0,
         "new_builds": 0,
         "benchmarks": 0
-      }
+      },
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "C7",
@@ -378,9 +399,9 @@
       ],
       "result": "Preserved 27-point response checks; actual NCP5 produces5 successful cases/15 saved history rows; archived729 produces729 reused endpoints/0 history rows; duplicate case produces1 case/3 history rows.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package.",
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "observed_work_counts": {
         "focused_tests": 12,
         "moment_response_points": 27,
@@ -394,7 +415,9 @@
         "new_solver_calls": 0,
         "new_builds": 0,
         "benchmarks": 0
-      }
+      },
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "C8",
@@ -415,9 +438,9 @@
       ],
       "result": "Portable selected plan/manifest/result fixtures and per-cohort provenance retained. Point-table checks and targeted plot-label clarification completed without changing underlying aggregate data.",
       "checkpoint": "STAGE_B",
-      "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Publish and back up the frozen Stage B implementation/raw-result/figure package.",
+      "publication": "PUSHED",
+      "backup": "ACK_OBSERVED_SIZE_MATCH",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
       "observed_work_counts": {
         "focused_tests": 12,
         "moment_response_points": 27,
@@ -431,38 +454,45 @@
         "new_solver_calls": 0,
         "new_builds": 0,
         "benchmarks": 0
-      }
+      },
+      "publication_receipt": "delivery/STAGEB_PUBLICATION.json",
+      "backup_receipt": "delivery/STAGEB_BACKUP.json"
     },
     {
       "id": "C9",
       "name": "Fresh independent review",
-      "status": "COMPLETE_LOCAL_PENDING_STAGE_C_PUBLICATION",
+      "status": "COMPLETE",
       "depends_on": [
         "R9"
       ],
       "evidence": [
         "evidence/INDEPENDENT_REVIEW.json",
-        "evidence/INDEPENDENT_REVIEW.md"
+        "evidence/INDEPENDENT_REVIEW.md",
+        "evidence/CONTROLLER_ADMISSION.json"
       ],
-      "result": "PASS_SCOPED_PORTABLE_ANALYSIS_MASSIVE_RESPONSE_AND_NCP_NUMERICAL_EQUIVALENCE",
+      "result": "Fresh independent review PASS_SCOPED_PORTABLE_ANALYSIS_MASSIVE_RESPONSE_AND_NCP_NUMERICAL_EQUIVALENCE; accepted scope closed without a further review cycle.",
       "checkpoint": "STAGE_C",
       "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Controller records scoped scientific admission and publishes independent review in Stage C."
+      "backup": "FULL_GET_BACKUP_PENDING",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps."
     },
     {
       "id": "C10",
       "name": "Scoped decision/report/executable handoff",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "depends_on": [
         "C9"
       ],
-      "evidence": [],
-      "result": "Pending bounded validation, controller admission or independent review as assigned by frozen contract.",
+      "evidence": [
+        "REPORT_KO.md",
+        "SCOPED_DECISION.json",
+        "CODEX_HANDOFF.md"
+      ],
+      "result": "Scoped report/decision and executable saved-result/response handoff complete; final delivery pending actual publication and full GET.",
       "checkpoint": "STAGE_C",
       "publication": "PUBLICATION_PENDING",
-      "backup": "BACKUP_PENDING",
-      "next_executable_transition": "Controller completes scoped decision/report/restore and executable handoffs in Stage C."
+      "backup": "FULL_GET_BACKUP_PENDING",
+      "next_executable_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps."
     }
   ],
   "execution_roles": {
@@ -487,5 +517,8 @@
     "new_solver_calls": 0,
     "new_builds": 0,
     "benchmarks": 0
-  }
+  },
+  "stored_ncp_admission_evidence": "evidence/CONTROLLER_ADMISSION.json",
+  "future_scientific_transition": "For a new user-defined scope, first read current repository/provider evidence and the recorded claim ceiling; execute only the newly specified bounded work. Do not repeat the completed independent review or rerun archived sweeps.",
+  "stage_current": "STAGE_C_SCIENCE_COMPLETE_DELIVERY_PENDING"
 }
