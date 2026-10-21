@@ -1,0 +1,93 @@
+{
+  "schema": "bass.rei.pilot.independent_scientific_code_review.v1",
+  "reviewer_task": "physics_bridge",
+  "independence": {
+    "authored": "sigma_pi_map.py and prior physical derivation",
+    "reviewed_independently": "sweep.py, plot_pilot.py and their use of pinned C15 functions, implemented by another agent",
+    "excluded": "independent approval of own sigma_pi_map.py; root reviews it"
+  },
+  "status": "PASS_SCOPED_EXECUTION_WITH_PLOT_CORRECTION",
+  "scope": "Source/preparation/mapping/aggregation/plot code and four RHS points only; actual new 81 histories not run or reviewed here",
+  "execution_admission": "proceed with source-frozen 64-step 81-case pilot",
+  "source_sha256": {
+    "sweep.py": "bab98da7e7f4dacf5a413a7c04f045963cfa0acb8c681a95422016dbe83a705a",
+    "plot_pilot.py": "7688228a15d0f04db56dea7bcb2b83df980874a1a9498ca0ca05c0c9b6475a9b",
+    "test_pilot.py": "a4ed82952e4708b2a6d60ca7ff4256f0f1f15c98e28c3d4be456ffc30a40df5b",
+    "PILOT_CONTRACT.json": "d023c2251a640e1a152e5795282e5de0d337f42b8ab2baa188d2b3642a0cf807"
+  },
+  "checks": [
+    {
+      "topic": "normalization",
+      "result": "PASS",
+      "evidence": "all four physical DeltaP components summed; K_time=3*C15.KAPPA; independent explicit 3x3 tensor contraction matches"
+    },
+    {
+      "topic": "signed_initial_grid",
+      "result": "PASS",
+      "evidence": "81 unique signed coordinates; zero signs only on zero magnitudes; common alpha gives achieved requested invariants; prior exact owner initial audit reused"
+    },
+    {
+      "topic": "positive_initial_family",
+      "result": "PASS",
+      "evidence": "alpha range [-0.4105784436521941,+0.4105784436521941] lies strictly inside [-1,2]; no clipping"
+    },
+    {
+      "topic": "physical_stress_vs_rhs_stress",
+      "result": "PASS",
+      "evidence": "D_physical=sum(gamma,nu,massive,UV), owner Pi_total_source retained separately; contract fixes all physical switches on and multiplier1"
+    },
+    {
+      "topic": "PreparedContext",
+      "result": "PASS_SCOPED",
+      "evidence": "four actual RHS comparisons against independent original constructors at two opposite-signed inputs and initial/perturbed states agree elementwise exactly; seven selected fixed arrays readonly/unchanged; separate weights/proxies/gas/moments/counters; owner dynamics unoverridden"
+    },
+    {
+      "topic": "source_identity",
+      "result": "PASS",
+      "evidence": "snapshot hash verification precedes owner import; source_identity owner check called; inherited exact-source and source-input bindings maintained"
+    },
+    {
+      "topic": "aggregation",
+      "result": "PASS_SCOPED",
+      "evidence": "successful result/receipt hashes and science binding checked; expected case configs and gates checked; missing IDs exposed; deterministic sorted CSV; actual new output inspection remains"
+    },
+    {
+      "topic": "claim_scope",
+      "result": "PASS",
+      "evidence": "figure/aggregate explicitly warm near-z4, half norm, native8x8, common positiveP2; donor/escape Qa and fullEoR/convergence remain open; thermochemical data not promoted to resolved effects"
+    }
+  ],
+  "findings": [
+    {
+      "id": "FIG01",
+      "severity": "plot_coordinate_fidelity",
+      "blocks_scientific_execution": false,
+      "blocks_final_plot_acceptance": true,
+      "target": "plot_pilot.py panel D imshow",
+      "observation": "grid coordinates are nonuniform while imshow uses uniform-width cells and actual coordinate tick labels",
+      "impact": "apparent parameter distances and sampled cell areas are distorted",
+      "minimal_fix": "use pcolormesh with midpoint edges in actual signed Sigma/Pi coordinates, or explicitly label categorical grid positions",
+      "status": "OPEN"
+    },
+    {
+      "id": "FIG02",
+      "severity": "partial_plot_recovery",
+      "blocks_scientific_execution": false,
+      "blocks_final_plot_acceptance": false,
+      "target": "plot_pilot.py fullsig/fullpi derived from successful cases",
+      "observation": "for partial output a missing whole coordinate row/column disappears from axes",
+      "impact": "partial plot may not expose all scheduled missing cells",
+      "minimal_fix": "derive full grid from frozen PILOT_CONTRACT.json and mask absent cells",
+      "status": "OPEN_FOR_PARTIAL_ONLY"
+    }
+  ],
+  "reused_evidence": [
+    "physics/C15_SCOPE_AUDIT.json",
+    "physics/C15_INITIAL_CALIBRATION.json",
+    "physics/THEORY.md"
+  ],
+  "actual_probe": "physics/INDEPENDENT_PILOT_REVIEW_PROBE.json",
+  "ode_step_run_calls_in_this_review": 0,
+  "benchmark_calls": 0,
+  "remaining_review": "actual histories, aggregate numerical invariants, CSV-to-figure mapping and rendered layout after execution; no optional normalization loop unless dependency changes"
+}

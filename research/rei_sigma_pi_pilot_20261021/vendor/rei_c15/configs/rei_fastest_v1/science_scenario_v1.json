@@ -1,0 +1,251 @@
+{
+  "schema": "rei.science-scenario.v1",
+  "task_id": "REI-F07",
+  "scenario_id": "REI_S0_PRIMARY_ONLY_CASE_A_BIANCHI_I_V1",
+  "status": "PREREGISTERED_THEORETICAL_NOT_EXECUTED",
+  "classification": "NON_OBSERVATIONAL_PRESCRIBED_BACKGROUND_EXPERIMENT",
+  "preregistration": {
+    "source_family": "S0",
+    "before_paired_anisotropy_observables": true,
+    "tuning_after_outputs": "FORBIDDEN",
+    "created_from_commit": "7e1e590a67885efe7966f0d140efc8d136b39eab",
+    "source_definition_provenance": "R1_CONSUMER_CONTRACT_20260917 section6 S0; Host defines compact monochromatic verification experiment prospectively, not an observed/stellar SED",
+    "replacement_of_F03_fixture": false
+  },
+  "units": {
+    "time": "proper s",
+    "energy": "eV",
+    "temperature": "K",
+    "density": "proper cm^-3",
+    "source": "photons per H nucleus per proper second",
+    "rates": "cm^3 s^-1",
+    "thermal": "erg cm^-3; w=u/(nH*eV_erg)",
+    "geometry": "dimensionless scale factors, H_i s^-1"
+  },
+  "constants": {
+    "c_cm_s": 29979245800,
+    "k_B_erg_K": 1.380649e-16,
+    "eV_erg": 1.602176634e-12,
+    "threshold_rounding_policy": "Keep actual FT03 HHeModel binding chi and Verner fit cutoff separately. Same absorption event uses provider sigma(E) with Verner cutoff and thermal/binding chi; do not change provider fits or silently equate authorities. Split/monitor both boundaries.",
+    "binding_threshold_ev": [
+      13.598434599702,
+      24.587389011,
+      54.41776
+    ],
+    "cross_section_cutoff_ev": [
+      13.6,
+      24.59,
+      54.42
+    ]
+  },
+  "background": {
+    "a0": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "H_mean_per_s": 1e-14,
+    "epsilon": 0.01,
+    "formula": "a_i(t)=a0_i exp(H_i t)",
+    "pairs": {
+      "FLRW": {
+        "H_per_s": [
+          1e-14,
+          1e-14,
+          1e-14
+        ]
+      },
+      "BIANCHI_I": {
+        "H_per_s": [
+          1.01e-14,
+          9.9e-15,
+          1e-14
+        ]
+      }
+    },
+    "tilt": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "spatial_structure": "ONE_HOMOGENEOUS_CELL",
+    "density_law": "nH(t)=nH0/(a1*a2*a3), nHe=fHe*nH",
+    "redshift": {
+      "reference_z0": 10.0,
+      "formula": "1+z=(1+reference_z0)/(a1*a2*a3)^(1/3)",
+      "interpretation": "Prescribed background label only; no Friedmann fit or cosmic initial history"
+    }
+  },
+  "time": {
+    "t0_s": 0.0,
+    "t_end_s": 10000000000000.0,
+    "initial_trial_dt_s": 10000000000.0,
+    "minimum_trial_dt_s": 1000.0,
+    "refinement_dt_s": [
+      10000000000.0,
+      5000000000.0,
+      2500000000.0
+    ]
+  },
+  "initial_state": {
+    "nH0_cm3": 0.0001,
+    "fHe": 0.083,
+    "fractions": {
+      "HII": 0.9,
+      "HeI": 0.1,
+      "HeII": 0.3,
+      "HeIII": 0.6
+    },
+    "temperature_K": 50000.0,
+    "thermal_rule": "u0=1.5*kB*T0*(nH0+nHe0+ne0), ne0=nH0*xHII+nHe0*(xHeII+2*xHeIII)",
+    "photon_number_per_H": 0.05,
+    "photon_energy_ev": 13.7,
+    "photon_angular_distribution": "ISOTROPIC_CONTINUUM_MEASURE; positive quadrature is a declared numerical approximation",
+    "escape_energy0_erg_cm3": 0.0,
+    "provenance": "Prospective deterministic verification IC; not inherited NodeHistory or REC history"
+  },
+  "source": {
+    "family": "S0",
+    "kind": "COMPACT_MONOCHROMATIC",
+    "energy_at_birth_ev": 13.7,
+    "photons_per_H_per_s": 5e-15,
+    "time_support_s": [
+      0.0,
+      10000000000000.0
+    ],
+    "matter_frame_angular_density": "1/(4*pi)",
+    "multipoles": {
+      "dipole": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "quadrupole": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    "paired_source_ownership": "Identical isotropic proper matter-frame emissivity per nucleus and initial realization; geometry maps directions/energies separately",
+    "birth_rule": "Record actual birth time, E_birth and direction; q_i=a_i(t_birth)*E_birth*e_i conserved between interactions; do not redshift twice",
+    "time_discretization": "Accepted-stage endpoint emissivity with actual substep time/weight; record discretization error; source quadrature shared between paired runs"
+  },
+  "spectral": {
+    "E_min_ev": 10.0,
+    "E_max_ev": 20.0,
+    "edge_interpretation": "Support window10..20eV. Split active HI binding and actual Verner cutoff separately. He binding/fit thresholds are inactive metadata above support; no extended Emax or invented tails. Evaluate actual sigma(E) and binding separately at each stage.",
+    "lower_ownership": "RETAIN_BELOW_THRESHOLD_NUMBER_AND_ENERGY",
+    "upper_ownership": "RETAIN_ANY_UPPER_GUARD_NUMBER_AND_ENERGY",
+    "source_tail_number_tolerance": 1e-12,
+    "source_tail_energy_tolerance": 1e-12,
+    "source_tail_bound_basis": "Exact Dirac monoenergy support13.7eV is inside[10,20]; source outside-window integrals identically0 by definition, not a fitted physical SED approximation",
+    "angular_quadrature": {
+      "kind": "MIDPOINT_MU_UNIFORM_PHI_POSITIVE_WEIGHTS",
+      "n_mu": [
+        4,
+        8,
+        16
+      ],
+      "n_phi": [
+        8,
+        16,
+        32
+      ],
+      "weight_rule": "Delta_mu*Delta_phi/(4*pi)",
+      "seed": null
+    },
+    "active_energy_partition_edges_ev": [
+      10.0,
+      13.598434599702,
+      13.6,
+      20.0
+    ],
+    "inactive_species_threshold_authorities_ev": {
+      "binding": [
+        24.587389011,
+        54.41776
+      ],
+      "cross_section_cutoff": [
+        24.59,
+        54.42
+      ]
+    }
+  },
+  "atomic_model": {
+    "rate_moment_id": "REI_FT03_HG_RATE_MOMENT_CASE_A_CONTROLLED_V1",
+    "rate_source": "FT03 source-to-model equations; existing ft03_rates.rs analytic HG RR/CI and two Grackle highT DR capture terms",
+    "photo_cross_section": "Frozen Verner96 ground-state AtomicProvider::reference",
+    "closure": "HOMOGENEOUS_BOUND_FREE_PRIMARY_ONLY_EXPLICIT_CASE_A_ESCAPE",
+    "recombination_emission": "ESCAPING_ENERGY_LEDGER; no diffuse reabsorption or inferred ionizing photon count",
+    "thermal_processes": "Primary photoheat, CI threshold sink, HG derivative RR kinetic moment, pinned2 DR energy terms only",
+    "CR": "OFF",
+    "optional_HH_direct": "OFF; no HH uncertainty certificate assumed",
+    "optional_He_RCT": "OFF; new opt-in provider not activated",
+    "Peebles_recombination": "NOT_USED_MODEL_SCOPE_MISMATCH",
+    "physical_fit_uncertainty": "NOT_MEASURED; deterministic fit defines mathematical model, not zero physical error",
+    "omitted_cooling_and_model_error": "NOT_MEASURED; no physical temperature/Universe accuracy claim",
+    "fit_implementation_temperature_guard_K": [
+      30000.0,
+      110000.0
+    ],
+    "scenario_temperature_guard_K": [
+      35000.0,
+      60000.0
+    ],
+    "guard_policy": "Reject/out-of-domain receipt; no clipping or silent fallback. Range is prescribed acceptance domain, not yet proven invariant."
+  },
+  "secondary": {
+    "choice": "PRIMARY_ONLY_BASELINE",
+    "screening": "Maximum birth photoelectron excess from HI ~0.1015654eV, no He photoionization at13.7eV. Nonnegative H_i only redshift photons thereafter. This soft-photon screen is not a measured materiality bound for the full gas model.",
+    "deposition_provider": "NONE_REQUIRED_FOR_DECLARED_PRIMARY_ONLY_MODEL",
+    "physical_effect_bound": "NOT_MEASURED",
+    "extension_trigger": "Any changed hard SED/source, blueshift or requested quantitative secondary physical claim requires external validated MICRO1 deposition; no ad hoc fractions"
+  },
+  "numerics": {
+    "strict_local_error_limit": 0.0002,
+    "strict_public_width_limit": 0.002,
+    "conservation_scaled_tolerance": 1e-12,
+    "transactional_rejection": true,
+    "independent_references": "Required before admitting paired history",
+    "F04_certificate": "REQUIRED_NOT_YET_COMPLETE",
+    "geometry_id": "DIAGONAL_HOMOGENEOUS_BIANCHI_I_EXACT_CHARACTERISTIC",
+    "thermal_expansion_rule": "dw/dt=(raw_du/(nH*eV_erg))-2Hmean*w; energy work recorded separately",
+    "photon_expansion_rule": "Packet comoving counts, characteristicE; chemistry normalized per actual stage nH; no extra -3H in perH photon variable"
+  },
+  "outputs": {
+    "paired": [
+      "xHII(t)",
+      "xHeII(t)",
+      "xHeIII(t)",
+      "T(t)",
+      "Gamma_HI(t)",
+      "Gamma_HeI(t)",
+      "Gamma_HeII(t)",
+      "paired_differences",
+      "photon_number_energy_escape_work_ledgers"
+    ],
+    "filling_QV": "NOT_EVALUABLE_WITHOUT_INDEPENDENT_PHASE_GEOMETRY; do not relabel homogeneous ionization fraction",
+    "physical_claim": "HOLD",
+    "observational_reproduction": false,
+    "recombination_IC_history": "NOT_IMPORTED"
+  },
+  "dependencies": {
+    "F03": "completed",
+    "F06": "completed",
+    "F04": "partial",
+    "F05": "not_executed",
+    "coupled_runtime": "NOT_IMPLEMENTED_FOR_THIS_SCENARIO"
+  }
+}

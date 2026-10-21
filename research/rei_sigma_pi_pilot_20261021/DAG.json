@@ -1,29 +1,29 @@
 {
   "schema": "BASS_REI_PILOT_DAG_V1",
-  "stage": "R1_R3_C1_C2_INTAKE",
+  "stage": "STAGE2_SOURCE_REVIEW_BEFORE_PILOT",
   "goal": "Non-tilted Bianchi I normalized Sigma/Pi first pilot; no new performance benchmarking",
   "nodes": [
     {
       "id": "intake",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "id": "normalization_and_scope",
-      "status": "in_progress",
+      "status": "complete",
       "requires": [
         "intake"
       ]
     },
     {
       "id": "pilot_implementation",
-      "status": "pending",
+      "status": "complete",
       "requires": [
         "normalization_and_scope"
       ]
     },
     {
       "id": "bounded_science_verification",
-      "status": "pending",
+      "status": "in_progress",
       "requires": [
         "pilot_implementation"
       ]
@@ -51,5 +51,49 @@
       ]
     }
   ],
-  "benchmarks": "NOT_REQUESTED_NOT_RUN"
+  "benchmarks": "NOT_REQUESTED_NOT_RUN",
+  "R_stages": {
+    "R1": "complete",
+    "R2": "complete",
+    "R3": "complete",
+    "R4": "complete",
+    "R5": "complete",
+    "R6": "complete",
+    "R7": "complete",
+    "R8": "complete",
+    "R9": "complete",
+    "R10": "in_progress"
+  },
+  "C_stages": {
+    "C1": "complete",
+    "C2": "complete",
+    "C3": "complete",
+    "C4": "complete",
+    "C5": "complete",
+    "C6": "complete",
+    "C7": "complete_scoped_review",
+    "C8": "pending_actual_sweep",
+    "C9": "pending",
+    "C10": "pending"
+  },
+  "evidence": {
+    "intake": [
+      "INTAKE.json",
+      "evidence/latest_intake/",
+      "delivery/STAGE1_DELIVERY.json"
+    ],
+    "normalization": [
+      "physics/THEORY.md",
+      "physics/C15_SCOPE_AUDIT.json",
+      "PILOT_CONTRACT.json"
+    ],
+    "implementation": [
+      "sweep.py",
+      "shared_executor.py",
+      "test_pilot.py",
+      "test_shared_executor.py",
+      "physics/INDEPENDENT_PILOT_REVIEW.json"
+    ]
+  },
+  "benchmark_exclusion": "User explicitly excludes detailed optimization benchmarks; necessary physics/equivalence checks retained."
 }

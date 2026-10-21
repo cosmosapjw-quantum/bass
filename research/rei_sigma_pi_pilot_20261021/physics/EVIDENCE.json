@@ -1,0 +1,85 @@
+{
+  "schema": "bass.rei.sigma_pi.physics_bridge.evidence.v1",
+  "date_kst": "2026-10-21",
+  "code_observed": {
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "pr": 141,
+    "commit": "80825585f9fe31d2ee0d5af545ada3fa1f52be72",
+    "path": "research/rei_c15_sigma_pi_feedback_20261015/coupled.py"
+  },
+  "statuses": {
+    "algebra": "derived and CAS checked",
+    "source_mapping": "implementation inspected",
+    "pilot_execution": "not performed by physics_bridge agent",
+    "speedup": "not measured",
+    "full_EoR": "outside C15 near-z4 scope"
+  },
+  "cas": {
+    "tool": "mcp__codex_apps__wolfram_wolframlanguageevaluator",
+    "actual_response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Symbol::undefined2: Warning: Global symbols \"H, Om, A, F, H, Hd, H, H, F, H, Hd, F, F, H, A, H, A\" are undefined.\nGeneral::messages: Messages were generated which may indicate errors.\n\nOut[1]= <|\"shear_contraction\" -> 6*s^2, \"stress_contraction\" -> (2*del^2)/3, \"shear_work\" -> 2*del*s, \"angular_m0\" -> 1, \"angular_m2\" -> 1/3 + (2*alpha)/15, \"angular_m4\" -> 1/5 + (4*alpha)/35, \"D_over_rho\" -> alpha/5, \"positive_alpha_domain\" -> Inequality[-1, LessEqual, alpha, LessEqual, 2], \"constraint_derivative\" -> 0, \"halfPi_to_D\" -> (Sqrt[3]*A*H^2)/K, \"frobeniusPi_to_D\" -> (Sqrt[3/2]*A*H^2)/K|>"
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  },
+  "discovery": {
+    "exa_used": true,
+    "scispace_used": true,
+    "selected_scispace_records": [
+      {
+        "title": "On the future of solutions to the massless Einstein-Vlasov system in a Bianchi I cosmology",
+        "id": 4102088045,
+        "unique_id": "iq5fulm8k7j4",
+        "doi": "10.48550/arxiv.1911.04937"
+      },
+      {
+        "title": "On the future of solutions to the massless Einstein-Vlasov system in a Bianchi I cosmology.",
+        "id": 2986146935,
+        "unique_id": "40oy2kxziq",
+        "doi": "10.1007/S10714-020-02699-7",
+        "fulltext_url": "https://arxiv.org/pdf/1911.04937.pdf"
+      },
+      {
+        "title": "On the future of solutions to the massless Einstein-Vlasov system in a Bianchi I cosmology",
+        "id": 3024754473,
+        "unique_id": "3jjmtuf4ta",
+        "doi": "10.1007/S10714-020-02699-7",
+        "fulltext_url": null
+      }
+    ],
+    "primary_texts_read": [
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1911.04937",
+        "sections": "2.1, 2.2, linearized equations 31–35",
+        "use": "constraint, shear coupling, dependence of stress evolution on higher moments"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/gr-qc/0512031",
+        "sections": "reflection-symmetric Einstein-Vlasov formulation",
+        "use": "positive fixed Killing distribution and source-integrated stress"
+      }
+    ],
+    "access_gaps": [
+      "search_service direct arxiv/html DisabledError",
+      "search_service primary MPG PDF 403",
+      "Exa primary-text mirrors succeeded"
+    ],
+    "web_ref_ids": [
+      "turn1academia22",
+      "turn1academia23",
+      "turn1search24",
+      "turn1search26"
+    ],
+    "scope": "No secondary summary used to fix the physical equations; no publication asymptotic theorem transferred to warm reionization model."
+  },
+  "caveats": [
+    "The Wolfram tool returned undefined-global-symbol warnings while delivering all exact symbolic results; warning retained.",
+    "half contraction is existing C15 convention; Frobenius columns should also be emitted.",
+    "common P2 amplitude is a specified initial-distribution family, not an exact later moment closure."
+  ]
+}

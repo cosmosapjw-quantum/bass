@@ -1,0 +1,99 @@
+{
+  "schema": "bass.rei.sigma_pi.adapter.minimal_check.v1",
+  "status": "PASS_SCOPED",
+  "runtime": "PYTHON_PASS",
+  "scope": "five tensor-normalization roundtrips; four 96x32 radial-angular initial-moment comparisons; one positivity rejection; no ODE or benchmark",
+  "adapter_cases": [
+    {
+      "Sigma_requested": 0.0,
+      "Pi_requested": 0.0,
+      "signs": [
+        0,
+        0
+      ],
+      "Sigma_tensor": 0.0,
+      "Pi_tensor": 0.0,
+      "common_alpha": 0.0
+    },
+    {
+      "Sigma_requested": 0.2,
+      "Pi_requested": 1e-07,
+      "signs": [
+        1,
+        1
+      ],
+      "Sigma_tensor": 0.2,
+      "Pi_tensor": 9.999999999999997e-08,
+      "common_alpha": 0.09217477140569523
+    },
+    {
+      "Sigma_requested": 0.2,
+      "Pi_requested": 1e-07,
+      "signs": [
+        -1,
+        1
+      ],
+      "Sigma_tensor": 0.2,
+      "Pi_tensor": 9.999999999999997e-08,
+      "common_alpha": 0.09217477140569523
+    },
+    {
+      "Sigma_requested": 0.2,
+      "Pi_requested": 1e-07,
+      "signs": [
+        1,
+        -1
+      ],
+      "Sigma_tensor": 0.2,
+      "Pi_tensor": 9.999999999999997e-08,
+      "common_alpha": -0.09217477140569523
+    },
+    {
+      "Sigma_requested": 0.2,
+      "Pi_requested": 1e-07,
+      "signs": [
+        -1,
+        -1
+      ],
+      "Sigma_tensor": 0.2,
+      "Pi_tensor": 9.999999999999997e-08,
+      "common_alpha": -0.09217477140569523
+    }
+  ],
+  "radial_J01": 0.014042977688245466,
+  "quadrature_cases": [
+    {
+      "alpha": -1.0,
+      "j0": 0.999999999999999,
+      "D_per_rho_ref": -0.002808595537649088,
+      "alpha_J01_over5": -0.0028085955376490933,
+      "abs_error": 5.204170427930421e-18
+    },
+    {
+      "alpha": 0.0,
+      "j0": 1.0,
+      "D_per_rho_ref": 1.273545089354549e-17,
+      "alpha_J01_over5": 0.0,
+      "abs_error": 1.273545089354549e-17
+    },
+    {
+      "alpha": 0.4,
+      "j0": 1.0000000000000002,
+      "D_per_rho_ref": 0.0011234382150596533,
+      "alpha_J01_over5": 0.0011234382150596372,
+      "abs_error": 1.6046192152785466e-17
+    },
+    {
+      "alpha": 2.0,
+      "j0": 1.0000000000000018,
+      "D_per_rho_ref": 0.005617191075298216,
+      "alpha_J01_over5": 0.005617191075298187,
+      "abs_error": 2.949029909160572e-17
+    }
+  ],
+  "inadmissible_request_rejected": true,
+  "source_sha256": {
+    "sigma_pi_map.py": "4e7f806fa36a72ae97068281813a1253ccb48e08394a203f7efe3cfdde0e3eaf",
+    "c15coupled.py": "bfbf70c3e173e63b89584b5138183ad090340f3f06984aedf23d03ad4dba8975"
+  }
+}
