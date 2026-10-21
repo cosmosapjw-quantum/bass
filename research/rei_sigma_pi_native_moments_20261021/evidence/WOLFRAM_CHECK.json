@@ -1,0 +1,25 @@
+{
+  "schema": "rei.native_moments.wolfram_check.v1",
+  "context_service": "ATTEMPTED_INTERNAL_ERROR",
+  "evaluator": "SUCCESS",
+  "scope": "symbolic fixed quadrature integrands and LRS work contraction",
+  "code": "Clear[x,b,m,q,mu,alpha]; r2=Exp[2 b](1-mu^2)+Exp[-4 b]mu^2; p2=Exp[-2 x]q^2 r2; en=Sqrt[m^2+p2]; u=Exp[-4 b]mu^2/r2; pref=Exp[-3 x]; w=1+alpha(3mu^2-1)/2; kernels={pref w en,pref w p2/en,pref w p2/en (3u-1)/2}; assumptions=Element[{x,b,m,q,mu,alpha},Reals]&&m>0&&q>0&&-1<=mu<=1; parity=FullSimplify[kernels-(kernels/.mu->-mu),Assumptions->assumptions]; dx=FullSimplify[D[pref en,x]+3 pref en+pref p2/en,Assumptions->assumptions]; db=FullSimplify[D[pref en,b]+2 pref p2/en (3u-1)/2,Assumptions->assumptions]; s=DiagonalMatrix[{-ss,-ss,2ss}]; pi=DiagonalMatrix[{-dd/3,-dd/3,2dd/3}]; contraction=Tr[s.pi]; p2bounds=Reduce[0<=uu<=1&& !(-1/2<=(3uu-1)/2<=1),uu,Reals]; positivity=Reduce[ForAll[uu,0<=uu<=1,1+alpha(3uu-1)/2>=0],alpha,Reals]; ExportString[<|\"parity_residuals\"->parity,\"energy_x_identity\"->dx,\"energy_b_identity\"->db,\"sigma_pi_contraction\"->ToString[contraction,InputForm],\"P2_bound_counterexample\"->p2bounds,\"positive_angular_distribution\"->ToString[positivity,InputForm]|>,\"RawJSON\"]",
+  "actual_tool_output": [
+    {
+      "type": "text",
+      "text": "Out[1]= \"{\\n\\t\\\"parity_residuals\\\":[\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0\\n\\t],\\n\\t\\\"energy_x_identity\\\":0,\\n\\t\\\"energy_b_identity\\\":0,\\n\\t\\\"sigma_pi_contraction\\\":\\\"2*dd*ss\\\",\\n\\t\\\"P2_bound_counterexample\\\":false,\\n\\t\\\"positive_angular_distribution\\\":\\\"Inequality[-1, LessEqual, alpha, LessEqual, 2]\\\"\\n}\""
+    }
+  ],
+  "interpreted": {
+    "parity_residuals": [
+      0,
+      0,
+      0
+    ],
+    "energy_x_identity": 0,
+    "energy_b_identity": 0,
+    "sigma_pi_contraction": "2*dd*ss",
+    "P2_bound_counterexample": false,
+    "positive_angular_distribution": "-1 <= alpha <= 2"
+  }
+}

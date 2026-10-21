@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 import datetime as dt
 import fcntl
 import hashlib
@@ -24,6 +24,20 @@ LANE = Path(__file__).resolve().parent
 PRODUCTION_FILES = ("work_plan.py", "cached_context.py", "batch_worker.py")
 GATES = {"number_5e-12", "energy_5e-11", "gamma_monopole_3e-9", "nu_monopole_3e-9",
          "initial_mapping_3e-13", "positive_matter_P2", "positive_radiation_P2", "finite_success_json"}
+
+
+@dataclass(frozen=True)
+class BackendSpec:
+    """Explicit optional evaluator; science coordinates remain planner-owned."""
+    name: str
+    context_factory: object
+    source_files: tuple
+    entrypoint: Path
+    build_identity: dict
+    entrypoint_args: tuple = ()
+
+    def descriptor(self):
+        return {"name": self.name, "build_identity": self.build_identity}
 
 
 def toolchain():
@@ -58,13 +72,25 @@ def write_json(path, value, *, replace=False):
         temporary.unlink(missing_ok=True)
 
 
-def backend_binding(registry):
+def backend_binding(registry, backend=None):
     """Relative identity is independent of host paths and resource/group choices."""
     files = [wp.BASELINE / item["path"] for item in registry["context"]["source_binding"]["files"]]
     files += [wp.BASELINE / "shared_executor.py", *(LANE / name for name in PRODUCTION_FILES)]
+    if backend is not None:
+        files += list(backend.source_files)
     bound = [{"path": str(path.resolve()), "sha256": wp.file_hash(path)} for path in sorted(set(files))]
-    relative = [{"path": Path(item["path"]).relative_to(LANE.parents[1]).as_posix(), "sha256": item["sha256"]} for item in bound]
-    return wp.identity({"backend": "exact-cache-v1", "files": relative}), bound
+    relative = []
+    for item in bound:
+        path = Path(item["path"])
+        label = path.relative_to(LANE.parents[1]).as_posix() if path.is_relative_to(LANE.parents[1]) else "external-build/" + path.name
+        relative.append({"path": label, "sha256": item["sha256"]})
+    tag = "exact-cache-v1" if backend is None else backend.descriptor()
+    return wp.identity({"backend": tag, "files": relative}), bound
+
+
+def selected_binding(registry, backend):
+    # Preserve the existing one-argument API for default callers/injected tests.
+    return backend_binding(registry) if backend is None else backend_binding(registry, backend)
 
 
 def validate_pending(records, registry, context_factory=None):
@@ -113,7 +139,7 @@ def validate_plan(plan, registry):
     validate_pending(plan["pending"], registry)
 
 
-def prepare(plan_path, out, case_store, group_size="auto"):
+def prepare(plan_path, out, case_store, group_size="auto", *, backend=None):
     plan_path, out, case_store = (Path(p).resolve() for p in (plan_path, out, case_store))
     plan = json.loads(plan_path.read_text())
     registry = wp.load_completed_registry()
@@ -134,7 +160,7 @@ def prepare(plan_path, out, case_store, group_size="auto"):
         size = int(group_size)
         if not 1 <= size <= 16:
             raise ValueError("GROUP_SIZE_1_TO_16_REQUIRED")
-    source_id, bound = backend_binding(registry)
+    source_id, bound = selected_binding(registry, backend)
     actual = toolchain()
     binding = {"source": source_id, "input": wp.identity({"context": registry["context_id"], "cases": sorted(p["science_id"] for p in pending)}),
                "toolchain": wp.identity(actual)}
@@ -148,10 +174,14 @@ def prepare(plan_path, out, case_store, group_size="auto"):
         data = {"schema": "rei.split.cache_group_input.v1", "science_binding": binding, "source_id": source_id,
                 "science_context_id": registry["context_id"], "toolchain": actual, "nsteps": nsteps, "pending": records,
                 "bound_files": bound, "case_store": str(case_store), "input_path": str(path), "plan_path": str(plan_path)}
+        if backend is not None:
+            data["backend"] = backend.descriptor()
         data["content_sha256"] = wp.identity(data)
         write_json(path, data)
         all_bound.append({"path": str(path), "sha256": wp.file_hash(path)})
-        jobs.append({"id": name, "argv": [sys.executable, str(Path(__file__).resolve()), "run-group", "--input", str(path), "--output", "{attempt_dir}/result.json"],
+        entrypoint = Path(__file__).resolve() if backend is None else backend.entrypoint
+        extra = () if backend is None else backend.entrypoint_args
+        jobs.append({"id": name, "argv": [sys.executable, str(entrypoint), "run-group", "--input", str(path), "--output", "{attempt_dir}/result.json", *extra],
                      "outputs": ["result.json"], "cwd": str(LANE), "memory_mb": 384, "timeout_s": 1800})
     manifest = {"schema": "rei.shared_case_science.v1", "science_binding": binding, "bound_files": all_bound,
                 "jobs": jobs, "toolchain": actual, "split_pilot": {"case_count": len(pending), "group_size": size, "nsteps": nsteps},
@@ -237,7 +267,7 @@ def case_from_store(data, record, context, runner):
         return result, diagnostics
 
 
-def run_group(input_path, output_path, *, runner=None, context_factory=None):
+def run_group(input_path, output_path, *, runner=None, context_factory=None, backend=None):
     input_path, output = Path(input_path).resolve(), Path(output_path).resolve()
     if output.exists():
         raise ValueError("GROUP_RESULT_ALREADY_EXISTS")
@@ -247,6 +277,8 @@ def run_group(input_path, output_path, *, runner=None, context_factory=None):
         if (data.get("schema") != "rei.split.cache_group_input.v1" or data["input_path"] != str(input_path)
                 or data["content_sha256"] != wp.identity({k: v for k, v in data.items() if k != "content_sha256"})):
             raise ValueError("GROUP_INPUT_IDENTITY_MISMATCH")
+        if data.get("backend") != (None if backend is None else backend.descriptor()):
+            raise ValueError("NUMERIC_BACKEND_SELECTION_MISMATCH")
         for item in data["bound_files"]:
             if wp.file_hash(item["path"]) != item["sha256"]:
                 raise ValueError("BOUND_SOURCE_OR_PLAN_CHANGED")
@@ -255,7 +287,7 @@ def run_group(input_path, output_path, *, runner=None, context_factory=None):
         plan_bound = {item["path"]: item["sha256"] for item in data["bound_files"]}
         plan_records = {item["science_id"]: item for item in source_plan["pending"]}
         input_binding = wp.identity({"context": registry["context_id"], "cases": sorted(plan_records)})
-        if (data["source_id"] != backend_binding(registry)[0] or data["science_context_id"] != registry["context_id"]
+        if (data["source_id"] != selected_binding(registry, backend)[0] or data["science_context_id"] != registry["context_id"]
                 or data["toolchain"] != toolchain() or data["science_binding"]["source"] != data["source_id"]
                 or data["science_binding"]["toolchain"] != wp.identity(toolchain())
                 or plan_bound.get(data["plan_path"]) != wp.file_hash(data["plan_path"])
@@ -263,7 +295,8 @@ def run_group(input_path, output_path, *, runner=None, context_factory=None):
                 or any(plan_records.get(item["science_id"]) != item for item in data["pending"])):
             raise ValueError("BACKEND_CONTEXT_OR_TOOLCHAIN_CHANGED")
         from cached_context import PreparedContext
-        context = validate_pending(data["pending"], registry, context_factory or PreparedContext)
+        factory = context_factory or (PreparedContext if backend is None else backend.context_factory)
+        context = validate_pending(data["pending"], registry, factory)
         if not data["pending"] or any(r["science"]["nsteps"] != data["nsteps"] for r in data["pending"]):
             raise ValueError("GROUP_PENDING_OR_STEPS")
         split, _ = wp.modules()

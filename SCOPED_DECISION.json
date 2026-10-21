@@ -1,0 +1,58 @@
+{
+  "schema": "rei.native_moments.scoped_decision.v1",
+  "verdict": "PASS_SCOPED_LOCAL_NUMERICAL_EQUIVALENCE_WITH_NCP_EXECUTION_EVIDENCE",
+  "authority": "Astra controller after frozen contract, lower-tier execution and one fresh independent Astra pass",
+  "review": "evidence/INDEPENDENT_REVIEW.json",
+  "code_commits": {
+    "bass": {
+      "parent": "10dee26ba6675d8583f9d2e4e80c774e665aeca1",
+      "sha": "7fe0e25a28c0e48110c522378e203ffb934cc504",
+      "tree": "ee48c52b9d3aa2e9511f47d3fc0340c17d0a171d",
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/178",
+      "pr": 178
+    },
+    "rei_bianchi": {
+      "parent": "b3bfac33a16cc6d148781ec63855b56b81710cdf",
+      "sha": "231df3ab717dbc112f63b77953f64def08e9bcb5",
+      "tree": "af2c36382cc712302a54cd041e82cb9d5beaff9c",
+      "url": "https://github.com/cosmosapjw-quantum/rei_bianchi/pull/215",
+      "pr": 215
+    }
+  },
+  "scope": {
+    "original_quadrature": "96x32 nodes/weights evaluated through96x16reflected pairs",
+    "model": "non-tilted LRS Bianchi I; independent matter/radiation P2 seeds; warm conditional C15",
+    "interval": [
+      0.1999,
+      0.2
+    ],
+    "local_verification": "140kernel points;3derivative probes;5paired2steptrajectories;8originalgates;9workerunitchecks;1worker solve and1reused result",
+    "numerical_criterion": "predeclared componentwise finite-set acceptance; no native-vs-owner bitwise claim"
+  },
+  "admitted": [
+    "exact-arithmetic reflection identity for this even finite quadrature",
+    "finite-sum energy and stress-work differential identities under fixed weights",
+    "observed numerical acceptance on frozen points and short warm trajectories",
+    "explicit optional native backend integrated with exact per-model cache and existing resource-aware pending executor",
+    "completed729 reuse before any native build/load/job",
+    "target-local compilation and execution preparation",
+    "one NCP target-local build and five supplied two-step custom cases passed unchanged worker gates; receipt integrity independently reviewed"
+  ],
+  "not_admitted": [
+    "full729native trajectory validation",
+    "time/radial/angular convergence",
+    "fullEoR or general non-LRS/tilted model",
+    "full Q^a closure",
+    "measured total speedup or guaranteed SIMD",
+    "actualNCPnative execution or current liveNCPavailability",
+    "scientific admission from NCP smoke cases; NCP-versus-reference differential equivalence; full EoR/non-LRS/full Q^a closure/global convergence"
+  ],
+  "original729_rerun": 0,
+  "benchmark_runs": 0,
+  "blocking_findings": 0,
+  "repairs": 0,
+  "independent_review_passes": 1,
+  "next_action": "Return NCP target receipts for separate scientific adjudication; no new production input was supplied.",
+  "ncp_target_execution": "evidence/NCP_TARGET_EXECUTION.json",
+  "independent_ncp_review": "evidence/NCP_INDEPENDENT_REVIEW.json"
+}

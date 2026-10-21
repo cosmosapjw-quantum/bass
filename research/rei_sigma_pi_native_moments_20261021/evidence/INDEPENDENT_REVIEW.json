@@ -1,0 +1,141 @@
+{
+  "admitted_claim": "Original 96x32 quadrature preserved through reflected pairs; frozen empirical kernel and warm two-step integration acceptance passed on stored local evidence; optional native backend and target-local build/executor handoff ready.",
+  "blocking_findings": [],
+  "evidence_sha256": {
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/BUILD_RECEIPT.json": "245effbdf9368fadf8f35c90ea8f5252f9b84075c5b3dc5950d5e4d408c2aea7",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/DERIVATIVE_RAW.json": "0d721ac7cb69f440820827aefcc9453d4f860f8c1cb91c3d86ba1f11edc40171",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/IMPLEMENTATION_IDENTITY.json": "ff2aba49d495d0bdb9d4d2fa45c508cf833cd6eef7241c6229185662844d07ba",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/INTEGRATION_CHECKS.json": "7307b67779bb783b8b807e7db87c650abe5ac0327ff759e58d5ad7859390659e",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/KERNEL_RAW.json": "84c407ad6c1109537fb9127ba97e0ee1452f61813d641b4d0d221b52dc737cef",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/TRAJECTORY_COMPARISON.json": "8f8e2a5487b1aedfc921dafb3d9cf1b69aa374852c9b6d5bb28fd5442db45bb1",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/TRAJECTORY_RAW.json": "4c6f9f5b3c65690bc777fee00ab45217c09ca68903a454b8f6689924fb8d57f8",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/WOLFRAM_CHECK.json": "b2ea50c553950329cb8849f47ed92d6490e7928a70ee862a07cadfc6551a376f",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/WORKER_UNIT_TESTS.log": "fbb0f8e9d074a6849bbe2ab81066c50ea782889fa9fe241aaf0408146f47cc1d",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/worker/WORKER_CHECKS.json": "b3ae4ed62f97f3cce8e0a779c2a544f88b65c75f84f225177f0c739092e9a65e",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/worker/execution_first.json": "c6f97aa611f5450925ec4be0cf4ba508511e5e38395ac802fc343c342262c93f",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/worker/execution_second.json": "8eba399d281e54db23cc6ff92c2df908738ff8be5dbc0afc65a50315411e7469",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/evidence/worker/prepared/manifest.json": "8b1bb31e22cfca4c72ba7e8a7c562425396b56ca1dc8f9c37bb1845f9edebfda"
+  },
+  "findings": [
+    {
+      "area": "quadrature and domain",
+      "basis": "Each pair has the same mu^2 kernel. fold_model checks exact actual mu antisymmetry, mu2/P2/weight symmetry and angular algebra, fixed contiguous float64 shapes, finite nonnegative weights/q2 and positive mass. Original paired weights are added once; 96 radial nodes and all 32 angular weights are retained.",
+      "status": "PASS"
+    },
+    {
+      "area": "compensated sum and ABI",
+      "basis": "C++ Sum implements Neumaier larger-magnitude correction and final s+c for each moment. Fixed operation order, fno-fast-math and ffp-contract=off protect compensation. ctypes signature matches three const double pointers, three doubles, output double pointer and int status. Per-call angle arrays have size 16; fixed loops consume 96x16 folded inputs.",
+      "status": "PASS"
+    },
+    {
+      "area": "physical sign and units",
+      "basis": "Direct differentiation gives dx J0=-3J0-J1 and db J0=-2J2. LRS diagonal contraction is 2sD. With Sigma=sqrt(3)s/H and Pi=kappa_t D/(sqrt(3)H^2), work/(H^3/kappa_t)=2 Sigma Pi. Actual split normalization retains signed component sum and original dimensional conversion. Stored symbolic evidence agrees.",
+      "status": "PASS"
+    },
+    {
+      "area": "cache and immutable lifetime",
+      "basis": "MRO is NativeGuard -> ExactMomentCache -> NativeMiss -> owner. Exact binary64 x,b keys and existing domain checks precede miss. Per-model bytes-backed copied arrays, original binding checks and added folded/angle metadata checks prevent accidental cache-source reassignment; fresh model state is retained.",
+      "status": "PASS"
+    },
+    {
+      "area": "build and stale rejection",
+      "basis": "inspect_build compares current C++/recipe hashes, frozen flags, actual binary hash, platform and machine before CDLL load. Native backend namespace also binds loader, entrypoint, changed dispatcher, frozen contract and actual build receipt/library. Preserved source/binary mutation checks show explicit rebuild errors.",
+      "status": "PASS"
+    },
+    {
+      "area": "worker/default/no-work",
+      "basis": "Optional BackendSpec keeps default exact-cache factory. Pending-zero native prepare calls standard validated no-work branch before build inspection/context import/library load; stored default plan has 729 completed, zero pending/jobs. Distinct backend descriptor is checked on run-group. No production monkeypatch is present.",
+      "status": "PASS"
+    },
+    {
+      "area": "execution and evidence association",
+      "basis": "Current implementation source hashes equal recorded execution identity. All 43 bound manifest files match. Review independently reconstructs native backend source id; library matches copied and live build receipts. First/second launched result payloads agree, reuse flags differ as intended, and the same stored case receipt digest validates actual case bytes.",
+      "status": "PASS"
+    },
+    {
+      "area": "NCP handoff",
+      "basis": "Documented Linux C++17 target-local build, native plan/prepare/run-group and unchanged executor commands are consistent with parsers. Executor samples live availability, applies NCP 64CPU/128GiB ceilings and requested max-workers 2, sets all numerical thread variables to 1, and uses existing lock/restart policy. Target build and execution remain future work.",
+      "status": "PASS_PREPARATION"
+    }
+  ],
+  "independent_raw_recomputation": {
+    "all_eight_gates_recomputed_for_ten_trajectories": true,
+    "comparison_rows": 20,
+    "derivative_limit": 2e-09,
+    "derivative_max_normalized_residual": 3.730718793634552e-12,
+    "derivative_points": 3,
+    "exact_declared_coordinate_set": true,
+    "kernel_limit": 1.4210854715202004e-14,
+    "kernel_max_energy_scaled_error": 3.0017696087628955e-16,
+    "kernel_points": 140,
+    "kernel_termwise_invariants": "PASS",
+    "steps_per_trajectory": 2,
+    "trajectory_error_maxima": {
+      "H_relative": 0.0,
+      "Tgas_relative": 0.0,
+      "normalized_work_m": 3.268660938001367e-24,
+      "normalized_work_r": 3.5183196372857127e-26,
+      "normalized_work_total": 3.268686181550334e-24,
+      "signed_Pi_m": 1.1777890328282316e-20,
+      "signed_Pi_r": 5.169878828456423e-26,
+      "signed_Pi_total": 1.1777890328403265e-20,
+      "signed_Sigma": 4.400213117869973e-23,
+      "x_HII": 0.0,
+      "x_HeII": 0.0
+    },
+    "trajectory_pairs": 5,
+    "worker_manifest_bound_files_matched": 43,
+    "worker_reuses_observed": 1,
+    "worker_solves_observed": 1,
+    "worker_source_id_recomputed": "b0508de09a21c9da3ef5564e2cb63359d6263d2e68b2527b12971ef7b2ff6845",
+    "worker_test_log": "9 tests, OK; inspected, not rerun"
+  },
+  "limitations": [
+    "Acceptance is the predeclared finite empirical envelope, not a global floating-point/transcendental bound.",
+    "Five two-step trajectories verify connection to the pinned warm solver; they do not replace the completed 64-step 729-case pilot or prove time/grid convergence.",
+    "No benchmark, measured speedup, full729 rerun or NCP target execution is admitted.",
+    "No non-LRS, tilted/odd distribution, full-EoR or full-Q^a claim.",
+    "Build receipts contain target-local metadata, so rebuilding can change backend namespace even for equivalent source; this is conservative checkpoint separation, not a physics failure.",
+    "Unit/integration executions are assessed through preserved logs, source and raw artifacts; reviewer performed no additional execution suites."
+  ],
+  "next_executable_transition": "Controller may finalize Stage C publication/backup and provide the reviewed target-local build + native pending-case execution handoff. No repair or expanded review is required.",
+  "repair_required": false,
+  "review_method": {
+    "method": "Actual-source static inspection plus independent arithmetic and hash reconstruction from preserved raw evidence; no native evaluator loaded during review.",
+    "new_compiles": 0,
+    "new_solver_runs": 0,
+    "passes": 1,
+    "production_edits": 0,
+    "remote_mutations": 0,
+    "suite_reruns": 0
+  },
+  "reviewed_source_sha256": {
+    "acc02_intake/policy/rei_bianchi_AGENTS.md": "ab29a05cac922bd393dc04f7f280a0d4e1d7289ae6ea24291f48fd7cf7b2e8eb",
+    "bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py": "b7e6694d4c16584ddb1a81e3ed2c7c98ff5b9c6f93e7912475e11b376f229f92",
+    "bass_work/research/rei_sigma_pi_acceleration_20261021/cached_context.py": "f9508fa69f838f5c859334fd260c59825ce0a9ddf06c85fe596e49a6cbc1d282",
+    "bass_work/research/rei_sigma_pi_acceleration_20261021/work_plan.py": "a63e6ba3211df071f1f475b8ad40279c4535cfd9ff59f8b0ee63d301fdeb823b",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/FROZEN_CONTRACT.md": "3fb950d39afee45ee15396cbf21ac10f719be42ab3ae01699ebcc81392553f56",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/IMPLEMENTATION.md": "9b51beb37cfdc91dd4765097d45e3f2c7937c5e04709c3dbf3f2ad4c0fdc60df",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/THEORY.md": "49842cdd42e8e057cb71f71c2da9fc58235b243cc2f7fe1de2bf1efb2225140c",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/build_native.py": "5ad3c56041012f3b4ec4e9df8d87853a0e24caf82ad04fb30c058b885fdebf39",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/moments.cpp": "7c6449754370c8e8ec560874d6e35617cc19114c45743ada3aea33400e55d4fe",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/native_context.py": "8307f415bbe0a766755cab5a106c63c4a65eee71660035e05cf551b2b7e1ad9d",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/native_worker.py": "a51a971289e0eb5ed946d61b98a0ce758e98c681d2efe4a26c9c58e4be2fcf58",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/verify_native.py": "d5b93ab255b3182211c18cd34ca2e6c52f065d9804c1511db023155b2937b280",
+    "bass_work/research/rei_sigma_pi_native_moments_20261021/verify_worker.py": "d23ea5dddcf2a0fe2cefb68e32b0eb144587f8cc3b5339ad93906070dab4fbc0",
+    "bass_work/research/rei_sigma_pi_pilot_20261021/shared_executor.py": "8f6b0ae63a449d7d800b57c6fc6f6ab8f6577c66932614344ae671aa1288e759",
+    "bass_work/research/rei_sigma_pi_pilot_20261021/sigma_pi_map.py": "4e7f806fa36a72ae97068281813a1253ccb48e08394a203f7efe3cfdde0e3eaf",
+    "bass_work/research/rei_sigma_pi_pilot_20261021/split_sweep.py": "e5cee6270c31e10b244daa8b978a43793d6f8ecc058de81bb45dadc50d8384d0",
+    "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/coupled.py": "a920d0e86c0badf395bfabc61dafaee3449a34e4cfe8ccdc28a833674c1c4b1e"
+  },
+  "reviewed_utc": "2026-10-21T11:30:07.160078+00:00",
+  "reviewer": {
+    "implemented_reviewed_code": false,
+    "observed_runtime_model": null,
+    "observed_runtime_model_reason": "Runtime model telemetry was not exposed; requested role/model is distinct from observation.",
+    "requested_model": "gpt-6-astra",
+    "role": "fresh independent C9 reviewer"
+  },
+  "schema": "rei.native_moments.independent_review.v1",
+  "verdict": "PASS_SCOPED_LOCAL_NUMERICAL_EQUIVALENCE"
+}

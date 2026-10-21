@@ -1,0 +1,110 @@
+{
+  "schema": "rei.accel02.ncp_target_execution_return.v1",
+  "status": "EXECUTION_COMPLETE_PENDING_SCIENTIFIC_ADJUDICATION",
+  "archive": {
+    "name": "BASS_REI_ACCEL02_NCP_TARGET_20261021_ad92f4207a68.zip",
+    "bytes": 6003218,
+    "sha256": "ad92f4207a6845a0326a095cb904792b6d34bf0654f7148fe3c530b47f5e2817",
+    "dropbox_path": "/BASS_BACKUPS/BASS_REI_ACCEL02_NCP_TARGET_20261021_ad92f4207a68.zip",
+    "dropbox_id": "id:BSpOijBcT10AAAAAAD_g_w",
+    "dropbox_full_get_sha256": "ad92f4207a6845a0326a095cb904792b6d34bf0654f7148fe3c530b47f5e2817",
+    "dropbox_full_get_bytes": 6003218,
+    "zip_members": 367,
+    "crc": "PASS"
+  },
+  "source_pins": {
+    "rei": "231df3ab717dbc112f63b77953f64def08e9bcb5",
+    "bass": "7fe0e25a28c0e48110c522378e203ffb934cc504",
+    "rei_fetched_head": "d669298f05286728453840da46cae958a3709456"
+  },
+  "prior_checkout": {
+    "path": "/root/rei_bianchi_c21d_native_20261018",
+    "branch": "main",
+    "head": "ae3402713c4b6530ab2b27f008f5f5d5c6a999ed",
+    "tracked_deletions_preserved": 2491,
+    "modified_or_cleaned": false
+  },
+  "resources": {
+    "host": "s1a0e5abed09",
+    "kernel": "Linux 6.8.0-124-generic x86_64",
+    "affinity": "0-63",
+    "cpu_quota_cores": null,
+    "mem_total_bytes": 135050526720,
+    "mem_available_initial_bytes": 86227820544,
+    "disk_available_bytes": 73211985920
+  },
+  "completed_729": {
+    "completed": 729,
+    "pending": 0,
+    "jobs": 0,
+    "status": "REUSED_ALL"
+  },
+  "target_build": {
+    "attempts": 1,
+    "compiler": "g++ 13.3.0-6ubuntu2~24.04.1",
+    "flags": [
+      "-O3",
+      "-std=c++17",
+      "-fPIC",
+      "-shared",
+      "-fno-fast-math",
+      "-ffp-contract=off"
+    ],
+    "backend": "reflected-native-neumaier-v1",
+    "library_sha256": "36f1e11fe30edc51a2a7816c91aa357219fa977df10ae56b6a189d1ee747968e",
+    "build_receipt_sha256": "87f999919cfbda2f42df223f7e0b8f28aed674cf1a18d95b59fb55ba16060298",
+    "target_source_id": "aed4c55a61df37d97d8c0aa309b7875e5eb3629abbd284fe04faf23cb261115d",
+    "local_reference_source_id": "b0508de09a21c9da3ef5564e2cb63359d6263d2e68b2527b12971ef7b2ff6845",
+    "difference": "platform/compiler/library identity differs; tolerances unchanged"
+  },
+  "custom_execution": {
+    "cases": [
+      "native_check_0",
+      "native_check_1",
+      "native_check_2",
+      "native_check_3",
+      "native_check_4"
+    ],
+    "per_case_steps": 2,
+    "numeric_threads": 1,
+    "max_workers": 2,
+    "jobs_total": 5,
+    "jobs_pass": 5,
+    "jobs_failed": 0,
+    "reused": 0,
+    "gate_assertions_true": 40,
+    "gate_assertions_total": 40,
+    "original_gates_unchanged": true,
+    "full_729_reruns": 0,
+    "kernel_matrix_reruns": 0,
+    "full_suite_reruns": 0,
+    "benchmarks": 0,
+    "new_production_input_supplied": false
+  },
+  "preserved_failure": {
+    "attempt": 1,
+    "command": "python",
+    "exit_code": 127,
+    "error": "python: command not found",
+    "recovery": "existing /usr/bin/python3; no install"
+  },
+  "scientific_scope": "warm conditional non-tilted LRS Bianchi I; a=0.1999 to 0.2; massive Vlasov matter and gamma+massless-nu+UV radiation; matter/radiation pi_ab independent; signed stress components combined before total; no zero clipping or tolerance changes.",
+  "signed_cancellation_example": {
+    "case": "native_check_4",
+    "initial_D_m_Pa": 7.115555483297902e-12,
+    "initial_D_r_Pa": -7.115555483297915e-12,
+    "initial_D_total_Pa": -1.2924697071141057e-26,
+    "final_D_total_Pa": -3.406324946932993e-15
+  },
+  "independent_review": {
+    "verdict": "PASS_SCOPED_NCP_EXECUTION_EVIDENCE_AND_RECEIPT_INTEGRITY",
+    "archive_sha256": "ad92f4207a6845a0326a095cb904792b6d34bf0654f7148fe3c530b47f5e2817",
+    "all_366_package_checksum_entries_match": true,
+    "manifest_bound_files": 47,
+    "pilot_pins": 9,
+    "all_five_receipt_chains_match": true,
+    "nonblocking_finding": "LOW: plan-counts.json backend and five case_ids are null; small-plan, prepared inputs, and raw results identify them.",
+    "source_commit_tree_limit": "independent commit-to-tree check not performed because pinned Git object unavailable in review checkout"
+  },
+  "claim_ceiling": "Execution receipt integrity and stated short target cases only; not scientific admission, differential equivalence, global convergence, full EoR, general non-LRS, full Q^a closure, REI production, merge."
+}
