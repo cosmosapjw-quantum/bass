@@ -1,0 +1,52 @@
+/home/cosmosapjw/worktrees/bass-pr174-s6-20261019/research/bass_isotropy_response_20261018/source_age.py:55: IntegrationWarning: The occurrence of roundoff error is detected, which prevents 
+  the requested tolerance from being achieved.  The error may be 
+  underestimated.
+  return (quad(rr, 0, 1, epsabs=1e-15, epsrel=1e-14, limit=200)[0],
+/home/cosmosapjw/worktrees/bass-pr174-s6-20261019/research/bass_isotropy_response_20261018/source_age.py:56: IntegrationWarning: The occurrence of roundoff error is detected, which prevents 
+  the requested tolerance from being achieved.  The error may be 
+  underestimated.
+  quad(dd, 0, 1, epsabs=1e-15, epsrel=1e-14, limit=200)[0])
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-pr174-s6-20261019/research/bass_isotropy_response_20261018/run_s6_source_age.py", line 93, in <module>
+    main()
+  File "/home/cosmosapjw/worktrees/bass-pr174-s6-20261019/research/bass_isotropy_response_20261018/run_s6_source_age.py", line 84, in main
+    json.dump(receipt, f, indent=2, allow_nan=False); f.write('\n')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
+Command exited with non-zero status 1
+	Command being timed: "python3 run_s6_source_age.py --out evidence_s6/source_age"
+	User time (seconds): 18.63
+	System time (seconds): 0.16
+	Percent of CPU this job got: 92%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:20.34
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 74052
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 445
+	Minor (reclaiming a frame) page faults: 14104
+	Voluntary context switches: 1445
+	Involuntary context switches: 2712
+	Swaps: 0
+	File system inputs: 169304
+	File system outputs: 192
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

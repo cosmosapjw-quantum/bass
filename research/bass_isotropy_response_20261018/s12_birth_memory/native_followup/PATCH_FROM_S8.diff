@@ -1,0 +1,137 @@
+--- pinned_s8_native_angular_refinement.rs
++++ s12/native_followup.rs
+@@ -1,9 +1,13 @@
+-//! S8 opt-in reference-angle refinement. Original REI spectral owner is unchanged.
++//! S12 opt-in follow-up of only the failed S8 b9_n64_P2P4 case.
++//! Legacy birth0-10; frozen S11 P24 birth11-15; no old campaign replay.
++//! Derived from exact S8 Git blob e1e914fef1578306990f471b7730dd3a69f68781.
++//! Exact rational admission remains an independent post-run requirement.
+ //! Existing n=32 stock remains on its original transport; new photons use a new block.
+ #![forbid(unsafe_code)]
+ #[path = "balance.rs"] mod balance;
+ #[path = "balance_p24.rs"] mod balance_p24;
+ mod native_adapter;
++#[path = "s11_projector.rs"] mod s11_projector;
+ use native_adapter::{sum, p2, Constraints, Declaration, EmissionKind, EmissionFrame, inject_new_isotropic};
+ use rei_microphysics::axbi_covariant_transport::{CovariantTransport, PhotonState};
+ use rei_microphysics::axbi_sources::{AngularCell, AxbiSource, SOURCE_ID};
+@@ -104,9 +108,8 @@
+     fn parse(line:&str)->ResultS<Self> {
+         let p:Vec<_>=line.split(',').collect();if p.len()!=4 {return Err("CASE_COLUMNS".into());}
+         let c=Self{id:p[0].into(),n:p[1].parse().map_err(|_|"CASE_N")?,b0:p[2].parse().map_err(|_|"CASE_B")?,mode:p[3].into()};
+-        if c.id.is_empty() || !c.id.chars().all(|x|x.is_ascii_alphanumeric()||x=='_')
+-            || ![64,128,256].contains(&c.n) || ![0.6,0.9].contains(&c.b0)
+-            || !["prior","P2","P2P4"].contains(&c.mode.as_str()) {return Err("CASE_DOMAIN".into());}
++        if c.id != "b9_n64_P2P4" || c.n != 64 || c.b0.to_bits() != 0.9_f64.to_bits()
++            || c.mode != "P2P4" {return Err("S12_SINGLE_PREVIOUSLY_FAILED_CASE_ONLY".into());}
+         Ok(c)
+     }
+     fn key(&self)->String {format!("\"case_id\":\"{}\",\"n_mu\":{},\"b0\":{:.17e},\"mode\":\"{}\",\"n_energy\":96,\"cells_per_segment\":32,\"cohorts\":16,\"beta\":0.2,\"x_observe\":1.0",self.id,self.n,self.b0,self.mode)}
+@@ -115,6 +118,17 @@
+     let rays=native(t.ray_geometry(g))?;let mu:Vec<_>=rays.iter().map(|r|r.mu).collect();let q:Vec<_>=rays.iter().map(|r|r.angular_weight).collect();
+     match mode {"prior"=>Ok(q),"P2"=>balance::project(&mu,&q,INNER_TOL).map(|r|r.weights).map_err(str::to_string),
+         "P2P4"=>balance_p24::project(&mu,&q,INNER_TOL).map(|r|r.weights).map_err(str::to_string),_=>Err("MODE".into())}
++}
++fn projector_name(j:usize)->ResultS<&'static str> {
++    match j {0..=10=>Ok("legacy_P24"),11..=15=>Ok("S11_P24"),_=>Err("S12_BIRTH_INDEX".into())}
++}
++fn followup_weights(t:&CovariantTransport,g:&GeometrySnapshot,j:usize)->ResultS<Vec<f64>> {
++    if projector_name(j)?=="legacy_P24" {return weights(t,g,"P2P4");}
++    let rays=native(t.ray_geometry(g))?;
++    let mu:Vec<_>=rays.iter().map(|r|r.mu).collect();
++    let prior:Vec<_>=rays.iter().map(|r|r.angular_weight).collect();
++    s11_projector::project(&mu,&prior,4,true).map(|p|p.weights)
++        .map_err(|e|format!("S11_P24_{}",e.status))
+ }
+ fn inject(t:&CovariantTransport,s:&mut PhotonState,g:&GeometrySnapshot,z:f64,dt:f64,mode:&str,w:&[f64])->ResultS<[f64;2]> {
+     let ledger=if mode=="prior" {native(t.inject(s,g,z,dt))?}else {
+@@ -161,10 +175,11 @@
+     for j in 0..16 {
+         let u=0.8*(j as f64+0.5)/16.0;let dt=0.8/16.0/H;let z=21.0*(-u).exp()-1.0;
+         let g=geometry(u,c.b0,0.2)?;let rays=native(t.ray_geometry(&g))?;
+-        let w=match weights(&t,&g,&c.mode) {Ok(w)=>w,Err(e)=> {
+-            let kind=if e.starts_with("INFEASIBLE") {"FEASIBILITY_FAILURE"}else {"NUMERICAL_FAILURE"};
++        let w=match followup_weights(&t,&g,j) {Ok(w)=>w,Err(e)=> {
++            let kind=if e.starts_with("INFEASIBLE") || e.starts_with("S11_P24_INFEASIBLE") {"FEASIBILITY_FAILURE"}
++                else if e.contains("FEASIBILITY_UNRESOLVED") {"FEASIBILITY_UNRESOLVED"}else {"NUMERICAL_FAILURE"};
+             let mu:Vec<_>=rays.iter().map(|r|r.mu).collect();
+-            return Ok(format!("{{\"schema\":\"bass.native.angular.s8.row.v1\",{},{},\"status\":\"{}\",\"failure\":\"{}\",\"failed_birth\":{},\"failed_u\":{:.17e},\"support_mu\":{},\"internal_moment_tolerance\":1e-15}}",c.key(),grid,kind,e,j,u,arr(&mu)));
++            return Ok(format!("{{\"schema\":\"bass.native.followup.s12.row.v1\",{},{},\"status\":\"{}\",\"failure\":\"{}\",\"failed_birth\":{},\"failed_u\":{:.17e},\"support_mu\":{},\"internal_moment_tolerance\":1e-15}}",c.key(),grid,kind,e,j,u,arr(&mu)));
+         }};
+         if rate_bits(&base,z)?!=rate_bits(&source,z)? {return Err("BIRTH_SOURCE_RATE_MUTATION".into());}
+         let amount=native(base.at_redshift(z))?.per_h_s*dt;
+@@ -188,7 +203,7 @@
+         let mu:Vec<_>=rays.iter().map(|r|r.mu).collect();let prior:Vec<_>=rays.iter().map(|r|r.angular_weight).collect();
+         let energy_alpha:Vec<_>=(0..c.n).map(|r|sum(birth.energy_ref[r*96..(r+1)*96].iter().map(|v|v*rays[r].scale))/inv.1).collect();
+         let photon_alpha:Vec<_>=(0..c.n).map(|r|sum(birth.number[r*96..(r+1)*96].iter().copied())/inv.0).collect();
+-        details.push(format!("{{\"u\":{:.17e},\"b\":{:.17e},\"z\":{:.17e},\"dt_s\":{:.17e},\"source_amount\":{:.17e},\"n_birth\":{:.17e},\"u_birth\":{:.17e},\"mu\":{},\"prior\":{},\"alpha\":{},\"photon_alpha\":{},\"energy_alpha\":{}}}",u,c.b0+0.2*u,z,dt,amount,inv.0,inv.1,arr(&mu),arr(&prior),arr(&w),arr(&photon_alpha),arr(&energy_alpha)));
++        details.push(format!("{{\"projector\":\"{}\",\"u\":{:.17e},\"b\":{:.17e},\"z\":{:.17e},\"dt_s\":{:.17e},\"source_amount\":{:.17e},\"n_birth\":{:.17e},\"u_birth\":{:.17e},\"mu\":{},\"prior\":{},\"alpha\":{},\"photon_alpha\":{},\"energy_alpha\":{}}}",projector_name(j)?,u,c.b0+0.2*u,z,dt,amount,inv.0,inv.1,arr(&mu),arr(&prior),arr(&w),arr(&photon_alpha),arr(&energy_alpha)));
+         cohorts.push(Cohort{u,energy:inv.1,mu,energy_alpha,state:birth});
+     }
+     let g=geometry(1.0,c.b0,0.2)?;let new_before=state_bits(&newborns);let final_v=values(&t,&newborns,&g)?;
+@@ -208,7 +223,7 @@
+     let old_after=state_bits(&old);
+     if old_before!=old_after || new_before!=state_bits(&newborns) {return Err("FROZEN_BLOCK_CHANGED".into());}
+     source_unchanged(&base,&source)?;
+-    Ok(format!(concat!("{{\"schema\":\"bass.native.angular.s8.row.v1\",{},{},\"status\":\"MEASURED\",\"source_id\":\"{}\",",
++    Ok(format!(concat!("{{\"schema\":\"bass.native.followup.s12.row.v1\",{},{},\"status\":\"MEASURED\",\"source_id\":\"{}\",",
+         "\"internal_moment_tolerance\":1e-15,\"spectral_bits_identical\":true,\"source_rate_bits_identical\":true,\"spectral_digest_fnv1a64\":\"{}\",",
+         "\"n_final\":{:.17e},\"u_final\":{:.17e},\"stress_final\":{:.17e},\"a_response\":{:.17e},\"predicted_u\":{:.17e},\"predicted_stress\":{:.17e},",
+         "\"old_n_mu\":32,\"old_cell_count\":3072,\"old_digest_before_fnv1a64\":\"{}\",\"old_digest_after_fnv1a64\":\"{}\",\"old_sparse_before\":{},\"old_sparse_after\":{},",
+@@ -223,51 +238,12 @@
+ fn run(input:&str,output:&str)->ResultS<usize> {
+     let input=std::fs::read_to_string(input).map_err(|e|e.to_string())?;
+     let cases=input.lines().filter(|l|!l.is_empty()).map(Case::parse).collect::<ResultS<Vec<_>>>()?;
+-    if cases.is_empty() || cases.len()>18 {return Err("CASE_COUNT".into());}
++    if cases.len()!=1 {return Err("S12_EXACTLY_ONE_CASE".into());}
+     let mut file=OpenOptions::new().write(true).create_new(true).open(output).map_err(|e|e.to_string())?;
+     for c in &cases {writeln!(file,"{}",row(c)?).map_err(|e|e.to_string())?;file.flush().map_err(|e|e.to_string())?;}
+-    writeln!(file,"{{\"schema\":\"bass.native.angular.s8.complete.v1\",\"rows\":{},\"owner_commit\":\"{}\",\"source_id\":\"{}\"}}",cases.len(),OWNER,SOURCE_ID).map_err(|e|e.to_string())?;
++    writeln!(file,"{{\"schema\":\"bass.native.followup.s12.complete.v1\",\"rows\":{},\"owner_commit\":\"{}\",\"source_id\":\"{}\"}}",cases.len(),OWNER,SOURCE_ID).map_err(|e|e.to_string())?;
+     Ok(cases.len())
+ }
+-fn main() {let a:Vec<_>=std::env::args().collect();let r=if a.len()==3 {run(&a[1],&a[2])}else {Err("USAGE native_angular_refinement CASES.csv OUTPUT.jsonl".into())};
+-    match r {Ok(n)=>println!("NATIVE_ANGULAR_S8_COMPLETE rows={n}"),Err(e)=>{eprintln!("NATIVE_ANGULAR_S8_FAIL:{e}");std::process::exit(3);}}
+-}
+-
+-#[cfg(test)] mod s8_tests {
+-    use super::*;
+-    #[test] fn extended_generator_matches_original_32_bits() {
+-        let base=AxbiSource::new(NH0,0.2,8,32).unwrap();let q=reference_rule(32).unwrap();
+-        for (a,b) in base.angular_cells.iter().zip(q) {assert_eq!(a.mu.to_bits(),b.mu.to_bits());assert_eq!(a.count_fraction.to_bits(),b.count_fraction.to_bits());}
+-    }
+-    #[test] fn new_rules_are_positive_mirrored_and_native_indexed() {
+-        let base=AxbiSource::new(NH0,0.2,8,32).unwrap();
+-        for n in [64,128,256] {
+-            let source=refined_source(&base,n,Declaration::locally_isotropic_non_tilted()).unwrap();source_unchanged(&base,&source).unwrap();
+-            for j in 0..n {assert!(source.angular_cells[j].count_fraction>0.0);assert_eq!(source.angular_cells[j].mu,-source.angular_cells[n-1-j].mu);}
+-            let t=CovariantTransport::new(&source,GeometrySnapshot::new([AREF;3],[H;3]).unwrap(),24,0.01,5000.0).unwrap();
+-            let mut state=t.empty_state();t.add_delta(&mut state,n-1,10.0,1.0).unwrap();assert_eq!(t.cell_count(),24*n);assert_eq!(t.inventory(&state,&geometry(0.0,0.0,0.2).unwrap()).unwrap().0,1.0);
+-        }
+-    }
+-    #[test] fn spectral_mutation_and_anisotropic_declaration_are_rejected() {
+-        let base=AxbiSource::new(NH0,0.2,8,32).unwrap();let mut wrong=base.clone();wrong.spectral_cells[0].energy_ev+=1e-6;
+-        assert_eq!(source_unchanged(&base,&wrong).unwrap_err(),"SPECTRAL_OWNER_MUTATION");
+-        assert!(refined_source(&base,64,Declaration{kind:EmissionKind::PhysicallyAnisotropic,frame:EmissionFrame::NonTiltedLocalOrthonormal}).is_err());
+-        assert!(refined_source(&base,32,Declaration::locally_isotropic_non_tilted()).is_err());
+-    }
+-    #[test] fn one_new_birth_uses_margin_and_preserves_old_native_block() {
+-        let base=AxbiSource::new(NH0,0.2,8,32).unwrap();let source=refined_source(&base,64,Declaration::locally_isotropic_non_tilted()).unwrap();
+-        let reference=GeometrySnapshot::new([AREF;3],[H;3]).unwrap();
+-        let old_t=CovariantTransport::new(&base,reference.clone(),24,0.01,5000.0).unwrap();let old=old_stock(&old_t,32).unwrap();let old_bits=state_bits(&old);
+-        let t=CovariantTransport::new(&source,reference,24,0.01,5000.0).unwrap();let g=geometry(0.1,0.4,0.2).unwrap();
+-        let w=weights(&t,&g,"P2P4").unwrap();let mut birth=t.empty_state();inject(&t,&mut birth,&g,18.0,1e12,"P2P4",&w).unwrap();
+-        assert!(t.inventory(&birth,&g).unwrap().0>0.0);assert_eq!(old_bits,state_bits(&old));
+-        let mu:Vec<_>=t.ray_geometry(&g).unwrap().iter().map(|r|r.mu).collect();assert!(sum(mu.iter().zip(&w).map(|(m,a)|a*p2(*m))).abs()<=INNER_TOL);
+-    }
+-    #[test] fn exact_bit_digest_detects_signed_zero_and_old_cell_mutation() {
+-        let source=AxbiSource::new(NH0,0.2,8,32).unwrap();let t=CovariantTransport::new(&source,GeometrySnapshot::new([AREF;3],[H;3]).unwrap(),24,0.01,5000.0).unwrap();
+-        let a=t.empty_state();let mut b=a.clone();b.number[0]=-0.0;assert_ne!(state_bits(&a),state_bits(&b));assert_ne!(bit_digest(state_bits(&a).into_iter()),bit_digest(state_bits(&b).into_iter()));
+-    }
+-    #[test] fn malformed_or_legacy_science_case_is_rejected() {
+-        assert!(Case::parse("x,32,0.6,P2P4").is_err());assert!(Case::parse("x,64,0.0,P2P4").is_err());assert!(Case::parse("x,64,NaN,P2").is_err());
+-    }
+-}
++fn main() {let a:Vec<_>=std::env::args().collect();let r=if a.len()==3 {run(&a[1],&a[2])}else {Err("USAGE native_followup CASES.csv OUTPUT.jsonl".into())};
++    match r {Ok(n)=>println!("NATIVE_FOLLOWUP_S12_COMPLETE rows={n}"),Err(e)=>{eprintln!("NATIVE_FOLLOWUP_S12_FAIL:{e}");std::process::exit(3);}}
++}

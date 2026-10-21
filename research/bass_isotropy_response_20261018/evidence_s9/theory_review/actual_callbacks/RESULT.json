@@ -1,0 +1,242 @@
+{
+  "schema": "BASS_S9_ACTUAL_CALLBACK_NUM_DUAL_RESULT_V1",
+  "status": "PASS",
+  "comparison_gate": 5e-13,
+  "query_vectors": 190,
+  "distinct_bank_state_points": 38,
+  "fixed_banks": 5,
+  "new_ode_histories": 0,
+  "max_scaled_errors": {
+    "rhs": 1.408730312680672e-16,
+    "jvp": 4.2848454134986243e-16,
+    "partial_t": 8.522562581924881e-17,
+    "augmented_composition": 4.2848454134986243e-16
+  },
+  "controls": [
+    {
+      "kind": "omitted_partial_t",
+      "bank": "dust",
+      "scaled_mismatch": 0.3932409413100779,
+      "rejected": true
+    },
+    {
+      "kind": "omitted_partial_t",
+      "bank": "physical_stock",
+      "scaled_mismatch": 0.48992223627905934,
+      "rejected": true
+    },
+    {
+      "kind": "omitted_partial_t",
+      "bank": "multiple_cohorts",
+      "scaled_mismatch": 0.5108129892537662,
+      "rejected": true
+    },
+    {
+      "kind": "stale_pre_birth_partial_t",
+      "scaled_mismatch": 0.004344607753021381,
+      "rejected": true
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+        "callbacks",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/dust.input.json",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/dust.actual.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.0033517789997858927,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "dust.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+        "callbacks",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/physical_stock.input.json",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/physical_stock.actual.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.002609490002214443,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "physical_stock.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+        "callbacks",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/multiple_cohorts.input.json",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/multiple_cohorts.actual.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.0022742270011804067,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "multiple_cohorts.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+        "callbacks",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/event_before.input.json",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/event_before.actual.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.0017178010020870715,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "event_before.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+        "callbacks",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/event_after.input.json",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/event_after.actual.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.0014226080020307563,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "event_after.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/tmp/bass_s9_ad_target/debug/bass-s9-ad-check",
+        "--oracle",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/oracle.input.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks/oracle.actual.jsonl"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.009988600002543535,
+      "child_max_rss_kib": 21504,
+      "log": {
+        "path": "oracle.command.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "scope": "Actual production FrozenBank eval/jvp against independent dual primal; augmented Jv+Ft composition, not a separate SmallProblem callback execution.",
+  "event_transfer_energy": 0.0028985892661853112,
+  "artifacts": [
+    {
+      "path": "PREREG.json",
+      "bytes": 1686,
+      "sha256": "2042ce64c29886f2a940b4affff81b66410d5a0f8e4bd8cbee33818d93b83f9b"
+    },
+    {
+      "path": "dust.actual.json",
+      "bytes": 53930,
+      "sha256": "4affad018b15b9a246b6127769f6b84d34be94b6985cc0326be1f9c242ca8182"
+    },
+    {
+      "path": "dust.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "dust.input.json",
+      "bytes": 9968,
+      "sha256": "1b7f84146d2ff0b411e855d534237c4324e2ab145091e1158604ef897f1747cd"
+    },
+    {
+      "path": "event_after.actual.json",
+      "bytes": 7297,
+      "sha256": "acac3cdba102d42ed3cedabf7384d26d42b163e8c6a1e12c2f640edf27cc3818"
+    },
+    {
+      "path": "event_after.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "event_after.input.json",
+      "bytes": 2798,
+      "sha256": "0e5f9ac9a371e5830c3b6b6ca696bacc5e4a8efe0af79d2000253c5011a8a610"
+    },
+    {
+      "path": "event_before.actual.json",
+      "bytes": 6835,
+      "sha256": "028aa2150ceed100161f2ed147220eba8ae96feb064cb9d809dec9a42abd8eb2"
+    },
+    {
+      "path": "event_before.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "event_before.input.json",
+      "bytes": 2325,
+      "sha256": "9373c55be3294e28dd241e620d4ec0725462ce1b4a191319b130465775418c31"
+    },
+    {
+      "path": "fixture_index.json",
+      "bytes": 19409,
+      "sha256": "90a91185aaba1c5160644b77439dab8d938490feeee18228df2ecb88067f9e52"
+    },
+    {
+      "path": "multiple_cohorts.actual.json",
+      "bytes": 64012,
+      "sha256": "bcd8bc266343fe4c742dc1911b1c216a5eb5ddf296290b159f21f751d3531ff8"
+    },
+    {
+      "path": "multiple_cohorts.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "multiple_cohorts.input.json",
+      "bytes": 11316,
+      "sha256": "13fb735c2f212cbd9694333f9d6b93f19c4070c1bc18fba599b1bcadaa4096b3"
+    },
+    {
+      "path": "oracle.actual.jsonl",
+      "bytes": 66621,
+      "sha256": "a30822dd806af021b9179c0f4d43ba134e1b01c232389d4da13c171d776e228a"
+    },
+    {
+      "path": "oracle.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "oracle.input.txt",
+      "bytes": 91887,
+      "sha256": "28cc4f441336c2efa820c806c901ceab4134321ed3c58233289b0d5e4b842da6"
+    },
+    {
+      "path": "physical_stock.actual.json",
+      "bytes": 63243,
+      "sha256": "a9cacc8bf4d10bae981cfab69ced7ce07ac2944ffc4f488d78138f2591891e2a"
+    },
+    {
+      "path": "physical_stock.command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "physical_stock.input.json",
+      "bytes": 10433,
+      "sha256": "e4fcdb3b79121f8b695de2ab941c2f250da67a9b00bdcdf1f431d387dcf84b85"
+    }
+  ]
+}

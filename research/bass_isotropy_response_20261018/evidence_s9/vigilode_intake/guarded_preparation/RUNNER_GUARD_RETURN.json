@@ -1,0 +1,69 @@
+{
+  "schema": "BASS_S9_PREPUBLICATION_RUNNER_GUARD_RETURN_V1",
+  "scope": "Targeted guards only; no ODE, no AD rerun, no Rust compile",
+  "command": [
+    "python",
+    "s9_vigilode/test_runner_guards.py"
+  ],
+  "exit_code": 0,
+  "tests": 10,
+  "passed": 10,
+  "failed": 0,
+  "unittest_elapsed_seconds": 0.008,
+  "test_source_sha256": "4e2cc73e6380af136fd318892791a9b9aa4fdc0c006a752defa8677b1a6c3fb0",
+  "binding_source_sha256": "8a027a4e8cf6b5722772ae464e3c11a99def5a48b720ee3908f17889123dcf6a",
+  "preserved_prior_prereg_sha256": "0d88545f6524c672896d54cf0f48b5f2cb27c460f11528ad2832f6351ae3a48f",
+  "current_prereg_sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507",
+  "prepared_receipt_sha256": "671818a3c3761594cb21bbbb933bd9ed6e5bf764fb7ceda720b45eee7e5c44f1",
+  "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
+  "source_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+  "attestation": {
+    "schema": "BASS_S9_BINARY_ATTESTATION_V1",
+    "mode": "verified_prior_build",
+    "source_identity": {
+      "client_source_sha256": {
+        "Cargo.toml": "bf1e519de633de008f68663e7b37409362873df6a4bdc383a8bd87338cb5aa1a",
+        "Cargo.lock": "9b36525d5ff2aa03649ab7bbd3816fc8695ca0880429ea85b26046943f28ec88",
+        "src/lib.rs": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+        "src/main.rs": "1a5e3b605decb8e225ca40657032d86686f1e0f9405fff5f17156e8407752ba2",
+        "tests/adapter_contracts.rs": "9cd59487161875fe1f21cd7c98bc14b282a51679ba358887ffbdcacf7494cec3"
+      },
+      "balance_owner_sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+      "vigilode_source": "a21d573980f66fe02891bd216153443b5352f921",
+      "vigilode_tree": "3eb56734d3dbde83298f6c96e33663b0ad0177b6",
+      "source_files_verified": 178,
+      "source_bytes": 5196962
+    },
+    "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
+    "build_command_record": {
+      "command": [
+        "/tmp/rei_run15_salvage/recovery/toolchain/prefix/bin/cargo",
+        "build",
+        "--locked",
+        "--bin",
+        "bass-s9-vigilode"
+      ],
+      "cwd": "/workspace/scratch/f49816986ef8/s9_runtime/client/s9_vigilode",
+      "exit_code": 0,
+      "elapsed_seconds": 4.285465955734253,
+      "log": "/workspace/scratch/f49816986ef8/s9_runtime/prepare_command_00.log",
+      "log_sha256": "3f209b98dbac42b7a6c184f82a50fb09f626e994209a83911f1bcd18cdec5c7e",
+      "timeout_seconds": 1800
+    },
+    "origin_receipt_sha256": "79865c8373270e8809b2f1629a41d2d8eb17cbc5e4b2a5b7df417c39f5c866bc",
+    "new_compilation_performed": false
+  },
+  "current_source_and_binary_readback": true,
+  "controls": [
+    "test-only existing binary",
+    "stale client source",
+    "changed binary bytes",
+    "failed/unlocked/wrong binary build",
+    "explicit genuine prior-build reuse",
+    "v1 receipt requires explicit migration",
+    "truncated raw after timeout",
+    "observer exception",
+    "nonfinite summary serialization",
+    "nonzero process cannot retain quality pass"
+  ]
+}

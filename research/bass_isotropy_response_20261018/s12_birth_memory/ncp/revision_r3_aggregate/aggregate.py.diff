@@ -1,0 +1,47 @@
+--- aggregate_ad8.py
++++ aggregate_r3.py
+@@ -342,6 +342,34 @@
+                 "OWNED_PROCESS_RAW_SHA")
+ 
+ 
++def verify_upstream_tree(evidence, root, manifest):
++    """Read back every pinned source file actually used by this build.
++
++    The manifest is itself bound to the immutable f4 source binding. This
++    additional post-build readback covers bytes, SHA256 and Git blob identity;
++    it does not infer an earlier compiler invocation from file existence.
++    """
++    require(manifest.get("repo") == "cosmosapjw-quantum/vigilode"
++            and manifest.get("source_commit") == UPSTREAM, "BUILD_UPSTREAM_SOURCE_IDENTITY")
++    files = manifest.get("files")
++    require(isinstance(files, list) and files, "BUILD_UPSTREAM_EMPTY_MANIFEST")
++    seen, total = set(), 0
++    for row in files:
++        name = row["path"]
++        require(name not in seen, "BUILD_UPSTREAM_DUPLICATE_PATH:" + name)
++        seen.add(name)
++        require(type(row.get("size")) is int and row["size"] >= 0
++                and isinstance(row.get("sha256"), str) and HEX64.fullmatch(row["sha256"])
++                and isinstance(row.get("git_blob"), str)
++                and re.fullmatch(r"[0-9a-f]{40}", row["git_blob"]), "BUILD_UPSTREAM_METADATA")
++        data = evidence.read(under(root, name), role="actual_compiled_upstream_source")
++        require(len(data) == row["size"] and sha(data) == row["sha256"]
++                and hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest() == row["git_blob"],
++                "BUILD_UPSTREAM_ACTUAL_BYTES_SHA_OR_GIT_BLOB:" + name)
++        total += len(data)
++    return {"files": len(seen), "bytes": total}
++
++
+ def verify_build(chain, build, binding, binding_meta):
+     evidence, repo, directory = chain.evidence, chain.repo, build["directory"]
+     require(build["job"]["kind"] == "build" and not build["dependencies"], "FIXED_BUILD_DEPENDENCY")
+@@ -376,6 +404,9 @@
+             and record["upstream"]["files"] == len(upstream["files"])
+             and record["upstream"]["bytes"] == sum(row["size"] for row in upstream["files"]),
+             "BUILD_UPSTREAM_MANIFEST_IDENTITY")
++    upstream_actual = verify_upstream_tree(evidence, work/"vigilode", upstream)
++    require(upstream_actual == {k: record["upstream"][k] for k in ("files", "bytes")},
++            "BUILD_UPSTREAM_ACTUAL_FILE_COUNT_AND_BYTES")
+     process = evidence.load(work/"COMPILE_PROCESS.json", role="compile_process_receipt")
+     require(equal(record["commands"], [process]), "BUILD_COMPILE_PROCESS_READBACK")
+     owned_process(evidence, work, process, "compile.stdout", "compile.stderr", expected_input=None)

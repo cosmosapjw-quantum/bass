@@ -1,0 +1,94 @@
+{
+  "schema": "bass.drive.final_readback.v1",
+  "status": "BLOCKED_ENVIRONMENT_NO_ACK_AND_NO_BACKUP_CONTENT",
+  "checked_utc": "2026-10-19 06:43:16.664 UTC",
+  "folder_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+  "folder_direct_children": 33,
+  "fresh_exact_archive_name_matches": [],
+  "summary_ko": "원 ZIP 업로드 1회와 Docs 두 크기(47,183자/2,048자), Sheets 103자 쓰기가 모두 ack 없이 정지했다. 각각 622.5초, 671.9초, 413.2초, 205.7초 후 root가 응답 없는 호출을 중단했다. Fresh readback에서 새 ZIP은 폴더에 없고 Doc 및 Sheet probe 내용도 비어 있다. Browser plugin은 originating browser context가 없어 연결하지 못했다. 따라서 이번 세 단계의 Google Drive 백업/복원 readback은 미완료이며, 기존 2026-10-18 백업의 검증 결과와 구별한다.",
+  "classified_as": "ENVIRONMENT_OR_SERVICE_ERROR; no internal cause established and no automatic approval rejection observed",
+  "no_auto_review_rejection_observed": true,
+  "attempts": [
+    {
+      "tool": "google_drive_upload_file",
+      "dispatches": 1,
+      "payload_bytes": 34578,
+      "ack": false,
+      "aborted_after_seconds": 622.5,
+      "effect_at_readback": "No matching new ZIP in destination folder"
+    },
+    {
+      "tool": "google_drive_batch_update_document",
+      "dispatches": 1,
+      "payload_characters": 47183,
+      "ack": false,
+      "aborted_after_seconds": 671.9,
+      "effect_at_readback": "Empty document and unchanged revision"
+    },
+    {
+      "tool": "google_drive_batch_update_document",
+      "dispatches": 1,
+      "payload_characters": 2048,
+      "ack": false,
+      "aborted_after_seconds": 413.2,
+      "effect_at_readback": "Empty document and unchanged revision"
+    },
+    {
+      "tool": "google_drive_batch_update_spreadsheet",
+      "dispatches": 1,
+      "payload_characters": 103,
+      "ack": false,
+      "aborted_after_seconds": 205.7,
+      "effect_at_readback": "A1:B1 values=null"
+    }
+  ],
+  "observed_created_objects": [
+    {
+      "id": "1n1mI1P-7DHOkzJyWknvzs6yOCPz3Kbqbn3X9fZIv_j8",
+      "kind": "native Google Doc",
+      "content_status": "EMPTY_NOT_A_BACKUP",
+      "moved_to_backup_folder": false
+    },
+    {
+      "id": "1dlSMfVvF89BXMYczHeMRBYenLt8oqgKWInE8RAutZgA",
+      "kind": "native Google Sheet",
+      "content_status": "PROBED_RANGE_EMPTY_NOT_A_BACKUP",
+      "moved_to_backup_folder": false
+    }
+  ],
+  "stages": {
+    "1": {
+      "status": "NOT_VERIFIED_UPLOAD_STALLED_EMPTY_CARRIER",
+      "restored_archives": 0
+    },
+    "2": {
+      "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+      "restored_archives": 0
+    },
+    "3": {
+      "status": "NOT_UPLOADED_SERVICE_WRITE_PATH_BLOCKED",
+      "restored_archives": 0
+    }
+  },
+  "raw_zip_bytes_or_carriers_restored": 0,
+  "dual_cloud_complete": false,
+  "browser_plugin": {
+    "status": "UNAVAILABLE_NO_ORIGINATING_BROWSER_CONTEXT",
+    "receipt": "delivery/BROWSER_BACKUP_FALLBACK.json"
+  },
+  "cloud_browser_used": false,
+  "pending_action": "Freshly inspect destination and recorded object identities before any retry; use an available authorized content-write path to upload the exact prepared archives and independently verify bytes plus all manifest payloads. Never infer success from file creation alone or repeat completed science as a storage workaround.",
+  "receipt_refs": [
+    "delivery/stage1_drive_upload_stall.json",
+    "delivery/stage1_drive_document_stalls.json",
+    "delivery/drive_sheet_probe.json",
+    "delivery/DRIVE_FINAL_FOLDER_READBACK.json",
+    "delivery/BROWSER_BACKUP_FALLBACK.json"
+  ],
+  "retained_archive_source_commits": [
+    "87149cdb673c250ccbb36dda5d43a38f0f7dd7b7",
+    "a7938ad51ad0fa324c5cb680dddb5fbfc7ed218e",
+    "b30a2044be1ae04a68d8319f47d15a5bed751668"
+  ],
+  "local_receipt_assembly_note": "An initial assertion compared an interim Sheet status label while its owning agent finalized that label. It stopped before writing this composite or editing DAG. The final assembly checks the actual returned values=null and isError=false evidence; no remote operation or scientific workload was repeated."
+}

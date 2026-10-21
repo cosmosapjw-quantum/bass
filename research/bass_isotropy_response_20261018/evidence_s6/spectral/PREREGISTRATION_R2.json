@@ -1,0 +1,96 @@
+{
+  "schema": "bass.s6c.preregistration.v2",
+  "created_utc": "2026-10-19T09:15:19.573962+00:00",
+  "supersedes": "PREREGISTRATION.json (run01; pinned only spectral_residual.py, not committed before the run)",
+  "hypothesis": "Native energy_vs_source_moment_relative equals GL8/Simpson32 owner cell-mean quadrature mismatch; independent of n_energy and angular rule; scales as cps^-4.",
+  "predictions": [
+    {
+      "cps": 4,
+      "probe_residual_predicted": 1.4016814375850117e-09,
+      "simpson32_vs_exact": -1.401681592664849e-09,
+      "gl8_vs_exact": -6.22660542703824e-17
+    },
+    {
+      "cps": 8,
+      "probe_residual_predicted": 8.624700953419051e-11,
+      "simpson32_vs_exact": -8.624706048174268e-11,
+      "gl8_vs_exact": -9.186981978913033e-17
+    },
+    {
+      "cps": 16,
+      "probe_residual_predicted": 5.369704680902032e-12,
+      "simpson32_vs_exact": -5.369717402982177e-12,
+      "gl8_vs_exact": 2.115486007798756e-17
+    },
+    {
+      "cps": 32,
+      "probe_residual_predicted": 3.352873534367973e-13,
+      "simpson32_vs_exact": -3.353707924346007e-13,
+      "gl8_vs_exact": -1.400058730547523e-17
+    },
+    {
+      "cps": 64,
+      "probe_residual_predicted": 2.1094237467877974e-14,
+      "simpson32_vs_exact": -2.0975249287148837e-14,
+      "gl8_vs_exact": 5.025490390850025e-17
+    }
+  ],
+  "gates": {
+    "native_minus_predicted_abs": 1e-15,
+    "photon_relative_abs": 1e-15,
+    "ledger_relative": 1e-11,
+    "derivative_abs": 1e-08,
+    "cps_doubling_ratio": [
+      15.0,
+      17.0
+    ],
+    "spread_over_n_energy_abs": 1e-15,
+    "spread_over_angular_abs": 1e-15,
+    "mapping_abs": 1e-14,
+    "moment_abs": 3e-15
+  },
+  "matrix": {
+    "panel_bin": {
+      "n_mu": 8,
+      "b": 0.3,
+      "mode": "P2P4",
+      "cps": [
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "n_energy": [
+        24,
+        48,
+        96,
+        192
+      ]
+    },
+    "angular_at_cps64": {
+      "n_mu": [
+        8,
+        16,
+        32
+      ],
+      "b": [
+        -0.3,
+        0.3
+      ],
+      "mode": "P2P4",
+      "n_energy": 96
+    }
+  },
+  "pinned_sha256": {
+    "native_adapter.rs": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+    "spectral_probe.rs": "550606111498dc46d7b3ac743a5dd8e735a5c7195b8e427c9824a236dc69f33a",
+    "balance.rs": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+    "balance_p24.rs": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+    "spectral_residual.py": "59575174d214bb1609eb6028e57901487ef4f871f0c3baca6be844254ef899af",
+    "run_spectral_refinement.py": "38b9ae64d4b9fc7c5de5c2511490a0b4e1f201379ee90dd480240cb2bfe65bc4",
+    "run_native_adapter.py": "33d6ab09ca831e8a3db633fe1705c1a3f16fa5ca2e44333d0cfeda0147d96159",
+    "native_owner_manifest.json": "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee"
+  }
+}

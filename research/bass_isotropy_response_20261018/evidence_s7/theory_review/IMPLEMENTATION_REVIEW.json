@@ -1,0 +1,45 @@
+{
+  "schema": "bass.s7.coupled.independent_implementation_review.v1",
+  "status": "PASS_SCOPED_PRECAMPAIGN_READ_REVIEW",
+  "reviewer": "independent theory agent /root/s6_rank1",
+  "source_sha256": {
+    "coupled_cohorts.py": "f63058d9c8c7b4c15cc05685d0a6ce6f9ba0476bdaabc04d22a7140a6cecb422",
+    "run_s7_coupled.py": "cd1183826bfc679b3be7dc0f85d2a8191641cc8559f78164fa8f0763b1406091",
+    "test_s7_coupled.py": "b246f20f0267ea26842fdd05473192ec6aad3c2abe13b8cb3dbe0363dc8860ad"
+  },
+  "review_method": "Read implementation independently against directly derived S7 Einstein/donor/cohort equations; exact polynomial and Decimal contract checks in INDEPENDENT_REVIEW.json; no coupled campaign executed by this reviewer.",
+  "confirmed": [
+    "Independent general R00/Raychaudhuri h evolution, rather than Hamiltonian overwrite; C_prime=-2C between events.",
+    "Positive midpoint donor formula and equal photon transfer preserve event total energy and Hamiltonian, with explicit no-donor negative control.",
+    "Radiation-only epsilon benchmark initial q=A=epsilon from normalized 1+5epsilon P2 stock; nonlinear kernels compared with matrix exponential.",
+    "New birth angular projection only; existing isotropic/physical anisotropic stock and previous cohorts stored immutable with digests.",
+    "Actual difference Duhamel integral has Pi_a/h_a-Pi_b/h_b and separate H correction; is a consistency identity, not full tangent validation.",
+    "Lambda decay .7 avoids accidental isotropic endpoint exactness at decay .5 in the independent donor reference.",
+    "Angular mode/ray refinement, same-rule birth refinement, and source-frame GL reference refinement are separated in preregistration."
+  ],
+  "findings": [
+    {
+      "id": "S7_REVIEW_FORCING_LABEL",
+      "domain": "scientific_communication",
+      "observation": "Difference Pi was sampled from actual coupled trajectories; previous fixed-background label could imply source-only forcing on a prescribed geometry.",
+      "impact": "A reader could confuse measured forcing decomposition with full tangent or prescribed-background experiment.",
+      "correction": "Field renamed measured_deltaPi_over_referenceH and explicit scope retained.",
+      "status": "CLOSED_BY_SOURCE_READBACK"
+    },
+    {
+      "id": "S7_REVIEW_BIRTH_FINITE",
+      "domain": "implementation",
+      "observation": "Cohort.create did not reject nonfinite birth u and b_birth.",
+      "impact": "Direct API caller could produce nonfinite cohort provenance and kernel state.",
+      "correction": "Explicit math.isfinite(u), math.isfinite(b_birth) domain guard added; owner reports targeted regression included.",
+      "status": "CLOSED_BY_SOURCE_READBACK"
+    }
+  ],
+  "unexecuted_by_this_review": [
+    "Full coupled campaign at the published preregistration commit",
+    "General arbitrary-M4 nonlinear frequency measurement",
+    "Full tangent solver with birth-coordinate memory and projection derivatives",
+    "Native owner source-age or Einstein feedback"
+  ],
+  "evidence_scope": "Code review and independent equation checks, not an execution receipt for the coupled implementation."
+}

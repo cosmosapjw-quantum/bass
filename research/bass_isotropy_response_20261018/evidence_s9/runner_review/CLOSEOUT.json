@@ -1,0 +1,79 @@
+{
+  "schema": "BASS_S9_RUNNER_REVIEW_CLOSEOUT_V1",
+  "status": "PASS_SCOPED_RUNNER01_RUNNER02_CLOSED",
+  "reviewer": "/root/s8_final_visual_close",
+  "created_utc": "2026-10-19 13:48:15 UTC",
+  "workflow_version": "physmath-research-loop 1.0.0",
+  "scope": "One read-only follow-up on the two concrete prepublication runner findings; no expansion of review scope.",
+  "original_review": {
+    "path": "evidence_s9/runner_review/REVIEW.json",
+    "sha256": "dff65b736cf7a650b3e8b9ff1298d54690752265024714345f5f31b662e6e960",
+    "unchanged": true
+  },
+  "current_preregistration": {
+    "path": "s9_vigilode/PREREGISTRATION.json",
+    "sha256": "7e615ea1820e95b6fb61d7a360d13bf0fb560b6f25883e17ed487e8a3505f507"
+  },
+  "reviewed_repairs": {
+    "s9_vigilode/build_binding.py": "8a027a4e8cf6b5722772ae464e3c11a99def5a48b720ee3908f17889123dcf6a",
+    "s9_vigilode/prepare.py": "26c3c3737755732a47f5eda2424d88a3926e8654e0a1afdd78f4cee68e009408",
+    "s9_vigilode/campaign.py": "fa0bfb97126ff2dd3b2cd534ff13534cf9255ac17773f1d632f7ec436529bc66",
+    "s9_vigilode/test_runner_guards.py": "4e2cc73e6380af136fd318892791a9b9aa4fdc0c006a752defa8677b1a6c3fb0"
+  },
+  "closed_findings": [
+    {
+      "id": "RUNNER01",
+      "status": "CLOSED",
+      "basis": "Static code review plus reused focused regression receipt and actual build/source/binary identity readback.",
+      "change": "Test-only preparation produces sources_prepared_no_binary without a binary attestation. Fresh attestation requires an exact successful cargo build --locked --bin bass-s9-vigilode. Explicit verified_prior_build checks the original successful build, complete client/owner/upstream identity, origin receipt SHA and actual binary bytes.",
+      "current_build": "The genuine prior build was reused with new_compilation_performed=false. Its binary and Rust implementation remain unchanged."
+    },
+    {
+      "id": "RUNNER02",
+      "status": "CLOSED",
+      "basis": "Static control-flow review plus reused malformed/raw/observer/serialization/nonzero-process regression receipt.",
+      "change": "record_case_output saves PROCESS before loading RAW, records RAW size/SHA, catches readback/JSON/observer/assessment-serialization errors as raw_readback_or_observer_failure, preserves RAW/log and writes ASSESSMENT. The calling campaign appends/checkpoints the returned failure and continues. A nonzero process cannot retain all_quality_gates=true.",
+      "boundary": "Filesystem failure that prevents any receipt write remains an external storage failure; the reviewed parse/observer failure paths are now recorded while storage is available."
+    }
+  ],
+  "reused_verification": {
+    "receipt": "evidence_s9/vigilode_intake/guarded_preparation/RUNNER_GUARD_RETURN.json",
+    "sha256": "a78aea5e0adfa98ab71c68bb913f1aea947f4b17cded89b1010abd0c2f9c911c",
+    "recorded_exit_code": 0,
+    "recorded_tests": 10,
+    "recorded_passed": 10,
+    "recorded_failed": 0,
+    "test_source_sha_match": true,
+    "execution_by_implementation_agent": true,
+    "rerun_by_this_reviewer": false
+  },
+  "build_readback": {
+    "receipt": "evidence_s9/vigilode_intake/guarded_preparation/PREPARATION_RETURN.json",
+    "sha256": "671818a3c3761594cb21bbbb933bd9ed6e5bf764fb7ceda720b45eee7e5c44f1",
+    "schema": "BASS_S9_PREPARATION_V2",
+    "mode": "verified_prior_build",
+    "new_compilation_performed": false,
+    "origin_receipt_sha256": "79865c8373270e8809b2f1629a41d2d8eb17cbc5e4b2a5b7df417c39f5c866bc",
+    "origin_receipt_actual_sha_match": true,
+    "binary_sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
+    "binary_actual_sha_match": true,
+    "rust_lib_sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b"
+  },
+  "identity_check": {
+    "current_preregistration_matches": true,
+    "all_current_pinned_source_sha_match": true,
+    "all_input_sha_unchanged": true,
+    "original_review_preserved": true
+  },
+  "execution_accounting": {
+    "new_scientific_histories": 0,
+    "historical_reruns": 0,
+    "new_tests": 0,
+    "new_rust_compiles": 0,
+    "repeat_math_or_AD_reviews": 0,
+    "source_mutations": 0
+  },
+  "remaining_findings": [],
+  "decision": "Both original runner findings are closed for the new frozen preregistration. The actual eight-history scientific campaign is still a separate not-yet-run obligation requiring the declared source/dual-publication gate."
+}
+

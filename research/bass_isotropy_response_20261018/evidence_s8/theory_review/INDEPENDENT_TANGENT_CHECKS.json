@@ -1,0 +1,238 @@
+{
+  "schema": "bass.s8.independent_tangent_checks.v1",
+  "utc": "2026-10-19T11:36:53.635933+00:00",
+  "status": "PASS_SCOPED_DERIVATIVE_CHECKS",
+  "source_sha256": "3aa9d7c3ab86d5d3c91fc195830ed90266bfeaec3e7d2c1c26a64949d3347fdd",
+  "independence": "Separate standard-library Fraction/90-digit Decimal implementation; no BASS modules, ODE, native transport or S7 test imports.",
+  "scientific_scope": "Kernel and smooth finite positive-KL branch derivatives; manufactured donor sensitivity identities. Does not verify campaign trajectories or native refinement accuracy.",
+  "exact_checks": [
+    {
+      "name": "positive_reflection_even_eight_ray_fixture",
+      "pass": true
+    },
+    {
+      "name": "exact_fixture_normalization",
+      "pass": true
+    },
+    {
+      "name": "exact_fixture_P2",
+      "pass": true
+    },
+    {
+      "name": "exact_fixture_P4",
+      "pass": true
+    },
+    {
+      "name": "covariance_strict_positive_definite",
+      "pass": true
+    },
+    {
+      "name": "derivative_normalization",
+      "pass": true
+    },
+    {
+      "name": "derivative_reflection_parity",
+      "pass": true
+    },
+    {
+      "name": "moving_constraint_derivative_P2",
+      "pass": true
+    },
+    {
+      "name": "moving_constraint_derivative_P4",
+      "pass": true
+    },
+    {
+      "name": "LRS_prior_score_in_constraint_span_cancels_in_alpha_b",
+      "pass": true
+    },
+    {
+      "name": "LRS_prior_score_only_shifts_dual2_b",
+      "pass": true
+    },
+    {
+      "name": "negative_control_missing_mean_f_b_rejected",
+      "pass": true,
+      "exact_constraint_defects": [
+        "-6/5",
+        "311/512"
+      ]
+    },
+    {
+      "name": "D_d_rational_identity_W3/2_V2/7",
+      "pass": true
+    },
+    {
+      "name": "D_d_strict_negative_W3/2_V2/7",
+      "pass": true
+    },
+    {
+      "name": "D_d_rational_identity_W0_V5/3",
+      "pass": true
+    },
+    {
+      "name": "D_d_strict_negative_W0_V5/3",
+      "pass": true
+    },
+    {
+      "name": "D_d_rational_identity_W9/5_V0",
+      "pass": true
+    },
+    {
+      "name": "D_d_strict_negative_W9/5_V0",
+      "pass": true
+    },
+    {
+      "name": "independent_Raychaudhuri_tangent_constraint_transport",
+      "pass": true
+    },
+    {
+      "name": "initial_y0_parameter_constraint_tangent",
+      "pass": true
+    },
+    {
+      "name": "birth_event_energy_tangent_zero",
+      "pass": true
+    },
+    {
+      "name": "birth_event_stress_tangent_zero",
+      "pass": true
+    },
+    {
+      "name": "fixed_donor_schedule_event_constraint_jump_zero",
+      "pass": true
+    },
+    {
+      "name": "signed_weight_derivative_is_not_a_negative_physical_weight",
+      "pass": true
+    }
+  ],
+  "decimal_checks": [
+    {
+      "name": "kernel_partials_d0.2_mu0.31",
+      "pass": true,
+      "max_abs_error": "8.99064437488245480781530393424569855413396E-49",
+      "gate": "1E-43"
+    },
+    {
+      "name": "kernel_partials_d-0.35_mu-0.73",
+      "pass": true,
+      "max_abs_error": "2.37555243663827654444336240141634315482374E-48",
+      "gate": "1E-43"
+    },
+    {
+      "name": "kernel_partials_d0.4_mu0",
+      "pass": true,
+      "max_abs_error": "2.4863744960687838263490129197290599942563E-49",
+      "gate": "1E-43"
+    },
+    {
+      "name": "independent_KL_rational_base_recovery",
+      "pass": true,
+      "max_abs_error": "1E-90",
+      "gate": "1E-75"
+    },
+    {
+      "name": "independent_moving_KL_finite_difference_alpha_b",
+      "pass": true,
+      "max_abs_error": "2.917455747977840420123263966146603471677797253322513765211619516881254894953E-16",
+      "gate": "1E-12",
+      "rows": [
+        {
+          "step": "0.001",
+          "max_alpha_b_error": "0.0000029173711253612570110124523183351627013945669741227645997704946919411313688627991139953",
+          "positive": true,
+          "max_iterations": 5,
+          "moment_residual": "1.16206E-86"
+        },
+        {
+          "step": "0.0005",
+          "max_alpha_b_error": "7.293586478879498986473619156368300894201296684743039412108923641236096249121105794953E-7",
+          "positive": true,
+          "max_iterations": 5,
+          "moment_residual": "1.6E-90"
+        },
+        {
+          "step": "0.00025",
+          "max_alpha_b_error": "1.823406536764431706576227413518212956181242581645703002284785816446245835674336134953E-7",
+          "positive": true,
+          "max_iterations": 5,
+          "moment_residual": "1.0E-90"
+        },
+        {
+          "step": "1E-8",
+          "max_alpha_b_error": "2.917455747977840420123263966146603471677797253322513765211619516881254894953E-16",
+          "positive": true,
+          "max_iterations": 4,
+          "moment_residual": "1.2E-90"
+        }
+      ],
+      "coarse_error_ratios": [
+        "3.99991298356340002733807892471162709074850963149445262537010293865245810351025077214254361",
+        "3.99997824501698988665218783666505489763326866116506591014955970426156744098787190786753622"
+      ]
+    },
+    {
+      "name": "moving_KL_derivative_second_order_FD",
+      "pass": true,
+      "max_abs_error": "0.00008701643659997266192107528837290925149036850554737462989706134754189648974922785745639",
+      "gate": "0.02"
+    },
+    {
+      "name": "old_stock_fixed_distribution_has_current_geometry_response",
+      "pass": true,
+      "nonzero_derivative": "0.0541249220147883777836648383131002665888733956445549986061388729843746209257411975012586739"
+    }
+  ],
+  "exact_checks_passed": 24,
+  "decimal_checks_passed": 7,
+  "rational_fixture": {
+    "mu": [
+      "-1",
+      "-3/4",
+      "-1/2",
+      "-1/4",
+      "1/4",
+      "1/2",
+      "3/4",
+      "1"
+    ],
+    "alpha": [
+      "529/9450",
+      "11/105",
+      "22/135",
+      "119/675",
+      "119/675",
+      "22/135",
+      "11/105",
+      "529/9450"
+    ],
+    "lambda": [
+      "2/5",
+      "-3/7"
+    ],
+    "alpha_b": [
+      "301251217/4361978880",
+      "619610991/969328640",
+      "51995281/623139840",
+      "-986705041/1246279680",
+      "-986705041/1246279680",
+      "51995281/623139840",
+      "619610991/969328640",
+      "301251217/4361978880"
+    ],
+    "lambda_b": [
+      "20375483637/9329788160",
+      "-2802765723/364444850"
+    ]
+  },
+  "wall_seconds": 0.03260229499574052,
+  "maxrss_kib_linux": 11008,
+  "threads": 1,
+  "old_campaigns_repeated": 0,
+  "remaining": [
+    "S8 full tangent finite-difference/conservation/omitted-term campaign",
+    "native extended angular-support implementation and accuracy campaign",
+    "no universal full-input conditioning or continuum/production admission"
+  ]
+}

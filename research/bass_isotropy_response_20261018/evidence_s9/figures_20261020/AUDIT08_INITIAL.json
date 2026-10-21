@@ -1,0 +1,99 @@
+{
+  "schema": "BASS_S9_FIGURE_AUDIT08_V1",
+  "observed_utc": "2026-10-20T04:02:18.143310+00:00",
+  "review_method": "Direct visual inspection of three initial PNGs through view_image, with source/actual case metrics read independently.",
+  "target_width_mm": 180,
+  "intents": [
+    "Actual h,b,y sample trajectories and absolute residuals to frozen S8 numerical reference.",
+    "Per-case normalized fixed-gate comparison with preserved incomplete/failure semantics.",
+    "Recorded solver work and single-run process elapsed diagnostics."
+  ],
+  "semantic_findings": [
+    {
+      "id": "08-S1",
+      "priority": "P2",
+      "finding": "rtol1e-8 and1e-10 curves overlap because recorded errors/counters coincide; readers could miss one tolerance.",
+      "action": "Retain actual curves and state explicitly in captions; no order estimate."
+    },
+    {
+      "id": "08-S2",
+      "priority": "P2",
+      "finding": "Both arms have identical RHS call counts at each tolerance; orange curve covers blue.",
+      "action": "Use distinguishable markers at identical coordinates and explicitly report equal counts."
+    }
+  ],
+  "layout_findings": [
+    {
+      "id": "08-L1",
+      "priority": "P1",
+      "finding": "Figure1 completion suptitle overlaps shared legend.",
+      "action": "Move completion count into panel(a) title and remove suptitle."
+    },
+    {
+      "id": "08-L2",
+      "priority": "P1",
+      "finding": "Figure3 lower-left legend overlays Jacobian-count line.",
+      "action": "Externalize shared legend above plots."
+    }
+  ],
+  "bounds_questions": [
+    {
+      "question": "Are residuals divided by a physical variable that may cross zero?",
+      "answer": "No. h,b,y differences use absolute residuals and retain zeros on a symlog scale."
+    },
+    {
+      "question": "Does the reference claim exact continuum truth?",
+      "answer": "No. Labels and caption identify frozen S8 numerical samples."
+    },
+    {
+      "question": "Are colors normalized to the unchanged preregistered gates?",
+      "answer": "Yes. Denominators are read from PREREGISTRATION.json and printed per column."
+    },
+    {
+      "question": "Are missing or stopped histories represented as success?",
+      "answer": "No. Helper requires recorded assessment completion, raw completion and process exit0; partial metrics have p labels."
+    },
+    {
+      "question": "Does timing establish portable speedup?",
+      "answer": "No. Process elapsed is single-run, host-local and includes I/O overhead."
+    },
+    {
+      "question": "Can a power-law convergence claim be inferred from this three-tolerance sample?",
+      "answer": "No. r0/r1 errors and counts are identical; no convergence order is plotted or estimated."
+    }
+  ],
+  "initial_verdict": "REVISE",
+  "initial_figures": [
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_01_trajectories_residuals.png",
+      "bytes": 211753,
+      "sha256": "6d349cb7a563d90ff311d74c78422ad49f2bc2a751d7fa58f3658b464b338acc"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_01_trajectories_residuals.svg",
+      "bytes": 142711,
+      "sha256": "9a393380aa072d06827dceae1ca3cb32f98568a4c16d03b2294ec5288f307b68"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_02_fixed_gates.png",
+      "bytes": 170115,
+      "sha256": "b38b4824938469fe302d8cb1271aa7f23e9e41f9ad636eb8667e695b0bdf923c"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_02_fixed_gates.svg",
+      "bytes": 36161,
+      "sha256": "188e8ef20e19dfd5225e6875e681f76caaa62ccde37ffe7c40c1658596ffb691"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_03_work_diagnostics.png",
+      "bytes": 88631,
+      "sha256": "56cfc18fef52c2d0c5c5ec1a57aa31717abe029d11ed867283db06dc3d2f6900"
+    },
+    {
+      "path": "/workspace/scratch/a1783628e7a7/bass/research/bass_isotropy_response_20261018/evidence_s9/figures_20261020/S9_03_work_diagnostics.svg",
+      "bytes": 36865,
+      "sha256": "db408a5a27e137d429c5eb7184aaf70cdca5f0f30aac80eb8277a848157c9e1d"
+    }
+  ],
+  "initial_helper_sha256": "7a9f81cbea535479f90ace4873af82adf4bdcf2cd3c2d8b2c8468fd2d3065d9b"
+}

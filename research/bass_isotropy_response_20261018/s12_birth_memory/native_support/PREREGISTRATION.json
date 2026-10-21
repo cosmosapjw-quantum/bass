@@ -1,0 +1,87 @@
+{
+  "schema": "BASS_S12_NATIVE_STORED_SUPPORT_PREREGISTRATION_V1",
+  "status": "SOURCE_PREPARED_NOT_EXECUTED",
+  "scope": "Exact feasibility observer on completed S8 b9_n64_prior support; no geometry/projector/ODE/native history execution.",
+  "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "rows": 16,
+  "rays_each": 64,
+  "expected_original_failure_birth": 11,
+  "birth11_required_bit_matches": 64,
+  "configuration": {
+    "b0": 0.9,
+    "beta": 0.2,
+    "n_mu": 64,
+    "cohorts": 16,
+    "n_energy": 96,
+    "cells_per_segment": 32,
+    "x_observe": 1.0,
+    "u_operation_order": "0.8*(j+0.5)/16.0",
+    "b_operation_order": "0.9+0.2*u"
+  },
+  "gate_exact": "3/1000000000000000",
+  "mathematical_tests": [
+    "For sorted distinct exact dyadic z=mu^2, every adjacent quadratic (z-a)(z-c) and the endpoint chord -(z-zmin)(z-zmax) are nonnegative on support.",
+    "All exact target slacks positive means strict relative interior in dimension2. Zero slacks are boundary and cannot approve all-strictly-positive weights. Negative slacks mean outside.",
+    "For q=a0+a1*z+a2*z^2, A=a0+a1/3+a2/5, B=2*a1/3+4*a2/7, C=8*a2/35. A+eps*(abs(A)+abs(B)+abs(C))<0 certifies infeasibility even under unchanged norm/P2/P4 gates.",
+    "Additional q=z*(Z-z) gives necessary Z>=3/5 at the exact isotropic target. It is only a necessary criterion, not a replacement for full facets.",
+    "The first actual infeasible index is an output, not predetermined. A birth13 obstruction is a hypothesis before the exact readback runs.",
+    "Ideal geometry exp(6b) is enclosed by exact rational positive Taylor sum degree64 plus a geometric tail; no libm ulp assumption. Actual-support proof itself uses actual stored binary64, not this ideal approximation."
+  ],
+  "fixed_rational_controls": [
+    {
+      "z": [
+        "0",
+        "1/3",
+        "1"
+      ],
+      "expected": "STRICT_INTERIOR"
+    },
+    {
+      "z": [
+        "0",
+        "3/5",
+        "1"
+      ],
+      "expected": "BOUNDARY"
+    },
+    {
+      "z": [
+        "0",
+        "1/5",
+        "1/2"
+      ],
+      "expected": "OUTSIDE_AT_EXISTING_GATE"
+    }
+  ],
+  "source_binding": "Require root full Git remote readback: source_commit/source_tree/git_readback_pass:true/complete_tree:true/files with byte SHA256+Gitblob+pass. Observer and manifest must be bound too.",
+  "execution_bound": {
+    "workers": 1,
+    "wall_seconds": 60,
+    "RAM_bytes": 268435456,
+    "output_bytes": 16777216
+  },
+  "outputs": [
+    "RETURN_SUPPORT_PREFLIGHT.json",
+    "ORIGINAL_NUMERIC_TOKEN_READBACK.json",
+    "external process command/stdout/stderr/receipt"
+  ],
+  "forbidden": [
+    "projector calls",
+    "compiler calls",
+    "geometry calls",
+    "native histories",
+    "ODE calls",
+    "new or old birth weight modification",
+    "support changes",
+    "source frame changes",
+    "tolerance relaxation",
+    "replaying completed campaigns"
+  ],
+  "conclusions_excluded": [
+    "native full 16 history completed",
+    "continuum failure",
+    "full native finite-bin conservation approved",
+    "MD14 physical normalization complete",
+    "full spectral history convergence"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "runs": [
+    {
+      "label": "doctest_after_rustdoc_path_fix",
+      "command": [
+        "/tmp/rei_run15_salvage/recovery/toolchain/prefix/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s9_vigilode/ad_check/checker/Cargo.toml",
+        "--target-dir",
+        "/tmp/bass_s9_ad_target",
+        "--config",
+        "source.crates-io.replace-with=\"supplied-vendor\"",
+        "--config",
+        "source.supplied-vendor.directory=\"/workspace/scratch/f49816986ef8/vigilode_reference/vendor\"",
+        "-j",
+        "1",
+        "--doc"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.07616985800268594,
+      "child_max_rss_kib": 72320,
+      "log_sha256": "4f4b2a09a8f11be4b2da7c13ef59b78d3889945fb62a739a90c30517c0d1b000"
+    },
+    {
+      "label": "oracle_binary_build",
+      "command": [
+        "/tmp/rei_run15_salvage/recovery/toolchain/prefix/bin/cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s9_vigilode/ad_check/checker/Cargo.toml",
+        "--target-dir",
+        "/tmp/bass_s9_ad_target",
+        "--config",
+        "source.crates-io.replace-with=\"supplied-vendor\"",
+        "--config",
+        "source.supplied-vendor.directory=\"/workspace/scratch/f49816986ef8/vigilode_reference/vendor\"",
+        "-j",
+        "1",
+        "--bin",
+        "bass-s9-ad-check"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.406948806004948,
+      "child_max_rss_kib": 140072,
+      "log_sha256": "40bc9c0ba78cfdc9f819ebc809dbe33cf5bf018af62c44b6cf3d8d4a89aaf67a"
+    }
+  ],
+  "source_unchanged_during_followups": true,
+  "ordinary_binary64_AD_not_interval_certification": true,
+  "new_ode_histories": 0
+}

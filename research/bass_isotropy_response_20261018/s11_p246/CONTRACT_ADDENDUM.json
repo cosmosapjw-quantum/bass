@@ -1,0 +1,57 @@
+{
+  "schema": "BASS_S11_CONTRACT_ADDENDUM_SOURCE_FREEZE_V1",
+  "parent_contract": "CONTRACT.json @ e9f8eccc8d86764ebebe9bb98cc68ecb9aad09d8",
+  "timing": "before the main S11 targeted validation; no historical campaign replay",
+  "unchanged_final_gate_exact": "3/1000000000000000 for normalization and every imposed even moment",
+  "expected_projection_matrix": {
+    "pairs": 14,
+    "strict_interior_expected": 12,
+    "infeasible_expected": [
+      "P24_only_support_P6",
+      "b9_n64_P6"
+    ],
+    "algorithms": [
+      "Decimal80 reference",
+      "Rust binary64 with exact external Fraction certificate"
+    ]
+  },
+  "expected_comparison_count": {
+    "main_domain_controls": 10,
+    "standalone_certificate_controls": 5,
+    "explicit_boolean_declaration_control": 1,
+    "finite_d_grid": 49,
+    "small_signed_strains": 6,
+    "successful_projection_response_rows": 660
+  },
+  "new_diagnostic_gates": {
+    "P8_P10_formula_vs_actual_rounded_output_Taylor_absolute": "1/1000000000000",
+    "reason": "This is a separate diagnostic consistency allowance for accepted nonzero lower moments and rounded normalization, not a physical moment acceptance gate. Exact ideal coefficient identities are independently checked with Fraction.",
+    "C9_independent_quadrature_reference_absolute": 5e-13,
+    "C9_reference_points": [
+      -0.6,
+      -0.3,
+      0.0,
+      0.3,
+      0.6
+    ],
+    "C9_reference_scope": "F,G,A compared with independent scalar angular integration (composite Simpson with refinement and a fourth-derivative bound); no ODE/spectral/native history",
+    "weight_comparison_absolute": 1e-12,
+    "small_strain_leading_and_quartic_coefficient_relative": 0.02
+  },
+  "source_binding": "The published rooted Git tree must match every .py/.rs/.json source/input outside evidence; the runner checks blob SHA1, full bytes, SHA256 and source commit against an external Git-readback manifest before compilation. It also checks source hashes after execution.",
+  "process_admission": "Successful Rust output must be a JSON object with exit0, empty stderr, exact success status and matching order; each negative control has registered status/exit. A crash or timeout cannot pass a rejection control.",
+  "failure_retention": "Unique new output directory; each actual invocation is checkpointed with raw stdin/stdout/stderr and actual exit or explicit launch/timeout classification; outer exception records never overwrite a previous run.",
+  "prepublication_review_changes": [
+    "reject invalid certificate order/domain",
+    "require literal boolean True birth declaration",
+    "reject duplicate directions consistently in Python and Rust; full-rank duplicate control",
+    "require exact rejection status/exit; no arbitrary-nonzero success",
+    "bind local source to published Git tree",
+    "record timeouts, launch failures and unexpected exceptions"
+  ],
+  "runtime_interruption": "Scratch reset destroyed unposted source and smoke receipts. Exact retained/source-published contents were restored. Original S11 math record accepted only by its original SHA256; one new math recovery execution is separately retained. Lost Rust smokes are not admitted execution evidence.",
+  "old_campaign_replays": 0,
+  "optimization_cycles_started": 0,
+  "new_NCP_runs": 0,
+  "broad_admission": "No continuum, full native finite-bin, reactive spectral history, full EoR, production or merge conclusion follows from these gates."
+}

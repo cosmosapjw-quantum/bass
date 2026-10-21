@@ -1,0 +1,133 @@
+{
+  "schema": "bass.s7.native_cohort.independent_review.v1",
+  "status": "PASS_SCOPED_PRECAMPAIGN_READ_REVIEW",
+  "utc": "2026-10-19T10:03:56.626478+00:00",
+  "reviewer": "independent theory agent /root/s6_rank1",
+  "method": "Read new runner/probe and unchanged owner injection/ray/absorption code; compare with S3 kernel identity and per-H conversion; inspect targeted developer-run guard log without rerunning it.",
+  "actual_reads": {
+    "lane": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018",
+    "files": [
+      {
+        "path": "run_native_cohorts.py",
+        "bytes": 26987,
+        "sha256": "f8be4249ee916ab059b83154fc770f125dc23b53c43dd9ee57b1a1f36d2e410a"
+      },
+      {
+        "path": "native_cohort_probe.rs",
+        "bytes": 19548,
+        "sha256": "a9e3a9925536eff835570766431883b5ab9d3448fc47fb01b7133848ddbb6d45"
+      },
+      {
+        "path": "test_native_cohorts.py",
+        "bytes": 7291,
+        "sha256": "6b70910b9e0cdfd196370d06b5b0681ea802c09ed380b9fe7d6c8251467b9bed"
+      },
+      {
+        "path": "native_adapter.rs",
+        "bytes": 6246,
+        "sha256": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc"
+      },
+      {
+        "path": "evidence_s7_native/PREREGISTRATION.json",
+        "bytes": 17307,
+        "sha256": "f90a0fd7af186b56f2e1bc12ee305a8916301e4917b41a5d8d9b800a62e7e8d8"
+      },
+      {
+        "path": "evidence_s7_native/PYTHON_GUARDS_DEV.log",
+        "bytes": 1970,
+        "sha256": "48469b78af6a043069a623c11f2cc719b7dbc8fffa3991dedd674b417804c0e2"
+      }
+    ],
+    "owner_root": "/workspace/scratch/f49816986ef8/native_reference/rei_0e258464",
+    "owner_files": [
+      {
+        "path": "rust/rei_microphysics/src/axbi_covariant_transport.rs",
+        "bytes": 38467,
+        "sha256": "9d2d97881ca7b9b58d68dbeffad937e16ca8af237b3d9ba01de0fb5e00b67aa7"
+      },
+      {
+        "path": "rust/rei_microphysics/src/axbi_sources.rs",
+        "bytes": 7707,
+        "sha256": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe"
+      },
+      {
+        "path": "rust/rei_microphysics/src/atomic_provider.rs",
+        "bytes": 12939,
+        "sha256": "b0b572d3940a7a1f740e09d5f43c60236ec61511e8bdbcc68e60395ec7e107d3"
+      }
+    ]
+  },
+  "owner_identity": {
+    "repository": "cosmosapjw-quantum/rei_bianchi",
+    "commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "source_id": "MD14_Z002_FESC_BB50K_13P6_100_V1"
+  },
+  "preregistration": {
+    "pinned_source_keys": 11,
+    "all_local_hashes_match": true,
+    "matrix_rows": 51,
+    "gates_unchanged_by_review": true,
+    "publication_status": "Parent owns actual Git commit/ref readback; this review does not assert it."
+  },
+  "confirmed": [
+    {
+      "subject": "Birth frame and time",
+      "evidence": "geometry(u,b0,beta), native ray_geometry, check_birth_geometry",
+      "result": "u=0.8(j+0.5)/K; b=b0+beta*u; dt=0.8/(K H); z=21 exp(-u)-1. Native fixed reference rays bind to independent source-frame lrs_rule using original 5e-14 gate."
+    },
+    {
+      "subject": "Source-only correction",
+      "evidence": "inject and unchanged native_adapter::inject_new_isotropic",
+      "result": "Declared locally isotropic birth is first formed in an empty state, rescaled ray by ray, validated and transactionally added. No previous state is passed to the angular projector."
+    },
+    {
+      "subject": "Old anisotropic stock",
+      "evidence": "old_stock; frozen + birth cell comparisons; untouched-cell check; separate old/new/combined inventories",
+      "result": "Old reference-state beam/ring populations remain separate controls. P2/P24 add the complete native birth increment exactly; prior panelwise association is judged by the retained ledger gate. Slab acts on newborns only."
+    },
+    {
+      "subject": "Per-H versus physical density",
+      "evidence": "inventory units, kernel prediction, four-point continuity derivative",
+      "result": "N_per_H stays constant; U_per_H scales exp(u-x)*F. Therefore U_per_H_prime+U_per_H+2 beta DeltaP_per_H=0. Multiplication by nH0/a^3 gives the physical +4U equation."
+    },
+    {
+      "subject": "Frozen-opacity slab",
+      "evidence": "unchanged PreparedAbsorption::evaluate and direct_slab",
+      "result": "Both use one backward-Euler survivor factor 1/(1+dt*c*sum(n_abs*sigma)), fixed final geometry/absorber densities and the same owner cross sections. Direct integration splits birth spectral cells at pulled-back fit thresholds, with 32/64-point comparison. This is not a time-evolving ionization/thermal history."
+    },
+    {
+      "subject": "Finite-bin closure separation",
+      "evidence": "merged and separately prepared cohorts plus source-cell integral",
+      "result": "Merged two-moment reconstruction is compared with retained cohorts and direct source-cell integration. Its N/U ledger cannot certify spectral shape accuracy. Bin, source-panel, angular and birth refinements occupy separate matrix blocks."
+    },
+    {
+      "subject": "Scope and owner protection",
+      "evidence": "preregistration physics/admission, manifest before/after verification",
+      "result": "Original owner hash is fixed; native prescribed geometry is explicitly not coupled Einstein, and the final slab is explicitly not a reactive history. Production/full EoR/merge remain unadmitted."
+    }
+  ],
+  "findings": [
+    {
+      "id": "NATIVE_FAILURE_WITNESS_BINDING",
+      "class": "implementation_validation",
+      "observation": "Original failed-row branch classified reported support_mu without binding failed_birth, failed_u and support rays to this case geometry.",
+      "impact": "An unrelated even support could be accepted as this case's concrete feasibility witness.",
+      "correction": "check_failure_witness now validates int-not-bool index range, midpoint time, finite/shape support and independent lrs_rule agreement under the unchanged source-frame gate; validate calls it before classifying feasibility.",
+      "closure": "CLOSED_BEFORE_CAMPAIGN_BY_SOURCE_READBACK_AND_TARGETED_OWNER_TEST_LOG",
+      "targeted_test": "test_negative_row_witness_is_bound_to_case_frame_and_birth_index",
+      "actual_log": "evidence_s7_native/PYTHON_GUARDS_DEV.log: 11 tests, 0.023 seconds, OK; includes wrong index/time/unrelated support/shape/NaN rejection.",
+      "execution_by_this_reviewer": false
+    }
+  ],
+  "remaining_campaign_obligations": [
+    "Run published 51-case native cohort matrix",
+    "Measure declared large-b angular accuracy and fine-bin slab accuracy targets; preserve failures",
+    "Compare direct 32/64 spectral and 96/192 birth-time references at original gates",
+    "Record native output/source identities and actual resource use"
+  ],
+  "not_claimed": [
+    "No native campaign or old test executed by this reviewer",
+    "No continuum angular admission from P2/P4 equality",
+    "No full native Einstein or reactive source history validation"
+  ]
+}

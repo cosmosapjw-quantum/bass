@@ -1,0 +1,136 @@
+--- before/launch.py
++++ after/launch.py
+@@ -59,7 +59,7 @@
+     return name
+ 
+ 
+-def resolve(template, source_files, science, delivery, hashes, selected, paths, observation):
++def resolve(template, source_files, science, delivery, hashes, toolchain_record, paths, observation, profile):
+     """Resolve paths and resource width only; all scientific bytes stay fixed."""
+     manifest = copy.deepcopy(template["manifest"])
+     for name, digest in manifest.get("source_files", {}).items():
+@@ -82,9 +82,11 @@
+     if width < 1:
+         raise RuntimeError("NO_RESOURCE_AVAILABLE_FOR_ONE_FIXED_CASE")
+     manifest["max_workers"] = min(manifest.get("max_workers", 64), observation["configured"]["workers"], observation["cpu_cap"])
++    selected = toolchain_record["executables"]
+     tokens = {"@RUSTC@": selected["rustc"]["path"], "@CARGO@": selected["cargo"]["path"],
+               "@SOURCE_BINDING@": str(paths["science"]), "@SOURCE_COMMIT@": science["source_commit"],
+-              "@PYTHON@": str(Path(sys.executable).resolve()), "@WORKERS@": str(width)}
++              "@PYTHON@": str(Path(sys.executable).resolve()), "@WORKERS@": str(width),
++              "@JOB_MANIFEST@": str(paths["job_manifest"])}
+     fixed_environment = {"BASS_S12_SCIENTIFIC_SOURCE_COMMIT": science["source_commit"],
+                          "BASS_S12_SCIENCE_BINDING_SHA256": hashes["science"],
+                          "BASS_S12_DELIVERY_SOURCE_COMMIT": delivery["source_commit"],
+@@ -123,7 +125,10 @@
+     manifest["launch_binding"] = {"scientific_source_commit": science["source_commit"],
+         "scientific_source_tree": science["source_tree"], "delivery_source_commit": delivery["source_commit"],
+         "delivery_source_tree": delivery["source_tree"], "input_file_hashes": hashes,
+-        "toolchain_executables": selected, "selected_case_workers": width,
++        "toolchain_executables": selected, "toolchain_provenance": toolchain_record,
++        "binding_paths": {name: str(path) for name, path in paths.items()}, "profile": profile,
++        "python_executable": {"path": str(Path(sys.executable).resolve()), "sha256": runner.digest_file(sys.executable)},
++        "selected_case_workers": width,
+         "resource_observation": observation,
+         "fixed_scope": "Published job list and inputs only; no old campaign, no angular-reduction reorder, no weight/tolerance changes."}
+     return manifest
+@@ -161,7 +166,8 @@
+         manifest_path = None
+         exit_code = 2
+         try:
+-            paths = {"science": args.binding.resolve(), "delivery": args.delivery_binding.resolve(), "template": args.template.resolve()}
++            paths = {"science": args.binding.resolve(), "delivery": args.delivery_binding.resolve(), "template": args.template.resolve(),
++                     "job_manifest": work/"JOB_MANIFEST.json", "repo": repo, "work": work, "disk_root": disk_root}
+             science, science_files, science_sha = binding(paths["science"], repo)
+             delivery, delivery_files, delivery_sha = binding(paths["delivery"], repo)
+             sources = dict(science_files)
+@@ -175,13 +181,30 @@
+             template = json.loads(paths["template"].read_bytes())
+             if template.get("schema") != "BASS_S12_NCP_JOB_TEMPLATE_V1":
+                 raise ValueError("FIXED_S12_TEMPLATE_SCHEMA_REQUIRED")
++            profiles = template.get("admissible_profiles")
++            if not isinstance(profiles, list) or not profiles or any(p not in resources.PROFILES for p in profiles):
++                raise ValueError("EXPLICIT_ADMISSIBLE_PROFILES_REQUIRED")
++            if args.profile not in profiles and not args.preflight_only:
++                raise ValueError("TEMPLATE_PROFILE_EXECUTION_FORBIDDEN")
+             spec = template.get("toolchain", {})
+             if spec.get("rustc_token") != "@RUSTC@" or spec.get("cargo_token") != "@CARGO@":
+                 raise ValueError("EXPLICIT_TOOLCHAIN_TOKENS_REQUIRED")
+             hashes = {"science": science_sha, "delivery": delivery_sha, "template": runner.digest_file(paths["template"])}
+-            for name, path in paths.items():
++            for name in ("science", "delivery", "template"):
++                path = paths[name]
+                 with (record_root/(name.upper()+"_INPUT.json")).open("xb") as stream:
+                     stream.write(path.read_bytes()); stream.flush(); os.fsync(stream.fileno())
++            sealed_path = paths["job_manifest"]
++            if sealed_path.is_symlink():
++                raise ValueError("SEALED_MANIFEST_MUST_NOT_BE_SYMLINK")
++            saved = None
++            if sealed_path.exists():
++                saved, _ = runner.load_manifest(sealed_path, repo)
++                saved_binding = saved["launch_binding"]
++                if saved_binding["input_file_hashes"] != hashes or saved_binding["binding_paths"] != {name: str(path) for name, path in paths.items()}:
++                    raise ValueError("SEALED_TEMPLATE_BINDINGS_OR_PATHS_CHANGED")
++                if saved_binding["profile"] != args.profile and not args.preflight_only:
++                    raise ValueError("SEALED_EXECUTION_PROFILE_CHANGED")
+             before = resources.snapshot(args.profile, disk_root)
+             reserve = {"reserve_cpus": template["manifest"].get("reserve_cpus", 0),
+                        "reserve_ram_bytes": template["manifest"].get("reserve_ram_bytes", 1 << 30)}
+@@ -199,8 +222,16 @@
+                 os.sched_setaffinity(0, sorted(affinity)[:min(2, cap["cpus"])])
+                 signal.signal(signal.SIGALRM, bootstrap_timeout)
+                 signal.setitimer(signal.ITIMER_REAL, 1770.0)
+-                selected = toolchain.ensure_toolchain(work/"toolchains", record_root, disk_root, time.monotonic()+1770.0,
+-                    archive_path=args.toolchain_archive, existing_rustc=args.rustc, existing_cargo=args.cargo)
++                if saved is None:
++                    selected = toolchain.ensure_toolchain(work/"toolchains", record_root, disk_root, time.monotonic()+1770.0,
++                        archive_path=args.toolchain_archive, existing_rustc=args.rustc, existing_cargo=args.cargo)
++                else:
++                    selected = toolchain.verify_selected(saved["launch_binding"]["toolchain_provenance"], work/"toolchains", time.monotonic()+1770.0)
++                    for name in ("rustc", "cargo"):
++                        requested = getattr(args, name)
++                        if requested is not None and Path(requested).resolve() != Path(selected["executables"][name]["path"]).resolve():
++                            raise ValueError("SEALED_TOOLCHAIN_OVERRIDE_CHANGED:"+name)
++                    runner.atomic_json(record_root/"TOOLCHAIN.json", {"status": "PASS_REUSED_SEALED_TOOLCHAIN", "original": selected})
+             finally:
+                 signal.setitimer(signal.ITIMER_REAL, 0.0)
+                 signal.signal(signal.SIGALRM, old_alarm)
+@@ -211,16 +242,33 @@
+                     raise ValueError("TOOLCHAIN_READY_RECEIPT_CHANGED")
+                 with (record_root/"TOOLCHAIN_READY.json").open("xb") as stream:
+                     stream.write(ready.read_bytes()); stream.flush(); os.fsync(stream.fileno())
+-            observation = resources.snapshot(args.profile, disk_root)
+-            manifest = resolve(template, sources, science, delivery, hashes, selected["executables"], paths, observation)
+-            manifest_path = record_root/"RESOLVED_MANIFEST.json"
+-            runner.atomic_json(manifest_path, manifest)
++            observation = saved["launch_binding"]["resource_observation"] if saved is not None else resources.snapshot(args.profile, disk_root)
++            original_profile = saved["launch_binding"]["profile"] if saved is not None else args.profile
++            manifest = resolve(template, sources, science, delivery, hashes, selected, paths, observation, original_profile)
++            proposal = record_root/"RESOLVED_PROPOSAL.json"
++            runner.atomic_json(proposal, manifest)
++            manifest, _ = runner.load_manifest(proposal, repo)
++            if saved is not None:
++                if runner.canonical(saved) != runner.canonical(manifest):
++                    raise ValueError("SEALED_MANIFEST_NO_LONGER_RECONSTRUCTS_FROM_EXACT_TEMPLATE")
++                manifest_path = sealed_path
++                record["resolution_policy"] = "Reused exact sealed manifest; original width and job identities remain unchanged even when owner load changes."
++            elif args.preflight_only:
++                manifest_path = proposal
++                record["resolution_policy"] = "Unsealed preflight proposal only; no scientific job or job manifest seal."
++            else:
++                runner.atomic_json(sealed_path, manifest)
++                manifest_path = sealed_path
++                record["resolution_policy"] = "First real execution sealed one create-only JOB_MANIFEST; future resumes must reconstruct it exactly."
+             manifest, manifest_sha = runner.load_manifest(manifest_path, repo)
++            with (record_root/"VERIFIED_JOB_MANIFEST.json").open("xb") as stream:
++                stream.write(manifest_path.read_bytes()); stream.flush(); os.fsync(stream.fileno())
+             preflight = runner.preflight(manifest, args.profile, disk_root)
+             runner.atomic_json(record_root/"RESOLVED_PREFLIGHT.json", preflight)
+             record.update(scientific_source_commit=science["source_commit"], delivery_source_commit=delivery["source_commit"],
+                 input_hashes=hashes, resolved_manifest_sha256=manifest_sha, selected_case_workers=manifest["launch_binding"]["selected_case_workers"],
+-                toolchain=selected, toolchain_bootstrap_max_seconds=1770, job_timeout_cap_seconds=1800)
++                toolchain=selected, toolchain_bootstrap_max_seconds=1770, job_timeout_cap_seconds=1800,
++                job_manifest_path=str(manifest_path), manifest_is_sealed=manifest_path == sealed_path)
+             if args.preflight_only:
+                 record["status"] = "READY_NOT_EXECUTED" if preflight["can_start"] else "NOT_READY_RESOURCE_UNAVAILABLE"
+                 exit_code = 0 if preflight["can_start"] else 2

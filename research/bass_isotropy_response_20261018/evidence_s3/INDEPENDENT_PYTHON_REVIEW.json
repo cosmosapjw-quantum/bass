@@ -1,0 +1,130 @@
+{
+  "schema": "bass.s3.independent_python_review.v1",
+  "status": "PASS_SCOPED",
+  "reviewer_role": "theory_s3",
+  "reviewed_python_author": "root",
+  "reviewed_python_authored_by_reviewer": false,
+  "scientific_optimizations_rerun_by_reviewer": 0,
+  "full_test_suite_rerun_by_reviewer": false,
+  "run_directory": "/workspace/scratch/f49816986ef8/s3_campaign_run_02",
+  "source_sha256": {
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "shear_response.py": "506d6bb913776d6ada0f37a34ff0387e5aed50756b80e03dad1ac8c621e4151a",
+    "test_s3.py": "15917d66ef50eff1afbbf39264c3d1604835b11889ba940b2f639dc071a5d3b8",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "evidence_s3/theory_independent.py": "58f44232cc799b12057a12cde89a1cd6c4ea333518a221b07b5386b92bde10fc",
+    "run_s3_campaign.py": "28160640be0db83e8f539898cae765ff689f1a09e0974d8a7a12739f7c042caa",
+    "test_campaign_reuse.py": "7ed485b5915fa481cd1923b47ab986386914ca94b00a900fabe6ad233c819e5c"
+  },
+  "campaign_producer_sha256": {
+    "measurement_producer": "76ce92ac1482430f9d85268688c388248f2adccf4e86fcbde72bcd38ca208843",
+    "executed_run02_report_producer": "8e171badca059edee5f9e7d8dee0d0e8dcfbfe885d498ecd7895095bd95b7ff1",
+    "first_guard_patch": "7a2419e5d3828359d975b1d73935485b35a2d746af9850ac0c0ccbfbf678a1b8",
+    "final_guard_patch": "28160640be0db83e8f539898cae765ff689f1a09e0974d8a7a12739f7c042caa"
+  },
+  "run_artifact_sha256": {
+    "ANGULAR_CAMPAIGN.json": "01f3d130d10a318d411f10252f928057dd79a5145ba419aee5094b988102f03d",
+    "P24_EXPECTED.json": "4e3d174a02e24b9e1aa1cf3a9c6c0f6d7828240cc40f7a2a7c6b6c58cbd5573f",
+    "P24_INPUT.txt": "8cfe9d487a3c839bc2f4cf97e6f6e099ed3fa92c9dbe23892bfdf2b297a52c6d",
+    "MATCHED_CONSTRAINT_COMPARISON.json": "6fd98c1f8d943f5d0f884d8064564d04878f98a53837f797e650ffba0ae9c2d5",
+    "RETURN_S3_CAMPAIGN.json": "51eb0071c1e605072d7d998fb7b95ac47e8d1c47e79cf0689499bf7aefb93d6e",
+    "TEST_S3.log": "f51ec1b921e3d351101554c769e9bf6e7f2b55c056a6b31b1ef407f50a1703ce",
+    "S3_ANGULAR_RESPONSE.png": "abf27bd51e4ddf201914963537b18d99b5620cf58eb071db87503530ad3d91fb",
+    "S3_ANGULAR_RESPONSE.pdf": "6c479d07e1ede0f92f1d674d7b75d4c44c8d8f58cbb8a4b3b5416d47b1bf15da"
+  },
+  "independent_readback": {
+    "rows_equal_original_measurements": true,
+    "exact_unique_grid_matches_receipt": true,
+    "all_d_vectors_match_receipt": true,
+    "fixed_support_prior_across_constraint_modes": true,
+    "attempted_rules": 165,
+    "measured_rules": 146,
+    "rejected_rules": 19,
+    "response_points": 1606,
+    "P2_success": 48,
+    "P2_infeasible_mean": 7,
+    "P24_success": 43,
+    "P24_infeasible_mean": 7,
+    "P24_infeasible_upper": 5,
+    "all_P24_successes_exact_binary_support_strict_interior": true,
+    "minimum_successful_hull_margin": 0.013494465708051672,
+    "minimum_successful_hull_margin_support": "b+1.00_n64",
+    "moment_arithmetic": "Fraction on exact saved binary64 mu and weights; no reviewed module imported",
+    "P2_exact_binary_max_abs_M2": 2.9391197195792192e-15,
+    "P24_exact_binary_max_abs_M2": 1.9113380953429277e-15,
+    "P24_exact_binary_max_abs_M4": 2.8557850242805446e-15,
+    "moment_gate": 3e-15,
+    "minimum_weight": 6.14251849056058e-6,
+    "maximum_normalization_defect": 1.1102230246251565e-16,
+    "maximum_weight_reflection_defect": 0,
+    "response_check": "Independent scalar R=e^d sqrt(1+(e^-6d-1)mu^2), mu_x=mu e^-2d/R, D=R P2(mu_x)",
+    "max_response_F_G_A_difference": 3.3306690738754696e-16,
+    "max_normalized_A_prime_formula_difference": 4.440892098500626e-16,
+    "max_normalized_A_second_formula_difference": 2.6645352591003757e-15
+  },
+  "observed_execution_receipt": {
+    "test_exit": 0,
+    "test_count": 14,
+    "max_GL256_quad_A_difference": 5.551115123125783e-16,
+    "max_Decimal80_quad_A_difference": 5.551115123125783e-17,
+    "max_central_difference_derivative_error": 5.660458768375065e-10,
+    "reference_warning_count": 1,
+    "reference_warning_scope": "plot interpolation d=0.13994804935909905; quad roundoff warning preserved",
+    "figure_display_floor": 1e-16
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "status": "CLOSED",
+      "scope": "--reuse-measurements recovery input validation",
+      "current_run02_data_affected": false,
+      "issue": "Same-cardinality grid/d changes were not rejected; P2 reuse trusted saved diagnostic instead of direct recomputation.",
+      "verified_fix": "Exact unique grid and d vectors; source-frame reconstruction; array domain/positivity/parity/normalization; direct P2 and P4; strict P24 feasibility; deterministic response and diagnostic verification; targeted mutated-input tests. Original run02 producer snapshot preserved."
+    },
+    {
+      "id": "F2",
+      "status": "CLOSED",
+      "scope": "Continuum cache consistency in measurement reuse",
+      "current_run02_data_affected": false,
+      "issue": "First guard accepted a coordinated finite continuum A plus per-row A_error mutation; subsequent report wrote a fresh reference alongside cached errors.",
+      "independent_before_fix": {
+        "source_sha256": "7a2419e5d3828359d975b1d73935485b35a2d746af9850ac0c0ccbfbf678a1b8",
+        "mutated_d": -0.2,
+        "cached_A_delta": 0.125,
+        "accepted_rows": 165,
+        "optimizer_calls": 0
+      },
+      "verified_fix": "Compare all 11 cached continuum F/G/A with independently re-evaluated continuum(d) before admitting rows.",
+      "independent_after_fix": {
+        "source_sha256": "28160640be0db83e8f539898cae765ff689f1a09e0974d8a7a12739f7c042caa",
+        "same_counterexample": true,
+        "status": "PASS_EXPECTED_REJECTION",
+        "error": "MEASUREMENT_REFERENCE_CHANGED",
+        "optimizer_calls": 0
+      }
+    }
+  ],
+  "targeted_guard_validation": {
+    "observed_tests": 13,
+    "observed_exit_code": 0,
+    "source_snapshot_sha256_matches": true,
+    "valid_input_test_mocks_both_optimizers_to_raise": true,
+    "receipt_path": "evidence_s3/reuse_guard_validation_r2/RETURN_REUSE_GUARD.json",
+    "receipt_sha256": "7df9d78af9b169f2d1ed0bcfe3a1fc9b77ee2cde792a2d26538cf8cf9319c841",
+    "log_path": "evidence_s3/reuse_guard_validation_r2/TEST_RECOVERY_GUARD.log",
+    "log_sha256": "2b3bf4c29e5417f9c409b0e0e6c3515d7dfb42c8fc53188d498a91494ed608c5",
+    "earlier_receipt_preserved": "evidence_s3/reuse_guard_validation/RETURN_REUSE_GUARD.json",
+    "original_run02_data_and_return_sha256_unchanged": true,
+    "repo_evidence_campaign_copy_sha256_matches_original_run02": true,
+    "report_regenerated_after_guard_patch": false
+  },
+  "continuum_accuracy_admission": false,
+  "native_finite_bin_admission": false,
+  "coupled_shear_evolution_admission": false,
+  "production_or_full_EoR_admission": false,
+  "remaining_obligations": [
+    "Higher moments and finite-d continuum angular accuracy/convergence",
+    "Coupled shear evolution",
+    "Actual native source owner finite-bin photon/energy and injection validation"
+  ]
+}

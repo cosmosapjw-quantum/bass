@@ -1,0 +1,24 @@
+{
+  "schema": "bass.s7.external_algebra.v1",
+  "status": "PASS_EXACT_ALGEBRA",
+  "tool": "Wolfram Language evaluator",
+  "input": "Clear[hh,ss,hd,sd,h,y,ed,er,pp,ll,qq]; rates={hh-ss,hh-ss,hh+2ss}; derivs={hd-sd,hd-sd,hd+2sd}; g00=Expand[(Total[rates]^2-Total[rates^2])/2]; gii=Table[With[{j=Mod[i,3]+1,k=Mod[i+1,3]+1},Expand[-derivs[[j]]-derivs[[k]]-rates[[j]]^2-rates[[k]]^2-rates[[j]]rates[[k]]]],{i,3}]; cc=h^2-y^2-ed-er-ll; bh=y/h; yh=-3y+pp/h; hhx=(-h^2-2y^2-ed/2-er+ll)/h; edx=-3ed-qq; erx=-4er-2y pp/h+qq; propagation=FullSimplify[2h hhx-2y yh-edx-erx+2cc]; donorOmitted=FullSimplify[2h hhx-2y yh-(-3ed)-erx+2cc]; eventJump=FullSimplify[(cc/.{ed->ed-w,er->er+w})-cc]; <|\"G00\"->g00,\"c2_GmixedSpatial\"->gii,\"c2_GparallelMinusPerp\"->Expand[gii[[3]]-gii[[1]]],\"Cprime_plus2C\"->propagation,\"Cprime_plus2C_withoutDonor\"->donorOmitted,\"ConstraintEventJump\"->eventJump,\"RaychaudhuriJacobianH\"->Simplify[D[hhx,h]],\"RaychaudhuriJacobianY\"->D[hhx,y],\"RaychaudhuriJacobianEr\"->D[hhx,er]|>",
+  "output": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= <|\"G00\" -> 3*hh^2 - 3*ss^2, \"c2_GmixedSpatial\" -> {-2*hd - 3*hh^2 - sd - 3*hh*ss - 3*ss^2, -2*hd - 3*hh^2 - sd - 3*hh*ss - 3*ss^2, -2*hd - 3*hh^2 + 2*sd + 6*hh*ss - 3*ss^2}, \"c2_GparallelMinusPerp\" -> 3*sd + 9*hh*ss, \"Cprime_plus2C\" -> 0, \"Cprime_plus2C_withoutDonor\" -> -qq, \"ConstraintEventJump\" -> 0, \"RaychaudhuriJacobianH\" -> (ed + 2*er - 2*h^2 - 2*ll + 4*y^2)/(2*h^2), \"RaychaudhuriJacobianY\" -> (-4*y)/h, \"RaychaudhuriJacobianEr\" -> -h^(-1)|>"
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "scope": [
+    "G00 and directional Einstein tensors from directional Hubble rates",
+    "shear source coefficient/sign",
+    "C'=-2C closed donor",
+    "C'+2C=-q without donor",
+    "event energy-transfer jump C=0"
+  ],
+  "new_science_baseline": "a9704c6f6eb09c3daa0065a66362ef7547c28e0c"
+}

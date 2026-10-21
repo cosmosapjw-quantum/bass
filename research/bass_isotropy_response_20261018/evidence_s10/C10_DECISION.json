@@ -1,0 +1,70 @@
+{
+  "schema": "BASS_S10_C10_SCOPED_DECISION_V1",
+  "recorded_at_utc": "2026-10-20T06:29:10.996606+00:00",
+  "scientific_and_code_scope": "COMPLETED_SCOPED",
+  "delivery_scope": "DRIVE_SECOND_COPY_BLOCKED_FINAL_METADATA_POSTCOMMIT_READBACK_PENDING",
+  "source_commit": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+  "source_tree": "95785be65c196c68d61b79dafb32f4cedfd7702d",
+  "source_manifest_sha256": "4ac631dced7e1d4fdc8ce63d076dfe15bb38bde7040029644e2c34f30b1ebc17",
+  "results_commit": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
+  "review_commit": "0771f0610987eb9f900674e83063912150733255",
+  "review_receipt": "evidence_s10/c9_review_r1/C9_REVIEW_RECEIPT.json",
+  "acceptance": "Keep the isolated opt-in crate with all modes and immutable original S9/REI owners. All five candidates met current strict numerical contracts; performance claims are workload-specific.",
+  "mode_guidance": [
+    {
+      "workload": "tested closed-donor and FLRW matrix-free histories",
+      "candidate": "simd_cache",
+      "median_paired_speedup": [
+        2.9733520597566536,
+        4.114511379999065
+      ],
+      "decision": "SUPPORTED_OPT_IN_FOR_TESTED_WORKLOADS"
+    },
+    {
+      "workload": "tested closed small/clock4 history",
+      "candidate": "simd_cache",
+      "median_paired_speedup": 1.0551887909522575,
+      "q1_q3": [
+        0.9572132242316267,
+        1.2425557671751304
+      ],
+      "decision": "NO_CONSISTENT_GAIN_CLAIM; retain baseline/prepared/cache options and raw comparisons"
+    },
+    {
+      "workload": "changing-state n16/cohort2 micro",
+      "candidate": "simd_cache",
+      "median_paired_speedup": 0.9498173837599284,
+      "decision": "PERFORMANCE_REGRESSION_RETAINED; no unconditional cache default"
+    }
+  ],
+  "allocation_decision": "Five optimized evaluation paths measured zero allocation requests in the registered kernel regions. Setup, caller clone, full histories and peak memory remain separate.",
+  "parallel_decision": {
+    "recommended_workers_for_the_tested_four_job_batch": 2,
+    "tested_workers": [
+      1,
+      2,
+      4
+    ],
+    "reason": "Two workers achieved65.454ms versus four63.336ms median with four unequal jobs; the small difference does not justify a universal four-worker default.",
+    "pool_cost_included": true,
+    "new_automatic_scheduler_implemented": false
+  },
+  "new_global_default_or_owner_patch": false,
+  "new_optimization_cycle_started": false,
+  "production_admission": false,
+  "full_EoR_admission": false,
+  "merge_admission": false,
+  "NCP_run_needed_for_this_completed_scope": false,
+  "automatic_campaign_replay": false,
+  "limits": {
+    "additional_workers": 16,
+    "RAM_GiB": 16,
+    "added_disk_GiB": 4,
+    "individual_job_seconds": 1800,
+    "actual_cgroup_CPU": 8,
+    "actual_cgroup_RAM_GiB": 8,
+    "compile_jobs": 2
+  },
+  "current_delivery_first_action": "Use current Git ref/latest PR comment plus provider readback. If user approves browser fallback, upload exact already-sealed ZIPs to Drive, verify remote bytes/SHA/CRC/manifest, and close delivery only. Do not rerun science for storage repair.",
+  "future_science_selection": "Only a selected next research task opens new work; pending physical obligations retain their existing gates and failures."
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "BASS_DRIVE_COPY_DIAGNOSTIC_CLOSEOUT_V1",
+  "recorded_at_utc": "2026-10-20T05:55:59.339776+00:00",
+  "overall_status": "INCOMPLETE_DRIVE_COPY_NO_PROVIDER_RESPONSE",
+  "last_tool": "mcp__codex_apps__google_drive_copy_file",
+  "last_tool_input": {
+    "url": "https://drive.google.com/file/d/1zZsKKoAmR3as89JIVMWjpTlbQWRN15LL/view?usp=drivesdk",
+    "new_title": "STAGING_UNVERIFIED_BASS_S10_C1_20261020_62d6bc14.zip",
+    "parent_folder": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y"
+  },
+  "started_at_utc": "2026-10-20T05:52:04.567Z",
+  "host_event": "aborted by user after 180.5s",
+  "host_reported_wait_seconds": 180.5,
+  "actual_controller": "root agent via collaboration.interrupt_agent",
+  "direct_user_cancellation_request": false,
+  "provider_response_received": false,
+  "provider_error_received": false,
+  "new_file_id_received": false,
+  "operation_id": null,
+  "files_update_content_status": "NOT_ATTEMPTED",
+  "why_update_not_attempted": "copy_file did not return a newly allocated target ID; replacing an existing backup was forbidden and was not attempted.",
+  "orphan_check": {
+    "recorded_at_utc": "2026-10-20T05:55:34.800Z",
+    "listed_items": 48,
+    "exact_staging_name_matches": 0,
+    "receipt": "C1_DRIVE_COPY_POST_INTERRUPT_CHECK.json",
+    "scope": "One current direct-folder listing at the recorded time; no assertion about a future late response."
+  },
+  "all_drive_attempts_in_this_backup_work": {
+    "upload_file_calls": 2,
+    "copy_file_calls": 1,
+    "update_file_content_calls": 0,
+    "update_file_metadata_calls": 0,
+    "original_backup_update_delete_calls": 0
+  },
+  "diagnostic_findings": [
+    "The generic Drive upload_file calls returned neither provider completion nor provider error before root interruption.",
+    "The independently supported copy_file metadata mutation also returned no new ID before root interruption.",
+    "The file_uri declaration explicitly accepts an absolute local string path despite contradictory older prose; the exposed schema was followed. No argument-type rejection was observed.",
+    "The Dropbox fileParams adapter uploaded the same local archive bytes and complete remote GET equality was verified; this narrows but does not identify Drive internal failure.",
+    "Drive get_file_metadata and list_folder reads succeed. capabilities.canAddChildren was requested but not exposed by normalized output; owner permission and current_user_can_share were returned.",
+    "Drive update_file supports raw byte replacement according to advertised metadata, but no actual update_file content trial occurred. It must not be described as a failed content-update trial.",
+    "create_file native metadata-only objects and import actions for document formats do not provide a valid ZIP backup substitute."
+  ],
+  "failure_classification": "NO_PROVIDER_RESPONSE_TOOL_WAIT_INTERRUPTED; not a demonstrated permission denial, science failure or payload rejection",
+  "requested_yield_ms": 10000,
+  "observed_host_limitation": "Despite requested exec yield the tool await did not return agent control before root interruption.",
+  "same_copy_or_upload_retry_permitted": false,
+  "browser_used": false,
+  "further_mutation_variant_search_stopped": true,
+  "blank_or_staging_objects_counted_as_backups": false,
+  "backup_status": {
+    "S9": "Dropbox complete full-byte verified; Drive incomplete",
+    "C1": "Dropbox complete full-byte verified; Drive incomplete",
+    "R2_C2": "Dropbox complete full-byte verified; Drive incomplete"
+  }
+}

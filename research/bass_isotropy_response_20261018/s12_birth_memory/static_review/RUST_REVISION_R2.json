@@ -1,0 +1,56 @@
+{
+  "schema": "BASS_S12_C5_STATIC_REVISION_R2",
+  "timestamp_utc": "2026-10-20 21:15:00 UTC",
+  "author_role": "Rust implementation author; revisions requested independently by root and p6_theory. This is not an independent C9 approval.",
+  "stage": "before source freeze and before any compile/scientific execution",
+  "findings": [
+    {
+      "code": "RAW_GL_PRIOR_DOMAIN",
+      "reviewer": "root and p6_theory",
+      "before": "coordinate_grid was incorrectly validated as norm-one PhysicalCohort; source_frame_GL copied raw prior without fresh normalization",
+      "change": "raw coordinate prior is preserved (mass two allowed); strict finite positive reflected grid validation; only fresh source_frame_GL birth copy is normalized, then exact norm/P2/P4 admission is checked"
+    },
+    {
+      "code": "OLD_STOCK_GATE_SCOPE",
+      "reviewer": "root",
+      "before": "old_isotropic stock was subjected to the new-birth exact P24 gate",
+      "change": "removed extra old P2/P4 and exact rational admission; original S9 normalization/positive/parity/physical digests remain; no old physical data normalized or changed"
+    },
+    {
+      "code": "FUTURE_COHORT",
+      "reviewer": "p6_theory and root",
+      "before": "public evaluator accepted x before an active cohort birth",
+      "change": "fixed explicit FUTURE_COHORT rejection for x < any active cohort.u in both baseline and fused modes"
+    }
+  ],
+  "source_hashes": {
+    "core.rs": {
+      "before": "95c817f1c118ae17e9b5d1ce70376a7cd1c9b950712793f4a60b9dc9c957d44e",
+      "after": "4de56b7dc541259315ac5cb6eea5d632f68276a76f3cdce8a646d39c7e13c178"
+    },
+    "history.rs": {
+      "before": "c32a54fef4e3cbe9e9beb1e0b0f109277a03e4da334275d723cf8abc19dba331",
+      "after": "a73c2af7a5276237c33f7afdc8b035f07d20c8309444538829fb36fba5a62406"
+    }
+  },
+  "format_receipts": [
+    {
+      "chunk_id": "d5fafd",
+      "wall_time_seconds": 0.00002924,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    },
+    {
+      "chunk_id": "5eafbf",
+      "wall_time_seconds": 0.000028081,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  ],
+  "compile_calls": 0,
+  "scientific_solver_calls": 0,
+  "old_campaign_calls": 0,
+  "scope": "Only new S12 source modified; no existing S9/S10/S11 source changed."
+}

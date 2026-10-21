@@ -1,0 +1,49 @@
+{
+  "schema": "BASS_S12_PRIMARY_LITERATURE_V1",
+  "intake_tools": [
+    "SciSpace literature discovery",
+    "Exa source discovery and full-text extraction",
+    "Wolfram symbolic verification"
+  ],
+  "new_work_claim": "Application/implementation of existing forward sensitivity mathematics, not a new general sensitivity theorem.",
+  "sources": [
+    {
+      "name": "CVODES",
+      "url": "https://sundials.readthedocs.io/en/latest/cvodes/Mathematics_link.html#forward-sensitivity-analysis"
+    },
+    {
+      "name": "Serban-Recuero2019",
+      "url": "https://sbel.wisc.edu/wp-content/uploads/sites/569/2019/04/SerbanRecuero_SA_HybridMemorySystems.pdf"
+    },
+    {
+      "name": "Rustparallelism",
+      "url": "https://doc.rust-lang.org/stable/std/thread/fn.available_parallelism.html"
+    },
+    {
+      "name": "Rustscope",
+      "url": "https://doc.rust-lang.org/stable/std/thread/fn.scope.html"
+    }
+  ],
+  "read_scope": {
+    "Serban-Recuero2019": "Section4 equations22-28, especially memory-state terms in25a; section3 transition-time dependence. Our fixed event schedule has zero event-time derivative; all earlier cohort memories enter as additional frozen inputs, not only last transition.",
+    "CVODES": "Section4.2.7 equation4.15 and4.2.7.1 simultaneous-corrector block matrix. Block-diagonal iterative approximations in CVODES do not license passing an incomplete Jacobian as the exact Jacobian of a different stiff driver.",
+    "Rustparallelism": "Limitations: estimate only; no current workload/NUMA knowledge; affinity/cgroup query limitations. NCP preflight must inspect actual limits and available capacity.",
+    "Rustscope": "Scoped thread lifetime/join semantics; independent cases keep own ordered reductions."
+  },
+  "SciSpace_relevant_record": {
+    "title": "Sensitivity Analysis for Hybrid Systems and Systems With Memory",
+    "authors": [
+      "Radu Serban",
+      "Antonio Recuero"
+    ],
+    "year": 2019,
+    "doi": "10.1115/1.4044028",
+    "arxiv": "1904.08734"
+  },
+  "excluded_scope": [
+    "No claim that generic literature validates our physics closure",
+    "No imported unrelated project jobs",
+    "No arbitrary event-time/source-amplitude parameter support"
+  ],
+  "citation_summary": "Forward sensitivities include initial-data derivatives and explicit dependence on frozen memory states. Our additional lower Jacobian block and clock column are derived for the BASS manufactured model and separately checked symbolically/numerically."
+}

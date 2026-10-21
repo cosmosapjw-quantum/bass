@@ -1,0 +1,50 @@
+{
+  "before": {
+    "adapter_binary": {
+      "path": "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+      "bytes": 9399880,
+      "sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823"
+    },
+    "compiled_source": {
+      "path": "/workspace/scratch/f49816986ef8/s9_runtime/client/s9_vigilode/src/lib.rs",
+      "bytes": 23410,
+      "sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b"
+    },
+    "repository_source": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s9_vigilode/src/lib.rs",
+      "bytes": 23410,
+      "sha256": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b"
+    },
+    "oracle_binary": {
+      "path": "/tmp/bass_s9_ad_target/debug/bass-s9-ad-check",
+      "bytes": 4854064,
+      "sha256": "14e7896a1176830b6353cc70cb3cb497de2465c39c2c71b978bddb3b43b80a11"
+    },
+    "oracle_source": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s9_vigilode/ad_check/src/lib.rs",
+      "bytes": 16988,
+      "sha256": "0007ca82084bf91c66f4622658db2f9271fad997ba07a951479df7fbfe261bb2"
+    }
+  },
+  "condition": "runtime compiled lib source equals repository source; adapter binary SHA asserted from compiling agent receipt",
+  "after_sha256": {
+    "adapter_binary": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823",
+    "compiled_source": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+    "repository_source": "204d3fa9dd4a5ed8400410ff1035c4771e11d6ff50d5267a3756a740cf9b731b",
+    "oracle_binary": "14e7896a1176830b6353cc70cb3cb497de2465c39c2c71b978bddb3b43b80a11",
+    "oracle_source": "0007ca82084bf91c66f4622658db2f9271fad997ba07a951479df7fbfe261bb2"
+  },
+  "source_and_binary_unchanged": true,
+  "command": [
+    "python",
+    "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/s9_vigilode/ad_check/compare_callbacks.py",
+    "--adapter",
+    "/workspace/scratch/f49816986ef8/s9_runtime/target/debug/bass-s9-vigilode",
+    "--oracle",
+    "/tmp/bass_s9_ad_target/debug/bass-s9-ad-check",
+    "--output-dir",
+    "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s9/theory_review/actual_callbacks"
+  ],
+  "exit": 0,
+  "wall_seconds": 0.09755343100550817
+}

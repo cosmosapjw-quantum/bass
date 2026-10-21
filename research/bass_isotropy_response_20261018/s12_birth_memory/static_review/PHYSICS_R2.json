@@ -1,0 +1,209 @@
+{
+  "schema": "BASS_S12_COMPLEMENTARY_STATIC_PHYSICS_REVIEW_R2",
+  "timestamp_utc": "2026-10-20T21:19:34.662090+00:00",
+  "reviewer": "/root/p6_theory",
+  "status": "NO_KNOWN_STATIC_BLOCKER_AFTER_THREE_REVISIONS__RUNTIME_VERIFICATION_PENDING",
+  "scope": "Read-only review of new S12 Rust core/birth/history/CLI and parent independent Python reference; no old campaign replay and no solver execution by this reviewer.",
+  "publication_state": "C1 published; these source hashes describe the reviewed working candidate before parent freezes and publishes the full C5 source. No source-commit identity is fabricated.",
+  "C1_source_commit": "e48e0d5632634f6be2af63cf9059c8dd104882de",
+  "C1_tree": "3904a366fa0c26ec422475bcc4fb24f4811cacf3",
+  "independence": {
+    "Rust_core_birth_history_author": "/root/new_branch_intake",
+    "Python_reference_author": "/root",
+    "reviewer_authored": "S12 theoretical proposal and separate native_followup wrapper; neither native wrapper authorship nor its own verification is counted as independent C9 approval.",
+    "common_basis": "All implementations intentionally share the fixed mathematical/physical contract. This is complementary code/physics review, not an independent rediscovery of the entire cosmological model.",
+    "Wolfram": "Parent retained 51-zero-identity successful CAS result and the preceding syntax/serialization failure. This reviewer did not execute or count that CAS as an independent runtime test."
+  },
+  "source_manifest": [
+    {
+      "path": "src/core.rs",
+      "bytes": 14544,
+      "sha256": "4de56b7dc541259315ac5cb6eea5d632f68276a76f3cdce8a646d39c7e13c178"
+    },
+    {
+      "path": "src/birth.rs",
+      "bytes": 7466,
+      "sha256": "714157f1b8bbfeaea69162f57d39a3a855b5d53b6b01f645189c09abb8f446f3"
+    },
+    {
+      "path": "src/history.rs",
+      "bytes": 53730,
+      "sha256": "a73c2af7a5276237c33f7afdc8b035f07d20c8309444538829fb36fba5a62406"
+    },
+    {
+      "path": "src/core_cli.rs",
+      "bytes": 8601,
+      "sha256": "eb10d497850ef820ab51246c09260c0f06cabf3eab21cbe02c1e26771bcbdae2"
+    },
+    {
+      "path": "src/main.rs",
+      "bytes": 5849,
+      "sha256": "3155b90034a2b49891877e3afc2fc315e6b3349811e2e9c46fbda9e5079a08cd"
+    },
+    {
+      "path": "src/lib.rs",
+      "bytes": 250,
+      "sha256": "c6a63698e8686dbbb4d441011108dc59e9eb72596d10be71522881c230a427b5"
+    },
+    {
+      "path": "reference.py",
+      "bytes": 11447,
+      "sha256": "cd980ba62bc80118d53a8a921cd6518f7303d06ff98e54233b65c15653f65cd4"
+    },
+    {
+      "path": "PREREGISTRATION.json",
+      "bytes": 2870,
+      "sha256": "de4a4df591d00719e7f00efc8b0a244dbac3e2a18822904fc774474890e72d83"
+    },
+    {
+      "path": "CONTRACT.json",
+      "bytes": 9137,
+      "sha256": "dcd7f12d1faea19abb0a9542ce643a8846131c9e198d4ac7f0689ea53fc8cce9"
+    }
+  ],
+  "earlier_snapshot": "READ_R1_MANIFEST.json and READ_R1_* retain the pre-fix source bytes.",
+  "revision_author_record": "../../rust_c5/STATIC_REVISION_R2.json",
+  "findings": [
+    {
+      "id": "F1_RAW_GL_PRIOR_DOMAIN",
+      "severity_at_R1": "blocking_input_contract",
+      "origin": "independent p6_theory read; root confirmed S9 raw-prior contract",
+      "R1_evidence": "history validated the coordinate grid as a norm-one physical cohort, and source_frame_GL returned raw prior weights without fresh normalization. Parent fixtures preserve raw GL mass two.",
+      "R2_resolution": "validate_grid now checks raw prior finite positive mass and exact reflection; birth_support normalizes only the fresh source_frame_GL copy; validate_input checks exact fresh norm/P2/P4. No old physical weights are changed.",
+      "status": "CLOSED_BY_STATIC_READ",
+      "source": "src/history.rs"
+    },
+    {
+      "id": "F2_FUTURE_COHORT",
+      "severity_at_R1": "missing_public_domain_guard",
+      "origin": "independent p6_theory read",
+      "R1_evidence": "Evaluator allowed evaluation at x earlier than an active frozen cohort birth.",
+      "R2_resolution": "Evaluator::eval rejects x < any cohort.u before either baseline or fused reduction.",
+      "status": "CLOSED_BY_STATIC_READ",
+      "source": "src/core.rs"
+    },
+    {
+      "id": "F3_OLD_STOCK_GATE_SCOPE",
+      "severity_at_R1": "scope_contract_violation",
+      "origin": "root independent decision following the shared source review",
+      "R1_evidence": "old_isotropic physical stock was subjected to new-birth P24 exact admission.",
+      "R2_resolution": "Removed old P2/P4 admission; original physical validation and ownership digest checks remain. Fresh birth admission is retained.",
+      "status": "CLOSED_BY_STATIC_READ",
+      "source": "src/history.rs"
+    }
+  ],
+  "static_checks": [
+    {
+      "id": "GEOMETRY",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Non-tilted axisymmetric Bianchi I with (-,+,+,+), a_perp=a*exp(-b), a_parallel=a*exp(2b), y=s/H_star and Sigma=sqrt(3)*abs(y)/h matches the fixed contract."
+    },
+    {
+      "id": "PRIMAL",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The three primal h,b,y equations match the manufactured fixed-event pressureless donor and collisionless-cohort model; E_d has exp(-3*x-lambda*exposure) with exposure fixed between births."
+    },
+    {
+      "id": "RAY_CHAIN",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "R_d=-2D, D_d, D_dd and D_{d,mu} in the kernel match the theory expressions by termwise symbolic review. This is not a new CAS execution."
+    },
+    {
+      "id": "FULL_MEMORY_SPLIT",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "M_E and M_P contain the frozen birth B_j, mu_theta and alpha_theta contributions; current b_theta is included through J*S exactly once."
+    },
+    {
+      "id": "J6",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The augmented Jacobian has upper [J,0], lower [L,J]; all nine L entries agree with differentiating J*S+(-M_E/h,0,M_P/h) at fixed birth companions."
+    },
+    {
+      "id": "PARTIAL_X",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The six explicit-x derivatives use E_x=Pi_x=M_E,x=M_P,x=-4 times each quantity and E_d,x=-3 E_d. The clock7 final column is this full six-vector."
+    },
+    {
+      "id": "SOURCE_FRAME_GAUGE",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "For source_frame_GL b0, old B_j=1, new B_j=b_theta at birth, and zero angular/weight derivatives preserve simultaneous b and b_birth translation. Initial tangent is (0,1,0)."
+    },
+    {
+      "id": "PHYSICAL_Y0",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The y0 family uses initial (y0/h0,0,1), old B_j=0 and fixed donor/event amplitudes; it is not a moving-event or donor-parameter tangent."
+    },
+    {
+      "id": "IMPLICIT_KL",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The P24 implicit derivative uses actual centered covariance, the prior score and moving Legendre features. Eigenvalue/condition and derivative residual gates are retained before companion admission."
+    },
+    {
+      "id": "BIRTH_ADMISSION",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Each P24 newborn passes physical validation and exact binary64-input norm/P2/P4 rational gate 3/10^15 before the implicit derivative and append. No failure path installs negative physical weights or relaxes the gate."
+    },
+    {
+      "id": "EVENT_TRANSFER",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "At fixed u_j, energy_transfer=E_d^-*(-expm1(-lambda*Delta)); exposure becomes (j+1)*Delta. State is continuous, while radiation and frozen memories are appended once."
+    },
+    {
+      "id": "STOCK_IMMUTABILITY",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Physical and companion digests are checked before/after segment and append, and old physical final digests must equal supplied expected digests. The new implementation does not rewrite old S9/S10 sources."
+    },
+    {
+      "id": "OMISSION_CONTROLS",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "omit_birth_memory, omit_mu_b and omit_alpha_b each receive their own tangent trajectory, with fresh companion omission only and physical primal weights unmodified. Their raw residuals remain in receipts."
+    },
+    {
+      "id": "RAW_FAILURE_RETENTION",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Upstream solver success, exact schedules, callback errors and state shapes are checked; failed output is retained including float bits. completed/exit0 describes successful integration and admission, not all external scientific acceptance gates."
+    },
+    {
+      "id": "CHECKPOINT_BINDING",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Boundary checkpoints bind source, exact input, executable, algorithm, VigilODE and REI identities; validate next boundary/event, old physical prefix and memory omission consistency. Resume restores a recorded boundary, not an unrecorded substep."
+    },
+    {
+      "id": "INDEPENDENT_ORACLE_STRUCTURE",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Parent reference.py computes W/V parameter variations directly, independently of the Rust J*S+memory split; its complex-step checks target all six state columns and explicit x."
+    },
+    {
+      "id": "GATE_SEPARATION",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "The existing absolute source-frame gauge 1e-11 and fine Richardson h,b,y absolute 1e-8 gates remain separately stated, alongside additional scaled diagnostics. No old gate is replaced."
+    },
+    {
+      "id": "FUSED_SCOPE",
+      "assessment": "MATCHES_FIXED_CONTRACT_BY_SOURCE_REVIEW",
+      "detail": "Fused/prepared scalar evaluation retains cohort/ray order and compensated reduction; timing claims await matched-input execution and raw paired samples. No speedup is assumed."
+    }
+  ],
+  "reviewer_activity_counts": {
+    "Rust_compile_calls": 0,
+    "scientific_solver_calls": 0,
+    "old_campaign_calls": 0,
+    "numerical_validation_tests": 0
+  },
+  "runtime_obligations_not_yet_approved": [
+    "Frozen source and binary/input bindings must be attached to actual C6 process stdout/stderr/exit receipts.",
+    "Core all-six-column complex-step and explicit-x checks, baseline/fused identity and negative-input controls require actual recorded outcomes.",
+    "Full histories require external checks of primal and tangent constraints, event energy/tangent jumps, unchanged exact fresh-birth gates, fixed physical/memory prefixes and source-frame gauge.",
+    "Centered FD and fine Richardson must use separately evolved perturbed primals with unchanged old physical source-frame weights and fixed event/donor data; omission controls must be compared to the full Richardson error without turning their operational completion into a science PASS.",
+    "observe() constructs E_theta_prime from the conservation identity, so its C_theta propagation residual is an algebraic consistency diagnostic. It is not by itself an independent per-cohort energy derivative verification; independent direct-chain or finite-difference evidence must support such a claim.",
+    "Performance must retain raw paired timings and all regressions at matched observable accuracy; no old S10 benchmark may be restarted.",
+    "Checkpoint binding was reviewed statically; no runtime resume/recovery claim is made here.",
+    "NCP 64CPU/128GiB topology, actual execution, and the single S8 native follow-up remain separate from this sandbox source review."
+  ],
+  "nonclaims": [
+    "Not actual MD14 normalization or native Einstein/shear shared-Q closure.",
+    "Not an evolving reactive full finite-bin spectral-history result or continuum conservation certificate.",
+    "Not a parameter derivative across support-feasibility boundaries, moving event times, donor amplitudes, or floating-point stopping branches.",
+    "Not approval to replay any completed S8/S9/S10/S11 campaign, production REI/full EoR, or merge."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "bass.s9.symbolic_jvp.v1",
+  "scope": "Frozen-bank primal3 and autonomous4 interface; normalized new birth. No ODE integration.",
+  "original_export_attempt": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Export::jsonstrictencoding: Expression \"Times\" cannot be exported as \"JSON\".\nGeneral::messages: Messages were generated which may indicate errors.\n\nOut[1]= $Failed"
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "corrected_display_export": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= \"{\\n\\t\\\"J_residual\\\":[\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t]\\n\\t],\\n\\t\\\"Ft_residual\\\":[\\n\\t\\t0,\\n\\t\\t0,\\n\\t\\t0\\n\\t],\\n\\t\\\"constraint_propagation_residual\\\":0,\\n\\t\\\"autonomous4_J_residual\\\":[\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t],\\n\\t\\t[\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0,\\n\\t\\t\\t0\\n\\t\\t]\\n\\t],\\n\\t\\\"birth_rhs_jump_InputForm\\\":\\\"{-1\\\\/2*w\\\\/h, 0, (m2*w)\\\\/h}\\\",\\n\\t\\\"birth_Ft_jump_InputForm\\\":\\\"{(5*w)\\\\/(2*h), 0, (-4*m2*w)\\\\/h}\\\",\\n\\t\\\"birth_constraint_jump\\\":0\\n}\""
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "interpretation": {
+    "jacobian_entries_zero": 9,
+    "time_partial_entries_zero": 3,
+    "autonomous_jacobian_entries_zero": 16,
+    "constraint_Cprime_plus_2C_zero": true,
+    "normalized_birth_C_jump_zero": true,
+    "birth_rhs_jump": [
+      "-w/(2h)",
+      "0",
+      "w*M2/h"
+    ],
+    "birth_Ft_jump": [
+      "5*w/(2*h)",
+      "0",
+      "-4*w*M2/h"
+    ]
+  },
+  "rendering_failure": "Initial JSON serializer could not export symbolic Times expressions; corrected to InputForm strings for symbolic jump fields; no physical model/gate change."
+}

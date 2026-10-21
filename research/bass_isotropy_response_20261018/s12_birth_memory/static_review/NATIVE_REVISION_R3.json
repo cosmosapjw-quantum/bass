@@ -1,0 +1,44 @@
+{
+  "schema": "BASS_S12_NATIVE_AUTHOR_REVISION_R3",
+  "utc": "2026-10-20T21:23:43.876227+00:00",
+  "requested_by": "root, matching shared process_control policy after cloud advisory",
+  "scope": "Complete the same nested-process boundary closure before source freeze. No scientific or mathematical change.",
+  "finding": "A subprocess leader can return zero while descendants remain in its separate owned group.",
+  "fix": "After process.wait has reaped the leader, command probes only that exact pid-as-pgid with signal0. Surviving owned group triggers guard.stop and LEFTOVER_OWNED_CHILDREN failure even if the leader exited0.",
+  "spawn_registration_review": "SIGTERM/INT blocked before Popen, exact process/group registered before parent mask restoration; child preexec restores previous mask before applying existing resource limits. This part already present in R2 and unchanged.",
+  "status": "IMPLEMENTED_PENDING_INDEPENDENT_STATIC_READ; no process fixture executed",
+  "before": [
+    {
+      "path": "run.py",
+      "bytes": 21868,
+      "sha256": "d9492402b63dc9ed01c2f4f9f83390a55448c0aa4cd36ec33026b2f87010579f"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "bytes": 2741,
+      "sha256": "31024569934b5b9b58edc952e2037469db816740794bfb891f84d3483394c4a7"
+    }
+  ],
+  "after": [
+    {
+      "path": "run.py",
+      "bytes": 22366,
+      "sha256": "e751ef4d5a4efb8917373ab7c53726c59a2f22cc7f4a655365bd8929f84901e3"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "bytes": 2741,
+      "sha256": "de187d6f5e46c820d5feb9663cadbc67be6d2e4c488932b5f2cf7c4f49563476"
+    }
+  ],
+  "runtime_manifest_files": 11,
+  "runtime_payload_bytes": 130255,
+  "activity": {
+    "AST_parses": 1,
+    "process_fixture_runs": 0,
+    "Rust_compile_calls": 0,
+    "native_history_calls": 0,
+    "ODE_solver_calls": 0,
+    "old_campaign_calls": 0
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema": "bass.s3.angular_campaign.v1",
+  "status": "PASS_SCOPED_MEASUREMENT_AND_CONSTRAINTS",
+  "source_sha256": {
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "shear_response.py": "506d6bb913776d6ada0f37a34ff0387e5aed50756b80e03dad1ac8c621e4151a",
+    "test_s3.py": "15917d66ef50eff1afbbf39264c3d1604835b11889ba940b2f639dc071a5d3b8",
+    "run_s3_campaign.py": "8e171badca059edee5f9e7d8dee0d0e8dcfbfe885d498ecd7895095bd95b7ff1"
+  },
+  "measurement_source_sha256": {
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "shear_response.py": "506d6bb913776d6ada0f37a34ff0387e5aed50756b80e03dad1ac8c621e4151a",
+    "test_s3.py": "15917d66ef50eff1afbbf39264c3d1604835b11889ba940b2f639dc071a5d3b8",
+    "run_s3_campaign.py": "76ce92ac1482430f9d85268688c388248f2adccf4e86fcbde72bcd38ca208843"
+  },
+  "reused_measurements": "/workspace/scratch/f49816986ef8/s3_campaign_run_01/ANGULAR_CAMPAIGN.json",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "test_command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-m",
+    "unittest",
+    "-v",
+    "test_s3"
+  ],
+  "test_exit": 0,
+  "new_tests": 14,
+  "parameter_grid": {
+    "birth_b": [
+      -0.6,
+      -0.4,
+      -0.3,
+      -0.2,
+      0.0,
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "n_mu": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "d": [
+      -0.2,
+      -0.1,
+      -0.05,
+      -0.02,
+      -0.01,
+      0.0,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "constraints": [
+      "prior",
+      "P2",
+      "P24"
+    ]
+  },
+  "attempted_rules": 165,
+  "measured_rules": 146,
+  "rejected_rules": 19,
+  "measured_response_points": 1606,
+  "P24_success_cases": 43,
+  "counts": [
+    {
+      "constraint": "P2",
+      "status": "MEASURED",
+      "error": "",
+      "count": 48
+    },
+    {
+      "constraint": "P2",
+      "status": "REJECTED",
+      "error": "INFEASIBLE_ANGULAR_SUPPORT",
+      "count": 7
+    },
+    {
+      "constraint": "P24",
+      "status": "MEASURED",
+      "error": "",
+      "count": 43
+    },
+    {
+      "constraint": "P24",
+      "status": "REJECTED",
+      "error": "INFEASIBLE_P24_MEAN",
+      "count": 7
+    },
+    {
+      "constraint": "P24",
+      "status": "REJECTED",
+      "error": "INFEASIBLE_P24_UPPER",
+      "count": 5
+    },
+    {
+      "constraint": "prior",
+      "status": "MEASURED",
+      "error": "",
+      "count": 55
+    }
+  ],
+  "reference_max_GL256_agreement_error": 5.551115123125783e-16,
+  "reference_max_Decimal80_agreement_error": 5.551115123125783e-17,
+  "max_derivative_central_difference_error": 5.660458768375065e-10,
+  "wall_seconds": 6.059326078000595,
+  "maxrss_kib": 122252,
+  "continuum_accuracy_admission": false,
+  "native_finite_bin_admission": false,
+  "coupled_shear_evolution": "NOT_RUN",
+  "reference_warnings": [
+    {
+      "d": 0.13994804935909905,
+      "messages": [
+        "The occurrence of roundoff error is detected, which prevents \n  the requested tolerance from being achieved.  The error may be \n  underestimated."
+      ]
+    }
+  ],
+  "figure_floor": 1e-16,
+  "fixed_source_weights": true,
+  "angular_refinement_and_constraints_separate": true
+}

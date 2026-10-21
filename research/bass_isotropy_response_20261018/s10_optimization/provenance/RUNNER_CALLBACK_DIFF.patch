@@ -1,0 +1,45 @@
+--- provenance/S9_RUNNER_EXTRACT.rs
++++ src/runner.rs
+@@ -62,14 +62,14 @@
+         sigma:3.0_f64.sqrt()*y.abs()/h,c,c_relative:c.abs()/scale,clock_error})
+ }
+ 
+-pub fn run(input:Input) -> RunReceipt {
++pub(crate) fn run_candidate(input:Input,mode:Mode) -> RunReceipt {
+     let start=Instant::now();
+     let mut receipt=RunReceipt {schema:"BASS_S9_VIGILODE_RUN_V1".into(),algorithm:ALGORITHM.into(),
+         vigilode_source:VIGILODE_SOURCE.into(),spectral_owner:SPECTRAL_OWNER.into(),input:input.clone(),
+         status:"incomplete".into(),failure:None,observations:vec![],events:vec![],segments:vec![],
+         final_cohorts:input.initial_cohorts.clone(),old_stock_digests:input.expected_old_digests.clone(),
+         pending_birth:None,elapsed_seconds:0.0};
+-    let result=run_inner(&input,&mut receipt);
++    let result=run_inner(&input,&mut receipt,mode);
+     match result { Ok(())=>receipt.status="completed".into(), Err(e)=>{
+         receipt.status="failed".into(); receipt.failure=Some(json!({"kind":failure_kind(&e),"error":e,
+             "completed_segments":receipt.segments.len(),"admitted_births":receipt.events.len()}));
+@@ -77,7 +77,7 @@
+     receipt.elapsed_seconds=start.elapsed().as_secs_f64(); receipt
+ }
+ 
+-fn run_inner(input:&Input,receipt:&mut RunReceipt) -> Result<(),String> {
++fn run_inner(input:&Input,receipt:&mut RunReceipt,mode:Mode) -> Result<(),String> {
+     validate_input(input)?;
+     let c=&input.config; let sc=&input.solver;
+     let adaptive=AdaptiveStepConfig {rtol:sc.rtol,atol:sc.atol,initial_step:sc.initial_step,
+@@ -104,14 +104,14 @@
+         let schedule=OutputSchedule::new(times.clone()).map_err(|e|e.to_string())?;
+         let shared=Arc::new(bank.clone());
+         let (observed,meta)=if sc.arm=="mf_into_ls" {
+-            let problem=ode_problem(shared).map_err(|e|e.to_string())?;
++            let problem=crate::adapter::ode_problem(shared,mode).map_err(|e|e.to_string())?;
+             let r=integrate_rodas5p_mf_fast_observed_gmres_into_ls_workspace(&problem,(begin,end),&state,&linear,&adaptive,&schedule)
+                 .map_err(|e|format!("SOLVER_UPSTREAM_ERROR: {e}"))?;
+             let meta=json!({"driver":r.driver,"attempts":r.attempts,"accepted":r.accepted_steps,"rejected":r.rejected_steps,
+                 "state_reuses":r.state_reuses,"krylov_workspace":r.krylov_workspace});
+             (r.observed,meta)
+         } else {
+-            let problem=ClockProblem(shared);
++            let problem=crate::adapter::ClockProblem::new(shared,mode);
+             let r=integrate_rodas5p_fast_small_observed(&problem,(begin,end),&[state[0],state[1],state[2],begin],&adaptive,&schedule)
+                 .map_err(|e|format!("SOLVER_UPSTREAM_ERROR: {e}"))?;
+             let meta=json!({"driver":r.driver,"attempts":r.attempts,"accepted":r.accepted_steps,"rejected":r.rejected_steps,

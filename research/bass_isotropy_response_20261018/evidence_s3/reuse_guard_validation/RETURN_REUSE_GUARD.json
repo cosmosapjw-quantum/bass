@@ -1,0 +1,30 @@
+{
+  "schema": "bass.s3.reuse_guard_delta.v1",
+  "status": "PASS_12_RECOVERY_REGRESSIONS",
+  "test_command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-m",
+    "unittest",
+    "-v",
+    "test_campaign_reuse"
+  ],
+  "exit_code": 0,
+  "tests": 12,
+  "wall_seconds": 1.3408549790001416,
+  "source_sha256": {
+    "run_s3_campaign.py": "7a2419e5d3828359d975b1d73935485b35a2d746af9850ac0c0ccbfbf678a1b8",
+    "test_campaign_reuse.py": "662063d1e1e14721bcf5c097fe741ec5de302f0ddfbaf3138b42512f6cdaab11"
+  },
+  "review_finding": "Saved measurement reuse checked row count and cached P2 diagnostics; strengthen exact grid, original support/prior, positivity, parity, normalization, direct moments, feasibility, deterministic diagnostics and response checks.",
+  "original_measurement_sha256": "01f3d130d10a318d411f10252f928057dd79a5145ba419aee5094b988102f03d",
+  "original_report_producer_sha256": "8e171badca059edee5f9e7d8dee0d0e8dcfbfe885d498ecd7895095bd95b7ff1",
+  "physics_or_optimizer_change": false,
+  "optimization_campaign_rerun": false,
+  "native_rerun": false,
+  "report_regeneration_after_guard_patch": false,
+  "first_test_setup_attempt": {
+    "status": "SETUP_PATH_ERROR",
+    "cause": "File creation used root-relative path while workdir already selected lane; test module was not created and unittest import failed. Corrected output path, then ran 12 tests successfully.",
+    "physics_effect": false
+  }
+}

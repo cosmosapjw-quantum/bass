@@ -1,0 +1,15 @@
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_r02/owner_source/rust/rei_microphysics/src/axbi_driver.rs:311:18
+    |
+311 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+311 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+311 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: 1 warning emitted
+

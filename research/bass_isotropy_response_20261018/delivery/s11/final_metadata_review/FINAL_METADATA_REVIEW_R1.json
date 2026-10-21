@@ -1,0 +1,155 @@
+{
+  "schema": "BASS_S11_FINAL_METADATA_REVIEW_V1",
+  "recorded_at_utc": "2026-10-20T18:35:15.571899+00:00",
+  "reviewer": "p6_theory",
+  "status": "NEEDS_METADATA_CORRECTION",
+  "scope": "Read-only consistency of final metadata and handoffs; no physics algebra, solver, compiler, test, ODE, benchmark, NCP, cloud transfer or browser action.",
+  "source_files_edited": [],
+  "reviewed_input_manifest": [
+    {
+      "path": "README_KO.md",
+      "bytes": 7289,
+      "sha256": "91fef810eb54153795663fe352ee3c0afafdf6bfb1b6b4deae7e12dda613fcd1"
+    },
+    {
+      "path": "DAG.json",
+      "bytes": 162513,
+      "sha256": "25b75d092892c5cb52e3f2c878bf6ee7743634a68a20f51e47d78f41e724362a"
+    },
+    {
+      "path": "RETURN_TO_CHATGPT.json",
+      "bytes": 113613,
+      "sha256": "7580e5fb5296d656da56d64099c87b60665760b1ce963cf0293e39e1a9a7227f"
+    },
+    {
+      "path": "PUBLICATION_CLOSEOUT.json",
+      "bytes": 136389,
+      "sha256": "c9d4fa435a612a3aa9fcb98561c4045f7fe8ddc2c8f708f1aa22e11b59ccc1ca"
+    },
+    {
+      "path": "CLOUD_READBACK_KO.md",
+      "bytes": 18138,
+      "sha256": "febf9784782c5f6439a878554cad18dcfd475ac7501134738d614fa74f9c360d"
+    },
+    {
+      "path": "delivery/s11/C10_DECISION.json",
+      "bytes": 5422,
+      "sha256": "1a6b512dbd5220c37def4bcc3930e7e33672f0aceb300f51025676e050d00efa"
+    },
+    {
+      "path": "delivery/s11/CLOUD_CHECKPOINT_INDEX.json",
+      "bytes": 5295,
+      "sha256": "a1d0fabb44434acb77daf185578ea107faed62634d121c7134a9b6d861caf4ea"
+    },
+    {
+      "path": "NEW_THREAD_HANDOFF_KO.md",
+      "bytes": 7253,
+      "sha256": "7a3d3948a559a698be3c557a1ea55257330539d4c6cfaaf53354fb208133b3b8"
+    },
+    {
+      "path": "CODEX_HANDOFF_KO.md",
+      "bytes": 7188,
+      "sha256": "25cb0dff0e8ae93fa1b11b2bafdc25690a8f65df8e2eef05fab57ff4224fed4e"
+    },
+    {
+      "path": "delivery/s11/BROWSER_DELIVERY_BOUNDARY.json",
+      "bytes": 1196,
+      "sha256": "9a64b951aee23838bb52d4133fee78d2db8295dd3815c48d77b5bd22de562d75"
+    }
+  ],
+  "findings": [
+    {
+      "id": "M1",
+      "severity": "metadata_consistency",
+      "file": "RETURN_TO_CHATGPT.json",
+      "pointers": [
+        "/publication/current_scientific_source_commit",
+        "/publication/current_scientific_source_tree",
+        "/publication/status",
+        "/publication/current_cloud_index",
+        "/publication/source_identity_policy"
+      ],
+      "observed": {
+        "current_scientific_source_commit": "4b30957cb008aad8019bb1a673937fc67bd017e8",
+        "current_scientific_source_tree": "8e4abf3820d06bae6cbec307e4f69de74195d14b",
+        "status": "S9_S10_EIGHT_ORIGINAL_ARCHIVES_GIT_AND_DUAL_CLOUD_VERIFIED_RECOVERY_METADATA_POSTCOMMIT_PENDING",
+        "current_cloud_index": "delivery/s10/CLOUD_CHECKPOINT_INDEX.json",
+        "source_identity_policy": "This is a delivery-only recovery metadata child of a85605302bb0317022eb06b498eb05b9d621de6a. The executed optimization source remains d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8. Exact containing commit/tree, the finite postcommit supplement and its dual-cloud readback are owned by the latest PR174 delivery comment and postcommit receipt; no self-referential commit/hash or unperformed supplement upload is asserted here."
+      },
+      "reason_ko": "현재 publication 필드가 S9 source와 원8ZIP 복구의 postcommit pending을 가리켜 S11 source 및 완료된 S10 9ZIP 상태와 충돌한다.",
+      "recommendation_ko": "원 publication을 historical 보존한 후 현재 S11 source/result/Drive partial과 새 cloud index로 정렬한다."
+    },
+    {
+      "id": "M2",
+      "severity": "metadata_consistency",
+      "file": "DAG.json",
+      "pointers": [
+        "/latest_storage_intake_role"
+      ],
+      "observed": "Historical pre-S9 science intake; current delivery index is delivery/s10/CLOUD_CHECKPOINT_INDEX.json.",
+      "reason_ko": "설명문이 현재 index를 S10으로 가리키지만 실제 current_delivery_index는 S11이다.",
+      "recommendation_ko": "역사적 pre-S9 역할은 유지하고 현재 index 문구만 S11로 정렬한다."
+    },
+    {
+      "id": "M3",
+      "severity": "metadata_consistency",
+      "file": "PUBLICATION_CLOSEOUT.json",
+      "pointers": [
+        "/source_identity_policy"
+      ],
+      "observed": "This is a delivery-only recovery metadata child of a85605302bb0317022eb06b498eb05b9d621de6a. The executed optimization source remains d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8. Exact containing commit/tree, the finite postcommit supplement and its dual-cloud readback are owned by the latest PR174 delivery comment and postcommit receipt; no self-referential commit/hash or unperformed supplement upload is asserted here.",
+      "reason_ko": "최상위 source 정책이 아직 이전 S10 배송 복구 child/source를 현재 문서로 설명한다.",
+      "recommendation_ko": "이전 정책을 historical 보존하고 S11 source7fb/result85d 및 후속 containing metadata 정책으로 교체한다."
+    }
+  ],
+  "confirmed": {
+    "S11_source": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+    "S11_source_tree": "963a43f26df1f9c6f462b9df9a2c34cf99f525c9",
+    "S11_result_and_reviews": "85d5833b4486d14855b84a9d967f5819788d05e5",
+    "S11_result_tree": "fd3e994212059228501e26f7bf3d3b96462ba1d5",
+    "science_completion": "COMPLETE_SCOPED, main101/101; physics C9 235/235; provenance C9 152/152; recovery math25/25 kept separate, no science recomputation in this review",
+    "new_Dropbox_archive_count": 3,
+    "new_Dropbox_bytes": 2779528,
+    "new_Dropbox_payload_entries_including_duplicates": 171,
+    "new_runtime_binary_payloads": 1,
+    "new_Drive": "upload2 + copy1 unanswered; outcome unknown; no returned new ID; update_file0; no new dual completion claimed",
+    "original_S10": "d0c0313d6c063037fd8e067744aee66235df1a58 remains complete9ZIP/4399983bytes/383 repeated payloads plus final JSON both-provider full bytes",
+    "browser": "Local plugin bootstrap unavailable with originating-context message; page actions0, uploads0, Cloud Browser not initialized; separate fallback approval boundary recorded, no such approval requested while finishing authorized Git/Dropbox",
+    "C10_self_identity": "Containing metadata commit/tree, final finite ZIP/JSON and their actual readback are deferred to postcommit final PR record; no fabricated self hash or future success",
+    "scope_limits": "S8 original history failure, exact P6 support failures, fixed-grid1.549 worsening, original owner/physics gates, remaining MD14/sharedQ/history/tangent obligations and no new NCP obligation retained",
+    "markdown_local_links": {
+      "links_reviewed": 43,
+      "unresolved_in_checkout_and_stored_result_tree": 0,
+      "sparse_historical_occurrences_resolved_by_result_tree": 9,
+      "note": "Stored tree presence check only; no extra remote content claim."
+    },
+    "readback_receipt_metadata": [
+      {
+        "path": "delivery/s11/stage1/DROPBOX_FULL_READBACK.json",
+        "sha256": "319251001be46277170ff6b698b6fbfe8dba01cfb40fc7652cf82e2c67261331",
+        "index_sha256_match": true,
+        "status": "PASS_FULL_REMOTE_BYTES_PROVIDERHASH_CRC_MANIFEST_GIT",
+        "archive_bytes_match": true,
+        "archive_sha256_match": true
+      },
+      {
+        "path": "delivery/s11/stage2/DROPBOX_FULL_READBACK.json",
+        "sha256": "41b60029d38f9c2012f8d0810ae6fd3470b694e9a5dae4d14a05e22ced22df75",
+        "index_sha256_match": true,
+        "status": "PASS_FULL_REMOTE_BYTES_PROVIDERHASH_CRC_MANIFEST_GIT",
+        "archive_bytes_match": true,
+        "archive_sha256_match": true
+      },
+      {
+        "path": "delivery/s11/stage3/DROPBOX_FULL_READBACK.json",
+        "sha256": "bde4607bab4c8822a5381caff7061e128254279a42e9e73417580759d2af63b8",
+        "index_sha256_match": true,
+        "status": "PASS_FULL_REMOTE_BYTES_PROVIDERHASH_CRC_MANIFEST_GIT",
+        "archive_bytes_match": true,
+        "archive_sha256_match": true
+      }
+    ]
+  },
+  "reviewer_independence_limit": "Reviewer authored the two handoffs and S11 theory/physics review; final metadata was authored by root. This is a metadata consistency review, not a new independent scientific pass.",
+  "remaining_approval": "Findings concern active metadata aliases only; they require document correction before final freeze, not scientific replay or changed claims."
+}

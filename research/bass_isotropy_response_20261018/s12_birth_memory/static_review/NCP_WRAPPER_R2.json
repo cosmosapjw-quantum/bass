@@ -1,0 +1,45 @@
+{
+  "schema": "BASS_S12_NCP_WRAPPER_STATIC_REVIEW_R2",
+  "utc": "2026-10-20T21:27:19.290675+00:00",
+  "reviewer": "/root/p6_theory; not the wrapper author",
+  "status": "THREE_FINDINGS_CLOSED_BY_READ_ONLY_SOURCE_REVIEW__EXECUTION_PENDING",
+  "scope": "Minimal closure of the three R1 wrapper findings before C2/C5 source freeze. The earlier18 physics-contract items are not repeated or added to a new PASS/test total.",
+  "prior_review": "NCP_WRAPPER_STATIC_REVIEW_R1.json",
+  "reviewed_file": {
+    "path": "ncp/parallel_core.py",
+    "bytes": 7678,
+    "sha256": "6aad46a783aeafc9b820261d528d9cf66c2a6877c3783882126fe4a2cd3f203c"
+  },
+  "closures": [
+    {
+      "id": "P1_SANDBOX_WORKER_PREREG",
+      "status": "CLOSED_STATIC",
+      "evidence": "Explicit sandbox check rejects workers!=2 after affinity/resource profile validation. NCP remains within requested<=64 and outer scheduler capacity."
+    },
+    {
+      "id": "P2_COMPLETE_SCIENTIFIC_OUTPUT",
+      "status": "CLOSED_STATIC",
+      "evidence": "validate_scientific_output is called before admission. It checks exact header, ROW0..23, RHS6/JVP6/PT6/JAC36/MOMENTS10 finite numeric fields, and exact end of output. Truncation/nonfinite/trailing content raises a failure; byte-identity comparison remains unchanged."
+    },
+    {
+      "id": "P3_CONCURRENCY_METRIC_LABEL",
+      "status": "CLOSED_STATIC",
+      "evidence": "Metric renamed observed_peak_case_workers, matching the interval covering case subprocess and output handling. No claim of directly sampled live-child count."
+    }
+  ],
+  "unchanged_review_conclusions": [
+    "Whole cases share the outer owned process group; child start_new_session=False and frozen scalar reduction order.",
+    "Stdlib-only NCP wrappers retain source/input/binary identities and exact scientific output bytes; numerical and performance execution remains unmeasured by this review.",
+    "History full-admission and omission-control structural-admission statuses remain separate.",
+    "Published64-pack input identity/x-shift and resource reservation need actual source/input readback and outer scheduler receipts; NCP64/128 remains NOT_RUN without actual remote evidence."
+  ],
+  "publication_binding": "These exact source bytes are ready for inclusion in the parent C2/C5 source commit. Containing commit/tree identity is provided by the subsequent actual publication receipt, not guessed here.",
+  "activity_counts": {
+    "source_edits_by_reviewer": 0,
+    "scientific_tests": 0,
+    "process_fixture_runs": 0,
+    "compile_calls": 0,
+    "solver_calls": 0,
+    "old_campaign_calls": 0
+  }
+}

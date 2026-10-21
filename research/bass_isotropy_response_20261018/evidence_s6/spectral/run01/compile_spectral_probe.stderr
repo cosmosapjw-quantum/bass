@@ -1,0 +1,122 @@
+warning: constant `ID` is never used
+ --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:7:11
+  |
+7 | pub const ID: &str = "BASS_LRS_SOURCE_KL_P2_V1";
+  |           ^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `Projection` is never constructed
+ --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:9:12
+  |
+9 | pub struct Projection { pub weights:Vec<f64>, pub multiplier:f64, pub residual:f64, pub iterations:usize }
+  |            ^^^^^^^^^^
+
+warning: function `sum` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:10:4
+   |
+10 | fn sum(xs:impl Iterator<Item=f64>)->f64 {
+   |    ^^^
+
+warning: function `evaluated` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:15:4
+   |
+15 | fn evaluated(logq:&[f64],p:&[f64],l:f64)->(Vec<f64>,f64) {
+   |    ^^^^^^^^^
+
+warning: function `project` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:22:8
+   |
+22 | pub fn project(mu:&[f64],prior:&[f64],tol:f64)->Result<Projection,&'static str>{
+   |        ^^^^^^^
+
+warning: function `run` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:56:4
+   |
+56 | fn run()->Result<(),String>{
+   |    ^^^
+
+warning: function `main` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance.rs:88:4
+   |
+88 | fn main(){if let Err(e)=run(){eprintln!("BALANCE_ERROR {}",e);std::process::exit(3);}}
+   |    ^^^^
+
+warning: constant `ID` is never used
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance_p24.rs:12:11
+   |
+12 | pub const ID: &str = "BASS_LRS_SOURCE_KL_P24_V1";
+   |           ^^
+
+warning: fields `multipliers`, `residuals`, and `iterations` are never read
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance_p24.rs:20:9
+   |
+18 | pub struct Projection {
+   |            ---------- fields in this struct
+19 |     pub weights: Vec<f64>,
+20 |     pub multipliers: [f64; 2],
+   |         ^^^^^^^^^^^
+21 |     pub residuals: [f64; 2],
+   |         ^^^^^^^^^
+22 |     /// Number of evaluated nested distributions, including bracket searches.
+23 |     pub iterations: usize,
+   |         ^^^^^^^^^^
+   |
+   = note: `Projection` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: function `run` is never used
+   --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance_p24.rs:291:4
+    |
+291 | fn run() -> Result<(), String> {
+    |    ^^^
+
+warning: function `main` is never used
+   --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/balance_p24.rs:345:4
+    |
+345 | fn main() {
+    |    ^^^^
+
+warning: variants `PhysicallyAnisotropic` and `Unspecified` are never constructed
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/native_adapter.rs:12:51
+   |
+12 | pub enum EmissionKind { LocallyIsotropicNewBirth, PhysicallyAnisotropic, Unspecified }
+   |          ------------ variants in this enum       ^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^
+   |
+   = note: `EmissionKind` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: variant `OtherOrUnspecified` is never constructed
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/native_adapter.rs:14:53
+   |
+14 | pub enum EmissionFrame { NonTiltedLocalOrthonormal, OtherOrUnspecified }
+   |          ------------- variant in this enum         ^^^^^^^^^^^^^^^^^^
+   |
+   = note: `EmissionFrame` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: variant `P2` is never constructed
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/native_adapter.rs:25:24
+   |
+25 | pub enum Constraints { P2, P2P4 }
+   |          -----------   ^^
+   |          |
+   |          variant in this enum
+   |
+   = note: `Constraints` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `original_ledger`, `photon_moments`, and `max_ray_rescaling` are never read
+  --> /tmp/claude-1000/-home-cosmosapjw-bass/ebbb4444-1188-4e2d-bcd3-3580c8eba5eb/scratchpad/s6/spectral_run01/build/native_adapter.rs:28:9
+   |
+27 | pub struct BirthReceipt {
+   |            ------------ fields in this struct
+28 |     pub original_ledger: SourceLedger,
+   |         ^^^^^^^^^^^^^^^
+...
+31 |     pub photon_moments: [f64; 2],
+   |         ^^^^^^^^^^^^^^
+...
+34 |     pub max_ray_rescaling: f64,
+   |         ^^^^^^^^^^^^^^^^^
+   |
+   = note: `BirthReceipt` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: 15 warnings emitted
+

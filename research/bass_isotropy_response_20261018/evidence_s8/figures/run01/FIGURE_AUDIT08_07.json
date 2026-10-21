@@ -1,0 +1,188 @@
+{
+  "schema": "bass.s8.figure_audit.08_07.v1",
+  "status": "PASS_SCOPED_ACTUAL_IMAGE_AUDIT",
+  "reviewer": "/root/s8_final_visual_close",
+  "created_utc": "2026-10-19T12:46:30Z",
+  "audit_order": [
+    "08-Figure-Hostile-Audit.txt",
+    "07-Figure-Residual-Error-Pass.txt"
+  ],
+  "scope": "Single finite closure pass on existing S8 figure bytes and their bound actual execution records.",
+  "skill_context": {
+    "current_closure_version": "1.0.0",
+    "current_package": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d",
+    "current_resources_read": [
+      "User-provided SKILL.md",
+      "references/RESEARCH_POLICY.md",
+      "references/EVIDENCE_AND_HANDOFF.md"
+    ],
+    "original_s8_scientific_workflow_version": "1.3.0",
+    "historical_version_preserved": true
+  },
+  "figure_generation_reused": {
+    "created_utc": "2026-10-19T12:21:18.911841+00:00",
+    "sourceplot_sha256": "53899baaae2cd5d4e2fddafbb317af9559001f0775632a93c8261c324f2b0080",
+    "provenance_path": "evidence_s8/figures/run01/FIGURE_PROVENANCE.json",
+    "provenance_sha256": "b7734741979f20488d8957f54db7644553b2499c0fbb4052dc072a34ff04c593",
+    "data_sha256": "c1ce453234ebda886a1803449fe3f7450b03dba68e8eceb88671f96b8587e710",
+    "caption_sha256": "ff4de60390398fa814c6544ad838008a122595c7251f43f589abc55a788f4c19",
+    "original_pending_status": "ACTUAL_DATA_RENDERED_PENDING_SINGLE_VISUAL_AUDIT",
+    "closure": "This separate receipt closes the pending actual-image audit; the original generation receipt is preserved."
+  },
+  "actual_images_viewed": [
+    {
+      "path": "evidence_s8/figures/run01/S8_SUMMARY_180mm.png",
+      "sha256": "df8d29589003592b053020e342fcc45b5ac793adc48f9c2b214f13d280790bc1"
+    },
+    {
+      "path": "evidence_s8/figures/run01/S8_TANGENT_CONVERGENCE_90mm.png",
+      "sha256": "90df9b41bce8119ea5f2cdc97fbfde7f7dd0fdb05b26da104ba37aedeb219a89"
+    },
+    {
+      "path": "evidence_s8/figures/run01/S8_TANGENT_CONTROLS_90mm.png",
+      "sha256": "96ea00c86d2e865bc09c33ba567e2d312c2105fc57d602331f0e8d6338b1f79a"
+    },
+    {
+      "path": "evidence_s8/figures/run01/S8_NATIVE_B06_90mm.png",
+      "sha256": "1c1efbb59518b61a47566d8d1f3607253cd30c43b3db281770d649debe2230a8"
+    },
+    {
+      "path": "evidence_s8/figures/run01/S8_NATIVE_B09_90mm.png",
+      "sha256": "0dbb86156338d5c756c77cc96e994e3d69fe5b919a8b17ed06dc7a209d868c04"
+    }
+  ],
+  "read_only_identity_check": {
+    "status": "PASS",
+    "source_entries": 21,
+    "unique_source_paths": 20,
+    "output_entries": 10,
+    "all_size_and_sha256_match": true,
+    "sourceplot_data_caption_binding_match": true,
+    "native_gzip_sha256": "fdc70eaaea45804aa16e60bba495b283eb5e4a18a576f52d5519bfd5a1f05839",
+    "decoded_native_bytes": 5090460,
+    "decoded_native_sha256": "e72fe3952929f63333872627e0d76e30c489c9e7f8f141d4fd79ca28f3a26e09"
+  },
+  "figure_intent": {
+    "A": "Compare the full analytic initial-shear derivative against three actual symmetric nonlinear finite-difference pairs, with Richardson accuracy shown separately.",
+    "B": "Show the independently measured error caused by each omitted birth-memory derivative contribution.",
+    "C": "Separate angular refinement and prior/P2/P24 constraints at the fixed native coordinate-grid offset b0=0.6.",
+    "D": "Repeat the same native comparison and scales at b0=0.9, retaining unavailable cases in a separate status strip."
+  },
+  "phase08": {
+    "verdict": "PASS",
+    "semantic_checks": [
+      "Central-difference errors use x>=0.2 and the same h,b,y variables; joint maximum equals b in this particular data set.",
+      "The epsilon-squared line is an order guide. Richardson 1.0230571945157863e-10 is separated from the finest central-difference maximum 2.287956546498382e-6.",
+      "The omission threshold is max(1e-5,100 times the full y finite-difference error), giving 1.1293536544831895e-5. All three measured omissions exceed it.",
+      "The native observable is new-photon DeltaP/U. Old stock cannot dilute this plotted quantity.",
+      "Native panels share the same vertical range and the unchanged 1e-6 target. Eight new lower-resolution misses and four measured historical misses remain visible.",
+      "The b0=0.9,n64,P24 numerical failure is a plus symbol in the status strip. The two historical n32 support failures are crosses. No missing case is assigned a numerical angular error.",
+      "Open n32 markers reuse S7. Lines join only new n>=64 results; the historical versus new internal stopping margin distinction is stated in the caption.",
+      "The caption preserves the original tangent process exit1 serialization failure and identifies the separately recorded seven-reused-plus-one-gauge recovery.",
+      "The caption distinguishes fixed-coordinate-grid conditioning b0 from physical shear and states the two experiments' separate scopes."
+    ],
+    "print_size_observations": [
+      "Actual 300-dpi overview PNG and all four individual PNG panels inspected using view_image.",
+      "Source specifies 180 mm overview and 90 mm individual widths, 9 pt base type, 8 pt legends/annotations, and 7 pt missing-strip label.",
+      "Titles, axis labels, tick labels, bar labels and panel labels are visible without clipping in inspected exports.",
+      "Native curves use circle/square/triangle markers in addition to color. Missing/error status also has distinct shapes.",
+      "Overlay of joint and b errors in panel A is a real equality of the maxima and remains distinguishable by open circles plus filled squares.",
+      "The exported SVG companion files are byte-bound. The review concerns the exported visual files at their stated layouts."
+    ],
+    "ranked_ledger": [
+      {
+        "priority": "P0",
+        "status": "CLOSED_NO_MISMATCH_FOUND",
+        "finding": "No displayed value or acceptance statement conflicts with the bound records."
+      },
+      {
+        "priority": "P1",
+        "status": "CLOSED_NO_BLOCKING_CLIP_OR_OVERLAP_FOUND",
+        "finding": "No legend, label or numerical annotation is clipped or hidden in the actual exports."
+      },
+      {
+        "priority": "P2",
+        "status": "CLOSED_WITH_EXISTING_CAPTION",
+        "finding": "The missing-strip x/+ code and reused/new marker fill require the supplied caption; that explanation is already present and should accompany the image."
+      },
+      {
+        "priority": "P3",
+        "status": "ACCEPTED",
+        "finding": "Closely spaced high-resolution native curves reflect the actual data; markers and individual panels retain their interpretation."
+      }
+    ],
+    "bounded_verification": [
+      {
+        "question": "Does PASS next to Richardson imply that the central finite difference is accurate to 1e-8?",
+        "answer": "No. The annotation explicitly names Richardson and the caption separately defines central-difference errors."
+      },
+      {
+        "question": "Can a missing native case be mistaken for zero error?",
+        "answer": "No. It is plotted outside the error axis in the status strip and has no numerical error value."
+      },
+      {
+        "question": "Does a native target miss disappear when the n256 criterion passes?",
+        "answer": "No. Every measured miss retains its red outline."
+      },
+      {
+        "question": "Does panel C versus D compare a coordinate-invariant physical shear?",
+        "answer": "No. Titles call b0 a fixed-grid offset and the caption fixes beta=0.2."
+      },
+      {
+        "question": "Is the historical n32 curve joined to new n64 data as a uniform numerical-margin sequence?",
+        "answer": "No. Only new n>=64 orders are connected; the caption records both margins."
+      },
+      {
+        "question": "Are original execution failures relabeled as success?",
+        "answer": "No. Tangent exit1 and native numerical failure remain explicitly retained."
+      }
+    ],
+    "layout_decision": "Keep the four-panel overview and the four separate single-column exports; no additional layout or legend reorganization is needed.",
+    "repair": "No source, figure or caption mutation required."
+  },
+  "phase07": {
+    "verdict": "PASS",
+    "residual_errors": [],
+    "print_size_risks": [
+      "The 180 mm overview should be used at double-column width; the supplied 90 mm panels support single-column use.",
+      "The missing-strip symbol definitions and historical marker-fill meaning must travel with the supplied caption."
+    ],
+    "bounded_verification": [
+      {
+        "question": "Are target lines and their numeric label readable?",
+        "answer": "Yes; the red dashed line is distinct from all data series, and its 1e-6 value is explicit."
+      },
+      {
+        "question": "Are bar labels and the threshold annotation separated?",
+        "answer": "Yes; the control labels sit above their bars and the threshold explanation uses the available upper right space."
+      },
+      {
+        "question": "Are the shared native scales preserved?",
+        "answer": "Yes; both panels span the same powers of ten."
+      },
+      {
+        "question": "Does the final image require a scientific recomputation?",
+        "answer": "No; every displayed source and output remains byte-identical to the completed run."
+      }
+    ],
+    "micro_repair": "None.",
+    "annotation_action": "Retain existing figure text and accompany the figure with FIGURE_CAPTION.md.",
+    "reason": "The first pass found no open semantic or legibility defect; the residual pass closes the actual export inspection."
+  },
+  "science_status_retained": {
+    "tangent": "PASS_SCOPED_FULL_BIRTH_MEMORY_TANGENT",
+    "native": "COMPLETED_WITH_RETAINED_FAILURES",
+    "native_integrity_gates_pass": false,
+    "native_finest_accuracy_targets_pass": true
+  },
+  "execution_accounting": {
+    "plotter_reruns": 0,
+    "new_scientific_cases": 0,
+    "historical_scientific_reruns": 0,
+    "source_mutations": 0,
+    "preregistration_mutations": 0,
+    "dag_mutations": 0
+  },
+  "claim_boundary": "This receipt admits figure fidelity and legibility for the bound S8 outputs. Scientific admission remains exactly that of the execution receipts."
+}
+

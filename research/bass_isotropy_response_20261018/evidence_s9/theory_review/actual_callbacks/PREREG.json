@@ -1,0 +1,56 @@
+{
+  "schema": "BASS_S9_CALLBACK_AD_PREREG_V1",
+  "comparison_gate": 5e-13,
+  "criterion": "max_i abs(actual_i-reference_i)/(1+abs(reference_i))",
+  "query_vectors": 190,
+  "distinct_bank_state_points": 38,
+  "fixed_banks": 5,
+  "new_ode_histories": 0,
+  "event_transfer_energy": 0.0028985892661853112,
+  "controls": [
+    "omit explicit partial_t",
+    "reuse pre-birth partial_t after birth"
+  ],
+  "adapter_binary": {
+    "path": "bass-s9-vigilode",
+    "bytes": 9399880,
+    "sha256": "69d884d67d0eb61bd6d4f52b5cfd079c07aa82c35a27272de608b93f16fb4823"
+  },
+  "oracle_binary": {
+    "path": "bass-s9-ad-check",
+    "bytes": 4854064,
+    "sha256": "14e7896a1176830b6353cc70cb3cb497de2465c39c2c71b978bddb3b43b80a11"
+  },
+  "input_files": [
+    {
+      "path": "dust.input.json",
+      "bytes": 9968,
+      "sha256": "1b7f84146d2ff0b411e855d534237c4324e2ab145091e1158604ef897f1747cd"
+    },
+    {
+      "path": "event_after.input.json",
+      "bytes": 2798,
+      "sha256": "0e5f9ac9a371e5830c3b6b6ca696bacc5e4a8efe0af79d2000253c5011a8a610"
+    },
+    {
+      "path": "event_before.input.json",
+      "bytes": 2325,
+      "sha256": "9373c55be3294e28dd241e620d4ec0725462ce1b4a191319b130465775418c31"
+    },
+    {
+      "path": "multiple_cohorts.input.json",
+      "bytes": 11316,
+      "sha256": "13fb735c2f212cbd9694333f9d6b93f19c4070c1bc18fba599b1bcadaa4096b3"
+    },
+    {
+      "path": "oracle.input.txt",
+      "bytes": 91887,
+      "sha256": "28cc4f441336c2efa820c806c901ceab4134321ed3c58233289b0d5e4b842da6"
+    },
+    {
+      "path": "physical_stock.input.json",
+      "bytes": 10433,
+      "sha256": "e4fcdb3b79121f8b695de2ab941c2f250da67a9b00bdcdf1f431d387dcf84b85"
+    }
+  ]
+}

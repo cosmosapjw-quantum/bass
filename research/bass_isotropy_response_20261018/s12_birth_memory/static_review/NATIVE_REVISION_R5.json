@@ -1,0 +1,35 @@
+{
+  "schema": "BASS_S12_NATIVE_BUILD_REVISION_R5",
+  "utc": "2026-10-20T21:50:13.340599+00:00",
+  "trigger": "4e3615dd_r3 compile_s12_followup link failed: lld std::system_error Resource temporarily unavailable; owner rlib compile passed.",
+  "executed_source_commit": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+  "failure_receipt": "../../native_compile/4e3615dd_r3/RETURN_NATIVE_FOLLOWUP.json",
+  "actual_failure_stderr_sha256": "4b2befb12a9cc89f620fdf4c31d1509791c1e3685674936e466ca6159f8cb077",
+  "change": "Add -C link-arg=-Wl,--threads=1 to final native followup executable link only. Observed pinned Rust1.94.1 x86_64 Linux driver invokes lld.",
+  "preserved": [
+    "owner commit/files",
+    "all physics sources",
+    "existing memory guard",
+    "fresh-only single failed case",
+    "all weights/support/schedule/gates",
+    "old attempts and stderr"
+  ],
+  "after_fix_compile_calls": 0,
+  "native_history_calls": 0,
+  "files": [
+    {
+      "path": "run.py",
+      "before_bytes": 22619,
+      "before_sha256": "72fd7e308ac6be1d48d8d82c13eaf2c1746909c292eeea6814f23ba3475365b8",
+      "after_bytes": 22673,
+      "after_sha256": "f04ac9d60d6472752b333277b6ca20d51d4e086d5d1bb40bd46b7261f48e656c"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "before_bytes": 2741,
+      "before_sha256": "a880a60828eebda1d4ad5e83b00af865bc4cd3b293108a21c8b814a36ea9d62a",
+      "after_bytes": 2741,
+      "after_sha256": "6c591cff4156bed13ea3c4c405c4030bc14f1c8835707f8a0ef737333fcd6830"
+    }
+  ]
+}

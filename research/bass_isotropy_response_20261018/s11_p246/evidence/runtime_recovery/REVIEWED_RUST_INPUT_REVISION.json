@@ -1,0 +1,43 @@
+{
+  "status": "FORMATTED_REVIEWED_SOURCE_REVISION",
+  "created_utc": "2026-10-20T17:39:22.131215+00:00",
+  "source_directory": "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/rust",
+  "reason": "Independent pre-validation source review found that Rust accepted equal adjacent mu and one-ray inputs while Python and the preregistered contract require strict ordering and 2 through 4096 rays.",
+  "changes": [
+    "Reject length less than 2 as INVALID_INPUT.",
+    "Reject mu[i] <= mu[i-1] as INVALID_INPUT with explicit duplicate prohibition."
+  ],
+  "recovered_formatted_sha256_preserved": {
+    "projector.rs": "a14817cd39f903d7ca8e258965dd5e100b64a8181e26301481f2f2c85b2dc510",
+    "cli.rs": "e1e6c1ad82611b0df92b7531fae5d8a195463d8f86d42749f49d9fe75fe66c2b"
+  },
+  "reviewed_source_files": {
+    "projector.rs": {
+      "sha256": "1f937f16dcb5a7dbdce92a66881d45276b67b202c56bdc232c1d281ad7fc6fcb",
+      "bytes": 20567
+    },
+    "cli.rs": {
+      "sha256": "e1e6c1ad82611b0df92b7531fae5d8a195463d8f86d42749f49d9fe75fe66c2b",
+      "bytes": 3932
+    }
+  },
+  "format_receipt": {
+    "command": [
+      "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustfmt",
+      "--edition",
+      "2021",
+      "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/rust/projector.rs",
+      "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/rust/cli.rs"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "exit_code": 0,
+    "elapsed_seconds": 0.020363702002214268
+  },
+  "prior_recovery_receipt": "EXTRACTION_FORMAT_RECEIPT.json",
+  "prior_recovery_receipt_sha256": "99cb2c60d3481af99bde06519b2738b9b942e54772054b24b9d67455c9e0af64",
+  "science_compilation_or_solver_execution": 0,
+  "completed_S9_S10_campaign_replay": 0,
+  "validation_status": "PENDING_ROOT_FRESH_VALIDATION",
+  "smoke_before_reset": "Lost raw receipt is not durable validation evidence."
+}

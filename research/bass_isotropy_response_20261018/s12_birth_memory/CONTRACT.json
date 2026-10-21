@@ -1,0 +1,187 @@
+{
+  "schema": "BASS_S12_FULL_BIRTH_MEMORY_CONTRACT_V1",
+  "date_utc": "2026-10-20",
+  "date_kst": "2026-10-21",
+  "unit": "S12_Rust_full_birth_memory_and_bounded_optimization",
+  "selected_stages": "One new C1-C10 coding research unit, explicitly authorized by the latest user request; no automatic next cycle",
+  "objective": "Extend the new Rust client from a fixed-bank state JVP to the full parameter tangent with frozen birth memory; fuse and prepare the angular kernels at matched accuracy; deliver a bounded, deduplicating NCP64/128 ready-job batch including the single previously incomplete S8 native case.",
+  "baseline": {
+    "head": "44bac536f6add11f8d2d4b3aa585a1c2f9049664",
+    "tree": "411a427420cbf4773616a0efa3d76772548bf0bb",
+    "S11_source": "7fb9b83cba01d37ce4cabbc4772527710601cd96",
+    "S11_result": "85d5833b4486d14855b84a9d967f5819788d05e5",
+    "S11_final_comment": "https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6301060073",
+    "S10_source": "d5a173644f5c7c0dbe9eb8757dfc4ccad6c4f4c8",
+    "S10_result": "26e9e1ba8f39788d98ec33c60f6e9fd2605f8b8a",
+    "S10_review": "0771f0610987eb9f900674e83063912150733255",
+    "REI_owner": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "VigilODE_source": "a21d573980f66fe02891bd216153443b5352f921",
+    "PR175_shared_Q_adapter": "4940770c7904ed6f6fd5caca8e525905593bb683"
+  },
+  "physical_contract": {
+    "model": "non-tilted axisymmetric Bianchi I; manufactured pressureless donor plus collisionless frozen cohorts, not actual MD14/native reactive closure",
+    "signature": "(-,+,+,+)",
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "dot b",
+    "Sigma": "sqrt(3)|s|/H",
+    "x": "log(a/a_ref)",
+    "h": "H/H_star",
+    "y": "s/H_star",
+    "E": "8*pi*G*U/(3*c^2*H_star^2)",
+    "Pi": "8*pi*G*(P_parallel-P_perp)/(3*c^2*H_star^2)",
+    "L": "Lambda*c^2/(3*H_star^2)",
+    "parameters": [
+      "initial y0",
+      "simultaneous source-frame b0 gauge in source_frame_GL control"
+    ],
+    "fixed_parameter_data": [
+      "H_star",
+      "event x coordinates",
+      "donor amplitudes and decay law",
+      "Lambda",
+      "old physical source-frame weights"
+    ],
+    "initial_tangent_y0": [
+      "y0/h0",
+      0,
+      1
+    ],
+    "initial_tangent_b0": [
+      0,
+      1,
+      0
+    ],
+    "memory": "Freeze B_j=b_theta(u_j), mu_theta=mu_b*B_j, alpha_theta=alpha_b*B_j at every admitted new birth. Current b_theta appears only through J_state*S, not again in memory forcing.",
+    "augmented_state": [
+      "h",
+      "b",
+      "y",
+      "h_theta",
+      "b_theta",
+      "y_theta"
+    ],
+    "augmented_jacobian": "[[J,0],[L,J]], with L=d_state(J*S+memory_forcing); include analytic partial_x and the seventh clock column for autonomous SmallProblem",
+    "parameter_exclusions": [
+      "moving event times",
+      "parameter-dependent donor normalization",
+      "feasibility-boundary derivatives",
+      "differentiating floating-point solver stopping branches"
+    ]
+  },
+  "ownership": {
+    "correct_only_new_explicitly_isotropic_births": true,
+    "preserve_old_stock_and_original_birth_weights": true,
+    "frozen_physical_and_memory_digest_per_birth": true,
+    "positive_physical_weights": true,
+    "signed_parameter_derivatives_are_not_physical_weights": true,
+    "exact_reflection_parity": true,
+    "old_S9_S10_state_JVP_contract_unchanged": true,
+    "fixed_REI_owner_unchanged": true,
+    "no_negative_weight_or_tolerance_relaxation_fallback": true
+  },
+  "existing_gates_reused": {
+    "normalization_P2_P4_exact_rational": "3/1000000000000000 on actual binary64 inputs",
+    "KL_covariance_min_eigenvalue": 1e-10,
+    "KL_covariance_max_condition": 100000000.0,
+    "normalization_derivative_absolute": 1e-12,
+    "moment_derivative_absolute": 1e-11,
+    "constraint_tangent_energy_event_absolute_scaled": 1e-11,
+    "native_ledger": 1e-11,
+    "native_n64_angular_error": "Report against the unchanged 1e-6 target as a diagnostic; do not promote to original n256 finest-grid admission",
+    "Richardson_fine_h_b_y_max_absolute": 1e-08,
+    "source_frame_gauge_h_theta_y_theta_b_theta_minus1_absolute": 1e-11
+  },
+  "new_acceptance": {
+    "analytic_core_against_independent_complex_step_scaled": 2e-11,
+    "baseline_fused_field_scaled": 2e-13,
+    "baseline_fused_scientific_gate_identity": true,
+    "new_history_tangent_centered_FD_scaled": 1e-06,
+    "FD_steps_y0": [
+      0.0001,
+      5e-05,
+      2.5e-05
+    ],
+    "source_frame_gauge_tangent_scaled": 1e-10,
+    "require_full_memory_controls": [
+      "omit_birth_memory",
+      "omit_mu_b",
+      "omit_alpha_b"
+    ],
+    "performance": "Paired alternating baseline/fused runs, identical inputs/output observables/accuracy gates, raw timings and median/IQR retained. No minimum speedup is assumed; regressions remain results.",
+    "parallelism": "Independent whole cases only; preserve each ray/cohort reduction order. Validate serial/parallel scientific output identity on a bounded sandbox subset; actual64-core result remains NOT_RUN until its receipt exists.",
+    "history_FD_interpretation": "The new raw scaled centered-FD check is additional; preserve S8 fine Richardson max absolute h,b,y gate1e-8 separately. Neither replaces the other.",
+    "source_frame_gauge_interpretation": "Preserve existing absolute max(|h_theta|,|y_theta|,|b_theta-1|)<=1e-11; additional scaled1e-10 is not a replacement."
+  },
+  "fixed_lightweight_scope": {
+    "core_points": "24 deterministic points spanning signed b-b_birth, positive/negative shear, nonzero memory terms and two-cohort mixtures; include old physical anisotropy",
+    "new_history_cases": "At most two short new manufactured cases plus one source-frame gauge control, if complete client dependencies are available; no completed history replay",
+    "new_benchmark": "Core fused/prepared versus literal baseline on the same new fixed inputs; at most7 paired samples and2 warmups per arm",
+    "no_automatic_parameter_search": true,
+    "no_old_campaign_execution": true
+  },
+  "native_followup": {
+    "case": "b9_n64_P2P4",
+    "original_failure": "INNER_P2_PRECISION_LIMIT at birth11 u=0.5750000000000001, strict-interior P24 support",
+    "input": {
+      "b0": 0.9,
+      "n_mu": 64,
+      "n_energy": 96,
+      "cells_per_segment": 32,
+      "cohorts": 16,
+      "beta": 0.2,
+      "x_observe": 1.0
+    },
+    "resume_semantics": "No saved complete prefix-bank checkpoint exists. One fresh attempt of only this previously incomplete case; births0-10 use the legacy construction and births11-15 use the S11 P24 projector at unchanged exact admission, then freeze each newborn. Never call this checkpoint-resume or replay17 completed cases.",
+    "namespace": "New S12 results; original failed raw and all17 completed S8 rows remain immutable",
+    "execution_target": "NCP unless a separately registered small integration check is feasible"
+  },
+  "resource_profiles": {
+    "sandbox": {
+      "additional_workers_max": 16,
+      "RAM_bytes_max": 17179869184,
+      "disk_bytes_max": 4294967296,
+      "job_seconds_max": 1800,
+      "respect_actual_cgroup_and_affinity": true
+    },
+    "NCP": {
+      "CPU_cores_requested": 64,
+      "RAM_GiB_requested": 128,
+      "job_seconds_max": 1800,
+      "disk_bytes_max": 4294967296,
+      "workers": "min(64, actual affinity/quota, remaining RAM and existing workload reservations, ready jobs)",
+      "nested_threads": 1,
+      "do_not_kill_existing_owner_jobs": true
+    },
+    "current_remote_status": "NOT_RUN: Desktop Commander current get_config returned monthly usage limit and explicitly instructed no retry/reconnect; actual current64/128 identity is unverified"
+  },
+  "reuse_and_nonclaims": {
+    "S9_histories": 8,
+    "S10_targeted": "11/11",
+    "S10_kernel": "108/108",
+    "S10_RAW_science_identity": "24/24",
+    "S10_science": "68/68",
+    "S10_C9": "155/155",
+    "S11_main": "101/101",
+    "S11_physics_review": "235/235",
+    "S11_provenance_review": "152/152; overlapping scopes not summed",
+    "S8_Python_full_memory": "8 completed integrations reused, no rerun",
+    "historical_NCP64": "2026-10-15 results at9ea46052358ba3e190317347d7f0001bab23c398 already complete; not a pending obligation",
+    "performance_preserved": [
+      "closed2.973x",
+      "FLRW4.115x",
+      "closed-small uncertainty",
+      "changing n16/cohort2 0.9498173837599284x regression"
+    ],
+    "S11_negative_preserved": "P246 finite-d grid max bias worsened by1.54913989382294 for the dyadic uniform fixture; P6 support failures remain",
+    "not_closed": [
+      "actual MD14 normalization/native Einstein shared-Q",
+      "evolving reactive full finite-bin spectral history",
+      "broader continuum/angular convergence",
+      "full EoR/REI production"
+    ],
+    "source_deposition_number_scope": "5.369926725506957e-12 remains a limited source-deposition result, not full spectral-history convergence",
+    "merge": false
+  },
+  "C1_to_source_clarification": "Explicitly retain the existing S8 absolute gauge1e-11 alongside the new scaled diagnostic. No gate relaxed, no data inspected for changing a threshold."
+}

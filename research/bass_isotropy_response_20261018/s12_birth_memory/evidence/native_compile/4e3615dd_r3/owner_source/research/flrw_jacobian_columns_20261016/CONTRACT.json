@@ -1,0 +1,87 @@
+{
+  "schema": "rei.flrw.source006_jacobian_contract.v1",
+  "issued_utc": "2026-10-15T18:25:39.274635+00:00",
+  "decision": "GO_SOURCE006_OPT_IN_JACOBIAN_COLUMN_EXPERIMENT",
+  "authority_basis": "Read-only Astra/high flrw_resume_science_review final decision; controller freezes its finite allocation and exact paths here.",
+  "requested_implementation": "gpt-6.1-sol/high",
+  "requested_independent_review": "gpt-6-astra/high",
+  "observed_runtime_identity": "NOT_INDEPENDENTLY_OBSERVED",
+  "base_commit": "fe789b0b13b1883c5a74cbc907f72f6f963a5d66",
+  "source_baseline_sha256": {
+    "rust/rei_microphysics/src/axbi_driver.rs": "c041b9aa13be9347332f61ba139b4152e757a41c68ca54bbdb2a6b932c1df843",
+    "rust/rei_microphysics/src/axbi_covariant_transport.rs": "d2bb5b9c91fa07ed7e520c4660b11af5e5e861df8dcddb5768fdf6fa3ada21b9",
+    "rust/rei_microphysics/src/axbi_parallel.rs": "239c5a2bd3dd9e4033462fc18aeda5ff12d6f7f9a6ac8c7e24e4529a274a5ca6"
+  },
+  "owned_paths": [
+    "rust/rei_microphysics/src/axbi_driver.rs",
+    "rust/rei_microphysics/src/axbi_covariant_transport.rs",
+    "rust/rei_microphysics/tests/axbi_jacobian_parallel.rs",
+    "rust/rei_microphysics/examples/flrw_jacobian_profile.rs",
+    "research/flrw_jacobian_columns_20261016/*"
+  ],
+  "parallel_module": "Existing map_ordered suffices; axbi_parallel.rs and pool algorithm remain unchanged. Stop for authority if this proves insufficient.",
+  "remote_stage": "/root/REI_FLRW_JACOBIAN_20261016_006",
+  "remote_fresh_output": "/root/REI_FLRW_JACOBIAN_20261016_006/diagnostic001",
+  "flag": {
+    "name": "parallel_jacobian_columns",
+    "type": "bool",
+    "default": false,
+    "semantics": "Opt-in execution scheduling only. Include explicit serial/parallel setting in effective diagnostic configuration and source006 identity. Invalid values reject; absent means false.",
+    "compatibility": "No source005 exact-source resume, deployment or new full history."
+  },
+  "semantics": [
+    "Baseline residual first, immutable old state/Arc prepared absorption.",
+    "Coordinator dispatches four leaf column tasks on existing shared8worker pool; no extra pool, nested map submission or worker waits.",
+    "Preserve j0..3 delta arithmetic, positive perturbation then existing negative fallback. Assemble Jacobian in original j/i order.",
+    "Keep original solve4, line search, local error/tolerances and sole gas/photon/ledger commit owner. No partial reductions.",
+    "Charge every started residual before domain checks via bounded atomic reservation. Merge all actual debits before propagating success/failure; no double charge.",
+    "Return deterministic lowest-j column failure after joining all launched work. Later discarded speculative evaluations remain charged.",
+    "Parallel only with checked remaining RHS>=8; otherwise unchanged serial loop. Denied reservation starts no residual.",
+    "Successful paths retain bit-equal physical state, residuals, Jacobian, ledger and decisions; failed speculative counts may exceed serial prefix honestly."
+  ],
+  "required_targeted_controls": [
+    "Absent/false/true/invalid flag parsing.",
+    "Positive success and negative fallback, bitwise residual/Jacobian/state/ledger comparison.",
+    "Multiple column failures, lowest-j precedence, all actual debits charged, failed-stage no commit.",
+    "Near-cap fewer8 credits serial fallback and exact8 boundary, no cap overshoot."
+  ],
+  "diagnostic": {
+    "role": "Fixed existing immutable fixture whole chemical-stage control, not trajectory or full solve",
+    "fixture_config_sha256": "acf94823836c90e66bf48c983f7ea5a9f01924ed8d2e31c6e501176768454a0f",
+    "fixture_checkpoint_sha256": "4819b7fcd70245e02f5cc45d7955aa6f2dd5c89511256edd9fef34315558c690",
+    "warmup_stages_each_mode": 4,
+    "timed_stages_each_mode": 32,
+    "modes": [
+      "serial",
+      "parallel"
+    ],
+    "same_immutable_restart_fixture": true,
+    "warm_pool_excluded_from_timing": true,
+    "report": "Whole-stage wall/CPU, actual combinedRHS incl warmups/errors, bit parity; report slowdown honestly. No full-history speedup or64CPU adequacy."
+  },
+  "limits": {
+    "targeted_test_target": "axbi_jacobian_parallel",
+    "targeted_test_invocations": 1,
+    "targeted_test_wall_s": 300,
+    "release_build_attempts": 1,
+    "release_build_wall_s": 180,
+    "diagnostic_example": "flrw_jacobian_profile",
+    "diagnostic_runs": 1,
+    "diagnostic_wall_s": 60,
+    "combined_actual_rhs": 10000,
+    "cpu_affinity": "16-31 after fresh availability check",
+    "shared_pool_workers": 8,
+    "address_space_bytes": 8589934592,
+    "aggregate_output_bytes": 268435456,
+    "compiler": "Pinned Rust1.94.1"
+  },
+  "protected": [
+    "Remote source005 stage/binary/config/processes immutable.",
+    "Campaign epoch1792075817.77407/deadline1792119017.77407 not reset or extended.",
+    "No full-history execution, production switch, checkpoint resume, provider/tolerance/output-policy/coarse-fine changes.",
+    "Old profile allowance remains exhausted and prior costs/failures preserved."
+  ],
+  "stopping": "First test/build/run failure stops; retain raw outputs and return to independent reviewer. No automatic additional attempt.",
+  "publication": "Only completed independently reviewed unit may be pushed/backed up; root sole Git owner.",
+  "scientific_admission": "NOT_ISSUED"
+}

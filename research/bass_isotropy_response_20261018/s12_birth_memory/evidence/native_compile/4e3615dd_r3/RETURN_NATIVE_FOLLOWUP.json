@@ -1,0 +1,777 @@
+{
+  "schema": "BASS_S12_NATIVE_EXECUTION_V1",
+  "status": "FAILED",
+  "started_utc": "2026-10-20T21:47:00.208413+00:00",
+  "source_commit": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+  "owner_commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+  "argv": [
+    "bass_work/research/bass_isotropy_response_20261018/s12_birth_memory/native_followup/run.py",
+    "--source-commit",
+    "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+    "--out",
+    "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3",
+    "--rustc",
+    "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+    "--download-workers",
+    "1",
+    "--compile-only"
+  ],
+  "commands": [
+    {
+      "label": "compiler_version",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "-Vv"
+      ],
+      "status": "PASS",
+      "stdout": "compiler_version.stdout",
+      "stderr": "compiler_version.stderr",
+      "owned_child_pgid": 392192,
+      "exit_code": 0,
+      "elapsed_seconds": 0.022234561998629943,
+      "stdout_bytes": 196,
+      "stdout_sha256": "a834181975ab3494d51a1a01e4a9d4321fecd674a52e3db3cf93b3b84b6fc2c1",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile_pinned_owner",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "--crate-name",
+        "rei_microphysics",
+        "--crate-type",
+        "rlib",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/owner_source/rust/rei_microphysics/src/lib.rs",
+        "-o",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/build/librei_microphysics.rlib"
+      ],
+      "status": "PASS",
+      "stdout": "compile_pinned_owner.stdout",
+      "stderr": "compile_pinned_owner.stderr",
+      "owned_child_pgid": 392194,
+      "exit_code": 0,
+      "elapsed_seconds": 10.661055638003745,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile_s12_followup",
+      "argv": [
+        "/workspace/scratch/14e1021f8231/runtime_s11/rust/bin/rustc",
+        "--edition=2021",
+        "-O",
+        "-C",
+        "codegen-units=1",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/build/native_followup.rs",
+        "--extern",
+        "rei_microphysics=/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/build/librei_microphysics.rlib",
+        "-o",
+        "/workspace/scratch/14e1021f8231/bass_s12_intake/native_compile/4e3615dd_r3/build/native_followup"
+      ],
+      "status": "FAILED",
+      "stdout": "compile_s12_followup.stdout",
+      "stderr": "compile_s12_followup.stderr",
+      "owned_child_pgid": 392390,
+      "exit_code": 1,
+      "elapsed_seconds": 1.877514836989576,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 9937,
+      "stderr_sha256": "4b2befb12a9cc89f620fdf4c31d1509791c1e3685674936e466ca6159f8cb077"
+    }
+  ],
+  "downloads": [
+    {
+      "path": "rust/rei_microphysics/src/adaptive_history.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/adaptive_history.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 18880,
+      "sha256": "88f85b00e8a4cb487c98c1a2e473a4c356c5558f5df0154502c4afcf585d5d73",
+      "git_blob": "9456085720c7c9e630dea94738e2175a86502b93",
+      "elapsed_seconds": 0.15113482500601094
+    },
+    {
+      "path": "rust/rei_microphysics/src/angular_photons.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/angular_photons.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 9735,
+      "sha256": "8da6478182f70b285e7456490469d7a7708c969d200ab93d4d468f34c0fe82db",
+      "git_blob": "61c545ce7134a7fe01cf00536512dce1941b2872",
+      "elapsed_seconds": 0.1071790179994423
+    },
+    {
+      "path": "rust/rei_microphysics/src/atomic_provider.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/atomic_provider.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 12939,
+      "sha256": "b0b572d3940a7a1f740e09d5f43c60236ec61511e8bdbcc68e60395ec7e107d3",
+      "git_blob": "62211d8910cd332fffa8f94c6989cae77128916e",
+      "elapsed_seconds": 0.11681968100310769
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_background.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_background.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 17857,
+      "sha256": "2cc74f708f0dc3d0a3d67cde75c4cc3f98ff79badbdc91e456396818e3edca6e",
+      "git_blob": "6e92f6456525dd10c0e9d800d329ffc511ac75dd",
+      "elapsed_seconds": 0.14169659900653642
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_covariant_transport.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_covariant_transport.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 38467,
+      "sha256": "9d2d97881ca7b9b58d68dbeffad937e16ca8af237b3d9ba01de0fb5e00b67aa7",
+      "git_blob": "9915d05a00f9c2ad9e0346a1e61ba1d2f37822d3",
+      "elapsed_seconds": 0.1320312890020432
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_driver.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_driver.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 73236,
+      "sha256": "41c969a5308070c0a27708cf7443a96f83bdb2a7685edd5ee8819c46a8e96414",
+      "git_blob": "02c6e82c2265f238e5ff77abab1909028e3aa3c2",
+      "elapsed_seconds": 0.10974605100636836
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_parallel.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_parallel.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4876,
+      "sha256": "239c5a2bd3dd9e4033462fc18aeda5ff12d6f7f9a6ac8c7e24e4529a274a5ca6",
+      "git_blob": "205c7c7912f4dd57f0cfc14e24367296b28ca8a9",
+      "elapsed_seconds": 0.11198751100164372
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_q_advance.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_q_advance.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 9770,
+      "sha256": "dbc6592733053265b9dffb49917f43bf05669bc3cf5fbf729675a87ff0a26f88",
+      "git_blob": "836e5b4e5587e86a32a8734d01b6989c3447343e",
+      "elapsed_seconds": 0.10690001600596588
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_q_capacity.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_q_capacity.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 10843,
+      "sha256": "76506ba27b1f155f71ed7316d66a26e0b72f91e6576b9c93df9e650c64a3fa85",
+      "git_blob": "d48e551a44be3335e18e933b58ccfb9fd09041c5",
+      "elapsed_seconds": 0.10027296200860292
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_q_closure.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_q_closure.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 8063,
+      "sha256": "8c114090f11e5220659860e0ac4d9f03537b219d8384827e2bf8702d5d276c26",
+      "git_blob": "cb987b615652d7f65e7d56acfb695e52141452b1",
+      "elapsed_seconds": 0.11571877400274388
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_q_grid.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_q_grid.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 29054,
+      "sha256": "516f2b4d0ecfadfbbb9f7b281f0c2638def852a4965e55c0a92c5a1318f52ee1",
+      "git_blob": "92b61f674b856eec72483f34839fe9b36cea6912",
+      "elapsed_seconds": 0.1013466259901179
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_q_reference.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_q_reference.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5261,
+      "sha256": "8bf73c279baca7c94fc73ae39d157e79f04061c066d737593da75d3a4b1378bd",
+      "git_blob": "b9ac3dc1ebec5c4131d6930b83d0fe38d4ed6eef",
+      "elapsed_seconds": 0.1070771539962152
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_rates.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_rates.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 2438,
+      "sha256": "e0d4d7e5d3a1b704af95ae54b63bb5e0c49e1fb68fdc4b0e7465dc92feeaf361",
+      "git_blob": "786b05408f7789780737258502886de129895e22",
+      "elapsed_seconds": 0.10321700600616168
+    },
+    {
+      "path": "rust/rei_microphysics/src/axbi_sources.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axbi_sources.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 7707,
+      "sha256": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe",
+      "git_blob": "36d24eb13db3fc42321cb0ddb165e003c0a086c7",
+      "elapsed_seconds": 0.11461257400515024
+    },
+    {
+      "path": "rust/rei_microphysics/src/axisym_contract.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axisym_contract.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5152,
+      "sha256": "1e2aaaa71091c4ff578eab3c64587aeb63017d1ea3c6c08d6370ba5690baa1b6",
+      "git_blob": "ee21beca3e7713b6706b72da82c0773a6cd8c83b",
+      "elapsed_seconds": 0.11032321301172487
+    },
+    {
+      "path": "rust/rei_microphysics/src/axisym_coupling.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axisym_coupling.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 1845,
+      "sha256": "60e6aab18e088f35aa62164a3be375eef1a9a61f4b1de1468fbc9e89939dd89f",
+      "git_blob": "73b7f6541675d4421224e14a6405514642b4e6d2",
+      "elapsed_seconds": 0.11976357499952428
+    },
+    {
+      "path": "rust/rei_microphysics/src/axisym_radiation.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axisym_radiation.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4747,
+      "sha256": "8134004a4aed69d60e991bd42c1d4b673ed7f6c75c4ecd6f50da07ab47103d62",
+      "git_blob": "95ef2fe1205d364ab58d00b4c1534d851bb81360",
+      "elapsed_seconds": 0.11416525600361638
+    },
+    {
+      "path": "rust/rei_microphysics/src/axisym_sources.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/axisym_sources.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 3096,
+      "sha256": "15a391503df57adfb2c00d6b7c7925a7d91222ebbfbc6be8607057eb501e7b34",
+      "git_blob": "7ed5066d23cdc5724773aef523057ee29c0c7660",
+      "elapsed_seconds": 0.11859809099405538
+    },
+    {
+      "path": "rust/rei_microphysics/src/bianchi_i.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/bianchi_i.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 12309,
+      "sha256": "0c0bb17168b36a67af6e3e2a3ada835bc77db3dbc73d06e13075f6019ec11289",
+      "git_blob": "81dc54583b76e9dcba94c5bbc867243b04ad76b1",
+      "elapsed_seconds": 0.09362359299848322
+    },
+    {
+      "path": "rust/rei_microphysics/src/coupled_primary.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/coupled_primary.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 29003,
+      "sha256": "915d0a898100a54d04a525227e7fbeb870e321fcc14aaa91afd61352b6d4cf4b",
+      "git_blob": "09fab77f4be73e453b1d95a58825d41a3fc19951",
+      "elapsed_seconds": 0.10707078900304623
+    },
+    {
+      "path": "rust/rei_microphysics/src/coverage.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/coverage.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 865,
+      "sha256": "0c542eaf42cd8ece217a2f02cc7fbb500f0bea8b983c1f18d44c96d0aea050c1",
+      "git_blob": "217f8f8a1e80720c800adba48e90c77a8783113b",
+      "elapsed_seconds": 0.2099513559951447
+    },
+    {
+      "path": "rust/rei_microphysics/src/deuterium_atomic.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/deuterium_atomic.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 20035,
+      "sha256": "52dcd49d4811ae4e6883655c2ee389b9e126a14512ca6e0d0d205e2c6934fecb",
+      "git_blob": "8477162430af02585a32d18092454e1f7bb52f60",
+      "elapsed_seconds": 0.09737062199565116
+    },
+    {
+      "path": "rust/rei_microphysics/src/deuterium_charge_exchange.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/deuterium_charge_exchange.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 9081,
+      "sha256": "482e81d29bf33981ec56bf76dad1c8da5b9a4e162a6813a727e61fec86588cc0",
+      "git_blob": "dd0a8c9b96ef3e53b8eef0fd08961045779f20b7",
+      "elapsed_seconds": 0.10108461900381371
+    },
+    {
+      "path": "rust/rei_microphysics/src/flrw_three_equations.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/flrw_three_equations.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 18811,
+      "sha256": "c3b538cade78ef493296b6822cdd4db237f6e27c79565646016e39d0e5079daf",
+      "git_blob": "b212bb8f85a4087592f66bca7560aa592c70f513",
+      "elapsed_seconds": 0.11339855600090232
+    },
+    {
+      "path": "rust/rei_microphysics/src/ft03_controlled.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/ft03_controlled.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 14726,
+      "sha256": "61e11471482bb49d99e5d0eb79504d3f67538fbe6361653a0462d1abb0b672db",
+      "git_blob": "370fd2fa60521f2dc121ee81c7d24013a3b0d1e5",
+      "elapsed_seconds": 0.10197172299376689
+    },
+    {
+      "path": "rust/rei_microphysics/src/ft03_interval.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/ft03_interval.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 6248,
+      "sha256": "886580a810b8ec29c8f0b6199c0e35d82fde1f46d984a5f8f1da304326a42a42",
+      "git_blob": "f8b43d45fe29de39cef4bebc634a914406b46784",
+      "elapsed_seconds": 0.1091354969976237
+    },
+    {
+      "path": "rust/rei_microphysics/src/ft03_rates.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/ft03_rates.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 2755,
+      "sha256": "1a97cd7a3555deeb4d8700376cd84580c5102127773bc3a235a29c33b0c1542f",
+      "git_blob": "b8a85ff37de160ecc576a168e4259ed23920a499",
+      "elapsed_seconds": 0.1001597370050149
+    },
+    {
+      "path": "rust/rei_microphysics/src/group_rates.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/group_rates.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4844,
+      "sha256": "393786f3c473d98dbf57752967ba63cf07f055dfff9027a1d00770d2ef73a6a4",
+      "git_blob": "17984eb686719e4b7213095202d96ff56fd86038",
+      "elapsed_seconds": 0.09095798600174021
+    },
+    {
+      "path": "rust/rei_microphysics/src/he_rct.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/he_rct.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 12905,
+      "sha256": "e077cdf628dfefc07f0dfbfae0688a9330f363d3c11163166406ef0a1e1218b4",
+      "git_blob": "cb9735e631aeb7b90ba1787f6ed1928b8e611f13",
+      "elapsed_seconds": 0.09776043200690765
+    },
+    {
+      "path": "rust/rei_microphysics/src/hhe_events.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/hhe_events.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 9447,
+      "sha256": "c100b08e034089c2d67b2102769ccdd51f1d29a2f388d6bb2dfe7984af93b290",
+      "git_blob": "57a63eee1e9d8c4aa2b5ed663dbea15619359f71",
+      "elapsed_seconds": 0.09309360198676586
+    },
+    {
+      "path": "rust/rei_microphysics/src/homogeneous_rates.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/homogeneous_rates.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5642,
+      "sha256": "50000b7cd7b1f7c9536cfe92a1f932add545bb951cc32b8a63c4affecfca3f47",
+      "git_blob": "d5aedfd37485b33c82a4cf0ee1d854099a517842",
+      "elapsed_seconds": 0.11154083599103615
+    },
+    {
+      "path": "rust/rei_microphysics/src/hydrogen_step.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/hydrogen_step.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4045,
+      "sha256": "d3a4515dd2cb4e723095db6c750531acc3999fe0d5fa856707e520ec93056fb6",
+      "git_blob": "96f823371545a6aa70bb528a8ca804ec66c5a320",
+      "elapsed_seconds": 0.1183353850065032
+    },
+    {
+      "path": "rust/rei_microphysics/src/igm_background.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/igm_background.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 6307,
+      "sha256": "ebe5d4ba0a61133512cecfe50791794a50aa22132bcc5189170e5668cbf1871f",
+      "git_blob": "cdce6a9f0a9e9df930f33c8521ee720fd463a780",
+      "elapsed_seconds": 0.11019691001274623
+    },
+    {
+      "path": "rust/rei_microphysics/src/igm_rates.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/igm_rates.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 7740,
+      "sha256": "310164e620617f3089d488bd1f9668996b4a4cbd191383e45303def176ef81cf",
+      "git_blob": "dc3cc028a41ac852d94835372ce13545389d1c3a",
+      "elapsed_seconds": 0.09273992500675377
+    },
+    {
+      "path": "rust/rei_microphysics/src/igm_state.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/igm_state.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 6187,
+      "sha256": "1651b00a517d67aaa71b38d3c69af6413570adfc38b591a3ed25284f039e0ae0",
+      "git_blob": "437365fbe329a10afe292f9dd7eebf549fef804c",
+      "elapsed_seconds": 0.13264444100786932
+    },
+    {
+      "path": "rust/rei_microphysics/src/igm_thermal.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/igm_thermal.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 8888,
+      "sha256": "30515d96270ec73a37829ba298513a42112991168479d3cb40f33b67fd469ab2",
+      "git_blob": "0648618d9822e169e9672ac3c556f86595c3b0b6",
+      "elapsed_seconds": 0.14935759699437767
+    },
+    {
+      "path": "rust/rei_microphysics/src/interval_ad.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/interval_ad.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4598,
+      "sha256": "b14a16a24ba55d1d915fc890348bbafccf3c9df4566c04bbf06d38cdac2ef2dd",
+      "git_blob": "93f3abc33af7855719b65b839c01359ce494e2de",
+      "elapsed_seconds": 0.09482863600715064
+    },
+    {
+      "path": "rust/rei_microphysics/src/interval_math.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/interval_math.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 6813,
+      "sha256": "e4639a4386feee536dbe7e7ffb1260f26fa00697b6b05477083c182ddf03de18",
+      "git_blob": "c33a2c91ec5be0a3d9e97c26098f6ba2cb7b5f5e",
+      "elapsed_seconds": 0.11480699399544392
+    },
+    {
+      "path": "rust/rei_microphysics/src/isotope_state.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/isotope_state.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 8038,
+      "sha256": "a3a750c3751ea30621482c341e89f690e517c3ad122e56231d2810c62afe8708",
+      "git_blob": "a47927cea7d060f89ea28e9731608dd89b5ae7b3",
+      "elapsed_seconds": 0.09747471800073981
+    },
+    {
+      "path": "rust/rei_microphysics/src/joint_affine.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/joint_affine.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 6266,
+      "sha256": "5782ec4a2fdb8885af4056dca26e60bb31b585a7ce5de0c18cccbb143ae5f8b3",
+      "git_blob": "05c6fe32890eb335a3987082a134ac2c7fcd6feb",
+      "elapsed_seconds": 0.09695507900323719
+    },
+    {
+      "path": "rust/rei_microphysics/src/lib.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/lib.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5279,
+      "sha256": "e7bf2828e810c7e427b84c0ce92bd1a2f9e10c8ac257f74fddd7d9a8d12502e0",
+      "git_blob": "5d996a9778f6f1dae140c544d038634fc58255f5",
+      "elapsed_seconds": 0.11907124100252986
+    },
+    {
+      "path": "rust/rei_microphysics/src/lift.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/lift.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 1749,
+      "sha256": "632474da40f075051f77ed618b65af13fba133ea6bbee6e49325aeb2578d1871",
+      "git_blob": "1286ca2adc64acc39df039826794cffc20b04b5e",
+      "elapsed_seconds": 0.09865240899671335
+    },
+    {
+      "path": "rust/rei_microphysics/src/microstep.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/microstep.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 8928,
+      "sha256": "e03cc1512cdd2b60735b1ab655c8e6657423c18ee4ad55ca1d30f24ad4974e53",
+      "git_blob": "3a78b40d1823a1e1c8541538bd94481b4cab0277",
+      "elapsed_seconds": 0.11100983999494929
+    },
+    {
+      "path": "rust/rei_microphysics/src/paired_runtime.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/paired_runtime.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 23810,
+      "sha256": "b6c1d2a07ab51ff02318139ae18387b77f61859c08037347f788524df770ebe7",
+      "git_blob": "70eed18b07b6dd4297d8ef8da6d7e1be8e44456e",
+      "elapsed_seconds": 0.09538989799330011
+    },
+    {
+      "path": "rust/rei_microphysics/src/rux_adapter.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/rux_adapter.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4330,
+      "sha256": "1b77eec6158a412f4a3d8c436ae7bcd09efecfd7d35c222080067a3b6f60c2f0",
+      "git_blob": "e8f580016c0b3796161d6fed0a76b9987b03efda",
+      "elapsed_seconds": 0.10031823698955122
+    },
+    {
+      "path": "rust/rei_microphysics/src/thermal.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/src/thermal.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 1489,
+      "sha256": "6d7be31934bb33a46c0911d28b62e34d22027e08a8a1945c5d7d32bf32f79b8a",
+      "git_blob": "d43a09450f2b2ed17f7032d4a3aecc3ff3f5d365",
+      "elapsed_seconds": 0.11371036399214063
+    },
+    {
+      "path": "rust/rei_microphysics/Cargo.toml",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/Cargo.toml",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 319,
+      "sha256": "e04b3802c2555b612305bb900e1e9d509c2a4039a6deacf20d65ddf7e5249407",
+      "git_blob": "0771ae64cf1e4c8f51a9fb7f23f216c4056e423b",
+      "elapsed_seconds": 0.09665050299372524
+    },
+    {
+      "path": "docs/fastest_track_chat/REI-AXBI-GOAL-20261014/OUTPUT_CONTRACT.json",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/docs/fastest_track_chat/REI-AXBI-GOAL-20261014/OUTPUT_CONTRACT.json",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 29273,
+      "sha256": "6d52963fc3bfe5dab9b78353c539ef38b87d9e0217495b2ccb6a5ce535cfca57",
+      "git_blob": "ecd7e3080f5624504f577dae2ab800d1d2cf534d",
+      "elapsed_seconds": 0.10497356799896806
+    },
+    {
+      "path": "research/axbi_goal_20261014/scenario/AX05_NUMERICAL_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/axbi_goal_20261014/scenario/AX05_NUMERICAL_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 8705,
+      "sha256": "7403a1d0dcdbc3aa32d80c2f9bdd6ea5112e2b68432776c9de62bae5dd8c4054",
+      "git_blob": "37f41b9f7a6ce73e5f775d3f73a6931682d06490",
+      "elapsed_seconds": 0.10679069999605417
+    },
+    {
+      "path": "research/axbi_goal_20261014/scenario/SCENARIO_LOCK.json",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/axbi_goal_20261014/scenario/SCENARIO_LOCK.json",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 10389,
+      "sha256": "07aa11d2d3fd47d2ed95e9d9161f6205e4d9ba386c27ad43d2b298fcd86d1696",
+      "git_blob": "76a6510c866991ba15df3f659004c1d25a97d504",
+      "elapsed_seconds": 0.14108978200238198
+    },
+    {
+      "path": "research/flrw_covariant_transport_20261015/BACKGROUND_CACHE_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_covariant_transport_20261015/BACKGROUND_CACHE_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 10369,
+      "sha256": "3387824f90c9c4a4b743e13f42fdff0abf5a92582fa924753f366936e4306be0",
+      "git_blob": "fba38ab97507d832eba8732dee456b00588689c0",
+      "elapsed_seconds": 0.10421000600035768
+    },
+    {
+      "path": "research/flrw_covariant_transport_20261015/HPC_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_covariant_transport_20261015/HPC_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 16566,
+      "sha256": "bdf7689c13152b2c30519c45a4e3b20abde3c511c82a81caaeb43d2bc24ed5fa",
+      "git_blob": "ba5a49c2abdf363aedc34e814de5d2f215fd7963",
+      "elapsed_seconds": 0.1032322499959264
+    },
+    {
+      "path": "research/flrw_covariant_transport_20261015/INACTIVE_POOL_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_covariant_transport_20261015/INACTIVE_POOL_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 4457,
+      "sha256": "52743f7f1f037748a9ecb3e87772908672563ec6c4851a83d7283997535267ff",
+      "git_blob": "e8bd4611ee4779b65bc9ad7545fe4b95b6c5c874",
+      "elapsed_seconds": 0.09577623500081245
+    },
+    {
+      "path": "research/flrw_covariant_transport_20261015/NATIVE_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_covariant_transport_20261015/NATIVE_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 7056,
+      "sha256": "069756073f7a8f35ae0558accab5ac396a4288cdd18b759f232edde7d4b61d60",
+      "git_blob": "dcea93ba1c360b55d69a4b73dc299f82a66092f7",
+      "elapsed_seconds": 0.09122832700086292
+    },
+    {
+      "path": "research/flrw_covariant_transport_20261015/OUTPUT_ALLOCATION_005_CONTRACT.md",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_covariant_transport_20261015/OUTPUT_ALLOCATION_005_CONTRACT.md",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5010,
+      "sha256": "b38ddb96c57c8c977acac0e9f59cbe52c734da63c0f8c9e3fb08d453e0a9668a",
+      "git_blob": "6ea5b645426e1e454ea9dd988adce84ed100c134",
+      "elapsed_seconds": 0.11202713099191897
+    },
+    {
+      "path": "research/flrw_jacobian_columns_20261016/CONTRACT.json",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/research/flrw_jacobian_columns_20261016/CONTRACT.json",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 5328,
+      "sha256": "d729650ee2a7be7aeaf513cac0fac40c57dd43091ec5f6deff302773265f05fa",
+      "git_blob": "242a51d7ae3878e29b2808f88cc93dda9b494a39",
+      "elapsed_seconds": 0.10546708900074009
+    },
+    {
+      "path": "rust/rei_microphysics/examples/axbi_reionization.rs",
+      "url": "https://raw.githubusercontent.com/cosmosapjw-quantum/rei_bianchi/0e25846433170d0f420c4cda44a0bedbf02cd177/rust/rei_microphysics/examples/axbi_reionization.rs",
+      "attempts": 1,
+      "status": "PASS",
+      "bytes": 1737,
+      "sha256": "b45be75a3361e487063cd0b6488049ed179b703b35025b4a7ab70c51f406ef0f",
+      "git_blob": "f60b43da77e64e7f48c716ac22f58d5508719112",
+      "elapsed_seconds": 0.10444246300903615
+    }
+  ],
+  "completed_old_cases_replayed": 0,
+  "case_count": 1,
+  "resume_semantics": "One new initial-state attempt of one previously failed case; not checkpoint resume.",
+  "resources_before": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cgroup_cpu_quota_cores": [
+      8.0
+    ],
+    "ram_available_bytes_observed": 1500491776,
+    "child_address_space_cap_bytes": 963620864,
+    "task_allocated_bytes": 2289664,
+    "disk_free_bytes": 15406194688,
+    "native_threads": 1,
+    "existing_owner_processes_modified": false,
+    "admission_note": "Root batch resource scheduler remains responsible for whole-batch reservations; no exclusive CPU claim."
+  },
+  "source_binding": {
+    "method": "full immutable Git raw byte readback",
+    "source_commit": "4e3615dd75ff1a1efc2792edb3ba5b702a8a9b06",
+    "manifest_sha256": "a880a60828eebda1d4ad5e83b00af865bc4cd3b293108a21c8b814a36ea9d62a",
+    "files": [
+      {
+        "path": "CONTRACT.json",
+        "bytes": 2336,
+        "sha256": "3779730bf79408396f93691ebfc21a8a50a22227bd7a30c40bc882f50b77fcd6",
+        "git_blob": "a98a08f36414bece7d9207823cb0b8bdc71c5fa8"
+      },
+      {
+        "path": "balance.rs",
+        "bytes": 5857,
+        "sha256": "3053e69d6a501b8beb6c4640db7826af742a85693dabe9b6b8ea523790b93e8a",
+        "git_blob": "90baeb34cead226e8315453384de3955bab114e2"
+      },
+      {
+        "path": "balance_p24.rs",
+        "bytes": 18737,
+        "sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+        "git_blob": "98f52a944fdb7d2a814b10ceb8dddc2d7cbd17b4"
+      },
+      {
+        "path": "inputs/BASELINE_IDENTITY.json",
+        "bytes": 848,
+        "sha256": "060b3cc12f8897381cff9666c23c6b2c890a17a8a24a75d1980bf1aefaadc2b4",
+        "git_blob": "6180aca931eb03da9b9c69cd1e08b4eed65db04b"
+      },
+      {
+        "path": "inputs/ORIGINAL_S8_FAILURE.json",
+        "bytes": 4889,
+        "sha256": "d1a0cf8180da93f85d95296bf94a09b8da86f2b3f2c521f8adcf5eb4cb8447c6",
+        "git_blob": "251c3afc337f08c4cde8f3671179473cb71a9f28"
+      },
+      {
+        "path": "native_adapter.rs",
+        "bytes": 6246,
+        "sha256": "de6c6fa54cb7a7dde3a4f8fc67a8b36093debf3c16e6e9d90d07daaf84277acc",
+        "git_blob": "214643d55af222219b39ee85b7d61e7010df1a07"
+      },
+      {
+        "path": "native_followup.rs",
+        "bytes": 17335,
+        "sha256": "e20cf9120fa8c3a23fa2d1bb82dca14c818324dfa9536d5a94863b04cc89eb9a",
+        "git_blob": "1ad561fe3a4241757e23f1481dfe7362937e9b13"
+      },
+      {
+        "path": "native_owner_manifest.json",
+        "bytes": 13601,
+        "sha256": "2cd4d9fdfc49c499f1c99c9373680d7056a4223b0107b10e39d7472756bc8cb2",
+        "git_blob": "55610a8ff930dc374044079f73a6638d348ddf3f"
+      },
+      {
+        "path": "run.py",
+        "bytes": 22619,
+        "sha256": "72fd7e308ac6be1d48d8d82c13eaf2c1746909c292eeea6814f23ba3475365b8",
+        "git_blob": "ba3c1b38ea66652ac3298ba462a5192102517fb6"
+      },
+      {
+        "path": "s11_projector.rs",
+        "bytes": 20567,
+        "sha256": "1f937f16dcb5a7dbdce92a66881d45276b67b202c56bdc232c1d281ad7fc6fcb",
+        "git_blob": "326c83c124f1c5b8c99b97050915030ad5969e2c"
+      },
+      {
+        "path": "validate.py",
+        "bytes": 17473,
+        "sha256": "de115d658fb733f0e08da02dc9b5e0bdfcc1225e42bb490340422f4af1a7a3c6",
+        "git_blob": "ed36d5ad8d8c36d4b6a477c8eff78e6d3b187c82"
+      }
+    ]
+  },
+  "owner_verification_before": {
+    "commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "files": 57,
+    "bytes": 614313,
+    "all_git_blob_sha256_size_pass": true
+  },
+  "rustc_version": "rustc 1.94.1 (e408947bf 2026-03-25)\nbinary: rustc\ncommit-hash: e408947bfd200af42db322daf0fadfe7e26d3bd1\ncommit-date: 2026-03-25\nhost: x86_64-unknown-linux-gnu\nrelease: 1.94.1\nLLVM version: 21.1.8\n",
+  "failure_type": "RuntimeError",
+  "failure": "COMMAND_FAILED:compile_s12_followup",
+  "elapsed_seconds": 20.130461402004585,
+  "finished_utc": "2026-10-20T21:47:20.338876+00:00",
+  "wrapper_exit_code": 2,
+  "children_peak_rss_kib_linux": 389852,
+  "python_peak_rss_kib_linux": 20224,
+  "task_allocated_bytes_end": 10829824
+}

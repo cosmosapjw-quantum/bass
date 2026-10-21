@@ -1,0 +1,157 @@
+{
+  "schema": "bass.s8.focused_serializer_resume_review.v1",
+  "status": "PASS_SCOPED_RECOVERY_REVIEW",
+  "utc": "2026-10-19T12:11:31.295799+00:00",
+  "reviewer": "/root/s6_rank1",
+  "review_reason": "The actual R1 attempt ended exit1 after seven integrations because the Richardson gate was numpy.bool_, not JSON serializable. Root requested one focused recovery review.",
+  "original_science_commit": "4508e5de9a9f2c5ad1fc7c9a9f53983305e8f613",
+  "original_failure_retained": true,
+  "reviewed_surfaces": [
+    "single named boolean conversion",
+    "read-only SHA binding to original seven histories and source/prereg/process/log/publication receipt",
+    "new publication typed identity",
+    "only originally unrun gauge integration",
+    "distinct integration accounting"
+  ],
+  "findings": [
+    {
+      "check": "Boolean conversion semantics",
+      "status": "PASS",
+      "basis": "normalized_assessment converts only gate_results.richardson_accuracy after asserting bool or numpy.bool_. True and false are preserved; nonboolean scalar is rejected; allow_nan=False and all other fields remain unchanged."
+    },
+    {
+      "check": "No rerun of completed science",
+      "status": "PASS",
+      "basis": "Seven fixed raw hashes are read and checked. The only integration call is solve_tangent for the original source_frame_GL b0 gauge configuration. Finite-difference assessment reuses the original function and six stored nonlinear histories."
+    },
+    {
+      "check": "Original source and admission preservation",
+      "status": "PASS",
+      "basis": "Original eight source files match original campaign_definition and original process source hashes. Original gates/solver/primary/gauge are copied without changes; new receipt and source files are separate."
+    },
+    {
+      "check": "Publication and outcome accounting",
+      "status": "PASS",
+      "basis": "New receipt verifies canonical schema/repo/prereg path/commit/blob/ten source hashes/readback. Attempted and completed new integrations, original_completed7 and historical_reruns0 are recorded separately. TypeError now gets a failure receipt."
+    },
+    {
+      "check": "Targeted regression evidence",
+      "status": "PASS_REUSED",
+      "basis": "Read two actual targeted serializer regression tests and execution log/receipt, exit0 and no integration. No old tests or science repeated by reviewer."
+    }
+  ],
+  "open_blockers": [],
+  "actual_byte_checks": {
+    "all10_source_hashes_match": true,
+    "all7_original_history_hashes_match": true,
+    "all4_original_receipt_or_prereg_hashes_match": true,
+    "new_preregistration_hash_matches_freeze": true
+  },
+  "science_executed_by_reviewer": 0,
+  "campaign_assessment_or_gauge_executed_by_reviewer": false,
+  "gauge_execution_at_this_review": "Not yet executed; parent publication/readback is the next step.",
+  "no_claims": [
+    "R2 science PASS before actual remaining gauge and recorded assessment",
+    "removal or success relabeling of original R1 process failure",
+    "any added integration or relaxed numerical gate"
+  ],
+  "scope_control": "This is one focused repair check, not another complete physics or source review.",
+  "skills_context_used": {
+    "name": "physmath-research-loop",
+    "version": "1.3.0",
+    "package": "c40/physmath-research-loop",
+    "selected_scope": "C9 targeted implementation-failure repair and existing source identity reuse"
+  },
+  "read_path_identities": {
+    "run_s8_tangent_resume.py": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/run_s8_tangent_resume.py",
+      "bytes": 13957,
+      "sha256": "0fc495005c44be72f9266e5bbd2aec13043b84662b963dddd19ef7b92ee6f32c"
+    },
+    "test_s8_tangent_resume.py": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/test_s8_tangent_resume.py",
+      "bytes": 1427,
+      "sha256": "c730a6c28121b98c71d9c8f290d91be5bc672c39c4af63e6831463082567dabc"
+    },
+    "evidence_s8_tangent/SERIALIZER_REGRESSION_R2_RETURN.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/SERIALIZER_REGRESSION_R2_RETURN.json",
+      "bytes": 2396,
+      "sha256": "c8f781dfa8a4393672ddb6cd3e087e9082cf1b452364120ae6ddb17d79f26a73"
+    },
+    "evidence_s8_tangent/SERIALIZER_REGRESSION_R2.log": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/SERIALIZER_REGRESSION_R2.log",
+      "bytes": 396,
+      "sha256": "c9196848429ad20b2afb5b3d04ceaca9257fe09265bdd5dc828ab7d66c57999f"
+    },
+    "evidence_s8_tangent/RUN01_SERIALIZATION_DIAGNOSIS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/RUN01_SERIALIZATION_DIAGNOSIS.json",
+      "bytes": 5919,
+      "sha256": "40cff7df494ecbf699b66c0fe59da16393076f8e076d650f0b16c163a7d440e8"
+    },
+    "evidence_s8_tangent/RESUME_R2_PREPUBLICATION_FREEZE.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/RESUME_R2_PREPUBLICATION_FREEZE.json",
+      "bytes": 4043,
+      "sha256": "94b93e296f13378c29d89048752856233f7fdff614a2aa1153d7b8f46d497ebc"
+    },
+    "evidence_s8_tangent/PREREGISTRATION_RESUME_R2.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/PREREGISTRATION_RESUME_R2.json",
+      "bytes": 7582,
+      "sha256": "0fefa71f865961400c05a071c9c83ef07f2baceb1845cfe789384892c3a62631"
+    },
+    "evidence_s8_tangent/PREREGISTRATION.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/PREREGISTRATION.json",
+      "bytes": 6412,
+      "sha256": "6f88cac768b78c324705590bf6a7e5b2912311f3a4c9494d958a1e4ed2c2ba58"
+    },
+    "evidence_s8_tangent/CAMPAIGN_R1_PROCESS_RETURN.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/CAMPAIGN_R1_PROCESS_RETURN.json",
+      "bytes": 3494,
+      "sha256": "3fe4742f1718c185e37b2e0ee65f6e502fd8a72f9a543c10a53b518ee47aa020"
+    },
+    "evidence_s8_tangent/CAMPAIGN_R1.log": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/CAMPAIGN_R1.log",
+      "bytes": 2031,
+      "sha256": "ea2ebefb699dbc884607a365dec82ec9e227d4e82a7d7b3f8d6282a13e96f0d6"
+    },
+    "delivery/s8/TANGENT_PUBLICATION.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/delivery/s8/TANGENT_PUBLICATION.json",
+      "bytes": 1204,
+      "sha256": "a4183a92b6db4603b0c2a54722379b2e66e73b86c704fd4953817af4fe5e6f60"
+    },
+    "evidence_s8_tangent/run01/ANALYTIC_TANGENT.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/ANALYTIC_TANGENT.json",
+      "bytes": 554113,
+      "sha256": "6f10d47ebd398eb5dde6f551414e218ea7573fe7f87bf668ad2be02c1f47e7a4"
+    },
+    "evidence_s8_tangent/run01/FD_EPS0_MINUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS0_MINUS.json",
+      "bytes": 182959,
+      "sha256": "3efb01dc784bdfb4b31e2d47f19b1519aac33b1a5d4d08792c2b409f74230d2b"
+    },
+    "evidence_s8_tangent/run01/FD_EPS0_PLUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS0_PLUS.json",
+      "bytes": 182524,
+      "sha256": "5c4c91bde5710ce6f3d4b8ff83dded1fd775cc8fc6885bc62ed32706d3cdafda"
+    },
+    "evidence_s8_tangent/run01/FD_EPS1_MINUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS1_MINUS.json",
+      "bytes": 182321,
+      "sha256": "26816948077792373c680ebd428a1321cdb76fb98e0a0374cf87fca27a7af67b"
+    },
+    "evidence_s8_tangent/run01/FD_EPS1_PLUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS1_PLUS.json",
+      "bytes": 182639,
+      "sha256": "670f51f0573ec0de505f57acb8524f3be040ccd3c5b9bd43bd69c8056651a442"
+    },
+    "evidence_s8_tangent/run01/FD_EPS2_MINUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS2_MINUS.json",
+      "bytes": 183308,
+      "sha256": "161315d3c586cc3c3e57d1faef29b9aef53ed5fbe486756acd100ea99c1d102f"
+    },
+    "evidence_s8_tangent/run01/FD_EPS2_PLUS.json": {
+      "path": "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s8_tangent/run01/FD_EPS2_PLUS.json",
+      "bytes": 183230,
+      "sha256": "14a6d7a822160e59f784ba87342a6fa03e0afd771a6dbaafa812cf67cbdc7403"
+    }
+  }
+}

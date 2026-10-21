@@ -1,0 +1,201 @@
+[
+  {
+    "id": "not_isotropic",
+    "python_status": "NOT_ISOTROPIC_BIRTH",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"NOT_ISOTROPIC_BIRTH\",\"message\":\"supply --isotropic-birth for a new explicitly isotropic birth; stdin is order n and n mu/prior pairs\"}\n",
+      "stderr": "",
+      "exit_code": 2,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0014172140072332695
+    },
+    "expected_python_status": "NOT_ISOTROPIC_BIRTH",
+    "expected_rust_status": "NOT_ISOTROPIC_BIRTH",
+    "expected_rust_exit": 2
+  },
+  {
+    "id": "asymmetric_mu",
+    "python_status": "REFLECTION_SOURCE_REQUIRED",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n1.00000000000000002e-02 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"exact reflection pairing violated at ray 3\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.002853976999176666
+    },
+    "expected_python_status": "REFLECTION_SOURCE_REQUIRED",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "asymmetric_prior",
+    "python_status": "REFLECTION_PRIOR_REQUIRED",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 2.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"exact reflection pairing violated at ray 0\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0011352369911037385
+    },
+    "expected_python_status": "REFLECTION_PRIOR_REQUIRED",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "zero_prior",
+    "python_status": "PRIOR_POSITIVITY_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 0.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"nonfinite/domain/positive-prior violation at ray 3\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0010627769952407107
+    },
+    "expected_python_status": "PRIOR_POSITIVITY_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "negative_prior",
+    "python_status": "PRIOR_POSITIVITY_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 -1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"nonfinite/domain/positive-prior violation at ray 3\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0010907490068348125
+    },
+    "expected_python_status": "PRIOR_POSITIVITY_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "nonfinite",
+    "python_status": "ANGULAR_INPUT_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\nnan 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"nonfinite/domain/positive-prior violation at ray 3\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0012543969933176413
+    },
+    "expected_python_status": "ANGULAR_INPUT_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "out_of_range",
+    "python_status": "ANGULAR_INPUT_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 7\n-1.10000000000000009e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.10000000000000009e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"nonfinite/domain/positive-prior violation at ray 0\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0009826659952523187
+    },
+    "expected_python_status": "ANGULAR_INPUT_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "duplicate_mu",
+    "python_status": "ANGULAR_ORDER_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 9\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"directions must be strictly increasing; duplicates are forbidden\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0011833900061901659
+    },
+    "expected_python_status": "ANGULAR_ORDER_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "rank_deficient",
+    "python_status": "INFEASIBLE_AFFINE_SUPPORT",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "6 2\n-5.00000000000000000e-01 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"FEASIBILITY_UNRESOLVED\",\"message\":\"1 distinct squared nodes; full-rank order 6 requires at least 4\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0009799719991860911
+    },
+    "expected_python_status": "INFEASIBLE_AFFINE_SUPPORT",
+    "expected_rust_status": "FEASIBILITY_UNRESOLVED",
+    "expected_rust_exit": 3
+  },
+  {
+    "id": "invalid_order",
+    "python_status": "ORDER_DOMAIN",
+    "rust": {
+      "command": [
+        "/workspace/scratch/14e1021f8231/bass_work/research/bass_isotropy_response_20261018/s11_p246/evidence/run_r1/p246_projector",
+        "--isotropic-birth"
+      ],
+      "stdin": "0 7\n-1.00000000000000000e+00 1.00000000000000000e+00\n-7.50000000000000000e-01 1.00000000000000000e+00\n-5.00000000000000000e-01 1.00000000000000000e+00\n0.00000000000000000e+00 1.00000000000000000e+00\n5.00000000000000000e-01 1.00000000000000000e+00\n7.50000000000000000e-01 1.00000000000000000e+00\n1.00000000000000000e+00 1.00000000000000000e+00\n",
+      "timeout_seconds": 120,
+      "stdout": "{\"status\":\"INVALID_INPUT\",\"message\":\"order must be 4 or 6\"}\n",
+      "stderr": "",
+      "exit_code": 3,
+      "execution_status": "COMPLETED",
+      "elapsed_seconds": 0.0011756579915527254
+    },
+    "expected_python_status": "ORDER_DOMAIN",
+    "expected_rust_status": "INVALID_INPUT",
+    "expected_rust_exit": 3
+  }
+]

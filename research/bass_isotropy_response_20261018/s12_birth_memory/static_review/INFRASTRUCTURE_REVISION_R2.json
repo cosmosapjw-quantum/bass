@@ -1,0 +1,67 @@
+{
+  "schema": "BASS_S12_INFRA_NAMESPACE_REPAIR_V1",
+  "created_utc": "2026-10-20T21:37:54.396307+00:00",
+  "status": "SOURCE_PATCH_PREPARED_AWAITING_FRESH_PUBLICATION_AND_TEST",
+  "author": "/root/cloud_intake",
+  "prior_execution_source": "f4cd0d53760783e6a58c3b0a98c64311ca489d28",
+  "original_failures": {
+    "tests": 14,
+    "passed": 12,
+    "failed": 2,
+    "names": [
+      "test_build_dependency_then_exact_resume",
+      "test_production_helper_cleans_nested_session_and_preserves_other_job:interrupt"
+    ],
+    "receipt_path": "runtime_s12/infrastructure_f4cd0d53/run01/RETURN_INFRASTRUCTURE.json",
+    "receipt_sha256": "7b0ae2fd799b0582fcef29ba984861853a20ad0d024bbce6200f53723dcfe1ed",
+    "raw_logs_and_failure_fixtures_preserved": true
+  },
+  "cause": {
+    "summary": "POSIX process IDs in the sandbox PID namespace differ from the mounted procfs host ID view; bare numeric comparisons made false group matches and omitted actual descendants.",
+    "probe_path": "runtime_s12/infrastructure_f4cd0d53/run01/PID_NAMESPACE_DIAGNOSIS.json",
+    "probe_sha256": "33ab17666fa40768f149a7a5706508ae218a64eacf2146166f25f76c89b4a41c",
+    "observed_local_pid": 5,
+    "observed_procfs_self_pid": 386313,
+    "observed_local_pgid": 1,
+    "observed_procfs_self_pgid": 386309
+  },
+  "resolution": [
+    "Prove self local IDs against NSpid/NSpgid and stat; accept plain procfs fallback only when both actual self PID and PGID match and namespace fields are absent.",
+    "Exclude processes proven to be in an ancestor namespace by NSpid depth; remaining candidate namespace links must exactly match /proc/self/ns/pid. Unavailable or ambiguous mapping raises an error.",
+    "For matching namespace processes map local PID/PGID from the last NSpid/NSpgid field; verify first fields against procfs IDs/stat PGID and reject nonunique mappings.",
+    "Aggregate the verified procfs PPID tree while returning explicit local process_ids, procfs_pids and namespace proof.",
+    "Never signal a procfs host PID/PGID. Real termination remains exact Popen-created local process groups; a local signal0 existence probe refuses a live group missing from verified observation.",
+    "Existing production nested-session test now asserts namespace proof and captures observations before assertions; no new numerical tolerance or physics case."
+  ],
+  "changed_files": [
+    {
+      "path": "research/bass_isotropy_response_20261018/s12_birth_memory/ncp/resources.py",
+      "before_sha256": "06f20bfee2a2d4afe0889d4a5e5580f0a412b330042652c66223d4dd9b5651e4",
+      "after_sha256": "8e46d35d9897ac166000c8f3a5296716fa3cd3c93dc747ca4458e97137f6d60e",
+      "before_bytes": 9654,
+      "after_bytes": 14170
+    },
+    {
+      "path": "research/bass_isotropy_response_20261018/s12_birth_memory/ncp/test_runner.py",
+      "before_sha256": "9257029987515c8f2eba76b63247f65831c808059c4d1fcbffac32ea28e7c8cb",
+      "after_sha256": "c3621c1c5cd1e2aaf39ef4c9867d72a2a117a9bcba7d8965e7f5ecc73ebbd1bc",
+      "before_bytes": 16564,
+      "after_bytes": 17359
+    }
+  ],
+  "patch_sha256": "245eda099aa4e89256028483a764ac83e532ab60b7efd71e1e2a8dd9503015de",
+  "limits_unchanged": {
+    "ncp_cpus_max": 64,
+    "ncp_ram_bytes_max": 137438953472,
+    "sandbox_workers_max": 16,
+    "sandbox_ram_bytes_max": 17179869184,
+    "job_timeout_max_s": 1800,
+    "disk_cap_bytes": 4294967296
+  },
+  "post_patch_test_executions": 0,
+  "post_patch_build_executions": 0,
+  "scientific_source_equations_changed": false,
+  "completed_campaign_replays": 0,
+  "old_owner_jobs_signaled": 0,
+  "new_source_commit": "Will be supplied by the root publication receipt; no self-referential commit assertion."
+}

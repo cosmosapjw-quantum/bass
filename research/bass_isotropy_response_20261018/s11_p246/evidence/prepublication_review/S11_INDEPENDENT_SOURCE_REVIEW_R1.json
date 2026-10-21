@@ -1,0 +1,103 @@
+{
+  "schema": "BASS_S11_INDEPENDENT_SOURCE_REVIEW_V1",
+  "reviewer": "p6_theory",
+  "status": "SOURCE_REVIEW_RUNNER_FIXED_PENDING_NATIVE_CONTRACT_ALIGNMENT",
+  "reviewed_at_utc": "2026-10-20T17:38:51.700267+00:00",
+  "method": "Read-only source review; no solver, old campaign, native history, benchmark, or NCP execution. Initial direct certificate counterexamples are retained separately in PROJECTOR_PRE_FIX_FINDINGS.json.",
+  "sources": [
+    {
+      "path": "s11_p246/projector.py",
+      "snapshot": "REVIEWED_S11_R1_projector.py",
+      "bytes": 12834,
+      "sha256": "1ddb802e2b82744527681182669c6586c3df7be286eee560859aeb8b1763cd1b"
+    },
+    {
+      "path": "s11_p246/run_validation.py",
+      "snapshot": "REVIEWED_S11_R1_run_validation.py",
+      "bytes": 19882,
+      "sha256": "39fcdbee06776c223b40460fc02c53c321fd30e17b9a5eb45f1e0ec42e752462"
+    },
+    {
+      "path": "s11_p246/rust/projector.rs",
+      "snapshot": "REVIEWED_S11_R1_rust_projector.rs",
+      "bytes": 20488,
+      "sha256": "a14817cd39f903d7ca8e258965dd5e100b64a8181e26301481f2f2c85b2dc510"
+    },
+    {
+      "path": "s11_p246/rust/cli.rs",
+      "snapshot": "REVIEWED_S11_R1_rust_cli.rs",
+      "bytes": 3932,
+      "sha256": "e1e6c1ad82611b0df92b7531fae5d8a195463d8f86d42749f49d9fe75fe66c2b"
+    },
+    {
+      "path": "s11_p246/CONTRACT.json",
+      "snapshot": "REVIEWED_S11_R1_CONTRACT.json",
+      "bytes": 5888,
+      "sha256": "2ea6c721a50290af84457b26520bafbdc5ca84e470c9b729b644eaed0e8b4de7"
+    }
+  ],
+  "findings": [
+    {
+      "id": "S11-C9-01",
+      "status": "FIXED_IN_REVIEWED_SOURCE",
+      "finding": "Standalone exact_certificate previously admitted order 0 by checking an empty set of moment constraints; reviewed revision requires exact int type and order 4 or 6."
+    },
+    {
+      "id": "S11-C9-02",
+      "status": "FIXED_IN_REVIEWED_SOURCE",
+      "finding": "Standalone exact_certificate previously admitted nonphysical |mu|>1 with exactly small polynomial moments; reviewed revision rejects |mu|>1 before moments."
+    },
+    {
+      "id": "S11-C9-03",
+      "status": "FIXED_IN_REVIEWED_SOURCE",
+      "finding": "Domain tests treat any nonzero Rust return code as correct rejection, including process crashes; structured expected native status and designated exit code must be checked.",
+      "resolution": "The reviewed runner requires parsed JSON object, exact expected native status, exact expected exit and empty stderr for each rejection."
+    },
+    {
+      "id": "S11-C9-04",
+      "status": "FIXED_IN_REVIEWED_SOURCE",
+      "finding": "A feasible native result is considered executed from exit0 and a weights key without requiring the success status or matching order.",
+      "resolution": "The reviewed runner additionally requires PROJECTED_NEEDS_EXACT_CERTIFICATE and matching order before independent exact certification."
+    },
+    {
+      "id": "S11-C9-05",
+      "status": "FIXED_IN_REVIEWED_SOURCE",
+      "finding": "Timeouts, launch errors, non-object native JSON, unexpected certificate errors, or missing input abort before final raw execution/failure receipt persistence.",
+      "resolution": "invoke captures timeouts/launch failure; every invocation is checkpointed immediately; a top-level handler writes FAILURE and RETURN for missing inputs and unexpected exceptions."
+    },
+    {
+      "id": "S11-C9-06",
+      "status": "LOCAL_BINDING_FIXED_EXTERNAL_READBACK_REQUIRED",
+      "finding": "--source-commit is only checked lexically. Local byte manifest must be matched to independent pre-run GitHub readback before attributing results to that commit.",
+      "resolution": "The reviewed runner requires an independently supplied published-file manifest and exact file-set, byte-count, SHA256 and git-blob identity matching. The external manifest must itself be retained and tied to an observed GitHub commit tree."
+    },
+    {
+      "id": "S11-C9-07",
+      "status": "REQUIRES_CONTRACT_ALIGNMENT",
+      "finding": "Absolute 1e-12 P8/P10 Taylor coefficient residual check is separate from original 3e-15 moment gate and 2 percent asymptotic check; name it explicitly in preregistration."
+    },
+    {
+      "id": "S11-C9-08",
+      "status": "REQUIRES_FIX",
+      "finding": "Reviewed Rust allows equal neighboring directions while Python forbids duplicates. Existing rank-deficient duplicate control masks this under generic nonzero domain acceptance."
+    }
+  ],
+  "positive_conclusions": [
+    "Original exact, unnormalized 3/10^15 normalization/P2/P4 gates are retained; P6 uses the same bound.",
+    "Exact support geometry is evaluated with Fraction(binary64_mu)**2 and conservative native interval preflight is separate from the exact certificate.",
+    "Every missing success in a currently feasible pair records an executed check=false; skipping the associated response row alone cannot make the existing final aggregate PASS.",
+    "Taylor coefficients are exact rational coefficients for the actual stored weights, including normalization and accepted nonzero low moments.",
+    "The independent continuum integral uses the correct sign and branch for the fixed factorized collisionless Bianchi I diagnostic.",
+    "No new continuum/native full finite-bin or spectral-history convergence gate is implied by P246 moment checks.",
+    "The reviewed Python declaration must be the boolean True, rather than an arbitrary truthy value."
+  ],
+  "pending_controls_are_recommendations_not_executed": true,
+  "new_solver_executions_by_this_review": 0,
+  "old_campaign_replays": 0,
+  "new_math_recovery_unit_executions": 1,
+  "recovery_receipt": "RECOVERY_RECEIPT.json",
+  "later_agent_report_not_yet_in_this_snapshot": {
+    "Rust_duplicate_fix_sha256": "1f937f16dcb5a7dbdce92a66881d45276b67b202c56bdc232c1d281ad7fc6fcb",
+    "source": "new_branch_intake message; verify in next source-review revision before closure"
+  }
+}

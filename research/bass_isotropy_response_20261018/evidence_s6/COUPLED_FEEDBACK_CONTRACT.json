@@ -1,0 +1,47 @@
+{
+  "schema": "bass.s6d.coupled_feedback_contract.v1",
+  "status": "NOT_RUN_CONTRACT_ONLY",
+  "date_utc": "2026-10-19",
+  "physics": "Non-tilted axisymmetric Bianchi I, signature (-,+,+,+), a_perp=a e^{-b}, a_par=a e^{2b}, s=db/dt, Sigma=sqrt(3)|s|/H",
+  "derived_equation": {
+    "shear": "ds/dt + 3 H s = (8 pi G/(3 c^2)) DeltaP_tot",
+    "from": "d/dt(V beta_dot_i) = (8 pi G/c^2) V pi^i_i, V=a^3, beta=(-b,-b,2b), pi^3_3=(2/3)DeltaP",
+    "sign": "DeltaP>0 increases s; then d grows and A'(0)<0 lowers DeltaP: negative feedback",
+    "linear_sensitivity": "delta s(x)=int^x exp(-3(x-x')) (8 pi G/(3 c^2 H(x'))) delta DeltaP(x') dx' at fixed background, first order",
+    "status": "derived_and_matched_to_owner_perturbative_diagnostic",
+    "owner_match": {
+      "file": "rust/rei_microphysics/src/axbi_background.rs",
+      "commit": "0e25846433170d0f420c4cda44a0bedbf02cd177",
+      "omitted_feedback": "k=8*pi*G/(3*c^2); delta_s=(1/a^3) int k a^3 DeltaP dt (trapezoid); perturbative diagnostic, background unchanged",
+      "rates": "H=hypot(H_FLRW,s), i.e. H^2=H_FLRW^2+s^2"
+    }
+  },
+  "required_owner_alignment": [
+    "Owner normalization matched (axbi_background.rs omitted_feedback, rates); a coupled run must evolve b,s with DeltaP_tot instead of the owner perturbative diagnostic",
+    "Use the owner's DeltaP_tot including any existing stock and physical anisotropic source unchanged"
+  ],
+  "inputs": {
+    "new_source_rules": "P2 or P24 positive frozen birth weights from the verified native adapter; rank-one only via rank1_certificate",
+    "source_history": "owner source emissivity; cohort weights frozen at birth",
+    "angular": "n_mu in {8,16,32}; S6 criterion predicts insufficiency for |b+d|>~0.6"
+  },
+  "gates": {
+    "C1_constraint": "owner Friedmann/Hamiltonian residual within the owner's existing gate, not relaxed",
+    "C2_energy": "dU/dx+4U+2 b'(x) DeltaP = source term, per cohort, relative 1e-11",
+    "C3_angular_separation": "same history with prior/P2/P24 and n_mu 8->16->32; report delta s and delta b trajectories",
+    "C4_linear_prediction": "compare measured delta s with linear_sensitivity using measured delta DeltaP; report ratio, no admission from agreement alone",
+    "C5_spectral": "cells_per_segment and n_energy refinement separated from angular change, as S6c"
+  },
+  "limits": {
+    "additional_workers": 16,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "individual_job_seconds": 1800
+  },
+  "NCP": "Required only if the owner history run exceeds the local limits; then only compile/small compatibility fix/run remain",
+  "admission": {
+    "production": false,
+    "full_EoR": false,
+    "merge": false
+  }
+}

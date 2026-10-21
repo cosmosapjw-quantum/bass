@@ -1,0 +1,143 @@
+{
+  "schema": "bass.s7.coupled.strict_margin_preregistration.v1",
+  "revision": "R3_ONE_HISTORY_EXISTING_P24_INTERNAL_MARGIN",
+  "source_sha256": {
+    "coupled_cohorts.py": "dbdae568fd47a3ffd041ebb47ae09ffefb4b026369ad5f73e48b8d8f2a155c58",
+    "run_s7_coupled.py": "a5d2944f1aba23ec986edc438914575501c8126dbcd4e4cbdefe6ec6d2f30e2c",
+    "test_s7_coupled.py": "65fcb658a81e07d31e232970030a7da1b6c678291117e577fe4365131ac3fac6",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee",
+    "run_s7_strict_margin.py": "e94a378a97ef20463809f852219b41ee3a863a45a7d07db2a0b40b19da0243ee",
+    "test_s7_strict_margin.py": "99a050680da586ed779b6d70e2deff2694e72319fe0ac8a960356109c960348d"
+  },
+  "frozen_R2_source_sha256": {
+    "coupled_cohorts.py": "dbdae568fd47a3ffd041ebb47ae09ffefb4b026369ad5f73e48b8d8f2a155c58",
+    "run_s7_coupled.py": "a5d2944f1aba23ec986edc438914575501c8126dbcd4e4cbdefe6ec6d2f30e2c",
+    "test_s7_coupled.py": "65fcb658a81e07d31e232970030a7da1b6c678291117e577fe4365131ac3fac6",
+    "angular_balance.py": "1ed6e5d9ea865684fda255055acac3c10efef5d0131118bc568260b0d55a21e9",
+    "angular_p24.py": "1d603fcd99d55146a351537564d8a36aad068bb016c83e7e282c9925e9710992",
+    "s6_io.py": "6ba2504bf5328c722f166e01cfcc2c343c7b2a4cc1e55f1ff46cfd55c8f0ddee"
+  },
+  "frozen_R2_commit": "c689dcf151a9b3a6ba830d2a7f4fe8cc6a68385a",
+  "original_execution_commit": "2865f60bf0a247eaab4997c222ad82ae22a4c8fa",
+  "case": {
+    "id": "b03_n32_P24_K64",
+    "config": {
+      "K": 64,
+      "n": 32,
+      "mode": "P24",
+      "b0": 0.3,
+      "y0": 0.08,
+      "donor0": 0.7,
+      "old_isotropic": 0.16,
+      "old_anisotropic": 0.04,
+      "eta": 0.4,
+      "cosmological_constant": 0.1,
+      "decay_lambda": 0.7,
+      "birth_end": 0.8,
+      "x_end": 1.2,
+      "old_n": 128
+    }
+  },
+  "reference": "ref_b03_K64",
+  "internal_projector_atol": 1e-15,
+  "exact_admission_gate_rational": "3/1000000000000000",
+  "gates": {
+    "hamiltonian_relative": 1e-11,
+    "cohort_energy_relative": 1e-11,
+    "event_energy_relative": 1e-13,
+    "moment_abs": 3e-15,
+    "parity_abs": 0.0,
+    "donor_endpoint_relative": 3e-14
+  },
+  "solver": {
+    "method": "DOP853",
+    "rtol": 5e-13,
+    "atol": 5e-15,
+    "max_step": 0.08
+  },
+  "inputs": [
+    {
+      "path": "evidence_s7_coupled/PREREGISTRATION_R2.json",
+      "bytes": 28971,
+      "sha256": "c24ee865b4457398cb5d67dddbddfc2ef796d98665fe55416838ea5da4e9ebc4"
+    },
+    {
+      "path": "evidence_s7_coupled/run01/b03_n32_P24_K64.json",
+      "bytes": 165970,
+      "sha256": "bfdac2544c16855b02a6db1b4823394004d0ba4ef6dc926b2d9f40aad3c5173d"
+    },
+    {
+      "path": "evidence_s7_coupled/run01/ref_b03_K64.json",
+      "bytes": 165686,
+      "sha256": "ad1dbbf506dc99df9f1e68612825f646eb79c9bae42c0df0f37ea02c89590dcd"
+    },
+    {
+      "path": "evidence_s7_coupled/run01/RETURN_S7_COUPLED.json",
+      "bytes": 52290,
+      "sha256": "43efcc1d468365a474681021fb826b2350bd82bb0d04b417c8ae57a0beab8995"
+    },
+    {
+      "path": "evidence_s7_coupled/revalidate_r2/RETURN_S7_COUPLED_REANALYSIS.json",
+      "bytes": 84907,
+      "sha256": "762c2079e84bccf72deb2feabaecf3a00e6d8c5bfc1899ab261c8e104c8d195c"
+    },
+    {
+      "path": "evidence_s7_coupled/EXACT_MOMENT_FAILURES_R2.json",
+      "bytes": 4772,
+      "sha256": "b14ecacb7b10e82756fc2e602c8232d79256587c14ecd3b5e66cc6a72532c399"
+    }
+  ],
+  "change": "Call existing P24 API with atol=1e-15 for newly born isotropic rays of this one case.",
+  "unchanged": [
+    "R2 source files",
+    "owner",
+    "P24 algorithm file",
+    "initial stock",
+    "source-frame mapping",
+    "event law",
+    "independent Raychaudhuri ODE",
+    "exact admission gate"
+  ],
+  "comparisons": {
+    "stored_grid": "Require identical x values; no interpolation or reference integration.",
+    "quantities": [
+      "h",
+      "b",
+      "y",
+      "E_donor",
+      "E_radiation",
+      "Pi",
+      "Sigma"
+    ],
+    "trajectory_difference_gate": null,
+    "reason": "Report R3-minus-R1 and R3-minus-GL128 differences as diagnostics."
+  },
+  "required": [
+    "64 strict new-birth calls",
+    "all 64 exact P2/P4 certificates",
+    "same original old-stock digests",
+    "positive weights and exact parity",
+    "all unchanged conservation gates",
+    "input/source hashes unchanged after execution"
+  ],
+  "limits": {
+    "workers": 1,
+    "ram_bytes": 17179869184,
+    "disk_bytes": 4294967296,
+    "job_seconds": 1800
+  },
+  "failure_policy": "Retain R1 and R2 FAIL; no acceptance tolerance relaxation, negative weights or support changes.",
+  "scope": "One repaired manufactured coupled history only; no full 36-case or 7-benchmark rerun.",
+  "not_admitted": [
+    "all-grid stricter-projector validation",
+    "old FAIL erasure",
+    "native owner feedback",
+    "continuum accuracy",
+    "native finite-bin photon/energy conservation",
+    "production",
+    "full EoR",
+    "merge"
+  ]
+}

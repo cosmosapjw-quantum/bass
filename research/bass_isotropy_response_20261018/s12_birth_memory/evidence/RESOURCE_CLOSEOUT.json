@@ -1,0 +1,69 @@
+{
+  "schema": "BASS_S12_RESOURCE_CLOSEOUT_V1",
+  "observed_utc": "2026-10-20T22:14:14.927747+00:00",
+  "snapshot": {
+    "profile": "sandbox",
+    "configured": {
+      "cpus": 16,
+      "ram_bytes": 17179869184,
+      "workers": 16
+    },
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cgroup_cpu_quota_cores": [
+      8.0
+    ],
+    "cgroup_memory_caps": [
+      8589934592
+    ],
+    "cpu_cap": 8,
+    "ram_cap_bytes": 8589934592,
+    "ram_available_bytes": 1440817152,
+    "busy_cpus_estimate": 0.09027777777777778,
+    "own_busy_cpus_estimate": 0.0,
+    "own_process_groups": {},
+    "procfs_namespace_proof": {
+      "mode": "VERIFIED_NSPID_NSPGID",
+      "pid_namespace": "pid:[4026532277]",
+      "namespace_depth": 2,
+      "local_pid": 5,
+      "local_pgid": 1,
+      "procfs_self_pid": 401548,
+      "procfs_self_pgid": 401544,
+      "self_NSpid": [
+        401548,
+        5
+      ],
+      "self_NSpgid": [
+        401544,
+        1
+      ]
+    },
+    "own_process_accounting": "Verified local-PGID to procfs-PGID mapping within the same PID namespace, then observed procfs PPID descendants across nested sessions; reparenting before observation can remove ancestry. No procfs PID or PGID is a signal target.",
+    "cpu_load_components": {
+      "scaled_host_busy": 0.06837606837606833,
+      "scaled_load1": 0.09027777777777778,
+      "cgroup_busy": 0.0019177122142267017
+    },
+    "cpu_sample_seconds": 0.12045602999569383,
+    "disk_root": "/workspace/scratch/14e1021f8231",
+    "disk_allocated_bytes": 2522431488,
+    "disk_free_bytes": 15343206400,
+    "disk_cap_bytes": 4294967296,
+    "reservation_semantics": "Hard own-job allocation ledger plus refreshed load/memory admission; other owner jobs are never killed or modified."
+  },
+  "actual_NCP_hardware_observed": false,
+  "actual_NCP_executions": 0,
+  "old_owner_jobs_signaled": 0,
+  "completed_campaign_replays": 0,
+  "note": "Read-only closing observation; sampling does not prove an unobserved continuous peak. Per-process receipts preserve measured and admitted bounds."
+}

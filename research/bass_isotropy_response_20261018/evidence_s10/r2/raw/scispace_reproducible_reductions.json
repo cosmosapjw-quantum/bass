@@ -1,0 +1,845 @@
+{
+  "request": {
+    "searchQuestion": "Which primary research papers establish accurate and reproducible parallel floating-point summation for scientific simulations, and what performance and numerical reproducibility tradeoffs matter when reducing small arrays repeatedly inside ODE right-hand-side and Jacobian-vector-product evaluations?"
+  },
+  "result": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Found 10 relevant papers on 'Which primary research papers establish accurate and reproducible parallel floating-point summation for scientific simulations, and what performance and numerical reproducibility tradeoffs matter when reducing small arrays repeatedly inside ODE right-hand-side and Jacobian-vector-product evaluations?'.\n\n\n1. Parallel Accurate and Reproducible Summation\n   ID: 5ek6rx9yay\n   2022 · Farah Benmouhoub, Pierre-Loic Garoche, Matthieu Martel\n   DOI: 10.1007/978-3-030-80119-9_21\n   Abstract: Floating-point arithmetic is prone to accuracy problems due to the round-off errors. The combination of the round-off errors and of the out of order execution of arithmetic operations due to the scheduling of parallel tasks, introduces additional numerical accuracy issues. In this article, we address the problem of improving the numerical accuracy and reproducibility of summation operators. We propose two efficient parallel algorithms for summing n floating-point numbers. The first objective of our algorithms is to obtain an accurate result without increasing the linear complexity of the naive algorithm. The second objective is to improve the reproducibility of the summations compared to those computed by the naive algorithm and this regardless of the number of processors used for the computations.\n\n2. A Reproducible Accurate Summation Algorithm for High-Performance Computing\n   ID: 30th28rn63\n   2014 · Sylvain Collange, David Defour, Stef Graillat\n   Abstract: Floating-point (FP) addition is non-associative and parallel reduction involving this operation is a serious issue as noted in the DARPA Exascale Report [1]. Such large summations typically appear within fundamental numerical blocks such as dot products or numerical integrations. Hence, the result may vary from one parallel machine to another or even from one run to another. These discrepancies worsen on heterogeneous architectures – such as clusters with GPUs or Intel Xeon Phi processors – which combine programming environments that may obey various floating-point models and offer different intermediate precision or different operators [2,3]. Such non-determinism of floating-point calculations in parallel programs causes validation and debugging issues, and may lead to deadlocks [4]. The increasing power of current computers enables one to solve more and more complex problems. That, consequently, leads to a higher number of floating-point operations to be performed; each of them potentially causing a round-off error. Because of the round-off error propagation, some problems must be solved with a wider floating-point format. Two approaches exist to perform floating-point addition without incurring round-off errors. The first approach aims at computing the error that is occurred during rounding using FP expansions, which are based on an error-free transformation. FP expansions represent the result as an unevaluated sum of a fixed number of FP numbers, whose components are ordered in magnitude with minimal overlap to cover a wide range of exponents. FP expansions of sizes 2 and 4 are presented in [5] and [6], accordingly. The main advantage of this solution is that the expansion can stay in registers during the computations. But, the accuracy is insufficient for the summation of numerous FP numbers or sums with a huge dynamic range. Moreover, their complexity grows linearly with the size of the expansion. An alternative approach to expansions exploits the finite range of representable floating-point numbers by storing every bit in a very long vector of bits (accumulator). The length of the accumulator is chosen such that every bit of information of the input format can be represented; this covers the range from the minimum representable floating-point value to the maximum value, independently of the sign. For instance, Kulisch [7] proposed to utilize an accumulator of 4288 bits to handle the accumulation of products of 64-bit IEEE floating-point values. The Kulisch accumulator is a solution to produce the exact result of a very large amount of floating-point numbers of arbitrary magnitude. However, for a long period this approach was considered impractical as it induces a very large memory overhead. Furthermore, without dedicated hardware support, its performance is limited by indirect memory accesses that make vectorization challenging. We aim at addressing both issues of accuracy and reproducibility in the context of summation. We advocate to compute the correctly-rounded result of the exact sum. Besides offering strict reproducibility through an unambiguous definition of the expected result, our approach guarantees that the result has\n\n3. Using Accurate Arithmetics to Improve Numerical Reproducibility and Stability in Parallel Applications\n   ID: 3vzz4wu0h4\n   2001 · Yun He, Chris Ding\n   DOI: 10.1023/A:1008153532043\n   Abstract: Numerical reproducibility and stability of large scale scientific simulations, especially climate modeling, on distributed memory parallel computers are becoming critical issues. In particular, global summation of distributed arrays is most susceptible to rounding errors, and their propagation and accumulation cause uncertainty in final simulation results. We analyzed several accurate summation methods and found that two methods are particularly effective to improve (ensure) reproducibility and stability: Kahan's self-compensated summation and Bailey's double-double precision summation. We provide an MPI operator MPIlSUMDD to work with MPI collective operations to ensure a scalable implementation on large number of processors. The final methods are particularly simple to adopt in practical codes: not only global summations, but also vector-vector dot products and matrix-vector or matrix-matrix operations.\n\n4. Toward Accurate and Fast Summation\n   ID: 2ls8joz2\n   2022 · Marko Lange · ACM Transactions on Mathematical Software\n   DOI: 10.1145/3544488\n   Abstract: We introduce a new accurate summation algorithm based on the error-free summation into floating-point buckets. Our algorithm exploits ideas from Zhu and Hayes’ OnlineExactSum, but it uses a significantly smaller number of accumulators and has a better instruction-level parallelism. In the default setting, our implementation aaaSum returns a faithfully rounded floating-point approximation of the true sum. We also discuss possible modifications for the computation of reproducible, correctly rounded, and multiple precision floating-point approximations. The computational overhead for any of these modifications is kept comparably small. Numerical tests demonstrate that aaaSum performs well for very small to large problem sizes, independent of the condition number of the problem. We compare our algorithm with other accurate and high-precision summation approaches.\n\n5. Reproducible, Accurately Rounded and Efficient BLAS\n   ID: fukbvydt6t\n   2016 · Chemseddine Chohra, Philippe Langlois, David Parello\n   DOI: 10.1007/978-3-319-58943-5_49\n   Abstract: Numerical reproducibility failures rise in parallel computation because floating-point summation is non-associative. Massively parallel and optimized executions dynamically modify the floating-point operation order. Hence, numerical results may change from one run to another. We propose to ensure reproducibility by extending as far as possible the IEEE-754 correct rounding property to larger operation sequences. We introduce our RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) that benefits from recent accurate and efficient summation algorithms. Solutions for level 1 (asum, dot and nrm2) and level 2 (gemv) routines are presented. Their performance is studied compared to the Intel MKL library and other existing reproducible algorithms. For both shared and distributed memory parallel systems, we exhibit an extra-cost of 2\\(\\times \\) in the worst case scenario, which is satisfying for a wide range of applications. For Intel Xeon Phi accelerator a larger extra-cost (4\\(\\times \\) to 6\\(\\times \\)) is observed, which is still helpful at least for debugging and validation steps.\n\n6. Work-Efficient Parallel Algorithms for Accurate Floating-Point Prefix Sums\n   ID: 4yd25lsxhu\n   2020 · Sean Fraser, Helen Xu, Charles E. Leiserson\n   DOI: 10.1109/HPEC43674.2020.9286240\n   Abstract: Existing work-efficient parallel algorithms for floating-point prefix sums exhibit either good performance or good numerical accuracy, but not both. Consequently, prefix-sum algorithms cannot easily be used in scientific-computing applications that require both high performance and accuracy. We have designed and implemented two new algorithms, called CAST _BLK and PAIR_BLK, whose accuracy is significantly higher than that of the high-performing prefix-sum algorithm from the Problem Based Benchmark Suite, while running with comparable performance on modern multicore machines. Specifically, the root mean squared error of the PBBS code on a large array of uniformly distributed 64-bit floating-point numbers is 8 times higher than that of CAST _BLK and 5.8 times higher than that of PAIR_BLK. These two codes employ the PBBS three-stage strategy for performance, but they are designed to achieve high accuracy, both theoretically and in practice. A vectorization enhancement to these two scalar codes trades off a small amount of accuracy to match or outperform the PBBS code while still maintaining lower error.\n\n7. Full-Speed Deterministic Bit-Accurate Parallel Floating-Point Summation on Multi- and Many-Core Architectures\n   ID: 4pk884b5j7\n   2014 · Sylvain Collange, David Defour, Stef Graillat\n   Abstract: On modern multi-core, many-core, and heterogeneous architectures, floating-point computations, especially reductions, may become non-deterministic and thus non-reproducible mainly due to non-associativity of floating-point operations. We introduce a solution to compute eterministic sums of floating-point numbers efficiently and with the best possible accuracy. Our multi-level algorithm consists of two main stages: a filtering stage that uses fast vectorized floating-point expansions; an accumulation stage based on superaccumulators in a high-radix carry-save representation. We present implementations on recent Intel desktop and server processors, on Intel Xeon Phi accelerator, and on AMD and NVIDIA GPUs. We show that the numerical reproducibility and bit-perfect accuracy can be achieved at no additional cost for large sums that have dynamic ranges of up to 90 orders of magnitude by leveraging arithmetic units that are left underused by standard reduction algorithms.\n\n8. Accuracy, cost, and performance tradeoffs for floating-point accumulation\n   ID: 1yirtmee9e\n   2013 · Krishna K. Nagar, Jason D. Bakos\n   DOI: 10.1109/RECONFIG.2013.6732268\n   Abstract: Set-wise floating point accumulation is a fundamental operation in scientific computing, but it presents design challenges such as data hazard between the output and input of the deeply pipelined floating point adder and numerical accuracy of results. Streaming reduction architectures on FPGAs generally do not consider the floating point error, which can become a significant factor due to the dynamic nature of reduction architectures and the inherent roundoff error and non-associativity of floating-point addition. In this paper we two frameworks using our existing reduction circuit architecture based on compensated summation for improving accuracy of results. We find that both these implementations provide almost 50 % exact results for most of the datasets and relative error is less than that for the reduction circuit. These designs require more than twice the resources and operate at less frequency when compared to the original reduction circuit.\n\n9. Order-Invariant Real Number Summation: Circumventing Accuracy Loss for Multimillion Summands on Multiple Parallel Architectures\n   ID: xhckfmdigy\n   2016 · P. Small, Rajiv K. Kalia, Aiichiro Nakano\n   DOI: 10.1109/IPDPS.2016.41\n   Abstract: Achieving reproducibility of scientific results in parallel computing is both a challenge and a source of active research. A significant contribution to non-reproducibility is rounding error introduced into calculations by the non-associativity of floating point addition. Scientific applications that rely on accumulation of many small values, such as climate and N-body simulations, are susceptible to this type of error. This paper proposes a variant of an existing fixed-point method for real number summation that yields sums with perfect precision, and which are invariant to summation order and system architecture. The new method improves upon the existing technique by exhibiting improved performance for large numbers of summands, introducing tunable fractional precision to place precision where it is needed, and eliminating the aliasing problem of the original method. The proposed technique is described and its performance is demonstrated in the OpenMP, MPI, CUDA, and Xeon Phi parallel programming environments. In particular, the proposed method outperforms the previous state-of-the-art for larger problems involving over one million summands at high precision. With the anticipated convergence of exascale high-performance computing and big data analytics on hybrid architectures, computational reproducibility will become an even more difficult problem than it is today. Use of numerical techniques such as the method proposed here can help to mitigate the impact of error and variation within simulations at these large scales.\n\n10. Parallel Experiments with RARE-BLAS\n   ID: 4opgmv8e3e\n   2016 · Chemseddine Chohra, Philippe Langlois, David Parello\n   DOI: 10.1109/SYNASC.2016.032\n   Abstract: Numerical reproducibility failures rise in parallel computation because of the non-associativity of floating-point summation. Optimizations on massively parallel systems dynamically modify the floating-point operation order. Hence, numerical results may change from one run to another. We propose to ensure reproducibility by extending as far as possible the IEEE-754 correct rounding property to larger operation sequences. Our RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) benefits from recent accurate and efficient summation algorithms. Solutions for level 1 (asum, dot and nrm2) and level 2 (gemv) routines are provided. We compare their performance to the Intel MKL library and to other existing reproducible algorithms. For both shared and distributed memory parallel systems, we exhibit an extra-cost of 2× in the worst case scenario, which is satisfying for a wide range of applications. For Intel Xeon Phi accelerator a larger extra-cost (4× to 6×) is observed, which is still helpful at least for debugging and validation."
+        }
+      ],
+      "structuredContent": {
+        "searchTerm": "Which primary research papers establish accurate and reproducible parallel floating-point summation for scientific simulations, and what performance and numerical reproducibility tradeoffs matter when reducing small arrays repeatedly inside ODE right-hand-side and Jacobian-vector-product evaluations?",
+        "papers": [
+          {
+            "id": 3179453904,
+            "title": "Parallel Accurate and Reproducible Summation",
+            "is_archived": false,
+            "full_slug": "parallel-accurate-and-reproducible-summation-5ek6rx9yay",
+            "journal": null,
+            "conference_series": null,
+            "date": "2022-01-01T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Book Chapter",
+            "doi": "10.1007/978-3-030-80119-9_21",
+            "unique_id": "5ek6rx9yay",
+            "abstract": "Floating-point arithmetic is prone to accuracy problems due to the round-off errors. The combination of the round-off errors and of the out of order execution of arithmetic operations due to the scheduling of parallel tasks, introduces additional numerical accuracy issues. In this article, we address the problem of improving the numerical accuracy and reproducibility of summation operators. We propose two efficient parallel algorithms for summing n floating-point numbers. The first objective of our algorithms is to obtain an accurate result without increasing the linear complexity of the naive algorithm. The second objective is to improve the reproducibility of the summations compared to those computed by the naive algorithm and this regardless of the number of processors used for the computations.",
+            "authors": {
+              "total": 3,
+              "data": [
+                {
+                  "display_name": "Farah Benmouhoub",
+                  "id": 2956223012,
+                  "slug": "farah-benmouhoub",
+                  "unique_id": "1c34ndpp4m",
+                  "full_slug": "farah-benmouhoub-1c34ndpp4m",
+                  "affiliation_full_slug": "university-of-perpignan-osokqlno"
+                },
+                {
+                  "display_name": "Pierre-Loic Garoche",
+                  "id": 3186421000,
+                  "slug": "pierre-loic-garoche",
+                  "unique_id": "1zy75vjlzr",
+                  "full_slug": "pierre-loic-garoche-1zy75vjlzr",
+                  "affiliation_full_slug": "ecole-nationale-de-l-aviation-civile-3nkbflyo"
+                },
+                {
+                  "display_name": "Matthieu Martel",
+                  "id": 2145271959,
+                  "slug": "matthieu-martel",
+                  "unique_id": "i2zbe21gr6",
+                  "full_slug": "matthieu-martel-i2zbe21gr6",
+                  "affiliation_full_slug": "university-of-perpignan-osokqlno"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 2,
+              "data": [
+                {
+                  "display_name": "University of Perpignan",
+                  "city": "Perpignan",
+                  "region": "Languedoc-Roussillon",
+                  "country": "France",
+                  "id": 151295451,
+                  "slug": "university-of-perpignan",
+                  "unique_id": "osokqlno",
+                  "full_slug": "university-of-perpignan-osokqlno"
+                },
+                {
+                  "display_name": "École nationale de l'aviation civile",
+                  "city": "Toulouse",
+                  "region": null,
+                  "country": "France",
+                  "id": 100296615,
+                  "slug": "ecole-nationale-de-l-aviation-civile",
+                  "unique_id": "3nkbflyo",
+                  "full_slug": "ecole-nationale-de-l-aviation-civile-3nkbflyo"
+                }
+              ]
+            },
+            "fulltext_url": null,
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Html"
+              ],
+              "data": {
+                "Html": [
+                  "https://link.springer.com/chapter/10.1007/978-3-030-80119-9_21",
+                  "https://rd.springer.com/chapter/10.1007/978-3-030-80119-9_21"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 1
+              }
+            },
+            "tldr": "This article proposes two efficient parallel algorithms for summing n floating-point numbers to improve the reproducibility of the summations compared to those computed by the naive algorithm and this regardless of the number of processors used for the computations.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2260542391,
+            "title": "A Reproducible Accurate Summation Algorithm for High-Performance Computing",
+            "is_archived": false,
+            "full_slug": "a-reproducible-accurate-summation-algorithm-for-high-30th28rn63",
+            "journal": null,
+            "conference_series": null,
+            "date": "2014-07-01T00:00:00Z",
+            "is_oa": true,
+            "publication_type": null,
+            "doi": null,
+            "unique_id": "30th28rn63",
+            "abstract": "Floating-point (FP) addition is non-associative and parallel reduction involving this operation is a serious issue as noted in the DARPA Exascale Report [1]. Such large summations typically appear within fundamental numerical blocks such as dot products or numerical integrations. Hence, the result may vary from one parallel machine to another or even from one run to another. These discrepancies worsen on heterogeneous architectures – such as clusters with GPUs or Intel Xeon Phi processors – which combine programming environments that may obey various floating-point models and offer different intermediate precision or different operators [2,3]. Such non-determinism of floating-point calculations in parallel programs causes validation and debugging issues, and may lead to deadlocks [4]. The increasing power of current computers enables one to solve more and more complex problems. That, consequently, leads to a higher number of floating-point operations to be performed; each of them potentially causing a round-off error. Because of the round-off error propagation, some problems must be solved with a wider floating-point format. Two approaches exist to perform floating-point addition without incurring round-off errors. The first approach aims at computing the error that is occurred during rounding using FP expansions, which are based on an error-free transformation. FP expansions represent the result as an unevaluated sum of a fixed number of FP numbers, whose components are ordered in magnitude with minimal overlap to cover a wide range of exponents. FP expansions of sizes 2 and 4 are presented in [5] and [6], accordingly. The main advantage of this solution is that the expansion can stay in registers during the computations. But, the accuracy is insufficient for the summation of numerous FP numbers or sums with a huge dynamic range. Moreover, their complexity grows linearly with the size of the expansion. An alternative approach to expansions exploits the finite range of representable floating-point numbers by storing every bit in a very long vector of bits (accumulator). The length of the accumulator is chosen such that every bit of information of the input format can be represented; this covers the range from the minimum representable floating-point value to the maximum value, independently of the sign. For instance, Kulisch [7] proposed to utilize an accumulator of 4288 bits to handle the accumulation of products of 64-bit IEEE floating-point values. The Kulisch accumulator is a solution to produce the exact result of a very large amount of floating-point numbers of arbitrary magnitude. However, for a long period this approach was considered impractical as it induces a very large memory overhead. Furthermore, without dedicated hardware support, its performance is limited by indirect memory accesses that make vectorization challenging. We aim at addressing both issues of accuracy and reproducibility in the context of summation. We advocate to compute the correctly-rounded result of the exact sum. Besides offering strict reproducibility through an unambiguous definition of the expected result, our approach guarantees that the result has",
+            "authors": {
+              "total": 4,
+              "data": [
+                {
+                  "display_name": "Sylvain Collange",
+                  "id": 322972499,
+                  "slug": "sylvain-collange",
+                  "unique_id": "35b2merz6s",
+                  "full_slug": "sylvain-collange-35b2merz6s"
+                },
+                {
+                  "display_name": "David Defour",
+                  "id": 1987496210,
+                  "slug": "david-defour",
+                  "unique_id": "lq8zyftguj",
+                  "full_slug": "david-defour-lq8zyftguj"
+                },
+                {
+                  "display_name": "Stef Graillat",
+                  "id": 31536505,
+                  "slug": "stef-graillat",
+                  "unique_id": "3zfpvjga45",
+                  "full_slug": "stef-graillat-3zfpvjga45"
+                },
+                {
+                  "display_name": "Roman Iakymchuk",
+                  "id": 133358926,
+                  "slug": "roman-iakymchuk",
+                  "unique_id": "1ckeydeb4l",
+                  "full_slug": "roman-iakymchuk-1ckeydeb4l"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 0,
+              "data": []
+            },
+            "fulltext_url": "/pdf/a-reproducible-accurate-summation-algorithm-for-high-30th28rn63.pdf",
+            "fulltext_url_no_follow": false,
+            "paper_urls": {
+              "order": [
+                "Pdf",
+                "Html"
+              ],
+              "data": {
+                "Html": [
+                  "https://hal.archives-ouvertes.fr/hal-01267825",
+                  "https://hal-univ-rennes1.archives-ouvertes.fr/hal-01267825v1"
+                ],
+                "Pdf": [
+                  "http://www.siam.org/meetings/ex14/10-iakymchuk-slides.pdf",
+                  "https://hal.archives-ouvertes.fr/hal-01267825/document"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 6
+              }
+            },
+            "tldr": "The Kulisch accumulator is a solution to produce the exact result of a very large amount of floating-point numbers of arbitrary magnitude and aims at addressing both issues of accuracy and reproducibility in the context of summation.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 1993620503,
+            "title": "Using Accurate Arithmetics to Improve Numerical Reproducibility and Stability in Parallel Applications",
+            "is_archived": false,
+            "full_slug": "using-accurate-arithmetics-to-improve-numerical-3vzz4wu0h4",
+            "journal": null,
+            "conference_series": {
+              "display_name": "IEEE International Conference on High Performance Computing, Data, and Analytics",
+              "id": 1153382799,
+              "slug": "ieee-international-conference-on-high-performance-computing",
+              "unique_id": "34lv9cl8",
+              "full_slug": "ieee-international-conference-on-high-performance-computing-34lv9cl8"
+            },
+            "date": "2001-03-01T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Journal Article",
+            "doi": "10.1023/A:1008153532043",
+            "unique_id": "3vzz4wu0h4",
+            "abstract": "Numerical reproducibility and stability of large scale scientific simulations, especially climate modeling, on distributed memory parallel computers are becoming critical issues. In particular, global summation of distributed arrays is most susceptible to rounding errors, and their propagation and accumulation cause uncertainty in final simulation results. We analyzed several accurate summation methods and found that two methods are particularly effective to improve (ensure) reproducibility and stability: Kahan's self-compensated summation and Bailey's double-double precision summation. We provide an MPI operator MPIlSUMDD to work with MPI collective operations to ensure a scalable implementation on large number of processors. The final methods are particularly simple to adopt in practical codes: not only global summations, but also vector-vector dot products and matrix-vector or matrix-matrix operations.",
+            "authors": {
+              "total": 2,
+              "data": [
+                {
+                  "display_name": "Yun He",
+                  "id": 2303845125,
+                  "slug": "yun-he",
+                  "unique_id": "3j5jvd22sy",
+                  "full_slug": "yun-he-3j5jvd22sy",
+                  "affiliation_full_slug": "lawrence-berkeley-national-laboratory-2kbhbepv"
+                },
+                {
+                  "display_name": "Chris Ding",
+                  "id": 2119616764,
+                  "slug": "chris-ding",
+                  "unique_id": "dvc64lcftm",
+                  "full_slug": "chris-ding-dvc64lcftm",
+                  "affiliation_full_slug": "lawrence-berkeley-national-laboratory-2kbhbepv"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "Lawrence Berkeley National Laboratory",
+                  "city": "Berkeley",
+                  "region": "California",
+                  "country": "United States",
+                  "id": 148283060,
+                  "slug": "lawrence-berkeley-national-laboratory",
+                  "unique_id": "2kbhbepv",
+                  "full_slug": "lawrence-berkeley-national-laboratory-2kbhbepv"
+                }
+              ]
+            },
+            "fulltext_url": "/pdf/using-accurate-arithmetics-to-improve-numerical-3vzz4wu0h4.pdf",
+            "fulltext_url_no_follow": false,
+            "paper_urls": {
+              "order": [
+                "Pdf",
+                "Html",
+                "Others"
+              ],
+              "data": {
+                "Html": [
+                  "https://link.springer.com/article/10.1023/A:1008153532043",
+                  "https://dblp.uni-trier.de/db/journals/tjs/tjs18.html#HeD01"
+                ],
+                "Others": [
+                  "http://dx.doi.org/10.1023/A:1008153532043"
+                ],
+                "Pdf": [
+                  "https://escholarship.org/content/qt5wm5z58d/qt5wm5z58d.pdf?t=p21mk2"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": null
+              }
+            },
+            "tldr": "Two methods are found to be particularly effective to improve reproducibility and stability of large scale scientific simulations, especially climate modeling, on distributed memory parallel computers: Kahan's self-compensated summation and Bailey's double-double precision summation.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 4002472452,
+            "title": "Toward Accurate and Fast Summation",
+            "is_archived": false,
+            "full_slug": "toward-accurate-and-fast-summation-2ls8joz2",
+            "journal": {
+              "display_name": "ACM Transactions on Mathematical Software",
+              "official_page": "http://toms.acm.org",
+              "issn": "0098-3500",
+              "alias": [
+                "TOMS",
+                "ACM TOMS"
+              ],
+              "id": 163326656,
+              "slug": "acm-transactions-on-mathematical-software",
+              "unique_id": "1hrctc0t",
+              "full_slug": "acm-transactions-on-mathematical-software-1hrctc0t"
+            },
+            "conference_series": null,
+            "date": "2022-06-15T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Journal Article",
+            "doi": "10.1145/3544488",
+            "unique_id": "2ls8joz2",
+            "abstract": "We introduce a new accurate summation algorithm based on the error-free summation into floating-point buckets. Our algorithm exploits ideas from Zhu and Hayes’ OnlineExactSum, but it uses a significantly smaller number of accumulators and has a better instruction-level parallelism. In the default setting, our implementation aaaSum returns a faithfully rounded floating-point approximation of the true sum. We also discuss possible modifications for the computation of reproducible, correctly rounded, and multiple precision floating-point approximations. The computational overhead for any of these modifications is kept comparably small. Numerical tests demonstrate that aaaSum performs well for very small to large problem sizes, independent of the condition number of the problem. We compare our algorithm with other accurate and high-precision summation approaches.",
+            "authors": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "Marko Lange",
+                  "id": 2117199885,
+                  "slug": "marko-lange",
+                  "unique_id": "2ub0nqecrn",
+                  "full_slug": "marko-lange-2ub0nqecrn"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 0,
+              "data": []
+            },
+            "metrics": {
+              "citations": {
+                "total": 4
+              }
+            },
+            "tldr": "This work introduces a new accurate summation algorithm based on the error-free summation into floating-point buckets, aaaSum, which uses a significantly smaller number of accumulators and has a better instruction-level parallelism.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2283035009,
+            "title": "Reproducible, Accurately Rounded and Efficient BLAS",
+            "is_archived": false,
+            "full_slug": "reproducible-accurately-rounded-and-efficient-blas-fukbvydt6t",
+            "journal": null,
+            "conference_series": {
+              "display_name": "European Conference on Parallel Processing",
+              "id": 1163264588,
+              "slug": "european-conference-on-parallel-processing",
+              "unique_id": "17g06xg3",
+              "full_slug": "european-conference-on-parallel-processing-17g06xg3"
+            },
+            "date": "2016-08-24T00:00:00Z",
+            "is_oa": true,
+            "publication_type": "Book Chapter",
+            "doi": "10.1007/978-3-319-58943-5_49",
+            "unique_id": "fukbvydt6t",
+            "abstract": "Numerical reproducibility failures rise in parallel computation because floating-point summation is non-associative. Massively parallel and optimized executions dynamically modify the floating-point operation order. Hence, numerical results may change from one run to another. We propose to ensure reproducibility by extending as far as possible the IEEE-754 correct rounding property to larger operation sequences. We introduce our RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) that benefits from recent accurate and efficient summation algorithms. Solutions for level 1 (asum, dot and nrm2) and level 2 (gemv) routines are presented. Their performance is studied compared to the Intel MKL library and other existing reproducible algorithms. For both shared and distributed memory parallel systems, we exhibit an extra-cost of 2\\(\\times \\) in the worst case scenario, which is satisfying for a wide range of applications. For Intel Xeon Phi accelerator a larger extra-cost (4\\(\\times \\) to 6\\(\\times \\)) is observed, which is still helpful at least for debugging and validation steps.",
+            "authors": {
+              "total": 3,
+              "data": [
+                {
+                  "display_name": "Chemseddine Chohra",
+                  "id": 2243521621,
+                  "slug": "chemseddine-chohra",
+                  "unique_id": "4123a6orp5",
+                  "full_slug": "chemseddine-chohra-4123a6orp5",
+                  "affiliation_full_slug": "centre-national-de-la-recherche-scientifique-2ew2zhz4"
+                },
+                {
+                  "display_name": "Philippe Langlois",
+                  "id": 2674076567,
+                  "slug": "philippe-langlois",
+                  "unique_id": "2ts4jqti0c",
+                  "full_slug": "philippe-langlois-2ts4jqti0c",
+                  "affiliation_full_slug": "centre-national-de-la-recherche-scientifique-2ew2zhz4"
+                },
+                {
+                  "display_name": "David Parello",
+                  "id": 2913397251,
+                  "slug": "david-parello",
+                  "unique_id": "rtyk7yev63",
+                  "full_slug": "david-parello-rtyk7yev63",
+                  "affiliation_full_slug": "centre-national-de-la-recherche-scientifique-2ew2zhz4"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "Centre national de la recherche scientifique",
+                  "city": "Paris",
+                  "region": null,
+                  "country": "France",
+                  "id": 1294671590,
+                  "slug": "centre-national-de-la-recherche-scientifique",
+                  "unique_id": "2ew2zhz4",
+                  "full_slug": "centre-national-de-la-recherche-scientifique-2ew2zhz4"
+                }
+              ]
+            },
+            "fulltext_url": "/pdf/reproducible-accurately-rounded-and-efficient-blas-fukbvydt6t.pdf",
+            "fulltext_url_no_follow": false,
+            "paper_urls": {
+              "order": [
+                "Pdf",
+                "Html",
+                "Others"
+              ],
+              "data": {
+                "Html": [
+                  "https://link.springer.com/chapter/10.1007/978-3-319-58943-5_49",
+                  "https://hal-lirmm.ccsd.cnrs.fr/lirmm-01280324v2"
+                ],
+                "Pdf": [
+                  "https://hal-lirmm.ccsd.cnrs.fr/lirmm-01280324/document"
+                ],
+                "Others": [
+                  "http://dblp.uni-trier.de/db/conf/europar/europar2016w.html#ChohraLP16"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 14
+              }
+            },
+            "tldr": "This work introduces the RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) that benefits from recent accurate and efficient summation algorithms and proposes to ensure reproducibility by extending as far as possible the IEEE-754 correct rounding property to larger operation sequences.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 3113661224,
+            "title": "Work-Efficient Parallel Algorithms for Accurate Floating-Point Prefix Sums",
+            "is_archived": false,
+            "full_slug": "work-efficient-parallel-algorithms-for-accurate-floating-4yd25lsxhu",
+            "journal": null,
+            "conference_series": {
+              "display_name": "IEEE High Performance Extreme Computing Conference",
+              "id": 2754471860,
+              "slug": "ieee-high-performance-extreme-computing-conference",
+              "unique_id": "3im37y0g",
+              "full_slug": "ieee-high-performance-extreme-computing-conference-3im37y0g"
+            },
+            "date": "2020-09-22T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Proceedings Article",
+            "doi": "10.1109/HPEC43674.2020.9286240",
+            "unique_id": "4yd25lsxhu",
+            "abstract": "Existing work-efficient parallel algorithms for floating-point prefix sums exhibit either good performance or good numerical accuracy, but not both. Consequently, prefix-sum algorithms cannot easily be used in scientific-computing applications that require both high performance and accuracy. We have designed and implemented two new algorithms, called CAST _BLK and PAIR_BLK, whose accuracy is significantly higher than that of the high-performing prefix-sum algorithm from the Problem Based Benchmark Suite, while running with comparable performance on modern multicore machines. Specifically, the root mean squared error of the PBBS code on a large array of uniformly distributed 64-bit floating-point numbers is 8 times higher than that of CAST _BLK and 5.8 times higher than that of PAIR_BLK. These two codes employ the PBBS three-stage strategy for performance, but they are designed to achieve high accuracy, both theoretically and in practice. A vectorization enhancement to these two scalar codes trades off a small amount of accuracy to match or outperform the PBBS code while still maintaining lower error.",
+            "authors": {
+              "total": 3,
+              "data": [
+                {
+                  "display_name": "Sean Fraser",
+                  "id": 3113992031,
+                  "slug": "sean-fraser",
+                  "unique_id": "5gb5c2n4id",
+                  "full_slug": "sean-fraser-5gb5c2n4id",
+                  "affiliation_full_slug": "massachusetts-institute-of-technology-1y5l0xk3"
+                },
+                {
+                  "display_name": "Helen Xu",
+                  "id": 2556792786,
+                  "slug": "helen-xu",
+                  "unique_id": "s2cjige9wt",
+                  "full_slug": "helen-xu-s2cjige9wt",
+                  "affiliation_full_slug": "massachusetts-institute-of-technology-1y5l0xk3"
+                },
+                {
+                  "display_name": "Charles E. Leiserson",
+                  "id": 2137029746,
+                  "slug": "charles-e-leiserson",
+                  "unique_id": "2j54yjzy44",
+                  "full_slug": "charles-e-leiserson-2j54yjzy44",
+                  "affiliation_full_slug": "massachusetts-institute-of-technology-1y5l0xk3"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "Massachusetts Institute of Technology",
+                  "city": "Cambridge",
+                  "region": "Massachusetts",
+                  "country": "United States",
+                  "id": 63966007,
+                  "slug": "massachusetts-institute-of-technology",
+                  "unique_id": "1y5l0xk3",
+                  "full_slug": "massachusetts-institute-of-technology-1y5l0xk3"
+                }
+              ]
+            },
+            "fulltext_url": null,
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Others"
+              ],
+              "data": {
+                "Others": [
+                  "https://dblp.uni-trier.de/db/conf/hpec/hpec2020.html#FraserXL20"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 3
+              }
+            },
+            "tldr": "CAST_BLK as discussed by the authors is a parallel prefix-sum algorithm for floating-point prefix sums that uses the Problem Based Benchmark Suite (PBBS) three-stage strategy.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2265064666,
+            "title": "Full-Speed Deterministic Bit-Accurate Parallel Floating-Point Summation on Multi- and Many-Core Architectures",
+            "is_archived": false,
+            "full_slug": "full-speed-deterministic-bit-accurate-parallel-floating-4pk884b5j7",
+            "journal": null,
+            "conference_series": null,
+            "date": "2014-02-13T00:00:00Z",
+            "is_oa": true,
+            "publication_type": null,
+            "doi": null,
+            "unique_id": "4pk884b5j7",
+            "abstract": "On modern multi-core, many-core, and heterogeneous architectures, floating-point computations, especially reductions, may become non-deterministic and thus non-reproducible mainly due to non-associativity of floating-point operations. We introduce a solution to compute eterministic sums of floating-point numbers efficiently and with the best possible accuracy. Our multi-level algorithm consists of two main stages: a filtering stage that uses fast vectorized floating-point expansions; an accumulation stage based on superaccumulators in a high-radix carry-save representation. We present implementations on recent Intel desktop and server processors, on Intel Xeon Phi accelerator, and on AMD and NVIDIA GPUs. We show that the numerical reproducibility and bit-perfect accuracy can be achieved at no additional cost for large sums that have dynamic ranges of up to 90 orders of magnitude by leveraging arithmetic units that are left underused by standard reduction algorithms.",
+            "authors": {
+              "total": 4,
+              "data": [
+                {
+                  "display_name": "Sylvain Collange",
+                  "id": 322972499,
+                  "slug": "sylvain-collange",
+                  "unique_id": "35b2merz6s",
+                  "full_slug": "sylvain-collange-35b2merz6s"
+                },
+                {
+                  "display_name": "David Defour",
+                  "id": 1987496210,
+                  "slug": "david-defour",
+                  "unique_id": "lq8zyftguj",
+                  "full_slug": "david-defour-lq8zyftguj"
+                },
+                {
+                  "display_name": "Stef Graillat",
+                  "id": 31536505,
+                  "slug": "stef-graillat",
+                  "unique_id": "3zfpvjga45",
+                  "full_slug": "stef-graillat-3zfpvjga45"
+                },
+                {
+                  "display_name": "Roman Iakymchuk",
+                  "id": 133358926,
+                  "slug": "roman-iakymchuk",
+                  "unique_id": "1ckeydeb4l",
+                  "full_slug": "roman-iakymchuk-1ckeydeb4l"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 0,
+              "data": []
+            },
+            "fulltext_url": null,
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Html"
+              ],
+              "data": {
+                "Html": [
+                  "https://hal.archives-ouvertes.fr/hal-00949355v1",
+                  "https://hgpu.org/?p=11467"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 29
+              }
+            },
+            "tldr": "It is shown that the numerical reproducibility and bit-perfect accuracy can be achieved at no additional cost for large sums that have dynamic ranges of up to 90 orders of magnitude by leveraging arithmetic units that are left underused by standard reduction algorithms.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2088729710,
+            "title": "Accuracy, cost, and performance tradeoffs for floating-point accumulation",
+            "is_archived": false,
+            "full_slug": "accuracy-cost-and-performance-tradeoffs-for-floating-point-1yirtmee9e",
+            "journal": null,
+            "conference_series": {
+              "display_name": "Reconfigurable Computing and FPGAs",
+              "id": 1197131943,
+              "slug": "reconfigurable-computing-and-fpgas",
+              "unique_id": "306b8d63",
+              "full_slug": "reconfigurable-computing-and-fpgas-306b8d63"
+            },
+            "date": "2013-12-01T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Proceedings Article",
+            "doi": "10.1109/RECONFIG.2013.6732268",
+            "unique_id": "1yirtmee9e",
+            "abstract": "Set-wise floating point accumulation is a fundamental operation in scientific computing, but it presents design challenges such as data hazard between the output and input of the deeply pipelined floating point adder and numerical accuracy of results. Streaming reduction architectures on FPGAs generally do not consider the floating point error, which can become a significant factor due to the dynamic nature of reduction architectures and the inherent roundoff error and non-associativity of floating-point addition. In this paper we two frameworks using our existing reduction circuit architecture based on compensated summation for improving accuracy of results. We find that both these implementations provide almost 50 % exact results for most of the datasets and relative error is less than that for the reduction circuit. These designs require more than twice the resources and operate at less frequency when compared to the original reduction circuit.",
+            "authors": {
+              "total": 2,
+              "data": [
+                {
+                  "display_name": "Krishna K. Nagar",
+                  "id": 208359689,
+                  "slug": "krishna-k-nagar",
+                  "unique_id": "7lboacd199",
+                  "full_slug": "krishna-k-nagar-7lboacd199",
+                  "affiliation_full_slug": "university-of-south-carolina-2hzjdv31"
+                },
+                {
+                  "display_name": "Jason D. Bakos",
+                  "id": 1236162571,
+                  "slug": "jason-d-bakos",
+                  "unique_id": "40i51vubr1",
+                  "full_slug": "jason-d-bakos-40i51vubr1",
+                  "affiliation_full_slug": "university-of-south-carolina-2hzjdv31"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "University of South Carolina",
+                  "city": "Columbia",
+                  "region": "South Carolina",
+                  "country": "United States",
+                  "id": 155781252,
+                  "slug": "university-of-south-carolina",
+                  "unique_id": "2hzjdv31",
+                  "full_slug": "university-of-south-carolina-2hzjdv31"
+                }
+              ]
+            },
+            "fulltext_url": null,
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Html",
+                "Others"
+              ],
+              "data": {
+                "Html": [
+                  "https://dblp.uni-trier.de/db/conf/reconfig/reconfig2013.html#NagarB13",
+                  "https://ieeexplore.ieee.org/document/6732268/"
+                ],
+                "Others": [
+                  "http://ieeexplore.ieee.org/document/6732268/"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": null
+              }
+            },
+            "tldr": "This paper designs two frameworks using the existing reduction circuit architecture based on compensated summation for improving accuracy of results and finds that both these implementations provide almost 50 % exact results for most of the datasets and relative error is less than that for the reduction circuit.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2479914818,
+            "title": "Order-Invariant Real Number Summation: Circumventing Accuracy Loss for Multimillion Summands on Multiple Parallel Architectures",
+            "is_archived": false,
+            "full_slug": "order-invariant-real-number-summation-circumventing-accuracy-xhckfmdigy",
+            "journal": null,
+            "conference_series": {
+              "display_name": "International Parallel and Distributed Processing Symposium",
+              "id": 1191753779,
+              "slug": "international-parallel-and-distributed-processing-symposium",
+              "unique_id": "lhyhe1tq",
+              "full_slug": "international-parallel-and-distributed-processing-symposium-lhyhe1tq"
+            },
+            "date": "2016-05-23T00:00:00Z",
+            "is_oa": false,
+            "publication_type": "Proceedings Article",
+            "doi": "10.1109/IPDPS.2016.41",
+            "unique_id": "xhckfmdigy",
+            "abstract": "Achieving reproducibility of scientific results in parallel computing is both a challenge and a source of active research. A significant contribution to non-reproducibility is rounding error introduced into calculations by the non-associativity of floating point addition. Scientific applications that rely on accumulation of many small values, such as climate and N-body simulations, are susceptible to this type of error. This paper proposes a variant of an existing fixed-point method for real number summation that yields sums with perfect precision, and which are invariant to summation order and system architecture. The new method improves upon the existing technique by exhibiting improved performance for large numbers of summands, introducing tunable fractional precision to place precision where it is needed, and eliminating the aliasing problem of the original method. The proposed technique is described and its performance is demonstrated in the OpenMP, MPI, CUDA, and Xeon Phi parallel programming environments. In particular, the proposed method outperforms the previous state-of-the-art for larger problems involving over one million summands at high precision. With the anticipated convergence of exascale high-performance computing and big data analytics on hybrid architectures, computational reproducibility will become an even more difficult problem than it is today. Use of numerical techniques such as the method proposed here can help to mitigate the impact of error and variation within simulations at these large scales.",
+            "authors": {
+              "total": 4,
+              "data": [
+                {
+                  "display_name": "P. Small",
+                  "id": 2137170449,
+                  "slug": "p-small",
+                  "unique_id": "3n2naqyiev",
+                  "full_slug": "p-small-3n2naqyiev",
+                  "affiliation_full_slug": "university-of-southern-california-255p3f56"
+                },
+                {
+                  "display_name": "Rajiv K. Kalia",
+                  "id": 2027584265,
+                  "slug": "rajiv-k-kalia",
+                  "unique_id": "45yopq7036",
+                  "full_slug": "rajiv-k-kalia-45yopq7036",
+                  "affiliation_full_slug": "university-of-southern-california-255p3f56"
+                },
+                {
+                  "display_name": "Aiichiro Nakano",
+                  "id": 2286764163,
+                  "slug": "aiichiro-nakano",
+                  "unique_id": "fe9xc8x6t5",
+                  "full_slug": "aiichiro-nakano-fe9xc8x6t5",
+                  "affiliation_full_slug": "university-of-southern-california-255p3f56"
+                },
+                {
+                  "display_name": "Priya Vashishta",
+                  "id": 2298322848,
+                  "slug": "priya-vashishta",
+                  "unique_id": "47dssu661h",
+                  "full_slug": "priya-vashishta-47dssu661h",
+                  "affiliation_full_slug": "university-of-southern-california-255p3f56"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 1,
+              "data": [
+                {
+                  "display_name": "University of Southern California",
+                  "city": "Los Angeles",
+                  "region": "California",
+                  "country": "United States",
+                  "id": 1174212,
+                  "slug": "university-of-southern-california",
+                  "unique_id": "255p3f56",
+                  "full_slug": "university-of-southern-california-255p3f56"
+                }
+              ]
+            },
+            "fulltext_url": null,
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Html",
+                "Others"
+              ],
+              "data": {
+                "Html": [
+                  "https://dblp.uni-trier.de/db/conf/ipps/ipdps2016.html#SmallKNV16",
+                  "https://ieeexplore.ieee.org/document/7516011/"
+                ],
+                "Others": [
+                  "http://dblp.uni-trier.de/db/conf/ipps/ipdps2016.html#SmallKNV16"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": 2
+              }
+            },
+            "tldr": "A variant of an existing fixed-point method for real number summation that yields sums with perfect precision, and which are invariant to summation order and system architecture is proposed.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          },
+          {
+            "id": 2518071192,
+            "title": "Parallel Experiments with RARE-BLAS",
+            "is_archived": false,
+            "full_slug": "parallel-experiments-with-rare-blas-4opgmv8e3e",
+            "journal": null,
+            "conference_series": {
+              "display_name": "Symbolic and Numeric Algorithms for Scientific Computing",
+              "id": 1185284231,
+              "slug": "symbolic-and-numeric-algorithms-for-scientific-computing",
+              "unique_id": "2mbmv2pl",
+              "full_slug": "symbolic-and-numeric-algorithms-for-scientific-computing-2mbmv2pl"
+            },
+            "date": "2016-09-01T00:00:00Z",
+            "is_oa": true,
+            "publication_type": "Proceedings Article",
+            "doi": "10.1109/SYNASC.2016.032",
+            "unique_id": "4opgmv8e3e",
+            "abstract": "Numerical reproducibility failures rise in parallel computation because of the non-associativity of floating-point summation. Optimizations on massively parallel systems dynamically modify the floating-point operation order. Hence, numerical results may change from one run to another. We propose to ensure reproducibility by extending as far as possible the IEEE-754 correct rounding property to larger operation sequences. Our RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) benefits from recent accurate and efficient summation algorithms. Solutions for level 1 (asum, dot and nrm2) and level 2 (gemv) routines are provided. We compare their performance to the Intel MKL library and to other existing reproducible algorithms. For both shared and distributed memory parallel systems, we exhibit an extra-cost of 2× in the worst case scenario, which is satisfying for a wide range of applications. For Intel Xeon Phi accelerator a larger extra-cost (4× to 6×) is observed, which is still helpful at least for debugging and validation.",
+            "authors": {
+              "total": 3,
+              "data": [
+                {
+                  "display_name": "Chemseddine Chohra",
+                  "id": 2243521621,
+                  "slug": "chemseddine-chohra",
+                  "unique_id": "4123a6orp5",
+                  "full_slug": "chemseddine-chohra-4123a6orp5"
+                },
+                {
+                  "display_name": "Philippe Langlois",
+                  "id": 2674076567,
+                  "slug": "philippe-langlois",
+                  "unique_id": "2ts4jqti0c",
+                  "full_slug": "philippe-langlois-2ts4jqti0c"
+                },
+                {
+                  "display_name": "David Parello",
+                  "id": 110421731,
+                  "slug": "david-parello",
+                  "unique_id": "1wa8n8dktt",
+                  "full_slug": "david-parello-1wa8n8dktt"
+                }
+              ]
+            },
+            "affiliations": {
+              "total": 0,
+              "data": []
+            },
+            "fulltext_url": "https://hal-lirmm.ccsd.cnrs.fr/lirmm-01349698/document",
+            "fulltext_url_no_follow": true,
+            "paper_urls": {
+              "order": [
+                "Html",
+                "Others"
+              ],
+              "data": {
+                "Html": [
+                  "https://hal-lirmm.ccsd.cnrs.fr/lirmm-01349698",
+                  "https://ieeexplore.ieee.org/document/7829604/"
+                ],
+                "Others": [
+                  "http://ieeexplore.ieee.org/document/7829604/",
+                  "https://doi.org/10.1109/SYNASC.2016.032"
+                ]
+              },
+              "is_show": true
+            },
+            "metrics": {
+              "citations": {
+                "total": null
+              }
+            },
+            "tldr": "The RARE-BLAS (Reproducible, Accurately Rounded and Efficient BLAS) benefits from recent accurate and efficient summation algorithms and extends as far as possible the IEEE-754 correct rounding property to larger operation sequences.",
+            "podcast": null,
+            "podcast_generation_allowed": true,
+            "entity_type": "PAPER"
+          }
+        ]
+      },
+      "isError": false
+    }
+  }
+}

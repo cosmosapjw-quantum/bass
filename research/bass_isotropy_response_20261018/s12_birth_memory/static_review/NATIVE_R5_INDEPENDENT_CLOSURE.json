@@ -1,0 +1,35 @@
+{
+  "schema": "BASS_S12_NATIVE_R5_STATIC_INDEPENDENT_CLOSURE_V1",
+  "reviewed_utc": "2026-10-20T21:52:21.959880+00:00",
+  "status": "PASS_STATIC_MINIMAL_LINK_THREAD_FIX_NOT_EXECUTED",
+  "reviewer": "cloud_intake infrastructure/provenance role",
+  "run_py_sha256": "f04ac9d60d6472752b333277b6ca20d51d4e086d5d1bb40bd46b7261f48e656c",
+  "source_manifest_sha256": "6c591cff4156bed13ea3c4c405c4030bc14f1c8835707f8a0ef737333fcd6830",
+  "actual_diff": "--- R4\n+++ R5\n@@ -420,7 +420,8 @@\n                     \"--edition=2021\", \"-O\", \"-C\", \"codegen-units=1\", owner/\"rust/rei_microphysics/src/lib.rs\", \"-o\", rlib],\n                     out, deadline, observation[\"child_address_space_cap_bytes\"], receipt, guard)\n             command(\"compile_s12_followup\", [rustc, \"--edition=2021\", \"-O\", \"-C\", \"codegen-units=1\",\n-                    build/\"native_followup.rs\", \"--extern\", \"rei_microphysics=\"+str(rlib), \"-o\", binary],\n+                    build/\"native_followup.rs\", \"--extern\", \"rei_microphysics=\"+str(rlib),\n+                    \"-C\", \"link-arg=-Wl,--threads=1\", \"-o\", binary],\n                     out, deadline, observation[\"child_address_space_cap_bytes\"], receipt, guard)\n             receipt[\"compiled_sha256\"] = {p.name: sha(p.read_bytes()) for p in (rlib, binary)}\n             if args.compile_only:\n",
+  "manifest_changed_rows": [
+    {
+      "before": {
+        "path": "run.py",
+        "bytes": 22619,
+        "sha256": "72fd7e308ac6be1d48d8d82c13eaf2c1746909c292eeea6814f23ba3475365b8",
+        "git_blob": "ba3c1b38ea66652ac3298ba462a5192102517fb6"
+      },
+      "after": {
+        "path": "run.py",
+        "bytes": 22673,
+        "sha256": "f04ac9d60d6472752b333277b6ca20d51d4e086d5d1bb40bd46b7261f48e656c",
+        "git_blob": "ba3c1b38ea66652ac3298ba462a5192102517fb6"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "OWNED_LINK_THREAD_RESOURCE_FAILURE",
+      "status": "STATIC_FIX_CONFIRMED_EXECUTION_PENDING",
+      "scope": "Exactly one final executable link argv adds -C link-arg=-Wl,--threads=1. Library compile, process cleanup, RAM guard, original owner, physics and tolerance code are unchanged."
+    }
+  ],
+  "source_compiler_history_or_solver_calls": 0,
+  "source_edit_count": 0,
+  "historical_failures_preserved": true
+}

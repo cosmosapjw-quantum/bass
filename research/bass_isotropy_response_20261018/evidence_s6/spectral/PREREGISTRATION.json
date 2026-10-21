@@ -1,0 +1,85 @@
+{
+  "schema": "bass.s6c.preregistration.v1",
+  "created_utc": "2026-10-19T08:54:52.722198+00:00",
+  "hypothesis": "Native energy_vs_source_moment_relative equals GL8/Simpson32 owner cell-mean quadrature mismatch; independent of n_energy and angular rule; scales as cps^-4.",
+  "predictions": [
+    {
+      "cps": 4,
+      "probe_residual_predicted": 1.4016814375850117e-09,
+      "simpson32_vs_exact": -1.401681592664849e-09,
+      "gl8_vs_exact": -6.22660542703824e-17
+    },
+    {
+      "cps": 8,
+      "probe_residual_predicted": 8.624700953419051e-11,
+      "simpson32_vs_exact": -8.624706048174268e-11,
+      "gl8_vs_exact": -9.186981978913033e-17
+    },
+    {
+      "cps": 16,
+      "probe_residual_predicted": 5.369704680902032e-12,
+      "simpson32_vs_exact": -5.369717402982177e-12,
+      "gl8_vs_exact": 2.115486007798756e-17
+    },
+    {
+      "cps": 32,
+      "probe_residual_predicted": 3.352873534367973e-13,
+      "simpson32_vs_exact": -3.353707924346007e-13,
+      "gl8_vs_exact": -1.400058730547523e-17
+    },
+    {
+      "cps": 64,
+      "probe_residual_predicted": 2.1094237467877974e-14,
+      "simpson32_vs_exact": -2.0975249287148837e-14,
+      "gl8_vs_exact": 5.025490390850025e-17
+    }
+  ],
+  "gates": {
+    "native_minus_predicted_abs": 1e-15,
+    "photon_relative_abs": 1e-15,
+    "ledger_relative": 1e-11,
+    "derivative_abs": 1e-08,
+    "cps_doubling_ratio": [
+      15.0,
+      17.0
+    ],
+    "spread_over_n_energy_abs": 1e-15,
+    "spread_over_angular_abs": 1e-15
+  },
+  "matrix": {
+    "panel_bin": {
+      "n_mu": 8,
+      "b": 0.3,
+      "mode": "P2P4",
+      "cps": [
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "n_energy": [
+        24,
+        48,
+        96,
+        192
+      ]
+    },
+    "angular_at_cps64": {
+      "n_mu": [
+        8,
+        16,
+        32
+      ],
+      "b": [
+        -0.3,
+        0.3
+      ],
+      "mode": "P2P4",
+      "n_energy": 96
+    }
+  },
+  "source_sha256": {
+    "spectral_residual.py": "59575174d214bb1609eb6028e57901487ef4f871f0c3baca6be844254ef899af"
+  }
+}

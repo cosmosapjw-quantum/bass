@@ -1,0 +1,55 @@
+[package]
+name = "bass-s12-birth-memory"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94.1"
+license = "MIT"
+description = "Isolated full birth-memory tangent and fused angular evaluator"
+
+[features]
+default = ["history"]
+history = [
+    "dep:rodas5p-core", "dep:rodas5p-integrators",
+    "dep:serde", "dep:serde_json", "dep:sha2", "dep:hex",
+    "dep:num-rational", "dep:num-bigint", "dep:num-traits"
+]
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "s12-core"
+path = "src/core_cli.rs"
+
+[[bin]]
+name = "s12-history"
+path = "src/main.rs"
+required-features = ["history"]
+
+# Source-pinned preparation verifies the same upstream sibling layout as S9.
+# Root owns dependency materialization and Cargo.lock; no upstream file is edited.
+[dependencies]
+rodas5p-core = { path = "../../vigilode/crates/rodas5p-core", optional = true }
+rodas5p-integrators = { path = "../../vigilode/crates/rodas5p-integrators", optional = true }
+serde = { version = "=1.0.229", features = ["derive"], optional = true }
+serde_json = { version = "=1.0.151", features = ["float_roundtrip"], optional = true }
+sha2 = { version = "=0.10.9", optional = true }
+hex = { version = "=0.4.3", optional = true }
+num-rational = { version = "=0.4.2", optional = true }
+num-bigint = { version = "=0.4.6", optional = true }
+num-traits = { version = "=0.2.19", optional = true }
+
+[profile.dev]
+opt-level = 1
+debug = 0
+incremental = false
+codegen-units = 1
+
+[profile.release]
+opt-level = 2
+debug = 0
+incremental = false
+codegen-units = 1
+lto = false
+
+[workspace]

@@ -1,0 +1,127 @@
+{
+  "status": "PASS_SCOPED_RUST_P24_CLI",
+  "source_sha256": "ad88b0902207747c61145b65d60818efa567999daaf5715dfed7d8352b7f4f14",
+  "binary_sha256": "cb098d8ca46680eb3cbbe4276071d25819c712805243570c6cdb6a9db1c902fb",
+  "valid_output_sha256": "acf284cca86eca80c59b864721e7bfacfe18361d57b8301dc7a0085536cd8c24",
+  "csv_fields": [
+    "id",
+    "nrays",
+    "lambda2",
+    "lambda4",
+    "residualP2",
+    "residualP4",
+    "evaluated_distributions",
+    "w0",
+    "...",
+    "w[n-1]"
+  ],
+  "valid_cases": 1,
+  "negative_controls": 7,
+  "records": [
+    {
+      "name": "valid",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/valid.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/valid.csv"
+      ],
+      "returncode": 0,
+      "stdout": "BALANCE_P24_PASS cases=1\n",
+      "stderr": "",
+      "output_exists": true,
+      "input_sha256": "5434e0ad891d74bb27df773f670dabd27fa1f708cb89bc785c57a82c1a5d356e"
+    },
+    {
+      "name": "create_only",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/create_only.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/valid.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR File exists (os error 17)\n",
+      "output_exists": true,
+      "input_sha256": "5434e0ad891d74bb27df773f670dabd27fa1f708cb89bc785c57a82c1a5d356e",
+      "existing_output_sha256_preserved": "acf284cca86eca80c59b864721e7bfacfe18361d57b8301dc7a0085536cd8c24"
+    },
+    {
+      "name": "trailing",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/trailing.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/trailing.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR TRAILING_INPUT\n",
+      "output_exists": false,
+      "input_sha256": "aa7e7d65b04951ad8d0b1338140197af70e62222fb61cc718f34e8a1e669d7f4"
+    },
+    {
+      "name": "schema",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/schema.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/schema.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR INPUT_SCHEMA\n",
+      "output_exists": false,
+      "input_sha256": "2a0b87927498c5d8320ccb5f1dfbaad98a4eb06ef061360e62ebe28260a5a6f7"
+    },
+    {
+      "name": "truncated",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/truncated.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/truncated.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR TRUNCATED\n",
+      "output_exists": false,
+      "input_sha256": "3e40e4114cb51ecaaeadc5137f68b5020f0375b623cfa530452bdd6cae144971"
+    },
+    {
+      "name": "duplicate",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/duplicate.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/duplicate.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR CASE_ID\n",
+      "output_exists": false,
+      "input_sha256": "d5e03983ae83c84367907e10323373826160eb18f4bc07b2717e479628f2beb9"
+    },
+    {
+      "name": "infeasible_second",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/infeasible_second.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/infeasible_second.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR INFEASIBLE_P24_UPPER\n",
+      "output_exists": false,
+      "input_sha256": "138cdec85357efe48d59b75a52a5cc72f1bcb1adecf2fc7bc87c914ec45ead76"
+    },
+    {
+      "name": "rank1_compatible_unresolved",
+      "command": [
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_probe",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/rank1_compatible_unresolved.txt",
+        "/workspace/scratch/f49816986ef8/bass/research/bass_isotropy_response_20261018/evidence_s3/rust_p24_cli_artifacts/rank1_compatible_unresolved.csv"
+      ],
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "BALANCE_P24_ERROR FEASIBILITY_UNRESOLVED_RANK1\n",
+      "output_exists": false,
+      "input_sha256": "717d1e6620b795887f0905ca0bf631733938d5f66c333f14034bb22d484010c5"
+    }
+  ]
+}
