@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "stage": "FINITE_ONLY_NO_IVP",
+  "RP_max_abs": 0.0,
+  "eligibility": {
+    "initial_isotope_scaled_residual": 2.710505431213761e-20,
+    "initial_equivalence_atol": 1.7763568394002505e-15,
+    "initial_lift_max_abs": 2.710505431213761e-20
+  },
+  "states": [
+    {
+      "state": "initial",
+      "x": 0.0,
+      "lifted_rhs_scaled_error": 5.6804099783217256e-18,
+      "analytic_projection_scaled_error": 0.0,
+      "jacobian_fd_directional_scaled_errors": [
+        1.0110773329685685e-10,
+        7.26200627410023e-11,
+        4.194616876063151e-11,
+        4.135430886620384e-11
+      ],
+      "baryon_reconstruction_error": 1.1102230246251565e-16,
+      "electron_reconstruction_error": 0.0,
+      "scaled_isotope_derivative_sum": 3.305616128114136e-18,
+      "min_scaled_population": 0.0,
+      "min_angular_weight": 0.5724291672086657
+    },
+    {
+      "state": "moderate_synthetic_positive",
+      "x": 0.8,
+      "lifted_rhs_scaled_error": 8.881784197001252e-16,
+      "analytic_projection_scaled_error": 0.0,
+      "jacobian_fd_directional_scaled_errors": [
+        7.032337105575252e-10,
+        5.306461519308515e-09,
+        7.546905743361537e-10,
+        6.2536923762592155e-09
+      ],
+      "baryon_reconstruction_error": 2.220446049250313e-16,
+      "electron_reconstruction_error": 5.551115123125783e-17,
+      "scaled_isotope_derivative_sum": 2.4868995751603507e-14,
+      "min_scaled_population": 0.0,
+      "min_angular_weight": 0.5724291672086657
+    },
+    {
+      "state": "high_anisotropy_synthetic_positive",
+      "x": 1.4,
+      "lifted_rhs_scaled_error": 3.238297559483939e-16,
+      "analytic_projection_scaled_error": 0.0,
+      "jacobian_fd_directional_scaled_errors": [
+        2.6886290761484097e-10,
+        3.9000077918176205e-10,
+        1.6413836956274963e-10,
+        4.009356981827137e-09
+      ],
+      "baryon_reconstruction_error": 2.220446049250313e-16,
+      "electron_reconstruction_error": 1.1102230246251565e-16,
+      "scaled_isotope_derivative_sum": 1.7053025658242404e-13,
+      "min_scaled_population": 0.0,
+      "min_angular_weight": 0.5724291672086657
+    }
+  ],
+  "guards": {
+    "nonzero_tritium": "NEED_FULL62: nonzero initial neutron/tritium inventory",
+    "unequal_isotope_fraction": "NEED_FULL62: unequal initial isotope charge fractions",
+    "nonzero_odd_geometry": "NEED_FULL62: nonzero initial odd geometry or placeholder"
+  },
+  "directional_scale": "max(1, abs(centered_difference), abs(analytic_direction)); step=1e-6; unit-L2 deterministic directions",
+  "rhs_scale": "each entry max(1, abs(full62_rhs))",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "requested_executor": "gpt-6.1-sol",
+    "observed_runtime_model": "not exposed",
+    "threads": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "files_sha256": {
+    "code/compact_run.py": "10857d4005fb7ee446d26a77ad4e90af19c09415d6c5e726ac588decda24ca5c",
+    "code/compact_system.py": "3ebf56b5a8f1f392681365ec0769364329f293f944a0de4a5add441c8cbc1c49",
+    "code/run_pilot.py": "516a1e0cd8324bc2687616d02ea4954064720885e4e53edde89017ae1bea625d",
+    "code/verify_compact.py": "c1b59be32b04a1e965ea52d36bd6773603dfdc55327bc3ce23c3ae67d25a9f3e",
+    "data/CAMPAIGN.json": "ae0b973f540089ccf3953994879f1bf10243cd0b4284a5f4a44df03c1a6721e5",
+    "provenance/DONOR_IDENTITY.json": "e2b29fb5d7b7420afd5b45426b7ad596b67e0104556171ed1b8f7e4ea286de12"
+  }
+}

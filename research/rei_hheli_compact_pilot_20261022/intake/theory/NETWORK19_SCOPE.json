@@ -1,0 +1,378 @@
+{
+  "schema": "rei.network_image_reconciliation.v1",
+  "date_utc": "2026-10-21",
+  "source_image": "upload/원시 광핵반응 및 재이온화 네트워크(8).png",
+  "scope": "Image's 19 named reactions plus isotope/charge coverage assessment; not an implemented thermonuclear-rate network.",
+  "nuclides": {
+    "n": {
+      "A": 1,
+      "Z": 0
+    },
+    "p": {
+      "A": 1,
+      "Z": 1
+    },
+    "D": {
+      "A": 2,
+      "Z": 1
+    },
+    "T": {
+      "A": 3,
+      "Z": 1
+    },
+    "He3": {
+      "A": 3,
+      "Z": 2
+    },
+    "He4": {
+      "A": 4,
+      "Z": 2
+    },
+    "Li6": {
+      "A": 6,
+      "Z": 3
+    },
+    "Li7": {
+      "A": 7,
+      "Z": 3
+    }
+  },
+  "reactions": [
+    {
+      "id": 1,
+      "kind": "atomic",
+      "equation": "H I + photon -> H II + electron",
+      "donor_status": "implemented_photo_and_recombination"
+    },
+    {
+      "id": 2,
+      "kind": "atomic",
+      "equation": "He I + photon -> He II + electron",
+      "donor_status": "implemented_for_He3_He4"
+    },
+    {
+      "id": 3,
+      "kind": "atomic",
+      "equation": "He II + photon -> He III + electron",
+      "donor_status": "implemented_for_He3_He4"
+    },
+    {
+      "id": 4,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "He4": 1
+      },
+      "products": {
+        "He3": 1,
+        "n": 1
+      },
+      "threshold_MeV": 20.577615,
+      "source": "ACROPOLIS nucl.py reaction7",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 5,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "He4": 1
+      },
+      "products": {
+        "T": 1,
+        "p": 1
+      },
+      "threshold_MeV": 19.813852,
+      "source": "ACROPOLIS nucl.py reaction6",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 6,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "He4": 1
+      },
+      "products": {
+        "D": 2
+      },
+      "threshold_MeV": 23.846527,
+      "source": "ACROPOLIS nucl.py reaction8",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 7,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "He3": 1
+      },
+      "products": {
+        "D": 1,
+        "p": 1
+      },
+      "threshold_MeV": 5.493485,
+      "source": "ACROPOLIS nucl.py reaction4",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 8,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "D": 1
+      },
+      "products": {
+        "p": 1,
+        "n": 1
+      },
+      "threshold_MeV": 2.224573,
+      "source": "ACROPOLIS nucl.py reaction1",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 9,
+      "kind": "weak_decay",
+      "reactants": {
+        "T": 1
+      },
+      "products": {
+        "He3": 1
+      },
+      "leptons": [
+        "electron",
+        "electron_antineutrino"
+      ],
+      "donor_maps": [
+        "TI -> He3II + electron + electron_antineutrino",
+        "TII -> He3III + electron + electron_antineutrino"
+      ],
+      "donor_status": "implemented;zero_initial_T",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 1,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 10,
+      "kind": "weak_decay",
+      "reactants": {
+        "n": 1
+      },
+      "products": {
+        "p": 1
+      },
+      "leptons": [
+        "electron",
+        "electron_antineutrino"
+      ],
+      "donor_maps": [
+        "n -> H1II + electron + electron_antineutrino"
+      ],
+      "donor_status": "implemented;zero_initial_n",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 1,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 11,
+      "kind": "nuclear_photo",
+      "reactants": {
+        "Li7": 1
+      },
+      "products": {
+        "He4": 1,
+        "T": 1
+      },
+      "threshold_MeV": 2.467032,
+      "source": "ACROPOLIS nucl.py reaction12",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 12,
+      "kind": "nuclear_capture",
+      "reactants": {
+        "p": 1,
+        "n": 1
+      },
+      "products": {
+        "D": 1
+      },
+      "emitted": [
+        "photon"
+      ],
+      "donor_status": "not_implemented;initial_n_zero_and_no_active_n_source",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 13,
+      "kind": "nuclear_capture",
+      "reactants": {
+        "D": 1,
+        "p": 1
+      },
+      "products": {
+        "He3": 1
+      },
+      "emitted": [
+        "photon"
+      ],
+      "donor_status": "excluded_thermonuclear_process",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 14,
+      "kind": "nuclear_fusion",
+      "reactants": {
+        "D": 2
+      },
+      "products": {
+        "T": 1,
+        "p": 1
+      },
+      "donor_status": "excluded_thermonuclear_process",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 15,
+      "kind": "nuclear_fusion",
+      "reactants": {
+        "D": 2
+      },
+      "products": {
+        "He3": 1,
+        "n": 1
+      },
+      "donor_status": "excluded_thermonuclear_process",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 16,
+      "kind": "nuclear_fusion",
+      "reactants": {
+        "T": 1,
+        "D": 1
+      },
+      "products": {
+        "He4": 1,
+        "n": 1
+      },
+      "donor_status": "excluded_thermonuclear_process;initial_T_zero",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 17,
+      "kind": "nuclear_fusion",
+      "reactants": {
+        "He3": 1,
+        "D": 1
+      },
+      "products": {
+        "He4": 1,
+        "p": 1
+      },
+      "donor_status": "excluded_thermonuclear_process",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 18,
+      "kind": "nuclear_exchange",
+      "reactants": {
+        "He3": 1,
+        "n": 1
+      },
+      "products": {
+        "T": 1,
+        "p": 1
+      },
+      "donor_status": "excluded_thermonuclear_process;initial_n_zero",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    },
+    {
+      "id": 19,
+      "kind": "nuclear_capture",
+      "reactants": {
+        "T": 1,
+        "He4": 1
+      },
+      "products": {
+        "Li7": 1
+      },
+      "emitted": [
+        "photon"
+      ],
+      "donor_status": "excluded_thermonuclear_process;initial_T_zero",
+      "baryon_A_residual": 0,
+      "nuclear_Z_residual": 0,
+      "total_charge_residual": 0
+    }
+  ],
+  "added_isotope_channel": {
+    "equation": "Li6 + photon -> He4 + D",
+    "threshold_MeV": 1.4743,
+    "source": "TUNL A=6 (2002TI10), reverse 4He(d,gamma)6Li Qm",
+    "reason": "ACROPOLIS Li6 threshold3.698892MeV belongs to He4+p+n, not the alpha+d channel; do not use it as the global Li6 threshold."
+  },
+  "finite_source_conclusion": {
+    "source": "REC atomic_model.json",
+    "energy_min_eV": 5,
+    "energy_max_eV": 200,
+    "frame": "prescribed local isotropic UV encounter flux at every epoch",
+    "nuclear_photo_rate": "exactly zero in the finite-support model",
+    "proof": "Gamma_i=integral Phi(E)sigma_i(E)dE. Phi=0 above200eV, sigma_i=0 below threshold>=1.4743e6eV; disjoint supports.",
+    "thermonuclear_status": "excluded reduced-model channels; no quantitative omitted-rate error bound calculated"
+  },
+  "diagram_corrections": [
+    "Include Li IV for full nonnegative charge states of lithium.",
+    "Add Li6 when scope is stable primordial isotopes through lithium.",
+    "Nuclear reaction labels6,7,8 cannot be identified by their drawn horizontal isotope-neighbor arrows; use named stoichiometry.",
+    "Neutron beta decay produces free proton HII, not neutral HI without a separate recombination step.",
+    "With bound-electron spectator approximation TI beta decay maps toHe3II andTII toHe3III.",
+    "Atomic electron bookkeeping and nuclear Z changes must be recorded separately."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2011.06518",
+      "title": "ACROPOLIS",
+      "role": "primary publication"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/hep-mh/acropolis/main/acropolis/nucl.py",
+      "role": "author code nuclear thresholds and channels",
+      "license": "GPL-3.0; facts extracted, code not vendored"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/hep-mh/acropolis/main/acropolis/params.py",
+      "role": "author code decay conventions"
+    },
+    {
+      "url": "https://nucldata.tunl.duke.edu/nucldata/HTML/A%3D6/06Li_2002.shtml",
+      "role": "evaluated Li6 alpha+d threshold"
+    },
+    {
+      "url": "https://arxiv.org/abs/1806.11095",
+      "title": "AlterBBN v2",
+      "role": "primary BBN/fusion context"
+    }
+  ]
+}

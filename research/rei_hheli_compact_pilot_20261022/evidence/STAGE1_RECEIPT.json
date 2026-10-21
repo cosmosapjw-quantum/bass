@@ -1,0 +1,72 @@
+{
+  "stage": "STAGE1_FINITE_ONLY",
+  "executor_requested": "gpt-6.1-sol",
+  "executor_runtime_observed": "not exposed",
+  "status": "PASS",
+  "no_ivp_started": true,
+  "scientific_admission": "ROOT_REVIEW_PENDING",
+  "commands": [
+    "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 python code/verify_compact.py",
+    "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 python code/run_pilot.py --plan",
+    "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 python code/verify_freeze_cache.py",
+    "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 python code/run_full62_oracles.py"
+  ],
+  "resources": {
+    "workers": 4,
+    "affinity_cores": 9,
+    "effective_cpu_quota": 8.0,
+    "load_1m": 1.61962890625,
+    "load_role": "diagnostic_only",
+    "sample_seconds": 0.3010165040032007,
+    "cgroup_used_cpu": 0.35760829910793,
+    "affinity_idle_cpu": 8.604301075268818,
+    "affinity_busy_cpu": 0.39569892473118173,
+    "affinity_sampled_cores": 9,
+    "measurement_errors": [],
+    "cpu_slots": 6,
+    "sampled_free_cpu_after_reserve": 6.64239170089207,
+    "cpu_reserve": 1.0,
+    "peer_unrealized_cpu": 0.0,
+    "already_observed_busy_cpu": 0.39569892473118173,
+    "cpu_admission_mode": "sampled_actual_capacity",
+    "memory_limit_bytes": 8589934592,
+    "memory_available_bytes": 7704252416,
+    "memory_reserve_bytes": 858993459,
+    "memory_per_worker_bytes": 536870912,
+    "peer_reservations": [],
+    "peer_reserved_cpu": 0,
+    "peer_reserved_bytes": 0,
+    "default_worker_cap": 4,
+    "host_claim": "observed current host; no NCP identity inferred"
+  },
+  "runner_base_identity": "85a1389319c81f6abc6ac23e6116076859782eb8aa4e7f42a7d8eaabef98a03d",
+  "files": {
+    "code/compact_run.py": "10857d4005fb7ee446d26a77ad4e90af19c09415d6c5e726ac588decda24ca5c",
+    "code/compact_system.py": "3ebf56b5a8f1f392681365ec0769364329f293f944a0de4a5add441c8cbc1c49",
+    "code/run_full62_oracles.py": "e9cce6704583482bbe5bb15a51d10a9606fce081ae659f88e5cd9c9767515c4f",
+    "code/run_pilot.py": "aaf1099ddb3cf6e2cfccfc43f746b08c050902a7b8729bf5007193fb06d58c11",
+    "code/verify_compact.py": "c1b59be32b04a1e965ea52d36bd6773603dfdc55327bc3ce23c3ae67d25a9f3e",
+    "code/verify_freeze_cache.py": "24fea6c667fd9dd53fb03359cd127b0a2369e9021be65c6fbaf58a237725ced4",
+    "code/verify_resource_policy.py": "922ba74551886dc89aff3bf293d026db1442525dbb83e073413cd633f8c6b20b"
+  },
+  "authorized_identity_repair": {
+    "exclude_generated": [
+      "__pycache__ path parts",
+      ".pyc suffix",
+      ".pyo suffix"
+    ],
+    "scientific_code_identity": [
+      "code/compact_system.py",
+      "code/compact_run.py"
+    ],
+    "targeted_regression": "evidence/FREEZE_CACHE_VERIFICATION.json",
+    "finite_science_not_rerun": "unchanged physical code; retained prior finite PASS"
+  },
+  "authorized_resource_repair": {
+    "test": "evidence/RESOURCE_POLICY_VERIFICATION.json",
+    "policy": "sample actual CPU usage and affinity idle over .3s, reserve1CPU, subtract only unrealized peer reservation, load diagnostic only",
+    "physical_implementation_code_unchanged": true,
+    "previous_base_identity": "701e8e0dd486c2fecab24692b5cdaafc95a29f0826c72c749aedca46d8b2dfbb",
+    "new_base_identity_reason": "root updated included FROZEN_CONTRACT.md with actual-CPU admission policy"
+  }
+}

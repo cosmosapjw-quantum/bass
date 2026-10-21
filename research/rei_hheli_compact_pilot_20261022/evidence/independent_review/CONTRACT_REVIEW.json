@@ -1,0 +1,48 @@
+{
+  "schema": "rei.compact33.independent_contract_review.v1",
+  "reviewer_agent": "/root/compact33_independent_review",
+  "created_utc": "2026-10-21T15:22:46.968217+00:00",
+  "status": "NO_BLOCKING_CONTRACT_DEFECT",
+  "independence": {
+    "authored_contract": false,
+    "authored_implementation": false,
+    "authored_donor": false,
+    "requested_tier": "Astra inherited",
+    "observed_runtime_model": null
+  },
+  "reviewed_sha256": {
+    "FROZEN_CONTRACT.md": "b8c8d488dea26b3a54ecb05de617d2ca9d2cc57c3d09079d259574d597d83b2d",
+    "vendor/rec_hheli/code/atomic_network.py": "baecce07aded483fa60006cc576feff67d068c0d70394f7095abacc6d47eaa80",
+    "vendor/rec_hheli/code/coupled.py": "09a3325c584b895f8c1de44d3b64a458ec7e27f8eec843c7e15aa246a6088d47",
+    "vendor/rec_hheli/code/geometry.py": "b998b83f83da581cf51d08a734b34ecade5215f90ca1e72df43ce129c0fb38a0",
+    "vendor/rec_hheli/data/atomic_model.json": "9cc399e9e33ece544109f442f50b00c463cde96e406965e796240eaabd49c614",
+    "vendor/rec_hheli/data/atomic_coefficients.json": "38397e6b560f463f09a5923eaa5902a24312e5246abc158694451c631cd4d6bc",
+    "vendor/rec_hheli/vendor/baseline/lrs_boltzmann.py": "06ef834e4cd7adacf01f0ad6e3becc5aea9a493b5b99fd398be82610543984cc"
+  },
+  "findings": [],
+  "verified_reasoning": [
+    "Equal elemental rate blocks and identical initial charge fractions make each isotope population inventory times a shared elemental fraction. Common nonlinear electron density preserves this invariant subspace.",
+    "Zero initial neutron/tritium and no active transmutation leave those coordinates exactly zero in the adopted model.",
+    "The constant full-state lift and restriction satisfy RP=I; chain rule gives J_compact=R J_full P including H and electron feedback.",
+    "Parity removes odd multipoles; u is an identically zero placeholder. Retaining all four even energy/number towers produces 23 geometry states and 33 coupled states.",
+    "Full Frobenius norms use sqrt(6), half-contraction norms divide by sqrt(2), and kappa_t=8*pi*G/c^2 accompanies SI energy density and H in s^-1.",
+    "The 2.7105e-20 isotope-initial reconstruction difference is compatible with the authorized numeric identity policy, not a model mismatch."
+  ],
+  "scope_requirements": [
+    "Report all 21 isotope/ion outputs including zero n/T, and explicit all-through-Li inventory.",
+    "Retain donor prescribed temperature/UV, electronic equality, isotope inventories, single-electron yield and test-fluid energy assumptions.",
+    "Do not report the 19-reaction source catalogue as an active fusion network or full thermal/radiative closure.",
+    "Preserve full62 solver and donor trajectory gates; no performance or continuum-convergence claim."
+  ],
+  "pending": [
+    "Read compact implementation and actual finite verification.",
+    "Inspect the two full-interval implementation-equivalence comparisons.",
+    "Inspect actual 127-case outputs and plot-source correspondence."
+  ],
+  "execution": {
+    "new_ODE": 0,
+    "benchmark": 0,
+    "NCP": 0,
+    "read_only_review": true
+  }
+}
