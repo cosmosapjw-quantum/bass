@@ -1,0 +1,41 @@
+{
+  "schema": "ACCEL01_CORRECTION_HISTORY_V1",
+  "scope": "one independent C9 pass; bounded changed-dependency tests",
+  "findings": [
+    {
+      "evidence": "All nine actual metadata changes now reject, as do six mass/array/params/path/writeability mutations. Initial q2 shape no-op probe is not counted as a defect.",
+      "finding": "Bytes-backed read-only arrays allow dtype, shape and strides metadata edits; cache identity/writeability guards previously allowed stale tuples after changed kernel interpretation.",
+      "id": "C9-01",
+      "kind": "exact-cache correctness",
+      "minimal_fix": "Bind and validate dtype.str, shape, strides and C-contiguity for mu2, q2 and weights on every call before cache access.",
+      "status": "FIXED_AND_INDEPENDENTLY_RECHECKED"
+    },
+    {
+      "evidence": "Editing the returned OMP value now preserves both shared_executor global and the next generated plan at one thread.",
+      "finding": "Returned execution.thread_env previously aliased baseline shared_executor.THREAD_ENV. Editing a returned plan changed future plans and could request nested OMP64 while numeric_threads remained1.",
+      "id": "C9-02",
+      "kind": "resource-policy isolation",
+      "minimal_fix": "Return an independent dict copy of THREAD_ENV.",
+      "status": "FIXED_AND_INDEPENDENTLY_RECHECKED"
+    },
+    {
+      "evidence": "The existing actual custom two-step smoke output remains accepted. Eight independent corruptions reject, including the four original findings, NaN, initial mapping mismatch, honestly reported excessive error and integer1 pretending to be True.",
+      "finding": "Result validator previously accepted changed emitted owner physics configuration/source identity, a final row differing from history, and understated error summaries.",
+      "id": "C9-03",
+      "kind": "completion provenance and consistency",
+      "minimal_fix": "Validate owner schema/config/source identity, final==history[-1], and exact original four history error reductions before their bounds.",
+      "status": "FIXED_AND_INDEPENDENTLY_RECHECKED"
+    }
+  ],
+  "test_fixture_correction": {
+    "first_attempt_exit_code": 1,
+    "failing_subtest": "test_readonly_array_metadata_mutation_rejected(field='massive_q2', mutation='shape')",
+    "observed_failure": "AssertionError: ValueError not raised",
+    "diagnosis": "Chosen new shape (array.size,1) was identical to original q2 shape; this was a no-op test input.",
+    "correction": "Use (array.size,) for multidimensional source, otherwise (array.size,1).",
+    "subsequent_16_test_exit_code": 0,
+    "final_25_test_exit_code": 0
+  },
+  "new_physics_assumptions": false,
+  "detailed_benchmark_runs": 0
+}

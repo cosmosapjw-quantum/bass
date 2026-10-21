@@ -10,32 +10,53 @@
       "evidence": [
         "evidence/INTAKE_SUMMARY.json",
         "evidence/BASELINE_DOWNLOAD.json"
-      ]
+      ],
+      "checkpoint": "A_intake"
     },
     {
       "id": "B_exact_reuse_and_work_plan",
-      "status": "in_progress",
+      "status": "complete",
       "requires": [
         "A_latest_intake"
-      ]
+      ],
+      "evidence": [
+        "THEORY.md",
+        "cached_context.py",
+        "work_plan.py",
+        "batch_worker.py"
+      ],
+      "checkpoint": "B_implementation_validation"
     },
     {
       "id": "C_changed_dependency_verification",
-      "status": "pending",
+      "status": "complete",
       "requires": [
         "B_exact_reuse_and_work_plan"
-      ]
+      ],
+      "evidence": [
+        "evidence/VERIFICATION.json",
+        "evidence/CACHE_CHECK.json",
+        "evidence/worker_smoke/EXECUTION_RECEIPT.json",
+        "evidence/reused729_no_work/no_work.json"
+      ],
+      "checkpoint": "B_implementation_validation"
     },
     {
       "id": "D_independent_review_and_plot",
-      "status": "pending",
+      "status": "complete",
       "requires": [
         "C_changed_dependency_verification"
-      ]
+      ],
+      "evidence": [
+        "evidence/INDEPENDENT_REVIEW.json",
+        "evidence/PLOT_REVIEW.json",
+        "figures/REUSED_CANCELLATION.provenance.json"
+      ],
+      "checkpoint": "B_implementation_validation"
     },
     {
       "id": "E_publication_backup_handoffs",
-      "status": "pending",
+      "status": "in_progress",
       "requires": [
         "D_independent_review_and_plot"
       ]
@@ -49,6 +70,36 @@
   ],
   "benchmark_runs": 0,
   "historical_sweep_reruns": 0,
-  "publications": [],
-  "backups": []
+  "publications": [
+    {
+      "stage": "A",
+      "receipt": "delivery/STAGEA_PUBLICATION.json",
+      "status": "published_draft_head_verified"
+    },
+    {
+      "stage": "B",
+      "status": "ready_for_publication"
+    }
+  ],
+  "backups": [
+    {
+      "stage": "A",
+      "status": "in_progress_provider_receipt_pending"
+    },
+    {
+      "stage": "B",
+      "status": "snapshot_preparation"
+    }
+  ],
+  "updated_utc": "2026-10-21T08:07:56.240079+00:00",
+  "original_science_reuse": {
+    "cases": 729,
+    "groups": 243,
+    "stored_history_rows": 47385,
+    "pending_cases": 0,
+    "jobs": 0,
+    "new_validation_custom_cases": 1,
+    "new_validation_nsteps": 2,
+    "new_grid_sweep": false
+  }
 }

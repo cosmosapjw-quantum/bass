@@ -1,0 +1,120 @@
+{
+  "files": [
+    {
+      "bytes": 18898,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/plan.json",
+      "path": "PLAN.json",
+      "sha256": "c2e9755ba4bc5b93af212b083c96961a74371c6f1a49e9c1876e6eb85060c880"
+    },
+    {
+      "bytes": 10377,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/prepared/manifest.json",
+      "path": "MANIFEST.json",
+      "sha256": "d5f5592563a08f205add4c66db1014acfac7cb6e8a7a9ba8fa3e3cd6e043a9a6"
+    },
+    {
+      "bytes": 12516,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/prepared/inputs/split_cache_group_0000.json",
+      "path": "GROUP_INPUT.json",
+      "sha256": "0ec1df18f3f4054897ba80713f9dcbed2f9d6f92818bf675c245704a7de0bfe3"
+    },
+    {
+      "bytes": 17668,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/result.json",
+      "path": "RESULT.json",
+      "sha256": "93f8cae8d4176f10f68684dec8ca683a6a5b956856ff851f84467b0a412c4544"
+    },
+    {
+      "bytes": 818,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/case-store/dae6a5e9b49b309ae2c6ab7efdcf0bbc4dc5d91c476bfb8143b27156c30b5238/85d648271f4de0c6487ecb048ae796f3da5699ecd7165d1e8907fe90e32ce952/receipt.json",
+      "path": "CASE_RECEIPT.json",
+      "sha256": "11b2d2d4fcdbb1dc75444ede9874ab0529a75089a3b94e7dc2317a7b24930fc6"
+    },
+    {
+      "bytes": 15182,
+      "original_path": "/tmp/rei_worker_smoke_2pyjht68/case-store/dae6a5e9b49b309ae2c6ab7efdcf0bbc4dc5d91c476bfb8143b27156c30b5238/85d648271f4de0c6487ecb048ae796f3da5699ecd7165d1e8907fe90e32ce952/case.json",
+      "path": "CASE_RESULT.json",
+      "sha256": "825a3612e13288c4c8ad74ddeffa835d9d166ae309a650558166c41c5ab08bb0"
+    }
+  ],
+  "numerical_scope_limit": "Two-step wiring check only; no new accuracy, convergence, or measured performance claim.",
+  "observation": "Exit codes and stdout were observed in exec session97075 before subsequent narrow output-validator corrections. Retained source_snapshot is the exact executable revision used. Later validator checks do not constitute another solve.",
+  "original_commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py",
+        "prepare",
+        "--plan",
+        "/tmp/rei_worker_smoke_2pyjht68/plan.json",
+        "--out",
+        "/tmp/rei_worker_smoke_2pyjht68/prepared",
+        "--case-store",
+        "/tmp/rei_worker_smoke_2pyjht68/case-store",
+        "--group-size",
+        "auto"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": {
+        "group_size": 1,
+        "jobs": 1,
+        "launched_jobs": 0,
+        "manifest": "/tmp/rei_worker_smoke_2pyjht68/prepared/manifest.json",
+        "pending": 1,
+        "status": "PREPARED"
+      }
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py",
+        "run-group",
+        "--input",
+        "/tmp/rei_worker_smoke_2pyjht68/prepared/inputs/split_cache_group_0000.json",
+        "--output",
+        "/tmp/rei_worker_smoke_2pyjht68/result.json"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": {
+        "cases": 1,
+        "reused": 0,
+        "status": "SUCCEEDED"
+      }
+    }
+  ],
+  "schema": "rei.acceleration.single_worker_smoke.v1",
+  "science_id": "85d648271f4de0c6487ecb048ae796f3da5699ecd7165d1e8907fe90e32ce952",
+  "scope": "one new custom case, nsteps=2, a=.1999 to .2; no historical729 rerun or benchmark",
+  "source_id_at_execution": "dae6a5e9b49b309ae2c6ab7efdcf0bbc4dc5d91c476bfb8143b27156c30b5238",
+  "source_snapshot": [
+    {
+      "original_path": "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py",
+      "path": "source_snapshot/batch_worker.py",
+      "sha256": "c04a854c9191c09f3ae0dd290cd2150e26c93cf7b709cb22e35f8909f50f3b88"
+    },
+    {
+      "original_path": "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_acceleration_20261021/cached_context.py",
+      "path": "source_snapshot/cached_context.py",
+      "sha256": "f9508fa69f838f5c859334fd260c59825ce0a9ddf06c85fe596e49a6cbc1d282"
+    },
+    {
+      "original_path": "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_acceleration_20261021/work_plan.py",
+      "path": "source_snapshot/work_plan.py",
+      "sha256": "a63e6ba3211df071f1f475b8ad40279c4535cfd9ff59f8b0ee63d301fdeb823b"
+    },
+    {
+      "original_path": "/workspace/scratch/30c33a4098a0/bass_work/research/rei_sigma_pi_pilot_20261021/shared_executor.py",
+      "path": "source_snapshot/shared_executor.py",
+      "sha256": "8f6b0ae63a449d7d800b57c6fc6f6ab8f6577c66932614344ae671aa1288e759"
+    }
+  ],
+  "status": "PASS",
+  "toolchain": {
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "scipy": "1.17.0"
+  },
+  "validation_only": true
+}
