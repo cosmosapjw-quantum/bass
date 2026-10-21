@@ -1,0 +1,49 @@
+{
+  "schema": "rei.native_moments.sources.v1",
+  "adoption": "primary algorithmic reuse, no imported speedup claims",
+  "tools": {
+    "SciSpace": "two actual natural-language searches; second retrieved original Higham1993 and OgitaRumpOishi2005 bibliographic records",
+    "Exa": "actual primary-source search found author-hosted papers and official NumPy docs",
+    "Wolfram": "context internal error; actual language evaluator succeeded",
+    "web": "opened two original PDFs and official GCC documentation; NumPy GitHub/raw fetch disabled, installed2.3.5 source inspected locally"
+  },
+  "primary": [
+    {
+      "id": "P1",
+      "authors": "Nicholas J. Higham",
+      "year": 1993,
+      "title": "The Accuracy of Floating Point Summation",
+      "doi": "10.1137/0914050",
+      "url": "https://nhigham.com/wp-content/uploads/2023/10/high93s.pdf",
+      "use": "summation conditioning and the limits of relative error under cancellation"
+    },
+    {
+      "id": "P2",
+      "authors": "Takeshi Ogita; Siegfried M. Rump; Shinichi Oishi",
+      "year": 2005,
+      "title": "Accurate Sum and Dot Product",
+      "doi": "10.1137/030601818",
+      "url": "https://www.tuhh.de/ti3/paper/rump/OgRuOi05.pdf",
+      "location": "Introduction Eq.1.3",
+      "use": "Neumaier compensated summation bound for already computed floating-point terms"
+    },
+    {
+      "id": "P3",
+      "url": "https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html",
+      "use": "Ofast/fast-math and ffp-contract semantics"
+    },
+    {
+      "id": "P4",
+      "url": "https://github.com/numpy/numpy/blob/v2.3.5/numpy/polynomial/legendre.py",
+      "use": "existing leggauss parity; actual installed source inspected in intake, web fetch unsuccessful"
+    }
+  ],
+  "not_adopted": [
+    "historical literature timing speedups",
+    "new16-node quadrature",
+    "HH collisionless8to3state reduction",
+    "C21M125 results as C15 evidence",
+    "fixed-geometry affine weights as full trajectory surrogate"
+  ],
+  "project_sources": "intake/LATEST_DELTA.json and intake/CODE_GAP_SURVEY.md"
+}

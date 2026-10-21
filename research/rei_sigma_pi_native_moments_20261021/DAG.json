@@ -1,0 +1,327 @@
+{
+  "schema": "rei.native_moments.dag.v1",
+  "unit": "ACCEL02_REFLECTION_FUSED_MASSIVE_MOMENTS",
+  "date_kst": "2026-10-21",
+  "status": "IMPLEMENTING",
+  "policy": "Explicit user continuation; physmath1.0 controls; proportional evidence reuse; tiered execution per REI AGENTS",
+  "claim_ceiling": "same existing quadrature; bounded warm local numerical equivalence if actual tests pass",
+  "nodes": [
+    {
+      "id": "R1",
+      "name": "연구 위치·계약",
+      "status": "COMPLETE",
+      "depends_on": [],
+      "evidence": [
+        "FROZEN_CONTRACT.md",
+        "intake/LATEST_DELTA.json"
+      ],
+      "result": "New warm C15 source/result delta excluded; independent native-moment unit frozen.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R2",
+      "name": "근거·재사용",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R1"
+      ],
+      "evidence": [
+        "intake/BACKUP_DELTA.json",
+        "intake/CONVERSATION_DELTA.json",
+        "intake/ATTACHMENT_INTAKE.json",
+        "evidence/SOURCES.json"
+      ],
+      "result": "Original729 and ACCEL01 reused; C21M result admitted only within separate lineage.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R3",
+      "name": "주장·전제 정렬",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R2"
+      ],
+      "evidence": [
+        "THEORY.md"
+      ],
+      "result": "Even P2 distribution; unchanged discrete measure and original coupled owner.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R4",
+      "name": "가설·표현 탐색",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R3"
+      ],
+      "evidence": [
+        "intake/CODE_GAP_SURVEY.md",
+        "THEORY.md"
+      ],
+      "result": "Select reflection fusion; defer new16-node rule, affine trajectory reuse and closure changes.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R5",
+      "name": "구성적 유도",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R4"
+      ],
+      "evidence": [
+        "THEORY.md"
+      ],
+      "result": "Finite-sum folding, pressure bounds, x/b differential identities and stress-work sign derived.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R6",
+      "name": "독립 검증",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R5"
+      ],
+      "evidence": [
+        "evidence/WOLFRAM_CHECK.json"
+      ],
+      "result": "Actual CAS parity/derivative/positivity/contraction checks returned exact symbolic results.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C1",
+      "name": "목표·baseline",
+      "status": "COMPLETE",
+      "depends_on": [
+        "R2"
+      ],
+      "evidence": [
+        "FROZEN_CONTRACT.md",
+        "intake/LATEST_DELTA.json"
+      ],
+      "result": "Same physics on current executable source; prior complete cases remain no-work.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C2",
+      "name": "식–데이터–코드",
+      "status": "COMPLETE",
+      "depends_on": [
+        "C1",
+        "R5"
+      ],
+      "evidence": [
+        "intake/CODE_GAP_SURVEY.md",
+        "THEORY.md"
+      ],
+      "result": "Massive source seam and original solver/normalization dependencies mapped.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C3",
+      "name": "수치 설계",
+      "status": "COMPLETE",
+      "depends_on": [
+        "C2",
+        "R6"
+      ],
+      "evidence": [
+        "FROZEN_CONTRACT.md"
+      ],
+      "result": "Algorithm, build flags, componentwise tolerances and bounded test inputs frozen before results.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C4",
+      "name": "실행 DAG·자원",
+      "status": "COMPLETE",
+      "depends_on": [
+        "C3"
+      ],
+      "evidence": [
+        "DAG.json",
+        "intake/RUNTIME_INTAKE.json"
+      ],
+      "result": "8CPU/8GiB sandbox, <=2 verification workers; existing shared NCP admission retained.",
+      "checkpoint": "STAGE_A",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C5",
+      "name": "구현",
+      "status": "RUNNING",
+      "depends_on": [
+        "C4"
+      ],
+      "evidence": [
+        "FROZEN_CONTRACT.md"
+      ],
+      "result": "Requested gpt-6.1-sol executor implementing C++/ctypes/cache/backend integration.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C6",
+      "name": "구현 검증",
+      "status": "PENDING",
+      "depends_on": [
+        "C5"
+      ],
+      "evidence": [],
+      "result": "Build and targeted dispatcher/integration checks.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C7",
+      "name": "과학 검증",
+      "status": "PENDING",
+      "depends_on": [
+        "C6"
+      ],
+      "evidence": [],
+      "result": "140 kernel points,3 derivative probes,5 paired warm2-step trajectories with original gates.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C8",
+      "name": "수치·재현성",
+      "status": "PENDING",
+      "depends_on": [
+        "C7"
+      ],
+      "evidence": [],
+      "result": "Actual source/build/binary receipts, case reuse and no-work evidence.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R7",
+      "name": "판별 검증",
+      "status": "PENDING",
+      "depends_on": [
+        "C7"
+      ],
+      "evidence": [],
+      "result": "Compare actual numerical results with frozen acceptance envelope; no tolerance widening.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R8",
+      "name": "결과 판정",
+      "status": "PENDING",
+      "depends_on": [
+        "R7"
+      ],
+      "evidence": [],
+      "result": "Astra numerical interpretation within same-quadrature warm scope.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R9",
+      "name": "정식 결과·코딩 연결",
+      "status": "PENDING",
+      "depends_on": [
+        "R8",
+        "C8"
+      ],
+      "evidence": [],
+      "result": "Promote finite-sum theorem plus admitted implementation with exact limits.",
+      "checkpoint": "STAGE_B",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C9",
+      "name": "독립 검토",
+      "status": "PENDING",
+      "depends_on": [
+        "R9"
+      ],
+      "evidence": [],
+      "result": "One fresh read-only Astra pass; only targeted authorized repair if needed.",
+      "checkpoint": "STAGE_C",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "C10",
+      "name": "판정·인계",
+      "status": "PENDING",
+      "depends_on": [
+        "C9"
+      ],
+      "evidence": [],
+      "result": "Publish runnable NCP commands, actual evidence and remaining limits.",
+      "checkpoint": "STAGE_C",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    },
+    {
+      "id": "R10",
+      "name": "종료·재개",
+      "status": "PENDING",
+      "depends_on": [
+        "C10"
+      ],
+      "evidence": [],
+      "result": "Final report, next-thread prompt, publication and backup receipts.",
+      "checkpoint": "STAGE_C",
+      "publication": "PENDING_STAGE_CHECKPOINT",
+      "backup": "PENDING_STAGE_CHECKPOINT"
+    }
+  ],
+  "checkpoints": {
+    "STAGE_A": {
+      "scope": "R1-R6,C1-C4 intake/theory/contract",
+      "publication": "NOT_YET_SUBMITTED",
+      "backup": "NOT_YET_SUBMITTED"
+    },
+    "STAGE_B": {
+      "scope": "C5-C8,R7-R9 implementation and primary numerical checks",
+      "publication": "PENDING",
+      "backup": "PENDING"
+    },
+    "STAGE_C": {
+      "scope": "C9,C10,R10 independent scoped decision and handoff",
+      "publication": "PENDING",
+      "backup": "PENDING"
+    }
+  },
+  "next_executable_action": "C5 lower-tier implementation, then frozen bounded verification",
+  "unchanged_open_obligations": [
+    "full EoR",
+    "general non-LRS",
+    "full Q^a closure",
+    "global/time/grid convergence",
+    "measured wall-time speedup",
+    "live NCP capacity and NCP native execution"
+  ]
+}

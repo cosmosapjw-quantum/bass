@@ -1,0 +1,619 @@
+{
+  "schema": "rei.acc02.readonly_attachment_code_intake.v1",
+  "unit": "ACC02_INTAKE",
+  "recorded_utc": "2026-10-21T11:04:20.300371+00:00",
+  "workflow_version": "1.0.0",
+  "status": "READONLY_INTAKE_COMPLETE_COORDINATOR_SELECTED_NATIVE_UNIT",
+  "objective": "Trace current ACCEL01 code gaps and classify supplied protocols before the coordinator chooses the next theory-to-code unit.",
+  "governing_skill": [
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/SKILL.md",
+      "bytes": 5788,
+      "sha256": "4c83608c7b33bd9624a7349cb6c17fa485da41fc9237ea23649a6772aafbc157",
+      "read_scope": "full_text"
+    },
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/references/RESEARCH_POLICY.md",
+      "bytes": 8100,
+      "sha256": "cb2acbf0283ce203e3f4c30a1480a15d1ce762301efd74777b79ebda1ff9533f",
+      "read_scope": "full_text"
+    },
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/references/THEORY_LOOP.md",
+      "bytes": 12173,
+      "sha256": "4dba5c4dacd9e9383b371629fbea8324a4314bff8bbbdc0dc4dac4f5ba50998b",
+      "read_scope": "full_text"
+    },
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/references/CODING_LOOP.md",
+      "bytes": 5682,
+      "sha256": "136588dd4bf3b6f4a3f8a0fd32e3d8f1aa63898282e8503e04317c6926beaff0",
+      "read_scope": "full_text"
+    },
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/references/EVIDENCE_AND_HANDOFF.md",
+      "bytes": 7540,
+      "sha256": "782c28bbc50e87a68bc46448bcc5dd58b02b47ca517fac0ce4e01e04adcde58b",
+      "read_scope": "full_text"
+    },
+    {
+      "resource": "skill://flora-user-skills/root/.codex/skills/remote-skills/skill-6aa0657100b08191b7d67482d1f97c1d/references/RUNTIME_AND_LEGACY.md",
+      "bytes": 4766,
+      "sha256": "9b7bed6ff3d733c9a56d8fcff98bd6bc0ab46ece9ff2258abb1302c8f4a7d928",
+      "read_scope": "full_text"
+    }
+  ],
+  "baseline_publication_status": "SCOPED_COMPLETE_WITH_DRIVE_DELIVERY_LIMITATION",
+  "production_byte_identity_checks": [
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/work_plan.py",
+      "expected_sha256": "a63e6ba3211df071f1f475b8ad40279c4535cfd9ff59f8b0ee63d301fdeb823b",
+      "actual_sha256": "a63e6ba3211df071f1f475b8ad40279c4535cfd9ff59f8b0ee63d301fdeb823b",
+      "match": true
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/cached_context.py",
+      "expected_sha256": "f9508fa69f838f5c859334fd260c59825ce0a9ddf06c85fe596e49a6cbc1d282",
+      "actual_sha256": "f9508fa69f838f5c859334fd260c59825ce0a9ddf06c85fe596e49a6cbc1d282",
+      "match": true
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py",
+      "expected_sha256": "8950be2007021d28845a9b76d9a0b692b8ec9a4232971b048a3eae460b76e76e",
+      "actual_sha256": "8950be2007021d28845a9b76d9a0b692b8ec9a4232971b048a3eae460b76e76e",
+      "match": true
+    }
+  ],
+  "attachments": [
+    {
+      "path": "project_sources/01-Low-ell-Bianchi-Einstein-Boltzmann-Solver.txt",
+      "bytes": 17592,
+      "sha256": "de4c4d3d467e91d3f8420b5b2748ee7294db3ca8e809df4045b2f8c2d71881f1",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Broad final-code audit methodology; use equation/code/output correspondence and same-physics evidence only for the current narrow lane.",
+      "read_scope": "full_text",
+      "executed": false
+    },
+    {
+      "path": "project_sources/02-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz.asc",
+      "bytes": 801,
+      "sha256": "942bc6926af6a2130d70e77933e3df09d39beeedafad77710259e6df7eadee08",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Rust distribution detached signature; hashed inventory only, signature not cryptographically verified.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/03-rust_1_94_1_env.sh",
+      "bytes": 240,
+      "sha256": "8e84fa4b09a0e7e50f05302f4e3b3373442fdbd4f3ddb725713e082d9776b64b",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Rust environment script; hashed inventory only, not sourced.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/04-Adaptive-CMB-Code-Development-Protocol.txt",
+      "bytes": 8705,
+      "sha256": "8e1140b4922b7556970998465e0ce9126bf644bc108d9b78a73a2bb48027a1dc",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Contract-first local patch methodology; current workflow 1.0 overrides blanket audit/plot and fixed-hypothesis quotas.",
+      "read_scope": "full_text",
+      "executed": false
+    },
+    {
+      "path": "project_sources/05-Adaptive-CMB-Code-Research-Executor-DAG-Governed-Development-Mandatory-Dual-Audit-Plot-Driven-Adversarial-Loop.txt",
+      "bytes": 12670,
+      "sha256": "8c6d7bd933cd7a80057a10816e692c10816a41d560129b3e8470983d2be2f4a9",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "DAG/equation/code/observable correspondence; reusable checklist subset, not an instruction to reset completed ACCEL01 work.",
+      "read_scope": "full_text",
+      "executed": false
+    },
+    {
+      "path": "project_sources/06-rust-1.94.1-x86_64-unknown-linux-gnu.tar.xz",
+      "bytes": 192287020,
+      "sha256": "294b3d81fa72e62581276290c60c81eb8b58498d333d422ca1dfc432877d0c40",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Rust toolchain archive; hashed inventory only, not unpacked or installed.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/07-Figure-Residual-Error-Pass.txt",
+      "bytes": 3315,
+      "sha256": "37b64cd6d232b3525a838f2f23a05ca44aa99c6362f0a28b695397fbbffc8e22",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Figure final legibility pass; applicable when a newly generated or changed figure exists.",
+      "read_scope": "full_text",
+      "executed": false
+    },
+    {
+      "path": "project_sources/08-Figure-Hostile-Audit.txt",
+      "bytes": 5183,
+      "sha256": "46b920c886549a228876ddb7b5651d1a213ff9ad4669843ea4afc3700b4f5bbc",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Figure semantic and first-repair checklist; applicable to actual new/changed figure claims.",
+      "read_scope": "full_text",
+      "executed": false
+    },
+    {
+      "path": "project_sources/09-bootstrap.sh",
+      "bytes": 2488,
+      "sha256": "215b4d2aac919c1c4efa45fb49be66368c526b81f954a3ee9c2f0c0c3cb0872b",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Bootstrap script; hashed inventory only, not executed.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/10-bianchirustcoreRDAGcomplete.tar.gz",
+      "bytes": 44365,
+      "sha256": "53597fb5dd2aee25a75bfedc2f001574db90b1a5580ad60410b575f76c8aa9fb",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical Rust ray/background backend; README claims and package index inspected, no current warm-kinetic call-path adoption.",
+      "read_scope": "archive_index_and_selected_text",
+      "executed": false,
+      "member_count": 18,
+      "members_read": [
+        {
+          "path": "_rustcore/README.md",
+          "bytes": 7160,
+          "sha256": "9047a9bad7d14a27c44c144763a52423e48274f9bae82d59d29a9bd7fc8d61e0",
+          "read_scope": "full_text"
+        }
+      ],
+      "archive_payload_crc_check": "not_run"
+    },
+    {
+      "path": "project_sources/11-lowell_bianchi_codex_automation_kit.zip",
+      "bytes": 52267,
+      "sha256": "3883ea604a1ed6ac0969f49c578b1324e34716d97a788b351d2e289ba14ce1c1",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical low-ell Rust patch automation kit; package AGENTS/README are lane-scoped reference, not current governing instructions.",
+      "read_scope": "archive_index_and_selected_text",
+      "executed": false,
+      "member_count": 38,
+      "members_read": [
+        {
+          "path": "AGENTS.md",
+          "bytes": 2038,
+          "sha256": "bf0d576488eedf740531f5b18b33dc6dadb0df5f0f3e8084366b98591c486238",
+          "read_scope": "full_text"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1977,
+          "sha256": "e929c53fc0ea830277f3eac5ae0b8341b38b9bc2d29964ba05edaa21293a02db",
+          "read_scope": "full_text"
+        }
+      ],
+      "archive_payload_crc_check": "not_run"
+    },
+    {
+      "path": "project_sources/12-BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803-1-.zip",
+      "bytes": 418717,
+      "sha256": "79c36566c958cc260adf82a2795a992fe7723c9d37611ab7b8d94de73fe831fa",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "2026-08-03 background/high-ell harness snapshot; historical authorization and gate state retained as provenance only.",
+      "read_scope": "archive_index_and_selected_text",
+      "executed": false,
+      "member_count": 103,
+      "members_read": [
+        {
+          "path": "BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803/00_READ_FIRST.md",
+          "bytes": 3499,
+          "sha256": "fa08b396acb67d3336e8ffbdb1596d2a25bd1d566d625999d964a8d8f4cba635",
+          "read_scope": "full_text"
+        },
+        {
+          "path": "BASS_v1_BACKGROUND_HIGHL_HARNESS_PROJECT_SOURCE_BUNDLE_20260803/01_CANONICAL_HARNESS/BASS_v1_background_highl_harness/AGENTS.md",
+          "bytes": 4704,
+          "sha256": "255c6aa759bd6ec8ba351203084dc194b74faea9b468566dc4dcebdc55143e94",
+          "read_scope": "full_text"
+        }
+      ],
+      "archive_payload_crc_check": "not_run"
+    },
+    {
+      "path": "project_sources/13-xAct_1.3.0.tgz",
+      "bytes": 15613945,
+      "sha256": "7a6c5f600868a3922668b020a15c0692f76574ff2a559808c62d460cef1b07be",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "xAct source archive; hashed inventory only, no installation or symbolic run.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/14-bianchireview87.tar-1-.gz",
+      "bytes": 2298253,
+      "sha256": "6bb094d30a6d24b3feee11a1d9ae2827049945dae8281ed37d0d0796a6e9ea84",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical JAX/diffrax Bianchi and audit bundle; README/report constants/index inspected, archived numeric claims not revalidated.",
+      "read_scope": "archive_index_and_selected_text",
+      "executed": false,
+      "member_count": 434,
+      "members_read": [
+        {
+          "path": "./README.md",
+          "bytes": 4734,
+          "sha256": "e92160de69192642722df20194d52d41fd4b802e8deaf02c08824b46cab4c88e",
+          "read_scope": "full_text"
+        },
+        {
+          "path": "./report/vals.json",
+          "bytes": 456,
+          "sha256": "e406a8621ebb3a3753dcd6c42ba14f223ba5d52b06e178f8a35b624f752d89b6",
+          "read_scope": "full_text"
+        }
+      ],
+      "archive_payload_crc_check": "not_run"
+    },
+    {
+      "path": "project_sources/15-GENERIC_VECTOR_JF_OFFLINE_CARGO_VENDOR_20260816-1-.zip",
+      "bytes": 112967859,
+      "sha256": "9c7671ba5eef9f511560df402418f8cd46bed161e8743f0a5dd5696daf92fb8d",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical offline Cargo vendor archive; hashed inventory only, not installed or adopted.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/16-BASS_RUSTCORE_OFFLINE_LOCKED_20260818-105221.zip-2-.sha256",
+      "bytes": 164,
+      "sha256": "430e326448ead9002ba14b61b97bfbde10682b0396d6fe7ad70b4cb4786273a6",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical Rust bundle SHA sidecar; hashed inventory only, content not used to validate current code.",
+      "read_scope": "byte_inventory_only",
+      "executed": false
+    },
+    {
+      "path": "project_sources/17-BASS_RUSTCORE_OFFLINE_LOCKED_20260818-105221-2-.zip",
+      "bytes": 33103685,
+      "sha256": "f30a4da90c68819d16df44632da91fa76e443df3b8dcf1d55c843bede1e1fb29",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Historical Rust compute core and vendor lock; index/Cargo metadata inspected, no current kernel correspondence established.",
+      "read_scope": "archive_index_and_selected_text",
+      "executed": false,
+      "member_count": 8451,
+      "members_read": [
+        {
+          "path": "Cargo.toml",
+          "bytes": 1103,
+          "sha256": "2fab4cf339ba31cfacd7d01c19b1849e6c1017cb1c7d047000ff8a75530e5fa8",
+          "read_scope": "full_text"
+        }
+      ],
+      "archive_payload_crc_check": "not_run"
+    },
+    {
+      "path": "project_sources/18-literatures.zip",
+      "bytes": 68123442,
+      "sha256": "1a1caf6f89455cb7e36311d98b1bf44a5ac13b5795acc4953297ea86318a850d",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Literature archive; central-directory titles only, full paper contents not read in this intake.",
+      "read_scope": "archive_index_only",
+      "executed": false,
+      "member_count": 7,
+      "members_read": [],
+      "archive_payload_crc_check": "not_run",
+      "indexed_titles": [
+        {
+          "name": "ellis-relativistic-cosmology.pdf",
+          "bytes": 4892217
+        },
+        {
+          "name": "Kinetic Theory.pdf",
+          "bytes": 771152
+        },
+        {
+          "name": "Kolb-Turner - The Early Universe.pdf",
+          "bytes": 21218088
+        },
+        {
+          "name": "lecture notes in cosmology.pdf",
+          "bytes": 5893532
+        },
+        {
+          "name": "Relativistic fluid dynamics in and out of equilibrium and applications to relativistic nuclear collisions.pdf",
+          "bytes": 2954899
+        },
+        {
+          "name": "Relativistic fluid dynamics - physics for many different.pdf",
+          "bytes": 7570825
+        },
+        {
+          "name": "The Relativistic Boltzmann equation.pdf",
+          "bytes": 31521877
+        }
+      ]
+    },
+    {
+      "path": "project_sources/19-papers.zip",
+      "bytes": 9816058,
+      "sha256": "8f4f77d74aac559d81dbfec34ce64f1d3a14a715b1fa22d9c217fc6e86e0f10c",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "Paper archive; central-directory filenames only, equations not adopted from unread PDFs.",
+      "read_scope": "archive_index_only",
+      "executed": false,
+      "member_count": 8,
+      "members_read": [],
+      "archive_payload_crc_check": "not_run",
+      "indexed_titles": [
+        {
+          "name": "1501.04288v1.pdf",
+          "bytes": 6768210
+        },
+        {
+          "name": "mnras0380-1387.pdf",
+          "bytes": 316517
+        },
+        {
+          "name": "1-s2.0-S0370157308000884-main.pdf",
+          "bytes": 2497639
+        },
+        {
+          "name": "A_1001921711071.pdf",
+          "bytes": 359647
+        },
+        {
+          "name": "PhysRevD.62.043004.pdf",
+          "bytes": 198770
+        },
+        {
+          "name": "9904408v2.pdf",
+          "bytes": 575648
+        },
+        {
+          "name": "9804316v3.pdf",
+          "bytes": 336013
+        },
+        {
+          "name": "1810.06293v1.pdf",
+          "bytes": 148336
+        }
+      ]
+    },
+    {
+      "path": "project_sources/20-report-1-.pdf",
+      "bytes": 404026,
+      "sha256": "9f47da1383205ae8112648d2626fc2712ec913aa5f591ec76a738e234efa9418",
+      "byte_snapshot_stable_during_read": true,
+      "policy_scope": "HTT compendium, PDF metadata and first two pages only; 2026-09-13 synthesis, no new computation claimed by its title page.",
+      "read_scope": "pdfinfo_and_pdftotext_pages_1_2",
+      "executed": false,
+      "pdf_metadata": {
+        "title": "HTT 수학·물리·통계 종합 이론 보고서",
+        "author": "HTT manuscript",
+        "pages": 36,
+        "page_size": "A4",
+        "creation_date_reported": "2026-09-12T15:02:08 CDT",
+        "cover_edition_date": "2026-09-13",
+        "metadata_commands_exit_code": 0
+      },
+      "whole_report_equations_read": false
+    }
+  ],
+  "inspected_current_source_records": [
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/cached_context.py",
+      "bytes": 5571,
+      "sha256": "f9508fa69f838f5c859334fd260c59825ce0a9ddf06c85fe596e49a6cbc1d282",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/work_plan.py",
+      "bytes": 12837,
+      "sha256": "a63e6ba3211df071f1f475b8ad40279c4535cfd9ff59f8b0ee63d301fdeb823b",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/batch_worker.py",
+      "bytes": 17555,
+      "sha256": "8950be2007021d28845a9b76d9a0b692b8ec9a4232971b048a3eae460b76e76e",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/test_cached_context.py",
+      "bytes": 6883,
+      "sha256": "4d063a73fd25d5f76d213b51790a315cdc63a7982c62b2e5d91298cf2a9a8118",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/CODEX_HANDOFF.md",
+      "bytes": 19742,
+      "sha256": "8cac69c26681e2dce122d6a65d8a827446561c07dde2bbedc40391b196da028d",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/THEORY.md",
+      "bytes": 14063,
+      "sha256": "0c1eda46792cf6b63b79ba544ce614a33cc3461961f6857e4cb47f991bbac004",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/REPORT_KO.md",
+      "bytes": 25649,
+      "sha256": "553b9a9c97137326883debe38f9515094a2162c9ba8ad70974d38f73c2e1f807",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/DAG.json",
+      "bytes": 4058,
+      "sha256": "ab1899ffb2bc571d33c2a9e62184cdbc9894644dcd1327b501d42198402c5782",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/delivery/FINAL_PUBLICATION.json",
+      "bytes": 12709,
+      "sha256": "5054eef88cd91e1de5328d9e2bb1b76f096a1a031ac4b7eb36bb1ba9e89f214b",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_acceleration_20261021/evidence/VERIFICATION.json",
+      "bytes": 2153,
+      "sha256": "6cdde5d7a8d34294ff0354b8930df26d83ae6b819d79ecac339e6634cf60edbf",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/split_sweep.py",
+      "bytes": 18749,
+      "sha256": "e5cee6270c31e10b244daa8b978a43793d6f8ecc058de81bb45dadc50d8384d0",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/sweep.py",
+      "bytes": 20294,
+      "sha256": "d1f7ae9a2fc5756c5a8873ba8b5c3659298d6209fcab27dc42360a5b87042d98",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/sigma_pi_map.py",
+      "bytes": 3152,
+      "sha256": "4e7f806fa36a72ae97068281813a1253ccb48e08394a203f7efe3cfdde0e3eaf",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/SPLIT_CONTRACT.json",
+      "bytes": 5959,
+      "sha256": "edd1a02c5e513e9f86d92b76b48059c347d445e74dc8e6b642ed4bd4d5b6cc80",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/split_plot.py",
+      "bytes": 12915,
+      "sha256": "ea3070a1a71a8a0c523adb0337328c0e16ee9e65d990f03f0a988245319665e1",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/test_split.py",
+      "bytes": 6501,
+      "sha256": "2d1c45967fb000783b3ed64b61508defdb2ccd73cb4b3c75cfec8070d41eedf3",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/coupled.py",
+      "bytes": 21320,
+      "sha256": "a920d0e86c0badf395bfabc61dafaee3449a34e4cfe8ccdc28a833674c1c4b1e",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/vendor_pr140_massive_radial.py",
+      "bytes": 11396,
+      "sha256": "6143accbaf9e4845e549e31d2490418531f310efa99293fd373c6f81bf5defb5",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/vendor_pr140_species_hierarchy.py",
+      "bytes": 6083,
+      "sha256": "ced7906b35c26d8d0374ee8ce7f67ceb957b51a63d44e5a2661997b7e46983c5",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c13_live_source_20261015/short_interval.py",
+      "bytes": 18868,
+      "sha256": "05201593f39637b5ae34e517dc4ec278ab11e27708590db1db2257bdb39887cf",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/rei_c13_live_source_20261015/coalesce.py",
+      "bytes": 4584,
+      "sha256": "9b4b2a15740f7f0d3dd64593d743fa4a3a7d62518609153c5bf00cc1ecf47b58",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "bass_work/research/rei_sigma_pi_pilot_20261021/vendor/rei_c15/research/source07_c11_casea_20261015/rate_table.py",
+      "bytes": 3427,
+      "sha256": "81a48ebdbf58fb3dbb43bc878428b85fce3cd86dd8d9a6dfda505fd6a987ff57",
+      "read_scope": "function_trace_or_relevant_sections; no execution"
+    },
+    {
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/polynomial/legendre.py",
+      "bytes": 51129,
+      "sha256": "b0c25398675ec0d85c72b2bd0b27cd208151833998f80247860a3acf1b4662fa",
+      "read_scope": "leggauss function source only; no quadrature generated",
+      "relevant_observation": "Explicit symmetric weight/node reflection before common weight normalization."
+    }
+  ],
+  "policy_adaptation": [
+    {
+      "id": "P1",
+      "historical_rule": "01 final audit of all families/tilt/statistics with eight fixed auditor roles",
+      "source": "project_sources/01 lines 38-81,83-115",
+      "current_rule": "Read the actual warm LRS dependency path; preserve family/observable distinctions; no all-family audit for this intake.",
+      "basis": "Parent read-only intake scope + workflow1.0 changed-dependency reuse."
+    },
+    {
+      "id": "P2",
+      "historical_rule": "04/05 every stage dual audit + newly generated plot + fixed hypothesis/repair counts + deferred formalization",
+      "source": "project_sources/04 lines124-163,211-306; 05 lines207-285,361-373",
+      "current_rule": "Apply relevant physics/code checks to new claims; reuse unchanged verified evidence; new derivation/implementation awaits delta integration. No mandatory plots for a source survey.",
+      "basis": "Workflow1.0 RESEARCH_POLICY/CODING_LOOP/RUNTIME_AND_LEGACY."
+    },
+    {
+      "id": "P3",
+      "historical_rule": "12 owner code-read locks, every PASS fresh, two-repair STOP, global revalidation",
+      "source": "12 archive AGENTS.md lines32-55,74-80; 00_READ_FIRST.md lines24-46",
+      "current_rule": "Preserve those historical lane states; current authorized read-only intake proceeds. Current user scope and actual environment permissions govern later steps.",
+      "basis": "Current user/parent authorization + workflow1.0 overrides and evidence reuse."
+    },
+    {
+      "id": "P4",
+      "historical_rule": "11 Rust build/version gates for lowell_bianchi_solver PATCH80R",
+      "source": "11 archive AGENTS.md lines5-43; README.md lines1-14",
+      "current_rule": "Lane-specific only. No exposed Rust function is changed, no current warm-Python dependency requires installation.",
+      "basis": "Actual coupled.py/ACCEL01 imports and current intake scope."
+    },
+    {
+      "id": "P5",
+      "historical_rule": "07/08 /web:off /cites:none and fixed final-pass question counts",
+      "source": "project_sources/07 and08",
+      "current_rule": "Use semantic/legibility checklist for actual changed figures; source attribution and current user research tools remain governed by current instructions.",
+      "basis": "No new figure in this intake; workflow1.0 traceable evidence."
+    }
+  ],
+  "retained_current_contract": {
+    "geometry": "non-tilted LRS Bianchi I",
+    "a_start": 0.1999,
+    "a_end": 0.2,
+    "matter": "massive Vlasov",
+    "radiation": "gamma+massless nu+UV",
+    "independent_seeds": [
+      "alpha_m",
+      "alpha_r"
+    ],
+    "norm": "half_contraction",
+    "completed_cases_reused": 729,
+    "archived_history_rows_external": 47385,
+    "detailed_benchmark_requested": false
+  },
+  "execution": {
+    "scientific_runs": 0,
+    "new_theoretical_derivations": 0,
+    "production_code_edits": 0,
+    "toolchain_installations": 0,
+    "code_test_runs": 0,
+    "benchmarks": 0,
+    "read_only_metadata_and_hashing": true
+  },
+  "stage_state": {
+    "R1_R2_C1_C2": "Local source/protocol intake complete; coordinator confirmed no new warm C15 source/execution delta and selected next unit.",
+    "R3_onward_C3_onward": "not_started_in_this_intake",
+    "publication": "not_submitted_by_this_agent",
+    "backup": "not_submitted_by_this_agent",
+    "parent_integration_required": true
+  },
+  "next_actions": [
+    "Coordinator freezes native reflection/reduction numeric acceptance and source identity.",
+    "Assigned implementation agent connects opt-in kernel through identified cache/worker seam.",
+    "A separate fresh reviewer reviews the changed native implementation; unchanged completed729 and ACCEL01 evidence remain reusable."
+  ],
+  "coordinator_update": {
+    "received_utc": "2026-10-21T11:09:17.955436+00:00",
+    "source": "parent /root message in this session",
+    "latest_delta_result": "No new warm C15 execution or source change confirmed by coordinator intake.",
+    "selected_next_unit": "native reflected three-moment kernel; current96x32 quadrature paired by angular reflection, opt-in backend",
+    "numeric_acceptance": "Coordinator will freeze original gates plus component absolute-error contract before implementation.",
+    "implementation_or_new_derivation_in_this_intake": false
+  }
+}
