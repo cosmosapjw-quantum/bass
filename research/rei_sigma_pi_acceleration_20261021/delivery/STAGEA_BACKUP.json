@@ -1,7 +1,7 @@
 {
   "schema": "BASS_REI_ACCEL01_STAGEA_BACKUP_V1",
   "stage": "A",
-  "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_SUBMISSION_UNCONFIRMED",
+  "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_FILE_METADATA_CONFIRMED",
   "source_capture": {
     "schema": "BASS_REI_ACCEL01_STAGEA_FROZEN_PAYLOAD_V1",
     "created_at_utc": "2026-10-21T07:56:10.549178+00:00",
@@ -83,28 +83,15 @@
     "operation_id": "AU_rMV-tUoE7vZaO-RKFRRRxHfV2Ej5bL3F5adChwOl8rqgKgMzlOcKEUUEg4riYRWBIhhoQ0soDaLUQCwtw16k4iP9BrCxI2go-ZYZzdAUkhO3e9Y3jQr1JR42uC12BbuSoPLl5yKlJCxYIBulOLNmF2RitYW_ijNCR8ylwLXM4kknVmWS2EiCnCe8PyPPSIrH98dIy3qiCeZWx9yyVWo73WAuc10cmPDkzU1s-FAfsUwjg5LImC5q4zusgqkwaMYI"
   },
   "drive_submission": {
-    "status": "DRIVE_SUBMISSION_UNCONFIRMED",
-    "tool": "google_drive.upload_file",
-    "actual_tool_invocations": 1,
-    "request_filename": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
-    "request_parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
-    "returned_ack": false,
-    "returned_file_id": null,
-    "result": "Tool invocation interrupted after629.9seconds with no returned ACK. Provider-side submission/completion is indeterminate.",
-    "requested_yield_ms": 1000,
-    "observed_yield": "No interim yield for this upload invocation",
-    "last_result_store_exists": false,
-    "exact_name_recovery_readback": {
-      "status": "COMPLETED",
-      "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
-      "requested_limit": 1000,
-      "returned_count": 1000,
-      "exact_matches": [],
-      "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
-    },
-    "duplicate_uploads": 0,
-    "failure_class": "environment/service",
-    "next_minimum_action": "Later inspect known folder exact filename or request provider completion state; do not blindly resubmit."
+    "status": "DRIVE_FILE_SAVED_METADATA_CONFIRMED",
+    "first_attempt_status": "INDETERMINATE_NO_ACK",
+    "retry_file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+    "retry_file_size": 248613,
+    "retry_parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "provider_content_checksum_returned": false,
+    "duplicate_risk": "PRIOR_UNACKNOWLEDGED_ATTEMPT_MAY_HAVE_COMPLETED_LATE; NOT_EXCLUDED",
+    "readback": "DIRECT_METADATA_BY_RETURNED_FILE_ID_CONFIRMED",
+    "no_delete_or_overwrite": true
   },
   "dropbox": {
     "status": "COMPLETED_METADATA_READBACK",
@@ -124,5 +111,7 @@
     "bass_pr": 177,
     "rei_pr": 214
   },
-  "checked_at_utc": "2026-10-21T08:27:15.297027+00:00"
+  "checked_at_utc": "2026-10-21T10:43:10Z",
+  "drive_reconciliation_receipt": "delivery/DRIVE_A_RECONCILIATION.json",
+  "drive_reconciliation_backup_receipt": "delivery/DRIVE_A_RECONCILIATION_BACKUP.json"
 }

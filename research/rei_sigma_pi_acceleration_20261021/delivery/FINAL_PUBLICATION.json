@@ -1,7 +1,7 @@
 {
   "schema": "rei.sigma_pi_acceleration.final_publication.v1",
   "unit": "ACCEL01",
-  "recorded_utc": "2026-10-21T08:32:08.602756+00:00",
+  "recorded_utc": "2026-10-21T10:43:10Z",
   "status": "SCOPED_COMPLETE_WITH_DRIVE_DELIVERY_LIMITATION",
   "scope": "Exact finite-mass moment reuse, completed-case-aware planning, pending-only batch execution, atomic case checkpoints and reused warm LRS cancellation plot. The completed729 science is reused.",
   "branch": "research/rei-sigma-pi-acceleration-20261021",
@@ -132,10 +132,14 @@
     {
       "stage": "A",
       "receipt": "delivery/STAGEA_BACKUP.json",
-      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_SUBMISSION_UNCONFIRMED",
+      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_FILE_METADATA_CONFIRMED",
       "dropbox_id": "id:BSpOijBcT10AAAAAAD_fkQ",
       "archive_sha256": "929b09c8cb68be4b5e5160a2a01fbcf19e2135bf365ee52ecbaafe464128fbd9",
-      "verification": "Actual provider metadata size and Dropbox content hash match; no new full GET for A."
+      "verification": "Actual provider metadata size and Dropbox content hash match; no new full GET for A.",
+      "drive_file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+      "drive_metadata_bytes": 248613,
+      "drive_path": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
+      "drive_content_checksum": "NOT_RETURNED"
     },
     {
       "stage": "B",
@@ -154,6 +158,14 @@
       "dropbox_id": "id:BSpOijBcT10AAAAAAD_fqA",
       "archive_sha256": "0b132d85862a9c82219b7d2c7108531f5bcd97917d2bfd602fbed57d63fa01c1",
       "verification": "HTTP200 full remote GET; all bytes/hash,169 ZIP CRCs and168 manifest members plus manifest self hash match."
+    },
+    {
+      "stage": "A_DRIVE_RECONCILIATION",
+      "receipt": "delivery/DRIVE_A_RECONCILIATION_BACKUP.json",
+      "status": "DROPBOX_FULL_GET_BYTES_AND_SHA256_VERIFIED",
+      "dropbox_id": "id:BSpOijBcT10AAAAAAD_gMQ",
+      "archive_sha256": "23527f3b1048c14027f82098a4241de4096046ce00ca063f5e6ed66c25c74ec1",
+      "bytes": 2629
     }
   ],
   "final_restore_archive": {
@@ -202,11 +214,13 @@
   "receipt_chronology": "The frozen5.24MB archive contains53 published core files,2 then-available publication receipts,112 pinned baseline files and2 archive metadata files. Later final backup ACKs, final resource observation and terminal DAG/LOOP/this receipt are published in the same PRs after archive verification. Original47385-row history remains in the verified earlier Stage5 backup, located by HISTORY_DATA.json; it was not duplicated or re-downloaded.",
   "external_delivery_limitations": {
     "Drive": {
-      "A": "DRIVE_SUBMISSION_UNCONFIRMED",
+      "A": "DRIVE_FILE_SAVED_METADATA_CONFIRMED",
       "B": "NOT_ATTEMPTED",
       "C": "NOT_ATTEMPTED",
       "receipt": "delivery/DRIVE_DELIVERY_STATUS.json",
-      "reason": "StageA upload tool returned no ACK/file ID after629.9seconds; task interrupted, capped1000-child metadata recovery found no exact filename. Provider completion is indeterminate; no blind duplicate upload. B/C not attempted."
+      "reason": "StageA upload tool returned no ACK/file ID after629.9seconds; task interrupted, capped1000-child metadata recovery found no exact filename. Provider completion is indeterminate; no blind duplicate upload. B/C not attempted.",
+      "reconciliation_receipt": "delivery/DRIVE_A_RECONCILIATION.json",
+      "backup_receipt": "delivery/DRIVE_A_RECONCILIATION_BACKUP.json"
     }
   },
   "latest_observed_resources": {
@@ -225,7 +239,7 @@
         7,
         8
       ],
-      "cpu_quota_cores": 8.0,
+      "cpu_quota_cores": 8,
       "sampled_idle_cores": 8.904761904761905,
       "quota_remaining_cores": 7.969972260732376,
       "sampled_seconds": 0.20114734399976442,
@@ -269,5 +283,14 @@
     "general non-LRS",
     "global convergence"
   ],
-  "next_action": "Use the next user-specified physics interval/grid/accuracy contract. Reuse completed729 and passed verification; resample live resources for pending cases. Resolve DriveA submission before any retry. Do not mix custom cases or other model lanes into the fixed729 aggregator."
+  "next_action": "Wait for the user to specify the next physical interval/grid/accuracy and signed case coordinates/nsteps. Reuse completed729 and passed verification; resample live resources before admission. Drive A is metadata-confirmed; Drive B/C remain unattempted. Do not rerun completed729 or retry/delete Drive A without new evidence.",
+  "delivery_reconciliation": {
+    "status": "DRIVE_A_METADATA_CONFIRMED; PRIOR_UNACKNOWLEDGED_ATTEMPT_STILL_INDETERMINATE",
+    "receipt": "delivery/DRIVE_A_RECONCILIATION.json",
+    "backup_receipt": "delivery/DRIVE_A_RECONCILIATION_BACKUP.json",
+    "drive_file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+    "verified_at_utc": "2026-10-21T10:43:10Z",
+    "content_byte_readback_from_drive": false,
+    "possible_late_duplicate_from_first_attempt": "POSSIBLE_NOT_EXCLUDED"
+  }
 }

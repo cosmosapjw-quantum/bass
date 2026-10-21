@@ -38,8 +38,14 @@ NCP 64 CPU/128 GiB는 target이며 현재 NCP 실제 자원은 UNOBSERVED야. De
 
 기존 aggregate는 원729 grid를 고정 검증하므로 새 custom/scientific input의 결과를 원729 aggregate/history/plots에 섞지 마. 새 aggregate가 필요하면 그 새 연구 범위의 expected-case contract와 provenance를 먼저 정해줘.
 
-각 새 단계의 백업·게시·DAG 진척 상태를 함께 남기고, 최종 상태와 commit은 중앙 delivery receipt에서 확인하도록 유지해줘. 다음 Codex용과 다음 대화용 handoff도 복사할 수 있는 형태로 갱신해줘.
+Drive A는 exact-name 사전 확인 후 한 차례 재시도해 Drive file ID metadata readback으로 저장을 확인했어. Drive 콘텐츠 checksum/readback은 없고, 이전 no-ACK 시도의 늦은 완료 가능성은 배제하지 말아줘. 추가 retry/delete는 하지 말고 Drive B/C는 미시도 상태로 둬. reconciliation receipt와 Dropbox full-GET/SHA backup은 중앙 receipt에서 확인해줘.
+
+다음 물리 구간/grid/정확도와 signed 좌표/nsteps는 내가 지정할게. 완료729 재계산이나 임의 새 물리 case를 만들지 마. 각 새 단계의 백업·게시·DAG 진척 상태를 함께 남기고, 최종 상태와 commit은 중앙 delivery receipt에서 확인하도록 유지해줘. 다음 Codex용과 다음 대화용 handoff도 복사할 수 있는 형태로 갱신해줘.
 ```
+
+## 최신 배송 상태
+
+Drive A는 exact-name precheck 뒤 한 차례 재시도했고, 반환된 Drive file ID의 직접 metadata readback으로 파일명/크기/부모 폴더를 확인했다. 콘텐츠 checksum/Drive GET은 제공되지 않았고, 이전 no-ACK 시도가 늦게 완료됐을 가능성도 배제하지 않는다. 추가 retry/delete 금지. B/C는 미시도. reconciliation JSON의 Dropbox full-GET/SHA readback은 PASS.
 
 ## 실제 재개에서 확인할 출력
 
@@ -54,3 +60,8 @@ NCP 64 CPU/128 GiB는 target이며 현재 NCP 실제 자원은 UNOBSERVED야. De
 | 새 입력·실행명령 | `CODEX_HANDOFF.md` 6–8절; custom case schema, scientific ID, prepare, 원 executor의 실제 CLI |
 
 최종 implementation은25 tests와 C9 PASS 뒤 freeze돼 있다. 새 대화를 시작했다는 이유로 기존 계산이나 검증을 다시 수행할 필요는 없다. 사용자 지정 변경과 그 의존성에 필요한 작업을 이어간다.
+
+
+## Latest continuation status (2026-10-21)
+
+Drive A is metadata-confirmed by ID; its reconciliation receipt and Dropbox full-GET/SHA backup are recorded in the central delivery files. The previous no-ack attempt remains indeterminate; do not retry or delete. Drive B/C remain unattempted. No new science ran. The next physical interval/grid/accuracy and signed coordinates/nsteps must come from the user.

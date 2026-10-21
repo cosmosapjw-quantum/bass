@@ -232,3 +232,12 @@ NCP 64 CPU/128 GiB는 target이고 현재 NCP 자원은 UNOBSERVED야. Desktop C
 
 각 새 단계에서 실제 백업·게시·DAG 상태를 함께 남겨줘.
 ```
+
+
+## 11. Drive A reconciliation and next research gate
+
+- The prior Stage A Drive upload had no acknowledgement. Before the retry, an exact filename search in the specified folder returned no match. The source archive was downloaded from the already verified Dropbox A backup; its 248,613 bytes and SHA256 `929b09c8cb68be4b5e5160a2a01fbcf19e2135bf365ee52ecbaafe464128fbd9` matched.
+- One Drive retry was accepted. Direct metadata readback by returned file ID `1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn` confirmed the exact filename, 248,613-byte size, ZIP MIME type, parent folder and creation time. Drive did not expose a content checksum and no bytes were downloaded from Drive; this is metadata confirmation, not a Drive byte-for-byte readback.
+- The earlier no-ACK attempt remains indeterminate and could have completed late. Do not retry or delete; a duplicate is not excluded. Drive B/C remain unattempted.
+- The reconciliation receipt is `delivery/DRIVE_A_RECONCILIATION.json`; its Dropbox backup `/BASS_BACKUPS/BASS_REI_ACCEL01_DRIVE_A_RECONCILIATION_20261021.json` was full-GET read back with matching size 2,629 and SHA256 `23527f3b1048c14027f82098a4241de4096046ce00ca063f5e6ed66c25c74ec1`.
+- No new science or completed729 rerun occurred. NCP remains UNOBSERVED. Wait for the user to specify the next physical interval/grid/accuracy and signed coordinates/nsteps before constructing pending cases.
