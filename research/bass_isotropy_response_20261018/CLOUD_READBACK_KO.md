@@ -1,3 +1,13 @@
+# NCP SSH 계약 수정 — 2026-10-21 KST
+
+[NCP_ACCESS_CONTRACT.json](NCP_ACCESS_CONTRACT.json)과 두 전체 handoff를 사용자 지정 SSH로 갱신했다. 이번 수정은 문서·메타데이터만이며 SSH/compile/science/ODE/benchmark/NCP 실행0회다. 현재 접속 상태는 `SSH_AUTHORIZED_NOT_TESTED`, 실제 job은 `NOT_RUN`이다. Desktop Commander의 기존 quota 이력은 보존하며 SSH 승인과 구분한다.
+
+기존 S12 최종 배송은 [댓글6303812301](https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6303812301)에서 **Dropbox8ZIP·4,450,082bytes·중복 포함930payload·946entries+final JSON 전체 readback PASS**로 확정됐다. 마지막 metadata ZIP은 `BASS_S12_C10_METADATA_20261021_57184994.zip`,252,521bytes,SHA256 `93a9b88d3afc4b95d6d31f2a137e012671143ce5d45735b508f623a5aa8f3646`,Dropbox `id:BSpOijBcT10AAAAAAD_aQQ`다. Final JSON은 `BASS_S12_FINAL_DELIVERY_20261021_57184994.json`,60,121bytes,SHA256 `6f78d553712649ddf4557249b7962986285b16e5d24a70829e74d1feb6e5bec9`,Dropbox `id:BSpOijBcT10AAAAAAD_agg`다.
+
+이번 작은 계약 수정의 commit/ZIP/readback은 별도 PR174 amendment 댓글이 소유한다. 기존 S12 ZIP/JSON을 다시 만들지 않는다. **새 Drive는 계속 pending**이며 이번 SSH 지정은 Drive 쓰기/재시도 승인으로 확대하지 않는다. 아래7ZIP 표와 이전 상태는 metadata57184994에 포함됐던 봉인 전 snapshot 원문으로 보존한다.
+
+---
+
 # S12 현재 백업/readback 상태
 
 현재까지 검증된 S12 Dropbox는 7ZIP·4,197,561bytes·중복 포함 payload907항목이다. 아래 각 ZIP은 전체 원격 bytes/SHA256/provider hash/CRC/manifest/Git blob 검증 PASS다.

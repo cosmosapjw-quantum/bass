@@ -1,6 +1,14 @@
 # BASS — S12 출생 기억 접선과 고정 workload 최적화
 
-**새 Rust full birth-memory tangent와 제한된 샌드박스 검증을 완료했다.** Core269/269, short history72/72, 독립 물리585/585를 통과했다. 같은 정확도에서 fused core의 paired median은1.372535배,4case/2worker는1.218038배였다. 실제 NCP64 실행은 quota로 `NOT_RUN`, 새 Drive 배송은 pending이다.
+**새 Rust full birth-memory tangent와 제한된 샌드박스 검증을 완료했다.** Core269/269, short history72/72, 독립 물리585/585를 통과했다. 같은 정확도에서 fused core의 paired median은1.372535배,4case/2worker는1.218038배였다. 실제 NCP64 실행은 `NOT_RUN`이다. 2026-10-21 사용자 지정 SSH 경로를 접속 계약에 반영했으며 접속 상태는 `SSH_AUTHORIZED_NOT_TESTED`다. 새 Drive 배송은 pending이다.
+
+## NCP 접속 계약 변경 — 2026-10-21
+
+```bash
+ssh -i /home/cosmosapjw/.ssh/ncp_key root@49.50.142.2 -p 22
+```
+
+[NCP 접속 계약](NCP_ACCESS_CONTRACT.json) · [복사 가능한 SSH 인계 프롬프트](NCP_SSH_HANDOFF_KO.md). 키 경로는 SSH 실행 호스트의 로컬 경로다. 이번 계약 편집에서 실제 접속·컴파일·과학 실행은0회다. 다음 실행 담당자는 지정 SSH 접속 후 read-only 대조와 자원 admission을 수행하고 준비된17job의 미실행 부분만 진행한다. 과거 Desktop Commander quota/no-retry 이력과 원 S12 결과는 보존한다.
 
 [전체 S12 결과](S12_RESULTS_KO.md) · [결과 ledger](s12_birth_memory/RESULT_LEDGER.json) · [이론](s12_birth_memory/THEORY_KO.md) · [DAG](DAG.json) · [최종 closeout](PUBLICATION_CLOSEOUT.json)
 

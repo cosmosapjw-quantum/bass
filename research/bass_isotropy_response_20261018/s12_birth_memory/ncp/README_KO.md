@@ -2,6 +2,16 @@
 
 이 디렉터리는 새 S12의 고정 job DAG를 실행하고 결과를 보존하는 Python 표준 라이브러리 도구다. 기존 S9/S10/S11 캠페인을 재실행하지 않는다. 과학식, birth weights, angular/cohort reduction 순서는 여기서 변경하지 않는다. 실제 과학 job 목록과 입력은 부모가 고정하는 manifest가 소유한다.
 
+## 사용자 지정 SSH 접속
+
+현재 접속 계약은 [NCP_ACCESS_CONTRACT.json](../../NCP_ACCESS_CONTRACT.json)이며 [Codex 전체 handoff](../../CODEX_HANDOFF_KO.md)를 함께 읽는다.
+
+```bash
+ssh -i /home/cosmosapjw/.ssh/ncp_key root@49.50.142.2 -p 22
+```
+
+이 키는 SSH를 실행하는 호스트의 기존 로컬 파일이다. 접속 상태는 `SSH_AUTHORIZED_NOT_TESTED`, 실제 NCP job은 `NOT_RUN`이다. 이번 문서 변경은 연결·컴파일·실행을 하지 않았다. 지정 SSH로 접속한 담당자가 먼저 실제 host/CPU quota/RAM/disk/owner 작업과 기존 receipt를 read-only로 확인한다. 과거 Desktop Commander monthly quota/no-retry는 해당 서비스에만 적용하며 별도로 승인된 이 SSH 경로를 금지하지 않는다. launcher와 고정 source/input/binding은 변경하지 않았다.
+
 ## 최종 실행 입구와 고정된17job
 
 실행 입구는 `launch.py`다. `JOB_TEMPLATE.json`에는 build1개, 새 extended Rust history14개,64개 고정 pack의 직렬/병렬 비교1개, ensemble 판정1개가 들어 있다. `inputs/`의81개 파일은 이미 Git에 게시한 고정 입력이며, 생성 시 solver를 호출하지 않았다. 입력이 준비됐다는 사실은 extended history가 통과했다는 뜻이 아니다. 실제 NCP 실행은 현재 `NOT_RUN`이다.

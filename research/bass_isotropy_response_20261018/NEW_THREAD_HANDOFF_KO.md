@@ -1,10 +1,18 @@
 # 새 대화 handoff — 완료된 S12 증거 재사용과 남은 물리 의무
 
-아래 블록 전체를 새 대화에 복사할 수 있다. 결과 commit과 완료 검증은 실제 readback에 고정했다. 이 문서를 담는 containing metadata HEAD/tree와 마지막 배송 identity는 최신 PR174 최종 배송 댓글에서 확인한다.
+아래 블록 전체를 새 대화에 복사할 수 있다. 2026-10-21 사용자 지정 SSH 접속 계약을 반영했으며 이번 편집의 실제 접속/실행은0회다. 결과 commit과 완료 검증은 실제 readback에 고정했다. 이 문서를 담는 containing metadata HEAD/tree와 마지막 배송 identity는 최신 PR174 최종 배송 댓글에서 확인한다.
 
 ```text
 $physmath-research-loop를 사용해 BASS의 완료된 S9/S10/S11/S12 증거를 재사용하고 남은 후속 물리 연구만 이어라. SciSpace·Exa·Wolfram의 기존 문헌/CAS 증거도 먼저 재사용한다. 과거 대화·ZIP 다운로드·파일 첨부·사전 명령 실행을 사용자에게 요청하지 마라. 완료 캠페인과 자동 최적화 cycle을 재시작하지 마라.
-새 작업 전에 아래 원본과 최신 GitHub/대화 검색/이중 백업을 read-only로 확인하라. 유효한 NCP 서비스 접근이 독립적으로 확보되면 이미 준비·승인된 새 S12 17job의 아직 실행하지 않은 부분만 source binding 그대로 진행하라. 현재 접근 거절을 우회하거나 재시도하지 마라. 준비된 NCP 실행과 별개의 새 이론 연구는 미완료 물리 계약을 명시한 한 단위로 제한하고, 새 자동 cycle을 붙이지 마라.
+새 작업 전에 아래 원본과 최신 GitHub/대화 검색/이중 백업을 read-only로 확인하라. 아래 사용자 지정 SSH로 NCP에 접속한 뒤 read-only 대조와 자원 admission을 통과하면 이미 준비·승인된 새 S12 17job의 미실행 부분만 source binding 그대로 진행하라. Desktop Commander의 과거 quota 거절은 해당 서비스에만 적용하고 재시도하지 마라. 준비된 NCP 실행과 별개의 새 이론 연구는 미완료 물리 계약을 명시한 한 단위로 제한하고, 새 자동 cycle을 붙이지 마라.
+
+[NCP 접속 계약 — 2026-10-21 사용자 지정 SSH]
+NCP_ACCESS_CONTRACT.json을 접속 계약의 현재 기준으로 읽는다. 사용자가 다음 SSH 명령을 명시적으로 지정했다.
+ssh -i /home/cosmosapjw/.ssh/ncp_key root@49.50.142.2 -p 22
+이 명령의 root@49.50.142.2는 일반 SSH destination이다. mailto 링크나 Markdown 표기를 shell에 넣지 않는다. /home/cosmosapjw/.ssh/ncp_key는 SSH를 실행하는 호스트의 기존 로컬 키 경로다. ChatGPT sandbox나 NCP 원격 호스트에 있다고 가정하지 않고, 키 내용을 출력·복사·업로드하거나 사용자에게 키 첨부/선행 명령을 요청하지 않는다. 기본 host-key 검증을 유지한다.
+접속 상태는 SSH_AUTHORIZED_NOT_TESTED다. 이번 계약·프롬프트 편집에서 SSH 연결/컴파일/과학/ODE/benchmark/NCP 실행은 모두0회이며, 키 존재·접속 성공·현재64CPU/128GiB 관측을 주장하지 않는다. 이후 실행 담당자는 해당 키와 SSH가 실제로 사용 가능한 실행 호스트에서 위 명령으로 접속한다.
+Desktop Commander의 과거 monthly quota/no-retry/reconnect 실패는 보존하고 해당 서비스를 재시도하지 않는다. 그 실패를 사용자가 별도로 승인한 이 SSH 경로의 금지로 확대하지 않는다. 이번 변경은 Drive 재시도 승인이 아니다.
+SSH 접속 후 첫 원격 행동은 host identity, 실제 affinity/cgroup CPU quota, 가용 RAM/disk, 기존 owner 작업, checkout과 새 실행 receipt의 read-only 대조다. 이어서 봉인 source/input/binding·자원 조건을 확인하고 이미 승인된 S12 17job 중 아직 실행하지 않은 것만 진행한다. 새 matching PASS가 발견되면 재사용한다. SSH 경로를 실제로 사용할 수 없으면 구체적 관측 원인을 남기고 NOT_RUN을 유지한다.
 
 [고정 repository와 source/result 역할]
 Repo: https://github.com/cosmosapjw-quantum/bass
@@ -25,7 +33,7 @@ S12 result tree: 1e29262dd8925fdd0f40fcc7e14e559c333816f6
 
 [첫 행동은 read-only 대조]
 현재 GitHub branch ref/commit/full tree, PR174/175의 최신 댓글과 관련 branch/main, 연결된 대화 검색 및 Dropbox·Drive /BASS_BACKUPS를 먼저 대조한다. Drive folder ID=1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y. provider 목록은 pagination과 관련 하위 폴더까지 관측한 범위를 기록한다. 과거 대화 전체를 보았다고 추정하지 않는다. cache된 PR summary와 direct Git ref가 다르면 actual ref/PR API를 확인한다.
-Lane의 README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S12_RESULTS_KO.md, NEW_THREAD_HANDOFF_KO.md 전체와 CODEX_HANDOFF_KO.md를 읽는다.
+Lane의 NCP_ACCESS_CONTRACT.json, README_KO.md, DAG.json, RETURN_TO_CHATGPT.json, PUBLICATION_CLOSEOUT.json, CLOUD_READBACK_KO.md, S12_RESULTS_KO.md, NEW_THREAD_HANDOFF_KO.md 전체와 CODEX_HANDOFF_KO.md를 읽는다.
 S12 THEORY_KO.md, PREREGISTRATION.json, PRIMARY_LITERATURE.json, Wolfram 실제 응답/수리 기록, 실행 BUILD/PROCESS/RETURN/SUMMARY, 독립 검토 원본, native_support certificate, ncp/JOB_TEMPLATE.json, SCIENCE_BINDING.json, DELIVERY_BINDING.json을 읽는다. 파일 위치는 현재 repo tree와 DAG를 따른다. 백업에서 복원할 때는 전체 bytes/SHA256/ZIP CRC/manifest를 대조하고 원래 실패 receipt를 남긴다.
 S9_RESULTS_KO.md, S10_RESULTS_KO.md, 원 S10 C9 실행 receipt, s11_p246/RESULTS_KO.md·RESULT_LEDGER.json·CONTRACT.json·CONTRACT_ADDENDUM.json·THEORY.md 및 실행/독립 검토도 재사용한다. 오래된 handoff의 NOT_RUN·미구현·pending 문장을 새로운 증거보다 우선하지 않는다.
 사용자에게 과거 대화, ZIP 다운로드, 파일 첨부, 사전 명령 실행을 요청하지 않는다. 접근 가능한 connector/repo/백업을 직접 대조한다.
@@ -76,7 +84,7 @@ z_i=mu_i^2, Z=max z_i. 정규화된 비음수 P2/P4 해는 E[z]=1/3, E[z^2]=1/5�
 Native wrapper compile-only는 C8source824에서 COMPILED_NOT_EXECUTED,13.491861557초, native histories0회로 완료했다. RAM admission/owner manifest scope/LLD thread/stale Git blob의 앞선 실패 receipt도 보존한다. 이 compile-only를 다시 할 의무는 없으며 native history 성공으로 바꾸지 않는다.
 
 [실행 가능한 새 NCP 묶음과 접근 제한]
-이번 사용자는 새 S12 준비된 연구를 위해 최대64core/128GiB NCP 활용을 승인했다. 실제 첫 DesktopCommander get_config가 monthly quota와 no retry/reconnect를 반환했다. 이번 actual NCP start_process는0회, 모든 새 S12 NCP 실제 실행은 NOT_RUN, 현재 hardware 미관측이다. 같은 거절을 재시도하거나 guessed SSH/browser/다른 경로로 우회하지 않는다. 독립적으로 유효한 서비스 접근이 제공된 뒤에만 기존 승인의 범위에서 준비된17job을 실행한다. 그때까지 코드·근거·게시·백업의 가능한 작업을 진행한다.
+사용자가 승인한 최대64core/128GiB NCP 실행 범위는 유지하며 접속 경로는 위 사용자 지정 SSH 명령이다. 접속 계약 상태는 SSH_AUTHORIZED_NOT_TESTED, 새 S12 실제 NCP job은 NOT_RUN, 현재 hardware는 미관측이다. 과거 Desktop Commander monthly quota/no-retry는 해당 서비스의 보존된 실패 이력이다. SSH 접속 후 read-only 대조와 source/input/resource admission을 통과하면 이미 준비된17job의 미실행 부분만 실행한다. 이번 문서 편집 자체는 새 실행이 아니다.
 준비된 ncp/JOB_TEMPLATE.json은 build1 + extended history14 + 64pack serial/parallel 비교1 + ensemble1의17job DAG다. 과학 source는 f4, C8 실행 source는824다. Extended는 k16/n64, birth_end0.8, x_end1.2,49공통출력시각;11full+3omission. 이 extended14는 아직 NOT_RUN이며 short72/72로 대체 승인하지 않는다. 64pack timing은 repeat1024,warmup2쌍+측정7쌍으로 봉인돼 있다.
 SCIENCE_BINDING.json:15개 불변 과학 파일, SHA256=061f9570d7d5254b97060da2599efdd95a5f993f1cbeb3d2791ed4551a6abf5f.
 DELIVERY_BINDING.json:96개 실제 C8 runtime/fixedinput/template/preregistration/binding 파일, SHA256=e64930abc75d02e3b2b9d5b85a9c37e2f33e057f47c2474c1dec320d8fb3485a.
@@ -92,7 +100,7 @@ Non-tilted axisymmetric Bianchi I,(-,+,+,+),a_perp=a exp(-b),a_parallel=a exp(2b
 기존 fine-reference abs1e-9, Hamiltonian/cohort-energy rel1e-11, event1e-13, donor-endpoint3e-14, clock abs1e-12 및 새 preregistration의 각 gate를 유지한다. 더 큰 tolerance, 음수 weights, 임의 support 교체로 실패를 우회하지 않는다.
 남은 의무: 실제 MD14 정규화·donor closure/native Einstein/shear shared-Q 결합; evolving reactive full finite-bin spectral history; 원 S8의 전 구간을 만족하는 물리적으로 허용된 새-birth support 연구; 더 넓은 finite-d/angular 고차moment 및 P6 적용 영역/오차; 새 Rust tangent의 실제 native/reactive closure·moving event·parameter-dependent donor normalization 확장. P6 알고리즘과 manufactured short-history tangent를 미구현으로 되돌리지도, 전체 의무 해결로 확대하지도 않는다. PR17511adapter tests 역시 실제 MD14/nativefeedback 완료가 아니다.
 5.369926725506957e-12는 제한된 source-deposition 설명이다. Full spectral-history 수렴 완료가 아니다. S6 rate38/344 실패·P4악화44/238, S7 실패, S8 저해상도8미달·precision1실패를 보존한다. P2/P4/P6 일치만으로 continuum/full native finite-bin 보존을 승인하지 않는다. REI production/full EoR/merge로 확대하지 않는다.
-각 단계의 DAG·source/result/review·게시/readback과 provider별 백업을 보존한다. 이 metadata 직전 S12 Dropbox는 결과 fd8a9aaf까지 7ZIP·4,197,561bytes·중복 포함 payload907항목의 전체 원격 bytes/SHA256/provider hash/CRC/manifest/Git 검증 PASS다. 정확한 각 ZIP/provider ID는 s12_birth_memory/delivery/CLOUD_CHECKPOINT_INDEX.json 및 원문 readback에 있다. 이 문서를 담는 마지막 metadata ZIP과 외부 final JSON은 containing commit 게시 뒤 별도 full readback으로 확정하므로 실제 최종 총수·HEAD/tree·JSON SHA/provider ID는 최신 PR174 최종 배송 댓글을 읽는다. 아직 확인하지 않은 마지막 배송을 이 파일에서 미리 PASS로 선언하지 않으며 자기 hash를 만들지 않는다. 새 Drive는 미완료다.
+각 단계의 DAG·source/result/review·게시/readback과 provider별 백업을 보존한다. 기존 S12 최종 배송은 https://github.com/cosmosapjw-quantum/bass/pull/174#issuecomment-6303812301 에서 완료 확인됐다: metadata5718499408a121f32b3c755781c79e2167f9d6e7, Dropbox8ZIP·4,450,082bytes·중복 포함930payload·946entries 및 final JSON의 전체 readback PASS다. BASS_S12_FINAL_DELIVERY_20261021_57184994.json은60,121bytes, SHA256=6f78d553712649ddf4557249b7962986285b16e5d24a70829e74d1feb6e5bec9, Dropbox=id:BSpOijBcT10AAAAAAD_agg. 원 S12 cloud index의7ZIP은 마지막 metadata ZIP 직전 snapshot이며 나머지 identity는 위 최종 댓글/JSON이 소유한다. 이번 SSH 계약 수정의 새 containing HEAD와 백업/readback은 별도 PR174 amendment 댓글에서 확인한다. 원8ZIP을 다시 만들거나 이 문서에 자기 hash를 넣지 않는다. 새 Drive는 미완료다.
 새 S11/S12 Drive write는 무응답·서버 결과 불확정이며 더 이상 쓰기/재시도를 하지 않는다. 새 이중 배송은 미완료다. read-only reconcile에서 새 객체가 보이면 full-byte readback으로 검증하되 존재만으로 PASS라고 쓰지 않는다. 원 S10 양쪽 완료와 신규 미완료를 분리한다.
 이 S12 단위 뒤에 완료 캠페인이나 자동 최적화 주기를 다시 시작하지 않는다. 새 물리 단위는 남은 의존성과 명시된 새 범위를 고정해 시작하며 완료 증거를 재사용한다. 실행 불가능한 서비스나 누락된 물리 계약을 완료로 꾸미지 않는다.
 ```
