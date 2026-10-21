@@ -1,6 +1,6 @@
 {
   "schema": "BASS_REI_PILOT_DAG_V1",
-  "stage": "STAGE2_SOURCE_REVIEW_BEFORE_PILOT",
+  "stage": "PILOT01_COMPLETE_USER_STEERED_PILOT02_SPLIT_IMPLEMENTATION",
   "goal": "Non-tilted Bianchi I normalized Sigma/Pi first pilot; no new performance benchmarking",
   "nodes": [
     {
@@ -95,5 +95,21 @@
       "physics/INDEPENDENT_PILOT_REVIEW.json"
     ]
   },
-  "benchmark_exclusion": "User explicitly excludes detailed optimization benchmarks; necessary physics/equivalence checks retained."
+  "benchmark_exclusion": "User explicitly excludes detailed optimization benchmarks; necessary physics/equivalence checks retained.",
+  "completed_units": [
+    {
+      "unit": "PILOT01",
+      "cases": 81,
+      "histories": 5265,
+      "status": "PASS_PRELIMINARY_CONDITIONAL_RESPONSE",
+      "source": "003550e04e8d6c316be422f8ac6a15df284e49a5",
+      "review": "physics/INDEPENDENT_RESULT_REVIEW.json"
+    }
+  ],
+  "new_unit": {
+    "unit": "PILOT02_SPLIT_MATTER_RADIATION",
+    "contract": "SPLIT_CONTRACT.json",
+    "status": "source_implementation",
+    "case_count": 729
+  }
 }
