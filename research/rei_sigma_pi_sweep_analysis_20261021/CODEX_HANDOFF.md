@@ -176,3 +176,27 @@ Massive fixed-weight response identity는 radiation collision/emission/UV 항을
 `DAG.json`, `LOOP_RECORD.json`을 읽어 확인해. Stage B의 증거 생성 당시
 `PENDING_INDEPENDENT_REVIEW`는 보존된 시점 기록이고, 이후 판정은
 `evidence/INDEPENDENT_REVIEW.json`과 현재 scoped decision을 따른다.
+
+
+## 최종 전달 상태
+
+ACCEL03은 `SCOPED_COMPLETE`다. Stage C 과학·인계 본문은 BASS
+`9074a788ca6f26384356c6fa57a695dc6f307fc6`, REI
+`e4defc4f303203232223ecabe004252761145844`에 실제 게시됐다. 실행 코드의
+Stage B pin은 BASS `b0ea16c9172c8b1553cbdb35cb03460160db1412`, REI
+`39ae7c843ea2d1adf580aff44aebfdedea7e33aa`로 유지한다.
+
+7,286,437-byte Stage C ZIP은 한 번의 전체 GET으로 SHA256
+`049af2b058d83c997c03c092e6ec90ab0f3411c45118719b75bf3f7dc27a04e4`,
+size·Dropbox block hash·ZIP CRC·379개 exact member를 확인했다. Stage A/B는
+provider ACK·size 확인이며, 전체 GET 검증은 Stage C에 한 번 수행했다. 실제
+영수증은 `delivery/FINAL_PUBLICATION.json`과 `STAGEC_BACKUP_VERIFIED.json`이다.
+
+불변 ZIP은 자체 ACK보다 먼저 만들어졌고 최종 영수증은 뒤따르는 Git commit에
+있다. 최종 영수증의 게시점은 이 파일을 포함하는 Git commit으로 확인한다.
+자기 commit SHA를 본문에 재귀적으로 넣거나 ZIP을 다시 만들지 않는다.
+`STAGEC_PACKAGE.json`의 생성 당시 상태는 그대로 보존한 역사적 helper 영수증이다.
+
+NCP5 실행과 그 과학 판정은 이미 완료됐다. ACCEL03 안에 추가 실행·과학 검증은
+필요 없다. 이후에는 새 사용자 범위 또는 실제 새 반환 자료의 증거를 먼저 읽고
+필요한 최소 작업을 정한다. 완료된 독립 검토나 원 sweep을 반복하지 않는다.

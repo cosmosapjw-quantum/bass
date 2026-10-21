@@ -32,8 +32,8 @@
     "independent": "Both final PNGs viewed and 1500 scalar mappings checked"
   },
   "historical_status_note": "Earlier PENDING records are preserved as execution-time snapshots; this admission is the subsequent decision.",
-  "next_transition": "Stage C authorized report/handoff/restore publication and backup closeout; no further scientific review cycle.",
-  "status": "SCOPED_SCIENCE_COMPLETE_DELIVERY_IN_PROGRESS",
+  "next_transition": "ACCEL03 requires no further execution or scientific validation. NCP5 is already completed and admitted. For a new user-defined scope or actual new returns, read current evidence first and define bounded work; do not repeat the closed review or archived sweep.",
+  "status": "SCOPED_COMPLETE",
   "baseline_scope": "Warm conditional non-tilted LRS Bianchi I a=0.1999..0.2, independent matter/radiation P2 seeds; original half-contraction norm",
   "completed_baseline": {
     "cases": 729,
@@ -41,8 +41,14 @@
     "original_history_rows": 47385,
     "loaded_endpoint_projection_history_rows": 0
   },
-  "publication_authority": "delivery/*.json and containing final receipt commit",
-  "backup_authority": "Stage A/B provider ACK; Stage C full GET to be recorded by actual receipt",
+  "publication_authority": "delivery/STAGEC_PUBLICATION.json: actual content commits; final receipts use their containing Git commit locator.",
+  "backup_authority": "Stage A/B provider ACK and size match; Stage C one actual full GET verified in delivery/STAGEC_BACKUP_VERIFIED.json.",
   "performance_status": "UNMEASURED_BY_USER_SCOPE",
-  "strong_no_go_claim": false
+  "strong_no_go_claim": false,
+  "delivery": "COMPLETE_CONTENT_PUBLICATION_AND_FULL_GET_BACKUP",
+  "receipt_closeout_publication": {
+    "locator": "Git commit containing this file",
+    "sha": null,
+    "reason": "A file cannot embed its own containing commit hash without recursive self-reference; resolve the containing commit through the repository branch/PR head."
+  }
 }
