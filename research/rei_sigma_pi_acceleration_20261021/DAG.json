@@ -1,0 +1,152 @@
+{
+  "schema": "REI_SPLIT_ACCEL01_DAG_V1",
+  "unit": "ACCEL01",
+  "baseline_729_science": "reused_complete",
+  "scope": "Exact per-model finite-mass cache and portable completed-case-aware resource plan; retain C15 warm physics and separate matter/radiation tensors. No detailed benchmark or historical sweep rerun.",
+  "nodes": [
+    {
+      "id": "A_latest_intake",
+      "status": "complete",
+      "evidence": [
+        "evidence/INTAKE_SUMMARY.json",
+        "evidence/BASELINE_DOWNLOAD.json"
+      ],
+      "checkpoint": "A_intake"
+    },
+    {
+      "id": "B_exact_reuse_and_work_plan",
+      "status": "complete",
+      "requires": [
+        "A_latest_intake"
+      ],
+      "evidence": [
+        "THEORY.md",
+        "cached_context.py",
+        "work_plan.py",
+        "batch_worker.py"
+      ],
+      "checkpoint": "B_implementation_validation"
+    },
+    {
+      "id": "C_changed_dependency_verification",
+      "status": "complete",
+      "requires": [
+        "B_exact_reuse_and_work_plan"
+      ],
+      "evidence": [
+        "evidence/VERIFICATION.json",
+        "evidence/CACHE_CHECK.json",
+        "evidence/worker_smoke/EXECUTION_RECEIPT.json",
+        "evidence/reused729_no_work/no_work.json"
+      ],
+      "checkpoint": "B_implementation_validation"
+    },
+    {
+      "id": "D_independent_review_and_plot",
+      "status": "complete",
+      "requires": [
+        "C_changed_dependency_verification"
+      ],
+      "evidence": [
+        "evidence/INDEPENDENT_REVIEW.json",
+        "evidence/PLOT_REVIEW.json",
+        "figures/REUSED_CANCELLATION.provenance.json"
+      ],
+      "checkpoint": "B_implementation_validation"
+    },
+    {
+      "id": "E_publication_backup_handoffs",
+      "status": "complete_scoped_with_external_delivery_limitation",
+      "requires": [
+        "D_independent_review_and_plot"
+      ],
+      "checkpoint": "C_closeout",
+      "evidence": [
+        "CODEX_HANDOFF.md",
+        "NEXT_THREAD_HANDOFF.md",
+        "delivery/FINAL_PUBLICATION.json",
+        "delivery/STAGEC_BACKUP.json",
+        "delivery/DRIVE_DELIVERY_STATUS.json"
+      ]
+    },
+    {
+      "id": "F_drive_A_reconciliation",
+      "status": "complete_with_metadata_readback_and_prior_attempt_ambiguity",
+      "requires": [
+        "E_publication_backup_handoffs"
+      ],
+      "evidence": [
+        "delivery/DRIVE_A_RECONCILIATION.json",
+        "delivery/DRIVE_A_RECONCILIATION_BACKUP.json",
+        "delivery/DRIVE_DELIVERY_STATUS.json",
+        "delivery/STAGEA_BACKUP.json"
+      ],
+      "checkpoint": "C_closeout"
+    }
+  ],
+  "original_science_open": [
+    "full emitter/escape Q^a closure",
+    "cold full EoR",
+    "general non-LRS",
+    "global convergence"
+  ],
+  "benchmark_runs": 0,
+  "historical_sweep_reruns": 0,
+  "publications": [
+    {
+      "stage": "A",
+      "receipt": "delivery/STAGEA_PUBLICATION.json",
+      "status": "published_and_remote_verified"
+    },
+    {
+      "stage": "B",
+      "receipt": "delivery/STAGEB_PUBLICATION.json",
+      "status": "published_and_remote_verified"
+    },
+    {
+      "stage": "C",
+      "receipt": "delivery/STAGEC_PUBLICATION.json",
+      "status": "published_and_remote_verified"
+    }
+  ],
+  "backups": [
+    {
+      "stage": "A",
+      "receipt": "delivery/STAGEA_BACKUP.json",
+      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_SUBMISSION_UNCONFIRMED"
+    },
+    {
+      "stage": "B",
+      "receipt": "delivery/STAGEB_BACKUP.json",
+      "status": "DROPBOX_DELIVERED_DRIVE_NOT_ATTEMPTED"
+    },
+    {
+      "stage": "C",
+      "receipt": "delivery/STAGEC_BACKUP.json",
+      "status": "DROPBOX_FULL_REMOTE_GET_AND_ALL_169_ZIP_ENTRIES_VERIFIED"
+    }
+  ],
+  "updated_utc": "2026-10-21T10:43:10Z",
+  "original_science_reuse": {
+    "cases": 729,
+    "groups": 243,
+    "stored_history_rows": 47385,
+    "pending_cases": 0,
+    "jobs": 0,
+    "new_validation_custom_cases": 1,
+    "new_validation_nsteps": 2,
+    "new_grid_sweep": false
+  },
+  "loop_record": "LOOP_RECORD.json",
+  "verification": {
+    "unit_tests": 25,
+    "independent_probes": 29,
+    "review_passes": 1,
+    "open_findings": 0,
+    "baseline_files_unchanged": 112
+  },
+  "status": "SCOPED_COMPLETE_WITH_DRIVE_A_METADATA_CONFIRMED_BC_PENDING",
+  "final_delivery_receipt": "delivery/FINAL_PUBLICATION.json",
+  "external_delivery_limitation": "Drive A saved file confirmed by returned ID metadata; previous no-ACK submission may have completed late, so duplicates are not excluded. Drive B/C not attempted. Dropbox reconciliation receipt full GET and SHA verified.",
+  "latest_resource_observation": "evidence/RUNTIME_FINAL.json"
+}

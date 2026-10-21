@@ -1,0 +1,94 @@
+{
+  "schema": "BASS_REI_ACCEL01_DRIVE_DELIVERY_STATUS_V1",
+  "checked_at_utc": "2026-10-21T10:43:10Z",
+  "scope": "Stages A/B/C Drive status plus Stage A retry reconciliation; successful GitHub and Dropbox deliveries remain separate",
+  "A": {
+    "status": "DRIVE_FILE_SAVED_METADATA_CONFIRMED",
+    "tool": "google_drive.upload_file",
+    "actual_tool_invocations": 2,
+    "request_filename": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
+    "request_parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "returned_ack": true,
+    "returned_file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+    "first_unacknowledged_attempt": {
+      "status": "DRIVE_SUBMISSION_UNCONFIRMED",
+      "result": "Tool invocation interrupted after629.9seconds with no returned ACK. Provider-side submission/completion is indeterminate.",
+      "actual_tool_invocations": 1,
+      "prior_folder_check": {
+        "status": "COMPLETED",
+        "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+        "requested_limit": 1000,
+        "returned_count": 1000,
+        "exact_matches": [],
+        "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
+      },
+      "completion": "INDETERMINATE"
+    },
+    "retry_attempt": {
+      "status": "UPLOAD_ACCEPTED",
+      "source_dropbox_id": "id:BSpOijBcT10AAAAAAD_fkQ",
+      "source_bytes": 248613,
+      "source_sha256": "929b09c8cb68be4b5e5160a2a01fbcf19e2135bf365ee52ecbaafe464128fbd9",
+      "pre_retry_exact_name_search_count": 0,
+      "file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+      "returned_success": true
+    },
+    "direct_metadata_readback": {
+      "status": "FILE_EXISTS_METADATA_CONFIRMED",
+      "file_id": "1GK5AjCvmbnVdDwDMRmz-_OhVReBE5sxn",
+      "filename": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
+      "bytes": 248613,
+      "mime_type": "application/zip",
+      "parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+      "created_time": "2026-10-21T10:39:15.864Z",
+      "provider_content_md5_exposed": false,
+      "file_bytes_downloaded_from_drive": false,
+      "source_visibility_status": "access_not_verified"
+    },
+    "search_readback": {
+      "exact_search_results_after_upload": 0,
+      "folder_search_results": 953,
+      "exact_name_listed": false,
+      "interpretation": "Search index did not expose the new ID; direct metadata by returned ID confirmed the stored file."
+    },
+    "duplicate_risk": {
+      "previous_unacknowledged_attempt_may_have_completed_late": true,
+      "duplicate_excluded": false,
+      "delete_or_overwrite_performed": false,
+      "next_action": "No further retry or cleanup; preserve both attempt records."
+    },
+    "reconciliation_backup": {
+      "receipt": "delivery/DRIVE_A_RECONCILIATION_BACKUP.json",
+      "dropbox_path": "/BASS_BACKUPS/BASS_REI_ACCEL01_DRIVE_A_RECONCILIATION_20261021.json",
+      "dropbox_id": "id:BSpOijBcT10AAAAAAD_gMQ",
+      "bytes": 2629,
+      "sha256": "23527f3b1048c14027f82098a4241de4096046ce00ca063f5e6ed66c25c74ec1",
+      "full_get_readback": "PASS_BYTES_AND_SHA256"
+    }
+  },
+  "B": {
+    "status": "NOT_ATTEMPTED",
+    "actual_tool_invocations": 0,
+    "reason": "This reconciliation covered Drive A only; B remains pending user scope/need.",
+    "destination_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "exact_name_recovery_readback": {
+      "status": "COMPLETED",
+      "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+      "requested_limit": 1000,
+      "returned_count": 1000,
+      "exact_matches": [],
+      "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
+    }
+  },
+  "C": {
+    "status": "NOT_ATTEMPTED",
+    "actual_tool_invocations": 0,
+    "filename": "BASS_REI_ACCEL01_STAGEC_RESTORE_20261021_cfb5e35c680c.zip",
+    "reason": "This reconciliation covered Drive A only; C remains pending user scope/need."
+  },
+  "account_wide_drive_completeness_claim": false,
+  "new_external_objects_deleted_or_overwritten": 0,
+  "new_science_runs": 0,
+  "completed729_reruns": 0,
+  "duplicate_uploads": "UNRESOLVED_POSSIBLE_FROM_PRIOR_UNACKNOWLEDGED_ATTEMPT"
+}

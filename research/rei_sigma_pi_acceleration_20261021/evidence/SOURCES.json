@@ -1,0 +1,113 @@
+{
+  "schema": "BASS_REI_OPTIMIZATION_SOURCE_REVIEW_V1",
+  "date": "2026-10-21",
+  "owner_ref": "80825585f9fe31d2ee0d5af545ada3fa1f52be72",
+  "task": "R2-R5 pure-kernel exact reuse",
+  "scientific_integrations_run": 0,
+  "detailed_benchmarks_run": 0,
+  "scispace_queries": 1,
+  "scispace_returned_records": 10,
+  "exa_search_queries": 2,
+  "exa_requested_results": 10,
+  "selected_sources": [
+    {
+      "id": "HU2006",
+      "url": "https://arxiv.org/pdf/gr-qc/0512031",
+      "original_html": "https://ar5iv.labs.arxiv.org/html/gr-qc/0512031",
+      "title": "Dynamics of the spatially homogeneous Bianchi type I Einstein–Vlasov equations",
+      "authors": [
+        "J. Mark Heinzle",
+        "Claes Uggla"
+      ],
+      "year": 2006,
+      "doi": "10.1088/0264-9381/23/10/016",
+      "locations": [
+        "Section 2, equations (2d), (2f), (3)"
+      ],
+      "supports": "Conserved covariant momenta; energy density and stress fixed-distribution quadratures.",
+      "limits": "Collisionless species only; asymptotic conclusions not adopted for driven warm chemistry.",
+      "quality": "Original research paper, full equations read through ar5iv and original PDF.",
+      "web_ref": "turn0view0"
+    },
+    {
+      "id": "LNT2020",
+      "url": "https://arxiv.org/pdf/1911.04937",
+      "original_html": "https://ar5iv.labs.arxiv.org/html/1911.04937",
+      "title": "On the future of solutions to the massless Einstein–Vlasov system in a Bianchi I cosmology",
+      "authors": [
+        "Ho Lee",
+        "Ernesto Nungesser",
+        "Paul Tod"
+      ],
+      "year": 2020,
+      "doi": "10.1007/s10714-020-02699-7",
+      "locations": [
+        "Section 2.1 trace-free Einstein evolution",
+        "Section 2.2 conserved Bianchi I momenta"
+      ],
+      "supports": "Shear source equation after restoring units; distribution fixed in covariant momenta.",
+      "limits": "Massless collisionless theorem is not a mixed driven EoR theorem.",
+      "quality": "Original research, actual PDF read.",
+      "web_ref": "turn0view1"
+    },
+    {
+      "id": "numpy_sum_23",
+      "url": "https://numpy.org/doc/2.3/reference/generated/numpy.sum.html",
+      "supports": "Pairwise summation behavior depends on axis/layout; precision not invariant under reassociation.",
+      "quality": "Versioned official NumPy reference.",
+      "web_ref": "turn1view2"
+    },
+    {
+      "id": "numpy_threads_23",
+      "url": "https://numpy.org/doc/2.3/reference/thread_safety.html",
+      "supports": "Readonly sharing recommended; shared mutation creates races; many NumPy operations release GIL.",
+      "quality": "Versioned official NumPy reference.",
+      "web_ref": "turn1view3"
+    },
+    {
+      "id": "python_lru_312",
+      "url": "https://docs.python.org/3.12/library/functools.html",
+      "supports": "Bounded LRU memoization; coherent updates do not imply one evaluation for simultaneous misses.",
+      "quality": "Versioned official Python reference.",
+      "web_ref": "turn1view0"
+    },
+    {
+      "id": "python_struct_312",
+      "url": "https://docs.python.org/3.12/library/struct.html",
+      "supports": "Explicit binary packing suitable for exact binary64 key representation.",
+      "quality": "Versioned official Python reference.",
+      "web_ref": "turn1view1"
+    },
+    {
+      "id": "python_shm_312",
+      "url": "https://docs.python.org/3.12/library/multiprocessing.shared_memory.html",
+      "supports": "Named shared-memory arrays and lifecycle ownership.",
+      "quality": "Versioned official Python reference; fetched via Exa."
+    },
+    {
+      "id": "scipy_pchip_117",
+      "url": "https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.interpolate.PchipInterpolator.html",
+      "supports": "PCHIP shape-preserving interpolation and multidimensional y/axis; explicit extrapolation policy.",
+      "quality": "Versioned official SciPy reference; fetched via Exa."
+    }
+  ],
+  "code_read": [
+    {
+      "path": "split_sweep.py",
+      "sha256": "e5cee6270c31e10b244daa8b978a43793d6f8ecc058de81bb45dadc50d8384d0"
+    },
+    {
+      "path": "sweep.py",
+      "sha256": "d1f7ae9a2fc5756c5a8873ba8b5c3659298d6209fcab27dc42360a5b87042d98"
+    },
+    {
+      "path": "vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/coupled.py",
+      "sha256": "a920d0e86c0badf395bfabc61dafaee3449a34e4cfe8ccdc28a833674c1c4b1e"
+    },
+    {
+      "path": "vendor/rei_c15/research/rei_c15_sigma_pi_feedback_20261015/vendor_pr140_massive_radial.py",
+      "sha256": "6143accbaf9e4845e549e31d2490418531f310efa99293fd373c6f81bf5defb5"
+    }
+  ],
+  "note": "Original scientific results reused. Raw temporary tool transcripts excluded from publication."
+}
