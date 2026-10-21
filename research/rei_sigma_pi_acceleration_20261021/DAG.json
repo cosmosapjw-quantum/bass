@@ -1,0 +1,54 @@
+{
+  "schema": "REI_SPLIT_ACCEL01_DAG_V1",
+  "unit": "ACCEL01",
+  "baseline_729_science": "reused_complete",
+  "scope": "Exact per-model finite-mass cache and portable completed-case-aware resource plan; retain C15 warm physics and separate matter/radiation tensors. No detailed benchmark or historical sweep rerun.",
+  "nodes": [
+    {
+      "id": "A_latest_intake",
+      "status": "complete",
+      "evidence": [
+        "evidence/INTAKE_SUMMARY.json",
+        "evidence/BASELINE_DOWNLOAD.json"
+      ]
+    },
+    {
+      "id": "B_exact_reuse_and_work_plan",
+      "status": "in_progress",
+      "requires": [
+        "A_latest_intake"
+      ]
+    },
+    {
+      "id": "C_changed_dependency_verification",
+      "status": "pending",
+      "requires": [
+        "B_exact_reuse_and_work_plan"
+      ]
+    },
+    {
+      "id": "D_independent_review_and_plot",
+      "status": "pending",
+      "requires": [
+        "C_changed_dependency_verification"
+      ]
+    },
+    {
+      "id": "E_publication_backup_handoffs",
+      "status": "pending",
+      "requires": [
+        "D_independent_review_and_plot"
+      ]
+    }
+  ],
+  "original_science_open": [
+    "full emitter/escape Q^a closure",
+    "cold full EoR",
+    "general non-LRS",
+    "global convergence"
+  ],
+  "benchmark_runs": 0,
+  "historical_sweep_reruns": 0,
+  "publications": [],
+  "backups": []
+}
