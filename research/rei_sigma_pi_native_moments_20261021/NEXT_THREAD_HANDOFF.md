@@ -90,3 +90,26 @@ numeric threads 1, production max workers 64를 상한으로 두고 기존 sched
 포함하지 않는다. history는 원 Stage 5 index/hash/locator로 복원한다.
 Codex handoff와 다음 대화 재개문도 복사 가능한 형태로 갱신해.
 ```
+
+
+## Final delivery status / 최종 전달 상태
+
+ACCEL02의 과학·구현·검토·인계는 `SCOPED_COMPLETE`다. Stage C 본문은
+BASS `f94bad85fc913a5be7478251bc85457e6fafdb98`,
+REI `369fd5007f7236e2bbb22e1bbe8ff0f1ceee2d5c` content commit에 게시됐다.
+기존 Stage B code pin과 고정 과학 계약은 그대로 유지한다.
+
+Dropbox의 5,514,078-byte Stage C ZIP을 **한 번의 전체 GET**으로 내려받아
+size·SHA256·Dropbox block hash·ZIP CRC·263개 exact member를 모두 확인했다.
+실제 영수증은 `delivery/STAGEC_PUBLICATION.json`, `STAGEC_BACKUP.json`,
+`STAGEC_BACKUP_VERIFIED.json`, `FINAL_PUBLICATION.json`에 있다.
+Stage A/B는 각각 provider object·size 확인이며, 전체 GET 검증은 Stage C에
+한 번 수행한 것으로 구분한다.
+
+불변 ZIP은 자체 provider ACK보다 먼저 만들어졌다. 최종 영수증과 이 상태
+보충은 뒤따르는 Git closeout commit에 기록한다. ZIP을 재생성하거나 자기
+hash를 재귀적으로 넣지 않는다. 최종 영수증의 Git commit은 이 파일을 포함하는 commit으로 확인한다.
+위 content commit은 과학·인계 본문의 게시점이며 실행 코드 pin과 구분한다.
+
+남은 NCP target-local compile·자원 확인·명시된 pending 실행은 별도 후속
+작업이다. 이번 단위의 실패나 미완료 과학 검증으로 계산하지 않는다.
