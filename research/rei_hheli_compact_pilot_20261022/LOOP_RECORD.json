@@ -1,6 +1,6 @@
 {
   "schema": "rei.hheli.loop_record.v1",
-  "updated_utc": "2026-10-21T16:08:54.144395+00:00",
+  "updated_utc": "2026-10-21T16:16:18.187538+00:00",
   "requested_executor_model": "gpt-6.1-sol",
   "observed_executor_model": null,
   "roles": {
@@ -108,6 +108,43 @@
       "scientific_decision": "PASS_SCOPED_COMPLETED_SANDBOX_PRELIMINARY_PILOT",
       "additional_ODE_required": false,
       "progress": "29/30 complete;C10 remote delivery pending"
+    },
+    {
+      "event": "CHECKPOINT_C_LOCAL_PACKAGE_READY",
+      "evidence": "delivery/STAGEC_PACKAGE.json",
+      "archive_sha256": "c32c310ebffb9bfe1ed4b9b932265ccc069ef1c876c0529f1f89960f25aca310",
+      "archive_bytes": 58890242,
+      "note": "Post-freeze event for closing receipt commit; immutable C ZIP is unchanged."
+    },
+    {
+      "event": "CHECKPOINT_C_PROVIDER_METADATA_ACK_AND_GIT_IN_PROGRESS",
+      "evidence": [
+        "delivery/STAGEC_BACKUP.json",
+        "delivery/STAGEC_PUBLICATION.json"
+      ],
+      "full_get_sha256_verification": "PENDING_ROOT_RECEIPT",
+      "C_ref_updates": null
+    },
+    {
+      "event": "CHECKPOINT_C_SINGLE_GET_BACKUP_RESTORE_VERIFIED",
+      "evidence": "delivery/STAGEC_BACKUP_VERIFIED.json",
+      "sha256": "c32c310ebffb9bfe1ed4b9b932265ccc069ef1c876c0529f1f89960f25aca310",
+      "get_attempts": 1,
+      "head_requests": 0,
+      "range_requests": 0
+    },
+    {
+      "event": "FINAL_C_ACTUAL_CONTENT_PUBLICATION_AND_LOOP_CLOSE",
+      "evidence": [
+        "delivery/STAGEC_PUBLICATION.json",
+        "delivery/STAGEC_GIT_TREE_VERIFIED.json",
+        "delivery/STAGEC_BACKUP_VERIFIED.json",
+        "delivery/FINAL_PUBLICATION.json"
+      ],
+      "nodes_complete": "30/30",
+      "scientific_scope": "Frozen preliminary finite model only",
+      "additional_ODE": 0,
+      "immutable_C_archive_unchanged": true
     }
   ],
   "checkpoints": {
@@ -122,12 +159,21 @@
       "backup_status": "PROVIDER_METADATA_ACKNOWLEDGED"
     },
     "C": {
-      "status": "ROOT_FINAL_FREEZE_AUTHORIZED_DELIVERY_PENDING",
-      "publication_status": "NOT_ATTEMPTED_FINAL_COMMIT_PENDING",
-      "backup_status": "NOT_ATTEMPTED"
+      "status": "COMPLETE",
+      "publication_status": "PASS_FROZEN_C_CONTENT_PUBLISHED_AND_TREE_VERIFIED",
+      "backup_status": "PASS_FULL_GET_ARCHIVE_RESTORE_VERIFIED",
+      "package_receipt": "delivery/STAGEC_PACKAGE.json",
+      "archive_sha256": "c32c310ebffb9bfe1ed4b9b932265ccc069ef1c876c0529f1f89960f25aca310",
+      "publication_evidence": "delivery/STAGEC_PUBLICATION.json",
+      "backup_evidence": "delivery/STAGEC_BACKUP_VERIFIED.json"
     }
   },
-  "next_executable_dependency": "Freeze checkpoint C, root uploads archive and single-GET verifies it, root publishes exact Git trees, then record final closing acknowledgements.",
+  "next_executable_dependency": "USER_SCOPE_SELECTION outside the completed loop; no further ODE/test/benchmark required for this delivery.",
   "prohibited_inference": "No saved/committed/backed-up status is inferred from a local file or prepared upload payload.",
-  "scientific_admission": "PASS_SCOPED_COMPLETED_SANDBOX_PRELIMINARY_PILOT"
+  "scientific_admission": "PASS_SCOPED_COMPLETED_SANDBOX_PRELIMINARY_PILOT",
+  "current_node": "COMPLETE",
+  "progress": {
+    "complete_nodes": 30,
+    "total_nodes": 30
+  }
 }
