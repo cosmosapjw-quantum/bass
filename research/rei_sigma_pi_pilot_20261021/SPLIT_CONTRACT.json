@@ -1,0 +1,136 @@
+{
+  "schema": "BASS_REI_SPLIT_MATTER_RADIATION_PILOT_CONTRACT_V1",
+  "unit": "PILOT02_SPLIT_MATTER_RADIATION",
+  "date_kst": "2026-10-21",
+  "goal": "Independent signed (Sigma,Pi_m,Pi_r) 729-case pilot with component histories and cancellation response",
+  "owner": {
+    "repo": "cosmosapjw-quantum/rei_bianchi",
+    "pr": 141,
+    "ref": "80825585f9fe31d2ee0d5af545ada3fa1f52be72",
+    "source_snapshot": "vendor/rei_c15",
+    "manifest": "vendor/rei_c15/SOURCE_FETCH_MANIFEST.json"
+  },
+  "physics": {
+    "metric_signature": "(-,+,+,+)",
+    "geometry": "non-tilted LRS Bianchi I",
+    "a_perp": "a exp(-b)",
+    "a_parallel": "a exp(2b)",
+    "s": "db/dt",
+    "delta_pressure": "P_parallel-P_perp [Pa]",
+    "default_norm": "sqrt(A_ab A^ab/2)",
+    "Sigma_half": "sqrt(3) abs(s)/H",
+    "Pi_half": "(8 pi G/c^2) abs(delta_pressure)/(sqrt(3) H^2)",
+    "alternate_norm": "Frobenius; both invariants sqrt(2) times half norm",
+    "a_start": 0.1999,
+    "a_end": 0.2,
+    "initial_gas": {
+      "temperature_K": 12000,
+      "x_HII": 0.4,
+      "x_HeII": 0.5
+    },
+    "source": "native MD14_Z002_FESC_BB50K_13P6_100_V1",
+    "rate_owner": "C11 immutable Grackle Case-A 129-point log-PCHIP table 10000..24000K",
+    "massive_fraction": 0.1,
+    "mass_over_T": 30,
+    "L": 8,
+    "source_grid": "8X8",
+    "angular_seed": "independent alpha_m for massive Vlasov and alpha_r shared only by gamma+nu; each W=1+alpha P2, -1<=alpha<=2",
+    "source_on": true,
+    "thomson_on": true,
+    "all_physical_stress_components_on": true,
+    "manufactured_stress_scale": 1,
+    "matter_stress": "D_m=Pi_massive; baryonic gas and remaining cold matter have zero anisotropic stress in the selected owner",
+    "radiation_stress": "D_r=Pi_gamma+Pi_nu+Pi_UV; C15 neutrino component is massless; UV initially zero",
+    "Pi_m_half": "kappa_time abs(D_m)/(sqrt(3) H^2)",
+    "Pi_r_half": "kappa_time abs(D_r)/(sqrt(3) H^2)",
+    "Pi_total_half": "kappa_time abs(D_m+D_r)/(sqrt(3) H^2); never Pi_m+Pi_r unless same sign"
+  },
+  "grid": {
+    "Sigma_half": [
+      0,
+      0.0005,
+      0.001,
+      0.002,
+      0.004
+    ],
+    "Pi_m_half": [
+      0,
+      5e-05,
+      0.0001,
+      0.0002,
+      0.0004
+    ],
+    "Pi_r_half": [
+      0,
+      5e-05,
+      0.0001,
+      0.0002,
+      0.0004
+    ],
+    "sign_policy": "all signed magnitudes; zero coordinate sign exactly0, otherwise +-1",
+    "distinct_cases": 729,
+    "nsteps": 64,
+    "compression": true,
+    "predictor_corrector_feedback": true
+  },
+  "mapping": {
+    "H_initial": "Hbase/sqrt(1-Sigma_half^2/3)",
+    "matter_stress_per_alpha": "rho_mass_ref*J01/5",
+    "radiation_stress_per_alpha": "(rho_gamma+rho_nu)/5",
+    "alpha_m": "stress_m_sign*sqrt(3)*H_initial^2*Pi_m_half/(kappa_time*matter_stress_per_alpha)",
+    "alpha_r": "stress_r_sign*sqrt(3)*H_initial^2*Pi_r_half/(kappa_time*radiation_stress_per_alpha)",
+    "zero_roundoff": "retain raw stress; report unresolved below 3e-13 invariant floor, never clip weights/stress",
+    "cancellation": "retain signed D_m,D_r and work_m=2*s*D_m,work_r=2*s*D_r; classify unresolved total without clipping components"
+  },
+  "validation": {
+    "source_hashes": "verify before loading snapshot",
+    "initial_Sigma_abs_tolerance": 3e-13,
+    "initial_Pi_abs_tolerance": 3e-13,
+    "model_original_gates": "preserve number5e-12/energy5e-11 per-step and gamma/nu monopole3e-9",
+    "domain": "finite H>0, positive physical rays and populations, T within original table",
+    "baseline": "reuse and compare matching original source case where model parameters identical, otherwise numerical/source contracts",
+    "pilot_claim": "preliminary conditional response; no full-EoR or full covariant donor/escape closure",
+    "detailed_benchmarking": false,
+    "speedup_claim": false,
+    "initial_Pi_m_abs_tolerance": 3e-13,
+    "initial_Pi_r_abs_tolerance": 3e-13,
+    "total_consistency": "sum signed tensors first, then norm; component work sum equals total within FP reduction order"
+  },
+  "execution": {
+    "sandbox_cpu_cap": 8,
+    "sandbox_memory_GiB_cap": 8,
+    "ncp_cpu_cap": 64,
+    "ncp_memory_GiB_cap": 128,
+    "disk_scope_GiB": 4,
+    "job_seconds_max": 1800,
+    "numeric_threads": 1,
+    "other_jobs": "preserve; share measured spare capacity",
+    "source_identity_separate_from_concurrency": true,
+    "resume": "verified completed cases retained; concurrency may vary without changing science identities",
+    "coordinator_lock": "prevent accidental duplicate launch of same output scope",
+    "private_key": "Existing /home/cosmosapjw/.ssh/ncp_key on SSH executor; absent in this sandbox; do not transfer or guess",
+    "group_size_current_host": 3,
+    "groups_current_host": 243
+  },
+  "optimization": [
+    "Reuse immutable native source/rate interpolation/radial/angular operators within a prepared case group without changing owner functions.",
+    "Run independent parameter groups concurrently; deterministic output order.",
+    "Retain existing vectorized kinetic and chemistry kernels; do not silently change rate/source owner.",
+    "Reuse exact completed S12 and REI evidence; no old benchmarks."
+  ],
+  "remaining_physics": [
+    "Full stellar/emitter donor Q^a and escape energy-momentum closure",
+    "Cold z20-to4 initial state and full EoR history",
+    "Global angular/spectral convergence beyond this conditional pilot",
+    "Independent matter/radiation input family still does not determine arbitrary higher distribution moments or general non-LRS tensor orientations"
+  ],
+  "preliminary_acceptance": "Actual complete histories, original gates, exact requested coordinate mapping, plot provenance and independent physics/code review",
+  "user_steering": "pi_ab matter and radiation are considered independently",
+  "prior_completed_unit": {
+    "unit": "PILOT01",
+    "cases": 81,
+    "source_commit": "003550e04e8d6c316be422f8ac6a15df284e49a5",
+    "outputs": "results/pilot81_v2/aggregate",
+    "retain": true
+  }
+}

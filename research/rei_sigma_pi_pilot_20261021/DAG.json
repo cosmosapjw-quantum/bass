@@ -1,0 +1,158 @@
+{
+  "schema": "BASS_REI_PILOT_DAG_V1",
+  "stage": "PILOT02_SPLIT_COMPLETE_REVIEWED_BACKED_UP",
+  "goal": "Completed conditional non-tilted LRS Bianchi I independent matter/radiation normalized shear/stress pilot; no new performance benchmark",
+  "nodes": [
+    {
+      "id": "intake",
+      "status": "complete"
+    },
+    {
+      "id": "normalization_and_scope",
+      "status": "complete",
+      "requires": [
+        "intake"
+      ]
+    },
+    {
+      "id": "pilot_implementation",
+      "status": "complete",
+      "requires": [
+        "normalization_and_scope"
+      ]
+    },
+    {
+      "id": "bounded_science_verification",
+      "status": "complete",
+      "requires": [
+        "pilot_implementation"
+      ]
+    },
+    {
+      "id": "pilot_plot",
+      "status": "complete",
+      "requires": [
+        "bounded_science_verification"
+      ]
+    },
+    {
+      "id": "ncp_execution_handoff",
+      "status": "complete",
+      "requires": [
+        "pilot_implementation"
+      ]
+    },
+    {
+      "id": "dual_review_publication_backup",
+      "status": "complete",
+      "requires": [
+        "pilot_plot",
+        "ncp_execution_handoff"
+      ]
+    }
+  ],
+  "benchmarks": "NOT_REQUESTED_NOT_RUN",
+  "R_stages": {
+    "R1": "complete_finite_unit",
+    "R2": "complete_finite_unit",
+    "R3": "complete_finite_unit",
+    "R4": "complete_finite_unit",
+    "R5": "complete_finite_unit",
+    "R6": "complete_finite_unit",
+    "R7": "complete_finite_unit",
+    "R8": "complete_finite_unit",
+    "R9": "complete_finite_unit",
+    "R10": "complete_finite_unit"
+  },
+  "C_stages": {
+    "C1": "complete_scoped",
+    "C2": "complete_scoped",
+    "C3": "complete_scoped",
+    "C4": "complete_scoped",
+    "C5": "complete_scoped",
+    "C6": "complete_scoped",
+    "C7": "complete_scoped",
+    "C8": "complete_scoped",
+    "C9": "complete_scoped",
+    "C10": "complete_scoped"
+  },
+  "evidence": {
+    "intake": [
+      "INTAKE.json",
+      "evidence/latest_intake/",
+      "delivery/STAGE1_DELIVERY.json"
+    ],
+    "normalization": [
+      "physics/THEORY.md",
+      "physics/C15_SCOPE_AUDIT.json",
+      "PILOT_CONTRACT.json"
+    ],
+    "implementation": [
+      "sweep.py",
+      "shared_executor.py",
+      "test_pilot.py",
+      "test_shared_executor.py",
+      "physics/INDEPENDENT_PILOT_REVIEW.json"
+    ],
+    "split": [
+      "SPLIT_CONTRACT.json",
+      "split_sweep.py",
+      "split_plot.py",
+      "physics/SPLIT_CODE_REVIEW.json",
+      "physics/SPLIT_RESULT_REVIEW.json",
+      "evidence/SPLIT_EXECUTION_OBSERVATIONS.json"
+    ]
+  },
+  "benchmark_exclusion": "User explicitly excludes detailed optimization benchmarks; necessary physics/equivalence checks retained.",
+  "completed_units": [
+    {
+      "unit": "PILOT01",
+      "cases": 81,
+      "histories": 5265,
+      "status": "PASS_PRELIMINARY_CONDITIONAL_RESPONSE",
+      "source": "003550e04e8d6c316be422f8ac6a15df284e49a5",
+      "review": "physics/INDEPENDENT_RESULT_REVIEW.json"
+    },
+    {
+      "unit": "PILOT02_SPLIT_MATTER_RADIATION",
+      "cases": 729,
+      "groups": 243,
+      "histories": 47385,
+      "gates": 5832,
+      "status": "PASS_PRELIMINARY_CONDITIONAL_SPLIT_RESPONSE",
+      "source": "82372ed8db68085868603d4267a630ed9cde6abb",
+      "review": "physics/SPLIT_RESULT_REVIEW.json"
+    }
+  ],
+  "new_unit": {
+    "unit": "PILOT02_SPLIT_MATTER_RADIATION",
+    "contract": "SPLIT_CONTRACT.json",
+    "status": "COMPLETE_ACTUAL",
+    "case_count": 729
+  },
+  "actual_execution": {
+    "host": "current sandbox",
+    "cpu_quota": 8,
+    "memory_profile_GiB": 8,
+    "max_observed_workers": 8,
+    "ncp_new_run": false,
+    "ncp_reason": "previously authorized SSH key path absent in this environment",
+    "ncp_profile": {
+      "cpu": 64,
+      "memory_GiB": 128
+    },
+    "other_sessions": "share available resources; no blanket halt, no external process kills"
+  },
+  "open_science": [
+    "Full stellar/emitter/escape Q^a closure",
+    "Cold full-EoR rate owner and initial data",
+    "General non-LRS tensor orientations",
+    "Angular/spectral/global convergence and thermochemical detection"
+  ],
+  "backup_notes": {
+    "stage3": "recovered four independent parts; full remote GET hash/CRC454 payloads verified; original invalid",
+    "stage4": "source8 files; ACK/metadata/postupload local hash, no full remote GET",
+    "stage5": "FULL_REMOTE_GET_AND_EXACT_ALL_PATHS_REASSEMBLY_VERIFIED"
+  },
+  "publication_receipt": "Current result snapshot is to be published atomically; exact result commit/tree readback recorded in delivery/FINAL_PUBLICATION_RECEIPT.json by the subsequent receipt commit."
+}

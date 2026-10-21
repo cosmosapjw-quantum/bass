@@ -1,0 +1,85 @@
+{
+  "schema": "rei.executor.author_review.v1",
+  "created_date_utc": "2026-10-21",
+  "author_agent": "/root/rei_latest",
+  "status": "IMPLEMENTED_MINIMAL_CONTROLS_PASS_INDEPENDENT_REVIEW_PENDING",
+  "scope": ["shared_executor.py", "test_shared_executor.py"],
+  "file_sha256": {
+    "shared_executor.py": "8f6b0ae63a449d7d800b57c6fc6f6ab8f6577c66932614344ae671aa1288e759",
+    "test_shared_executor.py": "ae05d8ebefc79580366c4c9198af0024ccc25a056b04b701e384870d4061a992"
+  },
+  "science_runs_performed_by_executor_author": 0,
+  "benchmarks_performed": 0,
+  "validation": {
+    "scope": "initial CPU/memory/resume implementation before requested disk admission correction",
+    "tested_executor_sha256": "76616e73a0d48fc7d5505c83401c7e0a787e4305ec1da2e1c0cbd87fee9df14c",
+    "command": "python3 -m unittest -v test_shared_executor.py",
+    "working_directory": "research/rei_sigma_pi_pilot_20261021",
+    "exit_code": 0,
+    "tests_passed": 6,
+    "tests_failed": 0,
+    "observed_test_wall_s": 0.188,
+    "controls": [
+      "synthetic resource caps and existing load",
+      "stale completed-output hashes are never reused",
+      "duplicate job id rejection",
+      "active scope lock exclusion",
+      "science identity excludes admission policy but includes source binding",
+      "one trivial child plus exact-PASS resume at a changed worker width"
+    ]
+  },
+  "disk_correction_validation": {
+    "reason": "Root independent review requested enforcement of the pilot contract's 4 GiB scope admission budget.",
+    "command": "python3 -m unittest -v test_shared_executor.ExecutorControls.test_synthetic_disk_admission_cap_and_free_reserve",
+    "tested_executor_sha256": "8f6b0ae63a449d7d800b57c6fc6f6ab8f6577c66932614344ae671aa1288e759",
+    "exit_code": 0,
+    "tests_passed": 1,
+    "tests_failed": 0,
+    "observed_test_wall_s": 0.001,
+    "controls": "Admission allowed below both thresholds; blocked at 4 GiB scope bytes or at 256 MiB filesystem free reserve.",
+    "additional_science_runs_or_benchmarks": 0
+  },
+  "actual_resource_observation": {
+    "sampled_seconds": 0.1008954819990322,
+    "affinity_cpu_count": 9,
+    "cpu_quota_cores": 8.0,
+    "sampled_idle_cores": 7.2,
+    "quota_remaining_cores": 6.141452954238341,
+    "mem_available_bytes": 9578795008,
+    "cgroup_remaining_bytes": 6316040192,
+    "sandbox_admission_slots": 6,
+    "ncp_profile_admission_on_this_same_host": 6,
+    "admission_memory_bytes_after_256_mib_reserve": 6047604736,
+    "meaning": "Existing load reduces admission without stopping all work; selecting ncp does not bypass the host cgroup quota."
+  },
+  "contracts": {
+    "manifest_schema": "rei.shared_case_science.v1",
+    "required_science_bindings": ["source", "input", "toolchain"],
+    "declared_file_hashes_verified_before_execution_and_resume": true,
+    "resource_policy_separate_from_job_identity": true,
+    "attempts_create_only": true,
+    "outputs_verified_before_skip": true,
+    "ordered_results": "manifest job order",
+    "same_science_completed_pass_at_changed_width": "SKIPPED_PASS",
+    "summary_result_location": "jobs[*].attempt_dir / result.json",
+    "other_jobs_are_not_stop_conditions": true,
+    "nested_thread_environment": 1,
+    "subprocess_shell": false,
+    "maximum_job_timeout_s": 1800,
+    "default_max_scope_gib": 4,
+    "filesystem_free_reserve_mib": 256,
+    "disk_checks": "scope file bytes and filesystem free bytes sampled before new job admission",
+    "signals_only_own_child_process_groups": true,
+    "maximum_profiles": {"sandbox": {"cpu": 8, "memory_gib": 8}, "ncp": {"cpu": 64, "memory_gib": 128}}
+  },
+  "limitations": [
+    "PASS verifies child exit and declared output integrity; scientific acceptance belongs to the worker.",
+    "Resource admission is sampled and estimate-based, not a kernel-enforced memory limit.",
+    "The scope disk cap gates new admission only; active jobs may finish with outputs beyond the cap. This is not a kernel output quota.",
+    "cgroup v2 is inspected; the memory estimate must include the worker's full memory footprint.",
+    "Caller supplies explicit source, input and toolchain binding plus bound-file hashes.",
+    "Incomplete prior attempts remain blocked to prevent duplicate work; terminal retries require an explicit flag.",
+    "NCP execution and actual scheduler scaling were not performed by this author."
+  ],
+  "independent_review": "NOT_PERFORMED_BY_AUTHOR"
+}

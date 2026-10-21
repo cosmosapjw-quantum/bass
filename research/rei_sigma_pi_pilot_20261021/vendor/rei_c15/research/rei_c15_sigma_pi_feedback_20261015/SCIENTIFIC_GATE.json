@@ -1,0 +1,53 @@
+{
+  "schema": "rei.c15.sigma_pi_source_backreaction_acceptance.v1",
+  "parent_C14_git": "1ca73d64d3aaf7ea3ed4b7265522bbfdfae7e228",
+  "new_input": "Sigma_initial>=0 with orientation -1/0/+1; no q_ref except historical boundary compatibility function",
+  "physical_time": "proper seconds, same native MD14 source clock, a=0.1999 to 0.2",
+  "stress_source": "original PR137 photon and neutrino, original PR140 BASS positive finite-mass Vlasov, actual C13 ionizing photon Pi, isotropized HHe baryon gas",
+  "independent_source_sha256": {
+    "rust/rei_microphysics/src/axbi_sources.rs": "606e3c2ec367dd9951ebbf2f53486f2232b49c0218896d66d8dc13dd5ee83bfe",
+    "research/axbi_goal_20261014/scenario/SCENARIO_LOCK.json": "07aa11d2d3fd47d2ed95e9d9161f6205e4d9ba386c27ad43d2b298fcd86d1696",
+    "research/source07_c11_casea_20261015/owner_grackle_rates_129.csv": "33396b071c840b40ad79d68ee626de59f12bb2cf0b1df2159627efd7fde42aec"
+  },
+  "pr140_massive_git_blobs": {
+    "vendor_pr140_massive_radial.py": "0eec2880c9d0d5675938ad516e00039b994ba18a",
+    "vendor_pr140_species_hierarchy.py": "cc5094ba28f1da371d50cb9a854d7460c2dcec3f"
+  },
+  "pr137_gamma_neutrino_git_blob": "e15e1875fba7fcc4a42e257e291c54d9b540a3f0",
+  "test_counts": {
+    "C15": 14,
+    "C14": 9,
+    "C13": 16,
+    "C12": 6,
+    "C11": 8,
+    "C10": 8,
+    "C9": 5
+  },
+  "native_rust_test_counts": {
+    "axbi_sources": 2,
+    "axbi_background": 6,
+    "igm_rates": 4,
+    "igm_thermal": 11
+  },
+  "python_passed_total": 66,
+  "rust_passed_total": 23,
+  "science_case_count": 8,
+  "initial_zero_shear_final_Sigma_combined": 1.6894945386721522e-07,
+  "source_stress_off_zero_Sigma": 0.0,
+  "UV_actual_small_signal_warning": "pi_ion is present but dynamically negligible versus gamma/nu and massive for this conditional source; not observation",
+  "closed_Einstein_Vlasov_Raychaudhuri_relative_residual": 1.4714401113868165e-10,
+  "measured_scoped_solver_positive_compression_speedup": 2.532365847283896,
+  "measured_massive_3moment_speedup": 2.5214024685986196,
+  "measured_parallel_eight_case_speedup": 2.5996628390556142,
+  "unsupported_or_excluded": [
+    "external stellar emission energy-momentum reservoir",
+    "spectral CaseA escaping photon transport",
+    "Thomson/Compton baryon recoil",
+    "primordial z20 cold HHe full continuum history",
+    "polarized E/B hierarchy",
+    "AX11/AX12 global error/admission"
+  ],
+  "scientific_admission": "SCOPED_REAL_EINSTEIN_PI_BACKREACTION_LOCALLY_VERIFIED; FULL_EOR_GOAL_NOT_DONE",
+  "native_subagent": "NOT_RUN",
+  "local_codex": "NOT_USED"
+}
