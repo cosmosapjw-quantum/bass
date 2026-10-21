@@ -1,6 +1,6 @@
 {
   "schema": "rei.hheli.loop_record.v1",
-  "updated_utc": "2026-10-21T15:31:13.812314+00:00",
+  "updated_utc": "2026-10-21T15:44:21.230853+00:00",
   "requested_executor_model": "gpt-6.1-sol",
   "observed_executor_model": null,
   "roles": {
@@ -30,16 +30,57 @@
       "event": "ROOT_SCOPED_FINITE_OPTIMIZATION_AND_PHYSICS_ACCEPTANCE",
       "evidence": "evidence/ROOT_ADMISSION_A.json",
       "actual_runs_status": "NOT_RUN"
+    },
+    {
+      "event": "CHECKPOINT_A_LOCAL_PACKAGE_READY",
+      "evidence": "delivery/STAGEA_PACKAGE.json",
+      "archive_sha256": "c05bc1053eaaa0c75c506abdc38273e001c8441df9cc5f08b72fd27424aa96db",
+      "remote_publication_status": "NOT_ATTEMPTED",
+      "remote_backup_status": "NOT_ATTEMPTED",
+      "note": "This event was recorded after the immutable Stage A package finished; it is carried by the next checkpoint."
+    },
+    {
+      "event": "ROOT_EXECUTION_RELEASE_B_AUTHORIZED",
+      "evidence": "evidence/EXECUTION_RELEASE_B.json",
+      "execution_observation_status": "READY_AUTHORIZED"
+    },
+    {
+      "event": "FIRST_ACTUAL_RUN_SERIALIZATION_FAILURE",
+      "evidence": "delivery/FIRST_RUN_SERIALIZATION_FAILURE.json",
+      "observed_npz_count": 127,
+      "scientific_gate_failure_claim": false
+    },
+    {
+      "event": "STAGEA_ACTUAL_PROVIDER_BACKUP_ACK",
+      "evidence": "delivery/STAGEA_BACKUP.json",
+      "full_get_performed": false
+    },
+    {
+      "event": "STAGEA_GIT_BLOBS_UPLOAD_IN_PROGRESS",
+      "evidence": "delivery/STAGEA_PUBLICATION.json",
+      "new_commit": null
+    },
+    {
+      "event": "SERIALIZER_REPAIR_AND_SUCCESSFUL_ACTUAL_RUN",
+      "evidence": [
+        "evidence/SERIALIZATION_REPAIR_RECEIPT.json",
+        "evidence/STAGEB_EXECUTION_RECEIPT.json"
+      ],
+      "source_base_identity": "ee7e9ae76c852079ce86cdd5165624ab2b7fc7a9c672016501ed5da5fb4341d3",
+      "compact_cases": 127,
+      "full62_oracles": 2,
+      "epochs_each": 193,
+      "final_independent_admission": "PENDING"
     }
   ],
   "checkpoints": {
     "A": {
-      "status": "WAITING_ROOT_FREEZE_BOUNDARY",
-      "publication_status": "NOT_ATTEMPTED",
-      "backup_status": "NOT_ATTEMPTED"
+      "status": "LOCAL_PACKAGE_READY",
+      "publication_status": "UPLOAD_IN_PROGRESS_NO_COMMIT",
+      "backup_status": "PROVIDER_METADATA_ACKNOWLEDGED"
     },
     "B": {
-      "status": "WAITING_ROOT_FREEZE_BOUNDARY",
+      "status": "ROOT_BOUNDARY_RELEASED_PREPARING_COMPACT_METADATA_SNAPSHOT",
       "publication_status": "NOT_ATTEMPTED",
       "backup_status": "NOT_ATTEMPTED"
     },
@@ -49,6 +90,6 @@
       "backup_status": "NOT_ATTEMPTED"
     }
   },
-  "next_executable_dependency": "Operational resource-admission repair, explicit checkpoint A freeze, then root Stage B release for actual bounded runs.",
+  "next_executable_dependency": "Independent raw/plot review and final root scoped decision; checkpoint B packages compact metadata, checkpoint C preserves full successful raw arrays and figures.",
   "prohibited_inference": "No saved/committed/backed-up status is inferred from a local file or prepared upload payload."
 }

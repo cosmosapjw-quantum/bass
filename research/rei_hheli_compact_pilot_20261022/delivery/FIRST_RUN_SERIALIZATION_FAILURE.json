@@ -1,0 +1,33 @@
+{
+  "schema": "rei.hheli.execution_failure_record.v1",
+  "recorded_utc": "2026-10-21T15:38:26.912559+00:00",
+  "observation_source": "Root reported concrete coder execution output",
+  "first_attempt": {
+    "output_directory": "results/pilot",
+    "observed_full_interval_npz_count": 127,
+    "observed_wall_seconds": 33.46,
+    "completion_metadata_status": "FAILED",
+    "failure": "np.bool value is not JSON serializable in final RESULT metadata",
+    "scientific_gate_failure_claim": false,
+    "raw_arrays_preserved": true,
+    "source_base_identity": "85a1389319c81f6abc6ac23e6116076859782eb8aa4e7f42a7d8eaabef98a03d",
+    "locally_preserved_directory_bytes": 33131538
+  },
+  "root_authorized_repair": {
+    "scope": "Serializer only; do not change physical model, solver controls or gate expressions.",
+    "rerun_compact_output": "results/pilot_v2",
+    "rerun_compact_cases": 127,
+    "full62_oracles": 2,
+    "new_source_base_identity": "ee7e9ae76c852079ce86cdd5165624ab2b7fc7a9c672016501ed5da5fb4341d3"
+  },
+  "stageB_checkpoint_status": "SUCCESSFUL_RERUN_COMPLETE_FINAL_REVIEW_PENDING",
+  "stageA_status": "IMMUTABLE_PRIOR_FINITE_CHECKPOINT_PRESERVED",
+  "final_package_policy": "Preserve first-attempt raw arrays locally. Do not duplicate all 127 first-attempt arrays in final ZIP by default. Keep failure JSON/log evidence; prepare a separate failure archive and locator only if root requests it.",
+  "scientific_admission": "PENDING_SUCCESSFUL_METADATA_RERUN_AND_RAW_REVIEW",
+  "repair_status": "RESOLVED_BY_SCALAR_SERIALIZER_AND_SUCCESSFUL_127_CASE_RERUN",
+  "repair_evidence": [
+    "evidence/SERIALIZATION_REPAIR_RECEIPT.json",
+    "evidence/STAGEB_EXECUTION_RECEIPT.json"
+  ],
+  "failure_raw_archive_status": "NOT_CREATED_OVER_5MB_LOCAL_ORIGINAL_RETAINED"
+}

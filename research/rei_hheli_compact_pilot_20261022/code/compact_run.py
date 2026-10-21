@@ -1,9 +1,26 @@
 """Compact BDF adapter; donor acceptance expressions retained verbatim."""
 from __future__ import annotations
 from compact_system import CompactSystem, lift, restrict, SELECT
-from coupled import (atomic_json, THOMSON, XEND, np, scipy, solve_ivp, Path,
+from coupled import (atomic_json as _owner_atomic_json, THOMSON, XEND, np, scipy, solve_ivp, Path,
                      time, sys, platform, math, os, hashlib, traceback)
 SCHEMA = 'rec.rei.hheli.compact33.v1'
+
+
+def native_scalar_metadata(value):
+    """Convert only NumPy scalar metadata; preserve arrays and gate values."""
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, dict):
+        return {key:native_scalar_metadata(item) for key,item in value.items()}
+    if isinstance(value, list):
+        return [native_scalar_metadata(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(native_scalar_metadata(item) for item in value)
+    return value
+
+
+def atomic_json(path, value):
+    return _owner_atomic_json(path,native_scalar_metadata(value))
 
 def run_case(config,outdir):
     """Run one immutable scientific case; never overwrite existing evidence."""

@@ -50,23 +50,24 @@ on that host; no NCP resource or execution claim is made by this checkpoint.
 
 These are the implemented commands, expressed from the restored repository
 root. Their presence here does not assert that the complete campaign has run.
-Current admission covers finite checks, compact source and adopted physics;
-actual trajectories, plots and final review remain pending until their receipts
-are present.
+Current execution evidence covers127 compact cases and2 full62 oracles,193
+epochs each, with all owner gates passed. Final independent scientific admission
+remains pending at the checkpoint B boundary; see its actual receipts.
 
 ```bash
 python research/rei_hheli_compact_pilot_20261022/code/verify_compact.py
 python research/rei_hheli_compact_pilot_20261022/code/run_pilot.py --plan
 python research/rei_hheli_compact_pilot_20261022/code/run_full62_oracles.py --execute
-python research/rei_hheli_compact_pilot_20261022/code/run_pilot.py --execute
+python research/rei_hheli_compact_pilot_20261022/code/run_pilot.py --execute --output research/rei_hheli_compact_pilot_20261022/results/pilot_v2
 ```
 
 The two full62 oracles are `s04_m04_r04` and `cancel_positive_matter`.
 The dispatcher must preserve completed raw results, bound concurrency, and
 report failed gates without silently retrying with changed scientific inputs.
 Use the root Stage B release after the operational resource-admission repair
-before executing the planned campaign. Final plot/aggregation commands will be
-recorded when those entry points are implemented.
+before executing the planned campaign. Completed plot/aggregation entry point is `code/analyze_pilot.py`; paired
+implementation checks are in `code/verify_paired.py`. See `IMPLEMENTATION.md`
+and execution receipts for exact completed command lines.
 
 The required actual campaign has 127 distinct cases, each with 193 epochs from
 z=20 to z=2. It retains both 33 compact coordinates and the reconstructed
@@ -92,3 +93,18 @@ independent review and handoffs. Restore the most recent acknowledged
 checkpoint and continue from the `next_node` in `DAG.json`. A pending independent
 review or root admission remains pending after restoration. Preserve failed
 results and diagnosis records; do not clip or renormalize output to pass a gate.
+
+## Checkpoint B and C payload distinction
+
+Checkpoint B is a compact source/evidence snapshot. It includes the exact case
+completion manifests and `results/analysis/SUMMARY.json`, and intentionally
+excludes raw NPZ arrays, figures and history/plot-source tables. Checkpoint C
+will carry the complete successful `results/pilot_v2` and full62 oracle arrays,
+figures, history tables, plot-source arrays, final report and review.
+
+The first attempt `results/pilot` wrote127 raw trajectories before final JSON
+metadata failed on a NumPy boolean. Its original33,131,538-byte directory stays
+locally preserved. The repaired scalar serializer reran the same127 cases in
+`results/pilot_v2`; physical dynamics, numerical controls and gate thresholds
+were unchanged. Failure logs/receipts and the old/new source relation are kept
+in the checkpoints; the first-attempt raw arrays are not duplicated in them.

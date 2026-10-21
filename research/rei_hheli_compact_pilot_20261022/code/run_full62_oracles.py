@@ -15,6 +15,10 @@ sys.path.insert(0,str(ROOT/'vendor/rec_hheli/code'))
 # Pin runner import to this lane; donor path is retained for unchanged coupled.
 sys.path.insert(0,str(ROOT/'code'))
 from run_pilot import freeze,canonical,resource_budget,execute_one,atomic_json,owner
+# Output compatibility only; all vendored dynamics, gates and source bytes stay original.
+import coupled
+from compact_run import atomic_json as scalar_metadata_atomic_json
+coupled.atomic_json=scalar_metadata_atomic_json
 
 CASES=('s04_m04_r04','cancel_positive_matter')
 
