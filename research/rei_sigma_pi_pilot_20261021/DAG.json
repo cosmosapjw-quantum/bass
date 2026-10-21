@@ -1,0 +1,55 @@
+{
+  "schema": "BASS_REI_PILOT_DAG_V1",
+  "stage": "R1_R3_C1_C2_INTAKE",
+  "goal": "Non-tilted Bianchi I normalized Sigma/Pi first pilot; no new performance benchmarking",
+  "nodes": [
+    {
+      "id": "intake",
+      "status": "in_progress"
+    },
+    {
+      "id": "normalization_and_scope",
+      "status": "in_progress",
+      "requires": [
+        "intake"
+      ]
+    },
+    {
+      "id": "pilot_implementation",
+      "status": "pending",
+      "requires": [
+        "normalization_and_scope"
+      ]
+    },
+    {
+      "id": "bounded_science_verification",
+      "status": "pending",
+      "requires": [
+        "pilot_implementation"
+      ]
+    },
+    {
+      "id": "pilot_plot",
+      "status": "pending",
+      "requires": [
+        "bounded_science_verification"
+      ]
+    },
+    {
+      "id": "ncp_execution_handoff",
+      "status": "pending",
+      "requires": [
+        "pilot_implementation"
+      ]
+    },
+    {
+      "id": "dual_review_publication_backup",
+      "status": "pending",
+      "requires": [
+        "pilot_plot",
+        "ncp_execution_handoff"
+      ]
+    }
+  ],
+  "benchmarks": "NOT_REQUESTED_NOT_RUN"
+}
