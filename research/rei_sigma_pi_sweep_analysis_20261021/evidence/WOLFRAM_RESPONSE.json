@@ -1,0 +1,15 @@
+{
+  "schema": "rei.accel03.wolfram_response.v1",
+  "code": "Clear[x,b,q,m,u,rr,pp,ee,vv,up,hh,k,j4,kb];\nrr=Exp[2 b](1-u)+Exp[-4 b]u;\npp=Exp[-2 x]q^2 rr;\nee=Sqrt[m^2+pp];vv=pp/ee^2;up=Exp[-4 b]u/rr;hh=(3up-1)/2;\nk=Exp[-3 x]ee vv hh;j4=Exp[-3 x]ee vv^2 hh;\nkb=-Exp[-3 x]ee vv (2(2-vv)hh^2+9up(1-up));\nass=Element[{x,b,q,m,u},Reals]&&q>0&&m>0&&0<=u<=1;\nrx=FullSimplify[D[k,x]-(-5k+j4),Assumptions->ass];\nrb=FullSimplify[D[k,b]-kb,Assumptions->ass];\nav=Integrate[(1+aa(3mu^2-1)/2)(3mu^2-1)/2,{mu,-1,1}];\npositiveKernel=Reduce[0<=v<=1&&0<=t<=1&&2(2-v)((3t-1)/2)^2+9t(1-t)<0,{v,t},Reals];\n<|\"dx_residual\"->rx,\"db_residual\"->rb,\"P2_angular_integral\"->av,\"negative_positive_kernel_domain\"->positiveKernel|>",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= <|\"dx_residual\" -> 0, \"db_residual\" -> 0, \"P2_angular_integral\" -> (2*aa)/5, \"negative_positive_kernel_domain\" -> False|>"
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "status": "SYMBOLIC_DERIVATIVE_RESIDUALS_ZERO"
+}
