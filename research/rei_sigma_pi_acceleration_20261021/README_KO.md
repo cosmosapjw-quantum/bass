@@ -17,7 +17,17 @@ non-tilted LRS Bianchi I, a=0.1999→0.2, warm conditional C15 physics, massive 
 
 BASS baseline HEAD 26f4a89a54462c4e7c5705f281f187f33f45166a, REI baseline HEAD d32cd99fa19c65aa1ca63dbc8aab8741834270e8, 실행 source82372ed8db68085868603d4267a630ed9cde6abb, 물리 owner80825585f9fe31d2ee0d5af545ada3fa1f52be72.
 
-## 현재 결정
+## 구현·검증 결과
+
+- `cached_context.py`: 원 C15 finite-mass 구적의 exact-bit per-model cache. 불변 배열 값과 dtype/shape/strides/layout binding을 검사한다.
+- `work_plan.py`: 완료729를 pinned 과학 결과로 재사용하고 새 입력만 계획한다. 실제 기본 CLI는 completed729/pending0/jobs0이다.
+- `batch_worker.py`: 원 `shared_executor` manifest, group당 준비 한 번, case별 atomic receipt와 partial-failure resume, 동시 요청 잠금.
+- 최종25 tests PASS, C9 한 차례29 guard probes PASS, baseline112 파일 불변. 새 custom case 하나의2-step 연결 검산도 원8gates PASS다.
+- 상세benchmark와 기존729 full-trajectory 재실행은0이다. 실제 call reuse를 speedup 배율로 바꾸어 주장하지 않는다.
+
+결과·유도·원전·자원·검증은 [REPORT_KO.md](REPORT_KO.md)와 [THEORY.md](THEORY.md), 실제 상태는 [DAG.json](DAG.json), [delivery/](delivery/)에 있다. 다음 실행은 [CODEX_HANDOFF.md](CODEX_HANDOFF.md), 다음 대화는 [NEXT_THREAD_HANDOFF.md](NEXT_THREAD_HANDOFF.md)를 사용한다.
+
+## 채택한 결정
 
 - S10 exact-bit cache와 RUN19 prepared context의 실제 패턴을 현재 C15 의존성에 맞춰 적용한다.
 - Numpy reduction 재결합·새 interpolation table·새 solver·LRS40→8 다른 모델의 축소는 이번 구현에 도입하지 않는다.

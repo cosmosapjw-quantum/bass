@@ -78,20 +78,31 @@
     },
     {
       "stage": "B",
-      "status": "ready_for_publication"
+      "receipt": "delivery/STAGEB_PUBLICATION.json",
+      "status": "published_and_remote_verified"
+    },
+    {
+      "stage": "C",
+      "status": "in_progress_closeout"
     }
   ],
   "backups": [
     {
       "stage": "A",
-      "status": "in_progress_provider_receipt_pending"
+      "receipt": "delivery/STAGEA_BACKUP.json",
+      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_NOT_STARTED"
     },
     {
       "stage": "B",
-      "status": "snapshot_preparation"
+      "receipt": "delivery/STAGEB_BACKUP.json",
+      "status": "PREPARED_UPLOAD_PENDING"
+    },
+    {
+      "stage": "C",
+      "status": "final_restore_archive_preparation"
     }
   ],
-  "updated_utc": "2026-10-21T08:07:56.240079+00:00",
+  "updated_utc": "2026-10-21T08:17:53.522257+00:00",
   "original_science_reuse": {
     "cases": 729,
     "groups": 243,
@@ -101,5 +112,13 @@
     "new_validation_custom_cases": 1,
     "new_validation_nsteps": 2,
     "new_grid_sweep": false
+  },
+  "loop_record": "LOOP_RECORD.json",
+  "verification": {
+    "unit_tests": 25,
+    "independent_probes": 29,
+    "review_passes": 1,
+    "open_findings": 0,
+    "baseline_files_unchanged": 112
   }
 }
