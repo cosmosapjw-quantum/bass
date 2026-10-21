@@ -100,11 +100,14 @@
     {
       "id": "R10",
       "name": "종료·재개",
-      "status": "in_progress_delivery",
+      "status": "complete_scoped_with_external_delivery_limitation",
       "evidence": [
         "CODEX_HANDOFF.md",
         "NEXT_THREAD_HANDOFF.md",
-        "delivery/"
+        "delivery/",
+        "delivery/FINAL_PUBLICATION.json",
+        "delivery/STAGEC_BACKUP.json",
+        "delivery/DRIVE_DELIVERY_STATUS.json"
       ],
       "checkpoint": "C_closeout"
     },
@@ -203,11 +206,14 @@
     {
       "id": "C10",
       "name": "판정·인계",
-      "status": "in_progress_delivery",
+      "status": "complete_scoped_with_external_delivery_limitation",
       "evidence": [
         "CODEX_HANDOFF.md",
         "NEXT_THREAD_HANDOFF.md",
-        "delivery/"
+        "delivery/",
+        "delivery/FINAL_PUBLICATION.json",
+        "delivery/STAGEC_BACKUP.json",
+        "delivery/DRIVE_DELIVERY_STATUS.json"
       ],
       "checkpoint": "C_closeout"
     }
@@ -266,5 +272,31 @@
     "NCP service quota limits observation/launch there; local Python and C++ passed; authorized local work continued.",
     "Separate PR198/C21L scientific lanes retain their own domains and identities."
   ],
-  "stop_rule": "Changed code obligations verified, one C9 pass closed; publish/archive/handoff, then use next user-specified physics scope."
+  "stop_rule": "Changed code obligations verified, one C9 pass closed; publish/archive/handoff, then use next user-specified physics scope.",
+  "updated_utc": "2026-10-21T08:32:08.602756+00:00",
+  "status": "SCOPED_COMPLETE_WITH_DRIVE_DELIVERY_LIMITATION",
+  "checkpoints": {
+    "A_intake": {
+      "publication": "delivery/STAGEA_PUBLICATION.json",
+      "backup": "delivery/STAGEA_BACKUP.json"
+    },
+    "B_implementation_validation": {
+      "publication": "delivery/STAGEB_PUBLICATION.json",
+      "backup": "delivery/STAGEB_BACKUP.json"
+    },
+    "C_closeout": {
+      "publication": "delivery/STAGEC_PUBLICATION.json",
+      "backup": "delivery/STAGEC_BACKUP.json",
+      "terminal_receipt": "delivery/FINAL_PUBLICATION.json"
+    }
+  },
+  "external_delivery_limitation": {
+    "Drive": {
+      "A": "DRIVE_SUBMISSION_UNCONFIRMED",
+      "B": "NOT_ATTEMPTED",
+      "C": "NOT_ATTEMPTED",
+      "receipt": "delivery/DRIVE_DELIVERY_STATUS.json",
+      "reason": "StageA upload tool returned no ACK/file ID after629.9seconds; task interrupted, capped1000-child metadata recovery found no exact filename. Provider completion is indeterminate; no blind duplicate upload. B/C not attempted."
+    }
+  }
 }

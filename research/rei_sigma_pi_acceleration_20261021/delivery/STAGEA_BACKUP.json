@@ -1,7 +1,7 @@
 {
   "schema": "BASS_REI_ACCEL01_STAGEA_BACKUP_V1",
   "stage": "A",
-  "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_NOT_STARTED",
+  "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_SUBMISSION_UNCONFIRMED",
   "source_capture": {
     "schema": "BASS_REI_ACCEL01_STAGEA_FROZEN_PAYLOAD_V1",
     "created_at_utc": "2026-10-21T07:56:10.549178+00:00",
@@ -67,13 +67,14 @@
     "zip_crc_pass": true,
     "all_7_payloads_exact_match": true,
     "fsynced_before_upload": true,
-    "independent_upload_copy": true
+    "independent_upload_copy": true,
+    "post_interruption_local_sha_unchanged": true
   },
   "destinations": {
     "dropbox": "/BASS_BACKUPS/BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
     "google_drive_folder": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI"
   },
-  "remote_mutations_attempted": 1,
+  "remote_mutations_attempted": 2,
   "science_runs": 0,
   "live_source_files_edited": false,
   "dropbox_submission": {
@@ -82,8 +83,28 @@
     "operation_id": "AU_rMV-tUoE7vZaO-RKFRRRxHfV2Ej5bL3F5adChwOl8rqgKgMzlOcKEUUEg4riYRWBIhhoQ0soDaLUQCwtw16k4iP9BrCxI2go-ZYZzdAUkhO3e9Y3jQr1JR42uC12BbuSoPLl5yKlJCxYIBulOLNmF2RitYW_ijNCR8ylwLXM4kknVmWS2EiCnCe8PyPPSIrH98dIy3qiCeZWx9yyVWo73WAuc10cmPDkzU1s-FAfsUwjg5LImC5q4zusgqkwaMYI"
   },
   "drive_submission": {
-    "status": "NOT_STARTED_CHECKPOINT_CONFIRMED",
-    "evidence": "Original uploadstore exists; sequential await Dropbox poll did not reach its following store or Drivecall. Exact-name currentfolder scan found no entry."
+    "status": "DRIVE_SUBMISSION_UNCONFIRMED",
+    "tool": "google_drive.upload_file",
+    "actual_tool_invocations": 1,
+    "request_filename": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
+    "request_parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "returned_ack": false,
+    "returned_file_id": null,
+    "result": "Tool invocation interrupted after629.9seconds with no returned ACK. Provider-side submission/completion is indeterminate.",
+    "requested_yield_ms": 1000,
+    "observed_yield": "No interim yield for this upload invocation",
+    "last_result_store_exists": false,
+    "exact_name_recovery_readback": {
+      "status": "COMPLETED",
+      "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+      "requested_limit": 1000,
+      "returned_count": 1000,
+      "exact_matches": [],
+      "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
+    },
+    "duplicate_uploads": 0,
+    "failure_class": "environment/service",
+    "next_minimum_action": "Later inspect known folder exact filename or request provider completion state; do not blindly resubmit."
   },
   "dropbox": {
     "status": "COMPLETED_METADATA_READBACK",
@@ -102,5 +123,6 @@
     "rei_commit": "ed8a6cde714372c6abdea922d9fdb6fc3672f396",
     "bass_pr": 177,
     "rei_pr": 214
-  }
+  },
+  "checked_at_utc": "2026-10-21T08:27:15.297027+00:00"
 }

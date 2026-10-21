@@ -1,0 +1,52 @@
+{
+  "schema": "BASS_REI_ACCEL01_DRIVE_DELIVERY_STATUS_V1",
+  "checked_at_utc": "2026-10-21T08:27:15.297027+00:00",
+  "scope": "StagesA/B/C Drive only; successful GitHub and Dropbox deliveries remain separate",
+  "A": {
+    "status": "DRIVE_SUBMISSION_UNCONFIRMED",
+    "tool": "google_drive.upload_file",
+    "actual_tool_invocations": 1,
+    "request_filename": "BASS_REI_ACCEL01_STAGEA_INTAKE_20261021_80cbf1d0c0b4.zip",
+    "request_parent_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "returned_ack": false,
+    "returned_file_id": null,
+    "result": "Tool invocation interrupted after629.9seconds with no returned ACK. Provider-side submission/completion is indeterminate.",
+    "requested_yield_ms": 1000,
+    "observed_yield": "No interim yield for this upload invocation",
+    "last_result_store_exists": false,
+    "exact_name_recovery_readback": {
+      "status": "COMPLETED",
+      "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+      "requested_limit": 1000,
+      "returned_count": 1000,
+      "exact_matches": [],
+      "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
+    },
+    "duplicate_uploads": 0,
+    "failure_class": "environment/service",
+    "next_minimum_action": "Later inspect known folder exact filename or request provider completion state; do not blindly resubmit."
+  },
+  "B": {
+    "status": "NOT_ATTEMPTED",
+    "actual_tool_invocations": 0,
+    "reason": "StageA Drive upload returned no ACK after629.9seconds and was interrupted; avoiding another long unconfirmed submission.",
+    "destination_folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+    "exact_name_recovery_readback": {
+      "status": "COMPLETED",
+      "folder_id": "1pkohlay5eIfFJsBwPZ_yn2jIZONZjesI",
+      "requested_limit": 1000,
+      "returned_count": 1000,
+      "exact_matches": [],
+      "coverage": "Known folder direct children, capped1000; absence is not exhaustive."
+    }
+  },
+  "C": {
+    "status": "NOT_ATTEMPTED",
+    "actual_tool_invocations": 0,
+    "filename": "BASS_REI_ACCEL01_STAGEC_RESTORE_20261021_cfb5e35c680c.zip",
+    "reason": "Same unresolved StageA Drive upload service; final DropboxfullGET assigned to independent agent."
+  },
+  "account_wide_drive_completeness_claim": false,
+  "new_external_objects_deleted_or_overwritten": 0,
+  "new_science_runs": 0
+}

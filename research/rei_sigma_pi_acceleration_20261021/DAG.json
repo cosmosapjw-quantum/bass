@@ -56,9 +56,17 @@
     },
     {
       "id": "E_publication_backup_handoffs",
-      "status": "in_progress",
+      "status": "complete_scoped_with_external_delivery_limitation",
       "requires": [
         "D_independent_review_and_plot"
+      ],
+      "checkpoint": "C_closeout",
+      "evidence": [
+        "CODEX_HANDOFF.md",
+        "NEXT_THREAD_HANDOFF.md",
+        "delivery/FINAL_PUBLICATION.json",
+        "delivery/STAGEC_BACKUP.json",
+        "delivery/DRIVE_DELIVERY_STATUS.json"
       ]
     }
   ],
@@ -74,7 +82,7 @@
     {
       "stage": "A",
       "receipt": "delivery/STAGEA_PUBLICATION.json",
-      "status": "published_draft_head_verified"
+      "status": "published_and_remote_verified"
     },
     {
       "stage": "B",
@@ -83,26 +91,28 @@
     },
     {
       "stage": "C",
-      "status": "in_progress_closeout"
+      "receipt": "delivery/STAGEC_PUBLICATION.json",
+      "status": "published_and_remote_verified"
     }
   ],
   "backups": [
     {
       "stage": "A",
       "receipt": "delivery/STAGEA_BACKUP.json",
-      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_NOT_STARTED"
+      "status": "DROPBOX_ACK_SIZE_BLOCKHASH_VERIFIED_DRIVE_SUBMISSION_UNCONFIRMED"
     },
     {
       "stage": "B",
       "receipt": "delivery/STAGEB_BACKUP.json",
-      "status": "PREPARED_UPLOAD_PENDING"
+      "status": "DROPBOX_DELIVERED_DRIVE_NOT_ATTEMPTED"
     },
     {
       "stage": "C",
-      "status": "final_restore_archive_preparation"
+      "receipt": "delivery/STAGEC_BACKUP.json",
+      "status": "DROPBOX_FULL_REMOTE_GET_AND_ALL_169_ZIP_ENTRIES_VERIFIED"
     }
   ],
-  "updated_utc": "2026-10-21T08:17:53.522257+00:00",
+  "updated_utc": "2026-10-21T08:32:08.602756+00:00",
   "original_science_reuse": {
     "cases": 729,
     "groups": 243,
@@ -120,5 +130,9 @@
     "review_passes": 1,
     "open_findings": 0,
     "baseline_files_unchanged": 112
-  }
+  },
+  "status": "SCOPED_COMPLETE_WITH_DRIVE_DELIVERY_LIMITATION",
+  "final_delivery_receipt": "delivery/FINAL_PUBLICATION.json",
+  "external_delivery_limitation": "DriveA submission unconfirmed; DriveB/C not attempted. All three stages are saved on Dropbox; C restored and all169 entries verified.",
+  "latest_resource_observation": "evidence/RUNTIME_FINAL.json"
 }
