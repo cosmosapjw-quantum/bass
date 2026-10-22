@@ -1,0 +1,86 @@
+{
+  "status": "PASS_SCOPED",
+  "scope": "actual finite H-Li RHS/Jacobian, no IVP",
+  "baseline_commit": "574c3af93810122af0a7977e00e34195e5251a09",
+  "RP_error": 0.0,
+  "totals": [
+    0.9999999999999999,
+    1.0,
+    1.0
+  ],
+  "rows": [
+    {
+      "label": "actual_initial",
+      "x": 0.0,
+      "state_reconstruction_max_abs": 0.0,
+      "rhs_lift_scaled": 0.0,
+      "jac_projection_scaled": 0.0,
+      "tangent_invariance_scaled": 1.5382091852358492e-17,
+      "fd_direction_errors": [
+        7.19502686596929e-11,
+        6.486117198889474e-11,
+        5.078171216865712e-11,
+        5.0805137874476713e-11
+      ],
+      "element_sums": [
+        0.9999999999999999,
+        1.0,
+        1.0
+      ],
+      "all21_population_reconstruction_max_abs": 0.0
+    },
+    {
+      "label": "partly_ionized",
+      "x": 0.8,
+      "state_reconstruction_max_abs": 1.1102230246251565e-16,
+      "rhs_lift_scaled": 1.7944761307365257e-16,
+      "jac_projection_scaled": 0.0,
+      "tangent_invariance_scaled": 1.2212453270876722e-15,
+      "fd_direction_errors": [
+        2.1470991310575957e-09,
+        4.764444832599476e-10,
+        9.63851520960825e-10,
+        1.360518018305785e-08
+      ],
+      "element_sums": [
+        0.9999999999999999,
+        1.0,
+        1.0
+      ],
+      "all21_population_reconstruction_max_abs": 1.1102230246251565e-16
+    },
+    {
+      "label": "high_ionization",
+      "x": 1.4,
+      "state_reconstruction_max_abs": 1.5265566588595902e-16,
+      "rhs_lift_scaled": 1.2394278227691326e-16,
+      "jac_projection_scaled": 0.0,
+      "tangent_invariance_scaled": 6.453171330633722e-16,
+      "fd_direction_errors": [
+        2.7216462488628603e-10,
+        4.705541851797258e-10,
+        4.828463679121181e-10,
+        3.411734933315627e-10
+      ],
+      "element_sums": [
+        0.9999999999999999,
+        1.0,
+        1.0
+      ],
+      "all21_population_reconstruction_max_abs": 1.5265566588595902e-16
+    }
+  ],
+  "guards": {
+    "bad_lift_shape": true,
+    "bad_restrict_shape": true
+  },
+  "ivp_count": 0,
+  "elapsed_seconds": 0.10616129300251487,
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "source_sha256": {
+    "affine_system.py": "e4427768a3b5030036eb10dd83c876a23317afa963ce549d333e88c1e11f07c7",
+    "verify_affine.py": "c30b6d44ac3b1badf56d9a52d05f985c5b21fb0558afaaea0ea0d260f027ce14"
+  },
+  "norm_contract": "Full33 lifted error and full33 scales required for original adaptive WRMS; not wired into solver"
+}
