@@ -1,0 +1,67 @@
+{
+  "scope": "one serial physics/mathematics and physics/code pass; no independent model reviewer",
+  "findings": [
+    {
+      "object": "near-isotropic Planck pi",
+      "classification": "NUMERICAL_REPRESENTATION_ERROR",
+      "defect": "two separately rounded P_ab/P_ba sums gave antisymmetry5.177065373618284e-18 while STF-relative tolerance4.733165431326071e-30",
+      "impact": "first IVP failed at initial RHS; no completed history lost",
+      "correction": "new symmetric_bridge computes six products once and mirrors; old vendor untouched",
+      "status": "CLOSED",
+      "evidence": [
+        "SYMMETRY_ROOT_CAUSE.json",
+        "SYMMETRY_RED.log",
+        "CURVED_GREEN_002.log",
+        "curved_001/V_r4_a6.failure.json"
+      ]
+    },
+    {
+      "object": "time-refinement inference",
+      "classification": "VALIDATION_SCOPE",
+      "defect": "same317 nfev at default/tight; step ceiling dominates",
+      "correction": "two distinct max_step=.02 controls,593 nfev, no old runs replayed",
+      "status": "CLOSED_SCOPED",
+      "evidence": [
+        "time_step_001/RESULTS.json"
+      ]
+    },
+    {
+      "object": "initial angular source parity",
+      "classification": "DOCUMENTATION_SEMANTICS",
+      "defect": "quadratic off-diagonal source is inversion-even, not individually reflection-even",
+      "correction": "THEORY explicitly states antipodal parity",
+      "status": "CLOSED"
+    },
+    {
+      "object": "source amplitude eta",
+      "classification": "DOCUMENTATION_SEMANTICS",
+      "defect": "multiplicative amplitude is not FD/BE chemical-potential fugacity",
+      "correction": "removed fugacity label; fixed zero chemical potential preserved",
+      "status": "CLOSED"
+    },
+    {
+      "object": "initial tail estimate",
+      "classification": "CLAIM_BOUNDARY",
+      "defect": "source estimate on common prescribed field does not certify coupled trajectory",
+      "correction": "explicit common-field/envelope hypothesis and remaining nonlinear stability obligation",
+      "status": "SCOPED_LIMIT"
+    },
+    {
+      "object": "continuous Planck spectral closure",
+      "classification": "CLAIM_BOUNDARY",
+      "defect": "N,T matched representative does not preserve I4 or collisions",
+      "correction": "algebraic Cauchy-Schwarz and executed negative spectral control",
+      "status": "SCOPED_LIMIT"
+    }
+  ],
+  "preserved_invariants": [
+    "normal signature -+++",
+    "c,hbar,k_B retained",
+    "no per-grid density fitting",
+    "matter/photon pi separate",
+    "Class-B weight retained",
+    "core and kinetic constraints both monitored",
+    "frozen tolerances unchanged"
+  ],
+  "next_safe_action": "G1C global-tilt smooth initial data and qualified nonlinear error transport, before production or collisions"
+}

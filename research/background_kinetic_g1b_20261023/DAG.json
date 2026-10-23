@@ -1,0 +1,70 @@
+{
+  "schema": "bass.g1b.dag.v1",
+  "parent_pr": 183,
+  "parent_sha": "ce59a3fd50139a0414d77d5fc493df9d45cd5f49",
+  "unit": "background_kinetic_g1b_20261023",
+  "nodes": [
+    {
+      "id": "G1B-S0",
+      "status": "COMPLETE_SCOPED",
+      "output": "continuum source and conditional tails; massless radial proof",
+      "delivery": "evidence/STAGE_DELIVERY.json:S0"
+    },
+    {
+      "id": "G1B-S1",
+      "depends_on": [
+        "G1B-S0"
+      ],
+      "status": "COMPLETE_SCOPED",
+      "output": "positive quadrature,13 unique test items across source/driver,61 unique fixed-state grid calls",
+      "delivery": "evidence/STAGE_DELIVERY.json:S1"
+    },
+    {
+      "id": "G1B-S2",
+      "depends_on": [
+        "G1B-S1"
+      ],
+      "status": "COMPLETE_SCOPED",
+      "output": "18 new successful IVPs, retained initial failure,3 figure sets,report/handoff",
+      "delivery": "PENDING_FINAL_ACK"
+    }
+  ],
+  "global": [
+    {
+      "id": "G1A",
+      "status": "REUSED_COMPLETE_SCOPED"
+    },
+    {
+      "id": "G1B",
+      "status": "COMPLETE_SCOPED"
+    },
+    {
+      "id": "G1C",
+      "depends_on": [
+        "G1B"
+      ],
+      "status": "READY_RESEARCH",
+      "task": "bounded-domain nonlinear error transport from quadrature/source to self-consistent geometry"
+    },
+    {
+      "id": "G1_general_tilted_smooth_IC",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "G2_four_force_collision",
+      "status": "UNRESOLVED"
+    },
+    {
+      "id": "G3_production_restart",
+      "status": "PENDING"
+    },
+    {
+      "id": "G4_global_domain_certification",
+      "status": "PENDING"
+    }
+  ],
+  "native_independent_review": "NOT_RUN",
+  "global_completion_percentage": null,
+  "production_admission": "NOT_ISSUED",
+  "merge": false
+}
