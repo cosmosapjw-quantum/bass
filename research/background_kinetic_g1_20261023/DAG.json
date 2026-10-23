@@ -1,0 +1,88 @@
+{
+  "schema": "bass.g1a.dag.v1",
+  "parent_pr": 182,
+  "current_pr": 183,
+  "science_pin": "b456e218213fda302cf6e5168f8beb608eeb3e1b",
+  "nodes": [
+    {
+      "id": "G1A_S0",
+      "depends_on": [
+        "C10_PR182"
+      ],
+      "status": "COMPLETE",
+      "output": "Source delta, fixed-scale packet/measure derivation, frozen gates",
+      "commit": "da1e56fce552b6fd934ab005beeb5aabed7037a7",
+      "backup": "evidence/STAGE_DELIVERY.json#S0"
+    },
+    {
+      "id": "G1A_S1",
+      "depends_on": [
+        "G1A_S0"
+      ],
+      "status": "COMPLETE_SCOPED",
+      "output": "Implemented microscopic flow, donor mapping, boost, 18 new finite IVPs",
+      "commit": "b456e218213fda302cf6e5168f8beb608eeb3e1b",
+      "backup": "evidence/STAGE_DELIVERY.json#S1"
+    },
+    {
+      "id": "G1A_S2",
+      "depends_on": [
+        "G1A_S1"
+      ],
+      "status": "SCIENCE_COMPLETE_DELIVERY_PENDING",
+      "output": "Serial dual audit, three actual figures, saved verifier and handoff",
+      "backup": "Final receipt is written after upload"
+    }
+  ],
+  "global_nodes": [
+    {
+      "id": "G1A",
+      "status": "COMPLETE_FINITE_MEASURE_SCOPE"
+    },
+    {
+      "id": "G1B",
+      "depends_on": [
+        "G1A"
+      ],
+      "status": "READY",
+      "output": "Positive smooth-source frozen-state quadrature and tail contract, then separate radial/angular/time refinements"
+    },
+    {
+      "id": "G1",
+      "status": "PARTIAL",
+      "remaining": [
+        "G1B smooth-source accuracy",
+        "broader domain and extreme-tilt checks"
+      ]
+    },
+    {
+      "id": "G2",
+      "status": "UNRESOLVED",
+      "output": "Physical collisional/radiative/emitter four-force partners"
+    },
+    {
+      "id": "G3",
+      "status": "PENDING",
+      "output": "Production dispatch/restart"
+    },
+    {
+      "id": "G4",
+      "status": "PENDING",
+      "depends_on": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "output": "Global physical-domain convergence"
+    }
+  ],
+  "global_completion_percentage": null,
+  "independent_native_agent_review": "NOT_RUN",
+  "verification": "Serial derivation/code/figure checks plus actual Wolfram CAS and explicit Koszul calculation",
+  "new_ivps": 18,
+  "valid_histories": 17,
+  "intentional_negative_controls": 1,
+  "old_campaign_replays": 0,
+  "production_admission": "NOT_ISSUED",
+  "merge": false
+}
