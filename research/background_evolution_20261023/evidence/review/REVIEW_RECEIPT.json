@@ -1,0 +1,71 @@
+{
+  "status": "PASS_SCOPED",
+  "decision": "APPROVE_SCOPED_RESEARCH_UNIT",
+  "utc": "2026-10-22T23:20:05.874566+00:00",
+  "reviewer": "background_review",
+  "science_code_modified": false,
+  "new_review_integrations": 0,
+  "old_campaign_integrations": 0,
+  "source_and_payload_checks": {
+    "eos_rotation/RESULT.json": {
+      "bianchi/charts/general_matter.py": true,
+      "bianchi/constraint_rates.py": true,
+      "tests/test_background_matter_eos_rotation.py": true
+    },
+    "native/NATIVE_VALIDATION_RECEIPT.json": {
+      "native/Cargo.toml": true,
+      "native/Cargo.lock": true,
+      "native/src/lib.rs": true,
+      "native/src/main.rs": true,
+      "native/verify_cli.py": true,
+      "native/README.md": true
+    },
+    "core_source": {
+      "core.py": true,
+      "validate_background.py": true,
+      "test_background_core.py": true,
+      "CONTRACT.md": true,
+      "evidence/core_validation/INDEPENDENT_BACKGROUND_EXPECTED.json": true,
+      "evidence/core_validation/INDEPENDENT_BACKGROUND_TEST_CONTRACT.md": true,
+      "native/src/lib.rs": true,
+      "native/src/main.rs": true
+    },
+    "core_payloads": {
+      "CORE_VALIDATION_RECEIPT.json": true,
+      "analytic_histories.npz": true,
+      "analytics.json": true,
+      "families.json": true,
+      "family_histories.npz": true,
+      "fixtures.json": true,
+      "guards.json": true,
+      "identities.json": true,
+      "native.json": true,
+      "native_parity_input.txt": true,
+      "native_parity_output.txt": true,
+      "native_parity_stderr.txt": true
+    },
+    "stream_raws": {
+      "cancel_plus": true,
+      "cancel_minus": true,
+      "isotropic": true
+    },
+    "native_binary": {
+      "match": true
+    }
+  },
+  "all_source_and_payload_checks_passed": true,
+  "core_campaign_status": "PASS_SCOPED",
+  "stream_campaign_status": "PASS_SCOPED",
+  "independent_review_probe_status": true,
+  "blocking_findings": [],
+  "scope_notes": [
+    "Legacy -3H propagation belongs to spatial ij-Einstein free evolution; new -2H belongs to Raychaudhuri free evolution. Their H derivatives differ by -C/6. Neither can be substituted off the constraint surface.",
+    "Equal six-axis weights make the stress tensor isotropic at the control state, not the full discrete distribution invariant under SO(3).",
+    "Eliminated reference independently evolves a reduced state and reconstructs H and density, but shares moment evaluation with the free evolution. The review adds explicit six-particle moment sums.",
+    "Python/Rust parity covers the shared domain with one to four sectors. Rust also permits zero sectors; Python represents vacuum by a zero-density sector.",
+    "Gamma-law repair requires normal-frame P=(gamma-1)Omega and a consistent q override. It does not implement a general tilted constitutive closure.",
+    "Finite-family and finite-time checks do not certify arbitrary tilted/curved kinetics, global convergence, production dispatch, or all repository regressions."
+  ],
+  "reviewed_source_manifest": "SOURCE_SHA256_MANIFEST.json",
+  "reviewed_source_manifest_sha256": "21abc8be8a25a1a440950e8946c15153eaaa3704eeda077eb453e24b5d812fe2"
+}

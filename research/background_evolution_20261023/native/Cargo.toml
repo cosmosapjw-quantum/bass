@@ -1,0 +1,26 @@
+[package]
+name = "bass-background-fixed-scale"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94"
+description = "Dependency-free fixed-scale Bianchi background RHS and constraint oracle"
+license = "MIT"
+
+[lib]
+name = "bass_background_fixed_scale"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bass-background-fixed-scale"
+path = "src/main.rs"
+
+[dependencies]
+
+[workspace]
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+
+[lints.rust]
+unsafe_code = "forbid"
