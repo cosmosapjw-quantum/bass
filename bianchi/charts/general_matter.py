@@ -5,25 +5,28 @@ D2c · **물질을 차트의 상태변수로 승격** — 구속계가 비로소
 상태에서는 구속계가 닫히지 않는다 (잔차 ~1) — 그래서 `amplification_rate` 도,
 `solve_with_projection` 도 닫히지 않은 계 위에서 돌고 있었다.
 
-여기서 Ω 와 Q^a 를 **상태로 올린다**.  진화식은 D2b 가 닫힘을 요구해 **적합으로
-결정**한 것이다 (인용 아님, 잔차 1e−15):
+여기서 Ω 와 Q^a 를 **상태로 올린다**.  D2b 의 계수 적합은 복사
+(gamma=4/3), Fermi frame (R=0) 에 대한 과거 근거로 보존한다. 법선 frame 의
+등방 압력이 P=(gamma-1)Ω 인 보존식은 다음과 같다 (W=rotation_matrix(R)):
 
-    Q̇^a = (2q − 2)Q^a − Σ^a{}_b Q^b + 3 Π^{ab}A_b + ε^{abc}N_{bd}Π^d{}_c
-    Ω̇   = (2q − 2)Ω + (2/3) A_aQ^a − (1/3) Σ_abΠ^{ab}
+    Q̇^a = (2q − 2)Q^a − Σ^a{}_b Q^b + 3 Π^{ab}A_b + ε^{abc}N_{bd}Π^d{}_c + W^a{}_b Q^b
+    Ω̇   = (2q + 2 − 3 gamma)Ω + (2/3) A_aQ^a − (1/3) Σ_abΠ^{ab}
 
 기하는 `charts/general.rhs` 를 그대로 쓴다 — **한 줄도 다시 쓰지 않는다** (두 판이
 갈라지면 어느 쪽이 맞는지 알 수 없게 된다).
 
-★ Π 는 여전히 **입력**이다.  D2b 의 적합에서 Π 방향의 잔차까지 0 이 됐으므로,
-  **어떤 Π 를 주든** Q, Ω 만 위 법칙으로 굴리면 구속계는 닫힌다.  Π 자체의 진화는
-  계층(l=2 모멘트)의 몫이고 이 차트의 범위 밖이다 — 그 한계를 숨기지 않는다.
-  (`dPi` 를 0 이 아니게 주면 닫힘이 깨지는지도 `audit` 에서 잰다.)
+★ Π 는 여전히 **입력**이다. 대칭 trace-free Π 에 대해 위 보존식과 동일한
+  법선-frame 압력을 사용한 Raychaudhuri 식은 Einstein 구속을 전파한다.
+  Π 자체의 물리적 closure 는 계층(l=2 모멘트) 또는 별도 물질 모형의 몫이다.
 
 ★ `trace` 구속은 여기서도 **감시하지 않는다**: 상태를 `tracefree_from_5` 로 짜므로
   tr Σ 는 위반될 수 없다 (D2b 측정: 기울기 노름 정확히 0).
 
 LIMITATIONS
   - Π (비등방 응력) 는 처방 입력이다.  물리적 Π 는 운동론 계층이 준다.
+  - gamma 는 법선 frame 의 P=(gamma-1)Ω 를 지정한다. tilted 유체의 rest-frame
+    gamma 와 일반적으로 다르다. args['q'] override 는 이 EOS 를 변경하거나
+    추론하지 않으며, 같은 압력·에너지원의 Raychaudhuri 식과 일치해야 한다.
   - 회전 R 은 args 로 남는다 (Fermi 게이지 기본).
   - Ω 를 상태로 올렸으므로 Gauss 는 더 이상 항등식이 아니다 — **감시 대상**이다.
 """
@@ -33,7 +36,7 @@ import numpy as np
 
 from bianchi.charts import general as G
 from bianchi.constraint_rates import CLOSURE_COEFFS
-from bianchi.conventions import EPS3_J, sym_from_6, tracefree_from_5
+from bianchi.conventions import EPS3_J, rotation_matrix, sym_from_6, tracefree_from_5
 from bianchi.optional_dependencies import require_jax_x64, require_optional
 
 jax, jnp = require_jax_x64(feature=__name__)
@@ -42,7 +45,7 @@ eqx = require_optional("equinox", feature=__name__)
 name = "general_matter"
 LIMITATIONS = __doc__.split("LIMITATIONS")[1].strip()
 
-#: 물질 법칙 계수 — D2b 가 닫힘 적합으로 결정한 값 (`constraint_rates.CLOSURE_COEFFS`).
+#: 복사/Fermi 계수 적합을 보존하고 RHS 에서 EOS 와 frame 회전을 보완한다.
 C = CLOSURE_COEFFS
 
 
@@ -100,15 +103,17 @@ def aux(y: StateGM, args):
 
 # ---------------------------------------------------------------- RHS
 def matter_rhs(y: StateGM, args):
-    """★★ D2b 가 **닫힘으로 결정한** 물질 진화식 (계수는 `CLOSURE_COEFFS`)."""
+    """법선-frame gamma-law 에너지·운동량 보존; 과거 복사 계수는 유지."""
     Pi = _Pi(args)
     a = aux(y, args)
     q, S, N, A, Q, Om = a["q"], y.Sigma, y.N, y.A, y.Q, y.Omega
     dQ = (C[0] * Q + C[1] * (S @ Q) + C[2] * q * Q + C[3] * (Pi @ A)
           + C[4] * jnp.einsum("abc,bd,cd->a", EPS3_J, N, Pi)
           + C[5] * (N @ Q) + C[6] * jnp.einsum("abc,b,c->a", EPS3_J, A, Q))
+    dQ = dQ + rotation_matrix(args.get("R", jnp.zeros(3))) @ Q
     dOm = (C[7] * Om + C[8] * q * Om + C[9] * jnp.dot(A, Q)
            + C[10] * jnp.sum(S * Pi))
+    dOm = dOm + (4.0 - 3.0 * args["gamma"]) * Om
     return dQ, dOm
 
 

@@ -9,10 +9,15 @@ M(y) 가 있어 Ċ = M·C 라는 뜻이고, 구속면 위(C = 0)에서 미분하
 M 의 스펙트럼이 증폭률이다.  유도·측정 과정과 대조군은 `audit/d2b_chart_amplification.py`.
 
 ★ 물질(Ω, Q, Π)을 얼린 채로는 닫히지 않는다 (잔차 ~1).  닫히게 하는 법칙을
-  **적합으로 결정**했다 (Jacobi 를 만족하는 무작위 일반형 배위, 잔차 1e−15):
+  **복사/Fermi 기준에서 적합으로 결정**했다 (Jacobi 를 만족하는 무작위 일반형
+  배위, 잔차 1e−15):
 
       Q̇^a = (2q − 2)Q^a − Σ^a{{_b}} Q^b + 3 Π^{{ab}}A_b + ε^{{abc}}N_{{bd}}Π^d{{_c}}
       Ω̇   = (2q − 2)Ω + (2/3) A_aQ^a − (1/3) Σ_abΠ^{{ab}}
+
+법선 frame 의 P=(gamma-1)Ω 를 적용할 때 Ω̇ 에 (4-3 gamma)Ω 를 더한다.
+`CLOSURE_COEFFS` 와 명시적으로 전달한 custom coefficient 실험의 raw 기저는
+보존한다. `flow_fn(..., gamma_law=True)` 가 이 EOS 보정을 명시적으로 선택한다.
 
 ★ type V 배위에서 Codazzi 대각 증폭률이 **2(q + Σ₊ − 1)** — D2 가 계량에서 얻은 값.
 """
@@ -31,7 +36,7 @@ jax, jnp = require_jax_x64(feature=__name__)
 ACTIVE = (0, 2, 3, 4, 5, 6, 7)
 NAMES = ("gauss", "cod1", "cod2", "cod3", "jac1", "jac2", "jac3")
 
-#: 닫힘이 요구하는 물질 법칙의 계수 (적합으로 결정 — §4 참조).
+#: 과거 복사/Fermi 물질 법칙의 계수 (적합으로 결정 — §4 참조).
 #: (Q, ΣQ, qQ, ΠA, εNΠ, NQ, εAQ, Ω, qΩ, A·Q, tr(ΣΠ))
 CLOSURE_COEFFS = np.array([-2.0, -1.0, 2.0, 3.0, 1.0, 0.0, 0.0,
                            -2.0, 2.0, 2.0 / 3.0, -1.0 / 3.0])
@@ -71,12 +76,17 @@ def constraint_fn(gamma):
     return C
 
 
-def flow_fn(gamma, coeffs, freeze_matter=False):
+def flow_fn(gamma, coeffs, freeze_matter=False, *, gamma_law=False):
     """확장 흐름 — 기하는 차트의 `rhs`, 물질은 `coeffs` 가 정한 법칙.
 
-    `freeze_matter=True` 면 물질을 얼린다 (**현재 차트의 실제 동작**).
+    기본값은 과거 fitting 의 raw 선형 기저를 유지한다. `gamma_law=True` 는
+    c[7] 에 4-3 gamma 를 더해 법선-frame P=(gamma-1)Ω 보존식을 선택한다.
+    입력 계수 배열을 수정하지 않는다. `freeze_matter=True` 는 EOS 보정까지
+    끄고 물질을 완전히 얼리는 대조군이다. 이 진단 함수는 Fermi frame 전용이다.
     """
-    c = np.zeros(11) if freeze_matter else np.asarray(coeffs, float)
+    c = np.zeros(11) if freeze_matter else np.array(coeffs, dtype=float, copy=True)
+    if gamma_law and not freeze_matter:
+        c[7] += 4.0 - 3.0 * gamma
 
     def f(w):
         y, Pi, args = _pieces(w, gamma)
@@ -93,13 +103,17 @@ def flow_fn(gamma, coeffs, freeze_matter=False):
 
 
 # ═══════════════════════════════════════ ★★ 증폭 행렬과 닫힘 잔차
-def amplification_matrix(w, gamma, coeffs=CLOSURE_COEFFS, freeze_matter=False):
+def amplification_matrix(w, gamma, coeffs=None, freeze_matter=False):
     """★★ ∂(Jf)/∂w = M·J 를 최소제곱으로 풀어 M 과 **닫힘 잔차**를 낸다.
 
+    coeffs 생략 시 과거 복사 계수에 gamma-law 보정을 적용한다. coeffs 를
+    명시하면 실험자가 준 raw 선형 기저를 그대로 사용한다 (과거 fit 계약).
     반환 dict(M, residual, rows, rank, q, Sigma_p).
     """
     C = constraint_fn(gamma)
-    f = flow_fn(gamma, coeffs, freeze_matter)
+    canonical = coeffs is None
+    f = flow_fn(gamma, CLOSURE_COEFFS if canonical else coeffs,
+                freeze_matter, gamma_law=canonical)
     wj = jnp.asarray(w)
     J = np.asarray(jax.jacfwd(C)(wj))
     Gv = np.asarray(jax.jacfwd(lambda v: jax.jacfwd(C)(v) @ f(v))(wj))
