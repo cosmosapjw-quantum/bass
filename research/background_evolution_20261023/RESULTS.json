@@ -1,0 +1,70 @@
+{
+  "schema": "bass.fixed_scale.final_science.v1",
+  "status": "PASS_SCOPED",
+  "recorded_utc": "2026-10-22T23:43:27.814092+00:00",
+  "unit": "background_evolution_20261023",
+  "base_commit": "797d66580448dad7fc41f2c2db31fe0eb37908bf",
+  "theory_stages_complete": 10,
+  "coding_science_and_handoff_stages_complete": 10,
+  "remote_delivery_status": "See delivery receipts; not implied by science PASS",
+  "regressions": {
+    "legacy": {
+      "tests": "19",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "29.013"
+    },
+    "native": {
+      "passed": 8,
+      "failed": 0,
+      "cargo_exit_code": 0
+    },
+    "core_pytest_assertions_passed": 7,
+    "review_decision": "APPROVE_SCOPED_RESEARCH_UNIT"
+  },
+  "checks": {
+    "family_histories": 12,
+    "analytic_histories": 7,
+    "rotating_kasner_histories": 1,
+    "arbitrary_defect_states": 40,
+    "native_states": 97,
+    "native_components": 3059,
+    "guard_checks": 45,
+    "stream_free_histories": 4,
+    "stream_eliminated_references": 3,
+    "old_campaign_integrations_repeated": 0
+  },
+  "maxima": {
+    "family_scaled_constraint": 2.6573681859887917e-12,
+    "analytic_scaled_state_error": 2.9095205096668255e-11,
+    "arbitrary_constraint_derivative": 1.092169555785652e-15,
+    "native_scaled_component_error": 2.684841162521217e-16,
+    "stream_density_comparison": 6.906280621051864e-11,
+    "stream_default_tight_error": 8.151268934421974e-11
+  },
+  "proof_receipts": [
+    "evidence/wolfram_constraint_receipt.json",
+    "evidence/wolfram_normalized_receipt.json",
+    "evidence/curvature_fraction_results.json",
+    "evidence/review/PROBE_RESULTS.json"
+  ],
+  "source_sha256": {
+    "core.py": "bb4a57ed677321ef9e0967953f29a6b125824765138a268c5a0c11904a53d1fa",
+    "beams.py": "8ca7c10113c3b1a50a9600ab649bf4496666ffa549cc62b7cd81aaf2e45ba044",
+    "validate_background.py": "89cf85c91fd3b606dc35fc160e4768009d323730a3cf3edca14cc1573b8be658",
+    "run_beam_campaign.py": "a03d5a31494d01b101010747ec689f8ff6d16729dba8301b8603e1787b750416",
+    "native/src/lib.rs": "46aa930e9889c9561311d50af489489d64753a82a880989008c38c275d39d967",
+    "native/src/main.rs": "ac1170abfcabe4d7b6d24a3e95f12e81228e4663eaccbbc4881a743657daf534",
+    "CONTRACT.md": "9cc179da1aa739f427676aa438448a7e6f54bd246cc5315d34ed6e0a1a058614",
+    "REPORT_KO.md": "021da021bf82b82f218558dfe6fd0b7c59bd432aa7dfc244ce0f323b7a7ee947",
+    "HANDOFF_NEXT_THREAD_KO.md": "caa01f714224810727f79d1b3c3f4997a98593e1f4f09c0d56bc11fafb365204"
+  },
+  "scope": "Generic normal-frame Bianchi Einstein and multi-sector conservation operator, with finite perfect-fluid/family/analytic tests and a positive Bianchi-I discrete-stream coupling",
+  "global_obligations_remaining": [
+    "G1 curved/tilted kinetic closure",
+    "G2 complete physical energy and momentum exchange",
+    "G3 production and restart integration",
+    "G4 global physical-domain convergence"
+  ]
+}
