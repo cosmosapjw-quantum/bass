@@ -1,19 +1,20 @@
 {
-  "schema": "bass.background.recovery_dag.v1",
+  "schema": "bass.background.recovery_dag.v2",
   "date_kst": "2026-10-23",
   "science_status": "REUSED_PASS_SCOPED",
   "science_stage_count": {"theory": [10, 10], "coding": [10, 10]},
-  "scope": "Frozen finite background research unit, not the global BASS goal",
+  "scope": "Frozen finite background research unit; not the global BASS goal",
   "science_dag_authority": "S2 archive research/background_evolution_20261023/DAG.json",
+  "source_snapshot": "3c14488905e0a51e2f62e197d980116e71679466",
   "delivery_nodes": [
-    {"id": "D0", "status": "COMPLETE", "output": "Drive S2 whole restore, exact 153 payload hashes"},
+    {"id": "D0", "status": "COMPLETE", "output": "Drive S2 exact whole restore;153 payloads"},
     {"id": "D1", "depends_on": ["D0"], "status": "COMPLETE", "commit": "2bc6a602f199620de735b3d2521b274160db7d4f"},
     {"id": "D2", "depends_on": ["D1"], "status": "COMPLETE", "commit": "c69911ebf256f338769e4c76ea87bf2771cbabe6"},
-    {"id": "D3", "depends_on": ["D2"], "status": "IN_PROGRESS", "output": "Theory, results, publication readback and handoff"},
-    {"id": "D4", "depends_on": ["D3"], "status": "PENDING", "output": "Final provider acknowledgement and external final receipt"}
+    {"id": "D3", "depends_on": ["D2"], "status": "COMPLETE", "output": "18 selected frozen Git blobs matched; theory trailing newline repaired; PR182 Draft"},
+    {"id": "D4", "depends_on": ["D3"], "status": "COMPLETE_SCOPED_DELIVERY", "output": "Both provider ACKs; Drive whole-byte readback; final receipt and handoff in this enclosing commit", "dropbox_whole_byte_readback": "NOT_RUN"}
   ],
   "global_obligations": [
-    {"id": "G1", "depends_on": ["C10"], "status": "UNRESOLVED", "name": "Source-qualified curved/tilted kinetic moment closure"},
+    {"id": "G1", "depends_on": ["C10"], "status": "READY_RESEARCH", "name": "Source-qualified curved/tilted kinetic moment closure"},
     {"id": "G2", "depends_on": ["G1"], "status": "UNRESOLVED", "name": "Complete thermal/radiative/emitter four-momentum closure"},
     {"id": "G3", "depends_on": ["C10", "G1"], "status": "PENDING", "name": "Production dispatch, adapters and restart"},
     {"id": "G4", "depends_on": ["G1", "G2", "G3"], "status": "PENDING", "name": "Global physical-domain convergence and admissibility"}
