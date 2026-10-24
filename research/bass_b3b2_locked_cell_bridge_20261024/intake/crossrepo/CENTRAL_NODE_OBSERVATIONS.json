@@ -1,0 +1,1673 @@
+{
+  "schema": "BASS_B3B2_CENTRAL_NODE_OBSERVATIONS_V2",
+  "recovery_kind": "NEW_OBSERVATION_AFTER_RUNTIME_LOSS",
+  "head": "9f410bf0f4b5d14d1e6b7c17cd2e23a916f241c9",
+  "DAG_blob": "3394c4da9836e3a4e8418165dc2324e3f7ccc833",
+  "nodes": [
+    {
+      "id": "WU_CE83_OWNER_COMPLETION",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "WU_LI_SOURCE_UNCERTAINTY",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "WU_HE_LI_CX_STATE_ENERGY",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "WU_D_PI_RR_MATCHED",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "WU_NUCLEAR_PARTICLE_OWNERSHIP",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "WU_SPECTRAL_GEOMETRY_COUPLING",
+      "repository": "WU088_HH",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "WU_CE83_OWNER_COMPLETION",
+        "WU_HE_LI_CX_STATE_ENERGY",
+        "WU_D_PI_RR_MATCHED",
+        "WU_NUCLEAR_PARTICLE_OWNERSHIP"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "CR_N4_C23B_CUTOFF_BINDING",
+      "repository": "bass_cr",
+      "plan_status": "COMPLETE_SCOPED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion": {
+        "status": "COMPLETE_SCOPED",
+        "science_commit": "54c2ff11e8308d45c545679301059bc1fcf268eb",
+        "documents_commit": "6c760dc1f0ce5820263b276fa7263e87c1285bd2",
+        "terminal_commit": "910a9a92e4bf5a9d77b6ff60365d94559f54cbbd",
+        "evidence": [
+          "research/cr_n4_admission_20261024/N4_ADMISSION.json",
+          "research/cr_n4_admission_20261024/EVIDENCE_PINS.json",
+          "research/cr_n4_admission_20261024/N4_SCOPE_DECISION_KO.md"
+        ],
+        "scope": "C23C_FROZEN_FIVE_LABEL_CALORIC_V1 only; 18 saved input requests; conditional API wider but not all numerically tested; physical stopping and N5/N6 remain separate",
+        "claim_gate": "CONSUMER_ADMITTED",
+        "named_consumer": "C23C_FROZEN_FIVE_LABEL_CALORIC_V1",
+        "saved_input_count": 18,
+        "receiver_review_status": "PASS_SCOPED_NEW_ADMISSION_MAPPING",
+        "contract_status_interpretation": "Original OPEN/NOT_RUN and null budget contract retained verbatim as author snapshot; observed completion records later C23C evidence",
+        "limits": {
+          "physical_heating": null,
+          "stopping_time": null,
+          "global_error_bound": null,
+          "global_completion_percent": null,
+          "full_conversations": "UNAVAILABLE",
+          "external_runtime": "UNOBSERVED",
+          "nuclear_network_PNG": "NOT_RECOVERED_NOT_READ"
+        },
+        "independent_review_paths": [
+          "research/cr_n4_admission_20261024/review/INDEPENDENT_ADMISSION_REVIEW_KO.md",
+          "research/cr_n4_admission_20261024/review/INDEPENDENT_ADMISSION_REVIEW.json"
+        ],
+        "admission_commit": "f3244471eeb7b209f4d1fad89ab2f5e8ed1d13cd",
+        "admission_url": "https://github.com/cosmosapjw-quantum/bass_cr/tree/f3244471eeb7b209f4d1fad89ab2f5e8ed1d13cd/research/cr_n4_admission_20261024"
+      }
+    },
+    {
+      "id": "CR_N4_STOPPING_KERNEL",
+      "repository": "bass_cr",
+      "plan_status": "PARTIAL",
+      "local_dependencies": [
+        "CR_N4_C23B_CUTOFF_BINDING"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_progress": {
+        "status": "PARTIAL",
+        "parent_claim_gate": "OPEN",
+        "completed_children": [
+          {
+            "id": "CR_N4_STOPPING_C23B_EE_BRIDGE",
+            "status": "COMPLETE_SCOPED",
+            "claim_gate": "NUMERICALLY_CHECKED_SCOPED",
+            "named_consumer": "C23D_FROZEN_MAXWELL_EE_LOW10_V1",
+            "science_commit": "d04b2a56adb4a5d55b901420aa544332b41f6dbb",
+            "draft_pr": "https://github.com/cosmosapjw-quantum/bass_cr/pull/99"
+          }
+        ],
+        "return_record": "returns/CR_N4_STOPPING_C23D_EE_BRIDGE_20261024.json",
+        "scope": "Saved C23B low10eV impulsive source in prescribed10000K/.14cm^-3/lnLambda20 Maxwell thermal electron bath; closedbox; density/source units, signed exchange, first-entry diagnostic and3 primary new linear trajectories. Existing PR59 coefficients, common-current interface and MFPT reused.",
+        "remaining": [
+          "actual neutral/ion/inelastic collision rates and competition",
+          "above10eV source energy domain",
+          "finite bath and declared escape/coupling scenario",
+          "N5 atomic/isotope empirical coverage",
+          "N6 conservative coupling;N7 new parcel"
+        ],
+        "original_contract": "Retained verbatim author snapshot; no full stopping gate closed."
+      }
+    },
+    {
+      "id": "CR_N5_ATOMIC_ISOTOPE_COVERAGE",
+      "repository": "bass_cr",
+      "plan_status": "PARTIAL",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_progress": {
+        "child": "C23E_D43_PHOTO_RR_SOURCE_BINDING",
+        "status": "COMPLETE_SCOPED",
+        "admission": "NUMERICALLY_CHECKED_SCOPED",
+        "science_commit": "8e4e06361d714939513a11f64a27f02822bde2fa",
+        "science_tree": "ab06b96102cbfebf387c97d355174c0730defaac",
+        "PR": "https://github.com/cosmosapjw-quantum/bass_cr/pull/100",
+        "scope": "Conditional D43K threshold-gated H-equality PI; conditional shared H/D RR kinetic moment; WU79 D43K CX; explicit thermal/fast electron pools; instantaneous source only",
+        "source_nodes_z": [
+          2.316,
+          2.479,
+          2.649
+        ],
+        "point_sources": 18,
+        "new_D_target_integrations": 3,
+        "new_narrow_band_orders": 9,
+        "checks": 104,
+        "delivery_only_checks": 29,
+        "independent_Astra_review": "PASS_SCOPED",
+        "results_path": "research/cr_c23e_d43_source_binding_20261024/RESULTS_KO.md",
+        "raw_path": "research/cr_c23e_d43_source_binding_20261024/runs/C23E_D43_SOURCE_BINDING_20261024T021612Z_v1/",
+        "budget": {
+          "new_child_cpu_s": 2.161932,
+          "new_child_wall_s": 2.1714153429929866,
+          "known_tracked_lineage_cpu_s": 15.493261114,
+          "scope": "lower bound, not total project spend",
+          "unmeasured_CAS_cpu_s": null,
+          "monetary_spend": null,
+          "remaining": null
+        },
+        "ODE": 0,
+        "completed_science_reruns": 0,
+        "benchmark": 0,
+        "parent_claim": "OPEN: full N5 rate coverage remains incomplete",
+        "open": [
+          "empirical isotope-resolved D cross sections",
+          "microscopic Milne-pair validity",
+          "full21 CI/RR/DR/CX rates",
+          "finite-mass isotope kinetics",
+          "physical stopping",
+          "cosmological consumer admission"
+        ],
+        "global_error_bound": null,
+        "global_completion_fraction": null,
+        "axes": {
+          "EXECUTION": "COMPLETE_SCOPED; fresh Astra review PASS_SCOPED",
+          "PUBLICATION": "science S published; additive Draft PR100; no merge",
+          "BACKUP": "PENDING_NEW_RELEASE; historical Drive UNKNOWN_NO_ACK unchanged",
+          "DAG": "C23E child COMPLETE_SCOPED; parent N5 PARTIAL/OPEN"
+        },
+        "additional_children": [
+          {
+            "schema": "CR_N5_PROVIDER_RATE_SEMANTICS_AND_CE_ENVELOPE_RETURN_V1",
+            "draft": false,
+            "publishable": true,
+            "central_base": "5182d82c45454a4e8f19f2e5384a04a4ae35ed09",
+            "node": "CR_N5_ATOMIC_ISOTOPE_COVERAGE",
+            "child": "CR_N5_PROVIDER_RATE_SEMANTICS_AND_CE_ENVELOPE",
+            "status": "COMPLETE_SCOPED",
+            "admission": "NUMERICALLY_CHECKED_SCOPED_CONDITIONAL_DIAGNOSTIC",
+            "science_commit": "b8882d026887f375acf90768d4e3740eb03da226",
+            "science_tree": "ed234a26bb48c16d072c572e13298bd370f62a05",
+            "documents_commit": "b65befa5187d3e1e11574a98dcadd2032831de72",
+            "PR": "https://github.com/cosmosapjw-quantum/bass_cr/pull/101",
+            "run_id": "n5_ce_envelope_primary_20261024t031906828z_v1",
+            "results_path": "research/cr_n5_rate_semantics_20261024/REPORT_KO.md",
+            "raw_path": "research/cr_n5_rate_semantics_20261024/implementation/runs/n5_ce_envelope_primary_20261024t031906828z_v1",
+            "scope": "Provider rate semantics and PHYS83 ground-H CE first-event envelope along the reused C23D finite-band frozen-Maxwell EE path; no full N5 rate coverage or coupled stopping admission.",
+            "fixed_inputs": {
+              "T_K": 10000,
+              "thermal_ne_cm3": 0.14,
+              "prescribed_lnLambda": 20,
+              "clock": "proper seconds",
+              "box": "closed; no escape",
+              "initial_source_support_eV": {
+                "lower": 0,
+                "upper": 10,
+                "endpoints": "open; initial selection only"
+              },
+              "pulse_exposure_proper_s": 10000,
+              "exposure_meaning": "impulsive source population, not continuous photoionization chemistry integration",
+              "n_H_1s_cm3": 0.9,
+              "ground_state_assignment": "Additional explicitly declared closure assigning the C23D total neutral-H density to 1s.",
+              "n_H_2s_cm3": null,
+              "n_H_2p_cm3": null,
+              "mfpt_domain": "For each reused active mean, its q=chi*kBT to reflecting U=80*kBT domain; initial source upper limit is not a trajectory ceiling.",
+              "stationary_target": true,
+              "target_motion": "not admitted in this child"
+            },
+            "reuse": {
+              "C23D": {
+                "science_commit": "d04b2a56adb4a5d55b901420aa544332b41f6dbb",
+                "documents_commit": "4a0bbc0ed618ab6eae1b7b2714e366d803186b86",
+                "run_id": "c23d_source_ee_20261023T220714Z_v1",
+                "reused": "Stored source and finite-band EE MFPT means; no old science replay."
+              },
+              "C23E": {
+                "science_commit": "8e4e06361d714939513a11f64a27f02822bde2fa",
+                "PR": "https://github.com/cosmosapjw-quantum/bass_cr/pull/100",
+                "central_return": "research/orchestration_longterm_20261023/assembly/returns/CR_N5_C23E_D43_SOURCE_BINDING_20261024.json",
+                "reused": "Completed conditional D43K PI/RR/CX source-binding result; no repeated calculations."
+              },
+              "PHYS83": {
+                "science_commit": "6a2fc5aacb6182a916b9434c316e99e750e8273c",
+                "PR": "https://github.com/cosmosapjw-quantum/WU088_HH/pull/140",
+                "source_delta_eV": 10.20435,
+                "reused": "Source-native finite W-PL matched H I excitation model and saved thermal rates; no provider rate quadrature or moments rerun."
+              }
+            },
+            "provider_gates": {
+              "PHYS84": "NUMERICAL_ADMISSION_WAIT",
+              "HE_ANG_full_law": "SOURCE_INPUT_PENDING",
+              "HE_PR94_window": "Measured conditional DDCS window only; does not supply the full tagged law or admitted recoil."
+            },
+            "semantics": {
+              "thermal_rate_coefficient": "k(T)=<sigma*v> for the declared Maxwellian distribution; thermal target event hazard is n_e*k(T).",
+              "tagged_hazard": "h_CE(E)=n_H(1s)*sigma_CE(E)*v(E); different density owner and energy law from the thermal target hazard.",
+              "hazard_model": "n1s * 100 * sqrt(2*eV_J/m_e_kg) * [W_2s(E)+W_2p(E)] / sqrt(E), where W=E*sigma has units eV*cm^2.",
+              "maximization": "Positive W-PL union knots and clipped domain endpoints; any admissible positive interior stationary point is a minimum.",
+              "first_event_bound": "P_active <= 1-exp(-h_max*mean_tau_active); selected-population bound includes the active fraction.",
+              "missing_rates": "null, never replaced by zero",
+              "total_non_EE_event_bound": null,
+              "interpretation": "Conditional finite-band numerical first-CE-event diagnostic; not energy deposition, irreversible assimilation or a certified global stopping probability."
+            },
+            "measured_results": {
+              "h_CE_max_s_inv": 2.9189745001395196e-8,
+              "argmax_eV": 68.93866609716143,
+              "domain_eV": [
+                [
+                  1.2925999893217768,
+                  68.93866609716143
+                ],
+                [
+                  2.5851999786435536,
+                  68.93866609716143
+                ]
+              ],
+              "evaluation_allowance_s_inv": null,
+              "active_probability_bounds": [
+                0.007843769384825278,
+                0.008199218228681918
+              ],
+              "selected_probability_bounds": [
+                0.0033045492575117796,
+                0.005255800408144478
+              ],
+              "source_physical_error_bound": null,
+              "interpretation": "Conditional numerical upper estimates using saved means; no directed-rounding/physical certificate."
+            },
+            "checks": {
+              "independent_C9": "PASS_SCOPED",
+              "open_blocking_findings": 0,
+              "resolved_findings": 3,
+              "nonblocking_document_items": 2,
+              "unique_test_methods_evidence": 27,
+              "initial_test_result": "24PASS/1FAIL_RETAINED; changed dependency passed",
+              "input_manifest_files": 30,
+              "input_manifest_sha256": "37f8c70705e128368c36247379858a8f245bcb6819aab3d977a2c6b0c7dc3016",
+              "rows": {
+                "hcrit": 18,
+                "thermal_target": 24,
+                "conditional_ce_first_event": 18,
+                "distinct_ce_envelopes": 6
+              },
+              "independent_binary64_max_relative_error": 1.85266860375458e-16,
+              "tolerance": 5e-14,
+              "science_reexecution_after_C9_repairs": 0
+            },
+            "independent_Astra_review": "PASS_SCOPED; blocking0; 3 resolved findings; 2 nonblocking documentation clarifications preserved",
+            "budget": {
+              "new_child_cpu_s": 3.7160349999999998,
+              "new_child_wall_s": 3.908313898020424,
+              "new_coordinator_cpu_s": 0.02351698399999999,
+              "primary_science_worker_cpu_s": 0.323328,
+              "known_tracked_lineage_cpu_s": 19.209296114,
+              "separate_mechanical_packaging_check_cpu_s": 0.245824,
+              "total_project_spend": null,
+              "monetary_spend": null,
+              "remaining": null,
+              "scope": "Known bounded worker lineage only, inherited15.493261114 plus actual new tests/science/plots/review; no double counting nested process timers. Sum wall times is not overall wall-clock latency."
+            },
+            "actual_operation_counts": {
+              "new_algebraic_primary": 1,
+              "ODE": 0,
+              "source_quadratures": 0,
+              "provider_quadratures": 0,
+              "provider_rate_evaluations": 0,
+              "PHYS84_source_execution": 0,
+              "completed_science_reruns": 0,
+              "NCP": 0
+            },
+            "backup": {
+              "Library": {
+                "status": "R3_PASS",
+                "library_file_id": "libfile_75f896aca68081919bd4d3c425266373"
+              },
+              "Dropbox": {
+                "status": "R3_PASS",
+                "file_id": "id:BSpOijBcT10AAAAAAD_9Ig",
+                "path_display": "/BASS_DERIVATION_DOSSIERS_20260912/bass_cr/BASS_CR_N5_CE_DELIVERY_20261024T125315KST.zip"
+              },
+              "Drive": {
+                "attempts": 1,
+                "started_utc": "2026-10-24T03:55:36.238Z",
+                "elapsed_ms_without_ack": 168772,
+                "status": "UNKNOWN_NO_ACK",
+                "remote_file_id": null,
+                "acknowledgement": false,
+                "readback": "NOT_RUN",
+                "folder": "1V4ZQza59dWVC7apeRz9P1TL66eaVYyJy",
+                "name": "BASS_CR_N5_CE_DELIVERY_20261024T125315KST.zip",
+                "exact_name_folder_reconcile_count": 1,
+                "exact_query_result_count": 0,
+                "exact_query_receipt": {
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Action completed."
+                    }
+                  ],
+                  "structuredContent": {
+                    "results": []
+                  },
+                  "isError": false
+                },
+                "not_retransmitted": true,
+                "absence_proven": false
+              },
+              "canonical_zip": {
+                "name": "BASS_CR_N5_CE_DELIVERY_20261024T125315KST.zip",
+                "bytes": 1011118,
+                "sha256": "de3785957ff1ce063dce37efb0621b1789337d8fa21a894fb2cdd734f65740fa",
+                "manifest_payload_count": 168,
+                "zip_member_count": 169,
+                "manifest_sha256": "cff8336599f7f3e3781d18330ad9d4537a1a58dfdd6f330839d506240a7d901c",
+                "science_commit": "b8882d026887f375acf90768d4e3740eb03da226",
+                "central_M1": "5182d82c45454a4e8f19f2e5384a04a4ae35ed09"
+              },
+              "historical_unknowns": "Preserve prior C23D/N4/C23C Drive UNKNOWN_NO_ACK and the prior terminal JSON Drive NOT_ATTEMPTED.",
+              "three_provider_backup_complete": false
+            },
+            "parent_claim": "PARTIAL/OPEN: full CR_N5_ATOMIC_ISOTOPE_COVERAGE remains incomplete; N6/N7 predecessor gates remain unsatisfied.",
+            "open": [
+              "CI/RR/DR/CX species/charge/temperature/energy coverage",
+              "neutral elastic/inelastic beyond admitted ground-H CE",
+              "electron-ion competition and energy exchange",
+              "excited neutral target populations and superelastic channels",
+              "finite-mass target motion and isotope transfer validity",
+              "full HE-ANG event law and recoil",
+              "full conservative thermochemical and cosmological coupling"
+            ],
+            "global_error_bound": null,
+            "global_completion_fraction": null,
+            "global_completion_percent": null,
+            "axes": {
+              "EXECUTION": "COMPLETE_SCOPED; independent C9 PASS; primary1; ODE/quadrature/old-replay0",
+              "PUBLICATION": "Science b8882d026887f375acf90768d4e3740eb03da226 and Documents b65befa5187d3e1e11574a98dcadd2032831de72 R1 PASS; central receipt update in this commit",
+              "BACKUP": "Library R3 PASS; Dropbox R3 PASS; Drive UNKNOWN_NO_ACK/R3 NOT_RUN after one upload and one exact reconciliation; no retransmit; three-provider backup incomplete",
+              "DAG": "N5 scoped child complete; parent N5 PARTIAL/OPEN; full N4 stopping PARTIAL/OPEN; N6/N7 predecessor-gated"
+            },
+            "publication": {
+              "science": "R1_PASS",
+              "parent": "8e4e06361d714939513a11f64a27f02822bde2fa",
+              "branch": "research/cr-n5-rate-semantics-20261024",
+              "draft": true,
+              "expected_sha": "8e4e06361d714939513a11f64a27f02822bde2fa",
+              "force": false,
+              "documents": "R1_PASS",
+              "documents_commit": "b65befa5187d3e1e11574a98dcadd2032831de72",
+              "documents_tree": "1ca7914dacc7cc0a65eac67e4f6562f6985b9d2a",
+              "documents_expected_sha": "b8882d026887f375acf90768d4e3740eb03da226"
+            },
+            "delivery_receipts": {
+              "handoff_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/b65befa5187d3e1e11574a98dcadd2032831de72/research/cr_n5_rate_semantics_20261024/delivery/HANDOFF_FINAL_KO.md",
+              "backup_receipt_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/b65befa5187d3e1e11574a98dcadd2032831de72/research/cr_n5_rate_semantics_20261024/delivery/BACKUP_RECEIPTS.json",
+              "owner_freshness_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/b65befa5187d3e1e11574a98dcadd2032831de72/research/cr_n5_rate_semantics_20261024/delivery/OWNER_FRESHNESS_FINAL.json",
+              "owner_freshness_utc": "2026-10-24T04:00:22Z",
+              "WU_PR142_latest_delivery": "696eca5cf9f1fcbf722370833535f4144af0a54a",
+              "freshness_gate_effect": "PHYS84 remains WAIT; HE-ANG remains pending; PHYS85 reference unverified; newly admitted numerical provider0",
+              "science_and_backup_canonical_unchanged": true
+            }
+          },
+          {
+            "schema": "CR_N5_CE_KILLED_GENERATOR_FIRST_EVENT_RETURN_V1",
+            "draft": false,
+            "publishable": true,
+            "created_utc": "2026-10-24T08:00:21Z",
+            "central_base": "83b784dc2facb95e5c2d1c88bf87bc731958b99b",
+            "node": "CR_N5_ATOMIC_ISOTOPE_COVERAGE",
+            "child": "CR_N5_CE_KILLED_GENERATOR_FIRST_EVENT",
+            "status": "COMPLETE_SCOPED",
+            "admission": "NUMERICALLY_CHECKED_SCOPED_CONDITIONAL_FINITE_CHAIN",
+            "consumer": "N5_C23D_HI_CE_RESOLVENT_V1",
+            "science_commit": "896800b4511f323ad3f0b5372b4912fb4770ea98",
+            "science_tree": "f34f6c15713169a1a9800c640e49d3e9eda6dd7d",
+            "documents_commit": "3acb6beca5de4f82fccff1673dbcac010c53cf24",
+            "branch": "research/cr-n5-ce-resolvent-20261024",
+            "PR": "https://github.com/cosmosapjw-quantum/bass_cr/pull/102",
+            "run_id": "n5_ce_resolvent_native_knot_primary_20261024_v3",
+            "input_id": "n5_ce_resolvent_native_knot_input_20261024_v3",
+            "results_path": "research/cr_n5_ce_resolvent_20261024/REPORT_KO.md",
+            "raw_path": "research/cr_n5_ce_resolvent_20261024/runs/n5_ce_resolvent_native_knot_primary_20261024_v3/",
+            "scope": "First ground-H1 1s->2s/2p CE before cutoff entry in the source-conditioned frozen-Maxwell EE finite chain; finite conditional diagnostic, not full stopping or coupled chemistry.",
+            "fixed_inputs": {
+              "T_K": 10000,
+              "thermal_ne_cm3": 0.14,
+              "prescribed_lnLambda": 20,
+              "n_H1s_cm3": 0.9,
+              "n_H2s_cm3": null,
+              "n_H2p_cm3": null,
+              "clock": "proper seconds",
+              "box": "closed; no escape",
+              "target": "stationary heavy unpolarized ground H1",
+              "pulse_exposure_s": 10000,
+              "exposure_meaning": "impulsive population, not continuous chemistry",
+              "initial_energy_eV": {
+                "lower": 0,
+                "upper": 10,
+                "endpoints": "open"
+              },
+              "source_z": [
+                2.316,
+                2.479,
+                2.649
+              ],
+              "chi": [
+                1.5,
+                3
+              ],
+              "theta_eV": 0.8617333262145178,
+              "CE_gap_eV": 10.20435
+            },
+            "selected_grid_family": "GEOMETRIC_PLUS_NATIVE_CE_KNOTS_V1",
+            "results": {
+              "P_CE_selected_range": [
+                0.00001430274772694351,
+                0.000014642413872659619
+              ],
+              "P_CE_active_range": [
+                0.000022387889315608613,
+                0.00003472631851245922
+              ],
+              "conditional_CE_energy_eV": [
+                11.258871561911278,
+                11.25888224341468
+              ],
+              "conditional_CE_time_proper_s": [
+                590986.2585740857,
+                595977.9397770143
+              ],
+              "interpretation": "first 2S/2P CE before first entry into q in the fixed CE-only marked EE finite chain"
+            },
+            "checks": {
+              "R6": "PASS",
+              "R6_changed_grid": "PASS",
+              "C9": "PASS_SCOPED_NATIVE_KNOT_FINITE_CHAIN",
+              "editorial": "PASS_BLOCKING_0",
+              "matrix_cases": 8,
+              "source_rows": 24,
+              "grid_comparisons": 36,
+              "boundary_comparisons": 18,
+              "max_linear_scaled_residual": 9.465074789479395e-13,
+              "max_partition_abs": 3.0396907213514623e-11,
+              "max_grid_probability_relative_change": 0.0001281093036277632,
+              "max_grid_energy_relative_change": 0.000015120036466400911,
+              "max_grid_time_relative_change": 0.00008522921036606478,
+              "max_boundary_probability_relative_change": 2.4726996662340344e-11,
+              "max_independent_P_E_time_relative_difference": 7.450640259390961e-12,
+              "frozen_thresholds_unchanged": true,
+              "probability_clipping": false
+            },
+            "retained_attempts": {
+              "v1": {
+                "status": "FAILED_VARIABLE_SHADOW; RAW_NOT_RECOVERED_AFTER_WORKSPACE_LOSS",
+                "admitted": false,
+                "Q": 2,
+                "complete": 1,
+                "RHS": 9
+              },
+              "v2": {
+                "status": "FAILED_RETAINED_GRID_COMPARISON",
+                "admitted_family": false,
+                "complete_cases": 12,
+                "RHS": 108,
+                "failed_probability_comparisons": 18
+              },
+              "v3": {
+                "status": "PASS_SELECTED_FAMILY",
+                "Q": 8,
+                "complete": 8,
+                "RHS": 72
+              },
+              "cumulative_actual": {
+                "Q": 22,
+                "complete_cases": 21,
+                "RHS": 189
+              },
+              "exact_retained_raw": {
+                "complete_cases": 20,
+                "RHS": 180
+              }
+            },
+            "budget": {
+              "schema": "N5_CE_RESOLVENT_BUDGET_CONTINUITY_V1",
+              "inherited_known_bounded_worker_cpu_s": 19.209296114,
+              "worker_components": [
+                {
+                  "id": "lost_v1_controls",
+                  "cpu_s": 0.239278
+                },
+                {
+                  "id": "lost_v1_failed_primary",
+                  "cpu_s": 0.279477
+                },
+                {
+                  "id": "recovery_v2_controls",
+                  "cpu_s": 0.358448
+                },
+                {
+                  "id": "recovery_v2_primary",
+                  "cpu_s": 0.60751
+                },
+                {
+                  "id": "native_v3_control",
+                  "cpu_s": 0.322367
+                },
+                {
+                  "id": "native_v3_primary",
+                  "cpu_s": 0.550025
+                },
+                {
+                  "id": "independent_v2_Decimal80",
+                  "cpu_s": 0.688471
+                },
+                {
+                  "id": "independent_v3_Decimal80",
+                  "cpu_s": 0.799264
+                },
+                {
+                  "id": "saved_output_figure",
+                  "cpu_s": 1.776108
+                }
+              ],
+              "new_known_bounded_worker_cpu_s": 5.620948,
+              "known_bounded_worker_lineage_cpu_s": 24.830244114,
+              "independent_review_included_once": 1.487735,
+              "separate_known_root_saved_output_analysis_cpu_s": 0.054974463,
+              "separate_mechanical_samples": {
+                "review_summary_cpu_s": 0.016845157,
+                "freshness_receipt_write_cpu_s": 0.003284493,
+                "final_freshness_copy_cpu_s": 0.003932157,
+                "S0_archive_cpu_s": 0.477434078,
+                "S0_copy_cpu_s": 0.005671543,
+                "V2_raw_archive_child_cpu_s": 0.168369,
+                "V2_raw_archive_coordinator_cpu_s": 0.002129297,
+                "REC133_readonly_download_cpu_s": 0.142911826
+              },
+              "coordinator_and_packaging": "Read per-stage dispatch and backup receipts; samples are not a complete mechanical total. No double-counting of nested worker timers.",
+              "observed_failed_mechanical_actions": [
+                {
+                  "kind": "oversized exec argument rejected before child start",
+                  "science_started": false,
+                  "cpu_s": null
+                },
+                {
+                  "kind": "saved-output schema lookup redshift vs z",
+                  "science_started": false,
+                  "cpu_s": null
+                },
+                {
+                  "kind": "read-only suffix inventory missed json import; corrected read succeeded",
+                  "science_started": false,
+                  "cpu_s": null
+                },
+                {
+                  "kind": "Git binary base64 preparation interrupted before any create_blob call; 0 remote uploads; canonical raw publication used",
+                  "science_started": false,
+                  "cpu_s": null
+                }
+              ],
+              "global_spend": null,
+              "monetary_spend": null,
+              "remaining": null,
+              "currency": null,
+              "unmeasured_remote_CAS_cost": null,
+              "unmeasured_model_and_IO_cost": null,
+              "actual_primary_counts": {
+                "Q_built": 22,
+                "completed_cases": 21,
+                "RHS": 189,
+                "retained_raw_completed_cases": 20,
+                "retained_raw_RHS": 180,
+                "repeated_current_failed_attempt_complete_case": 1,
+                "historical_old_science_replay": 0,
+                "new_ODE": 0,
+                "source_quadrature": 0,
+                "thermal_rate_quadrature": 0,
+                "NCP_dispatch": 0
+              },
+              "scope": "Known bounded worker lineage lower bound, not total project cost. Counts/cost of the lost failed v1 remain charged; no reset."
+            },
+            "reuse": {
+              "PR59": "unchanged frozen EE generator; no old replay",
+              "PHYS83": {
+                "science_commit": "6a2fc5aacb6182a916b9434c316e99e750e8273c",
+                "mode": "constructor arrays only; no moments/evaluate or rate quadrature"
+              },
+              "C23D": {
+                "science": "d04b2a56adb4a5d55b901420aa544332b41f6dbb",
+                "documents": "4a0bbc0ed618ab6eae1b7b2714e366d803186b86",
+                "source": "three saved384-atom sources; no quadrature"
+              },
+              "PR101": {
+                "science": "b8882d026887f375acf90768d4e3740eb03da226",
+                "documents": "b65befa5187d3e1e11574a98dcadd2032831de72",
+                "scope": "standard backward-survival derivation and descriptive uniform-hazard envelope reused"
+              }
+            },
+            "owner_freshness": {
+              "full_metadata_utc": "2026-10-24T07:26:02--07:27:03Z",
+              "branches": 1325,
+              "open_PRs": 859,
+              "collections": 14,
+              "pages": 29,
+              "relevant_HEAD_utc": "2026-10-24T07:46:26Z",
+              "PHYS84": "NUMERICAL_ADMISSION_WAIT",
+              "PHYS86": "new compact exact reference scopedPASS; no physical rate/stopping",
+              "HE_ANG": "SOURCE_INPUT_PENDING; HE96 sparseTDCS scoped only",
+              "REC133": "S2 stored-history envelopePASS; H5INPUT_DEPENDENT_UNCALIBRATED",
+              "new_stopping_provider_count": 0,
+              "receipt_path": "research/cr_n5_ce_resolvent_20261024/delivery/OWNER_FRESHNESS_FINAL.json"
+            },
+            "actual_operation_counts": {
+              "new_primary_Q": 22,
+              "completed_cases": 21,
+              "RHS": 189,
+              "retained_exact_raw_complete_cases": 20,
+              "retained_exact_raw_RHS": 180,
+              "selected_family_Q": 8,
+              "selected_family_RHS": 72,
+              "new_ODE": 0,
+              "source_quadrature": 0,
+              "thermal_rate_quadrature": 0,
+              "historical_old_science_replay": 0,
+              "NCP": 0
+            },
+            "claim_limits": [
+              "Finite-chain arithmetic and frozen finite comparisons only; no certified continuum, infinite-domain or physical error bound.",
+              "Other competing hazards and omitted-process ranking remain null.",
+              "First entry is not irreversible assimilation or Maxwellization; killing is diagnostic termination, not physical electron destruction.",
+              "Internal excitation reward is not final bath heat or escaping-photon energy.",
+              "No D/T/He/Li isotope transfer admission.",
+              "Full N4/N5 remain PARTIAL/OPEN; N6/N7 not activated."
+            ],
+            "missing_other_competing_hazards": null,
+            "dominant_omitted_process_ranking": null,
+            "publication": {
+              "schema": "N5_RESOLVENT_SCIENCE_PUBLICATION_R1_V1",
+              "repository": "cosmosapjw-quantum/bass_cr",
+              "branch": "research/cr-n5-ce-resolvent-20261024",
+              "PR": "https://github.com/cosmosapjw-quantum/bass_cr/pull/102",
+              "commit": "896800b4511f323ad3f0b5372b4912fb4770ea98",
+              "tree": "f34f6c15713169a1a9800c640e49d3e9eda6dd7d",
+              "expected_parent": "21523c93583129763cc8b66f68091bd6e48e81ee",
+              "force": false,
+              "create_tree": "ACK",
+              "create_commit": "ACK",
+              "update_ref": "ACK",
+              "exact_ref_read": "MATCH",
+              "verification": "R1_PASS",
+              "text_files": 211,
+              "binary_publication": "25 actual files/9080788 bytes in release canonical; Git binary calls0/ACK0. Manifest includes locally expected SHA only.",
+              "admission": "NUMERICALLY_CHECKED_SCOPED_CONDITIONAL_FINITE_CHAIN",
+              "science_reexecution_for_publication": 0,
+              "main_branch_merge": false
+            },
+            "backup": {
+              "stage": "CANONICAL_COMPLETE_DUAL_R3_DRIVE_UNKNOWN",
+              "S0": "Library libfile_9f0a9452cfbc8191b5d8dbfcba6c2830 / Dropbox id:BSpOijBcT10AAAAAAD_9Sg R1",
+              "v2_raw": "Library libfile_515e40e48564819188cabb0cd189939f / Dropbox id:BSpOijBcT10AAAAAAD_9TA R1",
+              "historical_Drive_unknowns": "PRESERVED; not retransmitted",
+              "raw_binary_transport": "Git0calls/0ACK; canonical release contains actual25binary files",
+              "three_provider_backup_complete": false,
+              "schema": "N5_RESOLVENT_CANONICAL_BACKUP_RECEIPTS_V1",
+              "created_utc": "2026-10-24T08:10:12.687076+00:00",
+              "status": "LIBRARY_DROPBOX_R3_PASS_DRIVE_UNKNOWN_NO_ACK",
+              "canonical": {
+                "file_name": "BASS_CR_N5_RESOLVENT_DELIVERY_20261024T080240Z.zip",
+                "bytes": 13750538,
+                "sha256": "541c8132278cda76c8ca73aadaa99aff316efe6cc3f5135bba8d98fe34438c1b",
+                "manifest_sha256": "a601aaf78b8213e38a894d5e359bf9f7a59c7c0ba2969746a79c33870d76e9d0",
+                "manifest_payloads": 250,
+                "ZIP_members": 251,
+                "local_CRC": "PASS",
+                "local_all_payloads": "PASS",
+                "source_file_count": 248,
+                "source_uncompressed_bytes": 16432047,
+                "source_stat_stability": "PASS_ALL",
+                "scientific_binary_payload_count": 25,
+                "scientific_binary_payload_bytes": 9080788,
+                "scientific_binary_types": {
+                  "NPZ": 20,
+                  "decimal_gzip": 4,
+                  "PNG": 1
+                },
+                "nested_S0_bytes": 3914869,
+                "nested_S0_sha256": "5c1e6c5af3286b2c19bbde3127a86b660bd55eaa7f0edcd06d998943c4518f82",
+                "frozen_started_utc": "2026-10-24T08:02:40.087045+00:00",
+                "frozen_finished_utc": "2026-10-24T08:02:40.777634+00:00",
+                "self_reference_policy": "This receipt follows the frozen ZIP and is not a payload of that ZIP; Documents D, central M2 and terminal authority follow separately"
+              },
+              "authority": {
+                "ScienceS": "896800b4511f323ad3f0b5372b4912fb4770ea98",
+                "ScienceTree": "f34f6c15713169a1a9800c640e49d3e9eda6dd7d",
+                "centralM1": "c664c1546a077feade7f4bb6896073d1f47267a9",
+                "centralM1Tree": "a4213f181f5bfcbd45409e667f2b24cb6818aa8a",
+                "documents_D": "FUTURE_AFTER_THIS_FREEZE",
+                "central_M2": "FUTURE_AFTER_THIS_FREEZE",
+                "publication_verification": "R1 ACK+exact-ref PASS reported and receipts included",
+                "Git_publication": "211 text/source/JSON/SVG; binary transport calls0 ACK0 manifest explicit"
+              },
+              "providers": [
+                {
+                  "provider": "Library",
+                  "remote_file_id": "libfile_6297084fcd188191b8085b15994fe949",
+                  "tier": "R3",
+                  "status": "PASS",
+                  "verified_utc": "2026-10-24T08:06:17.297926+00:00",
+                  "actual_whole_file_GET": {
+                    "started_utc": "2026-10-24T08:05:23.959581+00:00",
+                    "finished_utc": "2026-10-24T08:05:26.306538+00:00",
+                    "source_library_file_id": "libfile_6297084fcd188191b8085b15994fe949",
+                    "source_file_id": "file_0000000047b481fa8690ded0b8b21e5a",
+                    "transfer_route": "CURRENT_NATIVE_HELPER_COMPLETE_TRANSFER_OBJECT_ACTUAL_URL_GET",
+                    "actual_bytes": 13750538,
+                    "returncode": 0,
+                    "error": null,
+                    "science_runs": 0
+                  },
+                  "verification": {
+                    "status": "PASS",
+                    "variant": "final",
+                    "variant_id": "n5_ce_resolvent_native_knot_final_896800b4511f",
+                    "zip_bytes": 13750538,
+                    "zip_sha256": "541c8132278cda76c8ca73aadaa99aff316efe6cc3f5135bba8d98fe34438c1b",
+                    "CRC": "PASS",
+                    "all_manifest_payloads": "PASS",
+                    "payload_count": 250
+                  },
+                  "verification_provenance": "Downloaded independently from identified provider into this new readback path; original local canonical bytes were not substituted",
+                  "public_evidence_ref": {
+                    "GET_receipt": "readbacks/Library_v1/GET_RECEIPT.json",
+                    "R3_receipt": "readbacks/Library_v1/R3_RECEIPT.json",
+                    "R3_receipt_sha256": "f95373123a41e65d674b869d9fa2ebd37d553e5e23b2b2da52752d0f7fd81551"
+                  },
+                  "R1": {
+                    "started_utc": "2026-10-24T08:03:05.321Z",
+                    "finished_utc": "2026-10-24T08:03:15.631Z",
+                    "status": "succeeded",
+                    "file_id": "file_0000000047b481fa8690ded0b8b21e5a",
+                    "library_file_id": "libfile_6297084fcd188191b8085b15994fe949",
+                    "path": "/BASS/BASS_CR_N5_RESOLVENT_DELIVERY_20261024T080240Z.zip",
+                    "directory_id": "6a6deb5e9bfc8191b1caa87daf0e8d26",
+                    "current_version_number": 0,
+                    "bytes": 13750538,
+                    "native_returned_xattrs": "APPLIED_COMPLETE_HELPER_EXIT0",
+                    "create_calls": 1
+                  }
+                },
+                {
+                  "provider": "Dropbox",
+                  "remote_file_id": "id:BSpOijBcT10AAAAAAD_9YQ",
+                  "tier": "R3",
+                  "status": "PASS",
+                  "verified_utc": "2026-10-24T08:06:17.447609+00:00",
+                  "actual_whole_file_GET": {
+                    "started_utc": "2026-10-24T08:05:50.811290+00:00",
+                    "finished_utc": "2026-10-24T08:05:51.428397+00:00",
+                    "source_file_id": "id:BSpOijBcT10AAAAAAD_9YQ",
+                    "HTTP_status": 200,
+                    "bytes": 13750538,
+                    "sha256": "541c8132278cda76c8ca73aadaa99aff316efe6cc3f5135bba8d98fe34438c1b",
+                    "logical_GET_attempts": 1,
+                    "HEAD_calls": 0,
+                    "Range_calls": 0,
+                    "automatic_retries": 0,
+                    "HTTP_redirects": "urllib default; logical download may follow provider redirect",
+                    "proxy_policy": "Runtime default urllib handling; no bypass or credentials logged",
+                    "error_type": null,
+                    "size_match": true,
+                    "sha256_match": true,
+                    "science_executions": 0
+                  },
+                  "verification": {
+                    "status": "PASS",
+                    "variant": "final",
+                    "variant_id": "n5_ce_resolvent_native_knot_final_896800b4511f",
+                    "zip_bytes": 13750538,
+                    "zip_sha256": "541c8132278cda76c8ca73aadaa99aff316efe6cc3f5135bba8d98fe34438c1b",
+                    "CRC": "PASS",
+                    "all_manifest_payloads": "PASS",
+                    "payload_count": 250
+                  },
+                  "verification_provenance": "Downloaded independently from identified provider into this new readback path; original local canonical bytes were not substituted",
+                  "public_evidence_ref": {
+                    "GET_receipt": "readbacks/Dropbox_v1/GET_RECEIPT.json",
+                    "R3_receipt": "readbacks/Dropbox_v1/R3_RECEIPT.json",
+                    "R3_receipt_sha256": "d823930d13cb4a3122a5db8059faafead5415a37a4f04e9cf32279b8c8cf152c"
+                  },
+                  "R1": {
+                    "status": "completed",
+                    "verified_utc": "2026-10-24T08:04:07.831Z",
+                    "file_id": "id:BSpOijBcT10AAAAAAD_9YQ",
+                    "path": "ns:183516487//BASS_DERIVATION_DOSSIERS_20260912/bass_cr/BASS_CR_N5_RESOLVENT_DELIVERY_20261024T080240Z.zip",
+                    "bytes": 13750538,
+                    "upload_calls": 1,
+                    "status_calls": 1
+                  }
+                }
+              ],
+              "Drive": {
+                "status": "UNKNOWN_NO_ACK",
+                "R3": "NOT_RUN",
+                "file_id": null,
+                "folder_id": "1V4ZQza59dWVC7apeRz9P1TL66eaVYyJy",
+                "file_name": "BASS_CR_N5_RESOLVENT_DELIVERY_20261024T080240Z.zip",
+                "upload_calls": 1,
+                "started_utc": "2026-10-24T08:07:58.625Z",
+                "ACK_deadline_s": 60,
+                "last_upload_observation_utc": "2026-10-24T08:08:58.627Z",
+                "elapsed_wall_s": 60.002,
+                "ACK_observed": false,
+                "completion_after_deadline": "UNOBSERVED",
+                "retransmissions": 0,
+                "exact_name_folder_reconciliation": {
+                  "query_calls": 1,
+                  "started_utc": "2026-10-24T08:09:13.655Z",
+                  "finished_utc": "2026-10-24T08:09:14.113Z",
+                  "wall_s": 0.458,
+                  "q": "name = 'BASS_CR_N5_RESOLVENT_DELIVERY_20261024T080240Z.zip' and '1V4ZQza59dWVC7apeRz9P1TL66eaVYyJy' in parents and trashed = false",
+                  "result_count": 0,
+                  "provider_isError": false,
+                  "interpretation": "No matching object observed in this exact query; this is not proof of permanent absence or failed upload"
+                }
+              },
+              "historical_Drive": {
+                "N4": "UNCHANGED_UNKNOWN",
+                "C23C": "UNCHANGED_UNKNOWN",
+                "C23D": "UNCHANGED_UNKNOWN_NO_ACK_R3_NOT_RUN",
+                "N5_CE_PR101": "UNCHANGED_UNKNOWN_NO_ACK_R3_NOT_RUN",
+                "historical_terminal_JSON_Drive": "NOT_ATTEMPTED_UNCHANGED"
+              },
+              "triple_backup_completion": false,
+              "prebuild_failure": {
+                "schema": "N5_FINAL_ARCHIVE_PREBUILD_FAILURE_V1",
+                "recorded_utc": "2026-10-24T08:02:39.122Z",
+                "stage": "BEFORE_CANONICAL_HELPER_OR_ARCHIVE_CREATION",
+                "error": "Agent preflight mistakenly counted .npz/.gz/.zip instead of science binary .npz/.gz/.png; S0 nested ZIP is a separate payload",
+                "observed_science_binary": {
+                  "count": 25,
+                  "bytes": 9080788,
+                  "extensions": {
+                    "npz": 20,
+                    "gz": 4,
+                    "png": 1
+                  }
+                },
+                "nested_S0": {
+                  "count": 1,
+                  "bytes": 3914869,
+                  "unchanged": true
+                },
+                "archive_created": false,
+                "upload_calls": 0,
+                "science_executions": 0,
+                "helper_children_started": 0,
+                "coordinator_CPU_s": null,
+                "CPU_note": "Initial inline preflight exited before measured receipt; do not invent zero. Tool reported wall0.00003328s separately.",
+                "repair": "Classification only; no unit/source/science change"
+              },
+              "mechanical_budget": {
+                "measured_components": [
+                  {
+                    "stage": "canonical_build_plus_local_verify",
+                    "CPU_s": 0.679335,
+                    "basis": "child rusage sum"
+                  },
+                  {
+                    "stage": "canonical_build_wrapper",
+                    "CPU_s": 0.01167466,
+                    "basis": "coordinator process_time"
+                  },
+                  {
+                    "stage": "Library_actual_GET",
+                    "CPU_s": 0.11888499999999999,
+                    "basis": "child rusage"
+                  },
+                  {
+                    "stage": "Library_GET_wrapper",
+                    "CPU_s": 0.0006982789999999996,
+                    "basis": "coordinator process_time"
+                  },
+                  {
+                    "stage": "Dropbox_actual_GET",
+                    "CPU_s": 0.040369447,
+                    "basis": "download process_time"
+                  },
+                  {
+                    "stage": "Library_R3_verify",
+                    "CPU_s": 0.163208,
+                    "basis": "child rusage"
+                  },
+                  {
+                    "stage": "Library_R3_wrapper",
+                    "CPU_s": 0.0008119960000000023,
+                    "basis": "coordinator process_time"
+                  },
+                  {
+                    "stage": "Dropbox_R3_verify",
+                    "CPU_s": 0.14887399999999998,
+                    "basis": "child rusage"
+                  },
+                  {
+                    "stage": "Dropbox_R3_wrapper",
+                    "CPU_s": 0.0008316550000000006,
+                    "basis": "coordinator process_time"
+                  }
+                ],
+                "measured_CPU_subtotal_s": 1.164688037,
+                "subtotal_scope": "Final archive build/local verify and actual Library/Dropbox GET+R3 verification; overlapping helper-internal CPU values are not added again",
+                "unmeasured_prebuild_coordinator_CPU_s": null,
+                "upload_tool_server_CPU_s": null,
+                "other_tool_orchestration_CPU_s": null,
+                "full_mechanical_CPU_total_s": null,
+                "peak_observed_child_RSS_KiB": 43784,
+                "receipt_write_cost": "Recorded separately in RECEIPT_WRITE_COST.json outside frozen ZIP"
+              },
+              "scope": {
+                "new_science_runs": 0,
+                "old_science_replays": 0,
+                "source_quadratures": 0,
+                "provider_moments_evaluate_calls": 0,
+                "runtime_lease": "ABSENT_NO_MUTATION",
+                "missing_original_v1_raw": "PRESERVED_AS_MISSING_NOT_RECONSTRUCTED",
+                "full_conversations": "UNAVAILABLE",
+                "signed_GET_URLs_in_public_receipt": false,
+                "native_transfer_credentials_in_public_receipt": false,
+                "global_error_bound": null,
+                "global_completion_percent": null
+              },
+              "stages": {
+                "EXECUTION": "Mechanical packaging, real remote byte readback and integrity verification only; no science",
+                "PUBLICATION": "Science S and central M1 are the pinned published authorities; Documents D and central M2 pending parent continuation",
+                "BACKUP": "Library R3 PASS; Dropbox R3 PASS; new Drive UNKNOWN_NO_ACK after one bounded upload and one exact reconciliation",
+                "DAG": "Return to root for Documents D, central M2 and separate terminal JSON actual-byte R3; N6/N7 scientific gates unchanged"
+              }
+            },
+            "parent_claim": "Full N4/N5 PARTIAL/OPEN; N6/N7 predecessor gates unsatisfied.",
+            "next_first_node": "CR_N5_ATOMIC_ISOTOPE_COVERAGE",
+            "global_error_bound": null,
+            "global_completion_fraction": null,
+            "global_completion_percent": null,
+            "axes": {
+              "EXECUTION": "COMPLETE_SCOPED; independent C9 PASS blocking0",
+              "PUBLICATION": "Science896800b4511f323ad3f0b5372b4912fb4770ea98 and Documents3acb6beca5de4f82fccff1673dbcac010c53cf24 R1 PASS; this additive M2 binds delivery; no merge",
+              "BACKUP": "Canonical Library+Dropbox actual-byte R3 PASS, size/SHA/CRC/all250payloads; Drive1upload60.002snoACK +1exactquery0 = UNKNOWN_NO_ACK/R3NOT_RUN; no retransmit",
+              "DAG": "Named CE child complete; full N4/N5 PARTIAL/OPEN; N6/N7 gated"
+            },
+            "documents_tree": "0de37437eda08ec372490969c20db6602c966770",
+            "documents_publication": {
+              "schema": "N5_DOCUMENTS_PUBLICATION_R1_V1",
+              "repository": "cosmosapjw-quantum/bass_cr",
+              "branch": "research/cr-n5-ce-resolvent-20261024",
+              "commit": "3acb6beca5de4f82fccff1673dbcac010c53cf24",
+              "tree": "0de37437eda08ec372490969c20db6602c966770",
+              "expected_parent": "896800b4511f323ad3f0b5372b4912fb4770ea98",
+              "force": false,
+              "changed_post_canonical_text_files": 9,
+              "create_tree": "ACK",
+              "create_commit": "ACK",
+              "update_ref": "ACK",
+              "exact_ref": "MATCH",
+              "tier": "R1",
+              "status": "PASS",
+              "main_branch_merge": false
+            },
+            "central_M1": "c664c1546a077feade7f4bb6896073d1f47267a9",
+            "delivery_receipts": {
+              "handoff_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/3acb6beca5de4f82fccff1673dbcac010c53cf24/research/cr_n5_ce_resolvent_20261024/delivery/HANDOFF_FINAL_KO.md",
+              "backup_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/3acb6beca5de4f82fccff1673dbcac010c53cf24/research/cr_n5_ce_resolvent_20261024/delivery/BACKUP_RECEIPTS.json",
+              "stage_ledger_url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/3acb6beca5de4f82fccff1673dbcac010c53cf24/research/cr_n5_ce_resolvent_20261024/delivery/LOOP_LEDGER_FINAL.json",
+              "scoped_stage_obligations": 20,
+              "global_completion_percent": null,
+              "terminal_authority": "Following immutable JSON binds exact D/M2; its own Library/Dropbox R3 is a separate external receipt"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR_N6_CONSERVATIVE_COUPLING",
+      "repository": "bass_cr",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "CR_N4_STOPPING_KERNEL",
+        "CR_N5_ATOMIC_ISOTOPE_COVERAGE"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "CR_N7_NEW_PARCEL",
+      "repository": "bass_cr",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "CR_N6_CONSERVATIVE_COUPLING"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "CR_BETA_FULL_OWNER",
+      "repository": "bass_cr",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-LINE02",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "OWNER_DELIVERY_PENDING",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-HISTORY",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LINE02"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-C3",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-LI",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-FIELD",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LINE02"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REC-COUPLED",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LI",
+        "REC-FIELD",
+        "REC-HISTORY"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "HE-X1",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "COMPLETE_SCOPED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion": {
+        "status": "COMPLETE_SCOPED",
+        "science_commit": "eb03981d15ad291375dd6d574a9c28809f85fc02",
+        "evidence": [
+          "current_unit/INDEPENDENT_REVIEW.md",
+          "current_unit/raw_outcomes.json",
+          "current_unit/LOOP_PROGRESS.json"
+        ],
+        "scope": "32 fixtures, one successful bounded Python invocation and independent PASS_SCOPED for represented-input moment-cone gate; physical source calibration/event correlations/runtime admission remain separate",
+        "contract_status_interpretation": "Original current_unit_selected contract is preserved as historical selection, not current execution state"
+      }
+    },
+    {
+      "id": "HE-ANG",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "SOURCE_INPUT_PENDING",
+      "local_dependencies": [
+        "HE-X1"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion": {
+        "status": "SOURCE_INPUT_PENDING",
+        "as_of": "2026-10-24",
+        "contract_subunit": {
+          "id": "HE-ANG-CONTRACT",
+          "status": "COMPLETE_SCOPED",
+          "science_commit": "896e5427100ad48d017deff2697b6f992ba029cd",
+          "publication_head": "0a11bf9e1f6ffcc696625de0caf1c581c27cf7f0",
+          "pull_request": 92,
+          "reused_without_replay": true
+        },
+        "source_intake_subunit": {
+          "id": "HE-ANG-SOURCE-HEX-INTAKE",
+          "status": "COMPLETE_SCOPED",
+          "science_commit": "15053fe4445a32e0544d644e864fe27780d08743",
+          "pull_request": 93,
+          "scope": "actual Hex v2.02 source/schema and full selected-file availability; exact represented-coefficient tail control; no physical angular provider"
+        },
+        "evidence": [
+          "research/he_ang_source_hex_20261024/RESULTS_KO.md",
+          "research/he_ang_source_hex_20261024/CLAIM_GATE.json",
+          "research/he_ang_source_hex_20261024/evidence/review/SCIENCE_REVIEW_FINAL.json",
+          "research/he_ang_source_hex_20261024/evidence/review/CODE_REVIEW_FINAL.json",
+          "research/he_ang_source_hex_20261024/evidence/execution/A2/04_catalogue.stdout.txt",
+          "research/he_ang_ddcs20_window_20261024/RESULTS_KO.md",
+          "research/he_ang_ddcs20_window_20261024/CLAIM_GATE.json",
+          "research/he_ang_ddcs20_window_20261024/evidence/review/C9_REVIEW.json",
+          "research/he_ang_ccc_exchange_20261024/RESULTS_KO.md",
+          "research/he_ang_ccc_exchange_20261024/CLAIM_GATE.json",
+          "research/he_ang_ccc_exchange_20261024/SCIENCE_DECISION_KO.md",
+          "research/he_ang_ccc_exchange_20261024/evidence/review/C9_REPORT.json",
+          "research/he_ang_tdcs54_anchors_20261024/RESULTS_KO.md",
+          "research/he_ang_tdcs54_anchors_20261024/CLAIM_GATE.json",
+          "research/he_ang_tdcs54_anchors_20261024/source/TABLE_IV_INPUT.json",
+          "research/he_ang_tdcs54_anchors_20261024/reviews/C9_REPORT.json"
+        ],
+        "physical_provider_admitted": false,
+        "empirical_angular_correction": false,
+        "selected_data": {
+          "compressed_sha256": "afa8d83ada688ecf91c40340da669e204885ec5c52d04fc55b48837b52135101",
+          "decoded_bytes": 69441007,
+          "tmat_rows": 948557,
+          "H1_tmat_rows": 86457,
+          "H1_Ei_extrema_Ry": [
+            1e-7,
+            0.9374
+          ],
+          "ionf_rows": 0,
+          "absence_scope": "this file only; never zero cross section"
+        },
+        "resources": {
+          "ledger": "research/he_ang_source_hex_20261024/evidence/execution/RESOURCE_LEDGER.json",
+          "cpu_s": 18.434312000000002,
+          "wall_s": 18.739398924000852,
+          "caps_cpu_wall_s": [
+            20,
+            60
+          ],
+          "failed_catalogues": 2,
+          "completed_catalogues": 1,
+          "nominal_per_child_cpu_overshoot_recorded": true,
+          "old_costs_and_UNKNOWN_NOT_ZERO_preserved": true
+        },
+        "next": {
+          "id": "HE-ANG-SOURCE-PAYLOAD",
+          "status": "INPUT_DEPENDENT",
+          "contract": "research/he_ang_source_hex_20261024/NEXT_SOURCE_CONTRACT.json",
+          "measured_marginal_status": "A measured one-electron DDCS finite-window marginal is available; source-qualified joint outgoing-electron law, full support/count-spin/frame conventions and finite-mass recoil correlations are still required.",
+          "sparse_joint_status": "Two source-located H1s reported TDCS coordinates at incident54.4eV/slow5eV/slow210degCW/fast4or10degCCW are admitted as sparse observables; full source-consistent joint law, count/spin/support/frame/recoil/uncertainty remain required."
+        },
+        "contract_status_interpretation": "Original planned author contract preserved unchanged; this observation records completed contract/intake subunits and the still-open physical provider gate.",
+        "backup_receipt": "assembly/returns/BASS_HE_HEANG_SOURCE_BACKUP_ACK_20261024.json",
+        "no_merge": true,
+        "no_activation": true,
+        "total_physical_goal_completion_percent": null,
+        "measured_window_subunit": {
+          "id": "HE-ANG-DDCS20-WINDOW",
+          "status": "COMPLETE_SCOPED",
+          "science_commit": "d8bae9f7e24ad3494e399f7ab46c4167a5623d48",
+          "pull_request": 94,
+          "source": {
+            "citation": "Childers et al., PRA69,022709(2004),TableIV",
+            "incident_energy_eV": 20,
+            "raw_cells_preserved": 40,
+            "primary_cells": 32,
+            "E_eV": [
+              3,
+              6
+            ],
+            "theta_deg": [
+              15,
+              120
+            ],
+            "primary_E2_excluded": true
+          },
+          "scope": "conditional detected-electron window moments under linear-mu axisymmetric interpolation and nominated deterministic sensitivity box; not CI or full-domain event provider",
+          "R6": "PASS",
+          "C9": "PASS_SCOPED",
+          "resources": {
+            "cpu_s": 1.9570049999999999,
+            "wall_s": 2.104758352987119,
+            "scientific_child_invocations": 3,
+            "repair_invocations_used": 0,
+            "allocation_cpu_wall_s": [
+              20,
+              60
+            ],
+            "prior_costs_and_unknowns_preserved_nontransferable": true
+          },
+          "backup_receipt": "assembly/returns/BASS_HE_HEANG_DDCS20_BACKUP_ACK_20261024.json"
+        },
+        "ccc_exchange_subunit": {
+          "id": "HE-ANG-CCC-EXCHANGE",
+          "status": "COMPLETE_SCOPED",
+          "science_commit": "63706d605ddfc5d313ca310b09b5fd54a4efdbf4",
+          "pull_request": 95,
+          "scope": "conditional CCC exact equal-sharing amplitude/phase/spin normalization adapter and printed TP TableI arithmetic; no full H physical joint provider",
+          "source": {
+            "primary": [
+              "Bray arXiv:physics/9906008v3 Eqs2,21,24-27",
+              "Stelbovics arXiv:physics/9905020v1 TableI"
+            ],
+            "actual_TP_printed_values": 8,
+            "published_factor_four_preserved": true,
+            "relative_phase_reconstructed": false
+          },
+          "representations": [
+            "same-source raw complex pair",
+            "already coherent density",
+            "already spin-weighted coherent density",
+            "phase-missing intensity interval only"
+          ],
+          "R6": "PASS_AFTER_CORRECTION",
+          "C9": "PASS_AFTER_CORRECTION",
+          "root_decision": "PASS_SCOPED",
+          "blocking_findings": 0,
+          "closed_findings": [
+            "R6-01",
+            "C9-01"
+          ],
+          "resources": {
+            "ledger": "research/he_ang_ccc_exchange_20261024/evidence/execution/RESOURCE_LEDGER.json",
+            "measured_cpu_s": 1.410021,
+            "measured_wall_s": 1.4436621759814443,
+            "scientific_child_invocations": 4,
+            "initial_test_methods": 14,
+            "targeted_repair_methods": 1,
+            "repair_invocations_used": 1,
+            "allocation_cpu_wall_s": [
+              8,
+              30
+            ],
+            "end_to_end_cpu_cap_established": false,
+            "unmeasured_prelaunch_parent_CPU": "UNKNOWN_NOT_ZERO",
+            "remote_symbolic_total_CPU": "UNKNOWN_NOT_ZERO",
+            "host_preparation_document_IO_cost": "UNKNOWN_NOT_ZERO beyond separately measured preparation",
+            "old_costs_and_unknowns_preserved_nontransferable": true
+          },
+          "physical_provider_admitted": false,
+          "next_physical_input": "HE-ANG-SOURCE-PAYLOAD",
+          "backup": {
+            "status": "DUAL_UPLOAD_AND_METADATA_READBACK_CONFIRMED",
+            "receipt": "assembly/returns/BASS_HE_HEANG_CCC_EXCHANGE_BACKUP_ACK_20261024.json",
+            "archive": "HEANG_CCC_EXCHANGE_20261024_63706d60_d5aa6c94.tar.gz",
+            "bytes": 278842,
+            "sha256": "21303684dbb2a0bed96d368802c70093cd343ccd644c53710036f16712c881f0",
+            "members": 72,
+            "drive_id": "1QuA8qmz8tOuLcQTAIozQEI0Jy-3pjBkV",
+            "dropbox_id": "id:BSpOijBcT10AAAAAAD_9JQ",
+            "independent_remote_sha256_verified": false,
+            "scope": "B2 exact Science S65files plus Central C3files and receipts; D/E are future B3 supplement",
+            "delivery_D_central_E_supplement": "PENDING_B3_ACTUAL_ACK",
+            "final_supplement_receipt_location": "https://github.com/cosmosapjw-quantum/BASS_HE/pull/95"
+          },
+          "no_merge": true,
+          "no_activation": true,
+          "publication_head": "2cb9f9176c2a1764bb8ceaf2392531a100eb6820",
+          "stage_count": {
+            "research_complete": 10,
+            "coding_complete": 10,
+            "total_complete": 20,
+            "total_stages": 20
+          }
+        },
+        "tdcs54_anchors_subunit": {
+          "id": "HE-ANG-TDCS54-ANCHORS",
+          "status": "COMPLETE_SCOPED",
+          "science_commit": "60cacdb740fa4dadcdcbff43b7ffcb52566e077d",
+          "science_tree": "bed9fc00b2f5ba01d9a938d277c3213b782c4bd6",
+          "pull_request": 96,
+          "scope": "two located reported H1s TDCS source observables and exact nominal common-scale/shape diagnostics; no full joint event provider",
+          "source_observable_admission": "TWO_LOCATED_REPORTED_TDCS_POINTS_SCOPED",
+          "source": {
+            "doi": "10.1103/PhysRevA.62.042701",
+            "table": "IV",
+            "incident_energy_eV": "54.4",
+            "slow_energy_eV": "5",
+            "located_coordinates": 2,
+            "located_cross_section_values": 6,
+            "all_reported_features": 8,
+            "all_cross_section_values": 24,
+            "printed_ratio_controls": 16,
+            "representation": "already_reported_TDCS",
+            "additional_spin_exchange_count_factor_applied": false,
+            "nucleus": "infinite_mass_source",
+            "CCC99_identity_equivalence_to_old_preprint_or_current_archive": false,
+            "located_data": [
+              {
+                "fast_angle_counterclockwise_deg": "4",
+                "slow_angle_clockwise_deg": "210",
+                "CDW_EIS_TDCS_au": "1.83",
+                "CCC99_TDCS_au": "2.58",
+                "experiment_TDCS_au": "1.52"
+              },
+              {
+                "fast_angle_counterclockwise_deg": "10",
+                "slow_angle_clockwise_deg": "210",
+                "CDW_EIS_TDCS_au": "0.99",
+                "CCC99_TDCS_au": "1.51",
+                "experiment_TDCS_au": "1.24"
+              }
+            ]
+          },
+          "R6": "PASS",
+          "C9": "PASS_AFTER_FIGURE_CORRECTION",
+          "root_decision": "PASS_SCOPED",
+          "closed_findings": [
+            "C9-FIG-01"
+          ],
+          "open_blocking_findings": [],
+          "key_exact_results": {
+            "CDW_anchor_Q": "1891/1254",
+            "CCC_anchor_Q": "3999/2869",
+            "CDW_anchor_free_A": "9435/9424",
+            "CCC_anchor_free_A": "1717/1178",
+            "CDW_anchor_free_delta": "637/3145",
+            "CCC_anchor_free_delta": "565/3434",
+            "CCC_anchor_bounded_A": "27/20",
+            "CCC_anchor_bounded_delta": "44/171",
+            "all_feature_CDW_delta": "1593/5849",
+            "delta_point_one_scale_feasibility": "EMPTY for both theories, already before absolute-scale restriction"
+          },
+          "resources": {
+            "measured_cpu_s": 1.887889,
+            "measured_wall_s": 1.9431963300012285,
+            "allocation_cpu_wall_s": [
+              8,
+              30
+            ],
+            "repair_reserve_consumed": true,
+            "measured_cap_overshoots": 0,
+            "failed_scientific_children": 0,
+            "separately_measured_preparation_cpu_s": 0.034782999999999994,
+            "separately_measured_preparation_wall_s": 0.04077705599775072,
+            "end_to_end_cpu_cap_established": false,
+            "other_host_orchestration": "UNKNOWN_NOT_ZERO",
+            "Wolfram_evaluator_calls": 1,
+            "Wolfram_context_calls": 1,
+            "Wolfram_evaluator_toolwall_s": 8.504,
+            "Wolfram_body_cpu_s": 0.102054,
+            "Wolfram_body_wall_s": 0.102377,
+            "Wolfram_total_remote_CPU": "UNKNOWN_NOT_ZERO",
+            "prior_costs_failures_unknowns_preserved": true,
+            "old_allowances_transferred_or_reset": false
+          },
+          "stage_count": {
+            "research_complete": 10,
+            "coding_complete": 10,
+            "total_complete": 20,
+            "total_stages": 20,
+            "delivery": "current-file E records actual D20stage metadata; B3tail actual ACK pending"
+          },
+          "physical_provider_admitted": false,
+          "full_joint_law_admitted": false,
+          "next_physical_input": "HE-ANG-SOURCE-PAYLOAD",
+          "backup": {
+            "B1": "DUAL_UPLOAD_AND_METADATA_READBACK_CONFIRMED",
+            "B1_receipt": "research/he_ang_tdcs54_anchors_20261024/delivery/B1_BACKUP_ACK.json",
+            "B2": "DUAL_UPLOAD_AND_METADATA_READBACK_CONFIRMED",
+            "receipt": "assembly/returns/BASS_HE_HEANG_TDCS54_ANCHORS_BACKUP_ACK_20261024.json",
+            "archive": "HEANG_TDCS54_ANCHORS_20261024_60cacdb7_e69b0145.tar.gz",
+            "bytes": 546602,
+            "members": 100,
+            "sha256_local_uploaded_bytes": "1dd283fa7f08fe301e6151acaa34bdc0c9784e65bcbd92d2cb9f759ee915216c",
+            "drive_id": "1sZqUve2jKRwuWb3dlsnG05PM5lxFJoLz",
+            "dropbox_id": "id:BSpOijBcT10AAAAAAD_9Sw",
+            "independent_remote_sha256_verified": false,
+            "scope": "B2 exact S91+C3+4publication/recovery/rebase records+RESTORE/manifest; no future D/E included",
+            "D_E_B3_supplement": "PENDING_B3_ACTUAL_ACK",
+            "final_supplement_receipt_location": "https://github.com/cosmosapjw-quantum/BASS_HE/pull/96"
+          },
+          "no_merge": true,
+          "no_activation": true,
+          "publication_head": "32f9227a9abef814bb009a87272c44be74941163"
+        }
+      }
+    },
+    {
+      "id": "HE-EXCHANGE",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "HE-RESERVOIR",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "HE-CLOSURE",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "HE-ANG",
+        "HE-EXCHANGE",
+        "HE-RESERVOIR"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "HE-FEEDBACK",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "HE-CLOSURE"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "B1-G1B-recover",
+      "repository": "cosmosapjw-quantum/bass",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "B2-G1B-curved",
+      "repository": "cosmosapjw-quantum/bass",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B1-G1B-recover"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "B3-fourforce-owner",
+      "repository": "cosmosapjw-quantum/bass",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B2-G1B-curved"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "B4-production-restart",
+      "repository": "cosmosapjw-quantum/bass",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B3-fourforce-owner"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "B5-domain-validation",
+      "repository": "cosmosapjw-quantum/bass",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B2-G1B-curved",
+        "B3-fourforce-owner",
+        "B4-production-restart"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "V1-affine-native",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "V2-session-fatal",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "V3-affine-quotient",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "V4-causal-polynomial",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "V5-sphere-production",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "V1-affine-native",
+        "V2-session-fatal",
+        "V4-causal-polynomial"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REI-L0",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:ANGTHERM01@6daf382ee698835e7a141378c232d1d97c1c5cf1",
+        "external:X1_HE38_ANGULAR_PSD_REVIEW"
+      ],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REI-L1",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L0"
+      ],
+      "external_dependencies": [
+        "external:BASS_CR_C23B_PHYSICAL_SOURCE",
+        "external:WU088_HH_SOURCE_MOMENTS",
+        "external:REC_SELECTED_LINE_OR_COMPTON_PROVIDER"
+      ],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REI-L2",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:C3_ZERO_TINY_SOURCE",
+        "external:LOCALFLOW@9620e1fcc4bdda76e0311206f614234926600381",
+        "external:PHYSICAL_BETA_DAUGHTER_AND_STOPPING_PROVIDER"
+      ],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REI-L3",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:BASS_HE_FINITE_MASS_TRANSPORT",
+        "external:X1_HE38_ANGULAR_PSD_REVIEW",
+        "external:BASS_MASSIVE_COMPONENT_MAP"
+      ],
+      "conditional_dependencies": []
+    },
+    {
+      "id": "REI-L4",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L0",
+        "REI-L1"
+      ],
+      "external_dependencies": [
+        "external:BASS_GEOMETRY_FEEDBACK",
+        "external:VIGILODE_NUMERICAL_HOOKS"
+      ],
+      "conditional_dependencies": [
+        {
+          "condition": "nonzero_n_or_T",
+          "dependency": "REI-L2",
+          "external": false
+        },
+        {
+          "condition": "anisotropic_baryons",
+          "dependency": "REI-L3",
+          "external": false
+        },
+        {
+          "condition": "ANGTHERM02_accuracy_claim",
+          "dependency": "external:ANGTHERM02_OWNER_ADMISSION",
+          "external": true
+        }
+      ]
+    },
+    {
+      "id": "REI-L5",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L4"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": []
+    }
+  ]
+}
+

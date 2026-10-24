@@ -1,0 +1,73 @@
+{
+  "schema": "BASS_B3B2_RUNTIME_LOSS_V1",
+  "observed_interval_utc": {
+    "last_explicit_clock_before_loss": "2026-10-24 05:15:36 UTC",
+    "empty_workspace_confirmed": "2026-10-24 08:27:53 UTC"
+  },
+  "cause": "UNKNOWN; actual tool catalog change and empty shared scratch observed, not inferred historical SERVICE_ERROR.",
+  "evidence": [
+    "First Drive S0 upload rejected because tool catalog changed after preparation; no providerACK",
+    "Subsequent exec pwd stayed /workspace/scratch/fe69646d3c76; ls showed no project files; three independent agents confirmed same loss",
+    "Drive retry failed before upload: local source file missing"
+  ],
+  "old_s0": {
+    "file": "BASS_B3B2_S0_PREPARATION_20261024.zip",
+    "sha256": "2ecca27f916bcf27d3c1cadd1f247d09e9caec080202bc57c630c7377a90d21c",
+    "bytes": 1175126,
+    "payloads": 67,
+    "status": "LOST_BEFORE_ANY_UPLOAD_OR_GIT_PUBLICATION_ACK",
+    "remote_ack": false
+  },
+  "restoration": {
+    "scientific_code_tests_runner_wrapper": "EXACT_SHA256_MATCH_FROM_WRITE_HISTORY",
+    "contract": "EXACT_SHA256_MATCH_df63c3328c2ab4ab8c7f5ac5e5c122b354c892a3845dd09f69645500027cc653",
+    "REC_NPZ3": "EXACT_BYTES_FROM_SURVIVING_FUNCTIONSTORE; no repeat download",
+    "REC_source31": "24 exact from store plus7targetedimmutableGitrefetch143270bytes",
+    "BASS_vendor3": "TargetedimmutableGitrefetch17053bytes, exact",
+    "Wolfram": "Actual code/call/responses restored from surviving rootfunctionstore; no evaluatorrerun",
+    "intake_census": "BASS/REC historicalmetadata survived; other4repo originalrows lost, freshcompletecensus explicitly separatelytimestamped",
+    "review_documents": "Reconstructed from actual tool/write history; original fileSHA notpreserved, notclaimedbyteidentical"
+  },
+  "metadata_identity_change": {
+    "path": "inputs/IDENTITY.json",
+    "old_sha256": "4d767059b5afb14a3fd119be659e47a36a65d807bea435e52fcf6481ceda1d04",
+    "old_bytes": 13141,
+    "new_sha256": "2c10ee0a876bfbcd0fd8bcf2fd9c7c323ca113f7e41473a03769f1175c371c16",
+    "new_bytes": 12805,
+    "classification": "PACKAGING_METADATA_RECONSTRUCTION; all3immutableNPZdigestsandnumericalgrididentityunchanged"
+  },
+  "new_recovery_experiment": {
+    "reason": "Lost current-unit rawCSV/PNG/PDF output, after exact code/input restore. Necessary bounded artifactregeneration; not an old campaign replay.",
+    "calls": 1,
+    "argv": [
+      "python",
+      "code/reference_runner.py"
+    ],
+    "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+    "receipt": "artifacts/RECOVERY_EXECUTION_LEDGER.json",
+    "exit_code": 0,
+    "wall_seconds": 3.331809647999762,
+    "cpu_seconds": 3.323592,
+    "numeric_aggregates": "All observed preloss final aggregates reproduced exactly",
+    "PNG": "EXACT_REPRODUCED_SHA256_08479a47282e21337be1eb29e4765774c3ce3edad7c22bb8189c7182cdd6510e",
+    "PDF": "New artifactmetadata, notoldbyteidentity"
+  },
+  "historical_raw_status": "Prior 9-command fullraw bundle not wholly recovered. Retain transcript-observed outputs/receipts as such. Do not replace those oldraw logs with newrun.",
+  "budgets": {
+    "historical_remaining_wall_seconds": null,
+    "historical_remaining_cpu_seconds": null,
+    "budget_reset": false,
+    "historical_partial_wall_seconds": 34.1262904040002,
+    "new_IVP": 0,
+    "old_campaign_replay": 0,
+    "old_archive_download": 0
+  },
+  "delivery_order_repair": "Create reviewed Git checkpoint before provider uploads; keep serializedpayload in functionstore untilpublication confirmed.",
+  "transport_failures": [
+    {
+      "action": "local largebase64 censuswrite",
+      "error": "Argumentlisttoolong beforeprocesscreated",
+      "repair": "writeviaapply_patch, nochangeinmetadata"
+    }
+  ]
+}
