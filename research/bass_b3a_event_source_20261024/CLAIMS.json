@@ -1,0 +1,228 @@
+{
+  "schema": "bass.b3a.claims.v1",
+  "unit": "BASS_B3A_REC_EVENT_ADAPTER_20261024",
+  "science_status": "PASS_SCOPED",
+  "claims": [
+    {
+      "id": "C-EVENT",
+      "statement": "For dR per invariant dV4/c and u.u=-1, Q^a=int p^a dR and K^ab(u)=c int p^a p^b/(-u.p)dR. Event weights stay unchanged under the implemented active boost; changing observer changes the denominator.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "implementation-verified"
+      ],
+      "scope": "Finite positive photon event measures; fixed-observer tensor covariance distinguished from observer-clock change.",
+      "evidence": [
+        "reviews/THEORY_REVIEW.md",
+        "reviews/THEORY_EXACT_CHECKS.json",
+        "evidence/WOLFRAM_CURRENT.wl",
+        "evidence/WOLFRAM_CURRENT_RESPONSE.json",
+        "results/05_tests.log"
+      ]
+    },
+    {
+      "id": "C-AB",
+      "statement": "The six-axis and eight-corner measures have equal rest Q and pressure-rate but different boosted PiRate; at beta=(3/5,0,0), their difference/P is diag(4/55,-2/55,-2/55).",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "numerically checked",
+        "implementation-verified"
+      ],
+      "scope": "DeltaPi_xx/P=2 beta^2/[3 gamma(3-beta^2)] is for beta-vector=(beta,0,0) in these fixed fixtures. The oblique direction has a separately checked value.",
+      "evidence": [
+        "reviews/THEORY_EXACT_CHECKS.json",
+        "results/CURRENT_REFERENCE.json",
+        "results/AB_EXACT_BOOST.csv",
+        "reviews/PHYSICS_AND_FIGURE_REVIEW.md"
+      ],
+      "obligations": []
+    },
+    {
+      "id": "C-STATE-RATE",
+      "statement": "The existing density-weight boost w_new=w E_new/E is not the event-rate rule. Source.pi is a current state stress and PiRate_hat is a separate rate output.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "implementation-verified"
+      ],
+      "scope": "Current pinned BASS core and kinetic conventions; collisionless radial reduction retains its original scope.",
+      "evidence": [
+        "reviews/G1B_SCOPE_REVIEW.md",
+        "REPORT_KO.md",
+        "results/05_tests.log"
+      ]
+    },
+    {
+      "id": "C-REC",
+      "statement": "An unchanged real REC LINE01 standalone_detached owner is connected through separate nonnegative effective escaping down/up event measures; their signed difference reproduces that owner at the same quadrature.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "implementation-verified",
+        "numerically checked"
+      ],
+      "scope": "H>0, positive opacity and directional expansion, specified boundary occupation, unpolarized recoil-free bound-bound source. Stored native scalar inputs with an explicitly constructed angular fixture.",
+      "evidence": [
+        "reviews/SOURCE_OWNER_REVIEW.md",
+        "SOURCE_INDEX.json",
+        "results/CURRENT_REFERENCE.json",
+        "reviews/CODE_REVIEW_FINAL.json"
+      ],
+      "obligations": [
+        "No native LINE02/history parity or continuum angular convergence is admitted."
+      ]
+    },
+    {
+      "id": "C-ENERGY-OWNER",
+      "statement": "The selected owner assigns -E_line R to atomic excitation internal energy, +E_line R to radiation, and zero to the thermal and ionization/free-electron channels. Boosted sector four-force remains equal and opposite.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "implementation-verified"
+      ],
+      "scope": "Instantaneous selected detached source, not a finite-stock population update.",
+      "evidence": [
+        "CONTRACT.md",
+        "reviews/SOURCE_OWNER_REVIEW.md",
+        "results/05_tests.log"
+      ],
+      "obligations": [
+        "Real receiver/stock transaction remains B3b."
+      ]
+    },
+    {
+      "id": "C-BASS-BINDING",
+      "statement": "U=kappa L^3 E_dot/c and J=kappa L^3 force_density populate balanced transfer slots while supplied current pressure/pi are copied unchanged; PiRate_hat=kappa L^3 PiRate_phys/c remains separate.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "derived",
+        "implementation-verified"
+      ],
+      "scope": "Source-only attachment. Exact-zero donor fixture succeeds without a callback; nonzero attachment requires the declared positive-domain callback.",
+      "evidence": [
+        "results/04_repair_targeted.log",
+        "results/05_tests.log",
+        "reviews/PHYSICS_AND_FIGURE_REVIEW.md"
+      ],
+      "obligations": [
+        "Synthetic callback acceptance does not certify an actual finite photon reservoir."
+      ]
+    },
+    {
+      "id": "C-GUARDS",
+      "statement": "Wrong origin frame/clock and recharging the same physical transfer after a frame change are refused after targeted repairs F1/F2.",
+      "status": "ADMITTED_SCOPED",
+      "basis": [
+        "implementation-verified"
+      ],
+      "scope": "Observed named regression controls and post-repair independent probes.",
+      "evidence": [
+        "REPAIR_ADDENDUM.md",
+        "results/03_repair_targeted.log",
+        "results/04_repair_targeted.log",
+        "results/05_tests.log",
+        "reviews/CODE_REVIEW_FINAL.json"
+      ],
+      "obligations": []
+    }
+  ],
+  "selected_supplier": {
+    "repository": "cosmosapjw-quantum/rec_bianchi",
+    "commit": "93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa",
+    "pr": 130,
+    "path": "research/rec_line_source_20261023/code/line_source.py",
+    "owner_mode": "standalone_detached",
+    "native_line_owner_active": false,
+    "use": "Actual unchanged LINE01 instantaneous effective escaping source, with stored native scalar inputs and explicitly constructed angular fixture.",
+    "identity_evidence": [
+      "SOURCE_INDEX.json",
+      "reviews/SOURCE_OWNER_INTAKE.json"
+    ],
+    "native_line02_or_history_parity": false
+  },
+  "historical_preservation": {
+    "B1_pytest_argv_cwd": "UNRESOLVED",
+    "B2": "REUSED finite selected-window acceptance only",
+    "old_arrays_fresh_independent_review": "NOT_PERFORMED; not retroactively changed",
+    "preparation_Wolfram": "User-reported first7/16 failures, targeted NumericQ+exact-real repair16/16, separate4/4 preserved. Full original raw transcript was not reread.",
+    "current_implementation_sequence": [
+      "initial12/12 PASS with guard coverage omissions",
+      "targeted pre-repair3 methods with6 failed assertions/subtests; exact-zero PASS",
+      "targeted post-repair3/3 PASS",
+      "final affected suite15/15 PASS"
+    ],
+    "repeated_test_counts_are_not_additive": true
+  },
+  "remaining_obligations": [
+    {
+      "id": "B3b",
+      "status": "PENDING",
+      "description": "Actual finite-stock/population/history receiver and transaction contract."
+    },
+    {
+      "id": "B3c",
+      "status": "PENDING",
+      "description": "Coupled bounded test; no IVP admitted."
+    },
+    {
+      "id": "B4",
+      "status": "PENDING",
+      "description": "Production adapter and restart parity."
+    },
+    {
+      "id": "B5",
+      "status": "PENDING",
+      "description": "Domain admission and required stability/error propagation."
+    }
+  ],
+  "strong_no_go": {
+    "new_claim_admitted": false,
+    "reason": "The finite explicit counterexample is used to define the correct event interface; no broad impossibility or literature novelty claim is made."
+  },
+  "delivery": {
+    "backup_status": "DUAL_BACKUP_ACK",
+    "publication_status": "PENDING",
+    "actual_ack_receipts": "delivery/",
+    "rule": "Update from actual provider/commit/ref acknowledgements only; scientific PASS_SCOPED is independent of delivery.",
+    "stage_packaging": "One immutable compact archive may consolidate stage evidence; no separate physical upload is asserted for each R/C step.",
+    "backup_receipt": "delivery/BACKUP_ACK.json"
+  },
+  "resource": {
+    "historical_partial_wall_subtotal_seconds": 34.1262904040002,
+    "remaining_campaign_wall_seconds": null,
+    "remaining_campaign_cpu_seconds": null,
+    "budget_reset": false,
+    "new_ivps": 0,
+    "old_campaign_replays": 0,
+    "new_implementation_validation_receipt": "results/VALIDATION_RECEIPT.json",
+    "implementation_harness_wall_seconds": 5.127101682999637,
+    "implementation_harness_cpu_seconds": 5.1194999999999995,
+    "reviewer_probe_receipt": "reviews/CODE_REVIEW_FINAL.json",
+    "cost_scope": "Implementation subtotal includes the failing targeted RED run; reviewer/exact/CAS activity is separate. Neither historical subtotal nor new ceilings define a remaining historical allocation."
+  },
+  "global_completion_percentage": null,
+  "production_admission": "NOT_ISSUED",
+  "merge": false,
+  "next_action": {
+    "id": "B3b-receiver-contract",
+    "status": "READY_CONTRACT_RESEARCH_ONLY",
+    "task": "Identify one real finite photon-stock/population/history receiver for the selected REC LINE01 source and bind its event rate, frame, invariant clock, atomic internal-energy debit and signed absorption transaction.",
+    "required_inputs": [
+      "Actual receiver source/API identity",
+      "Finite photon stock or population state and allowed domain",
+      "Gross emission and absorption transaction semantics",
+      "Internal-energy ownership and accepted-state update contract",
+      "Source-age/history association if used"
+    ],
+    "constraints": [
+      "No invented donor reservoir",
+      "No positivity clipping",
+      "Keep Source.pi separate from PiRate_hat",
+      "Preserve B1/B2 gaps and historical budgets"
+    ],
+    "new_ivp_admission": false,
+    "coupled_evolution_admission": false,
+    "completion_gate": "One source-qualified real receiver contract with exact zero/nonzero transaction obligations; subsequent implementation/execution requires its own bounded contract."
+  }
+}

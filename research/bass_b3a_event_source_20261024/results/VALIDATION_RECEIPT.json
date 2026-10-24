@@ -1,0 +1,175 @@
+{
+  "unit": "BASS_B3A_REC_EVENT_ADAPTER_20261024",
+  "imported_preparatory_unit": "BASS_B3A_EVENT_SOURCE_20261024",
+  "historical_remaining_wall_s": null,
+  "historical_remaining_cpu_s": null,
+  "budget_reset": false,
+  "new_local_combined_wall_upper_limit_s": 60.0,
+  "per_scientific_subprocess_upper_limit_s": 30.0,
+  "requested_model": "gpt-6.1-sol",
+  "observed_runtime_model": "not inferable from tool/process evidence",
+  "actual_executor": "delegated agent b3a_implementation via functions.exec exec_command; python3 subprocesses",
+  "records": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+      "env_overrides": {
+        "MPLCONFIGDIR": "/tmp/bass_b3a_rec_event_adapter_mpl",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1"
+      },
+      "exit_code": 0,
+      "timeout": false,
+      "wall_s": 0.7295351350039709,
+      "user_cpu_s": 0.663727,
+      "system_cpu_s": 0.06501199999999999,
+      "cpu_s": 0.728739,
+      "stdout": "",
+      "stderr": "test_BASS_balance_state_copy_and_rate_units (test_adapter.DonorAndBindingTests.test_BASS_balance_state_copy_and_rate_units) ... ok\ntest_all_eight_signs_in_owner_eigenbasis (test_adapter.DonorAndBindingTests.test_all_eight_signs_in_owner_eigenbasis) ... ok\ntest_callback_duplicate_stale_and_identity_refusal (test_adapter.DonorAndBindingTests.test_callback_duplicate_stale_and_identity_refusal) ... ok\ntest_constructed_gross_donor_parity_signs_and_LTE (test_adapter.DonorAndBindingTests.test_constructed_gross_donor_parity_signs_and_LTE) ... ok\ntest_native_scalar_actual_owner_call (test_adapter.DonorAndBindingTests.test_native_scalar_actual_owner_call) ... ok\ntest_owner_opacity_shear_domain_rejection (test_adapter.DonorAndBindingTests.test_owner_opacity_shear_domain_rejection) ... ok\ntest_AB_exact_three_fifths (test_adapter.EventTests.test_AB_exact_three_fifths) ... ok\ntest_AB_rest (test_adapter.EventTests.test_AB_rest) ... ok\ntest_event_domain_rejection (test_adapter.EventTests.test_event_domain_rejection) ... ok\ntest_nonaxis_observer_covariance_and_denominator (test_adapter.EventTests.test_nonaxis_observer_covariance_and_denominator) ... ok\ntest_oblique_counterexample (test_adapter.EventTests.test_oblique_counterexample) ... ok\ntest_wrong_density_weight_negative_control (test_adapter.EventTests.test_wrong_density_weight_negative_control) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 0.020s\n\nOK\n",
+      "raw_log": "01_tests.log",
+      "process_identity": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "harness_pid": 2
+      },
+      "classification": "new source-bound adapter validation; no IVP, no historical replay"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "code/reference_runner.py"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+      "env_overrides": {
+        "MPLCONFIGDIR": "/tmp/bass_b3a_rec_event_adapter_mpl",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1"
+      },
+      "exit_code": 0,
+      "timeout": false,
+      "wall_s": 2.05660713200632,
+      "user_cpu_s": 1.9664439999999999,
+      "system_cpu_s": 0.086155,
+      "cpu_s": 2.052599,
+      "stdout": "{\n  \"native_energy_discrepancy_over_gross\": 1.9453006649083304e-16,\n  \"native_PiRate_discrepancy_over_gross\": 4.070403924557633e-16,\n  \"max_AB_absolute_residual\": 4.440892098500626e-16,\n  \"oblique_delta_xx\": -0.02758005720968687,\n  \"owner_calls\": {\n    \"line_source\": {\n      \"source_rows\": 4\n    },\n    \"escape_moments\": {\n      \"tensor_validations\": 12,\n      \"general_quadrature_calls\": 4,\n      \"general_quadrature_nodes\": 960\n    }\n  },\n  \"outputs\": [\n    \"CURRENT_REFERENCE.json\",\n    \"AB_EXACT_BOOST.csv\",\n    \"AB_EXACT_BOOST.png\"\n  ]\n}\n",
+      "stderr": "",
+      "raw_log": "02_reference_plot.log",
+      "process_identity": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "harness_pid": 2
+      },
+      "classification": "new source-bound adapter validation; no IVP, no historical replay"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_repairs.py",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+      "env_overrides": {
+        "MPLCONFIGDIR": "/tmp/bass_b3a_rec_event_adapter_mpl",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1"
+      },
+      "exit_code": 1,
+      "timeout": false,
+      "wall_s": 0.7954618619987741,
+      "user_cpu_s": 0.7288399999999999,
+      "system_cpu_s": 0.064967,
+      "cpu_s": 0.7938069999999998,
+      "stdout": "",
+      "stderr": "test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) ... \n  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='ln_a') ... FAIL\n  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='conformal_time') ... FAIL\n  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='frame', value='already_boosted') ... FAIL\n  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='ln_a') ... FAIL\n  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='conformal_time') ... FAIL\ntest_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer) ... FAIL\ntest_exact_zero_actual_donor_no_callback_binding (test_repairs.AuthorizedRepairTests.test_exact_zero_actual_donor_no_callback_binding) ... ok\n\n======================================================================\nFAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='ln_a')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 26, in test_F1_canonical_source_origin_and_binding_clock\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='conformal_time')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 26, in test_F1_canonical_source_origin_and_binding_clock\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='frame', value='already_boosted')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 26, in test_F1_canonical_source_origin_and_binding_clock\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='ln_a')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 37, in test_F1_canonical_source_origin_and_binding_clock\n    with self.assertRaises(ValueError): bass_rate_pair(forged,length_m=1e12)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='conformal_time')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 37, in test_F1_canonical_source_origin_and_binding_clock\n    with self.assertRaises(ValueError): bass_rate_pair(forged,length_m=1e12)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py\", line 45, in test_F2_cross_frame_duplicate_physical_transfer\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 3 tests in 0.006s\n\nFAILED (failures=6)\n",
+      "raw_log": "03_repair_targeted.log",
+      "process_identity": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "harness_pid": 2
+      },
+      "classification": "new source-bound adapter validation; no IVP, no historical replay"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_repairs.py",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+      "env_overrides": {
+        "MPLCONFIGDIR": "/tmp/bass_b3a_rec_event_adapter_mpl",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1"
+      },
+      "exit_code": 0,
+      "timeout": false,
+      "wall_s": 0.7337002199928975,
+      "user_cpu_s": 0.676777,
+      "system_cpu_s": 0.056361999999999995,
+      "cpu_s": 0.733139,
+      "stdout": "",
+      "stderr": "test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) ... ok\ntest_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer) ... ok\ntest_exact_zero_actual_donor_no_callback_binding (test_repairs.AuthorizedRepairTests.test_exact_zero_actual_donor_no_callback_binding) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nOK\n",
+      "raw_log": "04_repair_targeted.log",
+      "process_identity": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "harness_pid": 2
+      },
+      "classification": "new source-bound adapter validation; no IVP, no historical replay"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+      "env_overrides": {
+        "MPLCONFIGDIR": "/tmp/bass_b3a_rec_event_adapter_mpl",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1"
+      },
+      "exit_code": 0,
+      "timeout": false,
+      "wall_s": 0.8117973339976743,
+      "user_cpu_s": 0.75324,
+      "system_cpu_s": 0.057976,
+      "cpu_s": 0.811216,
+      "stdout": "",
+      "stderr": "test_BASS_balance_state_copy_and_rate_units (test_adapter.DonorAndBindingTests.test_BASS_balance_state_copy_and_rate_units) ... ok\ntest_all_eight_signs_in_owner_eigenbasis (test_adapter.DonorAndBindingTests.test_all_eight_signs_in_owner_eigenbasis) ... ok\ntest_callback_duplicate_stale_and_identity_refusal (test_adapter.DonorAndBindingTests.test_callback_duplicate_stale_and_identity_refusal) ... ok\ntest_constructed_gross_donor_parity_signs_and_LTE (test_adapter.DonorAndBindingTests.test_constructed_gross_donor_parity_signs_and_LTE) ... ok\ntest_native_scalar_actual_owner_call (test_adapter.DonorAndBindingTests.test_native_scalar_actual_owner_call) ... ok\ntest_owner_opacity_shear_domain_rejection (test_adapter.DonorAndBindingTests.test_owner_opacity_shear_domain_rejection) ... ok\ntest_AB_exact_three_fifths (test_adapter.EventTests.test_AB_exact_three_fifths) ... ok\ntest_AB_rest (test_adapter.EventTests.test_AB_rest) ... ok\ntest_event_domain_rejection (test_adapter.EventTests.test_event_domain_rejection) ... ok\ntest_nonaxis_observer_covariance_and_denominator (test_adapter.EventTests.test_nonaxis_observer_covariance_and_denominator) ... ok\ntest_oblique_counterexample (test_adapter.EventTests.test_oblique_counterexample) ... ok\ntest_wrong_density_weight_negative_control (test_adapter.EventTests.test_wrong_density_weight_negative_control) ... ok\ntest_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) ... ok\ntest_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer) ... ok\ntest_exact_zero_actual_donor_no_callback_binding (test_repairs.AuthorizedRepairTests.test_exact_zero_actual_donor_no_callback_binding) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.031s\n\nOK\n",
+      "raw_log": "05_tests.log",
+      "process_identity": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "harness_pid": 2
+      },
+      "classification": "new source-bound adapter validation; no IVP, no historical replay"
+    }
+  ],
+  "new_validation_wall_s": 5.127101682999637,
+  "new_validation_cpu_s": 5.1194999999999995,
+  "within_new_wall_ceiling": true
+}

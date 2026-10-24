@@ -1,0 +1,181 @@
+{
+  "schema": "bass.b3a.resource_ledger.v1",
+  "unit": "BASS_B3A_REC_EVENT_ADAPTER_20261024",
+  "closeout_class": "documentation/resource aggregation only; no scientific rerun",
+  "implementation": {
+    "receipt": "results/VALIDATION_RECEIPT.json",
+    "records": [
+      {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_s": 0.7295351350039709,
+        "user_cpu_s": 0.663727,
+        "system_cpu_s": 0.06501199999999999,
+        "cpu_s": 0.728739,
+        "raw_log": "01_tests.log",
+        "ordinal": 1,
+        "receipt": "results/VALIDATION_RECEIPT.json",
+        "includes_intentional_red": false
+      },
+      {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "code/reference_runner.py"
+        ],
+        "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_s": 2.05660713200632,
+        "user_cpu_s": 1.9664439999999999,
+        "system_cpu_s": 0.086155,
+        "cpu_s": 2.052599,
+        "raw_log": "02_reference_plot.log",
+        "ordinal": 2,
+        "receipt": "results/VALIDATION_RECEIPT.json",
+        "includes_intentional_red": false
+      },
+      {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_repairs.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+        "exit_code": 1,
+        "timeout": false,
+        "wall_s": 0.7954618619987741,
+        "user_cpu_s": 0.7288399999999999,
+        "system_cpu_s": 0.064967,
+        "cpu_s": 0.7938069999999998,
+        "raw_log": "03_repair_targeted.log",
+        "ordinal": 3,
+        "receipt": "results/VALIDATION_RECEIPT.json",
+        "includes_intentional_red": true
+      },
+      {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_repairs.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_s": 0.7337002199928975,
+        "user_cpu_s": 0.676777,
+        "system_cpu_s": 0.056361999999999995,
+        "cpu_s": 0.733139,
+        "raw_log": "04_repair_targeted.log",
+        "ordinal": 4,
+        "receipt": "results/VALIDATION_RECEIPT.json",
+        "includes_intentional_red": false
+      },
+      {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_s": 0.8117973339976743,
+        "user_cpu_s": 0.75324,
+        "system_cpu_s": 0.057976,
+        "cpu_s": 0.811216,
+        "raw_log": "05_tests.log",
+        "ordinal": 5,
+        "receipt": "results/VALIDATION_RECEIPT.json",
+        "includes_intentional_red": false
+      }
+    ],
+    "wall_s": 5.127101682999637,
+    "cpu_s": 5.1194999999999995,
+    "record_count": 5,
+    "includes_failed_red": true,
+    "combined_wall_upper_limit_s": 60.0,
+    "per_scientific_subprocess_upper_limit_s": 30.0
+  },
+  "independent_code_review": {
+    "receipt": "reviews/CODE_REVIEW_FINAL.json",
+    "status": "PASS_SCOPED",
+    "initial_receipt": "reviews/CODE_REVIEW_PROBE_INITIAL.json",
+    "final_receipt": "reviews/CODE_REVIEW_PROBE_FINAL.json",
+    "initial_plus_final_wall_s": 1.2357569410087308,
+    "initial_plus_final_cpu_s": 1.2340099999999998
+  },
+  "internal_fraction_check": {
+    "receipt": "reviews/THEORY_EXACT_CHECKS.json",
+    "execution_class": "lightweight_algebra_only",
+    "wall_s": 0.005570141001953743,
+    "cpu_s": 0.005566643,
+    "checks_passed": 23,
+    "checks_failed": 0,
+    "distinct_from_implementation_and_code_review": true
+  },
+  "wolfram_current": {
+    "source": "evidence/WOLFRAM_CURRENT.wl",
+    "response": "evidence/WOLFRAM_CURRENT_RESPONSE.json",
+    "requested_evaluator_ceiling_s": 25,
+    "actual_kernel_elapsed_s": null,
+    "actual_kernel_cpu_s": null,
+    "actual_elapsed_status": "UNMEASURED",
+    "ceiling_is_not_actual_elapsed": true
+  },
+  "measured_new_subtotal": {
+    "wall_s": 6.3684287650103215,
+    "cpu_s": 6.359076642999999,
+    "includes": [
+      "implementation five records including RED",
+      "independent code review initial plus final",
+      "internal exact Fraction check"
+    ],
+    "excludes": [
+      "unmeasured Wolfram kernel elapsed/CPU",
+      "model inference",
+      "editing/documentation/tool orchestration not measured by these receipts"
+    ],
+    "complete_new_actual_total_available": false
+  },
+  "historical": {
+    "partial_wall_subtotal_s": 34.1262904040002,
+    "campaign_remaining_wall_s": null,
+    "campaign_remaining_cpu_s": null,
+    "complete_actual_wall_total_s": null,
+    "complete_actual_cpu_total_s": null,
+    "historical_partial_is_not_complete_total": true
+  },
+  "budget_reset": false,
+  "new_ivp": 0,
+  "historical_campaign_replay": 0
+}
