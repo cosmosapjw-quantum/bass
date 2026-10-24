@@ -7,17 +7,61 @@
   "imported_preparation": "BASS_B3A_EVENT_SOURCE_20261024",
   "objective": "Independently review event-rate physics and connect one actual detached REC source to a typed BASS source-only interface.",
   "scope": "Instantaneous event Q/K/PiRate, gross down/up, atomic internal-energy ownership, balanced U/J, explicit state stress, finite reference validation and bounded repairs.",
-  "status": "in_progress",
+  "status": "complete",
   "scientific_status": "PASS_SCOPED",
   "implementation_status": "completed",
   "independent_review_status": "PASS_SCOPED",
   "delivery": {
     "backup_status": "DUAL_BACKUP_ACK",
-    "publication_status": "PENDING",
-    "actual_ack_receipts": "delivery/",
+    "publication_status": "ACKNOWLEDGED",
+    "actual_ack_receipts": [
+      "delivery/BACKUP_ACK.json",
+      "delivery/PUBLICATION_ACK.json"
+    ],
     "rule": "Update from actual provider/commit/ref acknowledgements only; scientific PASS_SCOPED is independent of delivery.",
-    "stage_packaging": "One immutable compact archive may consolidate stage evidence; no separate physical upload is asserted for each R/C step.",
-    "backup_receipt": "delivery/BACKUP_ACK.json"
+    "stage_packaging": "One cumulative science capsule contains R1-R10/C1-C10 stage evidence. Dual backup ACK was acquired at final packaging; no separate earlier per-stage upload is asserted.",
+    "backup_receipt": "delivery/BACKUP_ACK.json",
+    "status": "COMPLETE",
+    "publication_receipt": "delivery/PUBLICATION_ACK.json",
+    "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+    "base_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+    "expected_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+    "branch": "research/bass-b3a-event-source-20261024",
+    "pull_request": {
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/185",
+      "number": 185,
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "base": "research/background-kinetic-g1b-20261023",
+      "base_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+      "head": "research/bass-b3a-event-source-20261024",
+      "head_sha": "f4f12a162b446f7fc42759f88d544749435fb35b",
+      "created_at": "2026-10-24T02:33:34Z"
+    },
+    "git_byte_readback": {
+      "status": "PASS",
+      "matched_files": 61,
+      "scope": "scientific payload at science_commit; not a claim about subsequent metadata-only revisions"
+    },
+    "live_branch_note": "The scientific payload is identified by science_commit. A later metadata-only delivery commit may be the live branch tip; consult the final companion receipt/live ref without recursive self-SHA claims.",
+    "checkpoint_history": [
+      {
+        "checkpoint": "immutable science capsule packaging",
+        "backup_status": "PENDING",
+        "publication_status": "PENDING",
+        "source": "delivery/BACKUP_ACK.json archive checkpoint fields",
+        "scope": "historical packaging state, superseded by actual closeout ACKs"
+      },
+      {
+        "checkpoint": "dual backup acknowledgement",
+        "recorded_utc": "2026-10-24 01:50:50 UTC",
+        "backup_status": "DUAL_BACKUP_ACK",
+        "publication_status": "PENDING",
+        "source": "delivery/BACKUP_ACK.json",
+        "scope": "historical backup checkpoint; publication subsequently acknowledged in PUBLICATION_ACK.json"
+      }
+    ]
   },
   "authority": {
     "central_repository": "cosmosapjw-quantum/rei_bianchi",
@@ -219,6 +263,26 @@
       "dependency_ids": [
         "authority"
       ]
+    },
+    {
+      "id": "backup_ack",
+      "kind": "delivery_receipt",
+      "locator": "delivery/BACKUP_ACK.json",
+      "scope": "Actual cumulative science-capsule Dropbox completed and Google Drive success acknowledgements at final packaging; no remote full-byte backup readback asserted.",
+      "dependency_ids": [
+        "authority",
+        "bass_base"
+      ]
+    },
+    {
+      "id": "publication_ack",
+      "kind": "delivery_receipt",
+      "locator": "delivery/PUBLICATION_ACK.json",
+      "scope": "Actual expected-SHA update, Draft PR185 open/unmerged, and 61/61 scientific-payload Git byte readback; later metadata-only branch tip is separate.",
+      "dependency_ids": [
+        "authority",
+        "bass_base"
+      ]
     }
   ],
   "stages": [
@@ -228,17 +292,27 @@
       "status": "complete",
       "evidence_refs": [
         "intake",
-        "contract"
+        "contract",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "The requested detached preparation and historical limitations are explicit.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -247,17 +321,27 @@
       "status": "complete",
       "evidence_refs": [
         "old_scope",
-        "source_owner"
+        "source_owner",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Pinned source and recovery receipts read; S1/S2 arrays and old campaigns reused without replay.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -267,17 +351,27 @@
       "evidence_refs": [
         "contract",
         "theory",
-        "report"
+        "report",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Observer normalization, invariant event volume, source model and finite scope aligned.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -286,17 +380,27 @@
       "status": "complete",
       "evidence_refs": [
         "theory",
-        "source_owner"
+        "source_owner",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Event measures and one actual detached REC owner selected; separate gross channels retained.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -305,17 +409,27 @@
       "status": "complete",
       "evidence_refs": [
         "theory",
-        "report"
+        "report",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Q/K, exact A/B counterexample, axis-only formula and BASS rate map derived.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -325,17 +439,27 @@
       "evidence_refs": [
         "theory",
         "physics_review",
-        "code_review"
+        "code_review",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Independent physics/code assessments PASS_SCOPED after targeted findings closed.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -346,17 +470,27 @@
         "exact",
         "wolfram",
         "validation",
-        "reference"
+        "reference",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Current exact/CAS checks and bounded source validation completed; no IVP or old replay.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -366,17 +500,27 @@
       "evidence_refs": [
         "physics_review",
         "code_review",
-        "dag"
+        "dag",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Admit only detached source-only B3a; B3b receiver and later nodes remain pending.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -386,36 +530,56 @@
       "evidence_refs": [
         "contract",
         "report",
-        "implementation"
+        "implementation",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Definitions, units, rate/state distinction and source mapping are executable and documented.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
       "id": "R10",
       "title": "Scientific closeout and delivery",
-      "status": "in_progress",
+      "status": "complete",
       "evidence_refs": [
         "report",
-        "dag"
+        "dag",
+        "backup_ack",
+        "publication_ack"
       ],
-      "reason": "Scientific closeout prepared; backup/publication await actual ACK in delivery receipts.",
+      "reason": "Scientific closeout and actual dual-backup/publication delivery acknowledged by provider/ref receipts; Draft PR185 remains open/unmerged, with no production activation.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -424,17 +588,27 @@
       "status": "complete",
       "evidence_refs": [
         "intake",
-        "contract"
+        "contract",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Actual BASS/REC identities and allowed new source-only paths fixed.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -444,17 +618,27 @@
       "evidence_refs": [
         "source_owner",
         "old_scope",
-        "report"
+        "report",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Owner event construction and BASS Source transfer slots traced from real source.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -463,17 +647,27 @@
       "status": "complete",
       "evidence_refs": [
         "contract",
-        "implementation"
+        "implementation",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Finite positive event quadrature, eight-sign restoration, clock/frame and gross-normalized checks specified.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -483,17 +677,27 @@
       "evidence_refs": [
         "contract",
         "intake",
-        "validation"
+        "validation",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Separately bounded new local validation executed and measured; old budgets remain null without reset.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -501,17 +705,27 @@
       "title": "Implementation",
       "status": "complete",
       "evidence_refs": [
-        "implementation"
+        "implementation",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Event measure, detached REC adapter and source-only BASS binding implemented.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -521,17 +735,27 @@
       "evidence_refs": [
         "validation",
         "repair",
-        "code_review"
+        "code_review",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Initial12/12; retained targeted RED6 failures; targeted3/3 GREEN; final15/15. Findings F1/F2 CLOSED.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -540,17 +764,27 @@
       "status": "complete",
       "evidence_refs": [
         "reference",
-        "physics_review"
+        "physics_review",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Exact fixtures, observer covariance, real owner parity, energy ownership and zero source checked at finite scope.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -560,17 +794,27 @@
       "evidence_refs": [
         "validation",
         "reference",
-        "implementation"
+        "implementation",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Inputs/commands/env/exits and finite discrepancies preserved; no continuum or native-history convergence claim.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
@@ -579,37 +823,57 @@
       "status": "complete",
       "evidence_refs": [
         "code_review",
-        "physics_review"
+        "physics_review",
+        "backup_ack",
+        "publication_ack"
       ],
       "reason": "Fresh independent post-repair reviews PASS_SCOPED. No additional review requested for this bounded implementation.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     },
     {
       "id": "C10",
       "title": "Decision and handoff delivery",
-      "status": "in_progress",
+      "status": "complete",
       "evidence_refs": [
         "report",
         "dag",
-        "implementation"
+        "implementation",
+        "backup_ack",
+        "publication_ack"
       ],
-      "reason": "Scientific/implementation decision complete; external ACK pending, no merge or production activation.",
+      "reason": "Scientific closeout and actual dual-backup/publication delivery acknowledged by provider/ref receipts; Draft PR185 remains open/unmerged, with no production activation.",
       "scientific_status": "PASS_SCOPED",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING",
-      "delivery_note": "Stage evidence consolidated; actual ACK is recorded separately.",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "delivery_note": "Cumulative stage evidence dual backup and scientific-payload publication actually acknowledged at closeout; no earlier per-stage physical upload asserted.",
       "backup": {
         "status": "DUAL_BACKUP_ACK",
         "receipt": "delivery/BACKUP_ACK.json",
-        "packaging": "one cumulative capsule; ACK at closeout"
+        "packaging": "one cumulative capsule; actual ACK acquired at final closeout"
+      },
+      "backup_receipt": "delivery/BACKUP_ACK.json",
+      "publication_receipt": "delivery/PUBLICATION_ACK.json",
+      "publication": {
+        "status": "ACKNOWLEDGED",
+        "receipt": "delivery/PUBLICATION_ACK.json",
+        "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+        "pull_request": 185
       }
     }
   ],
@@ -636,9 +900,16 @@
     {
       "id": "external_delivery",
       "domain": "storage",
-      "result": "not_run",
-      "evidence_refs": [],
-      "reason": "At preparation, actual provider/ref ACKs not yet recorded; consult delivery receipts after mutation."
+      "result": "ACKNOWLEDGED",
+      "evidence_refs": [
+        "backup_ack",
+        "publication_ack"
+      ],
+      "reason": "Actual Dropbox completed/Drive success ACKs, expected-base ref update, Draft PR185 open/unmerged and 61/61 science-payload Git byte readback recorded; no merge or production activation.",
+      "receipt_paths": [
+        "delivery/BACKUP_ACK.json",
+        "delivery/PUBLICATION_ACK.json"
+      ]
     }
   ],
   "failure_history": [
@@ -677,7 +948,7 @@
   "decisions": [
     "Completed current source-only science and independent reviews; retain historical limitations.",
     "Keep unchanged reference JSON/CSV/PNG after metadata/ledger repair; no rerun required.",
-    "Consolidate evidence in one immutable compact archive; do not infer backup or publication ACK.",
+    "Consolidated evidence in one immutable compact capsule; actual dual-backup and publication ACKs are now recorded in delivery/BACKUP_ACK.json and delivery/PUBLICATION_ACK.json, preserving earlier packaging checkpoints.",
     "Continue only to real receiver/stock contract; no new IVP admission."
   ],
   "next_actions": [

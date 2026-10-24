@@ -4,7 +4,9 @@
 
 - 중앙 authority: `cosmosapjw-quantum/rei_bianchi@0f9d9df825be1dac9ca9bdf73cdc2e8908bcba17`, `research/orchestration_longterm_20261023/assembly/HANDOFF_bass_KO.md`.
 - 기존 BASS owner: `research/background-kinetic-g1b-20261023@28b7705cbb236c26e1b273335f6da7e9da4d1aaf`, PR184 Draft/open/unmerged.
-- 이번 연구 branch: `research/bass-b3a-event-source-20261024`. 실제 게시 commit·PR·expected-SHA 응답은 `delivery/PUBLICATION_ACK.json`을 읽고 새 턴에서 live ref를 확인한다. 이 문서를 쓰는 시점의 게시 예정 상태를 성공 ACK로 간주하지 않는다.
+- 이번 연구 branch: `research/bass-b3a-event-source-20261024`, [PR185](https://github.com/cosmosapjw-quantum/bass/pull/185)는 실제 생성되어 **Draft/open/unmerged**다. 과학 payload commit은 `f4f12a162b446f7fc42759f88d544749435fb35b`, 기존 G1B base 및 실제 expected SHA는 `28b7705cbb236c26e1b273335f6da7e9da4d1aaf`다. 과학 commit의 Git byte readback은61/61 PASS이며 원 응답은 [delivery/PUBLICATION_ACK.json](delivery/PUBLICATION_ACK.json)에 있다. 최종 live branch는 이후 metadata-only 인수인계·receipt commit을 가리킬 수 있으므로 새 턴에서 live ref와 최종 companion receipt를 확인한다. 이 문서 자신의 최종 SHA를 주장하지 않는다.
+- 이중 backup은 **DUAL_BACKUP_ACK**: science capsule의 Dropbox completed 및 Google Drive success 응답을 [delivery/BACKUP_ACK.json](delivery/BACKUP_ACK.json)에 보존했다. stage evidence는 누적 capsule 하나로 최종 packaging 때 백업했으며, 각 단계 실행 당시 별도 upload를 했다고 쓰지 않는다. Backup provider ACK/크기 검증은 별도 remote full-byte readback을 뜻하지 않는다.
+- 이 B3a source-only 단위의 R1–R10/C1–C10와 외부 전달은 완료다. 초기 packaging/backup checkpoint의 PENDING은 원 receipt의 당시 상태로 보존하며, 현재 publication 상태는 **ACKNOWLEDGED**다. 이후 B3b/c·B4·B5의 미완료와 merge/production 금지는 그대로다.
 - 경로: `research/bass_b3a_event_source_20261024/`.
 - 원 준비 연구: `BASS_B3A_EVENT_SOURCE_20261024`. 새 구현 단위: `BASS_B3A_REC_EVENT_ADAPTER_20261024`.
 

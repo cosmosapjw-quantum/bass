@@ -182,11 +182,55 @@
   },
   "delivery": {
     "backup_status": "DUAL_BACKUP_ACK",
-    "publication_status": "PENDING",
-    "actual_ack_receipts": "delivery/",
+    "publication_status": "ACKNOWLEDGED",
+    "actual_ack_receipts": [
+      "delivery/BACKUP_ACK.json",
+      "delivery/PUBLICATION_ACK.json"
+    ],
     "rule": "Update from actual provider/commit/ref acknowledgements only; scientific PASS_SCOPED is independent of delivery.",
-    "stage_packaging": "One immutable compact archive may consolidate stage evidence; no separate physical upload is asserted for each R/C step.",
-    "backup_receipt": "delivery/BACKUP_ACK.json"
+    "stage_packaging": "One cumulative science capsule contains R1-R10/C1-C10 stage evidence. Dual backup ACK was acquired at final packaging; no separate earlier per-stage upload is asserted.",
+    "backup_receipt": "delivery/BACKUP_ACK.json",
+    "status": "COMPLETE",
+    "publication_receipt": "delivery/PUBLICATION_ACK.json",
+    "science_commit": "f4f12a162b446f7fc42759f88d544749435fb35b",
+    "base_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+    "expected_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+    "branch": "research/bass-b3a-event-source-20261024",
+    "pull_request": {
+      "url": "https://github.com/cosmosapjw-quantum/bass/pull/185",
+      "number": 185,
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "base": "research/background-kinetic-g1b-20261023",
+      "base_sha": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+      "head": "research/bass-b3a-event-source-20261024",
+      "head_sha": "f4f12a162b446f7fc42759f88d544749435fb35b",
+      "created_at": "2026-10-24T02:33:34Z"
+    },
+    "git_byte_readback": {
+      "status": "PASS",
+      "matched_files": 61,
+      "scope": "scientific payload at science_commit; not a claim about subsequent metadata-only revisions"
+    },
+    "live_branch_note": "The scientific payload is identified by science_commit. A later metadata-only delivery commit may be the live branch tip; consult the final companion receipt/live ref without recursive self-SHA claims.",
+    "checkpoint_history": [
+      {
+        "checkpoint": "immutable science capsule packaging",
+        "backup_status": "PENDING",
+        "publication_status": "PENDING",
+        "source": "delivery/BACKUP_ACK.json archive checkpoint fields",
+        "scope": "historical packaging state, superseded by actual closeout ACKs"
+      },
+      {
+        "checkpoint": "dual backup acknowledgement",
+        "recorded_utc": "2026-10-24 01:50:50 UTC",
+        "backup_status": "DUAL_BACKUP_ACK",
+        "publication_status": "PENDING",
+        "source": "delivery/BACKUP_ACK.json",
+        "scope": "historical backup checkpoint; publication subsequently acknowledged in PUBLICATION_ACK.json"
+      }
+    ]
   },
   "resource": {
     "historical_partial_wall_subtotal_seconds": 34.1262904040002,
