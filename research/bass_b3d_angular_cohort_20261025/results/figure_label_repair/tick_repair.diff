@@ -1,0 +1,11 @@
+--- summarize_before_repair.py
++++ code/summarize.py
+@@ -87,6 +87,8 @@
+         rr=[r for r in rows if r['source']==label and 0<r['eta']<=1/16]
+         for field,style in [('energy','o-'),('pressure','s--')]:ax.semilogx([r['eta'] for r in rr],[r['rules']['Q14']['leading_'+field+'_ratio'] for r in rr],style,color=colors[label],label=label+' '+field,markersize=4)
+     ax.axhline(1.,color='.4',ls=':');ax.set(xlabel='eta',ylabel='Saved signed error / exact leading term',title='Q14 exact leading-error ratios');ax.legend(fontsize=8)
++    ax.set_xticks([1/128,1/64,1/32,1/16],['1/128','1/64','1/32','1/16'])
++    ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+     ax=axs[1,1];labels=[];aligned=[];rotated=[]
+     for r in raw['rotation']:
+         for name,e in r['rules'].items():labels.append(r['source']+'\n'+name);aligned.append(e['aligned_errors']['tensor']);rotated.append(e['fixed_grid_errors']['tensor'])

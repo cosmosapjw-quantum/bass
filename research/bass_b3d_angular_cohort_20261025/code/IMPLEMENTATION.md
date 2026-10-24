@@ -46,3 +46,29 @@ Every start is saved before dispatch and all raw stdout/stderr, exit status,
 argv/cwd/UTC, package versions, source hashes, and actual wall/CPU are retained.
 The first substantive failure stops execution for root's targeted disposition.
 These mechanical gates do not grant scientific admission; C9 is independent.
+
+## Actual bounded execution
+
+After root's S0 preservation ACK, the focused test and sweep each completed
+once with exit0. The initial summary process failed before writing summary or
+figure because NumPy Boolean gate scalars are not serialized by the standard
+JSON encoder. Root authorized one targeted mechanical repair: convert all gate
+values to built-in `bool` immediately after their assembly. The original source,
+exact before/after SHA256, unified diff, failure classification and original
+attempt receipt are preserved under `results/failure_03/`; raw attempt03 logs
+remain unchanged. No model, tolerance, test or raw sweep changed.
+
+Only the summary was rerun. Attempt04 completed with exit0 and all16 mechanical
+frozen gates true. All benchmark failures and unresolved values remain in the
+JSON/CSV outputs. Through attempt04, the four actual children, including the failed summary,
+consumed5.781100525004149wall and5.775743CPU seconds. New IVPs, source
+transactions and old campaign replays remain0. Independent C9 admission is
+still pending; the implementation's Boolean does not supply that admission.
+
+Root then authorized a bottom-left-panel tick-only readability repair. Its
+four major labels are now1/128,1/64,1/32,1/16 and minor tick labels are hidden.
+Only the metered summary/plot was rerun, as attempt05 with exit0. All five
+scientific JSON/CSV files are byte-identical to their prior versions. Original
+code, PNG, hashes, diff and verification are in `results/figure_label_repair/`.
+The five-child final implementation subtotal is8.168898051000724wall and
+8.162283CPU seconds, including the failed attempt and both authorized reruns.

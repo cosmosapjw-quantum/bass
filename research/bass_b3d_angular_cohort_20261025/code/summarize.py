@@ -51,6 +51,7 @@ def main():
         leading_Q14_coefficients=all(max(r['energy_relative_difference'],r['pressure_relative_difference'])<=.05 for r in leading_checks),
         positive_birth_q=minq>0,redward_log_expansion=minexp>0,
         **{'order_'+k:v for k,v in order_gates.items()})
+    gates={k:bool(v) for k,v in gates.items()}
     summary=dict(workflow_version='1.0.0',admission='PENDING_INDEPENDENT_ASTRA_REVIEW',new_IVPs=0,
         old_campaign_replay=0,source_transactions=0,cohort_fixtures=len(rows),rotation_fixtures=len(raw['rotation']),
         gates=gates,all_frozen_gates_pass=all(gates.values()),orders=order_rows,finest_resolved_Q14_triplets=selected_triplets,
@@ -86,6 +87,8 @@ def main():
         rr=[r for r in rows if r['source']==label and 0<r['eta']<=1/16]
         for field,style in [('energy','o-'),('pressure','s--')]:ax.semilogx([r['eta'] for r in rr],[r['rules']['Q14']['leading_'+field+'_ratio'] for r in rr],style,color=colors[label],label=label+' '+field,markersize=4)
     ax.axhline(1.,color='.4',ls=':');ax.set(xlabel='eta',ylabel='Saved signed error / exact leading term',title='Q14 exact leading-error ratios');ax.legend(fontsize=8)
+    ax.set_xticks([1/128,1/64,1/32,1/16],['1/128','1/64','1/32','1/16'])
+    ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
     ax=axs[1,1];labels=[];aligned=[];rotated=[]
     for r in raw['rotation']:
         for name,e in r['rules'].items():labels.append(r['source']+'\n'+name);aligned.append(e['aligned_errors']['tensor']);rotated.append(e['fixed_grid_errors']['tensor'])

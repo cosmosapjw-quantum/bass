@@ -1,0 +1,28 @@
+# B3d R1–R10 / C1–C10 단계 상태
+
+이번 단위는 한 cohort의 각도 오차 정량화다. 현재 S1 scientific work18/20, R10/C10 최종인계준비중이다. 전체 BASS physical completion=null. 아래 checkpoint는 cumulative 보존단계이며20개개별업로드가 아니다.
+
+|단계|작업 상태|최초 checkpoint|근거|
+|---|---|---|---|
+|R1|COMPLETE_SCOPED|S0|FROZEN_CONTRACT.md, provenance/CURRENT_SOURCE_REFRESH.json|
+|R2|COMPLETE_SCOPED|S0|theory/LITERATURE_TOOL_RECEIPTS.json, provenance/REC_SOURCE_AUDIT_KO.md|
+|R3|COMPLETE_SCOPED|S0|FROZEN_CONTRACT.md, theory/INDEPENDENT_ANGULAR_COHORT_DERIVATION.md|
+|R4|COMPLETE_SCOPED|S0|theory/INDEPENDENT_ANGULAR_COHORT_DERIVATION.md|
+|R5|COMPLETE_SCOPED|S0|theory/INDEPENDENT_ANGULAR_COHORT_DERIVATION.md|
+|R6|COMPLETE_SCOPED|S0|reviews/R6_CONTRACT_REVIEW.md, CONTRACT_ADDENDUM.md|
+|R7|COMPLETE_SCOPED|S1|evidence/WOLFRAM_ANGULAR_PARSED.json, results/COHORT_SWEEP.json|
+|R8|COMPLETE_SCOPED|S1|ADMISSION.json, REPORT_KO.md|
+|R9|COMPLETE_SCOPED|S1|FROZEN_CONTRACT.md, REPORT_KO.md|
+|R10|IN_PROGRESS|S2||
+|C1|COMPLETE_SCOPED|S0|FROZEN_CONTRACT.md|
+|C2|COMPLETE_SCOPED|S0|results/SOURCE_COPIES.json, FROZEN_CONTRACT.md|
+|C3|COMPLETE_SCOPED|S0|FROZEN_CONTRACT.md, CONTRACT_ADDENDUM.md|
+|C4|COMPLETE_SCOPED|S0|RESOURCE_LEDGER.json, code/metered_run.py|
+|C5|COMPLETE_SCOPED|S0|code/angular_cohort.py, code/run_sweep.py|
+|C6|COMPLETE_SCOPED|S1|results/TEST_RESULTS.json|
+|C7|COMPLETE_SCOPED|S1|results/SUMMARY.json|
+|C8|COMPLETE_SCOPED|S1|results/EXECUTION_LEDGER.json, results/failure_03/REPAIR_RECORD.json|
+|C9|COMPLETE_SCOPED|S1|reviews/C9_FINAL_REVIEW.md, reviews/CURRENT_SOURCE_AND_RECOVERY_REVIEW.md|
+|C10|IN_PROGRESS|S2||
+
+S0Git/Drive/Dropbox 실제ACK는 DELIVERY_RECEIPTS.json에 있다. S1/S2 자신을포함하는archive/commit의최종SHA는뒤의checkpoint및PR188 outerreceipt로기록한다. ScientificPASS,Gitblobidentity,uploadACK,remote전체restore는별개다.
