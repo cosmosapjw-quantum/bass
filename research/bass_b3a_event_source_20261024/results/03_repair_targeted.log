@@ -1,0 +1,70 @@
+STDOUT
+
+STDERR
+test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) ... 
+  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='ln_a') ... FAIL
+  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='conformal_time') ... FAIL
+  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='frame', value='already_boosted') ... FAIL
+  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='ln_a') ... FAIL
+  test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='conformal_time') ... FAIL
+test_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer) ... FAIL
+test_exact_zero_actual_donor_no_callback_binding (test_repairs.AuthorizedRepairTests.test_exact_zero_actual_donor_no_callback_binding) ... ok
+
+======================================================================
+FAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='ln_a')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 26, in test_F1_canonical_source_origin_and_binding_clock
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='clock', value='conformal_time')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 26, in test_F1_canonical_source_origin_and_binding_clock
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (field='frame', value='already_boosted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 26, in test_F1_canonical_source_origin_and_binding_clock
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='ln_a')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 37, in test_F1_canonical_source_origin_and_binding_clock
+    with self.assertRaises(ValueError): bass_rate_pair(forged,length_m=1e12)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_F1_canonical_source_origin_and_binding_clock (test_repairs.AuthorizedRepairTests.test_F1_canonical_source_origin_and_binding_clock) (pair_clock='conformal_time')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 37, in test_F1_canonical_source_origin_and_binding_clock
+    with self.assertRaises(ValueError): bass_rate_pair(forged,length_m=1e12)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_F2_cross_frame_duplicate_physical_transfer (test_repairs.AuthorizedRepairTests.test_F2_cross_frame_duplicate_physical_transfer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024/tests/test_repairs.py", line 45, in test_F2_cross_frame_duplicate_physical_transfer
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.006s
+
+FAILED (failures=6)

@@ -1,0 +1,28 @@
+{
+  "reviewer": "/root/source_owner_intake",
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "reviews/probe_code_review.py"
+  ],
+  "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3a_event_source_20261024",
+  "source_sha256": {
+    "code/event_measure.py": "8d2f4e4644c18b100663d611f78ceb1781520ee0f31b2e06b8195ad806ee6bb6",
+    "code/rec_adapter.py": "d50ef5db1dddcc953dbab1199ea6b23d92dbe0838dbfacdaa2b59a5e6bcfbf34",
+    "code/bass_binding.py": "6d38301ed628b990920349faa2234288c3dc1b6b3492ffa201f74f9bc81e1881",
+    "reviews/probe_code_review.py": "b69ced43b1a658f6861bbcc6e08ac22bee3feab0bb9e9bc1d67e88551f6e424c"
+  },
+  "env_overrides": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "exit_code": 0,
+  "wall_s": 0.7490066320024198,
+  "cpu_s": 0.7477369999999999,
+  "stdout": "{\n  \"scope\": \"three new contract probes; no IVP/old replay; synthetic successful callbacks only\",\n  \"observations\": [\n    {\n      \"id\": \"F1_clock\",\n      \"status\": \"ACCEPTED_WRONG_SOURCE_METADATA\",\n      \"identity\": {\n        \"owner\": \"REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached\",\n        \"epoch\": \"reviewer_epoch\",\n        \"frame\": \"rest\",\n        \"clock\": \"ln_a\",\n        \"provenance\": \"CONSTRUCTED_REVIEW_FIXTURE\"\n      },\n      \"U\": [\n        7.009139642176173e-17,\n        -7.009139642176173e-17\n      ],\n      \"expected\": \"ValueError before source construction\"\n    },\n    {\n      \"id\": \"F1_frame\",\n      \"status\": \"ACCEPTED_WRONG_SOURCE_METADATA\",\n      \"identity\": {\n        \"owner\": \"REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached\",\n        \"epoch\": \"reviewer_epoch\",\n        \"frame\": \"already_boosted\",\n        \"clock\": \"proper_time_dt_dV_invariant\",\n        \"provenance\": \"CONSTRUCTED_REVIEW_FIXTURE\"\n      },\n      \"U\": [\n        7.009139642176173e-17,\n        -7.009139642176173e-17\n      ],\n      \"expected\": \"ValueError before source construction\"\n    },\n    {\n      \"id\": \"F2_frame_duplicate\",\n      \"status\": \"ACCEPTED_SAME_PHYSICAL_TOKEN_IN_NEW_FRAME\",\n      \"first_keys\": [\n        [\n          \"REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached\",\n          \"reviewer_epoch\",\n          \"rest\",\n          \"proper_time_dt_dV_invariant\",\n          \"physical_event_1\"\n        ]\n      ],\n      \"second_keys\": [\n        [\n          \"REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached\",\n          \"reviewer_epoch\",\n          \"other_observer\",\n          \"proper_time_dt_dV_invariant\",\n          \"physical_event_1\"\n        ],\n        [\n          \"REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached\",\n          \"reviewer_epoch\",\n          \"rest\",\n          \"proper_time_dt_dV_invariant\",\n          \"physical_event_1\"\n        ]\n      ],\n      \"expected\": \"ValueError: same owner/epoch/physical transfer token\"\n    }\n  ]\n}\n",
+  "stderr": "",
+  "new_ivp": 0,
+  "old_replay": 0,
+  "prior_suite_replay": 0,
+  "historical_remaining_budget": null,
+  "budget_reset": false
+}

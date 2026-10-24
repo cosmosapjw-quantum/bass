@@ -1,0 +1,728 @@
+--- /dev/null
++++ b/code/bass_binding.py
+@@ -0,0 +1,65 @@
++"""Pure BASS transfer attachment; no pressure-rate addition or stock update."""
++from dataclasses import dataclass
++import importlib.util
++from pathlib import Path
++import sys
++import numpy as np
++from event_measure import C,G,GrossEventBundle,Identity,real_array,positive
++from rec_adapter import OWNER,INVARIANT_CLOCK
++
++path = Path(__file__).resolve().parents[1]/'vendor/bass/core.py'
++spec = importlib.util.spec_from_file_location('b3a_unchanged_bass_core',path)
++core = importlib.util.module_from_spec(spec)
++sys.modules[spec.name] = core
++spec.loader.exec_module(core)
++
++
++@dataclass(frozen=True)
++class BassRatePair:
++    U: np.ndarray
++    J: np.ndarray
++    PiRate_hat_radiation: np.ndarray
++    identity: Identity
++    atomic_energy_ledger: str = 'internal_excitation_energy'
++    thermal_energy_rate: float = 0.
++    ionization_yield: float = 0.
++    free_electron_yield: float = 0.
++
++
++def bass_rate_pair(bundle, *, length_m):
++    if not isinstance(bundle,GrossEventBundle) or bundle.down.identity.owner != OWNER or bundle.down.identity.clock != INVARIANT_CLOCK:
++        raise ValueError('compatible detached gross event owner and invariant proper clock required')
++    L = positive(length_m,'L')
++    net = bundle.net_moments()
++    factor = 8*np.pi*G/C**4*L**3/C
++    transfer = factor*net.cQ_J_m3_s
++    return BassRatePair(np.array([transfer[0],-transfer[0]]),np.array([transfer[1:],-transfer[1:]]),
++                        factor*net.PiRate_J_m3_s,net.identity)
++
++
++@dataclass(frozen=True)
++class Attachment:
++    source: object
++    rates: BassRatePair
++    applied_transfer_keys: frozenset
++
++
++def attach_source(bundle, *, length_m, pressure, pi, expected_identity,
++                  transfer_id, applied_transfer_keys=frozenset(), positive_domain=None):
++    if not isinstance(expected_identity,Identity) or bundle.down.identity != expected_identity:
++        raise ValueError('stale or incompatible owner/epoch/frame/clock identity')
++    if not isinstance(transfer_id,str) or not transfer_id:
++        raise ValueError('explicit transfer id required')
++    # A physical source charge survives observer/frame representation changes.
++    key = (expected_identity.owner,expected_identity.epoch,transfer_id)
++    if key in applied_transfer_keys:
++        raise ValueError('duplicate transfer refused')
++    rates = bass_rate_pair(bundle,length_m=length_m)
++    if np.any(rates.U) or np.any(rates.J):
++        if not callable(positive_domain) or positive_domain(rates) is not True:
++            raise ValueError('explicit successful positive-domain callback required for nonzero binding')
++    p = real_array(pressure,'current state pressure',(2,))
++    stress = real_array(pi,'current state pi',(2,3,3))
++    source = core.Source(p.copy(),stress.copy(),rates.U.copy(),rates.J.copy())
++    source.arrays(2,balanced=True)
++    return Attachment(source,rates,frozenset(applied_transfer_keys)|{key})
+--- /dev/null
++++ b/code/event_measure.py
+@@ -0,0 +1,168 @@
++"""Invariant photon event rates, distinct from kinetic density quadrature.
++
++r=c*p is in joules; dR has units m^-3 s^-1 per invariant proper four-volume/c.
++Rates are unchanged on boosts. K(u) uses the observer-dependent denominator.
++"""
++from dataclasses import dataclass
++from itertools import product
++import math
++import numpy as np
++
++C = 299792458.0
++G = 6.67430e-11
++
++
++def real_array(value, name, shape=None):
++    def boolean(x):
++        if isinstance(x, (bool, np.bool_)):
++            return True
++        if isinstance(x, (list, tuple)):
++            return any(boolean(a) for a in x)
++        if isinstance(x, np.ndarray):
++            return x.dtype.kind == 'b' or (x.dtype.kind == 'O' and any(boolean(a) for a in x.flat))
++        return False
++    raw = np.asarray(value)
++    if boolean(value) or raw.dtype.kind not in 'iuf' or not np.all(np.isfinite(raw)):
++        raise ValueError(f'{name} must be finite, real and non-boolean')
++    a = np.array(raw, dtype=float, copy=True)
++    if shape is not None and a.shape != shape:
++        raise ValueError(f'invalid {name} shape')
++    a.setflags(write=False)
++    return a
++
++
++def positive(value, name):
++    a = real_array(value, name, ())
++    if a <= 0:
++        raise ValueError(f'{name} must be positive')
++    return float(a)
++
++
++@dataclass(frozen=True)
++class Identity:
++    owner: str
++    epoch: str
++    frame: str
++    clock: str
++    provenance: str
++
++    def __post_init__(self):
++        if not all(isinstance(x, str) and x for x in self.__dict__.values()):
++            raise ValueError('nonempty owner, epoch, frame, clock and provenance required')
++
++
++@dataclass(frozen=True)
++class PhotonEventMeasure:
++    energy_J: np.ndarray
++    directions: np.ndarray
++    rates_m3_s: np.ndarray
++    identity: Identity
++
++    def __post_init__(self):
++        e = real_array(self.energy_J, 'energy')
++        w = real_array(self.rates_m3_s, 'gross event rate')
++        n = real_array(self.directions, 'directions')
++        if not isinstance(self.identity, Identity) or e.ndim != 1 or e.size == 0 or n.shape != (len(e), 3) or w.shape != e.shape:
++            raise ValueError('invalid event representation')
++        if np.any(e <= 0) or np.any(w < 0) or np.max(np.abs(np.sum(n*n,axis=1)-1)) > 5e-13:
++            raise ValueError('positive energies, nonnegative gross rates and unit directions required')
++        for name, value in [('energy_J',e),('directions',n),('rates_m3_s',w)]:
++            object.__setattr__(self,name,value)
++
++    @property
++    def r(self):
++        return np.column_stack((self.energy_J, self.energy_J[:,None]*self.directions))
++
++    def boosted(self, beta, *, frame):
++        if not isinstance(frame,str) or not frame:
++            raise ValueError('explicit destination frame required')
++        r = self.r @ boost_matrix(beta).T
++        return PhotonEventMeasure(r[:,0], r[:,1:]/r[:,0,None], self.rates_m3_s,
++                                  Identity(self.identity.owner,self.identity.epoch,frame,
++                                           self.identity.clock,self.identity.provenance))
++
++
++def boost_matrix(beta):
++    v = real_array(beta, 'beta', (3,))
++    b2 = float(v@v)
++    if b2 >= 1:
++        raise ValueError('beta squared must be below one')
++    gamma = 1/math.sqrt(1-b2)
++    L = np.eye(4)
++    L[0,0] = gamma
++    L[0,1:] = L[1:,0] = gamma*v
++    L[1:,1:] += gamma**2/(gamma+1)*np.outer(v,v)
++    return L
++
++
++@dataclass(frozen=True)
++class MomentResult:
++    cQ_J_m3_s: np.ndarray
++    K_J_m3_s: np.ndarray
++    PiRate_J_m3_s: np.ndarray | None
++    number_rate_m3_s: float
++    identity: Identity
++    observer: np.ndarray
++
++
++def moments(events, *, observer=(1.,0.,0.,0.)):
++    if not isinstance(events, PhotonEventMeasure):
++        raise ValueError('PhotonEventMeasure required')
++    u = real_array(observer,'observer',(4,))
++    if u[0] <= 0 or abs(-u[0]**2+u[1:]@u[1:]+1) > 5e-12:
++        raise ValueError('future unit timelike observer required')
++    r = events.r
++    denominator = u[0]*r[:,0]-r[:,1:]@u[1:]
++    if np.any(denominator <= 0):
++        raise ValueError('positive observer photon energy required')
++    cq = events.rates_m3_s@r
++    k = np.einsum('n,ni,nj->ij',events.rates_m3_s/denominator,r,r)
++    # A generic observer's spatial subblock is not its physical 3D PSTF.
++    # Return generic K(u), exposing PiRate3 only for the target-frame observer.
++    pi = k[1:,1:]-np.eye(3)*np.trace(k[1:,1:])/3 if np.array_equal(u,[1.,0.,0.,0.]) else None
++    for a in (cq,k) + (() if pi is None else (pi,)):
++        if not np.all(np.isfinite(a)):
++            raise ValueError('moments outside representable numeric domain')
++    return MomentResult(cq,k,pi,float(np.sum(events.rates_m3_s)),events.identity,u)
++
++
++@dataclass(frozen=True)
++class GrossEventBundle:
++    down: PhotonEventMeasure
++    up: PhotonEventMeasure
++
++    def __post_init__(self):
++        if not isinstance(self.down,PhotonEventMeasure) or not isinstance(self.up,PhotonEventMeasure) or self.down.identity != self.up.identity:
++            raise ValueError('two gross channels must share identity')
++
++    def net_moments(self, *, observer=(1.,0.,0.,0.)):
++        d,u = moments(self.down,observer=observer),moments(self.up,observer=observer)
++        return MomentResult(d.cQ_J_m3_s-u.cQ_J_m3_s,d.K_J_m3_s-u.K_J_m3_s,
++                            None if d.PiRate_J_m3_s is None else d.PiRate_J_m3_s-u.PiRate_J_m3_s,d.number_rate_m3_s-u.number_rate_m3_s,
++                            d.identity,d.observer)
++
++    def boosted(self,beta,*,frame):
++        return GrossEventBundle(self.down.boosted(beta,frame=frame),self.up.boosted(beta,frame=frame))
++
++
++def ab_fixture(which, identity=None):
++    identity = identity or Identity('synthetic_AB','fixture','rest','proper_time','CONSTRUCTED_EXACT_AB')
++    if which == 'A':
++        n = np.concatenate((np.eye(3),-np.eye(3)))
++    elif which == 'B':
++        n = np.array(list(product((-1.,1.),repeat=3)))/math.sqrt(3)
++    else:
++        raise ValueError('A or B fixture required')
++    return PhotonEventMeasure(np.ones(len(n)),n,np.full(len(n),1/len(n)),identity)
++
++
++def exact_axis_pi_xx(which,beta):
++    b = float(real_array(beta,'axis beta',()))
++    if abs(b) >= 1:
++        raise ValueError('axis beta outside domain')
++    g = 1/math.sqrt(1-b*b)
++    if which == 'A':
++        return 2*g*b*b/3
++    if which == 'B':
++        return 2*g*b*b/3-2*b*b*math.sqrt(1-b*b)/(3*(3-b*b))
++    raise ValueError('A or B fixture required')
+--- /dev/null
++++ b/code/rec_adapter.py
+@@ -0,0 +1,61 @@
++"""Source-only bridge to pinned, unchanged detached REC LINE01 owner."""
++from itertools import product
++import json
++import math
++from pathlib import Path
++import sys
++import numpy as np
++from event_measure import Identity, PhotonEventMeasure, GrossEventBundle, real_array
++
++ROOT = Path(__file__).resolve().parents[1]
++REC = ROOT/'vendor/rec_line_source'
++sys.path.insert(0,str(REC/'code'))
++import line_source as owner
++import escape_moments as angular
++
++OWNER = 'REC_LINE01@93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa:standalone_detached'
++ORIGIN_FRAME = 'rest'
++INVARIANT_CLOCK = 'proper_time_dt_dV_invariant'
++
++
++def native_scalar_state(S):
++    raw = json.loads((REC/'fixtures/STORED_NATIVE_LYA_STATE.json').read_text())
++    m = {k:float(v) for k,v in raw['meta'].items()}
++    if m['fsR'] != 1 or m['meR'] != 1:
++        raise ValueError('frozen native scalar extract requires fsR=meR=1')
++    xr = next(float(r['departure']) for r in raw['real_rows'] if r['index']=='1')
++    w = math.exp(-10.198714553953742/m['TR_eV_rescaled'])
++    x2p = xr+3*m['x1s']*w
++    nH = m['nH_cm3']*1e6
++    f = 1/math.expm1(10.198714553953742/m['TR_eV_rescaled'])+m['Dfplus_Lya']
++    S = real_array(S,'S',(3,3))
++    state = owner.LineState('H_LYA_EFFECTIVE_2P','collapsed_2p',nH*m['x1s'],nH*x2p,m['H_sInv'],f,S,
++                            'STORED_NATIVE_SCALAR_EXTRACT; detached full-Planck/stimulated; NOT native LINE02/history parity',
++                            'CONSTRUCTED_S_FIXTURE_NOT_NATIVE_ANGULAR_STATE',n_H_reference_m3=nH)
++    return state, {'x2p_restored':x2p,'native_xr1':xr,'Planck_Wien_factor':w,'f_plus_total':f,
++                   'source_snapshot_blob':raw['source_git_blob_sha1'],'new_native_solver_calls':0}
++
++
++def event_bundle(state, identity, *, n_mu=12,n_phi=20):
++    if not isinstance(state,owner.LineState) or not isinstance(identity,Identity) or identity.owner != OWNER:
++        raise ValueError('selected compatible detached LINE01 owner required')
++    if identity.frame != ORIGIN_FRAME or identity.clock != INVARIANT_CLOCK:
++        raise ValueError('REC source construction requires canonical rest frame and invariant proper clock')
++    owner.validate_owner(state.owner_mode,state.native_line_owner_active)
++    # Reject bool/complex before unchanged donor's scalar/tensor conversions.
++    real_array(state.S,'S',(3,3))
++    c = state.card
++    t = c.A_s_inv*c.wavelength_m**3*(c.g*state.n_l_m3-state.n_u_m3)/(8*math.pi*state.H_s_inv)
++    data = angular.validate_inputs(t,state.S)
++    n2, weights = angular._principal_rule(n_mu,n_phi)
++    q = 1+n2@data.eigenvalues
++    beta = angular.beta_vector(t,q)
++    signs = np.array(list(product((-1.,1.),repeat=3)))
++    principal = (np.sqrt(n2)[:,None,:]*signs[None,:,:]).reshape(-1,3)
++    directions = principal@data.eigenvectors.T
++    angular_rates = np.repeat(weights*beta/8,8)
++    down = c.A_s_inv*state.n_u_m3*(1+state.f_plus)*angular_rates
++    up = c.A_s_inv*c.g*state.n_l_m3*state.f_plus*angular_rates
++    energy = np.full(len(down),c.energy_J)
++    return GrossEventBundle(PhotonEventMeasure(energy,directions,down,identity),
++                           PhotonEventMeasure(energy,directions,up,identity))
+--- /dev/null
++++ b/code/reference_runner.py
+@@ -0,0 +1,101 @@
++"""Produce one current local reference and NEW A/B diagnostic; no history replay."""
++import csv
++from dataclasses import asdict
++import json
++from pathlib import Path
++import numpy as np
++from event_measure import ab_fixture,moments,exact_axis_pi_xx,Identity
++from rec_adapter import native_scalar_state,event_bundle,owner,angular,OWNER
++
++ROOT = Path(__file__).resolve().parents[1]
++RESULTS = ROOT/'results'
++RESULTS.mkdir(exist_ok=True)
++identity = Identity(OWNER,'stored_scalar_epoch_z1099.9986525171403','rest','proper_time_dt_dV_invariant',
++                    'STORED_NATIVE_SCALAR_EXTRACT + CONSTRUCTED_ROTATED_S_FIXTURE')
++S = owner.shear_fixtures()['rotated']
++state,restored = native_scalar_state(S)
++bundle = event_bundle(state,identity)
++net = bundle.net_moments()
++direct = owner.exchange_source(state,n_mu=12,n_phi=20)
++down,up = moments(bundle.down),moments(bundle.up)
++gross_energy = down.cQ_J_m3_s[0]+up.cQ_J_m3_s[0]
++reference = {
++    'unit':'BASS_B3A_REC_EVENT_ADAPTER_20261024',
++    'classification':'detached full-Planck/stimulated reference from native scalar inputs; constructed angular S; NOT native LINE02/history parity',
++    'identity':asdict(identity),'native_reconstruction':restored,'S_fixture':S,
++    'n_l_m3':state.n_l_m3,'n_u_m3':state.n_u_m3,'H_s_inv':state.H_s_inv,'f_plus':state.f_plus,
++    'card':asdict(state.card),'quadrature':{'n_mu':12,'n_phi':20,'full_event_nodes':len(bundle.down.energy_J),'sign_count':8,'weights_renormalized':False},
++    'native_reference':{
++        'owner_api':'line_source.exchange_source(mode=quadrature via owner implementation)',
++        'gross_down_m3_s':down.number_rate_m3_s,'gross_up_m3_s':up.number_rate_m3_s,
++        'net_R_m3_s':net.number_rate_m3_s,'net_cQ_J_m3_s':net.cQ_J_m3_s,'K_J_m3_s':net.K_J_m3_s,
++        'PiRate_J_m3_s':net.PiRate_J_m3_s,'owner_energy_J_m3_s':direct['du_radiation_J_m3_s'],
++        'energy_discrepancy_over_gross':abs(net.cQ_J_m3_s[0]-direct['du_radiation_J_m3_s'])/gross_energy,
++        'PiRate_discrepancy_over_gross':float(np.max(np.abs(net.PiRate_J_m3_s-direct['energy_PSTF_J_m3_s'])))/gross_energy,
++        'thermal_source_J_m3_s':0.,'atomic_internal_energy_J_m3_s':-net.cQ_J_m3_s[0],
++        'ionization_yield':0.,'free_electron_yield':0.,'new_native_solver_calls':0},
++    'constructed_fixtures':[],'claim_limit':'same-grid donor parity is not angular continuum convergence; synthetic callback is not real photon stock certification',
++}
++for label in ['emission','absorption','LTE']:
++    s = owner.state_at_depth('H_LYA_EFFECTIVE_2P',label,3.7,S)
++    b = event_bundle(s,Identity(OWNER,'constructed_'+label,'rest',identity.clock,'CONSTRUCTED_'+label))
++    d,u = moments(b.down),moments(b.up)
++    ref = owner.exchange_source(s,n_mu=12,n_phi=20)
++    m = b.net_moments()
++    scale = d.cQ_J_m3_s[0]+u.cQ_J_m3_s[0]
++    reference['constructed_fixtures'].append({'label':label,'gross_down_m3_s':d.number_rate_m3_s,'gross_up_m3_s':u.number_rate_m3_s,
++         'net_energy_J_m3_s':m.cQ_J_m3_s[0],'owner_net_energy_J_m3_s':ref['du_radiation_J_m3_s'],
++         'energy_discrepancy_over_gross':abs(m.cQ_J_m3_s[0]-ref['du_radiation_J_m3_s'])/scale,
++         'net_over_gross':m.cQ_J_m3_s[0]/scale})
++rows=[]
++for beta in np.linspace(0,.95,96):
++    row={'beta_axis':float(beta)}
++    for name in 'AB':
++        numeric = moments(ab_fixture(name).boosted([beta,0,0],frame='axis_curve')).PiRate_J_m3_s[0,0]
++        exact = exact_axis_pi_xx(name,beta)
++        row.update({name+'_exact':exact,name+'_numeric':float(numeric),name+'_residual':float(numeric-exact)})
++    row['delta_exact']=row['A_exact']-row['B_exact']
++    row['delta_numeric']=row['A_numeric']-row['B_numeric']
++    rows.append(row)
++oblique = [moments(ab_fixture(name).boosted([.2,.4,.4],frame='oblique')) for name in 'AB']
++oblique_delta = float(oblique[0].PiRate_J_m3_s[0,0]-oblique[1].PiRate_J_m3_s[0,0])
++reference['AB']={'axis_three_fifths':{name:{'cQ':moments(ab_fixture(name).boosted([.6,0,0],frame='axis')).cQ_J_m3_s,
++      'PiRate':moments(ab_fixture(name).boosted([.6,0,0],frame='axis')).PiRate_J_m3_s} for name in 'AB'},
++      'oblique_beta':[.2,.4,.4],'oblique_delta_xx':oblique_delta,'oblique_exact_delta_xx':-286408/10384605,
++      'max_axis_absolute_residual':max(abs(r[n+'_residual']) for r in rows for n in 'AB')}
++reference['owner_call_counters']={'line_source':dict(owner.COUNTERS),'escape_moments':dict(angular.COUNTERS)}
++def encode(x):
++    if isinstance(x,np.ndarray):return x.tolist()
++    if isinstance(x,np.generic):return x.item()
++    raise TypeError(type(x).__name__)
++(RESULTS/'CURRENT_REFERENCE.json').write_text(json.dumps(reference,indent=2,default=encode,allow_nan=False)+'\n')
++with (RESULTS/'AB_EXACT_BOOST.csv').open('w',newline='') as f:
++    writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
++import matplotlib
++matplotlib.use('Agg')
++import matplotlib.pyplot as plt
++fig,axes = plt.subplots(2,1,figsize=(8.4,7.2),sharex=True,gridspec_kw={'height_ratios':[3,1]})
++x=np.array([r['beta_axis'] for r in rows])
++for name,color in [('A','#1764ab'),('B','#ca6332')]:
++    axes[0].plot(x,[r[name+'_exact'] for r in rows],color=color,label=f'{name}: exact axis PiRate xx')
++    axes[0].plot(x[::6],[r[name+'_numeric'] for r in rows[::6]],'.',color=color,markersize=4)
++    axes[1].plot(x,[r[name+'_residual'] for r in rows],color=color,label=f'{name} numeric - exact')
++axes[0].plot(x,[r['delta_exact'] for r in rows],color='#29915c',label='A - B exact, axis boost')
++axes[0].scatter([.6],[oblique_delta],marker='D',s=48,color='#8c39a4',zorder=5,label='Oblique A - B: beta=(.2,.4,.4)')
++axes[0].axhline(0,color='black',linewidth=.7)
++axes[0].set_ylabel('PiRate xx / (unit energy x event rate)')
++axes[0].set_title('NEW detached event-adapter diagnostic: exact finite A/B measures')
++axes[0].legend(loc='upper left',fontsize=8)
++axes[0].grid(alpha=.2)
++axes[1].axhline(0,color='black',linewidth=.7)
++axes[1].set_ylim(-2e-15,2e-15)
++axes[1].set_ylabel('Residual (linear)')
++axes[1].set_xlabel('Axis beta, or |beta| for the distinguished oblique point')
++axes[1].grid(alpha=.2)
++axes[1].ticklabel_format(axis='y',style='sci',scilimits=(0,0))
++fig.text(.5,.012,'Axes/cube gross events have identical rest moments; boosted PiRate differs. Zero is displayed on a linear scale.',ha='center',fontsize=8)
++fig.tight_layout(rect=(0,.04,1,1));fig.savefig(RESULTS/'AB_EXACT_BOOST.png',dpi=150);plt.close(fig)
++print(json.dumps({'native_energy_discrepancy_over_gross':reference['native_reference']['energy_discrepancy_over_gross'],
++                  'native_PiRate_discrepancy_over_gross':reference['native_reference']['PiRate_discrepancy_over_gross'],
++                  'max_AB_absolute_residual':reference['AB']['max_axis_absolute_residual'],'oblique_delta_xx':oblique_delta,
++                  'owner_calls':reference['owner_call_counters'],'outputs':['CURRENT_REFERENCE.json','AB_EXACT_BOOST.csv','AB_EXACT_BOOST.png']},indent=2))
+--- /dev/null
++++ b/code/run_bounded.py
+@@ -0,0 +1,57 @@
++"""Measure each new validation process including failures. Upper limits only."""
++import json
++import os
++from pathlib import Path
++import resource
++import subprocess
++import sys
++import time
++
++ROOT=Path(__file__).resolve().parents[1]
++OUT=ROOT/'results'
++OUT.mkdir(exist_ok=True)
++RECEIPT=OUT/'VALIDATION_RECEIPT.json'
++receipt=json.loads(RECEIPT.read_text()) if RECEIPT.exists() else {
++ 'unit':'BASS_B3A_REC_EVENT_ADAPTER_20261024','imported_preparatory_unit':'BASS_B3A_EVENT_SOURCE_20261024',
++ 'historical_remaining_wall_s':None,'historical_remaining_cpu_s':None,'budget_reset':False,
++ 'new_local_combined_wall_upper_limit_s':60.,'per_scientific_subprocess_upper_limit_s':30.,
++ 'requested_model':'gpt-6.1-sol','observed_runtime_model':'not inferable from tool/process evidence',
++ 'actual_executor':'delegated agent b3a_implementation via functions.exec exec_command; python3 subprocesses',
++ 'records':[]}
++commands={'repair_targeted':[sys.executable,'-m','unittest','discover','-s','tests','-p','test_repairs.py','-v'],
++          'tests':[sys.executable,'-m','unittest','discover','-s','tests','-p','test_*.py','-v'],
++          'reference_plot':[sys.executable,'code/reference_runner.py']}
++key=sys.argv[1]
++used=sum(r['wall_s'] for r in receipt['records'])
++remaining=60.-used
++if remaining <= 0:raise SystemExit('New scoped validation wall ceiling exhausted')
++cmd=commands[key]
++env=os.environ.copy();env['MPLCONFIGDIR']='/tmp/bass_b3a_rec_event_adapter_mpl';env['OPENBLAS_NUM_THREADS']='1';env['OMP_NUM_THREADS']='1'
++before=resource.getrusage(resource.RUSAGE_CHILDREN)
++t0=time.perf_counter();timeout=False
++try:
++ result=subprocess.run(cmd,cwd=ROOT,env=env,capture_output=True,text=True,timeout=min(30.,remaining))
++ code=result.returncode;stdout=result.stdout;stderr=result.stderr
++except subprocess.TimeoutExpired as exc:
++ timeout=True;code=124
++ stdout=exc.stdout or '';stderr=exc.stderr or ''
++ if isinstance(stdout,bytes):stdout=stdout.decode(errors='replace')
++ if isinstance(stderr,bytes):stderr=stderr.decode(errors='replace')
++wall=time.perf_counter()-t0
++after=resource.getrusage(resource.RUSAGE_CHILDREN)
++index=len(receipt['records'])+1
++log=f'{index:02d}_{key}.log'
++(OUT/log).write_text('STDOUT\n'+stdout+'\nSTDERR\n'+stderr)
++record={'argv':cmd,'cwd':str(ROOT),'env_overrides':{k:env[k] for k in ['MPLCONFIGDIR','OPENBLAS_NUM_THREADS','OMP_NUM_THREADS']},
++ 'exit_code':code,'timeout':timeout,'wall_s':wall,'user_cpu_s':after.ru_utime-before.ru_utime,
++ 'system_cpu_s':after.ru_stime-before.ru_stime,'cpu_s':after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
++ 'stdout':stdout,'stderr':stderr,'raw_log':log,'process_identity':{'executable':sys.executable,'harness_pid':os.getpid()},
++ 'classification':'new source-bound adapter validation; no IVP, no historical replay'}
++receipt['records'].append(record)
++receipt['new_validation_wall_s']=sum(r['wall_s'] for r in receipt['records'])
++receipt['new_validation_cpu_s']=sum(r['cpu_s'] for r in receipt['records'])
++receipt['within_new_wall_ceiling']=receipt['new_validation_wall_s']<=60.
++RECEIPT.write_text(json.dumps(receipt,indent=2)+'\n')
++print(stdout,end='');print(stderr,end='',file=sys.stderr)
++print(json.dumps({k:record[k] for k in ['exit_code','wall_s','user_cpu_s','system_cpu_s','cpu_s','raw_log']}))
++raise SystemExit(code)
+--- /dev/null
++++ b/tests/test_adapter.py
+@@ -0,0 +1,181 @@
++"""Current local finite-quadrature checks; no IVP or old campaign replay."""
++from dataclasses import replace
++from itertools import product
++from pathlib import Path
++import math
++import sys
++import unittest
++import numpy as np
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'code'))
++from event_measure import *
++from rec_adapter import owner,angular,OWNER,event_bundle,native_scalar_state
++from bass_binding import bass_rate_pair,attach_source,core
++
++GATE = 5e-12
++
++
++class EventTests(unittest.TestCase):
++    def close(self,actual,expected,scale=1.):
++        self.assertLessEqual(float(np.max(np.abs(np.asarray(actual)-np.asarray(expected))))/scale,GATE)
++
++    def test_AB_rest(self):
++        for name in 'AB':
++            m = moments(ab_fixture(name))
++            self.close(m.cQ_J_m3_s,[1,0,0,0])
++            self.close(m.K_J_m3_s,np.diag([1,1/3,1/3,1/3]))
++            self.close(m.PiRate_J_m3_s,np.zeros((3,3)))
++
++    def test_AB_exact_three_fifths(self):
++        expected = {'A':np.diag([3/10,-3/20,-3/20]),'B':np.diag([5/22,-5/44,-5/44])}
++        for name in 'AB':
++            e = ab_fixture(name)
++            boosted = e.boosted([3/5,0,0],frame='axis_3_5')
++            self.assertTrue(np.array_equal(e.rates_m3_s,boosted.rates_m3_s))
++            m = moments(boosted)
++            self.close(m.cQ_J_m3_s,[5/4,3/4,0,0])
++            self.close(m.PiRate_J_m3_s,expected[name])
++            self.close(m.PiRate_J_m3_s[0,0],exact_axis_pi_xx(name,3/5))
++
++    def test_wrong_density_weight_negative_control(self):
++        e = ab_fixture('A')
++        boosted = e.boosted([.6,0,0],frame='boost')
++        # Deliberately wrong kinetic density transformation, prohibited in adapter.
++        wrong = replace(boosted,rates_m3_s=e.rates_m3_s*boosted.energy_J/e.energy_J)
++        self.close(moments(wrong).cQ_J_m3_s,[7/4,5/4,0,0])
++        self.assertGreater(np.linalg.norm(moments(wrong).cQ_J_m3_s-moments(boosted).cQ_J_m3_s),.1)
++
++    def test_oblique_counterexample(self):
++        v = [1/5,2/5,2/5]
++        a,b = [moments(ab_fixture(n).boosted(v,frame='oblique')) for n in 'AB']
++        delta = a.PiRate_J_m3_s[0,0]-b.PiRate_J_m3_s[0,0]
++        self.close(delta,-286408/10384605)
++        self.assertLess(delta,0)
++        self.assertGreater(exact_axis_pi_xx('A',.6)-exact_axis_pi_xx('B',.6),0)
++        with self.assertRaises(ValueError): exact_axis_pi_xx('A',v)
++
++    def test_nonaxis_observer_covariance_and_denominator(self):
++        e = ab_fixture('A')
++        v = [.2,-.31,.17]
++        L = boost_matrix(v)
++        m = moments(e)
++        moved = e.boosted(v,frame='nonaxis')
++        u = L@np.array([1.,0,0,0])
++        changed = moments(moved,observer=u)
++        self.close(changed.K_J_m3_s,L@m.K_J_m3_s@L.T)
++        self.close(changed.cQ_J_m3_s,L@m.cQ_J_m3_s)
++        self.close(changed.K_J_m3_s@np.r_[-u[0],u[1:]],-changed.cQ_J_m3_s)
++        self.assertIsNone(changed.PiRate_J_m3_s)
++        target = moments(moved)
++        self.assertGreater(np.linalg.norm(target.K_J_m3_s-changed.K_J_m3_s),.01)
++        self.close(-target.K_J_m3_s[0,0]+np.trace(target.K_J_m3_s[1:,1:]),0)
++
++    def test_event_domain_rejection(self):
++        e = ab_fixture('A')
++        bad = [dict(energy_J=np.zeros(6)),dict(energy_J=np.full(6,np.nan)),dict(energy_J=np.ones(6,dtype=complex)),
++               dict(rates_m3_s=-np.ones(6)),dict(rates_m3_s=np.ones(6,dtype=bool)),dict(directions=e.directions*2),
++               dict(directions=np.full((6,3),np.inf))]
++        for args in bad:
++            with self.subTest(args=list(args)):
++                with self.assertRaises(ValueError): replace(e,**args)
++        for beta in ([1,0,0],[True,0.,0.],[0,0,complex(0)], [math.nan,0,0]):
++            with self.assertRaises(ValueError): boost_matrix(beta)
++        with self.assertRaises(ValueError): moments(e,observer=[0,0,0,0])
++
++
++class DonorAndBindingTests(unittest.TestCase):
++    close = EventTests.close
++
++    def identity(self,epoch='epoch0',frame='rest'):
++        return Identity(OWNER,epoch,frame,'proper_time_dt_dV_invariant','CONSTRUCTED_S_FIXTURE; detached REC gross channels')
++
++    def fixtures(self):
++        return [(label,owner.state_at_depth('H_LYA_EFFECTIVE_2P',label,3.7,owner.shear_fixtures()['rotated'])) for label in ['emission','absorption','LTE']]
++
++    def test_constructed_gross_donor_parity_signs_and_LTE(self):
++        for label,state in self.fixtures():
++            with self.subTest(label=label):
++                bundle = event_bundle(state,self.identity())
++                net = bundle.net_moments()
++                direct = owner.exchange_source(state,n_mu=12,n_phi=20)
++                down,up = moments(bundle.down),moments(bundle.up)
++                scale = down.cQ_J_m3_s[0]+up.cQ_J_m3_s[0]
++                self.assertGreaterEqual(float(bundle.down.rates_m3_s.min()),0)
++                self.assertGreaterEqual(float(bundle.up.rates_m3_s.min()),0)
++                self.close(down.number_rate_m3_s,direct['gross_escaped_down_m3_s'],direct['gross_escaped_down_m3_s']+direct['gross_escaped_up_m3_s'])
++                self.close(up.number_rate_m3_s,direct['gross_escaped_up_m3_s'],direct['gross_escaped_down_m3_s']+direct['gross_escaped_up_m3_s'])
++                self.close(net.cQ_J_m3_s[0],direct['du_radiation_J_m3_s'],scale)
++                self.close(net.K_J_m3_s[1:,1:],direct['radiation_spatial_injection_J_m3_s'],scale)
++                self.close(net.PiRate_J_m3_s,direct['energy_PSTF_J_m3_s'],scale)
++                self.close(down.cQ_J_m3_s[1:],np.zeros(3),scale)
++                self.close(up.cQ_J_m3_s[1:],np.zeros(3),scale)
++                self.assertEqual(len(bundle.down.energy_J),8*12*20)
++                if label == 'emission': self.assertGreater(net.cQ_J_m3_s[0],0)
++                if label == 'absorption': self.assertLess(net.cQ_J_m3_s[0],0)
++                if label == 'LTE': self.close(net.cQ_J_m3_s[0],0,scale)
++
++    def test_all_eight_signs_in_owner_eigenbasis(self):
++        state = self.fixtures()[0][1]
++        bundle = event_bundle(state,self.identity())
++        data = angular.validate_inputs(1,state.S)
++        principal = bundle.down.directions@data.eigenvectors
++        # Every principal node has the full octant group, with equal rates.
++        for n,w in zip(principal.reshape(-1,8,3),bundle.down.rates_m3_s.reshape(-1,8)):
++            self.assertEqual({tuple(np.sign(a)) for a in n},set(product((-1.,1.),repeat=3)))
++            self.assertTrue(np.array_equal(w,np.repeat(w[0],8)))
++
++    def test_native_scalar_actual_owner_call(self):
++        state,info = native_scalar_state(owner.shear_fixtures()['rotated'])
++        bundle = event_bundle(state,self.identity())
++        net = bundle.net_moments()
++        direct = owner.exchange_source(state,n_mu=12,n_phi=20)
++        scale = sum(moments(e).cQ_J_m3_s[0] for e in (bundle.down,bundle.up))
++        self.close(net.cQ_J_m3_s[0],direct['du_radiation_J_m3_s'],scale)
++        self.close(net.PiRate_J_m3_s,direct['energy_PSTF_J_m3_s'],scale)
++        t = direct['t']
++        self.close(angular.beta_vector(t,np.array([.7,1.,1.3])),
++                   np.array([angular.donor_beta_reference(t,q) for q in [.7,1.,1.3]]),max(direct['B'],1e-300))
++        self.assertEqual(info['new_native_solver_calls'],0)
++
++    def test_owner_opacity_shear_domain_rejection(self):
++        state = self.fixtures()[0][1]
++        with self.assertRaises(ValueError): event_bundle(state,replace(self.identity(),owner='wrong_donor'))
++        for args in [dict(n_u_m3=3*state.n_l_m3),dict(S=np.diag([-2.,1.,1.])),dict(H_s_inv=0),dict(f_plus=-1),dict(native_line_owner_active=True)]:
++            with self.assertRaises(ValueError): replace(state,**args)
++        with self.assertRaises(ValueError): native_scalar_state(np.zeros((3,3),dtype=bool))
++
++    def test_BASS_balance_state_copy_and_rate_units(self):
++        bundle = event_bundle(self.fixtures()[0][1],self.identity()).boosted([.2,.3,-.1],frame='test_boost')
++        p = np.array([.01,.02])
++        pi = np.array([np.diag([.1,-.03,-.07]),np.diag([.02,.01,-.03])])
++        result = attach_source(bundle,length_m=3e12,pressure=p,pi=pi,expected_identity=bundle.down.identity,transfer_id='x',positive_domain=lambda rates: True)
++        src = result.source
++        self.close(src.energy_transfer.sum(),0)
++        self.close(src.momentum_transfer.sum(axis=0),np.zeros(3))
++        self.assertTrue(np.array_equal(src.pressure,p))
++        self.assertTrue(np.array_equal(src.pi,pi))
++        self.assertFalse(np.shares_memory(src.pi,pi))
++        factor = 8*np.pi*G/C**4*(3e12)**3/C
++        net = bundle.net_moments()
++        self.close(result.rates.U[0],factor*net.cQ_J_m3_s[0],abs(result.rates.U[0]))
++        self.close(result.rates.J[0],factor*net.cQ_J_m3_s[1:],abs(result.rates.U[0]))
++        self.close(result.rates.PiRate_hat_radiation,factor*net.PiRate_J_m3_s,abs(result.rates.U[0]))
++        self.assertEqual(result.rates.thermal_energy_rate,0)
++        self.assertEqual(result.rates.ionization_yield,0)
++        with self.assertRaises(ValueError):
++            core.Source(p,pi,src.energy_transfer,src.momentum_transfer+[[1,0,0],[0,0,0]]).arrays(2)
++
++    def test_callback_duplicate_stale_and_identity_refusal(self):
++        bundle = event_bundle(self.fixtures()[0][1],self.identity())
++        kwargs = dict(length_m=1e12,pressure=[0.,0.],pi=np.zeros((2,3,3)),expected_identity=self.identity(),transfer_id='unique')
++        for callback in (None,lambda rates: False):
++            with self.assertRaises(ValueError): attach_source(bundle,**kwargs,positive_domain=callback)
++        attached = attach_source(bundle,**kwargs,positive_domain=lambda rates: True)
++        with self.assertRaises(ValueError): attach_source(bundle,**kwargs,positive_domain=lambda rates: True,applied_transfer_keys=attached.applied_transfer_keys)
++        for field in ('owner','epoch','frame','clock','provenance'):
++            bad = {**kwargs,'expected_identity':replace(self.identity(),**{field:'stale'})}
++            with self.assertRaises(ValueError): attach_source(bundle,**bad,positive_domain=lambda rates: True)
++        with self.assertRaises(ValueError): attach_source(bundle,**{**kwargs,'length_m':True},positive_domain=lambda rates: True)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- /dev/null
++++ b/tests/test_repairs.py
+@@ -0,0 +1,74 @@
++"""Authorized F1/F2 regressions and exact-zero donor obligation.
++
++Initially run against the pre-repair implementation; raw RED receipt retained.
++"""
++from dataclasses import replace
++from pathlib import Path
++import sys
++import unittest
++import numpy as np
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'code'))
++from event_measure import Identity,GrossEventBundle,moments
++from rec_adapter import owner,OWNER,event_bundle
++from bass_binding import bass_rate_pair,attach_source
++
++CLOCK = 'proper_time_dt_dV_invariant'
++
++
++class AuthorizedRepairTests(unittest.TestCase):
++    def setUp(self):
++        self.identity=Identity(OWNER,'repair_epoch','rest',CLOCK,'CONSTRUCTED_REPAIR_FIXTURE')
++        self.state=owner.state_at_depth('H_LYA_EFFECTIVE_2P','emission',3.7,np.zeros((3,3)))
++
++    def test_F1_canonical_source_origin_and_binding_clock(self):
++        for field,value in [('clock','ln_a'),('clock','conformal_time'),('frame','already_boosted')]:
++            with self.subTest(field=field,value=value):
++                with self.assertRaises(ValueError):
++                    event_bundle(self.state,replace(self.identity,**{field:value}),n_mu=2,n_phi=2)
++        bundle=event_bundle(self.state,self.identity,n_mu=2,n_phi=2)
++        moved=bundle.boosted([.2,0,0],frame='any_explicit_target_frame')
++        self.assertEqual(moved.down.identity.clock,CLOCK)
++        self.assertEqual(moved.down.identity.frame,'any_explicit_target_frame')
++        self.assertIsNotNone(bass_rate_pair(moved,length_m=1e12))
++        for clock in ['ln_a','conformal_time']:
++            bad=replace(self.identity,clock=clock)
++            forged=GrossEventBundle(replace(bundle.down,identity=bad),replace(bundle.up,identity=bad))
++            with self.subTest(pair_clock=clock):
++                with self.assertRaises(ValueError): bass_rate_pair(forged,length_m=1e12)
++
++    def test_F2_cross_frame_duplicate_physical_transfer(self):
++        bundle=event_bundle(self.state,self.identity,n_mu=2,n_phi=2)
++        kwargs=dict(length_m=1e12,pressure=[0.,0.],pi=np.zeros((2,3,3)),
++                    transfer_id='same_physical_event',positive_domain=lambda rates:True)
++        first=attach_source(bundle,expected_identity=self.identity,**kwargs)
++        moved=bundle.boosted([.2,0,0],frame='new_observer')
++        with self.assertRaises(ValueError):
++            attach_source(moved,expected_identity=moved.down.identity,applied_transfer_keys=first.applied_transfer_keys,**kwargs)
++
++    def test_exact_zero_actual_donor_no_callback_binding(self):
++        # Positive lower population and opacity, but neither upper population
++        # nor incoming occupancy. No new finite reservoir is asserted.
++        zero=owner.LineState('H_LYA_EFFECTIVE_2P','collapsed_2p',1e9,0.,1e-13,0.,np.zeros((3,3)),
++                             'CONSTRUCTED_EXACT_ZERO_SOURCE','CONSTRUCTED_S_ZERO_FIXTURE')
++        direct=owner.exchange_source(zero,n_mu=2,n_phi=2)
++        self.assertEqual(direct['gross_escaped_down_m3_s'],0.)
++        self.assertEqual(direct['gross_escaped_up_m3_s'],0.)
++        bundle=event_bundle(zero,self.identity,n_mu=2,n_phi=2)
++        for events in [bundle.down,bundle.up]:
++            self.assertTrue(np.array_equal(events.rates_m3_s,np.zeros(len(events.energy_J))))
++            m=moments(events)
++            self.assertTrue(np.array_equal(m.cQ_J_m3_s,np.zeros(4)))
++            self.assertTrue(np.array_equal(m.K_J_m3_s,np.zeros((4,4))))
++            self.assertTrue(np.array_equal(m.PiRate_J_m3_s,np.zeros((3,3))))
++        p=np.array([.01,.02])
++        pi=np.array([np.diag([.1,-.03,-.07]),np.diag([.02,.01,-.03])])
++        attached=attach_source(bundle,length_m=1e12,pressure=p,pi=pi,expected_identity=self.identity,
++                               transfer_id='zero_event')  # callback intentionally absent
++        self.assertTrue(np.array_equal(attached.rates.U,np.zeros(2)))
++        self.assertTrue(np.array_equal(attached.rates.J,np.zeros((2,3))))
++        self.assertTrue(np.array_equal(attached.rates.PiRate_hat_radiation,np.zeros((3,3))))
++        self.assertTrue(np.array_equal(attached.source.pressure,p))
++        self.assertTrue(np.array_equal(attached.source.pi,pi))
++
++
++if __name__=='__main__':unittest.main(verbosity=2)
