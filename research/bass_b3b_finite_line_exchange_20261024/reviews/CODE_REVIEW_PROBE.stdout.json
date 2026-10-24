@@ -1,0 +1,46 @@
+{
+  "scope": "single targeted independent code review probe",
+  "new_ivp": 0,
+  "campaign_replay": 0,
+  "records": [
+    {
+      "case": "large_finite_depletion_omega_50",
+      "owner_endpoint_x1": 3.878639060635223e-23,
+      "owner_remaining_upper_m3": 3.878639060635223e-14,
+      "candidate_remaining_upper_m3": 0.0,
+      "owner_remaining_excitation_fixed_units": 1.3161275159163052e-24,
+      "candidate_remaining_atomic_energy_fixed_units": 0.0,
+      "net_count_m3": 300000000.0,
+      "committed": true,
+      "inputs_unchanged": true,
+      "contract_problem_observed": true
+    },
+    {
+      "case": "nonreal_geometry_n",
+      "committed": true,
+      "contract_problem_observed": true,
+      "inputs_unchanged": true,
+      "warnings": [
+        "Casting complex values to real discards the imaginary part"
+      ],
+      "returned_n00": "np.complex128(0.003+0.01j)",
+      "returned_constraint_scale": 0.029977970684601552
+    },
+    {
+      "case": "nonscalar_duration",
+      "committed": false,
+      "contract_problem_observed": false,
+      "inputs_unchanged": true,
+      "exception": "ValueError",
+      "message": "dt_s must be a finite real scalar"
+    },
+    {
+      "case": "complex_photon_weight_array",
+      "committed": false,
+      "contract_problem_observed": false,
+      "inputs_unchanged": true,
+      "exception": "ValueError",
+      "message": "weight: real values required"
+    }
+  ]
+}

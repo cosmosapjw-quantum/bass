@@ -1,0 +1,80 @@
+{
+  "unit": "BASS_B3B_FINITE_LINE_EXCHANGE_20261024",
+  "reviewer": "/root/b3b_rec_intake",
+  "independent_of_implementation": true,
+  "review_type": "CODE_AND_PHYSICAL_CONTRACT",
+  "verdict": "REPAIR_REQUIRED",
+  "scientific_acceptance": "NOT_ACCEPTED_PENDING_TWO_TARGETED_REPAIRS",
+  "candidate_sha256": {
+    "code/finite_exchange.py": "1462ad324d29861682f2e93568736f5f4f27c61708019d0d4d3bfb2b81d139ae",
+    "tests/test_finite_exchange.py": "fe587dd0f9ba8eb027249624b7fded66993d852a395725743b22be3c9ca247f2",
+    "CONTRACT.md": "9666a2bb2f641d55448388c6d2707020c52e206f63725a9cf4b3de06847fe50e",
+    "CONTRACT_ADDENDUM.md": "d4bd7c38240531a47a587fa857aeb58a3232754e0e0c535700888177a1e4dcc2",
+    "code/README.md": "3b5d09469ea46debda8b8918214b66d2e7b75f978dac90e12e4bb5e6a24789c6",
+    "IMPLEMENTATION_FREEZE.json": "045b488e8c05579b9f01f44598a6d1660b4d3edd9e18ad952f1cc8efa4f59697",
+    "results/VALIDATION.json": "53f62dfd028a9735bf5901f9ba4a0b810212c57ac1f202bafec45fbece37eed6",
+    "results/REPAIR_HISTORY.json": "78738b99af3be7665c761de40be81f6039c85cab5f91964391af1e71ea8e41e4"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "priority": "P2",
+      "status": "OPEN_REQUIRED_REPAIR",
+      "title": "Subtraction-based depletion silently deletes a positive representable REC endpoint",
+      "path": "code/finite_exchange.py",
+      "reviewed_lines": [222, 239, 275, 276],
+      "probe_case": "large_finite_depletion_omega_50",
+      "observed_owner_x1": 3.878639060635223e-23,
+      "observed_owner_remaining_upper_m3": 3.878639060635223e-14,
+      "observed_committed_upper_m3": 0.0,
+      "observed_owner_remaining_excitation_fixed_units": 1.3161275159163052e-24,
+      "observed_committed_atomic_energy_fixed_units": 0.0,
+      "cause": "Stable net count rounds to initial upper population; nu0-D and rho0-drho cancel the positive endpoint. Gross-scale conservation checks do not resolve the remaining stock.",
+      "minimal_repair": "Preserve the actual owner endpoint and its owned excitation consistently, or explicitly reject unresolved finite depletion while preserving the analytic ledger. No floors, clipping, renormalization or new reservoir."
+    },
+    {
+      "id": "F2",
+      "priority": "P2",
+      "status": "OPEN_REQUIRED_REPAIR",
+      "title": "Complex geometry accepted as a physical finite state",
+      "path": "code/finite_exchange.py",
+      "reviewed_lines": [197, 208, 279, 297],
+      "upstream_context": "vendor/core.py State.validate checks finite tensor representation but does not reject complex dtype",
+      "probe_case": "nonreal_geometry_n",
+      "observed_returned_n00": "0.003+0.01j",
+      "observed_warning": "Casting complex values to real discards the imaginary part",
+      "minimal_repair": "Add finite-real scalar/array validation for physical State and Source input in the new wrapper, before unchanged core validators; reject rather than discard imaginary parts."
+    }
+  ],
+  "test_only_repair_review": {
+    "verdict": "ACCEPTED_TEST_ONLY",
+    "first_run_tests": 16,
+    "first_run_passes": 15,
+    "first_run_failures": 1,
+    "first_run_failure_preserved": true,
+    "first_failure_residual": 3.3306690738754696e-16,
+    "first_failure_atol": 3e-16,
+    "repaired_atol": 7.105427357601002e-15,
+    "reason": "Fourteen floating terms plus q/dot/sqrt construction justify an allowance above the original threshold; exact rational oracle and physical 256eps tolerance remain unchanged.",
+    "physical_or_interval_certificate": false
+  },
+  "correctly_rejected_independent_cases": [
+    "nonscalar_duration",
+    "complex_photon_weight_array"
+  ],
+  "all_probe_inputs_unchanged": true,
+  "execution_receipt": "reviews/CODE_REVIEW_PROBE_RECEIPT.json",
+  "raw_response": "reviews/CODE_REVIEW_PROBE.stdout.json",
+  "review_science_wall_seconds": 0.39043518199468963,
+  "review_science_cpu_seconds": 0.389906,
+  "full_suite_replayed": false,
+  "new_ivp": 0,
+  "campaign_replay": 0,
+  "remaining_campaign_wall_seconds": null,
+  "remaining_campaign_cpu_seconds": null,
+  "budget_reset": false,
+  "figure_review": "OUTSIDE_THIS_CODE_REVIEW",
+  "remote_changes": 0,
+  "backup_ack_claimed": false,
+  "publication_ack_claimed": false
+}
