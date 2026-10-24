@@ -1,0 +1,10 @@
+--- summarize_before_repair.py
++++ code/summarize.py
+@@ -51,6 +51,7 @@
+         leading_Q14_coefficients=all(max(r['energy_relative_difference'],r['pressure_relative_difference'])<=.05 for r in leading_checks),
+         positive_birth_q=minq>0,redward_log_expansion=minexp>0,
+         **{'order_'+k:v for k,v in order_gates.items()})
++    gates={k:bool(v) for k,v in gates.items()}
+     summary=dict(workflow_version='1.0.0',admission='PENDING_INDEPENDENT_ASTRA_REVIEW',new_IVPs=0,
+         old_campaign_replay=0,source_transactions=0,cohort_fixtures=len(rows),rotation_fixtures=len(raw['rotation']),
+         gates=gates,all_frozen_gates_pass=all(gates.values()),orders=order_rows,finest_resolved_Q14_triplets=selected_triplets,
