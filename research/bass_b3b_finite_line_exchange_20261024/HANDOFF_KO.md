@@ -16,7 +16,8 @@ branch: research/bass-b3b-finite-line-exchange-20261024
 PR186 Draft/open/unmerged.
 parent PR185 HEADc2e6f1f80417e62c95e607c80115e89de1925ca9.
 시작 시 live HEAD·AGENTS·병렬 변경을 실제 읽어라.
-정확한 science commit과 publication expected SHA는 delivery/S1_PUBLICATION_ACK.json,
+정확한 science commit은25c9b8244384ae92ef866e1d05cbee091f0940cf이며,
+publication expected SHA와87/87 byte identity는 delivery/S1_PUBLICATION_ACK.json,
 최종 closeout은 동반 FINAL_DELIVERY_RECEIPT와 live ref를 따른다.
 메타데이터 후속 commit과 science identity를 혼동하지 마라.
 

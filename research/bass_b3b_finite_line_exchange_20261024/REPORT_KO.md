@@ -237,3 +237,10 @@ S1은 검증 완료 science payload, S2는 실제 delivery ACK와 handoff closeo
 20개의 별도 업로드를 주장하지 않는다. 최종 S1/S2 identity는 delivery의 실제
 ACK를 따르며 scientific PASS_SCOPED와 별개로 기록한다.
 
+
+### 실제 S1 closeout 추가 기록
+
+S1 Drive/Dropbox 모두 ACK. Science commit25c9b8244384ae92ef866e1d05cbee091f0940cf를
+expected46b114144d93783f9ff4426c915b7a505afdb284에서 게시했고87/87 Git blob이
+로컬 exact bytes와 일치했다. R1–R10/C1–C10은 이 범위에서20/20 완료다.
+S2는 실제 ACK·handoff identity만 추가하는 metadata closeout이며 새 과학 계산이 없다.

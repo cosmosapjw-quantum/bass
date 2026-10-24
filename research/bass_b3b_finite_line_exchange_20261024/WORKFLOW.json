@@ -89,10 +89,11 @@
     {
       "id": "R10",
       "name": "종료·재개",
-      "science_status": "HANDOFF_READY_DELIVERY_PENDING",
-      "checkpoint": "S2_CLOSEOUT",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING"
+      "science_status": "COMPLETE_SCOPED",
+      "checkpoint": "S1_VALIDATED",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C1",
@@ -136,7 +137,8 @@
       "science_status": "COMPLETE_SCOPED",
       "checkpoint": "S1_VALIDATED",
       "backup_status": "DUAL_BACKUP_ACK",
-      "publication_status": "PENDING"
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C6",
@@ -144,7 +146,8 @@
       "science_status": "COMPLETE_SCOPED",
       "checkpoint": "S1_VALIDATED",
       "backup_status": "DUAL_BACKUP_ACK",
-      "publication_status": "PENDING"
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C7",
@@ -152,7 +155,8 @@
       "science_status": "COMPLETE_SCOPED",
       "checkpoint": "S1_VALIDATED",
       "backup_status": "DUAL_BACKUP_ACK",
-      "publication_status": "PENDING"
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C8",
@@ -160,7 +164,8 @@
       "science_status": "COMPLETE_SCOPED",
       "checkpoint": "S1_VALIDATED",
       "backup_status": "DUAL_BACKUP_ACK",
-      "publication_status": "PENDING"
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C9",
@@ -168,22 +173,24 @@
       "science_status": "COMPLETE_SCOPED",
       "checkpoint": "S1_VALIDATED",
       "backup_status": "DUAL_BACKUP_ACK",
-      "publication_status": "PENDING"
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     },
     {
       "id": "C10",
       "name": "판정·인계",
-      "science_status": "HANDOFF_READY_DELIVERY_PENDING",
-      "checkpoint": "S2_CLOSEOUT",
-      "backup_status": "PENDING",
-      "publication_status": "PENDING"
+      "science_status": "COMPLETE_SCOPED",
+      "checkpoint": "S1_VALIDATED",
+      "backup_status": "DUAL_BACKUP_ACK",
+      "publication_status": "ACKNOWLEDGED",
+      "publication_commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf"
     }
   ],
   "checkpoint_semantics": "Cumulative checkpoints cover the listed stages; no fictitious separate per-stage upload.",
   "local_stage_completeness": {
-    "completed": 18,
+    "completed": 20,
     "total": 20,
-    "meaning": "R10/C10 concrete handoff ready; provider/Git closeout pending. Not full BASS science percentage."
+    "meaning": "This scoped theory+coding unit and concrete handoff; not a percentage of total BASS science."
   },
   "global_completion_percentage": null,
   "merge": false,
@@ -202,15 +209,21 @@
     },
     {
       "id": "S1_VALIDATED",
-      "science": "PASS_SCOPED_AFTER_F1_F2_CLOSURE",
+      "science": "PASS_SCOPED",
       "backup": "DUAL_BACKUP_ACK",
-      "publication": "PENDING"
+      "publication": "ACKNOWLEDGED",
+      "commit": "25c9b8244384ae92ef866e1d05cbee091f0940cf",
+      "blob_identity": "87/87_PASS",
+      "receipts": [
+        "delivery/S1_BACKUP_ACK.json",
+        "delivery/S1_PUBLICATION_ACK.json"
+      ]
     },
     {
       "id": "S2_CLOSEOUT",
-      "science": "HANDOFF_READY",
-      "backup": "PENDING",
-      "publication": "PENDING"
+      "science": "NO_NEW_SCIENCE_METADATA_ONLY",
+      "status": "OUTER_DELIVERY_RECEIPT_RECORDS_ACTUAL_FINAL_HEAD_AND_BACKUP_ACK",
+      "reason": "Self-referential final commit/archive hashes are not embedded into their own payload."
     }
   ]
 }
