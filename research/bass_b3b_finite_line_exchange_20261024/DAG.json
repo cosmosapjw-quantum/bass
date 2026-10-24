@@ -1,0 +1,107 @@
+{
+  "schema": "bass.b3b.dag.v1",
+  "authority": {
+    "repository": "cosmosapjw-quantum/rei_bianchi",
+    "commit": "0f9d9df825be1dac9ca9bdf73cdc2e8908bcba17",
+    "path": "research/orchestration_longterm_20261023/assembly/HANDOFF_bass_KO.md",
+    "latest_AGENTS_unchanged_blob": "429a5a13ee75b1222bc50627f8d5973d01dd21c4"
+  },
+  "current_owner": {
+    "repo": "cosmosapjw-quantum/bass",
+    "branch": "research/bass-b3b-finite-line-exchange-20261024",
+    "pr": 186,
+    "parent": "c2e6f1f80417e62c95e607c80115e89de1925ca9"
+  },
+  "nodes": [
+    {
+      "id": "B1",
+      "status": "PARTIAL",
+      "accepted": "S1/S2 full-byte recovery,110 payload validation,curved command and exit0 reused",
+      "remaining": "Exact contemporaneous historical pytest argv/cwd unknown",
+      "evidence": "../bass_b3a_event_source_20261024/provenance/PR184_RECEIPT_6373136365.json"
+    },
+    {
+      "id": "B2",
+      "depends_on": [
+        "B1"
+      ],
+      "status": "REUSED_PASS_SCOPED",
+      "accepted": "Selected V/VIII tau=[0,0.8],gate2e-8 with retained failed coarse and half-step controls",
+      "remaining": "Common prescribed-field tail bound is not coupled-trajectory or interval certification; historical remaining allocation null"
+    },
+    {
+      "id": "B3a",
+      "depends_on": [
+        "B2"
+      ],
+      "status": "COMPLETE_SCOPED",
+      "scope": "Event-measure/source-only REC adapter; Source.pi distinct from PiRate",
+      "evidence": "../bass_b3a_event_source_20261024/DAG.json"
+    },
+    {
+      "id": "B3b-emission",
+      "depends_on": [
+        "B3a"
+      ],
+      "status": "COMPLETE_SCOPED",
+      "scope": "Actual finite LINE01 population plus canonical-rest f=0 photon/core state transaction",
+      "evidence": [
+        "CONTRACT.md",
+        "CLAIMS.json",
+        "reviews/CODE_REVIEW_FINAL.json"
+      ]
+    },
+    {
+      "id": "B3b-absorption",
+      "depends_on": [
+        "B3a"
+      ],
+      "status": "INPUT_CONTRACT_OPEN",
+      "remaining": "Actual finite spectral bath/occupation, gross absorption clock and atomic internal-energy credit"
+    },
+    {
+      "id": "B3c",
+      "depends_on": [
+        "B3b-emission"
+      ],
+      "status": "NOT_RUN",
+      "scope": "Bounded coupled evolution still needs its own source-splitting/adaptive acceptance contract; no new IVP admission"
+    },
+    {
+      "id": "B3-complete",
+      "depends_on": [
+        "B3b-emission",
+        "B3b-absorption",
+        "B3c"
+      ],
+      "status": "PARTIAL"
+    },
+    {
+      "id": "B4",
+      "depends_on": [
+        "B3-complete"
+      ],
+      "status": "PENDING_NOT_RUN",
+      "scope": "Production restart/serialization integration"
+    },
+    {
+      "id": "B5",
+      "depends_on": [
+        "B2",
+        "B3-complete",
+        "B4"
+      ],
+      "status": "PENDING_NOT_RUN",
+      "scope": "Full intended domain validation"
+    }
+  ],
+  "global_completion_percentage": null,
+  "local_unit_science": "PASS_SCOPED",
+  "delivery": "S1_PENDING",
+  "remaining_campaign_wall_seconds": null,
+  "remaining_campaign_cpu_seconds": null,
+  "budget_reset": false,
+  "merge": false,
+  "production_activation": "NOT_ISSUED",
+  "next_action": "B3b-absorption: identify actual finite spectral photon-stock/line-boundary owner; derive occupancy normalization and accepted emission/absorption transactions before coupled-IVP planning."
+}

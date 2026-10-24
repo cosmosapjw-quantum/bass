@@ -9,9 +9,11 @@ intake are in provenance/. Wolfram code/response and independent theory review
 are preserved. Execution, code review and delivery status are recorded
 separately in WORKFLOW.json, RESOURCE_LEDGER.json and delivery/.
 
-The complete reproducible run command and actual outputs will be recorded by
-the implementation in results/VALIDATION_RECEIPT.json. This preparatory revision
-does not claim code execution. No merge or production activation is authorized.
+The actual reproducible command is documented in code/README.md, with exact
+argv/cwd/exit/timing in results/EXECUTION_LEDGER.json. Final validation is18/18
+PASS with49 figure-data rows. Independent review found F1/F2, both now closed by
+the same focused probe; original failures are retained. Science is PASS_SCOPED.
+No merge or production activation is authorized.
 
 The parent is BASS PR185/c2e6f1f80417e62c95e607c80115e89de1925ca9. The selected
 current REC PR131/c7cdabd871ab2ef6f722594ff063b8ce8550e6b4 retains the same

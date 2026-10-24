@@ -1,0 +1,47 @@
+{
+  "first_pass_success": false,
+  "entries": [
+    {
+      "command_index": 1,
+      "classification": "TEST_ONLY_FLOAT_SUMMATION_FALSE_FAIL",
+      "observation": "14-node rotated weights sum differs from 1 by 3.3306690738754696e-16; test absolute tolerance was 3e-16. All other 15 tests passed.",
+      "requested_targeted_repair": "Use 32*eps floating cubature tolerance; retain exact rational angular oracle and 256*eps physical transaction tolerance unchanged.",
+      "authorization": "Routine test-plumbing correction under original implementation authorization; parent notified, independent acceptance pending",
+      "raw_failure": "results/COMMAND_01.stderr.txt",
+      "preserved_summary": "results/VALIDATION_ATTEMPT_01.json",
+      "repair": "Replaced floating rotated cubature atol with32eps=7.105427357601002e-15; exact rational oracle and physical256eps tolerance unchanged.",
+      "verification_command_index": 2,
+      "observed_after_repair": "16/16 PASS; source/solver/formulas unchanged"
+    },
+    {
+      "classification": "ENVIRONMENT_ONLY",
+      "repair": "Set writable MPLCONFIGDIR=/tmp/bass_b3b_matplotlib in bounded subprocess environment after first run emitted default-cache permission warning. No scientific behavior changed."
+    },
+    {
+      "classification": "FIGURE_LABEL_CLARIFICATION",
+      "repair": "Changed figure title synthetic coefficients to synthetic frozen parameters, actual source and BASS receiver. Actual card coefficients are unchanged.",
+      "verification_command_index": 3,
+      "observed_after_repair": "16/16 PASS,49 actual curve rows; final PNG visually inspected"
+    },
+    {
+      "classification": "INDEPENDENT_REVIEW_F1_F2_TARGETED_REPAIR",
+      "authority": "Parent Astra explicit followup after reviews/CODE_REVIEW.md REPAIR_REQUIRED",
+      "findings": [
+        "F1 positive actual-owner endpoint and excitation erased by subtraction",
+        "F2 complex physical State/Source not rejected before core arithmetic"
+      ],
+      "repair": [
+        "Construct upper density as N*actual_owner_x1 and lower as N-upper; check relative endpoint consistency; reconstruct atomic energy from constant caller component plus remaining excitation; preserve exact zero updates; reject underflow or unrepresentable remaining excitation.",
+        "Validate finite real State h/alpha and sigma/n/a/rho/flux arrays, and all Source arrays before unchanged core routines. Reject complex input without casts or warnings."
+      ],
+      "original_review_unchanged": true,
+      "original_probe_red_evidence": "reviews/CODE_REVIEW_PROBE.stdout.json",
+      "verification_command_index": 5,
+      "observed_after_repair": "18/18 PASS and49 regenerated actual figure rows; final PNG visually inspected",
+      "raw_intermediate_failure": "results/COMMAND_04.stderr.txt",
+      "intermediate_failure_classification": "ASSERTION_MESSAGE_MISMATCH: existing huge-background test correctly rejected by earlier new endpoint-energy guard; old regex expected later equivalent guard wording.",
+      "intermediate_failure_summary": "results/VALIDATION_ATTEMPT_04.json",
+      "test_only_adjustment": "Match shared unrepresentable requirement; parent explicitly approved. No physical acceptance threshold changed."
+    }
+  ]
+}
