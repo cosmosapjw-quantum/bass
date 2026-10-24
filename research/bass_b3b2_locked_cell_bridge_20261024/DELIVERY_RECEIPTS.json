@@ -77,9 +77,72 @@
     "backup_science_equivalence": false
   },
   "S1": {
-    "status": "PENDING_SCIENCE_PUBLICATION"
+    "stage": "VALIDATED_SCIENTIFIC_SNAPSHOT",
+    "status": "PUBLISHED_AND_DUAL_BACKUP_ACK",
+    "scientific_verdict": "PASS_SCOPED",
+    "archive": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+    "sha256": "2a817b7e04c716e4e336e6263365c4ce46c5006d26300cb4394711132d096d80",
+    "bytes": 1706209,
+    "payloads": 108,
+    "local_payload_validation": "108/108 SHA256+size+ZIP_CRC",
+    "git": {
+      "commit": "03101fd962ad2ce81195a2fcd3fae57834c80bd6",
+      "expected_sha": "42255a67234cd8b6c24ba8cb6b467cbdfe9ed238",
+      "force": false,
+      "publication_ack": true,
+      "readback": {
+        "head": "03101fd962ad2ce81195a2fcd3fae57834c80bd6",
+        "root": "eed51c0cd512421752b9e518a01c5c9e8999e82a",
+        "research": "c46ec4c0179fd9ccd174acae5e471cc110439564",
+        "lane": "065a9ef74c6a31668843eafa30e760865649c204",
+        "expected": 108,
+        "actual_blobs": 108,
+        "bad": [],
+        "truncated": false
+      }
+    },
+    "Drive": {
+      "accepted_input": "file_uri",
+      "success": true,
+      "id": "1sfpZFF03IAw6oCFmKsyTCrU66Wf94g9m",
+      "title": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+      "file_name": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+      "mime_type": "application/zip",
+      "url": "https://drive.google.com/file/d/1sfpZFF03IAw6oCFmKsyTCrU66Wf94g9m/view?usp=drivesdk",
+      "parent_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y",
+      "structuredContent": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1sfpZFF03IAw6oCFmKsyTCrU66Wf94g9m",
+        "title": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+        "file_name": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1sfpZFF03IAw6oCFmKsyTCrU66Wf94g9m/view?usp=drivesdk",
+        "parent_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y"
+      }
+    },
+    "Dropbox": {
+      "file": {
+        "file": {
+          "size": 1706209
+        },
+        "file_id": "id:BSpOijBcT10AAAAAAD_9aQ",
+        "modified_time": "2026-10-24T08:54:37Z",
+        "name": "BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+        "object_type": "file",
+        "path": "ns:183516487//BASS_BACKUPS/BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip",
+        "path_display": "/BASS_BACKUPS/BASS_B3B2_S1_VALIDATED_20261024T085040Z.zip"
+      },
+      "status": "completed"
+    },
+    "remote_archive_hash_verification": "NOT_RUN; provider upload ACKs, Dropbox exact size, and Git blob readback are distinct from full remote archive restore",
+    "backup_science_equivalence": false
   },
   "S2": {
-    "status": "PENDING_FINAL_HANDOFF_PUBLICATION"
+    "stage": "FINAL_HANDOFF",
+    "status": "PREPARED_FOR_PUBLICATION",
+    "scientific_changes_from_S1": false,
+    "receipt_location": "Final actual S2 Git/Drive/Dropbox ACKs are appended to PR187 and the conversation handoff after publication. This file cannot contain its own archive hash or enclosing commit SHA.",
+    "claim": "No S2 ACK is claimed inside this pre-publication snapshot."
   }
 }
