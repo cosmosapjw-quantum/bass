@@ -1,0 +1,219 @@
+{
+  "schema": "BASS_B3B2_HISTORICAL_EXECUTION_TRANSCRIPT_RECOVERY_V1",
+  "original_raw_receipt_status": "LOST; no original raw identity is claimed",
+  "reconstructed_from": "Original agent tool-call arguments and displayed tool responses, no science rerun",
+  "records": [
+    {
+      "command_index": 1,
+      "argv": [
+        "python",
+        "-c",
+        "import numpy as np,json;from pathlib import Path;p=Path(\"inputs\");a=np.load(p/\"z1100_direct_network_node.npz\",allow_pickle=False);b=np.load(p/\"pr01c_background_snapshots_v048.npz\",allow_pickle=False);d=np.load(p/\"pr05c2c1b2b1e0_source_derived_parent_v073.npz\",allow_pickle=False);print(\"G\",a[\"mode_measure_m3\"].min(),a[\"mode_measure_m3\"].max(),\"p\",a[\"momentum_scale\"].min(),a[\"momentum_scale\"].max());print(\"A\",b[\"angular_weights\"].sum(),\"f\",d[\"occupation\"].min(),d[\"occupation\"].max(),\"anis\",np.ptp(d[\"occupation\"],axis=1).max());print(\"labels\",a[\"state_labels\"].tolist());print(\"E ratio\",d[\"target_energies_eV_rescaled\"]*1.602176634e-19/(299792458*a[\"momentum_scale\"]));print(bytes(d[\"parent_payload\"]).decode()[:2000])"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 1,
+      "wall_seconds": 0.08166329999221489,
+      "cpu_seconds": 0.08066199999999998,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0x92 in position 0: invalid start byte\n",
+      "observed_child_stdout_excerpt": "G 1.6420751778043638e+17 1.6439074565240655e+18 p 5.448149825896702e-27 5.452949413470582e-27\nA 1.0 f 7.279205913286067e-15 7.816219649420642e-15 anis 0.0\n",
+      "observed_child_stdout_remaining_description": "Original labels and NumPy energy-ratio array display were also printed; not fabricated as recovered original byte strings."
+    },
+    {
+      "command_index": 2,
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 0.6432812099956209,
+      "cpu_seconds": 0.642201,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "test_actual_910_packets_and_saved_energy_owner (test_locked_bridge.BridgeTests.test_actual_910_packets_and_saved_energy_owner) ... ok\ntest_boost_covariance_and_explicit_inverse (test_locked_bridge.BridgeTests.test_boost_covariance_and_explicit_inverse) ... ok\ntest_exact_synthetic_rational_oracle (test_locked_bridge.BridgeTests.test_exact_synthetic_rational_oracle) ... ok\ntest_incompatible_inverse_identity_labels_grid_mass_frame (test_locked_bridge.BridgeTests.test_incompatible_inverse_identity_labels_grid_mass_frame) ... ok\ntest_invalid_inputs_are_rejected_without_clipping (test_locked_bridge.BridgeTests.test_invalid_inputs_are_rejected_without_clipping) ... ok\ntest_isotropic_moments_and_anisotropic_state_pi (test_locked_bridge.BridgeTests.test_isotropic_moments_and_anisotropic_state_pi) ... ok\ntest_mutations_wrong_G_and_competing_energy_are_detected (test_locked_bridge.BridgeTests.test_mutations_wrong_G_and_competing_energy_are_detected) ... ok\ntest_positive_underflow_and_overflow_are_explicit (test_locked_bridge.BridgeTests.test_positive_underflow_and_overflow_are_explicit) ... ok\ntest_scalar_L_Pstar_rescalings (test_locked_bridge.BridgeTests.test_scalar_L_Pstar_rescalings) ... ok\ntest_true_vacuum_and_exact_zero_preservation (test_locked_bridge.BridgeTests.test_true_vacuum_and_exact_zero_preservation) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.530s\n\nOK\n",
+      "observed_child_stdout_transcript": ""
+    },
+    {
+      "command_index": 3,
+      "argv": [
+        "python",
+        "code/reference_runner.py"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 2.2895500420127064,
+      "cpu_seconds": 2.288013,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stdout_transcript": "{\n  \"status\": \"PASS\",\n  \"shape\": [\n    35,\n    26\n  ],\n  \"packets\": 910,\n  \"physical\": {\n    \"number_density_m3\": 106530.54352303005,\n    \"energy_density_J_m3\": 1.740735402878829e-13,\n    \"N\": [\n      31937053494845.16,\n      1.52587890625e-05,\n      0.0,\n      0.0\n    ],\n    \"T\": [\n      [\n        1.740735402878829e-13,\n        9.860761315262648e-32,\n        0.0,\n        0.0\n      ],\n      [\n        9.860761315262648e-32,\n        5.802451342929447e-14,\n        0.0,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        5.802451342929447e-14,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        0.0,\n        5.802451342929447e-14\n      ]\n    ],\n    \"stock_is_scalar_unpolarized_isotropic\": true\n  },\n  \"bridge\": {\n    \"number_current_residual\": 4.018991460485999e-19,\n    \"stress_tensor_residual\": 2.279091117273708e-16,\n    \"max_positive_f_roundtrip_relative\": 2.220446049250313e-16,\n    \"exact_zero_f_preserved\": true\n  },\n  \"covariance\": {\n    \"rows\": 36,\n    \"max_N_residual\": 1.1775832543398129e-15,\n    \"max_T_residual\": 3.717949182316828e-16,\n    \"max_inverse_f_relative\": 1.2212453270876722e-15,\n    \"max_rejected_omitted_weight_T_residual\": 0.07371223129259362\n  },\n  \"energy_mutation\": {\n    \"mutation\": \"actual_parent_target_energy_replaces_saved_cp_REJECTED\",\n    \"photon_number_relative_residual\": 0.0,\n    \"energy_density_relative_residual\": -6.274855397481909e-09,\n    \"N_L1_residual\": 4.018991460485999e-19,\n    \"T_L1_residual\": 1.0957342862106858e-09,\n    \"min_cell_energy_relative_change\": -7.733851226099375e-09,\n    \"max_cell_energy_relative_change\": -5.4542769190035756e-09\n  }\n}\n",
+      "observed_child_stderr_transcript": "/root/.config/matplotlib is not a writable directory\nMatplotlib created a temporary cache directory at /tmp/matplotlib-2l3_dwot because there was an issue with the default path (/root/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.\n"
+    },
+    {
+      "command_index": 4,
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 0.6579775809950661,
+      "cpu_seconds": 0.655814,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "test_actual_910_packets_and_saved_energy_owner (test_locked_bridge.BridgeTests.test_actual_910_packets_and_saved_energy_owner) ... ok\ntest_boost_covariance_and_explicit_inverse (test_locked_bridge.BridgeTests.test_boost_covariance_and_explicit_inverse) ... ok\ntest_exact_synthetic_rational_oracle (test_locked_bridge.BridgeTests.test_exact_synthetic_rational_oracle) ... ok\ntest_incompatible_inverse_identity_labels_grid_mass_frame (test_locked_bridge.BridgeTests.test_incompatible_inverse_identity_labels_grid_mass_frame) ... ok\ntest_invalid_inputs_are_rejected_without_clipping (test_locked_bridge.BridgeTests.test_invalid_inputs_are_rejected_without_clipping) ... ok\ntest_isotropic_moments_and_anisotropic_state_pi (test_locked_bridge.BridgeTests.test_isotropic_moments_and_anisotropic_state_pi) ... ok\ntest_mutations_wrong_G_and_competing_energy_are_detected (test_locked_bridge.BridgeTests.test_mutations_wrong_G_and_competing_energy_are_detected) ... ok\ntest_positive_underflow_and_overflow_are_explicit (test_locked_bridge.BridgeTests.test_positive_underflow_and_overflow_are_explicit) ... ok\ntest_scalar_L_Pstar_rescalings (test_locked_bridge.BridgeTests.test_scalar_L_Pstar_rescalings) ... ok\ntest_true_vacuum_and_exact_zero_preservation (test_locked_bridge.BridgeTests.test_true_vacuum_and_exact_zero_preservation) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.541s\n\nOK\n",
+      "observed_child_stdout_transcript": ""
+    },
+    {
+      "command_index": 5,
+      "argv": [
+        "python",
+        "code/reference_runner.py"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 2.1983310249925125,
+      "cpu_seconds": 2.196349,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stdout_transcript": "{\n  \"status\": \"PASS\",\n  \"shape\": [\n    35,\n    26\n  ],\n  \"packets\": 910,\n  \"physical\": {\n    \"number_density_m3\": 106530.54352303005,\n    \"energy_density_J_m3\": 1.740735402878829e-13,\n    \"N\": [\n      31937053494845.16,\n      1.52587890625e-05,\n      0.0,\n      0.0\n    ],\n    \"T\": [\n      [\n        1.740735402878829e-13,\n        9.860761315262648e-32,\n        0.0,\n        0.0\n      ],\n      [\n        9.860761315262648e-32,\n        5.802451342929447e-14,\n        0.0,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        5.802451342929447e-14,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        0.0,\n        5.802451342929447e-14\n      ]\n    ],\n    \"stock_is_scalar_unpolarized_isotropic\": true\n  },\n  \"bridge\": {\n    \"number_current_residual\": 4.018991460485999e-19,\n    \"stress_tensor_residual\": 2.279091117273708e-16,\n    \"max_positive_f_roundtrip_relative\": 2.220446049250313e-16,\n    \"exact_zero_f_preserved\": true\n  },\n  \"covariance\": {\n    \"rows\": 36,\n    \"max_N_residual\": 1.1775832543398129e-15,\n    \"max_T_residual\": 3.717949182316828e-16,\n    \"max_inverse_f_relative\": 1.2212453270876722e-15,\n    \"max_rejected_omitted_weight_T_residual\": 0.07371223129259362\n  },\n  \"energy_mutation\": {\n    \"mutation\": \"actual_parent_target_energy_replaces_saved_cp_REJECTED\",\n    \"photon_number_relative_residual\": 0.0,\n    \"energy_density_relative_residual\": -6.274855397481909e-09,\n    \"N_L1_residual\": 4.018991460485999e-19,\n    \"T_L1_residual\": 1.0957342862106858e-09,\n    \"min_cell_energy_relative_change\": -7.733851226099375e-09,\n    \"max_cell_energy_relative_change\": -5.4542769190035756e-09\n  }\n}\n",
+      "observed_child_stderr_transcript": ""
+    },
+    {
+      "command_index": 6,
+      "argv": [
+        "python",
+        "code/reference_runner.py"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 1.5773909709969303,
+      "cpu_seconds": 1.5763709999999997,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stdout_transcript": "{\n  \"status\": \"PASS\",\n  \"shape\": [\n    35,\n    26\n  ],\n  \"packets\": 910,\n  \"physical\": {\n    \"number_density_m3\": 106530.54352303005,\n    \"energy_density_J_m3\": 1.740735402878829e-13,\n    \"N\": [\n      31937053494845.16,\n      1.52587890625e-05,\n      0.0,\n      0.0\n    ],\n    \"T\": [\n      [\n        1.740735402878829e-13,\n        9.860761315262648e-32,\n        0.0,\n        0.0\n      ],\n      [\n        9.860761315262648e-32,\n        5.802451342929447e-14,\n        0.0,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        5.802451342929447e-14,\n        0.0\n      ],\n      [\n        0.0,\n        0.0,\n        0.0,\n        5.802451342929447e-14\n      ]\n    ],\n    \"stock_is_scalar_unpolarized_isotropic\": true\n  },\n  \"bridge\": {\n    \"number_current_residual\": 4.018991460485999e-19,\n    \"stress_tensor_residual\": 2.279091117273708e-16,\n    \"max_positive_f_roundtrip_relative\": 2.220446049250313e-16,\n    \"exact_zero_f_preserved\": true\n  },\n  \"covariance\": {\n    \"rows\": 36,\n    \"max_N_residual\": 1.1775832543398129e-15,\n    \"max_T_residual\": 3.717949182316828e-16,\n    \"max_inverse_f_relative\": 1.2212453270876722e-15,\n    \"max_rejected_omitted_weight_T_residual\": 0.07371223129259362\n  },\n  \"energy_mutation\": {\n    \"mutation\": \"actual_parent_target_energy_replaces_saved_cp_REJECTED\",\n    \"photon_number_relative_residual\": 0.0,\n    \"energy_density_relative_residual\": -6.274855397481909e-09,\n    \"N_L1_residual\": 4.018991460485999e-19,\n    \"T_L1_residual\": 1.0957342862106858e-09,\n    \"min_cell_energy_relative_change\": -7.733851226099375e-09,\n    \"max_cell_energy_relative_change\": -5.4542769190035756e-09\n  }\n}\n",
+      "observed_child_stderr_transcript": ""
+    },
+    {
+      "command_index": 7,
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_locked_bridge.py",
+        "-k",
+        "inverse",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 0.17157508298987523,
+      "cpu_seconds": 0.17097999999999997,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "test_boost_covariance_and_explicit_inverse (test_locked_bridge.BridgeTests.test_boost_covariance_and_explicit_inverse) ... ok\ntest_incompatible_inverse_identity_labels_grid_mass_frame (test_locked_bridge.BridgeTests.test_incompatible_inverse_identity_labels_grid_mass_frame) ... ok\ntest_inverse_large_measure_small_occupation_no_fake_state (test_locked_bridge.BridgeTests.test_inverse_large_measure_small_occupation_no_fake_state) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.068s\n\nOK\n",
+      "observed_child_stdout_transcript": ""
+    },
+    {
+      "command_index": 8,
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_locked_bridge.py",
+        "-k",
+        "actual",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 0.19751311800791882,
+      "cpu_seconds": 0.195883,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "test_actual_910_packets_and_saved_energy_owner (test_locked_bridge.BridgeTests.test_actual_910_packets_and_saved_energy_owner) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.078s\n\nOK\n",
+      "observed_child_stdout_transcript": ""
+    },
+    {
+      "command_index": 9,
+      "argv": [
+        "python",
+        "artifacts/C9_AFFECTED_CHECKS.py"
+      ],
+      "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+      "exit_code": 0,
+      "wall_seconds": 0.15585186700627673,
+      "cpu_seconds": 0.15497799999999998,
+      "started_utc": null,
+      "original_raw_stdout_byte_identity": "LOST",
+      "original_raw_stderr_byte_identity": "LOST",
+      "original_full_code_hash_map": "LOST",
+      "observation_source": "Original complete tool response retained in agent conversation; this record is a transcript reconstruction, not the original raw receipt.",
+      "observed_child_stderr_transcript": "",
+      "observed_child_stdout_transcript": "{\n  \"status\": \"PASS\",\n  \"scope\": \"36 inverse-boost errors plus actual original-frame inverse\",\n  \"actual_roundtrip\": 0.0,\n  \"max_inverse\": 1.1102230246251565e-15,\n  \"forward_N_T_data_unchanged\": true,\n  \"figure_plotted_values_unchanged\": true\n}\n"
+    }
+  ],
+  "observed_total_wall_seconds": 7.973134196989122,
+  "observed_total_cpu_seconds": 7.961251,
+  "historical_per_command_guards": {
+    "wall_seconds": 30,
+    "cpu_seconds": 20,
+    "threads": 1
+  },
+  "new_ivp": 0,
+  "old_campaign_replay": 0,
+  "old_S0_archive_observation": {
+    "path": "b3b2_delivery/BASS_B3B2_S0_PREPARATION_20261024.zip",
+    "sha256": "2ecca27f916bcf27d3c1cadd1f247d09e9caec080202bc57c630c7377a90d21c",
+    "bytes": 1175126,
+    "payload_count": 67,
+    "payload_bytes": 2770500,
+    "text_entries": 64,
+    "binary_entries": 3,
+    "all_members_readback_was_verified": true,
+    "archive_raw_bytes": "LOST_NOT_RECREATED_OR_CLAIMED_RESTORED"
+  }
+}

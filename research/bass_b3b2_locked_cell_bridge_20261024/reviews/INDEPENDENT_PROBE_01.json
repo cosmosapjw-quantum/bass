@@ -1,0 +1,35 @@
+{
+  "schema": "BASS_B3B2_INDEPENDENT_TARGETED_PROBE_V1",
+  "reviewer": "/root/b3b2_crossrepo_census",
+  "reason": "Concrete fixed_grid_inverse dummy-unit-occupation overflow risk independently spotted in code and supplied by controller",
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-c",
+    "import json,numpy as np\nfrom locked_bridge import LockedGrid,Units,to_packets,packet_observables,fixed_grid_inverse\nG=np.array([1e301]);p=np.array([1.]);A=np.array([1.]);f=np.array([[1e-301]])\ngrid=LockedGrid(G,p,np.array([[1.,0.,0.]]),A,('probe',),np.array([[1.,2.]]))\nunits=Units(1.,1.,1.)\nstate=to_packets(grid,f,units)\nN,T=packet_observables(state)\nprint(json.dumps({'forward_weights':state.w.tolist(),'N':N.tolist(),'T00':float(T[0,0]),'positive_f':float(f[0,0])}))\ntry:\n    fixed_grid_inverse(state,grid)\nexcept ValueError as exc:\n    print(json.dumps({'observed_inverse_failure':str(exc),'finding':'DUMMY_UNIT_OCCUPATION_BLOCKS_REPRESENTABLE_FORWARD_STATE'}))\nelse:\n    raise AssertionError('Expected frozen-code inverse defect was not reproduced; inspect source freshness')\nsequential=(state.w.reshape(grid.shape)/units.weight_factor)/(grid.G[:,None]*grid.A[None,:])\nassert np.isfinite(sequential).all() and (sequential>0).all()\nassert np.max(np.abs(sequential/f-1))<=128*np.finfo(float).eps\nprint(json.dumps({'diagnostic_inverse_by_reversing_actual_products':sequential.tolist(),'relative_error':float(np.max(np.abs(sequential/f-1))),'diagnostic_only_no_source_edit':True}))\n"
+  ],
+  "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024",
+  "started_utc": "2026-10-24T05:14:32Z",
+  "exit_code": 0,
+  "wall_seconds": 0.09185697700013407,
+  "cpu_seconds": 0.091173,
+  "guard": {
+    "cpu_seconds": 5,
+    "wall_seconds": 10
+  },
+  "environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONPATH": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024:/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3b2_locked_cell_bridge_20261024/code",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_sha256": "b3dd10bda92adff488e332778fccc8e81ef047ec620b1dae62fb355491ca5be3",
+  "stdout": "{\"forward_weights\": [299792458.00000006], \"N\": [299792458.00000006, 299792458.00000006, 0.0, 0.0], \"T00\": 299792458.00000006, \"positive_f\": 1e-301}\n{\"observed_inverse_failure\": \"packet weight: nonfinite arithmetic or positive underflow\", \"finding\": \"DUMMY_UNIT_OCCUPATION_BLOCKS_REPRESENTABLE_FORWARD_STATE\"}\n{\"diagnostic_inverse_by_reversing_actual_products\": [[1e-301]], \"relative_error\": 0.0, \"diagnostic_only_no_source_edit\": true}\n",
+  "stderr": "",
+  "old_campaign_replay": 0,
+  "new_ivp": 0,
+  "full_suite_replay": 0,
+  "model_review": "same-model independent reviewer; cross-model scientific review NOT_RUN"
+}
+

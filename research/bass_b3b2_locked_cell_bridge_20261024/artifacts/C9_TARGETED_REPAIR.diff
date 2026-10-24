@@ -1,0 +1,58 @@
+--- pre_C9/code/locked_bridge.py
++++ code/locked_bridge.py
+@@ -194,19 +194,28 @@
+ 
+ def fixed_grid_inverse(state, grid):
+     k, w, mass, e = _validate_state(state)
+-    expected = to_packets(grid, np.ones(grid.shape), state.units)
+-    if state.grid_identity != grid.identity or state.cell_labels != expected.cell_labels or state.angular_labels != expected.angular_labels:
++    expected_cells = tuple(label for label in grid.cell_labels for _ in grid.A)
++    expected_angles = tuple(j for _ in grid.G for j in range(len(grid.A)))
++    if state.grid_identity != grid.identity or state.cell_labels != expected_cells or state.angular_labels != expected_angles:
+         raise ValueError('original input identity/grid/labels required')
+     if np.max(np.abs(state.frame-np.eye(4))) > ROUNDTRIP_TOL:
+         raise ValueError('original frame required; explicitly invert boost first')
+-    scale = np.linalg.norm(expected.k, axis=1)
+-    if k.shape != expected.k.shape or np.any(np.max(np.abs(k-expected.k), axis=1) > ROUNDTRIP_TOL * scale):
++    with np.errstate(over='ignore', under='ignore', invalid='ignore'):
++        radial = grid.p / state.units.Pstar
++    positive(radial, 'inverse scaled momentum')
++    expected_k = (radial[:, None, None] * grid.directions[None, :, :]).reshape(-1, 3)
++    scale = np.linalg.norm(expected_k, axis=1)
++    if k.shape != expected_k.shape or np.any(np.max(np.abs(k-expected_k), axis=1) > ROUNDTRIP_TOL * scale):
+         raise ValueError('packet momentum does not match original fixed grid')
+-    denominator = multiply_positive(state.units.weight_factor,
+-                                   multiply_positive(grid.G[:, None], grid.A[None, :], 'inverse G A'), 'inverse denominator')
+-    with np.errstate(over='ignore', invalid='ignore', under='ignore'):
+-        f = w.reshape(grid.shape) / denominator
+-    if not np.all(np.isfinite(f)) or np.any((w.reshape(grid.shape) > 0) & (f <= 0)):
++    # Reverse the accepted forward arithmetic without constructing a fake
++    # f=1 state or an unnecessarily large weight_factor*G*A denominator.
++    denominator = multiply_positive(grid.G[:, None], grid.A[None, :], 'inverse G A')
++    with np.errstate(over='ignore', invalid='ignore', under='ignore'):
++        n = w.reshape(grid.shape) / state.units.weight_factor
++        f = n / denominator
++    if not np.all(np.isfinite(n)) or np.any((w.reshape(grid.shape) > 0) & (n <= 0)):
++        raise ValueError('inverse number density nonfinite or positive underflow')
++    if not np.all(np.isfinite(f)) or np.any((n > 0) & (f <= 0)):
+         raise ValueError('inverse nonfinite arithmetic or positive underflow')
+     return f
+ 
+--- pre_C9/tests/test_locked_bridge.py
++++ tests/test_locked_bridge.py
+@@ -136,6 +136,15 @@
+             with self.subTest(kind=str(bad.grid_identity)[:8]):
+                 with self.assertRaises(ValueError):fixed_grid_inverse(bad,self.grid)
+ 
++    def test_inverse_large_measure_small_occupation_no_fake_state(self):
++        grid=LockedGrid(np.array([1e301]),np.array([1.]),np.array([[1.,0,0]]),
++                        np.array([1.]),('largeG',),np.array([[1.,2.]]))
++        f=np.array([[1e-301]])
++        state=self.assert_observables(grid,f,Units(1,1,1))
++        restored=fixed_grid_inverse(state,grid)
++        self.assertGreater(restored[0,0],0)
++        self.assertLessEqual(abs(float(restored[0,0]/f[0,0])-1),ROUNDTRIP_TOL)
++
+     def test_invalid_inputs_are_rejected_without_clipping(self):
+         for value in (-1.,0.,np.inf,np.nan,1+0j):
+             for key in ('kappa','L','Pstar'):

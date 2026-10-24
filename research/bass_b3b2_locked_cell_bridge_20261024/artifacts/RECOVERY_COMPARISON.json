@@ -1,0 +1,154 @@
+{
+  "schema": "BASS_B3B2_ENVIRONMENTAL_RECOVERY_COMPARISON_V1",
+  "status": "PASS",
+  "reason": "Observed entire ephemeral shared scratch wipe and runtime clock jump; exact frozen code reconstructed from original tool-write history. One explicitly authorized CURRENT unit artifact regeneration; no historical campaign replay.",
+  "code_checks": {
+    "code/locked_bridge.py": {
+      "expected": "d88571cc11fcfe441f117977a7eece63e3c58ac06543e45542e2f54af12b819e",
+      "actual": "d88571cc11fcfe441f117977a7eece63e3c58ac06543e45542e2f54af12b819e"
+    },
+    "tests/test_locked_bridge.py": {
+      "expected": "4bdbcdb72cf4247f7962b657f2750115295fd589de2d780eba554d3a4f36f830",
+      "actual": "4bdbcdb72cf4247f7962b657f2750115295fd589de2d780eba554d3a4f36f830"
+    },
+    "code/reference_runner.py": {
+      "expected": "2e057497d21720c6f0905158d4bb164bb4f4591a518554d13eb1dd754ac227a0",
+      "actual": "2e057497d21720c6f0905158d4bb164bb4f4591a518554d13eb1dd754ac227a0"
+    },
+    "code/run_bounded.py": {
+      "expected": "06a7b4425ed54587b185ed008449c72614f03493b8cf2b3b64645bb8033ac627",
+      "actual": "06a7b4425ed54587b185ed008449c72614f03493b8cf2b3b64645bb8033ac627"
+    }
+  },
+  "numerical_comparisons": [
+    {
+      "field": "physical.number_density_m3",
+      "observed_pre_loss_value": 106530.54352303005,
+      "new_recovery_value": 106530.54352303005,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "physical.energy_density_J_m3",
+      "observed_pre_loss_value": 1.740735402878829e-13,
+      "new_recovery_value": 1.740735402878829e-13,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "bridge.number_current_residual",
+      "observed_pre_loss_value": 4.018991460485999e-19,
+      "new_recovery_value": 4.018991460485999e-19,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "bridge.stress_tensor_residual",
+      "observed_pre_loss_value": 2.279091117273708e-16,
+      "new_recovery_value": 2.279091117273708e-16,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "bridge.max_positive_f_roundtrip_relative",
+      "observed_pre_loss_value": 0.0,
+      "new_recovery_value": 0.0,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "covariance.rows",
+      "observed_pre_loss_value": 36,
+      "new_recovery_value": 36,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "covariance.max_N_residual",
+      "observed_pre_loss_value": 1.1775832543398129e-15,
+      "new_recovery_value": 1.1775832543398129e-15,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "covariance.max_T_residual",
+      "observed_pre_loss_value": 3.717949182316828e-16,
+      "new_recovery_value": 3.717949182316828e-16,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "covariance.max_inverse_f_relative",
+      "observed_pre_loss_value": 1.1102230246251565e-15,
+      "new_recovery_value": 1.1102230246251565e-15,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "covariance.max_rejected_omitted_weight_T_residual",
+      "observed_pre_loss_value": 0.07371223129259362,
+      "new_recovery_value": 0.07371223129259362,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.photon_number_relative_residual",
+      "observed_pre_loss_value": 0.0,
+      "new_recovery_value": 0.0,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.energy_density_relative_residual",
+      "observed_pre_loss_value": -6.274855397481909e-09,
+      "new_recovery_value": -6.274855397481909e-09,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.N_L1_residual",
+      "observed_pre_loss_value": 4.018991460485999e-19,
+      "new_recovery_value": 4.018991460485999e-19,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.T_L1_residual",
+      "observed_pre_loss_value": 1.0957342862106858e-09,
+      "new_recovery_value": 1.0957342862106858e-09,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.min_cell_energy_relative_change",
+      "observed_pre_loss_value": -7.733851226099375e-09,
+      "new_recovery_value": -7.733851226099375e-09,
+      "exact_floating_equality": true
+    },
+    {
+      "field": "energy_mutation.max_cell_energy_relative_change",
+      "observed_pre_loss_value": -5.4542769190035756e-09,
+      "new_recovery_value": -5.4542769190035756e-09,
+      "exact_floating_equality": true
+    }
+  ],
+  "all_observed_aggregates_reproduced_exactly": true,
+  "old_scientific_ledger_raw_bytes_status": "LOST_NOT_FABRICATED",
+  "new_ledger": "RECOVERY_EXECUTION_LEDGER.json",
+  "new_recovery_commands": 1,
+  "historical_command_count": 9,
+  "historical_observed_wall_seconds": 7.973134196989122,
+  "historical_observed_cpu_seconds": 7.961251,
+  "historical_ivp": 0,
+  "new_ivp": 0,
+  "old_campaign_replay": 0,
+  "input_identity_metadata": {
+    "historical_sha256": "4d767059b5afb14a3fd119be659e47a36a65d807bea435e52fcf6481ceda1d04",
+    "historical_bytes": 13141,
+    "current_sha256": "2c10ee0a876bfbcd0fd8bcf2fd9c7c323ca113f7e41473a03769f1175c371c16",
+    "current_bytes": 12805,
+    "status": "TRANSCRIPT_RECONSTRUCTED_METADATA_PRESENTATION; exact NPZ input bytes unchanged; grid identity uses NPZ hashes, not metadata file bytes"
+  },
+  "historical_missing": [
+    "raw EXECUTION_LEDGER.json byte identity and per-command UTC start timestamps",
+    "pre-loss full CSV row values and old PNG/PDF byte identity",
+    "C9_AFFECTED_CHECKS.json full 36-row old/new values and old figure SHA values",
+    "IMPLEMENTATION_MANIFEST.json full original serialization",
+    "S0 ZIP archive bytes, S0_SELECTION67-row content, S0_GIT_PAYLOAD content and ZIP manifest bytes"
+  ],
+  "fresh_artifacts_sha256": {
+    "VALIDATION.json": "9f4125925c8919007429bce2f4f193b697220612f6719ad674dc9dcee9ac46c2",
+    "CELL_STOCK.csv": "47161a5765649d08a16cdfd35b17e3378a5a8f08a27906f21eca8b2475e85331",
+    "BOOST_COVARIANCE.csv": "d59e66fdb65a1494f152c29b976bed2d59a43d8d2d3889efd9299f09518fa45d",
+    "ENERGY_OWNER_MUTATION.csv": "3acc123fc0bf6e4d60424bf2f7f581ea2e3db3ae9a0bc1afd87db2061da8ebd0",
+    "LOCKED_CELL_BRIDGE.png": "08479a47282e21337be1eb29e4765774c3ce3edad7c22bb8189c7182cdd6510e",
+    "LOCKED_CELL_BRIDGE.pdf": "85404f7a827b9d32f4a4ab4eab5787822da1738e037d173557ea9fcb8359362d",
+    "RECOVERY_EXECUTION_LEDGER.json": "d003e15e9bb9fbbcb7c65c631eaac3d88b530cc1fa1bd4a92de1d04c9e9e6c27"
+  }
+}
