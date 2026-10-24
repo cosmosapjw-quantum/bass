@@ -53,12 +53,61 @@
     "full_remote_restore": "NOT_RUN"
   },
   "S1": {
-    "status": "PREPARED_FOR_VALIDATED_PUBLICATION",
+    "stage": "VALIDATED_SCIENTIFIC_SNAPSHOT",
+    "status": "PUBLISHED_AND_DUAL_BACKUP_ACK",
     "scientific_verdict": "PASS_SCOPED",
-    "note": "FinalactualS1ACK appearsinS2andPR188, notselfreferentialinsideS1archive."
+    "archive": "BASS_B3D_S1_VALIDATED_20261025.zip",
+    "bytes": 860232,
+    "sha256": "8fdc0fe919d3db717e1bc47f0596ccb64901f7d62cda229f6d20ec90992dd679",
+    "payloads": 105,
+    "local_validation": "105/105 SHA256+size+Gitblob+ZIP_CRC",
+    "git": {
+      "commit": "d0b61e6a9f78891428925eaf8d67461c04e73a81",
+      "expected_sha": "ce0b8b61bdb172734076900ebe3ad131bba87326",
+      "force": false,
+      "publication_ack": true,
+      "readback": {
+        "observed_utc": "2026-10-24T22:07:46.675339+00:00",
+        "commit": "d0b61e6a9f78891428925eaf8d67461c04e73a81",
+        "root_tree": "2c78567e04511ddeaf1de5faf10b6a0af805fd44",
+        "research_tree": "b196fdd4b78fb7ae2a6b0bc8e0529acccf2da824",
+        "lane_tree": "434b30e16d3d8512db8822e30f3257f02c37d0bc",
+        "expected": 105,
+        "actual_blobs": 105,
+        "bad": [],
+        "extra": [],
+        "truncated": false,
+        "pass": true
+      }
+    },
+    "Drive": {
+      "success": true,
+      "id": "1e4SM3QQfIgJTwPtegaOPHwuHK7BzKUlQ",
+      "url": "https://drive.google.com/file/d/1e4SM3QQfIgJTwPtegaOPHwuHK7BzKUlQ/view?usp=drivesdk",
+      "file_name": "BASS_B3D_S1_VALIDATED_20261025.zip",
+      "parent_id": "1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y"
+    },
+    "Dropbox": {
+      "file": {
+        "file": {
+          "size": 860232
+        },
+        "file_id": "id:BSpOijBcT10AAAAAAD_9qw",
+        "modified_time": "2026-10-24T22:07:42Z",
+        "name": "BASS_B3D_S1_VALIDATED_20261025.zip",
+        "object_type": "file",
+        "path": "ns:183516487//BASS_BACKUPS/BASS_B3D_S1_VALIDATED_20261025.zip",
+        "path_display": "/BASS_BACKUPS/BASS_B3D_S1_VALIDATED_20261025.zip"
+      },
+      "status": "completed"
+    },
+    "full_remote_restore": "NOT_RUN"
   },
   "S2": {
-    "status": "PENDING_FINAL_HANDOFF"
+    "stage": "FINAL_HANDOFF",
+    "status": "PREPARED_FOR_PUBLICATION",
+    "scientific_changes_from_S1": false,
+    "receipt_location": "Final actual S2 commit/archive SHA and provider ACK are recorded after publication in PR188 body and final conversation; no self-referential ACK inside S2."
   },
   "prior_b3c_git": "OWNER_REPORTED_NO_ACK_USER_REJECTED_NOT_RETRIED_HERE",
   "superseded_b3c1": "See provenance/SUPERSEDED_B3C1_RECEIPT.json; prepared not executed"
