@@ -1,0 +1,135 @@
+{
+  "schema": "BASS_B3E_DELIVERY_RECEIPTS_V1",
+  "unit": "BASS_B3E_POSITIVE_ANGULAR_CONTROL_20261025",
+  "authorization": "Current user requested staged backup/publication; established Git/Drive/Dropbox destinations retained.",
+  "stages": {
+    "S0": {
+      "scientific_status": "PREPARATION_PASS_SCOPED_PYTHON_NOT_RUN",
+      "git_commit": "11d06f9dc35143058fcdee9e81c979b039e08a83",
+      "git_root_tree": "8bad14db6488ad20ba3c45da91780a8ac17daa81",
+      "git_readback": {
+        "files": 53,
+        "matched": 53,
+        "bad": 0,
+        "extra": 0,
+        "truncated": false,
+        "status": "PASS"
+      },
+      "original_archive": {
+        "status": "LOST_BEFORE_UPLOAD",
+        "bytes": 245431,
+        "sha256": "acb26a0686da510c33ea6e4f7608eb0f2b427058bd9b55866567754c1b22caa5",
+        "provider_ack_count": 0
+      },
+      "original_private_intake": {
+        "status": "LOST_BEFORE_UPLOAD",
+        "files": 48,
+        "bytes": 699638,
+        "sha256": "bd57fb6ae047693e02f2c83702b6f00e8d81a062db11762409fdb4c76db1ba6d",
+        "provider_ack_count": 0,
+        "all_raw_recovered": false
+      },
+      "loss_cause": "UNKNOWN"
+    },
+    "S0R": {
+      "status": "RESTORED_SCIENCE_AND_DUAL_UPLOAD_ACK",
+      "git_science_identity": "11d06f9dc35143058fcdee9e81c979b039e08a83",
+      "files": 53,
+      "restored_from": "surviving actual Git mutation text payloads; exact remote blob/size53/53",
+      "original_archive_byte_identity_claimed": false,
+      "archive": {
+        "file": "BASS_B3E_S0R_RECOVERED_20261025.zip",
+        "bytes": 245632,
+        "sha256": "3b229920326290907ac7336c32acf99cff603ea56fa6e69735c0f68752d8b11d"
+      },
+      "drive": {
+        "status": "success",
+        "id": "10wndEooI3N6TlXyPlQfmSYys1qGQs7UF"
+      },
+      "dropbox": {
+        "status": "completed",
+        "id": "id:BSpOijBcT10AAAAAAD_9vQ",
+        "bytes": 245632
+      },
+      "recovery_companion": {
+        "bytes": 8482,
+        "sha256": "bb52ede7d31c51dc45c56f5d34d135ab6a6c10a688bd730f26ba71646ff874ff",
+        "drive_id": "1Vb4_ZMS5rf5__RT44VCZ4xVfoEgvHEyO",
+        "drive_status": "success",
+        "dropbox_id": "id:BSpOijBcT10AAAAAAD_9vg",
+        "dropbox_status": "completed"
+      },
+      "local_crc_payload_verification": "PASS",
+      "remote_full_restore": "NOT_RUN",
+      "all_private_raw_restored": false
+    },
+    "S1": {
+      "status": "SCIENCE_GIT_AND_DUAL_UPLOAD_ACK_COMPLETE",
+      "scientific_status": "PASS_SCOPED",
+      "git_commit": "338f982721336dabbe6cced765edf97a896428d5",
+      "git_readback": {
+        "stage": "S1",
+        "commit": "338f982721336dabbe6cced765edf97a896428d5",
+        "root_tree": "2c32b5dcad7d4c783b630ffa4c0e41d2fb97cc17",
+        "research_tree": "3a35f62679a16f9576b258823daf97d01bc4b29f",
+        "lane_tree": "6f37f84c7941602ea2a9bdb62d8515eeb81a4675",
+        "expected_files": 102,
+        "actual_blob_files": 102,
+        "matched": 102,
+        "bad": [],
+        "extra": [],
+        "truncated": false,
+        "status": "PASS",
+        "remote_archive_restore": "NOT_RUN"
+      },
+      "archive": {
+        "file": "BASS_B3E_S1_VALIDATED_20261025.zip",
+        "bytes": 1634231,
+        "sha256": "fd4fa4666df967e9c8c7854864e242cba770f0e9f1311eb0a4d1e20f3ff11c3c",
+        "payloads": 102,
+        "text": 96,
+        "binary": 6
+      },
+      "drive": {
+        "status": "success",
+        "id": "1HLuXHxCc1k22zwxGBxfMGldC2cgfSUdz"
+      },
+      "dropbox": {
+        "status": "completed",
+        "id": "id:BSpOijBcT10AAAAAAD_9xQ",
+        "bytes": 1634231
+      },
+      "local_crc_all_payload_verification": "PASS",
+      "outer_receipt": "provenance/S1_OUTER_RECEIPT.json",
+      "remote_full_archive_restore": "NOT_RUN"
+    },
+    "S2": {
+      "status": "ENCLOSING_FINAL_HANDOFF_SNAPSHOT_SELF_ACK_EXTERNAL",
+      "scientific_status": "PASS_SCOPED_UNCHANGED_FROM_S1",
+      "workflow_work_completed": 20,
+      "workflow_total": 20,
+      "files_prepared": [
+        "HANDOFF_NEXT_THREAD_KO.md",
+        "STAGE_LEDGER.json",
+        "STAGE_STATUS_KO.md",
+        "DELIVERY_RECEIPTS.json",
+        "DAG.json",
+        "README.md",
+        "provenance/S1_OUTER_RECEIPT.json"
+      ],
+      "actual_commit_archive_hash_readback_provider_ACK": "Read final outer PR189 body. These values are obtained after this enclosing snapshot is packaged/published, not claimed in advance.",
+      "remote_full_archive_restore": "NOT_RUN"
+    }
+  },
+  "axes": [
+    "scientific_admission",
+    "Git_identity_and_readback",
+    "provider_upload_ACK",
+    "remote_whole_archive_restore"
+  ],
+  "remote_full_archive_restore": "NOT_RUN",
+  "merge": 0,
+  "production_activation": false,
+  "publication_pr": "https://github.com/cosmosapjw-quantum/bass/pull/189",
+  "branch": "research/bass-b3e-positive-angular-20261025"
+}
