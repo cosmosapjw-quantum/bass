@@ -28,7 +28,7 @@ def main():
     (OUT/'NUMERICAL_SUMMARY.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
     plt.rcParams.update({'font.size':8.,'axes.titlesize':8.5,'axes.labelsize':8.,'xtick.labelsize':7.5,'ytick.labelsize':7.5,'legend.fontsize':7.5,'savefig.dpi':200})
     labels={'P1':'Density','P2':'Map scaling','P3':'Source','P4':'Mixed','P5':'Source-zero'};colors=plt.cm.tab10(np.arange(5));families=list(labels)
-    fig,axes=plt.subplots(1,2,figsize=(180/25.4,100/25.4));fig.subplots_adjust(left=.085,right=.98,bottom=.20,top=.78,wspace=.40)
+    fig,axes=plt.subplots(1,2,figsize=(180/25.4,100/25.4));fig.subplots_adjust(left=.085,right=.98,bottom=.26,top=.78,wspace=.40)
     handles=[]
     for fam,color in zip(families,colors):
         rr=[r for r in pairs if r['family']==fam];x=[r['epsilon'] for r in rr]
@@ -43,7 +43,7 @@ def main():
     fig.text(.5,.105,'Panel (a): solid = bound; dotted = measured pair error.  Dashed in (b): target 2e-8.',ha='center',fontsize=7.5)
     fig.text(.5,.05,'P0 has exactly zero finite input error and is recorded in the tables; it is excluded from log axes.',ha='center',fontsize=7.5)
     fig.savefig(OUT/'FINITE_INPUT_OVERVIEW.png');plt.close(fig)
-    fig,axes=plt.subplots(2,1,figsize=(90/25.4,145/25.4));fig.subplots_adjust(left=.21,right=.97,bottom=.15,top=.91,hspace=.70)
+    fig,axes=plt.subplots(2,1,figsize=(90/25.4,145/25.4));fig.subplots_adjust(left=.21,right=.97,bottom=.15,top=.83,hspace=.70)
     eps=.01;rr=[next(r for r in pairs if r['family']==fam and r['epsilon']==eps) for fam in families];x=np.arange(5);bottom=np.zeros(5)
     for key,color,label in [('map','#4c78a8','Map'),('source','#f58518','Source'),('prefactor','#54a24b','Density and det R')]:
         values=np.array([r['pair']['prefactor_paths'][r['pair']['chosen_prefactor_path']][key]/r['Q0'][0][0] for r in rr]);axes[0].bar(x,values,bottom=bottom,color=color,label=label);bottom+=values
