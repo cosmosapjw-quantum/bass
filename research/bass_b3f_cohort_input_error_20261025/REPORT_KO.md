@@ -258,3 +258,11 @@ B3b2 910packet은 hydrogen-frame scalar/unpolarized isotropic bootstrap INITIAL_
 새 REI HI science **190e283357f49f287ab02442a3751959cc53b4bd**는 처음 등방인4,368 native atoms의 same-birth/frame 순간 strain response와 amplitude/mass/strain JVP를 채택한 owner-reported 결과다. 저장 W/S/A/K/L을 재사용하고 R/R_M만 새로 적분했다. 실제 history/density/geometry/clock/collision/photon feedback는 OPEN, L4_ready=false다. Science18/20와 실제 delivery commit 관측을 구분한다. 그 owner의 최종 외부 readback receipt까지 별도로 읽었다고 주장하지 않는다.
 
 이 변경은 B3f의 massless finite endpoint 계약이나 실제 cohort/receiver 입력 결손을 바꾸지 않았다. 전체 census와 과학 계산을 반복하지 않고 현재 출처·영향 판정만 provenance/S1_SOURCE_PUBLICATION_REFRESH.json과 선택 owner 원문 두 개에 보존했다. 이후 게시의 branch 이동은 별도 실제 expectedSHA로 제어한다.
+
+## 9. S1 실제 전달과 S2 종료 조건
+
+S1 최종 scientific snapshot은 **3fd81005baf5b978fe3566a8d189c3dc792f3065**이며 full-lane110/110 blob·size readback이 통과했다. ZIP1,224,484bytes, SHA256354d8c300a4d67422793479de222cfd2c49e3c60d6404f1bd5477809b532550f, Drive success1LYPK0Ryn4jdmBgYTIA-ojB6TS3mL2b6k, Dropbox completed id:BSpOijBcT10AAAAAAD_-DA를 실제 받았다.
+
+첫 Git transport commit81aa098c8eeb34a3e54725f1268d612266acd1b7는109/110match였으며 CSV의25CRLF가LF로 정규화되어6015→5990bytes였다. 원래6015byte CSV를 base64 blob으로 게시한 한 파일 교정 뒤110/110이 되었다. Local CSV·ZIP·수치 값은 바뀌지 않았고 과학 재실행은0이다. 이는 전송 byte-identity mismatch이고 scientific failure가 아니다. 실패와 수정 commit을 둘 다 provenance/S1_TRANSPORT_BYTE_REPAIR.json에 보존한다.
+
+S2에는 실제 S1 receipt, 최종 handoff와 단계별 index를 담는다. 이 파일을 포장할 때 실제 완료는18/20, 준비된 종료 활동은20/20이다. **Enclosing S2 Git 게시·full-lane readback·Drive success·Dropbox completed가 PR190 외부 최종 receipt에 기록된 뒤 R10/C10을 포함한 이번 workflow20/20을 실제 완료로 읽는다.** Self SHA나 self upload ACK를 archive 안에서 만들어 내지 않는다. 전체 BASS physical completion=null, native actual input obligations와 B4/B5 상태는 그대로다.

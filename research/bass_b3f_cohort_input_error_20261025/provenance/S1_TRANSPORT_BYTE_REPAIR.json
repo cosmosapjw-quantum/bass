@@ -1,0 +1,61 @@
+{
+  "classification": "PACKAGING_BYTE_IDENTITY_MISMATCH_NOT_SCIENTIFIC_FAILURE",
+  "initial_commit": "81aa098c8eeb34a3e54725f1268d612266acd1b7",
+  "initial_full_lane_readback": {
+    "stage": "S1",
+    "commit": "81aa098c8eeb34a3e54725f1268d612266acd1b7",
+    "root_tree": "7faf4590a4b940fb4d01d73f19b331c514dc67fc",
+    "research_tree": "f6b618b1e7833e4ece3a48d06a8d7650de144fb6",
+    "lane_tree": "5bcbbf29385114de876044ae2044ced3a442d4e5",
+    "expected_files": 110,
+    "actual_files": 110,
+    "matched": 109,
+    "bad": [
+      "research/bass_b3f_cohort_input_error_20261025/results/ALL_ROWS.csv"
+    ],
+    "extras": [],
+    "truncated": false,
+    "status": "FAIL",
+    "observed_head": "81aa098c8eeb34a3e54725f1268d612266acd1b7",
+    "expected_sha_used": "d17d633c20a7913fd9b7dd22ba6523e26e8ced66",
+    "force": false
+  },
+  "diagnosis": {
+    "path": "results/ALL_ROWS.csv",
+    "local_original_bytes": 6015,
+    "local_original_CRLF_lines": 25,
+    "initial_UTF8_payload_bytes": 5990,
+    "initial_UTF8_payload_CRLF_lines": 0,
+    "original_blob": "031173db7737482e246e5e81b23d2fa2778e39ad",
+    "normalized_blob": "48792578bfa22d3e140a508cf26a7fc88cf1dd71",
+    "cause": "Text serialization normalized CRLF to LF; CSV numerical fields unchanged.",
+    "archive_changed": false,
+    "science_changed": false,
+    "scientific_reruns": 0
+  },
+  "repair": "COMPLETE_ORIGINAL_BYTES_BASE64_BLOB",
+  "final_commit": "3fd81005baf5b978fe3566a8d189c3dc792f3065",
+  "final_full_readback": {
+    "stage": "S1",
+    "commit": "3fd81005baf5b978fe3566a8d189c3dc792f3065",
+    "root_tree": "e3838f12dcd79c2871967675541b68981fc864b6",
+    "research_tree": "92d59b3f9a9d1290673eea838a074c1eba531aa3",
+    "lane_tree": "d8293a970d203f03870b71d6baffcd31685910f1",
+    "expected_files": 110,
+    "actual_files": 110,
+    "matched": 110,
+    "bad": [],
+    "extras": [],
+    "truncated": false,
+    "status": "PASS",
+    "observed_head": "3fd81005baf5b978fe3566a8d189c3dc792f3065",
+    "expected_sha_used": "81aa098c8eeb34a3e54725f1268d612266acd1b7",
+    "force": false,
+    "initial_transport_mismatch": {
+      "commit": "81aa098c8eeb34a3e54725f1268d612266acd1b7",
+      "matched": 109,
+      "total": 110,
+      "scope": "CSV CRLF normalization; original-byte repair only; no science changes"
+    }
+  }
+}
