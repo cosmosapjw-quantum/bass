@@ -1,0 +1,785 @@
+{
+  "schema": "CENTRAL_DAG_TOPOLOGY_READBACK_V1",
+  "source_commit": "14976bda37b17e8dd8060f4c89adf6ddf9fbcc6a",
+  "source_blob": "41ca284f414e679dd9b6d6b3dd37aa05f92e483d",
+  "authority_count": 7,
+  "node_count": 40,
+  "edge_count": 17,
+  "original_plan_status_is_not_current_physical_admission": true,
+  "nodes": [
+    {
+      "id": "WU_CE83_OWNER_COMPLETION",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/0",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": "REUSED_COMPLETE_SCOPED",
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "WU_LI_SOURCE_UNCERTAINTY",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/1",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "WU_HE_LI_CX_STATE_ENERGY",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "WU_D_PI_RR_MATCHED",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "WU_NUCLEAR_PARTICLE_OWNERSHIP",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": "PARTIAL_CONDITIONAL_BARE_CHILD_COMPLETE",
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "WU_SPECTRAL_GEOMETRY_COUPLING",
+      "repository": "WU088_HH",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/WU088_HH/5",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "WU_CE83_OWNER_COMPLETION",
+        "WU_HE_LI_CX_STATE_ENERGY",
+        "WU_D_PI_RR_MATCHED",
+        "WU_NUCLEAR_PARTICLE_OWNERSHIP"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_N4_C23B_CUTOFF_BINDING",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/0",
+      "plan_status": "COMPLETE_SCOPED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": "COMPLETE_SCOPED",
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_N4_STOPPING_KERNEL",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/1",
+      "plan_status": "PARTIAL",
+      "local_dependencies": [
+        "CR_N4_C23B_CUTOFF_BINDING"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_N5_ATOMIC_ISOTOPE_COVERAGE",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/2",
+      "plan_status": "PARTIAL",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_N6_CONSERVATIVE_COUPLING",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "CR_N4_STOPPING_KERNEL",
+        "CR_N5_ATOMIC_ISOTOPE_COVERAGE"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_N7_NEW_PARCEL",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "CR_N6_CONSERVATIVE_COUPLING"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "CR_BETA_FULL_OWNER",
+      "repository": "bass_cr",
+      "authority": "atomic/LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/bass_cr/5",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-LINE02",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/0",
+      "plan_status": "OWNER_DELIVERY_PENDING",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-HISTORY",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/1",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LINE02"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-C3",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-LI",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-FIELD",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LINE02"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REC-COUPLED",
+      "repository": "cosmosapjw-quantum/rec_bianchi",
+      "authority": "thermal/rec_bianchi_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/5",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REC-LI",
+        "REC-FIELD",
+        "REC-HISTORY"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-X1",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/0",
+      "plan_status": "COMPLETE_SCOPED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": "COMPLETE_SCOPED",
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-ANG",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/1",
+      "plan_status": "SOURCE_INPUT_PENDING",
+      "local_dependencies": [
+        "HE-X1"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": "SOURCE_INPUT_PENDING",
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-EXCHANGE",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-RESERVOIR",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-CLOSURE",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "HE-ANG",
+        "HE-EXCHANGE",
+        "HE-RESERVOIR"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "HE-FEEDBACK",
+      "repository": "cosmosapjw-quantum/BASS_HE",
+      "authority": "thermal/BASS_HE_LONGTERM_CONTRACTS.json",
+      "authority_pointer": "/nodes/5",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "HE-CLOSURE"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "B1-G1B-recover",
+      "repository": "cosmosapjw-quantum/bass",
+      "authority": "numerics/BASS_CONTRACTS.json",
+      "authority_pointer": "/nodes/0",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "B2-G1B-curved",
+      "repository": "cosmosapjw-quantum/bass",
+      "authority": "numerics/BASS_CONTRACTS.json",
+      "authority_pointer": "/nodes/1",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B1-G1B-recover"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "B3-fourforce-owner",
+      "repository": "cosmosapjw-quantum/bass",
+      "authority": "numerics/BASS_CONTRACTS.json",
+      "authority_pointer": "/nodes/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B2-G1B-curved"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "B4-production-restart",
+      "repository": "cosmosapjw-quantum/bass",
+      "authority": "numerics/BASS_CONTRACTS.json",
+      "authority_pointer": "/nodes/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B3-fourforce-owner"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "B5-domain-validation",
+      "repository": "cosmosapjw-quantum/bass",
+      "authority": "numerics/BASS_CONTRACTS.json",
+      "authority_pointer": "/nodes/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "B2-G1B-curved",
+        "B3-fourforce-owner",
+        "B4-production-restart"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "V1-affine-native",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "authority": "numerics/VIGILODE_CONTRACTS.json",
+      "authority_pointer": "/nodes/0",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "V2-session-fatal",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "authority": "numerics/VIGILODE_CONTRACTS.json",
+      "authority_pointer": "/nodes/1",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "V3-affine-quotient",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "authority": "numerics/VIGILODE_CONTRACTS.json",
+      "authority_pointer": "/nodes/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "V4-causal-polynomial",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "authority": "numerics/VIGILODE_CONTRACTS.json",
+      "authority_pointer": "/nodes/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "V5-sphere-production",
+      "repository": "cosmosapjw-quantum/vigilode",
+      "authority": "numerics/VIGILODE_CONTRACTS.json",
+      "authority_pointer": "/nodes/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "V1-affine-native",
+        "V2-session-fatal",
+        "V4-causal-polynomial"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L0",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/0",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:ANGTHERM01@6daf382ee698835e7a141378c232d1d97c1c5cf1",
+        "external:X1_HE38_ANGULAR_PSD_REVIEW"
+      ],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L1",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/1",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L0"
+      ],
+      "external_dependencies": [
+        "external:BASS_CR_C23B_PHYSICAL_SOURCE",
+        "external:WU088_HH_SOURCE_MOMENTS",
+        "external:REC_SELECTED_LINE_OR_COMPTON_PROVIDER"
+      ],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L2",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/2",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:C3_ZERO_TINY_SOURCE",
+        "external:LOCALFLOW@9620e1fcc4bdda76e0311206f614234926600381",
+        "external:PHYSICAL_BETA_DAUGHTER_AND_STOPPING_PROVIDER"
+      ],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L3",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/3",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [],
+      "external_dependencies": [
+        "external:BASS_HE_FINITE_MASS_TRANSPORT",
+        "external:X1_HE38_ANGULAR_PSD_REVIEW",
+        "external:BASS_MASSIVE_COMPONENT_MAP"
+      ],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L4",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/4",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L0",
+        "REI-L1"
+      ],
+      "external_dependencies": [
+        "external:BASS_GEOMETRY_FEEDBACK",
+        "external:VIGILODE_NUMERICAL_HOOKS"
+      ],
+      "conditional_dependencies": [
+        {
+          "condition": "nonzero_n_or_T",
+          "dependency": "REI-L2",
+          "external": false
+        },
+        {
+          "condition": "anisotropic_baryons",
+          "dependency": "REI-L3",
+          "external": false
+        },
+        {
+          "condition": "ANGTHERM02_accuracy_claim",
+          "dependency": "external:ANGTHERM02_OWNER_ADMISSION",
+          "external": true
+        }
+      ],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    },
+    {
+      "id": "REI-L5",
+      "repository": "cosmosapjw-quantum/rei_bianchi",
+      "authority": "rei/CONTRACTS.json",
+      "authority_pointer": "/nodes/5",
+      "plan_status": "PROPOSED",
+      "local_dependencies": [
+        "REI-L4"
+      ],
+      "external_dependencies": [],
+      "conditional_dependencies": [],
+      "observed_completion_status": null,
+      "exact_full_observed_completion_in_source": "central/DAG.json"
+    }
+  ],
+  "integration_edges": [
+    {
+      "from": "HE-X1",
+      "to": "REI-L0",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "using angular-moment injection",
+      "claim_limit": "Necessary PSD/moment-cone gate only; does not supply angular distribution or physical cross section",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "HE-ANG",
+      "to": "REI-L3",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting anisotropic baryonic scattering transport",
+      "claim_limit": "Source-qualified angular moments needed; event frequency is not l2 transport",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "HE-EXCHANGE",
+      "to": "REI-L3",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting finite-mass baryonic pressure exchange",
+      "claim_limit": "Momentum/energy and pair symmetry from supported physical model",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "HE-CLOSURE",
+      "to": "REI-L4",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting nonzero baryonic anisotropic stress",
+      "claim_limit": "Isotropic pi_b=0 minimal pilot does not require this extension",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "CR_N4_STOPPING_KERNEL",
+      "to": "REI-L1",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "claiming thermalization of supplied fast photoelectrons",
+      "claim_limit": "Without provider, energy remains explicitly nonthermal; no instant heat",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "CR_N6_CONSERVATIVE_COUPLING",
+      "to": "REI-L4",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting CR coupled radiation/deposition pathway",
+      "claim_limit": "Source and gas use same event measure and valid domain",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "WU_D_PI_RR_MATCHED",
+      "to": "REI-L1",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "claiming isotope-specific D PI/RR number and energy moments",
+      "claim_limit": "Equal-electronic isotope approximation remains distinct smaller model",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "WU_NUCLEAR_PARTICLE_OWNERSHIP",
+      "to": "REI-L2",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "activating nuclear daughters/fast products",
+      "claim_limit": "Branch normalization, charge and energy carriers explicit",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "CR_BETA_FULL_OWNER",
+      "to": "REI-L2",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "activating source-qualified beta partition and stopping",
+      "claim_limit": "One beta owner; total Q not all heat",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "REC-LINE02",
+      "to": "REI-L1",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting native line source",
+      "claim_limit": "Consume completed owner result only; active owner reservation remains",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "REC-LINE02",
+      "to": "WU_SPECTRAL_GEOMETRY_COUPLING",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting native line in WU spectral coupling",
+      "claim_limit": "One native line owner; no detached/native double counting",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "REC-FIELD",
+      "to": "REI-L1",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting actual spectral radiation/Compton exchange",
+      "claim_limit": "Planck and actual-monopole baths remain distinct",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "B3-fourforce-owner",
+      "to": "REI-L4",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "selecting BASS four-force geometry feedback adapter",
+      "claim_limit": "Closed sum of sectors in matching frame/clock; signed stresses retained",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "B2-G1B-curved",
+      "to": "REI-L5",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "claiming curved Bianchi smooth-source domain",
+      "claim_limit": "Not a prerequisite to all LRS selected flat pilots",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "V1-affine-native",
+      "to": "REI-L4",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "using native reduced30/full33 affine adaptive client",
+      "claim_limit": "Actual full physical norm and inherited scales; other validated solvers remain available",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "V2-session-fatal",
+      "to": "REI-L4",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "using switching/restart driver",
+      "claim_limit": "Accepted-state transactional semantics and all costs preserved",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    },
+    {
+      "from": "V5-sphere-production",
+      "to": "REI-L5",
+      "type": "conditional_physical_or_numerical_dependency",
+      "condition": "claiming its physical spherical transport scheme",
+      "claim_limit": "Joint number/energy remap and source-appropriate stability; not all selected-model pilots",
+      "evidence": [
+        "rei/THEORY_AND_PR_PLANS.md",
+        "source authority CONTRACTS.json for prerequisite"
+      ],
+      "pass_action": "Bind reviewed prerequisite at exact source identity in consumer selected-model contract"
+    }
+  ],
+  "dependency_interpretation": {
+    "rule": "Requirements are AND within the selected model, not AND over every physical provider or numerical option.",
+    "REI_L1": "Choose and bind exactly the channels the model activates. Original external donor list is a provider menu; each source is required only if its channel/domain claim is selected.",
+    "REI_L4": "Always L0+one completed selected L1 pair+compatible validated geometry/solver. L2/L3/Li owner are conditional extensions. No requirement to complete all7 repositories before bounded safe algebra."
+  }
+}
