@@ -16,8 +16,9 @@ presentation-only correction; tests and sweep each ran once.
 Start with REPORT_KO.md, ADMISSION.json, FROZEN_CONTRACT.md,
 CONTRACT_ADDENDUM.md, theory/ and reviews/. STAGE_LEDGER.json and
 DELIVERY_RECEIPTS.json separate science, publication, providerACK and
-remote full archive restore. This S1 snapshot completes18/20 activities;
-R10/C10finalhandoff is in S2. Actual enclosing snapshotACKs are external.
+remote full archive restore. This final S2 snapshot completes20/20 scoped activities.
+Actual S1 Git102/102 and dualproviderACK are bound in the delivery ledger;
+final enclosing S2 commit/archive/providerACK are in the outer PR189 body.
 
 The original S0/publication is preserved. An actual workspace loss occurred
 before providerupload, causeUNKNOWN.53published textpayloads were restored

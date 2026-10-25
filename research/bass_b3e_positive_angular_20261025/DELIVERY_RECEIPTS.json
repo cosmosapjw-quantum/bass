@@ -64,13 +64,61 @@
       "all_private_raw_restored": false
     },
     "S1": {
+      "status": "SCIENCE_GIT_AND_DUAL_UPLOAD_ACK_COMPLETE",
       "scientific_status": "PASS_SCOPED",
-      "status": "PREPARED_FOR_PUBLICATION_AND_UPLOAD",
-      "self_ack_location": "Actual S1 commit/readback/archive/provider ACK will be bound in S2 and outer PR189 body; not invented inside its own snapshot."
+      "git_commit": "338f982721336dabbe6cced765edf97a896428d5",
+      "git_readback": {
+        "stage": "S1",
+        "commit": "338f982721336dabbe6cced765edf97a896428d5",
+        "root_tree": "2c32b5dcad7d4c783b630ffa4c0e41d2fb97cc17",
+        "research_tree": "3a35f62679a16f9576b258823daf97d01bc4b29f",
+        "lane_tree": "6f37f84c7941602ea2a9bdb62d8515eeb81a4675",
+        "expected_files": 102,
+        "actual_blob_files": 102,
+        "matched": 102,
+        "bad": [],
+        "extra": [],
+        "truncated": false,
+        "status": "PASS",
+        "remote_archive_restore": "NOT_RUN"
+      },
+      "archive": {
+        "file": "BASS_B3E_S1_VALIDATED_20261025.zip",
+        "bytes": 1634231,
+        "sha256": "fd4fa4666df967e9c8c7854864e242cba770f0e9f1311eb0a4d1e20f3ff11c3c",
+        "payloads": 102,
+        "text": 96,
+        "binary": 6
+      },
+      "drive": {
+        "status": "success",
+        "id": "1HLuXHxCc1k22zwxGBxfMGldC2cgfSUdz"
+      },
+      "dropbox": {
+        "status": "completed",
+        "id": "id:BSpOijBcT10AAAAAAD_9xQ",
+        "bytes": 1634231
+      },
+      "local_crc_all_payload_verification": "PASS",
+      "outer_receipt": "provenance/S1_OUTER_RECEIPT.json",
+      "remote_full_archive_restore": "NOT_RUN"
     },
     "S2": {
-      "status": "PENDING_FINAL_HANDOFF_DELIVERY",
-      "self_ack_location": "Outer PR189 body and final external receipt"
+      "status": "ENCLOSING_FINAL_HANDOFF_SNAPSHOT_SELF_ACK_EXTERNAL",
+      "scientific_status": "PASS_SCOPED_UNCHANGED_FROM_S1",
+      "workflow_work_completed": 20,
+      "workflow_total": 20,
+      "files_prepared": [
+        "HANDOFF_NEXT_THREAD_KO.md",
+        "STAGE_LEDGER.json",
+        "STAGE_STATUS_KO.md",
+        "DELIVERY_RECEIPTS.json",
+        "DAG.json",
+        "README.md",
+        "provenance/S1_OUTER_RECEIPT.json"
+      ],
+      "actual_commit_archive_hash_readback_provider_ACK": "Read final outer PR189 body. These values are obtained after this enclosing snapshot is packaged/published, not claimed in advance.",
+      "remote_full_archive_restore": "NOT_RUN"
     }
   },
   "axes": [
