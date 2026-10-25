@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "script_kind": "ONE_CUSTOM_SCRIPT",
+  "check_group_count": 7,
+  "groups": [
+    {
+      "group": "sphere_monomials_degree_le_8",
+      "status": "PASS",
+      "residual": 1.6653345369377348e-16,
+      "limit": 1.1368683772161603e-13,
+      "monomials": 165,
+      "Nmu": 5
+    },
+    {
+      "group": "exact_H_and_noncommuting_M",
+      "status": "PASS",
+      "residual": 1.1102230246251565e-16,
+      "limit": 1.1368683772161603e-13
+    },
+    {
+      "group": "isotropic_G5_K0_18_ray_oracle",
+      "status": "PASS",
+      "residual": 1.5860328923216522e-16,
+      "limit": 1.1368683772161603e-13
+    },
+    {
+      "group": "source_actual_zeros_plus_minus_x",
+      "status": "PASS",
+      "residual": 0.0,
+      "limit": 0.0
+    },
+    {
+      "group": "cap_refusal",
+      "status": "PASS",
+      "evidence": {
+        "name": "G1_maxK0",
+        "exception": "BoundNotMet",
+        "message": "BOUND_NOT_MET: frozen K cap exhausted",
+        "history": [
+          {
+            "K": 0,
+            "Nmu": 3,
+            "Nphi": 6,
+            "points": 18,
+            "tminus": 0.7499999999999996,
+            "tplus": 0.7499999999999996,
+            "beta": 2.108185106778918,
+            "B_F": 1.0672687103068277,
+            "B_P_F": 0.6295252972593708,
+            "B_T": 1.239098301140591,
+            "bound_relative": 1.9476492606465128,
+            "baseline_relative": 6.987488819311266,
+            "F_lower": 0.6362019723865878,
+            "F_upper": 0.6737007219247234,
+            "a": 0.45000000000000007,
+            "b": 0.9000000000000001,
+            "s": 0.5062500000000002,
+            "delta": 0.5999999999999999
+          }
+        ]
+      }
+    },
+    {
+      "group": "invalid_inputs_and_undefined_mixture",
+      "status": "PASS",
+      "cases": [
+        {
+          "name": "nonfinite_S",
+          "exception": "ValueError",
+          "message": "S requires finite real (3, 3)"
+        },
+        {
+          "name": "nonfinite_R",
+          "exception": "ValueError",
+          "message": "R requires finite real (3, 3)"
+        },
+        {
+          "name": "complex_S",
+          "exception": "ValueError",
+          "message": "S requires finite real (3, 3)"
+        },
+        {
+          "name": "complex_R",
+          "exception": "ValueError",
+          "message": "R requires finite real (3, 3)"
+        },
+        {
+          "name": "wrong_S_shape",
+          "exception": "ValueError",
+          "message": "S requires finite real (3, 3)"
+        },
+        {
+          "name": "wrong_R_shape",
+          "exception": "ValueError",
+          "message": "R requires finite real (3, 3)"
+        },
+        {
+          "name": "asymmetric_S",
+          "exception": "ValueError",
+          "message": "S must be symmetric"
+        },
+        {
+          "name": "non_STF_S",
+          "exception": "ValueError",
+          "message": "S must be STF"
+        },
+        {
+          "name": "negative_continuous_q",
+          "exception": "ValueError",
+          "message": "negative continuous source q"
+        },
+        {
+          "name": "singular_R",
+          "exception": "ValueError",
+          "message": "R must be invertible with positive determinant"
+        },
+        {
+          "name": "negative_determinant_R",
+          "exception": "ValueError",
+          "message": "R must be invertible with positive determinant"
+        },
+        {
+          "name": "condition_over_2",
+          "exception": "ValueError",
+          "message": "bounded outgoing/condition domain exceeded"
+        },
+        {
+          "name": "outgoing_sigma_over_1",
+          "exception": "ValueError",
+          "message": "bounded outgoing/condition domain exceeded"
+        },
+        {
+          "name": "negative_density",
+          "exception": "ValueError",
+          "message": "negative birth density"
+        },
+        {
+          "name": "undefined_all_zero_mixture_relative",
+          "exception": "ValueError",
+          "message": "all-zero mixture relative error undefined"
+        },
+        {
+          "name": "negative_mixture_coefficient",
+          "exception": "ValueError",
+          "message": "negative mixture coefficient"
+        }
+      ],
+      "case_count": 16
+    },
+    {
+      "group": "positive_mixture_bound_identity",
+      "status": "PASS",
+      "residual": 0.0,
+      "limit": 1.1368683772161603e-13
+    }
+  ]
+}
