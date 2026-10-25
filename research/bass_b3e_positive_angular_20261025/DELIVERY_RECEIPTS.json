@@ -4,13 +4,73 @@
   "authorization": "Current user requested staged backup/publication; established Git/Drive/Dropbox destinations retained.",
   "stages": {
     "S0": {
-      "status": "PENDING"
+      "scientific_status": "PREPARATION_PASS_SCOPED_PYTHON_NOT_RUN",
+      "git_commit": "11d06f9dc35143058fcdee9e81c979b039e08a83",
+      "git_root_tree": "8bad14db6488ad20ba3c45da91780a8ac17daa81",
+      "git_readback": {
+        "files": 53,
+        "matched": 53,
+        "bad": 0,
+        "extra": 0,
+        "truncated": false,
+        "status": "PASS"
+      },
+      "original_archive": {
+        "status": "LOST_BEFORE_UPLOAD",
+        "bytes": 245431,
+        "sha256": "acb26a0686da510c33ea6e4f7608eb0f2b427058bd9b55866567754c1b22caa5",
+        "provider_ack_count": 0
+      },
+      "original_private_intake": {
+        "status": "LOST_BEFORE_UPLOAD",
+        "files": 48,
+        "bytes": 699638,
+        "sha256": "bd57fb6ae047693e02f2c83702b6f00e8d81a062db11762409fdb4c76db1ba6d",
+        "provider_ack_count": 0,
+        "all_raw_recovered": false
+      },
+      "loss_cause": "UNKNOWN"
+    },
+    "S0R": {
+      "status": "RESTORED_SCIENCE_AND_DUAL_UPLOAD_ACK",
+      "git_science_identity": "11d06f9dc35143058fcdee9e81c979b039e08a83",
+      "files": 53,
+      "restored_from": "surviving actual Git mutation text payloads; exact remote blob/size53/53",
+      "original_archive_byte_identity_claimed": false,
+      "archive": {
+        "file": "BASS_B3E_S0R_RECOVERED_20261025.zip",
+        "bytes": 245632,
+        "sha256": "3b229920326290907ac7336c32acf99cff603ea56fa6e69735c0f68752d8b11d"
+      },
+      "drive": {
+        "status": "success",
+        "id": "10wndEooI3N6TlXyPlQfmSYys1qGQs7UF"
+      },
+      "dropbox": {
+        "status": "completed",
+        "id": "id:BSpOijBcT10AAAAAAD_9vQ",
+        "bytes": 245632
+      },
+      "recovery_companion": {
+        "bytes": 8482,
+        "sha256": "bb52ede7d31c51dc45c56f5d34d135ab6a6c10a688bd730f26ba71646ff874ff",
+        "drive_id": "1Vb4_ZMS5rf5__RT44VCZ4xVfoEgvHEyO",
+        "drive_status": "success",
+        "dropbox_id": "id:BSpOijBcT10AAAAAAD_9vg",
+        "dropbox_status": "completed"
+      },
+      "local_crc_payload_verification": "PASS",
+      "remote_full_restore": "NOT_RUN",
+      "all_private_raw_restored": false
     },
     "S1": {
-      "status": "PENDING"
+      "scientific_status": "PASS_SCOPED",
+      "status": "PREPARED_FOR_PUBLICATION_AND_UPLOAD",
+      "self_ack_location": "Actual S1 commit/readback/archive/provider ACK will be bound in S2 and outer PR189 body; not invented inside its own snapshot."
     },
     "S2": {
-      "status": "PENDING"
+      "status": "PENDING_FINAL_HANDOFF_DELIVERY",
+      "self_ack_location": "Outer PR189 body and final external receipt"
     }
   },
   "axes": [
@@ -21,5 +81,7 @@
   ],
   "remote_full_archive_restore": "NOT_RUN",
   "merge": 0,
-  "production_activation": false
+  "production_activation": false,
+  "publication_pr": "https://github.com/cosmosapjw-quantum/bass/pull/189",
+  "branch": "research/bass-b3e-positive-angular-20261025"
 }

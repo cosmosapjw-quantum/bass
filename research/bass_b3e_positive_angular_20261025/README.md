@@ -1,32 +1,31 @@
-# BASS B3e — positive angular control from the source moment
+# BASS B3e — source-aware positive angular control
 
-Workflow1.0.0 continuation after B3d PR188. This research lane constructs a
-source-aware a priori angular degree selector for supplied massless mapped
-cohorts. The exact matrix M=R(I/3+2S/15)R^T sharpens the pressure remainder
-enclosure, and the secant energy lower bound supplies a positive denominator.
-A positive product rule is selected before evaluating angular moments.
+Workflow physmath-research-loop 1.0.0. Scientific verdict PASS_SCOPED.
+Draft PR189: https://github.com/cosmosapjw-quantum/bass/pull/189
 
-At this preparation checkpoint: independent mathematical R6 PASS_SCOPED;
-Wolfram16 exact residual groups zero; new scientific Python execution NOT_RUN.
-Read STAGE_LEDGER.json and the actual final ADMISSION.json when present for
-later scientific status. Preparation readiness is not numerical admission.
+The source moment M=R(I/3+2S/15)R^T sharpens a Loewner pressure-error
+enclosure, while F_lower=(trM+ab)/(a+b) gives a positive relative-error
+scale. A positive product rule is selected before angular integration.
 
-Start with FROZEN_CONTRACT.md, CONTRACT_ADDENDUM.md,
-theory/INDEPENDENT_SOURCE_AWARE_BOUND.md and reviews/.
-provenance/public_intake/ contains selected current owner/backup findings;
-the source identity receipts retain actual observed times and search limits.
-The exact prior B3d raw reference and its22/28 coarse-rule failures are reused.
+Actual bounded results:22rows,162rowgates all pass; maximum full-tensor
+Frobenius relative error2.907450008788106e-12 at unchanged target2e-8.
+Wolfram16exact residual groups zero. Focused custom test7checkgroups,
+165monomials,16invalidcases. Four Python children exit0 include one
+presentation-only correction; tests and sweep each ran once.
 
-The selected output scope is14 inherited endpoints,5 manufactured general
-endpoints,2 orientation checks and1 positive mixture. Target2e-8 is preserved;
-ideal-node truncation is assigned1e-8, and measured floating/reference checks
-are separate. Source bounds and tests do not supply the missing actual B3c
-cohort histories or native finite receiver absorption contract.
+Start with REPORT_KO.md, ADMISSION.json, FROZEN_CONTRACT.md,
+CONTRACT_ADDENDUM.md, theory/ and reviews/. STAGE_LEDGER.json and
+DELIVERY_RECEIPTS.json separate science, publication, providerACK and
+remote full archive restore. This S1 snapshot completes18/20 activities;
+R10/C10finalhandoff is in S2. Actual enclosing snapshotACKs are external.
 
-The full BASS physical-completion field remainsnull. No IVP, old campaign
-replay, old archive/NPZ download, merge or production activation is authorized
-by this lane. Only the new scoped small tests/sweep are scheduled.
+The original S0/publication is preserved. An actual workspace loss occurred
+before providerupload, causeUNKNOWN.53published textpayloads were restored
+exactly and newS0RdualACK received; originalprivate48filerawnotrecovered.
+See provenance/recovery/. Old snapshots are not retroactively relabelled.
 
-S0/S1/S2 are cumulative preparation/science/handoff snapshots. Each R/C stage
-is linked to its actual covering backup and publication ACK in the stage and
-delivery ledgers. Full remote archive restore is a separate NOT_RUN field.
+The14inherited+5manufactured endpoints,2orientationchecks and1mixture
+are supplied mapped-cohort diagnostics. ActualB3chistory, native finite
+incident trace, calibratedRECcoupling remainopen. Overall BASS physical
+completion=null. NewIVP0,oldcampaignreplay0,oldarchive/NPZdownload0,
+merge0,productionactivationfalse. Different-modelscientificreviewNOT_RUN.
