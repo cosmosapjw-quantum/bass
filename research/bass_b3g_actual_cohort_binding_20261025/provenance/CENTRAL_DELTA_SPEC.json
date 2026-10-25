@@ -1,12 +1,12 @@
 {
   "schema": "BASS_B3G_CENTRAL_DELTA_SPEC_V1",
-  "base_central_commit": "78f7ac5864d5817ceb79b48cb5e298cc30006510",
+  "base_central_commit": "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8",
   "base_dag_path": "research/orchestration_expansion_20261025/DAG.json",
   "consumer_repo": "cosmosapjw-quantum/bass",
   "consumer_lane": "research/bass_b3g_actual_cohort_binding_20261025",
-  "consumer_source_commit": null,
-  "source_commit_binding": "BIND_AFTER_SCIENCE_COMMIT_IS_ACKNOWLEDGED; NEVER_INVENT_SELF_COMMIT_HASH",
-  "admission_release_gate": "FINAL_INDEPENDENT_R9_AND_ROOT_ADMISSION_BEFORE_PUBLICATION",
+  "consumer_source_commit": "0e07ea8ca2f11901e0818c9ab9afdeff76352618",
+  "source_commit_binding": "ACTUAL_ACK_AND_REMOTE_READBACK_OF_BASS_SCIENCE_COMMIT_A",
+  "admission_release_gate": "ROOT_ACCEPTED_R9_PASS_SCOPED_BLOCKING_ZERO",
   "updates": {
     "B3c-scoped-background": {
       "current_status": "OWNER_REPORTED_SCOPED",
@@ -71,11 +71,11 @@
     }
   },
   "preserved": {
-    "nodes": 87,
+    "nodes": 88,
     "authorities": 15,
     "integration_edges": 17,
-    "historical_contracts": "UNCHANGED_ALL_87",
-    "nonselected_node_wrappers": "UNCHANGED_82",
+    "historical_contracts": "UNCHANGED_ALL_88_LATEST_CONTRACTS",
+    "nonselected_node_wrappers": "UNCHANGED_83",
     "dependency_edges": "UNCHANGED",
     "unselected_future_providers_added": false,
     "global_physical_completion": null,
@@ -100,12 +100,77 @@
     "child_cpu_s": 3.7262999999999997
   },
   "central_publication_plan": {
-    "head": "research/bass-b3g-consumer-return-20261025",
-    "base": "research/orchestration-sandbox-20261022",
+    "head": "research/orchestration-sandbox-20261022",
+    "base": "CURRENT_HEAD_OF_EXISTING_DRAFT_PR222",
     "draft": true,
     "force": false,
     "expected_sha_required": true,
-    "new_return_path": "research/orchestration_expansion_20261025/returns/BASS_B3G_ACTUAL_BINDING_20261025.json"
+    "new_return_path": "research/orchestration_expansion_20261025/returns/BASS_B3G_ACTUAL_BINDING_20261025.json",
+    "synchronized_mirrors": [
+      "contracts/<selected-id>.json",
+      "node_plans/<selected-id>.md",
+      "status/CURRENT_STATUS.json"
+    ],
+    "expected_base_sha": "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8",
+    "existing_pr": 222,
+    "purpose": "Canonical current DAG integration for parallel consumers; preserve all latest unowned nodes; no PR merge."
   },
-  "identity_policy": "Immutable original contracts remain byte/semantic-identical as applicable; current wrapper updates are new consumer observations, not rewrites of historical scientific authority."
+  "identity_policy": "Immutable original contracts remain byte/semantic-identical as applicable; current wrapper updates are new consumer observations, not rewrites of historical scientific authority.",
+  "previous_observed_base_central_commit": "ad9c0e29453fcb6d66637413b51bf42f08688cf1",
+  "base_tree_sha": "64726f96d940ddf8c4c3a0b19c13fc475f5513f7",
+  "wrapper_observation_field": "status_observation",
+  "concurrent_update": {
+    "source_commit": "fc2c6044b5e9eb08e0e0486c17d1987c7099df9c",
+    "changed_nodes": [
+      "HE-CLOSURE",
+      "HE-EXCHANGE",
+      "HE-EXP-CLOSURE",
+      "HE-EXP-PAIR",
+      "HE-RESERVOIR"
+    ],
+    "overlap_with_selected_nodes": [],
+    "action": "PRESERVE_LATEST_HE_OBSERVATIONS_AND_APPLY_ONLY_SELECTED_BASS_WRAPPERS",
+    "agents_blob_unchanged": "429a5a13ee75b1222bc50627f8d5973d01dd21c4"
+  },
+  "publication_metadata_addendum": "The latest central branch advanced before publication; this disjoint reassembly/mirror synchronization does not change frozen science code, results, acceptance or budgets.",
+  "observed_base_history": [
+    "78f7ac5864d5817ceb79b48cb5e298cc30006510",
+    "fc2c6044b5e9eb08e0e0486c17d1987c7099df9c",
+    "ad9c0e29453fcb6d66637413b51bf42f08688cf1",
+    "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8"
+  ],
+  "initial_structure_snapshot": {
+    "nodes": 87,
+    "nonselected_nodes": 82,
+    "source_commit": "78f7ac5864d5817ceb79b48cb5e298cc30006510"
+  },
+  "additional_parallel_update": {
+    "source_commit": "ad9c0e29453fcb6d66637413b51bf42f08688cf1",
+    "changed_existing_nodes": [
+      "REI-EXP-EVENT-CONSUMER",
+      "REI-EXP-OPACITY-CONSUMER",
+      "REI-EXP-SCENARIO"
+    ],
+    "new_node": "REI-GRID044-ENDPOINT-BINDING-01",
+    "overlap_with_selected_nodes": [],
+    "action": "PRESERVE_LATEST_88_NODES_AND_ALL_HE_REI_OBSERVATIONS",
+    "selected_input_closure": "NO; native Lyalpha donor and B3c midpoint/radii remain missing",
+    "intake": "provenance/CONCURRENT_GRID044_INPUT_INTAKE.md"
+  },
+  "review_draft_publication": {
+    "commit": "86ec7e3c84d3d0a1f521866441e1e0e2b6bac14e",
+    "pr": 231,
+    "branch": "research/bass-b3g-consumer-return-20261025",
+    "status": "ACTUAL_ACK_AND_REMOTE_REF_READBACK"
+  },
+  "further_parallel_update": {
+    "source_commit": "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8",
+    "changed_existing_nodes": [
+      "CR_ALL_EXTERNAL_PHOTON_BARYON_SOURCE_INTERFACE",
+      "CR_HE4_GROUND_RR_CONSUMER_NEXT"
+    ],
+    "overlap_with_selected_nodes": [],
+    "action": "PRESERVE_BOTH_NEW_CR_OBSERVATIONS_AND_GRID044_DELIVERY_METADATA",
+    "unselected_supplier_gate_added": false
+  }
 }

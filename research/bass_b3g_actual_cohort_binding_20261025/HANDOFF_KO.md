@@ -1,5 +1,15 @@
 # 다음 연구 인계 — B3g 저장 cohort와 B3h/B3i 인터페이스
 
+과학 source A: 0e07ea8ca2f11901e0818c9ab9afdeff76352618, BASS PR192.
+최신88-node 중앙 반영 draft C: 86ec7e3c84d3d0a1f521866441e1e0e2b6bac14e,
+rei_bianchi PR231. HE와 GRID044/REI의 동시 결과를 보존했다.
+활성 중앙 DAG의 실제 canonical 반영 M:
+a5db4bac9dafadae29685bbea3cec7f43ab990b2, 기존 Draft PR222.
+expected SHA 3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8에서 force=false로
+반영했고 원격 HEAD/tree readback이 일치했다. 후속 CR 두 관측도 보존했다.
+새 GRID044 실제 endpoint 수신은 provenance/CONCURRENT_GRID044_INPUT_INTAKE.md
+참조. 그 자료도 새흡수 각도 measure/stress는null이고 geometryfeedback은OPEN이다.
+
 이 문서를 포함하는 실제 게시 commit과 백업 ID는 DELIVERY_RECEIPTS.json
 및 연결된 PR의 최종 본문에 고정한다. 실행 source identity는
 provenance/FROZEN_COMMANDS.json과 results/EXECUTION_LEDGER.json이다.
@@ -56,6 +66,22 @@ Astra 과학 계약 → lower-tier 구현/한정 실행 → 별도 과학 raw/di
 stacked base는 research/program-expansion-20261025다. 게시에는
 expected-SHA와 force=false를 사용하고 draft 상태를 유지한다.
 현재 사용자 지시는 필요한 게시·백업 자동실행을 이미 명시적으로 승인했다.
+
+## 실제 최종 소스 전달
+
+BASS_B3G_S2_FINAL_20261025.zip: 38,152,861 bytes, 124 ZIP members.
+SHA256: 0e11ce05e10d95cd9c002b719f053659ce941bb1b54fcc1c9a64e4ac4d73899d.
+CRC와 모든123 payload의 size/SHA256을 확인했다. 실제 REC NPZ와
+재현 의존성, code/raw/figures/reviews, 최신 중앙13개 파일을 포함한다.
+
+- Drive: https://drive.google.com/file/d/1AO1I2BSbwwCgF91Flhi2bIFwGGMb1qLU/view
+- Dropbox: id:BSpOijBcT10AAAAAAEAc8w,
+  /BASS_BACKUPS/BASS_B3G_S2_FINAL_20261025.zip
+
+두 provider의 완료 ACK와 metadata size가 일치했다. 원격 whole-byte
+재다운로드는 NOT_RUN이다. 최종 업로드 ACK는 자기참조를 피하기 위해
+ZIP 밖 DELIVERY_RECEIPTS.json과 PR192 최종 본문에 기록한다.
+과학 코드·시험·결과는 science A와 byte-identical이다.
 
 ## 새 스레드에 복사할 지시
 

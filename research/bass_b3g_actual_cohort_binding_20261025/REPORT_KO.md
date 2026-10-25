@@ -245,6 +245,34 @@ download/hash/copy/archive/provider wait는 I/O로 구별한다.
    전체 nonlinear tube 또는 전역 convergence는 별도 남은 문제다.
 
 DAG.json은 BASS의 현재 제한된 전선을, CENTRAL_RETURN.json은 중앙
-87-node DAG에 반영할 선택 변화와 immutable evidence를 나타낸다.
+88-node DAG에 반영할 선택 변화와 immutable evidence를 나타낸다.
 B4 production restart와 B5 domain validation은 NOT_RUN이다.
+
+게시 직전 중앙 HEAD가 HE 관측 fc2c604를 거쳐 GRID044 endpoint
+ad9c0e29453fcb6d66637413b51bf42f08688cf1로 이동했다. 새88개 노드와
+모든 동시 관측을 보존하여 재조립했다. GRID044의 실제 z≈2 endpoint와
+순간 photo-event source도 직접 읽었으나, 해당 BASS_INPUT_JOIN의
+new_absorption_angular_measure와 new_absorption_stress_tensor는 null,
+geometry_feedback은 OPEN이다. 이는 B3c midpoint beta/radius나 native
+z≈1100 Lyalpha finite donor 결속을 채우지 않는다. 원문의 정확한 수신
+결과는 provenance/CONCURRENT_GRID044_INPUT_INTAKE.md에 보존했다.
+
+## 8. 실제 게시와 최종 소스 백업
+
+과학 source A는 0e07ea8ca2f11901e0818c9ab9afdeff76352618 (BASS PR192),
+검토용 중앙 C는 86ec7e3c84d3d0a1f521866441e1e0e2b6bac14e (PR231)다.
+후속 CR 두 관측까지 보존하여 활성 중앙 분기에 반영한 M은
+a5db4bac9dafadae29685bbea3cec7f43ab990b2 (기존 Draft PR222)다.
+모두 expected-SHA, force=false를 사용했고 실제 원격 HEAD readback이
+일치했다. PR merge와 production activation은 수행하지 않았다.
+
+최종 BASS_B3G_S2_FINAL_20261025.zip은 38,152,861 bytes,
+SHA256 0e11ce05e10d95cd9c002b719f053659ce941bb1b54fcc1c9a64e4ac4d73899d다.
+124 ZIP members 중123 payload의 size/SHA256과 CRC를 확인했다.
+전체 REC NPZ와 재현 의존성 및 최종 검토 과학 결과를 포함한다.
+Drive1AO1I2BSbwwCgF91Flhi2bIFwGGMb1qLU와
+Dropbox id:BSpOijBcT10AAAAAAEAc8w의 실제 완료 ACK 및 metadata size가
+일치했다. 원격 whole-byte 재다운로드를 했다고 주장하지 않는다.
+최종 upload ACK/문서 commit은 자기참조를 피하여 ZIP 밖의
+DELIVERY_RECEIPTS.json과 PR192 본문에 결속한다.
 
