@@ -1,0 +1,161 @@
+{
+  "schema": "BASS_B3C_RESOURCE_AND_FAILURE_LEDGER_V1",
+  "unit": "BASS_B3C_BOUNDED_F0_BACKGROUND_20261024",
+  "scientific_verdict": "PASS_SCOPED",
+  "historical_remaining_wall_seconds": null,
+  "historical_remaining_cpu_seconds": null,
+  "budget_reset": false,
+  "historical_partial_subtotal_seconds": 34.1262904040002,
+  "historical_partial_interpretation": "PARTIAL_PAST_SUM_NOT_REMAINING_BUDGET",
+  "new_scoped_local_wall_guard_seconds": 120,
+  "lower_tier_total_wall_allowance_seconds": 70,
+  "actual_python_commands": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "wrapper_argv": [
+        "python",
+        "code/run_bounded.py",
+        "10",
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.8324172280008497,
+      "cpu_seconds": 0.8303339999999999,
+      "tests": 6,
+      "new_ivps": 0
+    },
+    {
+      "argv": [
+        "python",
+        "code/reference_runner.py"
+      ],
+      "wrapper_argv": [
+        "python",
+        "code/run_bounded.py",
+        "50",
+        "python",
+        "code/reference_runner.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 13.806320201001654,
+      "cpu_seconds": 13.795062,
+      "new_ivps": 12
+    }
+  ],
+  "cwd": "/workspace/scratch/fe69646d3c76/bass_source/research/bass_b3c_bounded_f0_background_20261024",
+  "one_thread": true,
+  "python_wall_subtotal_seconds": 14.638737429002504,
+  "python_cpu_subtotal_seconds": 14.625396,
+  "wolfram": {
+    "schema": "BASS_B3C_WOLFRAM_EXECUTION_V1",
+    "attempts": [
+      {
+        "index": 0,
+        "type": "orchestration_syntax_error_before_tool_call",
+        "kernel_executed": false,
+        "detail": "unescaped context backtick in JavaScript template",
+        "scientific_pass": false
+      },
+      {
+        "index": 1,
+        "type": "actual_kernel_initialization_export_failure",
+        "kernel_executed": true,
+        "kernel_wall_seconds": null,
+        "kernel_cpu_seconds": null,
+        "planning_wall_upper_bound_seconds": 20,
+        "detail": "ClearAll held concatenated string; unevaluated Less failed RawJSON; raw response retained",
+        "scientific_pass": false
+      },
+      {
+        "index": 2,
+        "type": "math_pass_with_provider_symbol_linter_warning",
+        "kernel_executed": true,
+        "kernel_wall_seconds": 0.055546,
+        "kernel_cpu_seconds": 0.05541099999999943,
+        "residuals_zero": 12,
+        "monotonicity": true,
+        "warning": "Uppercase symbolic names flagged as undefined",
+        "scientific_pass": true
+      },
+      {
+        "index": 3,
+        "type": "clean_math_pass_after_targeted_lowercase_symbol_rename",
+        "kernel_executed": true,
+        "kernel_wall_seconds": 0.056443,
+        "kernel_cpu_seconds": 0.05647100000000016,
+        "residuals_zero": 12,
+        "monotonicity": true,
+        "warning": null,
+        "scientific_pass": true
+      }
+    ],
+    "known_measured_kernel_wall_subtotal": 0.111989,
+    "known_measured_kernel_cpu_subtotal": 0.11188199999999959,
+    "total_kernel_wall_seconds": null,
+    "reason_unknown": "Failed first actual call did not emit kernel timing",
+    "historical_remaining_budget": null,
+    "budget_reset": false,
+    "new_ivps": 0
+  },
+  "known_scientific_wall_subtotal_seconds": 14.750726429002505,
+  "known_scientific_cpu_subtotal_seconds": 14.737278,
+  "whole_new_scientific_runtime_seconds": null,
+  "unknown_reason": "First actual failed Wolfram call did not return kernel timing; tool/network/waiting time is not scientific compute time.",
+  "planning_charge_for_unknown_wolfram_wall_seconds": 20,
+  "review_artifact_reader": {
+    "scientific_ivps": 0,
+    "wall_seconds": 0.06314099399969564,
+    "cpu_seconds": 0.06314099599999999,
+    "alarm_seconds": 15,
+    "exit": 0,
+    "classification": "READ_ONLY_STDLIB_ARTIFACT_INSPECTION"
+  },
+  "new_ivps": 12,
+  "historical_replay": 0,
+  "source_feedback_and_unit_kick_are_ivps": false,
+  "original_science_code_repaired": false,
+  "tolerances_changed": false,
+  "failures_preserved": {
+    "new_wolfram_pre_call_JS": 1,
+    "new_wolfram_actual_initialization_export": 1,
+    "new_wolfram_math_pass_with_linter_warning": 1,
+    "new_wolfram_clean_pass": 1,
+    "new_python_unexpected_failures": 0,
+    "workspace_loss_before_python_science": true,
+    "original_S0_restored_byte_exact": true,
+    "original_S0_archive_sha256": "f71bcb5ae937f19a16aa3de33c4c05d0532c093281d259e6277654a529c19bd3",
+    "first_Git_mutation": "TOOL_REJECTED_NO_ACK",
+    "first_Drive_attempt": "LOCAL_FILE_ABSENT_BEFORE_UPLOAD",
+    "metadata_retrieval_errors": "Wrong REC repo/central branch query corrected; not a science failure",
+    "literature_author_mismatch": "Heinzle-Uggla 2006 corrected from search-lead misattribution; no physical source change",
+    "historical_B3a": "NumberQ7/16 failure -> NumericQ exact-real16/16; separate4/4; targeted vector-warning repair retained",
+    "historical_B3b2": "Original10test pass, targeted inverse overflow repair and affected checks; never claim final11method fullsuite rerun",
+    "historical_pytest_exact_argv_cwd": "UNKNOWN"
+  },
+  "publication": {
+    "Git": "TOOL_REJECTED_NO_ACK_NOT_RETRIED",
+    "merge": "NOT_PERFORMED",
+    "production": "NOT_ACTIVATED"
+  },
+  "independent_review": {
+    "R6": true,
+    "C9": true,
+    "different_model_scientific_review": "NOT_RUN",
+    "requested_lower_tier_execution_role": true,
+    "observed_runtime_model_identity": "NOT_OBSERVED"
+  }
+}

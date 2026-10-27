@@ -1,0 +1,547 @@
+{
+  "observed_client_date": "2026-10-27",
+  "user_timezone": "Asia/Seoul",
+  "bass_ref": {
+    "ref": "refs/heads/research/bass-b3g-actual-cohort-binding-20261025",
+    "node_id": "REF_kwDOTzIop9oAO3JlZnMvaGVhZHMvcmVzZWFyY2gvYmFzcy1iM2ctYWN0dWFsLWNvaG9ydC1iaW5kaW5nLTIwMjYxMDI1",
+    "url": "https://api.github.com/repos/cosmosapjw-quantum/bass/git/refs/heads/research/bass-b3g-actual-cohort-binding-20261025",
+    "object": {
+      "sha": "d7dcd731de1a0c59e5e65db5038c333f5abae0bd",
+      "type": "commit",
+      "url": "https://api.github.com/repos/cosmosapjw-quantum/bass/git/commits/d7dcd731de1a0c59e5e65db5038c333f5abae0bd"
+    }
+  },
+  "central_ref": {
+    "ref": "refs/heads/research/orchestration-sandbox-20261022",
+    "node_id": "REF_kwDOTtgjudoAMnJlZnMvaGVhZHMvcmVzZWFyY2gvb3JjaGVzdHJhdGlvbi1zYW5kYm94LTIwMjYxMDIy",
+    "url": "https://api.github.com/repos/cosmosapjw-quantum/rei_bianchi/git/refs/heads/research/orchestration-sandbox-20261022",
+    "object": {
+      "sha": "a5db4bac9dafadae29685bbea3cec7f43ab990b2",
+      "type": "commit",
+      "url": "https://api.github.com/repos/cosmosapjw-quantum/rei_bianchi/git/commits/a5db4bac9dafadae29685bbea3cec7f43ab990b2"
+    }
+  },
+  "agents": {
+    "content": "# Repository operating policy\n\n## Project classification and supported user\n\n`rei_bianchi` is a personal scientific-research codebase. It has one\ndeveloper/owner, and that owner is the only supported operator. The default\nenvironment is a trusted local account on a trusted local machine; this is not\na multi-user product, hosted service, or adversarial execution platform.\n\n## Default trust model\n\nUnless the owner explicitly requests a named security task, do not design,\nimplement, require, or report blockers for:\n\n- authentication, authorization, roles, account separation, or multi-tenant\n  isolation;\n- hostile same-UID users, malicious local repository configuration, adversarial\n  symlink/path replacement, or deliberate local artifact tampering;\n- anti-tamper ownership seals, signatures, attestations, custody state machines,\n  or redundant hash/manifest layers whose only purpose is adversarial defense;\n- product security reviews, automated security gates, dependency/supply-chain\n  hardening, secret-scanning infrastructure, or security compliance;\n- production-service availability, abuse resistance, or untrusted-input\n  hardening that has no concrete role in the owner's research workflow.\n\nThe absence of those mechanisms is not an issue, blocker, promotion gate, or\nacceptance failure for this repository. Do not introduce them speculatively.\n\n## Research-integrity boundary\n\nRetain only controls that directly support scientific correctness,\nreproducibility, recovery, or diagnosis, such as exact model/input/configuration\nidentity, deterministic seeds, raw-result preservation, numerical invariants,\nand minimal hashes or manifests needed to detect accidental corruption. Treat\nthese as research-integrity tools, not as adversarial security or anti-tamper\nrequirements, and keep them proportional to the scientific claim.\n\nHistorical receipts, manifests, and audit records remain valid evidence of the\nwork that produced them; this policy does not require deleting or rewriting\nthem. It does prevent their security-oriented machinery from becoming a\ndefault requirement for new work.\n\n## Baseline operational safety\n\nPlatform/system instructions, explicit user scope, credential privacy,\nnon-destructive filesystem practice, and external-service authorization still\napply. These are execution boundaries for the assistant, not project-level\nproduct security features. Do not add repository security settings or gates\nunless the owner explicitly asks for them.\n\nPrioritize physics validity, numerical correctness, algorithmic quality,\nreproducibility, performance, and clear scientific claim boundaries.\n\n<!-- BEGIN UNIVERSAL_EXECUTION_TRANSITION_POLICY -->\n## Execution-transition and anti-bureaucracy policy\n\nThis policy limits optional process expansion. It does not weaken explicit\nuser requirements, destructive-action safeguards, frozen scientific inputs,\nor claim-admission ceilings.\n\n> **Execution-transition rule:** Prevent the permanent-blocker attractor in which repair generates new review surfaces and fresh review continuously discovers adjacent defects without reaching execution. Nonexecution is itself a failure mode: two substantial process-only cycles trigger `PROCESS_STARVATION`. Separate execution permission from claim admission—fail closed on authoritative claims, not on exploratory progress. A blocked state must not leave documentation as the only unlimited action; perform the smallest repair, use a safe exploratory path, defer, or stop. Define a finite trust boundary so verification does not recursively verify its own machinery on every run. Do not mistake contracts, manifests, hashes, reviews, or audit documents for user utility. Every mandatory gate must have a positive `PASS → next executable action` transition and every review loop must have a stopping rule. Distinguish severity from current-task blocking relevance. Real defects receive one targeted repair and regression test; they do not automatically justify new governance layers. If assurance continues increasing while actual implementation, experiment, inference, or scientific progress remains stationary, classify `TRANSITION_POLICY_PATHOLOGY`, freeze optional process work, and resume the shortest safe path to execution.\n<!-- END UNIVERSAL_EXECUTION_TRANSITION_POLICY -->\n\n<!-- BEGIN UNIVERSAL_TYPED_IDENTITY_POLICY -->\n## Byte identity versus semantic identity policy\n\n> **Typed-identity rule:** A SHA or byte mismatch establishes only `BYTE_IDENTITY_MISMATCH`; never promote it automatically to `SCIENTIFIC_INTEGRITY_FAILURE`. First classify the object as immutable source/input, deterministic generated evidence, numerical/scientific output, or packaging/metadata, then apply the identity relation actually required by the claim. Immutable inputs and contractually deterministic evidence are byte-blocking by default. Numerical outputs must normally be judged by justified residuals, invariants, state/observable agreement, convergence, conditioning, and uncertainty—not hashes or equality of secondary error estimates. Packaging metadata mismatches are non-scientific unless byte-identical packaging is explicitly required. Distinguish result validity, provenance validity, and packaging validity. A stricter-than-necessary test that rejects mathematically equivalent outputs is a false-FAIL defect, not extra safety. Repair the smallest defective binding/test and continue; do not create a new audit or provenance layer solely because bytes differ.\n<!-- END UNIVERSAL_TYPED_IDENTITY_POLICY -->\n\n<!-- BEGIN TIERED_SCIENTIFIC_DELEGATION_POLICY -->\n## Tiered scientific delegation and cost policy\n\nFor multi-agent scientific work, separate authority from mechanical execution.\nThis is a routing rule for cost-effective scientific work; it does not change\nthe scope of an approved scientific claim.\n\n- An Astra-tier agent owns problem framing, frozen contracts, source/theory\n  intake, numerical/physical acceptance criteria, independent review, failure\n  classification, repair authorization, and PASS/HOLD/NO-GO decisions.\n- A lower-tier coding agent owns only implementation, targeted tests, bounded\n  builds/runs, raw-result preservation, mechanical evidence assembly, and\n  implementation documentation that merely reports observed facts.\n- Do not assign routine code writing, refactoring, test plumbing, formatting,\n  evidence serialization, or a prescribed bounded execution to Astra when a\n  complete Astra-authored contract is available. Delegate that work to a\n  lower-tier coding agent.\n- A lower-tier agent must stop and return to Astra, rather than inventing an\n  answer, when an immutable input/source identity is missing, an acceptance\n  tolerance or physical convention is ambiguous, a result changes the claim\n  boundary, a substantive failure needs interpretation, or a repair would\n  change model/solver/closure policy.\n- The controller must give the coding agent the frozen base identity, allowed\n  paths, limits, commands, controls, and stopping rule. It must then send the\n  observed diff and raw outcomes to a fresh Astra-tier reviewer before any\n  scoped scientific admission or publication decision.\n- Astra review is read-only unless it explicitly authorizes one bounded\n  targeted repair. The authorized repair returns to the lower-tier coding\n  agent; it is not silently implemented by the reviewer.\n- Do not route a task by package name alone or claim a runtime model identity\n  that was not observed. Record requested and observed execution identities\n  separately when they matter to the evidence.\n\nThis rule is satisfied by `Astra contract -> lower-tier execution -> Astra\nindependent decision -> lower-tier authorized repair, if any`. It prevents\nboth costly Astra implementation and recursive review without execution.\n<!-- END TIERED_SCIENTIFIC_DELEGATION_POLICY -->\n\n<!-- BEGIN AGENT_CAPACITY_RECOVERY_POLICY -->\n## Agent-capacity recovery\n\nAfter `agent thread limit reached`, do not repeat equivalent spawn attempts.\nInventory and reuse a completed compatible agent with `followup_task`, retaining\nrole separation and independent review of changes it did not implement.\n`interrupt_agent` is not deletion and does not prove capacity was reclaimed.\nDo not assert an internal scheduler cause without evidence or kill unrelated\nprocesses. Check actual worker progress after request acceptance.\n\nController-direct implementation is permitted only with explicit owner approval,\nusing the frozen contract, existing task identity and cumulative limits. Record\nthe actual executor; a historical requested model is not runtime evidence.\nMissing independent review keeps scientific admission pending, but must not\nprevent authorized safe preparation or the next dependency-safe action.\n<!-- END AGENT_CAPACITY_RECOVERY_POLICY -->\n\n## Repository checkout for new work\n\nUse this repository's existing checkout as the default location for new work.\nDo not create a separate clone or Git worktree unless the owner explicitly\nrequests one for that task or an already frozen task identity requires its\nexisting worktree. Preserve dirty and untracked files; inspect branch, HEAD,\nremote, and status before changing the checkout. Stage only the paths owned by\nthe task. This changes the default for new work and does not rewrite historical\nworktree-bound evidence or remove an existing active worktree.\n",
+    "encoding": "utf-8",
+    "sha": "429a5a13ee75b1222bc50627f8d5973d01dd21c4",
+    "display_url": "https://github.com/cosmosapjw-quantum/rei_bianchi/blob/research/orchestration-sandbox-20261022/AGENTS.md",
+    "display_title": "AGENTS.md"
+  },
+  "bass_open": [
+    {
+      "number": 192,
+      "title": "B3g: bind 512 saved births and verify sector geometry interface",
+      "branch": "research/bass-b3g-actual-cohort-binding-20261025",
+      "head": "d7dcd731de1a0c59e5e65db5038c333f5abae0bd",
+      "base": "d6af237b66e78ca6ed4572068f6bc1a805bbb2d9",
+      "updated_at": "2026-10-25T14:01:43Z",
+      "draft": true
+    },
+    {
+      "number": 191,
+      "title": "Plan physical cohort absorption and covariant transport integration",
+      "branch": "research/program-expansion-20261025",
+      "head": "d6af237b66e78ca6ed4572068f6bc1a805bbb2d9",
+      "base": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+      "updated_at": "2026-10-25T11:58:46Z",
+      "draft": true
+    },
+    {
+      "number": 190,
+      "title": "research(B3f): finite cohort input-error bounds — PASS_SCOPED 20/20",
+      "branch": "research/bass-b3f-cohort-input-error-20261025",
+      "head": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+      "base": "6c933f324fe54d1f590bc8ab121032702659e00a",
+      "updated_at": "2026-10-25T08:03:11Z",
+      "draft": true
+    },
+    {
+      "number": 189,
+      "title": "research(B3e): source-aware positive angular control — PASS_SCOPED",
+      "branch": "research/bass-b3e-positive-angular-20261025",
+      "head": "6c933f324fe54d1f590bc8ab121032702659e00a",
+      "base": "77228ff9316108afcd805f41bed24495a7ff41c0",
+      "updated_at": "2026-10-25T02:41:32Z",
+      "draft": true
+    },
+    {
+      "number": 188,
+      "title": "[B3d] Quantify cohort angular error — PASS_SCOPED",
+      "branch": "research/bass-b3d-angular-cohort-20261025",
+      "head": "77228ff9316108afcd805f41bed24495a7ff41c0",
+      "base": "0a088e1f8fca6618107525e687f930406ca32d18",
+      "updated_at": "2026-10-24T22:14:17Z",
+      "draft": true
+    },
+    {
+      "number": 187,
+      "title": "[B3b2] Preserve REC locked photon inventory in BASS snapshots",
+      "branch": "research/bass-b3b2-locked-cell-bridge-20261024",
+      "head": "0a088e1f8fca6618107525e687f930406ca32d18",
+      "base": "78a4e7a4a36fa826c2e3d196254f77109d5ae5be",
+      "updated_at": "2026-10-24T08:59:14Z",
+      "draft": true
+    },
+    {
+      "number": 186,
+      "title": "B3b: finite LINE01 gross counts and atomic–photon state exchange",
+      "branch": "research/bass-b3b-finite-line-exchange-20261024",
+      "head": "78a4e7a4a36fa826c2e3d196254f77109d5ae5be",
+      "base": "c2e6f1f80417e62c95e607c80115e89de1925ca9",
+      "updated_at": "2026-10-24T04:43:33Z",
+      "draft": true
+    },
+    {
+      "number": 185,
+      "title": "B3a: invariant photon event rates and reviewed detached REC source adapter",
+      "branch": "research/bass-b3a-event-source-20261024",
+      "head": "c2e6f1f80417e62c95e607c80115e89de1925ca9",
+      "base": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+      "updated_at": "2026-10-24T02:36:31Z",
+      "draft": true
+    },
+    {
+      "number": 184,
+      "title": "G1B: smooth FD/Planck sources, exact massless radial reduction and bounded curved convergence",
+      "branch": "research/background-kinetic-g1b-20261023",
+      "head": "28b7705cbb236c26e1b273335f6da7e9da4d1aaf",
+      "base": "ce59a3fd50139a0414d77d5fc493df9d45cd5f49",
+      "updated_at": "2026-10-23T21:59:14Z",
+      "draft": true
+    },
+    {
+      "number": 183,
+      "title": "G1A: positive Bianchi Vlasov packets, moment bridge and constraint-only counterexample",
+      "branch": "research/background-kinetic-g1-20261023",
+      "head": "ce59a3fd50139a0414d77d5fc493df9d45cd5f49",
+      "base": "df2f5c78d49ea27b3d48fd2aaebb4add9f2d7f6e",
+      "updated_at": "2026-10-23T04:10:19Z",
+      "draft": true
+    },
+    {
+      "number": 182,
+      "title": "Background: recover fixed-scale Einstein core, gamma-law/rotation repair and scoped evidence",
+      "branch": "research/background-evolution-20261023",
+      "head": "df2f5c78d49ea27b3d48fd2aaebb4add9f2d7f6e",
+      "base": "797d66580448dad7fc41f2c2db31fe0eb37908bf",
+      "updated_at": "2026-10-23T03:12:14Z",
+      "draft": true
+    },
+    {
+      "number": 181,
+      "title": "Sandbox exact 33-to-30 chemical coordinate reduction",
+      "branch": "research/orchestration-sandbox-20261022-bass",
+      "head": "797d66580448dad7fc41f2c2db31fe0eb37908bf",
+      "base": "574c3af93810122af0a7977e00e34195e5251a09",
+      "updated_at": "2026-10-22T07:06:38Z",
+      "draft": true
+    },
+    {
+      "number": 180,
+      "title": "ACCEL04 → PHYS04 → PILOT04: sandbox H–Li split-stress LRS sweep, z=20–2",
+      "branch": "research/rei-hheli-compact-pilot-20261022",
+      "head": "574c3af93810122af0a7977e00e34195e5251a09",
+      "base": "d14652646c1da77b6513e7f97725ff5dd5c1db4e",
+      "updated_at": "2026-10-21T16:18:41Z",
+      "draft": true
+    },
+    {
+      "number": 179,
+      "title": "ACCEL03: portable split-stress sweep analysis and massive response",
+      "branch": "research/rei-sigma-pi-sweep-analysis-20261021",
+      "head": "d14652646c1da77b6513e7f97725ff5dd5c1db4e",
+      "base": "215bb3e66d81a7013d2132831d210aee36234ab4",
+      "updated_at": "2026-10-21T13:57:29Z",
+      "draft": true
+    },
+    {
+      "number": 178,
+      "title": "ACCEL02: reflected native massive moments for the reusable split-stress pilot",
+      "branch": "research/rei-sigma-pi-native-moments-20261021",
+      "head": "215bb3e66d81a7013d2132831d210aee36234ab4",
+      "base": "4f19e6eaf50e8458d59d27ff47f03e9d8c8b22ca",
+      "updated_at": "2026-10-21T13:08:44Z",
+      "draft": true
+    },
+    {
+      "number": 177,
+      "title": "ACCEL01: exact C15 moment reuse and completed-case-aware work planning",
+      "branch": "research/rei-sigma-pi-acceleration-20261021",
+      "head": "4f19e6eaf50e8458d59d27ff47f03e9d8c8b22ca",
+      "base": "26f4a89a54462c4e7c5705f281f187f33f45166a",
+      "updated_at": "2026-10-21T10:45:35Z",
+      "draft": true
+    },
+    {
+      "number": 176,
+      "title": "Complete independent matter/radiation Sigma/Pi pilot: 729 cases",
+      "branch": "research/rei-sigma-pi-pilot-20261021",
+      "head": "26f4a89a54462c4e7c5705f281f187f33f45166a",
+      "base": "106a0153bf113fa4f0beea9743e84a744b65f424",
+      "updated_at": "2026-10-21T07:05:15Z",
+      "draft": true
+    },
+    {
+      "number": 174,
+      "title": "BASS: verify source quadrature, coupled histories, and exact cohort optimizations",
+      "branch": "research/bass-isotropy-checkpoint-recovery-20261018",
+      "head": "106a0153bf113fa4f0beea9743e84a744b65f424",
+      "base": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
+      "updated_at": "2026-10-21T03:34:28Z",
+      "draft": true
+    },
+    {
+      "number": 175,
+      "title": "Add shared-Q normalization and compensated event ledger adapter",
+      "branch": "research/orchestration-20261020-next-loop",
+      "head": "4940770c7904ed6f6fd5caca8e525905593bb683",
+      "base": "a85605302bb0317022eb06b498eb05b9d621de6a",
+      "updated_at": "2026-10-20T11:52:30Z",
+      "draft": true
+    },
+    {
+      "number": 173,
+      "title": "BASS PR173: execute pinned native SourceLedger probe",
+      "branch": "research/bass-pr173-sourceledger-native-20261018",
+      "head": "4e2d1fa820d6f7baae1069b615fb82a08d53403b",
+      "base": "b163c5a08fe105c9df1d32f8e7d538e514ee9d16",
+      "updated_at": "2026-10-18T11:24:40Z",
+      "draft": true
+    }
+  ],
+  "rec_open": [
+    {
+      "number": 138,
+      "title": "REC HD parser and H5 input binding: delivered with explicit physical holds",
+      "branch": "research/program-expansion-20261025",
+      "head": "4a8e541030ee2cbd02e26ba671083b705d309d49",
+      "base": "ea89c97abeb7a663a813f00e9aadddaf0b32a6a9",
+      "updated_at": "2026-10-25T14:02:17Z",
+      "draft": true
+    },
+    {
+      "number": 137,
+      "title": "REC-HISTORY-PB01: scoped source-history pullback delivered 20/20",
+      "branch": "research/rec-history-pullback-20261025",
+      "head": "ea89c97abeb7a663a813f00e9aadddaf0b32a6a9",
+      "base": "f9edbfe7b56ad002f1b7fb35d4c5aec4970682a4",
+      "updated_at": "2026-10-25T08:52:39Z",
+      "draft": true
+    },
+    {
+      "number": 136,
+      "title": "REC-HISTORY-KS01 complete20/20: stable Ks certificate and actual history admission",
+      "branch": "research/rec-history-ks-20261025",
+      "head": "f9edbfe7b56ad002f1b7fb35d4c5aec4970682a4",
+      "base": "52226bb8d3ac99e7de2bd7934ab30e6fb3f257fe",
+      "updated_at": "2026-10-25T02:53:34Z",
+      "draft": true
+    },
+    {
+      "number": 135,
+      "title": "research(REC): complete scoped six-primitive thermodynamic Jacobian and delivery",
+      "branch": "research/rec-history-thermo-20261024",
+      "head": "52226bb8d3ac99e7de2bd7934ab30e6fb3f257fe",
+      "base": "ccf2bd088972e952fbe8e7e6eb21ccc8a7275447",
+      "updated_at": "2026-10-24T19:12:08Z",
+      "draft": true
+    },
+    {
+      "number": 134,
+      "title": "REC-HISTORY-RESP01: complete frozen history response and verified error allocation",
+      "branch": "research/rec-history-response-20261024",
+      "head": "ccf2bd088972e952fbe8e7e6eb21ccc8a7275447",
+      "base": "c5394eccf6ff45f134e396c549844af91988aeb7",
+      "updated_at": "2026-10-24T09:59:59Z",
+      "draft": true
+    },
+    {
+      "number": 133,
+      "title": "REC-HISTORY-REFINE01: exact stored-history envelopes, scoped validation and final delivery",
+      "branch": "research/rec-history-refinement-envelope-delivery-20261024",
+      "head": "c5394eccf6ff45f134e396c549844af91988aeb7",
+      "base": "ae189694c15e09c6f96c44ef6b74b48afc2632ac",
+      "updated_at": "2026-10-24T08:39:22Z",
+      "draft": true
+    },
+    {
+      "number": 132,
+      "title": "REC-HISTORY-02R: retarded Bianchi I characteristic and native-Wien history adapter",
+      "branch": "research/rec-history-characteristic-resume-20261024",
+      "head": "ae189694c15e09c6f96c44ef6b74b48afc2632ac",
+      "base": "c7cdabd871ab2ef6f722594ff063b8ce8550e6b4",
+      "updated_at": "2026-10-24T03:47:05Z",
+      "draft": true
+    },
+    {
+      "number": 131,
+      "title": "REC-HISTORY-ADM01: actual input coverage and physical-domain admission",
+      "branch": "research/rec-history-input-admission-20261024",
+      "head": "c7cdabd871ab2ef6f722594ff063b8ce8550e6b4",
+      "base": "93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa",
+      "updated_at": "2026-10-24T01:50:26Z",
+      "draft": true
+    },
+    {
+      "number": 130,
+      "title": "REC-HISTORY: recover reviewed finite boundary and causal history adapter",
+      "branch": "research/rec-history-boundary-20261023",
+      "head": "93e1bdc8298db9a7c16f77d4bf64985a0c3f25aa",
+      "base": "a7c46fd8338971e2cefa776f5dd7b25a46974990",
+      "updated_at": "2026-10-23T21:33:24Z",
+      "draft": true
+    },
+    {
+      "number": 119,
+      "title": "research: runnable H/He/Li LRS sandbox pilot (125 + opacity control)",
+      "branch": "research/rec-rei-hheli-sandbox-20261021",
+      "head": "ad93fa1c71f8a2b2a0b19836be3c7b739b11b0c7",
+      "base": "99f5f4fb57358a0347286f8299977125a2724774",
+      "updated_at": "2026-10-23T07:48:01Z",
+      "draft": true
+    },
+    {
+      "number": 129,
+      "title": "LINE02: exclusive native Lyα owner, rank-one response and scoped energy ledger",
+      "branch": "research/rec-line-native-owner-20261023",
+      "head": "a7c46fd8338971e2cefa776f5dd7b25a46974990",
+      "base": "6d32330e7f45e7caa9840c558547880b7d28a069",
+      "updated_at": "2026-10-23T07:47:29Z",
+      "draft": true
+    },
+    {
+      "number": 127,
+      "title": "ANGULAR01: bounded angular escape moments for Bianchi recombination",
+      "branch": "research/rec-escape-moments-20261022",
+      "head": "5185c396b7e07076565ca2f5044a5ccd193e6ee1",
+      "base": "df95a074730ea0d13d609cf88d448f01f4a47ef1",
+      "updated_at": "2026-10-23T03:09:02Z",
+      "draft": true
+    },
+    {
+      "number": 128,
+      "title": "LINE01: source-bound line ledger and exact local thick population step",
+      "branch": "research/rec-line-source-20261023",
+      "head": "6d32330e7f45e7caa9840c558547880b7d28a069",
+      "base": "5185c396b7e07076565ca2f5044a5ccd193e6ee1",
+      "updated_at": "2026-10-23T03:08:16Z",
+      "draft": true
+    },
+    {
+      "number": 125,
+      "title": "THERM02: source-bound RR/Compton thermal coupling in compact34",
+      "branch": "research/rec-rei-thermal-compton-20261022",
+      "head": "b28b387fecd6cc71fddb98e95f336eba5f8a647f",
+      "base": "7c4af579be508cccf203d3e2a3a5aa16a4b28e38",
+      "updated_at": "2026-10-22T22:38:15Z",
+      "draft": true
+    },
+    {
+      "number": 126,
+      "title": "research: map and profile saved Compton diagnostics (C2)",
+      "branch": "research/rec-diagnostic-c2-20261023",
+      "head": "12068893fab749ae1efb513563d0a86cc1cf649f",
+      "base": "e6ecef7624e39bee66b39e09d99fe355f76e2eae",
+      "updated_at": "2026-10-22T22:34:51Z",
+      "draft": true
+    }
+  ],
+  "central_open": [
+    {
+      "number": 236,
+      "title": "Couple native PW19 particle and energy sources; preserve original DAG at 32/88",
+      "branch": "research/rei-lumina-benchmarks-20261027",
+      "head": "ee94bef85b56d879dc38f184856a5c613575e9e1",
+      "base": "3ab52a286a443622492403d89cd2bf80e58fb722",
+      "updated_at": "2026-10-26T23:43:49Z",
+      "draft": true
+    },
+    {
+      "number": 235,
+      "title": "Connect normalized beta and moving reservoir components with 15 verified checks",
+      "branch": "research/rei-coupled-followup-20261026",
+      "head": "3ab52a286a443622492403d89cd2bf80e58fb722",
+      "base": "95eb74e673553c3bf4c16f73077d2955dac455ee",
+      "updated_at": "2026-10-26T09:28:45Z",
+      "draft": true
+    },
+    {
+      "number": 234,
+      "title": "Advance declared DAG completion 27/88 to 29/88 with validated species projections",
+      "branch": "research/rei-parallel-blockers-20261026",
+      "head": "95eb74e673553c3bf4c16f73077d2955dac455ee",
+      "base": "a5db4bac9dafadae29685bbea3cec7f43ab990b2",
+      "updated_at": "2026-10-26T08:50:28Z",
+      "draft": true
+    },
+    {
+      "number": 233,
+      "title": "H1 energy-resolved primary-electron source from continuous photon history",
+      "branch": "research/rei-h1-primary-source-20261026",
+      "head": "833837745c1bfb902f5c09ae00373eaace35038a",
+      "base": "a5db4bac9dafadae29685bbea3cec7f43ab990b2",
+      "updated_at": "2026-10-26T07:56:17Z",
+      "draft": true
+    },
+    {
+      "number": 231,
+      "title": "BASS B3g: record scoped cohort/geometry return in current 88-node DAG",
+      "branch": "research/bass-b3g-consumer-return-20261025",
+      "head": "86ec7e3c84d3d0a1f521866441e1e0e2b6bac14e",
+      "base": "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8",
+      "updated_at": "2026-10-25T14:01:45Z",
+      "draft": true
+    },
+    {
+      "number": 222,
+      "title": "Seven-repo research audit, all-target roles and source-bound 87-node DAG",
+      "branch": "research/orchestration-sandbox-20261022",
+      "head": "a5db4bac9dafadae29685bbea3cec7f43ab990b2",
+      "base": "c1714f82ea7de15fee230a1a995365970ee6dc02",
+      "updated_at": "2026-10-25T13:52:27Z",
+      "draft": true
+    },
+    {
+      "number": 232,
+      "title": "Record REC HD/H5 execution observations with explicit source holds",
+      "branch": "research/rec-hd-h5-inputs-20261025",
+      "head": "e18b4349f2a2da3ef7caf5ec73c8787d03894620",
+      "base": "3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8",
+      "updated_at": "2026-10-25T13:51:15Z",
+      "draft": true
+    },
+    {
+      "number": 230,
+      "title": "research: validate joint photon–isotope collision Jacobian",
+      "branch": "research/rei-grid044-coupled-collision-20261025",
+      "head": "827ed1c32a121292ca17175e459730047b465293",
+      "base": "78f7ac5864d5817ceb79b48cb5e298cc30006510",
+      "updated_at": "2026-10-25T13:28:49Z",
+      "draft": true
+    },
+    {
+      "number": 229,
+      "title": "REC-HISTORY-PB01: source-bound endpoint/query pullback observation",
+      "branch": "research/orchestration-rec-history-pullback-20261025",
+      "head": "219fe60a3f069dda26e109f6e0cd1fd339c83701",
+      "base": "b24a9daee54fc0860c4cf299c4ea5f2a977c0fd4",
+      "updated_at": "2026-10-25T08:53:00Z",
+      "draft": true
+    },
+    {
+      "number": 228,
+      "title": "REC-HISTORY-KS01: preserve current DAG and add stable-source certificate observation",
+      "branch": "research/orchestration-rec-history-ks-20261025",
+      "head": "256a152eff42fdd6daf317e7bf7ea0daffad728d",
+      "base": "ecbb3124b49e75d8a7e948705b3894307d628349",
+      "updated_at": "2026-10-25T02:39:01Z",
+      "draft": true
+    },
+    {
+      "number": 227,
+      "title": "research(REC): scoped thermodynamic Jacobian observation with current DAG preserved",
+      "branch": "research/orchestration-rec-history-thermo-20261024",
+      "head": "2cc58d209e149847e7d8545d26ef7bcc944229fa",
+      "base": "9600a605f6380bc2262d0cfce5ff00290e594a5a",
+      "updated_at": "2026-10-24T19:12:10Z",
+      "draft": true
+    },
+    {
+      "number": 226,
+      "title": "REC-HISTORY-RESP01: full frozen response observation, preserve parallel completion",
+      "branch": "research/rec-history-response-observation-20261024",
+      "head": "54a65d4d84d3cb7a8dc05a2d69c6910690b30bff",
+      "base": "85f9ba1350c076e8df01f5858342df74c3574215",
+      "updated_at": "2026-10-24T10:00:06Z",
+      "draft": true
+    },
+    {
+      "number": 225,
+      "title": "REC-HISTORY-REFINE01: stored-history envelope observations and preserved central DAG",
+      "branch": "research/rec-history-refinement-observation-20261024",
+      "head": "47abc82646d0f92b12d4843abb770be9b3593a37",
+      "base": "c40d287874f72519103e68267e659fc022eba188",
+      "updated_at": "2026-10-24T08:39:31Z",
+      "draft": true
+    },
+    {
+      "number": 224,
+      "title": "Record scoped REC-HISTORY characteristic admission and preserved central state",
+      "branch": "research/rec-history-characteristic-observation-20261024",
+      "head": "f0a92c2421ff186dabd20fac09378a97c195fd4f",
+      "base": "3fba7cd91f84b4687cf6356f87400056ca32e37e",
+      "updated_at": "2026-10-24T03:43:17Z",
+      "draft": true
+    },
+    {
+      "number": 223,
+      "title": "REC observations: actual history admission, H5 held, recovery limits",
+      "branch": "research/rec-history-admission-observation-20261024",
+      "head": "44d0a6d8703f50bf3d7548812a1ab13d9b2c3877",
+      "base": "8b6e741ceb305cb0a6fde244ee002eb5926559fe",
+      "updated_at": "2026-10-24T00:57:12Z",
+      "draft": true
+    },
+    {
+      "number": 221,
+      "title": "research: couple directional Bianchi thermochemistry and local thermal flows",
+      "branch": "research/rei-coupled-isotope-contract-20261022",
+      "head": "8d10231b1f0f788164d5eadbe1bcee0b802cceca",
+      "base": "6a12f3865d9ea427c1391c41caed8bb7cb7ec00d",
+      "updated_at": "2026-10-23T15:08:01Z",
+      "draft": true
+    },
+    {
+      "number": 220,
+      "title": "ACCEL04 → PHYS04 → PILOT04: sandbox H–Li split-stress LRS sweep, z=20–2",
+      "branch": "research/rei-hheli-compact-pilot-20261022",
+      "head": "8be7533cc97b3302bf42608699d6e8313ed6af8a",
+      "base": "de73c5d6c7bd3498571e9226298040d8259e1acf",
+      "updated_at": "2026-10-23T07:48:02Z",
+      "draft": true
+    },
+    {
+      "number": 219,
+      "title": "Research: scoped tritium DD and 18-family nuclear network",
+      "branch": "research/rei-isotope-quotient-pilot-20261022",
+      "head": "6a12f3865d9ea427c1391c41caed8bb7cb7ec00d",
+      "base": "0d795da7f9114f89353c72a5829e5efcb64dfa44",
+      "updated_at": "2026-10-22T03:23:57Z",
+      "draft": true
+    },
+    {
+      "number": 218,
+      "title": "research: executable H/He/Li LRS sandbox pilot, z20 to z2",
+      "branch": "research/rei-hheli-sandbox-pilot-20261021",
+      "head": "4c8794e6e7c4ac553cc85fee728ef9ab6fe81fa8",
+      "base": "cce008b3fc32c298185b30550b2cd909d74fcd87",
+      "updated_at": "2026-10-21T15:56:20Z",
+      "draft": true
+    },
+    {
+      "number": 199,
+      "title": "Age-exposure accuracy: certified observables, centered mean age, and native age32 reference",
+      "branch": "research/rei-age-exposure-envelope-20261018",
+      "head": "cce008b3fc32c298185b30550b2cd909d74fcd87",
+      "base": "69b4e596ef679e17ccac7c1c1384c1c61cdfd47f",
+      "updated_at": "2026-10-21T14:17:18Z",
+      "draft": true
+    }
+  ],
+  "original_handoff": {
+    "content": "# 게시된 역할 확장 인계\n\n중앙 검토 소스: 641a725ada4be27473069c2c35005a94c2ab0248\n중앙 DAG: https://github.com/cosmosapjw-quantum/rei_bianchi/blob/641a725ada4be27473069c2c35005a94c2ab0248/research/orchestration_expansion_20261025/DAG.json\n이 전달의 실제 확장 브랜치: `research/program-expansion-20261025` (아래 원 작성자의 브랜치 제안보다 우선하는 게시 메타데이터).\n기준 owner 브랜치: `research/bass-b3f-cohort-input-error-20261025`, 게시 시 기준 HEAD: `cc602e209e7deeb511ab2a1f3b2268d55206c43c`.\n새 단위 전에 최신 AGENTS, 실제 HEAD, 병렬 owner 작업과 원 예산을 다시 확인한다. 아래 중앙 상대 경로는 CENTRAL_REFERENCE.json의 고정 중앙 commit/path로 해석한다.\n\n# 다음 작업 인계\n\n이 저장소의 확장 역할과 과제는 REPO_CHARTER_KO.md 및 TASK_ASSIGNMENT.json에 고정했다. 기준 source는 cc602e209e7deeb511ab2a1f3b2268d55206c43c, 관측 branch는 research/bass-b3f-cohort-input-error-20261025다. 이 계획 branch가 active source 소유권을 이전하지 않는다.\n\n첫 과제는 B3g-actual-cohort-binding다. 상세 과학 계약은 중앙의 BASS_CONTRACTS.json와 THEORY_AND_PR_PLANS.md에 있다. completed work를 재사용하고 정확히 남은 입력·구현만 진행한다. 전체 범위의 완료나 새 실행 예산은 이 문서에서 발급하지 않는다.\n\nAstra 과학 계약 → lower-tier 구현/한정 실행 → 별도 Astra raw/diff 검토의 역할을 유지한다. 원래 acceptance, 물리 단위·frame·clock, 기존 누적 debit을 보존한다. 실제 실행 command와 현재 남은 예산이 아직 고정되지 않은 작업은 실행 상태 NOT_RUN으로 둔다.\n\nB3g는 실제 cohort/history와 입력 오차 반경을 요구한다. REC history/retiming/pullback은 현재 소유자의 완료 receipt를 소비한다. B3h의 finite incident absorption과 atomic source ownership은 별도 의존성이다.\n\n기존 active branch, local dirty/untracked work, 과거 failure와 delivery receipt를 보존한다. 중복 계산·NCP 재제출·unknown budget 초기화는 하지 않는다.\n\n\n\n## 중앙 조립 참조\n\n정본: `DAG.json`. 개별 계약: `contracts/<node-id>.json`. 원 작성자 파일은 `authority/`에 변경 없이 보존했습니다. 아래 목록은 이 저장소의 정본 lead 노드이며, 다른 저장소 lead 작업의 소비자 관계는 원 TASK_ASSIGNMENT와 계약에 그대로 남아 있습니다.\n\n- `B1-G1B-recover`\n- `B2-G1B-curved`\n- `B3-fourforce-owner`\n- `B3a-event-clock`\n- `B3b-finite-counts`\n- `B3b2-locked-cell`\n- `B3c-scoped-background`\n- `B3d-angular-diagnosis`\n- `B3e-positive-angular`\n- `B3f-finite-input-error`\n- `B3g-actual-cohort-binding`\n- `B3h-native-finite-absorption`\n- `B3i-calibrated-geometry`\n- `B2-G1C-error-transport`\n- `B4-production-restart`\n- `B5-domain-validation`\n\n새 예산은 각 원 계약만 따릅니다. 완료 결과를 재계산하거나 자식 완료를 부모 완료로 승격하지 않습니다. 전역 물리 완료율은 null, L4 준비 상태는 false입니다.\n",
+    "encoding": "utf-8",
+    "sha": "2d3036143aa0787fd0cd6775e1bc5e7f8af09ecc",
+    "display_url": "https://github.com/cosmosapjw-quantum/bass/blob/d6af237b66e78ca6ed4572068f6bc1a805bbb2d9/research/program_expansion_20261025/HANDOFF_KO.md",
+    "display_title": "HANDOFF_KO.md"
+  },
+  "last_handoff": {
+    "content": "# 다음 연구 인계 — B3g 저장 cohort와 B3h/B3i 인터페이스\n\n과학 source A: 0e07ea8ca2f11901e0818c9ab9afdeff76352618, BASS PR192.\n최신88-node 중앙 반영 draft C: 86ec7e3c84d3d0a1f521866441e1e0e2b6bac14e,\nrei_bianchi PR231. HE와 GRID044/REI의 동시 결과를 보존했다.\n활성 중앙 DAG의 실제 canonical 반영 M:\na5db4bac9dafadae29685bbea3cec7f43ab990b2, 기존 Draft PR222.\nexpected SHA 3f287279c9ae4e8bcd4949a56b8c4cc0601b1eb8에서 force=false로\n반영했고 원격 HEAD/tree readback이 일치했다. 후속 CR 두 관측도 보존했다.\n새 GRID044 실제 endpoint 수신은 provenance/CONCURRENT_GRID044_INPUT_INTAKE.md\n참조. 그 자료도 새흡수 각도 measure/stress는null이고 geometryfeedback은OPEN이다.\n\n이 문서를 포함하는 실제 게시 commit과 백업 ID는 DELIVERY_RECEIPTS.json\n및 연결된 PR의 최종 본문에 고정한다. 실행 source identity는\nprovenance/FROZEN_COMMANDS.json과 results/EXECUTION_LEDGER.json이다.\nraw SUMMARY의 PENDING_ROOT_DECISION은 실행 snapshot이며 최종 판정은\nADMISSION.json을 읽는다.\n\n## 완료·재사용\n\n- G1B와 B3a–f의 완료 유한 결과를 재사용했다. 새 IVP/old campaign/native\n  owner solve/finite absorption transaction은0.\n- Dropbox B3c S2 ZIP을 직접 복구했고 ISO/ANISO 저장 birth512,\n  endpoint514를 결속했다. 원모형은 manufactured cold non-tilted\n  recoil-free detached f_plus=0 Bianchi I다.\n- 13 focused tests PASS. geometry core RHS4회. PNG3개 독립검토.\n- birth moment 비교는 E_b*n_b 양수 photon scale, atom stock은 별도 scale.\n- native LINE02는 Wien departure, standalone LINE01은 Planck. native\n  LYA_FACT/hPc와 direct owner pair를 유지했다.\n- SI T와 cQ를 sector별로 분리하는 adapter와 conditional transport bound\n  구현. physical total error=null, finite absorption=false, L4=false.\n- actual child cost wall3.739223223001318s / CPU3.7263s.\n  historical remaining budget=null; budget_reset=false.\n\n## 바로 다음 선택 작업\n\nB3g에는 midpoint beta_birth와 그 보간/복원 오차 경계가 필요하다.\nalpha=-log(N_mid/N0)/3는 nominal 재구성이고 원 alpha bytes/오차 인증을\n대신하지 않는다. 출생 R=I의 eR=0만 정당화되며 eS/en/eE는 null이다.\n저장된 최종 endpoint를 출생 midpoint로 오인하지 말 것.\n\nB3h에는 선택된 effective H collapsed 2p/1s Lyalpha donor의 실제\ncell-to-incoming-face mapping, 유한 spectral/angular/time support와 measure,\n공통 frame/proper clock/volume, atomic internal-energy/recoil owner를 결속한다.\nnative source의 local non-tilted tetrad/proper seconds 자체는 이미 알려져\n있다. B3b2 initial cell averages는 incoming face trace가 아니다.\n선택하지 않은 공급자나 isotope-resolved precision을 일괄 요구하지 말 것.\n\n이 한 거래의 보존된 T/Q가 확보되면 B3i adapter로 진행한다. 기존\nstress endpoint에는 kick이 이미 적용되어 U=J=0이다. cQ는 rate이며\nT나 signed pi에 더하지 않는다. 입력 물리 오차와 수치 오차는 별도다.\n\n## 실행·게시 규칙\n\n각 새 노드 전에 최신 AGENTS, 실제 HEAD, 병렬 owner 작업, 기존 budget을\n확인한다. 현재 scratch checkout을 재사용하고 dirty/untracked 파일을\n보존한다. 기존 scoped campaign/NPZ interpolation/IVP를 재실행하지 않는다.\n이미 끝난 metered driver sequence를 ledger 삭제로 다시 열지 않는다.\n\nAstra 과학 계약 → lower-tier 구현/한정 실행 → 별도 과학 raw/diff 검토.\n문서/복구 메타데이터와 과학 출력의 identity를 구별하고 허용 오차를\n바꾸지 않는다. 새 실제 실행에는 목적·command·상한·누적 debit을 고정한다.\n물리 완료 주장은 selected input이 충족된 범위만 admission한다.\n\n새 consumer branch는 research/bass-b3g-actual-cohort-binding-20261025,\nstacked base는 research/program-expansion-20261025다. 게시에는\nexpected-SHA와 force=false를 사용하고 draft 상태를 유지한다.\n현재 사용자 지시는 필요한 게시·백업 자동실행을 이미 명시적으로 승인했다.\n\n## 실제 최종 소스 전달\n\nBASS_B3G_S2_FINAL_20261025.zip: 38,152,861 bytes, 124 ZIP members.\nSHA256: 0e11ce05e10d95cd9c002b719f053659ce941bb1b54fcc1c9a64e4ac4d73899d.\nCRC와 모든123 payload의 size/SHA256을 확인했다. 실제 REC NPZ와\n재현 의존성, code/raw/figures/reviews, 최신 중앙13개 파일을 포함한다.\n\n- Drive: https://drive.google.com/file/d/1AO1I2BSbwwCgF91Flhi2bIFwGGMb1qLU/view\n- Dropbox: id:BSpOijBcT10AAAAAAEAc8w,\n  /BASS_BACKUPS/BASS_B3G_S2_FINAL_20261025.zip\n\n두 provider의 완료 ACK와 metadata size가 일치했다. 원격 whole-byte\n재다운로드는 NOT_RUN이다. 최종 업로드 ACK는 자기참조를 피하기 위해\nZIP 밖 DELIVERY_RECEIPTS.json과 PR192 최종 본문에 기록한다.\n과학 코드·시험·결과는 science A와 byte-identical이다.\n\n## 새 스레드에 복사할 지시\n\n```text\n$physmath-research-loop로 cosmosapjw-quantum/bass 연구를 이어가라.\n이 HANDOFF_KO.md를 담은 최종 고정 commit의 ADMISSION, REPORT, DAG,\nDELIVERY_RECEIPTS와 최신 AGENTS·HEAD·병렬 작업을 먼저 읽어라.\n완료된 G1B/B3 및 이번512birth·514endpoint·13test 결과를 재사용하라.\n우선 B3g midpoint beta와 radius, 또는 B3h 선택 Lyalpha donor의\nfinite cell-to-face/support/frame/clock/volume/energy-recoil 결속을\n실제 소유자 자료에서 확보하고 한 보존 거래를 B3i adapter에 넣어라.\n물리 입력 오차와 numerical residual, matter/radiation T와 four-force Q를\n구분하라. 선택하지 않은 미래 공급자는 일괄 선행조건으로 요구하지 마라.\n예산·실패·UNKNOWN_NO_ACK를 보존하고 새 실행은 별도 bounded contract로\n고정하라. 위임 구현·독립 검토·expected-SHA non-force push·소스 ZIP·\nDrive/Dropbox 이중 백업·중앙 DAG 갱신을 수행하라.\n```\n\n",
+    "encoding": "utf-8",
+    "sha": "373db31c500bc8b2595e8da1aa1322851dab2614",
+    "display_url": "https://github.com/cosmosapjw-quantum/bass/blob/d7dcd731de1a0c59e5e65db5038c333f5abae0bd/research/bass_b3g_actual_cohort_binding_20261025/HANDOFF_KO.md",
+    "display_title": "HANDOFF_KO.md"
+  }
+}
+
