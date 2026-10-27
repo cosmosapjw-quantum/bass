@@ -195,3 +195,19 @@ Temporal 물리 반경의 null은 남지만 이미 고정한 represented PL의 �
 최종 source ZIP은 exact scienceS1, deliveryD1 metadata, centralM의5개 patch file, unchanged CR proper context와 이전 F3 delivery ZIP의 서로 다른 identity를 명시하여 함께 복구한다. 이전 F3 nested ZIP은 central55202663까지이므로, `CR_PROPER_INJECTION_20261027.json`의 실제 unchanged bytes도 별도 central_context에 포함한다. 이 파일을 원격에 다시 쓰는 작업은 없다.
 
 S1 source 게시18/20단계, 실제 S0 dual-backup 확인9/20단계 상태에서 D1 및 최종 공유 ZIP ACK를 기다린다. R10/C10과 S1단계의 최종 backup은 ACK 전에 완료로 채우지 않는다. 원 DAG는27/88, 증가0이며 과학 추가 실행은0이다.
+
+## 최종 source ZIP과 실제 저장 ACK — 2026-10-27 12:03:35 UTC
+
+선택 R1–R10/C1–C10은 **실제 작업20/20, source·백업 coverage20/20**으로 닫았다. 원 중앙 DAG는 **27/88, 증가0**이다. S0의9개 단계는 고유 S0 archive의 실제 ACK를 유지하며, S1의9개 단계와 R10/C10은 하나의 최종 source ZIP과 post-archive receipt를 공유한다. 단계별20개 새 commit·20개 archive를 생성했다는 뜻이 아니다.
+
+최종 ZIP `BASS_B3H_HISTORY_INVERSE_S1_DELIVERY_20261027.zip`은 **3,979,095bytes,103members**, local SHA256 `1174383fa9cbbbf8b45f0f5ccbab45f6bfad1705e16e0b495cf690e9f617876b`다. Source S1 `0bdbd2ad1357c4b3141d3488a94534d082d1a0cf`, delivery D1 `5ae9dcbc6fc0765aa1762fb8bb6f031837ae6ff4`, 중앙 M `152b82cac23fedcb75a9effe0c159bae3d800c01`을 namespace별로 구분하여 복구한다. CRC, 전체 member byte readback, 모든 member manifest 길이·SHA readback은 PASS다.
+
+- Drive: upload success와 별도 metadata3979095bytes 확인, ID `1HJkq06HinJAuTV6urtx28JDkZmQDB5-x`. [실제 최종 source ZIP](https://drive.google.com/file/d/1HJkq06HinJAuTV6urtx28JDkZmQDB5-x/view?usp=drivesdk).
+- Dropbox: completed와 별도 metadata3979095bytes 확인, ID `id:BSpOijBcT10AAAAAAEDHeg`, path `/BASS_BACKUPS/BASS_B3H_HISTORY_INVERSE_S1_DELIVERY_20261027.zip`, rev `65ed139d0c8f50af03d47`.
+- 저장 파일: succeeded, `libfile_a645147c0ed4819181cc31e2ba44ee29`. [최종 저장 파일](https://chatgpt.com/library?file_id=libfile_a645147c0ed4819181cc31e2ba44ee29&account_id=personal).
+
+실제 selected provider fields는 `delivery/FINAL_PROVIDER_ACKS.json`, 전체 결속과 단계 closure는 `delivery/FINAL_RECEIPTS.json`, `STAGE_LEDGER.json`에 있다. Local SHA와 원격 provider upload·metadata 확인은 다르다. 원격 사본 전체를 다시 내려받아 SHA를 재측정했다고 주장하지 않는다.
+
+ZIP은 자기 자신의 ACK 전에 동결했고 **ACK 뒤 재생성하지 않았다**. ZIP 내부의 pending/null은 S1/D1 게시 당시의 역사적 snapshot이다. 위의 실제 finalACK는 ZIP 밖 후속 receipt로 결속했다. 이 최종 metadata를 포함하는 F commit의 자기 SHA를 이 문서에서 추정하지 않으며, root의 실제 최종 게시·HEAD readback·PR에서 확인한다.
+
+과학 추가 실행0, 기존 비용·미상 잔여 한도 불변, 새 allocation은 closed다. 채택 범위·fullphysicaltransaction=false·새B3i0·physicalradii=null도 그대로다. 완료 evidence를 자동 replay하지 말고 `ADMISSION.json`의 다음 선택 owner 결속을 이어간다.
