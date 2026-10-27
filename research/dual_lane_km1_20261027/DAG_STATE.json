@@ -1,0 +1,27 @@
+{
+  "schema":"bass.km1.published_dag_state.v1",
+  "authority":"Additive research branch, not active central/production DAG",
+  "parent_commit":"e3e829903294f437373369420b1dff95f6592e85",
+  "detailed_dag_in_archive":"DAG_UPDATED.json",
+  "recommended_next_node":"KM-3",
+  "nodes":[
+    {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+    {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+    {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+    {"id":"KM-1","depends_on":["DL-1","DL-2"],"status":"COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"},
+    {"id":"KM-2","depends_on":["DL-1"],"status":"REST_ELECTRON_KERNEL_CHECKED_TILTED_WIRING_OPEN"},
+    {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"READY_SCOPED_UNTILTED_PRODUCT_INTEGRATION","scope_requirements":{"KM-2":"rest_electron kernel only; generic tilted wiring not required for untilted slice"}},
+    {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"OPEN"},
+    {"id":"DV-2","depends_on":["DV-1"],"status":"FUTURE"},
+    {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+    {"id":"BF-1","depends_on":["DL-0"],"status":"OPEN_THEORY"},
+    {"id":"BF-2","depends_on":["BF-1"],"status":"TOY_CHECKED_INTEGRATION_OPEN"},
+    {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"FUTURE"},
+    {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+    {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+    {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}
+  ],
+  "progress":{"count":4,"total":15,"completed_or_source_mapped":["DL-0","DL-1","DL-2","KM-1"],"meaning":"Not physical completion: DL0 source mapping plus scoped research units"},
+  "overall_physical_completion":null,
+  "production_ready":false
+}
