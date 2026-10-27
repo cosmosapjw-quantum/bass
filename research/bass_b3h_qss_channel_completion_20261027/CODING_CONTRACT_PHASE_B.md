@@ -58,6 +58,14 @@ p_p/(3g). Direct Ly-alpha atomic current is Ralpha[p_p-3g fin]. Therefore
  NHref Ralpha dt[p_p-3g fin] = G exp(3u)du[fout-fin],
  G=3e6 LYA_FACT.
 
+Representation clarification: because Nin/Uin are reused from the saved
+70-digit independent reference, use its exact represented-input convention:
+h and all hex/constants are exact binary64 ratios, eta_ref=eta_start+k*h,
+lag=mp.log(Es/E), source knots=(source_index-k)*h+lag,
+A=E*mp.exp(eta_ref)*fsR^2*meR/(kBoltz*T0). Do not substitute the rounded
+binary64 primary split locations. Reading these helper formulas is allowed;
+calling old reference.evaluate or old integrate remains prohibited.
+
 This exact clock identity is mandatory. Source g=1-xHII remains a prepared
 opacity parameter; finite ground inventory is a separate count below.
 
@@ -160,6 +168,15 @@ precision; keep its inherited numerical uncertainty separate. An error in
 p1 gives an Ip error bounded by ||K||_1 E_end. The very small excited storage
 must be resolved by the same MP event counts, not by a gross-only tolerance.
 
+Inherited-evidence qualification: a half-last-decimal unit bounds only the
+formatting of a saved65-digit reference string. It does not certify the old
+mp.quad remainder. Keep that unrecorded inherited quadrature remainder null,
+and retain2e-11 as the old numerical acceptance tolerance, not a rigorous
+new error bound. The new remainder calculations are conditional on the
+admitted saved moment numbers as fixed finite-model inputs. State that
+condition beside the bounds and storage residual; total input/physical error
+remains null. This does not authorize replay of the old tube integration.
+
 For energy propagation need weighted moments I_k=integral exp(k u) p ds,
 k=1 for radiation and k=2 for nonrelativistic thermal energy. Define
 w=exp(k u), w_s=k exp(k u)D and
@@ -206,7 +223,13 @@ error margins. Require endpoint storage sum vs event count identity to agree
 within the derived truncation/quadrature/arithmetic bounds and <=1e-8 of its
 own nonzero storage change. Do not clip a stock or invent a refill.
 
-Energies use the saved native EI,E21 and bin energies, and exact eV_J.
+Energies use the saved native EI,E21 and bin energies. Use one common eV_J
+equal to the exact binary64 ratio of incoming.native_cosmology.EV_J, matching
+the saved independent-reference Uin/Uout and Phase A SI representation.
+Record the exact SI decimal1.602176634e-19 and its representation difference
+as a diagnostic. Do not mix that decimal with an old moment made using the
+binary64 constant: that known difference is not covered by an unknown old
+quadrature remainder. No old value is rescaled or recomputed in this choice.
 Atom internal energies: continuum EI, interfaces E21, ground0.
 Bound-free successful event owners are exactly the admitted Phase A moments:
 recombination atom -chi, gas -Krec, radiation +(chi+Krec);
@@ -220,6 +243,17 @@ For Ly-beta/gamma, observed E31/E41 and companion E21-E31/E41, atom-E21.
 Every orientation reverses these energy signs. Each event energy sum is0.
 Radiation observed/companion subledgers may be combined into ambient total;
 virtual boundary bookkeeping must not credit the same energy a second time.
+
+Native stimulus/spontaneous binding: Ralpha*p_p is the selected effective
+spontaneous escape current and 3Ralpha*g*fin is inverse absorption. Separate
+hard-line stimulated emission is omitted by this native Wien/thick-line
+model; it is not a new missing provider or a hidden zero uncertainty claim.
+For the 2s two-photon factor at Eb<E21, 1/(1-exp(-(E21-Eb)/TR))=1+n_comp
+already contains spontaneous and companion-stimulated emission; its inverse
+factor is n_comp. For Eb>E21, the Raman forward factor is n_comp and its
+inverse is1+n_comp. The original effective 2p thermal upper-state factors,
+Alpha/Beta bath conventions remain source-defined. Record this ownership;
+do not add another spontaneous/stimulated count or residual source.
 
 The finite ambient initial radiation stock is a declared spectral completion
 from actual left stored data: use the native Planck bath outside the actual
@@ -262,6 +296,16 @@ For gas use I2,S2: Ugas1=exp(-5h)*(Ugas0+Qgas_adiabatic_pullback).
 Internal atom energy is exp(-3h)*[EI*Nc1+E21*(Ns1+Np1)]*eV_J.
 Rest carrier is dust exp(-3h). Report each geometry-work term separately so
 the total finite energy change equals event exchange(sum0)+geometry work.
+
+Use the SAME reference volume in that identity: E1_per_V0=exp(3h)*U1,
+where U1 is the right proper-volume density used in T. Dust and atomic
+internal geometric work per V0 are0. Gas work is
+expm1(-2h)*Ugas0+exp(-2h)*Qgas_pullback-Qgas_event;
+ambient work is expm1(-h)*Uamb0+exp(-h)*Qamb_pullback-Qamb_event;
+Ly-alpha work is expm1(-h)*Uin0+exp(-h)*(Uout0-Uin0)-Qalpha_event.
+Evaluate these known adiabatic-weight expressions independently, then check
+sum(E1_per_V0)-sum(E0_per_V0)=sum(Qevent)+sum(Wgeometry).
+Do not define an unexplained balance residual as geometric work.
 
 At the right endpoint, build separate sector T for rest dust, atomic internal
 energy, gas thermal energy, ambient radiation, and outgoing Ly-alpha.

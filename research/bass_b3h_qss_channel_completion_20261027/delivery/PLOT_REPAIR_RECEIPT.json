@@ -1,0 +1,97 @@
+{
+  "schema": "BASS_QSS_TARGETED_VISUAL_REPAIR_RECEIPT_V1",
+  "initial_render": {
+    "path": "results/FINITE_CHANNEL_COMPLETION_RENDER0.png",
+    "bytes": 196993,
+    "sha256": "bb795af7d2dfce728a84202c9394266fd847e1d7e5b2073613e30b6faee43da6",
+    "exitcode": 0,
+    "visual_QA": "FIX_REQUIRED_TICK_OVERLAP_AND_CLIPPED_BARS",
+    "execution": {
+      "stage": "plot",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "code/plot_b.py"
+      ],
+      "freeze_sha256": "5dc7ebffe058b23be0dab205ec14eb042a07ba0050f71335da857be07d9b951a",
+      "requested_model": "gpt-6.1-sol",
+      "observed_runtime_model": null,
+      "aggregate_limits": {
+        "child_CPU_s": 60,
+        "child_wall_s": 180,
+        "memory_bytes": 805306368,
+        "BLAS_OpenMP_threads": 1
+      },
+      "historical_remaining_cpu_s": null,
+      "historical_remaining_wall_s": null,
+      "old_allocation_reopened": false,
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "event": "COMPLETED",
+      "utc": "2026-10-27T13:28:04.622987+00:00",
+      "returncode": 0,
+      "child_cpu_s": 9.253270000000002,
+      "child_wall_s": 9.477698659000453,
+      "cumulative_child_cpu_s": 13.730153000000001,
+      "cumulative_child_wall_s": 14.099278738001885,
+      "child_peak_RSS_KiB": 77652,
+      "wrapper_cpu_s": 0.97617,
+      "remaining_new_cpu_s": 46.269847,
+      "remaining_new_wall_s": 165.90072126199811
+    }
+  },
+  "repaired_render": {
+    "path": "results/FINITE_CHANNEL_COMPLETION.png",
+    "bytes": 194219,
+    "sha256": "926415220635fa4b44bce16bedab1b9bf931b38d55c215d75e0266c47e8e6fa0",
+    "exitcode": 0,
+    "visual_QA": "PASS_SCOPED_VISUAL_QA_ROOT_AND_INDEPENDENT_ACTUAL_PNG_VIEW",
+    "execution": {
+      "stage": "plot_repair",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "code/plot_repair.py"
+      ],
+      "freeze_sha256": "9a1fe451d2ff2805b25db27649543ad6e8ffebdad1ed9e0603f525bff1c8c9c4",
+      "requested_model": "gpt-6.1-sol",
+      "observed_runtime_model": null,
+      "aggregate_limits": {
+        "child_CPU_s": 60,
+        "child_wall_s": 180,
+        "memory_bytes": 805306368,
+        "BLAS_OpenMP_threads": 1
+      },
+      "historical_remaining_cpu_s": null,
+      "historical_remaining_wall_s": null,
+      "old_allocation_reopened": false,
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "event": "COMPLETED",
+      "utc": "2026-10-27T13:30:40.134216+00:00",
+      "returncode": 0,
+      "child_cpu_s": 1.859278,
+      "child_wall_s": 1.892822857000283,
+      "cumulative_child_cpu_s": 15.589431000000001,
+      "cumulative_child_wall_s": 15.992101595002168,
+      "child_peak_RSS_KiB": 76812,
+      "wrapper_cpu_s": 0.004603000000000003,
+      "remaining_new_cpu_s": 44.410568999999995,
+      "remaining_new_wall_s": 164.00789840499783
+    }
+  },
+  "scientific_result_changed": false,
+  "scientific_replay": 0,
+  "core_rhs_calls_in_renders": 0,
+  "total_render_invocations": 2,
+  "repair_authorization": "root ONE targeted saved-only rendering correction",
+  "independent_visual_review": "reviews/VISUAL_REVIEW.md"
+}

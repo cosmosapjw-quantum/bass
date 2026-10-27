@@ -15,3 +15,7 @@ Root CODING_CONTRACT_PHASE_A.md가 새4diffusionTm inverse,fullnativeendpointope
 ## S1A 현재 상태 — S0 문구는 역사기록
 
 실제 S0 게시와 Drive/Dropbox ACK 후 Phase A를 승인된 단1회 실행했다. 고정67checks는 모두PASS이고 독립 검토 결과는 PASS_SCOPED다. R1–R6/C1–C6의 Phase A 작업 근거를 STAGE_LEDGER에 결속했다. 이후 선택 finite dynamic R7+/C7+는 아직 미수행이며 전체20단계 완료를 주장하지 않는다. 현재 비용과 잔여는 BUDGET_LEDGER_PHASE_A.json, 재실행 불필요 source/operator는 results/SOURCE_OPERANDS.json에 있다. S1A_CHECKPOINT.md가 earlymetadata와 현재metadata의 관계를 설명한다.
+
+## S1B 현재 scoped 완료
+
+Root admission과 독립 검토가 선택finite source transaction을채택했다. 원DAG28/88(+1),선택R/C18/20작업근거완료·12/20actualcheckpointbacked이며최종R10/C10delivery는pending이다. A/B각1회와saved-render/targeted-render-repair총2회가실제실행됐고새core.rhs는1회다. 현재비용/closedallocation은BUDGET_LEDGER_CLOSED.json,과학범위는ADMISSION/REPORT_KO,S1B_CHECKPOINT를따른다. 초기S0/S1A문구는역사snapshot이며추가과학replay없다.
