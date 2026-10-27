@@ -114,6 +114,8 @@ Astra가 식·계약·수용 기준을 작성했고, 요청 model gpt-6.1-sol �
 
 ## 8. 중앙 반영·전달
 
-최신 중앙선은 우리 이전 `12f6007a` 뒤의 CR_N5를 포함한 `5abe0d19df95db730e3e33bae0373c81ba37ce89`이다. 이 상태를 base로 B3h 관측·다음 행동만 갱신한다. 원래 88개 계약, 나머지 87개 노드, B3g/B3i, CR_N5와 병렬 작업을 보존한다. 이 부분 결과는 원래 완료 노드를 늘리지 않으므로 중앙선 선언은 **27/88, 증분0**, 전체 물리 완료율 null, L4=false, B4/B5 NOT_RUN이다. 다른 미병합 브랜치의 별도 진행률을 합산하지 않는다.
+새 B3h 과학 source는 `74c6e4b8df36bbc39f073548a6b51b597da167c1`이며, 중앙 반영은 `55202663275cd0607c968129b33de805d06f5d8b`이다. 두 commit의 expected-SHA force=false 게시와 원격 HEAD readback을 실제 완료했다. 아래 base 보존 계획을 그대로 적용한 결과다.
+
+게시 직전 중앙선은 우리 이전 `12f6007a` 뒤의 CR_N5를 포함한 `5abe0d19df95db730e3e33bae0373c81ba37ce89`였다. 이 상태를 base로 B3h 관측·다음 행동만 갱신했다. 원래 88개 계약, 나머지 87개 노드, B3g/B3i, CR_N5와 병렬 작업을 보존했다. 이 부분 결과는 원래 완료 노드를 늘리지 않으므로 중앙선 선언은 **27/88, 증분0**, 전체 물리 완료율 null, L4=false, B4/B5 NOT_RUN이다. 다른 미병합 브랜치의 별도 진행률을 합산하지 않는다.
 
 게시에는 expected SHA와 force=false를 사용한다. 실제 science/central/final 전달 SHA, source ZIP의 바이트·SHA256, Drive/Dropbox 실제 ACK는 후속 [PUBLICATION_RECEIPTS.json](delivery/PUBLICATION_RECEIPTS.json) 및 [FINAL_RECEIPTS.json](delivery/FINAL_RECEIPTS.json)에 기록한다. ZIP 내부에는 그 ZIP 자체의 최종 ACK를 소급해 넣지 않는다. 다음 재개 지점은 [HANDOFF_KO.md](HANDOFF_KO.md)이다.

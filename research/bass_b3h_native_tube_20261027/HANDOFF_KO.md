@@ -2,6 +2,10 @@
 
 ## 현재 확보한 결과
 
+새 B3h 과학 source S1=`74c6e4b8df36bbc39f073548a6b51b597da167c1` (BASS PR200).
+이번 중앙 반영=`55202663275cd0607c968129b33de805d06f5d8b`, parent=`5abe0d19df95db730e3e33bae0373c81ba37ce89`.
+두 게시 모두 expected-SHA, force=false 및 실제 HEAD readback을 완료했다.
+
 `ADMISSION.json`과 `REPORT_KO.md`를 먼저 읽어라. 실제 REC native cell `[5126,5127]`의 incoming photon tube, proper duration, crossing measure, 공통 왼쪽 부피, sector T와 기존 B3g의 비충돌 운반은 독립 검토 후 `ROOT_ADMITTED_PASS_SCOPED`이다.
 
 - N0=9117.092768838671 m^-3, U0=1.4898091530925236e-14 J/m^3.
