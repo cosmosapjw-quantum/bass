@@ -17,6 +17,9 @@ F2 009a1238c09adf889c7421132f530b960cdafb07,
 incoming-tube S1 74c6e4b8df36bbc39f073548a6b51b597da167c1,
 F3 29dcf5ab94ae8b84bf8e3f31dddb31ce719929b1을 재사용하라.
 새 inverse의 S0는 fd3524e914d6bec70f30e2a5643134e956cbba0a다.
+새 inverse science S1은 0bdbd2ad1357c4b3141d3488a94534d082d1a0cf이며,
+중앙 반영 M은 152b82cac23fedcb75a9effe0c159bae3d800c01다.
+D1 전달 commit과 finalZIP 실제ACK는 후속 FINAL_RECEIPTS.json에서 읽어라.
 
 원 REC source d6dbe39a4923439547c01695d9020ba39367ea90의 저장
 native knots [5126,5127], q=1 scalar FLRW, 기존 finite tube/common V0를 유지하라.
@@ -69,3 +72,21 @@ Drive/Dropbox실제ACK→DAG갱신을 계속하라.
 원 integer-redshift stdout은 존재한다. 다만 이 selected native-grid absolute packet은 아니며, 새 inverse는 실제 retained radiation으로부터 그것을 복원했다. HE STATE04, CR PHYS02, WU molecular projection, Vigilode checkpoint, BASS DV2-C는 각각 유용한 다른 scope다. 그 입력을 현재 native Lyα 상태에 무조건 합치지 않는다.
 
 기존 native source x1s 정의는 `1-xHII`이고 미소 excited fractions를 빼지 않는다. 원 thick Lyα closure도 유지된다. Lyα τ 진단의 A normalization은 보존된 REC LINE01 출처이며 원 source의 별도 A scalar인 것처럼 쓰지 않는다. 실질 미완료는 물리적 finite QSS storage/refill energy 결속이다.
+
+## 실제 S1 게시와 D1 전달 결속
+
+Science S1은 `0bdbd2ad1357c4b3141d3488a94534d082d1a0cf`, tree `ea23c058c9bc40de475ffdfb0b51484c5bec8ea9`, parent S0는 `fd3524e914d6bec70f30e2a5643134e956cbba0a`다. [PR203](https://github.com/cosmosapjw-quantum/bass/pull/203)에서 expected-SHA/non-force 게시와 실제 ref readback을 확인했다. 정확한 과학 source81files/2,401,381bytes는 D1 metadata 갱신 전에 별도 scienceS1 snapshot으로 보존했다. 최종 전달 ZIP에서는 scienceS1과 deliveryD1 및 central_context의 identity를 구분한다.
+
+후속 receipt는 `delivery/S1_PUBLICATION_RECEIPT.json`과 `delivery/SCIENCE_S1_SNAPSHOT_RECEIPT.json`을 읽는다. S1단계의 백업은 최종 하나의 source ZIP을 공유하며, 실제 Drive/Dropbox ACK 전에는 pending이다. R10/C10도 최종 D1 게시와 ACK 전까지 pending이다. ZIP을 자신의 미래 ACK 때문에 반복 재생성하지 않는다.
+
+게시 준비에서142개 file chunk를 과도하게 병렬로 읽던 첫 code-mode host의 stdout이 닫혔다. 실패 시 Gitref 변경이나 과학 실행은 없었고6개 단위 읽기로 재개하여 게시했다. 이는 publication transport 진단이며 새 과학 비용0이다. 원 실행 원장과 허용값은 바뀌지 않는다.
+
+Temporal 물리 반경의 null은 남지만 이미 고정한 represented PL의 다음 transaction에 모든 physical calibration을 추가 gate로 요구하지 않는다. 직접 열린 owner는 finite QSS storage/non-Lyalpha stock 및 energy counterpart다. 다음 행동의 과학 권한은 `ADMISSION.json` 원문을 따른다.
+
+## 실제 중앙 반영 M과 최종 전달 대기
+
+중앙 commit은 `152b82cac23fedcb75a9effe0c159bae3d800c01`, tree는 `847ed1e27812152df705a28b2651f61bb5cf8aaf`, expected parent는 `1a38f94fa50c763bb9df6ccc8ba569f287fe97d5`다. Force=false 게시와11:56:54UTC의 실제 HEAD readback MATCH를 root가 확인했다. 실제 도구 응답 및5file 기계 비교는 `delivery/CENTRAL_PUBLICATION_RECEIPT.json`에 보존한다. 원 contract, 다른87nodes,17edges와 새 CR proper return은 그대로다.
+
+최종 source ZIP은 exact scienceS1, deliveryD1 metadata, centralM의5개 patch file, unchanged CR proper context와 이전 F3 delivery ZIP의 서로 다른 identity를 명시하여 함께 복구한다. 이전 F3 nested ZIP은 central55202663까지이므로, `CR_PROPER_INJECTION_20261027.json`의 실제 unchanged bytes도 별도 central_context에 포함한다. 이 파일을 원격에 다시 쓰는 작업은 없다.
+
+S1 source 게시18/20단계, 실제 S0 dual-backup 확인9/20단계 상태에서 D1 및 최종 공유 ZIP ACK를 기다린다. R10/C10과 S1단계의 최종 backup은 ACK 전에 완료로 채우지 않는다. 원 DAG는27/88, 증가0이며 과학 추가 실행은0이다.
