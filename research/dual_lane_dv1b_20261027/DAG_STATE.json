@@ -1,0 +1,30 @@
+{
+  "schema":"bass.dag.dv1b.published_state.v1",
+  "authority":"Additive isolated research, not a mutation of central or production DAG",
+  "source_commit":"4ab97cb946a81f28c16f2e2410168e678f56a1cb",
+  "detailed_dag":"DAG_UPDATED.json in immutable archive",
+  "recommended_next_node":"DV-1::DV1-B::L10-cutoff-extension",
+  "nodes":[
+    {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+    {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+    {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+    {"id":"KM-1","depends_on":["DL-1","DL-2"],"status":"COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"},
+    {"id":"KM-2","depends_on":["DL-1"],"status":"REST_ELECTRON_KERNEL_CHECKED_TILTED_WIRING_OPEN"},
+    {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA"},
+    {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"PARTIAL_FINITE_TIME_LOW_MOMENTS_CHECKED_FULL_CARRIER_GATE_FAIL","subgates":{"DV1-A":"COMPLETE_SCOPED_INSTANTANEOUS_FULL_POLARIZED_GENERATOR","DV1-B":"EXECUTED_SCOPED_ACCEPTANCE_NOT_MET"}},
+    {"id":"DV-2","depends_on":["DV-1"],"status":"FUTURE"},
+    {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+    {"id":"BF-1","depends_on":["DL-0"],"status":"OPEN_THEORY"},
+    {"id":"BF-2","depends_on":["BF-1"],"status":"TOY_CHECKED_INTEGRATION_OPEN"},
+    {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"FUTURE"},
+    {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+    {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+    {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}
+  ],
+  "KM3_dependency_scope":"KM2 rest-electron only, not generic tilted wiring",
+  "progress":{"count":5,"total":15,"completed_or_source_mapped":["DL-0","DL-1","DL-2","KM-1","KM-3"],"additional_completed_subgate":"DV-1::DV1-A","not_global_physical_completion":true},
+  "failed_criterion":{"name":"fine_L_carrier_max","value":0.0002645458623741215,"threshold":0.0002},
+  "gates_unchanged":true,
+  "production_ready":false,
+  "overall_physical_completion":null
+}
