@@ -1,0 +1,53 @@
+{
+  "schema": "BASS_B3H_SELECTED_NATIVE_ATOMIC_RETURN_V1",
+  "status": "INPUT_DEPENDENT_NOT_EXECUTED",
+  "purpose": "Complete one native effective-H Lyalpha finite transaction on the already constructed actual photon tube, then consume sector stress and source four-force separately in B3i.",
+  "fixed_photon_input": {
+    "source_repository": "cosmosapjw-quantum/rec_bianchi",
+    "source_commit": "d6dbe39a4923439547c01695d9020ba39367ea90",
+    "history_path": "data/pr05b2_source_history_v060.npz",
+    "history_sha256": "d4f82542e13fed4ff0bb60b17865d8b9de5e090a2366108169c3da7a21fcb4b1",
+    "selected_slice_sha256": "0eb250e965ad3496d00b53d5a165bafc93de8506baa9dad8e04de2bbd3614cdd",
+    "cell_indices": [5126, 5127],
+    "clock": "eta=eta0+i*h using exact-real interpretation of source binary64 eta0 and h",
+    "reference": "left endpoint; u=eta-eta_ref in [0,h]",
+    "common_volume": "V(eta)/V0=exp(3*u)",
+    "geometry": "source-native scalar FLRW q=1",
+    "known_H_nH_TR_and_zero_direct_recoil_owner": "reuse admitted source binding; no new unrelated provider required"
+  },
+  "required_actual_return": [
+    {"field": "interval_state", "content": "Source-bound x1s(eta), xr_p(eta) or equivalent absolute level state covering the whole selected interval, with actual interpolation/evolution semantics and endpoint identity; one frozen snapshot is insufficient."},
+    {"field": "native_opacity", "content": "Derive r0=LYA_FACT_CM3_INV*H/(nH_cm3*x1s) and tau=A_EFFECTIVE/r0 from those actual states, or return the equivalent source-bound tau. A_EFFECTIVE=(6.2649e8+2*6.2648e8)/3 s^-1. Opacity is not an independent missing provider once x1s is supplied."},
+    {"field": "atomic_stock_mapping", "content": "Matched initial/final and prefix lower/upper inventories per V0, with the effective-H/QSS stock convention explicitly mapped to absolute x1s and x2p=xr_p+3*x1s*exp(-E21/TR). nH alone is only total normalization."},
+    {"field": "non_Lyalpha_refill_ledger", "content": "Actual cumulative native non-Lyalpha/QSS channel contributions B_lower(s),B_upper(s) on this interval, with source terms and integration provenance. Do not create an arbitrary reservoir or define a missing refill as an unexplained residual."},
+    {"field": "energy_owner", "content": "One source-bound owner for the refill/internal-energy transfer, distinct from direct-pair E21 transfer and propagation work. Direct line recoil/kinetic heat/electron+ion yield remain source-convention zero; any extension must be separately derived."},
+    {"field": "execution_and_source_evidence", "content": "Exact source/config/state identity, actual commands/raw outcome/exit status and cumulative measured costs for any new bounded native exporter; preserve existing ledgers and unknown remaining budgets."}
+  ],
+  "conditional_construction": {
+    "physical_incoming": "f_in=f_Wien+d_in; supplied by the admitted finite tube",
+    "physical_source": "f_s=f_Wien+xr_p/(3*x1s)=x2p/(3*x1s)",
+    "absorbed_fraction": "A=-expm1(-tau) for this q=1 tube",
+    "measure": "dmu=G_NATIVE*exp(3*u)*du*dOmega/(4*pi)",
+    "gross_upward": "D_up(s)=integral_[0,s] A*f_in*dmu",
+    "gross_downward": "D_down(s)=integral_[0,s] A*f_s*dmu",
+    "net": "D(s)=D_down(s)-D_up(s)",
+    "prefix_stock": ["N_upper(s)=N_upper(0)-D(s)+B_upper(s)>=0", "N_lower(s)=N_lower(0)+D(s)+B_lower(s)>=0"],
+    "incoming_capacity": "0<=D_up<=N_in follows from 0<=A<=1; it is not a computed actual debit before the state return exists",
+    "boundary_identity": "f_out=(1-A)*f_in+A*f_s; retain native Wien departure encoding",
+    "B3b_reuse": "Reuse finite packet/stock and sector bookkeeping semantics only. LINE01 gross_counts/commit_emission implement a different stimulated bath law and must not be used for this HISTORY01 absorption.",
+    "B3g_reuse": "Transport actual event-time cohorts with the unchanged transport map on the declared native FLRW geometry; preserve prior 512 Bianchi cohorts in their own scope.",
+    "energy_and_geometry": "Pair local line-energy increments E21*(D_down-D_up) with opposite atomic internal transfer. Account separately for transport between each event and the reference/end slice; E0=E21*exp(u), so pulled-back radiation energy must not be equated to untransported local atomic energy without propagation work.",
+    "B3i": "Supply sector T in J/m^3 and separately owned cQ in J/(m^3 s). A committed finite kick enters the state once; post-kick RHS must not reapply its finite transfer as an extra rate. No arbitrary division by a chosen dt."
+  },
+  "positive_acceptance": [
+    "Same actual source interval and normalization, nonnegative absolute occupations and finite admissible opacity",
+    "Native boundary/gross-count identity and cumulative lower/upper stock balances on every accepted prefix",
+    "Matched direct-pair internal-energy transfer, source-owned refill energy, and separately reported propagation work",
+    "Sector T and four-force units/ownership checked before exactly one new selected B3i consumption",
+    "Independent review and root admission of the actual finite transaction"
+  ],
+  "resume_rule": "Before this next node refresh latest AGENTS, HEAD and parallel work. Start with the actual source state/stock/refill exporter or an existing accepted same-interval packet; then freeze its bounded command and acceptance criteria. Do not rerun completed photon-tube or old midpoint campaigns automatically.",
+  "unselected_future_providers_required": false,
+  "physical_radii": {"eS": null, "en": null, "eE": null, "geometry": null, "temporal": null, "total": null},
+  "strong_no_go_claim": false
+}
