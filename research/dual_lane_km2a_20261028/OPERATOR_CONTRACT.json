@@ -1,0 +1,10 @@
+{
+ "schema":"bass.km2a.published_contract.v1",
+ "scope":"fixed prescribed beta on flat/frozen normal tetrad; bolometric full polarized cold elastic Thomson; instantaneous only",
+ "units":{"signature":"(-,+,+,+)","beta":"v_e/c","nu0":"n_e_star*sigma_T*c [s^-1]","density":"proper, not preboosted","q":"energy flux/c"},
+ "equations":{"D":"gamma*(1-beta.n)","J_e":"D^4 S J_n S^T","dOmega_e":"D^-2 dOmega_n","M_e":"integral D^2 S J_n S^T dOmega_n","rhs":"nu0*D*(D^-4 S^T[(3/(8pi))P_e M_e P_e]S-J_n)","elastic_force":"rho_dot-beta.q_dot=0","invariant_fixed_beta_normal_slice":"gamma*(rho-beta.q)","not_invariant":"rho_e=U_a T^{ab}U_b"},
+ "caller_boundary":"Existing collision_moving already includes one D. Legacy PolQState scalar-x boosted rest exponential is not certified as generic normal-time update. Production caller unchanged.",
+ "spectral_validity":"DECLARED_COLD_THOMSON_ASSUMPTION / ENERGY_DOMAIN_UNVERIFIED",
+ "finite_time_solver":false,"full_state_9_variable_closure":false,
+ "full_original_contract":"OPERATOR_CONTRACT.json in immutable ZIP","production_ready":false
+}
