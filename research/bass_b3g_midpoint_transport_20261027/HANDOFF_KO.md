@@ -110,3 +110,52 @@ commit에 결속하여 자기 참조를 피한다. PR192와 중앙 PR222는 Draf
 기존 G1B/B3 유한 결과를 다시 증명하거나 재실행하기 전에 완료 근거를
 재사용한다. 이 인계는 중단 복구와 다음 과학 실행을 위한 것이며,
 문서·검토만 계속 늘리는 새 연구 선행조건이 아니다.
+
+## 실제 게시와 중단 복구 R1
+
+과학 source A2는 af14fc72d99f6d0e396f60aedadcdb5d05213280,
+중앙 canonical 게시 M2는 12f6007a83a40d76f80574e41a5402676e81fc7a다.
+각각 이전 HEAD를 expected-SHA로 사용한 force=false 갱신과 실제
+원격 commit/HEAD/tree 대조가 성공했다. 중앙의 9개 경로에서 선택한
+3개 observation만 바꾸고 88개 원래 계약, 비선택 85개 노드·상태 행,
+15개 authority와 17개 edge를 보존했다.
+
+이후 세션 중단으로 로컬 작업 폴더와 게시 이후 고정한 ZIP이 사라졌다.
+Drive 업로드는 원본 파일 없음으로 실제 실패했으며 성공 ACK가 없다.
+이전 미전달 ZIP의 historical SHA256은
+1f4e984531cdd7d28c8d9b07cc2f1714e7c9a4a2b8f495e0f25ce266a5be7f92다.
+그 ZIP을 전달 완료로 기록하지 않는다.
+
+복구에서는 실제 Git A2의 41개 연구 파일, 완료 raw·PNG·ledger·독립 검토를
+직접 되찾았다. 새 계산·시험·IVP를 실행하지 않았고 예산을 초기화하지 않았다.
+재개 시 중앙 HEAD는 5abe0d19df95db730e3e33bae0373c81ba37ce89로 진행되어
+있으므로 그 뒤의 병렬 작업을 보존한다. 원래 M2로 되돌리지 않는다.
+
+새 전달물은 BASS_B3G_MIDPOINT_S2_RECOVERY_R1_20261027.zip으로 별도 고정한다.
+실제 새 size/SHA256와 Drive/Dropbox ACK는 최종 DELIVERY_RECEIPTS.json에
+결속한다. 이 ZIP은 이전 미전달 ZIP과 byte identity를 주장하지 않는다.
+과학 source/raw는 실제 immutable A2와 동일하다.
+
+## 최종 실제 전달 완료 — R1
+
+복구 소스 ZIP `BASS_B3G_MIDPOINT_S2_RECOVERY_R1_20261027.zip`을
+1,702,117 bytes / 117 members로 고정했다. CRC와 payload별 size/SHA256,
+manifest inventory가 모두 통과했다.
+
+SHA256: `5b66a1ed5c1e8c8175a1d60fe6270ab924edf2ef2752582b56f72a810c04361a`
+
+- Drive 실제 upload ACK 및 metadata size 일치:
+  https://drive.google.com/file/d/1DRI30fwqL_jGL7EBhkLoZxSWmx5Aa6OD/view
+- Dropbox 실제 completed ACK 및 metadata size 일치:
+  `/BASS_BACKUPS/BASS_B3G_MIDPOINT_S2_RECOVERY_R1_20261027.zip`,
+  `id:BSpOijBcT10AAAAAAEC8yw`.
+
+두 원격 파일의 whole-byte 재다운로드는 수행하지 않았으므로 원격 SHA256
+검증을 주장하지 않는다. ZIP의 로컬 SHA256과 두 provider의 실제 성공 및
+size readback을 구분한다. 이 후속 ACK는 이미 동결한 ZIP 바깥의
+DELIVERY_RECEIPTS.json과 PR192에 결속한다.
+
+현재 중앙에 명시된 기존 선언 deliverable 수는 27/88이며 이번 세 scoped
+BASS observation을 완결 노드로 가산하지 않았다. 전체 물리 완료율은
+null, L4=false다. 복구 후 새 과학 실행은 0이고 기존 실행 비용과 미상
+잔여 예산을 그대로 보존했다.

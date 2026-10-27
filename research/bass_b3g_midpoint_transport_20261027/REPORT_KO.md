@@ -196,3 +196,41 @@ tensor의 geometry 소비를 검증했다. 물리 input calibration과 native �
 흡수는 계속 입력 의존이며, 전체 물리 완료율은 null, L4=false,
 B4/B5는 NOT_RUN이다. 소스 게시·백업의 실제 증거는 별도
 DELIVERY_RECEIPTS.json과 PR 기록에서 확인한다.
+
+## 게시·중단 복구 기록
+
+과학 source af14fc72d99f6d0e396f60aedadcdb5d05213280과 중앙 DAG
+12f6007a83a40d76f80574e41a5402676e81fc7a는 expected-SHA/force=false로
+실제 게시하고 원격 HEAD·tree를 확인했다. 중앙 원래 계약 88개와
+비선택 85개 노드·상태 행, 15개 authority, 17개 edge를 보존했다.
+
+그 뒤 런타임 중단으로 로컬 파일이 소실되어 최초 ZIP의 Drive 업로드는
+원본 파일 없음으로 실패했다. 과학 파일은 실제 A2에서 직접 복구했다.
+완료 계산이나 테스트는 재실행하지 않았으며 모든 raw와 ledger를 보존했다.
+복구 당시 최신 중앙 5abe0d19df95db730e3e33bae0373c81ba37ce89의 병렬
+변경도 유지한다. 전달 ZIP은 RECOVERY_R1이라는 별도 이름과 실제 hash로
+다시 고정하며 이전 미전달 ZIP을 현재 성공 ACK로 재작성하지 않는다.
+
+## 최종 실제 전달 완료 — R1
+
+복구 소스 ZIP `BASS_B3G_MIDPOINT_S2_RECOVERY_R1_20261027.zip`을
+1,702,117 bytes / 117 members로 고정했다. CRC와 payload별 size/SHA256,
+manifest inventory가 모두 통과했다.
+
+SHA256: `5b66a1ed5c1e8c8175a1d60fe6270ab924edf2ef2752582b56f72a810c04361a`
+
+- Drive 실제 upload ACK 및 metadata size 일치:
+  https://drive.google.com/file/d/1DRI30fwqL_jGL7EBhkLoZxSWmx5Aa6OD/view
+- Dropbox 실제 completed ACK 및 metadata size 일치:
+  `/BASS_BACKUPS/BASS_B3G_MIDPOINT_S2_RECOVERY_R1_20261027.zip`,
+  `id:BSpOijBcT10AAAAAAEC8yw`.
+
+두 원격 파일의 whole-byte 재다운로드는 수행하지 않았으므로 원격 SHA256
+검증을 주장하지 않는다. ZIP의 로컬 SHA256과 두 provider의 실제 성공 및
+size readback을 구분한다. 이 후속 ACK는 이미 동결한 ZIP 바깥의
+DELIVERY_RECEIPTS.json과 PR192에 결속한다.
+
+현재 중앙에 명시된 기존 선언 deliverable 수는 27/88이며 이번 세 scoped
+BASS observation을 완결 노드로 가산하지 않았다. 전체 물리 완료율은
+null, L4=false다. 복구 후 새 과학 실행은 0이고 기존 실행 비용과 미상
+잔여 예산을 그대로 보존했다.
