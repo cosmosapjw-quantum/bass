@@ -258,6 +258,15 @@ S_p(t)&\equiv N_p^*(t)-N_p^*(t_0)+D^*(t)-B_p^*(t)\\
 
 This is a finite storage defect of the QSS elimination. It is not a physical refill simply because it has units of atom count. In particular, `x2p=xr_p+3*x1s*exp(-E21/TR)` means the storage change includes the moving Wien reference. Differentiating or differencing `xr_p` alone would omit a real part of the absolute source-effective inventory change.
 
+For an explicit finite algebraic bookkeeping complement, the signs are
+
+\[
+B_p^{\rm alg}=\Delta N_p^*+D,
+\qquad B_{1s}^{\rm alg}=\Delta N_{1s}^*-D. \tag{16a}
+\]
+
+In the upper row, `B_p^alg=B_p^QSS+DeltaN_p*` when the represented instantaneous QSS channel balance is used. The first term is the named native network contribution; the second is the source algebraic refresh. Equations (16) and (16a) are useful finite diagnostic outputs even before channel energies are available. They must not be advertised as an independently measured physical source solely because the total closes. With the ground state as zero internal-energy reference, the selected direct line gives `-E21,J*D` to atomic internal energy. The upper algebraic refresh adds `E21,J*DeltaN_p*` to bookkeeping; its physical energy counterpart remains an owner question. Inclusion of `2s`, continuum, or thermal sectors requires their corresponding energy accounting rather than reusing this one upper-state expression for the whole matter sector.
+
 The endpoint defect can now be measured constructively from recovered states. Identifying the full physical refill energy still requires either actual source channel energy accounting or a declared dynamic extension. There is no need to require unrelated future providers before doing endpoint recovery or the net radiation subunit.
 
 ## 6. A derived algebraic refresh owner and a conditional dynamic extension

@@ -106,7 +106,7 @@ transaction; report actual invocation count and leave it uncalled if an owner
 remains absent.
 
 Compute per-V0 endpoint 1s,2s,2p stock and atomic internal energy with nH_ref
-from the previous tube. The native code uses x1s=1-xe and QSS excited states;
+from the previous tube. The native code uses x1s=1-xHII and QSS excited states;
 do not silently assert exact species normalization including tiny excited
 stocks. Derive the finite QSS storage defect: instantaneous algebraic channel
 balance does not itself supply the endpoint change of 2s/2p inventory. Report

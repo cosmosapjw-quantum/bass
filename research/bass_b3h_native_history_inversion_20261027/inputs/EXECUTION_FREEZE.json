@@ -1,25 +1,80 @@
 {
-  "schema": "BASS_NATIVE_INVERSION_EXECUTION_FREEZE_PREPARATION_V1",
-  "status": "NOT_EXECUTABLE_IMPLEMENTATION_IN_PROGRESS",
-  "source_inputs_frozen": true,
-  "controls_invocations": 0,
-  "result_invocations": 0,
-  "plot_invocations": 0,
-  "B3i_RHS_invocations": 0,
+  "schema": "BASS_NATIVE_INVERSION_EXECUTION_FREEZE_V1",
+  "status": "READY_FOR_AUTHORIZED_BOUNDED_EXECUTION",
+  "pre_execution_only": true,
+  "created_utc": "2026-10-27T11:41:11.904549+00:00",
+  "commands": {
+    "controls": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "tests/controls.py"
+    ],
+    "result": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "code/result.py"
+    ],
+    "plot": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "code/plot.py"
+    ]
+  },
+  "dependency_path": "/workspace/scratch/2a7ffd1a5e61/runtime_deps",
   "requires_root_S0_publication_and_double_provider_ACK": true,
   "new_guard": {
-    "cpu_s": 30,
-    "wall_s": 180,
+    "aggregate_child_cpu_s": 30,
+    "aggregate_child_wall_s": 180,
     "target_memory_bytes": 536870912,
     "threads": 1
   },
+  "historical_remaining_cpu_s": null,
+  "historical_remaining_wall_s": null,
+  "historical_budget_reset": false,
   "requested_model": "gpt-6.1-sol",
   "observed_model": null,
   "files": [
     {
+      "path": "FROZEN_CONTRACT.md",
+      "bytes": 9246,
+      "sha256": "1e42519eb5419698716c70a9b98451d54020e1204582cb9b964b1491114628c4"
+    },
+    {
+      "path": "code/inverse.py",
+      "bytes": 6694,
+      "sha256": "ce3d6a803dad732e4ae0b13529c83b0e3510b9e162bdf54f45cad95a12d0c1c6"
+    },
+    {
+      "path": "code/metered.py",
+      "bytes": 4007,
+      "sha256": "e5521136112f6cc1913aa452f9bb17deb073aa79603a5db3bcf1840d2071f9d0"
+    },
+    {
+      "path": "code/net.py",
+      "bytes": 3616,
+      "sha256": "dbb574511f30b0a0837467fc10e57fc38c3ae6ef09d7ef2bb27d63027cfa6d08"
+    },
+    {
+      "path": "code/plot.py",
+      "bytes": 2025,
+      "sha256": "1dc8457959823b873b122e5203f60ca7c72e36b186ff3b1467a06e366e465d88"
+    },
+    {
+      "path": "code/reference.py",
+      "bytes": 4095,
+      "sha256": "6d4a8e45c7a63490fb7050368bb3febbb00815b881e9f087475e1ad1e87d6151"
+    },
+    {
+      "path": "code/result.py",
+      "bytes": 6187,
+      "sha256": "ceabbf58716abf5f9b3aa539bf357d1c74466e78f133bd0511f798c39eb45849"
+    },
+    {
       "path": "inputs/FINITE_TUBE_INPUT_SLICE.json",
       "bytes": 5722,
       "sha256": "0eb250e965ad3496d00b53d5a165bafc93de8506baa9dad8e04de2bbd3614cdd"
+    },
+    {
+      "path": "inputs/LYA_DIAGNOSTIC_NORMALIZATION.json",
+      "bytes": 802,
+      "sha256": "48e1e1abe83824b98de2c179fa65c578090822087f21568b0e95b571363d8802"
     },
     {
       "path": "inputs/NATIVE_LYMAN_STORED_5126_5127.json",
@@ -62,9 +117,30 @@
       "sha256": "f8073ba70197378e156a6723e229ff47cc9f0d8be0121f1fce82aff6c64abcbc"
     },
     {
+      "path": "inputs/native_source/packet_extraction_source.py",
+      "bytes": 9524,
+      "sha256": "e25b82def497e59bdf2cafb62069fb0cb7f662c70c7eaaa859a7243652adb4a9"
+    },
+    {
       "path": "inputs/native_source/two_photon_tables.dat",
       "bytes": 25191,
       "sha256": "93d23871e21c40f5b72a6ef9acf3eb7be054735c8aee9401e455736c1d9d8cf9"
+    },
+    {
+      "path": "tests/controls.py",
+      "bytes": 3465,
+      "sha256": "c2950c1746748763bd96bab7a2f614fdd7a1f2fb849453903602c3e4c9538ea0"
+    },
+    {
+      "path": "vendor/binding.py",
+      "bytes": 7152,
+      "sha256": "043437f5de3f71483f082b9924da7801e2c89b9a7bf231289e0c898c569dd29e"
+    },
+    {
+      "path": "vendor/transport.py",
+      "bytes": 4324,
+      "sha256": "69f67c7631a5bed304f5186597c091d128e025043e37963f9a945e749610326b"
     }
-  ]
+  ],
+  "authorized_repair": "C9-1 explicit virtual interval propagation + source wording + endpoint Lyalpha diagnostic"
 }
