@@ -34,3 +34,16 @@ ANISO continuum–finite14 joint 차이 3.447529542803539e-5, finite14 재구성
 실제 패킷이 확보되면 native HISTORY01의 A=-expm1(-tau), D_up=∫A f_in dμ, D_down=∫A f_s dμ로 한 번의 유한 transaction을 구성한다. 모든 accepted prefix의 stock과 energy balance를 검사하고 B3b의 packet/stock 의미와 B3g의 event-time transport에 연결한다. LINE01 stimulated bath gross_counts/commit_emission을 native absorption에 호출하지 않는다. B3i에는 sector T[J/m^3]와 별도 cQ[J/(m^3 s)]를 구분해 소비하고 finite kick을 rate로 중복 반영하지 않는다.
 
 Astra 계약·과학판정 → 위임 구현 → 독립 검토를 유지한다. 새로운 실제 source exporter가 필요하면 그 한 작업의 입력·명령·수용 기준·비용 한도를 먼저 고정한다. 기존 완료 campaign을 그 준비 과정에서 재실행하지 않는다. 이후 expected-SHA force=false 게시, source ZIP, Drive/Dropbox 실제 ACK, 최신 중앙 DAG 갱신으로 닫아라. 사용자에게서 게시와 백업 자동 실행 권한은 이미 승인되었다.
+
+
+## 최종 source ZIP·백업 ACK — 2026-10-27 09:58:00 UTC
+
+Source ZIP `BASS_B3H_NATIVE_TUBE_S1_DELIVERY_20261027.zip`은 science S1 `74c6e4b8df36bbc39f073548a6b51b597da167c1`과 delivery-document D1 `2490f3ab81a60317c4f7228cd65c46ef7ed6a99b`에 바인딩되어 있다. 중앙 반영은 `55202663275cd0607c968129b33de805d06f5d8b`이다. ZIP은 **2,460,431바이트, 88 members**, 로컬 SHA256 `ef34a8a2befef44347d451ed9452bb25dd85b771aadd9fca837351dcabd0e2bb`이며 CRC와 manifest readback은 PASS다. ZIP은 자기 자신의 외부 ACK 전에 동결했고 재생성하지 않았다. 아래 ACK는 후속 최종 delivery metadata의 [FINAL_RECEIPTS.json](delivery/FINAL_RECEIPTS.json)에 기록했다. 그 metadata를 포함하는 최종 commit의 정확한 SHA는 이후 root HEAD readback·PR·대화에 기록하며 이 문서 안에서 자기 SHA를 추정하지 않는다.
+
+- Drive: upload success=true, metadata size=2460431, file ID `19zAnZ-_DEl5vLBUYMuBSWgcDm1pz_nsq`, parent `1fFxb-qgExWbEomt3EbbOjGKcslFpGv3y`. [실제 저장 파일](https://drive.google.com/file/d/19zAnZ-_DEl5vLBUYMuBSWgcDm1pz_nsq/view).
+- Dropbox: upload status=`completed`, file ID `id:BSpOijBcT10AAAAAAEDHMQ`, path `/BASS_BACKUPS/BASS_B3H_NATIVE_TUBE_S1_DELIVERY_20261027.zip`, rev `65ecf780024920af03d47`, size=2460431, modified=`2026-10-27T09:57:04Z`.
+- Library: S0 `file_00000000215c81fd848c9e8e1609b1e9` / `libfile_21f452a0538c8191b90e3b0010863697`, final `file_00000000e0e481fda729af07bcad187a` / `libfile_f2bf59be0580819184345325344a04c7`. 두 항목 모두 status=`succeeded`, local_metadata_applied=true다. [최종 저장 파일](https://chatgpt.com/library?file_id=libfile_f2bf59be0580819184345325344a04c7&account_id=personal).
+
+로컬 SHA256 측정과 원격 provider의 실제 ACK·크기 확인을 구분한다. 원격 바이트의 SHA256은 다시 측정하지 않았다. 첫 helper는 upload 전 tools/list network 단계에서 exit1이었고, 승인된 network escalation 뒤 같은 batch가 exit0으로 완료됐다. 이는 전달·환경 진단이며 과학 실행 비용에 합산하지 않는다.
+
+다음 노드 전에 최신 HEAD·AGENTS·병렬 작업을 다시 읽고, 현재 중앙 `55202663275cd0607c968129b33de805d06f5d8b`의 CR_N5와 B3h, 원래 계약과 다른 관측을 보존한다. 기존 완료 과학을 재실행하지 않는다.
