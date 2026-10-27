@@ -1,0 +1,28 @@
+{
+  "schema": "bass.dl2.published_dag_state.v1",
+  "scope": "Additive research branch, not the active central/production DAG",
+  "source_commit": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+  "archive_sha256": "a8adfcadb8f46de7d6096d6fdf0dbfc0a7a62bf3f3dedf079bdf3c852fadaa26",
+  "detailed_dag_in_archive": "DAG_UPDATED.json",
+  "recommended_next_node": "KM-1",
+  "nodes": [
+    {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+    {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+    {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+    {"id":"KM-1","depends_on":["DL-1"],"status":"READY_SCOPED_NATIVE_MEMORY_EXTENSION"},
+    {"id":"KM-2","depends_on":["DL-1"],"status":"REST_ELECTRON_KERNEL_CHECKED_TILTED_WIRING_OPEN"},
+    {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"OPEN"},
+    {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"OPEN"},
+    {"id":"DV-2","depends_on":["DV-1"],"status":"FUTURE"},
+    {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+    {"id":"BF-1","depends_on":["DL-0"],"status":"OPEN_THEORY"},
+    {"id":"BF-2","depends_on":["BF-1"],"status":"TOY_CHECKED_INTEGRATION_OPEN"},
+    {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"FUTURE"},
+    {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+    {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+    {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}
+  ],
+  "progress":{"scope_completed_or_source_mapped_nodes":["DL-0","DL-1","DL-2"],"count":3,"total":15,"note":"Not a global physics completeness fraction; DL0 is source mapping, DL1/2 are scoped contracts."},
+  "production_ready":false,
+  "overall_physical_completion":null
+}
