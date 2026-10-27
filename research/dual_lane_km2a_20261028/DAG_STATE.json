@@ -1,0 +1,23 @@
+{
+ "schema":"bass.km2a.additive_dag.v1","scope":"This branch follows attached original handoff; parallel DV2F BF1 pointer is preserved, not overwritten.",
+ "nodes":[
+  {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+  {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+  {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+  {"id":"KM-1","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"},
+  {"id":"KM-2","depends_on":["DL-1"],"status":"PARTIAL_NORMAL_CLOCK_GENERATOR_CHECKED_PROPAGATOR_WIRING_OPEN","subgates":{"KM-2A":"COMPLETE_SCOPED_INSTANTANEOUS_TILTED_NORMAL_TIME","KM-2B":"READY_SCOPED_FIXED_BETA_FINITE_TIME"}},
+  {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA"},
+  {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"COMPLETE_SCOPED_BIANCHI_I_THREE_LANE_BENCHMARK"},
+  {"id":"DV-2","depends_on":["DV-1"],"status":"PARTIAL","completed_subgates":["DV2-A","DV2-B","DV2-C","DV2-D","DV2-E","DV2-F"]},
+  {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+  {"id":"BF-1","depends_on":["DL-0"],"status":"OPEN_THEORY"},
+  {"id":"BF-2","depends_on":["BF-1"],"status":"TOY_CHECKED_INTEGRATION_OPEN"},
+  {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"FUTURE"},
+  {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+  {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+  {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}
+ ],
+ "progress":{"complete_or_source_mapped":6,"total":15,"not_physical_completion":true},
+ "next":"KM-2B","auto_next":false,"production_ready":false,"overall_physical_completion":null,
+ "full_detailed_DAG":"DAG_UPDATED.json in immutable ZIP"
+}
