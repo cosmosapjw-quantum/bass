@@ -1,0 +1,35 @@
+{
+  "schema": "bass.qss_owner.symbolic_checks.v1",
+  "scientific_execution": "symbolic_only",
+  "native_solver_replay": 0,
+  "prior_campaign_replay": 0,
+  "first": {
+    "code": "ClearAll[T,eps,q1,q2,qi,qe,g1,g2,r,k1,k2,b1,b2,bi,chi,kr,ki,rr,ii,A,Eg,Eb,Tm,Tr,ng,m11,m12,m21,m22,s01,s02,s11,s12,p01,p02,e11,e12,e21,e22,t]; w=T^(-3/2)Exp[-eps/T]; M={{g1,-r/q1},{-r/q2,g2}}; Q=DiagonalMatrix[{q1,q2}]; kv={k1,k2}; bv={b1,b2}; forward=qi/qe bi+(Q.bv/qe).Inverse[M].kv; reverse=bi+(Q.kv/qi).Inverse[M].bv; N={{m11,m12},{m21,m22}}; s0={s01,s02}; s1={s11,s12}; p0={p01,p02}; Em={{e11,e12},{e21,e22}}; K=p0-Inverse[N].s0+Inverse[N].Inverse[N].s1; pv=Inverse[N].(s0+t*s1)-Inverse[N].Inverse[N].s1+Em.K; pd=Inverse[N].s1-N.Em.K; Jw=A/3 Exp[(Eg-Eb)/Tm]*(3ng Exp[-Eg/Tr])-A*ng Exp[-Eb/Tr]; <|\"MaxwellFirstMomentIntegrand\"->FullSimplify[T^2 D[w,T]+3T/2*w-eps*w,Assumptions->T>0],\"EffectiveReverseKernelReciprocity\"->FullSimplify[reverse-qe/qi forward],\"BoundFreeEnergySum\"->Expand[-chi*(rr-ii)-kr*rr+ki*ii+(chi+kr)*rr-(chi+ki)*ii],\"AffineForcingDynamicIdentity\"->FullSimplify[pd-(s0+t*s1-N.pv)],\"DiffusionWienDrive\"->FullSimplify[Jw-A*ng*Exp[-Eb/Tr]*(Exp[(Eg-Eb)*(1/Tm-1/Tr)]-1),Assumptions->{Tm>0,Tr>0}]|>",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Symbol::undefined2: Warning: Global symbols \"T, A, Eg, Eb, Tm, T, T, M, Q, Q, M, Q, M, Em, E ... , A, Eb, T, T, T, T, Jw, A, Eb, Eg, Eb, Tm, Tm\" are undefined.\nClearAll::wrsym: Symbol Tr is Protected.\nSet::wrsym: Symbol N is Protected.\nGeneral::messages: Messages were generated which may indicate errors.\n\nOut[1]= <|\"MaxwellFirstMomentIntegrand\" -> 0, \"EffectiveReverseKernelReciprocity\" -> 0, \"BoundFreeEnergySum\" -> 0, \"AffineForcingDynamicIdentity\" -> {-s01 - s11*t + N . {Inverse[N] . {s01 + s11*t, s02 + s12*t} - MatrixPower[N, -2] . {s11, s12}, Inverse[N] . {s01 + s11*t, s02 + s12*t} - MatrixPower[N, -2] . {s11, s12}} + Inverse[N] . {s11, s12}, -s02 - s12*t + N . {Inverse[N] . {s01 + s11*t, s02 + s12*t} - MatrixPower[N, -2] . {s11, s12}, Inverse[N] . {s01 + s11*t, s02 + s12*t} - MatrixPower[N, -2] . {s11, s12}} + Inverse[N] . {s11, s12}}, \"DiffusionWienDrive\" -> 0|>"
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    },
+    "interpretation": "Maxwell moment, effective reverse kernel, three-sector energy identity, Wien diffusion expression succeed. Affine subcheck had protected-symbol naming errors and is not accepted."
+  },
+  "targeted_repair": {
+    "code": "ClearAll[m11,m12,m21,m22,s01,s02,s11,s12,p01,p02,e11,e12,e21,e22,t,u,lineFactor,nref,ng,hh,pu,fin]; dynMat={{m11,m12},{m21,m22}}; source0={s01,s02}; source1={s11,s12}; initialP={p01,p02}; expMat={{e11,e12},{e21,e22}}; initLayer=initialP-Inverse[dynMat].source0+MatrixPower[dynMat,-2].source1; population=Inverse[dynMat].(source0+t*source1)-MatrixPower[dynMat,-2].source1+expMat.initLayer; populationDerivative=Inverse[dynMat].source1-dynMat.expMat.initLayer; <|\"AffineForcingDynamicIdentity\"->FullSimplify[populationDerivative-(source0+t*source1-dynMat.population)],\"AffineInitialCondition\"->FullSimplify[(population/.{t->0, e11->1,e12->0,e21->0,e22->1})-initialP],\"NativePhotonAtomicClock\"->FullSimplify[10^6*nref*(lineFactor*hh/(nref*Exp[-3u]*ng))*(pu-3ng*fin)/hh-3*10^6*lineFactor*Exp[3u]*(pu/(3ng)-fin)]|>",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Out[1]= <|\"AffineForcingDynamicIdentity\" -> {0, 0}, \"AffineInitialCondition\" -> {0, 0}, \"NativePhotonAtomicClock\" -> 0|>"
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    },
+    "interpretation": "Affine dynamic identity, initial condition, and native photon/atomic clock identity return zero."
+  }
+}
+

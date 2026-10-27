@@ -1,6 +1,6 @@
 {
   "schema": "BASS_QSS_CHANNEL_COMPLETION_PREPARATION_DAG_V1",
-  "state": "R1_C1_PREPARATION_COMPLETE_COMPUTATIONAL_FREEZE_PENDING",
+  "state": "PHASE_A_SOURCE_OPERANDS_NUMERICAL_PASS_INDEPENDENT_PASS_SCOPED_PHASE_B_OPEN",
   "original_DAG": {
     "completed": 27,
     "total": 88,
@@ -9,14 +9,21 @@
   "selected_loop_total": 20,
   "local_work_completed_stages": [
     "R1",
-    "C1"
-  ],
-  "in_progress": [
     "R2",
-    "C2"
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6"
   ],
-  "scientific_admission": null,
-  "scientific_execution_authorized": false,
+  "in_progress": [],
+  "scientific_admission": "PASS_SCOPED_PHASE_A in reviews/ROOT_PHASE_A_ADMISSION.md",
+  "scientific_execution_authorized": "Phase A one invocation completed; Phase B not yet authorized",
   "full_physical_atomic_transaction": false,
   "global_physical_completion": null,
   "physical_radii": {
@@ -27,5 +34,18 @@
     "temporal": null,
     "total": null
   },
-  "next_action": "root의선택computationalcontract를받아sourcechanneloperand/finitecompletion의구현으로진행. 신규물리/tolerance를추정하지않는다."
+  "next_action": "root의별도PhaseB계약에따라구현준비. 실제실행은새codefreeze후root신호대기. PhaseA재실행없음.",
+  "not_yet_performed": [
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "C7",
+    "C8",
+    "C9",
+    "C10"
+  ],
+  "phase_A_numerical_status": "67/67PASS; one metered invocation",
+  "phase_A_review": "PASS_SCOPED in reviews/INDEPENDENT_REVIEW.md",
+  "phase_A_automatic_replay": false
 }

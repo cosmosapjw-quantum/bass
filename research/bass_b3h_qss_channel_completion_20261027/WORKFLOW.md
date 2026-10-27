@@ -11,3 +11,7 @@ inputs/native_source의11원본파일과 packet,validation-onlyrightsnapshot 및
 ## PhaseA 계약 도착 — S0 게시 전 보완
 
 Root CODING_CONTRACT_PHASE_A.md가 새4diffusionTm inverse,fullnativeendpointoperator/channel 및 Maxwellianenergy closure의 방정식·holdout·허용값을 고정했다. SOURCE_OPERAND_MAP.md를 추가 근거로 보존한다. 새 allocation은PhaseA+나중별도동결PhaseB+saved-onlyplot의합계60CPUs/180walls/768MiB/1thread다. 코드는 구현할 수 있으나 실제S0게시·sourcebackupACK와root실행신호 전run0을 유지한다. R2/C2는inprogress다. 기존12inverse/photon/result프로그램은호출하지않고 저장배열·원C공식만직접읽는다.
+
+## S1A 현재 상태 — S0 문구는 역사기록
+
+실제 S0 게시와 Drive/Dropbox ACK 후 Phase A를 승인된 단1회 실행했다. 고정67checks는 모두PASS이고 독립 검토 결과는 PASS_SCOPED다. R1–R6/C1–C6의 Phase A 작업 근거를 STAGE_LEDGER에 결속했다. 이후 선택 finite dynamic R7+/C7+는 아직 미수행이며 전체20단계 완료를 주장하지 않는다. 현재 비용과 잔여는 BUDGET_LEDGER_PHASE_A.json, 재실행 불필요 source/operator는 results/SOURCE_OPERANDS.json에 있다. S1A_CHECKPOINT.md가 earlymetadata와 현재metadata의 관계를 설명한다.
