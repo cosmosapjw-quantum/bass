@@ -1,0 +1,55 @@
+{
+  "archive": {
+    "path": "next_atomic_intake/Full_Bianchi_HyRec_PR05B2_causal_characteristic_history_v0_60.zip",
+    "bytes": 273596,
+    "sha256": "5f7860c8368ed16213dcf79087b80d4da51a4ad8bf3d10ffa5f578ead5db1c7b"
+  },
+  "member": {
+    "path": "Full_Bianchi_HyRec_PR05B2_causal_characteristic_history_v0_60/pr05b2_z1300.csv",
+    "bytes": 141438,
+    "sha256": "1148023608df70056385fe15aba8508f6fb5cdce5dfba547f8bb30627ad9e88a"
+  },
+  "metadata_literal_rows": [
+    "META,target_z,1300",
+    "META,z,1299.9971824762927",
+    "META,zstart,1700.4825068138662",
+    "META,iz_local,3161",
+    "META,xe,0.56361437690177074",
+    "META,xHII,0.56361437690177074",
+    "META,x1s,0.43638562309822926",
+    "META,nH_cm3,412.79366039354551",
+    "META,H_sInv,6.5337613851888982e-14",
+    "META,TM_eV_rescaled,0.30583912384019674",
+    "META,TR_eV_rescaled,0.30583987092241965",
+    "META,TM_over_TR,0.9999975572765557",
+    "META,fsR,1",
+    "META,meR,1",
+    "META,dxHIIdlna,-3.3187774869501125",
+    "META,A2p_up_sInv,4426.7659238183433",
+    "META,A2p_dn_sInv,4446.3254762531915",
+    "META,Dfplus_Lya,3.611473339085188e-14",
+    "META,Dfplus_Lyb,7.3222327398956234e-17",
+    "META,Dfminus_Lya,3.6199135285090164e-14",
+    "META,Dfminus_Lyb,7.5272694585409883e-17",
+    "META,Dfminus_Lyg,8.669098999866587e-18"
+  ],
+  "scope": "Actual earlier native snapshot metadata only; not a new source solve.",
+  "same_archive_right_snapshot": {
+    "member": "Full_Bianchi_HyRec_PR05B2_causal_characteristic_history_v0_60/pr05b2_z1100.csv",
+    "bytes": 141752,
+    "sha256": "147ba6e6cfdae9c06530a0983161e769198b3bb5ad56c0c4d820b0a3f5d3e7b5",
+    "byte_identical_to_selected_right_validation": false,
+    "byte_mismatch_classification": "Two added INTERFACE rows in PR05B2 format",
+    "all_2516_shared_literal_rows_identical": true,
+    "extra_literal_rows": [
+      "INTERFACE,red,-21.25,0.00023948472258666787,10.193625503598776,136,10.194417,-7.0040505560472557,5126,5127,0.085474709867412457,7.8151114025789471e-15,7.8077723949578005e-15,7.8144841030318141e-15,7.8627786195327803e-18,7.8223468816513466e-15,55829362552114.031,2.1681478370963022e-14,2.1815472694983155e-17,2.1703293843658007e-14",
+      "INTERFACE,blue,21.25,0.00023948472258666787,10.203803604308709,144,10.204523999999999,-7.0040435110593995,5126,5127,0.16845454327449261,7.268984420196327e-15,7.262067776026232e-15,7.2678192800616621e-15,7.5595801152574146e-18,7.2753788601769199e-15,55996762590908,2.0225205800486675e-14,2.103713063088861e-17,2.0246242931117565e-14"
+    ]
+  },
+  "phase_source_locations": [
+    "native_source/history.c rec_build_history H+He loop then one-way H-only loops",
+    "native_source/history.c rec_get_xe_next1_H passes xe_in as both xe and xHII",
+    "native_source/hyrec_params.h XHEII_MIN=1e-6"
+  ],
+  "argument": "Earlier actual native index3161 has exactly equal xe and xHII; in simultaneous H/He loop xHeII>XHEII_MIN=1e-6 would be separately present. The source advances one-way to H-only and never re-enters helium evolution. Knots5126/5127 are later. Preserve this as source-model He-neutral convention, not physical assertion of exactly zero helium ionization."
+}

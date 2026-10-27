@@ -1,0 +1,38 @@
+{
+  "schema": "BASS_QSS_CODING_FREEZE_PREPARATION_V1",
+  "status": "IMPLEMENTATION_IN_PROGRESS_ACTUAL_S0_ACK_REQUIRED",
+  "R1_contract": "R1_CONTRACT.md",
+  "scientific_run_authorized": false,
+  "commands": {
+    "phase_a": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "code/phase_a.py"
+    ]
+  },
+  "resource_limits": {
+    "aggregate_child_CPU_s": 60,
+    "aggregate_child_wall_s": 180,
+    "peak_memory_bytes": 805306368,
+    "BLAS_OpenMP_threads": 1,
+    "shared_scope": [
+      "PhaseA",
+      "separately_frozen_PhaseB",
+      "one_saved_result_plot"
+    ]
+  },
+  "IC_BC_completion_tolerances": "Root CODING_CONTRACT_PHASE_A.md actual equations and tolerances; PhaseB separately pending",
+  "scientific_executions": 0,
+  "controls": 0,
+  "plot": 0,
+  "consume": 0,
+  "native_solve": 0,
+  "requested_model": "gpt-6.1-sol",
+  "observed_runtime_model": null,
+  "prior_allocations": "CLOSED; preserved in copied BUDGET_LEDGER; no automatic transfer/reset",
+  "scientific_contract": "CODING_CONTRACT_PHASE_A.md",
+  "scientific_contract_sha256": "8393803be80a7ad7e4d9b0e728362da8ab32d63783c0ca3a1c3190de30ad4647",
+  "source_packet_sha256": "c335e0273677a55a910b4ff67a1aa47a64834a19bf460b286bfe78404e9cf710",
+  "source_holdout_boundary": "right snapshot only post-reconstruction validation; existing12inverse/finitephoton programs never invoked",
+  "requires_actual_S0_publication_and_source_backup_ACK": true,
+  "source_Tm_policy": "네 diffusiontraceTm값을보존하고상호및rec_Tmss≤2e-8일치확인후원sourceTm_ss로계수재구성. rightsnapshot입력아님."
+}
