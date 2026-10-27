@@ -1,6 +1,6 @@
 # 다음 대화용 handoff — 현재 endpoint-channel 노드 완료
 
-이 handoff는 끊긴 기존 노드를 마무리한 결과를 전달한다. 과학 계산과 독립 검토는 완료됐으며, source archive의 최종 전달 ACK는 뒤의 전달 commit에서 `delivery/FINAL_ROOT_ACK.json`에 결속한다. Source archive 단계의 문서와 최종 실제 ACK를 구별한다.
+이 handoff는 끊긴 기존 노드를 마무리한 결과를 전달한다. 과학 계산·독립 검토와 실제 게시·백업을 모두 완료했다. 선택된 R/C 단계는 **20/20**이며, 실제 D source commit과 Drive·Dropbox·영구 파일 ACK는 `delivery/FINAL_ROOT_ACK.json`에 있다. 원본 source archive와 그 이후의 최종 F receipt commit을 구별하며, F 자체의 pin은 root의 외부 readback으로 전달한다.
 
 ## 고정된 현재 결과
 
@@ -57,4 +57,12 @@ Git 원자료는 `results/ENDPOINT_RESULT.json.gz`다. Source ZIP에는 원본 `
 
 S0·ST·S1의 실제 ACK는 각각 `delivery/S0_ROOT_ACK.json`, `ST_ROOT_ACK.json`, `S1_ROOT_ACK.json`에 있다. S1 ZIP SHA256은 **b5e93a5a7fe6f8def95deefd9b169deb5d8f9757f978c980da2b1e3742a02f93**,9,437,619 bytes다. Drive ID **1v-lOAMYwIPv1G2VhUjUGaiclbaaVNQBx**, Dropbox ID **id:BSpOijBcT10AAAAAAEDIWg**,rev **65ed4b3ae6c290af03d47**이며 실제 업로드와 별도 metadata 크기 확인을 마쳤다. 원격 bytes의 재다운로드 hash 검증은 주장하지 않는다.
 
-중앙은 최신7de 위에ff724를 non-force로 반영했다. 기존HE·REC·CR와 다른87노드,88개ID·순서,17개edge를 보존했다. 중앙의 현재 결과를 이전12f6007a/5abe0d19/42cc snapshot으로 덮어쓰지 않는다. 최종 D source ZIP와 실제 이중 ACK·F 전달 commit은 이 source checkpoint 이후의 최종 receipt에서 확인한다. 그 후 이 노드는20/20 전달 완료로 재사용하고 종료한다.
+중앙은 최신7de 위에ff724를 non-force로 반영했다. 기존HE·REC·CR와 다른87노드,88개ID·순서,17개edge를 보존했다. 중앙의 현재 결과를 이전12f6007a/5abe0d19/42cc snapshot으로 덮어쓰지 않는다. 실제 최종 D source commit은 **d7018942047ab5d62f65f005a79f7340981a8058**이며 parent S1 위에 non-force 게시와 HEAD readback을 마쳤다. D ZIP은 **9,791,759 bytes,124 members**, SHA256 **67d3324de3531ada096f07f32f2c801340558bce7aee906e1ebff67b0cbd8794**다. Drive ID **165W3QF9YP4Dqiw0spd8J6w2msPg8YiFy**, Dropbox ID **id:BSpOijBcT10AAAAAAEDIZQ**,rev **65ed4de03e7080af03d47**에서 실제 업로드와 별도 metadata 크기 확인을 마쳤다. 원격 bytes 재다운로드 hash 검증은 주장하지 않는다.
+
+[최종 D source ZIP](https://chatgpt.com/library?file_id=libfile_58dfc7ae298c8191946ef69af0d9cbfb&account_id=personal)을 영구 파일로 저장했다. 실제 최종 ACK와 D source/F receipt 구분은 `delivery/FINAL_ROOT_ACK.json`에 있다. 이 노드는 **work20/20·published20/20·backed20/20**으로 완료됐고 종료한다. F 자체의 commit SHA는 이 파일에 미리 쓰지 않으며 root가 외부 실제 readback pin을 전달한다.
+
+## 최종 F 직전의 최신 중앙 관측
+
+Root의 실제 **2026-10-27T16:27:20Z** 재조회에서 최신 중앙 HEAD는 **b99a9468abd53de77ddae36d93180e60072885bc**였다. 이는 이 노드의 실제 반영 M **ff724389fc4b7b33d3492aa8ca3b76e1f108a080**을 직접 parent로 하는 정상적인 HE 후속 commit이며 compare는 **ahead1/behind0**, 변경은 **HE 전용9개 경로**다. 메시지는 `HE KINEMATIC08: record exact physical-input reference, preserve plot CPU failure and28/88`다. 실제 CURRENT_STATUS blob `237060bb7784b4c7f127fada79bd75f29f1e7c7a`의88개 row에서 우리 B3h 객체는 M과 정확히 같은 의미를 유지했고, `HE-CLOSURE`·`HE-EXP-NUCLEAR`·`HE-EXP-CLOSURE`의 observation만 바뀌었으며 세 status는 그대로다. 원 DAG **28/88**도 유지된다.
+
+우리 `central_reflection_commit`은 역사적 실제 M으로 보존한다. 다음 대화는 최신 **b99a9468abd53de77ddae36d93180e60072885bc** 위의 중앙 상태를 기준으로 삼고, 보관된 ff724/M snapshot으로 이를 덮어쓰지 않는다. D ZIP와 source snapshot은 갱신하지 않았으며 추가 과학·노드 실행이나 중앙 push도 없다. 상세 실제 관측은 `delivery/FINAL_ROOT_ACK.json`의 `latest_central_observed`에 있다.

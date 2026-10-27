@@ -2,8 +2,8 @@
   "schema": "BASS_ENDPOINT_INTERPOLATION_RC_STAGE_LEDGER_PREPARATION_V1",
   "selected_total": 20,
   "actual_work_completed": 20,
-  "published_covered": 18,
-  "actual_backup_covered": 18,
+  "published_covered": 20,
+  "actual_backup_covered": 20,
   "original_DAG": {
     "completed": 28,
     "total": 88,
@@ -291,22 +291,37 @@
     },
     {
       "stage": "R10",
-      "work_status": "COMPLETE_ACTUAL_HANDOFF_AND_CENTRAL_RECEIPT_FINAL_DELIVERY_PUBLICATION_BACKUPS_PENDING",
+      "work_status": "COMPLETE_D_ACTUAL_PUBLICATION_AND_DUAL_BACKUP_FINAL_RECEIPT",
       "evidence": [
         "HANDOFF_KO.md",
         "DELIVERY_RECORD.md",
         "delivery/CENTRAL_PUBLICATION_RECEIPT.json",
-        "ADMISSION.json"
+        "ADMISSION.json",
+        "delivery/FINAL_ROOT_ACK.json"
       ],
-      "checkpoint_group": "D_F_PENDING_ACTUAL_ACK",
-      "publication_commit": null,
-      "Drive_ACK": null,
-      "Dropbox_ACK": null,
+      "checkpoint_group": "D_F",
+      "publication_commit": "d7018942047ab5d62f65f005a79f7340981a8058",
+      "Drive_ACK": {
+        "actual_upload": "success",
+        "id": "165W3QF9YP4Dqiw0spd8J6w2msPg8YiFy",
+        "independent_getmetadata_bytes": 9791759,
+        "separate_metadata_read": true
+      },
+      "Dropbox_ACK": {
+        "actual_upload_poll": "completed",
+        "id": "id:BSpOijBcT10AAAAAAEDIZQ",
+        "size": 9791759,
+        "independent_getmetadata_bytes": 9791759,
+        "rev": "65ed4de03e7080af03d47",
+        "path": "/BASS_BACKUPS/BASS_B3H_ENDPOINT_CHANNEL_D_20261027.zip",
+        "server_modified": "2026-10-27T16:23:31Z",
+        "separate_metadata_read": true
+      },
       "stage_original_completed": 28,
       "stage_original_total": 88,
       "original_DAG_delta": 0,
       "checkpoint_sharing": "Several actual completed stages may share one source checkpoint/archive; no20 distinct commits or archives claimed",
-      "publication_receipt": null,
+      "publication_receipt": "delivery/FINAL_ROOT_ACK.json",
       "actual_central_commit": "ff724389fc4b7b33d3492aa8ca3b76e1f108a080",
       "further_scientific_execution_authorized": false
     },
@@ -600,27 +615,42 @@
     },
     {
       "stage": "C10",
-      "work_status": "COMPLETE_ACTUAL_HANDOFF_AND_CENTRAL_RECEIPT_FINAL_DELIVERY_PUBLICATION_BACKUPS_PENDING",
+      "work_status": "COMPLETE_D_ACTUAL_PUBLICATION_AND_DUAL_BACKUP_FINAL_RECEIPT",
       "evidence": [
         "HANDOFF_KO.md",
         "DELIVERY_RECORD.md",
         "delivery/CENTRAL_PUBLICATION_RECEIPT.json",
-        "ADMISSION.json"
+        "ADMISSION.json",
+        "delivery/FINAL_ROOT_ACK.json"
       ],
-      "checkpoint_group": "D_F_PENDING_ACTUAL_ACK",
-      "publication_commit": null,
-      "Drive_ACK": null,
-      "Dropbox_ACK": null,
+      "checkpoint_group": "D_F",
+      "publication_commit": "d7018942047ab5d62f65f005a79f7340981a8058",
+      "Drive_ACK": {
+        "actual_upload": "success",
+        "id": "165W3QF9YP4Dqiw0spd8J6w2msPg8YiFy",
+        "independent_getmetadata_bytes": 9791759,
+        "separate_metadata_read": true
+      },
+      "Dropbox_ACK": {
+        "actual_upload_poll": "completed",
+        "id": "id:BSpOijBcT10AAAAAAEDIZQ",
+        "size": 9791759,
+        "independent_getmetadata_bytes": 9791759,
+        "rev": "65ed4de03e7080af03d47",
+        "path": "/BASS_BACKUPS/BASS_B3H_ENDPOINT_CHANNEL_D_20261027.zip",
+        "server_modified": "2026-10-27T16:23:31Z",
+        "separate_metadata_read": true
+      },
       "stage_original_completed": 28,
       "stage_original_total": 88,
       "original_DAG_delta": 0,
       "checkpoint_sharing": "Several actual completed stages may share one source checkpoint/archive; no20 distinct commits or archives claimed",
-      "publication_receipt": null,
+      "publication_receipt": "delivery/FINAL_ROOT_ACK.json",
       "actual_central_commit": "ff724389fc4b7b33d3492aa8ca3b76e1f108a080",
       "further_scientific_execution_authorized": false
     }
   ],
-  "status": "R1_R10_C1_C10_WORK20_COMPLETE_S1_AND_CENTRAL_ACTUAL_FINAL_DELIVERY_PUBLICATION_BACKUPS_PENDING_COVERAGE18",
+  "status": "R1_R10_C1_C10_WORK20_PUBLICATION20_BACKUP20_COMPLETE_ACTUAL_D_ACK_FINAL_RECEIPT_STOP",
   "new_B3i_rhs": 1,
   "old_replays": 0
 }

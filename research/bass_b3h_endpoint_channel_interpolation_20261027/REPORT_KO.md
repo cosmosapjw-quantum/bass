@@ -97,4 +97,4 @@ Q_{c,s}=(1-\theta)e_{c0,s}(a_{c0}+\ell_{c0}p)
 
 Git 게시 경로의 실제 단일 요청 16 MiB 제한 때문에 원자료의 저장 표현만 조정했다. GitHub의 `results/ENDPOINT_RESULT.json.gz`와 `ENDPOINT_PARTIAL.json.gz`는 검토된 원자료를 무손실 압축한 것이며, source ZIP은 원본 JSON을 그대로 포함한다. 압축 해제 후 위 원자료 SHA256과 정확히 일치한다. 대응표는 `delivery/GITHUB_RAW_REPRESENTATION.json`이다. 수치값·모델·수용 판정에는 변경이 없다.
 
-남은 일은 이 결과의 S1 게시·실제 Drive/Dropbox ACK, 최신 central DAG에 증가0의 followup 반영, 최종 source ZIP 및 복사 가능한 handoff뿐이다. 완료 후 `AUTO_NEXT_NODE=false`로 종료한다.
+이 결과의 S1 게시, 실제 D source 게시·Drive/Dropbox ACK와 영구 파일 저장, 최신 central DAG의 증가0 followup 반영과 최종 handoff를 완료했다. 선택된 R/C 단계는 **work20/20·published20/20·backed20/20**이며 실제 source/ACK와 후속 F receipt의 구분은 `delivery/FINAL_ROOT_ACK.json`에 있다. 원 DAG **28/88, 증가0**과 모든 과학 판정을 유지하고 `AUTO_NEXT_NODE=false`로 종료한다.
