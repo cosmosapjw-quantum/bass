@@ -1,0 +1,1376 @@
+{
+  "schema": "BASS_NATIVE_VIRTUAL_TRIPLE_TRACE_INPUT_V1",
+  "source_repository": "cosmosapjw-quantum/rec_bianchi",
+  "source_commit": "d6dbe39a4923439547c01695d9020ba39367ea90",
+  "source_history_path": "data/pr05b2_source_history_v060.npz",
+  "source_history": {
+    "bytes": 35239470,
+    "sha256": "d4f82542e13fed4ff0bb60b17865d8b9de5e090a2366108169c3da7a21fcb4b1",
+    "git_blob": "de43b1a2642fa0aa049abbfd1b0a7d775d684b1b"
+  },
+  "right_snapshot": {
+    "bytes": 141089,
+    "sha256": "3a95862b9cd4f924d63020f39fc537b371133af6160e88c3409d8c69fc0c34b7",
+    "git_blob": "6399b59ca3c97d6c5b1162f83f50a6677fad06ff",
+    "path": "research/rec_history_characteristic_resume_20261024/inputs/target_native_snapshot.csv"
+  },
+  "original_archive": {
+    "bytes": 726954,
+    "sha256": "48cd597519606cdafd0ee6405b781d28467cd323278d16596055a8d0577a1d27",
+    "git_blob": "e02869896ab3b826eb64d8233f2a1272366c1fc8"
+  },
+  "original_members": {
+    "HyRec/hydrogen.c": {
+      "bytes": 37471,
+      "sha256": "421ad4678a9a2f00d54f72ebb841648f34a95a9892171c07af5f657a3b2a051b"
+    },
+    "HyRec/hydrogen.h": {
+      "bytes": 7837,
+      "sha256": "e89a3a447928cbe31dc273c11c4a8bc7f7a8e297be4a11270e453c101f96ccba"
+    },
+    "HyRec/history.c": {
+      "bytes": 30963,
+      "sha256": "8ffe38f0431fcd1ae04b55f855f36e8643b1c5eb33a947f581f95d628611f976"
+    },
+    "HyRec/hyrec_params.h": {
+      "bytes": 3764,
+      "sha256": "cab1a5d92389ea7eec408e8a8419f59c717a227332bc2ae2b51e84488578e7e2"
+    },
+    "HyRec/two_photon_tables.dat": {
+      "bytes": 25191,
+      "sha256": "93d23871e21c40f5b72a6ef9acf3eb7be054735c8aee9401e455736c1d9d8cf9"
+    },
+    "HyRec/input.dat": {
+      "bytes": 44,
+      "sha256": "f8073ba70197378e156a6723e229ff47cc9f0d8be0121f1fce82aff6c64abcbc"
+    }
+  },
+  "operation": "saved-byte extraction and native clock/interpolation arithmetic only; no inverse, native solve, tests, consume or plot",
+  "selection": {
+    "primary_bin": 273,
+    "cross_check_bins": [
+      272,
+      267,
+      268,
+      269,
+      309
+    ],
+    "reason": "saved right-snapshot moderate positive Dtau, resolved finite jump, all outside diffusion [100,180)",
+    "right_snapshot_role": "candidate conditioning selection and later validation only; x1s is not an inversion input"
+  },
+  "clock": {
+    "izH0": 18234,
+    "z_start": {
+      "decimal": 1700.4825068138662,
+      "binary64_hex": "0x1.a91ee1644269cp+10"
+    },
+    "eta0": {
+      "decimal": -7.4392552128501235,
+      "binary64_hex": "-0x1.dc1cc1e5727bbp+2"
+    },
+    "dlna": {
+      "decimal": 8.49e-05,
+      "binary64_hex": "0x1.6418ae4caf054p-14"
+    },
+    "native_z_expression": "(1+ZSTART)*exp(-DLNA*(izH0+index))-1",
+    "interpolation_expression": "ainv=(1+native_z)*E[b+1]/E[b]; eta_query=-log(ainv); position=(eta_query-eta0)/DLNA; j=floor(position); alpha=position-j; fin=(1-alpha)*out[b+1,j]+alpha*out[b+1,j+1]",
+    "strict_past": "eta_query < eta0+DLNA*(index-1)",
+    "native_z_and_affine_eta": "retain both binary64 clocks; do not substitute exp(-stored_eta)-1 for native original operation order"
+  },
+  "constants": {
+    "hPc_eV_cm": {
+      "decimal": 0.0001239841874331,
+      "binary64_hex": "0x1.040380f7c715fp-13"
+    },
+    "kBoltz_eV_per_K": {
+      "decimal": 8.617343e-05,
+      "binary64_hex": "0x1.6970041294f34p-14"
+    },
+    "E21_eV": {
+      "decimal": 10.198714553953742,
+      "binary64_hex": "0x1.465bde9fcf0ecp+3"
+    },
+    "E31_eV": {
+      "decimal": 12.087365397278509,
+      "binary64_hex": "0x1.82cbb284839fbp+3"
+    },
+    "E41_eV": {
+      "decimal": 12.748393192442178,
+      "binary64_hex": "0x1.97f2d647c2d27p+3"
+    },
+    "E32_eV": {
+      "decimal": 1.8886508433247664,
+      "binary64_hex": "0x1.e37e9f25a4877p+0"
+    },
+    "E42_eV": {
+      "decimal": 2.5496786384884356,
+      "binary64_hex": "0x1.465bde9fcf0ecp+1"
+    },
+    "T0_K": {
+      "decimal": 2.728,
+      "binary64_hex": "0x1.5d2f1a9fbe76dp+1"
+    },
+    "obh2": {
+      "decimal": 0.021976,
+      "binary64_hex": "0x1.680e065300581p-6"
+    },
+    "omh2": {
+      "decimal": 0.13,
+      "binary64_hex": "0x1.0a3d70a3d70a4p-3"
+    },
+    "okh2": {
+      "decimal": 0.0,
+      "binary64_hex": "0x0.0p+0"
+    },
+    "odeh2": {
+      "decimal": 0.343,
+      "binary64_hex": "0x1.5f3b645a1cac1p-2"
+    },
+    "w0": {
+      "decimal": -1.0,
+      "binary64_hex": "-0x1.0000000000000p+0"
+    },
+    "wa": {
+      "decimal": 0.0,
+      "binary64_hex": "0x0.0p+0"
+    },
+    "Y": {
+      "decimal": 0.24,
+      "binary64_hex": "0x1.eb851eb851eb8p-3"
+    },
+    "Nnueff": {
+      "decimal": 3.04,
+      "binary64_hex": "0x1.851eb851eb852p+1"
+    },
+    "fsR": {
+      "decimal": 1.0,
+      "binary64_hex": "0x1.0000000000000p+0"
+    },
+    "meR": {
+      "decimal": 1.0,
+      "binary64_hex": "0x1.0000000000000p+0"
+    },
+    "nH0_coefficient": {
+      "decimal": 11.223846333047,
+      "binary64_hex": "0x1.6729bfc8f8864p+3"
+    },
+    "photon_density_coefficient": {
+      "decimal": 4.48162687719e-07,
+      "binary64_hex": "0x1.e1360585a68d5p-22"
+    },
+    "neutrino_coefficient": {
+      "decimal": 0.227107317660239,
+      "binary64_hex": "0x1.d11da430439aap-3"
+    },
+    "Hubble_coefficient_s_inv": {
+      "decimal": 3.2407792896393e-18,
+      "binary64_hex": "0x1.de412e12433cap-59"
+    }
+  },
+  "table_rows": [
+    {
+      "bin": 273,
+      "literal_row": "       12.148872       0.0000000       5.5683169     0.010097584       4.2507381",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 12.148872,
+          "binary64_hex": "0x1.84c38f366948ap+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 5.5683169,
+          "binary64_hex": "0x1.645f4dd8d0e71p+2"
+        },
+        "A3s3d": {
+          "decimal": 0.010097584,
+          "binary64_hex": "0x1.4ae0ac8638f24p-7"
+        },
+        "A4s4d": {
+          "decimal": 4.2507381,
+          "binary64_hex": "0x1.100c17d0d71d9p+2"
+        }
+      }
+    },
+    {
+      "bin": 272,
+      "literal_row": "       12.124939       0.0000000       17.241001    0.0062596390       11.496677",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 12.124939,
+          "binary64_hex": "0x1.83ff8012dfd69p+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 17.241001,
+          "binary64_hex": "0x1.13db23dd54da5p+4"
+        },
+        "A3s3d": {
+          "decimal": 0.006259639,
+          "binary64_hex": "0x1.9a3b50ca2e1d3p-8"
+        },
+        "A4s4d": {
+          "decimal": 11.496677,
+          "binary64_hex": "0x1.6fe4c729f59cdp+3"
+        }
+      }
+    },
+    {
+      "bin": 267,
+      "literal_row": "       11.995755       0.0000000       5.2549629     0.016959733       1.9188541",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 11.995755,
+          "binary64_hex": "0x1.7fdd3996fa82fp+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 5.2549629,
+          "binary64_hex": "0x1.50514fe94c5f5p+2"
+        },
+        "A3s3d": {
+          "decimal": 0.016959733,
+          "binary64_hex": "0x1.15de46a55e7c7p-6"
+        },
+        "A4s4d": {
+          "decimal": 1.9188541,
+          "binary64_hex": "0x1.eb3a05b54ba6cp+0"
+        }
+      }
+    },
+    {
+      "bin": 268,
+      "literal_row": "       12.022925       0.0000000       9.5520551     0.011635479       3.9125643",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 12.022925,
+          "binary64_hex": "0x1.80bbcd35a8588p+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 9.5520551,
+          "binary64_hex": "0x1.31aa6f7502e16p+3"
+        },
+        "A3s3d": {
+          "decimal": 0.011635479,
+          "binary64_hex": "0x1.7d4578e39f29ep-7"
+        },
+        "A4s4d": {
+          "decimal": 3.9125643,
+          "binary64_hex": "0x1.f4cee82fffa21p+1"
+        }
+      }
+    },
+    {
+      "bin": 269,
+      "literal_row": "       12.049387       0.0000000       24.609350    0.0066995850       11.325614",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 12.049387,
+          "binary64_hex": "0x1.8194940bbb1f2p+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 24.60935,
+          "binary64_hex": "0x1.89bfe5c91d14ep+4"
+        },
+        "A3s3d": {
+          "decimal": 0.006699585,
+          "binary64_hex": "0x1.b7106278c60f7p-8"
+        },
+        "A4s4d": {
+          "decimal": 11.325614,
+          "binary64_hex": "0x1.6a6b6e0d23d4fp+3"
+        }
+      }
+    },
+    {
+      "bin": 309,
+      "literal_row": "       12.732456       0.0000000       9.7205741       3.7678616    0.0018538961",
+      "fields": {
+        "Eb_eV": {
+          "decimal": 12.732456,
+          "binary64_hex": "0x1.97704790b8499p+3"
+        },
+        "A1s": {
+          "decimal": 0.0,
+          "binary64_hex": "0x0.0p+0"
+        },
+        "A2s": {
+          "decimal": 9.7205741,
+          "binary64_hex": "0x1.370ef16a3b074p+3"
+        },
+        "A3s3d": {
+          "decimal": 3.7678616,
+          "binary64_hex": "0x1.e24949f5ed578p+1"
+        },
+        "A4s4d": {
+          "decimal": 0.0018538961,
+          "binary64_hex": "0x1.e5fcdc7a8de77p-10"
+        }
+      }
+    }
+  ],
+  "Gamma_source_formula": "r2g=(fsR*fsR*fsR*fsR)^2*meR; db=exp((Eb-E21)/TR); Tvr_s=-r2g*A2s/abs(exp((Eb-E21)/TR)-1); Trv_s=Tvr_s*db; Tvr_p=-exp(-E32/TR)/3*r2g*A3s3d/abs(exp((Eb-E31)/TR)-1)-exp(-E42/TR)/3*r2g*A4s4d/abs(exp((Eb-E41)/TR)-1); Trv_p=Tvr_p*3*db; Gamma=-(Trv_s+Trv_p)",
+  "Gamma_input_scope": "selected b>=140: source read_twog_params normalizes A2s only below140; effects A-D=1, diffusion rates at selected bins are zero; no matter-temperature or effective recombination rate input required",
+  "optical_depth_source_formula": "Dtau=Gamma*x1s*cube(hPc/Eb/fsR/fsR/meR)*nH_cm3/8/pi/H_s_inv",
+  "background_source_formula": "TR=kBoltz*T0*(1+native_z)/(fsR*fsR*meR); nH_cm3=1e-6*(11.223846333047*obh2*(1-Y))*(1+native_z)^3; H from original history.c rec_HubbleConstant sum of five density contributions in original order",
+  "native_piecewise": {
+    "tau_gt_1e_minus6": "A=1-exp(-tau); one_minus_P=1-(1-exp(-tau))/tau",
+    "tau_le_1e_minus6": "A=tau-tau^2/2; one_minus_P=tau/2-tau^2/6",
+    "ideal_F_applicability": "all selected saved right-snapshot tau exceed1e-6; verify inferred left tau remains same branch before adopting ideal F",
+    "ideal_F": "(favg-fin)/(fout-fin)=1/(1-exp(-tau))-1/tau"
+  },
+  "validation_only_right_state": {
+    "iz_local": {
+      "decimal": 5127.0,
+      "binary64_hex": "0x1.4070000000000p+12"
+    },
+    "z": {
+      "decimal": 1099.9986525171403,
+      "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+    },
+    "x1s": {
+      "decimal": 0.8550700033096478,
+      "binary64_hex": "0x1.b5cbbc4802d75p-1"
+    },
+    "xe": {
+      "decimal": 0.1449299966903522,
+      "binary64_hex": "0x1.28d10edff4a2bp-3"
+    },
+    "xHII": {
+      "decimal": 0.1449299966903522,
+      "binary64_hex": "0x1.28d10edff4a2bp-3"
+    },
+    "nH_cm3": {
+      "decimal": 250.18675437302318,
+      "binary64_hex": "0x1.f45f9e44e90a0p+7"
+    },
+    "H_sInv": {
+      "decimal": 4.969651222923834e-14,
+      "binary64_hex": "0x1.bfa05af5570d9p-45"
+    },
+    "TM_eV_rescaled": {
+      "decimal": 0.25882127610727856,
+      "binary64_hex": "0x1.090871d18f1a0p-2"
+    },
+    "TR_eV_rescaled": {
+      "decimal": 0.25882399309326415,
+      "binary64_hex": "0x1.0909282705d61p-2"
+    }
+  },
+  "traces": [
+    {
+      "index": 5126,
+      "bin": 273,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.148872,
+        "binary64_hex": "0x1.84c38f366948ap+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 3.0843112536976223e-18,
+        "binary64_hex": "0x1.c729fc15243cap-59"
+      },
+      "average_stored": {
+        "decimal": 3.48735954331956e-18,
+        "binary64_hex": "0x1.01525bfa0f2bdp-58"
+      },
+      "outgoing_stored": {
+        "decimal": 3.766903546000831e-18,
+        "binary64_hex": "0x1.15f2cbd3b8732p-58"
+      },
+      "incoming_witness": {
+        "source_bin": 274,
+        "source_energy_eV": {
+          "decimal": 12.172261,
+          "binary64_hex": "0x1.858329802c0a5p+3"
+        },
+        "query_eta": {
+          "decimal": -7.005981161339702,
+          "binary64_hex": "-0x1.c061fecf1626dp+2"
+        },
+        "position": {
+          "decimal": 5103.345718615095,
+          "binary64_hex": "0x1.3ef588103e174p+12"
+        },
+        "indices": [
+          5103,
+          5104
+        ],
+        "fraction": {
+          "decimal": 0.34571861509539303,
+          "binary64_hex": "0x1.62040f85d0000p-2"
+        },
+        "stored_values": [
+          {
+            "decimal": 3.0860042952419004e-18,
+            "binary64_hex": "0x1.c769f22cf9250p-59"
+          },
+          {
+            "decimal": 3.0811071289617133e-18,
+            "binary64_hex": "0x1.c6b0efb089e57p-59"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5126,
+      "bin": 272,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.124939,
+        "binary64_hex": "0x1.83ff8012dfd69p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 3.907637711154866e-18,
+        "binary64_hex": "0x1.2055307da8fb9p-58"
+      },
+      "average_stored": {
+        "decimal": 4.331205901584667e-18,
+        "binary64_hex": "0x1.3f962a93f5f69p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 4.480671738546352e-18,
+        "binary64_hex": "0x1.4a9d7f040a7cap-58"
+      },
+      "incoming_witness": {
+        "source_bin": 273,
+        "source_energy_eV": {
+          "decimal": 12.148872,
+          "binary64_hex": "0x1.84c38f366948ap+3"
+        },
+        "query_eta": {
+          "decimal": -7.0060297329375985,
+          "binary64_hex": "-0x1.c062ca8871518p+2"
+        },
+        "position": {
+          "decimal": 5102.773614988516,
+          "binary64_hex": "0x1.3eec60ba1c35fp+12"
+        },
+        "indices": [
+          5102,
+          5103
+        ],
+        "fraction": {
+          "decimal": 0.7736149885158738,
+          "binary64_hex": "0x1.8c174386be000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 3.9124044676417756e-18,
+            "binary64_hex": "0x1.20af3b1c5f6d0p-58"
+          },
+          {
+            "decimal": 3.906242802527124e-18,
+            "binary64_hex": "0x1.203ad7206b2d7p-58"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5126,
+      "bin": 267,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 11.995755,
+        "binary64_hex": "0x1.7fdd3996fa82fp+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 6.8875500951486106e-18,
+        "binary64_hex": "0x1.fc3624935e48ap-58"
+      },
+      "average_stored": {
+        "decimal": 7.084207181566646e-18,
+        "binary64_hex": "0x1.055c71f253c2fp-57"
+      },
+      "outgoing_stored": {
+        "decimal": 7.224397999353352e-18,
+        "binary64_hex": "0x1.0a88828b90fcbp-57"
+      },
+      "incoming_witness": {
+        "source_bin": 268,
+        "source_energy_eV": {
+          "decimal": 12.022925,
+          "binary64_hex": "0x1.80bbcd35a8588p+3"
+        },
+        "query_eta": {
+          "decimal": -7.006320219575981,
+          "binary64_hex": "-0x1.c0678cec1878ep+2"
+        },
+        "position": {
+          "decimal": 5099.35209981322,
+          "binary64_hex": "0x1.3eb5a23369eb5p+12"
+        },
+        "indices": [
+          5099,
+          5100
+        ],
+        "fraction": {
+          "decimal": 0.3520998132198656,
+          "binary64_hex": "0x1.688cda7ad4000p-2"
+        },
+        "stored_values": [
+          {
+            "decimal": 6.8912708293919835e-18,
+            "binary64_hex": "0x1.fc7c6cf143825p-58"
+          },
+          {
+            "decimal": 6.8807035581135684e-18,
+            "binary64_hex": "0x1.fbb4d0c10acb7p-58"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5126,
+      "bin": 268,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.022925,
+        "binary64_hex": "0x1.80bbcd35a8588p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 6.2692064601850265e-18,
+        "binary64_hex": "0x1.ce95f63b9c0f8p-58"
+      },
+      "average_stored": {
+        "decimal": 6.490052912397989e-18,
+        "binary64_hex": "0x1.dee1a2255691ep-58"
+      },
+      "outgoing_stored": {
+        "decimal": 6.6110245536865784e-18,
+        "binary64_hex": "0x1.e7ceb91bb516ap-58"
+      },
+      "incoming_witness": {
+        "source_bin": 269,
+        "source_energy_eV": {
+          "decimal": 12.049387,
+          "binary64_hex": "0x1.8194940bbb1f2p+3"
+        },
+        "query_eta": {
+          "decimal": -7.006256356193935,
+          "binary64_hex": "-0x1.c066810f4faf6p+2"
+        },
+        "position": {
+          "decimal": 5100.1043186830175,
+          "binary64_hex": "0x1.3ec1ab4a113ecp+12"
+        },
+        "indices": [
+          5100,
+          5101
+        ],
+        "fraction": {
+          "decimal": 0.10431868301748182,
+          "binary64_hex": "0x1.ab4a113ec0000p-4"
+        },
+        "stored_values": [
+          {
+            "decimal": 6.270215338697761e-18,
+            "binary64_hex": "0x1.cea904deb71dfp-58"
+          },
+          {
+            "decimal": 6.260544218592024e-18,
+            "binary64_hex": "0x1.cdf25633e9634p-58"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5126,
+      "bin": 269,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.049387,
+        "binary64_hex": "0x1.8194940bbb1f2p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 5.6723514800891436e-18,
+        "binary64_hex": "0x1.a28bb0a61a1f4p-58"
+      },
+      "average_stored": {
+        "decimal": 5.9523860715105044e-18,
+        "binary64_hex": "0x1.b73564d7351c6p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 6.0230968264809195e-18,
+        "binary64_hex": "0x1.bc6d1511fe520p-58"
+      },
+      "incoming_witness": {
+        "source_bin": 270,
+        "source_energy_eV": {
+          "decimal": 12.075196,
+          "binary64_hex": "0x1.826801711947dp+3"
+        },
+        "query_eta": {
+          "decimal": -7.006197456867706,
+          "binary64_hex": "-0x1.c0658a04a42bbp+2"
+        },
+        "position": {
+          "decimal": 5100.798068108572,
+          "binary64_hex": "0x1.3eccc4e310a4cp+12"
+        },
+        "indices": [
+          5100,
+          5101
+        ],
+        "fraction": {
+          "decimal": 0.798068108571897,
+          "binary64_hex": "0x1.989c621498000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 5.679380810417383e-18,
+            "binary64_hex": "0x1.a310786790922p-58"
+          },
+          {
+            "decimal": 5.670572877544563e-18,
+            "binary64_hex": "0x1.a26a17dacc522p-58"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5126,
+      "bin": 309,
+      "native_global_index": 23360,
+      "native_z": {
+        "decimal": 1100.092131270856,
+        "binary64_hex": "0x1.1305e57a8ed10p+10"
+      },
+      "stored_eta": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.004057812850124,
+        "binary64_hex": "-0x1.c0427bb35f033p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.732456,
+        "binary64_hex": "0x1.97704790b8499p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 4.2049845552551236e-19,
+        "binary64_hex": "0x1.f06fdc28d7d63p-62"
+      },
+      "average_stored": {
+        "decimal": 4.2659258555019275e-19,
+        "binary64_hex": "0x1.f7a1b2a1d674ep-62"
+      },
+      "outgoing_stored": {
+        "decimal": 4.296009390984015e-19,
+        "binary64_hex": "0x1.fb2eeab6cacc8p-62"
+      },
+      "incoming_witness": {
+        "source_bin": 310,
+        "source_energy_eV": {
+          "decimal": 12.74328,
+          "binary64_hex": "0x1.97c8f32378ab1p+3"
+        },
+        "query_eta": {
+          "decimal": -7.004907562639595,
+          "binary64_hex": "-0x1.c05067cf42918p+2"
+        },
+        "position": {
+          "decimal": 5115.991168557465,
+          "binary64_hex": "0x1.3fbfdbd38fb23p+12"
+        },
+        "indices": [
+          5115,
+          5116
+        ],
+        "fraction": {
+          "decimal": 0.9911685574652438,
+          "binary64_hex": "0x1.fb7a71f646000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 4.212384980109671e-19,
+            "binary64_hex": "0x1.f14f862c6b5c7p-62"
+          },
+          {
+            "decimal": 4.204918616493907e-19,
+            "binary64_hex": "0x1.f06dddfbabbe3p-62"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 273,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.148872,
+        "binary64_hex": "0x1.84c38f366948ap+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 3.0794164835544322e-18,
+        "binary64_hex": "0x1.c67110c5413d6p-59"
+      },
+      "average_stored": {
+        "decimal": 3.481839162529577e-18,
+        "binary64_hex": "0x1.00ea150da5b18p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 3.760947705334913e-18,
+        "binary64_hex": "0x1.15824b2617b23p-58"
+      },
+      "incoming_witness": {
+        "source_bin": 274,
+        "source_energy_eV": {
+          "decimal": 12.172261,
+          "binary64_hex": "0x1.858329802c0a5p+3"
+        },
+        "query_eta": {
+          "decimal": -7.005896261339702,
+          "binary64_hex": "-0x1.c0609ab667da2p+2"
+        },
+        "position": {
+          "decimal": 5104.345718615096,
+          "binary64_hex": "0x1.3f0588103e175p+12"
+        },
+        "indices": [
+          5104,
+          5105
+        ],
+        "fraction": {
+          "decimal": 0.34571861509630253,
+          "binary64_hex": "0x1.62040f85d4000p-2"
+        },
+        "stored_values": [
+          {
+            "decimal": 3.0811071289617133e-18,
+            "binary64_hex": "0x1.c6b0efb089e57p-59"
+          },
+          {
+            "decimal": 3.0762168935695275e-18,
+            "binary64_hex": "0x1.c5f8303c26d0cp-59"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 3.0794164835544322e-18,
+          "binary64_hex": "0x1.c67110c5413d6p-59"
+        },
+        "average": {
+          "decimal": 3.481839162529577e-18,
+          "binary64_hex": "0x1.00ea150da5b18p-58"
+        },
+        "outgoing": {
+          "decimal": 3.760947705334913e-18,
+          "binary64_hex": "0x1.15824b2617b23p-58"
+        },
+        "Dfeq": {
+          "decimal": 4.097146442018114e-18,
+          "binary64_hex": "0x1.2e50e87b63cdep-58"
+        },
+        "Dtau": {
+          "decimal": 1.1076274318532195,
+          "binary64_hex": "0x1.1b8d78abf648bp+0"
+        },
+        "Gamma": {
+          "decimal": 6.084185653162193,
+          "binary64_hex": "0x1.85634c38c7effp+2"
+        },
+        "one_minus_P": {
+          "decimal": 0.3954120399311254,
+          "binary64_hex": "0x1.94e6e4cfcb9a0p-2"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 272,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.124939,
+        "binary64_hex": "0x1.83ff8012dfd69p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 3.901482774215146e-18,
+        "binary64_hex": "0x1.1fe0ed0ac87b6p-58"
+      },
+      "average_stored": {
+        "decimal": 4.3243926931049156e-18,
+        "binary64_hex": "0x1.3f1577ec63410p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 4.473623751600238e-18,
+        "binary64_hex": "0x1.4a185d0acdd38p-58"
+      },
+      "incoming_witness": {
+        "source_bin": 273,
+        "source_energy_eV": {
+          "decimal": 12.148872,
+          "binary64_hex": "0x1.84c38f366948ap+3"
+        },
+        "query_eta": {
+          "decimal": -7.005944832937598,
+          "binary64_hex": "-0x1.c061666fc304dp+2"
+        },
+        "position": {
+          "decimal": 5103.773614988517,
+          "binary64_hex": "0x1.3efc60ba1c360p+12"
+        },
+        "indices": [
+          5103,
+          5104
+        ],
+        "fraction": {
+          "decimal": 0.7736149885167833,
+          "binary64_hex": "0x1.8c174386c0000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 3.906242802527124e-18,
+            "binary64_hex": "0x1.203ad7206b2d7p-58"
+          },
+          {
+            "decimal": 3.900089834471135e-18,
+            "binary64_hex": "0x1.1fc69d32e6d67p-58"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 3.901482774215146e-18,
+          "binary64_hex": "0x1.1fe0ed0ac87b6p-58"
+        },
+        "average": {
+          "decimal": 4.3243926931049156e-18,
+          "binary64_hex": "0x1.3f1577ec63410p-58"
+        },
+        "outgoing": {
+          "decimal": 4.473623751600238e-18,
+          "binary64_hex": "0x1.4a185d0acdd38p-58"
+        },
+        "Dfeq": {
+          "decimal": 4.493879938932437e-18,
+          "binary64_hex": "0x1.4b96fdf425536p-58"
+        },
+        "Dtau": {
+          "decimal": 3.3757170021355396,
+          "binary64_hex": "0x1.b0177ea65c954p+1"
+        },
+        "Gamma": {
+          "decimal": 18.43340663716553,
+          "binary64_hex": "0x1.26ef3bcc47ecbp+4"
+        },
+        "one_minus_P": {
+          "decimal": 0.7138959199637525,
+          "binary64_hex": "0x1.6d83c419fbfb2p-1"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 267,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 11.995755,
+        "binary64_hex": "0x1.7fdd3996fa82fp+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 6.876987961252645e-18,
+        "binary64_hex": "0x1.fb6ea13aeb0e4p-58"
+      },
+      "average_stored": {
+        "decimal": 7.073354273391184e-18,
+        "binary64_hex": "0x1.04f5f1398a67ep-57"
+      },
+      "outgoing_stored": {
+        "decimal": 7.213336574688093e-18,
+        "binary64_hex": "0x1.0a2009a952f34p-57"
+      },
+      "incoming_witness": {
+        "source_bin": 268,
+        "source_energy_eV": {
+          "decimal": 12.022925,
+          "binary64_hex": "0x1.80bbcd35a8588p+3"
+        },
+        "query_eta": {
+          "decimal": -7.006235319575981,
+          "binary64_hex": "-0x1.c06628d36a2c3p+2"
+        },
+        "position": {
+          "decimal": 5100.352099813221,
+          "binary64_hex": "0x1.3ec5a23369eb6p+12"
+        },
+        "indices": [
+          5100,
+          5101
+        ],
+        "fraction": {
+          "decimal": 0.3520998132207751,
+          "binary64_hex": "0x1.688cda7ad8000p-2"
+        },
+        "stored_values": [
+          {
+            "decimal": 6.8807035581135684e-18,
+            "binary64_hex": "0x1.fbb4d0c10acb7p-58"
+          },
+          {
+            "decimal": 6.8701508775343425e-18,
+            "binary64_hex": "0x1.faed7b1f3b3a0p-58"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 6.876987961252645e-18,
+          "binary64_hex": "0x1.fb6ea13aeb0e4p-58"
+        },
+        "average": {
+          "decimal": 7.073354273391184e-18,
+          "binary64_hex": "0x1.04f5f1398a67ep-57"
+        },
+        "outgoing": {
+          "decimal": 7.213336574688093e-18,
+          "binary64_hex": "0x1.0a2009a952f34p-57"
+        },
+        "Dfeq": {
+          "decimal": 7.402065078354073e-18,
+          "binary64_hex": "0x1.1116872ef1feap-57"
+        },
+        "Dtau": {
+          "decimal": 1.0232356477403308,
+          "binary64_hex": "0x1.05f2c57b2566ap+0"
+        },
+        "Gamma": {
+          "decimal": 5.4107729329899055,
+          "binary64_hex": "0x1.5a4a1a8e51836p+2"
+        },
+        "one_minus_P": {
+          "decimal": 0.3739761374910696,
+          "binary64_hex": "0x1.7ef399c008bfap-2"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 268,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.022925,
+        "binary64_hex": "0x1.80bbcd35a8588p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 6.259536743767701e-18,
+        "binary64_hex": "0x1.cddf4e5a7cf22p-58"
+      },
+      "average_stored": {
+        "decimal": 6.4800550002529835e-18,
+        "binary64_hex": "0x1.de24c73595a89p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 6.600845091681429e-18,
+        "binary64_hex": "0x1.e70e70401ce1ap-58"
+      },
+      "incoming_witness": {
+        "source_bin": 269,
+        "source_energy_eV": {
+          "decimal": 12.049387,
+          "binary64_hex": "0x1.8194940bbb1f2p+3"
+        },
+        "query_eta": {
+          "decimal": -7.006171456193935,
+          "binary64_hex": "-0x1.c0651cf6a162bp+2"
+        },
+        "position": {
+          "decimal": 5101.104318683018,
+          "binary64_hex": "0x1.3ed1ab4a113edp+12"
+        },
+        "indices": [
+          5101,
+          5102
+        ],
+        "fraction": {
+          "decimal": 0.10431868301839131,
+          "binary64_hex": "0x1.ab4a113ed0000p-4"
+        },
+        "stored_values": [
+          {
+            "decimal": 6.260544218592024e-18,
+            "binary64_hex": "0x1.cdf25633e9634p-58"
+          },
+          {
+            "decimal": 6.250886554258345e-18,
+            "binary64_hex": "0x1.cd3be89a8c0a4p-58"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 6.259536743767701e-18,
+          "binary64_hex": "0x1.cddf4e5a7cf22p-58"
+        },
+        "average": {
+          "decimal": 6.4800550002529835e-18,
+          "binary64_hex": "0x1.de24c73595a89p-58"
+        },
+        "outgoing": {
+          "decimal": 6.600845091681429e-18,
+          "binary64_hex": "0x1.e70e70401ce1ap-58"
+        },
+        "Dfeq": {
+          "decimal": 6.6644559362313635e-18,
+          "binary64_hex": "0x1.ebc0036b83919p-58"
+        },
+        "Dtau": {
+          "decimal": 1.8509035548157218,
+          "binary64_hex": "0x1.d9d4d0bbfbd1bp+0"
+        },
+        "Gamma": {
+          "decimal": 9.854057425315235,
+          "binary64_hex": "0x1.3b54703cd4511p+3"
+        },
+        "one_minus_P": {
+          "decimal": 0.5445981830191291,
+          "binary64_hex": "0x1.16d592b30e6dep-1"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 269,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.049387,
+        "binary64_hex": "0x1.8194940bbb1f2p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 5.663553390871722e-18,
+        "binary64_hex": "0x1.a1e57fb330ca6p-58"
+      },
+      "average_stored": {
+        "decimal": 5.9431674944423314e-18,
+        "binary64_hex": "0x1.b68742898cae5p-58"
+      },
+      "outgoing_stored": {
+        "decimal": 6.013770254554454e-18,
+        "binary64_hex": "0x1.bbbce8892d281p-58"
+      },
+      "incoming_witness": {
+        "source_bin": 270,
+        "source_energy_eV": {
+          "decimal": 12.075196,
+          "binary64_hex": "0x1.826801711947dp+3"
+        },
+        "query_eta": {
+          "decimal": -7.006112556867705,
+          "binary64_hex": "-0x1.c06425ebf5defp+2"
+        },
+        "position": {
+          "decimal": 5101.798068108584,
+          "binary64_hex": "0x1.3edcc4e310a59p+12"
+        },
+        "indices": [
+          5101,
+          5102
+        ],
+        "fraction": {
+          "decimal": 0.7980681085837205,
+          "binary64_hex": "0x1.989c6214b2000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 5.670572877544563e-18,
+            "binary64_hex": "0x1.a26a17dacc522p-58"
+          },
+          {
+            "decimal": 5.6617772790269144e-18,
+            "binary64_hex": "0x1.a1c3f2f339414p-58"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 5.663553390871722e-18,
+          "binary64_hex": "0x1.a1e57fb330ca6p-58"
+        },
+        "average": {
+          "decimal": 5.9431674944423314e-18,
+          "binary64_hex": "0x1.b68742898cae5p-58"
+        },
+        "outgoing": {
+          "decimal": 6.013770254554454e-18,
+          "binary64_hex": "0x1.bbbce8892d281p-58"
+        },
+        "Dfeq": {
+          "decimal": 6.016809182500575e-18,
+          "binary64_hex": "0x1.bbf64fe3c1e4ep-58"
+        },
+        "Dtau": {
+          "decimal": 4.755687612779165,
+          "binary64_hex": "0x1.305d2f93b83ebp+2"
+        },
+        "Gamma": {
+          "decimal": 25.486433418672743,
+          "binary64_hex": "0x1.97c86e688e183p+4"
+        },
+        "one_minus_P": {
+          "decimal": 0.7915343787608324,
+          "binary64_hex": "0x1.9543fe7cdff9cp-1"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    },
+    {
+      "index": 5127,
+      "bin": 309,
+      "native_global_index": 23361,
+      "native_z": {
+        "decimal": 1099.9986525171403,
+        "binary64_hex": "0x1.12ffe9ec3f4bep+10"
+      },
+      "stored_eta": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "native_eta_from_z": {
+        "decimal": -7.003972912850124,
+        "binary64_hex": "-0x1.c041179ab0b68p+2"
+      },
+      "energy_eV": {
+        "decimal": 12.732456,
+        "binary64_hex": "0x1.97704790b8499p+3"
+      },
+      "incoming_derived_from_saved_prefix": {
+        "decimal": 4.1975302571716817e-19,
+        "binary64_hex": "0x1.ef8e915257ef4p-62"
+      },
+      "average_stored": {
+        "decimal": 4.258367016482882e-19,
+        "binary64_hex": "0x1.f6bd3ef2aea5ep-62"
+      },
+      "outgoing_stored": {
+        "decimal": 4.288398407138918e-19,
+        "binary64_hex": "0x1.fa48e3942af91p-62"
+      },
+      "incoming_witness": {
+        "source_bin": 310,
+        "source_energy_eV": {
+          "decimal": 12.74328,
+          "binary64_hex": "0x1.97c8f32378ab1p+3"
+        },
+        "query_eta": {
+          "decimal": -7.004822662639595,
+          "binary64_hex": "-0x1.c04f03b69444dp+2"
+        },
+        "position": {
+          "decimal": 5116.991168557465,
+          "binary64_hex": "0x1.3fcfdbd38fb23p+12"
+        },
+        "indices": [
+          5116,
+          5117
+        ],
+        "fraction": {
+          "decimal": 0.9911685574652438,
+          "binary64_hex": "0x1.fb7a71f646000p-1"
+        },
+        "stored_values": [
+          {
+            "decimal": 4.204918616493907e-19,
+            "binary64_hex": "0x1.f06dddfbabbe3p-62"
+          },
+          {
+            "decimal": 4.1974644259159493e-19,
+            "binary64_hex": "0x1.ef8c93fa1b98fp-62"
+          }
+        ]
+      },
+      "right_snapshot_validation_only": {
+        "incoming": {
+          "decimal": 4.1975302571716817e-19,
+          "binary64_hex": "0x1.ef8e915257ef4p-62"
+        },
+        "average": {
+          "decimal": 4.258367016482882e-19,
+          "binary64_hex": "0x1.f6bd3ef2aea5ep-62"
+        },
+        "outgoing": {
+          "decimal": 4.288398407138918e-19,
+          "binary64_hex": "0x1.fa48e3942af91p-62"
+        },
+        "Dfeq": {
+          "decimal": 4.299829097589216e-19,
+          "binary64_hex": "0x1.fba25c432f1c4p-62"
+        },
+        "Dtau": {
+          "decimal": 2.191596454943825,
+          "binary64_hex": "0x1.18863b8e01b2bp+1"
+        },
+        "Gamma": {
+          "decimal": 13.857919265135465,
+          "binary64_hex": "0x1.bb74131a4baf8p+3"
+        },
+        "one_minus_P": {
+          "decimal": 0.5946964702912922,
+          "binary64_hex": "0x1.307c0e45e53dap-1"
+        },
+        "incoming_binary64_matches": true,
+        "average_binary64_matches": true,
+        "outgoing_binary64_matches": true
+      }
+    }
+  ],
+  "status": "extracted input; inversion and scientific admission not performed",
+  "physical_radii": {
+    "eS": null,
+    "en": null,
+    "eE": null,
+    "geometry": null,
+    "total": null
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "BASS_NATIVE_TRACE_THEORY_WOLFRAM_V1",
+  "scope": "Symbolic derivation checks only; no native solver, Python scientific execution, old test, consume, or plot replay.",
+  "context_lookup": {
+    "tool": "mcp__codex_apps__wolfram_wolframcontext",
+    "status": "TOOL_ERROR_NOT_SCIENTIFIC_FAILURE",
+    "actual_response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "tool call error: tool call failed for `codex_apps/wolfram.WolframContext`\n\nCaused by:\n    Mcp error: -32603: Internal error"
+        }
+      ],
+      "isError": true
+    },
+    "request_description": "Focused QSS finite-time storage / source algebra context. Exact request text is retained in the tool transcript, not in this checkpoint."
+  },
+  "evaluations": [
+    {
+      "tool": "mcp__codex_apps__wolfram_wolframlanguageevaluator",
+      "time_constraint_seconds": 30,
+      "actual_code": "ClearAll[t,m,xs,s,y,x,a,fi,fo,e,nu,d,b]; ans=<|\"scalarAdiabaticResidual\"->FullSimplify[D[xs[t]-D[xs[t],t]/m[t],t]-(m[t]xs[t]-m[t](xs[t]-D[xs[t],t]/m[t]))],\"boundaryFamily\"->FullSimplify[(1-a)fi+a(fi+(fo-fi)/a)-fo,Assumptions->0<a<=1],\"grossNet\"->FullSimplify[a(fi+(fo-fi)/a)-a fi-(fo-fi),Assumptions->0<a<=1],\"storageRateResidual\"->Expand[D[nu[t],t]-(-D[d[t],t]+D[b[t],t])],\"energyPairCancellation\"->Simplify[e D[d[t],t]-e D[d[t],t]]|>;ans",
+      "actual_response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Out[1]= <|\"scalarAdiabaticResidual\" -> (Derivative[1][m][t]*Derivative[1][xs][t] - m[t]*Derivative[2][xs][t])/m[t]^2, \"boundaryFamily\" -> 0, \"grossNet\" -> 0, \"storageRateResidual\" -> -Derivative[1][b][t] + Derivative[1][d][t] + Derivative[1][nu][t], \"energyPairCancellation\" -> 0|>"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      },
+      "interpretation": "Scalar first adiabatic residual is -d(xs'/m)/dt; finite two-boundary source family and local pair energy cancellation hold. This is not a claim of physical refill."
+    },
+    {
+      "tool": "mcp__codex_apps__wolfram_wolframlanguageevaluator",
+      "time_constraint_seconds": 30,
+      "actual_code": null,
+      "input_checkpoint_note": "The exact submitted code remains in the tool transcript; this local checkpoint retains the observed response and tested identities without inventing the missing verbatim input.",
+      "tested_identities": [
+        "For constant invertible 2x2 M and p1=pstar-M^-1*pstar', dynamic residual plus M^-1*pstar'' equals the zero vector.",
+        "e^(3h)*[e^(-4h)*G*E*I4]-G*E*I3-G*E*(e^(-h)*I4-I3)=0.",
+        "Zero-width propagation work equals zero.",
+        "(fW+ dout)-(fW+din)=dout-din."
+      ],
+      "actual_response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Out[1]= {\"constantMatrixAdiabaticIdentity\" -> {0, 0}, \"eventToEndEnergyIdentity\" -> 0, \"zeroWidthWork\" -> 0, \"sourceCancellation\" -> -din + dout}"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      },
+      "interpretation": "All listed formal identities returned zero; source Wien cancellation returned -din+dout."
+    },
+    {
+      "tool": "mcp__codex_apps__wolfram_wolframlanguageevaluator",
+      "time_constraint_seconds": 30,
+      "actual_code": "ClearAll[z,r,a,fi,feq,fa,fo,p,g,k,x]; f[z_]=1/(1-Exp[-z])-1/z; p=(1-Exp[-z])/z; fo=fi+(feq-fi)(1-Exp[-z]); fa=p fi+(1-p)feq; {\"tripleTraceIdentity\"->FullSimplify[(fa-fi)/(fo-fi)-f[z],Assumptions->{z>0,feq!=fi}],\"derivativeIdentity\"->FullSimplify[D[f[z],z]-(1/z^2-1/(4Sinh[z/2]^2)),Assumptions->z>0],\"smallTau\"->Series[f[z],{z,0,9}],\"endpointLimits\"->{Limit[f[z],z->0,Direction->\"FromAbove\"],Limit[f[z],z->Infinity]},\"inverseSmallTau\"->InverseSeries[Series[f[z]-1/2,{z,0,7}]],\"largeTauIdentity\"->FullSimplify[f[z]-(1-1/z+Exp[-z]/(1-Exp[-z])),Assumptions->z>0]}",
+      "actual_response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Power::infy: -- Message text not found -- (1/0)\nPower::infy: -- Message text not found -- (1/0)\nGeneral::messages: Messages were generated which may indicate errors.\n\nOut[1]= {\"tripleTraceIdentity\" -> 0, \"derivativeIdentity\" -> 0, \"smallTau\" -> SeriesData[z, 0, {1/2, 1/12, 0, -1/720, 0, 1/30240, 0, -1/1209600, 0, 1/47900160}, 0, 10, 1], \"endpointLimits\" -> {1/2, 1}, \"inverseSmallTau\" -> SeriesData[z, 0, {12, 0, 144/5, 0, 19008/175, 0, 393984/875}, 1, 8, 1], \"largeTauIdentity\" -> 0}"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      },
+      "interpretation": "Triple-trace, derivative and large-tau identities returned 0; expansions and limits match the derivation. Two Power::infy messages during removable-singularity evaluation were observed and are retained. Original C truncated small-tau branch is explicitly excluded from this exact-exponential identity."
+    }
+  ],
+  "execution_count": {
+    "context_requests": 1,
+    "evaluator_calls": 3,
+    "python_scientific_runs": 0,
+    "native_solver_runs": 0
+  },
+  "physical_radius_claim": false
+}
