@@ -1,0 +1,3 @@
+# KM-2C prerequisite preservation
+
+The attached original KM2B archive was backed up without modification before new research. The parallel remote KM2B archive differs in bytes and next-node pointer and is not substituted or overwritten. This isolated continuation follows the conversation's KM2C handoff: combine fixed normal-tetrad electron velocity with an existing prescribed Bianchi-I geometry, retain direction-dependent optical depth and the full initial angular carrier, and separate collision force from geometric work. No production, owner or main edits and no automatic merge. New scientific validation not yet claimed.
