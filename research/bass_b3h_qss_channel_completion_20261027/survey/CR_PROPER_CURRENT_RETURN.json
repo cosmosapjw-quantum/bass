@@ -1,0 +1,441 @@
+{
+  "schema": "BASS_CR_PROPER_INJECTION_OWNER_RETURN_V1",
+  "created_utc": "2026-10-27T11:26:29.649562+00:00",
+  "unit_id": "CR_PROPER_INJECTION_RETURN_V1",
+  "owner_repository": "cosmosapjw-quantum/bass_cr",
+  "parent_node": "CR_ALL_EXTERNAL_PHOTON_BARYON_SOURCE_INTERFACE",
+  "unit_path": "research/cr_proper_injection_20261027",
+  "pull_request": "https://github.com/cosmosapjw-quantum/bass_cr/pull/109",
+  "science_commit_S": "022c163726b814885805bd9a7ab988fe963cda4a",
+  "documents_commit_D": "8482ed83b14517b709ba6e801f6714cc333e720f",
+  "central_base_sha": "55202663275cd0607c968129b33de805d06f5d8b",
+  "central_expected_parent": "55202663275cd0607c968129b33de805d06f5d8b",
+  "central_commit_M": "Actual commit containing this return; recorded in postcommit delivery receipt.",
+  "update_mode": "EXPECTED_SHA_NON_FORCE_TWO_PATH_ADDITIVE_OWNER_RETURN",
+  "review_decision": "PASS_SCOPED_CORE_NUMERICAL_AND_CONTRACT_WITH_PRESERVED_RUNTIME_FAILURES",
+  "scope_child": {
+    "id": "ACTUAL_FINITE_PROPER_SOURCE_AND_QUALIFIED_RETURN_PORTS",
+    "completed": 1,
+    "total": 1,
+    "parent_node": "CR_ALL_EXTERNAL_PHOTON_BARYON_SOURCE_INTERFACE",
+    "original_central_count_effect": 0
+  },
+  "workflow": {
+    "R": "10/10",
+    "C": "10/10",
+    "total": "20/20",
+    "actual_published_stage_commits": [
+      "2353b483af6aad68b625b39eeb837afc43b9a5c3",
+      "8dad95a2bb817406c8585f5e9d39558fad3c36a5",
+      "961544f5f233d4649f3f2238fb65cc1bc5996501",
+      "4c67f36eb946dedd2e7b968e4008b4e1e80c906e",
+      "1558e3285585c617066bc4dd9d575d537e80d849",
+      "7699d8d1c437deb19c9a501e52d390906a477ccc",
+      "a6be2d642b38fbb33d9bb30e52e5358eb5efbaf7",
+      "70344892ecfd99cd1837cf223767083b5c1b7d0d",
+      "3981a92cdb63eb3645bec18bd1b062962ee410f0",
+      "7d07b7f9f2bbf1f9c0b4d5feb5dd1b3815651cda",
+      "0cac5438357d75c3e44feb3e9642e211d2555679",
+      "c32347706e6bd2d3f3935eadd8ef3fa6e0485f47",
+      "e8e2f403d81515925c1cb4383a675e389fd89a0c",
+      "c2d6fbf217482041874532da0776be4f3c74776c",
+      "6ec7025141ef3d89e63b1736b6690d1146a129df",
+      "f0badffab9ee223e246a3df394a8636766f5db1a",
+      "7f3ad7afeacb5f4d386e54fbc6b80a98d698bc22",
+      "4a9f07d86a97306326e6879d8b72aa5ab59dd123",
+      "022c163726b814885805bd9a7ab988fe963cda4a",
+      "8482ed83b14517b709ba6e801f6714cc333e720f"
+    ],
+    "dual_R2_stage_receipts": 20,
+    "canonical_source_dual_R3": true
+  },
+  "actual_physical_source": {
+    "particle": "electron",
+    "model": "saved PHYS02 Qe(W,tau)=tau*A(W) leading-local prescribed source",
+    "retained_snapshot_revision": "4ca5a90de79c8fb82a25fd9e83615bec0dfa870b",
+    "first_generating_revision_claimed": false,
+    "same_payload_revision": "ec463db0c7e5c7fb5070796071c926caa4db6445",
+    "source_npz_sha256": "7ee8c1eff7f58cd7175a9bcd3968a27ef065f0e983f05e609dc875f5f06112cc",
+    "state": "PHYS02_T100K_nH140m3_YHe0.248_xHII0.01_xHeII0.01_xHeIII0_FIXED",
+    "temperature_K": 100,
+    "nH_m3": 140,
+    "YHe": 0.248,
+    "xHII": 0.01,
+    "xHeII": 0.01,
+    "xHeIII": 0,
+    "isotope_mapping": "CONDITIONAL_ELEMENTAL_H_TO_H1_HE_TO_HE4",
+    "frame": "prescribed_gas_rest_frame_scalar",
+    "measure": "angle-integrated proper-volume-density per proper second",
+    "proper_time_history_s": [
+      0,
+      10000000000
+    ],
+    "outside_history": "UNKNOWN; no continuation or shutoff inferred",
+    "native_electron_support_eV": [
+      0.1,
+      900
+    ],
+    "proton_collision_support_eV": [
+      1000000,
+      4000000
+    ],
+    "proton_normalization_support_eV": [
+      10000,
+      1000000000000000
+    ],
+    "proper_volume_m3": null,
+    "same_state_nb_m3": null,
+    "density_clock_target_angle_factors": "already included; each factor applied exactly once",
+    "result_rows": 18,
+    "selected_total_full_window_number_m3": 1.6887914953102309e-15,
+    "selected_total_full_window_kinetic_energy_J_m3": 9.006312892138676e-33
+  },
+  "implemented_contracts": [
+    "Explicit native source to proper injection with once-only clock/volume/target factors",
+    "Finite proper history integration of N/E; no moments-to-spectrum/history invention",
+    "Same-state explicit nb required for per-baryon/native25; exact baryon denominator update",
+    "Qualified same-state RR/native25 and separately retained-photon return ports",
+    "Shared source/return event registry rejects overlapping same-family native-birth time events",
+    "Reject mixed/unbound frames, support extensions, isotope/state mismaps and invalid horizons"
+  ],
+  "actual_output_limits": {
+    "actual_particle_coverage": [
+      "electron"
+    ],
+    "photon_baryon_coverage": "typed contract and synthetic controls only",
+    "nb_m3": null,
+    "native25": null,
+    "RR_return": null,
+    "retained_photon_port": null,
+    "worldtube_totals": null,
+    "RR_rate": null,
+    "RR_exposure": null,
+    "source_proper_density_rates": "Known only inside the recorded finite source history; not per-baryon or RR rates.",
+    "join_blocker": "PHYS02 100K source differs from PR107 frozen10000K target/bath state.",
+    "frame_clarification": "Literal source/response frame IDs also fail the equality gate; no physical relative boost is inferred.",
+    "physical_heating_complete": false,
+    "retained_radiation_to_w_ext_or_heating": false,
+    "conditional_mean_time_used_as_exposure": false,
+    "borrowed_PR236_or_PW19_T_nb": false
+  },
+  "verification": {
+    "new_controls": {
+      "passed": 103,
+      "total": 103
+    },
+    "independent_checks": {
+      "passed": 153,
+      "total": 153
+    },
+    "named_checks_total": 256,
+    "independent_fields_max_relative_error": 2.383238559317575e-16,
+    "saved_source_moments_max_relative_error": 1.168954984007727e-15,
+    "core_scientific_blocking_findings": 0,
+    "all_runtime_attempts_pass": false,
+    "production_reviewer": "/root/theory_review; theory/reference author, production non-author",
+    "R6_independent_reviewer": "/root/source_qualification; theory/production non-author"
+  },
+  "execution": {
+    "budget_sha256": "536ab6322d96d7f08d6673db113168ea0d81f94cbbb7d5e16aa900201e091f15",
+    "new_unit_cap_s": 20,
+    "immutable_debit_files": 7,
+    "debit_and_receipt_representations_read": 11,
+    "unique_attempts": 5,
+    "attempts": [
+      {
+        "run_id": "controls_v1",
+        "status": "completed",
+        "charged_cpu_s": 0.219374
+      },
+      {
+        "run_id": "actual_v1",
+        "status": "completed",
+        "charged_cpu_s": 6.526079
+      },
+      {
+        "run_id": "independent_v1",
+        "status": "failed_preworker_memory_admission",
+        "worker_started": false,
+        "charged_cpu_s": 0.066297
+      },
+      {
+        "run_id": "independent_v2",
+        "status": "completed",
+        "charged_cpu_s": 0.355319
+      },
+      {
+        "run_id": "plot_v1",
+        "status": "failed_reservation_exceeded_with_complete_diagnostic_outputs",
+        "worker_exit_code": 0,
+        "charged_cpu_s": 3.07135
+      }
+    ],
+    "deduplication": "Maximum cumulative debit per attempt_id; receipt copies and amendments are not additional executions.",
+    "measured_worker_plus_coordinator_cpu_s": 10.190599,
+    "reserved_receipt_tails_s": 0.04782,
+    "charged_cpu_s": 10.238419,
+    "observed_unit_cap_satisfied": true,
+    "hard_preventive_aggregate_cap_proof": false,
+    "old_or_parallel_budget_transferred": false,
+    "unused_allowance_auto_carried_to_next_unit": false,
+    "remote_symbolic_CPU": null,
+    "global_remaining": null,
+    "next_scientific_execution_planned_in_this_unit": false
+  },
+  "literature_and_symbolics": {
+    "SciSpace_Exa_primary_comparison": "Executed and retained in science S; conceptual conventions only, no cosmological or thermodynamic inputs imported.",
+    "primary_sources": [
+      "https://arxiv.org/abs/1211.0283",
+      "https://arxiv.org/abs/1506.03812",
+      "https://arxiv.org/abs/1904.09296"
+    ],
+    "Wolfram_distinct_correct_identities": 7,
+    "Wolfram_initial_syntax_error_preserved": true,
+    "provider_CPU_s": null
+  },
+  "source_evidence": [
+    {
+      "path": "research/cr_proper_injection_20261027/ADMISSION.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 3904,
+      "sha256": "659e6b28fbab180fccc62c12e976acd9f10c3ae292336be7bce8f09b389eeaa0",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/ADMISSION.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/SCIENCE_MANIFEST.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 4976,
+      "sha256": "96047036e8518d8629da0095e0f27f82bde63d12ac12ffc8fe9b44e04810614c",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/SCIENCE_MANIFEST.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/CONTRACT.md",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 4394,
+      "sha256": "64b2ecb86fef54ef0c5cd327d7217d88e3310e685f6671e6249cc72be39c21b7",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/CONTRACT.md"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/runs/actual_v1/RESULT.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 74000,
+      "sha256": "b1d6aed9f4db7ff5c968787c4291f2fd643b990b5263f527dda629fd16699bd6",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/runs/actual_v1/RESULT.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/runs/controls_v1/RESULT.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 7768,
+      "sha256": "ab379e969543409691464defeb0fe4a5222ef1afbd249fb6f3d1fdff205e0e0b",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/runs/controls_v1/RESULT.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/runs/independent_v2/RESULT.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 106574,
+      "sha256": "4eb50904b2d493545d61cb99d0f00568f9f952f66d4207a1b8a30354217f8c2c",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/runs/independent_v2/RESULT.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/review/C9_FINAL.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 14212,
+      "sha256": "dff9951f1927603f6b72cae21a0d3cd66efb11ee02a4bccb38b36bb44b8938f0",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/review/C9_FINAL.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/review/C9_READBACK_AUDIT.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 56514,
+      "sha256": "4201a3dc24807b7b579434aa8b7b54cb6a6aaf434bf4e4e2a715c7ed81be6e0d",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/review/C9_READBACK_AUDIT.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/evidence/EXECUTION_LEDGER.json",
+      "revision": "022c163726b814885805bd9a7ab988fe963cda4a",
+      "bytes": 24141,
+      "sha256": "5a5a7d244f6f244748a3121b7027561d22538bc99e1e24e575f7ed049e874dd7",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/022c163726b814885805bd9a7ab988fe963cda4a/research/cr_proper_injection_20261027/evidence/EXECUTION_LEDGER.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/REPORT_KO.md",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 20781,
+      "sha256": "cc62e3ad109b443d0d1e1e5e423c009350d16998786865b0e558550e3704db78",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/REPORT_KO.md"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/HANDOFF_KO.md",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 6432,
+      "sha256": "586e47d868818993bfa2ba2aa1551d035097b2c819dd968aabcd5e37dbdd1589",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/HANDOFF_KO.md"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/DELIVERY_PREIMAGE.json",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 1059,
+      "sha256": "f6f6dada8cd8511d6b86e76ead2e4287b5fc97d50e9d0537c5365c3e1e9abcac",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/DELIVERY_PREIMAGE.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/publication/SOURCE_RELEASE_RECEIPT.json",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 1550,
+      "sha256": "6340762f3f115b21cad63128c2bd4d0b910f8cb3c0f952762ee653fd57116c6e",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/publication/SOURCE_RELEASE_RECEIPT.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/publication/SOURCE_REMOTE_R3.json",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 2217,
+      "sha256": "b5cc4cf9ca7a49d29ae493a741041ce98b8660b7f742179e83ce44ade68004b4",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/publication/SOURCE_REMOTE_R3.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/publication/S_GIT_R3.json",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 57202,
+      "sha256": "f9b67ef4ee2878e39d73be59e36390c414f5f2d70031207be7a1653c94541168",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/publication/S_GIT_R3.json"
+    },
+    {
+      "path": "research/cr_proper_injection_20261027/stages/C10.json",
+      "revision": "8482ed83b14517b709ba6e801f6714cc333e720f",
+      "bytes": 2827,
+      "sha256": "1a0bf3601adc735a625650ae08fb899857799822789a04d69949b0daee88eec3",
+      "url": "https://github.com/cosmosapjw-quantum/bass_cr/blob/8482ed83b14517b709ba6e801f6714cc333e720f/research/cr_proper_injection_20261027/stages/C10.json"
+    }
+  ],
+  "canonical_source_archive": {
+    "schema": "CR_PROPER_SOURCE_RELEASE_RECEIPT_V1",
+    "science_commit_S": "022c163726b814885805bd9a7ab988fe963cda4a",
+    "source_tree": "1d5bfade31738d13057b340d1935cb397f294e90",
+    "archive": {
+      "path": "/workspace/scratch/865c84d871b7/release_source/BASS_CR_PROPER_SOURCE_20261027_022c163726b8.zip",
+      "name": "BASS_CR_PROPER_SOURCE_20261027_022c163726b8.zip",
+      "bytes": 2737469,
+      "sha256": "d28fc2dc841e0b3804fa2ba47274113839b54868efa0d2c63f28b865a88b9c88",
+      "members": 242,
+      "payloads": 241
+    },
+    "canonical_same_immutable_zip": true,
+    "local_all_payload_hash_CRC": "PASS",
+    "Git_R3": {
+      "blobs": 164,
+      "all_equal": true,
+      "receipt": "publication/S_GIT_R3.json"
+    },
+    "Dropbox": {
+      "id": "id:BSpOijBcT10AAAAAAEDHZg",
+      "path_display": "/BASS_DERIVATION_DOSSIERS_20260912/bass_cr/BASS_CR_PROPER_SOURCE_20261027_022c163726b8.zip",
+      "bytes": 2737469,
+      "tier": "R3",
+      "full_GET": true,
+      "all_members_hash_CRC": true
+    },
+    "Drive": {
+      "id": "1hHv09ZI1-UIKklU4tGxEurxHMpIuVTfd",
+      "url": "https://drive.google.com/file/d/1hHv09ZI1-UIKklU4tGxEurxHMpIuVTfd/view",
+      "bytes": 2737469,
+      "tier": "R3",
+      "raw_original_stream_and_full_GET": true,
+      "all_members_hash_CRC": true
+    },
+    "remote_R3_receipt": "publication/SOURCE_REMOTE_R3.json",
+    "library_delivery": "separate final artifact save; not represented as an existing receipt here",
+    "stage_progress_at_seal": "19/20",
+    "central_completed": 27,
+    "central_total": 88,
+    "source_rebuilt_after_seal": false,
+    "old_science_replays": 0
+  },
+  "original_DAG": {
+    "nodes": 88,
+    "integration_edges": 17,
+    "declared_deliverable_count": 27,
+    "new_count_effect": 0
+  },
+  "original_central_completed_total": "27/88",
+  "original_node_status_changed": false,
+  "original_87_other_nodes_17_edges_and_top_level_metadata_changed": false,
+  "gates": {
+    "N4": "PARTIAL_OPEN",
+    "N5": "PARTIAL_OPEN",
+    "N6": "PREDECESSOR_GATED",
+    "N7": "PREDECESSOR_GATED",
+    "L4_ready": false,
+    "global_physical_completion": null,
+    "global_physical_error": null,
+    "global_budget_remaining": null,
+    "global_currency": null
+  },
+  "unmerged_PR236_32_of_88_added": false,
+  "parallel_owner_pins": {
+    "WU": {
+      "repository": "WU088_HH",
+      "head": "35bb7f296abc8ff6c8b38c2c08cc14dd498d4c99",
+      "AGENTS": {
+        "status": "READ",
+        "sha256": "39397558364e1f4f7a85910ada458a8a2b6f0ae6929af678f0e0e23e983617e3",
+        "bytes": 47061
+      }
+    },
+    "REC": {
+      "repository": "rec_bianchi",
+      "head": "4a8e541030ee2cbd02e26ba671083b705d309d49",
+      "AGENTS": {
+        "status": "HTTP404_UNAVAILABLE",
+        "sha256": null
+      }
+    },
+    "HE": {
+      "repository": "BASS_HE",
+      "head": "ac6042a6b0610b09d0576538767ee0299389a5eb",
+      "AGENTS": {
+        "status": "READ",
+        "sha256": "32d09d1e6262e1eb3579de1a66e325afd2ba181a8de69313d907b6fb1e8aebfb",
+        "bytes": 2853
+      }
+    }
+  },
+  "WU_limits": "Latest observed35bb7f296abc8ff6c8b38c2c08cc14dd498d4c99; scientificS10=55ddde069f51e036be93951cbb3f180d7a91c458; scoped11/26 separate; primary28/28 accessibility not rate/Q/state/deposition/consumer activation. FullZIPdualR3pending. ActivationOFF.",
+  "old_science_replays": 0,
+  "prior_identity": {
+    "prior_S": "4e72c89b714431eb4c6ae07def777bbf72a5ae4c",
+    "prior_D": "ec463db0c7e5c7fb5070796071c926caa4db6445",
+    "prior_M": "5abe0d19df95db730e3e33bae0373c81ba37ce89"
+  },
+  "prior_budget_history": "HeIII6.988054525/30CPU-s remains separate; C9v1 preworker failure, owned stale lease and uniquev2 recovery retained. All UNKNOWN_NO_ACK and other project budgets remain distinct.",
+  "global_conversation_search": "UNAVAILABLE_NOT_ASSERTED",
+  "Drive_inventory": "PARTIAL_INVENTORY_LIMIT_PRESERVED",
+  "next_unit": {
+    "schema": "CR_PROPER_NEXT_UNIT_INPUT_V1",
+    "target": "Actual same-state recipient response and explicit per-baryon closure",
+    "required_inputs": [
+      "immutable actual donor source revision and finite proper history",
+      "recipient response with same bath state, frame, isotope/final state, native energy support",
+      "explicit same-state donor/recipient nb for native25; preserve null otherwise",
+      "finite return horizon/qualified propagator if finite returns claimed",
+      "proper volume size only if worldtube totals required",
+      "actual photon or baryon provider history before extending actual particle coverage"
+    ],
+    "do_not_replay": [
+      "old H1/HeI/HeIII/C23E/source quadrature/RHS/ODE",
+      "this accepted source adapter103controls18rows153checks for unchanged hashes"
+    ],
+    "new_budget_required": true,
+    "carry_current_remaining": false,
+    "prior_failure_history_required": [
+      "oldHeIII C9v1/stalelease/uniquev2",
+      "independent_v1 memoryrefusal0.066297",
+      "plot_v1 failedreservation3.07135",
+      "allother UNKNOWN_NO_ACK separatebudgets"
+    ],
+    "actual_current_PHYS02_RR_join": "OPEN_STATE_MISMATCH_T100_TO_T10000",
+    "actual_nb": null,
+    "central_completed": 27,
+    "central_total": 88
+  },
+  "final_delivery": "Actual M, final closeout dual full R3 and final copyable handoff are in postcommit PR109/closeout receipts; no circular self-SHA or future receipt is invented."
+}

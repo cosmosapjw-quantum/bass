@@ -1,0 +1,99 @@
+{
+  "schema": "BASS_NATIVE_STEADY_TM_BRANCH_WITNESS_V1",
+  "source_commit": "d6dbe39a4923439547c01695d9020ba39367ea90",
+  "source_files": {
+    "history.c": {
+      "bytes": 30963,
+      "sha256": "8ffe38f0431fcd1ae04b55f855f36e8643b1c5eb33a947f581f95d628611f976",
+      "git_blob": "af01782d70a29bb55ed053c37cafff044964ade5"
+    },
+    "hyrec_params.h": {
+      "bytes": 3764,
+      "sha256": "cab1a5d92389ea7eec408e8a8419f59c717a227332bc2ae2b51e84488578e7e2",
+      "git_blob": "0253527d389b2c0f6670a732df0abd94f912d6fb"
+    },
+    "hydrogen.h": {
+      "bytes": 7837,
+      "sha256": "e89a3a447928cbe31dc273c11c4a8bc7f7a8e297be4a11270e453c101f96ccba",
+      "git_blob": "80d612d2c032059f419b701f1376d43513cff2ed"
+    }
+  },
+  "source_locations": {
+    "thermal_formula": "history.c rec_Tmss",
+    "thermal_guard": "history.c rec_build_history H-only steady-temperature for-loop",
+    "guard_constant": "hyrec_params.h DLNT_MAX=5e-4",
+    "helium_abundance": "history.c rec_set_derived_params fHe=Y/(1-Y)/3.97153"
+  },
+  "literal_formula": "return(Tr/(1.+H/(fsR*fsR/meR/meR/meR*4.91466895548409e-22)/Tr/Tr/Tr/Tr*(1.+xe+fHe)/xe));",
+  "literal_guard": "for (; iz<param->nz && 1.-Tm_output[iz-1]/param->T0/(1.+z) < DLNT_MAX; iz++)",
+  "held_out_right_metadata": {
+    "iz_local": "5127",
+    "z": "1099.9986525171403",
+    "xe": "0.1449299966903522",
+    "xHII": "0.1449299966903522",
+    "TM_eV_rescaled": "0.25882127610727856",
+    "TR_eV_rescaled": "0.25882399309326415",
+    "TM_over_TR": "0.99998950257295272"
+  },
+  "held_out_right_identity": {
+    "bytes": 141089,
+    "sha256": "3a95862b9cd4f924d63020f39fc537b371133af6160e88c3409d8c69fc0c34b7",
+    "git_blob": "6399b59ca3c97d6c5b1162f83f50a6677fad06ff"
+  },
+  "inherited_endpoint_inputs": [
+    {
+      "index": 5126,
+      "native_z": 1100.092131270856,
+      "x1s": 0.8549423676545932,
+      "TR_eV": 0.2588459681831072,
+      "H_s_inv": 4.97033946719192e-14
+    },
+    {
+      "index": 5127,
+      "native_z": 1099.9986525171403,
+      "x1s": 0.8550700033096545,
+      "TR_eV": 0.25882399309326415,
+      "H_s_inv": 4.969651222923834e-14
+    }
+  ],
+  "broad_endpoint_box": {
+    "xe_lower_strict": "0.14",
+    "xe_upper_strict": "0.15",
+    "TR_K_lower_strict": "3000",
+    "H_s_inv_upper_strict": "5e-14",
+    "fHe_upper_strict": "0.1",
+    "Compton_coefficient_lower_strict": "4.9e-22",
+    "fsR": "1",
+    "meR": "1"
+  },
+  "analytic_bound": [
+    "beta=H*(1+xe+fHe)/(C*TR_K^4*xe)",
+    "C*TR_K^4 > (4.9e-22)*3000^4 = 3.969e-8",
+    "H/(C*TR_K^4) < 1.26e-6, since 3.969*1.26 > 5",
+    "(1+xe+fHe)/xe < 1.25/0.14 < 9",
+    "beta < 1.134e-5 < 2e-5",
+    "Tmss deficit beta/(1+beta) < 2e-5 < 5e-4 at both endpoint states"
+  ],
+  "integer_redshift_stdout_support": {
+    "path": "next_atomic_intake/ORIGINAL_BASELINE_HISTORY.txt",
+    "bytes": 336042,
+    "sha256": "9fdee53a363aeb3b7c6963564543089e1b5ed91e39b0d4471efd052aa66b6485",
+    "literal_rows": [
+      "1300.00 0.563621564265221 0.9999975573095",
+      "1101.00 0.146301135436006 0.9999896117042",
+      "1100.00 0.144931836007376 0.9999895027208",
+      "1099.00 0.143571117945454 0.9999893921985"
+    ],
+    "role": "existing output-grid support only; not native-knot inputs or a recorded function-branch trace"
+  },
+  "evidence_boundary": {
+    "right_actual_guard": "right META ratio satisfies source steady-temperature guard",
+    "left_and_right_formula_guard": "both completed endpoint state boxes imply source Tmss guard with wide margin",
+    "explicit_native_execution_phase_flag_saved": false,
+    "global_unobserved_prefix_branch_trace_proved": false,
+    "primary_choice": "Use original rec_Tmss formula with inherited actual endpoint states as declared source reconstruction; validate against right snapshot and independently recovered diffusion temperatures at both endpoints",
+    "new_temperature_evaluations": 0,
+    "new_diffusion_inversions": 0,
+    "physical_he_exact_neutrality_claimed": false
+  }
+}
