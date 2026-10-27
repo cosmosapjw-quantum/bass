@@ -1,0 +1,7 @@
+# S1 and final-source packaging preparation
+
+The local helper `endpoint_delivery_assembly/snapshot_endpoint.py` is prepared outside the selected source unit. It supports readiness-only serialization and, after actual root scientific admission plus independent review and saved results, one mechanical S1 snapshot. A later D snapshot requires actual central reflection and delivery documents. The worker has not created either archive.
+
+The snapshots keep the complete selected unit, including all reused runtime inputs, code, actual results, theory, survey, review and provenance. Generated caches and nested archive binaries are excluded. Exact member paths, bytes, SHA256, Git blob identities and CRC32 are recorded, and newly created archives receive a complete member-byte/CRC readback. Existing S0/ST artifacts are immutable. Same-byte entries reuse saved ST blob identities; new text and binary content are serialized for root's publication operations.
+
+The helper performs no Git/API/provider mutation and no scientific calculation. Root supplies actual source/central pins and records actual upload plus separate metadata readback receipts. Root reconciles stage work and backup coverage from actual evidence. Planned R/C checkpoint groups do not imply completion; the original DAG stays 28/88 with delta zero. No 20/20 closure, new physical radius or L4 promotion is claimed by this preparation record.

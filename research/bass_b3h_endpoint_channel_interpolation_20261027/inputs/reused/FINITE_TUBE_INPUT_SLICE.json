@@ -1,0 +1,201 @@
+{
+  "schema": "BASS_NATIVE_LYA_FINITE_TUBE_INPUT_SLICE_V1",
+  "kind": "data_preparation_no_scientific_integrals_or_tests",
+  "source": {
+    "repository": "cosmosapjw-quantum/rec_bianchi",
+    "commit": "d6dbe39a4923439547c01695d9020ba39367ea90",
+    "path": "data/pr05b2_source_history_v060.npz",
+    "git_blob": "de43b1a2642fa0aa049abbfd1b0a7d775d684b1b",
+    "bytes": 35239470,
+    "sha256": "d4f82542e13fed4ff0bb60b17865d8b9de5e090a2366108169c3da7a21fcb4b1"
+  },
+  "array_encoding": "original float64 values serialized by float.hex; dtype little-endian float64",
+  "selection": {
+    "rule": "unique stored native eta cell containing -log1p(1100); equality selects right cell",
+    "target_z": 1100,
+    "target_eta_hex": "-0x1.c0411cbcd03d5p+2",
+    "cell_indices": [
+      5126,
+      5127
+    ],
+    "eta_endpoint_hex": [
+      "-0x1.c0427bb35f033p+2",
+      "-0x1.c041179ab0b68p+2"
+    ],
+    "reference": "right endpoint; native FLRW comoving volume",
+    "native_real_clock_rule": "eta0 + index*h using original binary64 eta0/h interpreted as exact real inputs",
+    "eta0_hex": "-0x1.dc1cc1e5727bbp+2",
+    "dlna_hex": "0x1.6418ae4caf054p-14",
+    "accepted_count_at_right_endpoint": 5127
+  },
+  "incoming": {
+    "source_array": "outgoing_virtual",
+    "source_row": 140,
+    "source_energy_eV_hex": "0x1.4662f7b17ce53p+3",
+    "target_energy_eV_hex": "0x1.465bde9fcf0ecp+3",
+    "retarded_map": "eta_q=eta_face-log(E_source/E21)",
+    "selection_only_binary64_query_endpoint_hex": [
+      "-0x1.c043e004bbc7ap+2",
+      "-0x1.c0427bec0d7afp+2"
+    ],
+    "source_indices": [
+      5123,
+      5124,
+      5125,
+      5126
+    ],
+    "stored_eta_hex": [
+      "-0x1.c046a7fd69e94p+2",
+      "-0x1.c04543e4bb9c9p+2",
+      "-0x1.c043dfcc0d4fep+2",
+      "-0x1.c0427bb35f033p+2"
+    ],
+    "departure_hex": [
+      "0x1.14eaca053e12fp-47",
+      "0x1.14a8234ef094ap-47",
+      "0x1.1465895c4e2bep-47",
+      "0x1.1422fc2bb9f4dp-47"
+    ],
+    "original_dtype": "float64",
+    "interpolation": "native piecewise linear; split at native_real_knots+log(E_source/E21); strict past"
+  },
+  "diagnostic_outgoing_not_stock_owner": {
+    "array": "outgoing_lyman",
+    "row": 0,
+    "indices": [
+      5126,
+      5127
+    ],
+    "departure_hex": [
+      "0x1.151bdbedc3779p-47",
+      "0x1.14d9258a3512cp-47"
+    ],
+    "source_identity": "native thick Lyalpha outgoing=xr_p/(3*x1s); not finite tau or atomic replenishment"
+  },
+  "native_cosmology": {
+    "input_dat_sha256": "f8073ba70197378e156a6723e229ff47cc9f0d8be0121f1fce82aff6c64abcbc",
+    "T0_K": 2.728,
+    "kBoltz_eV_K": 8.617343e-05,
+    "obh2": 0.021976,
+    "omh2": 0.13,
+    "okh2": 0.0,
+    "odeh2": 0.343,
+    "w0": -1.0,
+    "wa": 0.0,
+    "Y": 0.24,
+    "Nnueff": 3.04,
+    "fsR": 1.0,
+    "meR": 1.0,
+    "H_prefactor_s_inv": 3.2407792896393e-18,
+    "photon_omega_prefactor": 4.48162687719e-07,
+    "neutrino_factor": 0.227107317660239,
+    "nH0_prefactor_m3": 11.223846333047,
+    "LYA_FACT_cm3_inv": 4662899067555897.0,
+    "EV_J": 1.602176634e-19,
+    "TR_rule": "kBoltz*T0*exp(-eta)/(fsR^2*meR)",
+    "H_rule": "H_prefactor*sqrt(omh2*exp(-3eta)+odeh2+photon_omega_prefactor*T0^4*(1+neutrino_factor*Nnueff)*exp(-4eta))",
+    "nH_rule": "nH0_prefactor*obh2*(1-Y)*exp(-3eta)",
+    "f_ref_rule": "exp(-E21/TR(eta))",
+    "G_NATIVE_rule": "3e6*LYA_FACT_cm3_inv",
+    "J_V_rule": "exp(3*(eta-eta_ref))"
+  },
+  "single_snapshot_only": {
+    "target_z": {
+      "value": 1100.0,
+      "hex": "0x1.1300000000000p+10"
+    },
+    "z": {
+      "value": 1099.9986525171403,
+      "hex": "0x1.12ffe9ec3f4bep+10"
+    },
+    "zstart": {
+      "value": 1700.4825068138662,
+      "hex": "0x1.a91ee1644269cp+10"
+    },
+    "iz_local": {
+      "value": 5127.0,
+      "hex": "0x1.4070000000000p+12"
+    },
+    "xe": {
+      "value": 0.1449299966903522,
+      "hex": "0x1.28d10edff4a2bp-3"
+    },
+    "xHII": {
+      "value": 0.1449299966903522,
+      "hex": "0x1.28d10edff4a2bp-3"
+    },
+    "x1s": {
+      "value": 0.8550700033096478,
+      "hex": "0x1.b5cbbc4802d75p-1"
+    },
+    "nH_cm3": {
+      "value": 250.18675437302318,
+      "hex": "0x1.f45f9e44e90a0p+7"
+    },
+    "H_sInv": {
+      "value": 4.969651222923834e-14,
+      "hex": "0x1.bfa05af5570d9p-45"
+    },
+    "TM_eV_rescaled": {
+      "value": 0.25882127610727856,
+      "hex": "0x1.090871d18f1a0p-2"
+    },
+    "TR_eV_rescaled": {
+      "value": 0.25882399309326415,
+      "hex": "0x1.0909282705d61p-2"
+    },
+    "TM_over_TR": {
+      "value": 0.9999895025729527,
+      "hex": "0x1.fffe9fc3c9ccbp-1"
+    },
+    "fsR": {
+      "value": 1.0,
+      "hex": "0x1.0000000000000p+0"
+    },
+    "meR": {
+      "value": 1.0,
+      "hex": "0x1.0000000000000p+0"
+    },
+    "dxHIIdlna": {
+      "value": -1.5028593700636264,
+      "hex": "-0x1.80bb6444e9126p+0"
+    },
+    "A2p_up_sInv": {
+      "value": 3744.6148446595753,
+      "hex": "0x1.d413acceb51fep+11"
+    },
+    "A2p_dn_sInv": {
+      "value": 3764.3312792072393,
+      "hex": "0x1.d68a99d6da1e0p+11"
+    },
+    "Dfplus_Lya": {
+      "value": 7.664336442233738e-15,
+      "hex": "0x1.142306c39d669p-47"
+    },
+    "Dfplus_Lyb": {
+      "value": 5.0400233218132915e-18,
+      "hex": "0x1.73e3594d01393p-58"
+    },
+    "Dfminus_Lya": {
+      "value": 7.684081955810867e-15,
+      "hex": "0x1.14d9258a3512cp-47"
+    },
+    "Dfminus_Lyb": {
+      "value": 5.1952857375951816e-18,
+      "hex": "0x1.7f582c4618ec4p-58"
+    },
+    "Dfminus_Lyg": {
+      "value": 4.0405073554118018e-19,
+      "hex": "0x1.dd04d776ddbd1p-62"
+    }
+  },
+  "physical_radii": {
+    "eS": null,
+    "en": null,
+    "eE": null,
+    "geometry": null,
+    "total": null
+  },
+  "atomic_interval_owner": null,
+  "finite_absorption_transaction_status": "NOT_RUN_INPUT_DEPENDENT"
+}

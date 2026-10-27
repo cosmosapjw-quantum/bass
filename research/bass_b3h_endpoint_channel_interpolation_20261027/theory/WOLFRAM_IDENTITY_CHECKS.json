@@ -1,0 +1,50 @@
+{
+  "schema": "BASS_B3H_ENDPOINT_WOLFRAM_CHECKS_V1",
+  "scientific_native_runs": 0,
+  "old_result_replays": 0,
+  "model_numerical_evaluations": 0,
+  "tool": "mcp__codex_apps__wolfram_wolframlanguageevaluator",
+  "calls": [
+    {
+      "input": {
+        "code": "ClearAll[x, mm, bb, kk, y0, y1, y2, hvec, hprime, mj, qrow, psi0, psi1, pp, ppprime]; mm={{3+x,-1},{-2,4+2*x}}; bb={1+x+x^2,2-x+x^3}; kk=Inverse[mm]; y0=kk.bb; y1=-kk.D[y0,x]; y2=-kk.D[y1,x]; mj=mm/.x->0; hvec={h1,h2}; hprime=-mj.hvec; slow=Together[D[y0+y1+y2,x]-bb+mm.(y0+y1+y2)-D[y2,x]]; layer=Simplify[hprime+mm.hvec-(mm-mj).hvec]; qrow={1+x,x^2}; psi0=qrow.kk; psi1=D[psi0,x].kk; pp={p1[x],p2[x]}; ppprime=bb-mm.pp; adj=Together[qrow.pp-(psi0.bb+psi1.bb-D[psi0,x].pp-psi0.ppprime-D[psi1,x].pp-psi1.ppprime+D[psi1,x].pp)]; invDerivative=Simplify[D[kk,x]+kk.D[mm,x].kk]; <|\"variableNoncommutingSlowResidual\"->slow,\"frozenLayerResidual\"->layer,\"twoTermAdjointPointwiseIdentity\"->adj,\"inverseDerivative\"->invDerivative,\"commutatorNonzeroWitness\"->Simplify[mm.mj-mj.mm]|>",
+        "timeConstraint": 30
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Out[1]= <|\"variableNoncommutingSlowResidual\" -> {0, 0}, \"frozenLayerResidual\" -> {0, 0}, \"twoTermAdjointPointwiseIdentity\" -> 0, \"inverseDerivative\" -> {{0, 0}, {0, 0}}, \"commutatorNonzeroWitness\" -> {{0, x}, {-2*x, 0}}|>"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      },
+      "meaning": "Noncommuting symbolic 2x2 witness verifies the exact slow residual, frozen-layer residual, inverse derivative and two-term adjoint identity. Generic theorem is proved in accompanying notes."
+    },
+    {
+      "input": {
+        "code": "ClearAll[gam, tt, vv, eps, ell, zz, carry, theta, ee0, ee1, jj0, jj1]; assumptions={gam>0,tt>0,eps>=0,ell>=0,zz>=0,carry>=0}; conv=Integrate[Exp[-gam*(tt-vv)]*(eps+ell*zz*vv*Exp[-gam*vv]),{vv,0,tt},Assumptions->assumptions]; endpoint=eps*(1-Exp[-gam*tt])/gam+ell*zz*tt^2*Exp[-gam*tt]/2; integrated=Integrate[carry*Exp[-gam*vv]+eps*(1-Exp[-gam*vv])/gam+ell*zz*vv^2*Exp[-gam*vv]/2,{vv,0,tt},Assumptions->assumptions]; loose=carry*(1-Exp[-gam*tt])/gam+eps*(tt/gam-(1-Exp[-gam*tt])/gam^2)+ell*zz*(1-(1+gam*tt)*Exp[-gam*tt])/gam^3; mixture=(1-theta)*ee0*jj0+theta*ee1*jj1; product=((1-theta)*ee0+theta*ee1)*((1-theta)*jj0+theta*jj1); <|\"residualConvolutionIdentity\"->FullSimplify[conv-endpoint,assumptions],\"integratedBoundNonnegativeSlack\"->FullSimplify[loose-integrated,assumptions],\"energyInterpolationDifference\"->Factor[product-mixture],\"mixtureDifferenceIdentity\"->Expand[product-mixture+theta*(1-theta)*(ee1-ee0)*(jj1-jj0)]|>",
+        "timeConstraint": 30
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Out[1]= <|\"residualConvolutionIdentity\" -> 0, \"integratedBoundNonnegativeSlack\" -> (ell*tt^2*zz)/(2*E^(gam*tt)*gam), \"energyInterpolationDifference\" -> (ee0 - ee1)*(jj0 - jj1)*(-1 + theta)*theta, \"mixtureDifferenceIdentity\" -> 0|>"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      },
+      "meaning": "Exact residual convolution, positive slack of the safe integrated bound, and distinction between tagged energy mixture and separately interpolated energy times rate."
+    }
+  ],
+  "context_call": {
+    "input": {
+      "context": "We are deriving a finite error-certified two-state stiff linear atomic-population model, dp/dt=b(t)-M(t)p, with real endpoint gross channel maps convexly interpolated in proper time, exact native cosmological Ly-alpha forcing, positive M-matrix contraction, and no native solver rerun. Need a few symbolic identities only: adiabatic recursion y0=M^-1 b, y_{k+1}=-M^-1 yk', residual of sum y0..yq plus frozen initial exponential; carry-in restart bounds; exact moment integration identity to isolate tiny finite storage against large cancelling gross channel counts; weighted-energy observable error. No numerical scientific evaluation or old campaign replay."
+    },
+    "output_summary": "Actual context tool returned no direct results for its proposed five semantic queries and supplied generic Wolfram documentation. No physics or mathematical conclusion was adopted from those snippets."
+  }
+}
+
