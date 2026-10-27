@@ -1,0 +1,19 @@
+{
+ "schema":"bass.km2b.published_contract.v1",
+ "status":"COMPLETE_SCOPED_FIXED_BETA_FINITE_TIME_NORMAL_CLOCK",
+ "scope":"Fixed prescribed beta, constant nu0, flat normal-time bolometric polarized cold Thomson",
+ "parent_sha":"68bcb3e956d3c6c4c9c60aa485c7c4c8187e8030",
+ "clock":"normal proper time, or u=t/T_star with nu0 multiplied by T_star",
+ "signature":"(-,+,+,+)",
+ "nu0":"n_e_star sigma_T c; electron proper density",
+ "equation":"Ydot=nu0 D(B[M]-Y), M=int Y dOmega_e, B=(3/(8pi))Pe M Pe",
+ "invariant":"int tr(Y)/D dOmega_e=gamma(rho-beta.q), q=energy_flux/c",
+ "initial_memory":"Full exp(-nu0 D t)Y_initial; not source-only initial compression",
+ "algorithm":"quadratic source, exact exponential product weights,18x18 causal solve; no direct-source calls",
+ "continuum_proof":"fixed beta/opacity, exact angular integrals, transverse Hermitian weighted-L2; conditional decay rate .3nu0Dmin",
+ "numeric_positivity":"sampled fixtures only; no global step-size claim",
+ "spectral_status":"DECLARED_COLD_THOMSON_ASSUMPTION / ENERGY_DOMAIN_UNVERIFIED",
+ "gates":{"algebra_relative":2e-11,"fine_time_relative":3e-9,"offgrid_moment_relative":1e-8,"invariant_relative":3e-9,"normal_angular_reference_relative":2e-8,"dense_reference_relative":3e-10},
+ "raw_measure":true,"weight_renormalization":false,"production_ready":false,"overall_physical_completion":null,
+ "full_original_contract":"OPERATOR_CONTRACT.json in the immutable ZIP; published metadata is a semantic summary, not its byte identity"
+}
