@@ -1,0 +1,21 @@
+# Endpoint finite owners and core adapter implementation
+
+This is an implementation record, not an execution or admission result. Requested coding tier: `gpt-6.1-sol`; observed runtime model identity: null. The frozen R1/coding contracts, current central AGENTS policy, model theorem, adjoint certificate, saved owner implementation and saved adapter were read. Only `code/owners_endpoint.py`, `code/core_bridge_endpoint.py`, and this file are owned by this worker. No scientific, control, consumer, plotting, or test execution was performed by this worker.
+
+## Frozen interface
+
+`owners_endpoint.assemble_owners(data, maps, fin)` consumes `unit_inputs.load()` data and `endpoint_maps.prepare()` maps. The coordinator supplies MP values in `fin`: `p0`, `p1` (2-by-1 columns), `p1_error` (one norm), `h`, `T_new`, `T_error`, `NH_reference`, `right_H_s_inv`, `Nin_saved`, `Uin_saved`, `Pmax`, and `p_component_lower`. Its six `moments['kK_jJ']` entries contain scalar `F`, `F_error`, vector `I` and one-norm `I_error`. Its `direct_alpha['k0']` and `['k1']` entries contain scalar `I` and `I_error` for the direct outgoing maps.
+
+The returned owner packet mirrors the saved finite owner field names and retains aggregate 1,414 channel rows plus 2,828 endpoint-tagged rows. Tag zero uses the difference of shared theta-zero and theta-one moments; tag one uses theta-one moments. Both tags keep their actual endpoint energy vectors. The actual row infinity norm propagates one-norm moment errors; arithmetic cancellation allowances use original gross summands. Every atom and energy owner uses the same tagged count. No residual is entered as a source/refill.
+
+Prepared initial atom stocks, initial sector energies and the complete saved spectral owner are read directly. The old spectral function is neither imported nor called. Direct Lyalpha count/weighted-energy moments are supplied by the coordinator; admitted incoming count and energy remain separate saved inputs. Their saved representation allowances are reused, while historical quadrature remainder and total inherited accuracy remain null. The ODE endpoint certificate handles excited-state positivity; only ground/continuum/electron gross donor margins are required against initial stocks.
+
+The actual storage residual must be bounded by the propagated count-plus-endpoint allowance, and that allowance must independently satisfy both `1e-16` nuclei per common reference cubic metre and `1e-8` of each nonzero storage. No tolerance uses the largest channel as a substitute for the actual rows. Gas, ambient, and selected line sectors propagate with their explicit weighted event moments, separate adiabatic work, and right volume ratio `exp(3h)`.
+
+`core_bridge_endpoint.consume(data, fin, owner, result)` is called by the coordinator only after all transaction checks. It refuses a repeated call and refuses a failed recorded check. Five sector tensors have pressures `0,0,2rho/3,rho/3,rho/3`. Separate finite four-force values use common-volume event energy divided by `T_new` and `exp(3h)`. The preserved `vendor.geometry.si_to_core` conversion and `vendor.core` are used. Exactly one `core.rhs` call site increments `result['new_B3i_rhs_invocations']` immediately before invocation; it compares the actual result with independent isotropic formulas at relative tolerance `5e-12` and requires exact expected zeros.
+
+Physical radii and global radius remain null, L4 remains false, and the consumer makes no Friedmann closure claim. Runtime acceptance and review belong to the coordinator/root; no check is claimed to have passed here.
+
+## Authorized representation correction before production
+
+Root authorized one targeted correction from the independent C9 finding: returned binary64 `cQ0` and `Q0` values now carry their actual per-sector conversion differences in addition to the pre-binary MP conditional bounds. The latter remain separately recorded. The `Q0` difference compares the actual binary division result directly with `mpforce/c`, so conversion and division are included once. The existing aggregate `512*eps` balance check and the single RHS call are unchanged. This worker made no science, test or consumer invocation for the correction.
