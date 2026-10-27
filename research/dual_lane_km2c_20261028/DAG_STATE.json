@@ -1,0 +1,125 @@
+{
+  "schema": "bass.km2c.published_dag.v1",
+  "nodes": [
+    {
+      "id": "DL-0",
+      "depends_on": [],
+      "status": "STATIC_READ_COMPLETED"
+    },
+    {
+      "id": "DL-1",
+      "depends_on": [
+        "DL-0"
+      ],
+      "status": "COMPLETE_SCOPED_OPERATOR_CONTRACT"
+    },
+    {
+      "id": "DL-2",
+      "depends_on": [
+        "DL-1"
+      ],
+      "status": "COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"
+    },
+    {
+      "id": "KM-1",
+      "depends_on": [
+        "DL-1",
+        "DL-2"
+      ],
+      "status": "COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"
+    },
+    {
+      "id": "KM-2",
+      "depends_on": [
+        "DL-1"
+      ],
+      "status": "PARTIAL_FIXED_BETA_FLAT_AND_PRESCRIBED_BIANCHI_I_CHECKED"
+    },
+    {
+      "id": "KM-3",
+      "depends_on": [
+        "KM-1",
+        "KM-2",
+        "DL-2"
+      ],
+      "status": "COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA"
+    },
+    {
+      "id": "DV-1",
+      "depends_on": [
+        "DL-2",
+        "KM-3"
+      ],
+      "status": "COMPLETE_SCOPED_BIANCHI_I_THREE_LANE_BENCHMARK"
+    },
+    {
+      "id": "DV-2",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "PARTIAL_UNTILTED_BIANCHI_II_V_PRESCRIBED_PROVIDERS_CHECKED"
+    },
+    {
+      "id": "CE-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "FUTURE_CONDITIONAL"
+    },
+    {
+      "id": "BF-1",
+      "depends_on": [
+        "DL-0"
+      ],
+      "status": "READY_SCOPED_FIXED_GAUGE_PERIODIC_BIANCHI_I"
+    },
+    {
+      "id": "BF-2",
+      "depends_on": [
+        "BF-1"
+      ],
+      "status": "TOY_CHECKED_INTEGRATION_OPEN"
+    },
+    {
+      "id": "BF-3",
+      "depends_on": [
+        "BF-1",
+        "BF-2",
+        "DV-1"
+      ],
+      "status": "FUTURE"
+    },
+    {
+      "id": "BF-4",
+      "depends_on": [
+        "BF-3",
+        "CE-1"
+      ],
+      "status": "FUTURE"
+    },
+    {
+      "id": "OB-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "FUTURE_PHASED"
+    },
+    {
+      "id": "PF-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "DEFERRED"
+    }
+  ],
+  "current_subgate": "KM-2C COMPLETE_SCOPED_FIXED_BETA_BIANCHI_I_MEMORY",
+  "recommended_next_node": "BF-1",
+  "progress": {
+    "count": 6,
+    "total": 15,
+    "meaning": "scoped completions/source mapping, not overall physics"
+  },
+  "production_ready": false,
+  "overall_physical_completion": null,
+  "detailed_dag": "DAG_UPDATED.json in immutable archive"
+}
