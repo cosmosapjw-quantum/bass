@@ -1,0 +1,23 @@
+{
+ "unit":"BASS_B3H_MULTICHANNEL_RESET_RESPONSE_20261028",
+ "source_ledger":"STAGE_LEDGER.json in immutable SOURCE archive",
+ "source_ledger_unchanged":true,
+ "rows":[
+ {"stage":"R1","status":"OUTPUT_COMPLETE","checkpoint":"S01"},{"stage":"C1","status":"OUTPUT_COMPLETE","checkpoint":"S01"},
+ {"stage":"R2","status":"OUTPUT_COMPLETE","checkpoint":"S02"},{"stage":"C2","status":"OUTPUT_COMPLETE","checkpoint":"S02"},
+ {"stage":"R3","status":"OUTPUT_COMPLETE","checkpoint":"S03"},{"stage":"C3","status":"OUTPUT_COMPLETE","checkpoint":"S03"},
+ {"stage":"R4","status":"OUTPUT_COMPLETE","checkpoint":"S04"},{"stage":"C4","status":"OUTPUT_COMPLETE","checkpoint":"S04"},
+ {"stage":"R5","status":"OUTPUT_COMPLETE","checkpoint":"S05"},{"stage":"C5","status":"OUTPUT_COMPLETE","checkpoint":"S05"},
+ {"stage":"R6","status":"DISTINCT_AUTHOR_NOT_RUN","checkpoint":"S06"},{"stage":"C6","status":"OUTPUT_COMPLETE","checkpoint":"S06"},
+ {"stage":"R7","status":"OUTPUT_COMPLETE","checkpoint":"S07"},{"stage":"C7","status":"OUTPUT_COMPLETE","checkpoint":"S07"},
+ {"stage":"R8","status":"OUTPUT_COMPLETE","checkpoint":"S08"},{"stage":"C8","status":"OUTPUT_COMPLETE","checkpoint":"S08"},
+ {"stage":"R9","status":"OUTPUT_COMPLETE","checkpoint":"S09"},{"stage":"C9","status":"DISTINCT_AUTHOR_NOT_RUN","checkpoint":"S09"},
+ {"stage":"R10","status":"OUTPUT_COMPLETE","checkpoint":"S10"},{"stage":"C10","status":"OUTPUT_COMPLETE","checkpoint":"S10"}
+ ],
+ "cumulative_outputs":[2,4,6,8,10,11,13,15,16,18],
+ "work":18,"published":18,"dual_backed":18,"total":20,
+ "actual_publication_and_backup":"FINAL_ACK.json maps each checkpoint to actual PR comment, provider IDs and separate size readbacks",
+ "evidence_paths":"each stages/<stage>.md and source STAGE_LEDGER.json; all paths exist in outer source or unchanged nested S07",
+ "independent_admission":"PENDING_R6_C9",
+ "original_DAG_record":{"completed":28,"total":88,"delta":0},"AUTO_NEXT_NODE":false
+}
