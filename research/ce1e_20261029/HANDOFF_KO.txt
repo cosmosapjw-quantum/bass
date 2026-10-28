@@ -1,0 +1,82 @@
+$physmath-research-loop
+
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+BRANCH=research/bass-ce1e-exponential-angular-certificate-20261029
+PARENT_PR=236
+PARENT_COMMIT=24a5d8f76ce134c57fb691ff90e382425d5bb7cd
+SCOPED_CODE_COMMIT=7c191d8a9436e6ac18a4e20f9f3221ba5b4bf505
+CURRENT=CE1-E_COMPLETE_SCOPED_NONPOLYNOMIAL_SOURCE_QUADRATURE
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+NEXT=CE1-F_CANDIDATE_ONLY
+AUTO_NEXT=false
+PRODUCTION_READY=false
+MERGE_READY=false
+
+Read current GitHub HEAD, REPORT_KO.md, OPERATOR_CONTRACT.json,
+DAG_UPDATED.json, evidence/CE1E_RESULTS.json, SOURCE_MAP.json and
+PRESERVATION.json. The last S2 Git commit, when present, must only add
+research docs/evidence and must preserve S1 source/test blobs exactly.
+
+SOURCE_MODEL:
+F0(q)=E_amplitude/(4pi) G(q) exp(lambda*qz²),
+G=1+c2*P2(qz)+ct*(qx²-qy²)+c4*P4(qz)>0,
+0<=lambda<=1 (current lambda=0.2).
+Physical source is not Taylor truncated. Infinite angular harmonics retained.
+Amplitude E_star is NOT actual initial energy E(0).
+Signature(-,+,+,+), Lambda0, collisionless massless reflection-even
+homogeneous diagonal Bianchi I, normal proper u=t/Tstar.
+
+NEW MODULE: bianchi/nonperturbative/einstein_exponential_source.py
+Exports ExponentialRadiation, certified_nonpolynomial_pressure,
+certified_initial_energy, certified_coupled_geometry.
+Backend explicit 'python_oracle'; no native fallback.
+
+PROOF CONTRACT:
+Exact even spherical monomials and exact-rational polynomial
+mismatch from real continuum against actual stored binary64 masses/rays,
+with MPFR RNDD/RNDU exponential remainder and binomial geometry
+remainder; common geometric ratio rho includes nonunit stored ray norm.
+Compute best bound among individually valid geometric truncation orders.
+Initial exact continuum E0 uses actual exp distribution, Hamiltonian
+tracefree sx/sy exact-binary convention, energy mismatch bound.
+Expand no physical dynamics in lambda; no angular multipole closure.
+For nonnegative directional expansion, E decreases and
+sum_j abs(dP_i/dell_j)=4P_i<=4Emax; use Dini comparison.
+
+RESULTS:
+lambda=.2 E_amplitude=.9 coefficients=(.6,.25,.2), ntheta8,nphi16.
+Initial energy quadrature absolute bound=3.5093057875294107e-12.
+On 0<=ell_i<=.08, pressure upper=1.2314632530986521e-5 (K3 selected).
+On u<=.08, automatically bounded ell-box upper
+[.0655641870,.0391641870,.0439641870],
+source upper=6.295927096810174e-6,
+initial_h upper=1.0078992636191925e-12,
+geometry h upper=5.057829658977816e-7.
+New independent DOP853 coupled evolutions3, measured max h gap4.0308312243553246e-12.
+80-digit axisym independent source reference and nonzero l6,l8,l10 verified.
+Stress lambda=.6,.8,1.0: 36 random pressure probes in source bounds.
+Existing older science campaigns replayed0.
+
+BOUNDARY:
+MPFR outward source/geometry comparison is mathematical scoped to exact
+recorded binary inputs, positive exponential polynomial family and expanding
+sector. DOP853 time-integrator error is NOT certified in the CE1-E geometry
+comparison. No measured-sky generality, arbitrary nonpolynomial angular
+source, general spatial EFE, independent formal software proof, native Rust,
+full-frequency collision or production integration.
+
+TESTS: 7 new +32 inherited, local 39 PASS. S1 GitHub scoped CI
+40773191257 and installed-wheel smoke PASS; check current HEAD CI anew.
+Native subagent NOT_RUN_TOOL_NOT_EXPOSED; independent model review NOT_RUN.
+
+BACKUPS: see PRESERVATION.json for S0/S1/S2 create-only Drive and Dropbox
+actual provider success, size, SHA256 and readback assurance. Do not label
+Dropbox full-byte readback if only provider hash was verified.
+
+NEXT CE1-F (only if requested): either a concrete positive tabulated-
+angular-source certified enclosure beyond analytic exponential family, or
+independent software verification of MPFR roundoff path. Select exactly one,
+preserve 15 top-level DAG node IDs and edges, stagewise backup/publish and
+report completed upper nodes/15. Protect main/owner/parent. Do not merge.
