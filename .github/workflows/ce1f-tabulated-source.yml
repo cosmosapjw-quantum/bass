@@ -1,0 +1,40 @@
+name: CE1-F positive tabulated source research
+on:
+  push:
+    branches: [research/bass-ce1f-tabulated-meanray-implementation-20261029]
+  pull_request:
+    paths:
+      - bianchi/nonperturbative/einstein_tabulated_source.py
+      - tests/nonperturbative/test_einstein_tabulated_source.py
+      - .github/workflows/ce1f-tabulated-source.yml
+permissions:
+  contents: read
+jobs:
+  scoped-tabulated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - run: python -m pip install numpy==2.3.5 scipy==1.17.0 mpmath==1.3.0 pytest==9.0.2
+      - name: Verify CE1-F and parent CE1-E/D/C/B physics paths
+        run: |
+          python -m pytest -q tests/nonperturbative/test_einstein_tabulated_source.py tests/nonperturbative/test_einstein_exponential_source.py tests/nonperturbative/test_einstein_physical_input.py tests/nonperturbative/test_einstein_interval.py tests/nonperturbative/test_einstein_error_budget.py
+      - name: Installed wheel source and pressure enclosure
+        run: |
+          python -m pip wheel --no-deps . -w /tmp/ce1f-wheel
+          python -m pip install --no-deps --target /tmp/ce1f-installed /tmp/ce1f-wheel/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/ce1f-installed python - <<'PY'
+          from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation, certified_tabulated_pressure
+          s=TabulatedRadiation(('0','1'),('0','1'),(('0.9',),),backend='python_oracle')
+          b=certified_tabulated_pressure(s,[0,0,0],[0,0,0])
+          assert abs(s.moments([0,0,0])[1][2]-.3)<5e-15
+          assert b['max_pressure_upper']<1e-12
+          print('CE1F_INSTALLED_WHEEL_MEANRAY_PASS native NOT_RUN')
+          PY
