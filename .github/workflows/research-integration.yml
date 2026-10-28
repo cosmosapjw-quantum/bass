@@ -7,9 +7,11 @@ on:
       - bianchi/nonperturbative/**
       - tests/nonperturbative/**
       - scripts/assemble_nonperturbative.py
+      - scripts/repair_integration_reports.py
       - scripts/validate_research_integration.py
       - research/integration_transition_20261028/CODEGEN.json
       - research/integration_transition_20261028/original_overrides/**
+      - research/integration_transition_20261028/reports/**
 permissions:
   contents: write
 concurrency:
@@ -42,8 +44,10 @@ jobs:
           PY
           python -m pip install -r /tmp/bass-integration/requirements.txt
           python -m pip freeze > /tmp/bass-integration/environment.txt
-      - name: Assemble only pinned imports and additive caller bridge
-        run: python scripts/assemble_nonperturbative.py
+      - name: Restore exact original report bytes and assemble pinned imports
+        run: |
+          python scripts/repair_integration_reports.py | tee /tmp/bass-integration/report-restoration.json
+          python scripts/assemble_nonperturbative.py
       - name: Run package, caller, source-identity and existing backend-policy checks
         run: python scripts/validate_research_integration.py --output /tmp/bass-integration
       - name: Check distributable wheel without a research directory
@@ -73,7 +77,7 @@ jobs:
           PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add bianchi/nonperturbative/_core tests/nonperturbative/regression bianchi/q/polstate.py research/integration_transition_20261028/reports/20_BF3C.md research/integration_transition_20261028/CI_VERIFICATION.json
+          git add bianchi/nonperturbative/_core tests/nonperturbative/regression bianchi/q/polstate.py research/integration_transition_20261028/reports research/integration_transition_20261028/CI_VERIFICATION.json
           if ! git diff --cached --quiet; then
             git commit -m 'integration: publish verified package kernels and explicit PolQState route [skip ci]'
             git push origin "HEAD:refs/heads/$GITHUB_REF_NAME"
