@@ -1,0 +1,50 @@
+name: CE1A coupled collisionless radiation
+on:
+  push:
+    branches: [research/bass-ce1a-coupled-massless-20261028]
+    paths:
+      - bianchi/nonperturbative/einstein_vlasov.py
+      - tests/nonperturbative/test_einstein_vlasov.py
+      - .github/workflows/ce1a-einstein-vlasov.yml
+permissions:
+  contents: read
+jobs:
+  scoped-channel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2
+      - name: Test actual coupled package route
+        run: PYTHONPATH=. python -m pytest tests/nonperturbative/test_einstein_vlasov.py -q --junitxml=/tmp/ce1a-tests.xml
+      - name: Installed-wheel coupled radiation check
+        run: |
+          python -m pip wheel --no-deps . -w /tmp/ce1a-wheel
+          python -m pip install --no-deps --target /tmp/ce1a-install /tmp/ce1a-wheel/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/ce1a-install python - <<'PY'
+          import numpy as np
+          from bianchi.nonperturbative._core.polarized_dictionary import Grid
+          from bianchi.nonperturbative.einstein_vlasov import AngularRadiation, initial_state, CoupledHistory, DirectHistory, constraint
+          g=Grid(6,12);r=AngularRadiation(g.n,g.w,np.ones(len(g.w))/(4*np.pi))
+          y=initial_state(r,[.16,-.04,-.12])
+          a=CoupledHistory(r,y,.2,backend='python_oracle').at(.2)
+          b=DirectHistory(r,y,.2,backend='python_oracle').at(.2)
+          assert np.max(abs(a-b['state']))<3e-9
+          assert abs(constraint(a,r.moments(a[:3])[0]))<3e-9
+          print('INSTALLED_WHEEL_CE1A_PASS; native NOT_IMPLEMENTED')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ce1a-${{ github.sha }}
+          path: /tmp/ce1a-tests.xml
+          retention-days: 30
