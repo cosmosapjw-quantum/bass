@@ -1,0 +1,26 @@
+{
+ "schema":"bass.bf3b.published_dag.v1",
+ "current_unit":"BF3-B","next":"BF3-C",
+ "progress":{"count":8,"total":15,"scope_completed_or_source_mapped_nodes":["DL-0","DL-1","DL-2","KM-1","KM-3","DV-1","BF-1","BF-2"],"note":"Not global physics completeness"},
+ "production_ready":false,"overall_physical_completion":null,
+ "nodes":[
+  {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+  {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+  {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+  {"id":"KM-1","depends_on":["DL-1","DL-2"],"status":"COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"},
+  {"id":"KM-2","depends_on":["DL-1"],"status":"PARTIAL_FIXED_BETA_FLAT_AND_PRESCRIBED_BIANCHI_I_CHECKED"},
+  {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA"},
+  {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"COMPLETE_SCOPED_BIANCHI_I_THREE_LANE_BENCHMARK"},
+  {"id":"DV-2","depends_on":["DV-1"],"status":"PARTIAL_UNTILTED_BIANCHI_II_V_PRESCRIBED_PROVIDERS_CHECKED"},
+  {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+  {"id":"BF-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_FIXED_GAUGE_PHYSICAL_CARRIER_PROJECTION"},
+  {"id":"BF-2","depends_on":["BF-1"],"status":"COMPLETE_SCOPED_COMMON_FRAME_COLLISION_CORRELATIONS"},
+  {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"PARTIAL_PERIODIC_BIANCHI_I_PDE_AND_SOURCE_MEMORY_CHECKED"},
+  {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+  {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+  {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}
+ ],
+ "subgates":{"BF3-A":"COMPLETE_SCOPED_PERIODIC_SPATIAL_TRANSPORT_SLICE","BF3-B":"COMPLETE_SCOPED_RETARDED_SPATIAL_SOURCE_MEMORY","BF3-C":"READY_SCOPED_PRESCRIBED_PERIODIC_INHOMOGENEOUS_METRIC"},
+ "next_scope":"Static positive periodic lapse; derive/check characteristics, normal acceleration, Killing energy, screen and phase-space measure before adding collisions. No auto-execution or EFE claim.",
+ "full_detailed_DAG":"DAG_UPDATED.json in immutable ZIP; all original main-node dependencies retained"
+}
