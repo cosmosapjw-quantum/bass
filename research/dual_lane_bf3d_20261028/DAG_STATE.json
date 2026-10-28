@@ -1,0 +1,28 @@
+{
+ "schema":"bass.bf3d.published_dag_state.v1",
+ "scope":"additive research dossier; not central production DAG",
+ "current_unit":"BF3-D",
+ "parent":"5461d50b3f187b4736b62e0f9ecb3e85e413aaee",
+ "progress":{"count":8,"total":15,"scope_completed_or_source_mapped_nodes":["DL-0","DL-1","DL-2","KM-1","KM-3","DV-1","BF-1","BF-2"],"note":"Not whole BASS physical completeness"},
+ "nodes":[
+ {"id":"DL-0","depends_on":[],"status":"STATIC_READ_COMPLETED"},
+ {"id":"DL-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_OPERATOR_CONTRACT"},
+ {"id":"DL-2","depends_on":["DL-1"],"status":"COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY"},
+ {"id":"KM-1","depends_on":["DL-1","DL-2"],"status":"COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION"},
+ {"id":"KM-2","depends_on":["DL-1"],"status":"PARTIAL_FIXED_BETA_FLAT_AND_PRESCRIBED_BIANCHI_I_CHECKED"},
+ {"id":"KM-3","depends_on":["KM-1","KM-2","DL-2"],"status":"COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA"},
+ {"id":"DV-1","depends_on":["DL-2","KM-3"],"status":"COMPLETE_SCOPED_BIANCHI_I_THREE_LANE_BENCHMARK"},
+ {"id":"DV-2","depends_on":["DV-1"],"status":"PARTIAL_UNTILTED_BIANCHI_II_V_PRESCRIBED_PROVIDERS_CHECKED"},
+ {"id":"CE-1","depends_on":["DV-1"],"status":"FUTURE_CONDITIONAL"},
+ {"id":"BF-1","depends_on":["DL-0"],"status":"COMPLETE_SCOPED_FIXED_GAUGE_PHYSICAL_CARRIER_PROJECTION"},
+ {"id":"BF-2","depends_on":["BF-1"],"status":"COMPLETE_SCOPED_COMMON_FRAME_COLLISION_CORRELATIONS"},
+ {"id":"BF-3","depends_on":["BF-1","BF-2","DV-1"],"status":"PARTIAL_STATIC_LAPSE_LOCAL_COLLISION_FIELD_CHECKED"},
+ {"id":"BF-4","depends_on":["BF-3","CE-1"],"status":"FUTURE"},
+ {"id":"OB-1","depends_on":["DV-1"],"status":"FUTURE_PHASED"},
+ {"id":"PF-1","depends_on":["DV-1"],"status":"DEFERRED"}],
+ "subgate":{"id":"BF3-D","status":"COMPLETE_SCOPED_STATIC_LAPSE_INVERSE_FIELD_COLLISIONS","code":"bianchi/nonperturbative/lapse_field.py","smooth_axisymmetric_validation":true,"Einstein_feedback":false,"new_source_memory_solver":false},
+ "next_subgate":"BF3-E_ONLY",
+ "detailed_DAG":"DAG_UPDATED.json in the immutable full archive, including unchanged prior subgates and explicit stale-pointer corrections",
+ "production_ready":false,
+ "overall_physical_completion":null
+}

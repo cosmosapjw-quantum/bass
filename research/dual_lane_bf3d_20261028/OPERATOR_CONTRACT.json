@@ -1,0 +1,19 @@
+{
+ "schema":"bass.bf3d.published_operator.v1",
+ "metric":"(-,+,+,+), ds2=-N(x)^2 c^2dt2+Lstar2 dx_i2, positive periodic static lapse",
+ "time":"coordinate u=t/Tstar",
+ "cbar":"c*Tstar/Lstar",
+ "proper_opacity":"nu_star=n_e_star*sigma_T*c*Tstar",
+ "coordinate_collision_rate":"N*nu_star",
+ "carrier":"Y=N^4 W_real_P8 in canonical meridional screen about x; J=N^-4 EYE^T",
+ "local_source":"integrate final physical directions at each final x; do not multiply global coupled phase Jacobian",
+ "spatial_boundary":"periodic2pi",
+ "angular_coordinates":"mu=n_x, phi about x; GL/periodic raw weights",
+ "algorithms":["Fourier/Legendre collocation+DOP853","inverse characteristics and Fourier/barycentric interpolation+exact local P8 collision in Strang order"],
+ "same_finite_discretization_claim":false,
+ "gates":{"algebra":2e-11,"inverse_ray":8e-10,"stationary":4e-10,"fine_time_error":2e-4,"time_order_min":1.7},
+ "field_fixture_scope":"smooth axisymmetric full IQUV; no general azimuth cutoff proof",
+ "native_default_changed":false,
+ "production_ready":false,
+ "full_contract":"OPERATOR_CONTRACT.json in the immutable S2 archive"
+}
