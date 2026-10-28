@@ -1,0 +1,58 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=https://github.com/cosmosapjw-quantum/bass
+BRANCH=research/bass-ce1f-tabulated-angular-certificate-20261029
+PARENT_PR=237
+PARENT_HEAD=a05906527d7dd5e5f6a653a0e4f7d977679d4a0c
+VERIFIED_CODE_COMMIT=bca52319247618ad8feca1e0bc5ffa45457a0e8f
+SCOPED_CI_RUN=40785425117_SUCCESS_57_TESTS_AND_INSTALLED_WHEEL
+CURRENT=CE1-F_COMPLETE_SCOPED
+LOCAL_LOOP=R1-R10_AND_C1-C10_20/20
+UPPER_DAG=9/15
+UPPER_CE1=PARTIAL
+PRODUCTION_READY=false
+MERGE_READY=false
+
+현재 branch HEAD/PR/병렬 변경을 실제 확인하고 research/ce1f_20261029의
+REPORT_KO.md,THEORY.md,ALGORITHM.md,AUDIT.md,DAG_UPDATED.json,
+provenance/CE1F_CODE_REVIEW.md,evidence/RESULTS.json과20단계 보존 영수증을 읽어라.
+로컬/원격 commit metadata가 다르므로 tree SHA와 실행 module/test SHA를 대조한다.
+이전 환경 실패를 상속하지 말고 현재 도구를 재탐침한다.
+
+물리: Lambda0,대각/균질/좌표반사대칭,massless collisionless BianchiI,
+all-direction-expanding. u=t/Tstar,h=TstarH. 비음수 표의 값은8개 반사 cell을
+모두 합친 초기 에너지이고 각 원본 cell 안의 밀도는 solid angle에 대해 일정하다.
+정확 분할은 같은 물리 표를 유지한다. 유한 multipole/소진폭 동역학 closure 없음.
+
+코드: bianchi/nonperturbative/einstein_tabulated_source.py,
+TabulatedRadiation,certified_tabulated_energy/pressure/geometry,
+backend='python_oracle'. MPFR192 RNDD/RNDU,exact binary input/cell Fraction,
+directed sinpi/cospi,stored nonunit rays/masses,exact-real discrete Emax.
+검토된 module SHA2561bfce9103c02c06f7f3477a16b2f9ccc1d3e34a0de71acd5fa6b9c5ef7115345.
+
+고정 표[[.1,.25,.05],[.2,.15,.15]],mu[0,.5,1],phi/(pi/2)[0,.25,.75,1],
+shear(.2,-.13,-.07),u<=.08,target max|Tstar DeltaH|<1e-5.
+f8 bound1.1487502871e-5 NOT_MET;동일 표 f16/1536cells bound2.8664006503e-6 MET.
+독립 numerical h gap6.74239772e-8,observed bound order1.99956785.
+이 bound는 정확 continuum ODE 대 저장-source ODE의 source/초기자료 기여다.
+float source 평가/시간적분 defect는 포함하지 않는다.
+
+검증:로컬18새+39부모PASS,독립agent18PASS,원격57PASS+wheelPASS,
+9coupledIVP/255pressureprobes,독립80자리 적분,R6/C9근거는 provenance에 있다.
+부모 과거 과학캠페인 재실행0. R1-R10/C1-C10각 단계 Git게시+ZIP해시 기록.
+전체 repo/native/생산 readiness와 구분한다. 부모/main에 merge하지 않는다.
+
+NEXT_CANDIDATE=CE1-G_WHOLE_PANEL_TIME_AND_SOURCE_EVALUATION_DEFECT
+source,norm,IC,clock,target,horizon을 유지하고 CE1-C의 directed whole-panel
+residual 도구를 tabulated source에 연결하여 총 computed-path 오차를 합쳐라.
+새 물리 입력/다른 repo최신결과는 별도 source 계약으로만 채택한다.
+원래15개 DAG ID/edge,9/15,CE1 PARTIAL을 보존하고 수용조건 충족 시에만 갱신한다.
+
+WORKING_PR=https://github.com/cosmosapjw-quantum/bass/pull/239
+C10_CHECKPOINT=d4c491799d16501c2f7c200832d8f2fadb72f3c1
+마감중 동시PR238/head0286dd0a97f512a2dc6f431e462e64bd65267047가 발견됐다.
+우리C4/a3ddc5ed에서 출발한 별도구현이다. RECONCILIATION_KO.md와
+provenance/sibling238를 읽어라. 같은정확입력f1/2/4/8 압력차<=1.11e-16.
+입력API는별개이고PR238 기하Emax에정확이산초기에너지누락이확인됐다.
+우리구현은이를포함한다. 타PR을자동병합/수정하지않고DAG중복승격0이다.
+이후metadata commit은branch HEAD로확인하고검증된core/test SHA를재사용한다.
