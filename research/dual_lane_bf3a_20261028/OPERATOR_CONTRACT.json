@@ -1,0 +1,18 @@
+{
+ "schema":"bass.bf3a.operator.v1","status":"COMPLETE_SCOPED_PERIODIC_SPATIAL_TRANSPORT_SLICE",
+ "parent":"10bba48833a3a3ea20b7596b61c90a67003126e5","metric_signature":"(-,+,+,+)",
+ "geometry":"prescribed diagonal Bianchi I, homogeneous; one periodic radiation/opacity coordinate",
+ "clock":"u=t/T_star, normal proper time","spatial_scale":"x in [0,2pi), cbar=c*T_star/L_star=1 in fixtures",
+ "collision":"full polarized cold elastic Thomson; beta=0; nu0=ne_star*sigmaT*c",
+ "projection":"unchanged BF1 normalized common-frame carrier projection; Pdot=0 for this homogeneous spatial measure",
+ "physical_method":"Fourier-Galerkin derivative and exact truncated opacity convolution, pinned P8 Cartesian RHS, DOP853",
+ "characteristic_method":"time-dependent angular/screen pullback plus direction-dependent spatial Fourier shifts, RK4",
+ "shared":["prescribed geometry","quadrature","physical collision law"],"not_shared":["radiation history","physical/direct RHS"],
+ "raw_weights":true,"amplitude_expansion":false,"spatial_cutoff":"Kx=(Nx-1)/2 explicit, no circular aliasing",
+ "angular_cutoff":"quadrature only in dynamic lane, not finite-ell closure",
+ "initial_transversality":"strict entry check only; no RK state projection",
+ "mean_identity":"mean_streaming=0 but mean_collision includes C_t mean(delta_nu*delta_J)",
+ "source_memory_status":"spatially shifted/path-optical-depth identity derived, independent unknown-source solver NOT_IMPLEMENTED",
+ "gates":{"algebra_abs":2e-11,"exact_free_abs":2e-9,"pde_parity_abs":2e-8,"fine_temporal_abs":1e-8,"angular_fine_source_abs":2e-6,"space_fine_source_abs":2e-6,"positivity_screen_min":-2e-9,"note":"Fixed before first new scientific computation. Gates are scoped diagnostics, not production or continuum certified bounds."},
+ "production_ready":false,"spectral_validity":"DECLARED_COLD_THOMSON_ASSUMPTION / ENERGY_DOMAIN_UNVERIFIED","independent_model_review":"NOT_RUN"
+}
