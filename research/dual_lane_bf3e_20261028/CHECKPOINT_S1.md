@@ -1,0 +1,5 @@
+# BF3-E S1: implemented and tested package route
+
+Actual bianchi.nonperturbative.lapse_memory uses static streaming-loss exponentials and independent two-stage spatial-source collocation. Local targeted13 tests passed after missing-module RED. Executed core Git blob5ff27159e919a8ef7327bc6c8c7a75b7ec87db93; tests271d8459884683a68c5af598c8c66d6c61632636. No parent source, default backend or physics tolerance edits. CI is a separate check and is not yet claimed. Full source initial state, final-angle projection, N*proper-opacity clock and static N4-scaled source are retained. Core never calls parent radiation rhs/direct/split/gain.
+
+S1 ZIP9518bytes SHA2564800b3fc8321bec31855212789844a3622ceb92231e19752bf2be116ec9b51cd; includes executable new core/tests, RED/GREEN and scope/source locks, not a full repository. Drive1BauYXoYYPIpTBY2kA9wrFc6Pavv-_Hzc accepted; Dropbox final completion/readback tracked separately. Primary scientific evidence will be published in S2 without inventing current CI outcomes. Upper DAG8/15, BF3 PARTIAL. No merge or automatic next unit.
