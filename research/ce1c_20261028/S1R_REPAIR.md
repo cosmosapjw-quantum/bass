@@ -1,0 +1,3 @@
+# CE1-C S1R focused repair
+
+Red tests found late MPFR destructor failure after teardown of module globals and unrounded Python float addition of log-scale box endpoints. Repair captures the MPFR cleanup function in the object destructor, sums stored binary inputs with outward MPFR arithmetic, and covers arbitrary rational subdivisions by exact rational endpoint enclosures. Existing numerical formulas/tolerances remain unchanged. RED repair tests two expected failures; GREEN repair 12/12 local focused tests passed. 8x16 angular 32/64-panel target computations are being rerun with the repaired code. Scientific parent campaign is not repeated. DAG 9/15 unchanged. Git branch is isolated; no merge.

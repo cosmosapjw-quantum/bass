@@ -107,3 +107,27 @@ def test_constraint_initial_roundoff_and_target_selection():
     selection=select_geometry_tolerance(source,[(4,4)],target_h='.5',end=.1,subcells=2,max_K=2)
     assert selection['status']=='SCOPED_MPFR_ENCLOSED_TOLERANCE_MET'
     assert selection['selected']['initial_h_error_upper']<1e-14
+
+
+def test_mpfr_interval_cleanup_survives_shutdown_globals():
+    """A late destructor must not rely on torn-down module namespace."""
+    import subprocess, sys
+    program=("import gc\n"
+             "from bianchi.nonperturbative.einstein_interval import Interval\n"
+             "import bianchi.nonperturbative.einstein_interval as m\n"
+             "z=Interval(1)\n"
+             "m._lib=None\n"
+             "del z\n"
+             "gc.collect()\n")
+    p=subprocess.run([sys.executable,'-c',program],capture_output=True,text=True,check=False)
+    assert p.returncode==0 and 'Exception ignored in' not in p.stderr, p.stderr
+
+
+def test_outward_sum_and_third_subcell_cover_exact_rationals():
+    from fractions import Fraction
+    from bianchi.nonperturbative.einstein_interval import exact_component_sum, exact_time_subcell
+    z=exact_component_sum([.1,.2,.3]);exact=sum((Fraction.from_float(x) for x in [.1,.2,.3]),Fraction())
+    assert Fraction.from_float(z.lower)<=exact<=Fraction.from_float(z.upper)
+    cell=exact_time_subcell(0,3)
+    assert Fraction.from_float(cell.lower)<=Fraction(0,1)<=Fraction.from_float(cell.upper)
+    assert Fraction.from_float(cell.lower)<=Fraction(1,3)<=Fraction.from_float(cell.upper)

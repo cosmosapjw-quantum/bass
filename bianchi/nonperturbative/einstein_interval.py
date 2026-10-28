@@ -44,8 +44,8 @@ class _F:
     __slots__=('v',)
     def __init__(self):
         self.v=_S();_lib.mpfr_init2(C.byref(self.v),BITS)
-    def __del__(self):
-        if hasattr(self,'v'):_lib.mpfr_clear(C.byref(self.v))
+    def __del__(self, _clear=_lib.mpfr_clear, _byref=C.byref):
+        if hasattr(self,'v'):_clear(_byref(self.v))
     def ptr(self):return C.byref(self.v)
 
 class Interval:
@@ -243,7 +243,7 @@ def residual_binary_interval(source,path,i,subcells=4):
     if any(x<0 for x in lo):raise ValueError('Entire Hermite path must stay in expanding octant')
     dh=0.;dl=0.
     for j in range(subcells):
-        v=Interval.between(j/subcells,(j+1)/subcells)
+        v=exact_time_subcell(j,subcells)
         y,yp=_hermite_binary_eval(path,i,v)
         P=_source_stored_binary(source,y[:3])
         theta=y[3]+y[4]+y[5]
@@ -322,6 +322,19 @@ from functools import lru_cache
 from math import factorial
 
 def _r(v):return Fraction.from_float(float(v))
+
+def exact_component_sum(values):
+    """Enclose the exact sum of stored binary values, without float64 pre-summing."""
+    return sum((Interval(float(v)) for v in values),Interval(0))
+
+
+def exact_time_subcell(j,n):
+    """Closed exact rational subcell, not binary-rounded j/n endpoints."""
+    if not isinstance(j,int) or not isinstance(n,int) or n<1 or not 0<=j<n:
+        raise ValueError('Expected integer 0<=j<n and n>=1')
+    a=_iv_fraction(Fraction(j,n));b=_iv_fraction(Fraction(j+1,n))
+    return Interval.between(a.lower,b.upper)
+
 
 def _iv_fraction(v):
     v=Fraction(v);a=Interval._empty();b=Interval._empty()
@@ -402,7 +415,7 @@ def source_full_rounding_bound(source,lo,hi,*,max_K=5):
     m=Interval.between(mlo.lower,mhi.upper)
     b=[Interval.between(blo[i].lower,bhi[i].upper) for i in range(3)]
     ratio=[v/m for v in b]
-    summ=Interval.between(sum(lo),sum(hi))
+    summ=Interval.between(exact_component_sum(lo).lower,exact_component_sum(hi).upper)
     v_inv=(-summ).exp()
     q=(Interval(float(max(hi)))-Interval(float(min(lo)))).tanh()
     maxnorm=Fraction(0)
