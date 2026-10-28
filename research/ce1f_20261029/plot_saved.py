@@ -20,14 +20,14 @@ for kind in ['SOURCE','GEOMETRY']:
     else:
         upper=[r['certificate']['geometry_h_upper'] for r in rows]
         gap=[r['measured_h_max'] for r in rows]
-        labels=['Exact-ODE upper bound','Numerical h difference']
+        labels=['ODE comparison bound','Numerical difference']
         ylabel=r'$\max_i |T_\star\,\Delta H_i|$'
     ax.loglog(f,upper,'o-',label=labels[0])
     ax.loglog(f,gap,'s--',label=labels[1])
     if kind=='GEOMETRY':ax.axhline(d['target_h'],color='black',linestyle=':',label='Declared target')
     ax.set(xlabel='Cell refinement factor',ylabel=ylabel,xticks=f)
     ax.set_xticklabels(f);ax.grid(True,which='both',alpha=.2);ax.legend(loc='best')
-    fig.savefig(OUT/f'{kind}_CONVERGENCE.png',dpi=200)
-    fig.savefig(OUT/f'{kind}_CONVERGENCE.pdf')
+    fig.savefig(OUT/f'{kind}_CONVERGENCE.png',dpi=200,bbox_inches='tight',pad_inches=.05)
+    fig.savefig(OUT/f'{kind}_CONVERGENCE.pdf',bbox_inches='tight',pad_inches=.05)
     plt.close(fig)
 print('SAVED_DATA_FIGURES_PASS')
