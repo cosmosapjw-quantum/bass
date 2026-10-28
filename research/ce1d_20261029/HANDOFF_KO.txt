@@ -1,0 +1,28 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+BRANCH=research/bass-ce1d-physical-input-enclosure-20261029
+PARENT=41a20d7a69751ad77a392a669d97bd05566ec822
+PARENT_PR=235
+CURRENT=CE1-D_COMPLETE_SCOPED_PHYSICAL_INPUT_INTERVAL_TRANSFER
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+NEXT_CANDIDATE=CE1-E_ONLY_NOT_EXECUTED
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+
+Read repo HEAD, S0_SCOPE.md, S1_IMPLEMENTATION.md, REPORT_KO.md, OPERATOR_CONTRACT.json, DAG_UPDATED.json, PRESERVATION.json and evidence/CE1D_RESULTS.json. This thread's final S2 commit is report/contract/receipt only, after S1 verified numerical code. Archive full evidence hashes and provider receipts appear in PRESERVATION.json.
+
+New module: bianchi.nonperturbative.einstein_input_enclosure
+APIs: enclose_physical_inputs(source, energy=(center,radius),coefficients=(three such pairs),shear=(two pairs),u_end='1',backend='python_oracle'); combine_nominal_path_budget(nominal_h_upper,envelope,target_h='1e-5',backend='python_oracle'). Input centers/radii must be exact rational decimal strings. A nominal upper must be CE1-C outward-rounded float64 ceiling, not a measured gap.
+
+Physics: Lambda=0, collisionless massless diagonal reflection-even Bianchi I, positive degree4 angular energy polynomial, all-direction-expanding initial data, signature (-,+,+,+), normal proper u=t/Tstar, h_i=Tstar H_i, E/P=(8piGTstar²/c²)×physical energy/pressure. Full angular distribution and Hamiltonian initial constraint, no dynamical linearization/multipole closure, clipping, mean normalization or constraint projection.
+
+Derivation: eta_input=dE+Emax[(2/5)dc2+(4/9)dct+(1/3)dc4], all ell_i>=0. Enclose exact Hamiltonian initial H variation via MPFR, transfer finite difference with x'<=y,y'<=4Emax*x+eta, add previous CE1-C nominal upper by triangle inequality. MPFR RNDD/RNDU 192 bits; software not formally verified; physical input acquisition errors must genuinely lie within declared intervals.
+
+Scientific fixture: nominal CE1-C upper=7.3457959948804625e-6. Tight (dE=1e-8,dc(each)=1e-7,ds(each)=1e-8) total upper=7.628230131279112e-6 PASS target 1e-5. Medium radius 5x for E/shape/shear, total=8.757966759703991e-6 PASS. Wide radii dE5e-6,dc1e-5,ds1e-6 total=4.654041337564583e-5 NOT MET. Independent nonlinear IVPs5; pressure comparisons4; historical science campaigns replay0. Local tests32 PASS (5 new+27 inherited). Check current GitHub CI result and installed-wheel smoke in the repository; do not infer from local alone.
+
+S0/S1/S2 independent create-only Git/Drive/Dropbox receipts required. Source from parent ZIP SHA256 a96f2b8a7373d9b9af33ef60e6d5cba6fec55f5c45ed546f0c27bcc0556a5b5d unchanged. Native subagents NOT_RUN_TOOL_NOT_EXPOSED, production Rust NOT_RUN, independent formal verification NOT_RUN. Previous unrelated RF00/RF-BENCH policy failures stay separate, do not change expected hashes to pass.
+
+CE1-E next (only on a new explicit request): choose one bounded extension, either positive nonpolynomial angular source with certified quadrature or independent assurance of MPFR/interval software. Preserve original 15 top-level nodes/edges, parent/owner/main default routes, no automatic merge. Re-probe runtime in current turn, and publish stage-by-stage receipts and (completed top nodes)/15.
