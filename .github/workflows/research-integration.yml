@@ -6,41 +6,91 @@ on:
       - .github/workflows/research-integration.yml
       - bianchi/nonperturbative/**
       - tests/nonperturbative/**
+      - scripts/assemble_nonperturbative.py
       - scripts/validate_research_integration.py
+      - research/integration_transition_20261028/CODEGEN.json
+      - research/integration_transition_20261028/original_overrides/**
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: nonperturbative-integration-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  source-and-tests:
+  integrate-and-verify:
+    if: github.ref == 'refs/heads/integration/bass-nonperturbative-research-20261028'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
+      JAX_PLATFORMS: cpu
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          persist-credentials: false
-      - name: Preserve exact integration source for independent reproduction
+          persist-credentials: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install explicit Python-oracle test dependencies
         run: |
           mkdir -p /tmp/bass-integration
+          python - <<'PY'
+          import pathlib,tomllib
+          p=tomllib.loads(pathlib.Path('pyproject.toml').read_text())
+          deps=p['project']['optional-dependencies']['python-oracle']
+          pathlib.Path('/tmp/bass-integration/requirements.txt').write_text('\n'.join(['numpy==2.3.5','scipy==1.17.0','sympy==1.14.0','pytest==9.0.2',*deps])+'\n')
+          PY
+          python -m pip install -r /tmp/bass-integration/requirements.txt
+          python -m pip freeze > /tmp/bass-integration/environment.txt
+      - name: Assemble only pinned imports and additive caller bridge
+        run: python scripts/assemble_nonperturbative.py
+      - name: Run package, caller, source-identity and existing backend-policy checks
+        run: python scripts/validate_research_integration.py --output /tmp/bass-integration
+      - name: Check distributable wheel without a research directory
+        run: |
+          python -m pip wheel --no-deps . --wheel-dir /tmp/bass-integration/wheel
+          python -m pip install --no-deps --target /tmp/bass-wheel-check /tmp/bass-integration/wheel/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/bass-wheel-check python - <<'PY'
+          import pathlib
+          from bianchi.nonperturbative import catalog,load_kernel
+          from bianchi.q.polstate import PolQState
+          for name in catalog(): load_kernel(name,backend='python_oracle')
+          assert callable(PolQState.collide_normal_time)
+          pathlib.Path('/tmp/bass-integration/wheel-check.txt').write_text('WHEEL_IMPORT_PASS: 26 kernels and PolQState method; native constructor NOT_RUN\n')
+          PY
+      - name: Publish generated outputs to this branch only after verification
+        run: |
+          set -eu
+          test "$GITHUB_REF_NAME" = 'integration/bass-nonperturbative-research-20261028'
+          remote_sha=$(git ls-remote origin "refs/heads/$GITHUB_REF_NAME" | cut -f1)
+          test "$remote_sha" = "$GITHUB_SHA"
+          python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path('/tmp/bass-integration/verification.json')
+          r=json.loads(p.read_text());r['workflow_input_commit']=os.environ['GITHUB_SHA'];r['workflow_run_id']=os.environ['GITHUB_RUN_ID'];r['wheel_import']='PASS'
+          pathlib.Path('research/integration_transition_20261028/CI_VERIFICATION.json').write_text(json.dumps(r,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add bianchi/nonperturbative/_core tests/nonperturbative/regression bianchi/q/polstate.py research/integration_transition_20261028/reports/20_BF3C.md research/integration_transition_20261028/CI_VERIFICATION.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'integration: publish verified package kernels and explicit PolQState route [skip ci]'
+            git push origin "HEAD:refs/heads/$GITHUB_REF_NAME"
+          fi
           git rev-parse HEAD > /tmp/bass-integration/COMMIT.txt
+          git diff --stat "$GITHUB_SHA" HEAD > /tmp/bass-integration/generated-diff.txt
+      - name: Preserve tested source and verification evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/bass-integration
+          git rev-parse HEAD > /tmp/bass-integration/LOCAL_HEAD.txt
           git archive --format=tar.gz HEAD bianchi tests research pyproject.toml .github scripts > /tmp/bass-integration/source.tar.gz
           sha256sum /tmp/bass-integration/source.tar.gz > /tmp/bass-integration/SHA256SUMS
-      - name: Focused integration checks when the adapter is present
-        run: |
-          if test -f scripts/validate_research_integration.py; then
-            python -m pip install numpy scipy sympy pytest
-            PYTHONPATH=. python scripts/validate_research_integration.py
-          else
-            echo 'SOURCE_SNAPSHOT_ONLY: integration tests not yet added'
-          fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: bass-integration-${{ github.sha }}
           path: /tmp/bass-integration/
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 30
