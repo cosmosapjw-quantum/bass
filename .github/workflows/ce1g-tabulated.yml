@@ -6,13 +6,11 @@ on:
       - bianchi/nonperturbative/einstein_tabulated_time.py
       - tests/nonperturbative/test_einstein_tabulated_time.py
       - .github/workflows/ce1g-tabulated.yml
-  pull_request:
-    paths:
-      - bianchi/nonperturbative/einstein_tabulated_time.py
-      - tests/nonperturbative/test_einstein_tabulated_time.py
-      - .github/workflows/ce1g-tabulated.yml
 permissions:
   contents: read
+concurrency:
+  group: ce1g-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   scoped-time-source:
     runs-on: ubuntu-24.04
