@@ -1,0 +1,7 @@
+# Native logarithmic-clock Thomson optical-depth Jacobian row
+
+Unit BASS_TAU_SOURCE_ROW_20261029. Base PR233 science `464aff9d95fe596e464e1788c8bebf10ebb2ed5f`; source lock cc602e209e7deeb511ab2a1f3b2268d55206c43c and binding 8cb268e8de741e284cf494013f1e0748d27f03c5e77ba0c64413ae92af082d16. Source read from immutable H–Li S6 archive, with original coupled.py, compact_system.py, atomic_network.py, geometry.py and chemical_polynomial.py exact byte-hashes in original S0 capsule.
+
+The source's owner RHS is `tau_T'=THOMSON*ne/H` with `THOMSON=GAMMA_PER_NE/1e6` and `ne=nb(x)*q@(scale*y_atom)`. Its original full62 Jacobian row [61,:40]=-tau_RHS*hgrad, [61,40:61]=THOMSON/H*nb*q*scale. Compact33 uses 23 even geometry +9 atom coordinates +tau, and reduced30 eliminates3 neutral coordinates. Reduced output row29 has potentially nonzero geometry columns [1,2,3,13] and six charged columns[23..28]; tau column29 and other19 geometry columns are structural zero. Actual owner THOMSON and physical-u33 not yet bound for full30 production. Synthetic diagnostic K=1 is NOT a substituted physical scattering constant.
+
+S0 initial contract records R1/C1 **2/20**, original canonical DAG **28/88**, delta0. No old ODE/physics runs or production admission. Fresh tiny execution allocation20CPU/30wall seconds one worker and<=512MiB, plot 8CPU/25wall, prior budgets closed; native independent R6/C9 NOT_RUN. Future source results/ack are additive to this subtree only; do not merge parent/central or automatically start another node.
