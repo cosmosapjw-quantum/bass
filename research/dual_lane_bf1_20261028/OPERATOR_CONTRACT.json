@@ -1,0 +1,19 @@
+{
+  "schema":"bass.bf1.published_contract.v1",
+  "status":"COMPLETE_SCOPED_FIXED_GAUGE_PHYSICAL_CARRIER_PROJECTION",
+  "parent_commit":"1100fbb57230de2cac412c332f58ce8060210535",
+  "signature":"(-,+,+,+)",
+  "domain":"finite periodic T3, synchronous N=1/shift0, common reference coframe and paired momentum/screen labels",
+  "baseline_measure":"reference-coordinate/Haar",
+  "alternative_measure":"physical sqrt(det gamma), identified separately; joint metric/carrier map is nonlinear",
+  "projection":"P F=broadcast(sum p_i F_i), p_i=w_i/sum w",
+  "time_derivative":"pdot_i=p_i(lambda_i-mean lambda); d(mean F)=mean Fdot+Cov(lambda,F)",
+  "homogeneous_bianchi_i":"normalized spatial measure is time independent even when volume expands",
+  "frame_mapping":"SO3 rotations on paired rays only; include Rdot J R^T+R J Rdot^T; moving label derivative caller-owned",
+  "carrier":"average exp(logG)*Jhat after common-frame alignment; do not average logs, clip signed fluctuations or discard high angular modes",
+  "constraints":"restricted flat-metric ADM initial-data diagnostic with Lambda=0,j=0; K=-dt gamma/(2c); no generic constraint solve",
+  "gates":{"algebra_atol":2e-11,"frame_atol":2e-11,"constraint_atol":2e-11,"spatial_quadrature_fine_atol":2e-10,"measure_derivative_atol":2e-9,"negative_control_min":1e-4},
+  "not_implemented":["spatial kinetic PDE","collision covariance evolution","generic angular interpolation or boosts","Einstein feedback","production Rust","gauge-independent unique averaging"],
+  "full_contract":"Immutable archive OPERATOR_CONTRACT.json; this Git file is a semantic summary, not archive-byte identity.",
+  "production_ready":false
+}
