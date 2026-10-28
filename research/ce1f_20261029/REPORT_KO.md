@@ -53,3 +53,11 @@ python research/ce1f_20261029/plot_saved.py
 ```
 
 다음 후보 CE1-G는 선택된 표·해상도에서 whole-panel source 평가/시간적분 defect를 인증하여 현재 source/초기자료 경계와 합치는 작업이다. 기존 CE1-C MPFR residual 도구의 cell source 호환성을 먼저 확인한다. 물리 입력 획득 오차와 cell 내부의 실제 변화는 실제 관측 표를 도입할 때 별도 입력 계약으로 관리한다. 상위 CE-1의 다른 물리 의무는 DAG_UPDATED.json에 유지했다. 이번 요청의 한정된 다음 R/C 루프는 CE1-F에서 종료한다.
+
+## 마감 중 발견한 동시 구현의 종합
+
+PR239를 게시한 직후 별도 PR238/head0286dd0a97f512a2dc6f431e462e64bd65267047를 발견했다. 상대는 이번 C4/a3ddc5ed49d245e87fe393ec17e889dbc77f540d에서 출발했으므로 독립된 이전 성과로 이중 계산하지 않는다. 동일한 binary-rational 물리 표를 두 API에 명시적으로 전달하여 f1/2/4/8 압력 차이<=1.11e-16을 확인했다. 상대 exact-rational-string 입력과 이번 exact-binary 입력, 서로 다른 압력 API를 구분했다.
+
+추가 독립 검토는 상대 geometry 함수가 정확한 저장 이산 초기 에너지를 Emax에 넣지 않은 지점을 특정했다. 한 셀0.9/refinement1에서 E_Q(0)-Emax의 MPFR 외향 구간은[1.2092281458331372e-16,1.2092281458331375e-16]로 양수다. 이는 그 보편 기하 증명에 필요한 전제의 구체적인 미충족이며, 최종 보수적 geometry bound의 실제 위반이나 물리적 no-go를 뜻하지 않는다. 이번 구현은 exact-real discrete energy upper를 이미 Emax에 넣어 독립 C9를 통과했다. 압력 인증은 별도로 유지했다.
+
+RECONCILIATION_KO.md와 provenance/sibling238에 두 소스 identity·실행 비교·독립 검토·최소 교정을 보존했다. 다른 PR의 소스를 변경하거나 합치지 않았다. 상위9/15,CE1-F의단위완료20/20은그대로다. STAGES.md는20개단계별원격commit과ZIP SHA를나열한다. 현행PR239의scoped workflow40786551234도57tests와wheel계산SUCCESS다. 별도RF-BENCH-00 workflow40786551503은FAILURE로확인되어repository/merge readiness와구분했다.
