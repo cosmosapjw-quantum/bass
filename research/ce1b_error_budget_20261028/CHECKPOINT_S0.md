@@ -1,0 +1,13 @@
+# CE1-B: pressure quadrature and reconstructed-time residual budget
+
+Scope: positive reflection-even polynomial initial angular energy, collisionless massless diagonal Bianchi I, Lambda=0, directionally expanding data. Parent PR228 commit4eccdbb6af46eed54ca8bf1b0baa8bb8378b7f0a. This is a new isolated child, not a merge or a change of default/native routes. Upper DAG9/15; CE-1 remains PARTIAL.
+
+The attached CE1-A archive17e8ce86b2868804f74bcb16dc04cf2b8aa77ff1dd366d631d7d49fefd234983 (270957bytes) is a different implementation/fixture from remote PR228. Its saved validator passed without rerunning science. It is separately preserved; neither version is overwritten or declared byte-identical. Current-turn Python executed successfully; no native subagent dispatcher exposed, so native_subagent=NOT_RUN and the work proceeds serially.
+
+Construction: b_i=exp(-2ell_i),m=(max b+min b)/2,z=1-sum b_i q_i^2/m,|z|<=q=tanh(max ell-min ell). Expand (1-z)^(-1/2) through K; remainder<=c_(K+1)q^(K+1)/(1-q),c_k=binom(2k,k)/4^k. For initial polynomial degree d, the pressure approximant degree is d+2+2K. Positive GL(n) x periodic-phi quadrature is exact if this degree<=2n-1 and<nphi. Thus pressure discrepancy<=2P_i0*b_i/(V*sqrt(m))*remainder. Enclose this over each reconstructed time panel, rather than treating a fine-grid gap as a certificate.
+
+Reconstruct an actual RK4 trajectory by cubic Hermite pieces. Bound ell'-h as a polynomial. Bound h'+theta*h-P_Q(ell) using computed Taylor coefficients through order3 plus a derived fourth-derivative remainder covering every subcell. Require the full polynomial path to stay in the expanding octant. Propagate x'<=y+dell, y'<=4E0*x+eta_quad+dh using a positive two-component comparison system, reporting source and time contributions separately.
+
+Guarantee levels: analytic exact-arithmetic truncation/defect bounds are distinguished from their floating-point evaluation. No outward-rounded machine certificate, arbitrary sampled-distribution certificate, production readiness, generic contracting-sector guarantee, or nonlinear closure is claimed. Polynomial expansion is for error bounding, not deletion of physical angular modes.
+
+Main input E0=.9,coefficients(.6,.25,.2),shear(.2,-.13,-.07),u<=1,angular16x32,64steps. Fixed gates: algebra2e-11; reference/high-precision/bound-check allowance2e-10; fine total geometry envelope<1e-3; same-quadrature reference gap<2e-7. Budget<=10 new RK4 histories,<=3 new reference IVPs; no historical campaign replay. Stages S0 contract, S1 implementation/tests, S2 science/delivery. Preserve original15nodes/edges.
