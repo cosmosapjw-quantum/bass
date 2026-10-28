@@ -1,0 +1,33 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+BRANCH=research/bass-ce1c-mpfr-geometry-tolerance-20261028
+PARENT=30ffc5310d3bd83549ec8f5ba6ec6f75b7701c5a
+PARENT_PR=232
+VERIFIED_CODE_COMMIT=576379bcaf43cf9acdf58d5e708cb9a0636d7f31
+CURRENT=CE1-C_COMPLETE_SCOPED_MPFR_TARGET_SELECTION
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+NEXT_CANDIDATE=CE1-D_NOT_EXECUTED
+
+PHYSICS=massless collisionless diagonal Bianchi-I, Lambda0, positive reflection-even degree4 angular energy polynomial, all-direction-expanding sector.
+SIGNATURE=(-,+,+,+)
+TIME=u=t/Tstar; h_i=Tstar H_i.
+SOURCE=E0/(4pi)*(1+.6P2(qz)+.25(qx²-qy²)+.2P4(qz)), E0=.9, sx=.2, sy=-.13, sz=-(sx+sy) exact binary convention.
+METHOD=MPFR 192bits RNDD/RNDU; real-continuum source vs stored exact-binary nodes/weights, exact-binary reconstructed Hermite residual, exact-rational monomial mismatch and binomial tails, fourth derivative majorant and initial Hamiltonian roundoff. No ODE constraint projection/clipping or weight renormalization.
+RESULT_1=target_h1e-4,nθ8,nφ16,RK4steps32,upper=2.3637078415694027e-05,PASS
+RESULT_2=target_h1e-5,nθ8,nφ16,RK4steps64,upper=7.3457959948804625e-06,PASS
+SOURCE_UPPER_2=5.1867548826187936e-06
+TIME_UPPER_2=2.1590411122616684e-06
+
+GIT: first check remote HEAD, PR status and CI; final documentation commits follow the verified source commit. Protected parent and owner/main, no merge.
+FILES: REPORT_KO.md, OPERATOR_CONTRACT.json, SOURCE_MAP.json, DAG_UPDATED.json, evidence/CE1C_RESULTS.json, tests, logs and parent original archives.
+VALIDATION: current-session targeted 27 tests PASS (13 CE1-C,14 parent). CI for verified numerical commit in OPERATOR_CONTRACT.json, not a blanket repository/native PASS.
+REPAIR: exact rational wheel smoke, MPFR destructor cleanup, nonbinary subcell endpoints, log-box sum, stored ray-norm and mass majorant. Preserve RED failures and successful fixed rechecks.
+ASSURANCE: scoped interval result for exact recorded binary input; NOT formally verified Python/MPFR; physical decimal acquisition uncertainty NOT covered.
+RUNTIME: re-probe in new turn. Native subagent NOT_RUN, independent model review NOT_RUN, production Rust NOT_RUN. Parent scientific campaigns replayed 0.
+DAG: keep original 15 node identities/edges; CE1-C is subgate and does not increase 9/15. CE1-D candidate ONLY; no auto-execution.
+BACKUPS: refer final preservation receipt; do not infer both providers passed merely from upload calls, check actual provider receipts.
