@@ -207,6 +207,18 @@ class PolQState:
         return J
 
     # ─────────────────────────────────────────────────────────── 충돌
+    def collide_normal_time(self, dt_s, rest_rate_s, *, beta,
+                            panels=32, backend=None):
+        """Opt-in fixed-beta collision substep in normal proper seconds.
+
+        Explicit backend='python_oracle' only. rest_rate_s=n_e* sigma_T c
+        excludes Doppler D. Geometry is held fixed; the original default
+        Hubble-clock/Strang path is unchanged. No native or EFE promotion.
+        """
+        from bianchi.nonperturbative.polq_bridge import advance_polqstate_normal_time
+        return advance_polqstate_normal_time(
+            self, dt_s, rest_rate_s, beta=beta, panels=panels, backend=backend)
+
     def collide(self, nu_dtau, v_b=None):
         """편광 3항 충돌.  `v_b` 를 주면 **전자 정지계**에서 충돌한다 (P9b).
 
