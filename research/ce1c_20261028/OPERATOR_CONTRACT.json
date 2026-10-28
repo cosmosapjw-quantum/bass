@@ -1,0 +1,97 @@
+{
+  "unit": "CE1-C",
+  "status": "COMPLETE_SCOPED_MPFR_OUTWARD_ENCLOSURE_AND_TARGET_SELECTION",
+  "repo": "cosmosapjw-quantum/bass",
+  "parent_commit": "30ffc5310d3bd83549ec8f5ba6ec6f75b7701c5a",
+  "parent_pr": 232,
+  "branch": "research/bass-ce1c-mpfr-geometry-tolerance-20261028",
+  "verified_core_commit": "576379bcaf43cf9acdf58d5e708cb9a0636d7f31",
+  "core_blob": "c24b784e07835f319aafd887b66c60f88f98d92d",
+  "test_blob": "4e4ae92f2a664108e5510652d9c5233cc10d7260",
+  "physical_scope": {
+    "signature": "(-,+,+,+)",
+    "geometry": "Lambda=0, diagonal reflection symmetric Bianchi I",
+    "matter": "positive degree-four initial angular massless collisionless radiation energy density",
+    "sector": "all three initial directional expansions nonnegative",
+    "evolution": "ell_i prime=h_i; h_i prime=-sum(h)*h_i+P_i(ell) with full angular source",
+    "clock": "u=t/Tstar normal proper time",
+    "units": "h_i=Tstar H_i; E,P_i=(8piG Tstar^2/c^2) times energy density and pressure",
+    "no": "initial continuum amplitude expansion, finite multipole closure, constraint projection, clipping or rescaled raw weights"
+  },
+  "certificate_scope": {
+    "mpfr_precision_bits": 192,
+    "mpfr_version": "4.2.2",
+    "rounding": "MPFR RNDD/RNDU",
+    "exact_input": "recorded binary64 initial polynomial and Hermite coefficients",
+    "source": "continuum ideal degree-four polynomial vs exact-real stored finite angular quadrature; exact rational monomial mismatch plus directed remainder",
+    "time": "whole-panel cubic Hermite residual through Taylor degree 3 plus analytic derivative-four remainder, directed arithmetic",
+    "initial": "Hamiltonian exact reference from binary sx,sy and sz=-sx-sy; initial h error enclosed",
+    "comparison": "positive two-component Dini/Gronwall comparison on expanding octant",
+    "not_claimed": [
+      "formal verification of Python / MPFR implementation",
+      "physical decimal input acquisition uncertainty",
+      "arbitrary sampled angular distributions",
+      "contracting Bianchi models",
+      "long-time generic positivity/stiffness",
+      "production-ready Einstein-Boltzmann"
+    ]
+  },
+  "target_h": {
+    "dimensionless": true,
+    "meaning": "max_i |Tstar Delta H_i|",
+    "selection": "first successful candidate in tested sequence, not globally optimal",
+    "accepted_rows": [
+      {
+        "ntheta": 8,
+        "nphi": 16,
+        "steps": 32,
+        "target_h": 0.0001,
+        "time_and_initial_h_upper": 1.743932828680677e-05,
+        "source_h_upper": 6.197750128887257e-06,
+        "total_h_upper": 2.3637078415694027e-05,
+        "log_scale_upper": 1.0271394339984503e-05,
+        "initial_h_error_upper": 9.584424857533782e-17,
+        "target_pass": true,
+        "runtime_seconds_current_turn": 39.419069422999996
+      },
+      {
+        "ntheta": 8,
+        "nphi": 16,
+        "steps": 64,
+        "target_h": 1e-05,
+        "time_and_initial_h_upper": 2.1590411122616684e-06,
+        "source_h_upper": 5.186754882618794e-06,
+        "total_h_upper": 7.3457959948804625e-06,
+        "log_scale_upper": 2.207299731182541e-06,
+        "initial_h_error_upper": 9.584424857533782e-17,
+        "target_pass": true,
+        "runtime_seconds_current_turn": 77.187314302
+      }
+    ]
+  },
+  "execution": {
+    "current_runtime": "PYTHON_PASS",
+    "native_subagent": "NOT_RUN_TOOL_NOT_EXPOSED",
+    "compiler_cpp": "NOT_PROBED",
+    "native_bass": "NOT_RUN",
+    "targeted_local_tests": 27,
+    "new_unique_tests": 13,
+    "inherited_tests": 14,
+    "new_science_target_runs_final": 2,
+    "past_science_campaign_replayed": 0,
+    "target_ci_run": 40725301487,
+    "target_ci_status": "SUCCESS",
+    "earlier_failed_ci": "40708043522 installed-wheel smoke compared exact decimal 0.3 to binary float 0.3",
+    "repair_episode": "Exact rational smoke, destructor late cleanup, sum/subcell endpoints, stored ray mass/norm majorant",
+    "initial_timeouts": "n12x24/64 panel MPFR evaluation exceeded 180 seconds; selected lower-cost n8x16 candidates"
+  },
+  "progress": {
+    "upper_completed": 9,
+    "upper_total": 15,
+    "upper_CE1": "PARTIAL",
+    "subgate": "CE1-C COMPLETE_SCOPED",
+    "production_ready": false,
+    "merge_ready": false
+  },
+  "no_next_node_auto_execution": true
+}

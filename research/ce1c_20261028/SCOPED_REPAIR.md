@@ -1,0 +1,3 @@
+# CE1-C scoped majorant correction
+
+Observed: sampled_energy0 is a rounded float64 sum of stored masses, not a rigorous upper bound of its exact-real sum; stored GL-generated Cartesian direction norms also differ slightly from unity. For the fourth-derivative residual majorant, calculate an exact-binary source mass sum with MPFR outward addition, and multiply by the outward sqrt of the maximal exact rational squared ray norm. Cache the result per source. A focused RED test establishes the missing bound behavior; repaired code passes 13 CE1-C plus 14 parent tests locally. No physics equation/tolerance changed. Scoped target runs are repeated only for affected CE1-C configurations. Parent science campaigns are not replayed. DAG 9/15 unchanged.
