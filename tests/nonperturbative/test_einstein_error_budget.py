@@ -67,9 +67,13 @@ def test_hermite_reconstructs_knots_and_derivatives():
     with pytest.raises(ValueError):p.at(.5)
 
 def test_full_path_admission_not_only_endpoints():
-    y=np.ones((2,6));d=np.zeros((2,6));d[0,3:]=-20;d[1,3:]=20
-    p=HermitePath(np.array([0.,1.]),y,d)
-    with pytest.raises(ValueError):audit_path(PolynomialRadiation(**KW),p)
+    s=PolynomialRadiation(**KW);y0=s.initial_state();y1=y0.copy();y1[:3]=1.
+    d=np.zeros((2,6));d[0,3:]=-20;d[1,3:]=20
+    p=HermitePath(np.array([0.,1.]),np.array([y0,y1]),d)
+    assert np.min(p.states[:,3:])>0
+    assert np.min(p.at(.5)[3:])<0
+    with pytest.raises(ValueError,match='Whole Hermite path'):
+        audit_path(s,p)
 
 def test_full_panel_residual_bound_covers_heldout_times():
     s=PolynomialRadiation(ntheta=8,**KW);p=rk4_path(s,s.initial_state(),.5,8,**KW)
