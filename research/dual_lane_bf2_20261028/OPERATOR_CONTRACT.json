@@ -1,0 +1,19 @@
+{
+ "schema":"bass.bf2.published_contract.v1",
+ "status":"COMPLETE_SCOPED_COMMON_FRAME_COLLISION_CORRELATIONS",
+ "parent_commit":"30b229ed99337ed2f846badf75538abf8b4c3c8e",
+ "signature":"(-,+,+,+)",
+ "domain":"fixed-gauge finite periodic Bianchi-I reference torus; common normal observer, physical direction and screen labels",
+ "opacity":"nu=n_e_star*sigma_T*c; proper electron density; beta=v_e/c; rates may be multiplied by T_star",
+ "carrier":"P8 real S+A encoding of Hermitian S+iA; average physical carrier, retain signed fluctuations",
+ "decomposition":"mean(nu L_beta J)=nubar L_ref Jbar+L_ref mean(dnu xi)+mean(nu(L_beta-L_ref))Jbar+mean(nu(L_beta-L_ref)xi)",
+ "reference":"mean current rest velocity by default; nu_current is not mean(nu); reference choice changes terms, not their sum",
+ "moving_measure":"Pdot J is separate from collisions; P xidot=-Pdot xi",
+ "force":"local elasticity F0=beta.F; mean-frame defect equals mean((beta-beta_current).Fspatial), not generally a covariance about arithmetic mean beta",
+ "spatial_memory":"two equal-volume reaction-only cells; exact known-source Schur/Duhamel identity, not an independent spatial Volterra solver",
+ "gates":{"algebra_absolute":2e-11,"fine_force_relative":5e-10,"angular_comparison":2e-9,"negative_control_minimum":1e-4},
+ "positivity":"checked on recorded total/mean fixtures only; no clipping of fluctuations",
+ "not_implemented":["spatial streaming PDE","Einstein feedback","electron dynamics","generic observer remapping","spectral/recoil validity","production Rust","mean-state closure"],
+ "production_ready":false,
+ "full_contract":"Immutable ZIP OPERATOR_CONTRACT.json; this published summary is not its byte identity"
+}
