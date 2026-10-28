@@ -30,6 +30,8 @@ jobs:
           cd /tmp
           PYTHONPATH=/tmp/bass-ce1c-install python - <<'PY'
           from bianchi.nonperturbative.einstein_interval import Interval
-          assert (Interval.decimal('0.1')+Interval.decimal('0.2')).contains(0.3)
+          from fractions import Fraction
+          z=Interval.decimal('0.1')+Interval.decimal('0.2')
+          assert Fraction.from_float(z.lower)<=Fraction(3,10)<=Fraction.from_float(z.upper)
           print('INSTALLED_WHEEL_MPFR_INTERVAL_PASS; native NOT_RUN')
           PY
