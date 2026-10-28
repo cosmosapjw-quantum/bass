@@ -1,0 +1,46 @@
+{
+  "schema": "bass.ce1f.tabulated_meanray.v1",
+  "parent_ce1e_pr": 237,
+  "parent_ce1e_head": "a05906527d7dd5e5f6a653a0e4f7d977679d4a0c",
+  "sibling_c4_commit": "a3ddc5ed49d245e87fe393ec17e889dbc77f540d",
+  "unit": "CE1-F",
+  "status": "COMPLETE_SCOPED_TABULATED_CELL_SOURCE",
+  "upper_dag": "9/15",
+  "physics": {
+    "signature": "(-,+,+,+)",
+    "clock": "u=t/Tstar",
+    "h": "Tstar H",
+    "source": "positive, exact-rational first-octant cell energies, piecewise-constant with eight coordinate reflections",
+    "table_edges": "mu=abs(q_z), t=2phi/pi in [0,1]",
+    "cell_weights": "total over all eight reflected patches",
+    "initial_E": "exact rational sum of cell energies",
+    "no": "no angular multipole closure, smoothness across jumps, constraint projection, clipping, normalized raw mass, or parent production edit"
+  },
+  "proof": {
+    "method": "CENTERED_CELL_VARIANCE_PLUS_STORED_RAY",
+    "float_store": "actual binary64 stored mass and square-root barycenter direction",
+    "interval": "MPFR192 RNDD/RNDU including pi/sin/cos endpoint",
+    "continuum": "angular kernel untruncated; binomial source not used",
+    "f_second": "-bi*Di*(b.D)/r\u00b3 + (3/4)*bi*x_i*(b.D)^2/r^5",
+    "centroid_bound": "wi*sqrt(Q)/(4*rmin^3)+3*ui*Q/(8*rmin^5), Q=3*d^2*(sum widths_j^2/4)/4",
+    "stored_bound": "eps_i/r0+Mi*sum_eps/(2*r0^3)+mass_rounding",
+    "coupling": "nonlinear expanding-octant Dini comparison",
+    "certified": "exact-real stored discrete source versus continuous cell distribution",
+    "not_certified": "full floating RHS evaluation or SciPy time integrator"
+  },
+  "verification": {
+    "new_tests": 8,
+    "parent_tests": 39,
+    "local_total": 47,
+    "science_ivps": 4,
+    "independent_cell_pressure_integrals": 16,
+    "deterministic_stress": 36,
+    "max_stress_ratio": 0.12863388361418077,
+    "Wolfram_second_derivative": "ZERO",
+    "old_science_replayed": 0,
+    "native_subagent": "NOT_RUN_TOOL_NOT_EXPOSED"
+  },
+  "production_ready": false,
+  "merge_ready": false,
+  "upper_ce1": "PARTIAL"
+}

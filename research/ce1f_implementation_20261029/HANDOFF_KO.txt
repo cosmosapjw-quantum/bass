@@ -1,0 +1,31 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+IMPLEMENTATION_BRANCH=research/bass-ce1f-tabulated-meanray-implementation-20261029
+SOURCE_THEORY_BRANCH=research/bass-ce1f-tabulated-angular-certificate-20261029
+SOURCE_THEORY_COMMIT=a3ddc5ed49d245e87fe393ec17e889dbc77f540d
+S0_COMMIT=82fea8a8c7fd451a491008f0c6d7d7f77a22702f
+S1_VERIFIED_CORE_COMMIT=c853bdae231edff72b0765aeb4585e25f115a63f
+PARENT_CE1E_PR=237
+PARENT_CE1E_HEAD=a05906527d7dd5e5f6a653a0e4f7d977679d4a0c
+CURRENT=CE1-F_COMPLETE_SCOPED_CELL_SOURCE_SECOND_ORDER
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+NEXT_CANDIDATE=CE1-G_ONLY
+AUTO_NEXT=false
+PRODUCTION_READY=false
+MERGE_READY=false
+
+Read current GitHub branch/PR head, research/ce1f_implementation_20261029/REPORT_KO.md, OPERATOR_CONTRACT.json, DAG_UPDATED.json, SOURCE_MAP.json, evidence/CE1F_RESULTS.json, and final archive/backup receipt. Source/test Git blobs must match S1 (S2 is documents/evidence only). The immutable CE1-E parent archive is retained in final ZIP. Do not merge theory sibling or owner/main automatically; reconcile in a separate requested step.
+
+PHYSICS: exact nonnegative first-octant total cell energies, 8 reflections, piecewise constant on each mu=|qz|, t=2phi/pi cell, jumps physical; exact integer refinement preserves continuum F0. Reflection-even diagonal massless collisionless Bianchi-I Lambda0 with normal proper u=t/Tstar, h_i=Tstar H_i, signature(-,+,+,+). No low-l truncation, clipping, measure normalization or constraint projection.
+
+CORE: bianchi.nonperturbative.einstein_tabulated_source; TabulatedRadiation, certified_tabulated_energy, certified_tabulated_pressure, certified_tabulated_geometry. Explicit backend='python_oracle'. Mean-square-direction ray, not angular-coordinate geometric midpoint; MPFR192 directed covariance/mean/weight bound, initial Hamiltonian mismatch and nonlinear comparison. Float RHS/DOP853 time defect NOT included in certificate.
+
+RESULT: exact initial E=4/5. Refinement1/2/4/8: source upper = 9.87876066078e-3,2.53613514789e-3,6.33753490055e-4,1.57880795472e-4; geometry h upper=6.07258833413e-4,1.56522211958e-4,3.92046460906e-5,9.77868713743e-6. On u<=.08, 4 independent nonlinear IVPs; 16 original-cell GL40 integrations; 36 stress geometries all within bounds, largest gap/bound .128633884. Wolfram second derivative identity zero. Initial exact-rational energy vs stored binary included.
+
+TESTS: 8 new+39 inherited=47 current-session local pass; target CI installed-wheel must be read live. RED 8 missing behavior tests; GREEN after correction of test's invalid float(4/5) comparison. Historical science replay0. Native subagent NOT_RUN_TOOL_NOT_EXPOSED, Rust NOT_RUN, full software formal review NOT_RUN.
+
+BOUNDARY: only a specified piecewise-constant first-octant positive table with octant reflection, not an unknown sampled sky with unspecified interpolation. Continuum-vs-stored exact-real source; not float RHS/ODE time integration, spatial metric feedback, tilted collision, native solver or generic production. Preserve 15 top-level nodes/dependencies and upper DAG9/15; CE-1 PARTIAL.
+
+Next CE1-G candidate if explicitly requested: certify float64 time-integrator defect for the admitted tabulated source or add an explicit regularity envelope for genuine measured sky tables. Do not automatically run additional node or merge.
