@@ -131,3 +131,14 @@ def test_outward_sum_and_third_subcell_cover_exact_rationals():
     cell=exact_time_subcell(0,3)
     assert Fraction.from_float(cell.lower)<=Fraction(0,1)<=Fraction.from_float(cell.upper)
     assert Fraction.from_float(cell.lower)<=Fraction(1,3)<=Fraction.from_float(cell.upper)
+
+def test_derivative_mass_majorant_covers_exact_stored_binary_energy_and_ray_norm():
+    from fractions import Fraction
+    from bianchi.nonperturbative.einstein_error_budget import PolynomialRadiation
+    from bianchi.nonperturbative.einstein_interval import stored_ray_energy_majorant
+    s=PolynomialRadiation(ntheta=8,backend='python_oracle')
+    cap=stored_ray_energy_majorant(s)
+    mass=sum((Fraction.from_float(float(z)) for z in s.mass),Fraction())
+    max_norm=max(sum((Fraction.from_float(float(q))**2 for q in n),Fraction()) for n in s.n)
+    assert Fraction.from_float(cap)**2>=mass**2*max_norm
+    assert cap>0

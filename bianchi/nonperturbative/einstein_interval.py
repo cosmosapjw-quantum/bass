@@ -542,10 +542,26 @@ def _bernstein_derivative_max(path,i,k):
         caps.append(max(_maxabs(z) for z in ctrl))
     return [Interval(z) for z in caps]
 
+def stored_ray_energy_majorant(source):
+    """Outward bound for initial stored positive ray mass times max ray norm.
+
+    Covers float64 summation of sampled_energy0 and |n| != 1 from generated
+    binary angle directions without modifying the source or quadrature weights.
+    """
+    cached=getattr(source,'_ce1c_stored_mass_cap',None)
+    if cached is not None:return cached
+    mass=exact_component_sum(source.mass)
+    if mass.lower<0:raise ValueError('Nonnegative sampled ray masses required')
+    norm=max(sum((_r(x)**2 for x in ray),Fraction()) for ray in source.n)
+    cap=(mass*_iv_fraction(norm).sqrt()).upper
+    source._ce1c_stored_mass_cap=cap
+    return cap
+
+
 def _p4_interval(source,H,G):
     # Parent CE1-B bound with each operation directed outward. H,G are
     # nonnegative envelopes on absolute derivatives of ell and h.
-    E=Interval(float(source.sampled_energy0)); H1,H2,H3=H;G1,G2,G3=G
+    E=Interval(stored_ray_energy_majorant(source)); H1,H2,H3=H;G1,G2,G3=G
     m1=2*H1;m2=2*H2+4*H1**2;m3=2*H3+12*H1*H2+8*H1**3
     m4=16*H1*H3+12*H2**2+48*H1**2*H2+16*H1**4
     b1=m1/2;b2=m2/2+3*m1**2/4
