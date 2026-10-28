@@ -1,0 +1,27 @@
+# CE1-B 인계
+
+REPO=cosmosapjw-quantum/bass
+BRANCH=research/bass-ce1b-source-time-budget-20261028
+PR=232
+PARENT=4eccdbb6af46eed54ca8bf1b0baa8bb8378b7f0a
+NUMERICAL_COMMIT=9bd7a1839ef07b4056f38bc69d4d93f750c280d4
+VERIFIED_CODE_AND_TEST_COMMIT=0bfc3d45e9427901755238172b53a9db11ed3c34
+CURRENT=CE1-B_COMPLETE_SCOPED_ANALYTIC_SOURCE_TIME_BUDGET
+UPPER_DAG=9/15
+UPPER_CE1=PARTIAL
+NEXT=CE1-C_ONLY
+AUTO_NEXT=false
+PRODUCTION_READY=false
+MERGE_READY=false
+
+현재HEAD와README_KO,RESULTS_SUMMARY,DAG_STATE,PRESERVATION을읽어라. Final archive10edf990에는전체보고서·원시rows·panelbudget·actualpath·검증기·상세DAG가있다. 원첨부CE1-A17e8ce86과remotePR228은다른variant이고덮어쓰지않았다.
+
+Actual module bianchi.nonperturbative.einstein_error_budget, explicitpython_oracle. Unitsu=t/Tstar,ell=ln a,h=TstarH,E/P=8piG Tstar²/c²timesenergy-density/pressure. Knownpositivepolynomialdegree4,collisionlessmasslessdiagonalBianchiI,Lambda0,allexpanding. 원분포를lowmultipole로대체하거나constraint/weight를재정규화하지않는다.
+
+Pressurebound는positiveGL/phi polynomial exactness+binomialremainder, timebound는실제cubicHermite경로의Taylor3차+analytic4차remainder다. Floating-point node/weight/transcendental/range rounding을둘러싸지않았으므로machinecertificate가아니다. Fine-gridgap/endpointresidual/samplemaximum을uniformbound라고부르지않는다. Actualendpoint4차와wholepathenvelope약3차를구별한다.
+
+14고유테스트,actualCI40689344240/job122819847070,parentmomentcompatibility,installedwheelbudgetPASS. 과학1회9RK4+2referenceIVP,65digit압력참조3회,science replay0. Mainherror5.9484e-10,totalenvelope9.3514e-7;source2.3919e-12와time9.3514e-7분리. 테스트강화만했고수치core/결과/gate는불변이다. 저장확인은validate_saved.py,verify_ce1b.py는새과학실행일때만사용.
+
+별도RF00run40689017677은portablefailure/nativecancelled이고근본원인은미조사. 기존policy/digest를바꿔통과시키지않는다. NativeCE1B미구현,subagent/독립모델심사NOT_RUN. Runtime은현재턴에서실제probe한다.
+
+다음CE1-C는동일입력의roundoff-awaretargetbudget에한정한다. Pressure/residualenclosure와source/time선택을구성하되일반metric/collision/spatialEFE/native까지scope를확장하지않는다. 원15nodes/edges보호,별도childbranch,각단계백업/게시와진척표기,자동next/merge금지.
