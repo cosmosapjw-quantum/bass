@@ -1,0 +1,43 @@
+name: CE1-E positive nonpolynomial source certificate
+on:
+  push:
+    branches: [research/bass-ce1e-exponential-angular-certificate-20261029]
+  pull_request:
+    paths:
+      - bianchi/nonperturbative/einstein_exponential_source.py
+      - tests/nonperturbative/test_einstein_exponential_source.py
+      - .github/workflows/ce1e-exponential.yml
+permissions:
+  contents: read
+jobs:
+  scoped-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - run: python -m pip install numpy==2.3.5 scipy==1.17.0 mpmath==1.3.0 pytest==9.0.2
+      - name: Real CE1E and inherited CE1D/C/B tests
+        run: >
+          python -m pytest -q
+          tests/nonperturbative/test_einstein_exponential_source.py
+          tests/nonperturbative/test_einstein_physical_input.py
+          tests/nonperturbative/test_einstein_interval.py
+          tests/nonperturbative/test_einstein_error_budget.py
+      - name: Installed wheel nonpolynomial numerical smoke
+        run: |
+          python -m pip wheel --no-deps . -w /tmp/ce1e-wheels
+          python -m pip install --no-deps --target /tmp/ce1e-wheel /tmp/ce1e-wheels/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/ce1e-wheel python - <<'PY'
+          from bianchi.nonperturbative.einstein_exponential_source import ExponentialRadiation, certified_initial_energy
+          s=ExponentialRadiation(lambda_exp=.2,ntheta=8,backend='python_oracle')
+          e=certified_initial_energy(s,exp_order=8)
+          assert e['energy_error_upper']<1e-6
+          print('INSTALLED_WHEEL_POSITIVE_EXPONENTIAL_SOURCE_PASS')
+          PY

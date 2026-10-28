@@ -1,0 +1,52 @@
+{
+  "schema": "bass.ce1e.nonpolynomial_source.v1",
+  "parent_sha": "24a5d8f76ce134c57fb691ff90e382425d5bb7cd",
+  "parent_pr": 236,
+  "unit": "CE1-E",
+  "upper_dag": "9/15",
+  "status": "COMPLETE_SCOPED",
+  "model": {
+    "signature": "(-,+,+,+)",
+    "clock": "u=t/Tstar",
+    "dimensional_energy": "E,P=(8*pi*G*Tstar^2/c^2)*(physical rho,P)",
+    "metric": "diagonal reflection-symmetric homogeneous Bianchi I, Lambda0",
+    "angular_source": "Eamplitude/(4pi) G(q) exp(lambda*qz^2), nonpolynomial in q",
+    "admitted_lambda": "0..1, stored binary64",
+    "base_G": "strictly positive polynomial degree4",
+    "no_physics_taylor_truncation": true,
+    "full_initial_angular_information": true,
+    "angular_grid": "stored binary64 Gauss/phi masses and nonunit directions, no weight normalization"
+  },
+  "proof": {
+    "exact_rational": "spherical even monomials, signed stored polynomial mismatch",
+    "mpfr": "192 bit directed outward elementary operations",
+    "exponential_tail": "exp(lambda)*lambda^(N+1)/(N+1)!",
+    "binomial_tail": "c_(K+1)*rho^(K+1)/(1-rho)",
+    "radius": "rho includes ideal unit directions and exact stored binary ray norms",
+    "order_selection": "minimum of individually proven positive upper bounds",
+    "source_to_geometry": "positive all-expanding comparison D+x<=y;D+y<=4Emax*x+eta",
+    "initial_energy": "independent exact exponential polynomial mismatch and stored binary mass norm/sum deviation"
+  },
+  "validation": {
+    "targeted_local_tests": 39,
+    "new_unique_tests": 7,
+    "new_ivps": 3,
+    "independent_high_precision": "mpmath 80digits, axisym energy/pressure and l>4 coefficients",
+    "stress": "lambda=.6,.8,1.0, 36 pressure samples, energy error and energy gradient",
+    "historical_replay": 0
+  },
+  "not_claimed": [
+    "formal software proof",
+    "full RK time integration error",
+    "generic nonpolynomial measured sky",
+    "general contracting or inhomogeneous Einstein feedback",
+    "native Rust",
+    "production readiness"
+  ],
+  "dag": {
+    "count": 9,
+    "total": 15,
+    "upper_CE1": "PARTIAL",
+    "next": "CE1-F CANDIDATE_NOT_EXECUTED"
+  }
+}
