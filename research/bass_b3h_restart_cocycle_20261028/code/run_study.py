@@ -6,6 +6,7 @@ import mpmath as mp
 from scipy.linalg import expm
 from restart import rk4,compose,rebase,dump_checkpoint,load_checkpoint
 from native_saved import study
+from checked_restart import load_for_execution
 U=Path(__file__).resolve().parents[1]
 IDENTITY={'source':'manufactured-exact-quadratic-v1','frame':'scalar-FLRW','clock':'t/T_global_T2','V0':'1'}
 
@@ -42,7 +43,7 @@ def main():
     for tc in [.25,.75,1.5]:
         cut=int(tc/dt);prefix=rk4(rhs,y0,0,cut,dt)
         s=dict(identity=IDENTITY,step=cut,t=cut*dt,dt=dt,y=prefix.tolist(),attempted_work=4*cut,pending=False)
-        text=dump_checkpoint(s);loaded=load_checkpoint(text,IDENTITY)
+        text=dump_checkpoint(s);loaded=load_for_execution(text,IDENTITY,dt,len(y0))
         (U/'results'/f'checkpoint_{cut}.json').write_text(text+'\n')
         end=rk4(rhs,loaded['y'],loaded['step'],n,loaded['dt'])
         bitwise=np.array_equal(end,full);work=loaded['attempted_work']+4*(n-cut)
