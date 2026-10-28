@@ -1,0 +1,46 @@
+name: Nonperturbative research integration
+on:
+  push:
+    branches: [integration/bass-nonperturbative-research-20261028]
+    paths:
+      - .github/workflows/research-integration.yml
+      - bianchi/nonperturbative/**
+      - tests/nonperturbative/**
+      - scripts/validate_research_integration.py
+permissions:
+  contents: read
+concurrency:
+  group: nonperturbative-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  source-and-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Preserve exact integration source for independent reproduction
+        run: |
+          mkdir -p /tmp/bass-integration
+          git rev-parse HEAD > /tmp/bass-integration/COMMIT.txt
+          git archive --format=tar.gz HEAD bianchi tests research pyproject.toml .github scripts > /tmp/bass-integration/source.tar.gz
+          sha256sum /tmp/bass-integration/source.tar.gz > /tmp/bass-integration/SHA256SUMS
+      - name: Focused integration checks when the adapter is present
+        run: |
+          if test -f scripts/validate_research_integration.py; then
+            python -m pip install numpy scipy sympy pytest
+            PYTHONPATH=. python scripts/validate_research_integration.py
+          else
+            echo 'SOURCE_SNAPSHOT_ONLY: integration tests not yet added'
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: bass-integration-${{ github.sha }}
+          path: /tmp/bass-integration/
+          if-no-files-found: error
+          retention-days: 7
