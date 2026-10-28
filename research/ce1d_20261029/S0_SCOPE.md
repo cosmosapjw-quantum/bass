@@ -1,0 +1,7 @@
+# CE1-D scoped physical-input interval transfer
+Parent PR235, commit 41a20d7a69751ad77a392a669d97bd05566ec822, archive SHA256 a96f2b8a7373d9b9af33ef60e6d5cba6fec55f5c45ed546f0c27bcc0556a5b5d.
+Goal: extend CE1-C exact-binary initial input to user-declared exact-decimal intervals E,c2,ct,c4,sx,sy in positive degree-4 collisionless Bianchi I; prove source L1 bound and initial Hamiltonian error then propagate with MPFR-directed comparison.
+Physical scope: signature (-,+,+,+), u=t/Tstar, h=Tstar H, E,P=(8piG Tstar²/c²)*rho,P; nonnegative direction-wise initial H, reflection even angular distribution, Lambda=0. Full radiation field, no multipole closure, no perturbative dynamical truncation, no clipping, weight renormalization or constraint projection.
+Proof target: eta_data=dE+Emax[(2/5)dc2+(4/9)dct+(1/3)dc4]; x'<=y, y'<=4Emax x+eta, with initial shear/Hamiltonian uncertainty carried. Nominal CE1-C exact-binary interval can be combined only via triangle inequality.
+Acceptance: independent exact-integral tests, a nonlinear held-out perturbed-parameter IVP and a selected tolerance decision; preserve certainty tier. Native subagent NOT_RUN_TOOL_NOT_EXPOSED; no owner/main merge. Scientific DAG 9/15.
+S0 zip SHA256 4a7c563c082a99347ecee292de0e001717a46a70073b5038df0fedf157ae23d2, bytes 1930.
