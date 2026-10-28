@@ -1,0 +1,52 @@
+{
+  "status": "PROPOSED_NOT_RUN",
+  "budget_status": "NOT_ALLOCATED",
+  "new_execution_authorized": false,
+  "canonical_completion_delta": 0,
+  "physical_completion_delta": 0,
+  "implementation_route": "Astra freezes actual inputs/theory/tolerances -> lower-tier bounded implementation -> different Astra review -> root additive PR/backup",
+  "stop_policy": "Stop on changed owner reservation, missing immutable source, unit/state/clock ambiguity, failed frozen control or unallocated resource; do not auto-widen scope/tolerances/replay.",
+  "id": "BASS_TAU_SOURCE_ROW_NEXT",
+  "repo": "bass",
+  "parent_nodes": [
+    "B3i-calibrated-geometry",
+    "B5-domain-validation"
+  ],
+  "base": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+  "pr_title": "Derive the retained optical-depth row in the same full-state source coordinates",
+  "problem": "Chemical6x6 and chemical6x23 bounds leave geometry/tau rows open forfull30.",
+  "next_action": "Read the pinned actual optical-depth source expression and lift/stateclock map; derive its nonzero Jacobian row under the same prescribed-source assumptions and enclose it on one explicitly supplied diagnostic box. Do not substitute a generic Thomsonformula if source differs.",
+  "dependencies": [
+    "same cc602 sourcebinding",
+    "actual tau RHS/path and full30indexmap",
+    "same physicalu33/weightchoice forlatercomposition",
+    "positiveH and density/sourcebox"
+  ],
+  "inputs_units": {
+    "tau": "dimensionless",
+    "clock": "declared native logarithmic orproperclock; conversionexplicit",
+    "density": "source-native withSIconversion",
+    "H": "s^-1",
+    "cross_section": "m^2 whenThomsondomainactuallyselected"
+  },
+  "equations": [
+    "For adopted Thomson propertime only: dTau/dtau=c*sigmaT*ne",
+    "For x=ln a only: dTau/dx=c*sigmaT*ne/H; derivatives by quotient/chainrule"
+  ],
+  "acceptance": [
+    "actual source formula controls allnonzerocolumns",
+    "neutral lift and electron-count derivative retained",
+    "exactzero branches justified byfixedsourceassumptions, notpadding",
+    "independent directdifference/analyticcontrols withprefrozen tolerances",
+    "sourceclock units andHlower bound recorded"
+  ],
+  "owner_reservations": [
+    "PR231groundfeedback andPR232CE1-B source/timegeometry reserved",
+    "fixedcc602 derivativebinding is not latestBASSownerHEAD",
+    "do not alter existingpotential/geometricfeedback/EinsteinVlasov lanes"
+  ],
+  "energy_owner": "BASS geometry/clock only; tau observation does notcreateenergy source",
+  "claim_gate": "One conditional missingrow closure; full30/wholepath/actualODE remainfalse",
+  "pass_next": "Combine matchingidentity rows withotherfull30blocks only onceprovided.",
+  "execution_authorization_note": "false denotes no execution frozen for this prospective node, not missing user authorization; coordinator freezes actual inputs and a fresh cumulative budget within the authorized goal."
+}
