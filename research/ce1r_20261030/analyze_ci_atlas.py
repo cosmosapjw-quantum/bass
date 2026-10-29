@@ -46,6 +46,33 @@ def main():
                 assert gap<5e-10,(chan,l,gap)
                 plot.append((chan,l,t,dcs))
             results['channels'][chan]=obj
+    # Counterfactual angular/source error under IDENTICAL GL40 geometry.
+    # Compare against each self-consistent history to separate source and metric effects.
+    results['fixed_background_decomposition']={}
+    with zipfile.ZipFile(args.zip) as z:
+        for chan in ('stored_ref8','stored_ref16'):
+            fname=chan+'_fixed_gl40.json'
+            if fname not in z.namelist(): continue
+            hybrid=json.loads(z.read(fname))
+            assert hybrid['counterfactual_fixed_background'] is True
+            assert hybrid['geometry_channel']=='gl40'
+            assert hybrid['states']==41
+            pieces={}
+            for l in (2,4):
+                code=str(l);reference=results['channels']['gl40']['Cprime'][code]['final']
+                full=results['channels'][chan]['Cprime'][code]['final']
+                fixed=hybrid['last_Cprime'][f'C{l}prime']
+                source=fixed-reference
+                geometry=full-fixed
+                total=full-reference
+                assert abs((source+geometry)-total)<1e-18
+                pieces[code]={'source_fixed_gl40_difference':source,
+                    'background_history_difference':geometry,
+                    'total_difference':total,
+                    'relative_full_vs_gl40':abs(total/reference),
+                    'source_fraction_of_total_signed':source/total,
+                    'source_fixed_gl40_angular_bias_relative':abs(source/reference)}
+            results['fixed_background_decomposition'][chan]=pieces
     for l in (2,4):
         ref=results['channels']['gl40']['Cprime'][str(l)]['final']
         for chan in CHANNELS[:-1]:
@@ -65,6 +92,18 @@ def main():
         ax.set_title(f'BASS Rust: {"quadrupole" if l==2 else "hexadecapole"} energy-sky evolution')
         ax.grid(alpha=.25);ax.legend(fontsize=8)
         fig.tight_layout();fig.savefig(out/f'CE1R_C{l}_PRIME.png',dpi=180);plt.close(fig)
+    if results['fixed_background_decomposition']:
+        labels=['384 rays','1536 rays']
+        src=[abs(results['fixed_background_decomposition'][key]['4']['source_fixed_gl40_difference']) for key in ('stored_ref8','stored_ref16')]
+        geom=[abs(results['fixed_background_decomposition'][key]['4']['background_history_difference']) for key in ('stored_ref8','stored_ref16')]
+        fig,ax=plt.subplots(figsize=(7.2,4.4))
+        xx=np.arange(len(labels))
+        ax.bar(xx-.19,src,width=.38,label='Source quadrature on fixed GL40 geometry')
+        ax.bar(xx+.19,geom,width=.38,label='Different coupled background history')
+        ax.set_yscale('log');ax.set_ylabel("Absolute difference in dC4/du vs GL40")
+        ax.set_xticks(xx,labels);ax.set_title('BASS Rust: isolated angular aliasing of l=4 sky evolution')
+        ax.grid(axis='y',alpha=.25);ax.legend(fontsize=8)
+        fig.tight_layout();fig.savefig(out/'CE1R_C4_SOURCE_VS_GEOMETRY.png',dpi=180);plt.close(fig)
     print(json.dumps(results,indent=2)[:12000])
     print('CE1R_S2_SIMPSON_LIOUVILLE_C2_C4_CLOSURE_PASS')
     return results
