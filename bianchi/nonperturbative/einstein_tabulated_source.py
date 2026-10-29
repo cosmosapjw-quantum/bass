@@ -175,6 +175,15 @@ class TabulatedRadiation:
             raise ValueError('Finite positive stored initial energy required')
         for a in (self.n, self.mass, self.mu_edges, self.phi_fraction_edges, self.cell_energy):
             a.setflags(write=False)
+        # Physical measure is immutable. The exact-binary numerical ray/mass
+        # arrays are intentionally *not* in this lock: their cardinality-safe
+        # rebinding is an admitted a posteriori recertification path.
+        self._physical_table_lock = (
+            self.cells, self.continuum_energy, self.refinement,
+            (self.mu_edges.shape, self.mu_edges.tobytes()),
+            (self.phi_fraction_edges.shape, self.phi_fraction_edges.tobytes()),
+            (self.cell_energy.shape, self.cell_energy.tobytes()),
+        )
 
     def moments(self, ell):
         e = _real(ell, (3,))
@@ -208,6 +217,19 @@ class TabulatedRadiation:
 def _source(source):
     if not isinstance(source, TabulatedRadiation):
         raise TypeError('TabulatedRadiation required')
+    # The continuum cells/edges/total are *physical* initial conditions, not
+    # interchangeable numerical quadrature data. Silently changing one while
+    # retaining the other invalidates the Hamiltonian root and Emax premise.
+    lock = source._physical_table_lock
+    if (source.cells is not lock[0] or source.continuum_energy != lock[1]
+            or source.refinement != lock[2]):
+        raise ValueError('Immutable physical cell/energy input contract violated')
+    for array, expected in zip(
+        (source.mu_edges, source.phi_fraction_edges, source.cell_energy), lock[3:]
+    ):
+        if (not isinstance(array, np.ndarray) or array.dtype != np.float64
+                or (array.shape, array.tobytes()) != expected):
+            raise ValueError('Immutable physical angular table/edge input contract violated')
 
 
 def _stored_data(source):
