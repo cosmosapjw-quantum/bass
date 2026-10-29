@@ -1,0 +1,60 @@
+name: CE1-V source-locked physical two-time angular energy sky
+on:
+  pull_request:
+    branches: [research/bass-ce1u-rational-continuum-gl-coupled-20261030-r1]
+    paths:
+      - 'research/ce1v_20261030/**'
+      - '.github/workflows/ce1v-two-time.yml'
+  push:
+    branches: [research/bass-ce1v-cross-epoch-energy-sky-20261030-r1]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ce1v-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  physical-cross-time:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Verify BASS original physical source files and original BASS Rust source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object bianchi/nonperturbative/einstein_tabulated_source.py)" = fdeb83a65cd424786ba6bb8ddadbcb2b2e2d45bf
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+          test "$(git hash-object research/ce1u_20261030/data/GL6_coupled_41epochs.csv)" = 9c5aa37c3ee8e1779db1dc56489f5452afd36c1c
+          test "$(git hash-object research/ce1u_20261030/data/GL8_coupled_41epochs.csv)" = ac4c018ef4e7e570c6d0eb142042634a401b67ee
+          cd research/ce1v_20261030
+          echo '6eff8cd9f31d027bbee55720332302b6fbad71b3639b5809aab6b9ce6f53e489  inputs/GL6_coupled_41epochs.csv' | sha256sum -c
+          echo '1398980ec71662494273e05eb4bd52a78f6e6c7f208702638da6c739698f7502  inputs/GL8_coupled_41epochs.csv' | sha256sum -c
+      - name: Install scoped scientific dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 matplotlib==3.10.7
+      - name: Generate 3362 actual physical pair records and 608522 angular values
+        run: python research/ce1v_20261030/source/build_crosstime.py
+      - name: Scoped tests, original angular-source independent SciPy quadrature and byte identities
+        run: python -m pytest -q research/ce1v_20261030/tests/test_two_time_physics.py
+      - name: Scientific code compile and actual physical figures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m compileall -q research/ce1v_20261030/source
+          python research/ce1v_20261030/source/plot_crosstime.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CE1V-COUPLED-TWO-TIME-PHYSICAL-DATA
+          path: |
+            research/ce1v_20261030/data
+            research/ce1v_20261030/figures
+          if-no-files-found: warn
