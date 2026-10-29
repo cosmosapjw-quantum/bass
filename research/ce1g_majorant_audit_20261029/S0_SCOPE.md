@@ -1,0 +1,7 @@
+# CE1-G S0: independent R6/C9 audit and scoped proof repair
+
+Parent CE1-G PR240 `0fd95e4baadf8982cdb1f9f81725b7b8e8fd0aa1`, source ZIP SHA256 `8657f6e7ad51b516896c0a9988644b12790b6cdc48372e14945f8232c4942448` (15,527,023 bytes). Parent has scoped numerical code/test and 72 tests, but R6/C9 separate-author review was NOT_RUN and original Dropbox upload was NOT_DONE.
+
+Current-turn independent Python3.13.5 / MPFR6 probe PYTHON_PASS, C++ CPP_PASS. Actual source cap bug: `stored_ray_energy_majorant(source)` caches an unkeyed object field even though tabulated source masses/rays may be replaced and CE1-G explicitly admits recertification of a changed positive stored source. On original 6-ray fixture, after a first certificate, replace `source.mass` by 100× its current positive contents. The source cap remains 0.9 despite the new exact-positive-ray bound 90.0. Parent `residual_taylor_mpfr` fourth derivative bound remains 2377.899825988017 though recomputing yields 213074.8769262066. The materiality is failed *proof premise*, not a demonstrated old ref16 bound violation.
+
+Selected objective: S1 minimal TDD repair of stale cap and independent R6/C9 pressure/time/source comparison including mutation; verify before claiming. Preserve original parent, PR239 owner, PR238/241 and any CE1-G concurrent branches; no merge/default change. Upper DAG 9/15, CE-1 PARTIAL. S0 ZIP bytes 1752, SHA256 1aa3ba6e39d4ad92bd2b21f59fd1220601998c613dc2fd44c2f018046468cee1. No new top-level DAG node. Native subagent NOT_RUN_TOOL_NOT_EXPOSED.
