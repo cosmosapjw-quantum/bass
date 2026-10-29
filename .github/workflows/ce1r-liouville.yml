@@ -59,6 +59,13 @@ jobs:
           for channel in stored_ref8 stored_ref16 gl24 gl40; do
             python research/ce1r_20261030/verify_liouville.py --channel "$channel" --out "/tmp/ce1r_evidence/${channel}.json" --csv-out "/tmp/ce1r_evidence/${channel}.csv"
           done
+      - name: Controlled source-only angular comparison on identical GL40 geometry
+        shell: bash
+        run: |
+          set -euo pipefail
+          for channel in stored_ref8 stored_ref16; do
+            python research/ce1r_20261030/verify_liouville.py --channel "$channel" --geometry-channel gl40 --out "/tmp/ce1r_evidence/${channel}_fixed_gl40.json" --csv-out "/tmp/ce1r_evidence/${channel}_fixed_gl40.csv"
+          done
       - name: Static program package compile
         run: python -m compileall -q research/ce1r_20261030
       - uses: actions/upload-artifact@v4
