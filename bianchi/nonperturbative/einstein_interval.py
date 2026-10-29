@@ -550,6 +550,11 @@ def stored_ray_energy_majorant(source):
     """
     # Source masses/rays may be rebound by the admitted a posteriori API.
     # A cached bound without a full source identity check is not an enclosure.
+    # The fourth-derivative positivity majorant uses termwise positive mass.
+    # A signed mass array can have positive aggregate mass through cancellation
+    # while individual fourth derivatives are arbitrarily large.
+    if any(_r(w) < 0 for w in source.mass):
+        raise ValueError('Nonnegative stored ray masses required for MPFR remainder')
     mass=exact_component_sum(source.mass)
     if mass.lower<0:raise ValueError('Nonnegative sampled ray masses required')
     norm=max(sum((_r(x)**2 for x in ray),Fraction()) for ray in source.n)
