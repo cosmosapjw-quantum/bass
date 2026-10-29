@@ -1,0 +1,115 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+CURRENT_UNIT=CE1R_BASS_NATIVE_RUST_PROPER_TIME_LIOUVILLE_SKY
+STATUS=SCOPED_NATIVE_RUST_41_EPOCH_LIOUVILLE_ATLAS_AND_SOURCE_GEOMETRY_DECOMPOSITION
+PR=261
+BRANCH=research/bass-ce1r-liouville-rust-sky-20261030-r1
+PARENT_PR=259
+PARENT_HEAD=e963b3cff4a6f91d4060e05080d1e6e2667e001b
+PHYSICAL_HISTORY_PR=258
+PHYSICAL_HISTORY_HEAD=0656e98989750de4ea19c510ff2052654aaa3eda
+ORIGINAL_BASS_NATIVE=src/kinetic/comoving.rs
+ORIGINAL_BASS_GIT_BLOB=a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+RUST_VERIFIED_TOOLCHAIN=rustc_1.94.1
+NATIVE_SUBAGENT=NOT_RUN_NO_TOOL_EXPOSED
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1=PARTIAL
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+
+PHYSICS:
+Positive original six-cell exact-binary angular radiation,
+eight sign reflections, massless collisionless all-expanding
+diagonal Bianchi-I Lambda0 metric (-,+,+,+),
+u=t/Tstar, ell=ln a, h=dell/du.
+Frozen u=[0,.08] 41 DOP853 samples each channel.
+CE1M_MPFR192_GEOMETRY_H_BOUND=9.411551484445186e-6
+CE1M_GEOMETRY_BOUND_RECOMPUTED_HERE=false
+NEW_SKY_MPFR_CERTIFICATE=false
+NEW_TEMPERATURE_OR_POLARIZATION_CMB=false
+
+FORMULA:
+M=diag(exp(-ell_i)), s=-Mq/|Mq|, r=|Mq|.
+H_s=sum_i h_i s_i^2, theta=sum_i h_i.
+s'_i=(H_s-h_i)s_i;
+W'=-(theta+H_s)W.
+a'_lm=integral W[-(theta+H_s)Y_lm^*+grad_S Y_lm^*.s'].
+E'=-theta*E-sum_i h_i P_i;
+P'_i=-(theta+2h_i)P_i+sum_j h_j R_ij.
+C'_l=2Re sum_m conj(a_lm)a'_lm/(2l+1).
+Real-sky and eight-reflection parity preserved.
+BASS Frame::step uses e-fold tau, NOT CE1 proper u.
+
+CODE:
+research/ce1r_20261030/sky_time_derivative.rs
+research/ce1r_20261030/verify_liouville.py
+research/ce1r_20261030/analyze_ci_atlas.py
+.github/workflows/ce1r-liouville.yml
+Original _rustcore/src/kinetic/comoving.rs untouched.
+
+CI:
+RUST_FULL_FROZEN_4CHANNELS=40908995659_SUCCESS
+RUST_HYBRID_FIXED_GL40=40909891131_SUCCESS
+RUST_NATIVE_SELFTEST=PASS
+PR259_TRUE_SOURCE_BLOBS_PINNED=PASS
+41_EPOCHS_PER_CHANNEL=PASS
+LOCAL_RUST_HISTORICAL_BLOB_DIFFERS_FROM_LIVE=true
+GITHUB_CI_BUILT_LIVE_BASS_RUST=true
+
+U_0_08:
+GL40_C2prime=-0.0011371442391815186
+GL40_C4prime=-0.00014789130274602826
+REF8_C4prime=-0.00017004807537785837
+REF16_C4prime=-0.00015322802409181116
+REF8_C4prime_relative_gap_GL40=0.1498179556229862
+REF16_C4prime_relative_gap_GL40=0.036085430628382396
+REF8_FIXED_GL40_SOURCE_C4prime_gap=-2.215675885293769e-5
+REF8_GEOMETRY_C4prime_gap=-1.3778892415071409e-11
+REF16_FIXED_GL40_SOURCE_C4prime_gap=-5.336717455987515e-6
+REF16_GEOMETRY_C4prime_gap=-3.889795386832762e-12
+SOURCE_DOMINANCE_C4=ABOVE_99.9999_PERCENT_IN_THIS_DIAGNOSTIC
+GL40_IS_NONCERTIFIED_NUMERICAL_REFERENCE=true
+HYBRID_BACKGROUND_NOT_SELFCONSISTENT_EINSTEIN_SOLUTION=true
+
+VALIDATION:
+SCIPY_YLM_DIRECTIONAL_DERIVATIVE_GAP_MAX_4CH<4.5e-10
+PARENT_SAVED_5POINT_DERIVATIVE_GAP_MAX_4CH<1.8e-10
+GL40_CONTINUITY_GAP_MAX=7.860379014346108e-14
+GL40_PRESSURE_MOMENT_DERIVATIVE_GAP_MAX=1.0735856648125264e-13
+SIMPSON_C2_DELTA_C_GAP_MAX<1.12e-13
+SIMPSON_C4_DELTA_C_GAP_MAX<1.22e-15
+PRODUCTION_OR_OBSERVATIONAL_ADMISSION=FALSE
+DISTINCT_AUTHOR_R6_C9=NOT_RUN
+
+S0_BACKUP_SHA256=8bdd2683313606191542897ddd64df948592c177fa0bdd8119af2bc3d1ee14ea
+S1_BACKUP_SHA256=954245e4e5717c9705a568fcc9a65b5ace9b635c1155cd206f5ed6d9e62753b5
+S2_BACKUP_AND_PROVIDER_RECEIPTS=READ_GITHUB_DELIVERY_RECEIPTS_AND_PR_BODY
+S0_S1_DRIVE_FULL_BYTE_SHA=PASS
+S0_S1_DROPBOX_PROVIDER_HASH_SIZE=PASS
+
+READ_FIRST:
+research/ce1r_20261030/S2_FINAL_REPORT_KO.md
+research/ce1r_20261030/DAG_DELTA.json
+research/ce1r_20261030/DELIVERY_RECEIPTS.json
+research/ce1r_20261030/HANDOFF_NEXT_KO.txt
+research/ce1r_20261030/analyze_ci_atlas.py
+research/ce1r_20261030/verify_liouville.py
+Original Github Actions artifacts #12912957334 and #12912164871;
+latest fixed-background CSVs are in S2 evidence ZIP.
+
+NEXT_ONE_BOUNDED_UNIT=CE1S_RUST_ANGULAR_CELL_L4_DERIVATIVE_REFINEMENT
+1. Read LIVE PR259/261 heads and verify the exact Rust source blob.
+2. Reuse rather than repeat CE1-R 41-time-point atlas and hybrid decomposition.
+3. Derive angular-cell-aware rigorous/a posteriori bounds for dC4/du,
+   or a physically conservative adaptive positive-cell angular quadrature.
+4. Implement in existing BASS Rust core/opt-in kernel with frozen source,
+   benchmark ONLY against same accuracy and true GL numerical reference.
+5. Do not promote temperature/likelihood/MPFR sky authority without evidence.
+6. Preserve original upper DAG 9/15 until a top-level gate genuinely closes.
+7. Each research step: Git + Drive + Dropbox real-success receipts,
+   and exact (completed DAG nodes)/(total DAG nodes).
+8. Never auto-merge or change sibling branch or main.
+STOP_AFTER_ONE_BOUND_UNIT=true
