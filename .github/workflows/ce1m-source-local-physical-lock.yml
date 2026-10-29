@@ -1,0 +1,83 @@
+name: CE1-M source-local physical-lock scoped verification
+on:
+  push:
+    branches: [research/bass-ce1m-source-local-physical-lock-20261029-r1]
+  pull_request:
+    branches: [research/bass-ce1l-r6c9-physical-lock-20261029-r1]
+permissions:
+  contents: read
+concurrency:
+  group: ce1m-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  scoped:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - name: Pinned original Python dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 mpmath==1.3.0 pytest==9.0.2
+      - name: CE1-C/G/H/I/J/K/L/M physical identity and bound tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/nonperturbative/test_ce1m_locked_source_local.py \
+            tests/nonperturbative/test_ce1k_canonical_source_local.py \
+            tests/nonperturbative/test_ce1l_physical_table_identity.py \
+            tests/nonperturbative/test_ce1l_positive_stored_residual.py \
+            tests/nonperturbative/test_ce1k_cardinality_contract.py \
+            tests/nonperturbative/test_ce1j_variant_contract.py \
+            tests/nonperturbative/test_ce1g_independent_audit.py \
+            tests/nonperturbative/test_einstein_tabulated_local.py \
+            tests/nonperturbative/test_einstein_tabulated_sharp.py \
+            tests/nonperturbative/test_einstein_tabulated_time.py \
+            tests/nonperturbative/test_einstein_tabulated_source.py \
+            tests/nonperturbative/test_einstein_exponential_source.py \
+            tests/nonperturbative/test_einstein_physical_input.py \
+            tests/nonperturbative/test_einstein_interval.py \
+            tests/nonperturbative/test_einstein_error_budget.py
+      - name: Fresh ref8 same-physics MPFR path and source certificate
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation
+          from bianchi.nonperturbative.einstein_tabulated_source_canonical import run_canonical_panel_source
+          s=TabulatedRadiation([0,.5,1],[0,.25,.75,1],[[.1,.25,.05],[.2,.15,.15]],refinement=8,backend='python_oracle')
+          r=run_canonical_panel_source(s,backend='python_oracle')
+          assert r['target_met'] and r['total_h_upper'] < 1e-5
+          assert r['total_h_upper']==9.411551484445186e-6
+          assert r['ce1i_total_h_upper']==1.2273903547843227e-5
+          assert r['production_ready'] is False and r['upper_dag']=='9/15'
+          print('CE1M_FROZEN_REF8_SCIENCE_MATCH')
+          PY
+      - name: Installed wheel same-physics and physical-input fail-closed smoke
+        run: |
+          set -euo pipefail
+          python -m pip wheel --no-deps . -w /tmp/ce1m-wheels
+          python -m pip install --no-deps --target /tmp/ce1m-install /tmp/ce1m-wheels/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/ce1m-install python - <<'PY'
+          import numpy as np
+          from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation, certified_tabulated_pressure
+          from bianchi.nonperturbative.einstein_tabulated_source_canonical import run_canonical_panel_source
+          s=TabulatedRadiation([0,.5,1],[0,.25,.75,1],[[.1,.25,.05],[.2,.15,.15]],backend='python_oracle')
+          x=run_canonical_panel_source(s,backend='python_oracle')
+          assert not x['production_ready'] and x['upper_dag']=='9/15'
+          s.cell_energy=s.cell_energy.copy();s.cell_energy[0,0]=.35
+          try:run_canonical_panel_source(s,backend='python_oracle')
+          except ValueError as e:assert 'physical' in str(e)
+          else:raise AssertionError('mutated physical table falsely admitted')
+          t=TabulatedRadiation([0,1],[0,1],[[.9]],backend='python_oracle')
+          t.n=np.vstack([t.n,t.n[0]]);t.mass=np.append(t.mass,t.mass[0])
+          try:certified_tabulated_pressure(t,[.08]*3)
+          except ValueError as e:assert 'cardinality' in str(e)
+          else:raise AssertionError('appended ray omitted from MPFR source bound')
+          print('CE1M_INSTALLED_WHEEL_FAIL_CLOSED_PASS')
+          PY
