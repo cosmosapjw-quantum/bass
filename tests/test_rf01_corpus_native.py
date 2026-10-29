@@ -53,7 +53,16 @@ def test_real_rf01_adapter_is_repeatable_and_bound_without_timing(
     first = adapter(workload["inputs"])
     second = adapter(workload["inputs"])
     assert first == second
-    assert _canonical_digest(first) == workload["functional_output_sha256"]
+    observed_digest = _canonical_digest(first)
+    assert observed_digest == workload["functional_output_sha256"], (
+        "RF01_FROZEN_OUTPUT_MISMATCH: "
+        + json.dumps({
+            "workload_id": workload_id,
+            "expected_digest": workload["functional_output_sha256"],
+            "observed_digest": observed_digest,
+            "observed_output": first,
+        }, sort_keys=True)
+    )
 
     if workload_id == "runtime_plan_memory_allocation_ffi_overhead":
         assert first["ffi_compute_entries"] == 1
