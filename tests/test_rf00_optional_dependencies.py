@@ -128,8 +128,12 @@ def test_public_lazy_exports_preserve_conventions_and_algebra():
 
     assert bianchi.algebra is algebra
     assert bianchi.conventions is conventions
-    assert bianchi.__all__ == ["conventions", "algebra", "__version__"]
-    assert {"conventions", "algebra"}.issubset(dir(bianchi))
+    # runtime is an intentional, lazily exposed RF-01 public frontend.
+    from bianchi import runtime
+
+    assert bianchi.runtime is runtime
+    assert bianchi.__all__ == ["conventions", "algebra", "runtime", "__version__"]
+    assert {"conventions", "algebra", "runtime"}.issubset(dir(bianchi))
 
 
 @pytest.mark.parametrize(
