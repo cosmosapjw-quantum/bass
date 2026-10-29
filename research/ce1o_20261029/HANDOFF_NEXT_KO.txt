@@ -1,0 +1,53 @@
+$physmath-research-loop
+PROGRAM=BASS
+REPO=cosmosapjw-quantum/bass
+CURRENT_UNIT=CE1O_MPFR_C_ABI_DIRECTED_INTERVAL_VERIFICATION
+STATUS=COMPLETE_SCOPED_C_ABI_ROUNDING_CROSSCHECK_AND_NONFINITE_GUARD
+PARENT_PR=254
+PARENT_HEAD=8a56d15947435fe7dd83cc1b11347c145136321c
+CURRENT_PR=256
+BRANCH=research/bass-ce1o-mpfr-abi-finite-directed-20261029-r1
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1_STATUS=PARTIAL
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+PHYSICS=positive exact binary 6 angular cells; massless collisionless all-expanding diagonal Bianchi I Lambda0, (-,+,+,+), u=t/Tstar, h=Tstar H; MPFR192, four RK4/Hermite panels, unchanged h target 1e-5
+PARENT_REF8_H=9.411551484445186e-6
+PARENT_REF8_NEW_RUN=NOT_RUN_IN_CE1O
+BUG=Interval.decimal('nan') returned interval NaN; contains(0)==true; is_nonnegative()==true because mpfr_cmp unordered returns 0. Infinity also accepted.
+FIX=mpfr_number_p ctypes correct C ABI, reject NaN/Inf endpoints, contains and is_nonnegative reject poisoned/overflow endpoints.
+SOURCE_AFTER_GIT_BLOB=122d4a87ccd95d462db7eb58ef925f2b18c4ec33
+TEST_RED=8_FAIL_5_PASS
+TEST_FOCUSED_GREEN=39_PASS
+TEST_SCOPED_GREEN=127_PASS
+C_ABI=LP64 size32 offsets0,8,16,24; local MPFR4.2.2, GitHub MPFR4.2.1; 192-bit directed endpoints
+INDEPENDENT_C_VS_CTYPES=510_EXACT_BINARY64_MATCH
+EXACT_RATIONAL_INCLUSIONS=260
+MPMATH_120DPS_INCLUSIONS=250
+NONFINITE_INPUT_REJECTIONS=7
+CI_CODE_RUN=40877460742_SUCCESS
+CI_CE1C_RUN=40877460740_SUCCESS
+CI_RF_BENCH_RUN=40877460791_SUCCESS
+CI_RF00_RUN=40877460729_CHECK_LIVE
+C_AND_PYTHON_USE_SAME_MPFR_LIB=true
+FORMAL_WHOLE_PROGRAM_PROOF=NOT_RUN
+NATIVE_SUBAGENT=NOT_RUN
+DISTINCT_AUTHOR_REVIEW=NOT_RUN
+
+READ:
+research/ce1o_20261029/S0_FINDING_KO.md
+research/ce1o_20261029/S1_IMPLEMENTATION_KO.md
+research/ce1o_20261029/S2_FINAL_REPORT_KO.md
+research/ce1o_20261029/HANDOFF_NEXT_KO.txt
+research/ce1o_20261029/DELIVERY_RECEIPTS.json
+research/ce1o_20261029/check_ffi.py
+research/ce1o_20261029/mpfr_abi_oracle.c
+
+NEXT_SINGLE_UNIT:
+1. Check PR256 live HEAD, CI and S0/S1/S2 immutable ZIP SHA/Drive/Dropbox receipts.
+2. Reuse CE1-N & CE1-O fixed current-source cache/subcells and finite MPFR gate, CE1-M fixed 384-ray result; no duplicate costly sweep.
+3. Execute scoped independent-author C9/R6 OR build verified official MPFR/GMP developer-header ABI / compiler program proof checks on one bounded trust issue, preserve exact source and tolerance.
+4. No automatic merge, no generic production/polarization claim; keep upper DAG 9/15 until actual top-level gate.
+5. Per-stage Git/Drive/Dropbox with checksum and exact completed/15 counts; then stop.
