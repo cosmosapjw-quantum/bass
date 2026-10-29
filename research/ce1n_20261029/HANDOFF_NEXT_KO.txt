@@ -1,0 +1,61 @@
+$physmath-research-loop
+
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+UNIT=CE1N_MPFR_DIRECT_API_PROOF_ASSURANCE
+UNIT_STATUS=COMPLETE_SCOPED_DIRECT_MPFR_INPUT_PROGRAM_REPAIR
+PR=254
+BRANCH=research/bass-ce1n-mpfr-direct-api-proof-safety-20261029-r1
+PARENT_PR=252
+PARENT_HEAD=8e26188d03197b0a4f878c5ce98e015468a4e24b
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1_STATUS=PARTIAL
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+
+FROZEN_PHYSICS: positive exact-binary original six-cell massless collisionless diagonal expanding Bianchi I, Lambda0, signature(-,+,+,+), u=t/Tstar, h=Tstar H, 4 RK4/Hermite panels, target max_abs_delta_h<1e-5.
+PARENT_REF8_CERTIFIED_H=9.411551484445186e-6
+UNALTERED_FIXED_INPUT=true
+
+ISSUE1: polynomial CE1C source_full_rounding_bound cached rational mismatch by K alone across positive source mass/n rebind. Original x source upper 1.193178730416563e-15 vs exact gap lower .29399999999999954 (mass×2).
+REPAIR1: remove unkeyed source._ce1c_exact_mismatch_cache use; always recompute current-source exact rational mismatch. Git module blob e3a5b83183bfad45bbf38c3c3de89de72fe3adce.
+ISSUE2: direct residual_taylor_mpfr(subcells=-1) returned ell/h defect zero through empty loop. REPAIR2: typed nonbool Python int 1..256 before MPFR derivative computations. Valid residual unchanged.
+
+RED=3_FAIL_EXIT1
+LOCAL_MPFR_GREEN=24_PASS
+EXACT_RATIONAL_INCLUSIONS=800_PASS
+MPMATH_100DPS_TRANSCENDENTAL_INCLUSIONS=300_PASS
+INDEPENDENT_SOURCE_STRESS=36_MUTATIONS_108_DIRECTIONAL_COMPARISONS_PASS
+MAX_GAP_LOWER_OVER_DECLARED_UPPER=0.25359914030698755
+CI_CODE_HEAD=fcdd9be50d146d0899f9dd56d33e5410b07b4aad
+CI_CODE_SCOPED_RUN=40872488061_SUCCESS_138_PASS_AND_REF8_AND_WHEEL
+CI_MPFR=40872488096_SUCCESS
+CI_RF_BENCH=40872488183_SUCCESS
+FINAL_HEAD_CI=READ_LIVE_PR254
+
+BACKUP_S0_SHA256=b24a52e1bc44c360ff35902ab98cc8003ae7af37af826bfa903c363335dee538
+BACKUP_S0_DRIVE_ID=1NmJqTUkWmAJcasIRPUt7lF6jC-yZN1GY
+BACKUP_S0_DROPBOX_ID=id:BSpOijBcT10AAAAAAEHVjw
+BACKUP_S1_SHA256=f9cd5c21fe931cc54bdfcb2d7dbbec6a0ebe29a61cdb3866cca326897756f60c
+BACKUP_S1_DRIVE_ID=1m2Qk0zqL0JjCG8mmP6edRW3OmiNdqWDo
+BACKUP_S1_DROPBOX_ID=id:BSpOijBcT10AAAAAAEHVkQ
+BACKUP_S2_SHA256=cb4451bc80fa09af8a7e8ece6f7bf222afebc0c51572f6f96a2dbf7422dcd15d
+BACKUP_S2_DRIVE_DROPBOX=READ_research/ce1n_20261029/DELIVERY_RECEIPTS.json
+
+READ_FIRST:
+research/ce1n_20261029/S0_HOSTILE_FINDINGS_KO.md
+research/ce1n_20261029/S1_REPAIR_AND_CI_KO.md
+research/ce1n_20261029/S2_FINAL_REPORT_KO.md
+research/ce1n_20261029/DELIVERY_RECEIPTS.json
+research/ce1n_20261029/STRESS_CURRENT_SOURCE.py
+tests/nonperturbative/test_ce1n_mpfr_program_assurance.py
+
+NEXT:
+1. Verify live PR254 final HEAD/CI and exact source/test blobs; preserve staged backup identity.
+2. Formal C ABI/MPFR directed proof obligation or actual distinct-author independent R6/C9, one bounded unit.
+3. Do not repeat closed positive ray/mass or invalid-subcells findings without new evidence.
+4. Preserve 9/15 CE1 PARTIAL, fixed physics/target, no production or merge.
+5. Stage-wise Git/Drive/Dropbox verified backups, with completed/15 each stage.
+6. Stop after one genuinely incomplete unit.
