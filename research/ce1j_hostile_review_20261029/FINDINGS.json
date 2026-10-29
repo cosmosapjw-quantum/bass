@@ -1,0 +1,56 @@
+{
+  "schema": "bass.ce1j.hostile.audit.result.v1",
+  "date": "2026-10-29",
+  "audited_pr": 246,
+  "audited_head": "4474f8acb13614ffda7a30524a815976e306efc9",
+  "status": "REQUEST_CHANGES_P0_SCOPED_CERTIFIER_INPUT_CONTRACT",
+  "scope": "positive massless collisionless diagonal Bianchi I; exact binary stored ray/cell table; Lambda0; normal proper u=t/Tstar",
+  "science_headline": {
+    "original_ref16_h_upper": 0.0000036749116877624083,
+    "target_h": 0.00001,
+    "still_frozen_not_disproved": true
+  },
+  "finding": {
+    "code": "bianchi/nonperturbative/einstein_tabulated_source.py",
+    "defect": "zip truncates source.cells vs source.n/source.mass cardinality mismatch; true RHS reads all ray/mass",
+    "witness": "isotropic original one cell E0=0.9, append positive stored ray (1,0,0) mass=1 after construction",
+    "p0_MPFR_delta_pressure_x_interval": [
+      1,
+      1.0000000000000002
+    ],
+    "returned_pressure_upper_x": 0.037910063880682444,
+    "analytic_FLRW_vs_DOP853_h_gap": 0.06736023040427652,
+    "returned_local_h_upper": 0.0016681761537905627,
+    "ratio": 40.37956678089136,
+    "claim_scope": "exact pressure premise refuted for unchecked mutation; final gap is numerical falsification; immutable original fixture not refuted"
+  },
+  "validation": {
+    "runtime": "PYTHON_PASS_3.13.5",
+    "inherited": "95_PASS",
+    "hostile_red": "2_FAIL_1_PASS",
+    "isolated_prototype_green": "98_PASS",
+    "Wolfram_symbolic_Jacobian": "9_ZERO_AND_SUM_R_MINUS_P_ZERO",
+    "independent_gl_randomized": {
+      "cases": 24,
+      "positions_each": 10,
+      "max_observed_error_over_bound": 0.03382438197176167,
+      "certified": false
+    },
+    "native_subagent": "NOT_RUN",
+    "independent_human_author": "NOT_RUN"
+  },
+  "recommendation": {
+    "minimum_fix": "_stored_data requires n.shape==(len(cells),3) and mass.shape==(len(cells),); reject mismatched before bound",
+    "code_mutation_this_review": false,
+    "merge_ready": false,
+    "production_ready": false,
+    "auto_next": false,
+    "upper_dag": "9/15"
+  },
+  "artifact": {
+    "zip": "BASS_CE1J_HOSTILE_R6C9_20261029.zip",
+    "bytes": 17001,
+    "members": 16,
+    "sha256": "6254db68646e080dec43a1967e437e62a9c5d10d859d397ec6c9ec3e8825954e"
+  }
+}
