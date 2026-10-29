@@ -543,18 +543,15 @@ def _bernstein_derivative_max(path,i,k):
     return [Interval(z) for z in caps]
 
 def stored_ray_energy_majorant(source):
-    """Outward bound for initial stored positive ray mass times max ray norm.
+    """Fresh outward bound for CURRENT stored positive ray mass times max ray norm.
 
     Covers float64 summation of sampled_energy0 and |n| != 1 from generated
     binary angle directions without modifying the source or quadrature weights.
     """
-    cached=getattr(source,'_ce1c_stored_mass_cap',None)
-    if cached is not None:return cached
     mass=exact_component_sum(source.mass)
     if mass.lower<0:raise ValueError('Nonnegative sampled ray masses required')
     norm=max(sum((_r(x)**2 for x in ray),Fraction()) for ray in source.n)
     cap=(mass*_iv_fraction(norm).sqrt()).upper
-    source._ce1c_stored_mass_cap=cap
     return cap
 
 

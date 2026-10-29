@@ -1,0 +1,42 @@
+{
+  "schema": "bass.ce1g.majorant_cache_audit.v1",
+  "unit": "CE1-G-R6C9-SCOPED",
+  "parent_pr": 240,
+  "parent_head": "0fd95e4baadf8982cdb1f9f81725b7b8e8fd0aa1",
+  "source": "bianchi/nonperturbative/einstein_interval.py",
+  "risk": "Unkeyed cached positive stored ray mass majorant reused after source.mass/source.n reassignment",
+  "proof": "P_i^(4) <= sum w_j ||n_j|| * nonnegative_derivative_factor on cubic positive expanding Hermite path",
+  "repair": "Always calculate current positive stored ray mass sum and exact binary ray norm; remove unkeyed cache",
+  "tdd": {
+    "red": {
+      "failed": 3,
+      "passed": 1
+    },
+    "green": {
+      "new_pass": 4,
+      "total_pass": 76
+    }
+  },
+  "physics": {
+    "signature": "(-,+,+,+)",
+    "u": "t/Tstar",
+    "h": "Tstar H",
+    "model": "massless collisionless diagonal reflection-even Bianchi-I, Lambda=0; positive piecewise-constant first-octant angular table",
+    "stored_data": "recorded exact binary rays/masses; MPFR192 outward; no source renormalization"
+  },
+  "scientific_result": {
+    "refinement_8_selected_fields": "EXACT_MATCH_PARENT",
+    "parent_refinement_16_h_bound": 3.7019164499698285e-06,
+    "parent_refinement_16_rerun": false
+  },
+  "assurance": {
+    "native_subagent": "NOT_RUN_TOOL_NOT_EXPOSED",
+    "independent_author": "NOT_RUN",
+    "formal_python_mpfr_proof": false,
+    "all_BASS_tests": "NOT_RUN",
+    "native_rust": "NOT_RUN",
+    "production_ready": false,
+    "merge_ready": false
+  },
+  "upper_dag": "9/15"
+}

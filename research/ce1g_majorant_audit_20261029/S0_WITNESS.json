@@ -1,0 +1,24 @@
+{
+  "schema": "bass.ce1g.audit.stale_mass_majorant.v1",
+  "date": "2026-10-29",
+  "parent_pr": 240,
+  "parent_sha": "0fd95e4baadf8982cdb1f9f81725b7b8e8fd0aa1",
+  "module": "bianchi/nonperturbative/einstein_interval.py",
+  "source_blob": "c24b784e07835f319aafd887b66c60f88f98d92d",
+  "observed": {
+    "initial_cap": 0.9,
+    "mutated_mass_factor": 100,
+    "stale_cap": 0.9,
+    "fresh_cap": 90.0,
+    "stale_fourth_derivative_upper": 2377.899825988017,
+    "mutated_stale_fourth_derivative_upper": 2377.899825988017,
+    "mutated_fresh_fourth_derivative_upper": 213074.8769262066,
+    "mutated_stale_h_defect_upper": 32.30211858655872,
+    "mutated_fresh_h_defect_upper": 32.30220637696585
+  },
+  "status": "CURRENT_MODULE_CACHES_UNKEYED_POSITIVE_SOURCE_MASS_CAP",
+  "physical_claim": "potential certificate unsoundness after previously admitted source reassignment; does not disprove unchanged CE1G fixture",
+  "fix": "Recompute MPFR mass\u00d7max ray norm from current source data; do not reuse unkeyed object cache",
+  "upper_dag": "9/15",
+  "native_subagent": "NOT_RUN_TOOL_NOT_EXPOSED"
+}
