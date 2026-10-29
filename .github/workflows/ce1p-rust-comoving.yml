@@ -1,0 +1,50 @@
+name: CE1-P BASS native Rust comoving source differential
+on:
+  push:
+    branches: [research/bass-ce1p-native-rust-comoving-20261029-r1]
+  pull_request:
+    branches: [research/bass-ce1o-mpfr-abi-finite-directed-20261029-r1]
+permissions:
+  contents: read
+concurrency:
+  group: ce1p-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  rust-comoving:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - name: Pin Rust 1.94.1, compile actual current BASS comoving Frame
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.94.1 --profile minimal
+          rustc +1.94.1 --version
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+          rustc +1.94.1 --edition=2021 -C opt-level=2 -A dead_code research/ce1p_20261029/rust_comoving_stress.rs -o /tmp/ce1p-rust-comoving
+          /tmp/ce1p-rust-comoving --self-test
+      - name: Positive exact-ray frozen binary64 sources vs true BASS Rust comoving code
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 mpmath==1.3.0
+          CE1P_RUST_EXECUTABLE=/tmp/ce1p-rust-comoving python research/ce1p_20261029/compare_rust_to_ce1.py
+      - name: Ancestor source/MPFR and physical source CI regression
+        run: |
+          set -euo pipefail
+          python -m pytest -q \
+            tests/nonperturbative/test_ce1j_variant_contract.py \
+            tests/nonperturbative/test_ce1k_canonical_source_local.py \
+            tests/nonperturbative/test_ce1m_integrated_adversarial.py \
+            tests/nonperturbative/test_ce1n_mpfr_program_assurance.py \
+            tests/nonperturbative/test_ce1o_mpfr_finite_contract.py \
+            tests/nonperturbative/test_einstein_tabulated_source.py \
+            tests/nonperturbative/test_einstein_tabulated_local.py \
+            tests/nonperturbative/test_einstein_interval.py
