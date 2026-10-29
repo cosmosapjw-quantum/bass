@@ -70,6 +70,11 @@ def certify_tabulated_computed_path(
         raise ValueError('Path must cover exact stored binary time interval [0,end]')
     if not np.array_equal(path.states[0], source.initial_state(shear)):
         raise ValueError('Path initial state differs from frozen source/shear fixture')
+    # Error at the first stored knot is used as the initial comparison error;
+    # on later panels the preceding endpoint jump is measured to this knot.
+    # Each exact-binary Hermite cubic must therefore start at its stored knot.
+    if not np.array_equal(path.coefficients[:, 0, :], path.states[:-1]):
+        raise ValueError('Hermite cubic origins differ from recorded left knots')
     if not np.all(np.isfinite(path.coefficients)):
         raise ValueError('Nonfinite binary Hermite coefficients')
 
