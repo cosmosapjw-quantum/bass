@@ -135,7 +135,7 @@ def test_cases(rays,weights,records,reference_rows=None):
     return errors,rust
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--synthetic',action='store_true');p.add_argument('--channel',choices=('stored_ref8','gl24','gl40','stored_ref16'),default='stored_ref8');p.add_argument('--out',default='');p.add_argument('--csv-out',default='');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--synthetic',action='store_true');p.add_argument('--channel',choices=('stored_ref8','gl24','gl40','stored_ref16'),default='stored_ref8');p.add_argument('--geometry-channel',choices=('','gl40'),default='',help='Counterfactual source-on-fixed-GL40 background, not coupled flow');p.add_argument('--out',default='');p.add_argument('--csv-out',default='');args=p.parse_args()
     if args.synthetic:
         rays,weights=synthetic();data=[{'u':0.02,'ell1':.012,'ell2':.011,'ell3':.008,'h1':.74,'h2':.43,'h3':.50}]
         reference=None
@@ -156,12 +156,19 @@ def main():
             rad=parent.gl_source(order)
             rays,weights=rad.n,rad.mass
             fname=f'continuum_GL{order}_history.csv'
-        data=parent.history_rows(fname)
-        with (ROOT/f'research/ce1q_20261030/data/{channel}_alm.csv').open() as f:
-            reference=[{k:float(v) for k,v in row.items()} for row in csv.DictReader(f)]
+        # Optional controlled comparison at exactly the *same* GL40 background:
+        # this is a source-quadrature diagnostic, NOT a self-consistent coupled history.
+        data=parent.history_rows('continuum_GL40_history.csv' if args.geometry_channel else fname)
+        if args.geometry_channel:
+            reference=None
+        else:
+            with (ROOT/f'research/ce1q_20261030/data/{channel}_alm.csv').open() as f:
+                reference=[{k:float(v) for k,v in row.items()} for row in csv.DictReader(f)]
     errs,rows=test_cases(rays,weights,data,reference)
     final_Cdot={f'C{l}prime':2*sum((alm(rows[-1],l,m).conjugate()*alm(rows[-1],l,m,True)).real for m in range(-l,l+1))/(2*l+1) for l in (2,4)}
     result={'schema':'bass.ce1r.liouville_derivative.v1','mode':'synthetic_noncanonical' if args.synthetic else args.channel,
+            'geometry_channel':'synthetic' if args.synthetic else (args.geometry_channel or args.channel),
+            'counterfactual_fixed_background':bool(args.geometry_channel) if not args.synthetic else False,
             'states':len(data),'rays':len(weights),'errors':errs,'last_Cprime':final_Cdot,
             'last':{k:rows[-1][k] for k in ('u','E','Eprime','P1prime','P2prime','P3prime','da_2_0_re','da_2_2_re','da_4_0_re','da_4_2_re','da_4_4_re')},
             'upper_dag':'9/15','production_ready':False,'rigorous_interval_sky':False}
