@@ -1,0 +1,45 @@
+name: CE1-Q original BASS Rust observer-sky physical harmonics
+on:
+  pull_request:
+    paths:
+      - 'research/ce1q_20261030/**'
+      - '.github/workflows/ce1q-observer-sky.yml'
+  workflow_dispatch:
+jobs:
+  native-sky:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify pinned BASS scientific source and Rust-native comoving module
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = 'a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84'
+          test "$(git hash-object bianchi/nonperturbative/einstein_tabulated_source.py)" = 'fdeb83a65cd424786ba6bb8ddadbcb2b2e2d45bf'
+          test "$(git rev-parse HEAD^{tree})" != ''
+      - name: Python scientific dependencies
+        run: python -m pip install numpy scipy pytest mpmath matplotlib
+      - name: Build original BASS Rust linked observer sky CLI
+        shell: bash
+        run: |
+          rustup toolchain install 1.94.1 --profile minimal
+          rustc +1.94.1 --edition=2021 -C opt-level=2 -A dead_code research/ce1q_20261030/sky_native.rs -o research/ce1q_20261030/sky_native
+          research/ce1q_20261030/sky_native --selftest
+      - name: Recompute original 384-ray model sky and independent GL24 with live BASS
+        env:
+          PYTHONPATH: .
+          BASS_CE1Q_PARENT: research/ce1p_20261029
+          BASS_CE1Q_RUST: research/ce1q_20261030/sky_native
+        run: python research/ce1q_20261030/produce_sky.py --quick --output /tmp/ce1q_sky_ci
+      - name: Full saved-data CE1-Q science test
+        env:
+          PYTHONPATH: .
+          BASS_CE1Q_PARENT: research/ce1p_20261029
+          BASS_CE1Q_RUST: research/ce1q_20261030/sky_native
+          BASS_CE1Q_DATA: research/ce1q_20261030/data
+        run: python -m pytest research/ce1q_20261030/tests/test_sky.py -q
+      - name: Python compile all
+        run: python -m compileall -q research/ce1q_20261030
