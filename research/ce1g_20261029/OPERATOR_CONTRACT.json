@@ -1,0 +1,21 @@
+{
+  "schema": "bass.ce1g.operator_contract.v1",
+  "parent": {"repository": "cosmosapjw-quantum/bass", "pr": 239, "sha": "9de0f37955f259b5e9172ce406d1353bf7cc3695"},
+  "metric_signature": "(-,+,+,+)",
+  "clock": "u=t/Tstar normal proper time",
+  "geometry": "diagonal Bianchi I; Lambda0; all-direction expanding",
+  "matter": "positive reflection-even massless collisionless angular-energy table; no multipole closure",
+  "input_semantics": "original cell energies and endpoints are exact stored binary64 numbers; source rays/masses and RK4/Hermite coefficients are exact stored binary64 data",
+  "source_pressure": "P_i=exp(-sum ell) integral exp(-2ell_i)n_i^2/sqrt(sum exp(-2ell_j)n_j^2) dmu",
+  "evolution": ["ell_i'=h_i", "h_i'=-theta*h_i+P_i", "theta=sum_i h_i"],
+  "constraint": "C=sum_i<j h_i h_j-E; C'=-2theta C",
+  "error_comparison": ["D+e_ell<=e_h+rho_ell", "D+e_h<=4Emax e_ell+eta_source+rho_h"],
+  "source_enclosure": "CE1-F exact-binary table-vs-ray pressure bound on union of exact continuum and Hermite Bernstein boxes",
+  "time_enclosure": "CE1-C MPFR192 Taylor3 plus analytic fourth-derivative majorant of positive stored ray pressure",
+  "knot_jump": "exact binary sum of each Hermite cubic at v=1 minus next stored knot, outward enclosed and added to comparison",
+  "initial_error": "CE1-F exact Hamiltonian root versus stored binary RK4 initial h",
+  "target": {"quantity": "max_i|Tstar Delta H_i|", "upper": 1e-5, "horizon": 0.08, "rk4_steps": 4, "subcells": 1},
+  "physical_fixture": {"mu": [0, 0.5, 1], "phi_fraction": [0, 0.25, 0.75, 1], "energy": [[0.1, 0.25, 0.05], [0.2, 0.15, 0.15]], "shear": [0.2, -0.13, -0.07]},
+  "assurance": {"mpfr_bits": 192, "rounding": "RNDD/RNDU", "formal_software_verification": false, "independent_author_R6_C9": "NOT_RUN", "native": false, "production": false},
+  "preserve": {"upper_dag": "9/15", "top_level_nodes": 15, "top_level_edges": 21, "parent_unchanged": true, "merge": false}
+}

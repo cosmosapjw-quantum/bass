@@ -1,0 +1,50 @@
+name: CE1-G MPFR tabulated whole-path certificate
+on:
+  push:
+    branches: [research/bass-ce1g-tabulated-wholepath-20261029]
+    paths:
+      - bianchi/nonperturbative/einstein_tabulated_time.py
+      - tests/nonperturbative/test_einstein_tabulated_time.py
+      - .github/workflows/ce1g-tabulated.yml
+permissions:
+  contents: read
+concurrency:
+  group: ce1g-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  scoped-time-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.12'}
+      - run: python -m pip install numpy==2.3.5 scipy==1.17.0 mpmath==1.3.0 pytest==9.0.2
+      - name: Scoped CE1-G plus inherited Einstein regressions
+        run: >
+          python -m pytest -q
+          tests/nonperturbative/test_einstein_tabulated_time.py
+          tests/nonperturbative/test_einstein_tabulated_source.py
+          tests/nonperturbative/test_einstein_exponential_source.py
+          tests/nonperturbative/test_einstein_physical_input.py
+          tests/nonperturbative/test_einstein_interval.py
+          tests/nonperturbative/test_einstein_error_budget.py
+      - name: Installed wheel numerical smoke
+        run: |
+          python -m pip wheel --no-deps . -w /tmp/ce1g-wheels
+          python -m pip install --no-deps --target /tmp/ce1g-wheel /tmp/ce1g-wheels/*.whl
+          cd /tmp
+          PYTHONPATH=/tmp/ce1g-wheel python - <<'PY'
+          from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation
+          from bianchi.nonperturbative.einstein_tabulated_time import run_scoped_tabulated_rk4
+          s=TabulatedRadiation([0,.5,1],[0,.25,.75,1],[[.1,.25,.05],[.2,.15,.15]],
+                               refinement=1,backend='python_oracle')
+          r=run_scoped_tabulated_rk4(s,steps=2,end=.02,subcells=1,backend='python_oracle')
+          assert r['total_ell_h_upper'][1]>0 and r['full_machine_proof'] is False
+          print('INSTALLED_WHEEL_CE1G_SCOPED_PASS')
+          PY
