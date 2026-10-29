@@ -1,0 +1,33 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+UNIT=CE1-J_CANONICAL_SCOPED_VARIANT_RECONCILIATION
+UNIT_STATUS=COMPLETE_SCOPED_CANONICAL_CANDIDATE_RECONCILIATION
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+PR=246
+BRANCH=research/bass-ce1j-canonical-scoped-reconcile-20261029-r1
+PARENT_PR=245
+PARENT_HEAD=9cd3063b0c411a0289f6975659906fd1f64b2817
+PR243_HEAD=7a9e9ca7a6e1270124942e98ff98dbe205648e8d
+PR244_HEAD=94385b1094442cf7c425e31b6d34dd7b0d1b3811
+
+PHYSICS: positive exact-binary 6-cell first octant/angular density with 8 reflections; massless collisionless expanding diagonal Bianchi I Lambda0; (-,+,+,+); u=t/Tstar, h=Tstar*H; fixed u0..0.08, four RK4 panels; fixed max|Delta h|<1e-5.
+CODE: identical PR244 fresh source cap and exact Hermite left-knot check; CE1-I redundant guard removed, current-source mutation recertification test added. No physics/source/tolerance change.
+TESTS: baseline 91_PASS+1_FAIL obsolete contract; GREEN 95_PASS; scoped GitHub CI run40827179395 95 PASS + installed wheel PASS; RF-00/RF-BENCH FAIL separately.
+SCIENCE: ref8 CE1I 1.2273903547843227e-5 target NOT_MET; ref16 CE1G 3.7019164499698285e-6, CE1H 3.675931156248731e-6, CE1I 3.6749116877624083e-6, all identical to historical pinned reference, target MET. Exact source/state/path bytes checked. OS-partitioned four panel reconstruction ~23.48s. Monolithic ref16 timed out: NOT_PASS.
+SOURCE BLOBS: interval 3a3f384e793a59f0779cb09a21dd74c1ae7d0c3a; time b2047a7a7fd64e8a1148d242ee32840f648184b5; local c6f1a59db197766aae401d9868fcea3951f26c24.
+EVIDENCE: Git S2 report research/ce1j_20261029/S2_REPORT_KO.md; Git S1 receipt; S2 ZIP includes S0/S1 archives, source/test diff, panel workers, numerical results and figures.
+S2_ZIP=BASS_CE1J_S2_FINAL_20261029.zip
+S2_BYTES=225206
+S2_MEMBERS=30
+S2_SHA256=c25092d1316763b16cec8971ae9e44b47ba2fefe0efdedcf0d0fac5a345c8b82
+NATIVE_SUBAGENT=NOT_RUN
+DISTINCT_AUTHOR_R6_C9=NOT_RUN
+FORMAL_MPFR_PYTHON=NOT_RUN
+NATIVE_RUST=NOT_RUN
+NEXT: read LIVE PR242-246 HEAD/CI and S2 receipts; do one bounded independent R6/C9 and root policy failure diagnosis if not already done; do not duplicate science, merge automatically or promote production; keep upper DAG 9/15 until CE-1 top-level claim gate is actually met.
+STOP AFTER ONE BOUNDED UNIT.

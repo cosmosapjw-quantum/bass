@@ -7,41 +7,18 @@ No change to the source, RK4 path, cutoff or original acceptance target.
 from __future__ import annotations
 
 import math
-from fractions import Fraction
 
 import numpy as np
 
 from .einstein_error_budget import HermitePath, rk4_path
 from .einstein_interval import (
-    Interval, _bernstein_box_binary, _iv_fraction, _maxabs,
-    exact_component_sum, propagate_interval,
+    Interval, _bernstein_box_binary, _iv_fraction, propagate_interval,
 )
 from .einstein_tabulated_source import TabulatedRadiation, _q, _real
 from .einstein_tabulated_sharp import (
     initial_continuum_pressure_cap, _initial_constraint_mismatch,
 )
 from .einstein_tabulated_time import certify_tabulated_computed_path
-
-
-def _stale_ray_majorant_guard(source: TabulatedRadiation) -> None:
-    """Reject an inherited CE1-C cache that undercaps mutated ray data.
-
-    PR242 parent predates the independent PR243/PR244 cache correction. This
-    guard is intentionally local; it does not modify/merge their source files.
-    An absent cache is safe because CE1-C will compute its value on this call.
-    """
-    old = getattr(source, '_ce1c_stored_mass_cap', None)
-    if old is None:
-        return
-    masses = exact_component_sum(source.mass)
-    if masses.lower < 0:
-        raise ValueError('Positive stored ray masses are required')
-    norm2 = max(sum((_q(v)**2 for v in ray), Fraction()) for ray in source.n)
-    if norm2 <= 0:
-        raise ValueError('Positive stored ray norms are required')
-    fresh = (masses * _iv_fraction(norm2).sqrt()).upper
-    if float(old) < fresh:
-        raise ValueError('Stale stored-ray fourth-derivative cap; reconstruct source or reconcile PR243/244')
 
 
 def _exact_expansion_initial(source: TabulatedRadiation, shear) -> tuple[list[Interval], Interval]:
@@ -115,11 +92,8 @@ def certify_local_tabulated_path(
     """
     if not isinstance(source, TabulatedRadiation) or not isinstance(path, HermitePath):
         raise TypeError('CE1-F TabulatedRadiation and HermitePath required')
-    _stale_ray_majorant_guard(source)
-    # PR242 does not yet incorporate PR244's left-knot identity correction.
-    # The initial error and the inter-panel jumps require this exact equality.
-    if not np.array_equal(path.coefficients[:, 0, :], path.states[:-1]):
-        raise ValueError('Hermite origins differ from recorded left knots')
+    # PR244 check lives in the shared CE1-G parent certification; do not
+    # duplicate the legacy guard. The current MPFR majorant is recomputed.
     # Exactly one costly parent whole-panel MPFR evaluation. Reuse its actual
     # unpropagated source forcing and residual/jump carriers. Neither pressure
     # nor time error is inverted from a secondary integrated envelope.
