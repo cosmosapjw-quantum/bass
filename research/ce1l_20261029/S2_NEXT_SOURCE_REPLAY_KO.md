@@ -1,0 +1,12 @@
+# CE1-L S2: bounded next-science execution, without importing sibling PR249 code
+
+Next completed result after second hostile repair: independent construction of the common-scale pressure-source comparison on the unchanged positive continuum Bianchi-I six-cell source. PR249 (isolated sibling) and mathematical donor PR247 previously described the method; we read their original theory and then built independent source-only MPFR192 calculation, not blind promotion of their reports.
+
+For fixed positive continuum/stored measures `M,Q`, each diagonal pressure transforms as `P_i(ell+s(1,1,1))=exp(-4s)P_i(ell)` because the volume factor is `exp(-3s)`, numerator `exp(-2s)`, and inverse sqrt ray energy contributes `exp(+s)`. Their discrepancy `D_i=P_i^M-P_i^Q` transforms identically. Given the already verified shared lower log-scale `m_j` for exact and stored Hermite histories and original global upper `B`, certify a shifted box `B-m_j(1,1,1)` (reject if any component B<m_j), then `eta_j=min(eta_global, exp(-4m_j) eta(B-m_j 1))`. Keep original Emax for exact geometry and local positive Dini propagators, and keep initial/time/jump carriers separate.
+
+Independent executed source-only refinement8 with 384 rays, 4 RK4 panels, `u=.08`, fixed target 1e-5: source contribution to h upper `8.595820125315265e-6`; total h upper `9.411551484445186e-6` **target MET**. Previous same-input CE1-I uniform-source upper `1.2273903547843227e-5` did not meet target. Exact result matches sibling PR249's reported ref8 upper `9.411551484445186e-6`; no donor code was imported.
+
+This is an independent scientific reproducibility check of a *local source-error bound*, not adoption of PR249 code, merge, measured wall-time speedup, or general BASS production. The independent ref16 *new source-only* attempt timed out and is NOT admitted. Earlier current-turn four-OS-panel ref16 standard G/H/I science is separately fully rerun and remains valid with exact SHA identity. The new ref8 target passing with 384 rays versus old ref16 target passing at 1,536 rays is an angular sample-count comparison, not a measured fourfold runtime speedup.
+
+### Next boundary
+Finish current C9/C6/C7 evidence and terminate this bounded work unit. For subsequent research, independently check PR249's source-bound proof and current code against PR251's source physical lock and signed-mass guards, then consider opt-in integration; no auto-merge. Other top-level DAG nodes remain 9/15, CE-1 PARTIAL, no native production or full MPFR program assurance.
