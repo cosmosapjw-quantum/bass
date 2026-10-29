@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def plot():
+ (ROOT/'figures').mkdir(parents=True,exist_ok=True)
  for ell in (2,4):
   fig,ax=plt.subplots(figsize=(7.2,5.3))
   arr=np.load(ROOT/'data'/'GL8_two_time_rotation_average.npz')
