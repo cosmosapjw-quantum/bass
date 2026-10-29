@@ -117,7 +117,7 @@ def test_11_four_panel_h_comparison_to_gl40_reference():
     ref=ROOT/'research'/'ce1t_20261030'/'local_GL40_history_authority.csv'
     if not ref.exists(): ref=ROOT/'research'/'ce1q_20261030'/'parent_verified'/'data'/'continuum_GL40_history.csv'
     with ref.open() as f:
-        rows40=[{k:float(v) for k,v in r.items()} for r in csv.DictReader(f)]
+        rows40=[{k:float(r[k]) for k in ('u','h1','h2','h3')} for r in csv.DictReader(f)]
     for n in (6,8):
         x=read(n)
         gap=max(abs(a[f'h{i}']-b[f'h{i}']) for a,b in zip(x,rows40) for i in (1,2,3))
