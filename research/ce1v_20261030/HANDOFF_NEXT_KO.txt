@@ -1,0 +1,95 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+CURRENT_UNIT=CE1V_EXACT_RATIONAL_SOURCE_MPFR_TIME_BASS_NATIVE_RUST
+CURRENT_PR=266
+CURRENT_BRANCH=research/bass-ce1v-dual-source-rust-mpfr-20261030-r1
+SOURCE_PARENT_PR=265
+SOURCE_PARENT_HEAD=bcbb2ba451b9026608525cce27e26cf1a1288161
+DONOR_PR=264
+DONOR_HEAD=15bb9fd015570c1562a4a7b9102f25a8481796f5
+COMMON_PARENT_PR=263
+COMMON_PARENT_HEAD=db144f755eacaade0cf34cb6555631d5a73feaad
+UNIT_STATUS=COMPLETE_SCOPED_CROSS_SOURCE_MPFR_NATIVE_RUST
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1=PARTIAL
+MERGE_READY=false
+PRODUCTION_READY=false
+AUTO_NEXT=false
+
+PHYSICS_FROZEN:
+Original six positive exact-binary angular energy cells
+and 8 reflections; massless collisionless all-expanding
+diagonal Bianchi I, Lambda=0, metric(-,+,+,+).
+Original source SHA256=022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035
+u=t/Tstar in [0,.08], shear=(.2,-.13,-.07),
+4 RK4/Hermite panels, MPFR192 directed rounding.
+Original strict target max|Delta h_i|<1e-5 unchanged.
+Distinct GL6/GL8 binary sources are quadratures of SAME physical cells.
+
+EXACT_DONOR_BLOBS:
+GL6_json=4a3442e72ccf41563464092079acf84483da9a0f
+GL8_json=7cc1f9331aa532d86a71f249a9be552367c90860
+rational_code=0e8ef8375cf5f26a9a020d6ec878e4b77b5d0560
+
+GL6_RAYS=216
+GL6_SOURCE_EPS_RATIONAL=3.010630537202566e-12
+GL6_SOURCE_EPS_MPFR_RHO6=2.9597048687682395e-8
+GL6_SOURCE_H_NEW=2.418793876994875e-13
+GL6_TIME_JUMP_H=8.388529203783612e-7
+GL6_FULL_H_NEW=8.388531623506172e-7
+GL6_FIXED_TARGET=MET
+
+GL8_RAYS=384
+GL8_SOURCE_EPS_RATIONAL=6.164277064237367e-14
+GL8_SOURCE_EPS_MPFR_RHO6=2.2860512753332574e-11
+GL8_SOURCE_H_NEW=4.95248933232822e-15
+GL8_TIME_JUMP_H=8.388529197603695e-7
+GL8_FULL_H_NEW=8.388529248448835e-7
+GL8_FIXED_TARGET=MET
+
+VALIDATION:
+SCOPED_GITHUB_CI=40971819097_SUCCESS_CODE_HEAD
+EXACT_RATIONAL_K12_REGENERATED_GL6_GL8=PASS
+HOSTILE_SOURCE_IDENTITY_TESTS=7_PASS
+ACTUAL_ORIGINAL_BASS_NATIVE_RUST=PASS
+BASS_RUST_GIT_BLOB=a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+RUST_VERSION=1.94.1
+BASS_E_P_EPRIME_PARITY=41x3_PASS
+GITHUB_EVIDENCE_ARTIFACT_ID=12939998416
+GITHUB_EVIDENCE_ARTIFACT_SHA256=4decbb43913f821221b418844f84abc6217776cf7c1eb984cf1afcdafce7685d
+GL8_HISTORICAL_VS_CURRENT_MPFR_FULL_H_ABS_GAP=5.56e-13
+EXACT_CROSS_RUN_RK4_PATH_IDENTITY=NOT_ASSERTED
+FORMAL_PYTHON_MPFR_RUST_PROGRAM_PROOF=NOT_RUN
+NATIVE_SUBAGENT=NOT_RUN
+DISTINCT_AUTHOR_R6_C9=NOT_RUN
+
+READ_FIRST:
+research/ce1v_20261030/S0_SOURCE_COMPATIBILITY_KO.md
+research/ce1v_20261030/cross_certify.py
+research/ce1v_20261030/donor/ce1u_cert_source.py
+research/ce1v_20261030/S2_FINAL_REPORT_KO.md
+research/ce1v_20261030/DAG_DELTA.json
+research/ce1v_20261030/DELIVERY_RECEIPTS.json
+research/ce1v_20261030/HANDOFF_NEXT_KO.txt
+
+REPRODUCE:
+python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 mpmath==1.3.0
+PYTHONPATH=. python research/ce1v_20261030/cross_certify.py --output /tmp/ce1v/dual_result.json
+PYTHONPATH=. python -m pytest -q research/ce1v_20261030/tests/test_source_binding.py
+See .github/workflows/ce1v-dual-source-rust-mpfr.yml
+Use actual BASS Rust comoving.rs, not a cloned surrogate.
+
+NEXT_ONE_BOUNDED_UNIT:
+1. Read live PR266 HEAD and HEAD-specific GitHub CI.
+2. Verify stage backups Git/Drive/Dropbox and exact source identities.
+3. Preserve matched original physics, don't merge PR264/265/266 automatically.
+4. Work on actual RK4/Hermite time/jump residual improvement
+   or target observables using validated source at matched accuracy.
+5. Distinguish exact ODE discrepancy from floating IVP path error.
+6. Native Rust is physical E/P/Eprime parity, MPFR192 remains
+   the outward certificate.
+7. Keep upper DAG 9/15 unless top-level gate really closes.
+8. Per-stage Git/Drive/Dropbox and next-thread handoff.
+STOP_AFTER_ONE_BOUNDED_UNIT=true
