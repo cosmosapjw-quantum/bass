@@ -1,0 +1,9 @@
+{
+  "schema": "bass.ce1h.wolfram.v1",
+  "tool": "mcp__Wolfram__WolframLanguageEvaluator",
+  "code": "p=b1*x1/Sqrt[b.x]; d=Table[-2*b[[j]]*D[p,b[[j]]]-p,{j,1,3}]; FullSimplify[Total[d]+4*p,Assumptions->And@@Thread[b>0]&&And@@Thread[x>0]]",
+  "output": "0",
+  "scope": "single positive ray integrand, exact row sum identity",
+  "independent_author": false,
+  "formal_machine_proof": false
+}
