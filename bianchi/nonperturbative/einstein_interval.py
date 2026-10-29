@@ -368,8 +368,10 @@ def _ideal_moment(source,i,a,b,c):
 
 def _mismatch_coefficients(source,K):
     """Exact rationals: stored discrete polynomial angular moment minus continuum."""
-    cache=getattr(source,"_ce1c_exact_mismatch_cache",None)
-    if cache is not None and K in cache:return cache[K]
+    # CE1-N: the public source may rebind stored rays/masses (and, for this
+    # polynomial lane, density coefficients). A K-only memo invalidates the
+    # exact rational mismatch after any such input change. Recompute on the
+    # CURRENT source; no cached proof premise may cross source identities.
     data={};sq=[[ _r(v)**2 for v in n] for n in source.n]
     masses=list(map(_r,source.mass))
     for j in range(K+1):
@@ -381,9 +383,6 @@ def _mismatch_coefficients(source,K):
                 for i in range(3):
                     exact=sum((m*r[i]*v for m,r,v in zip(masses,sq,mon)),Fraction(0))
                     data[i,a,b,c]=exact-_ideal_moment(source,i,a,b,c)
-    if cache is None:
-        cache={};source._ce1c_exact_mismatch_cache=cache
-    cache[K]=data
     return data
 
 def _max_lower_upper(a,b):
@@ -584,6 +583,11 @@ def residual_taylor_mpfr(source,path,i,subcells=4):
     exact-real discrete source of stored binary ray inputs. Unlike natural
     interval evaluation, dependencies cancel analytically through order three.
     """
+    # A nonpositive subcell count would execute zero certification checks and
+    # report a false zero residual. Validate *before* any expensive interval
+    # derivative work, consistent with residual_binary_interval's domain.
+    if isinstance(subcells,bool) or not isinstance(subcells,int) or not 1<=subcells<=256:
+        raise ValueError('subcells must be an integer in 1..256')
     lo,hi=_bernstein_box_binary(path,i)
     if min(lo)<0:raise ValueError('Entire reconstructed path must be expanding')
     dt=Interval(float(path.times[i+1]))-Interval(float(path.times[i]))
