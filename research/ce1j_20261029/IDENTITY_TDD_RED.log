@@ -1,0 +1,39 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_majorant_recomputes_after_current_positive_mass_changed _________
+
+    def test_majorant_recomputes_after_current_positive_mass_changed():
+        s=fixture();v=stored_ray_energy_majorant(s)
+        s.mass=s.mass*64
+>       assert stored_ray_energy_majorant(s)>=64*v
+E       assert 0.9 >= (64 * 0.9)
+E        +  where 0.9 = stored_ray_energy_majorant(<bianchi.nonperturbative.einstein_tabulated_source.TabulatedRadiation object at 0x7f2b0f6f52b0>)
+
+tests/nonperturbative/test_ce1j_source_identity_guards.py:17: AssertionError
+______________ test_majorant_recomputes_after_current_ray_changed ______________
+
+    def test_majorant_recomputes_after_current_ray_changed():
+        s=fixture();v=stored_ray_energy_majorant(s)
+        s.n=s.n*2
+>       assert stored_ray_energy_majorant(s)>=2*v
+E       assert 0.9 >= (2 * 0.9)
+E        +  where 0.9 = stored_ray_energy_majorant(<bianchi.nonperturbative.einstein_tabulated_source.TabulatedRadiation object at 0x7f2b0f86b890>)
+
+tests/nonperturbative/test_ce1j_source_identity_guards.py:23: AssertionError
+_____________ test_direct_ce1g_path_rejects_stored_origin_mismatch _____________
+
+    def test_direct_ce1g_path_rejects_stored_origin_mismatch():
+        s=fixture();p=rk4_path(s,s.initial_state(),.08,4,backend='python_oracle')
+        p.coefficients[0,0,3]+=.01
+>       with pytest.raises(ValueError,match='origin'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/nonperturbative/test_ce1j_source_identity_guards.py:29: Failed
+=========================== short test summary info ============================
+FAILED tests/nonperturbative/test_ce1j_source_identity_guards.py::test_majorant_recomputes_after_current_positive_mass_changed - assert 0.9 >= (64 * 0.9)
+ +  where 0.9 = stored_ray_energy_majorant(<bianchi.nonperturbative.einstein_tabulated_source.TabulatedRadiation object at 0x7f2b0f6f52b0>)
+FAILED tests/nonperturbative/test_ce1j_source_identity_guards.py::test_majorant_recomputes_after_current_ray_changed - assert 0.9 >= (2 * 0.9)
+ +  where 0.9 = stored_ray_energy_majorant(<bianchi.nonperturbative.einstein_tabulated_source.TabulatedRadiation object at 0x7f2b0f86b890>)
+FAILED tests/nonperturbative/test_ce1j_source_identity_guards.py::test_direct_ce1g_path_rejects_stored_origin_mismatch - Failed: DID NOT RAISE <class 'ValueError'>
+3 failed in 0.31s
