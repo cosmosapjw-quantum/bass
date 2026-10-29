@@ -1,0 +1,21 @@
+$physmath-research-loop
+PROJECT=BASS
+AUDIT_UNIT=CE1J_HOSTILE_R6_C9_REVIEW
+AUDITED_PR=246
+AUDITED_HEAD=4474f8acb13614ffda7a30524a815976e306efc9
+REVIEW_STATUS=REQUEST_CHANGES_P0_SCOPED_CERTIFIER_INPUT_CONTRACT
+UPPER_DAG=9/15
+CE1=PARTIAL
+MERGE_READY=false
+PRODUCTION_READY=false
+AUTO_NEXT=false
+
+ISSUE: in einstein_tabulated_source._stored_data / certified_tabulated_pressure, source.cells, source.n, source.mass cardinality and shape are unchecked and zip truncates unmatched extra ray. Positive stored extra ray is included in actual source RHS but omitted in pressure bound.
+
+EXACT WITNESS: isotropic original one-cell E0=0.9, positive stored extra ray n=(1,0,0), mass=1. At u0 MPFR outward delta(Px) lower=1 vs certified upper=0.037910063880682444. Analytic FLRW physical hT vs DOP853 stored path: gap=0.06736023040427652, returned bound=0.0016681761537905627 (40.38x). This is a mutable-topology input validation soundness failure, not disproval of unchanged ref16 fixture.
+
+VALIDATION: 95 existing tests PASS; 2 new RED FAIL, 1 PASS; isolated local shape guard GREEN 98 PASS. Wolfram Jacobian identity 0, randomized GL56 source falsification 24x10 max ratio .033824 (not certified).
+PROPOSED_FIX: reject unless source.n.shape==(len(source.cells),3) and source.mass.shape==(len(source.cells),). Retain positive same-cardinality mutation.
+THIS AUDIT: read-only main/PR246 source; proposed patch only in isolated local copy. Native child agent and actual independent human reviewer NOT_RUN.
+NEXT: separate smallest implementation unit, apply guard + regression, rerun 98 focused and fixed-science checks, preserve 9/15; no merges or new science.
+READ: research/ce1j_hostile_review_20261029/REVIEW_KO.md and FINDINGS.json. Full scripts in BASS_CE1J_HOSTILE_R6C9_20261029.zip.
