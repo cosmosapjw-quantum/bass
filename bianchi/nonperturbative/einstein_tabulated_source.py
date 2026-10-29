@@ -221,7 +221,7 @@ def certified_tabulated_pressure(source,lower,upper):
         for i in range(3):
             v=width[i]*width[i]/4
             cent=v.__mul__(Q).sqrt()/(2*rmin**3)+Interval(3)*Interval(float(upper_cell[i]))*Q/(8*rmin**5)
-            maxcomp=max(float(upper_cell[i]),float(nsq[i]))
+            maxcomp=max(float(upper_cell[i]),_iv_fraction(nsq[i]).upper)
             store=Interval(eps[i])/r0+Interval(maxcomp)*e1/(2*r0**3)
             mass=Interval(massdiff)*_iv_fraction(norm).sqrt()
             ans[i]=ans[i]+exactmass*(cent+store)+mass
@@ -251,7 +251,8 @@ def certified_tabulated_geometry(source,*,end=.08,shear=(.2,-.13,-.07)):
     E=certified_tabulated_energy(source)
     Econt=_iv_fraction(source.exact_energy)
     Eb=Interval(float(source.energy0))
-    Emax=Interval(max(Econt.upper,Eb.upper))
+    E_Q_upper=(Econt+Interval(E['exact_real_discrete_difference_upper'])).upper
+    Emax=Interval(max(Econt.upper,E_Q_upper))
     sx,sy=[Fraction.from_float(float(v)) for v in s[:2]]
     sref=[_iv_fraction(v) for v in (sx,sy,-sx-sy)]
     hbar=( (Econt+sum((q*q for q in sref),Interval(0))/2)/3).sqrt()
@@ -268,6 +269,8 @@ def certified_tabulated_geometry(source,*,end=.08,shear=(.2,-.13,-.07)):
     return {'status':'SCOPED_TABULATED_COUPLED_SOURCE_ENCLOSURE',
             'u_end':float(end),'initial_rate_upper':d0,
             'source_pressure_upper':sourcebound['max_pressure_upper'],
+             'energy_max_upper':Emax.upper,
+             'energy_max_semantics':'OUTWARD_UPPER_EXACT_REAL_CONTINUUM_AND_STORED_INITIAL',
             'geometry_h_upper':propagated[1].upper,
             'geometry_ell_upper':propagated[0].upper,
             'geometry_box_upper':bound,'energy_certificate':E,
