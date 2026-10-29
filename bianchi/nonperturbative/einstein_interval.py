@@ -23,6 +23,7 @@ for name,args in {
     'mpfr_set_d':[_P,C.c_double,C.c_int],
     'mpfr_set_si':[_P,C.c_long,C.c_int],
     'mpfr_set_str':[_P,C.c_char_p,C.c_int,C.c_int],
+    'mpfr_number_p':[_P],
     'mpfr_set':[_P,_P,C.c_int],
     'mpfr_get_d':[_P,C.c_int], 'mpfr_cmp':[_P,_P],
     'mpfr_add':[_P,_P,_P,C.c_int],
@@ -69,6 +70,11 @@ class Interval:
         bs=str(string).encode('ascii')
         if _lib.mpfr_set_str(z.a.ptr(),bs,10,D) or _lib.mpfr_set_str(z.b.ptr(),bs,10,U):
             raise ValueError('Invalid exact decimal interval input')
+        # MPFR accepts NaN/Inf decimal literals.  Those are NOT closed finite
+        # intervals: unordered mpfr_cmp(NaN,0) can return zero and make
+        # a false positive in contains()/is_nonnegative() certificate gates.
+        if not _lib.mpfr_number_p(z.a.ptr()) or not _lib.mpfr_number_p(z.b.ptr()):
+            raise ValueError('Nonfinite exact decimal interval input')
         return z
     @classmethod
     def _empty(cls):
@@ -80,9 +86,14 @@ class Interval:
     @property
     def upper(self):return _lib.mpfr_get_d(self.b.ptr(),U)
     def contains(self,value):
+        if not _lib.mpfr_number_p(self.a.ptr()) or not _lib.mpfr_number_p(self.b.ptr()):
+            raise ValueError('Nonfinite interval cannot certify containment')
         v=Interval(value)
         return _lib.mpfr_cmp(self.a.ptr(),v.a.ptr())<=0 and _lib.mpfr_cmp(self.b.ptr(),v.b.ptr())>=0
-    def is_nonnegative(self):return _lib.mpfr_cmp(self.a.ptr(),Interval(0).a.ptr())>=0
+    def is_nonnegative(self):
+        if not _lib.mpfr_number_p(self.a.ptr()) or not _lib.mpfr_number_p(self.b.ptr()):
+            raise ValueError('Nonfinite interval cannot certify nonnegativity')
+        return _lib.mpfr_cmp(self.a.ptr(),Interval(0).a.ptr())>=0
     def _arith(self,other,op):
         y=as_iv(other);z=Interval._empty()
         f=getattr(_lib,'mpfr_'+op)

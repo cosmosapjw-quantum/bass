@@ -1,0 +1,126 @@
+{
+  "schema": "bass.ce1o.stage_delivery_receipts.v1",
+  "date": "2026-10-29",
+  "pr": 256,
+  "branch": "research/bass-ce1o-mpfr-abi-finite-directed-20261029-r1",
+  "parent": {
+    "pr": 254,
+    "head": "8a56d15947435fe7dd83cc1b11347c145136321c",
+    "unmodified": true
+  },
+  "top_dag": {
+    "completed": 9,
+    "total": 15,
+    "edges": 21,
+    "CE1": "PARTIAL"
+  },
+  "stages": [
+    {
+      "stage": "S0",
+      "git_commit": "25124677cc986d88920151f69296549ee29ceeca",
+      "zip": "BASS_CE1O_S0_20261029.zip",
+      "bytes": 2964,
+      "members": 3,
+      "sha256": "c2c1b457b80899fed8de70f27a7e5fe872ed08d1ce6d097baf6b961a5d6199b6",
+      "drive": {
+        "id": "1PA3bfHerrppb45eKMIk0HVDwekF0rjjD",
+        "exact_full_byte_sha256_readback": "MATCH"
+      },
+      "dropbox": {
+        "id": "id:BSpOijBcT10AAAAAAEHVoA",
+        "path": "/BASS_BACKUPS/BASS_CE1O_S0_20261029_c2c1b457.zip",
+        "content_hash": "a883323f295633fcfb5c88225121a23284fc9f045f2663548483ff35399b0c90",
+        "hash_and_size_match": true,
+        "full_byte_readback": "NOT_RUN"
+      },
+      "upper_dag": "9/15"
+    },
+    {
+      "stage": "S1",
+      "git_commit": "71310af4c51227848c3dda02e1e7d4f3d34fb057",
+      "zip": "BASS_CE1O_S1_20261029.zip",
+      "bytes": 25887,
+      "members": 11,
+      "sha256": "65d57d9bef45d81e2b51c7f503da84fab0dcd965cabd7204e12da1089c1bc959",
+      "drive": {
+        "id": "14-RvfPHGfoUI5SHSoynPY99ptpG98H50",
+        "exact_full_byte_sha256_readback": "MATCH"
+      },
+      "dropbox": {
+        "id": "id:BSpOijBcT10AAAAAAEHVoQ",
+        "path": "/BASS_BACKUPS/BASS_CE1O_S1_20261029_65d57d9b.zip",
+        "content_hash": "531d6b1ea947a9156ab03d271efa89a7e25616746461903adff7150cfa31c5d8",
+        "hash_and_size_match": true,
+        "full_byte_readback": "NOT_RUN"
+      },
+      "upper_dag": "9/15"
+    },
+    {
+      "stage": "S2",
+      "git_commit": "24d94a6f1743fa4b1b7bdd16c7476e04b11c9240",
+      "zip": "BASS_CE1O_S2_FINAL_20261029.zip",
+      "bytes": 59334,
+      "members": 17,
+      "sha256": "e8d60dcefc51672b1b5834c5cc52d2f771b3be9c7ebb2277b330488611e38dd4",
+      "payload_sha256_manifest": "16/16_MATCH",
+      "drive": {
+        "id": "1ChalM6-05Mih_U1aEfpG7SS6Zr3lpE6M",
+        "exact_full_byte_sha256_readback": "MATCH"
+      },
+      "dropbox": {
+        "id": "id:BSpOijBcT10AAAAAAEHVog",
+        "path": "/BASS_BACKUPS/BASS_CE1O_S2_FINAL_20261029_e8d60dce.zip",
+        "content_hash": "0a33f8d106c59225a773d814bc0fb21669deb059d0689d6bc30dc91245a6781a",
+        "hash_and_size_match": true,
+        "full_byte_readback": "NOT_RUN"
+      },
+      "upper_dag": "9/15"
+    }
+  ],
+  "code": {
+    "parent_interval_git_blob": "e3a5b83183bfad45bbf38c3c3de89de72fe3adce",
+    "fixed_interval_git_blob": "122d4a87ccd95d462db7eb58ef925f2b18c4ec33",
+    "c_oracle_git_blob": "508593297ddddcb9bfa8231705adb657272ca1c1",
+    "driver_git_blob": "a91d07d4336d417e0e8cf63efa9c37a72ab60019"
+  },
+  "validation": {
+    "red": "8_FAIL_5_PASS",
+    "green_focused": "39_PASS",
+    "local_scoped": "127_PASS",
+    "c_binary": 260,
+    "c_unary": 250,
+    "rational": 260,
+    "mpmath": 250,
+    "nonfinite_reject": 7,
+    "local_mpfr": "4.2.2",
+    "remote_mpfr": "4.2.1",
+    "scope": "independent caller ABI; same libmpfr trust root",
+    "scoped_ci_at_code_head": {
+      "head": "71310af4c51227848c3dda02e1e7d4f3d34fb057",
+      "run": 40877460742,
+      "conclusion": "SUCCESS",
+      "log": "127 passed in 22.72s; installed wheel PASS"
+    },
+    "ce1c_ci_code_head": {
+      "run": 40877460740,
+      "conclusion": "SUCCESS"
+    },
+    "rfbench_ci_code_head": {
+      "run": 40877460791,
+      "conclusion": "SUCCESS"
+    },
+    "rf00_code_head": {
+      "run": 40877460729,
+      "last_observed": "IN_PROGRESS"
+    },
+    "s2_documentation_head_ci": "VERIFY_LIVE_AFTER_FINAL_RECEIPT_PUSH"
+  },
+  "admission": {
+    "distinct_author_review": "NOT_RUN",
+    "native_subagent": "NOT_RUN_NO_SPAWN",
+    "formal_python_mpfr_program": "NOT_RUN",
+    "production_ready": false,
+    "merge_ready": false,
+    "auto_next": false
+  }
+}
