@@ -1,0 +1,73 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+UNIT=CE1P_NATIVE_BASS_RUST_COMOVING_STRESS_DIFFERENTIAL
+STATUS=COMPLETE_SCOPED_NATIVE_BASS_RUST_BINARY64_DIAGNOSTIC
+PR=257
+BRANCH=research/bass-ce1p-native-rust-comoving-20261029-r1
+PARENT_PR=256
+PARENT_HEAD=3a7a38f9615f100fddda0379bd3d6ec359ccc586
+BASS_RUST_MODULE=_rustcore/src/kinetic/comoving.rs
+BASS_RUST_MODULE_BLOB=a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+NEW_RUST=research/ce1p_20261029/rust_comoving_stress.rs
+NEW_RUST_BLOB=2726a1336a6584f3820289a9ea47f1beca3295dc
+NEW_PYTHON=research/ce1p_20261029/compare_rust_to_ce1.py
+NEW_PYTHON_BLOB=cff82535d13be36258b3843340989120d0a531ea
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1=PARTIAL
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+
+FROZEN_PHYSICS: positive exact-binary original six-cell angular radiation,
+massless collisionless reflection-even all-direction-expanding diagonal Bianchi I,
+Lambda0, metric(-,+,+,+), proper dimensionless u=t/Tstar, shear (.2,-.13,-.07),
+end=.08, 4 RK4/Hermite panels, MPFR192 original target max|Delta h|<1e-5.
+PARENT_CE1M_REF8_H=9.411551484445186e-6
+CE1P_REFINEMENT8_FULL_MPFR_RECOMPUTE=NOT_RUN
+
+ACTUAL_RUST: rustc1.94.1, originally implemented BASS Frame::apply/det/step
+M=diag(exp(-ell)), q=Mn, volume=det(M)
+E=volume*sum(w*|q|)
+P_i=volume*sum(w*q_i^2/|q|)
+J_ij=-(1+2delta_ij)*P_i+volume*sum(w*q_i^2*q_j^2/|q|^3)
+CHECKS: sum_i P_i=E; sum_j J_ij=-4P_i; P(ell+s1)=exp(-4s)P(ell).
+NOTE: Rust Frame.step uses e-fold tau, NOT CE1 proper u.
+
+LOCAL_RUST_SELFTEST=4_PASS
+LOCAL_RUST_PYTHON=96_STATES_24_POSITIVE_SOURCE_SETTINGS
+RAY_COUNTS=6,24,96,384
+REF8_SOURCE_SHA=EXACT_MATCH_CE1M
+RUST_PY_MAX_E_ABS=3.219646771412954e-15
+RUST_PY_MAX_P_ABS=1.6653345369377348e-16
+RUST_PY_MAX_J_ABS=5.551115123125783e-16
+MASSLESS_TRACE_MAX=3.9968028886505635e-15
+JACOBIAN_ROW_SUM_MAX=6.661338147750939e-16
+NATIVE_BAD_RAY_INPUTS=4_REJECTED
+GITHUB_CI_CODE_HEAD=40884723128_SUCCESS
+GITHUB_RUST_SOURCE_BLOB=LIVE_HEAD_PINNED
+GITHUB_PYTHON_REGRESSIONS=83_PASS
+
+S0_GIT=8b74a37368688ac56ba3964433140d309e00feab
+S0_ZIP_SHA256=a5e754d2d941835054d43ba6aee41a8823dc7c0b85a202c32d7f1cfd6c5a0e4d
+S0_DRIVE_ID=12G8DS2mwtACeR9g4m7B3i9hBbtxuPGVb
+S1_GIT=1a73ee9b6e6dd895ade51d68ba3bebbe3ea9e4cc
+S1_ZIP_SHA256=4a6007d5665178f867f274639f606ba7ddf6b66c61075598e4e7d144fd5fe1b0
+S1_DRIVE_ID=1QbbaqIffYbCdgXtKzVc_7SLqxw_Vbkfv
+DROPBOX_RAW_ZIP_UPLOAD=BLOCKED_BY_CONNECTOR_FILEPARAM_SCHEMA_AND_LIBRARY_READONLY
+DROPBOX_TEXT_S0_S1=POSTED_AND_READBACK_VERIFIED
+DROPBOX_TEXT_NOT_EQUAL_RAW_BYTES=true
+
+NEXT_SINGLE_BOUNDED_UNIT:
+1. Verify live PR257 head/CI and exact Rust source blobs. Read latest S2 receipt.
+2. Reuse original physical source, E/P/J results and CE1-M MPFR192 proof; do not re-run costly ref8 unnecessarily.
+3. Develop BASS Rust-native double implementation for the stored source direction/pressure
+   with explicit outward rounding trust boundary or independent rigorously checked Python/MPFR adapter.
+   Keep binary64 diagnostic separate from proof-grade interval carrier.
+4. Run actual BASS Rust current-head code and Python differential, then validation/CI.
+5. No independent human review or formal native program correctness claimed.
+6. Do not merge or promote production; preserve upper DAG 9/15 unless a real top-level gate closes.
+7. Publish one bounded stage with Git/Drive original ZIP and Dropbox text or exact bytes only if supported;
+   attach actual provider success receipts and fail-closed conditions.
+STOP_AFTER_ONE_GENUINELY_INCOMPLETE_UNIT=true
