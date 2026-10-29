@@ -1,0 +1,8 @@
+# CE1-F reconciliation S0 (2026-10-29)
+Base: PR238 0286dd0a97f512a2dc6f431e462e64bd65267047, original source gitblob 6bc2787ea07d03e4c739cb53e43f9e21f9d6d842. Compared to reviewed PR239 latest 9de0f37955f259b5e9172ce406d1353bf7cc3695, gitblob e1f5e11baada25858f8fb03321f071ed759b6f99. Parallel PR240 CE1-G must not be modified.
+
+Scientifically demonstrated defect in PR238 proof precondition: for exact 9/10 one cell, exact-real stored initial E=0.900000000000000143127275... whereas current Emax=max(exact continuum, binary stored energy)=0.90000000000000002220446..., an undercap of 1.209228145833137236...e-16. Reproduced with Python3.13.5 Decimal105 using exact Fraction.from_float masses and squared rays, not by comparing two rounded floats. Existing 47 parent tests pass, nevertheless Emax assumption fails. This does NOT establish violation of the final geometry bound or invalidate pressure certificate.
+
+Repair in new isolated child: Emax upper must include exact-real stored-source initial energy, obtained from MPFR outward energy discrepancy, and exact-rational stored squared ray caps should never be converted nearest to float to produce an outward upper. Preserve original code/test and redo same-physics 2-variant crosschecks, independent reference and focussed Red/Green. Do NOT auto-merge PR238/239, change production/native, or execute CE1-G. Parent source zip c829407ab9ad700c77db9c8162037524e4c9137b253f0ddfb61a8da50a589806. Native subagent NOT_RUN_TOOL_NOT_EXPOSED; Python and C++ current-turn PASS. Upper DAG 9/15, CE-1 PARTIAL, production_ready=false.
+
+Local immutable S0 ZIP 9515 bytes SHA256 101bbf902683cb9155fe7f099ff2dbe21ffd2821f55cc001f875c4645f4c12f4.
