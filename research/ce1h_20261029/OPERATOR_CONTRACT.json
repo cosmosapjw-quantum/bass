@@ -1,0 +1,63 @@
+{
+  "schema": "bass.ce1h.operator_contract.v1",
+  "parent_pr": 240,
+  "parent_sha": "0fd95e4baadf8982cdb1f9f81725b7b8e8fd0aa1",
+  "branch": "research/bass-ce1h-sharp-pressure-jacobian-20261029",
+  "metric_signature": "(-,+,+,+)",
+  "clock": "u=t/Tstar normal proper time",
+  "geometry": "diagonal Bianchi I Lambda=0 expanding",
+  "source": "positive reflection-even massless collisionless angular-energy cell table",
+  "source_angular_semantics": "exact original stored binary64 cell energy and boundaries, integer refinement preserves continuum density",
+  "old_comparison": "D+e_h<=4Emax e_ell+eta+rho_h",
+  "new_comparison": "D+e_h<=4max_i P_i^continuum(0) e_ell+eta+rho_h",
+  "pressure_moment": "P_i(0)=sum_cells E_cell * mean_cell(n_i^2) outward MPFR192",
+  "Emax_usage": "unchanged in exact-solution geometry box and source enclosure; only comparison coefficient sharpened",
+  "path": "exact stored binary RK4/Hermite cubic, MPFR192 whole-panel residual and exact binary jumps unchanged",
+  "frozen_fixture": {
+    "mu": [
+      0,
+      0.5,
+      1
+    ],
+    "phi_fraction": [
+      0,
+      0.25,
+      0.75,
+      1
+    ],
+    "energy": [
+      [
+        0.1,
+        0.25,
+        0.05
+      ],
+      [
+        0.2,
+        0.15,
+        0.15
+      ]
+    ],
+    "shear": [
+      0.2,
+      -0.13,
+      -0.07
+    ],
+    "end": 0.08,
+    "rk4_steps": 4,
+    "target_h": 1e-05
+  },
+  "original_dag": {
+    "completed": 9,
+    "total": 15,
+    "edges": 21
+  },
+  "gates": {
+    "R6_distinct_author": "NOT_RUN",
+    "C9_distinct_author": "NOT_RUN",
+    "formal_mpfr_python": "NOT_RUN",
+    "native": "NOT_RUN",
+    "full_repo": "NOT_RUN",
+    "production": false,
+    "merge": false
+  }
+}

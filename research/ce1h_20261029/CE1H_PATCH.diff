@@ -1,0 +1,339 @@
+diff --git a/bianchi/nonperturbative/einstein_tabulated_sharp.py b/bianchi/nonperturbative/einstein_tabulated_sharp.py
+new file mode 100644
+index 0000000..f266e28
+--- /dev/null
++++ b/bianchi/nonperturbative/einstein_tabulated_sharp.py
+@@ -0,0 +1,163 @@
++"""CE1-H: pressure-moment sharpened nonlinear error envelope for CE1-G.
++
++The new theorem replaces CE1-G's 4*Emax pressure Lipschitz coefficient by
++4*max_i P_i^continuum(0), for nonnegative angular energy and ell_i>=0.
++All MPFR intervals retain exact stored binary input semantics. It is not a
++formal proof of the Python/MPFR implementation or a production backend.
++"""
++from __future__ import annotations
++
++from .einstein_interval import Interval, _iv_fraction, _maxabs, propagate_interval
++from .einstein_tabulated_source import TabulatedRadiation, _q, _real
++from .einstein_tabulated_time import certify_tabulated_computed_path
++from .einstein_error_budget import HermitePath, rk4_path
++
++
++def initial_continuum_pressure_cap(source: TabulatedRadiation) -> dict:
++    """Enclose exact continuum P_i(ell=0) from the original physical cells.
++
++    The physical angular density is constant on each original first-octant
++    solid-angle cell. Exact initial pressure is sum E_cell * mean(n_i^2).
++    The cell means are outward MPFR192 intervals computed using rational cell
++    edges and directed sinpi/cospi. No float64 moment evaluation is reused.
++    """
++    if not isinstance(source, TabulatedRadiation):
++        raise TypeError('CE1-F TabulatedRadiation required')
++    pressures = [Interval(0) for _ in range(3)]
++    for cell in source.cells:
++        # This exact-real identity is a property of unit sphere directions.
++        means_sum = sum(cell.means, Interval(0))
++        if not means_sum.contains(1):
++            raise ArithmeticError('Initial cell means fail unit-sphere sum identity')
++        w = _iv_fraction(cell.energy)
++        if w.lower < 0:
++            raise ValueError('Nonnegative cell energies required')
++        for i in range(3):
++            pressures[i] = pressures[i] + w * cell.means[i]
++    total = sum(pressures, Interval(0))
++    E = _iv_fraction(source.continuum_energy)
++    if total.lower > E.lower or total.upper < E.upper:
++        raise ArithmeticError('Directional pressures do not enclose exact continuum E0')
++    cap = max(x.upper for x in pressures)
++    return {
++        'status': 'SCOPED_EXACT_CONTINUUM_INITIAL_PRESSURE',
++        'method': 'MPFR192_EXACT_CELL_MEANS',
++        'pressure_intervals': [(x.lower, x.upper) for x in pressures],
++        'pressure_max_upper': cap,
++        'energy_continuum_upper': E.upper,
++        'lipschitz_upper': 4 * cap,
++        'exact_continuum_sum_identity': True,
++        'input_semantics': 'exact stored binary original cell edges and energies',
++        'formal_machine_verified': False,
++    }
++
++
++
++def _initial_constraint_mismatch(source, path, shear):
++    """Direct exact-binary Hamiltonian root, no duplicate source quadrature."""
++    s = _real(shear, (3,))
++    sx, sy = _iv_fraction(_q(s[0])), _iv_fraction(_q(s[1]))
++    sh = [sx, sy, -(sx + sy)]
++    E = _iv_fraction(source.continuum_energy)
++    hbar = ((E + sum((z*z for z in sh), Interval(0))/2)/3).sqrt()
++    return max(_maxabs((hbar + sh[i]) - Interval(float(path.states[0, 3+i])))
++               for i in range(3))
++
++
++def certify_sharp_tabulated_path(
++    source: TabulatedRadiation,
++    path: HermitePath,
++    *,
++    end: float = .08,
++    shear=(.2, -.13, -.07),
++    subcells: int = 1,
++) -> dict:
++    """Sharpen CE1-G's exact continuum-vs-binary-Hermite path enclosure.
++
++    This runs the parent CE1-G certificate first and reuses its *whole-panel*
++    MPFR source and time defects and exact-binary knot jumps, not sampled
++    residuals. Only the proven pressure Lipschitz coefficient changes.
++    Emax remains the independent bound for exact expanding-solution geometry.
++    """
++    if not isinstance(source, TabulatedRadiation) or not isinstance(path, HermitePath):
++        raise TypeError('CE1-F source and CE1-G HermitePath required')
++    baseline = certify_tabulated_computed_path(
++        source, path, end=end, shear=shear, subcells=subcells)
++    p0 = initial_continuum_pressure_cap(source)
++    Emax = float(baseline['Emax_upper'])
++    # Both quantities separately bound max_i P_i^continuum(0): P_i(0)<=E_cont(0)<=Emax.
++    # Taking their minimum is rigorous even if one MPFR upper rounds a ulp wider.
++    pmax = min(p0['pressure_max_upper'], Emax)
++    Ecomparison = Interval(pmax)  # propagate_interval uses k=2 sqrt(Ecomparison)
++    eta = Interval(float(baseline['source_pressure_upper']))
++    initial_error = [Interval(0), Interval(_initial_constraint_mismatch(source, path, shear))]
++    source_error = [Interval(0), Interval(0)]
++    time_error = [Interval(0), Interval(0)]
++    rows = []
++    for i, old in enumerate(baseline['rows']):
++        dt = Interval(float(path.times[i + 1])) - Interval(float(path.times[i]))
++        initial_error = propagate_interval(initial_error, dt, Ecomparison,
++                                           Interval(0), Interval(0))
++        source_error = propagate_interval(source_error, dt, Ecomparison,
++                                          Interval(0), eta)
++        time_error = propagate_interval(
++            time_error, dt, Ecomparison,
++            Interval(float(old['ell_defect_upper'])),
++            Interval(float(old['h_defect_upper'])))
++        # Outward MPFR jumps already computed from exact binary coefficients.
++        time_error = [time_error[0] + Interval(float(old['knot_jump_ell_upper'])),
++                      time_error[1] + Interval(float(old['knot_jump_h_upper']))]
++        rows.append({
++            'panel': i, 'u_right': float(path.times[i + 1]),
++            'initial_envelope': [x.upper for x in initial_error],
++            'source_envelope': [x.upper for x in source_error],
++            'time_and_jumps_envelope': [x.upper for x in time_error],
++        })
++    components = [initial_error, source_error, time_error]
++    total = [sum((part[k] for part in components), Interval(0)).upper for k in range(2)]
++    # This must be at least as tight as the parent bound for identical data.
++    if any(total[k] > baseline['total_ell_h_upper'][k] for k in range(2)):
++        raise ArithmeticError('Sharp bound unexpectedly exceeds CE1-G bound')
++    return {
++        'status': 'SCOPED_CE1H_SHARP_PRESSURE_COMPARISON',
++        'refinement': source.refinement, 'rays': len(source.n),
++        'u_end': float(end), 'steps': len(path.times) - 1,
++        'pressure_initial_certificate': p0,
++        'pressure_lipschitz_upper': 4 * pmax,
++        'Emax_upper': Emax,
++        'comparison_pressure_cap': pmax,
++        'comparison_coefficient_ratio': pmax / Emax,
++        'ce1g_total_ell_h_upper': baseline['total_ell_h_upper'],
++        'ce1g_source_ell_h_upper': baseline['source_ell_h_upper'],
++        'sharp_initial_ell_h_upper': [x.upper for x in initial_error],
++        'sharp_source_ell_h_upper': [x.upper for x in source_error],
++        'sharp_time_and_jump_ell_h_upper': [x.upper for x in time_error],
++        'sharp_total_ell_h_upper': total,
++        'max_knot_jump_ell_upper': baseline['max_knot_jump_ell_upper'],
++        'max_knot_jump_h_upper': baseline['max_knot_jump_h_upper'],
++        'source_semantics': 'CE1-F exact continuum positive angular cells vs exact stored binary ray/mass source',
++        'time_semantics': 'CE1-G exact stored binary Hermite full-panel residual and jumps',
++        'new_proof': 'monotone pressure Jacobian; exact initial pressure Lipschitz 4 max_i P_i(0)',
++        'rounding': 'MPFR192_RNDD_RNDU',
++        'full_machine_proof': False, 'native_implementation': False,
++        'production_ready': False, 'rows': rows,
++    }
++
++
++def run_sharp_tabulated_rk4(
++    source: TabulatedRadiation,
++    *,
++    steps: int,
++    end: float = .08,
++    shear=(.2, -.13, -.07),
++    subcells: int = 1,
++    backend=None,
++) -> dict:
++    """Opt-in sharp certificate for the same recorded float64 RK4 path."""
++    if backend != 'python_oracle':
++        raise ValueError("Explicit backend='python_oracle' required")
++    if isinstance(steps, bool) or not isinstance(steps, int) or not 1 <= steps <= 256:
++        raise ValueError('Integer RK4 steps in 1..256 required')
++    path = rk4_path(source, source.initial_state(shear), end, steps, backend=backend)
++    return certify_sharp_tabulated_path(source, path, end=end,
++                                       shear=shear, subcells=subcells)
+diff --git a/tests/nonperturbative/test_einstein_tabulated_sharp.py b/tests/nonperturbative/test_einstein_tabulated_sharp.py
+new file mode 100644
+index 0000000..213dd9c
+--- /dev/null
++++ b/tests/nonperturbative/test_einstein_tabulated_sharp.py
+@@ -0,0 +1,102 @@
++"""CE1-H: constructive pressure-Jacobian bound and sharp path propagation."""
++from fractions import Fraction
++import numpy as np
++import pytest
++from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation
++from bianchi.nonperturbative.einstein_error_budget import rk4_path
++from bianchi.nonperturbative.einstein_interval import Interval, _iv_fraction
++from bianchi.nonperturbative.einstein_tabulated_sharp import (
++    initial_continuum_pressure_cap, certify_sharp_tabulated_path,
++    run_sharp_tabulated_rk4,
++)
++
++
++def fixture(refinement=1):
++    return TabulatedRadiation([0,.5,1],[0,.25,.75,1],
++        [[.1,.25,.05],[.2,.15,.15]], refinement=refinement,backend='python_oracle')
++
++
++def test_initial_pressure_exact_energy_sum_and_sharp_cap():
++    s=fixture()
++    cert=initial_continuum_pressure_cap(s)
++    assert cert['method']=='MPFR192_EXACT_CELL_MEANS'
++    assert len(cert['pressure_intervals'])==3
++    assert cert['pressure_max_upper'] < .34
++    assert cert['pressure_max_upper'] > .32
++    assert cert['energy_continuum_upper'] > .89
++    assert cert['pressure_max_upper'] < cert['energy_continuum_upper']
++    assert cert['lipschitz_upper'] < 1.4
++    assert cert['lipschitz_upper'] > 1.2
++    assert cert['exact_continuum_sum_identity'] is True
++
++
++def test_isotropic_full_sky_cell_pressure_one_third():
++    s=TabulatedRadiation([0,1],[0,1],[[.9]],backend='python_oracle')
++    cert=initial_continuum_pressure_cap(s)
++    for lo,hi in cert['pressure_intervals']:
++        assert lo <= float(s.continuum_energy)/3 <= hi
++    assert cert['pressure_max_upper'] < .300000000000001
++
++
++def test_refinement_does_not_change_physical_initial_pressure():
++    caps=[initial_continuum_pressure_cap(fixture(r))['pressure_max_upper'] for r in (1,2,4)]
++    assert max(caps)-min(caps) < 5e-15
++
++
++def test_sharp_comparison_improves_original_ce1g_on_same_path():
++    s=fixture()
++    path=rk4_path(s,s.initial_state(),.08,4,backend='python_oracle')
++    out=certify_sharp_tabulated_path(s,path,end=.08,subcells=1)
++    assert out['status']=='SCOPED_CE1H_SHARP_PRESSURE_COMPARISON'
++    assert out['sharp_total_ell_h_upper'][1] < out['ce1g_total_ell_h_upper'][1]
++    assert out['sharp_total_ell_h_upper'][0] < out['ce1g_total_ell_h_upper'][0]
++    assert out['sharp_source_ell_h_upper'][1] < out['ce1g_source_ell_h_upper'][1]
++    assert out['pressure_lipschitz_upper'] < 4*out['Emax_upper']
++    assert out['steps']==4 and len(out['rows'])==4
++    assert out['production_ready'] is False
++
++
++def test_knot_jump_retained_in_sharp_bound():
++    s=fixture()
++    p=rk4_path(s,s.initial_state(),.08,4,backend='python_oracle')
++    p.coefficients[0,3,3] += 1e-5
++    out=certify_sharp_tabulated_path(s,p)
++    assert out['max_knot_jump_h_upper'] > 5e-6
++    assert out['sharp_time_and_jump_ell_h_upper'][1] >= out['max_knot_jump_h_upper']
++
++
++def test_guard_wrong_source_and_backend():
++    with pytest.raises(TypeError): initial_continuum_pressure_cap(object())
++    s=fixture()
++    with pytest.raises(ValueError,match='backend'):
++        run_sharp_tabulated_rk4(s,steps=2)
++    with pytest.raises(TypeError): certify_sharp_tabulated_path(s,object())
++
++
++def test_sharp_certificate_preserves_original_target_and_physics():
++    s=fixture(2)
++    out=run_sharp_tabulated_rk4(s,steps=4,backend='python_oracle')
++    assert out['refinement']==2 and out['rays']==24
++    assert out['sharp_total_ell_h_upper'][1] <= out['ce1g_total_ell_h_upper'][1]
++    assert out['source_semantics']=='CE1-F exact continuum positive angular cells vs exact stored binary ray/mass source'
++    assert out['time_semantics']=='CE1-G exact stored binary Hermite full-panel residual and jumps'
++
++
++def test_direct_initial_constraint_root_matches_ce1f_enclosure():
++    from bianchi.nonperturbative.einstein_tabulated_sharp import _initial_constraint_mismatch
++    from bianchi.nonperturbative.einstein_tabulated_source import certified_tabulated_geometry
++    s=fixture(2)
++    p=rk4_path(s,s.initial_state(),.08,4,backend='python_oracle')
++    direct=_initial_constraint_mismatch(s,p,(.2,-.13,-.07))
++    original=certified_tabulated_geometry(s,end=.08,shear=(.2,-.13,-.07))['initial_h_error_upper']
++    assert direct == original
++
++
++def test_narrow_positive_cell_pressure_cap_never_exceeds_energy_comparison():
++    s=TabulatedRadiation([0,.001,1],[0,.001,1],[[.9,0],[0,0]],backend='python_oracle')
++    cert=initial_continuum_pressure_cap(s)
++    assert cert['pressure_max_upper'] > .899
++    p=rk4_path(s,s.initial_state(),.02,2,backend='python_oracle')
++    out=certify_sharp_tabulated_path(s,p,end=.02)
++    assert out['comparison_pressure_cap'] <= out['Emax_upper']
++    assert out['sharp_total_ell_h_upper'][1] <= out['ce1g_total_ell_h_upper'][1]
+diff --git a/.github/workflows/ce1h-sharp.yml b/.github/workflows/ce1h-sharp.yml
+new file mode 100644
+index 0000000..0d3d4b9
+--- /dev/null
++++ b/.github/workflows/ce1h-sharp.yml
+@@ -0,0 +1,56 @@
++name: CE1-H scoped sharp pressure comparison
++on:
++  push:
++    branches: [research/bass-ce1h-sharp-pressure-jacobian-20261029]
++    paths:
++      - bianchi/nonperturbative/einstein_tabulated_sharp.py
++      - tests/nonperturbative/test_einstein_tabulated_sharp.py
++      - .github/workflows/ce1h-sharp.yml
++  pull_request:
++    paths:
++      - bianchi/nonperturbative/einstein_tabulated_sharp.py
++      - tests/nonperturbative/test_einstein_tabulated_sharp.py
++      - .github/workflows/ce1h-sharp.yml
++permissions:
++  contents: read
++concurrency:
++  group: ce1h-${{ github.ref }}
++  cancel-in-progress: true
++jobs:
++  scoped-sharp:
++    runs-on: ubuntu-24.04
++    timeout-minutes: 12
++    env:
++      OPENBLAS_NUM_THREADS: '1'
++      OMP_NUM_THREADS: '1'
++      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
++        with: {persist-credentials: false}
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
++        with: {python-version: '3.12'}
++      - run: python -m pip install numpy==2.3.5 scipy==1.17.0 mpmath==1.3.0 pytest==9.0.2
++      - name: Scoped CE1-H plus inherited CE1-G Einstein regressions
++        run: >
++          python -m pytest -q
++          tests/nonperturbative/test_einstein_tabulated_sharp.py
++          tests/nonperturbative/test_einstein_tabulated_time.py
++          tests/nonperturbative/test_einstein_tabulated_source.py
++          tests/nonperturbative/test_einstein_exponential_source.py
++          tests/nonperturbative/test_einstein_physical_input.py
++          tests/nonperturbative/test_einstein_interval.py
++          tests/nonperturbative/test_einstein_error_budget.py
++      - name: Installed wheel CE1-H opt-in numerical smoke
++        run: |
++          python -m pip wheel --no-deps . -w /tmp/ce1h-wheels
++          python -m pip install --no-deps --target /tmp/ce1h-wheel /tmp/ce1h-wheels/*.whl
++          cd /tmp
++          PYTHONPATH=/tmp/ce1h-wheel python - <<'PY'
++          from bianchi.nonperturbative.einstein_tabulated_source import TabulatedRadiation
++          from bianchi.nonperturbative.einstein_tabulated_sharp import run_sharp_tabulated_rk4
++          s=TabulatedRadiation([0,.5,1],[0,.25,.75,1],[[.1,.25,.05],[.2,.15,.15]],refinement=1,backend='python_oracle')
++          x=run_sharp_tabulated_rk4(s,steps=2,end=.02,backend='python_oracle')
++          assert x['sharp_total_ell_h_upper'][1] < x['ce1g_total_ell_h_upper'][1]
++          assert x['production_ready'] is False
++          print('CE1H_WHEEL_SCOPED_PASS')
++          PY

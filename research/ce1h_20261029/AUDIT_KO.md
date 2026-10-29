@@ -1,0 +1,11 @@
+# CE1-H bounded self-audit and independent numerical falsification
+
+1. **Mathematical premise**: positivity of angular measure and nonnegative expanding ell_i is essential. For arbitrary signed measures or contracting ell, P_i(ell)<=P_i(0) is not established. The theorem and API explicitly restrict scope. No broad no-go is claimed.
+2. **Jacobian derivation**: exact R_ij >=0, sum_j R_ij=P_i; row sum 4P_i. Wolfram symbolic identity 0, independent mpmath100 48 positive-ray probes max residual ~1.43e-101. Distinct-author R6 NOT_RUN.
+3. **Source representation**: P_i(0) uses original continuum cell energies and MPFR exact cell means; no float stored-ray pressure is silently used. Independent mpmath100 original-cell integral lies in all three outward intervals. Refinement invariance tested at 1,2,4.
+4. **Error propagation**: Emax remains in geometry and source bound. Only Dini comparison uses Pmax. Time residual, source eta, initial Hamiltonian root and binary knot jumps unchanged; direct root equals CE1-F certified root in targeted test. A near-axis positive-cell case ensures min(Pmax,Emax) never makes the new envelope worse.
+5. **Runtime issue**: monolithic ref16 recomputation exceeded time limits on repeated attempts, with a stall observed during a late MPFR residual panel. This is an EXECUTION_FAILED attempt, not proof of a deterministic leak or mathematical defect. Four isolated numerical OS processes finished and reproduced CE1-G original source/time/total bounds exactly with matching source/path SHA identities. No speedup ratio is claimed.
+6. **Software**: 81/81 targeted tests PASS, local installed-wheel smoke PASS, scoped GitHub Actions run40806917376 PASS (81 tests and wheel). Full-repository RF-BENCH failure source_adapter_sha256 mismatch and RF-00 lazy exports mismatch are separate and not fixed. Distinct-author C9 NOT_RUN.
+7. **Preservation**: 20 Git stage notes with readback, 20 local ZIPs with CRC/sha, 20 Drive ZIP ACKs and sizes, C10 Drive full-byte readback. Dropbox Library read-only actual attempt, no dual-provider completion claim.
+
+**Work decision**: accept CE1-H derived lemma and scoped opt-in Python oracle, hold production/merge. Upper DAG 9/15 and CE-1 PARTIAL unchanged.
