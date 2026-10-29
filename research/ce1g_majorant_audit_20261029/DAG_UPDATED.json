@@ -1,0 +1,828 @@
+{
+  "schema": "bass.hierarchy_free.background_fluctuation.dag.v30-ce1g-audit",
+  "proposal_version": "CE1G_R6C9_CACHE_AUDIT_20261029",
+  "authority": "Additive scoped research, not central/production",
+  "source_identity": {
+    "repository": "cosmosapjw-quantum/bass",
+    "owner_branch": "research/bass-b3f-cohort-input-error-20261025",
+    "owner_commit": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+    "expansion_handoff_commit": "d6af237b66e78ca6ed4572068f6bc1a805bbb2d9",
+    "main_commit_inspected": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+    "existing_volterra_scope": "PR169 LRS massive Einstein-Vlasov first-variation, not photon polarized memory",
+    "current_remote_parent": "41a20d7a69751ad77a392a669d97bd05566ec822",
+    "legacy_snapshot_fields": "Inherited; not refreshed main/other branches in this scope",
+    "current_parent_commit": "90b600519712939e3db123191dcaea0361fdea9e",
+    "inherited_snapshots_not_refreshed": true,
+    "attached_ce1a_sha256": "17e8ce86b2868804f74bcb16dc04cf2b8aa77ff1dd366d631d7d49fefd234983",
+    "variant_relation": "Different attached and remote CE1-A implementations; attached original saved separately, static source formulas checked, no byte-equivalence claim.",
+    "ce1e_parent": "24a5d8f76ce134c57fb691ff90e382425d5bb7cd",
+    "ce1e_parent_pr": 236,
+    "ce1f_parent": "a05906527d7dd5e5f6a653a0e4f7d977679d4a0c",
+    "ce1f_verified_code": "bca52319247618ad8feca1e0bc5ffa45457a0e8f"
+  },
+  "physical_conventions": {
+    "metric_signature": "(-,+,+,+)",
+    "eps123": "+1",
+    "clock": "not universal: use explicit adapter Q dimensionless tau vs proper or conformal time",
+    "c_hbar_kb": "retain explicitly when dimensional quantities are used",
+    "collision_frame": "electron",
+    "transport_frame": "normal tetrad",
+    "local_observer_boost": "output only",
+    "global_tilt": "evolution and sources"
+  },
+  "representation_axes": {
+    "solver_representation": [
+      "DIRECT_GRID_Q_G",
+      "PSTF_H_J",
+      "PROPOSED_MEMORY_VOLTERRA"
+    ],
+    "spectral_carrier": [
+      "MODE_A_BOLOMETRIC",
+      "MODE_B_FULL_FREQUENCY"
+    ],
+    "H_anchor": [
+      "INTERNAL_GAUSS",
+      "PHENOMENOLOGY"
+    ],
+    "physical_model": [
+      "SCALAR_I_ONLY",
+      "FULL_POLARIZED_IQUV"
+    ]
+  },
+  "legacy_HF_remap": {
+    "HF-0": "DL-0, DL-1 and existing Q/G/H/J source receipt",
+    "HF-1": "KM-1+KM-2+KM-3; reuse existing P8 rank9 collision and PR169 method as limited technique",
+    "HF-2": "DL-2+DV-1 including three representations, not new standalone solver",
+    "HF-3": "BF-1+BF-2 with exact gauge-fixed spatial projection and source cross-correlation",
+    "HF-4": "BF-3 then BF-4; prescribed transport is not coupled EFE",
+    "HF-5": "DV-2 plus OB-1; family/mode and scientific output gate separate"
+  },
+  "literature_primary": [
+    {
+      "title": "Cosmological perturbations without the Boltzmann hierarchy",
+      "year": 2021,
+      "arxiv": "2105.02887",
+      "scope": "linear FLRW scalar photon/polarization IE",
+      "doi": "10.1103/PhysRevD.104.063512"
+    },
+    {
+      "title": "Cosmological perturbations: Noncold relics without the Boltzmann hierarchy",
+      "year": 2022,
+      "arxiv": "2201.11129",
+      "doi": "10.1103/PhysRevD.106.103531",
+      "scope": "linear cosmological perturbation noncold relic integral equations"
+    },
+    {
+      "title": "Rapid and accurate numerical evolution of linear cosmological perturbations with noncold relics",
+      "year": 2025,
+      "arxiv": "2506.01956",
+      "doi": "10.1103/fs6c-zbzf",
+      "scope": "CLASSIER NUFFT convolution IE; not general noncommuting Bianchi transfer"
+    },
+    {
+      "title": "Polarization and covariant radiation hierarchy",
+      "year": 2000,
+      "arxiv": "astro-ph/9911481",
+      "scope": "1+3 PSTF polarized photon transport"
+    },
+    {
+      "title": "Averaging anisotropic cosmologies",
+      "year": 2006,
+      "arxiv": "gr-qc/0609078",
+      "scope": "restricted anisotropic cosmological averaging"
+    },
+    {
+      "title": "Mori-Zwanzig formalism for general relativity",
+      "year": 2021,
+      "arxiv": "2107.11497",
+      "scope": "projection-memory averaging analogy"
+    },
+    {
+      "title": "Bianchi Model CMB Polarization and its Implications for CMB Anomalies",
+      "year": 2007,
+      "arxiv": "0706.2075",
+      "scope": "nearly-FLRW homogeneous Bianchi polarized hierarchy"
+    },
+    {
+      "title": "Cosmological-perturbation equations from the total-angular-momentum formalism",
+      "year": 2026,
+      "arxiv": "2609.36000",
+      "scope": "linear scalar/tensor integral-first TAM oracle"
+    }
+  ],
+  "recommended_next_node": "CE-1",
+  "nodes": [
+    {
+      "id": "DL-0",
+      "depends_on": [],
+      "status": "STATIC_READ_COMPLETED",
+      "goal": "Repository/code-path identity and three independent lane definitions",
+      "claim_gate": "Static pinned file and branch identity reconstructed",
+      "next_action": "Source code paths and commit verified by GitHub reads, not physics execution",
+      "external_prerequisites": []
+    },
+    {
+      "id": "DL-1",
+      "depends_on": [
+        "DL-0"
+      ],
+      "status": "COMPLETE_SCOPED_OPERATOR_CONTRACT",
+      "goal": "Common direct vs PSTF generator and frame/clock contract",
+      "claim_gate": "Frozen field/frame/clock/measure and physical model dictionary; matched scalar instantaneous kernels only; static full polarized collision oracle separate",
+      "next_action": "Use DL-2 for missing polarized moment dictionary, no replay of completed campaign",
+      "external_prerequisites": [],
+      "scope_partition": {
+        "scalar_Bianchi_I_instantaneous": "CHECKED",
+        "static_rest_electron_polarized": "CHECKED",
+        "latest_Rust_full_runtime": "NOT_RUN",
+        "generic_tilted_normal_clock": "OPEN_KNOWN_WIRING_BOUNDARY"
+      },
+      "evidence": [
+        "OPERATOR_CONTRACT.json",
+        "evidence/DL1_RESULTS.json",
+        "SOURCE_MAP.json"
+      ]
+    },
+    {
+      "id": "DL-2",
+      "depends_on": [
+        "DL-1"
+      ],
+      "status": "COMPLETE_SCOPED_POLARIZED_SOURCE_DICTIONARY",
+      "goal": "Quadrature-normalized moments and multipole interoperability",
+      "claim_gate": "Source-matched rest-electron P8 dictionary, all-m ell<=4 basis/evolution checks; physical spin screen and 14->9 source nullspace explicit; finite-tail reconstruction separated from gain source",
+      "next_action": "Use KM-1 for native source-memory elimination; no full-history/Rust/tilted promotion",
+      "external_prerequisites": [],
+      "evidence": [
+        "OPERATOR_CONTRACT.json",
+        "evidence/DL2_RESULTS.json",
+        "code/polarized_dictionary.py",
+        "tests/test_dictionary.py"
+      ]
+    },
+    {
+      "id": "KM-1",
+      "depends_on": [
+        "DL-1",
+        "DL-2"
+      ],
+      "status": "COMPLETE_SCOPED_SOURCE_MEMORY_CONSTRUCTION",
+      "goal": "BASS-source-matched polarized source memory with full initial angular tail",
+      "claim_gate": "Exact prescribed Bianchi-I formula and same-quadrature source-supplied Duhamel consistency; not independent Volterra solve",
+      "next_action": "KM3 independent causal product integration, no repeat of completed fixtures",
+      "external_prerequisites": [],
+      "evidence": [
+        "REPORT_KO.md",
+        "OPERATOR_CONTRACT.json",
+        "evidence/KM1_RESULTS.json",
+        "code/source_memory.py"
+      ]
+    },
+    {
+      "id": "KM-2",
+      "depends_on": [
+        "DL-1"
+      ],
+      "status": "PARTIAL_FIXED_BETA_FLAT_AND_PRESCRIBED_BIANCHI_I_CHECKED",
+      "goal": "Electron-frame polarized Thomson rank-nine gain",
+      "claim_gate": "Rest kernel plus finite-beta normal-time generator verified in recorded instantaneous fixtures; finite-time normal-clock solver and production caller remain open.",
+      "next_action": "Remaining production integration, evolving electron frame and spectral validity stay open; not prerequisites for BF-1.",
+      "external_prerequisites": [],
+      "scope_partition": {
+        "rest_electron": "KERNEL_AND_ANGULAR_DICTIONARY_CHECKED",
+        "tilted_normal_clock": "GENERATOR_SCOPED_CHECKED; FINITE_TIME_AND_PRODUCTION_OPEN"
+      },
+      "next_scope_read": "docs/ELECTRON-COLLISION-RATE-CONTRACT.md at parent06579e3f6d580ae775a98eaf6b8fc4562bc5a081; NOT PRODUCTION WIRED remains.",
+      "subgates": {
+        "KM-2A": {
+          "status": "COMPLETE_SCOPED_INSTANTANEOUS_TILTED_NORMAL_TIME",
+          "evidence": [
+            "REPORT_KO.md",
+            "OPERATOR_CONTRACT.json",
+            "code/tilted_collision.py",
+            "evidence/KM2A_RESULTS.json"
+          ]
+        },
+        "KM-2B": {
+          "status": "COMPLETE_SCOPED_FIXED_BETA_NORMAL_TIME_PROPAGATOR",
+          "scope": "constant beta,nu0; homogeneous flat/frozen normal time; cold Thomson",
+          "evidence": [
+            "REPORT_KO.md",
+            "code/tilted_history.py",
+            "evidence/KM2B_RESULTS.json"
+          ],
+          "production_wiring": false
+        },
+        "KM-2C": {
+          "status": "COMPLETE_SCOPED_FIXED_BETA_BIANCHI_I_MEMORY",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/KM2C_RESULTS.json",
+            "code/curved_tilt.py"
+          ],
+          "beta": [
+            0.3,
+            -0.4,
+            0.2
+          ],
+          "interval": [
+            0,
+            0.4
+          ],
+          "production_wiring": false
+        }
+      }
+    },
+    {
+      "id": "KM-3",
+      "depends_on": [
+        "KM-1",
+        "KM-2",
+        "DL-2"
+      ],
+      "status": "COMPLETE_SCOPED_UNTILTED_INDEPENDENT_VOLTERRA",
+      "goal": "Exact time-ordered Bianchi characteristic Volterra memory",
+      "claim_gate": "Independent unknown M product integration on prescribed Bianchi I; same raw quadrature direct comparison, time/angular error separated. Generic tilted/curved memory remains open.",
+      "next_action": "DV1 full-polarized harmonic streaming first slice, then same-physics three-path comparison.",
+      "external_prerequisites": [],
+      "scope_requirements": {
+        "KM-1": "source-memory construction",
+        "DL-2": "polarized dictionary",
+        "KM-2": "rest_electron kernel only; tilted-normal-clock wiring is not a prerequisite to this untilted slice"
+      },
+      "evidence": [
+        "code/volterra_solver.py",
+        "evidence/KM3_RESULTS.json",
+        "REPORT_KO.md",
+        "OPERATOR_CONTRACT.json"
+      ],
+      "scope_partition": {
+        "untilted_prescribed_Bianchi_I": "COMPLETE_SCOPED",
+        "generic_tilted": "OPEN",
+        "curved_Bianchi": "OPEN",
+        "production_runner": "NOT_RUN"
+      }
+    },
+    {
+      "id": "DV-1",
+      "depends_on": [
+        "DL-2",
+        "KM-3"
+      ],
+      "status": "COMPLETE_SCOPED_BIANCHI_I_THREE_LANE_BENCHMARK",
+      "goal": "Bianchi-I direct/hierarchy/memory three-path validation",
+      "claim_gate": "Same-physics finite-time triangle numerically checked for u0..0.35, L4/6/8, full carrier vs source errors distinct. No general tail bound, production or EFE claim.",
+      "next_action": "DV2 first untilted prescribed Bianchi-II instantaneous curvature operator slice",
+      "external_prerequisites": [],
+      "subgates": {
+        "DV1-A": {
+          "status": "COMPLETE_SCOPED_INSTANTANEOUS_FULL_POLARIZED_GENERATOR",
+          "evidence": [
+            "code/harmonic_streaming.py",
+            "evidence/DV1A_RESULTS.json",
+            "REPORT_KO.md"
+          ]
+        },
+        "DV1-B": {
+          "status": "COMPLETE_SCOPED_FINITE_TIME_THREE_LANE",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV1B_RESULTS.json",
+            "code/harmonic_history.py"
+          ],
+          "primary_interval": [
+            0,
+            0.35
+          ],
+          "stress_interval": [
+            0,
+            0.55
+          ],
+          "cutoffs": [
+            4,
+            6,
+            8
+          ],
+          "global_tail_certificate": false
+        }
+      }
+    },
+    {
+      "id": "DV-2",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "PARTIAL_UNTILTED_BIANCHI_II_V_PRESCRIBED_PROVIDERS_CHECKED",
+      "goal": "Curved Bianchi and moving-electron mixing cross-check",
+      "claim_gate": "Class A/B constraints, all-m E/B frame tests match within error budget",
+      "next_action": "Bianchi-I finite-beta slice checked by KM2C; generic II/V tilted transport remains open, not admitted.",
+      "external_prerequisites": [],
+      "subgates": {
+        "DV2-A": {
+          "status": "COMPLETE_SCOPED_INSTANTANEOUS_BIANCHI_II_GENERATOR",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV2A_RESULTS.json",
+            "code/curvature_streaming.py"
+          ]
+        },
+        "DV2-B": {
+          "status": "COMPLETE_SCOPED_FROZEN_BIANCHI_II_FINITE_TIME",
+          "evidence": [
+            "REPORT_KO.md",
+            "code/frozen_bianchi_ii.py",
+            "evidence/DV2B_RESULTS.json"
+          ],
+          "generic_time_dependent_curvature": false,
+          "main_interval": [
+            0,
+            0.8
+          ]
+        },
+        "DV2-C": {
+          "status": "COMPLETE_SCOPED_COFRAME_COMPATIBLE_EXPANDING_BIANCHI_II_PROVIDER",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV2C_RESULTS.json",
+            "code/expanding_bianchi_ii.py"
+          ],
+          "interval": [
+            0,
+            0.4
+          ],
+          "coframe_compatible": true,
+          "einstein_feedback": false
+        },
+        "DV2-D": {
+          "status": "COMPLETE_SCOPED_INSTANTANEOUS_BIANCHI_V_CLASS_B",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV2D_RESULTS.json",
+            "code/classb_streaming.py",
+            "code/classb_oracle.py"
+          ],
+          "finite_time": false
+        },
+        "DV2-E": {
+          "status": "COMPLETE_SCOPED_FROZEN_BIANCHI_V_FINITE_TIME",
+          "scope": "Frozen prescribed Bianchi V, full polarized bolometric massless transport, untilted cold Thomson; no Einstein feedback",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV2E_RESULTS.json",
+            "code/frozen_bianchi_v.py"
+          ],
+          "main_interval": [
+            0,
+            0.5
+          ],
+          "higher_amplitude_generalization": false,
+          "einstein_feedback": false
+        },
+        "DV2-F": {
+          "status": "COMPLETE_SCOPED_COFRAME_COMPATIBLE_EXPANDING_BIANCHI_V",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/DV2F_RESULTS.json",
+            "code/expanding_bianchi_v.py"
+          ],
+          "main_interval": [
+            0,
+            0.4
+          ],
+          "coframe_compatible": true,
+          "einstein_feedback": false,
+          "source_memory_vendor_unchanged": true
+        }
+      }
+    },
+    {
+      "id": "CE-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "PARTIAL_WITH_CE1G_SCOPED_TABULATED_SOURCE_AND_WHOLE_PANEL_TIME",
+      "goal": "Selected homogeneous selfconsistent Einstein kinetic memory/direct coupling",
+      "claim_gate": "EFE/Gauss/Codazzi/fourforce + coupled error stability on selected physical channels",
+      "next_action": "CE1-H candidate: independent rigorous software review and source-bound generalization; no automatic native/production promotion.",
+      "external_prerequisites": [
+        "G1C: bounded selfconsistent source-to-geometry error propagation for admitted physical channel",
+        "B3g/B3h/B3i only for selected channel requiring native cohort and finite absorption"
+      ],
+      "next_slice": {
+        "id": "CE1-H",
+        "status": "CANDIDATE_NOT_EXECUTED",
+        "scope": "independent interval-software assurance or extension to selected polarized collisional channel only after separate physical source gates"
+      },
+      "subgates": {
+        "CE1-A": {
+          "status": "COMPLETE_SCOPED_CONSTRAINT_DATA_AND_SOURCE_PROPAGATION",
+          "scope": "massless collisionless diagonal reflection-symmetric Bianchi I Lambda0; all-expanding two-source comparison bound; exact-source and independent-ray coupled pilot",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/CE1A_RESULTS.json",
+            "evidence/SHARP_BOUND.json"
+          ],
+          "global_quadrature_error_certified": false,
+          "full_spatial_EFE_feedback": false,
+          "native_production": false
+        },
+        "CE1-B": {
+          "status": "COMPLETE_SCOPED_ANALYTIC_QUADRATURE_AND_RECONSTRUCTED_PATH_BUDGET",
+          "code": "bianchi/nonperturbative/einstein_error_budget.py",
+          "scope": "positive degree4 continuum angular polynomial; expanding diagonal collisionless massless Bianchi I; exact-arithmetic bounds and float64 evaluation",
+          "floating_point_certificate": false,
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/CE1B_RESULTS.json",
+            "evidence/CI_VERIFICATION.json"
+          ]
+        },
+        "CE1-C": {
+          "status": "COMPLETE_SCOPED_MPFR_DIRECTED_SOURCE_TIME_ERROR_ENCLOSURE",
+          "scope": "exact recorded binary angular polynomial, reconstructed Hermite path; directionally expanding collisionless diagonal Bianchi I",
+          "code": "bianchi/nonperturbative/einstein_interval.py",
+          "precision": "MPFR192bit directed arithmetic; not formally machine-verified code",
+          "target_h_met": [
+            "1e-4 by ntheta8 nphi16 RK4 32",
+            "1e-5 by ntheta8 nphi16 RK4 64"
+          ],
+          "native": false,
+          "production": false,
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/CE1C_RESULTS.json"
+          ]
+        },
+        "CE1-D": {
+          "status": "COMPLETE_SCOPED_EXACT_DECIMAL_INPUT_BOX_ENCLOSURE",
+          "code": "bianchi/nonperturbative/einstein_input_enclosure.py",
+          "scope": "finite positive degree4 angular initial radiation, all-expanding diagonal collisionless Bianchi I, declared input boxes E,c2,ct,c4,sx,sy",
+          "claim_gate": "Exact L1 angular source bound, all-box positivity and expansion gates, interval initial Hamiltonian deviation, Dini comparison and triangle with CE1-C nominal validated",
+          "evidence": [
+            "research/ce1d_20261029/REPORT_KO.md",
+            "research/ce1d_20261029/OPERATOR_CONTRACT.json",
+            "research/ce1d_20261029/evidence/CE1D_RESULTS.json"
+          ],
+          "native": false,
+          "production": false
+        },
+        "CE1-E": {
+          "status": "COMPLETE_SCOPED_POSITIVE_NONPOLYNOMIAL_SOURCE_QUADRATURE",
+          "code": "bianchi/nonperturbative/einstein_exponential_source.py",
+          "scope": "G(q) exp(lambda qz²) for 0<=lambda<=1, positive degree4 G, diagonal reflection-even collisionless Bianchi I; MPFR source and initial-energy enclosure; coupled source-to-geometry comparison for u<=.2",
+          "checks": {
+            "scoped_tests": 39,
+            "coupled_ivps": 3,
+            "certified_source": true,
+            "certified_time_integrator": false,
+            "native": false,
+            "formal_software_verification": false
+          },
+          "evidence": [
+            "research/ce1e_20261029/REPORT_KO.md",
+            "research/ce1e_20261029/OPERATOR_CONTRACT.json",
+            "research/ce1e_20261029/evidence/CE1E_RESULTS.json"
+          ]
+        },
+        "CE1-F": {
+          "status": "COMPLETE_SCOPED",
+          "code": "bianchi/nonperturbative/einstein_tabulated_source.py",
+          "scope": "nonnegative uniformly filled reflected angular cells; exact-real stored-source pressure/initial-data/ODE comparison; time/evaluation error excluded",
+          "evidence": [
+            "THEORY.md",
+            "provenance/CE1F_CODE_REVIEW.md",
+            "evidence/RESULTS.json"
+          ]
+        },
+        "CE1-G": {
+          "status": "COMPLETE_SCOPED_PENDING_DISTINCT_AUTHOR_REVIEW",
+          "code": "bianchi/nonperturbative/einstein_tabulated_time.py",
+          "scope": "positive reflected tabulated continuum angular radiation; expanding diagonal collisionless massless Bianchi I, Lambda0, u<=.08, exact binary source and recorded RK4/Hermite path",
+          "claim_gate": "MPFR192 whole-panel residual + exact binary Hermite knot jumps + CE1-F source and initial mismatch propagated by nonlinear Dini comparison; max |Delta h|<1e-5 for refinement16 RK4steps4",
+          "scientific_result": {
+            "refinement": 16,
+            "steps": 4,
+            "subcells": 1,
+            "u_end": 0.08,
+            "total_h_upper": 3.7019164499698285e-06,
+            "source_h_upper": 2.8664006500876736e-06,
+            "time_h_upper": 8.35515799694146e-07
+          },
+          "assurance": {
+            "local_scoped_tests_pass": 72,
+            "distinct_author_review": "NOT_RUN",
+            "formal_software_verification": false,
+            "native": false,
+            "production": false
+          },
+          "evidence": [
+            "research/ce1g_20261029/THEORY_KO.md",
+            "research/ce1g_20261029/evidence/SCIENCE_RESULTS.json",
+            "tests/nonperturbative/test_einstein_tabulated_time.py"
+          ]
+        }
+      }
+    },
+    {
+      "id": "BF-1",
+      "depends_on": [
+        "DL-0"
+      ],
+      "status": "COMPLETE_SCOPED_FIXED_GAUGE_PHYSICAL_CARRIER_PROJECTION",
+      "goal": "Gauge-fixed spatial Bianchi-I torus background projector",
+      "claim_gate": "Fixed-gauge matched-ray projector, idempotence/zero mean, reference vs physical-volume derivative, common-frame mapping, positive background vs signed fluctuation, and exact ADM-averaging counterexample checked. Not an EFE closure.",
+      "next_action": "BF2 local collision then spatial average, preserving full carrier and measure/frame correlations.",
+      "external_prerequisites": [],
+      "storage_contract": "Average physical J=exp(logG)Jhat after frame/screen matching, not logG or normalized Jhat; preserve M_ang_dot and P_space_dot when needed",
+      "evidence": [
+        "REPORT_KO.md",
+        "code/spatial_projection.py",
+        "tests/test_projection.py",
+        "evidence/BF1_RESULTS.json"
+      ],
+      "previous_reuse_note": "DV1-B demonstrates output-dependent convergence: source and rho/q/pi may be accurate while full angular carrier is not. Physical-carrier averaging and initial-tail ownership remain required; BF1 itself not executed. DV2-C supplies a concrete coframe-compatible carrier/measure provider, not a spatial averaging projector. DV2D distinguishes homogeneous tetrad components from zero spatial divergence; class-B averaging must retain finite-domain boundary flux and correct angular measure. BF1 itself remains unexecuted. KM2A fixes frame-aware local collision and elastic fourforce, not a spatial average. gamma(rho-beta.q) is a fixed-beta normal-slice invariant; rho_e is not interchangeable with it. Generic spatial velocity correlations remain to derive. KM2B supplies finite-time frame-aware local collision with complete initial tail; it does not implement spatial projection. KM2C separates local collision force from geometric work and preserves time-dependent source maps; spatial projector remains unexecuted.",
+      "scope_partition": {
+        "periodic_Bianchi_I_reference_projection": "COMPLETE_SCOPED",
+        "prescribed_positive_inhomogeneous_volume_derivative": "CHECKED",
+        "SO3_paired_ray_alignment": "CHECKED",
+        "constraint_preserving_mean_metric_solution": "NOT_CLAIMED",
+        "general_observer_or_angular_remapping": "OPEN",
+        "production_runner": "NOT_RUN"
+      }
+    },
+    {
+      "id": "BF-2",
+      "depends_on": [
+        "BF-1"
+      ],
+      "status": "COMPLETE_SCOPED_COMMON_FRAME_COLLISION_CORRELATIONS",
+      "goal": "Nonlinear opacity-radiation mean-collision correlation",
+      "claim_gate": "Exact common-frame local collision/mean decomposition; full-polarized opacity, finite-beta operator/radiation correlation and source-known two-cell memory validated. Not mean-state closure or spatial PDE.",
+      "next_action": "BF3 first prescribed Bianchi-I periodic x streaming plus local full-polarized collision slice.",
+      "external_prerequisites": [],
+      "prior_toy_status": "TOY_CHECKED_INTEGRATION_OPEN",
+      "evidence": [
+        "REPORT_KO.md",
+        "code/mean_collision.py",
+        "tests/test_mean_collision.py",
+        "evidence/BF2_RESULTS.json"
+      ]
+    },
+    {
+      "id": "BF-3",
+      "depends_on": [
+        "BF-1",
+        "BF-2",
+        "DV-1"
+      ],
+      "status": "COMPLETE_SCOPED_STATIC_PERIODIC_LAPSE_TRANSPORT_MEMORY",
+      "goal": "Direct transport in prescribed spatially inhomogeneous spacetime",
+      "claim_gate": "Phase-space x/e/p streaming, boundary flux and characteristic convergence verified",
+      "next_action": "Proceed to CE-1A selected collisionless Bianchi-I selfconsistent source/constraint construction; generic BF-3 extensions remain explicit scope obligations, not auto-run.",
+      "external_prerequisites": [],
+      "subgates": {
+        "BF3-A": {
+          "status": "COMPLETE_SCOPED_PERIODIC_SPATIAL_TRANSPORT_SLICE",
+          "scope": "one periodic coordinate, prescribed homogeneous diagonal Bianchi I, untilted full bolometric photon transport",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/BF3A_RESULTS.json",
+            "code/spatial_transport.py"
+          ]
+        },
+        "BF3-B": {
+          "status": "COMPLETE_SCOPED_RETARDED_SPATIAL_SOURCE_MEMORY",
+          "scope": "same homogeneous prescribed metric; independent unknown spatial source; exact semidiscrete streaming/loss propagator",
+          "evidence": [
+            "code/spatial_memory.py",
+            "evidence/BF3B_RESULTS.json",
+            "evidence/NONLOCAL_KERNEL.json",
+            "REPORT_KO.md"
+          ]
+        },
+        "BF3-C": {
+          "status": "COMPLETE_SCOPED_STATIC_PERIODIC_LAPSE_CHARACTERISTICS",
+          "scope": "positive periodic static lapse, collisionless normal-acceleration/screen/phase-space characteristics only",
+          "evidence": [
+            "REPORT_KO.md",
+            "code/lapse_transport.py",
+            "code/independent_oracles.py",
+            "tests/test_lapse.py",
+            "evidence/BF3C_RESULTS.json"
+          ],
+          "full_spatial_metric_collision_solver": false,
+          "Einstein_feedback": false
+        },
+        "BF3-D": {
+          "status": "COMPLETE_SCOPED_STATIC_LAPSE_INVERSE_FIELD_COLLISIONS",
+          "scope": "periodic static lapse, full-IQUV meridional screen, untilted local cold Thomson, inverse mapping and collocation field comparison; smooth axisymmetric validation fixtures",
+          "code": "bianchi/nonperturbative/lapse_field.py",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/BF3D_RESULTS.json",
+            "evidence/CI_VERIFICATION.json"
+          ],
+          "Einstein_feedback": false,
+          "new_source_memory_solver": false
+        },
+        "BF3-E": {
+          "status": "COMPLETE_SCOPED_RETARDED_STATIC_LAPSE_LOCAL_SOURCE_MEMORY",
+          "code": "bianchi/nonperturbative/lapse_memory.py",
+          "evidence": [
+            "REPORT_KO.md",
+            "evidence/BF3E_RESULTS.json",
+            "evidence/CI_VERIFICATION.json"
+          ],
+          "finite_collocation_and_continuum_remap_distinguished": true,
+          "full_initial_carrier_retained": true
+        }
+      },
+      "scope_admission": "BF3_SCOPED_ADMISSION.json",
+      "scope_partition": {
+        "static_periodic_lapse_bolometric_transport_memory": "COMPLETE_SCOPED",
+        "generic_spacetime_full_frequency": "OPEN",
+        "Einstein_feedback": "NOT_RUN",
+        "production_native": "NOT_RUN",
+        "distinct_author_review": "NOT_RUN"
+      }
+    },
+    {
+      "id": "BF-4",
+      "depends_on": [
+        "BF-3",
+        "CE-1"
+      ],
+      "status": "FUTURE",
+      "goal": "Fully coupled finite-amplitude Einstein-Boltzmann split",
+      "claim_gate": "3+1 Hamiltonian/momentum constraints, source conservation and backreaction convergence",
+      "next_action": "Evolve nonlinear ADM/coframe plus direct and memory block with precise source ownership",
+      "external_prerequisites": [
+        "Constraint-preserving initial-data/gauge solution for the spatially nonhomogeneous metric"
+      ]
+    },
+    {
+      "id": "OB-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "FUTURE_PHASED",
+      "goal": "Harmonic templates and stochastic-fluctuation output with boost attribution",
+      "claim_gate": "TQU, all-m TEB, non-diagonal covariance and endpoint-local boost",
+      "next_action": "Start homogeneous template; coupled fluctuation outputs require BF-4",
+      "external_prerequisites": [],
+      "available_component": "Isolated all-m carrier-to-spin transform on GL sphere; not production observer sky, mask, covariance or general mesh validation",
+      "reuse_note": "DV1-A supplies propagation-direction harmonic RHS, not observer-sky transfer/covariance."
+    },
+    {
+      "id": "PF-1",
+      "depends_on": [
+        "DV-1"
+      ],
+      "status": "DEFERRED",
+      "goal": "Matched-physics kernel-memory performance comparison",
+      "claim_gate": "Same equations/IC/time/accuracy/outputs and no approximation switch",
+      "next_action": "Profile only after physical validity and numerical error floor",
+      "external_prerequisites": []
+    }
+  ],
+  "parent_dag_sha256": "17b020a95aa83011ff64c5a2d5b283be9d2a7fba6e6cf4c09271dd7277ef1080",
+  "overall_physical_completion": null,
+  "production_ready": false,
+  "actual_checks_current_unit": {
+    "local_new_tests": 18,
+    "local_inherited_tests": 39,
+    "scoped_ci_tests": 57,
+    "independent_agent_tests": 18,
+    "coupled_ivp": 9,
+    "pressure_probes": 255,
+    "math_review": "PASS_SCOPED",
+    "code_review": "PASS_SCOPED",
+    "native_code_changed": false,
+    "historical_science_campaigns_replayed": 0,
+    "ci_run": 40785425117
+  },
+  "inherited_previous_design_checks": "Previous node evidence paths refer to their immutable original units; only BF3-E relative paths refer to this bundle. No historical science replay.",
+  "progress": {
+    "count": 9,
+    "total": 15,
+    "note": "CE1-G audit is scoped subgate; original top-level 15 IDs/21 dependencies unchanged"
+  },
+  "publication_status": "S2_REPORT_BUNDLE_COMPLETE_GIT_REMOTE_ACK_IN_FINAL_DELIVERY",
+  "next": "CE1-H_CANDIDATE_ONLY",
+  "metadata_corrections_current_unit": [
+    "Original15 node IDs/edges unchanged. CE1-A closed only as a subgate; upper CE-1 remains PARTIAL and progress9/15 unchanged.",
+    "Remote current parent verified. Parent native/policy failures retained; no CI rerun or expected-hash change."
+  ],
+  "recommended_next_slice": "CE1-H_CANDIDATE_ONLY",
+  "recommended_next_subgate": "CE1-H_CANDIDATE_ONLY",
+  "current_unit": "CE1-G_INDEPENDENT_CACHE_AUDIT_COMPLETE_SCOPED",
+  "inherited_metadata_previous_unit": {
+    "schema": "bass.hierarchy_free.background_fluctuation.dag.v20-bf3c",
+    "proposal_version": "BF3C_20261028",
+    "source_identity": {
+      "repository": "cosmosapjw-quantum/bass",
+      "owner_branch": "research/bass-b3f-cohort-input-error-20261025",
+      "owner_commit": "cc602e209e7deeb511ab2a1f3b2268d55206c43c",
+      "expansion_handoff_commit": "d6af237b66e78ca6ed4572068f6bc1a805bbb2d9",
+      "main_commit_inspected": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+      "existing_volterra_scope": "PR169 LRS massive Einstein-Vlasov first-variation, not photon polarized memory",
+      "current_remote_parent": "aca22f4b7287b642d65caf2c820b681b76ab1309",
+      "legacy_snapshot_fields": "Inherited; not refreshed main/other branches in this scope",
+      "current_parent_commit": "aca22f4b7287b642d65caf2c820b681b76ab1309",
+      "inherited_snapshots_not_refreshed": true
+    },
+    "actual_checks_current_unit": {
+      "scope": "BF3-D",
+      "science_campaigns": 1,
+      "unique_tests": 12,
+      "scientific_calls": {
+        "direct_ivp": 11,
+        "split_histories": 7,
+        "inverse_ray_ivp": 6,
+        "independent_hamiltonian_ivp": 1
+      },
+      "current_science_replays": 0,
+      "historical_science_replays": 0,
+      "native_subagent": "NOT_RUN",
+      "independent_model_review": "NOT_RUN",
+      "ci_run": 40659768531,
+      "native_execution": "NOT_RUN",
+      "metadata_only_label_clarification": true
+    },
+    "recommended_next_node": "BF3-D",
+    "recommended_next_slice": "BF3E_STATIC_LAPSE_RETARDED_LOCAL_SOURCE_MEMORY",
+    "recommended_next_subgate": "BF3-E",
+    "next": "BF3-E",
+    "current_unit": "BF3-D",
+    "progress": {
+      "count": 8,
+      "total": 15,
+      "scope_completed_or_source_mapped_nodes": [
+        "DL-0",
+        "DL-1",
+        "DL-2",
+        "KM-1",
+        "KM-3",
+        "DV-1",
+        "BF-1",
+        "BF-2"
+      ],
+      "note": "Not whole BASS physical completion; inherited scope-specific node admissions only."
+    },
+    "metadata_corrections_current_unit": [
+      "Parent body recorded BF3-C but retained stale BF3-B current/next/check metadata; preserve those fields under inherited_metadata_previous_unit and set current BF3-D explicitly. No dependency or historical scientific admission changed."
+    ]
+  },
+  "repository_admission": {
+    "status": "NOT_READY_INHERITED_FAILURES_NOT_RETESTED",
+    "workflow": 40667473221,
+    "portable_failures": 1,
+    "native_policy_failures": 1,
+    "notes": "Separate existing-policy failures; scientific source/unit unchanged. Native baseline was executed, not new kernel native implementation."
+  },
+  "merge_ready": false,
+  "postcloseout_reconciliation": {
+    "concurrent_pr": 238,
+    "head": "0286dd0a97f512a2dc6f431e462e64bd65267047",
+    "common_c4": "a3ddc5ed49d245e87fe393ec17e889dbc77f540d",
+    "working_pr": 239,
+    "duplicate_node_credit": 0,
+    "source_integration": "COMPARISON_ONLY_NO_MERGE",
+    "sibling_geometry_energy_cap": "PROOF_PREMISE_COUNTEREXAMPLE_RECORDED",
+    "own_Emax": "INCLUDES_EXACT_REAL_DISCRETE_UPPER"
+  },
+  "ce1g_parent_dag_sha256": "cbc74d32c898629ccdb2e59e92ed8cebc54792a03001be9000b94d0355e0d44f",
+  "ce1g_scope": {
+    "R_C_stages": "18/20; R6/C9 independent author NOT_RUN",
+    "production_ready": false,
+    "merge_ready": false,
+    "independent_model_review": "NOT_RUN",
+    "github_scoped_ci": {
+      "run": 40790375589,
+      "job": 123173834020,
+      "result": "SUCCESS",
+      "tests": 72,
+      "wheel": "PASS"
+    },
+    "stage_backup": {
+      "google_drive": 20,
+      "google_drive_size_match": 20,
+      "google_drive_C10_full_byte_match": true,
+      "dropbox_original": 0
+    }
+  },
+  "ce1g_audit_20261029": {
+    "status": "COMPLETE_SCOPED_PROOF_PRECONDITION_REPAIR",
+    "source_changed": "einstein_interval.stored_ray_energy_majorant removes unsafe unkeyed cache",
+    "source_data_mutation_trigger": "source.mass/source.n reassignment after previous certificate",
+    "new_tests": 4,
+    "combined_passed": 76,
+    "selected_original_ref8_numerical_identity": "PASS",
+    "original_ref16_replay": 0,
+    "ci_run": 40805976099,
+    "parent_pr": 240,
+    "upper_progress": "9/15",
+    "native_subagent": "NOT_RUN",
+    "distinct_author_independent_review": "NOT_RUN"
+  }
+}
