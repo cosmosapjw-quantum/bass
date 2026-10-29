@@ -27,7 +27,24 @@ jobs:
       - name: Full scoped CE1-G/H/I/J/K/L/M including adversarial proofs
         run: |
           set -euo pipefail
-          python -m pytest -q tests/nonperturbative
+          # The CE1-M scope is the 15 top-level CE1 modules; recursive
+          # directory collection would include unrelated Bianchi-V SymPy lanes.
+          python -m pytest -q \
+            tests/nonperturbative/test_ce1g_independent_audit.py \
+            tests/nonperturbative/test_ce1j_variant_contract.py \
+            tests/nonperturbative/test_ce1k_canonical_source_local.py \
+            tests/nonperturbative/test_ce1k_cardinality_contract.py \
+            tests/nonperturbative/test_ce1l_physical_table_identity.py \
+            tests/nonperturbative/test_ce1l_positive_stored_residual.py \
+            tests/nonperturbative/test_ce1m_integrated_adversarial.py \
+            tests/nonperturbative/test_einstein_error_budget.py \
+            tests/nonperturbative/test_einstein_exponential_source.py \
+            tests/nonperturbative/test_einstein_interval.py \
+            tests/nonperturbative/test_einstein_physical_input.py \
+            tests/nonperturbative/test_einstein_tabulated_local.py \
+            tests/nonperturbative/test_einstein_tabulated_sharp.py \
+            tests/nonperturbative/test_einstein_tabulated_source.py \
+            tests/nonperturbative/test_einstein_tabulated_time.py
       - name: Exact original input ref8 384-ray rerun, not a benchmark
         run: |
           set -euo pipefail
