@@ -50,7 +50,7 @@ jobs:
           set -euo pipefail
           python -m pytest research/ce1t_20261030/tests/test_cellwise_gl.py -q
       - name: Save raw 41-epoch evidence without claiming an interval proof
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
+        uses: actions/upload-artifact@v4
         with:
           name: ce1t-original-cell-rust-41-epoch-gl
           path: /tmp/ce1t_41_results.json
