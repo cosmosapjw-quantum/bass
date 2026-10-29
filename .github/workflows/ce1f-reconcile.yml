@@ -33,7 +33,9 @@ jobs:
           tests/nonperturbative/test_einstein_interval.py
           tests/nonperturbative/test_einstein_error_budget.py
       - name: Cross-compare pinned sibling with corrected CE1-F on same physics
-        run: python research/ce1f_reconcile_20261029/compare_variants.py /tmp/ce1f_comparison.json | tee /tmp/ce1f_comparison.log
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python research/ce1f_reconcile_20261029/compare_variants.py /tmp/ce1f_comparison.json | tee /tmp/ce1f_comparison.log
       - name: Installed wheel exact stored-energy contract
         run: |
           python -m pip wheel --no-deps . -w /tmp/ce1f-wheel
