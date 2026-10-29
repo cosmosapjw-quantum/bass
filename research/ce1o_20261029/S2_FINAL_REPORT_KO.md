@@ -1,0 +1,13 @@
+# BASS CE1-O | C/MPFR ABI 및 방향성 구간 프로그램 검산 (2026-10-29)
+
+**PR254 원본:** `8a56d15947435fe7dd83cc1b11347c145136321c` (Draft/unmerged), **별도 PR256**의 완결된 범위 한정 연구. 물리 입력은 massless collisionless positive reflection-even all-expanding diagonal Bianchi I Λ=0, signature(-,+,+,+), 6 original exact-binary angular cells, MPFR192, 4 RK4/Hermite panels, 목표 `max|Delta h|<1e-5`로 불변이다. 원래 CE1-M ref8 384-ray h upper `9.411551484445186e-6`는 선행 증거를 사용하며 새 ref8 full run을 주장하지 않는다.
+
+## 정확한 P1 입력·인증 결함과 수정
+`Interval.decimal('nan')`을 MPFR `mpfr_set_str`가 파싱 성공으로 받아들이지만, `mpfr_cmp(NaN,0)`는 0을 반환한다. 실제 이전 코드의 `contains(0)`·`is_nonnegative()` 모두 True라는 허위 인증 반례 재현. MPFR ±Inf literal도 유한 구간으로 허용했다. RED `8 failed, 5 passed` exit1. 수리: `mpfr_number_p` 함수를 명시적 C int ABI로 등록하고 양 끝점의 finite 여부 확인, 내부 corrupt/overflow endpoint의 두 Boolean 인증 검사에서도 fail closed. 정상 MPFR192 RNDD/RNDU 수식, 방정식, 수치 목표 불변. 수정 후 소스 Git blob `122d4a87ccd95d462db7eb58ef925f2b18c4ec33`.
+
+## 독립 C 호출 및 고정밀 비교
+현 로컬 Python3.13.5, GCC14.2.0, libmpfr.so.6 MPFR4.2.2, `mpfr.h` 미설치. 별도 C 코드 `mpfr_abi_oracle.c`를 `cc -std=c11 -Wall -Wextra -Werror -O2 -Wl,-l:libmpfr.so.6`로 빌드해 x86_64 LP64 MPFR struct size32/offsets(0,8,16,24)와 ctypes가 일치함을 확인. 192-bit 외향 binary64 끝점 C vs Python 동일: add/sub/mul/div 260, exp/sqrt/sinh/cosh/tanh 250, **510 exact equality**. Fraction rational inclusion 260, mpmath 120dps inclusion 250, NaN/Inf 7/7 rejected. 공식 MPFR §5.6: https://www.mpfr.org/mpfr-current/mpfr.html .
+
+**Local:** 원본 RED 8 FAIL/5 PASS, focused 39 PASS/5.99s, inherited 13 CE1 modules + CE1-O **127 PASS/30.00s** (initial full-suite timeout isolated and then full same scope rerun, no exclusions). **GitHub PR256 scoped code CI #40877460742 SUCCESS:** `127 passed in 22.72s`, 510 C/FFI comparisons PASS with runner MPFR4.2.1 (different from local 4.2.2), installed wheel `CE1O_INSTALLED_WHEEL_MPFR_NONFINITE_FAIL_CLOSED_PASS`. CE1C #40877460740 and RF-BENCH #40877460791 SUCCESS. RF00 #40877460729 final status requires live verification.
+
+**Bounded verdict:** `COMPLETE_SCOPED_C_ABI_ROUNDING_CROSSCHECK_AND_NONFINITE_GUARD`. Independent C caller and Python wrapper **share same libmpfr binary**, so formal implementation correctness of MPFR/GMP/compiler/CPython and distinct-author R6/C9 are NOT_RUN. Upper DAG **9/15**, edges21, CE1 PARTIAL, `production_ready=false`, `merge_ready=false`, `auto_next=false`. No parent/main merge/edit, no generic polarized Boltzmann source, no performance or publication claim. Next one bounded unit: independent formal program verification or C MPFR developer-header and compiler/toolchain provenance crosscheck; do not re-open solved cache/subcells or NaN failures without a new concrete regression. Stage S0/S1/S2 archival ZIPs, checksum and remote receipts are separately recorded.
