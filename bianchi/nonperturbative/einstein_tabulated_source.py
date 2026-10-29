@@ -211,6 +211,11 @@ def _source(source):
 
 
 def _stored_data(source):
+    # One stored positive ray and mass per refined physical cell is required.
+    # A zip-based pressure bound must never silently omit a mutated ray.
+    ncell = len(source.cells)
+    if np.shape(source.n) != (ncell, 3) or np.shape(source.mass) != (ncell,):
+        raise ValueError("Stored ray/cell cardinality and shape contract violated")
     squared = [tuple(_q(x)**2 for x in row) for row in source.n]
     masses = tuple(map(_q, source.mass))
     if any(w <= 0 for w in masses) or any(sum(row) <= 0 for row in squared):
