@@ -62,3 +62,11 @@ def test_original_physical_table_remains_certifiable():
     assert certify_tabulated_computed_path(
         source,path,shear=(0.,0.,0.)
     )['production_ready'] is False
+
+
+def test_direct_initial_pressure_cap_cannot_bypass_physical_table_lock():
+    from bianchi.nonperturbative.einstein_tabulated_sharp import initial_continuum_pressure_cap
+    source=fixture()
+    source.mu_edges=np.array([0.,.6,1.])
+    with pytest.raises(ValueError,match='physical|table|immutable'):
+        initial_continuum_pressure_cap(source)
