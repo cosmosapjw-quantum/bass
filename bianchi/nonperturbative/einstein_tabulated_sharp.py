@@ -8,7 +8,7 @@ formal proof of the Python/MPFR implementation or a production backend.
 from __future__ import annotations
 
 from .einstein_interval import Interval, _iv_fraction, _maxabs, propagate_interval
-from .einstein_tabulated_source import TabulatedRadiation, _q, _real
+from .einstein_tabulated_source import TabulatedRadiation, _q, _real, _source
 from .einstein_tabulated_time import certify_tabulated_computed_path
 from .einstein_error_budget import HermitePath, rk4_path
 
@@ -23,6 +23,7 @@ def initial_continuum_pressure_cap(source: TabulatedRadiation) -> dict:
     """
     if not isinstance(source, TabulatedRadiation):
         raise TypeError('CE1-F TabulatedRadiation required')
+    _source(source)  # Same frozen physical-cell contract as CE1-F/G direct certifiers.
     pressures = [Interval(0) for _ in range(3)]
     for cell in source.cells:
         # This exact-real identity is a property of unit sphere directions.
