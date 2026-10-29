@@ -1,0 +1,41 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+CURRENT_UNIT=CE1-I_TIME_LOCAL_PRESSURE_JACOBIAN
+STATUS=COMPLETE_SCOPED_TIME_LOCAL_PRESSURE_BOUND
+UPPER_CE1=PARTIAL
+UPPER_DAG=9/15
+AUTO_NEXT=false
+MERGE_READY=false
+PRODUCTION_READY=false
+
+CURRENT_PR=245
+CURRENT_BRANCH=research/bass-ce1i-time-local-jacobian-20261029-r1
+PARENT_PR=242
+PARENT_HEAD=99473c0e6ba8f9d7172cc3fb730f5ac32c7e4677
+OTHER_INDEPENDENT_FIX_PRs=243,244
+
+PHYSICS: positive exact-binary first-octant angular cell energy, eight coordinate reflections, collisionless massless diagonal Bianchi I, Lambda0, expanding normal frame, metric(-,+,+,+), u=t/Tstar, ell=ln a, h=Tstar H. Keep exact original physical angular table and fixed max|Delta h|<1e-5, u=0..0.08 with 4 RK4 panels. No collisions/polarization/global tilt/spatial EFE/production.
+
+DERIVATION: theta'=-theta^2+E, E<=E0, theta0^2=3E0+3sum(s_i^2)/2>=E0. Therefore theta<=theta0, ell_i(u)>=h_i0(1-exp(-theta0*u))/theta0. Each panel combines exact lower at u_left and stored binary Hermite Bernstein lower hull to produce m_j>=0. Nonpositive pressure Jacobian entries and exact row sum 4P_i, with P_i(m1)=exp(-4m)P_i(0), give L_j=4Pmax(0)exp(-4m_j). Use piecewise positive 2x2 Dini propagator. Retain original Emax for continuum geometry and source boxing; retain CE1-G source pressure eta, MPFR full-panel residuals and exact knot jumps without inverse estimates.
+
+RESULTS:
+L_PANEL=[1.3000000000000003,1.257046869944473,1.2168561190192664,1.1792092149491518]
+REF16_RAYS=1536
+REF16_CE1G=3.7019164499698285e-6
+REF16_CE1H=3.675931156248731e-6
+REF16_CE1I=3.6749116877624083e-6
+TARGET_MET=true
+LOCAL_TESTS=89_PASS
+CI_SUCCESS_RUN=40824526528
+INSTALLED_WHEEL=PASS
+NATIVE_SUBAGENT=NOT_RUN
+FORMAL_MPFR_PROGRAM=NOT_RUN
+RF_BENCH=FAILURE_SEPARATE
+
+READ_FIRST: research/ce1i_20261029/{REPORT_KO.md,DAG_RECEIPT.json,S1_RESULTS.json,S2_REF16.json,HANDOFF_KO.txt}, bianchi/nonperturbative/einstein_tabulated_local.py, tests/nonperturbative/test_einstein_tabulated_local.py.
+REPRODUCE (from PR245 checkout): PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m pytest -q tests/nonperturbative/test_einstein_tabulated_{local,sharp,time,source}.py tests/nonperturbative/test_einstein_{exponential_source,physical_input,interval,error_budget}.py
+HEAVY_REF16: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. python research/ce1i_20261029/run_ref16.py
+
+NEXT: verify LIVE heads/CI for PR242,243,244,245. Do NOT duplicate CE1-H or reimplement the already repaired CE1-G cache. Choose one bounded integration decision/review: proof/code independence, branch conflict of parent CE1-H with independent child fix PR243/244, and same-physics tests after explicit candidate cherry-pick on isolated integration branch; DO NOT auto merge without explicit consent. Upper DAG remains 9/15 until top-level CE-1 claim gate separately satisfied.
+At each stage create-only Git + Drive + Dropbox evidence with true ACK/readbacks, actual completed/(15) and exact SHA/identities. Distinguish provider upload from full restore. Deliver next-thread copyable handoff.
