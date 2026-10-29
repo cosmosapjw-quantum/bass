@@ -1,0 +1,85 @@
+name: CE1-V same-source exact rational + MPFR four-panel + BASS Rust
+on:
+  push:
+    branches: [research/bass-ce1v-dual-source-rust-mpfr-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1u-gl-rust-mpfr-20261030-r1]
+permissions:
+  contents: read
+concurrency:
+  group: ce1v-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  cross-verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: '.'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - name: Authenticate original six physical cells and BASS Rust / original MPFR source bytes
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = 'a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84'
+          test "$(git hash-object bianchi/nonperturbative/einstein_tabulated_source.py)" = 'fdeb83a65cd424786ba6bb8ddadbcb2b2e2d45bf'
+          test "$(git hash-object bianchi/nonperturbative/einstein_interval.py)" = 'abbab0990fdefaf535ccbf5191ae3e060cb19214'
+          test "$(git hash-object research/ce1v_20261030/donor/ce1u_cert_source.py)" = '0e8ef8375cf5f26a9a020d6ec878e4b77b5d0560'
+          test "$(git hash-object research/ce1v_20261030/donor/GL6_source_exact_bound.json)" = '4a3442e72ccf41563464092079acf84483da9a0f'
+          test "$(git hash-object research/ce1v_20261030/donor/GL8_source_exact_bound.json)" = '7cc1f9331aa532d86a71f249a9be552367c90860'
+      - name: Frozen scientific Python dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 mpmath==1.3.0
+      - name: Verify original exact-rational K=12 source checker, not just copied floats
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ce1v
+          python research/ce1v_20261030/donor/ce1u_cert_source.py --order 6 --K 12 --output /tmp/ce1v/recomputed6.json
+          python research/ce1v_20261030/donor/ce1u_cert_source.py --order 8 --K 12 --output /tmp/ce1v/recomputed8.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fractions import Fraction
+          for n in (6,8):
+              saved=json.loads(Path(f'research/ce1v_20261030/donor/GL{n}_source_exact_bound.json').read_text())
+              actual=json.loads(Path(f'/tmp/ce1v/recomputed{n}.json').read_text())
+              assert saved['maximum_epsilon_source_exact']==actual['maximum_epsilon_source_exact']
+              assert saved['stored_gl_hashes']==actual['stored_gl_hashes']
+              assert saved['source_sha256']==actual['source_sha256']
+              assert Fraction(actual['maximum_epsilon_source_exact'])>0
+              print('CE1V_EXACT_RATIONAL_DONOR_REPRODUCED',n,actual['maximum_epsilon_source'])
+          PY
+      - name: Source-binding hostile tests
+        run: python -m pytest -q research/ce1v_20261030/tests/test_source_binding.py
+      - name: Recompute complete original four-panel MPFR192 time certificate with tighter rational source
+        run: |
+          set -euo pipefail
+          python research/ce1v_20261030/cross_certify.py --output /tmp/ce1v/dual_result.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/ce1v/dual_result.json'))['cases']
+          assert set(d)=={'6','8'}
+          for n, v in d.items():
+              assert v['fixed_target_met'] and v['new_full_four_panel_h_upper']<1e-5
+              assert v['new_full_four_panel_h_upper'] <= v['old_mpfr_h_upper']
+              assert v['new_source_h_upper']>0
+              print('CE1V_GL'+n+'_MPFR_SCOPED_PASS',v['new_full_four_panel_h_upper'])
+          PY
+      - name: Compile and actually run live original BASS native Rust comoving kinetic diagnostics
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.94.1 --profile minimal
+          rustc +1.94.1 --edition=2021 -C opt-level=2 -A dead_code \
+            research/ce1r_20261030/sky_time_derivative.rs -o /tmp/ce1v_rust
+          /tmp/ce1v_rust --selftest
+          python research/ce1u_20261030/rust_parity.py --binary /tmp/ce1v_rust
+      - name: Preserve machine-readable dual-branch scientific evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CE1V_ORIGINAL_BASS_RUST_MPFR_RATIONAL_PROOFS
+          path: /tmp/ce1v/*.json
+          retention-days: 30
