@@ -49,6 +49,10 @@ jobs:
         run: |
           set -euo pipefail
           python research/ce1m_20261029/REF8_REPLAY.py
+      - name: Independent exact-rational source stress (36 current mutable sources, 108 axes)
+        run: |
+          set -euo pipefail
+          python research/ce1n_20261029/STRESS_CURRENT_SOURCE.py
       - name: Installed-wheel direct-certifier fail-closed and current-source majorant
         run: |
           set -euo pipefail
