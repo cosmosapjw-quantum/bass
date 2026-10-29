@@ -1,0 +1,9 @@
+# CE1-G R6/C9: positive ray fourth-derivative majorant audit
+
+For a stored positive ray with exact-binary weight w>0 and n nonzero, let Z=sum_j n_j^2 exp(-2 ell_j), A=exp(-sum_j ell_j-2 ell_i), and p_i=w*n_i^2*A/sqrt(Z). In an expanding box ell>=0, p_i<=w*sqrt(sum n_j^2): since n_i²*b_i<=Z, A/sqrt(Z)*n_i²<=exp(-sum ell)*sqrt(Z)<=||n||. The fourth derivative via Leibniz is bounded by p_i times a nonnegative polynomial in max absolute ell^(1..3), using ell^(4)=0 for each cubic Hermite panel. Therefore the sum bound Ecap=sum w||n|| (or the outward sum-mass*max-ray-norm bound) MUST correspond to the CURRENT source.mass/source.n at the time of residual certification.
+
+The previous helper cached `_ce1c_stored_mass_cap` on a mutable source, without a key. A previously called source can have mass replaced (CE1-G itself has a test for this), making a previously valid certificate invalid in a later call. S0 witnessed 100x mass replacement: old upper 0.9, actual >=90.0, fourth majorant old2377.9 vs fresh213074.9. This invalidates an auxiliary derivative enclosure premise, not the old fixed-source ref16 campaign.
+
+Minimal fix: remove the unkeyed cache entirely in the shared `stored_ray_energy_majorant`, retaining identical directed arithmetic and branch control. New red tests mass mutation, ray mutation, fourth derivative response, unchanged idempotence. Recorded RED3fail/1pass, GREEN4pass and combined76pass. A preserved old fixed input at refinement8 reproduces exact parent source/time/combined fields byte-for-byte. No physics equations, IVP integrator or user tolerance was modified.
+
+Outstanding: independent full mathematical/software formal proof is not claimed; the Python/MPFR interface and 1536-ray default fixture's new run are not repeated. CE1-G remains a scoped scientific result, CE-1 PARTIAL, upper 9/15.
