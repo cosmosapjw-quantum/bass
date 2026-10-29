@@ -1,0 +1,57 @@
+name: CE1-T positive original-cell GL with BASS live Rust Liouville
+on:
+  push:
+    branches: [research/bass-ce1t-original-cell-gl-rust-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1r-liouville-rust-sky-20261030-r1]
+permissions:
+  contents: read
+concurrency:
+  group: ce1t-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  native-angular-convergence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: '.'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      BASS_CE1T_HISTORY: research/ce1q_20261030/parent_verified/data/continuum_GL40_history.csv
+      BASS_CE1T_RUST: /tmp/bass_ce1t_liouville
+      BASS_CE1T_RESULTS: /tmp/ce1t_41_results.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with: {python-version: '3.13.5'}
+      - name: Frozen Python dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2
+      - name: Original BASS Rust and physical history SHA pin
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = "a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84"
+          test "$(git hash-object research/ce1q_20261030/parent_verified/data/continuum_GL40_history.csv)" = "b7752a67dbc33848f2dc448b79405727d39c24da"
+          test "$(git hash-object research/ce1r_20261030/sky_time_derivative.rs)" != ""
+      - name: Compile and selftest original BASS Rust comoving source through CE1-R CLI
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.94.1 --profile minimal
+          rustc +1.94.1 --version
+          rustc +1.94.1 --edition=2021 -C opt-level=2 -A dead_code research/ce1r_20261030/sky_time_derivative.rs -o /tmp/bass_ce1t_liouville
+          /tmp/bass_ce1t_liouville --selftest
+      - name: Fresh same-geometry six-cell quadrature GL 1 to 40, 41 epochs, C4prime
+        run: |
+          set -euo pipefail
+          python research/ce1t_20261030/cellwise_gl_rust.py --binary /tmp/bass_ce1t_liouville --history "$BASS_CE1T_HISTORY" --output "$BASS_CE1T_RESULTS"
+      - name: Complete physical and independent SciPy quadrature regression
+        run: |
+          set -euo pipefail
+          python -m pytest research/ce1t_20261030/tests/test_cellwise_gl.py -q
+      - name: Save raw 41-epoch evidence without claiming an interval proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: ce1t-original-cell-rust-41-epoch-gl
+          path: /tmp/ce1t_41_results.json
+          retention-days: 30
