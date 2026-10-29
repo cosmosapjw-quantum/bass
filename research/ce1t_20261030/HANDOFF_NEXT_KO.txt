@@ -1,0 +1,92 @@
+$physmath-research-loop
+PROJECT=BASS
+REPO=cosmosapjw-quantum/bass
+UNIT=CE1T_NATIVE_RUST_ORIGINAL_SIX_CELL_GAUSS_LIOUVILLE
+STATUS=COMPLETE_SCOPED_41_EPOCH_NATIVE_C4PRIME_QUADRATURE_CONVERGENCE
+PR=263
+BRANCH=research/bass-ce1t-original-cell-gl-rust-20261030-r1
+PARENT_PR=261
+PARENT_HEAD=e77626cca186724ea9150cee166848ffa9bfbb1e
+SIBLING_PR=262
+BASS_ORIGINAL_RUST_GIT_BLOB=a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+PARENT_GL40_HISTORY_FULL_GIT_BLOB=b7752a67dbc33848f2dc448b79405727d39c24da
+FROZEN_SOURCE_SHA256=022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035
+RUST_SOURCE=research/ce1r_20261030/sky_time_derivative.rs
+NEW_PYTHON_SOURCE=research/ce1t_20261030/cellwise_gl_rust.py
+NEW_PYTHON_SOURCE_GIT_BLOB=6d254e9efc95acc1fd2079bd047d40662986d135
+
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1=PARTIAL
+MERGE_READY=false
+PRODUCTION_READY=false
+AUTO_NEXT=false
+
+FROZEN:
+Six exact-binary original positive angular cells,
+mu=[0,.5,1], t=(2/pi)phi_octant=[0,.25,.75,1],
+E_ij=[[.1,.25,.05],[.2,.15,.15]], E0=.9,
+eight Cartesian reflections, massless collisionless
+normal-observer diagonal expanding Bianchi I, Lambda0,
+metric(-,+,+,+), proper u=t/Tstar 0..0.08, 41 parent
+GL40 DOP853 background records (ell_i,h_i).
+CE1-M prior MPFR192 4-panel h error target 1e-5 remains
+UNALTERED and is NOT recertified for new quadrature.
+
+METHOD:
+Per original physical cell (mu,t) tensor GL(n), 6n*n
+positive rays, each mass E_ij*omega_a*omega_b/4,
+exactly retains original total cell energy modulo
+binary64 roundoff. Different bytes from original
+uniform-midpoint stored quadrature. BASS Rust kinetic
+Frame::apply/det/phys_dirs actually executed in live
+original Git SHA pinned CI; proper u != Frame::step tau.
+
+RESULTS:
+MAX_41_ABS_C4PRIME_GAP_VS_GL40_GL4_96RAYS=1.0533280483379431e-8
+MAX_41_ABS_C4PRIME_GAP_VS_GL40_GL6_216RAYS=1.3228497073788925e-12
+MAX_41_ABS_C4PRIME_GAP_VS_GL40_GL8_384RAYS=1.4677386910022516e-16
+OLD_MIDPOINT_REF8_384RAYS_FIXED_GL40_ENDPOINT_REL_GAP=0.14981786245393458
+OLD_MIDPOINT_REF8_MAX_41_ABS_GAP=3.344305218262508e-5
+EMPIRICAL_ABS_THRESHOLD=1e-9
+MIN_TESTED_UNIFORM_CELLWISE_ORDER_MEETING_THRESHOLD=6
+GL40_NUMERICAL_REFERENCE_NOT_CERTIFIED=true
+SPEEDUP_NOT_MEASURED_FOR_PRODUCTION=true
+
+VALIDATION:
+RUST_1_94_1_LIVE_BASS_SOURCE_COMPILED=true
+LIVE_GITHUB_CI=40916365546_SUCCESS
+NATIVE_RUST_SELFTEST=PASS
+TESTS=19_PASS
+RAY_AND_MASS_SHA_GITHUB_VS_LOCAL=EXACT_MATCH
+NUMERIC_410_ORDER_TIME_RECORDS_MAX_GAP_LT=1e-15
+INDEPENDENT_SCIPY_DERIVATIVE=PASS
+FORMAL_SKY_MPFR_BOUND=NOT_RUN
+DISTINCT_AUTHOR_R6_C9=NOT_RUN
+NATIVE_SUBAGENT=NOT_RUN
+
+READ_FIRST:
+research/ce1t_20261030/S0_THEORY_KO.md
+research/ce1t_20261030/S1_IMPLEMENTATION_KO.md
+research/ce1t_20261030/S2_FINAL_REPORT_KO.md
+research/ce1t_20261030/SCIENCE_SUMMARY.json
+research/ce1t_20261030/DELIVERY_RECEIPTS.json
+research/ce1t_20261030/HANDOFF_NEXT_KO.txt
+research/ce1t_20261030/cellwise_gl_rust.py
+research/ce1t_20261030/tests/test_cellwise_gl.py
+GitHub actions artifact 12914614829; final S2 ZIP.
+
+NEXT_SINGLE_BOUNDED_UNIT=CE1U_RUST_DIFFERENTIAL_AND_MPFR_CERTIFIED_GL_SOURCE
+1. Confirm live PR263 SHA+CI and S0/S1/S2 provider receipts.
+2. Do not repeat the 41-epoch GL2..40 convergence campaign.
+3. Derive safe source discrepancy for arbitrary positive within-cell
+   Gauss quadrature from unchanged original continuum six cells.
+4. Generate new binary GL6/GL8 rays and prove their current source identity;
+   connect Rust E/P/J to independent Python/MPFR192 source error.
+5. Re-run original 4-panel source+time+Einstein geometry certificate
+   with fixed max|delta h|<1e-5, do NOT infer it from GL40 C4prime.
+6. Preserve original source, parent/sibling/main and separate
+   production/thermal/polarization claims. Never auto merge.
+7. Each phase publish Git+Drive+Dropbox true verified receipts,
+   completed_DAG_nodes/total_DAG_nodes and copyable handoff.
+STOP_AFTER_ONE_BOUNDED_UNIT=true
