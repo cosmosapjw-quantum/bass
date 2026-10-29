@@ -72,20 +72,24 @@ def test_refinement_preserves_local_geometry_minima_and_target():
     assert a['rays']==6 and b['rays']==24
 
 
-def test_mutated_source_cannot_reuse_inherited_unsafe_cache():
+def test_recertification_after_positive_mass_rebinding_uses_fresh_majorant():
+    # CE1-J resolves two formerly conflicting behaviours: stale-cache reject
+    # versus fresh-MPFR current-source recertification. Fresh valid inputs win.
     s=fixture()
     p=rk4_path(s,s.initial_state(),.08,2,backend='python_oracle')
-    certify_local_tabulated_path(s,p)
+    initial=certify_local_tabulated_path(s,p)
     s.mass = s.mass.copy()*64.
-    with pytest.raises(ValueError,match='Stale stored-ray'):
-        certify_local_tabulated_path(s,p)
+    changed=certify_local_tabulated_path(s,p)
+    assert changed['source_pressure_upper'] > initial['source_pressure_upper']
+    assert changed['rows'][0]['time_and_jump_envelope'][1] > initial['rows'][0]['time_and_jump_envelope'][1]
+    assert not changed['production_ready']
 
 
 def test_hermite_start_identity_is_required_in_child():
     s=fixture()
     p=rk4_path(s,s.initial_state(),.08,2,backend='python_oracle')
     p.coefficients[0,0,3] += .01
-    with pytest.raises(ValueError,match='Hermite origins'):
+    with pytest.raises(ValueError,match='Hermite.*knot'):
         certify_local_tabulated_path(s,p)
 
 
