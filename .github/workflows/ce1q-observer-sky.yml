@@ -28,18 +28,20 @@ jobs:
           rustup toolchain install 1.94.1 --profile minimal
           rustc +1.94.1 --edition=2021 -C opt-level=2 -A dead_code research/ce1q_20261030/sky_native.rs -o research/ce1q_20261030/sky_native
           research/ce1q_20261030/sky_native --selftest
-      - name: Recompute original 384-ray model sky and independent GL24 with live BASS
+      - name: Fresh six-channel 41-epoch original BASS-native model sky and GL continuum
         env:
           PYTHONPATH: .
-          BASS_CE1Q_PARENT: research/ce1p_20261029
+          BASS_CE1Q_PARENT: research/ce1q_20261030/parent_verified
+          BASS_CE1Q_CE1P_SOURCE: research/ce1p_20261029/source/generate_physical_history.py
           BASS_CE1Q_RUST: research/ce1q_20261030/sky_native
-        run: python research/ce1q_20261030/produce_sky.py --quick --output /tmp/ce1q_sky_ci
+        run: python research/ce1q_20261030/produce_sky.py --output /tmp/ce1q_sky_ci
       - name: Full saved-data CE1-Q science test
         env:
           PYTHONPATH: .
-          BASS_CE1Q_PARENT: research/ce1p_20261029
+          BASS_CE1Q_PARENT: research/ce1q_20261030/parent_verified
+          BASS_CE1Q_CE1P_SOURCE: research/ce1p_20261029/source/generate_physical_history.py
           BASS_CE1Q_RUST: research/ce1q_20261030/sky_native
-          BASS_CE1Q_DATA: research/ce1q_20261030/data
+          BASS_CE1Q_DATA: /tmp/ce1q_sky_ci
         run: python -m pytest research/ce1q_20261030/tests/test_sky.py -q
       - name: Python compile all
         run: python -m compileall -q research/ce1q_20261030
