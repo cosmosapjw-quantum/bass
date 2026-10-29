@@ -54,15 +54,56 @@ def test_real_rf01_adapter_is_repeatable_and_bound_without_timing(
     second = adapter(workload["inputs"])
     assert first == second
     observed_digest = _canonical_digest(first)
-    assert observed_digest == workload["functional_output_sha256"], (
-        "RF01_FROZEN_OUTPUT_MISMATCH: "
-        + json.dumps({
-            "workload_id": workload_id,
-            "expected_digest": workload["functional_output_sha256"],
-            "observed_digest": observed_digest,
-            "observed_output": first,
-        }, sort_keys=True)
-    )
+    if workload_id == "runtime_plan_warm_construct":
+        from bianchi.backend_policy import (
+            BackendPolicy, REFERENCE_NATIVE_BUILD, capability_report,
+        )
+
+        provenance = capability_report(
+            BackendPolicy.RUST_REQUIRED,
+            probe_legacy_global_pool=False,
+        )
+        if provenance["installed_native_payload_fingerprint_verified"]:
+            # Exact frozen output is admitted only for the verified installed wheel.
+            assert observed_digest == workload["functional_output_sha256"]
+        else:
+            # This CI job intentionally builds an unverified development wheel.
+            # Do NOT assign frozen release/feature provenance to that wheel or
+            # report its actual payload as matching the reference artifact.
+            assert provenance["native_dispatch_provenance_state"] == (
+                "unverified_development_payload"
+            )
+            assert provenance["production_native_dispatch_permitted"] is False
+            assert provenance["development_override_active"] is True
+            assert first["build_profile"] is None
+            assert first["optional_features"] == []
+            assert observed_digest != workload["functional_output_sha256"]
+
+            # Compare the invariant architecture fields against the immutable
+            # reference output, with the *reference* provenance used solely
+            # as a comparison fixture, not as the observed build identity.
+            reference_projection = dict(first)
+            reference_projection["build_profile"] = REFERENCE_NATIVE_BUILD[
+                "build_profile"
+            ]
+            reference_projection["optional_features"] = list(
+                REFERENCE_NATIVE_BUILD["optional_features"]
+            )
+            assert _canonical_digest(reference_projection) == (
+                workload["functional_output_sha256"]
+            )
+            print("RF01_DEV_ARCH_EQUIVALENT_REFERENCE_NOT_VERIFIED")
+    else:
+        # The overhead fixture has no artifact-provenance-dependent fields.
+        assert observed_digest == workload["functional_output_sha256"], (
+            "RF01_FROZEN_OUTPUT_MISMATCH: "
+            + json.dumps({
+                "workload_id": workload_id,
+                "expected_digest": workload["functional_output_sha256"],
+                "observed_digest": observed_digest,
+                "observed_output": first,
+            }, sort_keys=True)
+        )
 
     if workload_id == "runtime_plan_memory_allocation_ffi_overhead":
         assert first["ffi_compute_entries"] == 1
