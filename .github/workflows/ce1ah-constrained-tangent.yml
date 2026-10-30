@@ -23,6 +23,8 @@ jobs:
         run: python research/ce1ah_20261031/source/ce1ah_tangent.py --orders 6,8,16 --epochs 401
       - name: Test 19 new physical/tangent/perturbed and adversarial checks
         run: python -m pytest -q research/ce1ah_20261031/source/test_ce1ah.py
+      - name: Restore byte-locked CE1AF generated CSV from its immutable gzip
+        run: python -c "from pathlib import Path;import gzip,hashlib;p=Path('research/ce1af_20261030/data/CE1AF_PHYSICAL_TIMELINE.csv.gz');assert hashlib.sha256(p.read_bytes()).hexdigest()=='10947bc1f442e46ee11fd9d2522aa1bc5eaa806211e10d5ab492566da08fb9ca';p.with_suffix('').write_bytes(gzip.decompress(p.read_bytes()))"
       - name: Test 24 unchanged source-parent physics controls
         run: python -m pytest -q research/ce1af_20261030/source/test_ce1af.py
       - name: Generate scientific figures
