@@ -1,0 +1,44 @@
+name: CE1AB original-six-cell DOP853 MPFR192 continuity
+on:
+  push:
+    branches:
+      - research/bass-ce1ab-dop853-continuous-mpfr192-20261030-r1
+  pull_request:
+    paths:
+      - "research/ce1ab_20261030/**"
+      - ".github/workflows/ce1ab-dop853-continuity.yml"
+permissions:
+  contents: read
+jobs:
+  scoped-physics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install source-compatible scientific environment
+        run: python -m pip install "numpy==2.3.5" "scipy==1.17.0" "pytest>=9,<10"
+      - name: Restore exact S1 original-source-locked physical evidence
+        run: |
+          python - <<'PY'
+          import zipfile, pathlib, hashlib, json
+          root=pathlib.Path('research/ce1ab_20261030')
+          with zipfile.ZipFile(root/'CE1AB_S1_IMPLEMENTATION_AND_SCIENCE_20261030.zip') as z:
+              assert z.testzip() is None
+              manifest=json.loads(z.read('ce1ab_20261030/PACKAGE_MANIFEST_SHA256.json'))
+              for name, spec in manifest['payload'].items():
+                  data=z.read(name)
+                  assert len(data)==spec['size']
+                  assert hashlib.sha256(data).hexdigest()==spec['sha256']
+                  sub=pathlib.PurePosixPath(name).relative_to('ce1ab_20261030')
+                  if str(sub).startswith('results/'):
+                      dest=root/sub
+                      dest.parent.mkdir(exist_ok=True,parents=True)
+                      dest.write_bytes(data)
+          PY
+      - name: Test new scientific claim and source identity
+        run: python -m pytest -q research/ce1ab_20261030/tests/test_ce1ab.py
+      - name: Compile exact-stage Python
+        run: python -m compileall -q research/ce1ab_20261030/replay_dop853.py research/ce1ab_20261030/mpfr_defect.py research/ce1ab_20261030/mpfr_angular_transport.py
