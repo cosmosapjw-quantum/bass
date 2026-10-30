@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 ROOT=Path(__file__).resolve().parents[1]
+(ROOT/'figures').mkdir(parents=True, exist_ok=True)
 with (ROOT/'data'/'COUPLED_SIXCELL_DENSE_TIME_SKY.csv').open() as f:
  rows=[r for r in csv.DictReader(f) if r['GL']=='64']
 u=np.array([float(r['u']) for r in rows]); C4=np.array([float(r['C4_fractional']) for r in rows]);raw=np.array([float(r['C4_raw_energy']) for r in rows]);
