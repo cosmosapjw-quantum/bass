@@ -23,6 +23,9 @@ from research.ce1t_20261030.cellwise_gl_rust import (
 )
 from research.ce1u_20261030.certified_gl_source import sample_gl_source
 from research.ce1x_20261030.rust_l4_parity import _binpath
+from research.ce1x_20261030.certify_l4 import ceil_decimal
+from research.ce1v_20261030.cross_certify import load_donor
+from research.ce1w_20261030.time_panels import _certify_same_source
 from research.ce1z_20261030.gram_spectrum import read_rows, sky_modes
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -158,9 +161,42 @@ def certify_pair(order, steps, t, l4, prior):
     require(tm["subcells"]==1 and tm["steps"]==steps, "Time certificate changed")
     path=rk4_path(src,src.initial_state(tuple(SHEAR)),.08,steps,backend="python_oracle")
     path_sha=_binpath(path.coefficients)
-    require(path_sha==tm["path_sha256"]["coefficients"]
-            and path_sha==cert["parent_path_coefficients_sha256"],
-            "Original certified binary Hermite coefficient SHA mismatch")
+    predecessor_sha=tm["path_sha256"]["coefficients"]
+    require(predecessor_sha==cert["parent_path_coefficients_sha256"],
+            "Original predecessor certified path SHA inconsistency")
+    # This exact decimal certificate is an upward rounding of the historical
+    # exact-rational source-only term + 246* the original binary64 outward
+    # path ell bound. Recheck before using EITHER historical or fresh path.
+    source_only=Fraction(lc["source_only_cross_kernel_error"])
+    original_bound=source_only+246*Fraction.from_float(float(tm["final_ell_upper"]))
+    require(ceil_decimal(original_bound)==cert["total_cross_kernel_upper_ceil_27"],
+            "Invalid frozen PR270 exact-real positive l4 bound")
+    # Different GitHub CPU runners can regenerate different exact-binary
+    # Hermite coefficient arrays from the SAME deterministic physical inputs.
+    # Never borrow the predecessor path proof for a distinct byte identity.
+    # Re-run the original MPFR192 residual/Dini certificate only for the
+    # newly produced path, then compose with the unchanged EXACT K12 source
+    # fraction. This is a targeted constructive repair, not a waived guard.
+    new_time=None
+    if path_sha==predecessor_sha:
+        epsilon_decimal=cert["total_cross_kernel_upper_ceil_27"]
+        path_certification="DIRECT_BYTE_IDENTICAL_PREDECESSOR_REUSE"
+        active_h_upper=tm["final_h_upper"]
+    else:
+        new_time=_certify_same_source(src,load_donor(order),order,steps,subcells=1)
+        require(new_time["path_sha256"]["coefficients"]==path_sha
+                and new_time["source_ray_sha256"]==actual[0]
+                and new_time["source_mass_sha256"]==actual[1]
+                and new_time["physical_source_sha256"]==SOURCE_SHA
+                and new_time["steps"]==steps
+                and new_time["target_h"]==1e-5 and new_time["target_met"],
+                "Fresh runner path MPFR192 recertification binding failed")
+        fresh_ell=Fraction.from_float(float(new_time["final_ell_upper"]))
+        require(fresh_ell>0 and fresh_ell<Fraction(1,100000),
+                "Fresh path ell envelope invalid")
+        epsilon_decimal=ceil_decimal(source_only+246*fresh_ell)
+        path_certification="NEW_BYTE_PATH_FRESH_WHOLE_PANEL_MPFR192_CERTIFIED"
+        active_h_upper=new_time["final_h_upper"]
     ell0,ellT=endpoints_exact_binary_hermite(path)
     pi=exact_pi()
     E0,a0,x0=l4_endpoint(src,ell0,pi)
@@ -168,7 +204,7 @@ def certify_pair(order, steps, t, l4, prior):
     k00,k0T,kTT=kernel(x0,x0),kernel(x0,xT),kernel(xT,xT)
     require(k00.lower>0 and k0T.lower>0 and kTT.lower>0,
             "Positive K4 Gram principal entries premise failed")
-    eps=I.decimal(cert["total_cross_kernel_upper_ceil_27"])
+    eps=I.decimal(epsilon_decimal)
     require(eps.lower>0 and eps.upper<1e-3,
             "Invalid frozen PR270 exact-real positive l4 bound")
     require(cert["valid_for_both_epochs"].startswith("all u,v"),
@@ -197,6 +233,10 @@ def certify_pair(order, steps, t, l4, prior):
     return {
         "case":name,"source_rays":6*order*order,
         "path_coefficients_binary_git_sha256":path_sha,
+        "predecessor_path_coefficients_sha256":predecessor_sha,
+        "path_time_certificate_binding":path_certification,
+        "active_path_h_certified_upper":active_h_upper,
+        "fresh_runner_path_MPFR192_full_time_proof":new_time,
         "original_Rust_CSV_SHA256":hashlib.sha256(sky_path.read_bytes()).hexdigest(),
         "original_strict_h_target":1e-5,"old_h_certified_upper":tm["final_h_upper"],
         "MPFR_bits":BITS,"MPFR_pi":"directed_mpfr_const_pi",
@@ -207,8 +247,8 @@ def certify_pair(order, steps, t, l4, prior):
         "stored_exact_real_K4_intervals":[
             {"lower":v.lower,"upper":v.upper} for v in exact_mpf_iv
         ],
-        "PR270_source_plus_geometry_exact_upper_decimal":
-            cert["total_cross_kernel_upper_ceil_27"],
+        "PR270_source_plus_geometry_exact_upper_decimal":epsilon_decimal,
+        "PR270_original_path_upper_decimal":cert["total_cross_kernel_upper_ceil_27"],
         "continuum_two_time_minor_lower_outward":determinant_lower,
         "continuum_two_time_minor_upper_outward":determinant_upper,
         "continuum_two_time_minor_strict_positive":bool(determinant_lower>0),
@@ -243,7 +283,9 @@ def run(output: Path, *, orders=(6,8), steps=(4,8,16)):
         "proof_dependency":"Source/geometry continuum-vs-exact stored path from PR270; MPFR192 directly encloses stored GL sky from immutable binary rays and cubic path",
         "result_scope":"Conditional rigorous numerical certificate for fixed original expanding collisionless Bianchi I physical continuum",
         "this_run_new_directed_MPFR192_stored_sky":True,
-        "new_full_time_residual_or_exact_K12_source_rerun":False,
+        "original_K12_source_rerun":False,
+        "full_time_residual_when_regenerated_path_sha_differs":
+            "TARGETED_SCOPED_MPFR192_RECERTIFICATION_ONLY_ON_BYTE_MISMATCH",
         "original_h_target_unchanged":1e-5,"unmerged":True,
         "upper_dag":"9/15","ce1":"PARTIAL","new_upper_nodes":0,
         "production_ready":False,"merge_ready":False,"auto_next":False,
