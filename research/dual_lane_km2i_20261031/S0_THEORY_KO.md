@@ -1,0 +1,26 @@
+# BASS KM-2I | 실제 Einstein–Bianchi I 기하에서 Lyα 방향별 Sobolev 탈출 및 동적 수소 재결합
+
+2026-10-31 KST. 기준: `cosmosapjw-quantum/bass` Draft PR285 HEAD `75f9dca9907cbc62af837547c2ba8591ad72bdee`. 원본 KM2A–KM2H 편광 P8 photon/Einstein 소스 및 CLASS·HYREC 자료 byte-locked, 모두 수정 금지. 상위 BASS DAG **9/15**, `KM2=PARTIAL`, 새로운 상위 노드 **0**. 이번 유닛은 rate-dynamical **one-way microphysics pilot**이고, 전자분율을 P8 Thomson·Einstein RHS에 되먹임하지 않는다. 이 결과를 완전한 self-consistent recombination 또는 관측예측으로 승격하지 않는다.
+
+## 동기와 문헌/원본
+
+PR285의 `x_e^{FLRW}(z_vol)`는 외부 입력이다. 이를 독립 H 이온화 동역학으로 대체하는 첫 재현 가능한 구성적 하위 계산을 만든다. 원본 CLASS ZIP `class_public-master.zip` SHA256 `d1b2e1ce2b49de472e2cca9a327dc51c351e75bc0a2ad37d2e6538df76b289b7`에서 `external/RecfastCLASS/wrap_recfast.c`, `wrap_recfast.h`의 α_B PPB 계수, β_B, Lyα escape 및 Λ2s를 확인했다. 물리 이론 원전: Seager, Sasselov & Scott, ApJ **523**, L1 (1999), DOI 10.1086/307339; Seager et al., ApJS **128**, 407 (2000), DOI 10.1086/313388; Lee & Ali-Haïmoud, PRD **102**, 083517 (2020), DOI 10.1103/PhysRevD.102.083517. 후자는 더 정확한 원자물리이므로 Peebles pilot과 정확성 동일성 주장 금지.
+
+## 범위·컨벤션·단위
+
+우주 배경은 실제 **원래 PR285 HYREC 외부 불투명도**에 따라 계산된 Einstein–Bianchi I/원본 편광 P8 IVP 그대로, metric `(-,+,+,+)`, Λ=0, 정상시간 `u=t/T_*`이고 `T_* = 218601.80677272403` Julian years. 실제 기하 `H(u),σ_{ij}(u),ζ(u),γ_b(u)`를 별도 읽기 전용 입력으로 사용. 방향은 **그 시점의 normal-frame 국소 isotropic angular grid** (원래 photon angular coordinates and weights, 재복사 ray weights 아님). `H_parallel(n)=[H+σij n_i n_j]/T_*` in s^-1; 이 계산은 정상 관측자 기준 Sobolev 근사다. 실제 baryon tilt-dependent transfer와 excitation statistical tensor는 이 유닛에서 **미포함**.
+
+Lyα wavelength `λ_α=121.567e-9 m`, `A_{2p→1s}=6.265e8 s^-1`, two-photon `Λ_{2s→1s}=8.2245809 s^-1`. 중성원자 proper 밀도 `n_1s=(1-x_e) n_H^rest(u)` (n=2 비점유 Peebles 근사). 방향 Sobolev depth `τ_S(n)=3 λ_α³ A_21 n_1s/[8π H_parallel(n)]`, `P_esc(n)=(1-e^(-τ_S(n)))/τ_S(n)`, and effective angle-averaged Lyα net transition `Λ_α=3 A_21 <P_esc>`, with `<...>=∫...dΩ/4π`. 3 factor counts 2p degeneracy and yields standard Peebles `8π H_parallel/(λ³n_1s)` in optically thick regime. Require positive H_parallel for all n and `τ_S>0`. A numerical `expm1` evaluation protects thin limit.
+
+The original real-gravitational shear is traceless. For `τ_S≫1`, **derive**
+`<Λ_α> = 8π H_phys/(λ³n_1s)` and `Q_ij ≡ <(n_i n_j-δij/3)Λ_α(n)>/<Λ_α> = (2/15) σ_ij/H + O(e^-τ)`, from `<n_i n_j>=δij/3` and `<n_i n_j n_k n_l>=(δijδkl+δikδjl+δilδjk)/15`. Thus angular Lyα escape has a real quadrupole at first order in shear even though its *isotropic average* has no first-order shear contribution. No general no-go conclusion about recombination anisotropy: nonisotropic excitation, actual spectral Lyα transport, baryon tilt can all break this cancellation.
+
+Independent Peebles effective-3-level rates use CLASS/RECFAST source coefficients: `α_B(T_m)=10^-19 m³ s^-1×4.309 (T_m/10⁴K)^(-0.6166)/[1+0.6703(T_m/10⁴K)^0.5300]`, no empirical fudge/gaussian. `β_B(T_γ)=α_B(T_γ)(2πm_e k_B T_γ/h_P²)^(3/2)exp[-χ_2/(k_B T_γ)]` with χ_2=3.4 eV, `E_α=10.2eV`. `T_γ=T_CMB,0(1+z_vol)`, `T_m=HYREC native FLRW T_m(z_vol)` as an *external temperature history*, not evolved heat equation. Lyα + two-photon branching `C=(Λ_α+Λ_2s)/(Λ_α+Λ_2s+β_B)`. Proper-time net hydrogen ionization ODE:
+
+`dx_e/du=T_* C [β_B(1-x_e)exp(-E_α/(k_B T_γ)) - α_B(T_m) n_H^rest x_e²]`, initialized exactly at native HYREC-2 `x_e(1200)=0.32208146832`. The ODE rate depends on its own dynamic `x_e`, so this is a *real recombination equation solve*, not an interpolated FLRW electron history. `x_e=0` and `x_e=1` boundary flux signs must point inward. Normal n_H and temperature/H inputs inherit the **original synthetic BASS background**: initial `nH_BASS/nH_CLASS≈5.73964`, no observed-universe match. Dynamic hydrogen and charge neutrality are explicit diagnostics: `n_e=n_p=x_e n_H`, `n_HI=(1-x_e)n_H`; total H-nuclei and electric charge exact.
+
+Binding-energy bookkeeping: `χ_H=13.6 eV`, `E_bind_comoving_per_H = -χ_H(1-x_e)`, `dE_bind_per_H/du=χ_H x_e'`, and the *missing* radiative source `q_chem= -χ_H n_H^rest x_e'/T_*` in J m^-3 s^-1, with a comoving integral `χ_H[x_e(0)-x_e(u)]` in eV/H. This source is **not deposited** into frequency-integrated original P8, electron thermal or Einstein stress. Preserve its magnitude to quantify and prioritize the next actual fully coupled step; no full energy-conservation claim for the augmented bookkeeping.
+
+## 물리 실험 및 완료 기준
+
+Run actual parent nθ=12,16, original HYREC external-opacity Einstein IVPs on `u∈[0,.25]`; dynamically solve independent Peebles ODE with (i) anisotropic directional Lyα Sobolev escape, (ii) isotropic H-only Sobolev control on the *same actual geometry* for identical IC. Output 5+41 epochs each, sampled full directional spectral Lyα τ and P distributions and quadrupole, electron fraction, recombination rate, C factor, binding energy budget, and original HYREC FLRW xe as a comparison, not claim of same atom solver. Check `x_e∈(0,1)`, charge conservation, source Git blobs, proper unit identities, analytic quadrupole `(2/15)σ/H`, sharp angular mean cancellation, `σ→0` and optical thin/opaque limits, and reproducibility across GL orders. Time integration and reference ODE are a single one-way chemistry unit: **NO chemistry→P8/Einstein feedback yet**. In no event increment upper DAG 9/15 or merge PR. Freeze S0 theory, S1 science, S2 report/test/CI, archive and handoff, then STOP.
