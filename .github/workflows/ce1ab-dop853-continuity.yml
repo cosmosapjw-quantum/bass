@@ -26,52 +26,73 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: "3.13.5"
-      - name: Install exact scientific Python dependencies
+      - name: Install pinned scientific Python dependencies
         run: python -m pip install "numpy==2.3.5" "scipy==1.17.0" "pytest==9.0.2"
-      - name: Verify original immutable source, stored history, S1 archive and MPFR runtime
+      - name: Verify original source and immutable source-qualified S1 replay polynomial
         run: |
           set -euo pipefail
           test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = "a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84"
           sha256sum research/ce1aa_20261030/input/GL6_DOP853_coupled_41epochs.csv | grep '^6eff8cd9f31d027bbee55720332302b6fbad71b3639b5809aab6b9ce6f53e489'
           sha256sum research/ce1aa_20261030/input/GL8_DOP853_coupled_41epochs.csv | grep '^1398980ec71662494273e05eb4bd52a78f6e6c7f208702638da6c739698f7502'
+          sha256sum research/ce1ab_20261030/CE1AB_S1_IMPLEMENTATION_AND_SCIENCE_20261030.zip | grep '^127adc79aa39a7cb19514efab27c990dbf7c1c8da5f710cfc064f1ddb262f77e'
           ldconfig -p | grep 'libmpfr.so.6'
           python - <<'PY'
-          import zipfile, hashlib, json, pathlib
-          root = pathlib.Path("research/ce1ab_20261030")
-          with zipfile.ZipFile(root/"CE1AB_S1_IMPLEMENTATION_AND_SCIENCE_20261030.zip") as z:
+          import zipfile, pathlib, hashlib, json
+          root = pathlib.Path('research/ce1ab_20261030')
+          names = {6:'f9aedee7531efb3df31d69f9105a8b65d7d44f749b2d8acd559f24a1bcf72f28',
+                   8:'6cea7af8f10130a20182d1fd79b5873f7fa4229548799c26880b2b8a9414ef83'}
+          with zipfile.ZipFile(root/'CE1AB_S1_IMPLEMENTATION_AND_SCIENCE_20261030.zip') as z:
               assert z.testzip() is None
-              m = json.loads(z.read("ce1ab_20261030/PACKAGE_MANIFEST_SHA256.json"))
-              for name, spec in m["payload"].items():
+              m = json.loads(z.read('ce1ab_20261030/PACKAGE_MANIFEST_SHA256.json'))
+              for name,spec in m['payload'].items():
                   raw = z.read(name)
-                  assert len(raw) == spec["size"]
-                  assert hashlib.sha256(raw).hexdigest() == spec["sha256"]
+                  assert len(raw)==spec['size'] and hashlib.sha256(raw).hexdigest()==spec['sha256'], name
+              for order,sha in names.items():
+                  name = f'ce1ab_20261030/results/GL{order}_REPLAY_DOP853_DENSE.json'
+                  raw=z.read(name)
+                  assert hashlib.sha256(raw).hexdigest()==sha
+                  dest=root/'results'/f'GL{order}_REPLAY_DOP853_DENSE.json'
+                  dest.parent.mkdir(parents=True,exist_ok=True)
+                  dest.write_bytes(raw)
+                  obj=json.loads(raw)
+                  assert obj['replay_target_status']=='EXACT' and obj['num_binary64_equal_saved_states']==246
           PY
-      - name: Fresh original DOP853 41-epoch exact-input replay for both GL orders
+      - name: Diagnose independent runner DOP853 path without overriding proof inputs
         run: |
           set -euo pipefail
-          python research/ce1ab_20261030/replay_dop853.py
-      - name: Fresh directed MPFR192 DOP853 continuous IVP defect and nonlinear trajectory bounds
+          python - <<'PY'
+          import pathlib,sys
+          sys.path.insert(0,'research/ce1ab_20261030')
+          from replay_dop853 import run
+          out=pathlib.Path('research/ce1ab_20261030/diagnostic_remote_replay')
+          for n in (6,8):
+              a=run(n,out)
+              print('DIAGNOSTIC_ONLY:',n,'f64_equal',a['num_binary64_equal_saved_states'],'/246; max_abs_delta=',a['max_abs_saved_state_difference'])
+          # No source rerun is admitted as the original immutable 41-state carrier.
+          PY
+      - name: Independently regenerate MPFR192 defect on source-locked exact-dyadic polynomial
         run: |
           set -euo pipefail
           python research/ce1ab_20261030/mpfr_defect.py --n 6 --divisions 32
           python research/ce1ab_20261030/mpfr_defect.py --n 8 --divisions 32
-      - name: Fresh original six-cell l4 angular Jacobian and continuum rank2 transport
+      - name: Independently regenerate original continuum angular Jacobian and Gram transport
         run: |
           set -euo pipefail
           python research/ce1ab_20261030/mpfr_angular_transport.py --n 6 --divisions 32
           python research/ce1ab_20261030/mpfr_angular_transport.py --n 8 --divisions 32
-      - name: Test freshly regenerated source, physical claim, and integrity
+      - name: Check fresh physical result, sample geometry error, and 12 scoped regressions
         run: |
           set -euo pipefail
           python -m pytest -q research/ce1ab_20261030/tests/test_ce1ab.py
           python -m compileall -q research/ce1ab_20261030/replay_dop853.py research/ce1ab_20261030/mpfr_defect.py research/ce1ab_20261030/mpfr_angular_transport.py research/ce1ab_20261030/tests
-      - name: Preserve fresh scientific data and exact scope reports
+      - name: Preserve recomputed scientific raw results and independent diagnostic
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: CE1AB_FRESH_MPFR192_GL6_GL8_IVP_GRAM
+          name: CE1AB_FROZEN_POLY_FRESH_MPFR192_GL6_GL8
           path: |
             research/ce1ab_20261030/results/
+            research/ce1ab_20261030/diagnostic_remote_replay/
             research/ce1ab_20261030/CE1AB_DERIVATION_KO.md
             research/ce1ab_20261030/REPORT_KO.md
             research/ce1ab_20261030/CLAIM_GATE.json
