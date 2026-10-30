@@ -1,0 +1,33 @@
+{
+  "schema": "bass.ce1ae.conditional_true_continuous_time_integral_kernel_min_eigenvalue.v1",
+  "parent_pr": 281,
+  "parent_head": "f80f03d33a8b98cd49dfb9cda85ae316d868cdf6",
+  "original_source_sha256": "022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035",
+  "strict_sampled_Gram_lambda3_inherited_rational": "3/1000000000000",
+  "per_sample_abs_projection_lower_rational": "1/4000000",
+  "physical_hubble_upper_rational": "9/10",
+  "Lipschitz_norm_bound_rational": "150",
+  "local_one_sided_duration_rational": "1/1200000000",
+  "strict_uniform_du_integral_Gram_lambda3_lower_rational": "1/76800000000000000000000",
+  "strict_integral_Gram_simple_lower_rational": "1/100000000000000000000000",
+  "conditional_on": [
+    "valid original 6-cell continuum Einstein-Vlasov source, positive massless angular density",
+    "correct original CE1-AD strict sampled Gram lambda3 >3e-12",
+    "input source, EOS and proper-time conventions unchanged"
+  ],
+  "derivation": [
+    "For any unit v, sum_j (v dot X(u_j))^2 > 3e-12; 41*a^2<3e-12 implies some |v dot X(u_j)|>a=1/4e6.",
+    "Positive original angular mass yields |partial_ell_j X|_2<50 by normalized polynomial covariance bounds.",
+    "Einstein-Vlasov positive pressure, E<1 and h_i(0)<.8 imply |h_i(u)|<.9 on [0,.08]. Hence ||X_prime(u)||_2 < 135 < L=150.",
+    "Within one-sided radius a/(2L) from that u_j, |v dot X(u)|>a/2.",
+    "Integral du (v dot X(u))^2 > (a/(2L))*(a/2)^2=a^3/(8L)>1e-23.",
+    "The three nonzero eigenvalues of integral kernel operator K4(u,v)=X(u).X(v) on L2([0,.08],du) are equal to eigenvalues of G=integral X X^T du."
+  ],
+  "status": "EXACT_RATIONAL_ALGEBRA_DERIVED_CONDITIONAL_ON_PARENT_41_SAMPLED_CERT",
+  "numerical_spectrum_not_used_in_inequality": true,
+  "UPPER_DAG": "9/15",
+  "CE1": "PARTIAL",
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false
+}
