@@ -1,0 +1,60 @@
+name: CE1-AA exact original GL source MPFR192 fixed-geometry secondary temporal sky mode
+on:
+  push:
+    branches: [research/bass-ce1aa-mpfr192-second-temporal-mode-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1z-gram-spectral-physics-20261030-r1]
+permissions:
+  contents: read
+concurrency:
+  group: ce1aa-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  original-physical-source-mpfr:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      PYTHONPATH: research/ce1aa_20261030/source
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Pin BASS original physical source, original geometry and original GL generation
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = 'a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84'
+          test "$(git hash-object research/ce1aa_20261030/source/cellwise_gl_rust.py)" = '6d254e9efc95acc1fd2079bd047d40662986d135'
+          sha256sum research/ce1aa_20261030/input/GL6_DOP853_coupled_41epochs.csv | grep '^6eff8cd9f31d027bbee55720332302b6fbad71b3639b5809aab6b9ce6f53e489'
+          sha256sum research/ce1aa_20261030/input/GL8_DOP853_coupled_41epochs.csv | grep '^1398980ec71662494273e05eb4bd52a78f6e6c7f208702638da6c739698f7502'
+          ldconfig -p | grep 'libmpfr.so.6'
+      - name: Scientific Python environment pinned
+        run: python -m pip install numpy==2.3.5 mpmath==1.3.0 pytest==9.0.2 matplotlib==3.10.7
+      - name: Regenerate actual 192-bit directed source and 3362 two-time physical intervals
+        run: |
+          set -euo pipefail
+          python research/ce1aa_20261030/source/interval_k4_spectrum.py
+      - name: Verify original continuum λ2 rigorous source transfer and 19 scoped scientific tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q research/ce1aa_20261030/tests/test_mpfr192_physics.py
+          python -m compileall -q research/ce1aa_20261030/source research/ce1aa_20261030/tests
+      - name: Render actual K4 interval/Gram physical plots
+        run: python research/ce1aa_20261030/source/plot_physics.py
+      - name: Preserve actual MPFR hex interval source data and proof witnesses
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1AA_REAL_192BIT_FROZEN_GEOMETRY_PHYSICAL_MODE
+          path: |
+            research/ce1aa_20261030/data
+            research/ce1aa_20261030/figures
+            research/ce1aa_20261030/THEORY_KO.md
+            research/ce1aa_20261030/REPORT_KO.md
+          if-no-files-found: error
+          retention-days: 60
