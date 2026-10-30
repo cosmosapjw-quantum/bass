@@ -197,6 +197,7 @@ def independent_work_integral(m,d,T,order=24):
         "max_instantaneous_elasticity_relative":max(r["collision_elasticity_relative"] for r in rows),
         "max_product_rule_residual_relative":max(r["identity_residual_relative"] for r in rows),
         "GL_time_nodes":order,
+        "GL_independent_work_rows":rows,
     }
 
 
@@ -214,10 +215,15 @@ def run(output:Path, *, quick=False):
         for t in times:
             D=d.carrier(t); V=v.carrier(t)
             Mb=d.moment(t);Mv=v.moment(t)
+            b=moving_balance(m,t,D)
             physical.append({
                 "u":t,
-                "rho_direct":moving_balance(m,t,D)["rho"],
-                "C_direct":moving_balance(m,t,D)["C"],
+                "beta":b["beta"],
+                "rho_direct":b["rho"],
+                "q_direct":b["q"],
+                "C_direct":b["C"],
+                "M_direct_3x3":Mb.tolist(),
+                "M_volterra_3x3":Mv.tolist(),
                 "Mzz_direct":float(Mb[2,2]),
                 "Mzz_volterra":float(Mv[2,2]),
                 "Mxy_direct":float(Mb[0,1]),
