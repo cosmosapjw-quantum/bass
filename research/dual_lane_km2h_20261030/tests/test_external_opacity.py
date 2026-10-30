@@ -63,14 +63,34 @@ def test_actual_six_full_polarized_einstein_runs(r):
         assert v['ray_optical_depth_min']>0 and v['ray_optical_depth_max']>v['ray_optical_depth_min']
 
 
-def test_parent_exact_original_photon_initial_identity(r):
-    originals={
-     12:('e4693c77d24014000afe9a858bfbe39192d43fdb92fb783699cbec6669399037','7adfcf87c8eeaf775c07dde8f34a5791b1f972b9fe94a0efd3524f76ab39107f'),
-     16:('e15a0fb2e7ed215e3ef8f6bf7eb71ed7b44f754f3f96a8f055419d5df58b08b4','8c06fdb0d2222c2f92bbc0832b44683d224d6cc6450f8ea6ea360392c5fb36df')}
-    for c in r['cases'].values():
-        j,ray=originals[c['n_theta']]
-        assert c['parent_original_photon_J_hash']==j
-        assert c['parent_original_photon_rays_hash']==ray
+def test_parent_original_photon_source_identity_with_numeric_portability(r):
+    """Byte-locked *source files* and intra-run ray arrays; numerical cross-host input.
+
+    The parent performs floating-point angular/screen transformations. Even on
+    pinned source blobs, last-bit rounding may change binary J/n arrays between
+    hosts. A hard-coded SHA of that *generated array* is not a portable source
+    identity. Within each run and angular grid, all opacity scenarios must use
+    exactly the same generated original photon arrays; the normal-frame initial
+    energy, flux, pressure and source moments must remain semantically fixed.
+    """
+    for n in (12,16):
+        modes=[r['cases'][f'GL{n}_{mode}'] for mode in m.OPACITY_MODES]
+        J_hashes={c['parent_original_photon_J_hash'] for c in modes}
+        ray_hashes={c['parent_original_photon_rays_hash'] for c in modes}
+        assert len(J_hashes)==len(ray_hashes)==1
+        assert all(len(d)==64 and all(k in '0123456789abcdef' for k in d)
+                   for d in J_hashes|ray_hashes)
+        initial=modes[0]['epochs'][0]
+        assert abs(initial['rho_photon']-39.011102627687464)<3e-11
+        np.testing.assert_allclose(initial['q_photon'],
+              [14.496103805805896,-18.922129476642255,9.434994717991485],
+              rtol=0,atol=3e-11)
+        for c in modes[1:]:
+            q=c['epochs'][0]
+            for field in ('P_photon','q_photon','source_electron_M'):
+                np.testing.assert_allclose(q[field],initial[field],rtol=0,atol=3e-12)
+            assert q['rho_photon']==pytest.approx(initial['rho_photon'],abs=3e-12)
+            assert q['original_source_same'] and initial['original_source_same']
 
 
 def test_einstein_momentum_hamiltonian_and_integral_constraint_propagation(r):

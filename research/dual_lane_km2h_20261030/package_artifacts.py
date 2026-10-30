@@ -41,6 +41,7 @@ S2=[
  'research/dual_lane_km2h_20261030/DAG_DELTA.json',
  'research/dual_lane_km2h_20261030/DELIVERY_RECEIPTS.json',
  'research/dual_lane_km2h_20261030/HOSTILE_REVIEW_KO.md',
+ 'research/dual_lane_km2h_20261030/PR285_NUMERICAL_SEMANTIC_AUDIT.json',
  'research/dual_lane_km2h_20261030/hostile_saved_physics_audit.py',
  '.github/workflows/km2h-hyrec-external-bianchi.yml',
 ]
