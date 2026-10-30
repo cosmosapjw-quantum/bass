@@ -20,7 +20,7 @@ BASE=ROOT/"research/ce1w_20261030"
 META={
   "parent_pr":266,
   "parent_head":"2d5076ecb2307cea39c1b608396c34050021ebc3",
-  "physical_source_sha256":"022e6548c0a8562c20cc819667f1a9a002af9a002af9db7bc250a5148ffa692b4223035",
+  "physical_source_sha256":"022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035",
   "top_dag":{"completed":9,"total":15,"edges":21,"CE1":"PARTIAL"},
   "original_bass_rust_blob":"a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84",
   "fixed_target_h":1e-5,"new_top_level_nodes_complete":0,
