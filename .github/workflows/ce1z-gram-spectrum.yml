@@ -1,0 +1,69 @@
+name: CE1-Z physical K4 deterministic Gram spectrum from original BASS Rust
+on:
+  push:
+    branches: [research/bass-ce1z-gram-spectral-physics-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1y-rk4-vs-dop-k4-20261030-r1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-bass-rust-gram-spectrum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONPATH: '.'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Verify pinned original BASS Rust source without rebuilding an IVP
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+          test "$(sha256sum research/ce1y_20261030/input/GL8_STEPS16_BASS_RUST_SKY.csv | cut -d' ' -f1)" = d8536f8996d9a1420e9d8782f1a5b072128e22e797af52bd6f46983fc55e275d
+      - name: Preserve S0 theory and source identity before science
+        run: |
+          python research/ce1z_20261030/package_artifacts.py --stage S0 --output /tmp/CE1Z_S0_THEORY.zip
+      - name: Upload S0 checkpoint
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1Z_S0_FROZEN_THEORY
+          path: /tmp/CE1Z_S0_THEORY.zip
+          if-no-files-found: error
+      - name: Install scoped spectral analysis dependencies
+        run: python -m pip install numpy==2.3.5 pytest==9.0.2
+      - name: Generate physical six-case original BASS Rust spectra
+        run: |
+          python research/ce1z_20261030/gram_spectrum.py --output /tmp/ce1z/gram_spectrum.json
+          python -m compileall -q research/ce1z_20261030
+      - name: Preserve S1 physical data, original native skies, and code
+        run: |
+          python research/ce1z_20261030/package_artifacts.py --stage S1 --results /tmp/ce1z/gram_spectrum.json --output /tmp/CE1Z_S1_PHYSICAL.zip
+      - name: Upload S1 data checkpoint
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1Z_S1_ORIGINAL_BASS_PHYSICS
+          path: /tmp/CE1Z_S1_PHYSICAL.zip
+          if-no-files-found: error
+      - name: Run adversarial data-backed scientific tests
+        run: python -m pytest -q research/ce1z_20261030/tests/test_gram_spectrum.py
+      - name: Preserve S2 complete report and portable physical snapshot
+        run: |
+          python research/ce1z_20261030/package_artifacts.py --stage S2 --results /tmp/ce1z/gram_spectrum.json --output /tmp/CE1Z_S2_FULL.zip
+          cp /tmp/ce1z/gram_spectrum.json /tmp/CE1Z_S2_GRAM_SPECTRUM_RAW.json
+      - name: Upload S2 final complete physical checkpoint
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1Z_S2_COMPLETE_SCIENCE
+          path: |
+            /tmp/CE1Z_S2_FULL.zip
+            /tmp/CE1Z_S2_GRAM_SPECTRUM_RAW.json
+          if-no-files-found: error
