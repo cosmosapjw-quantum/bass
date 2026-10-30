@@ -1,0 +1,11 @@
+# CE1-W S1 | original BASS Rust and MPFR192 time-panel experiment code
+
+Implemented four runnable, reviewable paths without altering upstream:
+- `time_panels.py`: fresh, physically matched GL6 and GL8 RK4 states/Hermite polynomials for N=4,8,16. Uses exact donor K=12 pressure source Fraction, strict physical/ray/hash/geometry hull checks, original CE1-G `residual_taylor_mpfr` on EVERY panel and ALL binary Hermite knot jumps, original nonnegative Dini propagator. Saves the exact path's *new* SHA, whole-panel rows, independent initial/source/time contributions, fourfold per-case wall timings. No stale four-panel reuse for N=8/16.
+- `rust_multistep.py`: constructs the EXACT SAME GL6/GL8 binary source and each matched N-panel path, 41 proper-time Hermite sampling states, invokes actual original BASS `_rustcore/src/kinetic/comoving.rs` through `research/ce1r_20261030/sky_time_derivative.rs` via rustc1.94.1. Checks E/P/Eprime and continuity in six genuinely generated cases. Native binary64 ≠ MPFR interval certificate.
+- `tests/test_panel_certificate.py`: 10+ scoped adversarial data-backed assertions (strict N steps, all panel source/time/knot contributions, matching ray/mass exact SHA, original h threshold, direct donor mutations rejected, Rust six-path parity). Tests read GitHub CI raw completed output; never self-validate fabricated fixtures.
+- `package_and_report.py` + `ce1w-time-panels.yml`: create S0 archive BEFORE heavy run; S1 ZIP after science and Rust; S2 science report/portable handoff after scoped pytest, each with per-member SHA256. Actual provider backups require independent successful connector receipts, not just GitHub Actions artifact existence.
+
+**Live frozen source:** PR266 HEAD `2d5076ecb2307cea39c1b608396c34050021ebc3`; original BASS Rust module Git blob `a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84`, MPFR module `abbab0990fdefaf535ccbf5191ae3e060cb19214`, original physical six-cell SHA `022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035`.
+
+**Status at Git posting:** code+workflow posted, CI not yet observed. Upper DAG **9/15**, edges21, CE-1 PARTIAL; no top-level promotion, no merge/production or unsupported speedup claim. Local runtime service probes failed during this turn; GitHub CI is the actual executable science source. GitHub CI will report its independent exact code HEAD and results.
