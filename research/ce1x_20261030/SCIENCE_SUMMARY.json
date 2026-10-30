@@ -1,0 +1,83 @@
+{
+  "schema": "bass.ce1x.science_summary.v1",
+  "date": "2026-10-30",
+  "unit": "CE1X_EXACT_RATIONAL_L4_SOURCE_AND_MPFR_TWO_TIME_KERNEL",
+  "scientific_scope": "Original six positive massless collisionless reflection-even expanding diagonal Bianchi I; energy-integrated normal-frame l4 kernel, not CMB temperature",
+  "input_physical_sha256": "022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035",
+  "source_parent_pr": 268,
+  "source_parent_head": "c4d303ebd8294df8a4b564b140b88fc8e57b0e67",
+  "source_proof_donor_pr": 264,
+  "reference_geometry_sibling_pr": 269,
+  "exact_rational": {
+    "K": 12,
+    "moments": 680,
+    "maximum_degree": 14,
+    "all_ell_i_domain": "[0,.08]",
+    "stored_rays_binary64_exact_real": true,
+    "gl6": {
+      "rays": 216,
+      "energy_upper_ceil_27": "0.000000000000200984416037593",
+      "a40_upper_ceil_27": "0.000000000019981856701185251",
+      "a42_upper_ceil_27": "0.000000000030568594725221288",
+      "a44_upper_ceil_27": "0.000000000447226970094980481",
+      "K4_source_upper_ceil_27": "0.000000140028378356226026324"
+    },
+    "gl8": {
+      "rays": 384,
+      "energy_upper_ceil_27": "0.000000000000115392904507480",
+      "a40_upper_ceil_27": "0.000000000012559649188812526",
+      "a42_upper_ceil_27": "0.000000000015374615742802713",
+      "a44_upper_ceil_27": "0.000000000012603202295487529",
+      "K4_source_upper_ceil_27": "0.000000004847799002584115677"
+    }
+  },
+  "K4_total_bounds_upper_ceil_27": {
+    "gl6": {
+      "4": "0.000051285781800313840906693",
+      "8": "0.000006433727404227463376314",
+      "16": "0.000000920632546551398527086"
+    },
+    "gl8": {
+      "4": "0.000051150598882043712989195",
+      "8": "0.000006298544496523812786657",
+      "16": "0.000000785449648206657324117"
+    }
+  },
+  "method": {
+    "source": "Exact 6-cell even moments Q(sqrt2,pi), finite K12 binomial, dyadic GL, non-unit correction",
+    "geometry": "Fresh same-CI MPFR192 4/8/16-panel RK4/Hermite positive Dini ell",
+    "transfer": "epsilon_K4_full <= epsilon_K4_source + 246 * epsilon_ell_final",
+    "uniformly_valid_for_all_proper_time_pairs": true,
+    "source_path_exact_hash_lock": "TRUE_IN_ONE_CI"
+  },
+  "original_bass_rust": {
+    "module": "_rustcore/src/kinetic/comoving.rs",
+    "blob": "a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84",
+    "rustc": "1.94.1",
+    "snapshots": 246,
+    "max_abs_gap": 7.216449660063518e-15,
+    "role": "independent binary64 physics crosscheck"
+  },
+  "CI": {
+    "run": 40991211526,
+    "conclusion": "SUCCESS",
+    "scoped_pytest_passed": 13
+  },
+  "limits": {
+    "DOP853_reference_certified": false,
+    "thermal_CMB": false,
+    "polarized": false,
+    "formal_program_proof": false,
+    "distinct_author_review": false
+  },
+  "upper_dag": {
+    "completed": 9,
+    "total": 15,
+    "edges": 21,
+    "ce1": "PARTIAL",
+    "newly_completed_top_nodes": 0
+  },
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false
+}
