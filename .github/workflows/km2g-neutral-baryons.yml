@@ -31,6 +31,10 @@ jobs:
           test "$(git hash-object research/dual_lane_km2d_20261030/accelerating_tilt.py)" = b599d3842e843d8de1de1499b73e6849374bf8f8
           test "$(git hash-object research/dual_lane_km2e_20261030/coupled_electron_photon.py)" = 12fbce8109fc07b1fbf60d9a066d8aa1c57ea9c1
           git rev-parse HEAD
+      - name: Pin numeric Python dependencies
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2
+          python -m compileall -q research/dual_lane_km2g_20261030
       - name: Preserve S0 original frozen theory and actual source before computation
         run: |
           mkdir -p /tmp/km2g
@@ -41,10 +45,6 @@ jobs:
           path: /tmp/km2g/BASS_KM2G_S0.zip
           retention-days: 60
           if-no-files-found: error
-      - name: Pin numeric Python dependencies
-        run: |
-          python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2
-          python -m compileall -q research/dual_lane_km2g_20261030
       - name: Actually evolve six fully polarized Einstein and neutral e-p physical histories
         run: |
           python -m research.dual_lane_km2g_20261030.neutral_baryons --output /tmp/km2g/neutral_science.json
