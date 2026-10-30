@@ -141,7 +141,7 @@ def _term_error(power:tuple[int,int,int],D:dict,normgap:F)->dict:
     return {"bound":result,"finite":finite,"tail":bounded_tail,"offunit":offunit}
 
 
-def certify(order:int)->dict:
+def certify(order:int, time_evidence:dict)->dict:
     if type(order) is not int or order not in EXPECTED_RAYS:
         raise ValueError("Only the exact locked GL6/GL8 sources are in scope")
     started=perf_counter()
@@ -172,8 +172,21 @@ def certify(order:int)->dict:
     # |alpha_m|<=13 at either epoch for either positive source.
     K_SOURCE=F(130,9)*d
     cases={}
+    if time_evidence.get("parent_head")!="2d5076ecb2307cea39c1b608396c34050021ebc3":
+        raise ValueError("Fresh time evidence is not computed from the original CE1-W parent")
+    fixed=time_evidence["cases"][str(order)]
+    if not fixed.get("source_contract_not_changed"):
+        raise ValueError("Time-panel source SHA mutation")
     for steps in (4,8,16):
-        ell=F.from_float(PARENT_CERTIFIED_ELL[order][steps])
+        validated=fixed["cases"][str(steps)]
+        if (validated["source_ray_sha256"]!=hashes["ray_sha256"]
+            or validated["source_mass_sha256"]!=hashes["mass_sha256"]
+            or validated["steps"]!=steps or validated["u_end"]!=.08
+            or validated["target_h"]!=1e-5 or not validated["target_met"]):
+            raise ValueError("Fresh MPFR192 path/source identity, units or fixed target conflict")
+        ell=F.from_float(float(validated["final_ell_upper"]))
+        if not F(0)<ell<F(1,10**5):
+            raise ValueError("Fresh whole-path MPFR192 logscale carrier invalid")
         # The parent outward positive comparison is monotonic on
         # all panels; the terminal ell bound works at both epochs.
         # Each partial geometric derivative <=41 for l4 kernel;
@@ -188,7 +201,9 @@ def certify(order:int)->dict:
             "total_cross_kernel_upper_exact":str(total),
             "total_cross_kernel_upper_ceil_27":ceil_decimal(total),
             "geometry_ell_upper_f64":float(ell),
-            "parent_path_coefficients_sha256":PARENT_CERTIFIED_PATH_COEFFICIENT_SHA[order][steps],
+            "parent_path_coefficients_sha256":validated["path_sha256"]["coefficients"],
+            "fresh_time_mpfr_h_upper":validated["final_h_upper"],
+            "fresh_time_mpfr_carrier_SHA_BINDING":"EXACT_IN_SAME_CI",
             "valid_for_both_epochs":"all u,v in [0,0.08] on certified original Hermite path",
         }
     result={
@@ -226,8 +241,11 @@ def certify(order:int)->dict:
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--output",required=True)
+    parser.add_argument("--time-certificate",required=True,
+                        help="Fresh actual 6-case MPFR192 CE1-W result from this same CI")
     args=parser.parse_args()
-    results={str(n):certify(n) for n in (6,8)}
+    time_data=json.loads(Path(args.time_certificate).read_text())
+    results={str(n):certify(n,time_data) for n in (6,8)}
     destination=Path(args.output)
     destination.parent.mkdir(exist_ok=True,parents=True)
     destination.write_text(json.dumps({
