@@ -307,7 +307,7 @@ def actual_science(output:Path,*,quick=False):
     vm=vac.measure(.15,vacsol)
     if (abs(vm["rest_density_ratio"]*vm["gamma"]/
             (vm["zeta_lab_number_ratio"]*vac.gamma0)-1)>2e-14
-        or np.max(abs(vm["photon_raw_P8_force"]))>1e-14):
+        or np.max(np.abs(np.asarray(vm["photon_raw_P8_force"])))>1e-14):
         raise ArithmeticError("Vacuum number / collision invariant failed")
     result={
         "schema":"bass.km2e.cold_electron_photon_backreaction.v1",
