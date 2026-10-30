@@ -1,0 +1,42 @@
+name: CE1-W physical Bianchi-I angular geometry response
+on:
+  push:
+    branches: [research/bass-ce1w-harmonic-transfer-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1v-cross-epoch-energy-sky-20261030-r1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-response:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13.5'}
+      - name: Pin exact original source and coupled histories
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/ce1t_20261030/cellwise_gl_rust.py)" = 6d254e9efc95acc1fd2079bd047d40662986d135
+          echo "6eff8cd9f31d027bbee55720332302b6fbad71b3639b5809aab6b9ce6f53e489  research/ce1v_20261030/inputs/GL6_coupled_41epochs.csv" | sha256sum -c -
+          echo "1398980ec71662494273e05eb4bd52a78f6e6c7f208702638da6c739698f7502  research/ce1v_20261030/inputs/GL8_coupled_41epochs.csv" | sha256sum -c -
+      - name: Install scoped physics dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2
+      - name: Generate actual two-channel physical geometry-response and kernel data
+        run: python research/ce1w_20261030/ce1w_transfer.py --out /tmp/ce1w
+      - name: Run physical and analytic-regression checks
+        run: |
+          python -m pytest -q research/ce1w_20261030/test_ce1w_transfer.py
+          python -m compileall -q research/ce1w_20261030/ce1w_transfer.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: BASS_CE1W_PHYSICAL_SOURCE_RESPONSE
+          path: /tmp/ce1w
+          if-no-files-found: warn
