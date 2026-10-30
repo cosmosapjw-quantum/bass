@@ -18,13 +18,26 @@ def test_six_original_source_locked_paths_and_old_h_gate(actual):
     assert len(actual["cases"])==6
     assert actual["source_sha256"]==aa.SOURCE_SHA
     assert actual["whole_python_rust_mpfr_formal_program_proof"]=="NOT_RUN"
-    assert actual["new_full_time_residual_or_exact_K12_source_rerun"] is False
+    assert actual["original_K12_source_rerun"] is False
+    assert "TARGETED_SCOPED" in actual["full_time_residual_when_regenerated_path_sha_differs"]
     for x in actual["cases"].values():
         assert x["MPFR_bits"]==192
         assert x["original_strict_h_target"]==1e-5
         assert 0<x["old_h_certified_upper"]<1e-5
         assert x["E0_MPFR_lower"]>.6 and x["ET_MPFR_lower"]>.6
         assert x["rust_vs_exact_stored_MPFR_midpoint_max_abs"]<2e-12
+        assert x["path_time_certificate_binding"] in (
+            "DIRECT_BYTE_IDENTICAL_PREDECESSOR_REUSE",
+            "NEW_BYTE_PATH_FRESH_WHOLE_PANEL_MPFR192_CERTIFIED")
+        if x["path_time_certificate_binding"].startswith("NEW_BYTE_PATH"):
+            proof=x["fresh_runner_path_MPFR192_full_time_proof"]
+            assert proof is not None and proof["target_met"]
+            assert proof["path_sha256"]["coefficients"]==x["path_coefficients_binary_git_sha256"]
+            assert proof["physical_source_sha256"]==aa.SOURCE_SHA
+            assert len(proof["panels"])==int(x["case"].split("STEPS")[1])
+            assert x["active_path_h_certified_upper"]<1e-5
+        else:
+            assert x["fresh_runner_path_MPFR192_full_time_proof"] is None
         assert x["original_Rust_CSV_SHA256"] == aa.hashlib.sha256(
             (aa.INPUT/(x["case"]+"_BASS_RUST_SKY.csv")).read_bytes()).hexdigest()
 
@@ -66,7 +79,7 @@ def test_invalid_original_path_certificate_rejected():
     t,l,p=aa.source_and_time_locks()
     damaged=deepcopy(l)
     damaged["cases"]["8"]["time_path_cases"]["16"]["parent_path_coefficients_sha256"]="0"*64
-    with pytest.raises(ValueError,match="Hermite coefficient SHA mismatch"):
+    with pytest.raises(ValueError,match="Original predecessor certified path SHA inconsistency"):
         aa.certify_pair(8,16,t,damaged,p)
 
 
