@@ -57,9 +57,8 @@ def _continuum_initial(source, path) -> float:
         raise ValueError("Nonexpanding original physical initial data")
     if any(not 0 < float(h) < .8 for h in path.states[0,3:]):
         raise ValueError("Stored initial state outside invariant h-box")
-    return max(max(abs((initial[k]-I(float(path.states[0,3+k])).lower),
-                       abs((initial[k]-I(float(path.states[0,3+k])).upper))
-                   for k in range(3))
+    diffs = [initial[k]-I(float(path.states[0,3+k])) for k in range(3)]
+    return max(max(abs(v.lower),abs(v.upper)) for v in diffs)
 
 
 def _certify_same_source(source, donor, order, steps, subcells=1):
