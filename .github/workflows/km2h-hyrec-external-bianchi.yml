@@ -1,0 +1,94 @@
+name: KM2H real FLRW-conditional Einstein Bianchi I polarized photon physics
+on:
+  push:
+    branches: [research/bass-km2h-hyrec-external-bianchi-response-20261030-r1]
+  pull_request:
+    branches: [research/bass-km2h-source-qualified-recomb-opacity-20261030-r1]
+permissions:
+  contents: read
+jobs:
+  original_p8_hyrec_conditional_einstein_science:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      BASS_KM2H_EXTERNAL_RESULTS: /tmp/km2h_external/real_six_case_einstein_photon.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install explicit scientific runtime before any inherited code import
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+          python -m compileall -q research/dual_lane_km2h_20261030
+      - name: Lock original BASS Einstein photon and user FLRW regression source
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2c_20261028/code/curved_tilt.py)" = 05aade3aab7e9a32c11608882c943e4d3cb6f379
+          test "$(git hash-object research/dual_lane_km2c_20261028/vendor/tilted_collision.py)" = 92660768f4719d78261fed1cb44f186d2821629d
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          test "$(git hash-object research/dual_lane_km2g_20261030/neutral_baryons.py)" = c5939affd04f84d8a3ec84f57fdaa92a38345fc0
+          echo '7f2c47c70dfab95e9ababed481db2c8d78429c0402ba1a85faeccb73df14d4da  research/dual_lane_km2h_20261030/source_data/flrw_recombination_regression_1to1600.csv' | sha256sum -c
+      - name: Checkpoint source-inclusive S0 theory before physical computations
+        run: |
+          mkdir -p /tmp/km2h_external
+          python research/dual_lane_km2h_20261030/package_artifacts.py --stage S0 \
+            --output /tmp/km2h_external/S0_original_photon_FLRW_theory.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2H_S0_SOURCE_THEORY
+          path: /tmp/km2h_external/S0_original_photon_FLRW_theory.zip
+          retention-days: 60
+          if-no-files-found: error
+      - name: Solve all six genuine Einstein P8 photon plus baryon physical histories
+        run: |
+          python research/dual_lane_km2h_20261030/external_opacity_bianchi.py \
+            --output /tmp/km2h_external/real_six_case_einstein_photon.json \
+            --orders 12,16 --modes hyrec,class,frozen_hyrec
+      - name: Produce real source-derived physical plots, curves, original ray tau and quadrature force data
+        run: |
+          python research/dual_lane_km2h_20261030/make_science_plots.py \
+            --source /tmp/km2h_external/real_six_case_einstein_photon.json \
+            --output-dir /tmp/km2h_external/figures
+      - name: Checkpoint full S1 source and actual numerical science
+        run: |
+          python research/dual_lane_km2h_20261030/package_artifacts.py --stage S1 \
+            --physics /tmp/km2h_external/real_six_case_einstein_photon.json \
+            --figures /tmp/km2h_external/figures \
+            --output /tmp/km2h_external/S1_full_Einstein_P8_HYREC_science.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2H_S1_ACTUAL_EINSTEIN_SOURCE_SCIENCE
+          path: /tmp/km2h_external/S1_full_Einstein_P8_HYREC_science.zip
+          retention-days: 60
+          if-no-files-found: error
+      - name: Independently falsify wrong original source, opacity units, charge, photon ray and Einstein balances
+        run: |
+          python -m pytest -q research/dual_lane_km2h_20261030/tests/test_external_opacity.py
+      - name: Independent saved-data hostile stress, charge, SI-opacity and FLRW-source audit
+        run: |
+          python research/dual_lane_km2h_20261030/hostile_saved_physics_audit.py \
+            --source /tmp/km2h_external/real_six_case_einstein_photon.json \
+            --flrw research/dual_lane_km2h_20261030/source_data/flrw_recombination_regression_1to1600.csv \
+            --output /tmp/km2h_external/hostile_saved_data_audit.json
+      - name: Preserve S2 source-tested report and correct scoped restorable research
+        run: |
+          python research/dual_lane_km2h_20261030/package_artifacts.py --stage S2 \
+            --physics /tmp/km2h_external/real_six_case_einstein_photon.json \
+            --figures /tmp/km2h_external/figures \
+            --hostile /tmp/km2h_external/hostile_saved_data_audit.json \
+            --output /tmp/km2h_external/S2_complete_conditional_recombination_research.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2H_S2_EINSTEIN_PHYSICS_SOURCE_REPORT
+          path: |
+            /tmp/km2h_external/S2_complete_conditional_recombination_research.zip
+            /tmp/km2h_external/real_six_case_einstein_photon.json
+          retention-days: 60
+          if-no-files-found: error
