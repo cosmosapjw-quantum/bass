@@ -1,0 +1,38 @@
+name: CE1AG original continuum shear-work sign
+on:
+  push:
+    branches:
+      - research/bass-ce1ag-original-continuum-shear-sign-20261031-r1
+  pull_request:
+    paths:
+      - 'research/ce1ag_20261031/**'
+      - '.github/workflows/ce1ag-continuum-sign.yml'
+permissions:
+  contents: read
+jobs:
+  exact-continuum-sign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install bounded exact-proof test dependencies
+        run: python -m pip install numpy==2.3.5 pytest==9.0.2 matplotlib==3.10.8
+      - name: Reproduce original-source exact rational certificate and 401-row analytic curve
+        run: python research/ce1ag_20261031/source/certify_continuum_sign.py
+      - name: Run same exact-source and independent moment tests
+        run: python -m pytest -q research/ce1ag_20261031/source/test_ce1ag.py
+      - name: Generate figure of analytic interval lower bounds
+        run: python research/ce1ag_20261031/source/plot_ce1ag.py
+      - name: Python syntax check
+        run: python -m compileall -q research/ce1ag_20261031/source
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CE1AG-exact-continuum-sign
+          if-no-files-found: error
+          path: |
+            research/ce1ag_20261031/data/CE1AG_CONTINUUM_SIGN_CERTIFICATE.json
+            research/ce1ag_20261031/data/CE1AG_RIGOROUS_LOWER_CURVE_401.csv
+            research/ce1ag_20261031/data/CE1AG_CONTINUUM_SIGN_BOUND.png
