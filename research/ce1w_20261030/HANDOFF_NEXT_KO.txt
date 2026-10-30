@@ -1,0 +1,115 @@
+$physmath-research-loop
+PROGRAM=BASS
+REPO=cosmosapjw-quantum/bass
+UNIT=CE1W_MATCHED_GL6_GL8_RK4_TIME_PANEL_MPFR192_WITH_BASS_RUST
+STATUS=COMPLETE_SCOPED_SIX_PANEL_CASES
+PR=268
+BRANCH=research/bass-ce1w-rk4-time-panels-rust-mpfr-20261030-r1
+SCIENCE_CODE_HEAD=d88219f46d9fbb88bdaf44f4e15891d3c7cd2b77
+FINAL_DOC_HEAD=READ_LIVE_PR268
+PARENT_PR=266
+PARENT_HEAD=2d5076ecb2307cea39c1b608396c34050021ebc3
+
+UPPER_DAG=9/15
+UPPER_EDGES=21
+CE1_STATUS=PARTIAL
+NEW_TOP_LEVEL_NODES_COMPLETED=0
+PRODUCTION_READY=false
+MERGE_READY=false
+AUTO_NEXT=false
+
+PHYSICS:
+Original exact-binary six positive angular cells, eight reflections,
+massless collisionless all-expanding diagonal Bianchi I Lambda=0,
+metric (-,+,+,+), proper u=t/Tstar in [0,.08],
+initial shear (.2,-.13,-.07), h=dell/du.
+Unchanged strict final geometry h target 1e-5.
+PHYSICAL_SOURCE_SHA256=022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035
+
+GL6=216 original-cell rays
+GL8=384 original-cell rays
+SOURCE_RAY_AND_MASS_BINARY_SHA_UNCHANGED_ACROSS_4_8_16_STEPS=true
+EXACT_RATIONAL_GL6_EPS=3.010630537202566e-12
+EXACT_RATIONAL_GL8_EPS=6.164277064237367e-14
+K12_SOURCE_PROOF=REUSED_FROM_FROZEN_PR264_NOT_REDERIVED
+SOURCE_CAST=Fraction_TO_MPFR192_DIRECTED_OUTWARD
+
+METHOD:
+For each GL6/GL8 and N=4,8,16 recompute the actual N-panel
+binary RK4 path, Hermite coefficients, every original MPFR192
+fourth-derivative Taylor residual, every exact-binary knot jump,
+initial continuum Hamiltonian h discrepancy, and positive Dini
+initial/source/time carriers. Preserve each generated path SHA.
+
+GL6_4_H=8.388531623506172e-7
+GL6_8_H=1.0006587010445202e-7
+GL6_16_H=1.2217283543376827e-8
+GL8_4_H=8.388529254004949e-7
+GL8_8_H=1.0006563309441047e-7
+GL8_16_H=1.2217046995397674e-8
+GL6_COST_SECONDS_4_8_16=5.0527,10.1531,20.3511
+GL8_COST_SECONDS_4_8_16=8.9005,17.7215,35.5775
+FIXED_1E-5_H_GATE=MET_ALL_SIX
+ERROR_REDUCTION_PER_STEP_DOUBLING=APPROX_EIGHTFOLD_MEASURED
+SMALLEST_COST_AT_EXISTING_TARGET=4_PANELS
+
+ACTUAL_BASS_RUST:
+MODULE=_rustcore/src/kinetic/comoving.rs
+ORIGINAL_RUST_GIT_BLOB=a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+CALLER=research/ce1r_20261030/sky_time_derivative.rs
+RUSTC=1.94.1
+SIX_SCENARIOS_X_41_TIMES=246_PHYSICAL_SAMPLES
+E_P_EPRIME_MAX_ABS_GAP=2.525757381022231e-14
+ROLE=DIFFERENTIAL_BINARY64_ONLY_NOT_MPFR_CERTIFICATE
+
+CI:
+ORIGINAL_RED_SYNTAX_RUN=40983978817_FAILED_PRE_SCIENCE
+RECOVERY_CODE_HEAD=d88219f46d9fbb88bdaf44f4e15891d3c7cd2b77
+GREEN_CODE_RUN=40984170518_SUCCESS
+GREEN_SCOPED_PYTEST=10_PASS
+PYTHON_COMPILEALL=PASS
+S0_GITHUB_ARTIFACT=12945927820
+S1_GITHUB_ARTIFACT=12945359412
+S2_GITHUB_ARTIFACT=12945783539
+S0_S1_S2_GITHUB_RAW_INNER_ZIPS=CRC_AND_SHA256_ALL_PASS
+
+BACKUPS:
+S0_DRIVE_ID=1kn4wZMAYQetBq3xg2xDmXxbRIp8e9_EO
+S1_DRIVE_ID=1VBH8KGYxTpoLQxwGLNou9kxt65-hnxc-
+S2_DRIVE_ID=1hOw_ZAR2jayA5paRyMGxB-npX9hQGq46
+DROPBOX_PARENT=/BASS_BACKUPS
+DRIVE_FULL_BYTE_SHA256_READBACK=ALL_MATCH
+DROPBOX_PROVIDER_HASH_AND_SIZE=ALL_MATCH
+DROPBOX_FULL_BYTE_READBACK=NOT_RUN
+
+READ_FIRST:
+research/ce1w_20261030/S0_THEORY_KO.md
+research/ce1w_20261030/S1_IMPLEMENTATION_KO.md
+research/ce1w_20261030/S2_FINAL_REPORT_KO.md
+research/ce1w_20261030/DELIVERY_RECEIPTS.json
+research/ce1w_20261030/DAG_DELTA.json
+research/ce1w_20261030/time_panels.py
+research/ce1w_20261030/rust_multistep.py
+research/ce1w_20261030/tests/test_panel_certificate.py
+research/ce1w_20261030/HANDOFF_NEXT_KO.txt
+.github/workflows/ce1w-time-panels.yml
+
+NEXT_ONE_BOUNDED_UNIT:
+1. Read LIVE PR268 HEAD, final CI and three stage ZIP hashes.
+2. Reuse actual 4/8/16 MPFR results with exact frozen GL6/GL8
+   binary sources and BASS Rust parity.
+3. For unchanged original 1e-5 target 4-panel is least costly
+   among measured cases; do not silently impose a stricter target.
+4. If independent tighter goal is physically justified, research a
+   certified higher-order time algorithm at matched accuracy/cost;
+   otherwise prioritize a genuinely pending upper-DAG physical node
+   or actual independent distinct-author R6/C9 audit.
+5. Preserve original six-cell continuum and signed/NaN fail-closed
+   source/MPFR proof premises; note CE1-O sibling is unmerged.
+6. Publish actual Git+Drive+Dropbox stage receipts, count complete/15.
+7. No automatic merge or production admission.
+STOP_AFTER_ONE_BOUNDED_UNIT=true
+
+NATIVE_SUBAGENT=NOT_RUN
+DISTINCT_AUTHOR_R6_C9=NOT_RUN
+FORMAL_WHOLE_PROGRAM_PROOF=NOT_RUN
