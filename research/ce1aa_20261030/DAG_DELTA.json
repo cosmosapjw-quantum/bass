@@ -1,0 +1,80 @@
+{
+  "schema": "bass.ce1aa.single_bounded_physics_dag.v1",
+  "unit": "CE1AA_TWO_EPOCH_MPFR_EXACT_REAL_K4_NONCOLLINEARITY",
+  "date": "2026-10-30",
+  "parent": {
+    "pr": 272,
+    "head": "cd597ace92dabafa71a59779242910c3cbcd21c7",
+    "previous_l4_pr": 270,
+    "previous_l4_head": "9141d6dcfc66e721fa30390d697f6cd982244eae"
+  },
+  "original_source": {
+    "physical_sha256": "022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035",
+    "rust_comoving_git_blob": "a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84",
+    "rays": [
+      216,
+      384
+    ],
+    "time_interval": [
+      0,
+      0.08
+    ],
+    "original_h_target": 0.00001
+  },
+  "upper_dag": {
+    "completed": 9,
+    "total": 15,
+    "edges": 21,
+    "new_completed": 0,
+    "ce1": "PARTIAL"
+  },
+  "this_unit": {
+    "theorem": "Exact continuum K4 Gram PSD rank<=3; if det K4[{0,.08},{0,.08}]>0 then rank>=2",
+    "evaluation": "MPFR192 outward exact-real stored six-cell dyadic GL source and certified binary Hermite coefficients; PR270 exact-real continuum/source/time bounds reused",
+    "status": "SUCCESS_SCOPED_TWO_RUNNER_MPFR192_RANK2_CONDITIONAL",
+    "native_rust_new_execution": "NOT_RUN_REUSE_ORIGINAL_RUST_CSV",
+    "independent_distinct_author_review": "NOT_RUN",
+    "cross_runner_policy": "EXACT_PARENT_SHA_REUSE_OR_FRESH_WHOLE_PANEL_MPFR192_FOR_NEW_PATH",
+    "cross_runner_recertified_paths": [
+      "GL6_STEPS16",
+      "GL8_STEPS4",
+      "GL8_STEPS8",
+      "GL8_STEPS16"
+    ]
+  },
+  "validation": {
+    "new_scoped_tests": "11_PASS_BOTH_41005087995_AND_41005604968",
+    "all_six_cases": "PASS_SEPARATE_SOURCE_PATH_IDENTITY",
+    "formal_compiler_program_correctness": "NOT_RUN",
+    "scientific_result": {
+      "GL6_N16_minor_lower": 7.435842304090848e-8,
+      "GL8_N16_minor_lower": 8.019663167264269e-8,
+      "GL6_N16_principal_eigenvalue_lower": 0.0000034418834765540017,
+      "GL8_N16_principal_eigenvalue_lower": 0.00000371216742224799,
+      "original_exact_continuum_rank": "2_TO_3_CONDITIONAL_PR270_SOURCE_PATH_MATH"
+    },
+    "runner_provenance": {
+      "initial_success": 41005087995,
+      "earlier_valid_mismatch_fail": [
+        41005327480,
+        41005331997
+      ],
+      "recovery_success": 41005604968,
+      "GL6_N16_det_lower": 7.435842304090848e-8,
+      "GL8_N16_conservative_det_lower": 8.01966314975544e-8,
+      "GL8_N16_eigen_lower": 0.0000037121674141420537
+    }
+  },
+  "backups": {
+    "S0": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S1": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S1_RECERT": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S2": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "library": "ACK_FINAL_S2_ONLY",
+    "dropbox": "BLOCKED_NOT_UPLOADED"
+  },
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false,
+  "stop_after_one_bounded_unit": true
+}

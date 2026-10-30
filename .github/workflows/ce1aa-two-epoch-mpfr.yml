@@ -1,0 +1,84 @@
+name: CE1-AA original BASS Rust sky direct MPFR192 continuum rank-two certificate
+on:
+  push:
+    branches: [research/bass-ce1aa-mpfr-two-epoch-minor-20261030-r1]
+  pull_request:
+    branches: [research/bass-ce1z-gram-spectral-physics-20261030-r1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-bass-mpfr-continuum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Bind original BASS source and parent exact source/time certificates
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+          test "$(git hash-object bianchi/nonperturbative/einstein_interval.py)" = abbab0990fdefaf535ccbf5191ae3e060cb19214
+          test "$(git hash-object research/ce1y_20261030/input/real_time_mpfr.json)" = 2408eb05b9413621145728bc8a7fb26107bcf419
+          test "$(git hash-object research/ce1y_20261030/input/l4_source_and_transfer.json)" = a2a165e01b852680e19f6270054e65aff1b1ba40
+          test "$(git hash-object research/ce1y_20261030/input/GL8_STEPS16_BASS_RUST_SKY.csv)" = 269959fb7cff2d27e3ae00ae4c5c33f17ae04c53
+          git rev-parse HEAD
+      - name: Preserve S0 exact-real theorem and frozen reference before MPFR science
+        run: |
+          mkdir -p /tmp/ce1aa
+          python research/ce1aa_20261030/package_artifacts.py \
+            --stage S0 --output /tmp/ce1aa/BASS_CE1AA_S0.zip
+      - name: Upload S0 original-science checkpoint
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1AA_S0_ORIGINAL_THEORY
+          path: /tmp/ce1aa/BASS_CE1AA_S0.zip
+          retention-days: 60
+          if-no-files-found: error
+      - name: Install original reproducible Python and MPFR numerical dependencies
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 mpmath==1.3.0
+          python -m compileall -q research/ce1aa_20261030
+      - name: Compute exact stored original BASS ray sky in MPFR192 and certify continuum two-time minor
+        run: |
+          python research/ce1aa_20261030/two_epoch_mpfr.py \
+            --output /tmp/ce1aa/real_directed_mpfr192_two_epoch.json
+      - name: Preserve S1 original path, source, actual interval data and diagnostics
+        run: |
+          python research/ce1aa_20261030/package_artifacts.py \
+            --stage S1 --results /tmp/ce1aa/real_directed_mpfr192_two_epoch.json \
+            --output /tmp/ce1aa/BASS_CE1AA_S1.zip
+      - name: Upload S1 physical data and original BASS Rust evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1AA_S1_DIRECT_MPFR192_PHYSICS
+          path: /tmp/ce1aa/BASS_CE1AA_S1.zip
+          retention-days: 60
+          if-no-files-found: error
+      - name: Run source tamper, MPFR, h-unchanged and exact-real rank2 scientific tests
+        run: |
+          python -m pytest -q research/ce1aa_20261030/tests/test_two_epoch_mpfr.py
+      - name: Preserve S2 result, original physical inputs, contracts and handoff
+        run: |
+          python research/ce1aa_20261030/package_artifacts.py \
+            --stage S2 --results /tmp/ce1aa/real_directed_mpfr192_two_epoch.json \
+            --output /tmp/ce1aa/BASS_CE1AA_S2.zip
+      - name: Upload full S2 source-inclusive physics archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_CE1AA_S2_COMPLETE_SCIENCE
+          path: |
+            /tmp/ce1aa/BASS_CE1AA_S2.zip
+            /tmp/ce1aa/real_directed_mpfr192_two_epoch.json
+          retention-days: 60
+          if-no-files-found: error
