@@ -1,0 +1,63 @@
+name: CE1AD original six-cell 41-time third Gram MPFR192 singular-value certificate
+on:
+  push:
+    branches:
+      - research/bass-ce1ad-original-41sample-lambda3-svdbound-20261030-r1
+  pull_request:
+    branches:
+      - research/bass-ce1ac-original-continuum-l4-initial-jet-rank3-20261030-r1
+permissions:
+  contents: read
+concurrency:
+  group: ce1ad-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  original-sample-physical-third-mode:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install pinned numerical math, physically controlled versions
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 mpmath==1.3.0
+      - name: Verify immutable BASS original source and horizon (unchanged h target)
+        run: |
+          set -euo pipefail
+          test "$(git hash-object _rustcore/src/kinetic/comoving.rs)" = a29b12b5e7b0d529bddaf9eac53cfdb984ddaa84
+          test "$(git hash-object research/ce1ac_20261030/original_source/cellwise_gl_rust.py)" = 6d254e9efc95acc1fd2079bd047d40662986d135
+          sha256sum research/ce1ac_20261030/input/GL6_DOP853_coupled_41epochs.csv | grep '^6eff8cd9f31d027bbee55720332302b6fbad71b3639b5809aab6b9ce6f53e489'
+          sha256sum research/ce1ac_20261030/input/GL8_DOP853_coupled_41epochs.csv | grep '^1398980ec71662494273e05eb4bd52a78f6e6c7f208702638da6c739698f7502'
+      - name: Fresh original CE1-AC 82 physical l4 timejet and 3362 original K4 records
+        run: |
+          set -euo pipefail
+          python research/ce1ac_20261030/source/l4_kinematic_history.py
+      - name: Verify 5 SHA-locked inherited PR270/275/277 source and geometry inputs
+        run: python research/ce1ad_20261030/source/restore_original_inputs.py
+      - name: Fresh exact Fraction interval MPFR192 Sylvester witness and 41-point lambda3 transport
+        run: python research/ce1ad_20261030/source/certify_sampled_lambda3.py
+      - name: Fresh physical third temporal mode and first/second derivative atlas
+        run: python research/ce1ad_20261030/source/physical_third_mode_atlas.py
+      - name: Independent mpmath and tamper-oriented scoped tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q research/ce1ad_20261030/source/test_ce1ad.py
+          python -m compileall -q research/ce1ad_20261030/source
+      - name: Persist genuine original physical third-mode and rational proof receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CE1AD_FRESH_41TIME_ORIGINAL_SIXCELL_LAMBDA3_CERTIFICATE
+          path: |
+            research/ce1ad_20261030/data
+            research/ce1ad_20261030/THEORY_KO.md
+            research/ce1ad_20261030/REPORT_KO.md
+          if-no-files-found: warn
+          retention-days: 60
