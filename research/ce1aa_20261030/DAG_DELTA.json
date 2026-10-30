@@ -31,13 +31,20 @@
   "this_unit": {
     "theorem": "Exact continuum K4 Gram PSD rank<=3; if det K4[{0,.08},{0,.08}]>0 then rank>=2",
     "evaluation": "MPFR192 outward exact-real stored six-cell dyadic GL source and certified binary Hermite coefficients; PR270 exact-real continuum/source/time bounds reused",
-    "status": "MPFR192_SIX_CASES_RANK2_CONDITIONAL_SCIENCE_VERIFIED",
+    "status": "SUCCESS_SCOPED_TWO_RUNNER_MPFR192_RANK2_CONDITIONAL",
     "native_rust_new_execution": "NOT_RUN_REUSE_ORIGINAL_RUST_CSV",
-    "independent_distinct_author_review": "NOT_RUN"
+    "independent_distinct_author_review": "NOT_RUN",
+    "cross_runner_policy": "EXACT_PARENT_SHA_REUSE_OR_FRESH_WHOLE_PANEL_MPFR192_FOR_NEW_PATH",
+    "cross_runner_recertified_paths": [
+      "GL6_STEPS16",
+      "GL8_STEPS4",
+      "GL8_STEPS8",
+      "GL8_STEPS16"
+    ]
   },
   "validation": {
-    "new_scoped_tests": "11_PASS_ACTUAL_CI_41005087995",
-    "all_six_cases": "PASS_ACTUAL_CI_41005087995",
+    "new_scoped_tests": "11_PASS_BOTH_41005087995_AND_41005604968",
+    "all_six_cases": "PASS_SEPARATE_SOURCE_PATH_IDENTITY",
     "formal_compiler_program_correctness": "NOT_RUN",
     "scientific_result": {
       "GL6_N16_minor_lower": 7.435842304090848e-8,
@@ -45,14 +52,26 @@
       "GL6_N16_principal_eigenvalue_lower": 0.0000034418834765540017,
       "GL8_N16_principal_eigenvalue_lower": 0.00000371216742224799,
       "original_exact_continuum_rank": "2_TO_3_CONDITIONAL_PR270_SOURCE_PATH_MATH"
+    },
+    "runner_provenance": {
+      "initial_success": 41005087995,
+      "earlier_valid_mismatch_fail": [
+        41005327480,
+        41005331997
+      ],
+      "recovery_success": 41005604968,
+      "GL6_N16_det_lower": 7.435842304090848e-8,
+      "GL8_N16_conservative_det_lower": 8.01966314975544e-8,
+      "GL8_N16_eigen_lower": 0.0000037121674141420537
     }
   },
   "backups": {
-    "S0": "GIT_ACTIONS_ARCHIVE_CREATED",
-    "S1": "GIT_ACTIONS_ARCHIVE_CREATED",
-    "S2": "GIT_ACTIONS_ARCHIVE_CREATED_CI_41005087995",
-    "drive": "PENDING_PROVIDER_ACK",
-    "dropbox": "UNRESOLVED_SOURCE_FILE_PARAM_BACKUP_LIMIT"
+    "S0": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S1": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S1_RECERT": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "S2": "GITHUB_AND_GOOGLE_DRIVE_FULL_BYTE_SHA_PASS",
+    "library": "ACK_FINAL_S2_ONLY",
+    "dropbox": "BLOCKED_NOT_UPLOADED"
   },
   "production_ready": false,
   "merge_ready": false,
