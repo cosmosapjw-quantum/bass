@@ -23,3 +23,10 @@ Automatic commit/push **does not imply automatic merge**.
 ## Commit granularity
 
 Prefer one coherent commit per independently reviewable task when the available Git interface permits it. Multiple ordinary commits inside one PR are acceptable when connector/API constraints make atomic multi-file commits impractical.
+## 2026-11-01 REI IGM mission-tether amendment (preserves the rules above)
+
+For work **explicitly targeting the REI Bianchi IGM program**, before automatically creating a research PR, classify its **science owner, DAG and direct physical consumer** using [REI IGM mission realignment](REI_IGM_MISSION_REALIGNMENT_20261101.md) and the [typed mission DAG](REI_IGM_MISSION_DAG_20261101.json). "Next loop" alone is **not** authorization to keep chasing the latest auxiliary CE1 PR. Default to the earliest genuinely incomplete REI IGM critical-path physics **within that program**; explicit user-directed side exploration remains allowed and source-conditional. Autonomous BASS Type-II development continues under `BASS_DAG_REALIGNMENT_20260821.md`; this REI-program amendment never overrides that separate native mission.
+
+Every PR reports `DAG_OWNER`, `CANONICAL_DELTA`, `PHYSICAL_DELIVERABLE`, `SOURCE_OR_CLOCK_EQUIVALENCE`, `CONSUMER` and `CLAIM_CEILING` succinctly in its existing description. **The number of scoped R/C stages, green CI, plots, new rows, uploaded ZIPs or repeated same-author reviews never upgrades a canonical science node.** Reuse one durable checkpoint where adequate; per-stage evidence status can point to it without per-stage binary duplication.
+
+If two consecutive auxiliary PRs produce no canonical delta, the next unqualified task defaults to central REI or an owner-matched BASS→REI bridge, after one concise mission check. This is not a ban on explicit exploratory science or a new physical acceptance gate. Source, merge, force-push, production and original scientific gate protections above remain unchanged. Audit historical failures without relabeling them.
