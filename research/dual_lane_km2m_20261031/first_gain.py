@@ -228,6 +228,7 @@ def scattering_gain_snapshot(model,sol,packet,opacity,k,*,save_source=None):
       "P8_gain_bolometric_parity_relative_error":float(parity),
       "electron_rest_input_energy":incident_e,
       "electron_rest_output_energy":produced_e,
+      "original_Thomson_nu_rest_u":float(d["nu"]),
       "frequency_packet_CDF_error":float(packet_gap),
       "normal_frequency_remap_energy_error":float(bingap),
       "electron_rest_scattered_logfrequency_centroid":centroid_e,

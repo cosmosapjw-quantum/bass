@@ -42,10 +42,13 @@ def audit(source,output):
                   "NONPOSITIVE_SCATTER_SOURCE")
             check(abs(sum(rec["gained_normal_frame_spectrum"])/
                       rec["normal_first_gain_energy_rate"]-1)<3e-12,"SPECTRAL_ENERGY")
-            check(abs(sum(rec["gained_electron_frame_spectrum"])/
-                      rec["electron_rest_output_energy"]/sum([1.0])*1.0 -
-                      float(rec["normal_first_gain_energy_rate"])*0 + 0)<1e300,
-                  "FINITE_SPECTRUM")
+            # An actual dimensional relation, not a no-op finite-number check:
+            # rest spectrum output already includes nu_rest in per-normal-u units.
+            gain_spectral_rest=sum(rec["gained_electron_frame_spectrum"])
+            gain_expected=rec["original_Thomson_nu_rest_u"]*rec["electron_rest_output_energy"]
+            check(np.isfinite(gain_spectral_rest) and gain_expected>0 and
+                  abs(gain_spectral_rest/gain_expected-1)<3e-12,
+                  "REAL_REST_SPECTRAL_GAIN_RATE")
             maxima["rest_gain_energy_error"]=max(
                 maxima["rest_gain_energy_error"],rec["electron_rest_source_gain_relative_error"])
             maxima["normal_bol_P8_gain_parity"]=max(
