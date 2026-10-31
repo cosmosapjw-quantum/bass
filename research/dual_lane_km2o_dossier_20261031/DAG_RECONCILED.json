@@ -1,39 +1,140 @@
 {
-  "schema": "bass.owner.km2o.dossier_vigilode_reconciled_DAG.v1",
+  "KM2O_scoped_physics": {
+    "GL12_second_gain_rate": 1.1293133303506126e-08,
+    "GL16_mean_linear_pol": 0.007558383101262941,
+    "GL16_second_gain_rate": 1.1293133305429999e-08,
+    "backup_scope": {
+      "prior_remote_endpoint": "SOURCE_S0_55_S1_56_S2_58_OLD_HEAD_41203157125",
+      "provider_Dropbox": "NOT_VERIFIED",
+      "provider_GDrive": "PENDING_NEW_HEAD_UPLOAD",
+      "provider_Library": "PENDING_NEW_HEAD_UPLOAD",
+      "revised_full10": "S0_S1_S2_PENDING_NEW_HEAD_PROVIDER_AND_BYTE_READBACK"
+    },
+    "factorized_final_second_gain_screen_outputs": 2,
+    "frequency_rows": 12000,
+    "full_source_owner_lineage": "KM2N immutable 50-payload S2, 41-node GL12/16 first-source ledger, no new Einstein solve",
+    "independent_direct_polarized_Thomson_gain_audit": "PASS_SCOPED_NORMAL_AND_PYTHON_O",
+    "local_full_10epoch_audit": "12/12_TESTS_AND_RHS_FREE_P8_HOSTILE_REFEREE_PASS",
+    "local_full_10epoch_spectrum_replay": "10/10_SOURCE_LOCKED_SPECTRA_AND_12000_BIN_EXACT_ORIGINAL_CSV_MATCH",
+    "local_independent_saved_audit": "PASS_SCOPED",
+    "local_tests": "12/12_PASS",
+    "max_direct_polarized_pair_amp_relative_gap": 6.369967306702256e-16,
+    "max_full_spectral_bolometric_residual": 2.220446049250313e-16,
+    "name": "SECOND_THOMSON_POLARIZED_SPECTRAL_GAIN_SOURCE",
+    "new_10_epoch_GitHub_source_replay": "PENDING_NEW_CI",
+    "new_owner_Einstein_IVPs": 0,
+    "observed_epochs": 10,
+    "original_owner_snapshot_count": 10,
+    "remote_endpoint_replay": "GL12_GL16_PHYSICAL_RECALC_MATCH",
+    "remote_science_CI": "OLDER_ENDPOINT_SUCCESS_41203157125_AND_41203160494_NEW_FULL_10EPOCH_CI_PENDING",
+    "source_ledger_GL12_SHA256": "ee6d0972a165a515494cfd310e8367cf85886b7ba18da8bb0bb3b34c8f7da8b0",
+    "source_ledger_GL16_SHA256": "3ebce3e3f1f77d2d75452d87dab664e716eda469664cc14cbb489275b02716d5",
+    "spectral_bin_data_rows": 12000
+  },
   "asof_KST": "2026-10-31",
-  "source_parent_PR": 297,
-  "immutable_parent_HEAD": "4137f942d2a95999f4e6627b71042e98f7afc1b7",
-  "root_DAG": {
-    "file": "DAG.json",
-    "schema": "rei.native_moments.dag.v1",
-    "unit": "ACCEL02",
-    "action": "UNCHANGED"
+  "auto_next": false,
+  "blockers": {
+    "VigilODE_cubic_continuous_defect_to_BASS": "BLOCKED_DIFFERENT_RHS_GLOBAL_CI_FAIL",
+    "atomic_Lya_chemistry": "NOT_RUN",
+    "higher_gain": "NOT_RUN",
+    "new_upper_completed": 0,
+    "nonLRS_screen": "NOT_RUN",
+    "thermal_compton_recoil": "NOT_RUN",
+    "time_evolved_twice_scattered_field": "NOT_RUN"
   },
-  "legacy_root_DAG": {
-    "file": "REMAINING-DAG-v3.md",
-    "action": "HISTORICAL_UNCHANGED"
+  "current_admission_gate": {
+    "evidence": {
+      "first_endpoint_PR_CI": 41203160494,
+      "first_endpoint_push_CI": 41203157125,
+      "full10_imm_source": "KM2N original S2 4137f942d2a95999f4e6627b71042e98f7afc1b7",
+      "full_science_source": "research/dual_lane_km2o_dossier_20261031/KM2O_FULL_SCIENCE.json"
+    },
+    "excluded": [
+      "time_propagated_twice_scattered_J2",
+      "higher_thomson_gains",
+      "thermal_recoil",
+      "generic_nonLRS_cross_repo_source_authority",
+      "WP2_continuum_certificate_borrowed",
+      "production_or_merge_approval"
+    ],
+    "local_hostile_saved_audit": "PASS_SCOPED_NORMAL_AND_PYTHON_O",
+    "local_tests": "12/12_PASS",
+    "scope": "SECOND_THOMSON_FREQUENCY_AND_POLARIZATION_GAIN_SOURCE_ONLY",
+    "status": "LOCAL_FULL_10EPOCH_PASS_SCOPED_AND_OLDER_GITHUB_ENDPOINT_PASS; NEW_FULL_REMOTE_CI_REQUIRED"
   },
+  "dossier_mapping": {
+    "I": "Homogeneous Einstein geometry, Codazzi constraints: original owner unchanged",
+    "II": "Polarized Liouville screen, rank-nine bolometric Thomson, finite boost; thermal scattering explicitly outside cold KM2O",
+    "III": "Recombination atomic/thermal closure still missing",
+    "IV": "Spectral storage and current opacity, e.g. 1.27–1.45; no number/energy conservation claim without full sum over scattering order",
+    "V": "Positive retarded propagation, no new numerical error certificate imported from VigilODE",
+    "VI": "Nuclear cross sections out of scope of KM2O",
+    "VII": "Finite-aperture analyzer and band observations not built; no CMB observational claim",
+    "authority": "Dropbox:/dossier/BASS_Integrated_Dossier.pdf rev 65dd5afc2e7910af03d47, 933631 bytes"
+  },
+  "graph_crosswalk_edges": [
+    {
+      "DAG_completion_delta": 0,
+      "relation": "REAL_SAME_OWNER_INPUT",
+      "source": "BASS.KM2N.once_scattered_J1",
+      "status": "NUMERICALLY_REPLAYED_10_EPOCHS",
+      "target": "BASS.KM2O.second_gain_G[J1]"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "NEXT_INCOMPLETE_RETADED_PROBLEM",
+      "source": "BASS.KM2O.second_gain_G[J1]",
+      "status": "NOT_RUN",
+      "target": "BASS.KM2P.twice_scattered_J2"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "MATH_OPERATOR_CONVENTIONS",
+      "source": "Dropbox.Dossier_II.section_1_5",
+      "status": "LITERATURE_SUPPORTED_NOT_CODE_CERTIFICATE",
+      "target": "BASS.KM2O.original_P8_tensor_Thomson"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "ANALYTIC_LRS_OPTICAL_SPECIALIZATION_ONLY",
+      "source": "VigilODE.BASS21.PR159",
+      "status": "DIFFERENT_SOURCE_NO_OWNER_REPLACEMENT",
+      "target": "BASS.KM2O"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "SOURCE_FREE_SCREEN_SPECIAL_CASE",
+      "source": "VigilODE.PR161.nonLRS",
+      "status": "NOT_SCIENTIFIC_EQUIVALENCE",
+      "target": "BASS.KM2O"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "SOURCE_FREE_UNPOLARIZED_MOMENT_SPECIAL_CASE",
+      "source": "VigilODE.PR162.bolometric_Thomson",
+      "status": "NO_FULL_POLARIZED_SPECTRAL_CLAIM",
+      "target": "BASS.KM2O"
+    },
+    {
+      "DAG_completion_delta": 0,
+      "relation": "POSSIBLE_FUTURE_PROOF_METHOD_ONLY",
+      "source": "VigilODE.WP2.PR160.cubic_ODE",
+      "status": "DIFFERENT_RHS_NOT_TRANSFERRED",
+      "target": "BASS.KM2O.continuum_error"
+    }
+  ],
   "graphs": {
     "BASS_upper": {
       "completed": 9,
-      "total": 15,
       "edges": 21,
       "new_completed": 0,
-      "state": "PARTIAL"
+      "state": "PARTIAL",
+      "total": 15
     },
     "KM2": {
-      "state": "PARTIAL",
       "KM2N_scoped": "1/1_PASS_SCOPED",
-      "KM2O_scoped": "1/1_PASS_SCOPED_ENDPOINT_REMOTE_PLUS_10EPOCH_LOCAL"
-    },
-    "VigilODE": {
-      "completed": 7,
-      "total": 23,
-      "global_authority": "HOLD"
-    },
-    "VigilODE_successor": {
-      "completed": 0,
-      "total": 12
+      "KM2O_scoped": "1/1_PASS_SCOPED_10EPOCH_LOCAL_AND_REMOTE_ENDPOINT_NEW_HEAD_CI_REQUIRED",
+      "state": "PARTIAL"
     },
     "REI_central": {
       "completed": 28,
@@ -42,10 +143,78 @@
     "REI_working": {
       "completed": 33,
       "total": 88
+    },
+    "VigilODE": {
+      "completed": 7,
+      "global_authority": "HOLD",
+      "total": 23
+    },
+    "VigilODE_successor": {
+      "completed": 0,
+      "total": 12
     }
   },
+  "immutable_parent_HEAD": "4137f942d2a95999f4e6627b71042e98f7afc1b7",
+  "legacy_root_DAG": {
+    "action": "HISTORICAL_UNCHANGED",
+    "file": "REMAINING-DAG-v3.md"
+  },
+  "merge_ready": false,
+  "production_ready": false,
+  "revision_note": "Actual original GL12/16 10-epoch physical source replay from immutable 41-node KM2N plus VigilODE PR161/162 evidence classification; root ACCEL02 and historical Rust DAG untouched",
+  "root_DAG": {
+    "action": "UNCHANGED",
+    "file": "DAG.json",
+    "schema": "rei.native_moments.dag.v1",
+    "unit": "ACCEL02"
+  },
+  "schema": "bass.owner.km2o.dossier_vigilode_reconciled_DAG.v2",
   "source_lineage": {
+    "VigilODE_BASS21": {
+      "HEAD": "0c996dfb18cec764c457ed9d9ff667d1642e3ed6",
+      "PR": 159,
+      "geodesic_rows": 164050,
+      "local_Thomson_rows": 820250,
+      "new_owner_IVPs": 0,
+      "not_source_equivalent_KM2O": true
+    },
+    "VigilODE_WP1": {
+      "HEAD": "72bd52d6936b923bd110222f36df79172b9ced49",
+      "PR": 158,
+      "not_source_equivalent_KM2O": true,
+      "original_BASS_owner_IVPs": 0,
+      "scope": "Source-owned dissipative nonlinear RHS achieved-error work-precision, NOT BASS Einstein-P8 error authority"
+    },
+    "VigilODE_WP2": {
+      "HEAD": "cf690ad5ec723052e9eb6f71335f7cb3b43607a6",
+      "PR": 160,
+      "dedicated_CI": "41186122032_SUCCESS",
+      "global_CI": "41186142687_FAIL",
+      "not_source_equivalent_KM2O": true
+    },
+    "VigilODE_anisotropic_moment_PR162": {
+      "HEAD": "02f16fac23090cd4b8bfc5981e5b196c9e47c791",
+      "PR": 162,
+      "author_reported_tests": "14/14_LOCAL_ONLY",
+      "current_admission": "EXPLORATORY_NO_DAG_NODE",
+      "identical_to_current_KM2O_original_owner": false,
+      "new_binary_dual_backup": "NOT_VERIFIED",
+      "original_BASS_owner_IVPs": 0,
+      "scientific_transfer": "independent covariant moment special-case crosscheck, not source replacement",
+      "scope": "Source-free unpolarized incoming anisotropic radiation R^ab Thomson gain; 288 model rows, 36 quadrature checks; no original BASS owner IVP and no incoming polarized full spectral operator"
+    },
+    "VigilODE_nonLRS_screen_PR161": {
+      "HEAD": "1219495f3e89fbeacee3f825f845687827070a16",
+      "PR": 161,
+      "author_reported_tests": "14/14_LOCAL_ONLY",
+      "current_admission": "EXPLORATORY_NO_DAG_NODE",
+      "identical_to_current_KM2O_original_owner": false,
+      "original_BASS_owner_IVPs": 0,
+      "scientific_transfer": "analytic crosscheck only, no solver/evidence or upper-DAG promotion",
+      "scope": "Source-free diagonal non-LRS screen connection and isotropic-unpolarized moving-electron exact Thomson expression; 96 controlled collision rows; 401 screen history rows"
+    },
     "dossier_integrated": {
+      "interpretation": "source extracted and read by connected Dropbox, size/rev exact; PDF full source byte SHA NOT_VERIFIED",
       "path": "Dropbox:/dossier/BASS_Integrated_Dossier.pdf",
       "revision": "65dd5afc2e7910af03d47",
       "size_bytes": 933631
@@ -53,76 +222,13 @@
     "dossier_kinetic": {
       "path": "Dropbox:/dossier/Dossier_II_Kinetic_Transport.pdf",
       "revision": "65dd5afc2e7920af03d47",
-      "size_bytes": 410288,
       "sections": [
         "1.4",
         "1.5",
         "1.6"
-      ]
-    },
-    "VigilODE_BASS21": {
-      "PR": 159,
-      "HEAD": "0c996dfb18cec764c457ed9d9ff667d1642e3ed6",
-      "geodesic_rows": 164050,
-      "local_Thomson_rows": 820250,
-      "new_owner_IVPs": 0,
-      "not_source_equivalent_KM2O": true
-    },
-    "VigilODE_WP2": {
-      "PR": 160,
-      "HEAD": "cf690ad5ec723052e9eb6f71335f7cb3b43607a6",
-      "dedicated_CI": "41186122032_SUCCESS",
-      "global_CI": "41186142687_FAIL",
-      "not_source_equivalent_KM2O": true
+      ],
+      "size_bytes": 410288
     }
   },
-  "KM2O_scoped_physics": {
-    "name": "SECOND_THOMSON_POLARIZED_SPECTRAL_GAIN_SOURCE",
-    "observed_epochs": 10,
-    "frequency_rows": 12000,
-    "new_owner_Einstein_IVPs": 0,
-    "GL12_second_gain_rate": 1.1293133303506126e-8,
-    "GL16_second_gain_rate": 1.1293133305429999e-8,
-    "GL16_mean_linear_pol": 0.007558383101262941,
-    "source_ledger_GL12_SHA256": "ee6d0972a165a515494cfd310e8367cf85886b7ba18da8bb0bb3b34c8f7da8b0",
-    "source_ledger_GL16_SHA256": "3ebce3e3f1f77d2d75452d87dab664e716eda469664cc14cbb489275b02716d5",
-    "local_tests": "12/12_PASS",
-    "local_independent_saved_audit": "PASS_SCOPED",
-    "remote_science_CI": "PUSH_41203029867_SUCCESS_PR_41203033785_SUCCESS",
-    "remote_endpoint_replay": "GL12_GL16_PHYSICAL_RECALC_MATCH",
-    "local_full_10epoch_audit": "12/12_TESTS_AND_RHS_FREE_P8_HOSTILE_REFEREE_PASS",
-    "backup_scope": {
-      "remote_CI": "55_SOURCE_S0_56_SOURCE_S1_AND_S2_ENDPOINT_CERTIFIED",
-      "local_full_S2": "95_SOURCE_AND_ALL_TEN_FREQ_POLARIZATION_ARRAYS_SHA_CRC_VERIFIED",
-      "provider_GDrive": "PENDING_UPLOAD"
-    }
-  },
-  "blockers": {
-    "time_evolved_twice_scattered_field": "NOT_RUN",
-    "higher_gain": "NOT_RUN",
-    "thermal_compton_recoil": "NOT_RUN",
-    "atomic_Lya_chemistry": "NOT_RUN",
-    "nonLRS_screen": "NOT_RUN",
-    "VigilODE_cubic_continuous_defect_to_BASS": "BLOCKED_DIFFERENT_RHS_GLOBAL_CI_FAIL",
-    "new_upper_completed": 0
-  },
-  "production_ready": false,
-  "merge_ready": false,
-  "auto_next": false,
-  "current_admission_gate": {
-    "status": "SCOPED_PASS_FOR_SECOND_COLLISION_GAIN_SOURCE_ONLY",
-    "evidence": {
-      "push_CI": 41203029867,
-      "PR_CI": 41203033785,
-      "local_tests": 12,
-      "local_hostile_source_independent": "PASS_SCOPED"
-    },
-    "excluded": [
-      "time_propagated_twice_scattered_J2",
-      "higher_thomson_gains",
-      "VigilODE_cubic_defect_borrowed",
-      "nonLRS_screen",
-      "production_approval"
-    ]
-  }
+  "source_parent_PR": 297
 }

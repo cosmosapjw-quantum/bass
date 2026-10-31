@@ -1,4 +1,4 @@
-name: BASS KM2O dossier VigilODE owner-source second Thomson physics
+name: BASS KM2O dossier VigilODE original full-ten-epoch second Thomson science
 on:
   push:
     branches: [research/bass-km2o-dossier-vigilode-second-thomson-20261031-r1]
@@ -8,13 +8,16 @@ permissions:
   contents: read
   actions: read
 jobs:
-  source_locked_second_thomson:
+  second_gain_real_owner_full10:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
-      PYTHONPATH: '.'
+      PYTHONPATH: '.:research/dual_lane_km2c_20261028/vendor:research/dual_lane_km2c_20261028/code'
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2O_SCIENCE: 'research/dual_lane_km2o_dossier_20261031/KM2O_FULL_SCIENCE.json'
+      KM2O_AUDIT: 'research/dual_lane_km2o_dossier_20261031/KM2O_HOSTILE_FULL_AUDIT.json'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -22,148 +25,85 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.13.5'
-      - name: Install original P8 scientific numerical environment
+      - name: Source-scoped exact original Python and numerical runtime
         run: |
-          python -m pip install numpy==2.3.5 scipy==1.17.0
-      - name: Obtain source-complete frozen original KM2N original Einstein P8 physics without rerunning IVPs
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Download immutable original GL12 and GL16 KM2N source science, never re-solve owner IVPs
         uses: actions/download-artifact@v4
         with:
           name: KM2N_S2_ALL_SOURCE_PHYSICS_AND_REFEREE
           run-id: 41181695902
           repository: cosmosapjw-quantum/bass
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: /tmp/km2o_source
-      - name: Restore every original source SHA-locked file from immutable KM2N and refuse original source conflict
+          path: /tmp/km2o_frozen_original
+      - name: Verify all 50 original owner science source SHA and ZIP CRC; fail closed
         run: |
           set -euo pipefail
           python - <<'PY'
-          import hashlib,json,pathlib,zipfile
-          base=pathlib.Path('/tmp/km2o_source')
-          hits=list(base.rglob('KM2N_S2_COMPLETE_SOURCE_SCIENCE.zip'))
-          if len(hits)!=1:raise RuntimeError('immutable KM2N original S2 missing')
-          with zipfile.ZipFile(hits[0]) as z:
-              if z.testzip():raise RuntimeError('KM2N original source ZIP CRC failure')
+          import pathlib,hashlib,json,zipfile
+          source=list(pathlib.Path('/tmp/km2o_frozen_original').rglob('KM2N_S2_COMPLETE_SOURCE_SCIENCE.zip'))
+          if len(source)!=1:raise RuntimeError('original immutable owner archive missing')
+          with zipfile.ZipFile(source[0]) as z:
+              if z.testzip():raise ArithmeticError('original owner CRC changed')
               m=json.loads(z.read('MANIFEST.json'))
               if m['git_source_HEAD']!='4137f942d2a95999f4e6627b71042e98f7afc1b7' or len(m['members'])!=50:
-                  raise RuntimeError('wrong original scientific parent identity')
-              for n,x in m['members'].items():
-                  data=z.read(n)
-                  if hashlib.sha256(data).hexdigest()!=x['sha256']:raise RuntimeError('original parent corrupted: '+n)
-                  p=pathlib.Path(n);p.parent.mkdir(exist_ok=True,parents=True)
+                  raise ArithmeticError('different original BASS scientific owner')
+              for path,info in m['members'].items():
+                  content=z.read(path)
+                  if hashlib.sha256(content).hexdigest()!=info['sha256']:
+                      raise ArithmeticError('original source SHA changed '+path)
+                  p=pathlib.Path(path);p.parent.mkdir(exist_ok=True,parents=True)
                   if p.exists():
-                      if p.read_bytes()!=data:raise RuntimeError('original owner source overwritten: '+n)
-                  else:p.write_bytes(data)
+                      if p.read_bytes()!=content:raise ArithmeticError('IMMUTABLE_OWNER_MUTATION '+path)
+                  else:p.write_bytes(content)
               pathlib.Path('MANIFEST.json').write_bytes(z.read('MANIFEST.json'))
-          print('KM2O_IMMUTABLE_KM2N_ORIGINAL',len(m['members']),flush=True)
+          print('KM2O_TRUE_OWNER_SOURCE_FILES',len(m['members']),flush=True)
           PY
+          test "$(git hash-object research/dual_lane_km2n_20261031/once_scattered.py)" = 2e8fd0858aa38903beb4759b9fb54a574aeb8cfa
           python -m compileall -q research/dual_lane_km2o_dossier_20261031
-      - name: S0 checkpoint source + original dossier DAG without science promotion
+      - name: S0 complete BASS mathematical dossier VigilODE crosswalk and exact source checkpoint
         run: |
-          mkdir -p /tmp/km2o_checkpoint
-          python - <<'PY'
-          import pathlib,zipfile,json,hashlib,os
-          orig=json.loads(pathlib.Path('MANIFEST.json').read_text())
-          chosen=list(orig['members'])+[
-             'research/dual_lane_km2o_dossier_20261031/S0_THEORY_KO.md',
-             'research/dual_lane_km2o_dossier_20261031/DAG_RECONCILED.json',
-             'research/dual_lane_km2o_dossier_20261031/replay_second_gain_endpoint.py',
-             'research/dual_lane_km2o_dossier_20261031/KM2O_10_PHYSICAL_SECOND_GAIN_EPOCHS.csv',
-             '.github/workflows/km2o-second-source-certificate.yml'
-          ]
-          meta={}
-          for name in sorted(set(chosen)):
-             p=pathlib.Path(name)
-             if not p.is_file():raise RuntimeError('missing source'+name)
-             data=p.read_bytes();meta[name]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S0_SOURCE_AND_DAG.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-             for name in sorted(meta):z.write(name,name)
-             z.writestr('SOURCE_MANIFEST.json',json.dumps({'source_HEAD':os.environ.get('GITHUB_SHA'),'stage':'S0','original':50,'members':meta},sort_keys=True))
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S0_SOURCE_AND_DAG.zip') as z:
-             if z.testzip():raise RuntimeError('S0 ZIP CRC')
-             for n,x in meta.items():
-                if hashlib.sha256(z.read(n)).hexdigest()!=x['sha256']:raise RuntimeError('S0 SHA source mismatch')
-          print('KM2O_STAGE_S0_SOURCE_COUNT',len(meta),flush=True)
-          PY
+          mkdir -p /tmp/km2o_final
+          python research/dual_lane_km2o_dossier_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2o_final/KM2O_S0_SOURCE_DOSSIER.zip
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: KM2O_S0_DOSSIER_SOURCE_DAG
-          path: /tmp/km2o_checkpoint/S0_SOURCE_AND_DAG.zip
-          retention-days: 21
-      - name: Reconstruct actual original GL12 GL16 second Thomson polarized gain from saved first scattered Einstein P8 fields
+          name: KM2O_S0_DOSSIER_DAG_SOURCE
+          path: /tmp/km2o_final/KM2O_S0_SOURCE_DOSSIER.zip
+          retention-days: 60
+      - name: Generate ten real GL12 GL16 original owner second Thomson polarized spectra
         run: |
-          python research/dual_lane_km2o_dossier_20261031/replay_second_gain_endpoint.py --output /tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json
-      - name: Independent numeric source and original P8 parity assertions
+          python research/dual_lane_km2o_dossier_20261031/replay_second_gain_full.py --output "$KM2O_SCIENCE"
+      - name: Generate 12000 physical spectral rows and six scientific plots
         run: |
-          python - <<'PY'
-          import json,math
-          p=json.load(open('/tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json'))
-          assert p['source_parent_HEAD']=='4137f942d2a95999f4e6627b71042e98f7afc1b7'
-          assert len(p['records'])==2 and p['new_upper_completed']==0
-          expected={12:(1.1293133303506126e-8,0.007564365547017293),16:(1.1293133305429999e-8,0.007558383101262941)}
-          for v in p['records']:
-             a,b=expected[v['GL']]
-             if abs(v['second_gain_rate']/a-1)>2e-10:raise ArithmeticError('physical second Thomson rate mismatch')
-             if abs(v['mean_linear_polarization']-b)>2e-10:raise ArithmeticError('generated Thomson polarization mismatch')
-             if v['original_P8_gain_parity']>2e-8 or v['rest_elastic_relative_error']>5e-6:raise ArithmeticError('source P8 parity fail')
-             print('KM2O_GENUINE_PHYSICS_GL',v['GL'],v['second_gain_rate'],v['mean_linear_polarization'])
-          PY
-      - name: S1 actual measured physics and source backup with original owner data
+          python research/dual_lane_km2o_dossier_20261031/make_full_gain_plots.py --source "$KM2O_SCIENCE" --output research/dual_lane_km2o_dossier_20261031/figures
+      - name: Source-backed BASS second gain 12 physics tests and original 13 regression tests
         run: |
-          python - <<'PY'
-          import pathlib,zipfile,json,hashlib,os
-          prior=pathlib.Path('/tmp/km2o_checkpoint/S0_SOURCE_AND_DAG.zip')
-          with zipfile.ZipFile(prior) as z:m=json.loads(z.read('SOURCE_MANIFEST.json'))['members']
-          names=set(m)|{'/tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json'}
-          extra='/tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json'
-          name='KM2O_SECOND_GAIN_ENDPOINT_REPLAY.json'
-          obj=dict(m)
-          b=pathlib.Path(extra).read_bytes();obj[name]={'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)}
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S1_REAL_PHYSICS.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-            for item in sorted(m):z.write(item,item)
-            z.writestr(name,b)
-            z.writestr('SOURCE_MANIFEST.json',json.dumps({'stage':'S1','source_HEAD':os.getenv('GITHUB_SHA'),'members':obj},sort_keys=True))
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S1_REAL_PHYSICS.zip') as z:
-            if z.testzip():raise RuntimeError('S1 CRC')
-            for item,m in obj.items():
-              if hashlib.sha256(z.read(item)).hexdigest()!=m['sha256']:raise RuntimeError('S1 source identity')
-          print('KM2O_STAGE_S1_PHYSICS_SOURCE_COUNT',len(obj),flush=True)
-          PY
+          python -m pytest -q research/dual_lane_km2o_dossier_20261031/tests/test_full_second_gain.py research/dual_lane_km2n_20261031/tests/test_once_scattered.py
+      - name: S1 archive all real spectra, original science, factorized photon coherencies and figures
+        run: |
+          python research/dual_lane_km2o_dossier_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2o_final/KM2O_S1_REAL_PHYSICAL_SPECTRA.zip
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: KM2O_S1_BIANCHI_SECOND_GAIN_PHYSICS
-          path: /tmp/km2o_checkpoint/S1_REAL_PHYSICS.zip
-          retention-days: 21
-      - name: S2 positive scientific decision and fully source-owned next-thread handoff
+          name: KM2O_S1_REAL_POLARIZED_PHYSICS
+          path: /tmp/km2o_final/KM2O_S1_REAL_PHYSICAL_SPECTRA.zip
+          retention-days: 60
+      - name: Independent direct polarized Thomson pairwise-kernel source audit without BASS RHS
         run: |
-          python - <<'PY'
-          import json,pathlib,hashlib,zipfile,os
-          j=json.load(open('/tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json'))
-          d=json.load(open('research/dual_lane_km2o_dossier_20261031/DAG_RECONCILED.json'))
-          if d['graphs']['BASS_upper']['completed']!=9 or d['graphs']['VigilODE']['completed']!=7:raise RuntimeError('DAG incorrect authority')
-          out=pathlib.Path('/tmp/km2o_checkpoint/SCIENCE_REPORT.json')
-          out.write_text(json.dumps({'scope':'SECOND_SCATTERING_GAIN_SOURCE_ONLY','decision':'PASS_SCOPED_SOURCE_LOCKED_ENDPOINT_REPLAY','DAG_BASS':'9/15','KM2':'PARTIAL','new_upper_completed':0,'source_parent':j['source_parent_HEAD'],'real_physics':j['records'],'VigilODE_global_WP2_CI':'FAIL_41186142687','production_ready':False,'merge_ready':False,'auto_next':False},indent=2))
-          hand=pathlib.Path('/tmp/km2o_checkpoint/HANDOFF_NEXT_KO.txt')
-          hand.write_text('KM2O_SECOND_GAIN_SOURCE\nPARENT=4137f942d2a95999f4e6627b71042e98f7afc1b7\nUPPER_DAG=9/15\nKM2=PARTIAL\nNEXT_CANDIDATE=RETARDED_TWICE_SCATTERED_FIELD\nNO_MERGE=true\nAUTO_NEXT=false\n')
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S1_REAL_PHYSICS.zip') as z:m=json.loads(z.read('SOURCE_MANIFEST.json'))['members']
-          add={'KM2O_FINAL_SCIENCE_REPORT.json':out.read_bytes(),'KM2O_HANDOFF_NEXT_KO.txt':hand.read_bytes()}
-          for n,b in add.items():m[n]={'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)}
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S2_VERIFIED_SOURCE_SCIENCE.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-            for path in sorted(m):
-              if path in add:z.writestr(path,add[path])
-              elif path=='KM2O_SECOND_GAIN_ENDPOINT_REPLAY.json':z.write('/tmp/km2o_checkpoint/SECOND_GAIN_ENDPOINT_REPLAY.json',path)
-              else:z.write(path,path)
-            z.writestr('SOURCE_MANIFEST.json',json.dumps({'stage':'S2','source_HEAD':os.getenv('GITHUB_SHA'),'members':m},sort_keys=True))
-          with zipfile.ZipFile('/tmp/km2o_checkpoint/S2_VERIFIED_SOURCE_SCIENCE.zip') as z:
-            if z.testzip():raise RuntimeError('S2 CRC failed')
-            for n,q in m.items():
-              if hashlib.sha256(z.read(n)).hexdigest()!=q['sha256']:raise RuntimeError('S2 SHA failed '+n)
-          print('KM2O_S2_CERTIFIED_SCOPED_FILES',len(m),flush=True)
-          PY
+          python research/dual_lane_km2o_dossier_20261031/hostile_full_gain_audit.py --source "$KM2O_SCIENCE" --output "$KM2O_AUDIT"
+      - name: Optimized Python explicit-exception same-source independent hostile physics audit
+        run: |
+          python -O research/dual_lane_km2o_dossier_20261031/hostile_full_gain_audit.py --source "$KM2O_SCIENCE" --output /tmp/km2o_final/HOSTILE_AUDIT_OPTIMIZED.json
+      - name: Generate scope-locked science report and next-thread handoff
+        run: |
+          python research/dual_lane_km2o_dossier_20261031/generate_final_report.py --source "$KM2O_SCIENCE" --audit "$KM2O_AUDIT" --dag research/dual_lane_km2o_dossier_20261031/DAG_RECONCILED.json --outdir research/dual_lane_km2o_dossier_20261031
+      - name: S2 original source plus full physics, independent audit, readback and DAG handoff
+        run: |
+          python research/dual_lane_km2o_dossier_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2o_final/KM2O_S2_FULL_SCIENCE.zip
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: KM2O_S2_SCOPED_PHYSICS_SOURCE_DOSSIER
+          name: KM2O_S2_FULL_SOURCE_AND_PHYSICS_HANDOFF
           path: |
-            /tmp/km2o_checkpoint/S2_VERIFIED_SOURCE_SCIENCE.zip
-            /tmp/km2o_checkpoint/HANDOFF_NEXT_KO.txt
-            /tmp/km2o_checkpoint/SCIENCE_REPORT.json
-          retention-days: 21
+            /tmp/km2o_final/KM2O_S2_FULL_SCIENCE.zip
+            research/dual_lane_km2o_dossier_20261031/S2_FINAL_REPORT_KO.md
+            research/dual_lane_km2o_dossier_20261031/HANDOFF_NEXT_KO.txt
+          retention-days: 60
