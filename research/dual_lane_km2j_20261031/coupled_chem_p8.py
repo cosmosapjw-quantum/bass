@@ -42,7 +42,7 @@ ENERGY_J=CHI_H_EV*E_CHARGE
 
 def gitblob(path):
     raw=Path(path).read_bytes()
-    return hashlib.sha1(f"blob {len(raw)}\\0".encode()+raw).hexdigest()
+    return hashlib.sha1(f"blob {len(raw)}\0".encode()+raw).hexdigest()
 
 
 def guard_all():
@@ -340,7 +340,7 @@ def run_science(output,orders=(12,16),end=.25):
         "distinct_author_R6_C9":"NOT_RUN","native_subagent":"NOT_RUN",
     }
     output=Path(output);output.parent.mkdir(exist_ok=True,parents=True)
-    output.write_text(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+"\\n")
+    output.write_text(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+"\n")
     return result
 
 
