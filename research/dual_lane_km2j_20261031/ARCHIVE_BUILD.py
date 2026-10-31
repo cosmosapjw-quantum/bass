@@ -20,7 +20,14 @@ FIG=UNIT+"/figures"
 
 def make(stage,out):
     sources=guard_all()
-    paths=set(sources)|set(BASE)
+    paths=set(BASE)
+    for rel in sources:
+        # KM2I source_guards deliberately returns two local-copy names;
+        # their owner is KM2I/source_data, not the repository root.
+        if rel.startswith("source_data/"):
+            paths.add("research/dual_lane_km2i_20261031/"+rel)
+        else:
+            paths.add(rel)
     if stage in ("S1","S2"):
         paths.add(RESULT)
         paths.update(str(p.relative_to(ROOT)) for p in (ROOT/FIG).glob("*") if p.is_file())
