@@ -32,7 +32,7 @@ MAX_SOURCE_MOMENT_GAP=2e-12
 
 def gitblob(path):
     raw=Path(path).read_bytes()
-    return hashlib.sha1(f"blob {len(raw)}\\0".encode()+raw).hexdigest()
+    return hashlib.sha1(f"blob {len(raw)}\0".encode()+raw).hexdigest()
 
 
 def exact_parent_sources():
