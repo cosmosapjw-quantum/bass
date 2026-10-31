@@ -1,5 +1,7 @@
 # bianchi-solver
 
+> **Research status / DAG identity (2026-11-01, governance Draft):** [Physics upper 15-node typed DAG](docs/development/BASS_PHYSICS_UPPER_DAG_20261101.json), [meta-adversarial review and next critical-path choice](docs/development/BASS_META_AUDIT_20261101.md), and [BASS-specific science dispatch](docs/development/BASS_SCIENCE_DISPATCH_POLICY_20261101.md). Where it exists on later research branches, DAG.json tracks the ACCEL02 R/C unit; the pinned main baseline has no root DAG.json. Neither is the 15-node physics graph. Inherited upper 9/15 is scoped/source-mapped, not 60% full physical completion. Source and production owners remain unchanged.
+
 모든 Bianchi 유형(I–IX, class A/B, 예외형 VI\*₋₁/₉)과 tilted 모델의
 배경 우주론 solver. 지원 완료된 생산 경로는 `bianchi_rustcore`를 사용하고,
 Python/JAX + diffrax 구현은 명시적 오라클 또는 아직 이식되지 않은 경로로 유지한다.
