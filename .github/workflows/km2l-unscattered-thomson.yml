@@ -1,0 +1,84 @@
+name: KM2L original Einstein P8 and unscattered Thomson Lyalpha spectrum
+on:
+  push:
+    branches: [research/bass-km2l-unscattered-thomson-lya-20261031-r1]
+  pull_request:
+    branches: [research/bass-km2k-lya-escaping-line-spectra-20261031-r1]
+permissions:
+  contents: read
+jobs:
+  physical_ballistic_lya_thomson:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2L_SCIENCE_JSON: research/dual_lane_km2l_20261031/results/KM2L_UNSCATTERED_LYA_REAL_PHYSICS.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install exact source-qualified scientific runtime
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Source lock original Einstein P8 KM2J KM2K and syntax validation
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2k_20261031/escaping_lya.py)" = d2791cdadeda45cb45d473680cd0333dcea1194d
+          test "$(git hash-object research/dual_lane_km2k_20261031/frequency_core.py)" = ea583b341d46edbb209147152fa7b8ebf72f7bed
+          test "$(git hash-object research/dual_lane_km2j_20261031/coupled_chem_p8.py)" = 2bf86d6d48cd95177b55db12f78e89c69ddfd1dd
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          python -m compileall -q research/dual_lane_km2l_20261031
+          python -c 'from research.dual_lane_km2l_20261031.thomson_lya import original_source_guards; print("KM2L_ORIGINAL_SOURCE_GUARDS",len(original_source_guards()))'
+      - name: S0 new theoretical contract and all original necessary source checkpoint
+        run: |
+          mkdir -p /tmp/km2l_ci
+          python research/dual_lane_km2l_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2l_ci/KM2L_S0_THEORY.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2L_S0_SOURCE_LOCKED_THEORY
+          path: /tmp/km2l_ci/KM2L_S0_THEORY.zip
+          retention-days: 60
+      - name: Actually reintegrate original Einstein P8 Peebles GL12 GL16 and build physical optical depths and first scatter spectra
+        run: |
+          python research/dual_lane_km2l_20261031/thomson_lya.py --orders 12,16 --time-order 8 --output "$KM2L_SCIENCE_JSON"
+      - name: Generate 246 actual physics epochs and 36000 frequency spectral rows with six plots
+        run: |
+          python research/dual_lane_km2l_20261031/make_plots.py --source "$KM2L_SCIENCE_JSON" --output research/dual_lane_km2l_20261031/figures
+      - name: S1 actual physics data original sources and plots checkpoint
+        run: |
+          python research/dual_lane_km2l_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2l_ci/KM2L_S1_REAL_PHYSICS.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2L_S1_SOURCE_AND_LIVE_THOMSON_PHYSICS
+          path: /tmp/km2l_ci/KM2L_S1_REAL_PHYSICS.zip
+          retention-days: 60
+      - name: Twelve physical and exact analytic source-bound regression tests
+        run: |
+          python -m pytest -q research/dual_lane_km2l_20261031/tests/test_thomson_lya.py
+      - name: Independently recalculate saved spectral Green Thomson first-event physics without BASS RHS
+        run: |
+          python research/dual_lane_km2l_20261031/hostile_saved_audit.py --source "$KM2L_SCIENCE_JSON" --output research/dual_lane_km2l_20261031/results/HOSTILE_SAVED_THOMSON_AUDIT.json
+      - name: Optimized Python real exception-based adversarial physical audit
+        run: |
+          python -O research/dual_lane_km2l_20261031/hostile_saved_audit.py --source "$KM2L_SCIENCE_JSON" --output /tmp/km2l_ci/OPTIMIZED_HOSTILE_THOMSON_AUDIT.json
+      - name: Write model-bound actual numerical physics report and copyable handoff
+        run: |
+          python research/dual_lane_km2l_20261031/generate_report.py --source "$KM2L_SCIENCE_JSON" --audit research/dual_lane_km2l_20261031/results/HOSTILE_SAVED_THOMSON_AUDIT.json --outdir research/dual_lane_km2l_20261031
+      - name: S2 CRC and all original source SHA source-complete final science archive
+        run: |
+          python research/dual_lane_km2l_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2l_ci/KM2L_S2_FINAL_SOURCE_PHYSICS.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2L_S2_FINAL_SOURCE_PHYSICS_HANDOFF
+          path: |
+            /tmp/km2l_ci/KM2L_S2_FINAL_SOURCE_PHYSICS.zip
+            research/dual_lane_km2l_20261031/results/KM2L_UNSCATTERED_LYA_REAL_PHYSICS.json
+            research/dual_lane_km2l_20261031/S2_FINAL_REPORT_KO.md
+            research/dual_lane_km2l_20261031/HANDOFF_NEXT_KO.txt
+          retention-days: 60
