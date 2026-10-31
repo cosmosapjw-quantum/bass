@@ -1,0 +1,84 @@
+name: KM2N Bianchi exactly one Thomson scattered polarized Lyalpha transport
+on:
+  push:
+    branches: [research/bass-km2n-once-scattered-retarded-lya-20261031-r1]
+  pull_request:
+    branches: [research/bass-km2m-first-thomson-spectral-p8-gain-20261031-r1]
+permissions:
+  contents: read
+jobs:
+  original_einstein_P8_once_scattered:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2N_SCIENCE_JSON: research/dual_lane_km2n_20261031/results/KM2N_ONCE_SCATTER_REAL.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install exact original source scientific Python runtime
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Guard original Einstein P8 Peebles KM2M and compile new science
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2m_20261031/first_gain.py)" = 28b0076e9688d60622ce9d8e547af2cccde43c47
+          test "$(git hash-object research/dual_lane_km2l_20261031/thomson_lya.py)" = 34933d752ae1888ac4eead17fb7d579a584add88
+          test "$(git hash-object research/dual_lane_km2j_20261031/coupled_chem_p8.py)" = 2bf86d6d48cd95177b55db12f78e89c69ddfd1dd
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          python -m compileall -q research/dual_lane_km2n_20261031
+          python -c 'from research.dual_lane_km2n_20261031.once_scattered import source_guards; print("KM2N_SOURCE_GUARD_COUNT",len(source_guards()))'
+      - name: S0 preserve source-owned original and new theoretical checkpoint
+        run: |
+          mkdir -p /tmp/km2n_ci
+          python research/dual_lane_km2n_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2n_ci/KM2N_S0_THEORY.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2N_S0_THEORY_AND_ORIGINAL_SOURCE
+          path: /tmp/km2n_ci/KM2N_S0_THEORY.zip
+          retention-days: 60
+      - name: Reintegrate original Einstein P8 Peebles GL12 GL16 and time-propagate exactly one scattering
+        run: |
+          python research/dual_lane_km2n_20261031/once_scattered.py --grids 12,16 --output "$KM2N_SCIENCE_JSON"
+      - name: Generate actual 12000 source-specific spectral physics rows and six science plots
+        run: |
+          python research/dual_lane_km2n_20261031/make_plots.py --source "$KM2N_SCIENCE_JSON" --output research/dual_lane_km2n_20261031/figures
+      - name: S1 physical source and transport source-complete backup
+        run: |
+          python research/dual_lane_km2n_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2n_ci/KM2N_S1_REAL_PHOTON_SCIENCE.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2N_S1_REAL_RETARDED_FIRST_SCATTER_PHYSICS
+          path: /tmp/km2n_ci/KM2N_S1_REAL_PHOTON_SCIENCE.zip
+          retention-days: 60
+      - name: Physical source-locked Einstein screen spectral and exact analytic regression tests
+        run: |
+          python -m pytest -q research/dual_lane_km2n_20261031/tests/test_once_scattered.py
+      - name: Independent saved-data bolometric spectral first moment and polarization time-integral audit
+        run: |
+          python research/dual_lane_km2n_20261031/hostile_saved_audit.py --source "$KM2N_SCIENCE_JSON" --output research/dual_lane_km2n_20261031/results/HOSTILE_SAVED_ONCE_SCATTER_AUDIT.json
+      - name: Python -O optimized source-independent exception-based hostile audit
+        run: |
+          python -O research/dual_lane_km2n_20261031/hostile_saved_audit.py --source "$KM2N_SCIENCE_JSON" --output /tmp/km2n_ci/OPTIMIZED_KM2N_AUDIT.json
+      - name: Generate actual scope-qualified final report and copyable handoff
+        run: |
+          python research/dual_lane_km2n_20261031/generate_report.py --source "$KM2N_SCIENCE_JSON" --audit research/dual_lane_km2n_20261031/results/HOSTILE_SAVED_ONCE_SCATTER_AUDIT.json --outdir research/dual_lane_km2n_20261031
+      - name: S2 final source-complete Einstein P8 physical science referee CRC/SHA archive
+        run: |
+          python research/dual_lane_km2n_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2n_ci/KM2N_S2_COMPLETE_SOURCE_SCIENCE.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2N_S2_ALL_SOURCE_PHYSICS_AND_REFEREE
+          path: |
+            /tmp/km2n_ci/KM2N_S2_COMPLETE_SOURCE_SCIENCE.zip
+            research/dual_lane_km2n_20261031/results/KM2N_ONCE_SCATTER_REAL.json
+            research/dual_lane_km2n_20261031/S2_FINAL_REPORT_KO.md
+            research/dual_lane_km2n_20261031/HANDOFF_NEXT_KO.txt
+          retention-days: 60
