@@ -1,0 +1,203 @@
+{
+  "schema": "bass.rei_igm_mission_dependency_overlay.v1",
+  "as_of": "2026-11-01",
+  "status": "PROPOSED_FOR_DRAFT_REVIEW_NOT_CENTRAL_REI_MUTATION",
+  "authority": {
+    "repository": "cosmosapjw-quantum/bass",
+    "base_commit": "bbebf7f0cdc3e23eec422f67118e8d402afb106c",
+    "rei_main_commit": "ae3402713c4b6530ab2b27f008f5f5d5c6a999ed",
+    "rei_igm_legacy_pr89_head": "4b1ffbd5d35a7dfbd66797d7e03f0a298f36b621",
+    "rei_f4_pr317_head": "45154b5d661296ec4ae5d39bc1d1502c1d9761f3",
+    "root_DAG_json": "UNTOUCHED_OTHER_ACCEL02_OWNER",
+    "historical_bass_realignment": "docs/development/BASS_DAG_REALIGNMENT_20260821.md"
+  },
+  "mission": {
+    "statement": "Source-owned, photon- and energy-conserving physical H/He IGM ionization/temperature history, then Bianchi-I coupled opacity and directional optical depth/visibility. FLRW first canonical interval precedes C0 geometry promotion.",
+    "first_critical_deliverable": "REI_FIRST_CANONICAL_INTERVAL",
+    "physical_outputs": [
+      "x_HII(t)",
+      "x_HeII(t)",
+      "x_HeIII(t)",
+      "T_m(t)",
+      "photon_N_group(t)",
+      "photon_E_group(t)",
+      "Gamma_HI_HeI_HeII(t)",
+      "photoheating(t)"
+    ],
+    "later_observables": [
+      "tau_T(direction)",
+      "visibility(direction)"
+    ],
+    "no_unverified_cmb_likelihood": true
+  },
+  "progress_snapshots": {
+    "rei_main_D0": {
+      "authority": "rei_bianchi/docs/roadmap/D0_PR_ROADMAP.md",
+      "state": "PR2_B2C2_IN_PROGRESS",
+      "completed_first_canonical_interval": false,
+      "denominator": "NOT_AN_88_NODE_COUNT"
+    },
+    "rei_f4_reported": {
+      "source": "rei_bianchi PR317 exact head",
+      "reported_central": "28/88",
+      "reported_working": "33/88",
+      "reported_physical_fast": "4/7",
+      "relation": "NOT_RECONCILED_TO_REI_MAIN_D0_OR_BASS_CE1"
+    },
+    "bass_ce1": {
+      "source": "bass PR302 exact head",
+      "completed": 9,
+      "total": 15,
+      "edges": 21,
+      "CE1": "PARTIAL",
+      "newly_completed_by_ce1al_to_ce1aq": 0,
+      "imported_to_rei": false
+    },
+    "rei_igm_pr89": {
+      "source": "rei_bianchi PR89",
+      "state": "MANUFACTURED_0008_HORIZON_SCOPED_ONLY",
+      "longer_z12_to_z10": "NOT_ACCEPTED_AT_PR84",
+      "recombination_and_physical_admission": "HOLD"
+    }
+  },
+  "nodes": [
+    {
+      "id": "REI_R2C_LOCAL_MICROSTEP",
+      "owner": "rei_bianchi/main",
+      "status": "SCOPED_ACCEPTED",
+      "depends_on": [],
+      "evidence": "docs/science/current_00_READ_FIRST.md@ae3402713c4b6530ab2b27f008f5f5d5c6a999ed",
+      "physical_deliverable": "One bounded 4-site FLRW thermochemistry microstep; not first canonical interval"
+    },
+    {
+      "id": "REI_FIRST_CANONICAL_INTERVAL",
+      "owner": "rei_bianchi/main",
+      "status": "OPEN",
+      "depends_on": [
+        "REI_R2C_LOCAL_MICROSTEP"
+      ],
+      "evidence": "handoff/CURRENT_HANDOFF_PROMPT.md@ae3402713c4b6530ab2b27f008f5f5d5c6a999ed",
+      "physical_deliverable": "All three shape lanes across entire first canonical BDF interval, 7 ledger closure, positive states, public width and local/global step guards"
+    },
+    {
+      "id": "REI_B2C2B_HISTORY",
+      "owner": "rei_bianchi/main",
+      "status": "BLOCKED_UPSTREAM",
+      "depends_on": [
+        "REI_FIRST_CANONICAL_INTERVAL"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "Source-owned photon-conserving node chemistry and material+photon sink history"
+    },
+    {
+      "id": "REI_B2C2C_FRONT",
+      "owner": "rei_bianchi/main",
+      "status": "NOT_STARTED",
+      "depends_on": [
+        "REI_B2C2B_HISTORY"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "Front and QM history with complete source/energy ledger"
+    },
+    {
+      "id": "REI_B2D_MOMENT_CLOSURE",
+      "owner": "rei_bianchi/main",
+      "status": "NOT_STARTED",
+      "depends_on": [
+        "REI_B2C2C_FRONT"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "Source ensemble with physically consistent Q/Gamma closure and moments"
+    },
+    {
+      "id": "REI_B2E_FLRW_INTERFACE",
+      "owner": "rei_bianchi/main",
+      "status": "NOT_STARTED",
+      "depends_on": [
+        "REI_B2D_MOMENT_CLOSURE"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "Source-owned FLRW end-to-end history and physically accepted interface freeze"
+    },
+    {
+      "id": "BASS_REI_CLOCK_SOURCE_BRIDGE",
+      "owner": "bass/bridge_for_rei",
+      "status": "NOT_ADMITTED",
+      "depends_on": [],
+      "evidence": "Required future source-equivalence witness; none found in CE1AL-AQ",
+      "physical_deliverable": "Exact time/frame/background state correspondence plus H/He, photon N/E, opacity, temperature, owner and error-budget compatibility; preserve REI input lock"
+    },
+    {
+      "id": "REI_C0_BIANCHI_I_COUPLING",
+      "owner": "rei_bianchi/main",
+      "status": "NOT_STARTED",
+      "depends_on": [
+        "REI_B2E_FLRW_INTERFACE",
+        "BASS_REI_CLOCK_SOURCE_BRIDGE"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "First coupled Bianchi-I H/He+photon history, constraint/energy/opacity checks and FLRW limit"
+    },
+    {
+      "id": "REI_DIRECTIONAL_TAU_VISIBILITY",
+      "owner": "rei_bianchi/main",
+      "status": "NOT_STARTED",
+      "depends_on": [
+        "REI_C0_BIANCHI_I_COUPLING"
+      ],
+      "evidence": "docs/roadmap/D0_PR_ROADMAP.md",
+      "physical_deliverable": "Actual source-matched optical-depth/visibility vs angle with provenance and bounded observation scope"
+    }
+  ],
+  "critical_path_ids": [
+    "REI_R2C_LOCAL_MICROSTEP",
+    "REI_FIRST_CANONICAL_INTERVAL",
+    "REI_B2C2B_HISTORY",
+    "REI_B2C2C_FRONT",
+    "REI_B2D_MOMENT_CLOSURE",
+    "REI_B2E_FLRW_INTERFACE",
+    "REI_C0_BIANCHI_I_COUPLING",
+    "REI_DIRECTIONAL_TAU_VISIBILITY"
+  ],
+  "auxiliary_lanes": [
+    {
+      "id": "BASS_CE1AL_AQ",
+      "source": "bass PR296/299/300/301/302",
+      "type": "PHYSICALLY_INTERESTING_DIFFERENT_SOURCE",
+      "accepted_upstream": false,
+      "canonical_delta": 0,
+      "eligibility": "Only after exact REI source/time/gas/closure/observable interface witness; further CE1 curvature/sky refinements are not a required first-interval prerequisite"
+    },
+    {
+      "id": "REI_IGM_PR89",
+      "source": "rei_bianchi PR89",
+      "type": "MANUFACTURED_DIFFERENT_HISTORY",
+      "accepted_upstream": false,
+      "eligibility": "Do not confuse accepted 0.0008 manufactured-horizon control with complete first canonical interval or long z12-z10 physical history"
+    },
+    {
+      "id": "REI_F4_PR317",
+      "source": "rei_bianchi PR317",
+      "type": "SOURCE_CONDITIONAL_CCC_BASS193",
+      "accepted_upstream": false,
+      "eligibility": "Separate first-collision source-moment side lane and reported 28/88 accounting; no automatic D0 transfer"
+    },
+    {
+      "id": "VIGILODE_BASS21",
+      "source": "vigilode separate 50x193 owner",
+      "type": "PHOTON_COLLISION_ALGORITHM_REFERENCE",
+      "accepted_upstream": false,
+      "eligibility": "Different source/closure, no data or gate transfer"
+    }
+  ],
+  "next_action": {
+    "default_id": "REI_FIRST_CANONICAL_INTERVAL",
+    "owner": "rei_bianchi/main",
+    "work": "Extend the already accepted 4-site microstep across ONE complete first canonical interval; report x_HII, x_HeII, x_HeIII, logT, photon N/E budgets and all three lanes with honest failure outcomes. If unable, isolate first failing step/owner and preserve a physical counterexample.",
+    "in_bass_only": "Read-only exact-time/background/source-contract bridge witness for future REI_C0, NOT another CE1 source-only sky or curvature extension",
+    "explicit_user_exploration_override": true,
+    "production": "HOLD",
+    "merge": "HOLD",
+    "auto_next": false
+  }
+}

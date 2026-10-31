@@ -1,0 +1,30 @@
+name: REI IGM mission alignment structure
+on:
+  push:
+    branches:
+      - research/rei-igm-mission-drift-audit-20261101
+    paths:
+      - "docs/development/REI_IGM_MISSION_*"
+      - "docs/development/PR_AUTOCOMMIT_POLICY.md"
+      - "research/rei_igm_meta_audit_20261101/**"
+      - "scripts/check_igm_mission_alignment.py"
+      - ".github/workflows/rei-igm-mission-alignment.yml"
+  pull_request:
+    paths:
+      - "docs/development/REI_IGM_MISSION_*"
+      - "docs/development/PR_AUTOCOMMIT_POLICY.md"
+      - "research/rei_igm_meta_audit_20261101/**"
+      - "scripts/check_igm_mission_alignment.py"
+      - ".github/workflows/rei-igm-mission-alignment.yml"
+permissions:
+  contents: read
+jobs:
+  mission_dag_structural_check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate owned mission DAG and rejection tests
+        run: python3 scripts/check_igm_mission_alignment.py --self-test
+      - name: Python source syntax
+        run: python3 -m py_compile scripts/check_igm_mission_alignment.py
