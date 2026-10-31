@@ -1,0 +1,103 @@
+{
+  "schema": "bass.ce1an.ce1_lineage_dag_overlay.v1",
+  "date": "2026-10-31",
+  "authority": "CE1 scoped scientific DAG overlay only. The BASS root DAG.json remains the independent ACCEL02 20261021 lane, never overwritten.",
+  "baseline": {
+    "pr": 296,
+    "head": "cdd77fbbd4c9e29c202927e4fac6a6d2a4cd7d0a",
+    "source_sha256": "022e6548c0a8562c20cc819667f1a9a002af9db7bc250a5148ffa692b4223035"
+  },
+  "canonical_upper": {
+    "completed": 9,
+    "total": 15,
+    "edges": 21,
+    "CE1": "PARTIAL",
+    "newly_admitted_upper_nodes": 0,
+    "delta": 0
+  },
+  "scoped_subnodes": [
+    {
+      "id": "CE1AN_FINITE_SOURCE_CURVATURE_WORK",
+      "status": "SCOPED_COMPLETE_LOCAL",
+      "progress": "1/1",
+      "actual_original_IVPs": 24,
+      "physical_nonlinear_rows": 8421,
+      "nonzero_amplitude_rows": 7218,
+      "tangent_rows": 1203,
+      "secant_rows": 3609,
+      "admitted_upper": false
+    },
+    {
+      "id": "CE1_DOSSIER_ANISOTROPIC_WORK_INTEGRAL",
+      "status": "SCOPED_CHECKED",
+      "progress": "1/1",
+      "source": "BASS Integrated Dossier 2026-10-14 Eq 5.25-5.30",
+      "admitted_upper": false
+    },
+    {
+      "id": "CE1_CONTINUUM_WEYL_SIGN_FULL_HORIZON",
+      "status": "UNRESOLVED",
+      "progress": "0/1",
+      "requirement": "Uniform u∈(0,.08] exact continuum angular and ODE/tangent sign enclosure",
+      "admitted_upper": false
+    },
+    {
+      "id": "CE1_CONTINUUM_ANGULAR_TIME_ERROR_BOUND",
+      "status": "NOT_RUN",
+      "progress": "0/1",
+      "admitted_upper": false
+    },
+    {
+      "id": "BASS21_NONLRS_POLARIZED_FULL_COLLISION",
+      "status": "NOT_RUN_IN_CE1",
+      "progress": "0/1",
+      "admitted_upper": false
+    }
+  ],
+  "crosswalk": [
+    {
+      "from": "DROPBOX_DOSSIER_2026_10_14_CH5_4",
+      "to": "CE1_DOSSIER_ANISOTROPIC_WORK_INTEGRAL",
+      "type": "EXACT_SPECIALIZATION_VALIDATED_SOURCE_OWNED"
+    },
+    {
+      "from": "DROPBOX_DOSSIER_2026_10_14_CH7_6",
+      "to": "CE1_CONTINUUM_ANGULAR_TIME_ERROR_BOUND",
+      "type": "ADJOINT_LOG_NORM_METHOD_CANDIDATE_NOT_APPLIED"
+    },
+    {
+      "from": "VIGILODE_PR159@0c996dfb18cec764c457ed9d9ff667d1642e3ed6",
+      "to": "CE1_CONTINUUM_WEYL_SIGN_FULL_HORIZON",
+      "type": "METHOD_REFERENCE_ONLY_DIFFERENT_BASS21_SOURCE_NO_DATA_TRANSPORT"
+    },
+    {
+      "from": "VIGILODE_PR160@cf690ad5ec723052e9eb6f71335f7cb3b43607a6",
+      "to": "CE1_CONTINUUM_ANGULAR_TIME_ERROR_BOUND",
+      "type": "METHOD_REFERENCE_ONLY_DIFFERENT_COOPERATIVE_RHS"
+    },
+    {
+      "from": "BASS_PR296@cdd77fbbd4c9e29c202927e4fac6a6d2a4cd7d0a",
+      "to": "CE1AN_FINITE_SOURCE_CURVATURE_WORK",
+      "type": "IMMUTABLE_SOURCE_AND_MODEL_CONTRACT"
+    },
+    {
+      "from": "CE1AN_FINITE_SOURCE_CURVATURE_WORK",
+      "to": "CE1_CONTINUUM_WEYL_SIGN_FULL_HORIZON",
+      "type": "NUMERIC_NECESSARY_CONTEXT_NOT_CERTIFICATE"
+    }
+  ],
+  "vigilode": {
+    "official_DAG": "7/23",
+    "newly_completed_by_this_unit": 0,
+    "owner_source": "separate from CE1 six-cell",
+    "owner_new_IVPs_by_PR159": 0
+  },
+  "policies": {
+    "no_merge": true,
+    "no_production": true,
+    "no_auto_next": true,
+    "distinct_author_R6_C9": "NOT_RUN",
+    "no_original_source_mutation": true,
+    "root_DAG_json_untouched": true
+  }
+}
