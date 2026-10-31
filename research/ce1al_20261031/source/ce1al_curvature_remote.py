@@ -109,7 +109,7 @@ def replay(epochs=401,eps=1e-3):
     if not sol.success:raise RuntimeError(sol.message)
     family[sign]=sol.y.T
    a=[];b=[];res=[]
-   kappa=sum(float(c['A_over_pi'][j])/math.pi for j in range(3)) # only normalization check: sum A =0
+   kappa=sum(float(F(c['A_over_pi'][j]))/math.pi for j in range(3)) # only normalization check: sum A =0
    assert abs(kappa)<1e-15
    an=np.array([float(F(x))/math.pi for x in c['A_over_pi']])
    coeff= -.00216357980338848
