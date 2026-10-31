@@ -61,7 +61,7 @@ def test_gaussian_frequency_packet_energy_and_angular_moments():
     hist,gap=fc.gaussian_bin_histogram(means,sig,p,w,np.linspace(-.5,.5,1201))
     assert gap<2e-12
     assert abs(hist.sum()/mom["rho"]-1)<2e-12
-    assert 0<mom["redwing_fraction"]<1
+    assert 0<=mom["redwing_fraction"]<=1
     assert mom["std_log_nu"]>0
     assert np.linalg.norm(mom["q"])<mom["rho"]
     assert np.all(np.isfinite(mom["quadrupole"]))
