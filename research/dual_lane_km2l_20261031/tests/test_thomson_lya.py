@@ -126,7 +126,7 @@ def test_anisotropic_propagation_distinct_from_counterfactual(science):
         m1=case["scenarios"]["shear_thomson"]["epochs"][-1]
         m2=case["scenarios"]["Honly_thomson"]["epochs"][-1]
         assert abs(m1["mean_log_nu"]-m2["mean_log_nu"])>1e-5
-        assert abs(m1["rho"]-m2["rho"])>1e-12
+        assert abs(m1["rho"]/m2["rho"]-1)>1e-6
 
 
 def test_angular_grid_consistency_and_original_hamiltonian(science):
