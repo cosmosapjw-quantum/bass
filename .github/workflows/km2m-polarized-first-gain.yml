@@ -1,0 +1,84 @@
+name: KM2M actual Einstein P8 Peebles first polarized Thomson frequency gain
+on:
+  push:
+    branches: [research/bass-km2m-first-thomson-spectral-p8-gain-20261031-r1]
+  pull_request:
+    branches: [research/bass-km2l-unscattered-thomson-lya-20261031-r1]
+permissions:
+  contents: read
+jobs:
+  polarized_first_gain_source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2M_SCIENCE_JSON: research/dual_lane_km2m_20261031/results/KM2M_FIRST_POLARIZED_GAIN_PHYSICS.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install source-locked original scientific runtime
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Verify original Einstein P8 KM2L source SHA and new implementation syntax
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2l_20261031/thomson_lya.py)" = 34933d752ae1888ac4eead17fb7d579a584add88
+          test "$(git hash-object research/dual_lane_km2k_20261031/escaping_lya.py)" = d2791cdadeda45cb45d473680cd0333dcea1194d
+          test "$(git hash-object research/dual_lane_km2j_20261031/coupled_chem_p8.py)" = 2bf86d6d48cd95177b55db12f78e89c69ddfd1dd
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          python -m compileall -q research/dual_lane_km2m_20261031
+          python -c 'from research.dual_lane_km2m_20261031.first_gain import source_guards; print("KM2M_SOURCE_GUARDS",len(source_guards()))'
+      - name: S0 theory with all immutable original P8 source checkpoint
+        run: |
+          mkdir -p /tmp/km2m_ci
+          python research/dual_lane_km2m_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2m_ci/KM2M_S0_FROZEN_THEORY.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2M_S0_ORIGINAL_P8_SCIENCE_THEORY
+          path: /tmp/km2m_ci/KM2M_S0_FROZEN_THEORY.zip
+          retention-days: 60
+      - name: Reintegrate original Einstein P8 Peebles GL12 and GL16 and calculate actual first polarized Thomson frequency gain
+        run: |
+          python research/dual_lane_km2m_20261031/first_gain.py --orders 12,16 --output "$KM2M_SCIENCE_JSON"
+      - name: Generate actual 10 source epochs 12000 frequency bins and 6 science plots
+        run: |
+          python research/dual_lane_km2m_20261031/make_plots.py --source "$KM2M_SCIENCE_JSON" --output research/dual_lane_km2m_20261031/figures
+      - name: S1 source-complete physical frequency and source factorization checkpoint
+        run: |
+          python research/dual_lane_km2m_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2m_ci/KM2M_S1_ACTUAL_FIRST_GAIN_PHYSICS.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2M_S1_PHYSICAL_GAIN_AND_POLARIZATION
+          path: /tmp/km2m_ci/KM2M_S1_ACTUAL_FIRST_GAIN_PHYSICS.zip
+          retention-days: 60
+      - name: Twelve original-P8 source and polarized first Thomson frequency regression tests
+        run: |
+          python -m pytest -q research/dual_lane_km2m_20261031/tests/test_first_gain.py
+      - name: Independent direct scalar Thomson kernel audit vs original tensor P8 source
+        run: |
+          python research/dual_lane_km2m_20261031/hostile_saved_audit.py --source "$KM2M_SCIENCE_JSON" --output research/dual_lane_km2m_20261031/results/HOSTILE_SAVED_FIRST_GAIN_AUDIT.json
+      - name: Python optimized independent exception-based physics audit
+        run: |
+          python -O research/dual_lane_km2m_20261031/hostile_saved_audit.py --source "$KM2M_SCIENCE_JSON" --output /tmp/km2m_ci/OPTIMIZED_P8_SCATTER_REFEREE.json
+      - name: Write actual physical source report and copyable next-thread handoff
+        run: |
+          python research/dual_lane_km2m_20261031/generate_report.py --source "$KM2M_SCIENCE_JSON" --audit research/dual_lane_km2m_20261031/results/HOSTILE_SAVED_FIRST_GAIN_AUDIT.json --outdir research/dual_lane_km2m_20261031
+      - name: S2 final actual science archive with all original source and referee manifest
+        run: |
+          python research/dual_lane_km2m_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2m_ci/KM2M_S2_FINAL_SOURCE_SCIENCE.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2M_S2_FULL_SOURCE_FIRST_GAIN_SCIENCE
+          path: |
+            /tmp/km2m_ci/KM2M_S2_FINAL_SOURCE_SCIENCE.zip
+            research/dual_lane_km2m_20261031/results/KM2M_FIRST_POLARIZED_GAIN_PHYSICS.json
+            research/dual_lane_km2m_20261031/S2_FINAL_REPORT_KO.md
+            research/dual_lane_km2m_20261031/HANDOFF_NEXT_KO.txt
+          retention-days: 60
