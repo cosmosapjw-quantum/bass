@@ -1,0 +1,61 @@
+name: CE1AL original Einstein-Vlasov Weyl curvature hidden sixth-moment
+on:
+  push:
+    branches: [research/bass-ce1al-original-dark-weyl-curvature-20261031-r1]
+  pull_request:
+    paths:
+      - 'research/ce1al_20261031/**'
+      - '.github/workflows/ce1al-weyl-curvature.yml'
+jobs:
+  original_dark_curvature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install source-matched scientific runtime
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 matplotlib==3.10.8
+      - name: Generate new 7218 actual original Einstein-Vlasov Weyl curvature physical records
+        run: python research/ce1al_20261031/source/ce1al_curvature_remote.py
+      - name: Regenerate immutable CE1AK original sixth-moment source data
+        run: python research/ce1ak_20261031/source/ce1ak_reproduce.py
+      - name: Regenerate original CE1AJ source transfer physical data
+        run: python research/ce1aj_20261031/source/ce1aj_physics.py
+      - name: Regenerate original CE1AI five-source physical data
+        run: python research/ce1ai_20261031/source/ce1ai_source_response.py
+      - name: Regenerate original CE1AH constrained tangent data
+        run: python research/ce1ah_20261031/source/ce1ah_tangent.py
+      - name: Regenerate original CE1AF coupled radiation data
+        run: python research/ce1af_20261030/source/shear_work_physics.py
+      - name: New CE1AL and 109 source-owned inherited tests
+        run: |
+          python -m pytest -q research/ce1al_20261031/source/test_ce1al_remote.py \
+            research/ce1ak_20261031/source/test_ce1ak_remote.py \
+            research/ce1aj_20261031/source/test_ce1aj.py \
+            research/ce1ai_20261031/source/test_ce1ai.py \
+            research/ce1ai_20261031/source/test_dark_jet.py \
+            research/ce1ah_20261031/source/test_ce1ah.py \
+            research/ce1af_20261030/source/test_ce1af.py
+      - name: Render six actual scientific PNG and SVG pairs
+        run: python research/ce1al_20261031/source/plot_ce1al_remote.py
+      - name: Compile source code
+        run: python -m compileall -q research/ce1al_20261031/source
+      - name: Package original science code and physical records with SHA CRC manifest
+        run: python research/ce1al_20261031/source/package_ce1al_remote.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CE1AL-original-dark-sixth-Weyl-curvature-physics
+          path: |
+            research/ce1al_20261031/data/
+            research/ce1al_20261031/figures/
+            research/ce1al_20261031/source/
+            research/ce1al_20261031/*.md
+            research/ce1al_20261031/*.json
+            research/ce1al_20261031/checkpoints/
+            research/ce1al_20261031/dist/
+          if-no-files-found: error
