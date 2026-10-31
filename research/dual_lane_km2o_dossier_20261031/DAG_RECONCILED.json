@@ -24,7 +24,7 @@
     "KM2": {
       "state": "PARTIAL",
       "KM2N_scoped": "1/1_PASS_SCOPED",
-      "KM2O_scoped": "0/1_PENDING_REMOTE_CI"
+      "KM2O_scoped": "1/1_PASS_SCOPED_ENDPOINT_REMOTE_PLUS_10EPOCH_LOCAL"
     },
     "VigilODE": {
       "completed": 7,
@@ -88,7 +88,14 @@
     "source_ledger_GL16_SHA256": "3ebce3e3f1f77d2d75452d87dab664e716eda469664cc14cbb489275b02716d5",
     "local_tests": "12/12_PASS",
     "local_independent_saved_audit": "PASS_SCOPED",
-    "remote_science_CI": "PENDING"
+    "remote_science_CI": "PUSH_41203029867_SUCCESS_PR_41203033785_SUCCESS",
+    "remote_endpoint_replay": "GL12_GL16_PHYSICAL_RECALC_MATCH",
+    "local_full_10epoch_audit": "12/12_TESTS_AND_RHS_FREE_P8_HOSTILE_REFEREE_PASS",
+    "backup_scope": {
+      "remote_CI": "55_SOURCE_S0_56_SOURCE_S1_AND_S2_ENDPOINT_CERTIFIED",
+      "local_full_S2": "95_SOURCE_AND_ALL_TEN_FREQ_POLARIZATION_ARRAYS_SHA_CRC_VERIFIED",
+      "provider_GDrive": "PENDING_UPLOAD"
+    }
   },
   "blockers": {
     "time_evolved_twice_scattered_field": "NOT_RUN",
@@ -101,5 +108,21 @@
   },
   "production_ready": false,
   "merge_ready": false,
-  "auto_next": false
+  "auto_next": false,
+  "current_admission_gate": {
+    "status": "SCOPED_PASS_FOR_SECOND_COLLISION_GAIN_SOURCE_ONLY",
+    "evidence": {
+      "push_CI": 41203029867,
+      "PR_CI": 41203033785,
+      "local_tests": 12,
+      "local_hostile_source_independent": "PASS_SCOPED"
+    },
+    "excluded": [
+      "time_propagated_twice_scattered_J2",
+      "higher_thomson_gains",
+      "VigilODE_cubic_defect_borrowed",
+      "nonLRS_screen",
+      "production_approval"
+    ]
+  }
 }
