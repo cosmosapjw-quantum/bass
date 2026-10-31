@@ -47,7 +47,12 @@ def summarize_packets(y_centers, sigmas, energy, directions, angular_weights,
     mean=float(np.sum(weighted*y)/total)
     second=float(np.sum(weighted*(y*y+sig*sig))/total)
     variance=max(0.,second-mean*mean)
-    red=float(np.sum(weighted*ndtr((red_cut-y)/sig))/total)
+    red_raw=float(np.sum(weighted*ndtr((red_cut-y)/sig))/total)
+    # A normalized positive weighted probability may exceed 1 by one ulp
+    # on different BLAS/reduction schedules. Reject substantive violations.
+    if not -2e-13<=red_raw<=1+2e-13:
+        raise ArithmeticError("unphysical escaped line red-wing probability")
+    red=float(min(1.0,max(0.0,red_raw)))
     momentum=np.einsum("n,ni->i",w*ray_energy,n)
     tensor=np.einsum("n,ni,nj->ij",w*ray_energy,n,n)/total
     quad=tensor-np.eye(3)/3
