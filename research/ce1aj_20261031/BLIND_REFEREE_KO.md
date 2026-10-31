@@ -1,0 +1,9 @@
+# CE1AJ one-pass same-context adversarial referee, not an independent author
+
+**Physical error candidates examined:** (1) mistaken sign of α42 first jet: original exact-moment coefficient negative from shear σx−σy>0; (2) treating signed dark source as an unphysical negative **baseline**: baseline remains six positive original cells, ±source reweighting is a *separate* small positive family; (3) neglecting geometry tangent: exact A=A_source+J·δell, with δell bound (9/2)u², J<350 and added 4725u²; (4) confusing parent GL numerical sign with exact finite-u proof: all source-only derivatives bounded uniformly using original continuum source total variation 512/203 and E>.6; (5) false extension beyond u≤1e−6: explicitly prohibited; (6) finite-difference test against actual new nonlinear Einstein IVPs, not a mock: tested for both signs at each GL.
+
+**Exact nontrivial bound:** |A_source''|<455000 via real Y42 polynomial, Einstein baseline bounds and three levels of product/quotient derivatives. Initial A'(0)<−3/4 in Fraction using π rational bound. Geometry-induced correction <4725u². Therefore A(u)<−.75u+232225u²<−.5u at 0<u≤1e−6. No implicit tensor-closure truncation: R_ij is the original exact angular integral.
+
+**Execution**: source exact-continuum proof is not a formal proof-assistant certificate. Actual local 95/95 tests passed on restored source-inclusive bundle, two initial test fixture bugs (error regex case and JSON dictionary key) corrected before final local PASS, without physics change. Remote CI and backup require their own receipts. Genuine distinct-author mathematical R6 and implementation C9 are NOT_RUN; this review is explicitly same-context self-adversarial.
+
+**Remaining**: continuum finite-time rank-5 certification, wide-time ODE error enclosure, independent author and CMB data likelihood are out of scope. Upper DAG 9/15, CE1 PARTIAL, no newly closed upper node.
