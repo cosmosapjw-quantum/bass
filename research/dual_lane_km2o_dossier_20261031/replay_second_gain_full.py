@@ -56,7 +56,16 @@ def physics_at(grid,k,sources, *,save_field=None):
         owner=ROOT/f'research/dual_lane_km2n_20261031/results/KM2N_ONCE_POL_SCREEN_GL{grid}_U40.npz'
         with np.load(owner,allow_pickle=False) as z:
             if not np.array_equal(X1,z['screen_spectral_first_one']):
-                raise ArithmeticError('actual KM2N first-scattered screen is NOT original final source')
+                owner_arr=z['screen_spectral_first_one']
+                mismatch=np.abs(X1-owner_arr)
+                scale=max(float(np.max(np.abs(owner_arr))),1e-300)
+                gap=float(np.max(mismatch))
+                rel=gap/scale
+                fraction=float(np.count_nonzero(X1!=owner_arr))/X1.size
+                raise ArithmeticError('actual KM2N first-scattered screen identity mismatch '
+                                      f'max_abs={gap:.17e} relative_max={rel:.17e} '
+                                      f'nonidentical_fraction={fraction:.17e} '
+                                      f'finite={np.isfinite(X1).all() and np.isfinite(owner_arr).all()}')
     coef=np.linalg.lstsq(np.column_stack((np.ones(len(n)),-n)),D,rcond=None)[0]
     gamma=coef[0]; beta=coef[1:]/gamma
     if not 0<=np.dot(beta,beta)<1:raise ArithmeticError('unphysical electron tilt')
