@@ -1,0 +1,74 @@
+name: KM2I original Einstein P8 and source-locked Peebles Ly alpha physics
+on:
+  push:
+    branches: [research/bass-km2i-lya-peebles-bianchi-rates-20261031-r1]
+  pull_request:
+    branches: [research/bass-km2h-hyrec-external-bianchi-response-20261030-r1]
+permissions:
+  contents: read
+jobs:
+  source_qualified_real_bianchi_reaction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2I_SCIENCE_JSON: research/dual_lane_km2i_20261031/results/KM2I_REAL_LYA_PEEBLES_2GRID.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install exact scientific runtime
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Preserve immutable original CLASS rate and BASS P8 source identities
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2h_20261030/external_opacity_bianchi.py)" = fc9d96112305699ceba71032a1b119bc7e55549a
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          echo '7f2c47c70dfab95e9ababed481db2c8d78429c0402ba1a85faeccb73df14d4da  research/dual_lane_km2h_20261030/source_data/flrw_recombination_regression_1to1600.csv' | sha256sum -c
+          python -c 'from research.dual_lane_km2i_20261031.lya_peebles import source_guards; print("SOURCE_GUARDS",len(source_guards()))'
+      - name: S0 source theory and original rate traceable archive
+        run: |
+          mkdir -p /tmp/km2i_ci
+          python research/dual_lane_km2i_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2i_ci/S0_theory_original_rate.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2I_S0_THEORY_ORIGINAL_RATE
+          path: /tmp/km2i_ci/S0_theory_original_rate.zip
+          retention-days: 60
+      - name: Solve two original Einstein P8 and four real Peebles chemical ODEs
+        run: |
+          python research/dual_lane_km2i_20261031/lya_peebles.py --orders 12,16 --output "$KM2I_SCIENCE_JSON"
+      - name: Produce original geometry-sourced physical time series and plots
+        run: |
+          python research/dual_lane_km2i_20261031/make_plots.py --source "$KM2I_SCIENCE_JSON" --output research/dual_lane_km2i_20261031/figures
+      - name: S1 full research and real physics source checkpoint
+        run: |
+          python research/dual_lane_km2i_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2i_ci/S1_actual_Bianchi_Lya_reaction.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2I_S1_ACTUAL_CHEMISTRY_PHYSICS
+          path: /tmp/km2i_ci/S1_actual_Bianchi_Lya_reaction.zip
+          retention-days: 60
+      - name: Hostile scientific validation with original source and real cases
+        run: |
+          python -m pytest -q research/dual_lane_km2i_20261031/tests/test_lya_peebles.py
+      - name: Independent saved-data chemistry, angle and binding audit
+        run: |
+          python research/dual_lane_km2i_20261031/hostile_saved_rate_audit.py --source "$KM2I_SCIENCE_JSON" --output research/dual_lane_km2i_20261031/results/HOSTILE_INDEPENDENT_CHEM_RATE_AUDIT.json
+      - name: S2 result, independent audit and full source checkpoint
+        run: |
+          python research/dual_lane_km2i_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2i_ci/S2_full_KM2I_bounded_physical_research.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2I_S2_FINAL_SOURCE_SCIENCE_REPORT
+          path: |
+            /tmp/km2i_ci/S2_full_KM2I_bounded_physical_research.zip
+            research/dual_lane_km2i_20261031/results/KM2I_REAL_LYA_PEEBLES_2GRID.json
+          retention-days: 60
