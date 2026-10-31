@@ -47,10 +47,15 @@ def test_true_original_parent_gl24_endpoint_witness():
 def test_exact_initial_fourth_jet_numerical_limit():
  A=p.A_exact();data=rows('CE1AP_EINSTEIN_TANGENT_METRIC.csv')
  for gl in p.ORDERS:
-  t=next(x for x in data if int(x['GL'])==gl and abs(float(x['u'])-.0004)<1e-14)
+  # Avoid sub-ulp cancellation at u=.0004. Two genuinely resolved times
+  # remove O(u) truncation by first-order Richardson extrapolation.
+  t1=next(x for x in data if int(x['GL'])==gl and abs(float(x['u'])-.004)<1e-14)
+  t2=next(x for x in data if int(x['GL'])==gl and abs(float(x['u'])-.008)<1e-14)
   for i in range(3):
-   v=float(t[f'dell{i+1}'])/(.0004**4*A[i]/8)
-   assert abs(v-1)<.015
+   r1=float(t1[f'dell{i+1}'])/(.004**4*A[i]/8)
+   r2=float(t2[f'dell{i+1}'])/(.008**4*A[i]/8)
+   extrap=2*r1-r2
+   assert abs(extrap-1)<.002,(gl,i,extrap)
 def test_axis_signature_and_numerical_replay():
  data=rows('CE1AP_DIRECTIONAL_GEODESIC.csv')
  for gl in p.ORDERS:
