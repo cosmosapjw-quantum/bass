@@ -36,6 +36,8 @@ jobs:
         run: python research/ce1aj_20261031/source/plot_ce1aj.py
       - name: Compile CE1AJ scientific code
         run: python -m compileall -q research/ce1aj_20261031/source
+      - name: Package SHA/CRC verified S0 S1 source-inclusive S2 and 20 phase ZIPs
+        run: python research/ce1aj_20261031/source/package_ce1aj.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: CE1AJ_EXACT_DARK_FINITE_TRANSFER_AND_ORIGINAL_IVP
@@ -43,4 +45,10 @@ jobs:
             research/ce1aj_20261031/data/
             research/ce1aj_20261031/figures/
             research/ce1aj_20261031/THEORY_KO.md
+            research/ce1aj_20261031/REPORT_KO.md
+            research/ce1aj_20261031/BLIND_REFEREE_KO.md
+            research/ce1aj_20261031/REPRODUCE.md
+            research/ce1aj_20261031/source/
+            research/ce1aj_20261031/checkpoints/
+            research/ce1aj_20261031/dist/
           if-no-files-found: error
