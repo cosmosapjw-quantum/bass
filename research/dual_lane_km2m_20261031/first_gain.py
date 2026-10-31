@@ -114,12 +114,16 @@ def normal_frequency_spectrum(gain_rate_by_ray_e, D, weights):
     coordinate=(y-(MID[0]))/STEP
     lo=np.floor(coordinate).astype(int)
     frac=coordinate-lo
-    if lo.min()<0 or lo.max()+1>=nb:
-        raise ValueError("bulk Doppler remap escapes physical frequency window")
+    active=x>0
+    if np.any(active & ((lo<0)|(lo+1>=nb))):
+        raise ValueError("bulk Doppler remap drops nonzero physical spectral source")
+    # Empty source bins may lie outside the shifted support. Never clip
+    # nonzero physical radiation to make a test pass.
+    ix=np.clip(lo,0,nb-2)
+    safe_fraction=np.where(active,frac,0.)
     weighted=x*w[:,None]
-    flattened=np.arange(N*nb)
-    out=np.bincount(lo.ravel(),weights=(weighted*(1-frac)).ravel(),minlength=nb)
-    out+=np.bincount((lo+1).ravel(),weights=(weighted*frac).ravel(),minlength=nb)
+    out=np.bincount(ix.ravel(),weights=(weighted*(1-safe_fraction)).ravel(),minlength=nb)
+    out+=np.bincount((ix+1).ravel(),weights=(weighted*safe_fraction).ravel(),minlength=nb)
     err=abs(out.sum()/weighted.sum()-1.)
     if err>5e-13:
         raise ArithmeticError("normal spectral remap lost source energy")
