@@ -63,6 +63,8 @@ def evaluate_grid(ntheta, *, order=8, end=.25,output_dir=None,
     line_fraction=np.zeros(nt)
     source_moment_error=np.zeros(nt)
     source_energy_rate=np.zeros(nt)
+    source_expected_fourforce=np.zeros((nt,4))
+    time_quadrature_weights=np.zeros(nt)
     sample_times=np.zeros(nt)
     emission_weight=np.zeros((nt,ray_count))
     emission_direction=np.zeros((nt,ray_count,3))
@@ -113,6 +115,8 @@ def evaluate_grid(ntheta, *, order=8, end=.25,output_dir=None,
             doppler_sigma[idx]=sig
             center_D[idx]=np.log(D)
             source_energy_rate[idx]=float(direct4[0])
+            source_expected_fourforce[idx]=expected4
+            time_quadrature_weights[idx]=width/2*gweights[k]
             source_moment_error[idx]=float(gap4)
             src_packets[idx]=jray*(width/2*gweights[k])
             sample_times[idx]=float(t)
@@ -186,6 +190,8 @@ def evaluate_grid(ntheta, *, order=8, end=.25,output_dir=None,
             source_packets=src_packets,center_D=center_D,
             doppler_sigma=doppler_sigma,line_fraction=line_fraction,
             source_energy_rate=source_energy_rate,source_moment_error=source_moment_error,
+            source_expected_fourforce=source_expected_fourforce,
+            time_quadrature_weights=time_quadrature_weights,
             emission_weight=emission_weight,emission_direction=emission_direction,
             directions_epoch=directions_epoch,weights_epoch=weights_epoch,
             full_photon_rho=full_photon_rho,x_epoch=x_epoch,H_epoch=H_epoch)
