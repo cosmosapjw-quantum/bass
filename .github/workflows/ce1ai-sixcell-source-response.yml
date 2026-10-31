@@ -1,0 +1,55 @@
+name: CE1AI original six-cell Einstein-Vlasov source dark multipole transfer
+on:
+  push:
+    branches: [research/bass-ce1ai-source-mass-dark-l4-transfer-20261031-r1]
+  pull_request:
+    paths:
+      - 'research/ce1ai_20261031/**'
+      - '.github/workflows/ce1ai-sixcell-source-response.yml'
+jobs:
+  original_physics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install pinned original-physics runtime
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 matplotlib==3.10.8
+      - name: Exact source-locked initial dark rank and first-time l4 derivative
+        run: python research/ce1ai_20261031/source/certify_dark_initial_jet.py
+      - name: Generate 18,045 original Einstein-Vlasov source-family physics records and 1,203 spectra
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python research/ce1ai_20261031/source/ce1ai_source_response.py
+      - name: Run 31 new scientific and hostile tests
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python -m pytest -q research/ce1ai_20261031/source/test_ce1ai.py research/ce1ai_20261031/source/test_dark_jet.py
+      - name: Generate immutable parent CE1AF derived CSV before its existing tests
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python research/ce1af_20261030/source/shear_work_physics.py
+      - name: Run original CE1AH 19 tests and CE1AF 24 tests unchanged
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python -m pytest -q research/ce1ah_20261031/source/test_ce1ah.py research/ce1af_20261030/source/test_ce1af.py
+      - name: Render seven source-locked physical figures
+        run: python research/ce1ai_20261031/source/plot_ce1ai.py
+      - name: Compile CE1AI scientific code
+        run: python -m compileall -q research/ce1ai_20261031/source
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CE1AI_ORIGINAL_SIXCELL_DARK_CONTINUUM_JET_AND_PHYSICAL_RESPONSE
+          path: |
+            research/ce1ai_20261031/data/
+            research/ce1ai_20261031/figures/
+            research/ce1ai_20261031/THEORY_KO.md
+            research/ce1ai_20261031/REPORT_KO.md
+            research/ce1ai_20261031/BLIND_REFEREE_KO.md
+          if-no-files-found: error
