@@ -7,6 +7,9 @@ from pathlib import Path
 
 DEFAULT = Path(__file__).resolve().parents[1] / "docs/development/BASS_PHYSICS_UPPER_DAG_20261101.json"
 SCOPES = {"SOURCE_MAPPED", "SCOPED_COMPLETE", "PARTIAL", "FUTURE", "DEFERRED", "COMPLETE_FULL"}
+# Frozen graph identity from BF3E, not merely the number of edges.
+ORIGINAL_DEPENDENCIES = {"DL-0":[],"DL-1":["DL-0"],"DL-2":["DL-1"],"KM-1":["DL-1","DL-2"],"KM-2":["DL-1"],"KM-3":["KM-1","KM-2","DL-2"],"DV-1":["DL-2","KM-3"],"DV-2":["DV-1"],"CE-1":["DV-1"],"BF-1":["DL-0"],"BF-2":["BF-1"],"BF-3":["BF-1","BF-2","DV-1"],"BF-4":["BF-3","CE-1"],"OB-1":["DV-1"],"PF-1":["DV-1"]}
+LEGACY_SCOPED_IDS = ["DL-0","DL-1","DL-2","KM-1","KM-3","DV-1","BF-1","BF-2","BF-3"]
 
 def check(dag):
     errors = []
@@ -17,6 +20,15 @@ def check(dag):
         errors.append("wrong schema")
     if len(nodes) != 15 or len(by_id) != 15 or upper.get("total") != 15:
         errors.append("expected 15 unique original upper nodes")
+    if set(by_id) != set(ORIGINAL_DEPENDENCIES):
+        errors.append("original node IDs changed")
+    for identifier, required in ORIGINAL_DEPENDENCIES.items():
+        if identifier in by_id and by_id[identifier].get("depends_on") != required:
+            errors.append("original edge identity changed at " + identifier)
+    if {n.get("id") for n in nodes if n.get("legacy_counted")} != set(LEGACY_SCOPED_IDS):
+        errors.append("legacy-scoped identity changed")
+    if any(n.get("admission") == "COMPLETE_FULL" for n in nodes):
+        errors.append("no full physics completion admitted in frozen 2026-11-01 snapshot")
     if sum(len(n.get("depends_on", [])) for n in nodes) != 21 or upper.get("historical_edge_count") != 21:
         errors.append("expected 21 original edges")
     if sum(bool(n.get("legacy_counted")) for n in nodes) != 9 or upper.get("historical_scoped_or_source_mapped_count") != 9:
