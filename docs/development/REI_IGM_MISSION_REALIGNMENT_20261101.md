@@ -19,7 +19,7 @@ Use `docs/development/REI_IGM_MISSION_DAG_20261101.json` for a **cross-repositor
 
 ## Default selection and bounded exploration
 
-When the user requests “next theory/coding loop” without selecting a specific side project, **choose the next unclosed original REI mission node**, not the newest PR or easiest descendant of CE1. An explicit request to explore CE1, CMB optics or other physically interesting areas remains fully authorized within its stated scope. Keep creative divergence available; classify it as `AUXILIARY` and never market it as accepted central progress.
+When the active program target is explicitly **REI Bianchi IGM**, a generic “next theory/coding loop” **selects the next unclosed REI mission node**, not the newest CE1 PR. When the user instead targets autonomous BASS Type-II/classification work, follow `BASS_DAG_REALIGNMENT_20260821.md` and its independent owner path. An explicit request to explore CE1, CMB optics or other physically interesting areas remains fully authorized within its stated scope. Keep creative divergence available; classify it as `AUXILIARY` and never market it as accepted central progress.
 
 After **two sequential auxiliary PRs with zero canonical progression**, perform a *single* mission re-evaluation: state the exact central target, which physical quantity the next candidate will change, and its causal dependency/evidence. Default subsequent work returns to central REI or a source-matched BASS bridge. This is **a routing decision, not an extra acceptance gate** and never deletes approved experiments.
 

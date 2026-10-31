@@ -20,6 +20,10 @@ REQUIRED = [
 def validate(d: dict) -> None:
     if d.get("schema") != "bass.rei_igm_mission_dependency_overlay.v1":
         raise ValueError("wrong DAG schema")
+    if d.get("scope", {}).get("program_id") != "REI_BIANCHI_IGM_PROGRAM_ONLY":
+        raise ValueError("REI-specific policy cannot override BASS-native mission")
+    if "BASS_NATIVE_TYPEII_MAINLINE" not in d.get("scope", {}).get("does_not_override", []):
+        raise ValueError("BASS Type-II autonomy not preserved")
     auth = d["authority"]
     if auth["root_DAG_json"] != "UNTOUCHED_OTHER_ACCEL02_OWNER":
         raise ValueError("wrong authority for root DAG")
@@ -99,6 +103,8 @@ def self_test(d):
     a = copy.deepcopy(d); a["auxiliary_lanes"][0]["accepted_upstream"] = True
     cases.append(a)
     a = copy.deepcopy(d); a["next_action"]["merge"] = "APPROVED"
+    cases.append(a)
+    a = copy.deepcopy(d); a["scope"]["program_id"] = "ALL_BASS_TASKS"
     cases.append(a)
     for case in cases:
         try:
