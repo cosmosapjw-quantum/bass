@@ -60,9 +60,12 @@ jobs:
       - name: Verify physics conservation and exact discrete chemical fourforce on same actual cases
         run: |
           python -m pytest -q research/dual_lane_km2j_20261031/tests/test_coupled_chem_p8.py
-      - name: Recheck scientific code under Python optimized execution
+      - name: Independent saved-data hostile physics audit (NO BASS RHS import)
         run: |
-          python -O -m pytest -q research/dual_lane_km2j_20261031/tests/test_coupled_chem_p8.py
+          python research/dual_lane_km2j_20261031/hostile_saved_audit.py --source "$KM2J_SCIENCE_JSON" --output research/dual_lane_km2j_20261031/results/HOSTILE_SAVED_CHEM_FORCE_AUDIT.json
+      - name: Optimized Python independent physics audit with explicit exceptions
+        run: |
+          python -O research/dual_lane_km2j_20261031/hostile_saved_audit.py --source "$KM2J_SCIENCE_JSON" --output /tmp/km2j_ci/optimized_chemical_audit.json
       - name: S2 complete source, results and audit-compatible handoff
         run: |
           python research/dual_lane_km2j_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2j_ci/KM2J_S2_SOURCE_SCIENCE.zip

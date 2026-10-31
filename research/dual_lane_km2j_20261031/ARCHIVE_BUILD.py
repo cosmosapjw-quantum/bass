@@ -12,6 +12,7 @@ BASE=(
   UNIT+"/coupled_chem_p8.py",
   UNIT+"/tests/test_coupled_chem_p8.py",
   UNIT+"/make_plots.py",
+  UNIT+"/hostile_saved_audit.py",
   UNIT+"/ARCHIVE_BUILD.py",
   ".github/workflows/km2j-coupled-chem-p8.yml",
 )
@@ -32,6 +33,7 @@ def make(stage,out):
         paths.add(RESULT)
         paths.update(str(p.relative_to(ROOT)) for p in (ROOT/FIG).glob("*") if p.is_file())
     if stage=="S2":
+        paths.add(UNIT+"/results/HOSTILE_SAVED_CHEM_FORCE_AUDIT.json")
         paths.add(UNIT+"/S2_FINAL_REPORT_KO.md")
         paths.add(UNIT+"/HANDOFF_NEXT_KO.txt")
         paths.add(UNIT+"/DAG_DELTA.json")
