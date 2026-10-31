@@ -41,6 +41,48 @@ def source_ledger(grid):
             for i in range(41)]
 
 
+def owner_screen_numeric_identity(current, immutable, weights):
+    """Numerical replay identity distinct from immutable source byte identity.
+
+    Python BLAS differences affect 41-node ray/source contractions at the
+    floating last bits. The physical field is compared separately by (i)
+    max-norm state error, (ii) energy integral and (iii) log-frequency first
+    moment. This is an explicit bounded numerical equivalence witness, NOT
+    a claim that the two reconstructed arrays have identical bytes.
+    """
+    current=np.asarray(current,dtype=float)
+    immutable=np.asarray(immutable,dtype=float)
+    weights=np.asarray(weights,dtype=float)
+    if current.shape!=immutable.shape or current.ndim!=4 or current.shape[-2:]!=(2,2):
+        raise ArithmeticError('original screen replay shape mismatch')
+    if weights.shape!=(current.shape[0],) or not np.all(weights>0):
+        raise ArithmeticError('original screen replay physical angular weights invalid')
+    if not (np.isfinite(current).all() and np.isfinite(immutable).all()):
+        raise ArithmeticError('nonfinite original owner screen replay')
+    factor=256*np.finfo(float).eps  # 41 source nodes, finite angular/frequency sums
+    norm=max(float(np.max(np.abs(immutable))),1e-300)
+    normalized_state=float(np.max(np.abs(current-immutable)))/norm
+    tr1=np.trace(current,axis1=-2,axis2=-1)
+    tr0=np.trace(immutable,axis1=-2,axis2=-1)
+    rho1=float(np.einsum('n,nb->',weights,tr1))
+    rho0=float(np.einsum('n,nb->',weights,tr0))
+    if min(rho0,rho1)<=0:
+        raise ArithmeticError('original owner screen replay nonpositive energy')
+    normalized_energy=abs(rho1/rho0-1)
+    centroid1=float(np.einsum('n,nb,b->',weights,tr1,MID)/rho1)
+    centroid0=float(np.einsum('n,nb,b->',weights,tr0,MID)/rho0)
+    centroid_gap=abs(centroid1-centroid0)
+    if max(normalized_state,normalized_energy,centroid_gap)>factor:
+        raise ArithmeticError('original KM2N screen SCIENTIFIC_NUMERICAL_IDENTITY failure '
+             f'state={normalized_state:.17e} energy={normalized_energy:.17e} '
+             f'centroid={centroid_gap:.17e} allowed={factor:.17e}')
+    return {'state_maxnorm_relative':normalized_state,
+            'energy_relative':normalized_energy,
+            'logfrequency_centroid_absolute':centroid_gap,
+            'numerical_tolerance':factor,
+            'byte_exact':bool(np.array_equal(current,immutable))}
+
+
 def physics_at(grid,k,sources, *,save_field=None):
     if grid not in LEDGER_SOURCE_SHA or k not in OBS_EPOCHS:
         raise ValueError('only source-locked original GL12/16 observation times')
@@ -52,20 +94,12 @@ def physics_at(grid,k,sources, *,save_field=None):
             X1=z['screen_spectral_first_one'].copy()
     if X1.shape!=(2*grid*grid,NBINS,2,2):
         raise ArithmeticError('wrong original physical spectral coherecy shape')
+    original_source_gap = None
     if k==40:
         owner=ROOT/f'research/dual_lane_km2n_20261031/results/KM2N_ONCE_POL_SCREEN_GL{grid}_U40.npz'
         with np.load(owner,allow_pickle=False) as z:
-            if not np.array_equal(X1,z['screen_spectral_first_one']):
-                owner_arr=z['screen_spectral_first_one']
-                mismatch=np.abs(X1-owner_arr)
-                scale=max(float(np.max(np.abs(owner_arr))),1e-300)
-                gap=float(np.max(mismatch))
-                rel=gap/scale
-                fraction=float(np.count_nonzero(X1!=owner_arr))/X1.size
-                raise ArithmeticError('actual KM2N first-scattered screen identity mismatch '
-                                      f'max_abs={gap:.17e} relative_max={rel:.17e} '
-                                      f'nonidentical_fraction={fraction:.17e} '
-                                      f'finite={np.isfinite(X1).all() and np.isfinite(owner_arr).all()}')
+            original_source_gap = owner_screen_numeric_identity(
+                X1, z['screen_spectral_first_one'], w)
     coef=np.linalg.lstsq(np.column_stack((np.ones(len(n)),-n)),D,rcond=None)[0]
     gamma=coef[0]; beta=coef[1:]/gamma
     if not 0<=np.dot(beta,beta)<1:raise ArithmeticError('unphysical electron tilt')
@@ -119,6 +153,8 @@ def physics_at(grid,k,sources, *,save_field=None):
           original_source_ledger_SHA256=LEDGER_SOURCE_SHA[grid],
           source_electron_beta=beta.tolist(),
           new_owner_Einstein_IVPs=0)
+    if original_source_gap is not None:
+        out['immutable_owner_screen_replay'] = original_source_gap
     if save_field:
         dest=Path(save_field);dest.parent.mkdir(exist_ok=True,parents=True)
         np.savez_compressed(dest,first_pol_screen_X1=X1,second_gain_pol_screen=X2,

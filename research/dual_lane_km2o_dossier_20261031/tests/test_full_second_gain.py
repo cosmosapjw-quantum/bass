@@ -77,7 +77,12 @@ def test_exact_original_final_frozen_screen_replay():
             p=Path(t)/'test.npz';r=propagate_one_scatter(src,40,save_field=p)
             owner=m.ROOT/f'research/dual_lane_km2n_20261031/results/KM2N_ONCE_POL_SCREEN_GL{g}_U40.npz'
             with np.load(p) as x,np.load(owner) as y:
-                assert np.array_equal(x['screen_spectral_first_one'],y['screen_spectral_first_one'])
+                own=m.source_ledger(g)[40]
+                witness=m.owner_screen_numeric_identity(
+                    x['screen_spectral_first_one'],y['screen_spectral_first_one'],own['w'])
+                assert witness['state_maxnorm_relative']<=witness['numerical_tolerance']
+                assert witness['energy_relative']<=witness['numerical_tolerance']
+                assert witness['logfrequency_centroid_absolute']<=witness['numerical_tolerance']
 
 def test_saved_second_gain_polarized_factors_exact(data):
     for rec in data['measurements']:
@@ -94,3 +99,15 @@ def test_DAG_scope_gate_does_not_promote(data):
     assert data['new_upper_completed']==0
     assert data['no_second_field_time_propagation']
     assert not data['production_ready'] and not data['merge_ready'] and not data['auto_next']
+
+
+def test_original_owner_replay_forged_photon_tensor_rejected():
+    src=m.source_ledger(12)
+    owner=m.ROOT/'research/dual_lane_km2n_20261031/results/KM2N_ONCE_POL_SCREEN_GL12_U40.npz'
+    with np.load(owner,allow_pickle=False) as z:
+        genuine=z['screen_spectral_first_one']
+        forged=genuine.copy()
+        forged[0,:,0,0] += 1.e-6*np.max(np.abs(genuine))
+        import pytest
+        with pytest.raises(ArithmeticError,match='SCIENTIFIC_NUMERICAL_IDENTITY'):
+            m.owner_screen_numeric_identity(forged,genuine,src[40]['w'])
