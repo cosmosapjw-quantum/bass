@@ -1,0 +1,83 @@
+name: KM2K real Bianchi P8 escaped Lyalpha frequency characteristics
+on:
+  push:
+    branches: [research/bass-km2k-lya-escaping-line-spectra-20261031-r1]
+  pull_request:
+    branches: [research/bass-km2j-chem-p8-energy-feedback-20261031-r1]
+permissions:
+  contents: read
+jobs:
+  physical_frequency_characteristics:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONPATH: '.'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      KM2K_SCIENCE_JSON: research/dual_lane_km2k_20261031/results/KM2K_ESCAPED_LYA_SPECTRA.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13.5'
+      - name: Install source-matched chemistry and spectral runtime
+        run: |
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8 pytest==9.0.2
+      - name: Bind live parent sources, full original P8 vendor and compile
+        run: |
+          set -euo pipefail
+          test "$(git hash-object research/dual_lane_km2j_20261031/coupled_chem_p8.py)" = 2bf86d6d48cd95177b55db12f78e89c69ddfd1dd
+          test "$(git hash-object research/dual_lane_km2i_20261031/lya_peebles.py)" = 288762c51643855fc6d5a12fc04a911062abd449
+          test "$(git hash-object research/dual_lane_km2f_20261030/einstein_bianchi.py)" = 457790df7aba6d82326ac6f3be5814851b970b1d
+          python -m compileall -q research/dual_lane_km2k_20261031
+          python -c 'from research.dual_lane_km2k_20261031.escaping_lya import exact_parent_sources; print("KM2K_SOURCES",len(exact_parent_sources()))'
+      - name: S0 theory and source-complete checkpoint
+        run: |
+          mkdir -p /tmp/km2k_ci
+          python research/dual_lane_km2k_20261031/ARCHIVE_BUILD.py --stage S0 --output /tmp/km2k_ci/KM2K_S0_THEORY.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2K_S0_THEORY_AND_ORIGINAL_SOURCE
+          path: /tmp/km2k_ci/KM2K_S0_THEORY.zip
+          retention-days: 60
+      - name: Actually solve original KM2J Einstein P8 Peebles GL12 GL16 and 4 spectral characteristic propagators
+        run: |
+          python research/dual_lane_km2k_20261031/escaping_lya.py --orders 12,16 --time-order 8 --output "$KM2K_SCIENCE_JSON"
+      - name: Produce 164 actual spectral epochs, 24000 frequency rows and 6 plots
+        run: |
+          python research/dual_lane_km2k_20261031/make_plots.py --source "$KM2K_SCIENCE_JSON" --output research/dual_lane_km2k_20261031/figures
+      - name: S1 actual source-backed physical spectrum checkpoint
+        run: |
+          python research/dual_lane_km2k_20261031/ARCHIVE_BUILD.py --stage S1 --output /tmp/km2k_ci/KM2K_S1_REAL_SPECTRAL_DATA.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2K_S1_ACTUAL_FREQUENCY_PHYSICS
+          path: /tmp/km2k_ci/KM2K_S1_REAL_SPECTRAL_DATA.zip
+          retention-days: 60
+      - name: Physical Green function, exact source and spectrum tests
+        run: |
+          python -m pytest -q research/dual_lane_km2k_20261031/tests/test_escape_spectra.py
+      - name: Independent saved-data recomputation without BASS RHS import
+        run: |
+          python research/dual_lane_km2k_20261031/hostile_saved_spectral_audit.py --source "$KM2K_SCIENCE_JSON" --output research/dual_lane_km2k_20261031/results/HOSTILE_INDEPENDENT_SPECTRAL_AUDIT.json
+      - name: Optimized execution, explicit-exception independent scientific audit
+        run: |
+          python -O research/dual_lane_km2k_20261031/hostile_saved_spectral_audit.py --source "$KM2K_SCIENCE_JSON" --output /tmp/km2k_ci/KM2K_HOH_OPTIMIZED.json
+      - name: Generated actual result report and next-thread scientific handoff
+        run: |
+          python research/dual_lane_km2k_20261031/generate_report.py --source "$KM2K_SCIENCE_JSON" --audit research/dual_lane_km2k_20261031/results/HOSTILE_INDEPENDENT_SPECTRAL_AUDIT.json --outdir research/dual_lane_km2k_20261031
+      - name: S2 final source, physical spectrum, independent audit and handoff
+        run: |
+          python research/dual_lane_km2k_20261031/ARCHIVE_BUILD.py --stage S2 --output /tmp/km2k_ci/KM2K_S2_FINAL_SOURCE_SPECTRA.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2K_S2_SOURCE_PHYSICS_AND_REFEREE
+          path: |
+            /tmp/km2k_ci/KM2K_S2_FINAL_SOURCE_SPECTRA.zip
+            research/dual_lane_km2k_20261031/results/KM2K_ESCAPED_LYA_SPECTRA.json
+            research/dual_lane_km2k_20261031/S2_FINAL_REPORT_KO.md
+            research/dual_lane_km2k_20261031/HANDOFF_NEXT_KO.txt
+          retention-days: 60
