@@ -53,6 +53,7 @@ jobs:
                   if p.exists():
                       if p.read_bytes()!=data:raise RuntimeError('original owner source overwritten: '+n)
                   else:p.write_bytes(data)
+              pathlib.Path('MANIFEST.json').write_bytes(z.read('MANIFEST.json'))
           print('KM2O_IMMUTABLE_KM2N_ORIGINAL',len(m['members']),flush=True)
           PY
           python -m compileall -q research/dual_lane_km2o_dossier_20261031
