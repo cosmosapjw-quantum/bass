@@ -24,6 +24,11 @@ jobs:
           OPENBLAS_NUM_THREADS: '1'
           OMP_NUM_THREADS: '1'
         run: python research/ce1ai_20261031/source/ce1ai_source_response.py
+      - name: Regenerate immutable CE1AH original baseline for ancestry comparison
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python research/ce1ah_20261031/source/ce1ah_tangent.py
       - name: Run 31 new scientific and hostile tests
         env:
           OPENBLAS_NUM_THREADS: '1'
