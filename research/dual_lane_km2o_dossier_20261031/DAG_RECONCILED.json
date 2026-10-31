@@ -1,0 +1,105 @@
+{
+  "schema": "bass.owner.km2o.dossier_vigilode_reconciled_DAG.v1",
+  "asof_KST": "2026-10-31",
+  "source_parent_PR": 297,
+  "immutable_parent_HEAD": "4137f942d2a95999f4e6627b71042e98f7afc1b7",
+  "root_DAG": {
+    "file": "DAG.json",
+    "schema": "rei.native_moments.dag.v1",
+    "unit": "ACCEL02",
+    "action": "UNCHANGED"
+  },
+  "legacy_root_DAG": {
+    "file": "REMAINING-DAG-v3.md",
+    "action": "HISTORICAL_UNCHANGED"
+  },
+  "graphs": {
+    "BASS_upper": {
+      "completed": 9,
+      "total": 15,
+      "edges": 21,
+      "new_completed": 0,
+      "state": "PARTIAL"
+    },
+    "KM2": {
+      "state": "PARTIAL",
+      "KM2N_scoped": "1/1_PASS_SCOPED",
+      "KM2O_scoped": "0/1_PENDING_REMOTE_CI"
+    },
+    "VigilODE": {
+      "completed": 7,
+      "total": 23,
+      "global_authority": "HOLD"
+    },
+    "VigilODE_successor": {
+      "completed": 0,
+      "total": 12
+    },
+    "REI_central": {
+      "completed": 28,
+      "total": 88
+    },
+    "REI_working": {
+      "completed": 33,
+      "total": 88
+    }
+  },
+  "source_lineage": {
+    "dossier_integrated": {
+      "path": "Dropbox:/dossier/BASS_Integrated_Dossier.pdf",
+      "revision": "65dd5afc2e7910af03d47",
+      "size_bytes": 933631
+    },
+    "dossier_kinetic": {
+      "path": "Dropbox:/dossier/Dossier_II_Kinetic_Transport.pdf",
+      "revision": "65dd5afc2e7920af03d47",
+      "size_bytes": 410288,
+      "sections": [
+        "1.4",
+        "1.5",
+        "1.6"
+      ]
+    },
+    "VigilODE_BASS21": {
+      "PR": 159,
+      "HEAD": "0c996dfb18cec764c457ed9d9ff667d1642e3ed6",
+      "geodesic_rows": 164050,
+      "local_Thomson_rows": 820250,
+      "new_owner_IVPs": 0,
+      "not_source_equivalent_KM2O": true
+    },
+    "VigilODE_WP2": {
+      "PR": 160,
+      "HEAD": "cf690ad5ec723052e9eb6f71335f7cb3b43607a6",
+      "dedicated_CI": "41186122032_SUCCESS",
+      "global_CI": "41186142687_FAIL",
+      "not_source_equivalent_KM2O": true
+    }
+  },
+  "KM2O_scoped_physics": {
+    "name": "SECOND_THOMSON_POLARIZED_SPECTRAL_GAIN_SOURCE",
+    "observed_epochs": 10,
+    "frequency_rows": 12000,
+    "new_owner_Einstein_IVPs": 0,
+    "GL12_second_gain_rate": 1.1293133303506126e-8,
+    "GL16_second_gain_rate": 1.1293133305429999e-8,
+    "GL16_mean_linear_pol": 0.007558383101262941,
+    "source_ledger_GL12_SHA256": "ee6d0972a165a515494cfd310e8367cf85886b7ba18da8bb0bb3b34c8f7da8b0",
+    "source_ledger_GL16_SHA256": "3ebce3e3f1f77d2d75452d87dab664e716eda469664cc14cbb489275b02716d5",
+    "local_tests": "12/12_PASS",
+    "local_independent_saved_audit": "PASS_SCOPED",
+    "remote_science_CI": "PENDING"
+  },
+  "blockers": {
+    "time_evolved_twice_scattered_field": "NOT_RUN",
+    "higher_gain": "NOT_RUN",
+    "thermal_compton_recoil": "NOT_RUN",
+    "atomic_Lya_chemistry": "NOT_RUN",
+    "nonLRS_screen": "NOT_RUN",
+    "VigilODE_cubic_continuous_defect_to_BASS": "BLOCKED_DIFFERENT_RHS_GLOBAL_CI_FAIL",
+    "new_upper_completed": 0
+  },
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false
+}
