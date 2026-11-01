@@ -27,3 +27,6 @@ The two original rays preserve n=±e_y with zero direction defect. Their normal 
 ## C9. 적대적 검토 및 실패 분류
 
 Self-adversarial checks require an explicit failure if symmetry assumptions are relaxed: Sigma_xy=0.02 yields n_x'=-0.02. Missing Gamma changes T+ by 2.22936e-4, and extra q changes T+ by 9.21304e-3 on the source fixture. Invariance of axial rays CANNOT detect wrong Bianchi curvature sign; off-axis parent validation is necessary. No native subagent or distinct-author independent review ran. The only repair here replaced bypassable Python asserts with explicit exceptions and verified normal/-O parity; no source physics changed.
+## C10. 게시 판정·후속 실행
+
+Exact source-conditioned axial oracle dataset and reproducible code are ready for source-scoped research reuse, not for production, fitting or CMB. Preserve `THEORY.md`, `CODING.md`, `AXIAL_ORACLE_RESULT.json`, `AXIAL_ORACLE_401.csv`, `AXIAL_ACCURACY_RESULT.json`, `test_axial_negative.py`, and the copyable `NEXT_THREAD_HANDOFF.txt`. All R1–R10/C1–C10 stage receipts are in an owner-host backup log and distinct Git commits, scoped DAG baseline 9/15 unchanged, new full upper nodes 0. Positive next action: obtain physical electron density/ionization source and couple the actual Thomson kernel to Liouville plus angular remap, while preserving parent/legacy evidence.

@@ -21,3 +21,4 @@
 | C7 | 물리·관측량 검증 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C8 | 독립 수치 정확도 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C9 | 적대적 검토 및 실패 분류 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C10 | 게시 판정·후속 실행 | 9/15 scoped/source-mapped | 0 | scope-checked |
