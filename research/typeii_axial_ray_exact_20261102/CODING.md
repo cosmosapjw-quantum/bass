@@ -21,3 +21,6 @@ All three Python scripts parsed as AST and executed normally and under python -O
 ## C7. 물리·관측량 검증
 
 The two original rays preserve n=±e_y with zero direction defect. Their normal energy final ratios agree at 0.7806210628345815; electron-rest energies differ at 0.7449536005398912 (+) versus 0.8179962393622404 (-). Unit electron-rest optical depths are 0.19055295929452346 versus 0.2099155839589957, giving asymmetry 0.048349926581410956. This is source-conditional physically meaningful mathematical data, not observational cosmology.
+## C8. 독립 수치 정확도
+
+8-point and 16-point Gauss-Legendre endpoint opacity integrals agree with independent adaptive quad within 1.2e-16; 1-point midpoint error is ~1e-11, 2-point already at binary64 floor on this smooth 400-interval source. Exact piecewise Hermite integral of Sigma22 equals the direct adaptive quad at the printed binary64 output (0.047665441721635005). This is a tightly scoped convergent quadrature result and does not certify a generic full-angle Boltzmann solver.

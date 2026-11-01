@@ -19,3 +19,4 @@
 | C5 | 실제 코드·물리 산출물 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C6 | 코드 실행·회귀 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C7 | 물리·관측량 검증 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C8 | 독립 수치 정확도 | 9/15 scoped/source-mapped | 0 | scope-checked |
