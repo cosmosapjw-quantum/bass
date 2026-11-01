@@ -11,3 +11,4 @@
 | R7 | 401×2 source-locked scalar validations and independent DOP853 propagation vs exact amplitudes PASS | 9/15 scoped | 0 | committed/pushed per Git receipt |
 | R8 | Claims admitted for source-scoped theorem/numerics, positivity and physical production explicitly HOLD | 9/15 scoped | 0 | committed/pushed per Git receipt |
 | R9 | Exact paired-grid computational formulas, source-owned callbacks, tolerance and physical coupling contract | 9/15 scoped | 0 | committed/pushed per Git receipt |
+| R10 | Scoped R1–R10 closure; reproducible hostile negative controls, handoff and source-preserving stage archives | 9/15 scoped | 0 | committed/pushed per Git receipt |
