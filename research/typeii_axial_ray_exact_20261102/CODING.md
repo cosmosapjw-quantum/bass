@@ -15,3 +15,6 @@ Use the authorized isolated local Git worktree `research/bass-typeii-axial-ray-e
 ## C5. 실제 코드·물리 산출물
 
 `verify_axial_analytic.py` creates 401-row exact-oracle CSV/JSON, enforces original nine Git blob identities and parent ray byte identity, selects ±ey by initial physical directions, and compares all 401 original ray outputs. `test_axial_negative.py` and `verify_axial_accuracy.py` are executable auxiliary validators. In this cycle the physical scripts and input-conditioned data were already created and run before the formal stage record; this stage reuses that actual verified implementation, not a simulated run.
+## C6. 코드 실행·회귀
+
+All three Python scripts parsed as AST and executed normally and under python -O after converting 22 critical Python asserts to explicit raise-on-failure gates, preventing optimized mode from silently skipping numerical validation. Original input source checksum and parent CSV SHA remained unchanged. The axis exact oracle printed its per-field residuals and adaptive quadrature check with actual exit 0; production crate tests are inherited from PR #325, not rerun or attributed to this branch.

@@ -17,3 +17,4 @@
 | C3 | 독립 계산 형식 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C4 | 자원·실행·체크포인트 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C5 | 실제 코드·물리 산출물 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C6 | 코드 실행·회귀 | 9/15 scoped/source-mapped | 0 | scope-checked |
