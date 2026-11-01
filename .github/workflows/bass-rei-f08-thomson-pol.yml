@@ -1,0 +1,47 @@
+name: BASS REI-F08 source-locked conditional Thomson polarization
+
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-polarized-thomson-20261101
+  pull_request:
+    paths:
+      - "research/bass_rei_f08_polarized_thomson_20261101/**"
+      - ".github/workflows/bass-rei-f08-thomson-pol.yml"
+
+jobs:
+  science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm source-owner model, original numerical sky and negative tests
+        run: |
+          python3 -m unittest discover -s research/bass_rei_f08_polarized_thomson_20261101/tests -v
+          python3 -O -m unittest discover -s research/bass_rei_f08_polarized_thomson_20261101/tests -v
+      - name: Cold recompute model and compare numerical observables
+        run: |
+          python3 research/bass_rei_f08_polarized_thomson_20261101/polarized_rei_f08.py --out /tmp/bass-rei-f08-replay
+          python3 - <<'PY'
+          import csv,gzip,math,json,pathlib
+          folder=pathlib.Path('research/bass_rei_f08_polarized_thomson_20261101')
+          a=json.loads((folder/'results/RESULT.json').read_text())
+          b=json.loads(pathlib.Path('/tmp/bass-rei-f08-replay/RESULT.json').read_text())
+          assert a['physical_ray_rows']==b['physical_ray_rows']==10752
+          assert a['source_sha256']==b['source_sha256']
+          assert a['REI_central']==b['REI_central']=='28/88_REPORTED'
+          assert a['canonical_delta']==b['canonical_delta']==0
+          with gzip.open(folder/'results'/a['sky_file'],'rt') as fp:
+              old=list(csv.DictReader(fp))
+          with gzip.open(pathlib.Path('/tmp/bass-rei-f08-replay')/b['sky_file'],'rt') as fp:
+              new=list(csv.DictReader(fp))
+          assert len(old)==len(new)==10752
+          numeric=('Q_over_Tbar_BI_electron','U_over_Tbar_BI_electron',
+                   'P_over_Tbar_BI_electron',
+                   'delta_Q_material_fixed_BI_geometry','delta_U_material_fixed_BI_geometry')
+          for u,v in zip(old,new):
+              assert u['epoch_index']==v['epoch_index']
+              assert (u['nmu'],u['nphi'],u['mu_bin'],u['phi_bin'])==(v['nmu'],v['nphi'],v['mu_bin'],v['phi_bin'])
+              assert all(math.isclose(float(u[k]),float(v[k]),rel_tol=1e-12,abs_tol=1e-20) for k in numeric)
+          print('REI_F08_POLARIZED_SOURCE_CONDITIONAL_SCIENCE_REPLAY_PASS',len(old))
+          PY
