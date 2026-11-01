@@ -10,3 +10,4 @@
 | R6 | 자기 적대적 검사 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R7 | 원본 401-state 수치 판별 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R8 | 과학적 주장 판정 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| R9 | 계산 계약 정식화 | 9/15 scoped/source-mapped | 0 | scope-checked |

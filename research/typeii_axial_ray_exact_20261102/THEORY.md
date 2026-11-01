@@ -24,3 +24,6 @@ Original 401-state × 26-ray CSV is source-locked by SHA-256 9f1400588d39ba3a610
 ## R8. 과학적 주장 판정
 
 Accept exact axis invariance and the conditional unit-proper-opacity asymmetry as DERIVED; accept 401-state comparisons as NUMERICALLY_CHECKED. The gamma-weighted mean tilt is 0.048349926581410956, not a measurement of the real electron velocity or CMB signal. The independent physical density n_e(τ), full Thomson collision redistribution, polarization hierarchy, metric backreaction, and Stage II canonical evidence remain unresolved. BASS upper DAG stays 9/15 scoped, zero newly full-complete nodes.
+## R9. 계산 계약 정식화
+
+Inputs: original source 401 tau, five-state and corresponding exact RHS, plus parent CSV identity. Integrate the normal redshift by exact interval-Hermite quadrature: Δ∫f=h(f0+f1)/2+h²(f0'−f1')/12. For Gamma(v)(1∓v) integrate each cubic-Hermite v interval via Gauss-Legendre; cross-check global endpoints via scipy.integrate.quad. Outputs are `AXIAL_ORACLE_RESULT.json`, `AXIAL_ORACLE_401.csv`, `AXIAL_ACCURACY_RESULT.json` and independent hostile control script; all errors must remain below predeclared source-scoped tolerances.
