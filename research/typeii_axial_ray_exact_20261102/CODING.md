@@ -6,3 +6,6 @@ Implement a reproducible source-locked exact axial oracle and compare 401 publis
 ## C2. 수식-코드-데이터 매핑
 
 `verify_axial_analytic.py` reads original `compiler/validation/typeii_fixture_canonical.json`, its `samples[*].state` and `samples[*].rhs`, plus immutable parent `PHOTON_RAYS_401X26.csv`. It chooses ±ey by measured initial ray vectors, not by assuming list index, then compares normal and electron frame energies plus optical depth at every 401 time sample. `test_axial_negative.py` is a separate narrow counterexample suite and `verify_axial_accuracy.py` checks numerical quadrature.
+## C3. 독립 계산 형식
+
+For the source Hermite interpolant of Sigma_++√3Sigma_-, integrate each interval exactly as h(f0+f1)/2+h²(f0'−f1')/12. Integrate the nonlinear Gamma(1∓v2) with 8-point positive Gauss-Legendre on 400 intervals and independently with adaptive `quad`. Construct both optical depths from integrated Gamma and Gamma*v to retain the odd/even analytic identity. No new dynamic photon solver or production runtime changes.
