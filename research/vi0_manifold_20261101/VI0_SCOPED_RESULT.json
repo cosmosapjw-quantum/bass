@@ -1,0 +1,60 @@
+{
+  "schema": "bass.g_dyn_manifold_vi0.scalar_eigenframe_constructive.v1",
+  "branch_base_head": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+  "design_pr15_head": "af467a974cfd9bd8ccd59870e5a03c8099f23db1",
+  "input_blob_sha1": {
+    "bianchi/conventions.py": "09cbbf1046f292506a009bd45a0598ec0da65da5",
+    "bianchi/matter/fluid.py": "41905ff26914b2a7931ce2281d67b25fbde273b5",
+    "bianchi/charts/general.py": "115aec90df83d097904695817b6aa337d5ba76ee",
+    "bianchi/charts/class_a.py": "305438f3f82919390282d469bca7d3185451aed9",
+    "compiler/lowering/rust_typeii.py": "108fe5810af80c251b0c82fda517c57c3ee0c3fb",
+    "generated/rust/typeii/typeii_kato.rs": "9c8d49b6d42daf28734b4d439ca50f6535ee3519",
+    "docs/superpowers/specs/2026-08-21-g-dyn-manifold-vi0-design.md": "fff778b7ac55a2580097fa4780eefd7b41cea77c"
+  },
+  "source_convention": "(-,+,+,+); eps123=+1; Hubble normal 8piG=c=1 only within BASS adopted source; keep physical c in external definitions",
+  "scope": "one tilted gamma-law perfect fluid and co-moving scalar bolometric Thomson projector on a principal VI0 frame, N=diag(0,p,-q), p,q>0, Omega>0, |v|<1, 0<gamma<2",
+  "equation_of_state": "p_fluid=(gamma-1)rho_rest",
+  "dimension_background_constraint_manifold": 7,
+  "dimension_strict_zero_tilt_background": 4,
+  "dimension_scalar_projector_image_generic": 3,
+  "dimension_scalar_projector_image_strict_zero_tilt": 0,
+  "branch_typeii_boundary": "p==0 or q==0 (invalid VI0 local chart), conditional TypeII rank reduction",
+  "analytic_codazzi": [
+    "(p+q)*Sigma23=3gamma Omega v1/Gp",
+    "-q*Sigma13=3gamma Omega v2/Gp",
+    "-p*Sigma12=3gamma Omega v3/Gp"
+  ],
+  "analytic_gauss_reduction": "Omega+beta*Omega**2 = 1-sp**2-sm**2-(p+q)**2/12, beta=3gamma**2/Gp**2*[v1**2/(p+q)**2+v2**2/q**2+v3**2/p**2]",
+  "rank_minor": "p*q*(p+q)*(1+2beta Omega)>0",
+  "proven_exact": [
+    "constraint_elimination",
+    "rank4_constraint_jacobian",
+    "7D_local_chart",
+    "positive_unique_density",
+    "6axis_full_tilt_projector_global_inverse",
+    "P2=P",
+    "dP_tangent_identity",
+    "Kato_commutator",
+    "nonzero_vi0_3_velocity_rank",
+    "principal_frame_offdiagonal_rotation"
+  ],
+  "negative_controls": [
+    "TypeII_v2_only_false_transplant",
+    "drop_codazzi_loses_rank",
+    "TypeII_pq_boundary",
+    "zero_tilt_branch_distinction",
+    "gamma_6over5_not_rank_loss"
+  ],
+  "not_derived": [
+    "full VI0 physical polarized screen projector",
+    "moving-grid Liouville closure",
+    "gauge-independent production Rust lowering",
+    "VI0 evolution invariant set for all gamma",
+    "P_MIG_II_PREFLIGHT",
+    "cross-family production"
+  ],
+  "status": "DERIVED_EXACT_IN_SOURCE_CONDITIONAL_SCOPE_NUMERICALLY_SPOT_CHECKED; FULL_GATE_REVIEW_HOLD",
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false
+}

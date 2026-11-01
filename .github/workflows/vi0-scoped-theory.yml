@@ -1,0 +1,63 @@
+name: BASS VI0 exact scalar eigenframe manifold theory (nonproduction)
+on:
+  push:
+    branches:
+      - research/bass-vi0-exact-manifold-scalar-20261101-r1
+  pull_request:
+    paths:
+      - 'research/vi0_manifold_20261101/**'
+      - '.github/workflows/vi0-scoped-theory.yml'
+permissions:
+  contents: read
+jobs:
+  source_owned_vi0_theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Pin pure theory runtime
+        run: python -m pip install sympy==1.14.0 numpy==2.3.5 pytest==9.0.2
+      - name: Verify original BASS main source Git blobs
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          obj=json.loads(pathlib.Path('research/vi0_manifold_20261101/VI0_SOURCE_AUTHORITY.json').read_text())
+          for path,expected in obj['git_blobs_sha1'].items():
+              b=pathlib.Path(path).read_bytes()
+              digest=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\x00'+b).hexdigest()
+              assert digest==expected, (path,digest,expected)
+          print('VI0_OWNER_FORMULA_GIT_BLOBS',len(obj['git_blobs_sha1']),'PASS')
+          PY
+      - name: Exact VI0 theory construction and JSON readback
+        run: |
+          cd research/vi0_manifold_20261101
+          python vi0_exact.py > VI0_SCOPED_RESULT_REPLAY.json
+          python - <<'PY'
+          import json
+          a=json.load(open('VI0_SCOPED_RESULT_REPLAY.json'))
+          b=json.load(open('VI0_SCOPED_RESULT.json'))
+          assert a==b
+          assert a['dimension_background_constraint_manifold']==7
+          assert a['dimension_scalar_projector_image_generic']==3
+          assert not a['production_ready']
+          print('VI0_EXACT_THEORY_REPLAY_PASS')
+          PY
+      - name: Verify exact witness, hostile controls and 64 physical seeded states
+        run: |
+          cd research/vi0_manifold_20261101
+          python -m pytest -q test_vi0_exact.py
+          python -m compileall -q vi0_exact.py test_vi0_exact.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS-VI0-EXACT-SCALAR-THEORY-CERTIFICATE
+          path: |
+            research/vi0_manifold_20261101/*.py
+            research/vi0_manifold_20261101/*.json
+            research/vi0_manifold_20261101/*.md
+            research/vi0_manifold_20261101/NEXT_HANDOFF.txt
+          if-no-files-found: error
