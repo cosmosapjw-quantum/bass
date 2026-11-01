@@ -18,3 +18,6 @@ For n=±e_y, Sigma n=(Sigma_+ +√3 Sigma_-)n, R×n=0, Nn=0, so dn/dτ_H=0 in th
 ## R6. 자기 적대적 검사
 
 The axial invariant hides the Type II curvature sign because Nn=0, so it cannot replace the existing 26-ray off-axis curvature test. A deliberately introduced Sigma_xy=0.02 gives n_x'=-0.02 for +e_y, refuting overly broad axis invariance. q-only opacity and double-q give nonzero numerical discrepancies; in particular a q-only substitution drops the Lorentz density factor. Verify these actual negative controls in `test_axial_negative.py`, without calling it an independent-author review.
+## R7. 원본 401-state 수치 판별
+
+Original 401-state × 26-ray CSV is source-locked by SHA-256 9f1400588d39ba3a61020542e14b0e372c8e9be1af130f8c64ed8829b23ad217. Exact Hermite energy integral and independent Gauss-Legendre tau on ±ey agree with the published numerical rays: maximum log normal-energy error 1.67e-16, unit opacity error 2.22e-16, electron-frame log-energy error 2.50e-15. The unit-opacity results are T+=0.19055295929452346 and T-=0.2099155839589957.
