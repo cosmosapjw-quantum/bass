@@ -27,3 +27,6 @@ Accept exact axis invariance and the conditional unit-proper-opacity asymmetry a
 ## R9. 계산 계약 정식화
 
 Inputs: original source 401 tau, five-state and corresponding exact RHS, plus parent CSV identity. Integrate the normal redshift by exact interval-Hermite quadrature: Δ∫f=h(f0+f1)/2+h²(f0'−f1')/12. For Gamma(v)(1∓v) integrate each cubic-Hermite v interval via Gauss-Legendre; cross-check global endpoints via scipy.integrate.quad. Outputs are `AXIAL_ORACLE_RESULT.json`, `AXIAL_ORACLE_401.csv`, `AXIAL_ACCURACY_RESULT.json` and independent hostile control script; all errors must remain below predeclared source-scoped tolerances.
+## R10. 이론 종료·다음 물리 동작
+
+The narrow exact axial null-ray lemma and optical-depth asymmetry are closed. This exact branch can benchmark future full-angle Bianchi Type II photon Boltzmann solvers without supplying or implying a new recombination model. Preserve source and user-owned working tree; do not merge automatically. The next physics-bearing step is a real electron proper-density history followed by source-owner Thomson kernel coupling, spectral moment propagation and full-angle conservative photon transport, rather than another abstract projector review.
