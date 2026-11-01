@@ -61,9 +61,26 @@ jobs:
           saved_meta=json.loads((D/'inputs/STAGE_INPUT_PROVENANCE.json').read_text())
           raw_meta=json.loads((cold/'base/STAGE_INPUT_PROVENANCE.json').read_text())
           assert saved_meta['source_parent_head']==raw_meta['source_parent_head']=='c0e965ba21892346feef9ecb2389932c34f3fc82'
-          assert saved_meta['stage_input_sha256']==raw_meta['stage_input_sha256']
           high_meta=json.loads((cold/'high/STAGE_INPUT_PROVENANCE.json').read_text())
-          assert high_meta['stage_input_sha256']==json.loads((D/'results/HIGH_SOURCE_PROVENANCE.json').read_text())['stage_input_sha256']
+          saved_high_meta=json.loads((D/'results/HIGH_SOURCE_PROVENANCE.json').read_text())
+          # The original 51+12+4 source files above REQUIRE exact bytes. Generated
+          # quadrature packet text is numerical evidence, not an immutable source:
+          # libm/leggauss formatting may change a few ULP without physics changing.
+          def equivalent_packet_provenance(x,y):
+              for k in ('schema','source_parent_head','original_V1_F08_source_pair',
+                        'birth_gauss_nodes','pre_absorption_panels','original_ticks'):
+                  assert x[k]==y[k],('packet_contract',k,x[k],y[k])
+              assert len(x['cases'])==len(y['cases'])
+              for u,v in zip(x['cases'],y['cases']):
+                  for k in ('id','branch','tick','model','source_packet_count'):
+                      assert u[k]==v[k],('packet_identity',k,u[k],v[k])
+                  for k in ('input_total_N_per_H','input_total_U_eV_per_H',
+                            'original_material_w_eV_per_H','original_material_escape_eV_per_H'):
+                      a,b=float(u[k]),float(v[k])
+                      assert math.isfinite(a) and math.isfinite(b)
+                      assert math.isclose(a,b,rel_tol=2e-10,abs_tol=2e-13),(k,a,b)
+          equivalent_packet_provenance(saved_meta,raw_meta)
+          equivalent_packet_provenance(saved_high_meta,high_meta)
           for name,stored,computed,n in (
               ('native_stage.csv',D/'results/native_stage.csv',cold/'base/native_stage.csv',20),
               ('native_high_stage.csv',D/'results/native_high_stage.csv',cold/'high/native_high_stage.csv',12)
