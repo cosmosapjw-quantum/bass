@@ -22,3 +22,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | C8 | Source rays RK4 fourth-order refinement and Radau/DOP853 4.69e-13 parity | 9/15 | 0 | NUMERICALLY_CHECKED_SOURCE_SCOPED |
 | C9 | RHS-free saved data hostile referee normal/-O and 5 negative controls PASS | 9/15 | 0 | SAME_AUTHOR_SCIENCE_REFEREE |
 | C10 | Final scoped report, copyable handoff, 20-stage Git/ZIP backup and production HOLD | 9/15 | 0 | CLOSED_SCOPED_NOT_PRODUCTION |
+| CI_REPAIR | Strict Clippy source-module lint scope, local 1.94-common 145/145 PASS; upstream RF00/RFBENCH contracts HOLD | 9/15 | 0 | SCOPED_1_BOUNDED_REPAIR |

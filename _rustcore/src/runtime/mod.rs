@@ -2,8 +2,12 @@
 
 pub mod plan;
 /// Opt-in original Type-II background callback. No RF-01 dispatch substitution.
+/// Immutable exact numeric constants and explicit NaN-rejecting comparisons are source-owned.
+#[allow(clippy::excessive_precision, clippy::neg_cmp_op_on_partial_ord)]
 pub mod typeii_host;
 /// Source-linked Type-II Liouville and proper-electron opacity, not production dispatch.
+/// Source-generated tensor loops are imported byte-exact, not reformatted or rewritten.
+#[allow(clippy::needless_range_loop)]
 pub mod typeii_photon_host;
 pub mod workspace;
 
