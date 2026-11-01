@@ -13,3 +13,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | R9 | Geometric ray ODE and Rust/Python acceptance contract | 9/15 | 0 | theory scoped |
 | R10 | Theory-to-coding checkpoint | 9/15 | 0 | THEORY_SCOPED_COMPLETE |
 | C1 | Pinned implementation target | 9/15 | 0 | code preflight |
+| C2 | Actual source/API ownership map | 9/15 | 0 | code preflight |
