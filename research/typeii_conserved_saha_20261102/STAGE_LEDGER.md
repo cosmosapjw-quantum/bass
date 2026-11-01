@@ -8,3 +8,4 @@
 | R4/C4 | Source-conditioned conserved hydrogen model vs naive FLRW and unit/proxy; independent ODE crosscheck, 3 physical plots | 9/15 scoped | 0 | physical data numerically checked |
 | R5/C5 | Zero-scattering survival and first-event 401×26 data, owner H1 cold-electron SI/CGS rate parity | 9/15 scoped | 0 | derived + source physically checked |
 | R6/C6 | 10/10 Python normal and -O physical replays byte-identical, inherited unchanged RustCore 145/145, 9/9 source locks | 9/15 scoped | 0 | execution verified (scoped) |
+| R7_C7 | Physical sourced H-Saha 401x26 and owner-electron parity | 9/15 scoped/source-mapped | 0 | DERIVED_SOURCE_CONDITIONAL_NUMERICALLY_CHECKED |

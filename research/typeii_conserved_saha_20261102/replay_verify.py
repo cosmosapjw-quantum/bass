@@ -5,12 +5,13 @@ from pathlib import Path
 here=Path(__file__).resolve().parent
 root=here.parents[1]
 scripts=["source_saha_transport.py","independent_referee.py","first_scattering.py",
-         "test_owner_density_rate.py","model_sensitivity.py"]
+         "test_owner_density_rate.py","model_sensitivity.py","hostile_science.py"]
 outputs=[
  "HYDROGEN_SAHA_HISTORY_401.csv","SAHA_THOMSON_RAYS_401X26.csv",
  "PHYSICAL_SAHA_THOMSON_SUMMARY.json","INDEPENDENT_REFEREE.json",
  "FIRST_SCATTER_401X26.csv","FIRST_SCATTER_SUMMARY.json",
  "OWNER_ELECTRON_RATE_PARITY.json","MODEL_SENSITIVITY.json","MODEL_SENSITIVITY_26.csv",
+ "HOSTILE_SCIENCE.json",
 ]
 def check(ok,msg):
     if not bool(ok):raise RuntimeError(msg)
