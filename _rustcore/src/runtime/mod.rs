@@ -2,6 +2,8 @@
 
 pub mod plan;
 pub mod workspace;
+/// Opt-in original Type-II source callback bridge. No RF-01 dispatch substitution.
+pub mod typeii_host;
 
 use std::fmt;
 
