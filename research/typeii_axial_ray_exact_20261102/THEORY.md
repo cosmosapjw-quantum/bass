@@ -15,3 +15,6 @@ Build three physically distinct tests: (i) invariant +e_y and -e_y photon rays, 
 ## R5. 축방향 정리·직접 증명
 
 For n=±e_y, Sigma n=(Sigma_+ +√3 Sigma_-)n, R×n=0, Nn=0, so dn/dτ_H=0 in the original equation: dn=-(Sigma n-Sigma_nn n)+R×n-n×(Nn). Thus ln(E/E0)=-∫(1+Sigma_+ +√3 Sigma_-)dτ_H and ln(I/I0)=4ln(E/E0). With unit electron-rest opacity and v=v2(τ_H), T_±=∫Gamma(1∓v)dτ_H. Therefore T_-−T_+=2∫Gamma v dτ_H, T_-+T_+=2∫Gamma dτ_H, and (T_-−T_+)/(T_-+T_+)=∫Gamma v/∫Gamma. Wolfram independently evaluated the Type-II frame rate as 0 for both directions and simplified the constant-tilt asymmetry to v. This exact identity is valid for the stated tetrad and conditional electron identification, not for arbitrary Bianchi gauges.
+## R6. 자기 적대적 검사
+
+The axial invariant hides the Type II curvature sign because Nn=0, so it cannot replace the existing 26-ray off-axis curvature test. A deliberately introduced Sigma_xy=0.02 gives n_x'=-0.02 for +e_y, refuting overly broad axis invariance. q-only opacity and double-q give nonzero numerical discrepancies; in particular a q-only substitution drops the Lorentz density factor. Verify these actual negative controls in `test_axial_negative.py`, without calling it an independent-author review.
