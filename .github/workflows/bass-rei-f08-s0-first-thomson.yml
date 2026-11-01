@@ -1,0 +1,60 @@
+name: BASS source-authentic REI F08 S0 first-Thomson local gain
+
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-s0-source-photon-thomson-20261101
+  pull_request:
+    paths:
+      - "research/bass_rei_f08_s0_source_photon_thomson_20261101/**"
+      - ".github/workflows/bass-rei-f08-s0-first-thomson.yml"
+
+jobs:
+  original-source-science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original source locks, physical limits and full 4096 sky
+        run: |
+          python3 -m unittest discover -s research/bass_rei_f08_s0_source_photon_thomson_20261101/tests -v
+          python3 -O -m unittest discover -s research/bass_rei_f08_s0_source_photon_thomson_20261101/tests -v
+          python3 research/bass_rei_f08_s0_source_photon_thomson_20261101/audit_science.py
+      - name: Cold recompute original S0 physical photon gain
+        run: |
+          python3 research/bass_rei_f08_s0_source_photon_thomson_20261101/s0_source_photon_thomson.py --out /tmp/bass_rei_s0_cold_ci --birth-panels 128 --in-mu 16 --in-phi 32 --simpson 16
+      - name: Inspect all original model sky rows and source-limited claims
+        run: |
+          python3 - <<'PY'
+          import csv,gzip,math,json,pathlib
+          src=pathlib.Path('research/bass_rei_f08_s0_source_photon_thomson_20261101')
+          old=json.loads((src/'results/RESULT.json').read_text())
+          new=json.loads(pathlib.Path('/tmp/bass_rei_s0_cold_ci/RESULT.json').read_text())
+          assert old['source_sha256']==new['source_sha256']
+          assert old['sky_rows']==new['sky_rows']==4096
+          assert old['birth_cohort_rows']==new['birth_cohort_rows']==1032
+          assert old['reference_S0_rei_scientific_admission']==new['reference_S0_rei_scientific_admission']=='HOLD'
+          assert old['REI_central']==new['REI_central']=='28/88_REPORTED'
+          assert old['new_canonical_nodes']==new['new_canonical_nodes']==0
+          assert not new['full_photon_angular_source_equivalence']
+          num=('out_gain_I_ev_per_H_s_sr','out_gain_Q_ev_per_H_s_sr',
+               'out_gain_U_ev_per_H_s_sr','out_gain_P_over_I')
+          with gzip.open(src/'results'/old['sky_filename'],'rt') as f:
+              a=list(csv.DictReader(f))
+          with gzip.open(pathlib.Path('/tmp/bass_rei_s0_cold_ci')/new['sky_filename'],'rt') as f:
+              b=list(csv.DictReader(f))
+          assert len(a)==len(b)==4096
+          for x,y in zip(a,b):
+              assert (x['branch'],x['epoch_s'],x['mu_index'],x['phi_index'])==(
+                  y['branch'],y['epoch_s'],y['mu_index'],y['phi_index'])
+              for field in num:
+                  xa=float(x[field]); ya=float(y[field])
+                  assert math.isfinite(xa) and math.isfinite(ya)
+                  assert math.isclose(xa,ya,rel_tol=1e-10,abs_tol=1e-25),(field,xa,ya)
+          with gzip.open(src/'results'/old['cohort_filename'],'rt') as f:
+              oa=list(csv.DictReader(f))
+          with gzip.open(pathlib.Path('/tmp/bass_rei_s0_cold_ci')/new['cohort_filename'],'rt') as f:
+              nb=list(csv.DictReader(f))
+          assert len(oa)==len(nb)==1032
+          print('BASS_REI_ORIGINAL_S0_COLD_SCIENCE_REPLAY_PASS',len(a),len(oa))
+          PY
