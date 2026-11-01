@@ -54,3 +54,19 @@ Core question admits **no assumption** that the original fixed-frame generated K
 Kato's `[Pdot,P]` intertwines `P(tau)`, but amplitude conservation/normalization is a second choice. Merely transporting a mathematically moving equilibrium subspace is not the same as solving the physical cosmological Liouville equation, which also depends on shear, gravitational redshift, angular advection, and the chosen intensity/frequency moment.
 
 **R3 verdict:** source facts distinguished from upcoming novel direct algebra; `DAG 9/15`, `0` new upper nodes.
+
+## R4. Divergent constructive candidate connections
+
+Let `P(v)=r(v)a(v)^T/s(v)`, `s(v)=a(v)^T r(v)>0`, and `C(v)r=0=a^T C(v)`. Evaluate three **different mathematical transports** of the same source:
+
+1. **A | Kato geometric subspace connection:** `G_A=alpha nu(tau) C(v)+K(v)`, `K=[Pdot,P]`, full time derivative including `n(v),w(v)`. Guaranteed `P(tau) U_A(tau,tau0)=U_A(tau,tau0) P(tau0)` if the finite-dimensional smooth equation is solved exactly. This does **not** fix how the amplitude of `r(v)` evolves.
+
+2. **B | Rest-isotropic-amplitude calibration:** `G_B=alpha nu C + K + lambda(tau) P`, `lambda=(a^T rdot)/s`. For any scalar `c` initial `y=c r(v0)`, the path `y=c r(v(tau))` is an exact solution (the collision term vanishes). If `s` is constant and `a^TC=0`, then `a(tau)^T y` is also constant for **all** solutions of `G_B`. This is a choice of center mode/gauge, not by itself a physical free-streaming law. For `s\ne constant` the two normalization goals are distinct.
+
+3. **C | Rest-label frame-pullback:** `G_C=alpha nu C + diag(rdot_i/r_i)` on the *specific* paired rest-labelled bolometric vector. Its geometric term gives `y_i=r_i(v)J_i` for constant (possibly anisotropic) rest-frame `J_i` if collisions vanish. The full covariant Liouville equation instead introduces real geometric redshift/shear/angular evolution of `J_i`, so `G_C` alone is not its replacement. Unlike B, the diagonal term is generally different off the equilibrium subspace.
+
+Distinguishing diagnostic: for an isolated tilt change from `v0=0` to `v=0.2` and a symmetric paired grid, candidate A predicts the rest-intensity amplitude ratio `(1-v^2)^2=0.9216`, while B and C give exactly `1` for initially isotropic rest intensity. This is a **finite, falsifiable mathematical discrepancy**, not a production or observational prediction.
+
+Core decision for R5: derive the analytic paired-grid `r,a,s,rdot,adot,K` and both propagation laws, quantify the discrepancy on the original 401-state Type-II tilt history. Keep candidate C as the physical-coordinate comparator rather than silently labeling B as covariant transport.
+
+**R4**: 3 explicit candidates, one distinguishing case; `DAG 9/15`, `0` new full upper nodes.
