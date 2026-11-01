@@ -1,0 +1,90 @@
+name: BASS VI0 original constraint-propagation and covariant scalar gauge theory
+on:
+  push:
+    branches:
+      - research/bass-vi0-tangent-gauge-20261101-r1
+  pull_request:
+    paths:
+      - 'research/vi0_manifold_20261101/**'
+      - '.github/workflows/vi0-dynamics-theory.yml'
+permissions:
+  contents: read
+jobs:
+  original_vi0_source_and_dynamic_theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install fixed mathematical-science runtime
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 sympy==1.14.0 pytest==9.0.2 matplotlib==3.10.8
+      - name: Refuse drift of seven exact original BASS owner Git blobs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+          sys.path.insert(0,'research/vi0_manifold_20261101')
+          import vi0_dynamics
+          got=vi0_dynamics.original_source_guard(Path('.'))
+          assert got==7
+          print('BASS_ORIGINAL_VI0_OWNER_BLOBS',got,'BYTE_EXACT')
+          PY
+      - name: Recompute original BASS VI0 source-owned constrained gamma-law physics
+        run: python research/vi0_manifold_20261101/vi0_dynamics.py
+      - name: Independent frozen result comparison on all 492 actual physical epochs
+        run: |
+          python - <<'PY'
+          import csv,json,math
+          from pathlib import Path
+          root=Path('research/vi0_manifold_20261101')
+          new=json.loads((root/'data/VI0_DYNAMIC_RESULTS.json').read_text())
+          old=json.loads((root/'VI0_DYNAMIC_RESULTS.json').read_text())
+          assert new['schema']==old['schema']
+          assert new['physical_trajectory_count']==12 and new['time_sampled_physical_states']==492
+          assert all(not new[k] for k in ('production_ready','merge_ready','auto_next'))
+          assert new['upper_BASS_DAG_scoped_source_mapped']=='9/15'
+          for k in ('max_Gauss','max_Codazzi','max_direct_derivative_and_chart_error','co_rotated_pure_W_projector_rate_max','wrong_static_angular_grid_spurious_projector_rate_max'):
+              assert math.isclose(new[k],old[k],rel_tol=1e-8,abs_tol=2e-13),(k,new[k],old[k])
+          def read(name):
+              with (root/name).open(newline='') as f:return list(csv.DictReader(f))
+          a=read('data/VI0_DYNAMIC_PHYSICAL_HISTORIES.csv')
+          b=read('VI0_DYNAMIC_PHYSICAL_HISTORIES.csv')
+          assert len(a)==len(b)==492
+          maximum=0.
+          for x,y in zip(a,b):
+              assert x.keys()==y.keys()
+              for key in x:
+                  if key=='case': assert x[key]==y[key]
+                  else: maximum=max(maximum,abs(float(x[key])-float(y[key])))
+          assert maximum<2e-10,maximum
+          print('VI0_12_IVP_492_PHYSICAL_HISTORY_PARITY',maximum,'PASS')
+          PY
+      - name: Verify parent exact theory and new dynamic theory plus hostile controls
+        run: |
+          python -m pytest -q research/vi0_manifold_20261101/test_vi0_exact.py research/vi0_manifold_20261101/test_vi0_dynamics.py
+          python -m compileall -q research/vi0_manifold_20261101/vi0_exact.py research/vi0_manifold_20261101/vi0_dynamics.py research/vi0_manifold_20261101/test_vi0_dynamics.py
+      - name: Optimized Python mathematical source/replay mode (explicit exceptions)
+        run: python -O research/vi0_manifold_20261101/vi0_dynamics.py
+      - name: Generate genuine physical VI0 evolution figure
+        run: python research/vi0_manifold_20261101/make_science_figure.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_VI0_ORIGINAL_12_IVP_492_PHYSICAL_THEORY_AND_GAUGE
+          path: |
+            research/vi0_manifold_20261101/data/
+            research/vi0_manifold_20261101/VI0_DYNAMICS_SCIENTIFIC_FIGURE.*
+            research/vi0_manifold_20261101/VI0_DYNAMIC_*.json
+            research/vi0_manifold_20261101/VI0_DYNAMIC_*.csv
+            research/vi0_manifold_20261101/vi0_dynamics.py
+            research/vi0_manifold_20261101/test_vi0_dynamics.py
+            research/vi0_manifold_20261101/VI0_DYNAMICS_REPORT_KO.md
+            research/vi0_manifold_20261101/HOSTILE_REFEREE_KO.md
+            research/vi0_manifold_20261101/R1_R10_STAGE_LEDGER.json
+            research/vi0_manifold_20261101/NEXT_HANDOFF_DYNAMICS.txt
+          if-no-files-found: error
