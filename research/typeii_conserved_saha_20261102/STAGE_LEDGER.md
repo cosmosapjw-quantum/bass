@@ -10,3 +10,4 @@
 | R6/C6 | 10/10 Python normal and -O physical replays byte-identical, inherited unchanged RustCore 145/145, 9/9 source locks | 9/15 scoped | 0 | execution verified (scoped) |
 | R7_C7 | Physical sourced H-Saha 401x26 and owner-electron parity | 9/15 scoped/source-mapped | 0 | DERIVED_SOURCE_CONDITIONAL_NUMERICALLY_CHECKED |
 | R8_C8 | Independent numerical convergence and ionization-source sensitivity | 9/15 scoped/source-mapped | 0 | NUMERICALLY_CHECKED |
+| R9_C9 | One bounded same-author hostile audit and failure classification | 9/15 scoped/source-mapped | 0 | HOSTILE_PASS_PRODUCTION_HOLD |
