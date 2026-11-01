@@ -40,3 +40,17 @@ Success conditions: derive the exact pair `r(v),a(v)` and `s=a^Tr`; derive Kato 
 **Dependency status:** `TypeII=gamma-law five-state, prescribed tilt v_2(tau)`; original `401/401` fixture source from owner is accepted as source-conditioned trajectory, not a native Saha/recombination physical receipt. Prior frozen scalar Metzler/Poisson proof is valid only when *the same discrete C* satisfies `Cr=0` and `a^TC=0`; moving `a(t)` creates a separate transport question.
 
 **R2 decision:** primary-source and source-code mapping complete for the new scope; BASS upper DAG **9/15**, new full nodes **0**.
+
+## R3. Scope/convention cross-check (source, derivation and hypothesis separate)
+
+On the *paired* grid the fixed rest-frame directions `e_i` and positive weights `W_i` are independent of `v`, while the normal directions `n_i(v)` and weights `w_i(v)` are **not**. In the original collision generator `y_i` denotes bolometric intensity in the normal tetrad. This is **not** a frequency-resolved photon occupation number. The source `a(v)^T y` is a left invariant of an **instantaneously frozen** eligible collision matrix, not by itself the covariant photon number of a time-dependent universe.
+
+The exact rest quadrature criteria for the unpolarized Thomson kernel are `sum W=4pi` and `sum W e_i e_i^T = (4pi/3) I_3`. For the amplitude theorem additionally `sum W m_i=0`, already implied by symmetric first moment of the six-axis/Lebedev26 grids. Positivity of `W`, `q` and `D` gives Metzler offdiagonal entries. This implies `C(v) r(v)=0` and `a(v)^T C(v)=0` at each v for the paired family; it does NOT give `d(a(v)^T y)/dtau=0` when v varies.
+
+Background fluid `gamma=1.3` and Lorentz `Gamma(v)=(1-v^2)^(-1/2)` are distinct. Time derivative below is `d/dtau` with `d tau=H dt`; physical `n_e sigma_T c/H` is a *separately sourced positive scalar rate*, not supplied by the gamma-law fluid. Existing 401-record opacity is a 3-anchor log-quadratic proxy only.
+
+Core question admits **no assumption** that the original fixed-frame generated Kato derivative was coded incorrectly: the fixed-grid partial expression is valid for its stated arguments. The new proof addresses its use after a coordinate-dependent **paired** angular transformation. The previous PR #318 Python comparison computes total paired `dP/dv` by complex-step, so its existing numerical claims are not refuted by this distinction.
+
+Kato's `[Pdot,P]` intertwines `P(tau)`, but amplitude conservation/normalization is a second choice. Merely transporting a mathematically moving equilibrium subspace is not the same as solving the physical cosmological Liouville equation, which also depends on shear, gravitational redshift, angular advection, and the chosen intensity/frequency moment.
+
+**R3 verdict:** source facts distinguished from upcoming novel direct algebra; `DAG 9/15`, `0` new upper nodes.
