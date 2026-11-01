@@ -16,3 +16,4 @@
 | C2 | 수식-코드-데이터 매핑 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C3 | 독립 계산 형식 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C4 | 자원·실행·체크포인트 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C5 | 실제 코드·물리 산출물 | 9/15 scoped/source-mapped | 0 | scope-checked |

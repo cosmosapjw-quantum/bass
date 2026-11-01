@@ -12,3 +12,6 @@ For the source Hermite interpolant of Sigma_++√3Sigma_-, integrate each interv
 ## C4. 자원·실행·체크포인트
 
 Use the authorized isolated local Git worktree `research/bass-typeii-axial-ray-exact-20261102-r1`, ordinary Python+SciPy and OpenBLAS=1. Prior 401x26 parent photon data is read-only. Stage commits/pushes must be remote SHA-read back and copied to local ZIP archives with SHA-256 and `unzip -tq`; no GPU, no extra service provisioning, and no edits to `/home/cosmosapjw/bass` current owner branch.
+## C5. 실제 코드·물리 산출물
+
+`verify_axial_analytic.py` creates 401-row exact-oracle CSV/JSON, enforces original nine Git blob identities and parent ray byte identity, selects ±ey by initial physical directions, and compares all 401 original ray outputs. `test_axial_negative.py` and `verify_axial_accuracy.py` are executable auxiliary validators. In this cycle the physical scripts and input-conditioned data were already created and run before the formal stage record; this stage reuses that actual verified implementation, not a simulated run.
