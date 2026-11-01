@@ -7,3 +7,4 @@
 | R3 | Angular measure, bolometric invariant and fixed/paired derivative boundaries corrected | 9/15 scoped | 0 | committed/pushed per Git receipt |
 | R4 | Three explicit connections Kato, center-calibrated Kato, rest-frame pullback; v=0.2 counterexample | 9/15 scoped | 0 | committed/pushed per Git receipt |
 | R5 | Exact paired-grid projector/C invariants, Kato amplitude law and center-mode correction derived; Wolfram component residuals zero | 9/15 scoped | 0 | committed/pushed per Git receipt |
+| R6 | Hostile checks: paired-vs-fixed P derivative gap; non-Metzler geometry counterexample; scope corrected | 9/15 scoped | 0 | committed/pushed per Git receipt |

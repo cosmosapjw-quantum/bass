@@ -150,3 +150,31 @@ so it is identically zero on the **paired symmetric** family \(\dot s=0\), not o
 The full fixed-rest-label pullback \(G_C=\alpha\nu C+\operatorname{diag}(\dot r_i/r_i)\) equals \(G_B\) **only on the instantaneously isotropic subspace**. A physical Boltzmann Liouville term (shear, ray advection, redshift, spectral redistribution, frame tetrad) has NOT been derived from these purely algebraic conditions; do not replace the original BASS transport with \(G_B\) or \(G_C\) without that reconciliation. No photon-number conservation claim is made for bolometric \(y\).
 
 **R5 exact mathematical result:** moving scalar paired-grid normalization and center-mode transport identity. Source ownership, boundary and physical interpretation explicitly scoped; upper DAG **9/15** and new complete upper nodes **0**.
+
+## R6. Same-author hostile referee, actual negative controls
+
+This is **self-adversarial source-aligned checking**, NOT a blind distinct-author reviewer nor native subagent. Source: immutable PR #318 paired-grid \`replay_from_original_fixture.py\`, its independent source \`bg_rhs\`, original 401-state initial \`v=0.05\` and \`dv/dtau=-0.016845446584938688\`. For both grids construct \`C,P\` from actual source; \`dP_total/dv\` via complex-step of fully paired \`P(v)\`, and independently evaluate the source's **fixed-normal partial** derivative at the same instantaneous normal directions/weights. Evaluated \`K=\dot P P-P\dot P\`, \`H=K+\lambda P\` using the explicit analytic \(\lambda\), and both \(\dot r,\dot a\) from independently differentiated paired component formulas.
+
+Observed at initial source state:
+
+| Matrix/vector check | axis6 | Lebedev26 |
+|---|---:|---:|
+| max |Cr| | 2.22e-16 | 4.44e-16 |
+| max |a^T C| | 2.78e-17 | 1.73e-17 |
+| a^T r | 1.0000000000000002 | 1.0 |
+| lambda | -0.003377533149862394 | same |
+| max |Kr-(rdot-lambda r)| | 1.39e-17 | 3.47e-17 |
+| max |(K+lambda P)r-rdot| | 1.39e-17 | 3.47e-17 |
+| |adot^T y+a^T H y|, fixed seeded positive y | 8.67e-19 | 1.08e-18 |
+| max |dP_total/dv-dP_fixed/dv| entry | **0.47375327** | **0.13535808** |
+| smallest offdiagonal entry of H | **-0.01368471** | **-0.00460992** |
+
+**Finding F1 (BLOCK_NOW for paired Kato reuse, not the source's fixed-frame path):** total paired-grid projector derivative differs strongly from keeping normal directions/weights fixed; replacing one by the other is mathematically invalid for an evolving paired grid. This is already handled in the former PR #318 Python total complex-step path. Do not retroactively claim PR #318 is broken.
+
+**Finding F2 (BLOCK_NOW for an unconditional positivity claim):** although each eligible scalar collision C is Metzler, the geometric connection \`H\` alone has negative off-diagonal entries on real source states. Therefore \`C + H\` is **not guaranteed** to be Metzler for arbitrary collision rate or opacity. The frozen-scalar Poisson stochasticity proof does not automatically apply to nonautonomous \`C+K\` or \`C+H\`; a separate positivity argument or explicit physical transport implementation is required. For zero or sufficiently small positive collision prefactor, the negative offdiagonal of H survives.
+
+**Finding F3 (scope correction):** equality of the algebraic center amplitude \`a^T y\` with genuine photon number, full Einstein-photon energy conservation, or polarization/linear Stokes evolution is NOT established. This scalar energy-integrated angular representation has no frequency integration sufficient to reconstruct conserved photon occupation number. Do not use \`G_B\` as an automatic physical transport law.
+
+**Finding F4 (singular boundary):** \(|v|\to1\) makes \(\Gamma\) singular, and a paired rest grid with nonzero first moment has \(\dot s\ne0\). The exact constant-amplitude/conserved-center equivalence is scoped to \(\sum W m=0\). The Type-I boundary \(N_1=0\) is outside the previous original 4D constraint chart.
+
+**Verdict:** exact amplitude theorem stands; physical production admission and generic positivity are **HOLD**. No new universal no-go; no new full BASS DAG node. Upper **9/15**, new **0**.
