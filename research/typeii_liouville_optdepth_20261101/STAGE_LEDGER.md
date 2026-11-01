@@ -5,3 +5,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | R1 | Original source-bound physics contract | 9/15 | 0 | theory scope |
 | R2 | Original Type-II Liouville/opacity source + primary literature | 9/15 | 0 | Theory scoped |
 | R3 | Units, angular advection, proper-vs-normal density conventions | 9/15 | 0 | Theory scoped |
+| R4 | Three physical/mathematical candidates, A selected | 9/15 | 0 | Theory scoped |
