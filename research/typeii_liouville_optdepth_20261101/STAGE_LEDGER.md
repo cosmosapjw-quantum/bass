@@ -16,3 +16,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | C2 | Actual source/API ownership map | 9/15 | 0 | code preflight |
 | C3 | Hermite background, characteristic and parity numerical contract | 9/15 | 0 | code preflight |
 | C4 | Execution DAG and bounded resources | 9/15 | 0 | code preflight |
+| C5 | RustCore source Liouville module and executable 401×26 rays/optical-depth output | 9/15 | 0 | 145/145 Rust, 10426 source parity |

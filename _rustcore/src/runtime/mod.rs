@@ -1,9 +1,11 @@
 //! RF-01-owned runtime substrate. Production kernel migration starts at RF-02.
 
 pub mod plan;
-pub mod workspace;
-/// Opt-in original Type-II source callback bridge. No RF-01 dispatch substitution.
+/// Opt-in original Type-II background callback. No RF-01 dispatch substitution.
 pub mod typeii_host;
+/// Source-linked Type-II Liouville and proper-electron opacity, not production dispatch.
+pub mod typeii_photon_host;
+pub mod workspace;
 
 use std::fmt;
 
