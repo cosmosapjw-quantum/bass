@@ -24,3 +24,6 @@ The two original rays preserve n=±e_y with zero direction defect. Their normal 
 ## C8. 독립 수치 정확도
 
 8-point and 16-point Gauss-Legendre endpoint opacity integrals agree with independent adaptive quad within 1.2e-16; 1-point midpoint error is ~1e-11, 2-point already at binary64 floor on this smooth 400-interval source. Exact piecewise Hermite integral of Sigma22 equals the direct adaptive quad at the printed binary64 output (0.047665441721635005). This is a tightly scoped convergent quadrature result and does not certify a generic full-angle Boltzmann solver.
+## C9. 적대적 검토 및 실패 분류
+
+Self-adversarial checks require an explicit failure if symmetry assumptions are relaxed: Sigma_xy=0.02 yields n_x'=-0.02. Missing Gamma changes T+ by 2.22936e-4, and extra q changes T+ by 9.21304e-3 on the source fixture. Invariance of axial rays CANNOT detect wrong Bianchi curvature sign; off-axis parent validation is necessary. No native subagent or distinct-author independent review ran. The only repair here replaced bypassable Python asserts with explicit exceptions and verified normal/-O parity; no source physics changed.
