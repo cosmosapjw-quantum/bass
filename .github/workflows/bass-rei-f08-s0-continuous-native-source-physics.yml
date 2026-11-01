@@ -1,0 +1,108 @@
+name: BASS REI-F08 S0 original source continuous Rust-coupled HHe physics
+on:
+  push:
+    branches: [research/bass-rei-f08-s0-continuous-native-20261102]
+  pull_request:
+    paths:
+      - 'research/bass_rei_f08_s0_continuous_native_20261102/**'
+      - 'research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust/examples/bass_s0_continuous_packet_step.rs'
+      - '.github/workflows/bass-rei-f08-s0-continuous-native-source-physics.yml'
+jobs:
+  source-locked-native-continuous:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source numerical dependency
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Exact original REI Rust 51 and source F08 12 plus checkpoint 4 SHA locks
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust && sha256sum -c original_source_sha256.txt)
+          (cd research/bass_rei_f08_s0_source_photon_thomson_20261101/source_inputs && sha256sum -c ORIGIN_SHA256SUMS.txt)
+          (cd research/bass_rei_f08_s0_remap_support_20261101/source_inputs && sha256sum -c LOCKED_CHECKPOINT_SHA256SUMS.txt)
+      - name: Revalidate committed 160-step science and 64-step original-clock prefix
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=research/bass_rei_f08_s0_continuous_native_20261102
+          python -m unittest discover -s "$F/tests" -v
+          python -O -m unittest discover -s "$F/tests" -v
+          python "$F/audit_continuous.py" --out "$F/results"
+      - name: Build and execute unchanged original HHe Rust microphysics
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust
+          CARGO_TARGET_DIR=/tmp/bass_rei_s0_continuous_rust cargo build --release --offline --example bass_s0_continuous_packet_step
+      - name: Cold original S0 physical source evolution 160 steps and prefix64
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=research/bass_rei_f08_s0_continuous_native_20261102
+          EXE=/tmp/bass_rei_s0_continuous_rust/release/examples/bass_s0_continuous_packet_step
+          python "$F/continuous_s0.py" --steps 160 --rust "$EXE" --out /tmp/rei_s0_continuous_cold160
+          python "$F/continuous_s0.py" --steps 64 --rust "$EXE" --out /tmp/rei_s0_continuous_cold64
+          python "$F/audit_continuous.py" --out /tmp/rei_s0_continuous_cold160
+      - name: Verify physical model parity for 640+320 actual gas photon records
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,gzip,json,math
+          from pathlib import Path
+          F=Path('research/bass_rei_f08_s0_continuous_native_20261102')
+          a=json.loads((F/'results/RESULT.json').read_text())
+          b=json.loads(Path('/tmp/rei_s0_continuous_cold160/RESULT.json').read_text())
+          assert a['schema']==b['schema']
+          assert a['parent_head']==b['parent_head']=='4984b42a9ed4025e4b3f20a3a61355a448e522ab'
+          assert a['original_rei_F08_pair']==b['original_rei_F08_pair']
+          assert a['actual_original_native_gas_chemistry_steps']==b['actual_original_native_gas_chemistry_steps']==640
+          assert a['physical_comparison_rows']==b['physical_comparison_rows']==320
+          assert a['new_canonical_nodes']==b['new_canonical_nodes']==0
+          assert a['REI_CENTRAL']==b['REI_CENTRAL']=='28/88_REPORTED'
+          assert a['BASS_UPPER']==b['BASS_UPPER']=='9/15_SCOPED_SOURCE_MAPPED'
+          def read(p):
+              with gzip.open(p,'rt',newline='') as f:return list(csv.DictReader(f))
+          for name,old,cold,count in [
+              (a['trajectory_file'],F/'results'/a['trajectory_file'],Path('/tmp/rei_s0_continuous_cold160')/b['trajectory_file'],640),
+              (a['comparison_file'],F/'results'/a['comparison_file'],Path('/tmp/rei_s0_continuous_cold160')/b['comparison_file'],320),
+              ('prefix64_trajectory',F/'results_prefix64'/a['trajectory_file'],Path('/tmp/rei_s0_continuous_cold64')/b['trajectory_file'],256),
+              ('prefix64_comparison',F/'results_prefix64'/a['comparison_file'],Path('/tmp/rei_s0_continuous_cold64')/b['comparison_file'],128),
+          ]:
+              x=read(old);y=read(cold)
+              assert len(x)==len(y)==count
+              for u,v in zip(x,y):
+                  assert u.keys()==v.keys(),(name,'schema')
+                  for key in u:
+                      if key in ('branch','model','step','source_packets','stage_native_root_iterations'):
+                          assert u[key]==v[key],(name,key)
+                      else:
+                          p,q=float(u[key]),float(v[key])
+                          assert math.isfinite(p) and math.isfinite(q)
+                          if 'residual' in key:
+                              assert abs(p)<6e-12 and abs(q)<6e-12,(name,key,p,q)
+                          else:
+                              assert math.isclose(p,q,rel_tol=2e-9,abs_tol=2e-13),(name,key,p,q)
+              print('BASS_REI_ORIGINAL_S0_CONTINUOUS_COLD_PASS',name,count)
+          final=json.loads(Path('/tmp/rei_s0_continuous_cold160/AUDIT.json').read_text())
+          assert final['test_status']=='PASS_SCOPED'
+          assert final['original_sha_counts']==[12,51,4]
+          assert final['physics_rows']==640 and final['paired_rows']==320
+          assert final['max_residual']['global_number']<1e-12
+          assert final['max_residual']['global_energy_ev_H']<6e-12
+          print('BASS_REI_CANONICAL_REMAINS_HOLD_28_OF_88')
+          PY
+      - name: Preserve authentic cold science results
+        uses: actions/upload-artifact@v4
+        with:
+          name: rei-f08-s0-continuous-native-coupled-hhe-physical-science
+          path: |
+            /tmp/rei_s0_continuous_cold160/*.csv.gz
+            /tmp/rei_s0_continuous_cold160/*.json
+            /tmp/rei_s0_continuous_cold64/*.csv.gz
+            /tmp/rei_s0_continuous_cold64/*.json
+          if-no-files-found: error
