@@ -1,0 +1,78 @@
+name: BASS REI F08 original S0 spectral support source-physics
+
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-s0-remap-support-20261101
+  pull_request:
+    paths:
+      - 'research/bass_rei_f08_s0_remap_support_20261101/**'
+      - '.github/workflows/bass-rei-f08-s0-original-hat-support.yml'
+
+jobs:
+  original-source-spectral-physics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-exact deterministic numerical tool
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Validate original F08 source, exact first-step proof, original output
+        run: |
+          set -e
+          cd research/bass_rei_f08_s0_remap_support_20261101/source_inputs
+          sha256sum -c LOCKED_CHECKPOINT_SHA256SUMS.txt
+          cd ../../bass_rei_f08_s0_source_photon_thomson_20261101/source_inputs
+          sha256sum -c ORIGIN_SHA256SUMS.txt
+          cd ../../../
+          python -m unittest discover -s research/bass_rei_f08_s0_remap_support_20261101/tests -v
+          python -O -m unittest discover -s research/bass_rei_f08_s0_remap_support_20261101/tests -v
+          python research/bass_rei_f08_s0_remap_support_20261101/audit_support.py
+      - name: Cold recompute all 16000 original source remap steps
+        run: |
+          python research/bass_rei_f08_s0_remap_support_20261101/spectral_support.py --out /tmp/rei_f08_hat_source_physics
+      - name: Compare all 936 original-source physical rows and canonical claims
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv,gzip,json,math
+          folder=Path('research/bass_rei_f08_s0_remap_support_20261101')
+          current=json.loads((folder/'results/RESULT.json').read_text())
+          cold=json.loads(Path('/tmp/rei_f08_hat_source_physics/RESULT.json').read_text())
+          assert current['schema']==cold['schema']
+          assert current['source_original_checkpoint_sha256']==cold['source_original_checkpoint_sha256']
+          assert current['source_parent_bass_head']==cold['source_parent_bass_head']
+          assert current['original_solver_replayed']==cold['original_solver_replayed']==False
+          assert current['original_F08_admission']==cold['original_F08_admission']=='HOLD'
+          assert current['REI_CENTRAL']==cold['REI_CENTRAL']=='28/88_REPORTED'
+          assert current['canonical_delta']==cold['canonical_delta']==0
+          names=(('time_file',60),('spectrum_file',108),('angular_file',768))
+          for name,n in names:
+              old=folder/'results'/current[name]
+              new=Path('/tmp/rei_f08_hat_source_physics')/cold[name]
+              with gzip.open(old,'rt',newline='') as f:a=list(csv.DictReader(f))
+              with gzip.open(new,'rt',newline='') as f:b=list(csv.DictReader(f))
+              assert len(a)==len(b)==n
+              for x,y in zip(a,b):
+                  assert x.keys()==y.keys()
+                  for k in x:
+                      if k in ('branch','mode','below_exact_physical_support','below_HI_fit_threshold'):
+                          assert x[k]==y[k],(name,k)
+                      else:
+                          v,w=float(x[k]),float(y[k])
+                          assert math.isfinite(v) and math.isfinite(w)
+                          assert math.isclose(v,w,rel_tol=1e-9,abs_tol=1e-16),(name,k,v,w)
+              print('BASS_REI_ORIGINAL_S0_HAT_COLD_SOURCE_REPLAY_PASS',current[name],n)
+          print('REI_F05_CANONICAL_REMAINS_28_OF_88_HOLD')
+          PY
+      - name: Preserve source-matched physical tables and independent audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: rei-f08-s0-original-hat-physical-support
+          path: |
+            /tmp/rei_f08_hat_source_physics/*.csv.gz
+            /tmp/rei_f08_hat_source_physics/RESULT.json
+          if-no-files-found: error
