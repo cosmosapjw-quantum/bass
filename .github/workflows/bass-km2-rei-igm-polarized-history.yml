@@ -1,0 +1,84 @@
+name: BASS REI IGM original KM2 polarized electron history
+on:
+  push:
+    branches: [research/bass-km2-rei-igm-polarized-electron-history-20261101]
+  pull_request:
+    paths:
+      - 'research/bass_rei_igm_km2_polarized_history_20261101/**'
+      - '.github/workflows/bass-km2-rei-igm-polarized-history.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source_owned_polarized_history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install original finite-grid source dependencies
+        run: python -m pip install numpy==2.3.5 matplotlib==3.10.8
+      - name: Restore original exact KM2N Einstein-P8-Peebles source
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail --silent --show-error --location --header "Authorization: Bearer $GH_TOKEN" --header 'X-GitHub-Api-Version: 2022-11-28' "https://api.github.com/repos/cosmosapjw-quantum/bass/actions/artifacts/13035232055/zip" -o /tmp/bass_original_km2n_s2.zip
+          cd research/bass_rei_igm_km2_polarized_history_20261101
+          mkdir -p inputs
+          cp /tmp/bass_original_km2n_s2.zip inputs/BASS_KM2N_ORIGINAL_SOURCE_S2_20261101.zip
+          python restore_source.py --archive inputs/BASS_KM2N_ORIGINAL_SOURCE_S2_20261101.zip --out source_inputs
+      - name: Original 800-ray P8 source physical calculation
+        run: |
+          python research/bass_rei_igm_km2_polarized_history_20261101/polarized_history_response.py
+      - name: Physics and falsification tests, normal and optimized
+        run: |
+          python -m unittest discover -s research/bass_rei_igm_km2_polarized_history_20261101/tests -p 'test_*.py' -v
+          python -O -m unittest discover -s research/bass_rei_igm_km2_polarized_history_20261101/tests -p 'test_*.py' -q
+          python -m compileall -q research/bass_rei_igm_km2_polarized_history_20261101
+      - name: Verify original source-based data and scientific ceiling
+        run: |
+          python - <<'PY'
+          import csv,gzip,json,math
+          from pathlib import Path
+          root=Path('research/bass_rei_igm_km2_polarized_history_20261101/results')
+          r=json.loads((root/'KM2_REI_POLARIZED_PHOTON_HISTORY_RESULT.json').read_text())
+          assert (r['ray_response_rows'],r['sky_response_rows'])==(96000,240)
+          assert len(r['cases'])==10 and len(r['finite_difference_controls'])==8
+          assert not r['REI_history_injected'] and r['new_BASS_upper_nodes']==0 and r['new_REI_nodes']==0
+          for fn,n in [('KM2_REI_POLARIZED_PHOTON_HISTORY_RAY_RESPONSE.csv.gz',96000),
+                       ('KM2_REI_POLARIZED_PHOTON_HISTORY_SKY_RESPONSE.csv.gz',240)]:
+            with gzip.open(root/fn,'rt') as fp:
+              rows=list(csv.DictReader(fp))
+            assert len(rows)==n,(fn,len(rows))
+            assert all(all(math.isfinite(float(v)) for k,v in row.items() if k!='GL') for row in rows)
+          c=next(x for x in r['cases'] if x['gl']==16 and x['k']==40)
+          assert abs(c['original_sky_energy']/1.263424154712281e-9-1)<3e-12
+          assert abs(c['sky_uniform_energy_elasticity']+1.153184948702226)<3e-9
+          assert abs(c['sky_uniform_polarization_derivative']+0.0019926596102493367)<3e-9
+          print('BASS_REI_ORIGINAL_KM2_PHYSICS',r['ray_response_rows'],r['sky_response_rows'],
+                c['sky_uniform_energy_elasticity'],c['sky_uniform_polarization_derivative'])
+          PY
+      - name: Make original physics figures
+        run: python research/bass_rei_igm_km2_polarized_history_20261101/make_science_plots.py
+      - name: Archive original source scientific evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS_REI_IGM_KM2_ORIGINAL_POLARIZED_ELECTRON_HISTORY
+          if-no-files-found: warn
+          path: |
+            research/bass_rei_igm_km2_polarized_history_20261101/results/
+            research/bass_rei_igm_km2_polarized_history_20261101/figures/
+            research/bass_rei_igm_km2_polarized_history_20261101/ORIGINAL_SOURCE_MANIFEST.json
+            research/bass_rei_igm_km2_polarized_history_20261101/SCIENTIFIC_REPORT_KO.md
+            research/bass_rei_igm_km2_polarized_history_20261101/STAGE_LEDGER.json
+            research/bass_rei_igm_km2_polarized_history_20261101/NEXT_THREAD_HANDOFF.txt
+            research/bass_rei_igm_km2_polarized_history_20261101/inputs/
