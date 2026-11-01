@@ -11,3 +11,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | R7 | 401×26 source-locked coefficients, total Doppler derivative and hostile gaps verified | 9/15 | 0 | NUMERICALLY_CHECKED local |
 | R8 | Scoped physical result admission and explicit holds | 9/15 | 0 | theory scoped |
 | R9 | Geometric ray ODE and Rust/Python acceptance contract | 9/15 | 0 | theory scoped |
+| R10 | Theory-to-coding checkpoint | 9/15 | 0 | THEORY_SCOPED_COMPLETE |
