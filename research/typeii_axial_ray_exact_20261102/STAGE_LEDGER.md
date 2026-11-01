@@ -15,3 +15,4 @@
 | C1 | 실행 대상과 품질 기준 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C2 | 수식-코드-데이터 매핑 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | C3 | 독립 계산 형식 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C4 | 자원·실행·체크포인트 | 9/15 scoped/source-mapped | 0 | scope-checked |

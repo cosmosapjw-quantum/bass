@@ -9,3 +9,6 @@ Implement a reproducible source-locked exact axial oracle and compare 401 publis
 ## C3. 독립 계산 형식
 
 For the source Hermite interpolant of Sigma_++√3Sigma_-, integrate each interval exactly as h(f0+f1)/2+h²(f0'−f1')/12. Integrate the nonlinear Gamma(1∓v2) with 8-point positive Gauss-Legendre on 400 intervals and independently with adaptive `quad`. Construct both optical depths from integrated Gamma and Gamma*v to retain the odd/even analytic identity. No new dynamic photon solver or production runtime changes.
+## C4. 자원·실행·체크포인트
+
+Use the authorized isolated local Git worktree `research/bass-typeii-axial-ray-exact-20261102-r1`, ordinary Python+SciPy and OpenBLAS=1. Prior 401x26 parent photon data is read-only. Stage commits/pushes must be remote SHA-read back and copied to local ZIP archives with SHA-256 and `unzip -tq`; no GPU, no extra service provisioning, and no edits to `/home/cosmosapjw/bass` current owner branch.
