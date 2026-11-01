@@ -1,0 +1,60 @@
+name: BASS original KM2 photon emission-scatter physical joint
+on:
+  push:
+    branches:
+      - research/bass-km2-emission-firstscatter-joint-20261101-r1
+  pull_request:
+    paths:
+      - 'research/dual_lane_km2_joint_20261101/**'
+      - '.github/workflows/km2-first-scatter-joint.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original_km2_joint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install frozen source arithmetic dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8
+      - name: Restore original successful KM2N source with all 50 original SHA guards
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail --show-error --silent --location \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'X-GitHub-Api-Version: 2022-11-28' \
+            'https://api.github.com/repos/cosmosapjw-quantum/bass/actions/artifacts/13035232055/zip' \
+            --output /tmp/km2n_frozen_source_20261031.zip
+          cd research/dual_lane_km2_joint_20261101
+          python restore_pinned_original.py \
+            --artifact /tmp/km2n_frozen_source_20261031.zip \
+            --dest source_inputs
+      - name: Calculate ten original source-owned two-time photon histories
+        run: python research/dual_lane_km2_joint_20261101/first_scatter_joint.py
+      - name: Run scientific original-source and falsification tests standard plus optimized
+        run: |
+          python -m unittest discover -s research/dual_lane_km2_joint_20261101 -p test_first_scatter_joint.py -v
+          python -O -m unittest discover -s research/dual_lane_km2_joint_20261101 -p test_first_scatter_joint.py -q
+          python -m compileall -q research/dual_lane_km2_joint_20261101
+      - name: Build physical science figures from generated source data
+        run: python research/dual_lane_km2_joint_20261101/make_science_plots.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: KM2_ORIGINAL_SOURCE_EMISSION_X_FIRST_SCATTER_PHYSICAL_SCIENCE
+          if-no-files-found: error
+          path: |
+            research/dual_lane_km2_joint_20261101/results/
+            research/dual_lane_km2_joint_20261101/figures/
+            research/dual_lane_km2_joint_20261101/ORIGINAL_KM2N_MANIFEST.json
+            research/dual_lane_km2_joint_20261101/SCIENCE_REPORT_KO.md
+            research/dual_lane_km2_joint_20261101/NEXT_HANDOFF.txt
+            research/dual_lane_km2_joint_20261101/source_inputs/
