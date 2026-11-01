@@ -125,7 +125,9 @@ fn read_cases(path:&str)->Result<Vec<Case>,String>{
     let last=cases.last_mut().ok_or_else(||err("PACKET_WITHOUT_STAGE"))?;
     let e=fl(a[1])?;
     let n=fl(a[2])?;
+    if n<0.0{return Err(err("NEGATIVE_PHOTON_SOURCE_WEIGHT"));}
     if n>0.0{
+     if e<=0.0{return Err(err("NONPOSITIVE_PHOTON_SOURCE_ENERGY"));}
      last.packets.push(PrimaryPacket{energy_ev:e,per_h:n});
     }
    }
