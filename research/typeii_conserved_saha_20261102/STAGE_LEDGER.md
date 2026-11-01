@@ -6,3 +6,4 @@
 | R2/C2 | Original hydrogen Saha/Thomson/Type-II source AST and source byte locks, runnable 401×26 physical data | 9/15 scoped | 0 | source-owned code, numerical evidence |
 | R3/C3 | Class-A hydrogen current conservation, source q/H law and density-frame cancellation | 9/15 scoped | 0 | derived, numerically checked |
 | R4/C4 | Source-conditioned conserved hydrogen model vs naive FLRW and unit/proxy; independent ODE crosscheck, 3 physical plots | 9/15 scoped | 0 | physical data numerically checked |
+| R5/C5 | Zero-scattering survival and first-event 401×26 data, owner H1 cold-electron SI/CGS rate parity | 9/15 scoped | 0 | derived + source physically checked |
