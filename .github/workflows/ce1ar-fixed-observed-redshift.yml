@@ -1,0 +1,53 @@
+name: CE1AR original-sixcell fixed-observed-redshift Sachs physics
+on:
+  push:
+    branches:
+      - research/bass-ce1ar-fixed-observed-z-20261101-r1
+  pull_request:
+    paths:
+      - 'research/ce1ar_20261101/**'
+      - '.github/workflows/ce1ar-fixed-observed-redshift.yml'
+permissions:
+  contents: read
+jobs:
+  source_owned_fixed_z:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      CE1AR_GEOMETRY_INPUT: research/ce1ap_20261031/data/CE1AP_DIRECTIONAL_GEODESIC.csv
+      CE1AR_GEOMETRY_META: research/ce1ap_20261031/data/CE1AP_REMOTE_RESULTS.json
+      CE1AR_OUTPUT_DIR: research/ce1ar_20261101/data
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install frozen Python numerics
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pytest==9.0.2 matplotlib==3.10.8
+      - name: Regenerate original 9 Einstein-Vlasov six-cell IVPs from source owner PR301
+        run: python research/ce1ap_20261031/source/ce1ap_remote.py
+      - name: Calculate 7416 genuinely fixed-z physical records from parent geometry
+        run: python research/ce1ar_20261101/source/ce1ar_fixed_z.py --input "$CE1AR_GEOMETRY_INPUT" --metadata "$CE1AR_GEOMETRY_META" --out "$CE1AR_OUTPUT_DIR"
+      - name: Recompute same physical observable by independent source-matched code route
+        run: python research/ce1ar_20261101/source/ce1ar_remote.py
+      - name: Verify original physical atlas, clocks, limits and source identity
+        run: python -m pytest -q research/ce1ar_20261101/source/test_ce1ar_fixed_z.py research/ce1ar_20261101/source/test_ce1ar_remote.py
+      - name: Check two source-equal implementations without byte-equality confusion
+        run: python research/ce1ar_20261101/source/compare_ce1ar_paths.py
+      - name: Render actual fixed-z science figures
+        run: python research/ce1ar_20261101/source/plot_ce1ar.py
+      - name: Compile scientific Python
+        run: python -m compileall -q research/ce1ar_20261101/source
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CE1AR-fixed-z-original-sixcell-7416-source-owned-observables
+          path: |
+            research/ce1ar_20261101/data/
+            research/ce1ar_20261101/figures/
+            research/ce1ar_20261101/reports/
+            research/ce1ar_20261101/source/
+            research/ce1ap_20261031/data/CE1AP_REMOTE_RESULTS.json
+          if-no-files-found: error
