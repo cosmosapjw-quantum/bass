@@ -209,3 +209,41 @@ Actual outputs in \`R7_NUMERIC_RESULTS.json\` (frozen source-conditioned numeric
 **Decision:** ACCEPT the result as a scoped new *mathematical physics* constraint and executable discriminant for subsequent \`P-MIG-II-PREFLIGHT\` theory/implementation; HOLD physically calibrated positivity, exact Boltzmann-Liouville compatibility, native opacity, production dispatch, Stage II canonical evidence, and full observational prediction. Do not merge the draft. Next scientifically substantive path is to derive and test the *actual original BASS source-owned* Liouville frame derivative and collision number/energy moment with these new benchmarks, not to optimize a placeholder.
 
 **DAG:** \`BASS_UPPER=9/15 scoped/source-mapped\`; \`NEW_COMPLETED_UPPER=0\`; \`STAGEII=11/11 historical, current canonical missing\`; \`G_DYN_MANIFOLD_VI0=PARTIAL\`; \`P_MIG_II_PREFLIGHT=PARTIAL\`; \`JOIN_J1=0/2 FULL PASS HOLD\`. Theory R8 **completed**, not production promotion.
+
+## R9. Reusable computational mathematical contract for the *next coding loop*
+
+**Inputs and owners:** \`tau\`, source-owned physical Type-II \`(SigmaPlus,SigmaMinus,Sigma13,N1,v2)\` with fixed gamma-law \`gamma=1.3\` in the canonical fixture, original RHS \`generated/rust/typeii/typeii_background.rs\` to obtain \`vprime=rhs(state,gamma)[4]\`, plus a **fixed electron-rest** quadrature \`(e_i,W_i)\`. Rate source \`nu_tau(tau)\` must have an explicit provider/version/frame and unit convention; for an SI-resolved owner it is a scalar of the form \`n_e sigma_T c/H\` after the frame density convention is settled. The old three-anchor proxy is allowed only for regression and exploratory runs, not native Saha admission.
+
+**Exact functions in original source notation** (do not call the ordinary-fluid adiabatic index \`gamma\` the Lorentz factor): given \`m=e[:,1]\`, \`v=state.x[4]\`, \`vp=vprime\`,
+\[
+ \mu_i=\frac{m_i+v}{1+v m_i},\quad
+ D_i=\frac{\sqrt{1-v^2}}{1+v m_i},\quad
+ q_i=\frac{1-v^2}{1+vm_i},\quad
+ w_i=W_iD_i^2;
+\]
+\[
+ r_i=\frac{(1+vm_i)^4}{(1-v^2)^2},\quad
+ a_i=\frac{W_i}{4\pi}\frac{(1-v^2)^2}{(1+vm_i)^3},\quad
+ s=a^Tr,\quad P=\frac{ra^T}{s};
+\]
+\[
+ \dot r_i=4vp\,r_i\left(\frac{v}{1-v^2}+\frac{m_i}{1+vm_i}\right),\quad
+ \dot a_i=vp\,a_i\left(-\frac{4v}{1-v^2}-\frac{3m_i}{1+vm_i}\right);
+\]
+\[
+ \dot P=\frac{\dot r\,a^T+r\,\dot a^T}{s}-P\frac{\dot s}{s},
+ \quad K=[\dot P,P],\quad \lambda=\frac{a^T\dot r}{s},\quad H=K+\lambda P.
+\]
+For symmetric paired rest grids \(\dot s=0\), \(\lambda=4vvp/(1-v^2)\).
+Call the original source's \`collision_generator_apply(normal_dirs,normal_weights,v,axis=1,y)\` **exactly once** per operator action: the generated source already supplies its output \`q\`. Its rest-angular weights are \`w_i/D_i^2\`; do not multiply by an external second q or reaberrate the rest nodes.
+
+**Output contract:** \`(C,P,Pdot,K,lambda,H,r,a,D,q,normal_dirs,normal_weights,vprime,nu_tau)\` plus source IDs. For a candidate geometry-only comparison use \`G_A=alpha nu_tau C+K\` and \`G_B=alpha nu_tau C+H\` as **theoretical comparators only**. The source original physical streaming term \`A=-4(1+sigma_nn)\` and angular Liouville must be independently reconciled; neither comparator can be silently placed into \`RuntimePlanCore::run_fixture\` as a replacement for a physical photon RHS. Preserve original full-dimensional Arnoldi/Pade13 exp/phi reference backend; do not make adaptive Krylov or scalar uniformization a polarized default.
+
+**Must-test observables and precise acceptance:**
+- Original immutable 9 Git objects byte exact. No original generated-file or main mutation.
+- Two source-matched paired grids, 401 original v(tau) records: \`Cr\`, \`aC\`, \`a^Tr-1\`, \`Pdot_analytic-Pdot_total_complexstep\`, \`H r-rdot\` all bounded by the *predeclared* \`1e-11\` local absolute tolerance; negative source sign/frame tests fail closed.
+- Endpoints for gamma-law fixture: \`v0=.05\`, \`vend=.046733834290499716\`, \`ratio_A=1.0006335814925333\`, \`ratio_B=1.0\`; original positive-opacity proxy DOP853 comparator agrees within \`5e-9\`.
+- Separate **negative** controls for fixed-v source partial substituted for paired total derivative, unsymmetric non-unit rest angular weights, double q, \`v=1\`, \`N1=0\`, and attempts to infer positivity from \`C\` alone. Differential equations in physical seconds must explicitly convert \`d tau=H dt\`.
+- For a genuine physical photon evolution, test scalar angular remap and frequency moment against a source-owned covariant kinetic conservation law; test positivity only after adding the full physical Liouville term. Original opacity and Stage II canonical verifier must be acquired independently.
+
+**R9 status:** equations and finite-grid numerical targets are implementation-ready as a *theory contract*; actual production callback wiring and live photon outputs remain \`NOT_RUN\`. Upper DAG **9/15**; no newly complete upper node.
