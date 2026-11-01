@@ -1,0 +1,126 @@
+name: BASS original REI F08 S0 Rust-coupled HHe source-stage science
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-native-hhe-coupled-firststage-20261101
+  pull_request:
+    paths:
+      - 'research/bass_rei_f08_native_hhe_firststage_20261101/**'
+      - '.github/workflows/bass-rei-f08-original-rust-hhe-native-stage.yml'
+
+jobs:
+  native-coupled-source-science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original-source independent physical numerical dependency
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Confirm immutable original REI Rust 51 and source histories 12 plus 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_native_hhe_firststage_20261101
+          (cd "$D/original_rei_rust" && sha256sum -c original_source_sha256.txt)
+          (cd research/bass_rei_f08_s0_source_photon_thomson_20261101/source_inputs && sha256sum -c ORIGIN_SHA256SUMS.txt)
+          (cd research/bass_rei_f08_s0_remap_support_20261101/source_inputs && sha256sum -c LOCKED_CHECKPOINT_SHA256SUMS.txt)
+      - name: Verify actual source-native coupled stage controls and hostile readback
+        run: |
+          set -e
+          D=research/bass_rei_f08_native_hhe_firststage_20261101
+          python -m unittest discover -s "$D/tests" -v
+          python -O -m unittest discover -s "$D/tests" -v
+          python "$D/audit_native_coupling.py"
+      - name: Compile exact source-pinned research Rust library and native example
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_native_hhe_firststage_20261101
+          (cd "$D/original_rei_rust" && CARGO_TARGET_DIR=/tmp/bass_rei_hhe_source_target cargo build --offline --release --example bass_s0_native_hhe_coupled)
+      - name: Cold original S0 photon-to-native-HHe full and high-sensitivity replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_native_hhe_firststage_20261101
+          mkdir -p /tmp/rei_bass_native_cold/base /tmp/rei_bass_native_cold/high
+          python "$D/build_source_native_cases.py" --ticks 0,800,1600,6400,15999 --birth 128 --simpson 24 --out /tmp/rei_bass_native_cold/base/native_stage_cases.txt
+          /tmp/bass_rei_hhe_source_target/release/examples/bass_s0_native_hhe_coupled /tmp/rei_bass_native_cold/base/native_stage_cases.txt /tmp/rei_bass_native_cold/base/native_stage.csv
+          python "$D/build_source_native_cases.py" --ticks 800,1600,15999 --birth 512 --simpson 48 --out /tmp/rei_bass_native_cold/high/high_stage_cases.txt
+          /tmp/bass_rei_hhe_source_target/release/examples/bass_s0_native_hhe_coupled /tmp/rei_bass_native_cold/high/high_stage_cases.txt /tmp/rei_bass_native_cold/high/native_high_stage.csv
+      - name: Scientific row-level parity, conserved sources, original DAG preservation
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, math, json
+          from pathlib import Path
+          D=Path('research/bass_rei_f08_native_hhe_firststage_20261101')
+          cold=Path('/tmp/rei_bass_native_cold')
+          saved_meta=json.loads((D/'inputs/STAGE_INPUT_PROVENANCE.json').read_text())
+          raw_meta=json.loads((cold/'base/STAGE_INPUT_PROVENANCE.json').read_text())
+          assert saved_meta['source_parent_head']==raw_meta['source_parent_head']=='c0e965ba21892346feef9ecb2389932c34f3fc82'
+          high_meta=json.loads((cold/'high/STAGE_INPUT_PROVENANCE.json').read_text())
+          saved_high_meta=json.loads((D/'results/HIGH_SOURCE_PROVENANCE.json').read_text())
+          # The original 51+12+4 source files above REQUIRE exact bytes. Generated
+          # quadrature packet text is numerical evidence, not an immutable source:
+          # libm/leggauss formatting may change a few ULP without physics changing.
+          def equivalent_packet_provenance(x,y):
+              for k in ('schema','source_parent_head','original_V1_F08_source_pair',
+                        'birth_gauss_nodes','pre_absorption_panels','original_ticks'):
+                  assert x[k]==y[k],('packet_contract',k,x[k],y[k])
+              assert len(x['cases'])==len(y['cases'])
+              for u,v in zip(x['cases'],y['cases']):
+                  for k in ('id','branch','tick','model','source_packet_count'):
+                      assert u[k]==v[k],('packet_identity',k,u[k],v[k])
+                  for k in ('input_total_N_per_H','input_total_U_eV_per_H',
+                            'original_material_w_eV_per_H','original_material_escape_eV_per_H'):
+                      a,b=float(u[k]),float(v[k])
+                      assert math.isfinite(a) and math.isfinite(b)
+                      assert math.isclose(a,b,rel_tol=2e-10,abs_tol=2e-13),(k,a,b)
+          equivalent_packet_provenance(saved_meta,raw_meta)
+          equivalent_packet_provenance(saved_high_meta,high_meta)
+          for name,stored,computed,n in (
+              ('native_stage.csv',D/'results/native_stage.csv',cold/'base/native_stage.csv',20),
+              ('native_high_stage.csv',D/'results/native_high_stage.csv',cold/'high/native_high_stage.csv',12)
+          ):
+              with stored.open() as f: a=list(csv.DictReader(f))
+              with computed.open() as f: b=list(csv.DictReader(f))
+              assert len(a)==len(b)==n
+              for x,y in zip(a,b):
+                  assert x.keys()==y.keys(),(name,'schema')
+                  for key in x:
+                      if key in ('id','branch','model','tick','packets'):
+                          assert x[key]==y[key],(name,key,x[key],y[key])
+                      elif key=='iterations':
+                          assert 0<int(y[key])<=200
+                      else:
+                          v,w=float(x[key]),float(y[key])
+                          assert math.isfinite(v) and math.isfinite(w)
+                          if key in ('photon_count_residual','energy_residual_ev_per_H','compensation_ev_per_H','stage_residual'):
+                              assert abs(w)<8e-13 and abs(v)<8e-13,(name,key,v,w)
+                          else:
+                              assert math.isclose(v,w,rel_tol=2e-10,abs_tol=2e-13),(name,key,v,w)
+                  xh=float(y['dxHII']); hi=float(y['HI_abs_per_H'])
+                  coll=float(y['HI_collision_per_H']);rec=float(y['HI_recombination_per_H'])
+                  assert abs(xh-hi-coll+rec)<5e-14
+                  photons_before=float(y['N_before_per_H']);photons_after=float(y['N_after_per_H'])
+                  events=sum(float(y[k]) for k in ('HI_abs_per_H','HeI_abs_per_H','HeII_abs_per_H'))
+                  assert abs(photons_before-photons_after-events)<2e-13
+              print('BASS_REI_F08_RUST_COUPLED_COLD_PHYSICS_PASS',name,n)
+          owner=json.loads((D/'results/RESULT.json').read_text())
+          assert owner['REI_CENTRAL']=='28/88_REPORTED' and owner['BASS_UPPER']=='9/15_SCOPED_SOURCE_MAPPED'
+          assert owner['canonical_delta']==0 and owner['production']=='HOLD'
+          print('BASS_REI_CANONICAL_REMAINS_HOLD_28_OF_88')
+          PY
+      - name: Preserve native source conditional physical outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rei-f08-s0-native-HHe-coupled-conditional-science
+          path: |
+            /tmp/rei_bass_native_cold/base/*.csv
+            /tmp/rei_bass_native_cold/base/*.json
+            /tmp/rei_bass_native_cold/high/*.csv
+            /tmp/rei_bass_native_cold/high/*.json
+          if-no-files-found: error
