@@ -18,3 +18,6 @@ Use the authorized isolated local Git worktree `research/bass-typeii-axial-ray-e
 ## C6. 코드 실행·회귀
 
 All three Python scripts parsed as AST and executed normally and under python -O after converting 22 critical Python asserts to explicit raise-on-failure gates, preventing optimized mode from silently skipping numerical validation. Original input source checksum and parent CSV SHA remained unchanged. The axis exact oracle printed its per-field residuals and adaptive quadrature check with actual exit 0; production crate tests are inherited from PR #325, not rerun or attributed to this branch.
+## C7. 물리·관측량 검증
+
+The two original rays preserve n=±e_y with zero direction defect. Their normal energy final ratios agree at 0.7806210628345815; electron-rest energies differ at 0.7449536005398912 (+) versus 0.8179962393622404 (-). Unit electron-rest optical depths are 0.19055295929452346 versus 0.2099155839589957, giving asymmetry 0.048349926581410956. This is source-conditional physically meaningful mathematical data, not observational cosmology.
