@@ -178,3 +178,20 @@ Observed at initial source state:
 **Finding F4 (singular boundary):** \(|v|\to1\) makes \(\Gamma\) singular, and a paired rest grid with nonzero first moment has \(\dot s\ne0\). The exact constant-amplitude/conserved-center equivalence is scoped to \(\sum W m=0\). The Type-I boundary \(N_1=0\) is outside the previous original 4D constraint chart.
 
 **Verdict:** exact amplitude theorem stands; physical production admission and generic positivity are **HOLD**. No new universal no-go; no new full BASS DAG node. Upper **9/15**, new **0**.
+
+## R7. Source-locked 401-state numerical discriminant
+
+Run on authorized owner device, isolated original-source worktree with \`PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python3 research/typeii_moving_kato_amplitude_20261101/verify_moving_amplitude.py\`. The script explicitly checks the canonical 401-fixture Git SHA-1 blob \`dea22f0fce116b61314b13cea7d0bdd38efe48bc\` and original source file blobs against immutable main \`9c6506e4e2087129a8b674ff10438e5db1a55c9d\`, reuses the same source-matched PR #318 paired quadrature generator, and independently reconstructs the analytical \`r,a,rdot,adot\` for six-axis and Lebedev26.
+
+Actual outputs in \`R7_NUMERIC_RESULTS.json\` (frozen source-conditioned numerical diagnostics):
+- 401/401 original states for **both** axis6 and Lebedev26, **PASS**; each grid has the correct positive quadrature normalization, second angular moment, and first-moment symmetry.
+- Axis6 maximal \`|Cr|=8.326672684688674e-16\`, \`|aC|=1.457167719820518e-16\`, \`|s-1|=6.661338147750939e-16\`, analytic \`r\` gap \`1.5543122344752192e-15\`, analytic \`a\` gap \`1.6653345369377348e-16\`.
+- Lebedev26 maximal \`|Cr|=9.020562075079397e-16\`, \`|aC|=4.85722573273506e-17\`, \`|s-1|=6.661338147750939e-16\`, analytic \`r\` gap \`1.5543122344752192e-15\`.
+- Full paired projector derivative complex-step versus independent analytic full derivative: max \`1.734723475976807e-17\` for axis6 and \`4.228388472693467e-18\` for Lebedev26, tested at original fixture indices 0, 200, 400.
+- \`|(K+lambda P)r-rdot|\` maximal \`5.551115123125783e-17\` axis6, \`9.71445146547012e-17\` Lebedev26. Seeded positive arbitrary \`y\` has \`|adot^Ty+a^T(K+lambda P)y|\` less than \`1.3e-17\`.
+- Original tilt endpoint: \`v0=0.05\`, \`v(0.2)=0.046733834290499716\`; exact Kato amplitude ratio \`1.0006335814925333\`, **fractional +0.0006335814925333416**.
+- Independent DOP853 integration of the *actual source-conditioned scalar collision matrix and original 3-anchor opacity proxy* with a cubic-spline interpolated prescribed v(t), self-consistent spline derivative, \`atol=2e-13\`, \`rtol=3e-11\`, \`max_step=0.005\`, 482 RHS evaluations per scenario: pure Kato exact endpoint max difference \`2.220446049250313e-15\`; amplitude-calibrated exact endpoint max difference \`1.3322676295501878e-15\`. Corresponding final moments \`a^Ty=1.0006335814925351\` and \`a^Ty=1.000000000000001\`.
+
+**No hidden production inference:** the 401 fixture is the original deterministic gamma-law source-conditioned RK4 trajectory; opacity is still the existing original-model three-anchor log-quadratic proxy, not an original SahaHistory implementation. The independent ODE is a scalar moving-equilibrium diagnostic, not photon free streaming, collision/Einstein feedback, or CMB spectra. Numerical pass does not prove positivity of the full corrected nonautonomous generator.
+
+**R7** completed for this scoped theory object; BASS upper DAG **9/15** unchanged; zero new full upper nodes.
