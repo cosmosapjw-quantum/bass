@@ -18,3 +18,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | C4 | Execution DAG and bounded resources | 9/15 | 0 | code preflight |
 | C5 | RustCore source Liouville module and executable 401×26 rays/optical-depth output | 9/15 | 0 | 145/145 Rust, 10426 source parity |
 | C6 | Fresh Rust 145/145, source 9/9, Python replay/CSV byte identity PASS | 9/15 | 0 | IMPLEMENTATION_VERIFIED_SCOPED |
+| C7 | 10426 source-owner electron frame D=Gamma q bit-exact, JAX optional lane blocked | 9/15 | 0 | SCIENTIFICALLY_CHECKED_SOURCE_CONDITIONAL |

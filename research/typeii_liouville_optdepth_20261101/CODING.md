@@ -23,3 +23,16 @@ No polarization hierarchy/collision redistribution integrated, no radiation back
 Observed on owner host from current isolated branch: `cd _rustcore && CARGO_TARGET_DIR=/tmp/bass_typeii_fullcore_target CARGO_BUILD_JOBS=4 cargo test --locked --offline` **145/145 PASS**, doc tests 0 failed, exit0. `cargo fmt --all -- --check` PASS. Exact original 9/9 Git blobs agree with `SOURCE_LOCK.json`. Re-executed `source_preflight.py` on canonical 401×26 and `physical_rays.py` including 10,426 source Rust/Python coefficient calls, both exit0.
 CSV `PHOTON_RAYS_401X26.csv` SHA-256 was byte-exact on full regeneration: `9f1400588d39ba3a61020542e14b0e372c8e9be1af130f8c64ed8829b23ad217`. 10,426 CSV body records passed structural sanity and nonnegative integrated unit proper optical depth. Source-only Python scripts AST parsing and `git diff --check` PASS.
 This is **implementation verification** for opt-in source-bound characteristic and conditional opacity outputs; full production dispatch, electron fluid identification, collision redistribution, native ionization and observational pipeline remain NOT_RUN.
+
+## C7: Scientific source-owner electron-frame transport cross-check
+
+Original BASS `bianchi.q.electron.transform_photon` and its source `electron.py`, `boost.py`, `electron_rate.py`, plus original canonical 401-row background were byte-compared with immutable original main (4/4 direct owner hashes). An independent `verify_original_electron_rate.py` executed 401 background states × 26 **actual evolved ray directions** from C5 and compared the source return `D=E_e/E_n` with analytic `Gamma(1-v_2 n_y)`.
+
+Actual `ELECTRON_OWNER_PARITY.json` from `PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 python3 research/typeii_liouville_optdepth_20261101/verify_original_electron_rate.py`:
+- `10,426/10,426` owner electron boost observations; maximum discrepancy from independent analytic `Gamma q` = **0.0** at binary64;
+- D in [`0.9511897312113418`, `1.0513149660756935`], source maximum Gamma−1 `0.0012523486435176423`;
+- intentionally wrong q-only source rate has maximum discrepancy `0.00131496607569348` with the owner electron boost.
+- Initial execution failed because invoking a nested script without `PYTHONPATH=.` hides package imports; corrected environment only, without changing original owner source. This is an **import-path runtime issue, not physics**.
+- Additional `bianchi.rays.geodesics.photon_rhs` direct Python owner oracle import was explicitly NOT_RUN because JAX is an optional dependency missing on that owner host; no automatic installation. Physical geodesic equations already have compiled original Rust Liouville parity across 10,426 records, separate from this optional blocked Python source import.
+
+**C7** source-conditioned geometrical/original-electron-frame verification PASS; this is **not** validation of actual proper electron density `n_e(t)`, Thomson redistribution, full polarized radiation or real recombination. BASS upper DAG 9/15 scoped, new full upper nodes 0.
