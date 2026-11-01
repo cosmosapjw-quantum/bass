@@ -13,7 +13,7 @@ with (HERE/"HYDROGEN_SAHA_HISTORY_401.csv").open(newline="") as f:
     h=list(csv.DictReader(f))
 with (HERE/"SAHA_THOMSON_RAYS_401X26.csv").open(newline="") as f:
     rows=list(csv.DictReader(f))
-assert len(h)==401 and len(rows)==401*26
+if len(h)!=401 or len(rows)!=401*26:raise RuntimeError("SCIENTIFIC_PLOT_SOURCE_NOT_401X26")
 def column(name):return np.array([float(r[name]) for r in h])
 tau=column("tau_H"); z=column("z_mean_not_observed")
 xe=column("x_e_H_only_source_Saha")
