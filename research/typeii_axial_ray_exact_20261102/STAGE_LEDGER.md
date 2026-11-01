@@ -9,3 +9,4 @@
 | R5 | 축방향 정리·직접 증명 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R6 | 자기 적대적 검사 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R7 | 원본 401-state 수치 판별 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| R8 | 과학적 주장 판정 | 9/15 scoped/source-mapped | 0 | scope-checked |
