@@ -66,7 +66,14 @@ jobs:
                       else:
                           u,v=float(value),float(y[key])
                           assert math.isfinite(u) and math.isfinite(v)
-                          assert math.isclose(u,v,rel_tol=2e-8,abs_tol=1e-26),(file,key,u,v)
+                          if key in ('photon_number_ledger_abs_residual',
+                                     'photon_energy_ledger_abs_residual_eV_per_H'):
+                              # These are cancellation residuals, not physical observables.
+                              # Both cold and frozen-source runs must satisfy the pre-existing
+                              # audit invariant; relative agreement near zero is meaningless.
+                              assert 0 <= u < 5e-13 and 0 <= v < 5e-13,(file,key,u,v)
+                          else:
+                              assert math.isclose(u,v,rel_tol=2e-8,abs_tol=1e-26),(file,key,u,v)
               print('BASS_REI_F08_S0_ORIGINAL_SOURCE_PHYSICS_COLD_PASS',file,count)
           o=json.loads((q/'AUDIT.json').read_text())
           assert o['verification']=='PASS_SOURCE_CONDITIONAL_DATA_ONLY'
