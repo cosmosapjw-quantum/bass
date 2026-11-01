@@ -195,3 +195,17 @@ Actual outputs in \`R7_NUMERIC_RESULTS.json\` (frozen source-conditioned numeric
 **No hidden production inference:** the 401 fixture is the original deterministic gamma-law source-conditioned RK4 trajectory; opacity is still the existing original-model three-anchor log-quadratic proxy, not an original SahaHistory implementation. The independent ODE is a scalar moving-equilibrium diagnostic, not photon free streaming, collision/Einstein feedback, or CMB spectra. Numerical pass does not prove positivity of the full corrected nonautonomous generator.
 
 **R7** completed for this scoped theory object; BASS upper DAG **9/15** unchanged; zero new full upper nodes.
+
+## R8. Claim admission and scientific relevance
+
+**Established by immutable BASS source:** the five-state Type-II background at fixed gamma-law parameter, original scalar source's finite-v \`C(v)\` and source \`r,a,P\` definitions; direct PR #318 Python use of full paired \`dP/dv\` vs source fixed-normal analytic partial. True source ownership is the exact Git objects, not this document.
+
+**Derived exactly in R5, independently CAS-checked:** on a symmetric rest-labelled paired angular quadrature, \(a^Tr=1\), \(Cr=0\), \(a^TC=0\), Kato subspace intertwinement, pure-Kato center amplitude law, and the chosen \(\lambda P\) amplitude correction. The law is mathematical and conditional on a scalar generator and the stated frame convention, not a novel theorem about all relativistic Thomson evolution.
+
+**Numerically checked (R6–R7):** 401/401 BASS states on both axis6 and Lebedev26; exact component residuals \(\lesssim 2\cdot10^{-15}\), independent DOP853 endpoint differences \(\lesssim 3\cdot10^{-15}\) for either candidate. The original 401-state tilt produces \(\Delta c_A/c_0=+6.335814925333416\times10^{-4}\) for Kato versus the amplitude-normalized family. The finite 0.9216 counterexample from \(v=0\rightarrow0.2\) is exact on the algebraic branch.
+
+**Adversarial correction retained:** positive scalar collision \`C\` does not imply geometric Kato + calibrated connection is a Markov/Metzler generator. On real initial Type-II states, \`K+lambda P\` has negative off-diagonal entries. Fixed-normal \`partial_v P\` is not the total paired-grid derivative. No global impossibility, no CMB inference, no original Saha equivalence.
+
+**Decision:** ACCEPT the result as a scoped new *mathematical physics* constraint and executable discriminant for subsequent \`P-MIG-II-PREFLIGHT\` theory/implementation; HOLD physically calibrated positivity, exact Boltzmann-Liouville compatibility, native opacity, production dispatch, Stage II canonical evidence, and full observational prediction. Do not merge the draft. Next scientifically substantive path is to derive and test the *actual original BASS source-owned* Liouville frame derivative and collision number/energy moment with these new benchmarks, not to optimize a placeholder.
+
+**DAG:** \`BASS_UPPER=9/15 scoped/source-mapped\`; \`NEW_COMPLETED_UPPER=0\`; \`STAGEII=11/11 historical, current canonical missing\`; \`G_DYN_MANIFOLD_VI0=PARTIAL\`; \`P_MIG_II_PREFLIGHT=PARTIAL\`; \`JOIN_J1=0/2 FULL PASS HOLD\`. Theory R8 **completed**, not production promotion.
