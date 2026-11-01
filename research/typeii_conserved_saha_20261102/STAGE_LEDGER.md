@@ -11,3 +11,4 @@
 | R7_C7 | Physical sourced H-Saha 401x26 and owner-electron parity | 9/15 scoped/source-mapped | 0 | DERIVED_SOURCE_CONDITIONAL_NUMERICALLY_CHECKED |
 | R8_C8 | Independent numerical convergence and ionization-source sensitivity | 9/15 scoped/source-mapped | 0 | NUMERICALLY_CHECKED |
 | R9_C9 | One bounded same-author hostile audit and failure classification | 9/15 scoped/source-mapped | 0 | HOSTILE_PASS_PRODUCTION_HOLD |
+| R10_C10 | Scope closure, reproducibility and next physical DAG milestone | 9/15 scoped/source-mapped | 0 | SOURCE_SCOPED_CLOSED_PRODUCTION_HOLD |
