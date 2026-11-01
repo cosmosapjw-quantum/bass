@@ -10,3 +10,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | R6 | Same-author hostile sign/rate/frame and scope review | 9/15 | 0 | scoped, negative controls pending execution |
 | R7 | 401×26 source-locked coefficients, total Doppler derivative and hostile gaps verified | 9/15 | 0 | NUMERICALLY_CHECKED local |
 | R8 | Scoped physical result admission and explicit holds | 9/15 | 0 | theory scoped |
+| R9 | Geometric ray ODE and Rust/Python acceptance contract | 9/15 | 0 | theory scoped |
