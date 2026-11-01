@@ -12,3 +12,6 @@ Metric (-,+,+,+), normal tetrad, dτ_H=Hdt with H>0, fluid gamma-law index 1.3 d
 ## R4. 독립적인 판별 경로
 
 Build three physically distinct tests: (i) invariant +e_y and -e_y photon rays, (ii) exact normal-frame energy equality but opposite electron-frame Doppler shift, (iii) optical-depth odd/even decomposition. An intentionally off-axis perturbation Sigma_xy≠0 is a counterexample to extending axial invariance to arbitrary shear. No conclusion about general off-axis curvature sign follows from an axial ray.
+## R5. 축방향 정리·직접 증명
+
+For n=±e_y, Sigma n=(Sigma_+ +√3 Sigma_-)n, R×n=0, Nn=0, so dn/dτ_H=0 in the original equation: dn=-(Sigma n-Sigma_nn n)+R×n-n×(Nn). Thus ln(E/E0)=-∫(1+Sigma_+ +√3 Sigma_-)dτ_H and ln(I/I0)=4ln(E/E0). With unit electron-rest opacity and v=v2(τ_H), T_±=∫Gamma(1∓v)dτ_H. Therefore T_-−T_+=2∫Gamma v dτ_H, T_-+T_+=2∫Gamma dτ_H, and (T_-−T_+)/(T_-+T_+)=∫Gamma v/∫Gamma. Wolfram independently evaluated the Type-II frame rate as 0 for both directions and simplified the constant-tilt asymmetry to v. This exact identity is valid for the stated tetrad and conditional electron identification, not for arbitrary Bianchi gauges.
