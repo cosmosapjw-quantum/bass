@@ -19,3 +19,60 @@ A. **Source-exact normal-tetrad characteristic + proper-density optical depth:**
 B. Fixed-grid angular `A=-4(1+Sigma_nn)` with no direction remapping. Valid only as a restricted multiplicative approximation; its omission of `dot n` is directly testable and not an acceptable replacement for source-owned full Liouville characteristics.
 C. Moving-equilibrium Kato `K=[Pdot,P]` or center correction `K+lambda P` from PR #324. These are mathematical collision-equilibrium transports, NOT the geodesic Liouville operator; use solely as a diagnostic against inappropriate substitution.
 Representative strict falsifier: at fixed nonzero `N1` and `Sigma=R=0`, source Type-II spatial curvature produces nonzero `dot n` except certain directions, while the frozen angular multiplicative A cannot. At `v2!=0`, replacing `Gamma q` by `q` changes the rate (even at n_y=0); replacing it by `Gamma q^2` double-counts flux.
+
+## R5: Exact source-matched tetrad Liouville and opacity theorem (derived)
+Fix the orthonormal normal tetrad with signature (-,+,+,+). Let \(\tau_H=\int H\,dt\) and the five BASS Type-II stored background coordinates \((\Sigma_+,\Sigma_-,\Sigma_{13},N_1,v_2)\) be the prescribed gamma-law \(1.3\) source. In normal gauge:
+\[
+\Sigma=\begin{pmatrix}
+-2\Sigma_+ &0&\sqrt3\Sigma_{13}\\0&\Sigma_++\sqrt3\Sigma_-&0\\
+\sqrt3\Sigma_{13}&0&\Sigma_+-\sqrt3\Sigma_-
+\end{pmatrix},\quad
+N=\mathrm{diag}(N_1,0,0),\quad
+R=(0,\sqrt3\Sigma_{13},0),\quad A=0.
+\]
+These fields and \(R_y\) are transcribed from the immutable source
+\`runtime/rust/typeii/typeii_polarized_liouville.rs::typeii_background_from_state\`.
+
+For a forward null geodesic \(p^\mu=E(u^\mu+n^a e_a^\mu)\) with \(n^2=1\), the original BASS orthonormal connection yields
+\[
+\boxed{\frac{d\ln E}{d\tau_H}=-[1+\Sigma_{ab}n^a n^b]},\qquad
+\boxed{\frac{dn}{d\tau_H}=-(\Sigma n-\Sigma_{nn}n)+R\times n-n\times(Nn)}.
+\]
+Here \(n\times(Nn)=(0,N_1n_x n_z,-N_1n_x n_y)\). The source's alternative expression with
+\(w=R+Nn-\tfrac12\mathrm{tr}(N)n\), \(\omega=w+n\times[-\Sigma n+\Sigma_{nn}n]\),
+and \(\dot n=\omega\times n\) is exactly equivalent, because \((n\times s)\times n=s-(n\cdot s)n=s\) for tangent \(s\) and \((Nn)\times n=-n\times(Nn)\).
+Thus \(d(n^2)/d\tau_H=0\) exactly, including nonzero Type-II \(N_1\) and off-diagonal shear.
+The frequency-specific Liouville occupation \(f\) is constant along collisionless geodesics.
+For frequency-integrated bolometric intensity with collisionless, achromatic emission-free transport,
+\[
+\boxed{\frac{d\ln I_n}{d\tau_H}=4\frac{d\ln E}{d\tau_H}
+=-4(1+\Sigma_{nn})},\qquad I_n/I_n(0)=(E/E_0)^4.
+\]
+This is a **characteristic** equation: its \(\dot n\neq0\) must accompany the angular dependence; a diagonal angular multiplication operator without directional advection is not the complete Liouville PDE.
+
+If the electrons have normal-frame velocity \(\beta_e=v_2 e_y\) (an explicit conditional identification),
+\[
+q=1-v_2 n_y,\quad \Gamma=(1-v_2^2)^{-1/2},\quad D=\Gamma q,\quad
+E_e=D E_n,\quad I_e=D^4I_n.
+\]
+The exact total normal-ray derivative, including the real curvature/shear angular drift, is
+\[
+\boxed{\frac{d\ln D}{d\tau_H}
+=\frac{v_2v_2'}{1-v_2^2}
+-\frac{v_2'n_y+v_2n_y'}{1-v_2n_y}},
+\quad
+\boxed{\frac{d\ln E_e}{d\tau_H}
+=-1-\Sigma_{nn}+\frac{d\ln D}{d\tau_H}}.
+\]
+The \(v_2n_y'\) term is a concrete new correction absent from the pure moving-projection Kato amplitude connection. It is **not** an error in Kato; the latter has a different mathematical job. Wolfram directly checked the full chain derivative of \(\ln D\) and the Type-II curvature cross product with zero symbolic residual.
+
+For electron-rest proper density \(n_e^{\mathrm{rest}}[\mathrm{m}^{-3}]\), Thomson cross section \(\sigma_T[\mathrm{m}^2]\) and \(c[\mathrm{m/s}]\),
+\[
+\nu_*=\frac{n_e^{\mathrm{rest}}\sigma_Tc}{H},\qquad
+\boxed{\frac{d\mathcal T}{d\tau_H}=\nu_*\Gamma q}\ge0
+\quad(|v_2|<1,H>0,n_e^{\mathrm{rest}}\ge0).
+\]
+Original \`generated/rust/typeii/typeii_collision.rs\` already owns a single \(q\); its compatible **scalar** prefactor with proper density is \(\nu_*\Gamma\), or equivalently \((n_e^{\mathrm{normal}}\sigma_Tc/H)\) with \(n_e^{\mathrm{normal}}=\Gamma n_e^{\mathrm{rest}}\). Neither \(q\) nor \(\Gamma\) may be silently counted twice.
+The physical rest-density history is NOT provided by the original 3-anchor opacity proxy. The primary ray diagnostic sets \(\nu_*=1\) per Hubble time and separately labels any use of the historic opacity proxy as conditional.
+
+Limiting checks: zero shear/curvature/rotation gives \(n'=0,E/E_0=e^{-\Delta\tau_H}, I/I_0=e^{-4\Delta\tau_H}\). Zero tilt gives \(D=q=1\). \(N_1=0\) removes the spatial curvature term (but is outside the earlier strictly \(N_1>0\) 4D chart). Small tilt gives \(\Gamma=1+\tfrac12v_2^2+O(v_2^4)\); omission of \(\Gamma\) is a finite-\(v_2\) normalization mismatch, not a linear-order one. These statements refer to source-normalized time, not cosmological seconds.
