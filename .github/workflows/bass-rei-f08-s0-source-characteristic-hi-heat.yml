@@ -1,0 +1,93 @@
+name: BASS REI-F08 S0 original-source characteristic HI photoionization and heat
+
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-s0-characteristic-photoheating-20261101
+  pull_request:
+    paths:
+      - 'research/bass_rei_f08_s0_characteristic_photoheating_20261101/**'
+      - '.github/workflows/bass-rei-f08-s0-source-characteristic-hi-heat.yml'
+
+jobs:
+  original-source-physical-science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned original-source science runtime
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Verify original REI F08 byte-identity and physical null controls
+        run: |
+          set -e
+          (cd research/bass_rei_f08_s0_remap_support_20261101/source_inputs && sha256sum -c LOCKED_CHECKPOINT_SHA256SUMS.txt)
+          (cd research/bass_rei_f08_s0_source_photon_thomson_20261101/source_inputs && sha256sum -c ORIGIN_SHA256SUMS.txt)
+          python -m unittest discover -s research/bass_rei_f08_s0_characteristic_photoheating_20261101/tests -v
+          python -O -m unittest discover -s research/bass_rei_f08_s0_characteristic_photoheating_20261101/tests -v
+          python research/bass_rei_f08_s0_characteristic_photoheating_20261101/audit_source_physics.py
+      - name: Cold compute 30 source epochs and 3840 original directions on frozen HHe
+        run: |
+          python research/bass_rei_f08_s0_characteristic_photoheating_20261101/source_exact_photoheat.py \
+            --out /tmp/bass_rei_f08_source_photoheat_cold --births 512 --simpson 48
+          python research/bass_rei_f08_s0_characteristic_photoheating_20261101/audit_source_physics.py \
+            --out /tmp/bass_rei_f08_source_photoheat_cold
+      - name: Independent inspect and compare all 3900 source physical rows
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv,gzip,json,math
+          p=Path('research/bass_rei_f08_s0_characteristic_photoheating_20261101/results')
+          q=Path('/tmp/bass_rei_f08_source_photoheat_cold')
+          a=json.loads((p/'RESULT.json').read_text())
+          b=json.loads((q/'RESULT.json').read_text())
+          assert a['schema']==b['schema']
+          assert a['source_parent_head']==b['source_parent_head']=='178d93c380a0e868a22869c3160d81c0aa643098'
+          assert a['original_source_s0_SHA256']==b['original_source_s0_SHA256']
+          assert a['original_discrete_photon_IVP_replayed']==b['original_discrete_photon_IVP_replayed']==False
+          assert a['original_hhe_chemistry_thermodynamics_IVP_replayed']==b['original_hhe_chemistry_thermodynamics_IVP_replayed']==False
+          assert a['REI_CENTRAL']==b['REI_CENTRAL']=='28/88_REPORTED'
+          assert a['BASS_UPPER']==b['BASS_UPPER']=='9/15_SCOPED_SOURCE_MAPPED'
+          assert a['new_canonical_nodes']==b['new_canonical_nodes']==0
+          pairs=[
+            (a['summary_file'],30), (a['angle_file'],3840),
+            ('F08_S0_HI_IONIZATION_BINDING_AND_HEAT_RESPONSE.csv.gz',30)]
+          for file,count in pairs:
+              with gzip.open(p/file,'rt',newline='') as f:one=list(csv.DictReader(f))
+              with gzip.open(q/file,'rt',newline='') as f:two=list(csv.DictReader(f))
+              assert len(one)==len(two)==count
+              for x,y in zip(one,two):
+                  assert x.keys()==y.keys(),(file,'columnset')
+                  for key,value in x.items():
+                      if key in ('branch','scientific_owner_note'):
+                          assert value==y[key]
+                      else:
+                          u,v=float(value),float(y[key])
+                          assert math.isfinite(u) and math.isfinite(v)
+                          if key in ('photon_number_ledger_abs_residual',
+                                     'photon_energy_ledger_abs_residual_eV_per_H'):
+                              # These are cancellation residuals, not physical observables.
+                              # Both cold and frozen-source runs must satisfy the pre-existing
+                              # audit invariant; relative agreement near zero is meaningless.
+                              assert 0 <= u < 5e-13 and 0 <= v < 5e-13,(file,key,u,v)
+                          else:
+                              assert math.isclose(u,v,rel_tol=2e-8,abs_tol=1e-26),(file,key,u,v)
+              print('BASS_REI_F08_S0_ORIGINAL_SOURCE_PHYSICS_COLD_PASS',file,count)
+          o=json.loads((q/'AUDIT.json').read_text())
+          assert o['verification']=='PASS_SOURCE_CONDITIONAL_DATA_ONLY'
+          assert o['records']=={'physical_summary':30,'source_q_angle':3840,'binding_and_heat':30}
+          assert o['original_HHe_solver_replayed']==False
+          assert o['canonical_delta']==0
+          print('BASS_REI_CANONICAL_REMAINS_28_OF_88_HOLD')
+          PY
+      - name: Preserve frozen-source physical science data
+        uses: actions/upload-artifact@v4
+        with:
+          name: rei-f08-s0-characteristic-hi-ionization-heat-physical-science
+          path: |
+            /tmp/bass_rei_f08_source_photoheat_cold/*.csv.gz
+            /tmp/bass_rei_f08_source_photoheat_cold/RESULT.json
+            /tmp/bass_rei_f08_source_photoheat_cold/AUDIT.json
+          if-no-files-found: error
