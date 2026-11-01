@@ -7,3 +7,4 @@ Each completed stage has a real Git commit, remote SHA readback, local ZIP SHA25
 | R3 | Units, angular advection, proper-vs-normal density conventions | 9/15 | 0 | Theory scoped |
 | R4 | Three physical/mathematical candidates, A selected | 9/15 | 0 | Theory scoped |
 | R5 | Original Type-II geodesic, bolometric frame chain and proper-electron Thomson rate exact derivation | 9/15 | 0 | Theory derived |
+| R6 | Same-author hostile sign/rate/frame and scope review | 9/15 | 0 | scoped, negative controls pending execution |
