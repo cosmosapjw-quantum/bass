@@ -1,0 +1,61 @@
+{
+  "schema": "bass.vi0.projector_operator_program.scoped_theory.v1",
+  "graph": "G-DYN-MANIFOLD-VI0/SCALAR_EIGENFRAME_EXACT",
+  "parent_main": "9c6506e4e2087129a8b674ff10438e5db1a55c9d",
+  "historical_design_pr": 15,
+  "historical_design_head": "af467a974cfd9bd8ccd59870e5a03c8099f23db1",
+  "model": "one tilted gamma-law normal-frame fluid plus SAME-VELOCITY scalar bolometric Thomson equilibrium bath; co-moving eigenframe angular labels",
+  "signature": "(-,+,+,+)",
+  "branch_predicates": ["class A: A_a=0", "N=diag(0,p,-q)", "p>0", "q>0", "0<gamma<2", "v1^2+v2^2+v3^2<1", "Omega_star>0", "w_alpha>0", "fixed eigenframe/ray labels"],
+  "independent_background_coords": ["Sigma_plus", "Sigma_minus", "p", "q", "v1", "v2", "v3"],
+  "derived_fields": {
+    "G_plus": "1+(gamma-1)*(v1^2+v2^2+v3^2)",
+    "Omega_star": "1-Sigma_plus^2-Sigma_minus^2-(p+q)^2/12",
+    "beta": "3*gamma^2/G_plus^2*(v1^2/(p+q)^2+v2^2/q^2+v3^2/p^2)",
+    "Omega": "2*Omega_star/(1+sqrt(1+4*beta*Omega_star))",
+    "Sigma23": "3*gamma*Omega*v1/((p+q)*G_plus)",
+    "Sigma13": "-3*gamma*Omega*v2/(q*G_plus)",
+    "Sigma12": "-3*gamma*Omega*v3/(p*G_plus)"
+  },
+  "constraint_rank_certificate": "det(D(Codazzi1,Codazzi2,Codazzi3,Gauss)/D(Sigma23,Sigma13,Sigma12,Omega))=p*q*(p+q)*(1+2*beta*Omega)>0",
+  "projector": {
+    "n": "fixed ray directions n_alpha in eigenframe, e.g. +/- e1,e2,e3",
+    "D": "Gamma*(1-v.n_alpha)",
+    "Gamma": "1/sqrt(1-v^2)",
+    "r_alpha": "D_alpha^-4",
+    "a_alpha": "w_alpha*(1-v.n_alpha)/(4*pi)",
+    "den": "sum_alpha a_alpha*r_alpha",
+    "P": "r*a^T/den",
+    "dr_dvi": "4*r_alpha*(n_alpha_i/(1-v.n_alpha)-Gamma^2*v_i)",
+    "da_dvi": "-w_alpha*n_alpha_i/(4*pi)",
+    "P_i": "(dr_i*a^T+r*da_i^T)/den-P*(da_i^T*r+a^T*dr_i)/den",
+    "Pdot": "sum_i vdot_i*P_i (fixed co-moving eigenframe/ray labels only)",
+    "K": "Pdot*P-P*Pdot",
+    "reconstruction_inverse": "r_{+i}/r_{-i}=((1+v_i)/(1-v_i))^4",
+    "differential_rank": 3,
+    "idempotence": "P^2=P",
+    "kato_identity": "[K,P]=Pdot"
+  },
+  "eigenframe_rotation": {
+    "W12": "-Sigma12",
+    "W13": "-Sigma13",
+    "W23": "(p-q)/(p+q)*Sigma23",
+    "origin": "Nprime=q_dec*N+Sigma*N+N*Sigma+[W,N]",
+    "not_proven": "full matter/boltzmann time integration, Fermi-to-eigenframe ray transfer"
+  },
+  "branch_rank_notes": {
+    "generic_tilt": {"background_dimension": 7, "scalar_projector_family_dimension": 3},
+    "strict_v_zero": {"background_dimension": 4, "scalar_projector_family_dimension_restricted_branch": 0},
+    "typeII_boundary": "p=0 or q=0 invalidates chosen Schur minor and chart",
+    "vacuum": "Omega=0; no physical fluid velocity or Thomson bath by default",
+    "gamma_6_5": "algebraic rank unchanged; only dynamical stability bifurcation in literature"
+  },
+  "status": "EXACT_THEORY_SCOPED_NOT_PRODUCTION",
+  "upper_bass_physics_15": "9/15 scoped/source-mapped unchanged",
+  "overall_vi0_gate": "PARTIAL",
+  "typeii_production_preflight": "OPEN",
+  "join_j1": "HOLD",
+  "production_ready": false,
+  "merge_ready": false,
+  "auto_next": false
+}
