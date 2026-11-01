@@ -9,3 +9,6 @@ Primary physical context: Pontzen & Challinor, Bianchi model CMB polarization (M
 ## R3. 가정·컨벤션
 
 Metric (-,+,+,+), normal tetrad, dτ_H=Hdt with H>0, fluid gamma-law index 1.3 distinct from electron Lorentz Gamma(v). Source Type II Sigma off-diagonal xz, N=diag(N1,0,0), R_y=√3 Sigma13. Electron 4-velocity is conditionally identified with v2 e_y; the optical depth uses electron-rest proper density, not normal density, and the generated collision owns q=1-vn_y exactly once.
+## R4. 독립적인 판별 경로
+
+Build three physically distinct tests: (i) invariant +e_y and -e_y photon rays, (ii) exact normal-frame energy equality but opposite electron-frame Doppler shift, (iii) optical-depth odd/even decomposition. An intentionally off-axis perturbation Sigma_xy≠0 is a counterexample to extending axial invariance to arbitrary shear. No conclusion about general off-axis curvature sign follows from an axial ray.
