@@ -41,18 +41,37 @@
     },
     "R8": {
       "objective": "claim/stop gate",
-      "status": "PENDING",
+      "status": "COMPLETE_SCOPED",
       "backup": "S2"
     },
     "R9": {
       "objective": "math-to-code traceability",
-      "status": "PENDING",
+      "status": "COMPLETE_SCOPED",
       "backup": "S2"
     },
     "R10": {
       "objective": "backup and handoff",
-      "status": "PENDING",
+      "status": "COMPLETE_SCOPED",
       "backup": "S2"
     }
-  }
+  },
+  "phases": {
+    "S0": {
+      "stages": "R1–R4",
+      "github_commit": "613c845f2ff35719acbf6d2d4f3a247e42c4674d",
+      "sha256": "6a599ba302b05fec517d9f2e204697c74422e8cd0ff069ceac7ec0d75757c928"
+    },
+    "S1": {
+      "stages": "R5–R7",
+      "github_commit": "54f7bed18f3f4f4a11e3f3ad8e983bda676866ed",
+      "sha256": "dc8acecf431243ec76cdde1d29c10fbd896ebd9b8f2a19dd075a168605f215c0"
+    },
+    "S2": {
+      "stages": "R8–R10",
+      "github_commit": "READ_LIVE_PR312_FINAL_HEAD",
+      "sha256": "COMPUTE_AFTER_S2_BUNDLE"
+    }
+  },
+  "parent_original_DAG": "G_DYN_MANIFOLD_VI0_PARTIAL;P_MIG_II_PREFLIGHT_OPEN;JOIN_J1_0/2_HOLD",
+  "new_full_upper_nodes": 0
 }

@@ -1,0 +1,73 @@
+name: VI0 original physical photon null Liouville and moving-sky Kato
+on:
+  push:
+    branches:
+      - research/bass-vi0-physical-null-liouville-20261101-r1
+  pull_request:
+    paths:
+      - 'research/vi0_null_20261101/**'
+      - '.github/workflows/vi0-null-liouville.yml'
+permissions:
+  contents: read
+jobs:
+  source_locked_physical_null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install exact astrophysics arithmetic runtime
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 sympy==1.14.0 pytest==9.0.2 matplotlib==3.10.8
+      - name: Verify immutable original parent 311 + seven BASS source Git blobs
+        run: |
+          python - <<'PY'
+          import sys,pathlib
+          sys.path.insert(0,'research/vi0_null_20261101/source')
+          import vi0_null_liouville as q
+          print('BASS_EXACT_PR311_AND_7_SOURCE_GIT_BLOBS',q.source_guard(pathlib.Path('.').resolve()))
+          PY
+      - name: Generate actual twelve VI0 backgrounds and 78720 photon characteristic states
+        run: python research/vi0_null_20261101/source/vi0_null_liouville.py
+      - name: Verify source-owned null energy direction and moving scalar Kato
+        run: |
+          python -m pytest -q research/vi0_null_20261101/source/test_vi0_null_liouville.py
+          python research/vi0_null_20261101/source/verify_saved_physics.py
+          python -O research/vi0_null_20261101/source/verify_saved_physics.py
+          python -m compileall -q research/vi0_null_20261101/source
+      - name: Compare all generated physical scalar claims to frozen local source within physical tolerance
+        run: |
+          python - <<'PY'
+          import json,math,pathlib
+          repo=pathlib.Path('research/vi0_null_20261101')
+          frozen=json.loads((repo/'VI0_NULL_RESULTS.json').read_text())
+          fresh=json.loads((repo/'data'/'VI0_NULL_RESULTS.json').read_text())
+          assert frozen['source']==fresh['source']
+          for k in ('ray_physical_rows','radiation_moment_rows','new_collisionless_ray_transport_runs','new_distinct_gravitating_einstein_ivps','upper_scoped_dag','new_completed_upper_nodes'):
+              assert frozen[k]==fresh[k],k
+          assert len(frozen['runs'])==len(fresh['runs'])==36
+          rho_error=max(abs(frozen['runs'][name]['endpoint_rho']-fresh['runs'][name]['endpoint_rho']) for name in frozen['runs'])
+          assert rho_error<5e-9,rho_error
+          print('BASS_REAL_VI0_SCIENCE_ORIGINAL_RHO_PARITY',rho_error)
+          PY
+      - name: Produce physical science plots and verify counts
+        run: |
+          python research/vi0_null_20261101/source/make_science_plots.py
+          test $(find research/vi0_null_20261101/plots -name '*.png' | wc -l) -eq 3
+          test $(find research/vi0_null_20261101/plots -name '*.svg' | wc -l) -eq 3
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS-VI0-ORIGINAL-NULL-LIOUVILLE-78720-PHYSICS
+          path: |
+            research/vi0_null_20261101/data/
+            research/vi0_null_20261101/plots/
+            research/vi0_null_20261101/source/
+            research/vi0_null_20261101/*.md
+            research/vi0_null_20261101/*.json
+            research/vi0_null_20261101/NEXT_THREAD_HANDOFF.txt
+          if-no-files-found: error
