@@ -70,3 +70,83 @@ Distinguishing diagnostic: for an isolated tilt change from `v0=0` to `v=0.2` an
 Core decision for R5: derive the analytic paired-grid `r,a,s,rdot,adot,K` and both propagation laws, quantify the discrepancy on the original 401-state Type-II tilt history. Keep candidate C as the physical-coordinate comparator rather than silently labeling B as covariant transport.
 
 **R4**: 3 explicit candidates, one distinguishing case; `DAG 9/15`, `0` new full upper nodes.
+
+## R5. Exact finite-grid derivation (the principal new result)
+
+### Geometry and instantaneous collision invariants
+Fix rest directions \(e_i\), first-moment symmetric positive weights \(W_i\) and \(m_i=e_{iy}\). The corresponding **normal** direction, boost and measure are
+\[
+ \mu_i(v)=\frac{m_i+v}{1+v m_i},\quad
+ q_i=1-v\mu_i=\frac{1-v^2}{1+v m_i},\quad
+ D_i=\Gamma q_i=\frac{\sqrt{1-v^2}}{1+v m_i},\quad
+ w_i(v)=W_iD_i^2.
+\]
+The original scalar normal-to-rest bolometric map is \(J_i=D_i^4y_i\). The original source generator is
+\[
+ C(v)=\operatorname{diag}(q_iD_i^{-4})
+       [K\operatorname{diag}(W_i)-I]\operatorname{diag}(D_i^4),
+ \quad K_{ij}=\frac3{16\pi}(1+(e_i\cdot e_j)^2).
+\]
+If \(\sum_iW_i=4\pi\) and \(\sum_iW_i e_ie_i^T=(4\pi/3)I\), then \([K\operatorname{diag}(W)-I]\mathbf1=0\) and \(W^T[K\operatorname{diag}(W)-I]=0\). Define source-owned
+\[
+ r_i(v)=D_i^{-4}=\Gamma^4(1+v m_i)^4,\qquad
+ a_i(v)=\frac{w_i(v)q_i}{4\pi}
+       =\frac{W_i}{4\pi}\Gamma^{-4}(1+v m_i)^{-3}.
+\]
+Then \(C(v)r(v)=0\), since \(D^4r=\mathbf1\). Also
+\(a_iq_iD_i^{-4}=W_i/(4\pi\Gamma^2)\), giving \(a(v)^TC(v)=0\).
+The product and normalizing denominator are *exactly*
+\[
+ a_i(v)r_i(v)=\frac{W_i}{4\pi}(1+vm_i),\quad
+ s(v)=a^Tr=1+v\frac{\sum_i W_i m_i}{4\pi}.
+\]
+Hence for both symmetric original rest grids, **\(s(v)\equiv1\)**. This is NOT the same as \(a(v)\) being constant.
+
+### Full paired-grid derivatives versus fixed-normal partial derivatives
+Holding fixed \((e_i,W_i)\), not \((\mu_i,w_i)\), yields
+\[
+ \frac{\partial_v r_i}{r_i}=4\frac{v}{1-v^2}
+                              +\frac{4m_i}{1+vm_i},\quad
+ \frac{\partial_v a_i}{a_i}=-4\frac{v}{1-v^2}
+                              -\frac{3m_i}{1+vm_i}.
+\]
+For symmetric first moment, \((\partial_v a)^Tr=-4v/(1-v^2)\),
+\(a^T(\partial_v r)=4v/(1-v^2)\), \(s'=0\). Dots are \(\partial_\tau = v'(\tau)\partial_v\), not physical seconds.
+Explicit Wolfram CAS independently simplified both componentwise derivatives and the product identity to residual **0** on \(|v|<1,\ |m|\le1,\ W>0\). This check does not rely on the BASS numeric fixture.
+
+### Kato intertwinement and center amplitude
+Set \(P(v)=ra^T/s\), \(K=[\dot P,P]\). By \(P^2=P\), differentiating gives \(P\dot PP=0\) and \([K,P]=\dot P\). The original **paired** scalar collision \(C\) satisfies \(CP=PC=0\). Therefore the propagator of
+\[
+ \dot y=(\alpha\nu(\tau)C(v(\tau))+K(\tau))y
+\]
+obeys \(P(\tau)U(\tau,\tau_0)=U(\tau,\tau_0)P(\tau_0)\) for smooth \(v\) and nonnegative, finite \(\alpha\nu\), irrespective of commutativity of \(C(\tau_1)\) and \(C(\tau_2)\).
+
+But
+\[
+ K r=\dot r-\lambda r,\qquad
+ \lambda=\frac{a^T\dot r}{a^Tr}
+        =\frac{4v\dot v}{1-v^2}
+\]
+for the symmetric paired grid. If \(y_0=c_0r(v_0)\), then \(y_A(\tau)=c_A(\tau)r(v(\tau))\) with
+\[
+ \dot c_A=-\lambda c_A,\qquad
+ \boxed{\frac{c_A(\tau)}{c_0}=
+       \left(\frac{1-v(\tau)^2}{1-v_0^2}\right)^2}.
+\]
+The same relation holds independently of the opacity scale because \(Cr=0\). Therefore **intertwinement does not imply constant rest-isotropic bolometric amplitude**. This is a source-specific mathematical distinction; not a claim that Kato's theorem is wrong.
+
+### Minimal center-mode correction, and precise interpretation
+The explicitly *chosen* scalar calibration
+\[
+ \boxed{G_B=\alpha\nu C+[\dot P,P]+\lambda P}
+\]
+satisfies \(G_Br=\dot r\). Hence \(y_B(\tau)=c_0r(v(\tau))\) is exact for initially rest-isotropic data. More generally,
+\[
+ \frac{d}{d\tau}(a^Ty)\Big|_{G_B}
+   =\frac{\dot s}{s}(a^Ty),
+\]
+so it is identically zero on the **paired symmetric** family \(\dot s=0\), not on arbitrary moving grids. This follows from \(a^T K=-\dot a^T+(\dot a^T r/s)a^T\) and \(\dot s=\dot a^Tr+a^T\dot r\).
+
+The full fixed-rest-label pullback \(G_C=\alpha\nu C+\operatorname{diag}(\dot r_i/r_i)\) equals \(G_B\) **only on the instantaneously isotropic subspace**. A physical Boltzmann Liouville term (shear, ray advection, redshift, spectral redistribution, frame tetrad) has NOT been derived from these purely algebraic conditions; do not replace the original BASS transport with \(G_B\) or \(G_C\) without that reconciliation. No photon-number conservation claim is made for bolometric \(y\).
+
+**R5 exact mathematical result:** moving scalar paired-grid normalization and center-mode transport identity. Source ownership, boundary and physical interpretation explicitly scoped; upper DAG **9/15** and new complete upper nodes **0**.
