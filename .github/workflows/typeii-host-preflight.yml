@@ -1,0 +1,64 @@
+name: BASS Type-II exact physical 4D host contract (nonproduction)
+on:
+  pull_request:
+    paths:
+      - 'research/typeii_host_preflight_20261101/**'
+      - '.github/workflows/typeii-host-preflight.yml'
+  push:
+    branches:
+      - research/bass-typeii-host-state-preflight-20261101-r1
+permissions:
+  contents: read
+jobs:
+  original_source_host_mock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Log actual compiler version and exact source pins
+        shell: bash
+        run: |
+          rustc --version
+          python - <<'PY'
+          import hashlib,json,pathlib
+          src=pathlib.Path('research/typeii_host_preflight_20261101/SOURCE_LOCK.json')
+          o=json.loads(src.read_text())
+          assert o['original_main_commit']=='9c6506e4e2087129a8b674ff10438e5db1a55c9d'
+          for path, sha in o['original_git_blobs_sha1'].items():
+              data=pathlib.Path(path).read_bytes()
+              got=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\x00'+data).hexdigest()
+              if got!=sha:raise RuntimeError((path,got,sha))
+          print('NINE_ORIGINAL_GIT_BLOBS_BYTE_EXACT',len(o['original_git_blobs_sha1']))
+          PY
+      - name: Compile-only mock TypeII5 host and actual original generated RHS/JVP tests
+        run: |
+          rustc --edition=2021 --test research/typeii_host_preflight_20261101/source/typeii_state_contract.rs -o "$RUNNER_TEMP/typeii_contract_tests"
+          "$RUNNER_TEMP/typeii_contract_tests" --nocapture
+      - name: Verify 401 exact source-owned TypeII fixture states and independent RK4 residual
+        run: |
+          python research/typeii_host_preflight_20261101/source/verify_original_fixture.py --repo-root . --output research/typeii_host_preflight_20261101/ci_generated --require-original
+          cd research/typeii_host_preflight_20261101/source
+          python -m unittest -q test_typeii_physics.py
+          python -O -m unittest -q test_typeii_physics.py
+      - name: Independent saved data referee with explicit nonassert fail-closed checks
+        run: |
+          python research/typeii_host_preflight_20261101/source/referee_saved.py --data research/typeii_host_preflight_20261101/ci_generated
+          python -O research/typeii_host_preflight_20261101/source/referee_saved.py --data research/typeii_host_preflight_20261101/ci_generated
+      - name: Verify original source owner unchanged
+        run: |
+          git diff --exit-code -- generated/rust/typeii/typeii_background.rs bianchi/charts/class_a_tilted.py bianchi/conventions.py _rustcore/src/geom/group.rs _rustcore/src/core/conventions.rs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASS-TYPEII-EXACT-401-PHYSICAL-CHART-AND-MOCK-RUST
+          path: |
+            research/typeii_host_preflight_20261101/ci_generated/*
+            research/typeii_host_preflight_20261101/source/*.rs
+            research/typeii_host_preflight_20261101/source/*.py
+            research/typeii_host_preflight_20261101/*.json
+            research/typeii_host_preflight_20261101/*.md
+          if-no-files-found: error
