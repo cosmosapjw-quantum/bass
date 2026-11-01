@@ -12,3 +12,4 @@
 | R8 | 과학적 주장 판정 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R9 | 계산 계약 정식화 | 9/15 scoped/source-mapped | 0 | scope-checked |
 | R10 | 이론 종료·다음 물리 동작 | 9/15 scoped/source-mapped | 0 | scope-checked |
+| C1 | 실행 대상과 품질 기준 | 9/15 scoped/source-mapped | 0 | scope-checked |
