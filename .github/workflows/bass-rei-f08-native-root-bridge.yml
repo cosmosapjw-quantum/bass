@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'research/bass_rei_f08_native_root_bridge_20261102/**'
+      - 'research/bass_rei_f08_consecutive_paired_20261102/**'
       - 'research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust/examples/bass_s0_interval_root_probe.rs'
       - '.github/workflows/bass-rei-f08-native-root-bridge.yml'
 
@@ -128,3 +129,31 @@ jobs:
             /tmp/bass_rei_f08_root_cold/inputs/actual160/S0_*.txt
             /tmp/bass_rei_f08_root_cold/inputs/actual160/CAPTURE.json
           if-no-files-found: error
+
+  original-paired-physical-source-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent numerical and physical-support audit (normal and -O)
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_consecutive_paired_20261102
+          python "$D/audit_original_paired.py" --csv "$D/results/original_paired_trajectory.csv" --negative-tests --output /tmp/paired_summary.json >/dev/null
+          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_summary.json
+          python -O "$D/audit_original_paired.py" --csv "$D/results/original_paired_trajectory.csv" --negative-tests --output /tmp/paired_summary_opt.json >/dev/null
+          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_summary_opt.json
+      - name: Native immutable-source 320 consecutive interval stages cold replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_consecutive_paired_20261102
+          bash "$D/replay_original_paired.sh" /tmp/bass_rei_f08_paired_cold 160
+          cmp "$D/results/original_paired_trajectory.csv" /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv
+          python "$D/audit_original_paired.py" --csv /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv --native-endpoints /tmp/bass_rei_f08_paired_cold --negative-tests --output /tmp/paired_cold_science.json >/dev/null
+          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_cold_science.json
+          echo "S0_PAIRED_320_STAGES_NUMERICAL_PASS_PHYSICAL_SUPPORT_FAIL_REPRODUCED"
