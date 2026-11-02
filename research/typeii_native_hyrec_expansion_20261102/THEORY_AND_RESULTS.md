@@ -1,0 +1,14 @@
+# BASS Type II | source-kinetic HYREC-2 external-Hubble research
+Parent Draft PR #330 immutable HEAD `9f10e1145c8582f71f7d81dcebfd3c125c70c04c`. Original BASS main `9c6506e4e2087129a8b674ff10438e5db1a55c9d`. All source mutations only in an independent, ignored `native_run/` experiment workspace. No original HYREC/BASS source editing, production dispatch or merges.
+
+## R1/C1 | Physical problem and experimental controls
+
+HYREC-2 native source `history.c::rec_build_history(data,model,hubble_array)` **already supports** an externally supplied positive H(z) table on uniform z-grid `z_i=8000i/N_z`, `i=0..N_z-1`, with source cubic interpolation. `hyrec_compute()` instead forces `hubble_array[0]=-1` to use source FLRW `rec_HubbleRate`. A source-conserving opt-in C wrapper will call the original `rec_build_history` unchanged, avoiding any edits to original atomic kinetic functions or tables.
+
+Experiment A: run **unchanged** original standalone native HYREC-2 FLRW source at pinned input `h=.674, Omega_b h²=.0224, Omega_cb h²=.143, YHe=.245, Neff=3.046, mnu=.06 eV, T0=2.7255K` and compare with **external Hubble table sampled from exactly original native `rec_HubbleRate`**. This FLRW external-callback identity test must pass before interpreting any physical effect.
+
+Experiment B: from immutable BASS original five-state Type-II fluid gamma-law=1.3 and signature (-,+,+,+), compute `q_dec=N1'/N1+4SigmaPlus` and evolve `dlnH/dtau_H=-(1+q_dec)`, `tau_H=ln[(1+1700)/(1+z_mean)]`. Normalize Type-II H at z_mean=1700 to the original HYREC2 FLRW H(z=1700) (continuous join), retain original FLRW H for earlier z>1700, use the source-evolved Bianchi H below z=1700 only as an **explicit model extension**. This is not calibrated to the present Universe or self-consistent cosmological baryon/photons: the Type-II gamma-law fluid is not re-solved with recombination backreaction.
+
+Experiment C (conditional if feasible): correct HYREC's proper H-nucleus density `n_H^{rest}(z)=n_{H,FLRW}(z) Gamma(1700)/Gamma(z)` from conserved tilted class-A current in isolated source C copies, **without** changing atomic source functions beyond the necessary density accessors. Disentangle H-only and H+proper-density effects rather than conflating them.
+
+Critical acceptance: native FLRW standalone vs external-FLRW callback x_e/Tm near-identical; external TypeII-H callback actually changes original **atomic ODE**, not a post-hoc reweighting; original TypeII source physical constraints and 401-point overlap; positive finite H and helium x_e>1 semantics; independent H(z) and optical depth checks; one bounded hostile review; 10 step-pairs (R1/C1...R10/C10) each real Git commit, push HEAD readback, owner-local SHA256 ZIP. Existing BASS upper DAG `9/15 scoped/source-mapped`, **0** new production-complete upper DAG nodes, Stage II historical 11/11 current canonical unavailable, Join J1 0/2 full PASS HOLD. No auto merge.
