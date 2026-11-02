@@ -1,0 +1,164 @@
+--- immutable_HYREC2/history.c
++++ scratch_history.c
+@@ -40,6 +40,7 @@
+ 
+ #include "history.h"
+ #include "helium.h"
++#include "bass_proper_density.h"
+ 
+ /*************************************************************************************
+ Hubble expansion rate in sec^-1.
+@@ -310,7 +311,7 @@
+   double fsR = cosmo->fsR;
+   double meR = cosmo->meR;
+   double Tr  = cosmo->T0 *(1.+z);
+-  double nH  = cosmo->nH0 *cube(1.+z);
++  double nH  = bass_hydrogen_density(cosmo,z);
+ 
+   /* Coefficient = 8 sigma_T a_r / (3 m_e c) */
+   /* Here Tr, Tm are the actual (not rescaled) temperatures */
+@@ -334,7 +335,7 @@
+   double fsR = cosmo->fsR;
+   double meR = cosmo->meR;
+   double Tr  = cosmo->T0 *(1.+z);
+-  double nH  = cosmo->nH0 *cube(1.+z);
++  double nH  = bass_hydrogen_density(cosmo,z);
+   return ( (Tr/Tm-1.<1e-10  && Tr > 3000.)  ? -Tr :
+           -2.*Tm + fsR*fsR/meR/meR/meR*4.91466895548409e-22*Tr*Tr*Tr*Tr*xe/(1.+xe+cosmo->fHe)*(Tr-Tm)/H
+           + (1.+2.*xe)/3. *dEdtdV /kBoltz /(1.5 *nH*(1.+xe+cosmo->fHe))/H);
+@@ -346,7 +347,7 @@
+   double fsR = cosmo->fsR;
+   double meR = cosmo->meR;
+   double Tr  = cosmo->T0 *(1.+z);
+-  double nH  = cosmo->nH0 *cube(1.+z);
++  double nH  = bass_hydrogen_density(cosmo,z);
+   double gamma = fsR*fsR/meR/meR/meR*4.91466895548409e-22*Tr*Tr*Tr*Tr*xe/(1.+xe+cosmo->fHe)/H;
+   return (Tm + DLNA*(gamma*Tr + (1.+2.*xe)/3. *dEdtdV /kBoltz /(1.5 *nH*(1.+xe+cosmo->fHe))/H) )/ ( 1.+(2.+gamma)*DLNA );
+ }
+@@ -465,7 +466,7 @@
+     }
+   }
+ 
+-  nH = cosmo->nH0 *cube(1.+z);
++  nH = bass_hydrogen_density(cosmo,z);
+   xH1sSaha = rec_saha_xH1s(cosmo, z, xHeII);
+   xHIISaha = 1.-xH1sSaha;
+ 
+@@ -531,7 +532,7 @@
+   char sub_message[SIZE_ErrorM];
+   DLNA = cosmo->dlna;
+   xe = *xHeII + 1.- (*xH1);
+-  nH = cosmo->nH0 *cube(1.+z_in);
++  nH = bass_hydrogen_density(cosmo,z_in);
+   TR = kBoltz * cosmo->T0 *(1.+z_in);
+   /* Evolve HeII by solving ODE */
+   dxHeIIdlna  = rec_helium_dxHeIIdlna(data, z_in, *xH1, *xHeII, H);
+@@ -587,7 +588,7 @@
+   else DLNA = cosmo->dlna/10.;
+ 
+   z_out   = (1.+z_in)*exp(-DLNA)-1.;
+-  nH = cosmo->nH0 *cube(1.+z_in);
++  nH = bass_hydrogen_density(cosmo,z_in);
+   TR = kBoltz *cosmo->T0 *(1.+z_in);
+ 
+   dEdtdV = cosmo->inj_params->ion*3*nH*EI / (1-xe_in);
+@@ -647,7 +648,7 @@
+   char sub_message[SIZE_ErrorM];
+   DLNA = cosmo->dlna;
+ 
+-  nH = cosmo->nH0 *cube(1.+z_in);
++  nH = bass_hydrogen_density(cosmo,z_in);
+   TR = kBoltz *cosmo->T0 *(1.+z_in);
+   dEdtdV = cosmo->inj_params->ion*3*nH*EI / (1-xe_in);
+   /*For low redshifts (z < 20 or so) use Peeble's model.
+@@ -801,7 +802,7 @@
+ 
+   // Initialize energy *deposition*
+   dEdtdV_dep = 0.;
+-  nH = cosmo->nH0*cube(1.+z);
++  nH = bass_hydrogen_density(cosmo,z);
+ 
+   if (hubble_array[0]==-1.) H  = rec_HubbleRate(cosmo, z);
+   else H = rec_interp1d(.0, dz, hubble_array, Nz, z, error, data->error_message);
+@@ -820,7 +821,7 @@
+     if (hubble_array[0]==-1.) H  = rec_HubbleRate(cosmo, z);
+     else H = rec_interp1d(.0, dz, hubble_array, Nz, z, error, data->error_message);
+ 
+-    nH = cosmo->nH0*cube(1.+z);
++    nH = bass_hydrogen_density(cosmo,z);
+     Tm_output[iz] = rec_Tmss(z, xe_output[iz], cosmo, dEdtdV_dep, H);
+     update_dEdtdV_dep(z, DLNA, xe_output[iz], Tm_output[iz], nH, H, cosmo->inj_params, &dEdtdV_dep);
+     *ion = dEdtdV_dep/3. /nH *xH1 /EI;
+@@ -842,7 +843,7 @@
+       for (flag=0;flag<10;flag++) {
+         rec_get_xe_next1_H(data, model, z, iz, xe_i, Tm_i, &xe_i, &Tm_i, dxHIIdlna_prev_sub, H, flag);
+         z  = (1.+zstart)*exp(-DLNA*(iz-1+(flag+1)/10.)) - 1.;
+-        nH = cosmo->nH0*cube(1.+z);
++        nH = bass_hydrogen_density(cosmo,z);
+ 
+         if (hubble_array[0]==-1.) H  = rec_HubbleRate(cosmo, z);
+         else H = rec_interp1d(.0, dz, hubble_array, Nz, z, error, data->error_message);
+@@ -867,7 +868,7 @@
+       }
+       z  = (1.+zstart)*exp(-DLNA*iz) - 1.;
+       z_out  = (1.+zstart)*exp(-DLNA*(iz+1)) - 1.;
+-      nH = cosmo->nH0*cube(1.+z);
++      nH = bass_hydrogen_density(cosmo,z);
+ 
+       if (hubble_array[0]==-1.) H  = rec_HubbleRate(cosmo, z);
+       else H = rec_interp1d(.0, dz, hubble_array, Nz, z, error, data->error_message);
+@@ -911,7 +912,7 @@
+       if (z_out > zend) H_next = rec_interp1d(.0, dz, hubble_array, Nz, z_out, error, data->error_message);
+       else H_next = H;
+     }
+-    nH = cosmo->nH0*cube(1.+z);
++    nH = bass_hydrogen_density(cosmo,z);
+     update_dEdtdV_dep(z, DLNA, xe_output[iz], Tm_output[iz], nH, H, cosmo->inj_params, &dEdtdV_dep);
+     *ion = dEdtdV_dep/3. /nH *(1.-xe_output[iz]) /EI;
+     *exclya = *ion /0.75;
+--- immutable_HYREC2/helium.c
++++ scratch_helium.c
+@@ -24,6 +24,7 @@
+ #include <math.h>
+ #include <string.h>
+ #include "helium.h"
++#include "bass_proper_density.h"
+ 
+ /************************************************************************************************
+ Gets xe in He II + III equilibrium
+@@ -36,7 +37,7 @@
+   double fsR = cosmo->fsR, meR = cosmo->meR;
+   /* Current conditions */
+   Tr = Tr0*(ainv=1+z) /fsR/fsR/meR; /* Rescaled for different alpha, me */
+-  nH = nH0*ainv*ainv*ainv;
++  nH = bass_hydrogen_density(cosmo,z);
+ 
+   /* Obtain Saha ratio, xe*xHeIII/xHeII
+    * prefactor = (2*pi*m*k/h^2)^1.5. Includes dependence on fine-structure constant and electron mass*/
+@@ -60,7 +61,7 @@
+ 
+   /* Current conditions */
+   Tr = Tr0*(ainv=1+z) /fsR/fsR/meR; /* Rescaled for different alpha, me */
+-  nH = nH0*ainv*ainv*ainv;
++  nH = bass_hydrogen_density(cosmo,z);
+ 
+   /* Obtain Saha ratio, xe*xHeII/xHeI. prefactor = (2*pi*m*k/h^2)^1.5 */
+   s = fsR*fsR*fsR*meR*meR*meR *2.414194e15*Tr*sqrt(Tr)*exp(-285325./Tr)/nH * 4.;
+@@ -81,7 +82,7 @@
+   double fsR = cosmo->fsR, meR = cosmo->meR;
+ 
+   Tr = T0 * (ainv=1.+z) /fsR/fsR/meR; /* current (rescaled) radiation temperature */
+-  nH = nH0*ainv*ainv*ainv;
++  nH = bass_hydrogen_density(cosmo,z);
+ 
+   /* Obtain Saha ratio, xe xHII/xH1s, with xe = xHII + xHeII and xHII = 1-xH1s
+    * Constants:
+@@ -126,7 +127,7 @@
+ 
+   /* Current conditions */
+   Tr = Tr0*(ainv=1+z) /fsR/fsR/meR;  /* Rescaled temperature to account for different alpha or me */
+-  nH = nH0*ainv*ainv*ainv;
++  nH = bass_hydrogen_density(data->cosmo,z);
+ 
+   /* Saha abundance ratio, and ratio for zero ionization potential */
+   s0 = fsR*fsR*fsR*meR*meR*meR *2.414194e15*Tr*sqrt(Tr)/nH * 4.;
