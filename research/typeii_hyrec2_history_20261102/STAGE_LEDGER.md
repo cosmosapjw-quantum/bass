@@ -7,3 +7,4 @@
 | R3/C3 | Original 8000-row FLRW H/He x_e,T_m mapped onto source 401x26 Type-II photon directions; native density normalization and exact odd/even tilt | 9/15 scoped | 0 | derived and numerically checked |
 | R4/C4 | Original Type-II background+26 null rays extended from 401 fixture to zmean=300, 1167 samples; finite-observer HyRec H/He attenuation/last-event kernel | 9/15 scoped | 0 | original source continuation numerically checked |
 | R5/C5 | Source Type-II Codazzi constraint, 5-ray independent Radau and timestep convergence, continuous z300 attenuation peak, 3 real physics figures | 9/15 scoped | 0 | physically and numerically checked |
+| R6/C6 | Matched nH, H and 26-ray geometry isolates HYREC H/He vs original H-only Saha difference +0.732..+0.804 optical depth | 9/15 scoped | 0 | model-conditional source science numerically checked |
