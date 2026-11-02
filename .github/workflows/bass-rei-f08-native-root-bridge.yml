@@ -153,7 +153,5 @@ jobs:
           set -euo pipefail
           D=research/bass_rei_f08_consecutive_paired_20261102
           bash "$D/replay_original_paired.sh" /tmp/bass_rei_f08_paired_cold 160
-          cmp "$D/results/original_paired_trajectory.csv" /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv
-          python "$D/audit_original_paired.py" --csv /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv --native-endpoints /tmp/bass_rei_f08_paired_cold --negative-tests --output /tmp/paired_cold_science.json >/dev/null
-          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_cold_science.json
-          echo "S0_PAIRED_320_STAGES_NUMERICAL_PASS_PHYSICAL_SUPPORT_FAIL_REPRODUCED"
+          python "$D/compare_original_paired.py" --reference "$D/results/original_paired_trajectory.csv" --replay /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv --replay-native /tmp/bass_rei_f08_paired_cold --negative-test
+          echo "S0_PAIRED_320_STAGES_CROSS_HOST_SEMANTIC_PASS_PHYSICAL_SUPPORT_FAIL_REPRODUCED"
