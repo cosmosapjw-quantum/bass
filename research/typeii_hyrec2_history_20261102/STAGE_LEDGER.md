@@ -11,3 +11,4 @@
 | R7/C7 | 401 source states × 26 rays of actual BASS ColdElectronTestField and transform_photon with original HYREC2 H/He proper density, SI/CGS frame parity | 9/15 scoped | 0 | source-interface implementation-verified |
 | R8/C8 | Native HYREC-2 sample and calibrated run + 401x26/extended 26ray science, source-locked 6 programs × normal/-O = 12/12 byte-exact replay | 9/15 scoped | 0 | science implementation/numerical reproducibility verified |
 | R9/C9 | Hostile double-q / missing Gamma / un-conserved H-current and He x_e>1 counterexamples, bounded one-pass source-scope audit | 9/15 scoped | 0 | hostile cases PASS, production claim HOLD |
+| R10/C10 | Source-native HYREC-2 H/He + extended TypeII 26-ray physics closeout, reproducibility README and handoff, production HOLD | 9/15 scoped | 0 | source-scoped mathematically derived / numerically verified |
