@@ -1,0 +1,157 @@
+name: BASS REI F08 source-native original Krawczyk gas+photon root science
+on:
+  push:
+    branches: [research/bass-rei-f08-native-root-bridge-20261102]
+  pull_request:
+    paths:
+      - 'research/bass_rei_f08_native_root_bridge_20261102/**'
+      - 'research/bass_rei_f08_consecutive_paired_20261102/**'
+      - 'research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust/examples/bass_s0_interval_root_probe.rs'
+      - '.github/workflows/bass-rei-f08-native-root-bridge.yml'
+
+jobs:
+  source-original-interval-root:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original-source photon quadrature dependency
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Original 51 Rust + 12 HHe + 4 source photon checkpoint byte SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust && sha256sum -c original_source_sha256.txt)
+          (cd research/bass_rei_f08_s0_source_photon_thomson_20261101/source_inputs && sha256sum -c ORIGIN_SHA256SUMS.txt)
+          (cd research/bass_rei_f08_s0_remap_support_20261101/source_inputs && sha256sum -c LOCKED_CHECKPOINT_SHA256SUMS.txt)
+      - name: Build actual unchanged REI coupled point and interval root
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust
+          CARGO_TARGET_DIR=/tmp/bass_rei_f08_root_target cargo build --release --offline --example bass_s0_interval_root_probe --example bass_s0_continuous_packet_step
+      - name: Validate actual source-locked committed physical data and negative input
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_native_root_bridge_20261102
+          python -m unittest discover -s "$D/tests" -v
+          python -O -m unittest discover -s "$D/tests" -v
+          python "$D/audit_native_root.py" --negative-exe /tmp/bass_rei_f08_root_target/release/examples/bass_s0_interval_root_probe
+      - name: Cold regenerate all 160 source steps and 16 exact source snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_native_root_bridge_20261102
+          EXE=/tmp/bass_rei_f08_root_target/release/examples/bass_s0_continuous_packet_step
+          mkdir -p /tmp/bass_rei_f08_root_cold/results
+          python "$D/capture_native_source.py" --steps 160 --ticks 1,8,64,160 --exe "$EXE" --out /tmp/bass_rei_f08_root_cold/inputs/actual160
+          /tmp/bass_rei_f08_root_target/release/examples/bass_s0_interval_root_probe /tmp/bass_rei_f08_root_cold/inputs/actual160 /tmp/bass_rei_f08_root_cold/results/ROOT_ALL.csv
+          python "$D/audit_native_root.py" --inputs /tmp/bass_rei_f08_root_cold/inputs/actual160 --results /tmp/bass_rei_f08_root_cold/results --negative-exe /tmp/bass_rei_f08_root_target/release/examples/bass_s0_interval_root_probe
+      - name: Independent physical source state/root comparison with saved original
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,gzip,math,json
+          from pathlib import Path
+          D=Path('research/bass_rei_f08_native_root_bridge_20261102')
+          cold=Path('/tmp/bass_rei_f08_root_cold')
+          a=json.loads((D/'results/RESULT.json').read_text())
+          b=json.loads((cold/'results/RESULT.json').read_text())
+          for key in ('schema','original_source_rei_F08_pair','root_pass','root_failure',
+                      'actual_source_packet_records','REI_CENTRAL','BASS_UPPER','new_canonical_nodes'):
+              assert a[key]==b[key],(key,a[key],b[key])
+          assert a['root_pass']==16 and b['root_pass']==16
+          def readcsv(p):
+              with p.open(newline='') as f:return list(csv.DictReader(f))
+          old=readcsv(D/'results/ROOT_ALL.csv')
+          new=readcsv(cold/'results/ROOT_ALL.csv')
+          assert len(old)==len(new)==16
+          for x,y in zip(old,new):
+              assert x.keys()==y.keys()
+              for key in x:
+                  if key in ('case_id','packets','root_status','root_error_code','point_iterations',
+                             'root_contains_conservative','photons_contain_conservative'):
+                      assert x[key]==y[key],(key,x[key],y[key])
+                  else:
+                      v,w=float(x[key]),float(y[key])
+                      assert math.isfinite(v) and math.isfinite(w)
+                      if key in ('root_q','root_max_relative_gas_width',
+                                 'root_width_xHII','root_width_xHeII','root_width_xHeIII',
+                                 'root_width_w_ev_per_H','photon_sum_interval_width_per_H',
+                                 'centre_vs_conservative_max_abs','point_residual'):
+                          assert 0<=v<1e-10 and 0<=w<1e-10,(key,v,w)
+                      else:
+                          assert math.isclose(v,w,rel_tol=2e-10,abs_tol=5e-13),(key,v,w)
+              assert y['root_status']=='PASS'
+              assert y['root_contains_conservative']=='true'
+              assert y['photons_contain_conservative']=='true'
+          def readgz(p):
+              with gzip.open(p,'rt',newline='') as f:return list(csv.DictReader(f))
+          arows=readgz(D/'results/SOURCE_S0_NATIVE_ROOT_PHYSICAL_SUPPORT.csv.gz')
+          brows=readgz(cold/'results/SOURCE_S0_NATIVE_ROOT_PHYSICAL_SUPPORT.csv.gz')
+          assert len(arows)==len(brows)==16
+          for x,y in zip(arows,brows):
+              assert x.keys()==y.keys()
+              for key in x:
+                  if key in ('branch','source_model','source_step','source_packet_count',
+                             'root_local_original_gas_contains_conservative',
+                             'root_local_original_photons_contain_conservative',
+                             'original_global_owner_interval_certified'):
+                      assert x[key]==y[key],(key,x[key],y[key])
+                  else:
+                      v,w=float(x[key]),float(y[key])
+                      assert math.isfinite(v) and math.isfinite(w)
+                      if key in ('native_source_Krawczyk_q','original_root_max_relative_gas_width',
+                                 'original_root_photon_sum_interval_width_per_H',
+                                 'root_centre_vs_conservative_max_abs'):
+                          assert 0<=v<1e-10 and 0<=w<1e-10
+                      else:
+                          assert math.isclose(v,w,rel_tol=2e-10,abs_tol=5e-13),(key,v,w)
+          assert b['negative_source_control']['status']=='PASS_REJECTED_NEGATIVE_PACKET'
+          assert b['root_input_parent_enclosure']=='EXACT_F64_POINT_NOT_GLOBAL_PROPAGATED_INTERVAL'
+          assert b['original_interval_propagation']=='NOT_RUN'
+          print('BASS_REI_S0_ORIGINAL_NATIVE_INTERVAL_ROOT_COLD_16_SOURCE_CASES_PASS')
+          print('BASS_REI_ORIGINAL_S0_SOURCE_PHYSICAL_SUPPORT_16_ROWS_PASS')
+          print('BASS_REI_CENTRAL_28_OF_88_UNCHANGED')
+          PY
+      - name: Preserve reproducible root gas and photon source science
+        uses: actions/upload-artifact@v4
+        with:
+          name: rei-f08-original-native-root-source-compatibility
+          path: |
+            /tmp/bass_rei_f08_root_cold/results/*.csv
+            /tmp/bass_rei_f08_root_cold/results/*.csv.gz
+            /tmp/bass_rei_f08_root_cold/results/*.json
+            /tmp/bass_rei_f08_root_cold/inputs/actual160/S0_*.txt
+            /tmp/bass_rei_f08_root_cold/inputs/actual160/CAPTURE.json
+          if-no-files-found: error
+
+  original-paired-physical-source-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent numerical and physical-support audit (normal and -O)
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_consecutive_paired_20261102
+          python "$D/audit_original_paired.py" --csv "$D/results/original_paired_trajectory.csv" --negative-tests --output /tmp/paired_summary.json >/dev/null
+          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_summary.json
+          python -O "$D/audit_original_paired.py" --csv "$D/results/original_paired_trajectory.csv" --negative-tests --output /tmp/paired_summary_opt.json >/dev/null
+          cmp "$D/results/SCIENCE_SUMMARY.json" /tmp/paired_summary_opt.json
+      - name: Native immutable-source 320 consecutive interval stages cold replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_consecutive_paired_20261102
+          bash "$D/replay_original_paired.sh" /tmp/bass_rei_f08_paired_cold 160
+          python "$D/compare_original_paired.py" --reference "$D/results/original_paired_trajectory.csv" --replay /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv --replay-native /tmp/bass_rei_f08_paired_cold --negative-test
+          echo "S0_PAIRED_320_STAGES_CROSS_HOST_SEMANTIC_PASS_PHYSICAL_SUPPORT_FAIL_REPRODUCED"
