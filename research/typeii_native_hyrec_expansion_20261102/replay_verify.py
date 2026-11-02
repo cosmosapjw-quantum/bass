@@ -18,6 +18,7 @@ programs=[
  "transport_native_atomic_photons.py",
  "verify_atomic_rays.py",
  "native_atomic_homotopy.py",
+ "hostile_physics.py",
 ]
 data_files=[
  "R2_NATIVE_FLRW_CALLBACK_CONTROL.json",
@@ -37,7 +38,8 @@ data_files=[
  "TYPEII_ATOMIC_THOMSON_EXTENDED_26RAY.csv",
  "R6_ATOMIC_PHOTON_NUMERIC_VALIDATION.json",
  "R7_ATOMIC_H_NH_HOMOTOPY.json",
- "ATOMIC_TYPEII_H_NH_HOMOTOPY_300_TO1700.csv"
+ "ATOMIC_TYPEII_H_NH_HOMOTOPY_300_TO1700.csv",
+ "R9_HOSTILE_PHYSICS.json"
 ]
 def check(ok,msg):
     if not bool(ok):raise RuntimeError(msg)
