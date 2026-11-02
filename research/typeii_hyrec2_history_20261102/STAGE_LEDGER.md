@@ -8,3 +8,4 @@
 | R4/C4 | Original Type-II background+26 null rays extended from 401 fixture to zmean=300, 1167 samples; finite-observer HyRec H/He attenuation/last-event kernel | 9/15 scoped | 0 | original source continuation numerically checked |
 | R5/C5 | Source Type-II Codazzi constraint, 5-ray independent Radau and timestep convergence, continuous z300 attenuation peak, 3 real physics figures | 9/15 scoped | 0 | physically and numerically checked |
 | R6/C6 | Matched nH, H and 26-ray geometry isolates HYREC H/He vs original H-only Saha difference +0.732..+0.804 optical depth | 9/15 scoped | 0 | model-conditional source science numerically checked |
+| R7/C7 | 401 source states × 26 rays of actual BASS ColdElectronTestField and transform_photon with original HYREC2 H/He proper density, SI/CGS frame parity | 9/15 scoped | 0 | source-interface implementation-verified |

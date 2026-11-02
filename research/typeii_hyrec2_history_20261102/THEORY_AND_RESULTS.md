@@ -76,3 +76,11 @@ Accepted numerical science `MODEL_SENSITIVITY_RESULTS.json`:
 - Independently re-evaluating the native HYREC source from the new fixed-base source gives maximum depth discrepancy `7.105427357601002e-15`; different 8- and 16-node Gauss calculations for all scenarios differ by at most `1.2857270803579013e-11`.
 
 Scientific claim: the non-equilibrium FLRW HYREC-2 H/He ionization history changes the conditional Type-II photon opacity by more than the helium-density normalization and mean thermal-reservoir choice over this explicitly declared 1700..1392 comparison. No precision recombination error bar or *native anisotropic atomic kinetics* is inferred.
+
+## R7/C7: Original BASS comoving-electron source on native HYREC-2 proper electron density
+
+This is not simply a Lorentz algebra equivalence: the actual original BASS `bianchi.q.electron.ColdElectronTestField.comoving` and `transform_photon` were executed on source-locked HYREC-2 `n_e^{rest}` in SI m⁻³ for 401 states and 26 actual photon normal directions each, **10,426 source electron/ray pairs**. `owner_electron_parity.py` compares original source (D=Γ(1-v_2n_y)) and the full `n_e^{rest}σ_T cD/H_{TypeII}` rate to the independent CGS source-rate CSV values. It records binary64 Doppler max absolute error **0**, SI/CGS maximum ray-rate relative discrepancy `6.661338147750939e-16`, and electron normal number-current relative difference `4.440892098500626e-16`. Both negative proper density and superluminal electron velocity are rejected by the actual owner. Original owner file Git SHA-1 `d5bc10b3b6bd4e64e5267edaafaa530eb85f9315` remains identical to immutable main.
+
+Native HYREC-2 output was checked at high redshift where helium contributes and `x_e=n_e/n_H>1`; a crude `x_e ≤ 1` clipping rule would erase actual native H/He information. In the present 1700..1392 Type-II interval, the original HYREC values happen to lie below one; the future (z>1700) extension has the correct physical input semantics.
+
+**Physical interpretation**: the original **cold-electron test-field frame/rate interface** is validated with real native FLRW H/He ionization inputs and actual Type-II ray geometry. It does not certify the cold-electron energy limit beyond the stated normal photon model, native Bianchi non-equilibrium atomic kinetics, full angular gain/loss/polarization or production dispatch.
