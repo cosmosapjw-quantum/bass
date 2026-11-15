@@ -1,0 +1,64 @@
+name: BASS REI F08 S0 source-matched Sachs optical observer
+on:
+  push:
+    branches:
+      - research/bass-rei-f08-source-matched-sachs-20261101
+  pull_request:
+    paths:
+      - "research/rei_f08_s0_sachs_20261101/**"
+      - ".github/workflows/bass-rei-f08-s0-sachs.yml"
+permissions:
+  contents: read
+jobs:
+  original_rei_f08_s0_bass_sachs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install source arithmetic
+        run: python -m pip install numpy==2.4.2 scipy==1.17.0 matplotlib==3.10.8
+      - name: Recompute source-matched actual Bianchi Sachs rays and validate science
+        run: |
+          cd research/rei_f08_s0_sachs_20261101
+          bash REPRODUCE.sh
+      - name: Check all original-source and output scientific claims
+        run: |
+          python - <<'PY'
+          import csv,gzip,json
+          from pathlib import Path
+          p=Path("research/rei_f08_s0_sachs_20261101")
+          obj=json.loads((p/"replay/BASS_REI_F08_S0_MATCHED_SACHS_RESULT.json").read_text())
+          assert obj["source_owner_repo"]=="cosmosapjw-quantum/rei_bianchi"
+          assert obj["source_pr"]==349 and obj["num_physical_ray_rows"]==10752
+          assert obj["BASS_upper"]=="9/15_SCOPED" and obj["REI_central"]=="28/88_REPORTED"
+          assert obj["canonical_delta"]==0 and obj["production"]=="HOLD" and obj["merge"]=="HOLD"
+          assert len(obj["physical_outputs"])==12
+          with gzip.open(p/"replay/BASS_REI_F08_S0_SOURCE_MATCHED_SACHS_OBSERVABLES.csv.gz","rt") as f:
+            rows=list(csv.DictReader(f))
+          assert len(rows)==10752
+          assert len(rows[0])==37
+          assert all(float(x["DA_BI_cm"])>0 and float(x["DA_BI_over_FLRW"])>0 for x in rows)
+          print("BASS_REI_F08_SOURCE_MATCHED_SACHS_CI_PASS_10752")
+          PY
+      - name: Archive original-source conditional physical data and plots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: BASS_REI_F08_S0_SOURCE_MATCHED_SACHS_OBSERVER_PHYSICS
+          if-no-files-found: warn
+          path: |
+            research/rei_f08_s0_sachs_20261101/source/
+            research/rei_f08_s0_sachs_20261101/results/
+            research/rei_f08_s0_sachs_20261101/replay/
+            research/rei_f08_s0_sachs_20261101/figures/
+            research/rei_f08_s0_sachs_20261101/SCIENTIFIC_REPORT_KO.md
+            research/rei_f08_s0_sachs_20261101/STAGE_LEDGER.json
+            research/rei_f08_s0_sachs_20261101/NEXT_THREAD_HANDOFF.txt
