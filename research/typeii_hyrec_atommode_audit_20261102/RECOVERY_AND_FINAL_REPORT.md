@@ -29,3 +29,6 @@ See THEORY_MODE_AND_CLOCK.md for the full four-level elimination, signs/units an
 TypeII matched-step SWIFT versus FULL quarter-step: max absolute xe difference 0.00031889001419160845 and max relative difference 0.0033637560252735531. The FLRW matched-step relative difference is 2.1988624925637243e-05.
 The TypeII FULL half-to-quarter maximum absolute xe difference is 2.2725266213274864e-07. The FLRW global maximum difference is not monotone (switch-adjacent maximum around z1563); no global Richardson order or exact error bound is claimed. Local z1100 and restricted-window diagnostics are provided separately. Fixed external-grid error and covariant closure error are not the same as the atomic timestep error.
 The optical-depth differences are small and partially cancel across redshift, but this does not imply uniformly small xe errors. Full tables and per-ray deltas are retained, rather than interpreting only the final integral.
+
+## R9/C9: review verdict
+The unpatched standalone control reproduces the SWIFT quarter-step helium failure with process exit0. This confirms why a successful process exit cannot substitute for a valid history. Wrong Thomson-interface counterexamples and the proper reaction-clock limitation are recorded in SELF_HOSTILE_REVIEW.md. The same-author review is complete, but the production/scientific-covariance gate remains held.

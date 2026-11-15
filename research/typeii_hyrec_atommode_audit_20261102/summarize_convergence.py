@@ -28,11 +28,15 @@ for name in ('SWIFT_r1_TypeII','SWIFT_matched_TypeII','EMLA2s2p_r1_TypeII','FULL
     delta=np.array(q[name]['all_rays'])-np.array(f['all_rays'])
     d[name]={'minus_FULL_r4_plus':q[name]['plus']-f['plus'],'minus_FULL_r4_minus':q[name]['minus']-f['minus'],
              'max_all_rays_abs':float(max(abs(delta))),'max_all_rays_relative':float(max(abs(delta)/np.array(f['all_rays'])))}
-match=cs['SWIFT_matched_TypeII','FULL_r4_TypeII']
-flrw=cs['SWIFT_matched_FLRW','FULL_r4_FLRW']
+match=cs['SWIFT_matched_TypeII','FULL_r1_TypeII']
+flrw=cs['SWIFT_matched_FLRW','FULL_r1_FLRW']
+fine=cs['SWIFT_matched_TypeII','FULL_r4_TypeII']
+fine_flrw=cs['SWIFT_matched_FLRW','FULL_r4_FLRW']
 result={'full_step_diagnostics':conv,'optical_depth_differences':d,
         'same_atomic_step_model_discrepancy_TypeII':match,
         'same_atomic_step_model_discrepancy_FLRW':flrw,
+        'SWIFT_at_FULL_base_step_vs_FULL_quarter_TypeII':fine,
+        'SWIFT_at_FULL_base_step_vs_FULL_quarter_FLRW':fine_flrw,
         'max_relative_discrepancy_amplification_TypeII_over_FLRW':match['max_rel_xe']/flrw['max_rel_xe'],
         'quadrature_abs_error_diagnostic':r['max_gauss8_16_gap'],
         'proper_clock_correction_scale_max_Gamma_minus1':r['clock_and_thermal_closure']['max_Gamma_minus_one'],
