@@ -1,0 +1,12 @@
+{
+  "initial_failure": "moments lane SIGSEGV in FULL after xe/Tm became NaN; first invalid atom input z=1647.1648121640719",
+  "observed_source_mismatch": "native thermal phase loop compares Tm against scalar Tr, although the new tracking root targets TC>Tr; it exits the tracking phase prematurely while H ionization remains stiff",
+  "repair": "compare native DLNT_MAX lag against the same physical Compton target; tolerance unchanged, zero lane retains exact old arithmetic. Add explicit nonfinite-source-state failure before native FULL indexing.",
+  "diagnostic_evidence": [
+    "NATIVE_DIAGNOSTIC.log",
+    "NATIVE_FIRST_INVALID.log",
+    "NATIVE_CAMPAIGN_INITIAL_FAILURE.log"
+  ],
+  "classification": "implementation phase-switch contract, not a physical no-go; post-repair execution pending",
+  "post_repair_status": "8_NATIVE_HISTORIES_SUCCESSFUL_ZERO_ADAPTER_BYTE_EXACT_BOTH_STEPS"
+}
