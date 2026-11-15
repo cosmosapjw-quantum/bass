@@ -1,0 +1,23 @@
+NATIVE_RUN SWIFT_r1_FLRW exit=0 xe1100= 0.1450453290121426
+NATIVE_RUN SWIFT_r1_TypeII exit=0 xe1100= 0.1362610515853568
+NATIVE_RUN SWIFT_r2_FLRW exit=0 xe1100= 0.1450442146346237
+NATIVE_RUN SWIFT_r2_TypeII exit=0 xe1100= 0.1362598830424642
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/native_modes.py", line 117, in <module>
+    if __name__=='__main__':campaign()
+                            ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/native_modes.py", line 111, in campaign
+    res.append(execute(b,mode,refine,bg,H,F))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/native_modes.py", line 96, in execute
+    check(cp.returncode==0,'native run failed '+name+': '+cp.stderr.decode(errors='replace')[-1600:])
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/native_modes.py", line 19, in check
+    if not bool(ok):raise RuntimeError(msg)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: native run failed SWIFT_r4_FLRW: MODE_CONTRACT_ERROR: 
+**** ERROR HAS OCCURRED in HYREC-2 ****
+xHeI = -3.020442E-05 < 0 at z = 2852.557707 in rec_helium_dxHeIIdlna.
+You should try and extend the hydrogen post-saha phase by increasing DXHII_MAX in history.h
+  called from rec_get_xe_next1_He at z = 2852.557707
+
+
