@@ -1,0 +1,135 @@
+test_exact_adiabatic (__main__.Contract.test_exact_adiabatic) ... FAIL
+test_implicit_and_parity (__main__.Contract.test_implicit_and_parity) ... FAIL
+test_invalid_inputs (__main__.Contract.test_invalid_inputs) ... FAIL
+test_lorentz_tensor (__main__.Contract.test_lorentz_tensor) ... FAIL
+test_no_scalar_blackbody_replacement (__main__.Contract.test_no_scalar_blackbody_replacement) ... FAIL
+test_number_continuity (__main__.Contract.test_number_continuity) ... FAIL
+test_proper_decay (__main__.Contract.test_proper_decay) ... FAIL
+test_radiation_moments (__main__.Contract.test_radiation_moments) ... FAIL
+test_tracking_not_equilibrium (__main__.Contract.test_tracking_not_equilibrium) ... FAIL
+test_zero_tilt (__main__.Contract.test_zero_tilt) ... FAIL
+
+======================================================================
+FAIL: test_exact_adiabatic (__main__.Contract.test_exact_adiabatic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 28, in test_exact_adiabatic
+    m=self.module();beta=lambda t:.3*np.exp(-.2*t)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_implicit_and_parity (__main__.Contract.test_implicit_and_parity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 36, in test_implicit_and_parity
+    m=self.module();k=m.kinematics(1.,.1,-.02);rev=m.kinematics(1.,-.1,.02)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_invalid_inputs (__main__.Contract.test_invalid_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 15, in test_invalid_inputs
+    m=self.module()
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_lorentz_tensor (__main__.Contract.test_lorentz_tensor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 47, in test_lorentz_tensor
+    m=self.module();beta=.3;g=1/np.sqrt(1-beta**2);B=np.eye(4);B[0,0]=B[1,1]=g;B[0,1]=B[1,0]=-g*beta
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_no_scalar_blackbody_replacement (__main__.Contract.test_no_scalar_blackbody_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 51, in test_no_scalar_blackbody_replacement
+    m=self.module();a=m.radiation_moments(.2)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_number_continuity (__main__.Contract.test_number_continuity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 20, in test_number_continuity
+    m=self.module();t=np.linspace(0.,1.,31);b=.2*np.exp(-.3*t);bp=-.3*b
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_proper_decay (__main__.Contract.test_proper_decay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 24, in test_proper_decay
+    m=self.module();beta=.4;h=2.;lam=.7;k=m.kinematics(h,beta,0.)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_radiation_moments (__main__.Contract.test_radiation_moments)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 40, in test_radiation_moments
+    m=self.module();mu,w=leggauss(128)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_tracking_not_equilibrium (__main__.Contract.test_tracking_not_equilibrium)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 33, in test_tracking_not_equilibrium
+    m=self.module();k=m.kinematics(2.,.2,-.03);T=m.tracking_temperature(100.,20.,0.,k)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+======================================================================
+FAIL: test_zero_tilt (__main__.Contract.test_zero_tilt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 11, in test_zero_tilt
+    m=self.module();k=m.kinematics(2.,0.,.3)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-clock-interface-20261115-r1/research/typeii_clock_interface_20261115/test_clocks.py", line 8, in module
+    p=Path(__file__).with_name('clocks.py');self.assertTrue(p.exists(),'pure clock/radiation interface not yet implemented')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : pure clock/radiation interface not yet implemented
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.003s
+
+FAILED (failures=10)
