@@ -10,3 +10,6 @@ The new execution will compile each model independently with MODEL=SWIFT, EMLA2s
 Acceptance: SWIFT must reproduce the parent within 2e-9 absolute xe over 300<=z<=1700; use FULL timestep factors 1,2,4 to measure convergence, plus SWIFT factors 1,2,4 and a step matched to FULL. Never treat a tiny quadrature error as an atomic-mode error bound. EMLA is a diagnostic approximation, not a superior reference. FULL remains an isotropic radiative-transfer closure with prescribed source histories, not a complete tilted-Bianchi recombination solution.
 
 DAG: upper 9/15 scoped/source-mapped unchanged. No new full-production node. Native subagent NOT_RUN; distinct-author referee NOT_RUN.
+
+## R4/C4: implementation contract
+Five tests first failed because the isolated builder was absent, then passed. The new builder deterministically derives scratch copies from the 16 exact originals. It changes MODEL at compile time and only the declared timestep for convergence; no runtime-only mode substitution is used. Exactly 12 hydrogen and 4 helium density references are redirected as in the parent. The two Hubble interpolation grid-length declarations are fixed at 2248 independently of the atomic integration grid. Expected campaign: 18 histories, three approximations, two backgrounds, timestep refinement and a common-step SWIFT comparison.
