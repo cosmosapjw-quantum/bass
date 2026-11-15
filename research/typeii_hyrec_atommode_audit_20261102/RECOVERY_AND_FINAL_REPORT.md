@@ -16,3 +16,8 @@ Five tests first failed because the isolated builder was absent, then passed. Th
 
 ## R5/C5: actual executions
 16 histories completed. SWIFT step 0.001 fails on the FLRW control in the original helium routine at z=2852.557707, with xHeI=-3.020442e-5. This is before the z=1700 TypeII intervention, so the equivalent TypeII-prefix case was not repeated. This is a source numerical refinement failure, not a proof of a physical pathology. No source post-Saha threshold was widened. SWIFT default, half-step and FULL-matched-step runs, EMLA default/half, and FULL default/half/quarter completed on both backgrounds. The parent SWIFT xe maximum absolute difference is 4.9930060086467165e-12 over z=300..1700.
+
+## R6/C6: executable verification
+The five mode-isolation contracts ran normally and under Python -O (10 successful unittest cases). Six malformed native-grid cases were actually passed to the C binary: negative H, truncated H, extra H, NaN H, negative proper-density factor, and truncated proper-density factor. All rejected with exit2 and no output table. A fresh compile and FULL quarter-step TypeII execution reproduced the current output byte-for-byte. The physics analysis ran under -O and reproduced both JSON and CSV outputs exactly; scientifically relevant gates use explicit checks, not removable Python assertions.
+
+These are implementation checks, not 18/18 scientific simulation success: the campaign deliberately retains 16 successful histories, one native numerical failure, and one equivalent-prefix case not run.
