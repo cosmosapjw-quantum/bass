@@ -1,0 +1,65 @@
+test_common_grid_and_density_owners (__main__.ModeContract.test_common_grid_and_density_owners) ... FAIL
+test_full_compile_time_identity (__main__.ModeContract.test_full_compile_time_identity) ... FAIL
+test_mode_invalid_fails (__main__.ModeContract.test_mode_invalid_fails) ... FAIL
+test_original_sources_locked (__main__.ModeContract.test_original_sources_locked) ... FAIL
+test_timestep_refinement_only (__main__.ModeContract.test_timestep_refinement_only) ... FAIL
+
+======================================================================
+FAIL: test_common_grid_and_density_owners (__main__.ModeContract.test_common_grid_and_density_owners)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 18, in test_common_grid_and_density_owners
+    m=self.module();b=m.prepare('SWIFT',1);s=(b/'history.c').read_text()
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 7, in module
+    self.assertTrue(path.is_file(),'native_modes.py: reproducible mode-isolated builder is not implemented')
+AssertionError: False is not true : native_modes.py: reproducible mode-isolated builder is not implemented
+
+======================================================================
+FAIL: test_full_compile_time_identity (__main__.ModeContract.test_full_compile_time_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 14, in test_full_compile_time_identity
+    m=self.module();b=m.prepare('FULL',1)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 7, in module
+    self.assertTrue(path.is_file(),'native_modes.py: reproducible mode-isolated builder is not implemented')
+AssertionError: False is not true : native_modes.py: reproducible mode-isolated builder is not implemented
+
+======================================================================
+FAIL: test_mode_invalid_fails (__main__.ModeContract.test_mode_invalid_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 11, in test_mode_invalid_fails
+    m=self.module()
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 7, in module
+    self.assertTrue(path.is_file(),'native_modes.py: reproducible mode-isolated builder is not implemented')
+AssertionError: False is not true : native_modes.py: reproducible mode-isolated builder is not implemented
+
+======================================================================
+FAIL: test_original_sources_locked (__main__.ModeContract.test_original_sources_locked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 30, in test_original_sources_locked
+    m=self.module();self.assertEqual(m.verify_source(),16)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 7, in module
+    self.assertTrue(path.is_file(),'native_modes.py: reproducible mode-isolated builder is not implemented')
+AssertionError: False is not true : native_modes.py: reproducible mode-isolated builder is not implemented
+
+======================================================================
+FAIL: test_timestep_refinement_only (__main__.ModeContract.test_timestep_refinement_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 24, in test_timestep_refinement_only
+    m=self.module();b=m.prepare('FULL',2)
+      ^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-atommode-recovery-20261115-r1/research/typeii_hyrec_atommode_audit_20261102/test_native_modes.py", line 7, in module
+    self.assertTrue(path.is_file(),'native_modes.py: reproducible mode-isolated builder is not implemented')
+AssertionError: False is not true : native_modes.py: reproducible mode-isolated builder is not implemented
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+FAILED (failures=5)
