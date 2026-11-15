@@ -13,3 +13,6 @@ DAG: upper 9/15 scoped/source-mapped unchanged. No new full-production node. Nat
 
 ## R4/C4: implementation contract
 Five tests first failed because the isolated builder was absent, then passed. The new builder deterministically derives scratch copies from the 16 exact originals. It changes MODEL at compile time and only the declared timestep for convergence; no runtime-only mode substitution is used. Exactly 12 hydrogen and 4 helium density references are redirected as in the parent. The two Hubble interpolation grid-length declarations are fixed at 2248 independently of the atomic integration grid. Expected campaign: 18 histories, three approximations, two backgrounds, timestep refinement and a common-step SWIFT comparison.
+
+## R5/C5: actual executions
+16 histories completed. SWIFT step 0.001 fails on the FLRW control in the original helium routine at z=2852.557707, with xHeI=-3.020442e-5. This is before the z=1700 TypeII intervention, so the equivalent TypeII-prefix case was not repeated. This is a source numerical refinement failure, not a proof of a physical pathology. No source post-Saha threshold was widened. SWIFT default, half-step and FULL-matched-step runs, EMLA default/half, and FULL default/half/quarter completed on both backgrounds. The parent SWIFT xe maximum absolute difference is 4.9930060086467165e-12 over z=300..1700.
