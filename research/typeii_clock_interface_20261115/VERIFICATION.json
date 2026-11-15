@@ -1,0 +1,82 @@
+{
+  "unit_cases_normal_optimized": 20,
+  "native_histories_current_campaign": 12,
+  "fresh_rebuild_replay_byte_exact": true,
+  "component_probe_states": 8,
+  "native_component_relative_gap": 2.1061207394491782e-16,
+  "native_reaction_scale_abs_gap": 1.1102230246251565e-16,
+  "native_negative_clock_cases": 5,
+  "optimized_analysis_byte_exact": true,
+  "original_source_files_byte_exact": 16,
+  "receipts": [
+    {
+      "kind": "unit",
+      "optimized": false,
+      "cases": 10,
+      "exit": 0
+    },
+    {
+      "kind": "unit",
+      "optimized": true,
+      "cases": 10,
+      "exit": 0
+    },
+    {
+      "kind": "native_rebuild_replay",
+      "exit": 0,
+      "byte_exact": true
+    },
+    {
+      "kind": "native_component_probes",
+      "lane": "both",
+      "states": 4,
+      "paths": "tracking,differential,implicit,atomic_clock",
+      "exit": 0
+    },
+    {
+      "kind": "native_component_probes",
+      "lane": "zero",
+      "states": 4,
+      "paths": "tracking,differential,implicit,atomic_clock",
+      "exit": 0
+    },
+    {
+      "kind": "negative_clock_input",
+      "name": "superluminal",
+      "expected_exit": 7,
+      "exit": 7,
+      "stderr": "CLOCK_ADAPTER_ERROR: clock table bad row\n"
+    },
+    {
+      "kind": "negative_clock_input",
+      "name": "nan",
+      "expected_exit": 7,
+      "exit": 7,
+      "stderr": "CLOCK_ADAPTER_ERROR: clock table bad row\n"
+    },
+    {
+      "kind": "negative_clock_input",
+      "name": "short",
+      "expected_exit": 7,
+      "exit": 7,
+      "stderr": "CLOCK_ADAPTER_ERROR: clock table bad row\n"
+    },
+    {
+      "kind": "negative_clock_input",
+      "name": "extra",
+      "expected_exit": 7,
+      "exit": 7,
+      "stderr": "CLOCK_ADAPTER_ERROR: clock table extra row\n"
+    },
+    {
+      "kind": "negative_clock_input",
+      "name": "unknown_lane",
+      "expected_exit": 7,
+      "exit": 7,
+      "stderr": "CLOCK_ADAPTER_ERROR: unknown lane\n"
+    }
+  ],
+  "review_type": "SAME_AUTHOR_HOSTILE_NOT_BLIND",
+  "native_subagent": "NOT_RUN",
+  "distinct_author_referee": "NOT_RUN"
+}
