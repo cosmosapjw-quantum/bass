@@ -1,3 +1,5 @@
+> HISTORICAL R1/R2 NOTE. Current authority: RECOVERY_AND_FINAL_REPORT.md and WORK_UNIT_STATUS.json (2026-11-15). FULL has now actually executed. The old resource-based NOT_RUN statement and approximate correction deltas below are superseded. The old uncommitted runtime adapter was not reused.
+
 # Native HYREC-2 mode audit under original BASS Type-II H and conserved proper nH
 
 Parent immutable PR #332 commit `ee298e24a6bac85bb11a81393f37499a8b0ddbe3`. Original BASS main source `9c6506e4e2087129a8b674ff10438e5db1a55c9d`. Original native HYREC installed source in CLASSIER external/HyRec2020 must remain read-only. All mode-specific C builds live in ignored `native_run/`.
@@ -43,7 +45,8 @@ Exact source hydrogen modes:
 - `SWIFT=4` executes `rec_swift_hyrec_dxHIIdlna` with `DLNA=4e-3` when the fitting function is within range and `Pion>=1e-2`; below the fit low-temperature endpoint, outside its high endpoint or `Pion<1e-2`, original source uses EMLA. SWIFT uses the high-temperature EMLA source stiff solver too.
 Hence SWIFT and FULL intentionally coincide with EMLA in selected fallback regions. A mode comparison restricted to the active SWIFT/FULL two-photon domains is required.
 
-Primary source Lee & Ali-Haïmoud (2020), PRD 102 083517, arXiv:2007.14114: original HyRec computes the redshift/cosmology-dependent radiative transfer correction and the tables for HYREC-2, as functions of radiation temperature and the derivatives w.r.t. relevant cosmological parameters. The reported HYREC-2 accuracy is within Planck 2018 99.7% cosmological parameter region. The current BASS TypeII (H(z_{m mean})) source is a non-standard expansion history, not tested by merely remaining within the SWIFT tabulated temperature axis.
+Primary source Lee & Ali-Haïmoud (2020), PRD 102 083517, arXiv:2007.14114: original HyRec computes the redshift/cosmology-dependent radiative transfer correction and the tables for HYREC-2, as functions of radiation temperature and the derivatives w.r.t. relevant cosmological parameters. The reported HYREC-2 accuracy is within Planck 2018 99.7% cosmological parameter region. The current BASS TypeII (H(z_{
+m mean})) source is a non-standard expansion history, not tested by merely remaining within the SWIFT tabulated temperature axis.
 
 ## BASS target cosmological correction deltas
 Pinned HYREC TypeII inputs `omega_cb=0.143, omega_b=0.0224, YHe=0.245, Neff=3.046, T0=2.7255 K`, compared with native table's fiducial `omega_cb=0.14175, omega_b*(1-YHe)=0.02242*(1-.246738546372)`, have source SWIFT corrections `diff0 ≈(0.00125)*T0fid^3`, `diff1 ≈(-2.13e-5)*T0fid^3`, `diff2=0`; the second is very small and the first lies within the standard Planck-like range. **The unrepresented TypeII H effect** is not an ordinary cosmological parameter differential; no source evidence proves the fitting correction transports correctly under this change. This is a theoretical/model risk to quantify with EMLA/FULL, not a completed no-go.

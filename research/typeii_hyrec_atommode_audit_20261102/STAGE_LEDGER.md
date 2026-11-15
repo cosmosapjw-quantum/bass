@@ -9,3 +9,4 @@
 | R7/C7 | Derived four-level rate elimination and probability bounds; proper reaction clock and theta_e from class-A current; actual CAS and source geometry checks | 9/15 scoped | 0 | derived/symbolically checked; tilted clock correction not implemented |
 | R8/C8 | Three FULL timesteps, matched-step SWIFT comparison, 26-ray observable error budget; global FLRW nonmonotonicity and SWIFT failed refinement retained | 9/15 scoped | 0 | measured numerical/model differences, no universal error-bound claim |
 | R9/C9 | Same-author adversarial audit: original unpatched solver reproduces failure despite exit0; wrong flux/frame counterexamples; clock and precision holds classified | 9/15 scoped | 0 | bounded review complete; physical production claims held |
+| R10/C10 | Current results, executable source archive, explicit failed-case disposition, theory/clock contract, README and handoff | 9/15 scoped | 0 | scoped unit closed; production/merge HOLD |
