@@ -1,0 +1,26 @@
+/* The parent proper clock and thermal expansion remain unchanged. Ground-state
+ * diagnostic photo rates are NOT used here. Only the Compton heat coefficient
+ * and its target temperature are supplied by the spectral energy moment.
+ */
+static void bass_spectral_coeff(double z,double xe,REC_COSMOPARAMS *cosmo,double dEdtdV,double H,double *C,double *J,double *A,double *target,double *r){
+ double u,t;
+ bass_thermal_coeff(z,xe,cosmo,dEdtdV,H,C,J,A);
+ bass_rad_values(z,&u,&t,r);*C*=u;*target=cosmo->T0*(1.+z)*t;
+}
+double rec_Tmss(double z,double xe,REC_COSMOPARAMS *cosmo,double dEdtdV,double H){
+ if(bass_rad_identity(z))return bass_scalar_Tmss(z,xe,cosmo,dEdtdV,H);
+ double C,J,A,T,r;bass_spectral_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A,&T,&r);
+ if(C+A+r<=0.){fprintf(stderr,"SPECTRAL_ADAPTER_ERROR: tracking denominator\n");exit(8);}
+ return (C*T+J)/(C+A+r);
+}
+double rec_dTmdlna(double z,double xe,double Tm,REC_COSMOPARAMS *cosmo,double dEdtdV,double H){
+ if(bass_rad_identity(z))return bass_scalar_dTmdlna(z,xe,Tm,cosmo,dEdtdV,H);
+ double C,J,A,T,r;bass_spectral_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A,&T,&r);
+ if(T/Tm-1.<1e-10&&T>3000.)return r*T;
+ return -A*Tm+C*(T-Tm)+J;
+}
+double Tm_implicit(double z,double xe,double Tm,REC_COSMOPARAMS *cosmo,double dEdtdV,double H,double DLNA){
+ if(bass_rad_identity(z))return bass_scalar_Tm_implicit(z,xe,Tm,cosmo,dEdtdV,H,DLNA);
+ double C,J,A,T,r;bass_spectral_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A,&T,&r);
+ return (Tm+DLNA*(C*T+J))/(1.+DLNA*(A+C));
+}

@@ -1,0 +1,54 @@
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055555555a5ea in rec_HMLA_2photon_dxHIIdlna (data=data@entry=0x7fffffffc9c0, xe=xe@entry=nan(0x8000000000000), xHII=xHII@entry=nan(0x8000000000000), nH=nH@entry=0.9355087448501499, H=H@entry=1.1784273586221663e-15, TM=TM@entry=nan(0x8000000000000), TR=TR@entry=0.039955687394121898, iz=iz@entry=27134, z=z@entry=169.12143623815589) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/hydrogen.c:1010
+1010	    else Dfminus_hist[b][iz] = Dfplus[b];
+#0  0x000055555555a5ea in rec_HMLA_2photon_dxHIIdlna (data=data@entry=0x7fffffffc9c0, xe=xe@entry=nan(0x8000000000000), xHII=xHII@entry=nan(0x8000000000000), nH=nH@entry=0.9355087448501499, H=H@entry=1.1784273586221663e-15, TM=TM@entry=nan(0x8000000000000), TR=TR@entry=0.039955687394121898, iz=iz@entry=27134, z=z@entry=169.12143623815589) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/hydrogen.c:1010
+#1  0x000055555555aae0 in bass_legacy_dxHIIdlna (data=data@entry=0x7fffffffc9c0, model=model@entry=3, xe=xe@entry=nan(0x8000000000000), xHII=xHII@entry=nan(0x8000000000000), nH=0.9355087448501499, H=H@entry=1.1784273586221663e-15, TM=TM@entry=nan(0x8000000000000), TR=0.039955687394121898, iz=iz@entry=27134, z=z@entry=169.12143623815589) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/hydrogen.c:1074
+#2  0x000055555555abc9 in rec_dxHIIdlna (data=data@entry=0x7fffffffc9c0, model=model@entry=3, xe=xe@entry=nan(0x8000000000000), xHII=xHII@entry=nan(0x8000000000000), nH=<optimized out>, H=H@entry=1.1784273586221663e-15, TM=TM@entry=nan(0x8000000000000), TR=<optimized out>, iz=iz@entry=27134, z=z@entry=169.12143623815589) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/hydrogen.c:1099
+#3  0x000055555555e07b in rec_get_xe_next2_HTm (data=data@entry=0x7fffffffc9c0, model=model@entry=3, z_in=z_in@entry=169.12143623815589, iz=iz@entry=45358, dxedlna_prev=dxedlna_prev@entry=0x7fffffffc910, dTmdlna_prev=dTmdlna_prev@entry=0x7fffffffc920, H=H@entry=1.1784273586221663e-15, z_out=z_out@entry=169.10699354132043, H_next=H_next@entry=1.1782321604175049e-15) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/history.c:664
+#4  0x000055555555f424 in rec_build_history (data=data@entry=0x7fffffffc9c0, model=model@entry=3, hubble_array=hubble_array@entry=0x555555586480) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/history.c:904
+#5  0x000055555556130f in main (argc=<optimized out>, argv=0x7fffffffcb78) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/mode_driver.c:26
+#0  0x000055555555a5ea in rec_HMLA_2photon_dxHIIdlna (data=data@entry=0x7fffffffc9c0, xe=xe@entry=nan(0x8000000000000), xHII=xHII@entry=nan(0x8000000000000), nH=nH@entry=0.9355087448501499, H=H@entry=1.1784273586221663e-15, TM=TM@entry=nan(0x8000000000000), TR=TR@entry=0.039955687394121898, iz=iz@entry=27134, z=z@entry=169.12143623815589) at /home/cosmosapjw/worktrees/bass-spectral-closure-20261116-r1/research/typeii_spectral_closure_20261116/native_run/owner/FULL_r1/hydrogen.c:1010
+1010	    else Dfminus_hist[b][iz] = Dfplus[b];
+cosmo = <optimized out>
+atomic = <optimized out>
+error = 0x7fffffffc9f8
+Dfminus_hist = <optimized out>
+Dfminus_Ly_hist = <optimized out>
+Dfnu_hist = <optimized out>
+zstart = <optimized out>
+fsR = <optimized out>
+meR = <optimized out>
+xr = {nan(0x8000000000000), nan(0x8000000000000)}
+xv = {nan(0x8000000000000) <repeats 311 times>}
+Dfplus = {-nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000) <repeats 15 times>, nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000) <repeats 20 times>, -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000), -nan(0x8000000000000), nan(0x8000000000000) <repeats 35 times>...}
+Dfplus_Ly = {-nan(0x8000000000000), nan(0x8000000000000)}
+dxedlna = -nan(0x8000000000000)
+one_minus_Pib = <optimized out>
+one_minus_exptau = <optimized out>
+Dfeq = <optimized out>
+s = <optimized out>
+x1s = nan(0x8000000000000)
+Dxe2 = <optimized out>
+b = 2
+i = <optimized out>
+Trr = {{nan(0x8000000000000), -2.249197302483095e-21}, {-6.7475919074492845e-21, nan(0x8000000000000)}}
+Trv = {0x5555555bc990, 0x5555555bd350}
+Tvr = {0x5555555bdd10, 0x5555555be6d0}
+Tvv = {0x5555555bf090, 0x5555555bfa50, 0x5555555c0410}
+sr = {nan(0x8000000000000), nan(0x8000000000000)}
+sv = {nan(0x8000000000000) <repeats 311 times>}
+Dtau = {nan(0x8000000000000) <repeats 311 times>}
+Alpha = {nan(0x8000000000000), nan(0x8000000000000)}
+DAlpha = {nan(0x8000000000000), nan(0x8000000000000)}
+Beta = {1.5313677963854478e-30, 1.9893504622662962e-30}
+ratio = nan(0x8000000000000)
+sub_message = '\000' <repeats 104 times>, "L\306\356\367\377\177\000\000\000\000\000\000\000\000\000\000\366(\\\217\302\365\340?"
