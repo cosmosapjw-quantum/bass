@@ -6,3 +6,4 @@
 | R4/C4 | Mode-isolated compile-time design and five RED-to-GREEN regression contracts; fixed external grid, original constants retained | 9/15 scoped | 0 | 5/5 structural contracts pass; native campaign next |
 | R5/C5 | 18 specified histories: 16 successful native histories, one source SWIFT refinement failure, one equivalent-prefix case not run; default SWIFT reproduces parent | 9/15 scoped | 0 | native C executed; failure preserved |
 | R6/C6 | 5 unit contracts in normal/-O, six invalid native-input rejections, fresh FULL-quarter rebuild byte replay, optimized physical analysis replay | 9/15 scoped | 0 | executable verification completed; source solver failure retained |
+| R7/C7 | Derived four-level rate elimination and probability bounds; proper reaction clock and theta_e from class-A current; actual CAS and source geometry checks | 9/15 scoped | 0 | derived/symbolically checked; tilted clock correction not implemented |

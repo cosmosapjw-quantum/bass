@@ -21,3 +21,6 @@ Five tests first failed because the isolated builder was absent, then passed. Th
 The five mode-isolation contracts ran normally and under Python -O (10 successful unittest cases). Six malformed native-grid cases were actually passed to the C binary: negative H, truncated H, extra H, NaN H, negative proper-density factor, and truncated proper-density factor. All rejected with exit2 and no output table. A fresh compile and FULL quarter-step TypeII execution reproduced the current output byte-for-byte. The physics analysis ran under -O and reproduced both JSON and CSV outputs exactly; scientifically relevant gates use explicit checks, not removable Python assertions.
 
 These are implementation checks, not 18/18 scientific simulation success: the campaign deliberately retains 16 successful histories, one native numerical failure, and one equivalent-prefix case not run.
+
+## R7/C7: physical meaning
+See THEORY_MODE_AND_CLOCK.md for the full four-level elimination, signs/units and the newly explicit proper-clock obligation. Correcting nHrest alone does not provide dx/dtau_H=R_proper/(Gamma H_n). The inherited model comparison remains a controlled numerical experiment; it is not a fully covariant tilted electron reaction/thermal closure. This gap is a concrete next constructive task, not a reason to discard the measured mode comparison.
