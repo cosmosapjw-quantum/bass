@@ -6,6 +6,7 @@ on:
     paths:
       - 'research/bass_rei_f08_native_root_bridge_20261102/**'
       - 'research/bass_rei_f08_consecutive_paired_20261102/**'
+      - 'research/bass_rei_f08_characteristic_interval_chain_20261115/**'
       - 'research/bass_rei_f08_native_hhe_firststage_20261101/original_rei_rust/examples/bass_s0_interval_root_probe.rs'
       - '.github/workflows/bass-rei-f08-native-root-bridge.yml'
 
@@ -155,3 +156,44 @@ jobs:
           bash "$D/replay_original_paired.sh" /tmp/bass_rei_f08_paired_cold 160
           python "$D/compare_original_paired.py" --reference "$D/results/original_paired_trajectory.csv" --replay /tmp/bass_rei_f08_paired_cold/original_paired_trajectory.csv --replay-native /tmp/bass_rei_f08_paired_cold --negative-test
           echo "S0_PAIRED_320_STAGES_CROSS_HOST_SEMANTIC_PASS_PHYSICAL_SUPPORT_FAIL_REPRODUCED"
+
+  original-characteristic-gas-photon-root-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original F08 source angular quadrature
+        run: python -m pip install 'numpy==2.4.2'
+      - name: Independent 8 and 32 source-root physical witness audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_characteristic_interval_chain_20261115
+          for N in 8 32; do
+            python "$D/audit_characteristic.py" --dir "$D/results/try$N" --negative
+            python -O "$D/audit_characteristic.py" --dir "$D/results/try$N" --negative
+          done
+      - name: Original immutable Rust 8-step native characteristic cold replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=research/bass_rei_f08_characteristic_interval_chain_20261115
+          bash "$D/replay.sh" 8 /tmp/f08_original_characteristic_8_cold
+          python "$D/audit_characteristic.py" --dir /tmp/f08_original_characteristic_8_cold --negative
+          python - "$D/results/try8/CHARACTERISTIC_INTERVAL_TRAJECTORY.csv" /tmp/f08_original_characteristic_8_cold/CHARACTERISTIC_INTERVAL_TRAJECTORY.csv <<'PYSEM'
+          import csv,math,sys
+          def read(p):
+              with open(p,newline='') as f:return list(csv.DictReader(f))
+          saved,regen=read(sys.argv[1]),read(sys.argv[2])
+          assert len(saved)==len(regen)==16
+          for x,y in zip(saved,regen):
+              assert (x['branch'],x['step'],x['status'])==(y['branch'],y['step'],y['status'])
+              for key in ('xHII','xHeII','xHeIII','N_photons_per_H','photoHI'):
+                  assert math.isclose(float(x[key]),float(y[key]),rel_tol=2e-11,abs_tol=3e-12),(key,x[key],y[key])
+              assert abs(float(x['T_K'])-float(y['T_K'])) < 5e-8
+              assert float(y['below_physical_support_N_per_H'])==0.
+          print('ORIGINAL_F08_CHARACTERISTIC_INTERVAL_REPLAY_PHYSICS_PASS_OWNER_HOLD')
+          PYSEM
