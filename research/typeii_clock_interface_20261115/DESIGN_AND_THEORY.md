@@ -1,0 +1,27 @@
+# Proper reaction clock, fluid thermal expansion and radiation interfaces
+
+Parent PR333: 27a3c7cfb57e145ed35526d4613de2e9d613d4ea. Original BASS main 9c6506e4e2087129a8b674ff10438e5db1a55c9d. All changes confined to this research directory. No parent/main/production runtime edits. Native subagent NOT_RUN; same-author adversarial review planned, not an independent blind referee.
+
+## Goal and bounded implementation plan
+Four deliverable checkpoints T1..T4 form this local unit; they are not a new assertion of ten complete upper-DAG nodes. T1: derive the separated-clock and radiation contracts with source binding; T2: implement and falsify analytic limits; T3: patch only source-call boundaries in isolated native HYREC FULL builds, run matched-input interventions; T4: independent numerical/hostile checks, preservation and final handoff. Upper BASS DAG remains 9/15 scoped/source-mapped until its actual upper-node admission criteria are met.
+
+Files: clocks.py (pure interface), test_clocks.py (limits/negative inputs); native_experiment.py plus clock_adapter.c/.h (isolated C source adapter), results and analysis; this theory document and one machine-readable status/handoff. Use the parent's exact 16-file source archive and original BASS five-state RHS. Every native step requires correct compile-time FULL, fixed external H/nH grid and unchanged atomic tables.
+
+## Definitions and exact identities
+Signature (-,+,+,+). t_n and s_e are normal and electron proper times [s], d tau_H=H_n dt_n with H_n [s^-1], beta=v/c dimensionless, Gamma=(1-beta^2)^(-1/2). For homogeneous x, dx/ds_e=Gamma H_n x'. Therefore x'=R_proper/(Gamma H_n). For a class-A homogeneous number current Gamma n_Hrest=N0 exp(-3 tau_H), define L=(ln Gamma)'=beta beta'/(1-beta^2). Then theta_e=Gamma H_n(3+L), and the fixed-composition nonrelativistic monatomic ideal gas adiabatic term is T_m'=-(2+2L/3)T_m. This is not the full variable-composition energy equation.
+
+Let A=2+2L/3, C=K_proper/(Gamma H_n), and J=Q_proper/(Gamma H_n). Conditional scalar reservoir T_R has T_R'=-T_R. The temperature experiment uses T_m'=-A T_m+C(T_R-T_m)+J. Its inherited first-order tracking approximation T_m' approximately -T_m gives T_m_ss=(C T_R+J)/(C+A-1), not the equilibrium T_m'=0 root. Gamma=1 and L=0 give the parent HYREC source formulas exactly. The implicit Euler update is [T_m+dt(C T_R+J)]/[1+dt(A+C)] for frozen coefficients. In the native experiment added energy injection is fixed to the parent's zero input.
+
+## Radiation interface: exact Lorentz transform, no invented scalar closure
+For an isotropic normal-frame Planck field at T_n, electron-frame photon propagation cosine mu_e (relative to +beta) gives T_e(mu_e)=T_n/[Gamma(1+beta mu_e)]. Frequency-direction occupation is a scalar. Angular moments satisfy n_gamma,e/n_gamma,n=Gamma, u_gamma,e/u_gamma,n=Gamma^2(1+beta^2/3), F_e/(c u_n)=-(4/3)Gamma^2 beta. Independently verify these by angular quadrature and a Lorentz transform of T^{ab}=diag(u,u/3,u/3,u/3). T inferred from total energy, T_n[u_e/u_n]^(1/4), does not in general also reproduce the number density or spectrum. No unique scalar replacement temperature is supplied to the atom kernel.
+
+A Wolfram evaluation in this invocation gave zero for the energy-moment, photon-number-moment, radiation-flux and tracking-root residuals (with harmless Clear warnings from reserved symbol names). Numerical tests use independent direct formulas.
+
+## Native controlled experiment and limits
+Use original source FULL at base and half timestep (additional refinement only if a material nonconvergence is found). The immutable parent H(zmean), conserved proper hydrogen function, atom data, and radiation/escape H are held fixed. Modify the returned hydrogen/helium fraction derivative by 1/Gamma only at the source dispatcher boundary; thermal changes modify all three original temperature paths (tracking, derivative, implicit). Compare legacy, reaction-only, thermal-only, both, zero-clock-tilt adapter control, and naive global-H replacement. The naive replacement is deliberately not a physical model.
+
+The existing high-z scalar reservoir and effective isotropic photon escape/radiation transfer remain prescribed. The native runs measure consequences of separated clock and thermal terms in that inherited closure; they do not solve boosted anisotropic radiation, chemistry/heat-capacity changes, tilted atomic line transfer or gravitational backreaction. The exact radiation interface is independently implemented but not silently approximated into a scalar atomic blackbody. All interventions use the parent's zmean=1700 boundary: above it clocks are identity; the inherited finite switch is explicit, not a primordial tilted solution. Zero-tilt adapter tests hold all other source inputs fixed and are not a claim that the tilted Bianchi geometry becomes FLRW.
+
+Acceptance: analytic zero-tilt identities, beta reversal (even clock, odd flux), exact no-heating temperature law, proper decay clock versus direct s_e integral, three radiation moments, fail-closed invalid beta/H/directions; native zero-adapter versus legacy numerical/byte identity; native legacy versus parent FULL; distinguish model intervention from timestep change. Preserve failed runs rather than widening source post-Saha thresholds.
+
+Primary sources: original byte-locked HYREC source and arXiv:1011.3758, arXiv:2007.14114; Lorentz-transformed blackbody spectrum arXiv:1310.3238. Equations above are direct derivations with stated assumptions.

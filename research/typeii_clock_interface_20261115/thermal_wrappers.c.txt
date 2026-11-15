@@ -1,0 +1,27 @@
+/* Conditional scalar-reservoir temperature interface. All input/output T in K.
+ * K_proper is original isotropic-bath Compton coefficient in inverse seconds.
+ * It is not a closure for the separately computed boosted anisotropic radiation.
+ */
+static void bass_thermal_coeff(double z,double xe,REC_COSMOPARAMS *cosmo,double dEdtdV,double H,double *C,double *J,double *A){
+ double g=bass_clock_gamma(z),L=bass_clock_L(z),Tr=cosmo->T0*(1.+z);
+ double nH=bass_hydrogen_density(cosmo,z);
+ *C=cosmo->fsR*cosmo->fsR/pow(cosmo->meR,3)*4.91466895548409e-22*pow(Tr,4)*xe/(1.+xe+cosmo->fHe)/(g*H);
+ *J=(1.+2.*xe)/3.*dEdtdV/kBoltz/(1.5*nH*(1.+xe+cosmo->fHe))/(g*H);
+ *A=2.+2.*L/3.;
+}
+double rec_Tmss(double z,double xe,REC_COSMOPARAMS *cosmo,double dEdtdV,double H){
+ if(!bass_thermal_enabled()||(bass_clock_gamma(z)==1.&&bass_clock_L(z)==0.))return bass_legacy_Tmss(z,xe,cosmo,dEdtdV,H);
+ double C,J,A; bass_thermal_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A);
+ return (C*cosmo->T0*(1.+z)+J)/(C+A-1.);
+}
+double rec_dTmdlna(double z,double xe,double Tm,REC_COSMOPARAMS *cosmo,double dEdtdV,double H){
+ if(!bass_thermal_enabled()||(bass_clock_gamma(z)==1.&&bass_clock_L(z)==0.))return bass_legacy_dTmdlna(z,xe,Tm,cosmo,dEdtdV,H);
+ double Tr=cosmo->T0*(1.+z);if(Tr/Tm-1.<1e-10&&Tr>3000.)return -Tr;
+ double C,J,A; bass_thermal_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A);
+ return -A*Tm+C*(Tr-Tm)+J;
+}
+double Tm_implicit(double z,double xe,double Tm,REC_COSMOPARAMS *cosmo,double dEdtdV,double H,double DLNA){
+ if(!bass_thermal_enabled()||(bass_clock_gamma(z)==1.&&bass_clock_L(z)==0.))return bass_legacy_Tm_implicit(z,xe,Tm,cosmo,dEdtdV,H,DLNA);
+ double C,J,A; bass_thermal_coeff(z,xe,cosmo,dEdtdV,H,&C,&J,&A);
+ return (Tm+DLNA*(C*cosmo->T0*(1.+z)+J))/(1.+DLNA*(A+C));
+}
