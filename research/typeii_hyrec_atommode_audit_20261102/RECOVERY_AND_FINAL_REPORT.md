@@ -24,3 +24,8 @@ These are implementation checks, not 18/18 scientific simulation success: the ca
 
 ## R7/C7: physical meaning
 See THEORY_MODE_AND_CLOCK.md for the full four-level elimination, signs/units and the newly explicit proper-clock obligation. Correcting nHrest alone does not provide dx/dtau_H=R_proper/(Gamma H_n). The inherited model comparison remains a controlled numerical experiment; it is not a fully covariant tilted electron reaction/thermal closure. This gap is a concrete next constructive task, not a reason to discard the measured mode comparison.
+
+## R8/C8: numerical decision
+TypeII matched-step SWIFT versus FULL quarter-step: max absolute xe difference 0.00031889001419160845 and max relative difference 0.0033637560252735531. The FLRW matched-step relative difference is 2.1988624925637243e-05.
+The TypeII FULL half-to-quarter maximum absolute xe difference is 2.2725266213274864e-07. The FLRW global maximum difference is not monotone (switch-adjacent maximum around z1563); no global Richardson order or exact error bound is claimed. Local z1100 and restricted-window diagnostics are provided separately. Fixed external-grid error and covariant closure error are not the same as the atomic timestep error.
+The optical-depth differences are small and partially cancel across redshift, but this does not imply uniformly small xe errors. Full tables and per-ray deltas are retained, rather than interpreting only the final integral.
