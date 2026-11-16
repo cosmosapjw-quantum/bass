@@ -30,3 +30,14 @@ The nonlinear stimulated pair model relaxes toward its number-matched Bose-Einst
 In an elastic angular-scattering control, normal photon energy changes0.04751498 per initial atom-frame photon energy, while the atom-frame energy change from the transformed four-force is4.03e-16. Thus that normal energy change is bulk exchange, not atom heat. The source local4x8 angular quadrature has solid-angle defect7.30e-9 over0.02 Hubble-normalized time; higher angular resolution must be checked in the packet campaign.
 
 Actual Wolfram Language residuals: sphere divergence, stimulated BE pair flux and normal comoving measure all zero. These are external CAS algebra checks, not independent-author review.
+
+## P3 actual source campaign
+The starting state is mean-z1100 and the interval ends at mean-z1089.04486696 (delta tauH=0.01). All cases use the same tagged Gaussian atom-frame occupation, width3 Doppler units centered at+3. The population/fate and temperature histories are the parent fixed-ne source, not newly solved cosmological populations.
+- frequency_double: red=0.29944403589082297, blue=0.29500367249292508, ionized=0.40555229161631245, remaining=3.77426e-110.
+- angular_refined: red=0.29944403589079488, blue=0.29500367249290504, ionized=0.40555229161629247, remaining=3.77426e-110.
+- band40: red=0.085592523583775407, blue=0.06734254003213111, ionized=0.84706493638415925, remaining=7.54982e-54.
+- frozen: red=0.29943644626847044, blue=0.29499658741583706, ionized=0.40556696631590655, remaining=9.55506e-111.
+- no_frequency: red=0.061796781448506199, blue=0, ionized=0.93820321855155764, remaining=1.93659e-59.
+- no_redistribution: red=0.061570135962576759, blue=0, ionized=0.93842986403742379, remaining=8.63209e-50.
+- no_destruction: red=0.50747837172210764, blue=0.49252162827795581, ionized=0, remaining=7.26542e-91.
+The 32-to72 direction comparison holds frequency/time resolution fixed. A tighter matched evolving/frozen refinement and an independent unsplit sparse stiff solve are reserved for the final validation phase. The explicit boundary change is a different finite-domain problem, not an accuracy estimate for global escape. The corrected count measure is now used during coupled angular/frequency evolution, not just tested on isolated rays.
