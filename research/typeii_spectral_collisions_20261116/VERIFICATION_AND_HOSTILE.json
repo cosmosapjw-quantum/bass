@@ -1,0 +1,100 @@
+{
+  "analytic_test_executions": 24,
+  "source_Fortran_cases": 24,
+  "independent_flux_moment_cases": [
+    {
+      "beta": 0.0,
+      "eta": 0.0,
+      "Tm_over_Tn": 1.0,
+      "number_flux_integral": 2.7939788909323057e-16,
+      "energy_moment_residual": -5.407854313522289e-15
+    },
+    {
+      "beta": 0.05,
+      "eta": 0.0,
+      "Tm_over_Tn": 0.7,
+      "number_flux_integral": 4.440892098500626e-16,
+      "energy_moment_residual": 1.7763568394002505e-14
+    },
+    {
+      "beta": 0.05,
+      "eta": 0.7,
+      "Tm_over_Tn": 1.2,
+      "number_flux_integral": -5.551115123125783e-17,
+      "energy_moment_residual": -6.217248937900877e-15
+    }
+  ],
+  "literal_angle_vs_multipole_relative_gap": 4.440892098500626e-16,
+  "wrong_photo_frame_relative_error": 0.06517365021450364,
+  "omit_induced_Planck_Tc_relative_error": -0.04194262596776499,
+  "collapse_induced_to_monopole_Tc_ratio_error": 9.977401579197576e-05,
+  "small_beta_checks": [
+    {
+      "beta": 0.0005,
+      "coefficient": 1.0265788894514571
+    },
+    {
+      "beta": 0.001,
+      "coefficient": 1.026579291352192
+    },
+    {
+      "beta": 0.002,
+      "coefficient": 1.0265808978449087
+    }
+  ],
+  "invalid_cases_rejected": [
+    "superluminal",
+    "nonfinite",
+    "negative_temperature",
+    "beyond_fit",
+    "negative_energy",
+    "negative_eta",
+    "negative_Tm"
+  ],
+  "replay_receipts": [
+    {
+      "kind": "analytic_tests",
+      "optimized": false,
+      "cases": 12,
+      "exit": 0
+    },
+    {
+      "kind": "analytic_tests",
+      "optimized": true,
+      "cases": 12,
+      "exit": 0
+    },
+    {
+      "kind": "fresh_optimized_source_replay",
+      "program": "verify_sources_and_kernels.py",
+      "exit": 0,
+      "data_byte_exact": true
+    },
+    {
+      "kind": "fresh_optimized_source_replay",
+      "program": "source_campaign.py",
+      "exit": 0,
+      "data_byte_exact": true
+    }
+  ],
+  "science_output_sha256": {
+    "SPECTRAL_SOURCE_RESULTS.json": "d746f10e40a7362ab27d4b79919971408cdf30af0a10c09076ee32df34b1d54e",
+    "SPECTRAL_COMPTON_FIELDS.csv": "710a823d7af130f80be1c40120de2f8811eebcb316d177eb190e5f5a5a7d3ce7",
+    "GROUND_PHOTOIONIZATION.csv": "f7bd1f63529dcaae63fff32938604b463242a8e5eebdd130a5059cb64d1aa080",
+    "PASSIVE_FIXED_XE_TEMPERATURE.csv": "4a41d226256af75511e7c62b60c9bb5058436c44fbdd51cb4f7dbba739e2eef6",
+    "KERNEL_VERIFICATION.json": "a42a929679622a7b5a4e30c11a4fb84bb8e29de446aa3c5214ee9502d2bc56ae"
+  },
+  "original_BASS_blobs": 9,
+  "same_author_hostile_review": "PERFORMED_NOT_INDEPENDENT_BLIND",
+  "native_subagent": "NOT_RUN",
+  "distinct_author_referee": "NOT_RUN",
+  "limits": [
+    "prescribed normal Planck field",
+    "leading nonrelativistic unpolarized Compton energy moment only",
+    "ground-state single-target photoionization only",
+    "no bound-free reverse/population detailed-balance network",
+    "fixed parent xe thermal experiment only",
+    "no new xe or optical depth history",
+    "momentum and Einstein backreaction not evolved"
+  ]
+}
