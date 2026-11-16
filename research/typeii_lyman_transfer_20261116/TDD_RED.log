@@ -1,0 +1,161 @@
+test_energy_exchange (__main__.Contracts.test_energy_exchange) ... FAIL
+test_finite_band_not_normalized (__main__.Contracts.test_finite_band_not_normalized) ... FAIL
+test_invalid_band (__main__.Contracts.test_invalid_band) ... FAIL
+test_invalid_geometry (__main__.Contracts.test_invalid_geometry) ... FAIL
+test_inversion_rejected (__main__.Contracts.test_inversion_rejected) ... FAIL
+test_isotropic_drift (__main__.Contracts.test_isotropic_drift) ... FAIL
+test_photon_clock_not_atom_clock (__main__.Contracts.test_photon_clock_not_atom_clock) ... FAIL
+test_photon_nucleus_exchange (__main__.Contracts.test_photon_nucleus_exchange) ... FAIL
+test_planck_cellwise_balance (__main__.Contracts.test_planck_cellwise_balance) ... FAIL
+test_profile_positive (__main__.Contracts.test_profile_positive) ... FAIL
+test_singleflight_analytic (__main__.Contracts.test_singleflight_analytic) ... FAIL
+test_sobolev_limits (__main__.Contracts.test_sobolev_limits) ... FAIL
+
+======================================================================
+FAIL: test_energy_exchange (__main__.Contracts.test_energy_exchange)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 19, in test_energy_exchange
+    m=self.api();z=m.line_grid(4000.,halfwidth=10.,cells=30);r=m.collision(z,1e8,1e-5,np.zeros(30),4000.);self.assertLess(abs(r['energy_residual'])/r['gross_energy'],2e-13)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_finite_band_not_normalized (__main__.Contracts.test_finite_band_not_normalized)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 25, in test_finite_band_not_normalized
+    m=self.api();p=np.array([.05,.1,.05]);self.assertAlmostEqual(m.singleflight(p,10*p),.2*m.sobolev(2.),places=14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_invalid_band (__main__.Contracts.test_invalid_band)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 31, in test_invalid_band
+    m=self.api();self.assertRaises(ValueError,m.line_grid,-1.);self.assertRaises(ValueError,m.profile_masses,np.array([0.,0.,1.]),.1)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_invalid_geometry (__main__.Contracts.test_invalid_geometry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 29, in test_invalid_geometry
+    m=self.api();self.assertRaises(ValueError,m.drift,np.zeros(5),np.zeros(5),np.array([[2.,0,0]]))
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_inversion_rejected (__main__.Contracts.test_inversion_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 27, in test_inversion_rejected
+    m=self.api();self.assertRaises(ValueError,m.sobolev,-1.)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_isotropic_drift (__main__.Contracts.test_isotropic_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 9, in test_isotropic_drift
+    m=self.api();r=m.drift(np.zeros(5),np.zeros(5),np.array([[1.,0,0],[0,1.,0]]));np.testing.assert_allclose(r['kappa'],1.)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_photon_clock_not_atom_clock (__main__.Contracts.test_photon_clock_not_atom_clock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 11, in test_photon_clock_not_atom_clock
+    m=self.api();s=np.array([0.,0.,0.,0.,.1]);r=m.drift(s,np.zeros(5),np.array([[0.,1,0],[0,-1.,0]]));self.assertNotEqual(float(r['D'][0]),float(r['D'][1]))
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_photon_nucleus_exchange (__main__.Contracts.test_photon_nucleus_exchange)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 21, in test_photon_nucleus_exchange
+    m=self.api();z=m.line_grid(3000.,cells=24);r=m.collision(z,2e8,1e-5,np.zeros(24),3000.);self.assertAlmostEqual((r['dnu']+r['dnl']),0.);self.assertAlmostEqual(r['dnu']+sum(r['F']),0.)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_planck_cellwise_balance (__main__.Contracts.test_planck_cellwise_balance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 17, in test_planck_cellwise_balance
+    m=self.api();z=m.line_grid(3000.,halfwidth=30.,cells=100);n=m.planck(m.H*z['nu']/(m.KB*3000.));nl=1e8;nu=3*nl*np.exp(-z['E0']/(m.KB*3000.));r=m.collision(z,nl,nu,n,3000.);self.assertLess(r['balance_relative'],2e-12)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_profile_positive (__main__.Contracts.test_profile_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 15, in test_profile_positive
+    m=self.api();e=np.linspace(-7,7,101);p=m.profile_masses(e,.001);self.assertTrue(np.all(p>0));self.assertLess(sum(p),1.)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_singleflight_analytic (__main__.Contracts.test_singleflight_analytic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 23, in test_singleflight_analytic
+    m=self.api();p=np.array([.2,.5,.3]);self.assertAlmostEqual(m.singleflight(p,20*p),m.sobolev(20.),places=14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+======================================================================
+FAIL: test_sobolev_limits (__main__.Contracts.test_sobolev_limits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 13, in test_sobolev_limits
+    m=self.api();self.assertAlmostEqual(m.sobolev(0.),1.);self.assertAlmostEqual(m.sobolev(1e8)*1e8,1.);self.assertAlmostEqual(m.sobolev(1.),1-np.exp(-1.))
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 6, in api
+    p=Path(__file__).with_name('line_transfer.py');self.assertTrue(p.exists(),'implementation not yet present')
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : implementation not yet present
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.003s
+
+FAILED (failures=12)

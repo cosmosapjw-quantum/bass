@@ -1,0 +1,37 @@
+test_energy_exchange (__main__.Contracts.test_energy_exchange) ... ok
+test_finite_band_not_normalized (__main__.Contracts.test_finite_band_not_normalized) ... ok
+test_invalid_band (__main__.Contracts.test_invalid_band) ... ok
+test_invalid_geometry (__main__.Contracts.test_invalid_geometry) ... ok
+test_inversion_rejected (__main__.Contracts.test_inversion_rejected) ... ok
+test_isotropic_drift (__main__.Contracts.test_isotropic_drift) ... ok
+test_photon_clock_not_atom_clock (__main__.Contracts.test_photon_clock_not_atom_clock) ... ok
+test_photon_nucleus_exchange (__main__.Contracts.test_photon_nucleus_exchange) ... ok
+test_planck_cellwise_balance (__main__.Contracts.test_planck_cellwise_balance) ... ok
+test_profile_positive (__main__.Contracts.test_profile_positive) ... ok
+test_resonance_fate_star (__main__.Contracts.test_resonance_fate_star) ... ERROR
+test_resonance_never_destroyed (__main__.Contracts.test_resonance_never_destroyed) ... ERROR
+test_singleflight_analytic (__main__.Contracts.test_singleflight_analytic) ... ok
+test_sobolev_limits (__main__.Contracts.test_sobolev_limits) ... ok
+
+======================================================================
+ERROR: test_resonance_fate_star (__main__.Contracts.test_resonance_fate_star)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 34, in test_resonance_fate_star
+    f=m.resonance_fates(Q);self.assertAlmostEqual(f['reemission_probability'],4/5.5);self.assertAlmostEqual(f['ionization_probability'],1.5/5.5);self.assertAlmostEqual(f['mean_residence_s'],1.5/5.5)
+      ^^^^^^^^^^^^^^^^^
+AttributeError: module 'lt' has no attribute 'resonance_fates'
+
+======================================================================
+ERROR: test_resonance_never_destroyed (__main__.Contracts.test_resonance_never_destroyed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-lyman-transfer-20261116-r1/research/typeii_lyman_transfer_20261116/test_line.py", line 37, in test_resonance_never_destroyed
+    f=m.resonance_fates(Q);self.assertAlmostEqual(f['reemission_probability'],1.);self.assertAlmostEqual(f['ionization_probability'],0.)
+      ^^^^^^^^^^^^^^^^^
+AttributeError: module 'lt' has no attribute 'resonance_fates'
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.022s
+
+FAILED (errors=2)
