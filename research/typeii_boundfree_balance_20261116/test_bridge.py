@@ -29,6 +29,9 @@ class Contracts(unittest.TestCase):
   m=self.module();r=m.rates(3000.,2800.,.05,(2,0));e=m.net_sources(r,2e5,3e7,3e7);scale=sum(abs(e[k]) for k in ('Q_photon','Q_kinetic','Q_ionization'));self.assertLess(abs(e['energy_residual'])/scale,1e-12);self.assertEqual(e['nucleus_residual'],0.)
  def test_zero_tilt_source_photon_integral(self):
   m=self.module();r=m.rates(3000.,3000.,0.,(1,0));self.assertGreater(np.exp(r['log_photo']),0.)
+ def test_low_temperature_source_refinement(self):
+  m=self.module();a=m.rates(820.3755,778.5117916097918,.027504334639193155,(1,0));b=m.rates(820.3755,778.5117916097918,.027504334639193155,(1,0),order=12)
+  self.assertLess(max(abs(np.expm1(a['log_photo']-b['log_photo'])),abs(np.expm1(a['log_alpha']-b['log_alpha']))),3e-8)
  def test_invalid(self):
   m=self.module()
   for args in [(0,3000,0,(2,0)),(3000,-1,0,(2,0)),(3000,3000,1.,(2,0)),(3000,3000,0,(2,2))]:

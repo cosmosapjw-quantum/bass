@@ -24,7 +24,7 @@ def run():
             check(err<3e-11,'finite-band detailed balance '+str(lev))
             balance.append(err)
     for lev in [(1,0),(2,0),(2,1),(3,2),(5,0),(10,0)]:
-        r=rates(3000.,2800.,.05,lev)
+        r=rates(3000.,2800.,.05,lev,order=4)
         av=velocity_alpha(3000.,2800.,.05,lev)
         gap=abs(av/r['alpha_m3_s']-1);check(gap<2e-8,'velocity-space Milne normalization')
         velocity.append({'level':list(lev),'relative_gap':gap})

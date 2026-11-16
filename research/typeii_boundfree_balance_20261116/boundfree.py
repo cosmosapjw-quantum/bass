@@ -105,7 +105,7 @@ def log_saha(T,key,eta=0):
     if not np.isfinite(T) or T<=0 or not np.isfinite(eta):raise ValueError('invalid equilibrium inputs')
     return np.log(q['g']/(2*q['gplus']))+1.5*np.log(H*H/(2*np.pi*ME*KB*T))+q['chi']/(KB*T)+eta
 
-def rates(Tn,Tm,beta,key,eta=0,order=4,method='pchip'):
+def rates(Tn,Tm,beta,key,eta=0,order=8,method='pchip'):
     validate(Tn,Tm,beta,eta);q=level(key)
     K,w=quadrature(key,order);E=q['chi']+K
     logs=np.log(sigma(E,key,method));lnn=log_nbar(E,Tn,beta,eta)
