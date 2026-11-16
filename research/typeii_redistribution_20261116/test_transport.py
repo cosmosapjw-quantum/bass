@@ -37,4 +37,8 @@ class Contracts(unittest.TestCase):
  def test_no_negative_kinetic_temperature(self):
   m=self.api()
   with self.assertRaises(ValueError):m.frequency_model(np.linspace(2e15,2.002e15,17),-1.,np.ones(16),np.ones(17),0.,1.)
+ def test_zero_time_complete_readout(self):
+  m=self.api();e=np.linspace(2e15,2.002e15,17);q=m.frequency_model(e,3000.,np.ones(16),np.ones(17),.1,1.);p=np.ones(16)/16;r=m.frequency_step(q,p,0.);self.assertTrue(np.array_equal(r['N'],p));self.assertEqual(r['death_energy_J'],0.)
+ def test_zero_scattering_identity(self):
+  m=self.api();e=np.linspace(2e15,2.002e15,17);q=m.frequency_model(e,3000.,np.zeros(16),np.zeros(17),0.,1.);p=np.ones(16)/16;r=m.frequency_step(q,p,2.);self.assertTrue(np.array_equal(r['N'],p));self.assertEqual(r['red']+r['blue']+r['death'],0.)
 if __name__=='__main__':unittest.main(verbosity=2)

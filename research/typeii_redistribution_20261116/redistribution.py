@@ -98,7 +98,7 @@ def frequency_model(edges,T,rate_cent,rate_face,pdestroy,clock=1.,absorbing=True
 def frequency_step(m,N,dt):
  x=np.asarray(N,float);a=np.asarray(m['up'],np.longdouble);b=np.asarray(m['down'],np.longdouble)
  if x.shape!=m['loss'].shape or not np.isfinite(np.r_[x,dt]).all() or min(x)<0 or dt<0:raise ValueError('positive frequency populations and time')
- if dt==0:return {'N':x.copy(),'red':0.,'blue':0.,'death':0.,'heat_J':0.,'number_residual':0.,'energy_residual_J':0.}
+ if dt==0:return {'N':x.copy(),'red':0.,'blue':0.,'death':0.,'death_energy_J':0.,'heat_J':0.,'number_residual':0.,'energy_residual_J':0.}
  t=np.longdouble(dt);diag=1+t*np.asarray(m['loss'],np.longdouble);lo=-t*a;hi=-t*b
  rhs=x.astype(np.longdouble).copy();diag=diag.copy()
  for i in range(1,len(x)):
