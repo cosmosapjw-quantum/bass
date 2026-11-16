@@ -1,0 +1,64 @@
+   Compiling rei_microphysics v0.1.0 (/home/cosmosapjw/research_backups/bass_ax11_geometry_reuse_20261116/candidate/rust/rei_microphysics)
+warning: constant `DEFAULT_PANELS` is never used
+ --> tests/../src/bass_ax11_reference_background.rs:5:11
+  |
+5 | pub const DEFAULT_PANELS: usize = 4096;
+  |           ^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `sigma_squared_per_s2` is never used
+  --> tests/../src/bass_ax11_reference_background.rs:68:12
+   |
+64 | impl BackgroundPoint {
+   | -------------------- method in this implementation
+...
+68 |     pub fn sigma_squared_per_s2(&self) -> f64 {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `q_ref` and `family` are never used
+   --> tests/../src/bass_ax11_reference_background.rs:113:12
+    |
+ 82 | impl AxbiBackground {
+    | ------------------- methods in this implementation
+...
+113 |     pub fn q_ref(&self) -> f64 {
+    |            ^^^^^
+...
+116 |     pub fn family(&self) -> BackgroundFamily {
+    |            ^^^^^^
+
+warning: struct `FeedbackSample` is never constructed
+   --> tests/../src/bass_ax11_reference_background.rs:196:12
+    |
+196 | pub struct FeedbackSample {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `FeedbackDiagnostic` is never constructed
+   --> tests/../src/bass_ax11_reference_background.rs:203:12
+    |
+203 | pub struct FeedbackDiagnostic {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: function `omitted_feedback` is never used
+   --> tests/../src/bass_ax11_reference_background.rs:211:8
+    |
+211 | pub fn omitted_feedback(
+    |        ^^^^^^^^^^^^^^^^
+
+warning: struct `IsotropicRadiationMoments` is never constructed
+   --> tests/../src/bass_ax11_reference_background.rs:272:12
+    |
+272 | pub struct IsotropicRadiationMoments {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `isotropic_initial_radiation_moments` is never used
+   --> tests/../src/bass_ax11_reference_background.rs:281:8
+    |
+281 | pub fn isotropic_initial_radiation_moments(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `rei_microphysics` (test "bass_ax11_geometry_reuse") generated 8 warnings
+    Finished `release` profile [optimized] target(s) in 4.75s
+     Running tests/axbi_background.rs (target/release/deps/axbi_background-d8c6894366b69189)
+     Running tests/bass_ax11_geometry_reuse.rs (target/release/deps/bass_ax11_geometry_reuse-b3510575e871d393)

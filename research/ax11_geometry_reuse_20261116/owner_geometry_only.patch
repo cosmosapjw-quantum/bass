@@ -1,0 +1,107 @@
+--- a/rust/rei_microphysics/src/axbi_background.rs
++++ b/rust/rei_microphysics/src/axbi_background.rs
+@@ -69,6 +69,28 @@
+         3.0 * self.s_per_s * self.s_per_s
+     }
+ }
++
++// BASS AX11: per-immutable-model exact f64-key reuse; not an interpolant.
++use std::sync::{Arc, Mutex};
++use std::time::Instant;
++#[derive(Clone, Copy, Debug, Default)]
++pub struct ExactReuseProfile {
++    pub calls: u64,
++    pub misses: u64,
++    pub hits: u64,
++    pub reference_hits: u64,
++    pub quadrature_ns: u128,
++    pub cache_ns: u128,
++}
++#[derive(Debug, Default)]
++struct ExactReuseState {
++    enabled: bool,
++    reference: Option<BackgroundPoint>,
++    recent: [Option<BackgroundPoint>; 16],
++    cursor: usize,
++    profile: ExactReuseProfile,
++}
++
+ #[derive(Clone, Debug)]
+ pub struct AxbiBackground {
+     cosmology: Cosmology,
+@@ -78,6 +100,7 @@
+     q_ref: f64,
+     family: BackgroundFamily,
+     panels: usize,
++    exact_reuse: Arc<Mutex<ExactReuseState>>,
+ }
+ impl AxbiBackground {
+     pub fn new(
+@@ -106,6 +129,7 @@
+             q_ref,
+             family,
+             panels,
++            exact_reuse: Arc::new(Mutex::new(ExactReuseState::default())),
+         };
+         result.point_at_scale(a_end)?;
+         Ok(result)
+@@ -127,7 +151,59 @@
+         };
+         Ok((hf, h, s))
+     }
++    /// Opt-in execution setting only. Model/source/cosmology are immutable.
++    /// Clones share this bounded cache and its profile, never another model's.
++    pub fn configure_exact_reuse(&self, enabled: bool) -> Result<(), ForwardError> {
++        let mut state = self.exact_reuse.lock().map_err(|_| invalid("AxbiCachePoisoned"))?;
++        *state = ExactReuseState { enabled, ..ExactReuseState::default() };
++        Ok(())
++    }
++    pub fn exact_reuse_profile(&self) -> Result<ExactReuseProfile, ForwardError> {
++        Ok(self.exact_reuse.lock().map_err(|_| invalid("AxbiCachePoisoned"))?.profile)
++    }
+     pub fn point_at_scale(&self, a: f64) -> Result<BackgroundPoint, ForwardError> {
++        // Preserve the original error ordering before any cache lookup.
++        positive(a)?;
++        if a < self.a_ref || a > self.a_end { return Err(invalid("AxbiScaleDomain")); }
++        let started = Instant::now();
++        {
++            let mut state = self.exact_reuse.lock().map_err(|_| invalid("AxbiCachePoisoned"))?;
++            state.profile.calls += 1;
++            if state.enabled {
++                let is_reference = a.to_bits() == self.a_ref.to_bits();
++                let found = if is_reference { state.reference } else {
++                    state.recent.iter().flatten().find(|p| p.a.to_bits() == a.to_bits()).copied()
++                };
++                if let Some(point) = found {
++                    state.profile.hits += 1;
++                    if is_reference { state.profile.reference_hits += 1; }
++                    state.profile.cache_ns += started.elapsed().as_nanos();
++                    return Ok(point);
++                }
++            }
++        }
++        let quadrature = Instant::now();
++        let result = self.point_at_scale_uncached(a);
++        let quadrature_ns = quadrature.elapsed().as_nanos();
++        {
++            let mut state = self.exact_reuse.lock().map_err(|_| invalid("AxbiCachePoisoned"))?;
++            state.profile.misses += 1;
++            state.profile.quadrature_ns += quadrature_ns;
++            if state.enabled {
++                if let Ok(point) = &result {
++                    if a.to_bits() == self.a_ref.to_bits() { state.reference = Some(*point); }
++                    else {
++                        let slot = state.cursor;
++                        state.recent[slot] = Some(*point);
++                        state.cursor = (slot + 1) % state.recent.len();
++                    }
++                }
++            }
++            state.profile.cache_ns += started.elapsed().as_nanos().saturating_sub(quadrature_ns);
++        }
++        result
++    }
++    fn point_at_scale_uncached(&self, a: f64) -> Result<BackgroundPoint, ForwardError> {
+         positive(a)?;
+         if a < self.a_ref || a > self.a_end {
+             return Err(invalid("AxbiScaleDomain"));
