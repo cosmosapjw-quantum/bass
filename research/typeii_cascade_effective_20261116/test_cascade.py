@@ -40,4 +40,11 @@ class Contracts(unittest.TestCase):
   m=self.m()
   for a in [(-1,3000,0,1e8),(3000,-1,0,1e8),(3000,3000,1,1e8),(3000,3000,0,-1)]:
    with self.assertRaises(ValueError):m.network(*a)
+ def test_slow_column_conservation(self):
+  m=self.m();q=m.network(3000,3000,.05,1e8)['Q'].copy();q[0,0]*=2
+  with self.assertRaises(ValueError):m.eliminate(q)
+ def test_stationary_weight_contract(self):
+  m=self.m();q=m.network(3000,3000,.05,1e8)['Q']
+  for w in (np.zeros(7),np.r_[np.nan,np.ones(6)],np.ones(6)):
+   with self.assertRaises(ValueError):m.stationary(q,w)
 if __name__=='__main__':unittest.main(verbosity=2)

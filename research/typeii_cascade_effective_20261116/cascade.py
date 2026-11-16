@@ -130,7 +130,7 @@ def eliminate(Q,retained=RETAINED):
  if len(set(r))!=len(r) or min(r)<0 or max(r)>=len(Q) or len(r)>=len(Q):raise ValueError('invalid retained indices')
  off=Q.copy();np.fill_diagonal(off,0)
  if np.min(off)<0 or np.any(np.diag(Q)>=0):raise ValueError('not a nonnegative transition generator')
- if max(abs(Q.sum(axis=0)))/max(abs(Q).flat)>1e-12:raise ValueError('generator does not conserve nuclei')
+ if np.any(abs(Q.sum(axis=0))>1e-12*np.sum(abs(Q),axis=0)):raise ValueError('generator does not conserve nuclei column by column')
  f=np.array([j for j in range(len(Q)) if j not in r]);rr=Q[np.ix_(r,r)];rf=Q[np.ix_(r,f)];fr=Q[np.ix_(f,r)];ff=Q[np.ix_(f,f)]
  N=np.linalg.solve(-ff,np.eye(len(f)));check(np.min(N)>=0,'non-transient eliminated block')
  L=N@fr;P=rf@N;raw=rr+rf@L
@@ -142,8 +142,9 @@ def lift(e,p):
  p=np.asarray(p);ans=np.zeros(len(e['r'])+len(e['f']),dtype=p.dtype);ans[e['r']]=p;ans[e['f']]=e['L']@p;return ans
 
 def stationary(Q,weights):
- Q=np.asarray(Q);w=np.asarray(weights,float);w=w/sum(w)
- if len(w)!=len(Q) or min(w)<=0:raise ValueError('positive conditioning weights needed')
+ Q=np.asarray(Q);w=np.asarray(weights,float)
+ if w.ndim!=1 or len(w)!=len(Q) or not np.isfinite(w).all() or np.any(w<=0):raise ValueError('positive finite conditioning weights needed')
+ w=w/np.max(w);w=w/sum(w)
  q=Q*w[None,:]/w[:,None];a=int(np.argmax(w));other=np.array([i for i in range(len(w)) if i!=a])
  M=q[np.ix_(other,other)];rhs=-q[other,a];scale=np.max(abs(M),axis=1)
  x=np.ones(len(w));x[other]=np.linalg.solve(M/scale[:,None],rhs/scale)

@@ -1,0 +1,45 @@
+test_BE_cycle_not_reversible (__main__.Contracts.test_BE_cycle_not_reversible) ... ok
+test_E1_2p1s_radial (__main__.Contracts.test_E1_2p1s_radial) ... ok
+test_E1_selection (__main__.Contracts.test_E1_selection) ... ok
+test_E1_thermal (__main__.Contracts.test_E1_thermal) ... ok
+test_beta_even (__main__.Contracts.test_beta_even) ... ok
+test_energy_ledger (__main__.Contracts.test_energy_ledger) ... ok
+test_exit_probabilities (__main__.Contracts.test_exit_probabilities) ... ok
+test_generator_schur (__main__.Contracts.test_generator_schur) ... ok
+test_invalid_inputs (__main__.Contracts.test_invalid_inputs) ... ok
+test_pair_quadrupole (__main__.Contracts.test_pair_quadrupole) ... ok
+test_reconstructed_stationary (__main__.Contracts.test_reconstructed_stationary) ... ok
+test_slow_column_conservation (__main__.Contracts.test_slow_column_conservation) ... FAIL
+test_stationary_weight_contract (__main__.Contracts.test_stationary_weight_contract) ... /home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/cascade.py:145: RuntimeWarning: invalid value encountered in divide
+  Q=np.asarray(Q);w=np.asarray(weights,float);w=w/sum(w)
+ERROR
+test_thermal_population (__main__.Contracts.test_thermal_population) ... ok
+test_two_photon_thermal (__main__.Contracts.test_two_photon_thermal) ... ok
+test_two_photon_vacuum (__main__.Contracts.test_two_photon_vacuum) ... ok
+
+======================================================================
+ERROR: test_stationary_weight_contract (__main__.Contracts.test_stationary_weight_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 49, in test_stationary_weight_contract
+    with self.assertRaises(ValueError):m.stationary(q,w)
+                                       ^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/cascade.py", line 150, in stationary
+    check(np.min(x)>0 and np.isfinite(x).all(),'stationary solution positivity')
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/cascade.py", line 26, in check
+    if not bool(ok):raise RuntimeError(msg)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: stationary solution positivity
+
+======================================================================
+FAIL: test_slow_column_conservation (__main__.Contracts.test_slow_column_conservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 45, in test_slow_column_conservation
+    with self.assertRaises(ValueError):m.eliminate(q)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.757s
+
+FAILED (failures=1, errors=1)
