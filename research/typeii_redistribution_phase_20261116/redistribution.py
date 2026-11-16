@@ -109,6 +109,7 @@ class Geometry:
   return {'state':state,'H':hn,'n':n,'na':na,'D':D,'J':J,'we':we,'logEn':r[:,3],'kappa':out['kappa'],'L':out['L'],'Sigma':out['Sigma'],'Tm':float(np.exp(bg['Tm'](t))),'nl':float(nH*np.exp(bg['p1'](t))),'pion':float(np.exp(bg['pion'](t))),'z':float(z),'capacity_angle':np.exp(3*(t-self.t0))*self.wn0*J/D**3,'angular_weight_defect':float(abs(sum(we)-1))}
 
 def fixed_grid(Tref,X=20.,cells=160):
+ if not isinstance(cells,(int,np.integer)) or isinstance(cells,(bool,np.bool_)) or cells<4:raise ValueError('integer frequency cells >=4 required')
  g=lt.line_grid(Tref,halfwidth=float(X),cells=int(cells));g['width']=np.diff(g['nu_edges']);g['cap']=g['width']*(g['nu_edges'][:-1]**2+g['nu_edges'][:-1]*g['nu_edges'][1:]+g['nu_edges'][1:]**2)/3
  return g
 
@@ -137,7 +138,7 @@ def backward_birth_death(N,up,down,kill,dt):
  unit storage term is never recovered by subtracting two huge rates.
  """
  N=np.asarray(N,float);up=np.asarray(up,float);down=np.asarray(down,float);kill=np.asarray(kill,float)
- if N.shape!=up.shape or N.shape!=down.shape or N.shape!=kill.shape or N.ndim!=2 or not np.isfinite(np.r_[N.ravel(),up.ravel(),down.ravel(),kill.ravel(),dt]).all() or min(N.ravel())<-1e-13 or min(up.ravel())<0 or min(down.ravel())<0 or min(kill.ravel())<0 or dt<0:raise ValueError('invalid positive birth-death system')
+ if N.shape!=up.shape or N.shape!=down.shape or N.shape!=kill.shape or N.ndim!=2 or not np.isfinite(np.r_[N.ravel(),up.ravel(),down.ravel(),kill.ravel(),dt]).all() or min(N.ravel())<0 or min(up.ravel())<0 or min(down.ravel())<0 or min(kill.ravel())<0 or dt<0:raise ValueError('invalid positive birth-death system')
  # Extended precision is used only in the small tridiagonal factorization.
  U=np.asarray(dt*up,dtype=np.longdouble);D=np.asarray(dt*down,dtype=np.longdouble);K=np.asarray(dt*kill,dtype=np.longdouble);b=np.asarray(N,dtype=np.longdouble).copy();diag=np.empty_like(b)
  r=1+D[:,0]+K[:,0];diag[:,0]=r+U[:,0]

@@ -34,4 +34,10 @@ class Contracts(unittest.TestCase):
  def test_invalid_angular_weight(self):
   m=self.api();n,w=m.sphere(4,8);w[0]=-1
   with self.assertRaises(ValueError):m.angular_generator(n,w,np.ones(len(w)))
+ def test_fractional_cells_rejected(self):
+  m=self.api()
+  with self.assertRaises(ValueError):m.fixed_grid(3000.,20.,160.5)
+ def test_negative_count_rejected(self):
+  m=self.api();N=np.ones((2,5));N[0,0]=-1e-14;z=np.zeros_like(N)
+  with self.assertRaises(ValueError):m.backward_birth_death(N,z,z,z,1.)
 if __name__=='__main__':unittest.main(verbosity=2)
