@@ -1,0 +1,187 @@
+test_BE_cycle_not_reversible (__main__.Contracts.test_BE_cycle_not_reversible) ... FAIL
+test_E1_2p1s_radial (__main__.Contracts.test_E1_2p1s_radial) ... FAIL
+test_E1_selection (__main__.Contracts.test_E1_selection) ... FAIL
+test_E1_thermal (__main__.Contracts.test_E1_thermal) ... FAIL
+test_beta_even (__main__.Contracts.test_beta_even) ... FAIL
+test_energy_ledger (__main__.Contracts.test_energy_ledger) ... FAIL
+test_exit_probabilities (__main__.Contracts.test_exit_probabilities) ... FAIL
+test_generator_schur (__main__.Contracts.test_generator_schur) ... FAIL
+test_invalid_inputs (__main__.Contracts.test_invalid_inputs) ... FAIL
+test_pair_quadrupole (__main__.Contracts.test_pair_quadrupole) ... FAIL
+test_reconstructed_stationary (__main__.Contracts.test_reconstructed_stationary) ... FAIL
+test_thermal_population (__main__.Contracts.test_thermal_population) ... FAIL
+test_two_photon_thermal (__main__.Contracts.test_two_photon_thermal) ... FAIL
+test_two_photon_vacuum (__main__.Contracts.test_two_photon_vacuum) ... FAIL
+
+======================================================================
+FAIL: test_BE_cycle_not_reversible (__main__.Contracts.test_BE_cycle_not_reversible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 38, in test_BE_cycle_not_reversible
+    m=self.m();self.assertAlmostEqual(m.cycle_affinity(3000,0,eta=.3),.6,places=11)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_E1_2p1s_radial (__main__.Contracts.test_E1_2p1s_radial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 9, in test_E1_2p1s_radial
+    m=self.m();self.assertAlmostEqual(m.radial_exact((2,1),(1,0)),256/(81*np.sqrt(6)),places=12)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_E1_selection (__main__.Contracts.test_E1_selection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 11, in test_E1_selection
+    m=self.m();self.assertEqual(len(m.lines()),5)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_E1_thermal (__main__.Contracts.test_E1_thermal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 14, in test_E1_thermal
+    m=self.m();a=m.line_rates((3,1),(2,0),3000,0)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_beta_even (__main__.Contracts.test_beta_even)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 25, in test_beta_even
+    m=self.m();a=m.two_photon(3000,.05);b=m.two_photon(3000,-.05);self.assertLess(abs(a['up']/b['up']-1),1e-12)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_energy_ledger (__main__.Contracts.test_energy_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 36, in test_energy_ledger
+    m=self.m();n=m.network(3000,3000,.05,1e8);p=np.arange(1,8,dtype=float);p/=sum(p);q=m.energy(n,p);self.assertLess(q['relative_residual'],1e-12)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_exit_probabilities (__main__.Contracts.test_exit_probabilities)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 30, in test_exit_probabilities
+    m=self.m();e=m.eliminate(m.network(3000,3000,.05,1e8)['Q']);self.assertLess(max(abs(e['P'].sum(axis=0)-1)),1e-12)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_generator_schur (__main__.Contracts.test_generator_schur)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 27, in test_generator_schur
+    m=self.m();n=m.network(3000,3000,.05,1e8);e=m.eliminate(n['Q']);s=e['S'];off=s.copy();np.fill_diagonal(off,0)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_invalid_inputs (__main__.Contracts.test_invalid_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 40, in test_invalid_inputs
+    m=self.m()
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_pair_quadrupole (__main__.Contracts.test_pair_quadrupole)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 21, in test_pair_quadrupole
+    m=self.m();a=m.pair_average(.1*m.EV,.2*m.EV,3000,.05)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_reconstructed_stationary (__main__.Contracts.test_reconstructed_stationary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 34, in test_reconstructed_stationary
+    m=self.m();n=m.network(3000,3000,.05,1e8);e=m.eliminate(n['Q']);full=m.stationary(n['Q'],n['reference_weights']);red=m.stationary(e['S'],n['reference_weights'][m.RETAINED]);lift=m.lift(e,red);lift/=sum(lift);self.assertLess(max(abs(lift/full-1)),1e-9)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_thermal_population (__main__.Contracts.test_thermal_population)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 32, in test_thermal_population
+    m=self.m();n=m.network(3000,3000,0,1e8);p=m.stationary(n['Q'],n['reference_weights']);self.assertLess(max(abs(p/n['reference_weights']-1)),1e-9)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_two_photon_thermal (__main__.Contracts.test_two_photon_thermal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 19, in test_two_photon_thermal
+    m=self.m();d=m.two_photon(3000,0);self.assertAlmostEqual(np.log(d['up']/d['down']),-d['gap_J']/(m.KB*3000),places=11)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+======================================================================
+FAIL: test_two_photon_vacuum (__main__.Contracts.test_two_photon_vacuum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 17, in test_two_photon_vacuum
+    m=self.m();d=m.two_photon(3000,0,vacuum=True);self.assertAlmostEqual(d['down'],8.2206,places=12);self.assertEqual(d['up'],0.)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-cascade-effective-20261116-r1/research/typeii_cascade_effective_20261116/test_cascade.py", line 6, in m
+    p=Path(__file__).with_name('cascade.py');self.assertTrue(p.is_file(),'cascade implementation absent')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : cascade implementation absent
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.002s
+
+FAILED (failures=14)

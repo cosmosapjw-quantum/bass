@@ -1,0 +1,73 @@
+{
+  "analytic_contracts": 16,
+  "normal_optimized_unit_cases": 32,
+  "execution_receipts": [
+    {
+      "test": "UNIT_NORMAL",
+      "exit": 0,
+      "cases": 16
+    },
+    {
+      "test": "UNIT_OPTIMIZED",
+      "exit": 0,
+      "cases": 16
+    },
+    {
+      "test": "verify_kernels.py_OPTIMIZED",
+      "exit": 0
+    },
+    {
+      "test": "run_cascade_sources.py_OPTIMIZED",
+      "exit": 0
+    }
+  ],
+  "optimized_science_outputs_byte_exact": {
+    "KERNEL_VERIFICATION.json": "ed05a62e5e718f6ccc7a9b244c1ad14bd9bedfa25a292af5a76375338a2ea378",
+    "SOURCE_CASCADE_RESULTS.json": "152f2f2be2be314f49e40f85c94a4351a1f4611c6112317d581c2583c7921895",
+    "EFFECTIVE_BOUND_FREE.csv": "243c7f12be64b0b173b3b575717ccd69c45f961e1d4fa7185c25fdd561e33dc6",
+    "SOURCE_TRACE_STATIONARY.csv": "b14900a2eadd990c0e43cd52a21ef85529dde8d9b08f7fca73e207d070691823",
+    "TRACE_DYNAMIC_MEMORY.csv": "b0de695be5c4aa55048c97f19e052e900de5f7dc5f2914c096be62c0d050592d",
+    "FULL_GENERATORS.npy": "21160dbe369893d5fec812a4bde0e6a3ac2ebccda5197b00358753622f096780",
+    "REDUCED_GENERATORS.npy": "44792c59c6b78844863aec8a85757bff153c20e450898bce7cccb28738b3d8b6",
+    "FAST_LIFTS.npy": "38c9b14cb795ff8c119d580340dadaef80ad6d1bd027ec1e3f0b22786a8937d1"
+  },
+  "invalid_cases_rejected": [
+    "temperature_negative",
+    "electron_density_negative",
+    "tilt_superluminal",
+    "temperature_nan",
+    "forbidden_E1",
+    "negative_photon_pair_energy",
+    "unknown_spectral_table",
+    "nonconservative_generator",
+    "negative_generator_rate",
+    "duplicate_retained_state",
+    "negative_population",
+    "singular_stationary_scale"
+  ],
+  "original_HYREC_source_files": 4,
+  "original_BASS_blobs": 9,
+  "double_count_half_spectrum_vacuum_rate_s": 16.4412,
+  "omit_stimulated_down_thermal_ratio_relative_error": 0.021037352047801106,
+  "independent_angle_approximation_two_gamma_up_error_T8000_beta02": -0.004452689069907145,
+  "add_direct_capture_on_effective_relative_errors": [
+    0.8870744692945279,
+    0.8959665326456687,
+    0.6590311231291153
+  ],
+  "drop_fast_population_mass_at_T8000": 0.036806336269667776,
+  "BE_eta03_cycle_log_affinity": 0.5999999999999979,
+  "instant_initial_fast_routing_max_L1_error": 0.9999999999999999,
+  "same_author_hostile_review": "PERFORMED_NOT_BLIND",
+  "distinct_author_referee": "NOT_RUN",
+  "native_subagent": "NOT_RUN",
+  "limits": [
+    "fixed proper electron reservoir, not closed electron feedback",
+    "six bound states only",
+    "finite-support parent bound-free data",
+    "optically thin prescribed radiation, no line escape/trapping",
+    "unaligned leading nonrelativistic atom and E1E1 angular kernel",
+    "stationary Schur not exact chronological generator",
+    "no native HYREC replacement or new cosmological xe/optical depth"
+  ]
+}
