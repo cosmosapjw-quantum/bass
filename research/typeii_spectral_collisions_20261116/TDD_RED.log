@@ -1,0 +1,161 @@
+test_boost_energy_and_number (__main__.Physics.test_boost_energy_and_number) ... FAIL
+test_bose_einstein_balance (__main__.Physics.test_bose_einstein_balance) ... FAIL
+test_frame_photoionization (__main__.Physics.test_frame_photoionization) ... FAIL
+test_induced_angular_bilinear (__main__.Physics.test_induced_angular_bilinear) ... FAIL
+test_invalid_inputs (__main__.Physics.test_invalid_inputs) ... FAIL
+test_no_induced_fails_equilibrium (__main__.Physics.test_no_induced_fails_equilibrium) ... FAIL
+test_parity (__main__.Physics.test_parity) ... FAIL
+test_quadrature_refinement (__main__.Physics.test_quadrature_refinement) ... FAIL
+test_scalar_temperature_counterexample (__main__.Physics.test_scalar_temperature_counterexample) ... FAIL
+test_sigma_threshold_and_positive (__main__.Physics.test_sigma_threshold_and_positive) ... FAIL
+test_small_beta_coefficient (__main__.Physics.test_small_beta_coefficient) ... FAIL
+test_zero_tilt_planck_balance (__main__.Physics.test_zero_tilt_planck_balance) ... FAIL
+
+======================================================================
+FAIL: test_boost_energy_and_number (__main__.Physics.test_boost_energy_and_number)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 21, in test_boost_energy_and_number
+    m=self.m();b=.05;r=m.compton_moments(b);g=1/np.sqrt(1-b*b)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_bose_einstein_balance (__main__.Physics.test_bose_einstein_balance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 19, in test_bose_einstein_balance
+    m=self.m();self.assertAlmostEqual(m.compton_moments(0.,eta=.7)['Tc_over_Tn'],1.,delta=3e-10)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_frame_photoionization (__main__.Physics.test_frame_photoionization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 39, in test_frame_photoionization
+    m=self.m()
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_induced_angular_bilinear (__main__.Physics.test_induced_angular_bilinear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 28, in test_induced_angular_bilinear
+    m=self.m();mu,w=leggauss(24);f=np.exp(.3*mu)+.2*mu**4
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_invalid_inputs (__main__.Physics.test_invalid_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 10, in test_invalid_inputs
+    m=self.m()
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_no_induced_fails_equilibrium (__main__.Physics.test_no_induced_fails_equilibrium)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 32, in test_no_induced_fails_equilibrium
+    m=self.m();r=m.compton_moments(0.);self.assertGreater(abs(r['Tc_spontaneous_over_Tn']-1),.03)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_parity (__main__.Physics.test_parity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 44, in test_parity
+    m=self.m();a=m.photo_rate(3000,.05,'HI');b=m.photo_rate(3000,-.05,'HI')
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_quadrature_refinement (__main__.Physics.test_quadrature_refinement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 50, in test_quadrature_refinement
+    m=self.m();a=m.photo_rate(3000,.05,'HI',order=48);b=m.photo_rate(3000,.05,'HI',order=96)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_scalar_temperature_counterexample (__main__.Physics.test_scalar_temperature_counterexample)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 48, in test_scalar_temperature_counterexample
+    m=self.m();r=m.compton_moments(.05);self.assertGreater(abs(r['Tc_over_Tn']-r['energy_ratio']**.25),.001)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_sigma_threshold_and_positive (__main__.Physics.test_sigma_threshold_and_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 34, in test_sigma_threshold_and_positive
+    m=self.m()
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_small_beta_coefficient (__main__.Physics.test_small_beta_coefficient)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 25, in test_small_beta_coefficient
+    m=self.m();b=.001;r=m.compton_moments(b)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+======================================================================
+FAIL: test_zero_tilt_planck_balance (__main__.Physics.test_zero_tilt_planck_balance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 15, in test_zero_tilt_planck_balance
+    m=self.m();r=m.compton_moments(0.)
+      ^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-spectral-collisions-20261116-r1/research/typeii_spectral_collisions_20261116/test_collisions.py", line 7, in m
+    p=Path(__file__).with_name('collisions.py');self.assertTrue(p.exists(),'spectral collision implementation absent')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : spectral collision implementation absent
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.002s
+
+FAILED (failures=12)
