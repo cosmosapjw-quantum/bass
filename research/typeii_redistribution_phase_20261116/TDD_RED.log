@@ -1,0 +1,161 @@
+test_angular_conservation (__main__.Contracts.test_angular_conservation) ... FAIL
+test_angular_number (__main__.Contracts.test_angular_number) ... FAIL
+test_bad_sphere (__main__.Contracts.test_bad_sphere) ... FAIL
+test_bernoulli (__main__.Contracts.test_bernoulli) ... FAIL
+test_boost_roundtrip (__main__.Contracts.test_boost_roundtrip) ... FAIL
+test_frequency_BE (__main__.Contracts.test_frequency_BE) ... FAIL
+test_frequency_Wien (__main__.Contracts.test_frequency_Wien) ... FAIL
+test_invalid_angular_weight (__main__.Contracts.test_invalid_angular_weight) ... FAIL
+test_negative_input (__main__.Contracts.test_negative_input) ... FAIL
+test_nonunit (__main__.Contracts.test_nonunit) ... FAIL
+test_sphere_quadrature (__main__.Contracts.test_sphere_quadrature) ... FAIL
+test_superluminal (__main__.Contracts.test_superluminal) ... FAIL
+
+======================================================================
+FAIL: test_angular_conservation (__main__.Contracts.test_angular_conservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 19, in test_angular_conservation
+    m=self.api();n,w=m.sphere(4,8);D=np.linspace(.96,1.04,len(w));Q,pi=m.angular_generator(n,w,D);self.assertLess(np.max(abs(Q.sum(axis=0))),1e-14);self.assertLess(np.max(abs(Q@pi)),1e-14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_angular_number (__main__.Contracts.test_angular_number)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 21, in test_angular_number
+    m=self.api();n,w=m.sphere(4,8);Q,pi=m.angular_generator(n,w,np.ones(len(w)));N=np.arange(1,len(w)*8+1,dtype=float).reshape(len(w),8);out=m.angular_step(N,Q,pi,np.linspace(0,1e4,8));np.testing.assert_allclose(out.sum(axis=0),N.sum(axis=0),rtol=2e-12);self.assertGreaterEqual(out.min(),-1e-10)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_bad_sphere (__main__.Contracts.test_bad_sphere)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 29, in test_bad_sphere
+    m=self.api()
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_bernoulli (__main__.Contracts.test_bernoulli)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 9, in test_bernoulli
+    m=self.api();self.assertAlmostEqual(m.bernoulli(0.),1.);self.assertAlmostEqual(m.bernoulli(-.3),np.exp(.3)*m.bernoulli(.3))
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_boost_roundtrip (__main__.Contracts.test_boost_roundtrip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 13, in test_boost_roundtrip
+    m=self.api();n,w=m.sphere(4,8);nn,D=m.to_normal(n,.1);ne,De=m.to_atom(nn,.1);np.testing.assert_allclose(ne,n,atol=1e-14);np.testing.assert_allclose(D,De,atol=1e-14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_frequency_BE (__main__.Contracts.test_frequency_BE)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 15, in test_frequency_BE
+    m=self.api();e=np.linspace(.1,6,50);f=1/np.expm1(e+.2);j=m.thermal_flux(f,np.diff(e),stimulated=True);self.assertLess(np.max(abs(j)),2e-14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_frequency_Wien (__main__.Contracts.test_frequency_Wien)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 17, in test_frequency_Wien
+    m=self.api();e=np.linspace(.1,6,50);f=np.exp(-e);j=m.thermal_flux(f,np.diff(e),stimulated=False);self.assertLess(np.max(abs(j)),1e-14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_invalid_angular_weight (__main__.Contracts.test_invalid_angular_weight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 35, in test_invalid_angular_weight
+    m=self.api();n,w=m.sphere(4,8);w[0]=-1
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_negative_input (__main__.Contracts.test_negative_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 23, in test_negative_input
+    m=self.api()
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_nonunit (__main__.Contracts.test_nonunit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 32, in test_nonunit
+    m=self.api()
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_sphere_quadrature (__main__.Contracts.test_sphere_quadrature)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 11, in test_sphere_quadrature
+    m=self.api();n,w=m.sphere(6,12);self.assertAlmostEqual(sum(w),1.);np.testing.assert_allclose(np.einsum('i,ij,ik->jk',w,n,n),np.eye(3)/3,atol=1e-14)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+======================================================================
+FAIL: test_superluminal (__main__.Contracts.test_superluminal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 26, in test_superluminal
+    m=self.api();n,w=m.sphere(4,8)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-redistribution-phase-20261116-r1/research/typeii_redistribution_phase_20261116/test_redistribution.py", line 6, in api
+    p=Path(__file__).with_name('redistribution.py');self.assertTrue(p.exists(),'constructive implementation absent')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : constructive implementation absent
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.002s
+
+FAILED (failures=12)
