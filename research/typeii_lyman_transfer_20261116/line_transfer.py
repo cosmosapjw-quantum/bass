@@ -125,3 +125,19 @@ def attach_cascade(net,p,grid,occupations,Tm,ntrace):
  out=collision(grid,ntrace*pp[0],ntrace*pp[2],occupations,Tm)
  dp[0]+=out['dnl']/ntrace;dp[2]+=out['dnu']/ntrace
  return {'population_derivative_proper':dp,'line':out,'removed_old_flux_per_atom':float(F_old),'nucleus_residual':float(sum(dp))}
+
+def resonance_fates(Q):
+ """A tagged excitation initially in 2p: return Ly-alpha vs ionization.
+ Resonant subspace U=(2p,3s,3d) includes Balmer excursions and finite residence.
+ Absorbing states=(1s,2s,3p,ion). Fixed source bath/electron reservoir; not a
+ universal cosmological photon-death coefficient or high-n completion.
+ """
+ Q=np.asarray(Q,float)
+ if Q.shape!=(7,7) or not np.isfinite(Q).all():raise ValueError('seven-state source matrix needed')
+ off=Q.copy();np.fill_diagonal(off,0)
+ if np.any(off<0) or np.any(np.diag(Q)>0) or np.any(abs(Q.sum(axis=0))>1e-12*np.maximum(np.sum(abs(Q),axis=0),1e-300)):raise ValueError('nonconservative or negative source rate')
+ u=np.array([2,3,5]);a=np.array([0,1,4,6]);N=np.linalg.solve(-Q[np.ix_(u,u)],np.eye(3))
+ if np.min(N)<0:raise ValueError('resonance block not transient')
+ exitp=Q[np.ix_(a,u)]@N[:,0]
+ check(abs(sum(exitp)-1)<2e-12,'tagged excitation probability normalization')
+ return {'reemission_probability':float(exitp[0]),'ionization_probability':float(exitp[3]),'other_exit_probability':float(sum(exitp[1:3])),'mean_residence_s':float(sum(N[:,0])),'probability_defect':float(abs(sum(exitp)-1))}

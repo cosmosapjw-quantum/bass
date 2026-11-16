@@ -29,4 +29,10 @@ class Contracts(unittest.TestCase):
   m=self.api();self.assertRaises(ValueError,m.drift,np.zeros(5),np.zeros(5),np.array([[2.,0,0]]))
  def test_invalid_band(self):
   m=self.api();self.assertRaises(ValueError,m.line_grid,-1.);self.assertRaises(ValueError,m.profile_masses,np.array([0.,0.,1.]),.1)
+ def test_resonance_fate_star(self):
+  m=self.api();Q=np.zeros((7,7));Q[0,2]=4.;Q[6,2]=1.;Q[3,2]=2.;Q[2,3]=3.;Q[6,3]=1.;Q[2,5]=2.;Q[6,5]=2.;np.fill_diagonal(Q,-Q.sum(axis=0))
+  f=m.resonance_fates(Q);self.assertAlmostEqual(f['reemission_probability'],4/5.5);self.assertAlmostEqual(f['ionization_probability'],1.5/5.5);self.assertAlmostEqual(f['mean_residence_s'],1.5/5.5)
+ def test_resonance_never_destroyed(self):
+  m=self.api();Q=np.zeros((7,7));Q[0,2]=4.;Q[3,2]=2.;Q[2,3]=3.;Q[2,5]=2.;np.fill_diagonal(Q,-Q.sum(axis=0))
+  f=m.resonance_fates(Q);self.assertAlmostEqual(f['reemission_probability'],1.);self.assertAlmostEqual(f['ionization_probability'],0.)
 if __name__=='__main__':unittest.main(verbosity=2)
