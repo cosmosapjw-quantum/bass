@@ -1,0 +1,26 @@
+test_BE_chemical_balance (__main__.Contracts.test_BE_chemical_balance) ... ok
+test_Milne_ratio (__main__.Contracts.test_Milne_ratio) ... ok
+test_Planck_balance (__main__.Contracts.test_Planck_balance) ... ok
+test_degenerate_shell_ratio (__main__.Contracts.test_degenerate_shell_ratio) ... ok
+test_energy_ledger (__main__.Contracts.test_energy_ledger) ... ok
+test_even_bulk_velocity (__main__.Contracts.test_even_bulk_velocity) ... ok
+test_invalid (__main__.Contracts.test_invalid) ... ok
+test_low_temperature_source_refinement (__main__.Contracts.test_low_temperature_source_refinement) ... FAIL
+test_missing_stimulation_fails (__main__.Contracts.test_missing_stimulation_fails) ... ok
+test_source_states (__main__.Contracts.test_source_states) ... ok
+test_threshold (__main__.Contracts.test_threshold) ... ok
+test_velocity_capture (__main__.Contracts.test_velocity_capture) ... ok
+test_zero_tilt_source_photon_integral (__main__.Contracts.test_zero_tilt_source_photon_integral) ... ok
+
+======================================================================
+FAIL: test_low_temperature_source_refinement (__main__.Contracts.test_low_temperature_source_refinement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-boundfree-balance-20261116-r1/research/typeii_boundfree_balance_20261116/test_bridge.py", line 34, in test_low_temperature_source_refinement
+    self.assertLess(max(abs(np.expm1(a['log_photo']-b['log_photo'])),abs(np.expm1(a['log_alpha']-b['log_alpha']))),3e-8)
+AssertionError: np.float64(1.434636839667464e-07) not less than 3e-08
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.418s
+
+FAILED (failures=1)
