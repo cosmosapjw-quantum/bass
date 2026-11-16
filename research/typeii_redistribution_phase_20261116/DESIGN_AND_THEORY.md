@@ -21,3 +21,12 @@ Finite frequency bands have explicit absorbing or reflecting redistribution boun
 
 ## Execution and preservation
 P1 source/derivation contracts and RED tests; P2 conservative kernels, geometry and equilibrium checks; P3 evolving source packet runs and refinement; P4 same-author hostile audit, verified artifacts, report and handoff. Each phase is committed/pushed with exact remote readback and host ZIP SHA/CRC. Parent external-backup ENOSPC remains known; do not retry or delete user files. Use GitHub + host verified archive and accurately state external NOT_ATTEMPTED_KNOWN_ENOSPC.
+
+## P2 actual evidence
+All12 implementation contracts passed after the recorded RED run. Original401-state overlap8.88e-16; finite-difference sphere divergence gap5.51e-10; independently perturbed-ray solid-angle determinant gap1.03e-11. The normal comoving measure is preserved to1.11e-16 locally. Across the original finite source interval, correct comoving photon number is0.9999999999999982 while dropping J produces3.5061314987410097 in the specified collisionless control. This is a concrete measure error, not a dynamical photon source.
+
+The nonlinear stimulated pair model relaxes toward its number-matched Bose-Einstein equilibrium with max occupation gap1.06e-8, number defect6.66e-16, energy-plus-reservoir defect1.78e-15 and nonincreasing free energy. A cancellation-free positive tridiagonal recurrence preserves a stiff closed linear test with rates1e13 and time step1, avoiding subtraction of the unit storage from huge diffusion terms.
+
+In an elastic angular-scattering control, normal photon energy changes0.04751498 per initial atom-frame photon energy, while the atom-frame energy change from the transformed four-force is4.03e-16. Thus that normal energy change is bulk exchange, not atom heat. The source local4x8 angular quadrature has solid-angle defect7.30e-9 over0.02 Hubble-normalized time; higher angular resolution must be checked in the packet campaign.
+
+Actual Wolfram Language residuals: sphere divergence, stimulated BE pair flux and normal comoving measure all zero. These are external CAS algebra checks, not independent-author review.
