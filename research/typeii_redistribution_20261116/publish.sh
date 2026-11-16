@@ -5,7 +5,11 @@ root=$(git rev-parse --show-toplevel);cd "$root"
 branch=research/bass-typeii-redistribution-20261116-r1
 backup=/home/cosmosapjw/research_backups/bass_typeii_redistribution_20261116
 test "$(git branch --show-current)" = "$branch"
-git add "$p"
+if [ "$stage" = P2 ];then
+ git add "$p"/redistribution.py "$p"/source_geometry.py "$p"/verify_phase_and_kernels.py "$p"/test_transport.py "$p"/DESIGN_AND_THEORY.md "$p"/STAGE_LEDGER.md "$p"/publish.sh "$p"/SYMBOLIC_CHECKS.json "$p"/PHASE_AND_KERNEL_VERIFICATION.json "$p"/PHASE_KERNEL_RUN.log "$p"/PHASE_KERNEL_REFINED.log "$p"/INITIAL_SKY_QUADRATURE_FAILURE.log "$p"/SKY_RESOLUTION_DIAGNOSIS.json "$p"/TDD_GREEN_ATTEMPT.log
+else
+ git add "$p"
+fi
 if git diff --cached --name-only | grep -qv "^$p/";then echo OUT_OF_SCOPE_STAGED;exit 2;fi
 git diff --cached --check
 git commit -m "science(typeii): $stage evolving redistribution and phase measure"
