@@ -19,3 +19,7 @@ Validation: zero recoil and LTE detailed-balance limits, angular-frequency depen
 
 ## DAG
 BASS upper: 9/15 scoped/source-mapped; newly full production nodes 0; Stage II historical 11/11 currently unproven; Join J1 0/2 FULL PASS HOLD. No auto-merge. Native subagent NOT_RUN unless available in runtime inventory.
+
+## M2/C2 original finite joint-kernel science result
+
+The original source-conditioned coherent-atom Maxwell/Lorentz kernel (not exact full R_II) yields E[xout] at x_in=2 for mu=+1,0,-1: 2.125 bin-centre, 0.0153541435, -2.00639269. The first entry is bin-centre quantization. The finite static 6-angle x36-frequency matrix has shape [216, 216]. Joint raw vs independent angle-frequency conditional L1 gap is 1.22829264044. Thermodynamic pairwise symmetrization produces Wien pair and nonlinear induced BE reciprocity with defects 1.87e-16 and 1.11e-16; column number conservation relative defect 3.22e-16. Source rates depend on the declared fixed T=3000K,nl=2.5e8m^-3. The symmetrization changes the raw coherent-atom conditional distribution and must not be misrepresented as exact Hummer R_II. No global line escape or coupled radiation/atom solution.
