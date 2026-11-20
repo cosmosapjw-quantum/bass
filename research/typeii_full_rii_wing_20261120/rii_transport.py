@@ -42,7 +42,7 @@ def raw_hummer(x,edges,T,na,wa,factorized=False):
    for ao in range(na_count):raw[ao,:,ai,:]=ang[ao,ai]*marg
  sums=raw.sum(axis=(0,1))
  check(np.isfinite(raw).all() and raw.min()>=0 and np.max(sums)<=1+2e-4,'raw Hummer positive normalized')
- return raw,{'a':float(a),'angular_nodes':na_count,'frequency_nodes':nf,'finite_mass_min':float(np.min(sums)),
+ return raw,{'a':float(a),'recoil':0.0,'angular_nodes':na_count,'frequency_nodes':nf,'finite_mass_min':float(np.min(sums)),
              'finite_mass_max':float(np.max(sums)),'model':'HUMMER_II_CLASSICAL_NO_RECOIL'}
 def matrix_kernel(z=1100.,X=40.,T=3000.,nl=2.5e8,angle_order=6,
                   factorized=False,thermo_sym=True):
