@@ -19,10 +19,11 @@ def extended_edges(X):
  pts=np.r_[np.arange(0.,4.001,.5),[5.,6.,8.,10.,12.,16.,20.,25.,30.,40.,60.,80.,120.,160.,240.,320.,480.]]
  pts=np.unique(np.r_[pts[pts<X],X])
  return np.r_[-pts[::-1],pts[1:]]
-def raw_hummer(x,edges,T,na,wa,factorized=False):
+def raw_hummer(x,edges,T,na,wa,factorized=False,leading_recoil=False):
  x=np.asarray(x,float);edges=np.asarray(edges,float)
  if len(edges)!=len(x)+1 or np.any(np.diff(edges)<=0) or T<=0:raise ValueError('bad frequency support')
  a=src.A/(4*np.pi*src.NU0*np.sqrt(2*src.KB*T/(src.MH*src.C**2)))
+ eps=src.H*src.NU0/(src.MH*src.C**2*np.sqrt(2*src.KB*T/(src.MH*src.C**2))) if leading_recoil else 0.0
  mu=np.round(np.clip(na@na.T,-1,1),12)
  ang=wa[:,None]*.75*(1+mu**2)
  na_count=len(wa);nf=len(x)
@@ -30,7 +31,7 @@ def raw_hummer(x,edges,T,na,wa,factorized=False):
  cache={}
  for j,xin in enumerate(x):
   for mm in np.unique(mu):
-   cache[j,float(mm)]=h.conditional_bins(float(xin),float(mm),float(a),edges)
+   cache[j,float(mm)]=h.leading_recoil_bins(float(xin),float(mm),float(a),edges,float(eps)) if leading_recoil else h.conditional_bins(float(xin),float(mm),float(a),edges)
  for ai in range(na_count):
   for ao in range(na_count):
    m=float(mu[ao,ai])
@@ -42,16 +43,16 @@ def raw_hummer(x,edges,T,na,wa,factorized=False):
    for ao in range(na_count):raw[ao,:,ai,:]=ang[ao,ai]*marg
  sums=raw.sum(axis=(0,1))
  check(np.isfinite(raw).all() and raw.min()>=0 and np.max(sums)<=1+2e-4,'raw Hummer positive normalized')
- return raw,{'a':float(a),'recoil':0.0,'angular_nodes':na_count,'frequency_nodes':nf,'finite_mass_min':float(np.min(sums)),
+ return raw,{'a':float(a),'recoil':float(eps),'angular_nodes':na_count,'frequency_nodes':nf,'finite_mass_min':float(np.min(sums)),
              'finite_mass_max':float(np.max(sums)),'model':'HUMMER_II_CLASSICAL_NO_RECOIL'}
 def matrix_kernel(z=1100.,X=40.,T=3000.,nl=2.5e8,angle_order=6,
-                  factorized=False,thermo_sym=True):
+                  factorized=False,thermo_sym=True,leading_recoil=False):
  if angle_order==6:na,wa=src.sphere6()
  elif angle_order==14:na,wa=src.sphere14()
  else:raise ValueError('allowed 6 or 14 nodes')
  if not np.isfinite(nl) or nl<0:raise ValueError('positive source density')
  e=extended_edges(X);x=(e[:-1]+e[1:])/2;nf=len(x);aa=len(wa)
- raw,meta=raw_hummer(x,e,T,na,wa,factorized)
+ raw,meta=raw_hummer(x,e,T,na,wa,factorized,leading_recoil)
  nu=src.NU0+src.NU0*np.sqrt(2*src.KB*T/(src.MH*src.C*src.C))*x
  rate,_=src.prev.medium_rates(nu,T,nl,0.)
  dnu=np.diff(e)*src.NU0*np.sqrt(2*src.KB*T/(src.MH*src.C*src.C))
@@ -66,8 +67,8 @@ def matrix_kernel(z=1100.,X=40.,T=3000.,nl=2.5e8,angle_order=6,
   Q=flux/pi[None,:]
  np.fill_diagonal(Q,-np.sum(Q,axis=0))
  db=float(np.max(abs(Q*pi[None,:]-(Q*pi[None,:]).T))/max(1e-300,np.max(abs(Q*pi[None,:]))))
- rawfull,_=raw_hummer(x,e,T,na,wa,False)
- rawfact,_=raw_hummer(x,e,T,na,wa,True)
+ rawfull,_=raw_hummer(x,e,T,na,wa,False,leading_recoil)
+ rawfact,_=raw_hummer(x,e,T,na,wa,True,leading_recoil)
  gap=float(np.max(np.sum(abs(rawfull-rawfact),axis=(0,1))))
  inside=np.tile(abs(x)<=20,aa)
  return dict(Q=Q,pi=pi,x=x,edges=e,na=na,wa=wa,rate=rate,
@@ -75,7 +76,7 @@ def matrix_kernel(z=1100.,X=40.,T=3000.,nl=2.5e8,angle_order=6,
   column_defect=float(np.max(abs(Q.sum(axis=0)))/max(1.,np.max(abs(Q).sum(axis=0)))),
   factorization_gap=gap,core_outward_rate=float(Q[np.ix_(~inside,inside)].sum()),
   core_return_rate=float(Q[np.ix_(inside,~inside)].sum()),core_mask=inside,
-  source_z=z,factorized=factorized,T=T,thermo_sym=thermo_sym)
+  source_z=z,factorized=factorized,T=T,thermo_sym=thermo_sym,leading_recoil=leading_recoil)
 def scattering_tails(g):
  # True finite-domain terminal mass from the original exact no-recoil conditional.
  x=g['x'];edges=g['edges'];na=g['na'];wa=g['wa'];T=g['T']
@@ -87,7 +88,7 @@ def scattering_tails(g):
  cache={}
  for j,xx in enumerate(x):
   for mu in np.unique(mm):
-   b=h.conditional_bins(float(xx),float(mu),float(a),tail_edges)
+   b=h.leading_recoil_bins(float(xx),float(mu),float(a),tail_edges,float(g['kernel_meta']['recoil'])) if g['kernel_meta']['recoil']>0 else h.conditional_bins(float(xx),float(mu),float(a),tail_edges)
    cache[j,float(mu)]=(b[0],b[-1])
  for srca in range(nr):
   for desta in range(nr):

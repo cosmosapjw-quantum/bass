@@ -65,3 +65,13 @@ def directions(order=6):
     if order==6:return prior.sphere6()
     if order==14:return prior.sphere14()
     raise ValueError('only source six/fourteen sky positive quadrature supported')
+
+def leading_recoil_bins(x,mu,a,edges,recoil):
+    """Leading atom recoil shifts emitted Doppler frequency by -recoil*(1-mu).
+
+    Uses exact recoil-free Hummer conditional with shifted outgoing integration
+    edges. This is a first-order frequency-shift model, NOT the full quantum
+    redistribution/recoil operator or exact detailed-balance correction.
+    """
+    if not np.isfinite(recoil) or recoil<0:raise ValueError('finite nonnegative recoil')
+    return conditional_bins(x,mu,a,np.asarray(edges,float)+recoil*(1-mu))

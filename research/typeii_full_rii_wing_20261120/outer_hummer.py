@@ -56,14 +56,14 @@ def prior_scattering_tails(g):
  return red.reshape(-1),blue.reshape(-1)
 
 def evolve(z0=1100.,X=40.,duration=.00015,steps=64,
-           factorized=False,frozen=False,angular_order=6,save=None,thermo_sym=True,
+           factorized=False,frozen=False,angular_order=6,save=None,thermo_sym=True,leading_recoil=False,
            include_outer_scattering=True):
  if not isinstance(steps,int) or steps<8 or X not in (20.,40.,80.,120.,160.,240.,320.,480.):
   raise ValueError('finite source intervals, integer time grid and bounded outer support')
  geom,t0=source_geometry(z0,duration,ang=angular_order)
  s0=geom.at(t0)
  g=matrix_kernel(z=z0,X=X,T=s0['Tm'],nl=s0['nl'],
-                 angle_order=angular_order,factorized=factorized,thermo_sym=thermo_sym)
+                 angle_order=angular_order,factorized=factorized,thermo_sym=thermo_sym,leading_recoil=leading_recoil)
  nf=len(g['x']);na=len(g['wa']);N=na*nf
  x=g['x'];nu=NU0+NU0*np.sqrt(2*KB*s0['Tm']/(MH*C*C))*x
  edges_nu=NU0+NU0*np.sqrt(2*KB*s0['Tm']/(MH*C*C))*g['edges']
@@ -148,7 +148,7 @@ def evolve(z0=1100.,X=40.,duration=.00015,steps=64,
   maxangle=max(maxangle,float(s['angular_weight_defect']))
   n=after
   traces.append((right-t0,1701*np.exp(-right)-1,float(sum(n[:N])),float(n[N]),float(n[N+1]),float(n[N+2]),float(gross_core_out),float(gross_core_return),float(sum(n)-1)))
- res={'HUMMER_RII0_SOURCE_KERNEL':True,'thermal_pair_symmetrization':thermo_sym,
+ res={'HUMMER_RII0_SOURCE_KERNEL':True,'thermal_pair_symmetrization':thermo_sym,'leading_recoil_shift':leading_recoil,
  'model':'finite-band correlated Maxwell-Lorentz dipole kernel, leading recoil, pairwise Wien symmetrization',
  'initial_z_mean':float(z0),'final_z_mean':float(1701*np.exp(-(t0+duration))-1),
  'duration_tauH':float(duration),'steps':steps,'outer_half_width_Doppler':X,
