@@ -4,11 +4,11 @@
 #![allow(dead_code)]
 
 #[path = "../../../runtime/rust/typeii/typeii_physical_guard.rs"]
-mod typeii_physical_guard;
+pub(crate) mod typeii_physical_guard;
 #[path = "../../../generated/rust/typeii/typeii_polarized.rs"]
 mod typeii_polarized;
 #[path = "../../../runtime/rust/typeii/typeii_polarized_liouville.rs"]
-mod typeii_polarized_liouville;
+pub(crate) mod typeii_polarized_liouville;
 
 use super::typeii_host::{TypeIIHostError, TypeIIHostState};
 

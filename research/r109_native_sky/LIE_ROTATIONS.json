@@ -1,0 +1,332 @@
+{
+  "schema": "bass.r109.lie_so3_holdout.v1",
+  "solver_sha256": "2f6876ecb8b03c96b2c3387d3975648983e18912c3833f20322acf6498fe22ec",
+  "expansion_equation": "raychaudhuri",
+  "script_sha256": "7e71f584a3c755b184b5d0fec86e430ea7f2209537c090ad9a6ea635e2962e5a",
+  "file_format": "Hubble-normalized symmetric packing 11,22,33,12,13,23",
+  "geometry": "type VIII; tracefree Sigma not aligned with rotated diag(-.35,.53,.72) spatial N; A=0",
+  "transform": "proper rotation applied to both tensors and observer; nonzero host flow fixed by independent Codazzi prediction",
+  "independent_oracle": "scalar scipy.special.sph_harm_y on separate 18x44 GL/phi grid projects Y_lm(R^-1 n); all m of T,E,B at all ell=0..4",
+  "rotation_matrix": [
+    [
+      0.7378009813079376,
+      -0.6572548922062162,
+      -0.1538366622494102
+    ],
+    [
+      0.5379415627200581,
+      0.7101703321143444,
+      -0.4541772500719331
+    ],
+    [
+      0.4077604530595701,
+      0.25233728629672736,
+      0.8775290917485628
+    ]
+  ],
+  "det_R": 0.9999999999999998,
+  "rotation_block_unitarity_max_abs": 9.171982379395512e-15,
+  "comparison_limit_fine": 1e-05,
+  "cases": {
+    "base_reference": {
+      "argv": [
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/homogeneous_sky",
+        "--expansion-equation",
+        "raychaudhuri",
+        "--out",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/base_reference",
+        "--lie-ic",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/base_reference.lie",
+        "--feedback",
+        "recoil",
+        "--dust-fraction",
+        "0.28",
+        "--tau",
+        ".22",
+        "--duration",
+        ".35",
+        "--steps",
+        "36",
+        "--nmu",
+        "10",
+        "--nphi",
+        "24",
+        "--lmax",
+        "4",
+        "--observer-beta",
+        "0.13,-0.070000000000000007,0.040000000000000001"
+      ],
+      "ic_sha256": "21d99a419c939dcb7e8b5e68bdc82876175a35b3f705be02c5a6edc270887a7d",
+      "files_sha256": {
+        "cl.tsv": "6c658a00da2708a7fdeec84eb625d6968a159a1e4e047ae2d1c9812237eb40b3",
+        "diagnostics.tsv": "58579a36d11160652bb48e15da9e94beaf7464cd4013f310a8fbae6d2b1e10cd",
+        "modes.tsv": "0c28a8c7476b40e10703bc694d1c6463b5968a591c3f411d7b1435c20a178f82",
+        "run.txt": "48957e7f3cb4176e6f0e643d8e5aca3b46f7d20e75ab4c035af626a3eeb069fa"
+      },
+      "omega_total_initial": 0.9047320000000001,
+      "host_beta_initial": [
+        -0.03212658579196051,
+        -0.033037270054460735,
+        -0.14227509963299087
+      ],
+      "codazzi_predicted_beta_initial": [
+        -0.03212658579196077,
+        -0.033037270054460735,
+        -0.1422750996329909
+      ],
+      "initial_codazzi_norm": 1.5899003276961254e-17,
+      "endpoint_codazzi_norm": 2.52467205408084e-07,
+      "endpoint_gauss": 4.767709639086348e-06,
+      "harmonic_checks": {
+        "signed_alm_reality_max_abs": 0.0,
+        "outer_product_max_abs": 0.0,
+        "cl_replay_max_abs": 2.117582368135751e-22,
+        "product_min_eigenvalue": -2.2729751453578108e-22,
+        "product_second_eigenvalue_max_abs": 8.254074297950264e-23,
+        "max_imaginary_cross_product": 3.0000044354524255e-05
+      }
+    },
+    "base_rotated": {
+      "argv": [
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/homogeneous_sky",
+        "--expansion-equation",
+        "raychaudhuri",
+        "--out",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/base_rotated",
+        "--lie-ic",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/base_rotated.lie",
+        "--feedback",
+        "recoil",
+        "--dust-fraction",
+        "0.28",
+        "--tau",
+        ".22",
+        "--duration",
+        ".35",
+        "--steps",
+        "36",
+        "--nmu",
+        "10",
+        "--nphi",
+        "24",
+        "--lmax",
+        "4",
+        "--observer-beta",
+        "0.1357685035344906,0.0020533899027261179,0.070446412526915705"
+      ],
+      "ic_sha256": "ba5a7c57a755d8d940045cdb0526b2a0737cecdf4061829ae1962a0fb579a73f",
+      "files_sha256": {
+        "cl.tsv": "18b6183257e3e1794fe92d4206beb78a41719def581f93d7de94b189ca210231",
+        "diagnostics.tsv": "cdfdeb081df6b8dce8de0077147f7c7d2ed252b06794e994c05f33f895b98d66",
+        "modes.tsv": "1de69bf90732418640e43b72aeeba060bb0e218b20e00daaef2eb470c4770e31",
+        "run.txt": "7ed339393a272fd2a31cb3727023fd5dda0b42537e41d6474779a852817c20f8"
+      },
+      "omega_total_initial": 0.9047320000000001,
+      "host_beta_initial": [
+        0.01989800729379179,
+        0.023873798692507053,
+        -0.1462870252093565
+      ],
+      "codazzi_predicted_beta_initial": [
+        0.019898007293791545,
+        0.023873798692507064,
+        -0.14628702520935652
+      ],
+      "initial_codazzi_norm": 3.469446951953614e-18,
+      "endpoint_codazzi_norm": 2.5246720553919625e-07,
+      "endpoint_gauss": 4.767709637976125e-06,
+      "harmonic_checks": {
+        "signed_alm_reality_max_abs": 0.0,
+        "outer_product_max_abs": 0.0,
+        "cl_replay_max_abs": 6.938893903907228e-18,
+        "product_min_eigenvalue": -5.400398529175481e-22,
+        "product_second_eigenvalue_max_abs": 8.654774675689453e-22,
+        "max_imaginary_cross_product": 2.15104763176165e-05
+      }
+    },
+    "fine_reference": {
+      "argv": [
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/homogeneous_sky",
+        "--expansion-equation",
+        "raychaudhuri",
+        "--out",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/fine_reference",
+        "--lie-ic",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/fine_reference.lie",
+        "--feedback",
+        "recoil",
+        "--dust-fraction",
+        "0.28",
+        "--tau",
+        ".22",
+        "--duration",
+        ".35",
+        "--steps",
+        "36",
+        "--nmu",
+        "20",
+        "--nphi",
+        "48",
+        "--lmax",
+        "4",
+        "--observer-beta",
+        "0.13,-0.070000000000000007,0.040000000000000001"
+      ],
+      "ic_sha256": "21d99a419c939dcb7e8b5e68bdc82876175a35b3f705be02c5a6edc270887a7d",
+      "files_sha256": {
+        "cl.tsv": "4f9cf62be8d410e10eacc00c16917840f2ece661a738158870389ed974f4d90a",
+        "diagnostics.tsv": "50b6d5a132ad4346abaa043633e9478620a00fa6e43b46ca287490bf772a40c4",
+        "modes.tsv": "ce7c49e03877767a671511fc22b13d8d1c02412f25b97c6c62b93b12e2bb8adb",
+        "run.txt": "10f3ef0b5b78ed3446ad20f15160e802968bcc68e05c6c0fc565e7b6647aa312"
+      },
+      "omega_total_initial": 0.9047320000000001,
+      "host_beta_initial": [
+        -0.03212658579196051,
+        -0.03303727005446079,
+        -0.14227509963299095
+      ],
+      "codazzi_predicted_beta_initial": [
+        -0.03212658579196077,
+        -0.033037270054460735,
+        -0.1422750996329909
+      ],
+      "initial_codazzi_norm": 2.881939084222627e-17,
+      "endpoint_codazzi_norm": 2.524672055813053e-07,
+      "endpoint_gauss": 4.767709639086348e-06,
+      "harmonic_checks": {
+        "signed_alm_reality_max_abs": 0.0,
+        "outer_product_max_abs": 0.0,
+        "cl_replay_max_abs": 3.3881317890172014e-21,
+        "product_min_eigenvalue": -3.1513514858266244e-22,
+        "product_second_eigenvalue_max_abs": 8.58018460665436e-22,
+        "max_imaginary_cross_product": 3.0000044355277003e-05
+      }
+    },
+    "fine_rotated": {
+      "argv": [
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/homogeneous_sky",
+        "--expansion-equation",
+        "raychaudhuri",
+        "--out",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/fine_rotated",
+        "--lie-ic",
+        "/home/cosmosapjw/Downloads/htt_r109_native_validation/canonical.OIMrmB/rotations/fine_rotated.lie",
+        "--feedback",
+        "recoil",
+        "--dust-fraction",
+        "0.28",
+        "--tau",
+        ".22",
+        "--duration",
+        ".35",
+        "--steps",
+        "36",
+        "--nmu",
+        "20",
+        "--nphi",
+        "48",
+        "--lmax",
+        "4",
+        "--observer-beta",
+        "0.1357685035344906,0.0020533899027261179,0.070446412526915705"
+      ],
+      "ic_sha256": "ba5a7c57a755d8d940045cdb0526b2a0737cecdf4061829ae1962a0fb579a73f",
+      "files_sha256": {
+        "cl.tsv": "189f70ce119b4f155e1bb9715a6eacc72612020e4a48d585d05cf3603f2340b1",
+        "diagnostics.tsv": "b526debe1efc934c16c9a10c5b011caba2fefc1b710489dbfe41cc7220b08d17",
+        "modes.tsv": "87387ee1e8d8443635be9008b5f3d46777eaea58734a83386a83a062b49b177b",
+        "run.txt": "517430a149da88cea5ef711e56446054e8fe7296559ea3f9b618f9833bf14982"
+      },
+      "omega_total_initial": 0.9047320000000001,
+      "host_beta_initial": [
+        0.019898007293791785,
+        0.023873798692507,
+        -0.14628702520935657
+      ],
+      "codazzi_predicted_beta_initial": [
+        0.019898007293791545,
+        0.023873798692507064,
+        -0.14628702520935652
+      ],
+      "initial_codazzi_norm": 1.4304896245381992e-17,
+      "endpoint_codazzi_norm": 2.5246720577804615e-07,
+      "endpoint_gauss": 4.7677096395304375e-06,
+      "harmonic_checks": {
+        "signed_alm_reality_max_abs": 0.0,
+        "outer_product_max_abs": 0.0,
+        "cl_replay_max_abs": 2.117582368135751e-22,
+        "product_min_eigenvalue": -8.530331541184953e-22,
+        "product_second_eigenvalue_max_abs": 1.5956553929587443e-22,
+        "max_imaginary_cross_product": 2.1510476318224377e-05
+      }
+    }
+  },
+  "comparisons": {
+    "base": {
+      "rotation_max_alm_abs_TEB": [
+        4.732201470353462e-10,
+        1.25588574912891e-12,
+        4.440784457553689e-13
+      ],
+      "rotation_alm_relative_l2_TEB": [
+        3.379407930401331e-09,
+        7.795723735541969e-10,
+        1.6624453521028906e-09
+      ],
+      "rotation_cl_max_abs": {
+        "TT": 7.027650759505039e-14,
+        "TE": 2.6422066632824745e-15,
+        "TB": 7.780529332228498e-16,
+        "EE": 4.2908042129942685e-18,
+        "EB": 3.874295872010609e-18,
+        "BB": 8.563823629228341e-19
+      },
+      "rotation_cl_relative_max": {
+        "TT": 2.0158759430776496e-12,
+        "TE": 9.771909584356309e-11,
+        "TB": 4.4117304204078055e-10,
+        "EE": 4.1166157787703085e-12,
+        "EB": 4.000539233463636e-10,
+        "BB": 2.2030635635042485e-11
+      },
+      "unrotated_comparison_relative_TEB": [
+        0.5184696007667096,
+        1.1254236121351067,
+        1.0372983417639066
+      ]
+    },
+    "fine": {
+      "rotation_max_alm_abs_TEB": [
+        3.3653635433950054e-15,
+        8.211820545801446e-17,
+        4.506962265511495e-17
+      ],
+      "rotation_alm_relative_l2_TEB": [
+        1.0721727289602113e-14,
+        7.270355629855338e-14,
+        3.114518823356962e-13
+      ],
+      "rotation_cl_max_abs": {
+        "TT": 4.85722573273506e-17,
+        "TE": 3.1509625637859973e-19,
+        "TB": 2.5178054357134078e-19,
+        "EE": 6.140988867593677e-20,
+        "EB": 6.034282568574337e-21,
+        "BB": 5.936054870833665e-22
+      },
+      "rotation_cl_relative_max": {
+        "TT": 1.3932912775263152e-15,
+        "TE": 1.1653487104243825e-14,
+        "TB": 1.4276507880992788e-13,
+        "EE": 5.891690791432576e-14,
+        "EB": 6.230908778939856e-13,
+        "BB": 1.5270639334781523e-14
+      },
+      "unrotated_comparison_relative_TEB": [
+        0.5184696007552477,
+        1.1254236121375722,
+        1.0372983417520456
+      ]
+    }
+  }
+}
