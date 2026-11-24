@@ -279,6 +279,9 @@ pub fn analyze_rings(
     if lmax > (i32::MAX / 4) as usize {
         return Err("multipole index out of range".to_owned());
     }
+    if n_phi < lmax.saturating_mul(2).saturating_add(1) {
+        return Err("azimuthal ring grid is below Nyquist resolution for requested lmax".to_owned());
+    }
     if !t.iter().chain(q).chain(u).all(|v| v.is_finite())
         || !ring_weight.iter().all(|w| w.is_finite() && *w > 0.0)
         || !cos_theta.iter().all(|z| z.is_finite() && z.abs() < 1.0)
@@ -317,7 +320,11 @@ pub fn analyze_rings(
         })
         .collect();
     for (ring, (&z, &weight)) in cos_theta.iter().zip(ring_weight).enumerate() {
-        let radius = (1.0 - z * z).max(0.0).sqrt();
+        let radius = if z.abs() > 0.99999 {
+            ((1.0 - z) * (1.0 + z)).max(0.0).sqrt()
+        } else {
+            (1.0 - z * z).max(0.0).sqrt()
+        };
         let (ch, sh) = if z >= 0.0 {
             let ch = ((1.0 + z) / 2.0).sqrt();
             (ch, radius / (2.0 * ch))

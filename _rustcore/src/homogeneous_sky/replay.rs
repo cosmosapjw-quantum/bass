@@ -133,6 +133,9 @@ pub fn los_sky(
     }
     let tbar = tsum / area;
     let ibar = isum / area;
+    if min_eig < -1e-9 * min_i {
+        return Err("negative transverse screen eigenvalue in replayed sky".into());
+    }
     let samples = grid
         .ehat
         .chunks_exact(3)

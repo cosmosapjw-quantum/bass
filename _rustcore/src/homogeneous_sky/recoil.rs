@@ -69,7 +69,16 @@ fn trial(
     for _ in 0..18 {
         output.clone_from_slice(start);
         let map = gain_map(start, beta)?;
-        let event = scatter_kernel(&mut output, depth, beta.into(), Some(&map), scheme)?;
+        let event = match scatter_kernel(&mut output, depth, beta.into(), Some(&map), scheme) {
+            Ok(ev) => ev,
+            Err(msg)
+                if scheme == CollisionScheme::Sdirk2
+                    && msg.starts_with("nonpositive bolometric intensity") =>
+            {
+                return Ok(None);
+            }
+            Err(msg) => return Err(msg),
+        };
         let (de, dp) = exchange(start, &output, scale);
         let p1 = (mass * p0 - dp) / mass;
         let g1 = gamma(p1);
@@ -302,5 +311,29 @@ mod tests {
         let mut pencil = sky[0].clone();
         pencil.weight = 4. * PI;
         assert!(gain_map(&[pencil], V::zeros()).is_err());
+    }
+
+    #[test]
+    fn sdirk2_stage_positivity_overshoot_bisects_in_recoil() {
+        let mut sky = initial_sky(8, 20).unwrap();
+        // Concentrate almost all energy into one beam so single-step SDIRK2
+        // at large depth overshoots R(z) = -0.2071 on that beam and bisects.
+        for (i, p) in sky.iter_mut().enumerate() {
+            let factor = if i == 0 { 1e-4 } else { 1.0 };
+            p.screen *= factor;
+        }
+        let mut dust = Dust::opposed(0.5, [0.1, -0.05, 0.02]).unwrap();
+        let mut events = Vec::new();
+        let defect = scatter_with_recoil_events(
+            &mut sky,
+            &mut dust,
+            20.0,
+            0.5 / (4. * PI),
+            CollisionScheme::Sdirk2,
+            &mut events,
+        )
+        .unwrap();
+        assert!(defect.is_finite() && defect.abs() < 1e-12);
+        assert!(events.len() > 1, "expected bisection, got {} event(s)", events.len());
     }
 }

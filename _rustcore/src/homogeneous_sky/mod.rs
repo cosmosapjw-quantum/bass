@@ -271,8 +271,11 @@ fn sdirk_input(x0: &M, x1: &M) -> M {
 fn to_normal(t: &RayTerms, b: V, rest_new: &M) -> Result<M, String> {
     let (_, inv, inv_d) = boost(t.e, -b)?;
     let out = inv * rest_new * inv.transpose() * inv_d.powi(4);
-    if !out.iter().all(|v| v.is_finite()) || out.trace() <= 0.0 {
-        return Err("nonpositive/nonfinite bolometric intensity; refine angular/depth mesh".into());
+    if !out.iter().all(|v| v.is_finite()) {
+        return Err("nonfinite bolometric intensity; refine angular/depth mesh".into());
+    }
+    if out.trace() <= 0.0 {
+        return Err("nonpositive bolometric intensity; refine angular/depth mesh".into());
     }
     Ok((out + out.transpose()) * 0.5)
 }

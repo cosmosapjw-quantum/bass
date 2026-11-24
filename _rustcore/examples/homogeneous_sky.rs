@@ -358,7 +358,7 @@ fn run() -> Result<(), Error> {
             ic.shear,
             ic.n,
             ic.a,
-            required_flux(&initial_lie_node(ic)?)
+            required_flux(&sol.history[0].node)
         )?;
     }
     writeln!(

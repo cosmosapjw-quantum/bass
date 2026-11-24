@@ -6,11 +6,11 @@ use bianchi_rustcore::homogeneous_sky::{
     material::Material,
     replay::{arrival, los_sky, replay, trace_back, StepRecord},
     solve::{solve_with_expansion, Settings, Solution},
-    CollisionScheme,
+    CollisionEvent, CollisionScheme,
 };
 use bianchi_rustcore::kinetic::lie_history::{LieInitial, RayNode};
 use bianchi_rustcore::kinetic::radiation_feedback::{ExpansionEquation, LieUpdate};
-use bianchi_rustcore::kinetic::sky_spectrum::{analyze, Mode};
+use bianchi_rustcore::kinetic::sky_spectrum::{analyze, analyze_rings, Mode};
 use bianchi_rustcore::kinetic::sphere::gauss_legendre;
 use nalgebra::{Matrix3, Rotation3, Vector3};
 
@@ -480,4 +480,67 @@ fn lambda_cdm_flrw_follows_the_closed_form_hubble_rate_at_second_order() {
     // The Gauss residual is a truncation diagnostic of the free Raychaudhuri step.
     assert!(e1.0 / e2.0 > 3.5 && e2.0 / e3.0 > 3.5 && e3.0 < 1e-4);
     assert!(e1.1 / e2.1 > 3.5 && e2.1 / e3.1 > 3.5);
+}
+
+#[test]
+fn los_sky_rejects_negative_screen_eigenvalue_and_analyze_rings_checks_nyquist() {
+    // Non-PSD synthetic source makes trace > 0 while yielding a negative transverse eigenvalue.
+    let node0 = RayNode::default();
+    let mut node1 = RayNode::default();
+    node1.eta = 0.01;
+    let rec = vec![StepRecord {
+        left: node0,
+        right: node1,
+        first: vec![CollisionEvent {
+            depth: 1.0,
+            beta: [0.0; 3],
+            gain_map: None,
+            scheme: CollisionScheme::BackwardEuler,
+            sources: vec![[
+                [100.0, 0.0, 0.0],
+                [0.0, -50.0, 0.0],
+                [0.0, 0.0, 100.0],
+            ]],
+        }],
+        second: vec![],
+    }];
+    let err = los_sky(&rec, [0.0; 3], 5, 10).err().unwrap();
+    assert!(err.contains("negative transverse screen eigenvalue"), "{err}");
+    let z = [0.5, -0.5];
+    let w = [1.0, 1.0];
+    let v = vec![0.0; 8];
+    assert!(analyze_rings(&z, &w, 4, &v, &v, &v, 2).is_err());
+    assert!(analyze_rings(&z, &w, 5, &v, &v, &v, 2).is_err());
+    let v10 = vec![0.0; 10];
+    assert!(analyze_rings(&z, &w, 5, &v10, &v10, &v10, 2).is_ok());
+    assert!(analyze_rings(&z, &w, 5, &v10, &v10, &v10, 3).is_err());
+}
+
+#[test]
+fn non_flrw_viih_with_lambda_preserves_type_and_gauss_reduced_matches_raychaudhuri() {
+    let mat = Material::constant(0.6, 0.0, [0.0; 3]).unwrap();
+    let run = |steps: usize, eq: ExpansionEquation| {
+        let mut cfg = settings(
+            "VIIh:0.4",
+            0.05,
+            0.6,
+            steps,
+            (8, 16),
+            "active",
+            (0.6, [0.0; 3]),
+            CollisionScheme::Sdirk2,
+        );
+        cfg.omega_lambda = 0.2;
+        cfg.lie_update = LieUpdate::Congruence;
+        solve_with_expansion(&cfg, &mat, None, None, eq).unwrap()
+    };
+    let r1 = run(16, ExpansionEquation::Raychaudhuri);
+    let r2 = run(32, ExpansionEquation::Raychaudhuri);
+    let g2 = run(32, ExpansionEquation::GaussReduced);
+    let last_r = &r2.history.last().unwrap().node;
+    let last_g = &g2.history.last().unwrap().node;
+    assert_eq!(group(&r2.history[0].node).classify().name, "VII_h");
+    assert_eq!(group(last_r).classify().name, "VII_h");
+    assert!((last_r.hubble_ratio / last_g.hubble_ratio - 1.0).abs() < 1e-4);
+    assert!(last_r.gauss_residual.abs() * 3.5 < r1.history.last().unwrap().node.gauss_residual.abs());
 }
