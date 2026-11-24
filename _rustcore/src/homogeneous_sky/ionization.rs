@@ -98,9 +98,71 @@ impl Ionization {
         Ok(cells)
     }
 }
+impl Ionization {
+    /// Tabulated electron fraction per hydrogen at `eta` (linear between knots).
+    pub fn xe_at(&self, eta: f64) -> Result<f64, String> {
+        self.unit_exposure.rate_at(eta)
+    }
+
+    /// Cells of the table plus a constant offset `delta_xe` of the electron
+    /// fraction on [start, end] (R113 matched recombination). The offset rescales
+    /// the tabulated cells so that their total exposure integrates x_e + delta_xe;
+    /// a zero offset returns exactly [`Self::cells`].
+    pub fn cells_with_offset(
+        &self,
+        start: f64,
+        end: f64,
+        host_proper_ratio: f64,
+        hubble_ratio: f64,
+        delta_xe: f64,
+    ) -> Result<Vec<(f64, [f64; 3])>, String> {
+        let mut cells = self.cells(start, end, host_proper_ratio, hubble_ratio)?;
+        if delta_xe == 0.0 {
+            return Ok(cells);
+        }
+        if !delta_xe.is_finite() {
+            return Err("nonfinite electron-fraction offset".into());
+        }
+        let scale = self.emission_exposure_per_eta * (host_proper_ratio / hubble_ratio);
+        let added = scale * delta_xe * (end - start);
+        let total: f64 = cells.iter().map(|c| c.0).sum();
+        if total > 0.0 {
+            let factor = ((total + added) / total).max(0.0);
+            for (depth, _) in &mut cells {
+                *depth *= factor;
+            }
+        } else if added > 0.0 {
+            cells.push((added, [0.0; 3]));
+        }
+        Ok(cells)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn offset_cells_integrate_the_shifted_fraction_and_interpolate() {
+        let ion =
+            Ionization::parse("eta xe_per_H\n0 0.2\n1 0.1\n", 1.0 / C_SIGMA_T_M3_S, 1.).unwrap();
+        assert!((ion.xe_at(0.5).unwrap() - 0.15).abs() < 1e-16);
+        assert!(ion.xe_at(1.5).is_err());
+        let base: f64 = ion
+            .cells(0.25, 0.75, 2., 4.)
+            .unwrap()
+            .iter()
+            .map(|c| c.0)
+            .sum();
+        let zero = ion.cells_with_offset(0.25, 0.75, 2., 4., 0.0).unwrap();
+        assert_eq!(zero, ion.cells(0.25, 0.75, 2., 4.).unwrap());
+        let shifted: f64 = ion
+            .cells_with_offset(0.25, 0.75, 2., 4., 0.01)
+            .unwrap()
+            .iter()
+            .map(|c| c.0)
+            .sum();
+        assert!((shifted - base - 0.5 * 0.01 * 0.5).abs() < 1e-15);
+    }
     #[test]
     fn charge_fraction_integrates_knots_and_truncations_on_normal_host_clock() {
         let ion = Ionization::parse("eta xe_per_H\n0 0\n0.25 2\n1 0\n", 1.0 / C_SIGMA_T_M3_S, 1.)

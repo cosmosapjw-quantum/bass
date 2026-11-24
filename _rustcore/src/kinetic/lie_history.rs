@@ -72,38 +72,10 @@ fn rows(m: Matrix3<f64>) -> [[f64; 3]; 3] {
     std::array::from_fn(|i| std::array::from_fn(|j| m[(i, j)]))
 }
 
-// Original BASS bianchi/algebra.py::CANONICAL; h = a_1^2/(n_2 n_3).
+// Original BASS bianchi/algebra.py::CANONICAL; h = a_1^2/(n_2 n_3). The single
+// table lives in `geom::lie` with the other Lie-algebra type constants.
 fn canonical(family: &str) -> Result<([f64; 3], f64), String> {
-    match family {
-        "I" | "FLRW" => Ok(([0., 0., 0.], 0.)),
-        "II" => Ok(([1., 0., 0.], 0.)),
-        "III" => Ok(([0., 1., -1.], 1.)),
-        "IV" => Ok(([0., 0., 1.], 1.)),
-        "V" => Ok(([0., 0., 0.], 1.)),
-        "VI0" => Ok(([0., 1., -1.], 0.)),
-        "VIstar" => Ok(([0., 3., -3.], 1.)),
-        "VII0" => Ok(([0., 1., 1.], 0.)),
-        "VIII" => Ok(([-1., 1., 1.], 0.)),
-        "IX" => Ok(([1., 1., 1.], 0.)),
-        _ => {
-            let (name, arg) = family.split_once(':').unwrap_or((family, ""));
-            let sign = match name {
-                "VIh" => -1.,
-                "VIIh" => 1.,
-                _ => return Err(format!("unknown Bianchi family {family}")),
-            };
-            let h = if !family.contains(':') {
-                0.25 * sign
-            } else {
-                arg.parse::<f64>()
-                    .map_err(|_| format!("invalid h in {family}"))?
-            };
-            if !h.is_finite() || sign * h <= 0. {
-                return Err(format!("invalid h in {family}"));
-            }
-            Ok(([0., 1., sign], h.abs().sqrt()))
-        }
-    }
+    crate::geom::lie::canonical_diagonal(family)
 }
 
 /// User-supplied right-handed orthonormal Fermi-frame Lie data in Hubble units.

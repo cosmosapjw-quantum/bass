@@ -5,6 +5,8 @@ use crate::kinetic::sky_spectrum::SkySample;
 use crate::kinetic::sphere::SphereGrid;
 use nalgebra::{Matrix3, SMatrix, SVector, Vector3};
 use std::f64::consts::{PI, SQRT_2};
+pub mod field;
+pub mod frames;
 pub mod ionization;
 pub mod material;
 pub mod rec_bridge;

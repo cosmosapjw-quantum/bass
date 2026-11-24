@@ -1,13 +1,17 @@
 //! Generate a deterministic all-m homogeneous CMB template in an observer tetrad.
 use bianchi_rustcore::geom::group::BianchiGroup;
+use bianchi_rustcore::geom::lie::{invariants, photon_potentials, POTENTIAL_MODES};
 use bianchi_rustcore::homogeneous_sky::{
+    field::Route,
+    frames::{combine, energy_frame, relative_velocity},
     ionization::Ionization,
     material::Material,
     observed_sky,
     replay::los_sky,
-    solve::{solve_with_species, Settings, Solution},
+    solve::{solve_general, MatchedRecombination, Settings, Solution, SolveOptions},
     CollisionScheme,
 };
+use bianchi_rustcore::kinetic::lie_hierarchy::lie_data;
 use bianchi_rustcore::kinetic::lie_history::{initial_lie_node, required_flux, LieInitial};
 use bianchi_rustcore::kinetic::radiation_feedback::{ExpansionEquation, LieUpdate};
 use bianchi_rustcore::kinetic::sky_spectrum::{analyze, products, Mode};
@@ -18,7 +22,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization).";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -53,6 +57,15 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "los-lmax",
             "los-ntheta",
             "los-nphi",
+            "route",
+            "recombination",
+            "t-unit-k",
+            "recombination-stop-eta",
+            "harmonic-lmax",
+            "harmonic-ntheta",
+            "harmonic-nphi",
+            "neutrino-fraction",
+            "observer-frame",
         ]
         .contains(&key)
         {
@@ -188,6 +201,119 @@ fn diagnostics(dir: &Path, sol: &Solution) -> Result<(), Error> {
     f.flush()?;
     Ok(())
 }
+/// Exact frame velocities of the final slice in the normal tetrad (R113 THEORY D8).
+struct Frames {
+    /// Energy frame of the photons.
+    photon: [f64; 3],
+    /// Energy frame of photons plus neutrinos (equal to `photon` without neutrinos).
+    total: [f64; 3],
+    host: Option<[f64; 3]>,
+    spectator: Option<[f64; 3]>,
+}
+fn frame_report(sol: &Solution) -> Result<Frames, Error> {
+    let last = sol.history.last().ok_or("empty history")?;
+    let photon = energy_frame(last.radiation.flux, last.radiation.pressure)?;
+    let total = match &last.neutrino {
+        Some(nu) => {
+            let (_, f, p) = combine(&[
+                (sol.photon_scale, &last.radiation),
+                (sol.neutrino_scale, nu),
+            ])?;
+            energy_frame(f, p)?
+        }
+        None => photon,
+    };
+    let (host, spectator) = match &sol.final_dust {
+        Some(d) => (Some(d.beam(0)?.beta), Some(d.beam(1)?.beta)),
+        None => (None, None),
+    };
+    Ok(Frames {
+        photon,
+        total,
+        host,
+        spectator,
+    })
+}
+/// Y_LM type constants (L <= 2) of the photon generator on the first and last slice.
+fn lie_constants(dir: &Path, sol: &Solution) -> Result<(), Error> {
+    let mut f = writer(&dir.join("lie_constants.tsv"))?;
+    writeln!(
+        f,
+        "slice\tL\tM\tR_re\tR_im\tU_re\tU_im\tZ_re\tZ_im\tomega_re\tomega_im"
+    )?;
+    let first = &sol.history[0].node;
+    let last = &sol.history.last().ok_or("empty history")?.node;
+    for (name, node) in [("initial", first), ("final", last)] {
+        let p = photon_potentials(&lie_data(node));
+        for k in 0..POTENTIAL_MODES {
+            let l = (k as f64).sqrt().floor() as i64;
+            let m = k as i64 - l * l - l;
+            write!(f, "{name}\t{l}\t{m}")?;
+            for c in [p.r[k], p.u[k], p.z[k], p.omega[k]] {
+                write!(f, "\t{:.16e}\t{:.16e}", c.re, c.im)?;
+            }
+            writeln!(f)?;
+        }
+    }
+    f.flush()?;
+    Ok(())
+}
+/// Matched recombination: tabulated x_e, its offset and the hydrogen fraction used.
+fn recombination_history(dir: &Path, sol: &Solution, ion: &Ionization) -> Result<(), Error> {
+    let mut f = writer(&dir.join("recombination.tsv"))?;
+    writeln!(f, "eta\txe_table\tdelta_xe\txe")?;
+    for snap in &sol.history {
+        let table = ion.xe_at(snap.node.eta)?;
+        writeln!(
+            f,
+            "{:.16e}\t{:.16e}\t{:.16e}\t{:.16e}",
+            snap.node.eta,
+            table,
+            snap.delta_xe,
+            table + snap.delta_xe
+        )?;
+    }
+    f.flush()?;
+    Ok(())
+}
+/// Neutrino density, flux and anisotropic stress pi/rho along the history.
+fn species(dir: &Path, sol: &Solution) -> Result<(), Error> {
+    if sol.neutrinos.is_none() {
+        return Ok(());
+    }
+    let mut f = writer(&dir.join("species.tsv"))?;
+    writeln!(
+        f,
+        "eta\tomega_neutrino\tflux_x\tflux_y\tflux_z\tpi_xx\tpi_yy\tpi_zz\tpi_xy\tpi_xz\tpi_yz"
+    )?;
+    for snap in &sol.history {
+        let nu = snap.neutrino.as_ref().ok_or("missing neutrino moments")?;
+        let p = nu.pressure;
+        let third = (p[0][0] + p[1][1] + p[2][2]) / 3.0;
+        let vals = [
+            snap.node.eta,
+            snap.omega_neutrino,
+            nu.flux[0],
+            nu.flux[1],
+            nu.flux[2],
+            p[0][0] - third,
+            p[1][1] - third,
+            p[2][2] - third,
+            p[0][1],
+            p[0][2],
+            p[1][2],
+        ];
+        for (i, x) in vals.iter().enumerate() {
+            if i > 0 {
+                write!(f, "\t")?;
+            }
+            write!(f, "{x:.16e}")?;
+        }
+        writeln!(f)?;
+    }
+    f.flush()?;
+    Ok(())
+}
 fn run() -> Result<(), Error> {
     let a = args()?;
     let opt = |k: &str, d: &'static str| a.get(k).map(String::as_str).unwrap_or(d);
@@ -311,16 +437,98 @@ fn run() -> Result<(), Error> {
             None
         }
     };
-    let obs = vector(opt("observer-beta", "0,0,0"))?;
+    let route = match opt("route", "rays") {
+        "rays" => {
+            if ["harmonic-lmax", "harmonic-ntheta", "harmonic-nphi"]
+                .iter()
+                .any(|k| a.contains_key(*k))
+            {
+                return Err("--harmonic-* options require --route harmonic".into());
+            }
+            Route::Rays
+        }
+        "harmonic" => {
+            let l: usize = opt("harmonic-lmax", "12").parse()?;
+            let nt = match a.get("harmonic-ntheta") {
+                Some(x) => x.parse::<usize>()?,
+                None => l + 3,
+            };
+            let np = match a.get("harmonic-nphi") {
+                Some(x) => x.parse::<usize>()?,
+                None => 2 * l + 6,
+            };
+            Route::Harmonic {
+                lmax: l,
+                n_theta: nt,
+                n_phi: np,
+            }
+        }
+        _ => return Err("unknown route (rays or harmonic)".into()),
+    };
+    let recombination = match opt("recombination", "table") {
+        "table" => {
+            if a.contains_key("t-unit-k") || a.contains_key("recombination-stop-eta") {
+                return Err(
+                    "--t-unit-k/--recombination-stop-eta require --recombination matched".into(),
+                );
+            }
+            None
+        }
+        "matched" => {
+            if ionization.is_none() {
+                return Err("--recombination matched corrects an --ionization table".into());
+            }
+            Some(MatchedRecombination {
+                t_unit_k: a
+                    .get("t-unit-k")
+                    .ok_or("missing --t-unit-k for --recombination matched")?
+                    .parse()?,
+                n_h_emit_m3: opt("n-h-emit-m3", "").parse()?,
+                h_emit_s: opt("h-emit-s", "").parse()?,
+                stop_eta: a
+                    .get("recombination-stop-eta")
+                    .map(|v| v.parse::<f64>())
+                    .transpose()?,
+            })
+        }
+        other => return Err(format!("unknown --recombination {other}").into()),
+    };
+    let options = SolveOptions {
+        route,
+        neutrino_fraction: opt("neutrino-fraction", "0").parse()?,
+        recombination,
+    };
+    if a.contains_key("observer-frame") && a.contains_key("observer-beta") {
+        return Err("--observer-frame replaces --observer-beta".into());
+    }
     let baryon_fraction: f64 = opt("baryon-fraction", "0.5").parse()?;
-    let sol = solve_with_species(
+    let sol = solve_general(
         &cfg,
         &material,
         lie.as_ref(),
         ionization.as_ref(),
         expansion,
         baryon_fraction,
+        &options,
     )?;
+    let frames = frame_report(&sol)?;
+    let observer_frame = a
+        .get("observer-frame")
+        .map(String::as_str)
+        .unwrap_or("explicit_beta");
+    let obs = match observer_frame {
+        "explicit_beta" => vector(opt("observer-beta", "0,0,0"))?,
+        "normal" => [0.; 3],
+        "host" => frames
+            .host
+            .ok_or("--observer-frame host needs massive streams")?,
+        "spectator" => frames
+            .spectator
+            .ok_or("--observer-frame spectator needs massive streams")?,
+        "radiation" => frames.photon,
+        "radiation-total" => frames.total,
+        other => return Err(format!("unknown observer frame {other}").into()),
+    };
     let sky = observed_sky(&sol.photons, obs)?;
     let modes = analyze(&sky, lmax)?;
     let los_result = match los {
@@ -341,6 +549,11 @@ fn run() -> Result<(), Error> {
         write_modes_as(&out, m, *l, "los_modes.tsv", "los_cl.tsv")?;
     }
     diagnostics(&out, &sol)?;
+    lie_constants(&out, &sol)?;
+    species(&out, &sol)?;
+    if options.recombination.is_some() {
+        recombination_history(&out, &sol, ionization.as_ref().ok_or("missing ionization")?)?;
+    }
     let mut f = writer(&out.join("run.txt"))?;
     writeln!(f,"schema=bass.homogeneous_sky.v2\ncodazzi_convention=(D_b sigma^b_a + kappa q_a)/H^2 in the propagation tetrad\nfamily={}\nfeedback={}\nduration={}\nsteps={}\nnmu={}\nnphi={}\nlmax={}\nshear={}\ndust_fraction={}\ndust_beta={:?}\nobserver_beta={:?}",if lie.is_some(){"custom_lie"}else{cfg.family},if cfg.recoil{"active_photons_dust_Thomson_recoil"}else if active{"active_photons_and_optional_dust"}else{"polarized_tracer_on_native_scalar_radiation"},dur,cfg.steps,nmu,nphi,lmax,if lie.is_some(){"custom_tensor".into()}else{cfg.shear.to_string()},cfg.dust_fraction,if sol.initial_dust_mode=="codazzi_coflow"{sol.history[0].host_beta}else{cfg.dust_beta},obs)?;
     writeln!(
@@ -417,6 +630,33 @@ fn run() -> Result<(), Error> {
             rayon::current_num_threads()
         )?;
     }
+    let inv0 = invariants(&first.n, &first.a);
+    let inv1 = invariants(&last.n, &last.a);
+    let relative = |frame: [f64; 3], object: [f64; 3]| relative_velocity(frame, object);
+    writeln!(
+        f,
+        "route={}\nneutrino_fraction={}\nlie_h_initial={:?}\nlie_h_final={:?}\nlie_trace_n_initial={:e}\nlie_a_norm_initial={:e}\nobserver_frame={observer_frame}\nobserver_beta_used={:?}\nframe_photon_energy_beta={:?}\nframe_radiation_energy_beta={:?}\nframe_host_beta={:?}\nframe_spectator_beta={:?}\nlocal_boost_observer_vs_radiation={:?}\nglobal_tilt_host_vs_normal={:?}\nglobal_tilt_host_vs_radiation={:?}\nrecombination={}\ndelta_xe_final={:e}",
+        sol.route.name(),
+        options.neutrino_fraction,
+        inv0.h,
+        inv1.h,
+        inv0.trace_n,
+        inv0.a_norm,
+        obs,
+        frames.photon,
+        frames.total,
+        frames.host,
+        frames.spectator,
+        relative(frames.total, obs)?,
+        frames.host,
+        frames.host.map(|h| relative(frames.total, h)).transpose()?,
+        if options.recombination.is_some() {
+            "matched"
+        } else {
+            "table"
+        },
+        sol.history.last().ok_or("empty history")?.delta_xe,
+    )?;
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;
     Ok(())
