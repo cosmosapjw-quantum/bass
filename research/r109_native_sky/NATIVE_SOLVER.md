@@ -110,3 +110,7 @@ python research/r109_native_sky/verify_lie_rotations.py --binary "$sky" --raw "$
 Cℓ의 상대오차는 각 채널에서 최대 절대 변화량을 그 채널의 기준 max|Cℓ|로 나눈 값이다. D를 생략하면 T/E/B 상대차는 0.518/1.125/1.037이다. 이 검사는 고정된 유한 회전의 covariant sky와 coflow 초기화를 확인하며 공분산이나 우주론적 해석의 독립 증거를 제공하지 않는다. [실행 영수증](LIE_ROTATIONS.json)
 
 장시간 REC 실행에는 두 팽창식·해상도의 개별 결과가 있다. 평탄 무전단 예의 Gauss 감소식 12,288 step에서 τ=1.12442452964, 독립 적분 1.12442423709, 최대 Gauss 잔차 2.53×10⁻⁹이다. VII₀에서 대칭으로 억제되는 B는 성긴 방위각 격자의 누설에 민감하다. 비대각 VIII의 해당 궤적에서는 C₂ᴮᴮ=1.46774×10⁻¹²이다. 이 수치의 입력은 HOWTO의 짧은 η=0.04 예시와 다르다. [장시간 결과](hyrec_1100/long_epoch.json)
+
+## R110 추가 옵션
+
+`--collision sdirk2`(2차 Thomson cell), `--lie-update congruence`(Jacobi·유형·h 보존), `--omega-lambda`(초기 Λ/(3H²)), `--los-lmax L [--los-ntheta --los-nphi]`(기록한 해를 관측자 GL 격자에서 역방향 특성선으로 replay해 임의 ℓ의 `los_modes.tsv`, `los_cl.tsv` 출력). 유도·검증·아틀라스는 [R110](../r110_cloud_highl_sky/README_KO.md).

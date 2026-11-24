@@ -290,8 +290,14 @@ fn run() -> Result<(), Error> {
     let los = match a.get("los-lmax") {
         Some(v) => {
             let l: usize = v.parse()?;
-            let nt = opt("los-ntheta", "").parse::<usize>().unwrap_or(l + 1);
-            let np = opt("los-nphi", "").parse::<usize>().unwrap_or(2 * l + 2);
+            let nt = match a.get("los-ntheta") {
+                Some(x) => x.parse::<usize>()?,
+                None => l + 1,
+            };
+            let np = match a.get("los-nphi") {
+                Some(x) => x.parse::<usize>()?,
+                None => 2 * l + 2,
+            };
             if nt < l + 1 || np < 2 * l + 1 {
                 return Err("line-of-sight grid is below nominal resolution of --los-lmax".into());
             }
