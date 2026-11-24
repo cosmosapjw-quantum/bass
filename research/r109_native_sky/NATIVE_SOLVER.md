@@ -114,3 +114,7 @@ Cℓ의 상대오차는 각 채널에서 최대 절대 변화량을 그 채널�
 ## R110 추가 옵션
 
 `--collision sdirk2`(2차 Thomson cell), `--lie-update congruence`(Jacobi·유형·h 보존), `--omega-lambda`(초기 Λ/(3H²)), `--los-lmax L [--los-ntheta --los-nphi]`(기록한 해를 관측자 GL 격자에서 역방향 특성선으로 replay해 임의 ℓ의 `los_modes.tsv`, `los_cl.tsv` 출력). 유도·검증·아틀라스는 [R110](../r110_cloud_highl_sky/README_KO.md).
+
+## R113 추가 옵션
+
+`--route rays|harmonic`(광선 또는 Lie 대수 생성 spin-harmonic PSTF 계층; `--harmonic-lmax L`, 기본 12, 충돌 격자 `--harmonic-ntheta/--harmonic-nphi` 기본 L+3, 2L+6), `--neutrino-fraction f`(초기 복사 에너지 중 무충돌 질량 0 중성미자 비율, active feedback), `--observer-frame normal|host|spectator|radiation|radiation-total`(`--observer-beta` 대신 최종 slice의 관측자 속도), `--recombination matched --t-unit-k T [--recombination-stop-eta E]`(`--ionization` 표에 REC implicit matched 수소 응답을 더함; `recombination.tsv`). 출력에 `lie_constants.tsv`(광자 generator의 Y_LM type 상수), 중성미자가 있으면 `species.tsv`, run.txt에 Lie 불변량·energy frame·local boost·global tilt 키가 추가된다. 기본값의 TSV 출력은 R112와 byte-identical이다 (run.txt에는 키만 추가된다). 유도·검증·아틀라스는 [R113](../r113_cloud_universal_lie_sky/README_KO.md).

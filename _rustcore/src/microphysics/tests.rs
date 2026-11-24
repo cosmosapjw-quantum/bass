@@ -321,7 +321,7 @@ fn rei_groups_telescoping_gamma_projection_and_negative_transfer() {
 
 #[test]
 fn exact_git_dependency_identity_is_frozen_in_manifest_and_lock() {
-    const REC: &str = "3752213099ccb35998c22f1aaf0d42fb674184e4";
+    const REC: &str = "05db5451a97c66b9a87de98ae35b88ab820d368f";
     const REI: &str = "503508f1c82a968bebc57900d43a65135c3db185";
     let manifest = include_str!("../../Cargo.toml");
     let lock = include_str!("../../Cargo.lock");

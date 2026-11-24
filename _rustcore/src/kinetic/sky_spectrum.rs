@@ -389,6 +389,35 @@ pub fn analyze_rings(
     Ok(modes)
 }
 
+/// sqrt((2l+1)/(4 pi)) d^l_{m,n}(theta) at cos(theta) = z (|z| < 1) for every
+/// 0 <= m <= l <= lmax, flattened as l(l+1)/2 + m; entries with l < max(m, |n|)
+/// are zero. These are exactly the Wigner columns used by [`analyze`] and
+/// [`analyze_rings`], exposed for the spin-harmonic transforms of `spin_sht`.
+pub(crate) fn normalized_wigner_d_table(z: f64, n: i32, lmax: usize) -> Vec<f64> {
+    let mut out = vec![0.0; (lmax + 1) * (lmax + 2) / 2];
+    let mut log_fact = vec![0.0; 2 * lmax + 3];
+    for i in 1..log_fact.len() {
+        log_fact[i] = log_fact[i - 1] + (i as f64).ln();
+    }
+    let radius = ((1.0 - z) * (1.0 + z)).max(0.0).sqrt();
+    let (ch, sh) = if z >= 0.0 {
+        let ch = ((1.0 + z) / 2.0).sqrt();
+        (ch, radius / (2.0 * ch))
+    } else {
+        let sh = ((1.0 - z) / 2.0).sqrt();
+        (radius / (2.0 * sh), sh)
+    };
+    let logs = [ch.ln(), sh.ln()];
+    for m in 0..=lmax {
+        if let Some(column) = Column::new(m as i32, n, lmax, &log_fact) {
+            column.evaluate(z, logs, |l, d| {
+                out[l * (l + 1) / 2 + m] = (((2 * l + 1) as f64) / (4.0 * PI)).sqrt() * d;
+            });
+        }
+    }
+    out
+}
+
 /// All nine products a_X(left) conj(a_Y(right)), including independent
 /// imaginary parts for distinct fields and for off-diagonal mode pairs.
 pub fn outer(left: &Mode, right: &Mode) -> [[[f64; 2]; 3]; 3] {

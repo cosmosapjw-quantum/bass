@@ -105,6 +105,24 @@ impl Material {
         }
         Ok(result)
     }
+    /// Linearly interpolated rate at `eta` (no extrapolation beyond the knots).
+    pub fn rate_at(&self, eta: f64) -> Result<f64, String> {
+        let first = self.nodes[0].eta;
+        let last = self.nodes.last().unwrap().eta;
+        let tol = 32. * f64::EPSILON * (1. + first.abs() + last.abs());
+        if !eta.is_finite() || eta < first - tol || eta > last + tol {
+            return Err("material rate requested outside its clock interval".into());
+        }
+        let eta = eta.clamp(first, last);
+        let i = self
+            .nodes
+            .partition_point(|n| n.eta <= eta)
+            .saturating_sub(1)
+            .min(self.nodes.len() - 2);
+        let (a, b) = (self.nodes[i], self.nodes[i + 1]);
+        let u = (eta - a.eta) / (b.eta - a.eta);
+        Ok(a.rate + (b.rate - a.rate) * u)
+    }
     pub fn has_prescribed_motion(&self) -> bool {
         self.nodes.iter().any(|n| n.beta.iter().any(|v| *v != 0.))
     }
