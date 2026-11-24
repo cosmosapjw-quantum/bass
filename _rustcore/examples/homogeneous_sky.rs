@@ -5,7 +5,7 @@ use bianchi_rustcore::homogeneous_sky::{
     material::Material,
     observed_sky,
     replay::los_sky,
-    solve::{solve_with_expansion, Settings, Solution},
+    solve::{solve_with_species, Settings, Solution},
     CollisionScheme,
 };
 use bianchi_rustcore::kinetic::lie_history::{initial_lie_node, required_flux, LieInitial};
@@ -18,7 +18,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -45,6 +45,7 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "feedback",
             "expansion-equation",
             "dust-fraction",
+            "baryon-fraction",
             "dust-beta",
             "collision",
             "lie-update",
@@ -311,12 +312,14 @@ fn run() -> Result<(), Error> {
         }
     };
     let obs = vector(opt("observer-beta", "0,0,0"))?;
-    let sol = solve_with_expansion(
+    let baryon_fraction: f64 = opt("baryon-fraction", "0.5").parse()?;
+    let sol = solve_with_species(
         &cfg,
         &material,
         lie.as_ref(),
         ionization.as_ref(),
         expansion,
+        baryon_fraction,
     )?;
     let sky = observed_sky(&sol.photons, obs)?;
     let modes = analyze(&sky, lmax)?;
@@ -351,6 +354,9 @@ fn run() -> Result<(), Error> {
             "prescribed_rate_per_eta"
         }
     )?;
+    if a.contains_key("baryon-fraction") {
+        writeln!(f, "initial_baryon_normal_mass_fraction={baryon_fraction}")?;
+    }
     if let Some(ic) = &lie {
         writeln!(
             f,
@@ -374,7 +380,9 @@ fn run() -> Result<(), Error> {
     let last = &sol.history.last().ok_or("empty history")?.node;
     let class = |n: &bianchi_rustcore::kinetic::lie_history::RayNode| {
         let g = BianchiGroup::new(
-            [n.n[0][0], n.n[1][1], n.n[2][2], n.n[0][1], n.n[0][2], n.n[1][2]],
+            [
+                n.n[0][0], n.n[1][1], n.n[2][2], n.n[0][1], n.n[0][2], n.n[1][2],
+            ],
             n.a,
         );
         let c = g.classify();

@@ -18,7 +18,7 @@ pub struct Stream {
 pub struct Dust {
     pub streams: [Stream; 2],
     /// Per-stream initial rest mass times the normal-frame number density.
-    mass_number_initial: f64,
+    mass_number_initial: [f64; 2],
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -112,7 +112,7 @@ impl Dust {
                     log_number_ratio: 0.,
                 },
             ],
-            mass_number_initial: 0.5 * initial_energy / gamma,
+            mass_number_initial: [0.5 * initial_energy / gamma; 2],
         })
     }
 
@@ -122,6 +122,58 @@ impl Dust {
     pub fn coflow(initial_energy: f64, beta: [f64; 3]) -> Result<Self, String> {
         let mut dust = Self::opposed(initial_energy, beta)?;
         dust.streams[1] = dust.streams[0];
+        Ok(dust)
+    }
+
+    /// Two species with opposite total initial momentum. f_b is the fraction
+    /// of the initial normal-observer rest-mass density m*n_normal, not
+    /// the proper-density or energy fraction at finite relative velocity.
+    pub fn opposed_species(
+        initial_energy: f64,
+        f_b: f64,
+        beta_b: [f64; 3],
+    ) -> Result<Self, String> {
+        if !(0.0 < f_b && f_b < 1.0) {
+            return Err("baryon fraction must lie strictly between zero and one".into());
+        }
+        let mut dust = Self::opposed(initial_energy, beta_b)?;
+        if f_b == 0.5 {
+            return Ok(dust);
+        }
+        let p_b = Vec3::from(dust.streams[0].p);
+        let p_c = -(f_b / (1.0 - f_b)) * p_b;
+        let gamma = |p: Vec3| 1f64.hypot(p[0]).hypot(p[1]).hypot(p[2]);
+        let denom = f_b * gamma(p_b) + (1.0 - f_b) * gamma(p_c);
+        let mass = initial_energy / denom;
+        dust.streams[1].p = p_c.into();
+        dust.mass_number_initial = [f_b * mass, (1.0 - f_b) * mass];
+        if !denom.is_finite()
+            || (initial_energy > 0. && dust.mass_number_initial.iter().any(|m| *m <= 0.))
+        {
+            return Err("species mass or momentum outside finite representable range".into());
+        }
+        dust.moments()?;
+        Ok(dust)
+    }
+
+    /// Common velocity, independently partitioned normal rest-mass density.
+    /// Preserves the Codazzi-required total flux E*beta.
+    pub fn coflow_species(initial_energy: f64, f_b: f64, beta: [f64; 3]) -> Result<Self, String> {
+        if !(0.0 < f_b && f_b < 1.0) {
+            return Err("baryon fraction must lie strictly between zero and one".into());
+        }
+        let mut dust = Self::coflow(initial_energy, beta)?;
+        if f_b == 0.5 {
+            return Ok(dust);
+        }
+        let p = dust.streams[0].p;
+        let gamma = 1f64.hypot(p[0]).hypot(p[1]).hypot(p[2]);
+        let mass = initial_energy / gamma;
+        dust.mass_number_initial = [f_b * mass, (1.0 - f_b) * mass];
+        if initial_energy > 0. && dust.mass_number_initial.iter().any(|m| *m <= 0.) {
+            return Err("species mass outside finite representable range".into());
+        }
+        dust.moments()?;
         Ok(dust)
     }
 
@@ -178,11 +230,11 @@ impl Dust {
         {
             return Err("nonfinite dust beam".into());
         }
-        let normal_mass_density = if self.mass_number_initial == 0. || stream.log_number_ratio == 0.
-        {
-            self.mass_number_initial
+        let initial_mass = self.mass_number_initial[index];
+        let normal_mass_density = if initial_mass == 0. || stream.log_number_ratio == 0. {
+            initial_mass
         } else {
-            (self.mass_number_initial.ln() + stream.log_number_ratio).exp()
+            (initial_mass.ln() + stream.log_number_ratio).exp()
         };
         let p = Vec3::from(stream.p);
         let gamma = 1f64.hypot(p[0]).hypot(p[1]).hypot(p[2]);
@@ -192,7 +244,7 @@ impl Dust {
         if !gamma.is_finite()
             || !energy.is_finite()
             || !q.iter().all(|x| x.is_finite())
-            || (self.mass_number_initial > 0. && normal_mass_density == 0.)
+            || (initial_mass > 0. && normal_mass_density == 0.)
         {
             return Err("dust beam outside the finite density range".into());
         }

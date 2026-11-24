@@ -7,6 +7,7 @@ use nalgebra::{Matrix3, SMatrix, SVector, Vector3};
 use std::f64::consts::{PI, SQRT_2};
 pub mod ionization;
 pub mod material;
+pub mod rec_bridge;
 mod recoil;
 pub mod replay;
 pub mod solve;
@@ -213,7 +214,10 @@ fn stage_weights(depth: f64, d: f64) -> Result<(f64, f64), String> {
     if !ray_depth.is_finite() {
         return Err("ray depth overflow".into());
     }
-    Ok((1.0 / (1.0 + ray_depth), ray_depth / (1.0 + ray_depth) * GAIN))
+    Ok((
+        1.0 / (1.0 + ray_depth),
+        ray_depth / (1.0 + ray_depth) * GAIN,
+    ))
 }
 
 /// One implicit (backward-Euler) closure of depth `depth` applied to the

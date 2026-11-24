@@ -223,6 +223,24 @@ pub fn solve_with_expansion(
     ionization: Option<&Ionization>,
     expansion: ExpansionEquation,
 ) -> Result<Solution, String> {
+    solve_with_species(cfg, mat, lie, ionization, expansion, 0.5)
+}
+
+/// Opt-in unequal normal-frame rest-mass partition of the two massive streams.
+/// Stream zero is the baryonic Thomson host. Legacy entry points use 0.5.
+pub fn solve_with_species(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    ionization: Option<&Ionization>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+) -> Result<Solution, String> {
+    if !(0.0 < baryon_fraction && baryon_fraction < 1.0)
+        || (cfg.dust_fraction == 0. && baryon_fraction != 0.5)
+    {
+        return Err("unequal species fraction requires massive matter and 0 < f_b < 1".into());
+    }
     if !cfg.active && expansion != ExpansionEquation::Raychaudhuri {
         return Err("Gauss-reduced expansion is available only for active feedback".into());
     }
@@ -293,7 +311,9 @@ pub fn solve_with_expansion(
     let initial = moments(&sky)?;
     let total0 = node.omega_radiation - node.omega_lambda;
     if !total0.is_finite() || total0 <= 0. {
-        return Err("Omega_Lambda leaves no positive matter density on the initial Gauss slice".into());
+        return Err(
+            "Omega_Lambda leaves no positive matter density on the initial Gauss slice".into(),
+        );
     }
     let scale = total0 * (1. - cfg.dust_fraction) / initial.energy;
     let required = required_flux(&node);
@@ -310,7 +330,7 @@ pub fn solve_with_expansion(
         });
         (
             Some(
-                Dust::coflow(total0 * cfg.dust_fraction, beta)
+                Dust::coflow_species(total0 * cfg.dust_fraction, baryon_fraction, beta)
                     .map_err(|s| format!("Codazzi coflow: {s}"))?,
             ),
             "codazzi_coflow",
@@ -319,7 +339,11 @@ pub fn solve_with_expansion(
         (None, "none")
     } else {
         (
-            Some(Dust::opposed(total0 * cfg.dust_fraction, cfg.dust_beta)?),
+            Some(Dust::opposed_species(
+                total0 * cfg.dust_fraction,
+                baryon_fraction,
+                cfg.dust_beta,
+            )?),
             "opposed",
         )
     };
