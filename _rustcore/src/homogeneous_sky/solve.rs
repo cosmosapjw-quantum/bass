@@ -2,13 +2,17 @@
 //! background or active Einstein feedback of the transported normal-frame stress.
 use super::ionization::Ionization;
 use super::material::Material;
-use super::{geometric, initial_sky, moments, scatter, Photon, RadiationMoments};
+use super::replay::StepRecord;
+use super::{
+    geometric, initial_sky, moments, scatter_with, CollisionEvent, CollisionScheme, Photon,
+    RadiationMoments,
+};
 use crate::kinetic::lie_history::{
     initial_lie_node, radiation_history, radiation_history_from_lie, required_flux, LieInitial,
     RayNode,
 };
 use crate::kinetic::radiation_feedback::{
-    advance_mixture_with_equation, refresh_mixture, ExpansionEquation,
+    advance_mixture_with_options, refresh_mixture, ExpansionEquation, LieUpdate,
 };
 use crate::kinetic::tilted_dust::Dust;
 
@@ -24,6 +28,12 @@ pub struct Settings<'a> {
     /// Fraction of initial matter energy placed in two counterstreaming dust fluids.
     pub dust_fraction: f64,
     pub dust_beta: [f64; 3],
+    /// Time integrator of each Thomson depth cell.
+    pub collision: CollisionScheme,
+    /// Lambda/(3H^2) on the initial slice (active feedback only).
+    pub omega_lambda: f64,
+    /// Structure-constant update of the active Einstein step.
+    pub lie_update: LieUpdate,
 }
 pub struct Snapshot {
     pub node: RayNode,
@@ -37,6 +47,8 @@ pub struct Solution {
     pub photons: Vec<Photon>,
     pub history: Vec<Snapshot>,
     pub initial_dust_mode: &'static str,
+    /// Accepted steps with their collision events, for line-of-sight replay.
+    pub records: Vec<StepRecord>,
 }
 
 struct CellResult {
@@ -44,6 +56,8 @@ struct CellResult {
     dust: Option<Dust>,
     depth: f64,
     energy_defect: f64,
+    first: Vec<CollisionEvent>,
+    second: Vec<CollisionEvent>,
 }
 
 fn collide_segment(
@@ -51,21 +65,29 @@ fn collide_segment(
     cells: Vec<(f64, [f64; 3])>,
     photon_scale: f64,
     recoil: bool,
-) -> Result<(), String> {
+    scheme: CollisionScheme,
+) -> Result<Vec<CollisionEvent>, String> {
+    let mut events = Vec::new();
     for (tau, b) in cells {
         if recoil {
             let host = result
                 .dust
                 .as_mut()
                 .ok_or("recoil requires massive matter")?;
-            result.energy_defect +=
-                super::recoil::scatter_with_recoil(&mut result.sky, host, tau, photon_scale)?;
+            result.energy_defect += super::recoil::scatter_with_recoil_events(
+                &mut result.sky,
+                host,
+                tau,
+                photon_scale,
+                scheme,
+                &mut events,
+            )?;
         } else {
-            scatter(&mut result.sky, tau, b)?;
+            events.push(scatter_with(&mut result.sky, tau, b, scheme)?);
         }
         result.depth += tau;
     }
-    Ok(())
+    Ok(events)
 }
 
 // Each half samples the host-rest density and H at its own geometric endpoint.
@@ -106,6 +128,7 @@ impl Opacity<'_> {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn evolve_cell(
     input: &[Photon],
     dust: &Option<Dust>,
@@ -114,6 +137,7 @@ fn evolve_cell(
     opacity: &Opacity,
     photon_scale: f64,
     recoil: bool,
+    scheme: CollisionScheme,
 ) -> Result<CellResult, String> {
     let mid = (l.eta + r.eta) * 0.5;
     let mut result = CellResult {
@@ -121,13 +145,15 @@ fn evolve_cell(
         dust: dust.clone(),
         depth: 0.,
         energy_defect: 0.,
+        first: Vec::new(),
+        second: Vec::new(),
     };
     let cells = opacity.cells(l.eta, mid, l, &result.dust)?;
-    collide_segment(&mut result, cells, photon_scale, recoil)?;
+    result.first = collide_segment(&mut result, cells, photon_scale, recoil, scheme)?;
     geometric(&mut result.sky, l, r)?;
     result.dust = move_dust(&result.dust, l, r)?;
     let cells = opacity.cells(mid, r.eta, r, &result.dust)?;
-    collide_segment(&mut result, cells, photon_scale, recoil)?;
+    result.second = collide_segment(&mut result, cells, photon_scale, recoil, scheme)?;
     Ok(result)
 }
 
@@ -226,6 +252,15 @@ pub fn solve_with_expansion(
     if !cfg.active && cfg.dust_fraction != 0. {
         return Err("two dust streams require active geometry".into());
     }
+    if !cfg.omega_lambda.is_finite() || cfg.omega_lambda < 0. {
+        return Err("Omega_Lambda must be finite and nonnegative".into());
+    }
+    if !cfg.active && cfg.lie_update != LieUpdate::Additive {
+        return Err("the congruence Lie update applies to active geometry; the tracer background uses its native QState step".into());
+    }
+    if !cfg.active && cfg.omega_lambda != 0. {
+        return Err("a cosmological constant requires active geometry (the tracer background is radiation-only)".into());
+    }
     if cfg.dust_fraction == 0. && cfg.dust_beta.iter().any(|b| *b != 0.) {
         return Err("dust tilt requires nonzero dust fraction".into());
     }
@@ -252,9 +287,14 @@ pub fn solve_with_expansion(
         )?,
     };
     let mut node = profile.first().ok_or("empty native geometry")?.clone();
+    // Gauss fixes Omega_matter + Omega_Lambda; Lambda carries no flux or stress.
+    node.omega_lambda = cfg.omega_lambda;
     let mut sky = initial_sky(cfg.nmu, cfg.nphi)?;
     let initial = moments(&sky)?;
-    let total0 = node.omega_radiation;
+    let total0 = node.omega_radiation - node.omega_lambda;
+    if !total0.is_finite() || total0 <= 0. {
+        return Err("Omega_Lambda leaves no positive matter density on the initial Gauss slice".into());
+    }
     let scale = total0 * (1. - cfg.dust_fraction) / initial.energy;
     let required = required_flux(&node);
     let coflow = lie.is_some() && required.iter().map(|v| v * v).sum::<f64>().sqrt() > 1e-12;
@@ -305,9 +345,10 @@ pub fn solve_with_expansion(
     }];
     let mut cumulative = 0.;
     let mut collision_defect = 0.;
+    let mut records = Vec::with_capacity(cfg.steps);
     for step in 0..cfg.steps {
         let mut next = if cfg.active {
-            let half = advance_mixture_with_equation(
+            let half = advance_mixture_with_options(
                 &node,
                 &node,
                 dt * 0.5,
@@ -315,10 +356,20 @@ pub fn solve_with_expansion(
                 src.pressure,
                 src.flux,
                 expansion,
+                cfg.lie_update,
             )?;
-            let predictor = evolve_cell(&sky, &dust, &node, &half, &opacity, scale, cfg.recoil)?;
+            let predictor = evolve_cell(
+                &sky,
+                &dust,
+                &node,
+                &half,
+                &opacity,
+                scale,
+                cfg.recoil,
+                cfg.collision,
+            )?;
             let hm = source(&moments(&predictor.sky)?, scale, &predictor.dust, &half)?;
-            advance_mixture_with_equation(
+            advance_mixture_with_options(
                 &node,
                 &half,
                 dt,
@@ -326,6 +377,7 @@ pub fn solve_with_expansion(
                 hm.pressure,
                 hm.flux,
                 expansion,
+                cfg.lie_update,
             )?
         } else {
             profile[step + 1].clone()
@@ -333,7 +385,22 @@ pub fn solve_with_expansion(
         // Set the independent clock by grid index; avoid a drift of a few ulps
         // beyond a material table's final endpoint on long integrations.
         next.eta = (step + 1) as f64 * dt;
-        let step = evolve_cell(&sky, &dust, &node, &next, &opacity, scale, cfg.recoil)?;
+        let step = evolve_cell(
+            &sky,
+            &dust,
+            &node,
+            &next,
+            &opacity,
+            scale,
+            cfg.recoil,
+            cfg.collision,
+        )?;
+        records.push(StepRecord {
+            left: node.clone(),
+            right: next.clone(),
+            first: step.first,
+            second: step.second,
+        });
         let rad = moments(&step.sky)?;
         cumulative += step.depth;
         collision_defect += step.energy_defect;
@@ -358,5 +425,6 @@ pub fn solve_with_expansion(
         photons: sky,
         history,
         initial_dust_mode,
+        records,
     })
 }

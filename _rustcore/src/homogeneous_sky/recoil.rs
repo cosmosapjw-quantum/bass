@@ -1,5 +1,5 @@
 //! Elastic Thomson scattering coupled to the first massive stream on its mass shell.
-use super::{boost, projector, scatter_kernel, Photon, GAIN, M, V};
+use super::{boost, projector, scatter_kernel, CollisionEvent, CollisionScheme, Photon, GAIN, M, V};
 use crate::kinetic::tilted_dust::Dust;
 
 fn gamma(p: V) -> f64 {
@@ -51,6 +51,7 @@ struct Trial {
     sky: Vec<Photon>,
     photon_dp: V,
     photon_energy_change: f64,
+    event: CollisionEvent,
 }
 
 fn trial(
@@ -59,6 +60,7 @@ fn trial(
     mass: f64,
     depth: f64,
     scale: f64,
+    scheme: CollisionScheme,
 ) -> Result<Option<Trial>, String> {
     let g0 = gamma(p0);
     let mut beta = p0 / g0;
@@ -67,7 +69,7 @@ fn trial(
     for _ in 0..18 {
         output.clone_from_slice(start);
         let map = gain_map(start, beta)?;
-        scatter_kernel(&mut output, depth, beta.into(), Some(&map))?;
+        let event = scatter_kernel(&mut output, depth, beta.into(), Some(&map), scheme)?;
         let (de, dp) = exchange(start, &output, scale);
         let p1 = (mass * p0 - dp) / mass;
         let g1 = gamma(p1);
@@ -86,6 +88,7 @@ fn trial(
                 sky: output,
                 photon_dp: dp,
                 photon_energy_change: de,
+                event,
             }));
         }
         // One-step Anderson acceleration of the three-component frame solve.
@@ -114,11 +117,32 @@ fn trial(
 /// The first stream owns the electron velocity; the second is a spectator.
 /// Returns the signed photon + host energy change in the fixed units of
 /// photon_scale. On error neither input is modified.
+#[cfg(test)]
 pub(super) fn scatter_with_recoil(
     sky: &mut [Photon],
     dust: &mut Dust,
     depth: f64,
     photon_scale: f64,
+) -> Result<f64, String> {
+    scatter_with_recoil_events(
+        sky,
+        dust,
+        depth,
+        photon_scale,
+        CollisionScheme::BackwardEuler,
+        &mut Vec::new(),
+    )
+}
+
+/// As [`scatter_with_recoil`], appending each accepted trial's collision event
+/// in time order. On error neither input nor `events` is modified.
+pub(super) fn scatter_with_recoil_events(
+    sky: &mut [Photon],
+    dust: &mut Dust,
+    depth: f64,
+    photon_scale: f64,
+    scheme: CollisionScheme,
+    events: &mut Vec<CollisionEvent>,
 ) -> Result<f64, String> {
     if !depth.is_finite() || depth < 0. || !photon_scale.is_finite() || photon_scale < 0. {
         return Err("nonnegative finite Thomson depth and photon energy scale required".into());
@@ -126,6 +150,7 @@ pub(super) fn scatter_with_recoil(
     if depth == 0. {
         return Ok(0.);
     }
+    let mut accepted = Vec::new();
     let mass = dust.beam(0)?.normal_mass_density;
     if mass <= 0. || !mass.is_finite() {
         return Err("active scattering requires a finite positive host rest mass density".into());
@@ -141,9 +166,10 @@ pub(super) fn scatter_with_recoil(
             return Err("recoil exceeded 4095 trials; refine the depth grid".into());
         }
         let p0 = V::from(updated.streams[0].p);
-        if let Some(proposed) = trial(&output, p0, mass, h, photon_scale)? {
+        if let Some(proposed) = trial(&output, p0, mass, h, photon_scale, scheme)? {
             updated.kick(0, (-proposed.photon_dp).into())?;
             output = proposed.sky;
+            accepted.push(proposed.event);
             // Read back the actually stored on-shell endpoint. The exact
             // divided difference avoids the cancellation in gamma1-gamma0.
             let p1 = V::from(updated.streams[0].p);
@@ -163,6 +189,7 @@ pub(super) fn scatter_with_recoil(
     }
     sky.clone_from_slice(&output);
     *dust = updated;
+    events.extend(accepted);
     Ok(defect)
 }
 

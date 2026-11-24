@@ -18,6 +18,9 @@ fn options() -> Settings<'static> {
         recoil: false,
         dust_fraction: 0.2,
         dust_beta: [0.; 3],
+        collision: Default::default(),
+        omega_lambda: 0.,
+        lie_update: Default::default(),
     }
 }
 

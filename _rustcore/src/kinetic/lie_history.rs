@@ -26,6 +26,8 @@ pub struct RayNode {
     pub rotation: [f64; 3],
     pub hubble_ratio: f64,
     pub omega_radiation: f64,
+    /// Lambda/(3H^2) at this node; zero unless a cosmological constant is set.
+    pub omega_lambda: f64,
     pub gauss_residual: f64,
     /// Signed Hubble-normalized (D_b sigma^b_a + kappa q_a)/H^2.
     pub codazzi_residual: [f64; 3],
@@ -42,6 +44,7 @@ impl Default for RayNode {
             rotation: [0.; 3],
             hubble_ratio: 1.,
             omega_radiation: 1.,
+            omega_lambda: 0.,
             gauss_residual: 0.,
             codazzi_residual: [0.; 3],
             jacobi_residual: [0.; 3],
@@ -116,9 +119,10 @@ fn packed(m: [[f64; 3]; 3]) -> [f64; 6] {
     [m[0][0], m[1][1], m[2][2], m[0][1], m[0][2], m[1][2]]
 }
 
+/// Total matter Omega required by Gauss: 1 - Sigma:Sigma/6 - K - Omega_Lambda.
 fn gauss_energy(node: &RayNode) -> f64 {
     let (curvature, _) = BianchiGroup::new(packed(node.n), node.a).curvature();
-    1. - matrix(node.shear).norm_squared() / 6. - curvature
+    1. - matrix(node.shear).norm_squared() / 6. - curvature - node.omega_lambda
 }
 
 /// Construct an initial geometric node with total Omega fixed by Gauss.

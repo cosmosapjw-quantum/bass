@@ -83,7 +83,10 @@ pub fn refresh_mixture(
     );
     let div_sigma = -(3.0 * (s * g.a_vec()) + axial);
     let codazzi = div_sigma + (3.0 * omega) * flux;
-    let gauss = s.norm_squared() / 6.0 + curvature + omega - 1.0;
+    if !node.omega_lambda.is_finite() || node.omega_lambda < 0.0 {
+        return Err("Omega_Lambda must be finite and nonnegative".into());
+    }
+    let gauss = s.norm_squared() / 6.0 + curvature + omega + node.omega_lambda - 1.0;
     let jacobi = g.jacobi_residual();
     if !gauss.is_finite() || !codazzi.iter().chain(&jacobi).all(|x| x.is_finite()) {
         return Err("non-finite Einstein constraint diagnostic".into());
@@ -133,6 +136,35 @@ impl ExpansionEquation {
     }
 }
 
+/// Update of the structure constants across one step.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum LieUpdate {
+    /// R109 increment N += dt N', A += dt A'. Jacobi, rank and h = A^2/(n2 n3)
+    /// are then preserved only to the local truncation error.
+    #[default]
+    Additive,
+    /// Congruence N -> P N Pᵀ, A -> det(P) P^{-T} A with P = exp[dt(Sigma + W + q I/2)]
+    /// (Dossier I (1.26) in Hubble-normalized form). Jacobi, rank, inertia and the
+    /// class-B invariant h are preserved to roundoff for any step size.
+    Congruence,
+}
+
+impl LieUpdate {
+    pub fn name(self) -> &'static str {
+        match self {
+            Self::Additive => "additive",
+            Self::Congruence => "congruence",
+        }
+    }
+    pub fn parse(s: &str) -> Result<Self, String> {
+        match s {
+            "additive" => Ok(Self::Additive),
+            "congruence" => Ok(Self::Congruence),
+            _ => Err(format!("unknown Lie update {s} (additive or congruence)")),
+        }
+    }
+}
+
 /// Advance a mixture of massless radiation and kinetic massive matter using
 /// total Omega, P/E and q/E at the same stage. The photon-only omega field is
 /// inherited from 'old' until the caller supplies the actual endpoint photon density.
@@ -163,6 +195,29 @@ pub fn advance_mixture_with_equation(
     pressure_fraction: Tensor,
     flux_fraction: [f64; 3],
     expansion: ExpansionEquation,
+) -> Result<RayNode, String> {
+    advance_mixture_with_options(
+        old,
+        at,
+        dt,
+        omega,
+        pressure_fraction,
+        flux_fraction,
+        expansion,
+        LieUpdate::Additive,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn advance_mixture_with_options(
+    old: &RayNode,
+    at: &RayNode,
+    dt: f64,
+    omega: f64,
+    pressure_fraction: Tensor,
+    flux_fraction: [f64; 3],
+    expansion: ExpansionEquation,
+    lie: LieUpdate,
 ) -> Result<RayNode, String> {
     if old.hubble_ratio <= 0. || at.hubble_ratio <= 0. {
         return Err("Hubble-normalized expansion ends at zero H or recollapse; use a regular turnaround chart".into());
@@ -195,17 +250,19 @@ pub fn advance_mixture_with_equation(
     let [rx, ry, rz] = at.rotation;
     let w = Matrix3::new(0., -rz, ry, rz, 0., -rx, -ry, rx, 0.);
     let (curvature, curvature_stf) = group(at).curvature();
+    // Lambda enters only the Raychaudhuri/Gauss scalars (Dossier I (1.14), (1.23)).
+    let omega_lambda = at.omega_lambda;
     let omega_q = match expansion {
         ExpansionEquation::Raychaudhuri => omega,
         ExpansionEquation::GaussReduced => {
-            let density = 1. - s.norm_squared() / 6. - curvature;
+            let density = 1. - s.norm_squared() / 6. - curvature - omega_lambda;
             if !density.is_finite() || density <= 0. {
                 return Err("Gauss-reduced active expansion requires positive geometric Omega on the expanding Hubble-normalized branch".into());
             }
             density
         }
     };
-    let q = s.norm_squared() / 3.0 + 0.5 * omega_q * (1.0 + p.trace());
+    let q = s.norm_squared() / 3.0 + 0.5 * omega_q * (1.0 + p.trace()) - omega_lambda;
     let pi = 3.0 * omega * (p - Matrix3::identity() * (p.trace() / 3.0));
     let ds = (q - 2.0) * s - curvature_stf + pi + w * s - s * w;
     let dn = q * n + s * n + n * s + w * n - n * w;
@@ -214,9 +271,25 @@ pub fn advance_mixture_with_equation(
     let mut out = old.clone();
     out.eta = old.eta + dt;
     out.shear = tensor(matrix(old.shear) + dt * ds);
-    out.n = tensor(matrix(old.n) + dt * dn);
-    out.a = (Vector3::from(old.a) + dt * da).into();
+    match lie {
+        LieUpdate::Additive => {
+            out.n = tensor(matrix(old.n) + dt * dn);
+            out.a = (Vector3::from(old.a) + dt * da).into();
+        }
+        LieUpdate::Congruence => {
+            let g = s + w + Matrix3::identity() * (0.5 * q);
+            let p = (g * dt).exp();
+            let inverse = p
+                .try_inverse()
+                .ok_or("singular structure-constant congruence")?;
+            let n_new = p * matrix(old.n) * p.transpose();
+            out.n = tensor((n_new + n_new.transpose()) * 0.5);
+            out.a = (p.determinant() * (inverse.transpose() * Vector3::from(old.a))).into();
+        }
+    }
     out.hubble_ratio = old.hubble_ratio * (-dt * (1.0 + q)).exp();
+    // Exact for constant Lambda: Omega_Lambda h^2 is conserved.
+    out.omega_lambda = old.omega_lambda * (old.hubble_ratio / out.hubble_ratio).powi(2);
     refresh_mixture(&mut out, omega, flux_fraction)?;
     Ok(out)
 }

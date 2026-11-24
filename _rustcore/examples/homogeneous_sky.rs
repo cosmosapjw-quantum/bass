@@ -1,12 +1,15 @@
 //! Generate a deterministic all-m homogeneous CMB template in an observer tetrad.
+use bianchi_rustcore::geom::group::BianchiGroup;
 use bianchi_rustcore::homogeneous_sky::{
     ionization::Ionization,
     material::Material,
     observed_sky,
+    replay::los_sky,
     solve::{solve_with_expansion, Settings, Solution},
+    CollisionScheme,
 };
 use bianchi_rustcore::kinetic::lie_history::{initial_lie_node, required_flux, LieInitial};
-use bianchi_rustcore::kinetic::radiation_feedback::ExpansionEquation;
+use bianchi_rustcore::kinetic::radiation_feedback::{ExpansionEquation, LieUpdate};
 use bianchi_rustcore::kinetic::sky_spectrum::{analyze, products, Mode};
 use std::{
     collections::BTreeMap,
@@ -15,7 +18,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow. --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -43,6 +46,12 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "expansion-equation",
             "dust-fraction",
             "dust-beta",
+            "collision",
+            "lie-update",
+            "omega-lambda",
+            "los-lmax",
+            "los-ntheta",
+            "los-nphi",
         ]
         .contains(&key)
         {
@@ -98,7 +107,16 @@ fn writer(path: &Path) -> Result<BufWriter<fs::File>, Error> {
     Ok(BufWriter::new(fs::File::create_new(path)?))
 }
 fn write_modes(dir: &Path, modes: &[Mode], lmax: usize) -> Result<(), Error> {
-    let mut f = writer(&dir.join("modes.tsv"))?;
+    write_modes_as(dir, modes, lmax, "modes.tsv", "cl.tsv")
+}
+fn write_modes_as(
+    dir: &Path,
+    modes: &[Mode],
+    lmax: usize,
+    modes_name: &str,
+    cl_name: &str,
+) -> Result<(), Error> {
+    let mut f = writer(&dir.join(modes_name))?;
     write!(f, "ell\tm\tT_re\tT_im\tE_re\tE_im\tB_re\tB_im")?;
     for name in ["TT", "TE", "TB", "EE", "EB", "BB"] {
         write!(f, "\t{name}_re\t{name}_im")?;
@@ -117,7 +135,7 @@ fn write_modes(dir: &Path, modes: &[Mode], lmax: usize) -> Result<(), Error> {
         writeln!(f)?;
     }
     f.flush()?;
-    let mut c = writer(&dir.join("cl.tsv"))?;
+    let mut c = writer(&dir.join(cl_name))?;
     writeln!(c, "ell\tTT\tTE\tTB\tEE\tEB\tBB")?;
     for (ell, row) in sums.iter().enumerate() {
         write!(c, "{ell}")?;
@@ -265,6 +283,26 @@ fn run() -> Result<(), Error> {
         recoil: opt("feedback", "auto") == "recoil",
         dust_fraction: opt("dust-fraction", "0").parse()?,
         dust_beta: vector(opt("dust-beta", "0,0,0"))?,
+        collision: CollisionScheme::parse(opt("collision", "backward-euler"))?,
+        omega_lambda: opt("omega-lambda", "0").parse()?,
+        lie_update: LieUpdate::parse(opt("lie-update", "additive"))?,
+    };
+    let los = match a.get("los-lmax") {
+        Some(v) => {
+            let l: usize = v.parse()?;
+            let nt = opt("los-ntheta", "").parse::<usize>().unwrap_or(l + 1);
+            let np = opt("los-nphi", "").parse::<usize>().unwrap_or(2 * l + 2);
+            if nt < l + 1 || np < 2 * l + 1 {
+                return Err("line-of-sight grid is below nominal resolution of --los-lmax".into());
+            }
+            Some((l, nt, np))
+        }
+        None => {
+            if a.contains_key("los-ntheta") || a.contains_key("los-nphi") {
+                return Err("--los-ntheta/--los-nphi require --los-lmax".into());
+            }
+            None
+        }
     };
     let obs = vector(opt("observer-beta", "0,0,0"))?;
     let sol = solve_with_expansion(
@@ -276,11 +314,23 @@ fn run() -> Result<(), Error> {
     )?;
     let sky = observed_sky(&sol.photons, obs)?;
     let modes = analyze(&sky, lmax)?;
+    let los_result = match los {
+        Some((l, nt, np)) => {
+            let clock = std::time::Instant::now();
+            let s = los_sky(&sol.records, obs, nt, np)?;
+            let m = s.modes(l)?;
+            Some((l, nt, np, s, m, clock.elapsed().as_secs_f64()))
+        }
+        None => None,
+    };
     if let Some(parent) = out.parent().filter(|p| !p.as_os_str().is_empty()) {
         fs::create_dir_all(parent)?;
     }
     fs::create_dir(&out)?;
     write_modes(&out, &modes, lmax)?;
+    if let Some((l, _, _, _, m, _)) = &los_result {
+        write_modes_as(&out, m, *l, "los_modes.tsv", "los_cl.tsv")?;
+    }
     diagnostics(&out, &sol)?;
     let mut f = writer(&out.join("run.txt"))?;
     writeln!(f,"schema=bass.homogeneous_sky.v2\ncodazzi_convention=(D_b sigma^b_a + kappa q_a)/H^2 in the propagation tetrad\nfamily={}\nfeedback={}\nduration={}\nsteps={}\nnmu={}\nnphi={}\nlmax={}\nshear={}\ndust_fraction={}\ndust_beta={:?}\nobserver_beta={:?}",if lie.is_some(){"custom_lie"}else{cfg.family},if cfg.recoil{"active_photons_dust_Thomson_recoil"}else if active{"active_photons_and_optional_dust"}else{"polarized_tracer_on_native_scalar_radiation"},dur,cfg.steps,nmu,nphi,lmax,if lie.is_some(){"custom_tensor".into()}else{cfg.shear.to_string()},cfg.dust_fraction,if sol.initial_dust_mode=="codazzi_coflow"{sol.history[0].host_beta}else{cfg.dust_beta},obs)?;
@@ -314,6 +364,45 @@ fn run() -> Result<(), Error> {
             "native_qstate"
         }
     )?;
+    let first = &sol.history[0].node;
+    let last = &sol.history.last().ok_or("empty history")?.node;
+    let class = |n: &bianchi_rustcore::kinetic::lie_history::RayNode| {
+        let g = BianchiGroup::new(
+            [n.n[0][0], n.n[1][1], n.n[2][2], n.n[0][1], n.n[0][2], n.n[1][2]],
+            n.a,
+        );
+        let c = g.classify();
+        (c.name, c.kappa)
+    };
+    let (type0, kappa0) = class(first);
+    let (type1, kappa1) = class(last);
+    writeln!(
+        f,
+        "lie_update={}\ncollision_scheme={}\nomega_lambda_initial={}\nomega_lambda_final={}\nlie_type_initial={}\nlie_type_final={}\nlie_kappa_inverse_h_initial={:?}\nlie_kappa_inverse_h_final={:?}\nrecorded_steps={}\nrecorded_collision_events={}",
+        cfg.lie_update.name(),
+        cfg.collision.name(),
+        first.omega_lambda,
+        last.omega_lambda,
+        type0,
+        type1,
+        kappa0,
+        kappa1,
+        sol.records.len(),
+        sol.records
+            .iter()
+            .map(|r| r.first.len() + r.second.len())
+            .sum::<usize>()
+    )?;
+    if let Some((l, nt, np, s, _, seconds)) = &los_result {
+        writeln!(
+            f,
+            "los_lmax={l}\nlos_grid=gauss_legendre_{nt}_x_uniform_phi_{np}\nlos_max_landing_error={:e}\nlos_min_intensity={:e}\nlos_min_screen_eigenvalue={:e}\nlos_seconds={seconds:.3}\nlos_threads={}",
+            s.max_landing_error,
+            s.min_intensity,
+            s.min_screen_eigenvalue,
+            rayon::current_num_threads()
+        )?;
+    }
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;
     Ok(())
