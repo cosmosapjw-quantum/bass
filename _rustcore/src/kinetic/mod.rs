@@ -49,3 +49,5 @@ pub mod b3_coupling;
 pub mod magnetic_kernel;
 
 pub mod uv_feedback;
+
+pub mod cooling_rays;
