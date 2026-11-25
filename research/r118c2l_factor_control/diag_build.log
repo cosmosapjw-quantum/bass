@@ -1,0 +1,16 @@
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/Downloads/bass_c2l_diag_vbkAil/_rustcore)
+warning: value assigned to `chem_last` is never read
+   --> src/homogeneous_sky/rei_live.rs:352:38
+    |
+352 |       let (mut chem_sum, mut chem_max, mut chem_last, mut root_max) = (...
+    |                                        ^^^^^^^^^^^^^ this value is reassigned later and never used
+...
+487 | /         chem_last = (thermal(q.gas)? - thermal(gas)?)
+488 | |             + (binding(q.gas, input.f_he) - binding(gas, input.f_he))
+489 | |             - a.energy + q.ledgers.escaped_u - q.ledgers.cmb_input;
+    | |__________________________________________________________________- `chem_last` is overwritten here before the previous value is read
+    |
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: `bianchi_rustcore` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 28.74s

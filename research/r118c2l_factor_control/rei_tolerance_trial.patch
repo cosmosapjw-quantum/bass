@@ -1,0 +1,11 @@
+--- /home/cosmosapjw/worktrees/rei-htt-thomson-20261124/rust/rei_microphysics/src/axbi_driver.rs	2026-11-25 19:09:41.297200985 +0900
++++ /home/cosmosapjw/Downloads/bass_c2l_diag_vbkAil/rei_patch/rust/rei_microphysics/src/axbi_driver.rs	2026-11-25 20:32:25.460649047 +0900
+@@ -735,7 +735,7 @@
+         for _ in 0..50 {
+             let (residual, stocks, rhs) = self.evaluate(&old, x, dt, counter)?;
+             let norm = self.norm(residual, old_w, x[3]);
+-            if norm <= 1e-11 {
++            if norm <= 1e-13 {
+                 let nh = self.input.n_h_cm3;
+                 let c = HHeModel::controlled_fixture();
+                 let nold = old.photons.iter().sum::<f64>();

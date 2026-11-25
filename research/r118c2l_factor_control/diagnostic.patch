@@ -1,0 +1,32 @@
+--- /home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/src/homogeneous_sky/rei_live.rs	2026-11-25 20:15:52.113942297 +0900
++++ /home/cosmosapjw/Downloads/bass_c2l_diag_vbkAil/_rustcore/src/homogeneous_sky/rei_live.rs	2026-11-25 20:30:38.583444286 +0900
+@@ -349,6 +349,7 @@
+     let initial_e = thermal(gas)? + binding(gas, input.f_he);
+     let (mut t, mut tau, mut support) = (0_f64, 0_f64, 0_f64);
+     let mut counter = 0;
++    let (mut chem_sum, mut chem_max, mut chem_last, mut root_max) = (0_f64, 0_f64, 0_f64, 0_f64);
+     let mut cmb = initial_sky(input.n_mu, 8)?;
+     let mut history = vec![snapshot(
+         &records[0].left,
+@@ -483,6 +484,12 @@
+         ledger.four.absorbed_pz += a.pz;
+         ledger.four.binding_energy += a.binding;
+         ledger.four.heat_energy += a.heat;
++        chem_last = (thermal(q.gas)? - thermal(gas)?)
++            + (binding(q.gas, input.f_he) - binding(gas, input.f_he))
++            - a.energy + q.ledgers.escaped_u - q.ledgers.cmb_input;
++        chem_sum += chem_last;
++        chem_max = chem_max.max(chem_last.abs());
++        root_max = root_max.max(q.max_residual);
+         gas = q.gas;
+         for (p, n) in p.packets.iter_mut().zip(q.stocks) {
+             p.per_h = n;
+@@ -529,7 +536,7 @@
+             initial_e,
+             root,
+             support,
+-        )?;
++        ).map_err(|e| format!("{e}; eta={:.17e} step={} emitted_U={:.17e} chem_sum={:.17e} chem_max={:.17e} chem_last={:.17e} root_max={:.17e}", r.eta, history.len(), ledger.emitted_u, chem_sum, chem_max, chem_last, root_max))?;
+         let k0 = last.opacity;
+         let k1 = n.opacity;
+         let d0 = h * (3. * k0 + k1) / 8.;
