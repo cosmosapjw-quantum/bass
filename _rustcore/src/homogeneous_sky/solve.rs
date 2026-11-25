@@ -132,7 +132,9 @@ impl MatchedRecombination {
                 * (matter_fraction * (-3. * eta).exp()
                     + (1. - matter_fraction) * (-4. * eta).exp());
         if !e2.is_finite() || e2 <= 0. {
-            return Err("matched recombination reference expansion squared must be positive".into());
+            return Err(
+                "matched recombination reference expansion squared must be positive".into(),
+            );
         }
         let h = self.h_emit_s * e2.sqrt();
         let rate = isotropic_peebles_rate(
@@ -245,6 +247,41 @@ fn collide_segment(
             scheme,
         ),
         Field::Harmonic(h) => {
+            if let Some(work) = h.continuum_work_lmax {
+                let mut events = Vec::new();
+                for (tau, b) in cells {
+                    if recoil {
+                        let host = dust.as_mut().ok_or("recoil requires massive matter")?;
+                        *energy_defect += super::harmonic_collision::scatter_with_recoil(
+                            h,
+                            host,
+                            work,
+                            tau,
+                            photon_scale,
+                            scheme,
+                            &mut events,
+                        )?;
+                    } else {
+                        let (out, event, _) = super::harmonic_collision::continuum_cell(
+                            &h.coefficients,
+                            h.lmax(),
+                            work,
+                            b,
+                            tau,
+                            scheme,
+                        )?;
+                        if tau != 0. {
+                            let mut next = h.clone();
+                            next.coefficients = out;
+                            next.moments()?;
+                            *h = next;
+                        }
+                        events.push(event);
+                    }
+                    *depth += tau;
+                }
+                return Ok(events);
+            }
             if cells.iter().all(|(tau, _)| *tau == 0.0) {
                 return collide_on(
                     &mut [],

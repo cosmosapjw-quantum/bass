@@ -31,6 +31,14 @@ pub enum Route {
         n_theta: usize,
         n_phi: usize,
     },
+    /// Grid-free continuum collision; the grid is only for diagnostics,
+    /// observable output and microphysics needing directional samples.
+    HarmonicContinuum {
+        lmax: usize,
+        n_theta: usize,
+        n_phi: usize,
+        work_lmax: usize,
+    },
 }
 
 impl Route {
@@ -42,6 +50,14 @@ impl Route {
                 n_theta,
                 n_phi,
             } => format!("harmonic_lmax{lmax}_grid{n_theta}x{n_phi}"),
+            Route::HarmonicContinuum {
+                lmax,
+                n_theta,
+                n_phi,
+                work_lmax,
+            } => format!(
+                "harmonic_continuum_lmax{lmax}_work{work_lmax}_diagnostic_grid{n_theta}x{n_phi}"
+            ),
         }
     }
     /// Default collision grid of a harmonic route: exact for the rest-electron step.
@@ -77,6 +93,7 @@ fn dyad(e: &V) -> (V, V) {
 pub struct HarmonicSky {
     hierarchy: Arc<LieHierarchy>,
     transform: Arc<SpinSht>,
+    pub(super) continuum_work_lmax: Option<usize>,
     /// Slots (a^0, a^+2, a^-2) or (a^0) for an unpolarized species.
     pub coefficients: Vec<Vec<C64>>,
 }
@@ -99,6 +116,7 @@ impl HarmonicSky {
         Ok(Self {
             hierarchy,
             transform,
+            continuum_work_lmax: None,
             coefficients,
         })
     }
@@ -248,7 +266,11 @@ impl HarmonicSky {
         let p_xz = -c2_1 * a21.re / energy;
         let p_yz = c2_1 * a21.im / energy;
         let pressure = [[p_xx, p_xy, p_xz], [p_xy, p_yy, p_yz], [p_xz, p_yz, p_zz]];
-        if !flux.iter().chain(pressure.iter().flatten()).all(|v| v.is_finite()) {
+        if !flux
+            .iter()
+            .chain(pressure.iter().flatten())
+            .all(|v| v.is_finite())
+        {
             return Err("non-finite harmonic radiation moments".into());
         }
         Ok(RadiationMoments {
@@ -287,6 +309,19 @@ impl Field {
             } => Ok(Field::Harmonic(HarmonicSky::isotropic(
                 *lmax, *n_theta, *n_phi, polarized,
             )?)),
+            Route::HarmonicContinuum {
+                lmax,
+                n_theta,
+                n_phi,
+                work_lmax,
+            } => {
+                if *work_lmax < *lmax || *work_lmax > 256 {
+                    return Err("continuum work_lmax must be in lmax..=256".into());
+                }
+                let mut h = HarmonicSky::isotropic(*lmax, *n_theta, *n_phi, polarized)?;
+                h.continuum_work_lmax = Some(*work_lmax);
+                Ok(Field::Harmonic(h))
+            }
         }
     }
 

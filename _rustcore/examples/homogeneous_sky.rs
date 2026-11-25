@@ -22,7 +22,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization).";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization).";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -62,6 +62,7 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "t-unit-k",
             "recombination-stop-eta",
             "harmonic-lmax",
+            "harmonic-work-lmax",
             "harmonic-ntheta",
             "harmonic-nphi",
             "neutrino-fraction",
@@ -330,9 +331,14 @@ fn run() -> Result<(), Error> {
     );
     let route = match opt("route", "rays") {
         "rays" => {
-            if ["harmonic-lmax", "harmonic-ntheta", "harmonic-nphi"]
-                .iter()
-                .any(|k| a.contains_key(*k))
+            if [
+                "harmonic-lmax",
+                "harmonic-ntheta",
+                "harmonic-nphi",
+                "harmonic-work-lmax",
+            ]
+            .iter()
+            .any(|k| a.contains_key(*k))
             {
                 return Err("--harmonic-* options require --route harmonic".into());
             }
@@ -341,7 +347,11 @@ fn run() -> Result<(), Error> {
             }
             Route::Rays
         }
-        "harmonic" => {
+        "harmonic" | "harmonic-continuum" => {
+            let continuum = opt("route", "rays") == "harmonic-continuum";
+            if !continuum && a.contains_key("harmonic-work-lmax") {
+                return Err("--harmonic-work-lmax requires --route harmonic-continuum".into());
+            }
             let l: usize = opt("harmonic-lmax", "12").parse()?;
             let nt = match a.get("harmonic-ntheta") {
                 Some(x) => x.parse::<usize>()?,
@@ -352,20 +362,34 @@ fn run() -> Result<(), Error> {
                 None => 2 * l + 6,
             };
             if nt < lmax.saturating_add(1) || np < lmax.saturating_mul(2).saturating_add(1) {
-                return Err(
-                    "harmonic collision grid is below nominal resolution of --lmax".into(),
-                );
+                return Err("harmonic collision grid is below nominal resolution of --lmax".into());
             }
             if nmu < 4 || nphi < 4 || nphi % 2 != 0 {
                 return Err("seed --nmu/--nphi must be >= 4 with even --nphi".into());
             }
-            Route::Harmonic {
-                lmax: l,
-                n_theta: nt,
-                n_phi: np,
+            if continuum {
+                let work: usize = a
+                    .get("harmonic-work-lmax")
+                    .ok_or("harmonic-continuum requires --harmonic-work-lmax")?
+                    .parse()?;
+                if work < l || work > 256 {
+                    return Err("invalid continuum work band".into());
+                }
+                Route::HarmonicContinuum {
+                    lmax: l,
+                    n_theta: nt,
+                    n_phi: np,
+                    work_lmax: work,
+                }
+            } else {
+                Route::Harmonic {
+                    lmax: l,
+                    n_theta: nt,
+                    n_phi: np,
+                }
             }
         }
-        _ => return Err("unknown route (rays or harmonic)".into()),
+        _ => return Err("unknown route (rays, harmonic or harmonic-continuum)".into()),
     };
     let lie = if let Some(path) = a.get("lie-ic") {
         if a.contains_key("family") || a.contains_key("shear") {
