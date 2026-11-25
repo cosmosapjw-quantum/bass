@@ -8,13 +8,17 @@ use bianchi_rustcore::homogeneous_sky::{
     material::Material,
     observed_sky,
     replay::los_sky,
-    solve::{solve_general, MatchedRecombination, Settings, Solution, SolveOptions},
+    solve::{
+        solve_general, solve_general_species_thermal, MatchedRecombination, Settings, Solution,
+        SolveOptions,
+    },
     CollisionScheme,
 };
 use bianchi_rustcore::kinetic::lie_hierarchy::lie_data;
 use bianchi_rustcore::kinetic::lie_history::{initial_lie_node, required_flux, LieInitial};
 use bianchi_rustcore::kinetic::radiation_feedback::{ExpansionEquation, LieUpdate};
 use bianchi_rustcore::kinetic::sky_spectrum::{analyze, products, Mode};
+use rec_microphysics::species_thermal::ReferenceHistory;
 use std::{
     collections::BTreeMap,
     env, fs,
@@ -22,7 +26,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization).";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -59,6 +63,7 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "los-nphi",
             "route",
             "recombination",
+            "species-reference",
             "t-unit-k",
             "recombination-stop-eta",
             "harmonic-lmax",
@@ -278,6 +283,66 @@ fn recombination_history(dir: &Path, sol: &Solution, ion: &Ionization) -> Result
     f.flush()?;
     Ok(())
 }
+/// Species-resolved thermal ledger. Initial interval diagnostics are empty.
+fn thermochemistry_history(
+    dir: &Path,
+    sol: &Solution,
+    reference: &ReferenceHistory,
+) -> Result<(), Error> {
+    let mut f = writer(&dir.join("thermochemistry.tsv"))?;
+    writeln!(f,"eta	xp	x_hi	x_heii	x_heiii	x_hei	xe	tm_k	w_k	xp_ref	x_heii_ref	x_heiii_ref	xe_ref	tm_ref_k	delta_xe	delta_tm_k	n_h_m3	h_s	gamma	expansion_ratio	endpoint_expansion_ratio	compton_temperature_k	iterations	scaled_residual	adiabatic_j_per_h	compton_j_per_h	external_j_per_h	matched_thermal_correction_j_per_h	thermal_defect_j_per_h	binding_change_j_per_h")?;
+    let fhe = reference.f_he();
+    let opt = |v: Option<f64>| v.map(|v| format!("{v:.17e}")).unwrap_or_default();
+    for s in &sol.thermochemistry {
+        let y = s.state;
+        let r = s.reference;
+        let d = s.diagnostics;
+        let base = [
+            s.eta,
+            y.xp(),
+            y.x_hi,
+            y.x_heii,
+            y.x_heiii,
+            y.x_hei(fhe),
+            y.xe(),
+            y.tm(fhe),
+            y.w_k,
+            r.xp(),
+            r.x_heii,
+            r.x_heiii,
+            r.xe(),
+            r.tm(fhe),
+            y.xe() - r.xe(),
+            y.tm(fhe) - r.tm(fhe),
+            s.n_h_m3,
+            s.h_s,
+            s.gamma,
+        ];
+        let mut values = base.iter().map(|v| format!("{v:.17e}")).collect::<Vec<_>>();
+        values.extend([
+            opt(s.expansion_ratio),
+            opt(s.endpoint_expansion_ratio),
+            opt(s.compton_temperature_k),
+            d.iterations.to_string(),
+        ]);
+        values.extend(
+            [
+                d.scaled_residual,
+                d.physical_adiabatic_j_per_h,
+                d.physical_compton_j_per_h,
+                d.physical_external_j_per_h,
+                d.matched_thermal_correction_j_per_h,
+                d.thermal_balance_defect_j_per_h,
+                d.binding_change_j_per_h,
+            ]
+            .iter()
+            .map(|v| format!("{v:.17e}")),
+        );
+        writeln!(f, "{}", values.join("\t"))?;
+    }
+    f.flush()?;
+    Ok(())
+}
 /// Neutrino density, flux and anisotropic stress pi/rho along the history.
 fn species(dir: &Path, sol: &Solution) -> Result<(), Error> {
     if sol.neutrinos.is_none() {
@@ -410,6 +475,41 @@ fn run() -> Result<(), Error> {
     } else {
         None
     };
+    let species_reference = if opt("recombination", "table") == "species-thermal" {
+        if [
+            "ionization",
+            "n-h-emit-m3",
+            "h-emit-s",
+            "material",
+            "tau",
+            "electron-beta",
+            "t-unit-k",
+            "recombination-stop-eta",
+        ]
+        .iter()
+        .any(|k| a.contains_key(*k))
+        {
+            return Err(
+                "species-thermal replaces optical and recombination anchors; one source owner only"
+                    .into(),
+            );
+        }
+        if opt("feedback", "auto") != "recoil" {
+            return Err("species-thermal requires recoil".into());
+        }
+        let path = a
+            .get("species-reference")
+            .ok_or("missing --species-reference")?;
+        Some(
+            ReferenceHistory::parse(&fs::read_to_string(path)?)
+                .map_err(|e| format!("species reference: {e:?}"))?,
+        )
+    } else {
+        if a.contains_key("species-reference") {
+            return Err("--species-reference requires --recombination species-thermal".into());
+        }
+        None
+    };
     let ionization = if let Some(path) = a.get("ionization") {
         if a.contains_key("material") || a.contains_key("tau") || a.contains_key("electron-beta") {
             return Err(
@@ -524,6 +624,7 @@ fn run() -> Result<(), Error> {
                     .transpose()?,
             })
         }
+        "species-thermal" => None,
         other => return Err(format!("unknown --recombination {other}").into()),
     };
     let options = SolveOptions {
@@ -535,15 +636,27 @@ fn run() -> Result<(), Error> {
         return Err("--observer-frame replaces --observer-beta".into());
     }
     let baryon_fraction: f64 = opt("baryon-fraction", "0.5").parse()?;
-    let sol = solve_general(
-        &cfg,
-        &material,
-        lie.as_ref(),
-        ionization.as_ref(),
-        expansion,
-        baryon_fraction,
-        &options,
-    )?;
+    let sol = if let Some(reference) = &species_reference {
+        solve_general_species_thermal(
+            &cfg,
+            &material,
+            lie.as_ref(),
+            expansion,
+            baryon_fraction,
+            &options,
+            reference,
+        )?
+    } else {
+        solve_general(
+            &cfg,
+            &material,
+            lie.as_ref(),
+            ionization.as_ref(),
+            expansion,
+            baryon_fraction,
+            &options,
+        )?
+    };
     let frames = frame_report(&sol)?;
     let observer_frame = a
         .get("observer-frame")
@@ -587,6 +700,9 @@ fn run() -> Result<(), Error> {
     if options.recombination.is_some() {
         recombination_history(&out, &sol, ionization.as_ref().ok_or("missing ionization")?)?;
     }
+    if let Some(reference) = &species_reference {
+        thermochemistry_history(&out, &sol, reference)?;
+    }
     let mut f = writer(&out.join("run.txt"))?;
     writeln!(f,"schema=bass.homogeneous_sky.v2\ncodazzi_convention=(D_b sigma^b_a + kappa q_a)/H^2 in the propagation tetrad\nfamily={}\nfeedback={}\nduration={}\nsteps={}\nnmu={}\nnphi={}\nlmax={}\nshear={}\ndust_fraction={}\ndust_beta={:?}\nobserver_beta={:?}",if lie.is_some(){"custom_lie"}else{cfg.family},if cfg.recoil{"active_photons_dust_Thomson_recoil"}else if active{"active_photons_and_optional_dust"}else{"polarized_tracer_on_native_scalar_radiation"},dur,cfg.steps,nmu,nphi,lmax,if lie.is_some(){"custom_tensor".into()}else{cfg.shear.to_string()},cfg.dust_fraction,if sol.initial_dust_mode=="codazzi_coflow"{sol.history[0].host_beta}else{cfg.dust_beta},obs)?;
     writeln!(
@@ -594,7 +710,9 @@ fn run() -> Result<(), Error> {
         "initial_dust_mode={}\ninitial_host_beta={:?}\nopacity_source={}",
         sol.initial_dust_mode,
         sol.history[0].host_beta,
-        if ionization.is_some() {
+        if species_reference.is_some() {
+            "species_reference_plus_lagged_delta_xe_times_host_proper_density_over_H"
+        } else if ionization.is_some() {
             "xe_times_evolved_host_rest_density_over_H"
         } else {
             "prescribed_rate_per_eta"
@@ -683,13 +801,14 @@ fn run() -> Result<(), Error> {
         relative(frames.total, obs)?,
         frames.host,
         frames.host.map(|h| relative(frames.total, h)).transpose()?,
-        if options.recombination.is_some() {
-            "matched"
-        } else {
-            "table"
-        },
+        if species_reference.is_some() {"species-thermal"}
+        else if options.recombination.is_some() {"matched"} else {"table"},
         sol.history.last().ok_or("empty history")?.delta_xe,
     )?;
+    if let Some(r) = &species_reference {
+        let a = r.nodes()[0];
+        writeln!(f,"species_helium_model={:?}\nspecies_f_he={:.17e}\nspecies_reference_n_h_emit_m3={:.17e}\nspecies_reference_h_emit_s={:.17e}\nspecies_reference_tr_emit_k={:.17e}\nspecies_thermal_energy_feedback=tracer_only\nspecies_coupling=lagged_opacity_BE",r.helium(),r.f_he(),a.n_h_m3,a.h_s,a.tr_k)?;
+    }
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;
     Ok(())

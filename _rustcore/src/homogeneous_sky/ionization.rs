@@ -11,6 +11,56 @@ pub struct Ionization {
 }
 
 impl Ionization {
+    /// Reference species are the unique owner of xe and physical anchors.
+    pub fn from_species_reference(
+        r: &rec_microphysics::species_thermal::ReferenceHistory,
+    ) -> Result<Self, String> {
+        let first = r.nodes()[0];
+        let scale = C_SIGMA_T_M3_S * first.n_h_m3 / first.h_s;
+        if !scale.is_finite() || scale <= 0. {
+            return Err("invalid species reference exposure".into());
+        }
+        let nodes = r
+            .nodes()
+            .iter()
+            .map(|n| MaterialNode {
+                eta: n.eta,
+                rate: n.state.xe(),
+                beta: [0.; 3],
+            })
+            .collect();
+        Ok(Self {
+            unit_exposure: Material::new(nodes)?,
+            emission_exposure_per_eta: scale,
+        })
+    }
+    pub fn cells_with_strict_offset(
+        &self,
+        start: f64,
+        end: f64,
+        host_proper_ratio: f64,
+        hubble_ratio: f64,
+        delta_xe: f64,
+    ) -> Result<Vec<(f64, [f64; 3])>, String> {
+        let scale = self.emission_exposure_per_eta * host_proper_ratio / hubble_ratio;
+        if !host_proper_ratio.is_finite()
+            || host_proper_ratio <= 0.
+            || !hubble_ratio.is_finite()
+            || hubble_ratio <= 0.
+            || !scale.is_finite()
+            || scale <= 0.
+        {
+            return Err("invalid host exposure".into());
+        }
+        let mut cells = self.unit_exposure.cells_shifted(start, end, delta_xe)?;
+        for (d, _) in &mut cells {
+            *d *= scale;
+            if !d.is_finite() {
+                return Err("nonfinite species Thomson exposure".into());
+            }
+        }
+        Ok(cells)
+    }
     pub fn load(path: &Path, n_h_emit_m3: f64, h_emit_s: f64) -> Result<Self, String> {
         let input = std::fs::read_to_string(path).map_err(|e| e.to_string())?;
         Self::parse(&input, n_h_emit_m3, h_emit_s)

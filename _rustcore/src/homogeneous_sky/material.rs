@@ -105,6 +105,60 @@ impl Material {
         }
         Ok(result)
     }
+    /// Add a constant rate offset to each linear segment, integrating it
+    /// exactly. Reject negative rates at either segment endpoint; no clamp.
+    pub(super) fn cells_shifted(
+        &self,
+        start: f64,
+        end: f64,
+        offset: f64,
+    ) -> Result<Vec<(f64, [f64; 3])>, String> {
+        if !offset.is_finite() || start >= end {
+            return Err("invalid shifted material interval".into());
+        }
+        self.rate_at(start)?;
+        self.rate_at(end)?;
+        if offset == 0. {
+            return self.cells(start, end);
+        }
+        let mut out = Vec::new();
+        let i = self
+            .nodes
+            .partition_point(|n| n.eta <= start)
+            .saturating_sub(1);
+        for pair in self.nodes[i..].windows(2) {
+            let (a, b) = (pair[0], pair[1]);
+            if a.eta >= end {
+                break;
+            }
+            let x = start.max(a.eta);
+            let y = end.min(b.eta);
+            if x >= y {
+                continue;
+            }
+            let u0 = (x - a.eta) / (b.eta - a.eta);
+            let u1 = (y - a.eta) / (b.eta - a.eta);
+            let r0 = a.rate + (b.rate - a.rate) * u0 + offset;
+            let r1 = a.rate + (b.rate - a.rate) * u1 + offset;
+            if !r0.is_finite() || !r1.is_finite() || r0 < 0. || r1 < 0. {
+                return Err("nonphysical species-offset electron fraction".into());
+            }
+            let rate = 0.5 * r0 + 0.5 * r1;
+            let depth = rate * (y - x);
+            if !depth.is_finite() {
+                return Err("nonfinite shifted depth".into());
+            }
+            if depth > 0. {
+                let u = 0.5 * (u0 + u1);
+                out.push((
+                    depth,
+                    std::array::from_fn(|k| a.beta[k] + u * (b.beta[k] - a.beta[k])),
+                ));
+            }
+        }
+        Ok(out)
+    }
+
     /// Linearly interpolated rate at `eta` (no extrapolation beyond the knots).
     pub fn rate_at(&self, eta: f64) -> Result<f64, String> {
         let first = self.nodes[0].eta;

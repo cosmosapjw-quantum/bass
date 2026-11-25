@@ -25,6 +25,10 @@ use rec_microphysics::anisotropic::{compton_temperature_k, DirectionalSky};
 use rec_microphysics::matched_history::{
     anisotropic_peebles_rate, implicit_matched_step, isotropic_peebles_rate, MatchedStep, X_MAX,
 };
+use rec_microphysics::species_thermal::{
+    matched_step as thermal_step, Point as ThermalPoint, ReferenceHistory, State as ThermalState,
+    StepDiagnostics as ThermalDiagnostics,
+};
 
 pub struct Settings<'a> {
     pub family: &'a str,
@@ -161,7 +165,23 @@ pub struct Snapshot {
     /// Matched recombination offset of the electron fraction (0 when off).
     pub delta_xe: f64,
 }
+/// Accepted species/thermal state and energy ledger. Interval-dependent
+/// quantities on the initial row are None, not fabricated derivatives.
+pub struct ThermochemistrySnapshot {
+    pub eta: f64,
+    pub state: ThermalState,
+    pub reference: ThermalState,
+    pub n_h_m3: f64,
+    pub h_s: f64,
+    pub gamma: f64,
+    pub expansion_ratio: Option<f64>,
+    pub endpoint_expansion_ratio: Option<f64>,
+    pub compton_temperature_k: Option<f64>,
+    pub diagnostics: ThermalDiagnostics,
+}
 pub struct Solution {
+    /// Nonempty only in the explicit species-thermal route.
+    pub thermochemistry: Vec<ThermochemistrySnapshot>,
     pub photons: Vec<Photon>,
     pub history: Vec<Snapshot>,
     pub initial_dust_mode: &'static str,
@@ -330,6 +350,7 @@ struct Opacity<'a> {
     ionization: Option<(&'a Ionization, f64)>,
     /// Matched recombination offset of x_e (0 reproduces the table exactly).
     delta_xe: f64,
+    strict_species_offset: bool,
 }
 impl Opacity<'_> {
     fn cells(
@@ -340,13 +361,12 @@ impl Opacity<'_> {
         dust: &Option<Dust>,
     ) -> Result<Vec<(f64, [f64; 3])>, String> {
         if let Some((ion, initial_proper)) = self.ionization {
-            ion.cells_with_offset(
-                start,
-                end,
-                host_proper_mass(dust)? / initial_proper,
-                stage.hubble_ratio,
-                self.delta_xe,
-            )
+            let ratio = host_proper_mass(dust)? / initial_proper;
+            if self.strict_species_offset {
+                ion.cells_with_strict_offset(start, end, ratio, stage.hubble_ratio, self.delta_xe)
+            } else {
+                ion.cells_with_offset(start, end, ratio, stage.hubble_ratio, self.delta_xe)
+            }
         } else {
             self.material.cells(start, end)
         }
@@ -528,6 +548,67 @@ pub fn solve_general(
     baryon_fraction: f64,
     opts: &SolveOptions,
 ) -> Result<Solution, String> {
+    solve_general_inner(
+        cfg,
+        mat,
+        lie,
+        ionization,
+        expansion,
+        baryon_fraction,
+        opts,
+        None,
+    )
+}
+
+/// Source-owned species and thermal correction. The generated ionization
+/// curve comes from the same reference; a second xe table is not accepted.
+/// Chemistry is BE at accepted endpoint, with lagged opacity for this cell.
+/// Heat is a tracer ledger, not an active photon/baryon energy source.
+pub fn solve_general_species_thermal(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+    opts: &SolveOptions,
+    reference: &ReferenceHistory,
+) -> Result<Solution, String> {
+    if opts.recombination.is_some()
+        || !cfg.recoil
+        || mat.has_scattering()
+        || mat.has_prescribed_motion()
+    {
+        return Err(
+            "species thermochemistry requires exclusive reference ownership and recoil".into(),
+        );
+    }
+    reference
+        .at(cfg.duration)
+        .map_err(|e| format!("species reference coverage: {e:?}"))?;
+    let ion = Ionization::from_species_reference(reference)?;
+    solve_general_inner(
+        cfg,
+        mat,
+        lie,
+        Some(&ion),
+        expansion,
+        baryon_fraction,
+        opts,
+        Some(reference),
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn solve_general_inner(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    ionization: Option<&Ionization>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+    opts: &SolveOptions,
+    species_ref: Option<&ReferenceHistory>,
+) -> Result<Solution, String> {
     if !(0.0 < baryon_fraction && baryon_fraction < 1.0)
         || (cfg.dust_fraction == 0. && baryon_fraction != 0.5)
     {
@@ -677,7 +758,25 @@ pub fn solve_general(
             None => None,
         },
         delta_xe: 0.,
+        strict_species_offset: species_ref.is_some(),
     };
+    let mut thermochemistry = Vec::new();
+    if let Some(r) = species_ref {
+        let first = r.nodes()[0];
+        let b = host_beta(&dust)?;
+        thermochemistry.push(ThermochemistrySnapshot {
+            eta: 0.,
+            state: first.state,
+            reference: first.state,
+            n_h_m3: first.n_h_m3,
+            h_s: first.h_s,
+            gamma: 1. / (1. - b.iter().map(|x| x * x).sum::<f64>()).sqrt(),
+            expansion_ratio: None,
+            endpoint_expansion_ratio: None,
+            compton_temperature_k: None,
+            diagnostics: ThermalDiagnostics::default(),
+        });
+    }
     let mut src = source(
         &initial,
         scale,
@@ -772,6 +871,11 @@ pub fn solve_general(
         cumulative += step.depth;
         collision_defect += step.energy_defect;
         let beta_before = host_beta(&dust)?;
+        let proper_before = if species_ref.is_some() {
+            Some(host_proper_mass(&dust)?)
+        } else {
+            None
+        };
         dust = step.dust;
         src = source(
             &rad,
@@ -829,6 +933,68 @@ pub fn solve_general(
                 x - x_ref_next
             };
         }
+        if let Some(r) = species_ref {
+            let first = r.nodes()[0];
+            let ref_prev = r
+                .at(node.eta)
+                .map_err(|e| format!("species reference start: {e:?}"))?;
+            let ref_next = r
+                .at(next.eta)
+                .map_err(|e| format!("species reference end: {e:?}"))?;
+            let prev = thermochemistry.last().ok_or("missing species state")?.state;
+            let h = next.eta - node.eta;
+            let beta = host_beta(&dust)?;
+            let beta_prime = std::array::from_fn(|i| (beta[i] - beta_before[i]) / h);
+            let b2 = beta.iter().map(|x| x * x).sum::<f64>();
+            let gamma = 1. / (1. - b2).sqrt();
+            let endpoint_ratio = 3.
+                + gamma * gamma * beta.iter().zip(beta_prime).map(|(x, y)| x * y).sum::<f64>()
+                - 2. * next.a.iter().zip(beta).map(|(a, b)| a * b).sum::<f64>();
+            // Exact average of discrete proper-density continuity for this
+            // accepted dust step. Endpoint expression is a diagnostic.
+            let proper = host_proper_mass(&dust)?;
+            let expansion_ratio =
+                -(proper / proper_before.ok_or("missing initial host density")?).ln() / h;
+            let n_h =
+                first.n_h_m3 * proper / opacity.ionization.ok_or("missing species opacity")?.1;
+            let hubble = first.h_s * next.hubble_ratio;
+            let photons = step.sky.photons()?;
+            let msky = material_directional_sky(&photons, &next, beta, beta_prime, first.tr_k)?;
+            let ds = DirectionalSky {
+                weights: &msky.weights,
+                temperature_k: &msky.temperature_k,
+                expansion_factor: &msky.expansion_factor,
+            };
+            let actual =
+                ThermalPoint::new(&ds, n_h, hubble, gamma, expansion_ratio, 0., r.helium())
+                    .map_err(|e| format!("species source at eta {}: {e:?}", next.eta))?;
+            let reference = r
+                .point(ref_next)
+                .map_err(|e| format!("species reference source: {e:?}"))?;
+            let (state, diagnostics) = thermal_step(
+                prev,
+                ref_prev.state,
+                ref_next.state,
+                h,
+                r.f_he(),
+                &actual,
+                &reference,
+            )
+            .map_err(|e| format!("species matched step at eta {}: {e:?}", next.eta))?;
+            opacity.delta_xe = state.xe() - ref_next.state.xe();
+            thermochemistry.push(ThermochemistrySnapshot {
+                eta: next.eta,
+                state,
+                reference: ref_next.state,
+                n_h_m3: n_h,
+                h_s: hubble,
+                gamma,
+                expansion_ratio: Some(expansion_ratio),
+                endpoint_expansion_ratio: Some(endpoint_ratio),
+                compton_temperature_k: Some(actual.compton_temperature_k()),
+                diagnostics,
+            });
+        }
         sky = step.sky;
         nu = step.nu;
         node = next;
@@ -846,6 +1012,7 @@ pub fn solve_general(
     }
     let neutrinos = nu.as_ref().map(Field::photons).transpose()?;
     Ok(Solution {
+        thermochemistry,
         photons: sky.photons()?,
         history,
         initial_dust_mode,
