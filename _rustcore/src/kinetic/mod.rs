@@ -43,3 +43,5 @@ pub mod memory_mixture;
 pub mod owned_vlasov;
 
 pub mod owned_thomson;
+
+pub mod b3_coupling;
