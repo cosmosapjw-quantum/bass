@@ -14,6 +14,7 @@ pub mod material;
 pub mod rec_bridge;
 mod recoil;
 pub mod replay;
+pub mod resonance;
 pub mod solve;
 pub mod spectral;
 
