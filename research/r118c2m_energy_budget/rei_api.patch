@@ -1,0 +1,128 @@
+diff --git a/rust/rei_microphysics/src/axbi_driver.rs b/rust/rei_microphysics/src/axbi_driver.rs
+index 3b0ddef1e..a0be188dd 100644
+--- a/rust/rei_microphysics/src/axbi_driver.rs
++++ b/rust/rei_microphysics/src/axbi_driver.rs
+@@ -479,6 +479,7 @@ impl Driver {
+             energies: &self.energies,
+             signature: &self.signature,
+             max_rhs: self.config.max_rhs,
++            energy_budget: None,
+         };
+         ctx.step(s, dt, counter)
+     }
+@@ -656,6 +657,7 @@ struct PacketStageContext<'a> {
+     energies: &'a [f64],
+     signature: &'a [[f64; 3]],
+     max_rhs: usize,
++    energy_budget: Option<f64>,
+ }
+ impl PacketStageContext<'_> {
+     fn evaluate(
+@@ -720,6 +722,42 @@ impl PacketStageContext<'_> {
+             .max(residual[2].abs())
+             .max(residual[3].abs() / old_w.abs().max(new_w.abs()).max(1e-6))
+     }
++    /// Direct physical energy defect in eV/H, computed from stock differences.
++    /// Same frozen photon energies, fixed densities and proper interval as evaluate().
++    fn energy_defect(
++        &self, old: &DriverState, unknown: [f64; 4], stocks: &[f64],
++        rhs: &IgmPointRhs, dt: f64,
++    ) -> Result<f64, ForwardError> {
++        let c = HHeModel::controlled_fixture();
++        let nh = self.input.n_h_cm3;
++        let fhe = self.input.n_he_cm3 / nh;
++        let d = std::array::from_fn::<_, 3, _>(|i| unknown[i] - old.gas.fractions[i]);
++        let db = c.threshold_ev[0]*d[0] + fhe*(c.threshold_ev[1]*d[1]
++            + (c.threshold_ev[1]+c.threshold_ev[2])*d[2]);
++        // Neumaier sum of actual absorption energies, no total-inventory subtraction.
++        let (mut u, mut corr) = (0_f64,0_f64);
++        let ne = self.energies.len();
++        for (j, (&a,&b)) in old.photons.iter().zip(stocks).enumerate() {
++            let x = (a-b)*self.energies[j % ne];
++            let t = u+x;
++            corr += if u.abs() >= x.abs() {(u-t)+x} else {(x-t)+u};
++            u=t;
++        }
++        let dw = w_erg_per_h_to_ev(w_ev_per_h_to_erg(unknown[3])?)?
++            - w_erg_per_h_to_ev(old.gas.w_erg_per_h)?;
++        f(dw+db-(u+corr)+rhs.escape_erg_cm3_s*dt/(nh*c.ev_erg)
++            -rhs.cmb_to_gas_erg_cm3_s*dt/(nh*c.ev_erg))
++    }
++    fn merit(&self, old: &DriverState, x: [f64;4], r: [f64;4],
++             stocks: &[f64], rhs: &IgmPointRhs, dt:f64, old_w:f64)
++             -> Result<f64,ForwardError> {
++        let norm=self.norm(r,old_w,x[3]);
++        if let Some(b)=self.energy_budget {
++            f((norm/1e-11).max(self.energy_defect(old,x,stocks,rhs,dt)?.abs()/b))
++        } else {
++            Ok(norm)
++        }
++    }
+     fn step(&self, s: &mut DriverState, dt: f64, counter: &mut usize) -> Result<(), ForwardError> {
+         if !dt.is_finite() || dt <= 0.0 {
+             return Err(err("AXBI_STAGE_DT"));
+@@ -735,7 +773,9 @@ impl PacketStageContext<'_> {
+         for _ in 0..50 {
+             let (residual, stocks, rhs) = self.evaluate(&old, x, dt, counter)?;
+             let norm = self.norm(residual, old_w, x[3]);
+-            if norm <= 1e-11 {
++            let merit = self.merit(&old,x,residual,&stocks,&rhs,dt,old_w)?;
++            let accepted_merit = if self.energy_budget.is_some() {1.} else {1e-11};
++            if merit <= accepted_merit {
+                 let nh = self.input.n_h_cm3;
+                 let c = HHeModel::controlled_fixture();
+                 let nold = old.photons.iter().sum::<f64>();
+@@ -788,8 +828,8 @@ impl PacketStageContext<'_> {
+             let mut accepted = None;
+             for _ in 0..40 {
+                 let trial = std::array::from_fn(|i| x[i] + alpha * direction[i]);
+-                if let Ok((r, _, _)) = self.evaluate(&old, trial, dt, counter) {
+-                    if self.norm(r, old_w, trial[3]) < norm {
++                if let Ok((r, stocks, rhs)) = self.evaluate(&old, trial, dt, counter) {
++                    if self.merit(&old,trial,r,&stocks,&rhs,dt,old_w).is_ok_and(|m|m<merit) {
+                         accepted = Some(trial);
+                         break;
+                     }
+@@ -814,6 +854,34 @@ pub fn packet_chemistry_stage(
+     dt: f64,
+     counter: &mut usize,
+     max_rhs: usize,
++) -> Result<PacketStageResult, ForwardError> {
++    packet_chemistry_stage_impl(input,gas,packets,dt,counter,max_rhs,None)
++}
++
++/// Opt-in absolute local chemistry energy budget, in eV per H nucleus.
++/// Retains the legacy scaled residual criterion. Failure returns no state.
++pub fn packet_chemistry_stage_budgeted(
++    input: PacketStageInput,
++    gas: IgmGasState,
++    packets: &[crate::coupled_primary::PrimaryPacket],
++    dt: f64,
++    counter: &mut usize,
++    max_rhs: usize,
++    max_energy_defect_ev_per_h: f64,
++) -> Result<PacketStageResult, ForwardError> {
++    if !max_energy_defect_ev_per_h.is_finite() || max_energy_defect_ev_per_h<=0. {
++        return Err(err("AXBI_PACKET_ENERGY_BUDGET_DOMAIN"));
++    }
++    packet_chemistry_stage_impl(input,gas,packets,dt,counter,max_rhs,Some(max_energy_defect_ev_per_h))
++}
++fn packet_chemistry_stage_impl(
++    input: PacketStageInput,
++    gas: IgmGasState,
++    packets: &[crate::coupled_primary::PrimaryPacket],
++    dt: f64,
++    counter: &mut usize,
++    max_rhs: usize,
++    energy_budget: Option<f64>,
+ ) -> Result<PacketStageResult, ForwardError> {
+     if !input.n_h_cm3.is_finite()
+         || input.n_h_cm3 <= 0.
+@@ -862,6 +930,7 @@ pub fn packet_chemistry_stage(
+         energies: &energies,
+         signature: &signature,
+         max_rhs,
++        energy_budget,
+     }
+     .step(&mut state, dt, counter)?;
+     Ok(PacketStageResult {

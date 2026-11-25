@@ -1,0 +1,47 @@
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /home/cosmosapjw/Downloads/bass_r118c2m_budget_trial/rei_patch/rust/rei_microphysics/src/axbi_covariant_driver.rs:328:18
+    |
+328 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+328 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+328 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: `rei_microphysics` (lib) generated 1 warning (run `cargo fix --lib -p rei_microphysics` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running tests/r118c2h_birth_packets.rs (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/target/debug/deps/r118c2h_birth_packets-a500719376e4e539)
+
+running 2 tests
+test rejects_non_unimodular_and_contracting_geometry ... ok
+test transport_retains_birth_energy_support_and_crossing_is_owned_once ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/r118c2i_compression.rs (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/target/debug/deps/r118c2i_compression-f2ceeee5a28c885d)
+
+running 3 tests
+test same_ray_lrs_stress_is_invariant_under_compression ... ok
+test positive_endpoint_compression_preserves_number_energy_and_threshold_ownership ... ok
+test equal_support_and_invalid_input ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/r118c2j_fourforce.rs (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/target/debug/deps/r118c2j_fourforce-b3ebe8afb2e2a575)
+
+running 2 tests
+test absorption_energy_species_and_momentum_from_actual_survivors ... ok
+test axial_threshold_crossing_uses_actual_direction ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/r118c2k_rate_control.rs (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/target/debug/deps/r118c2k_rate_control-51f83f508e05c9a0)
+
+running 1 test
+test nonlinear_guard_refines_curved_rate_groups_and_preserves_support ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

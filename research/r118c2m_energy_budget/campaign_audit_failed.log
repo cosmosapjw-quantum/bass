@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c2m_energy_budget/run_budget.py", line 64, in <module>
+    with ThreadPoolExecutor(max_workers=3) as pool:rows=list(pool.map(run,cases))
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c2m_energy_budget/run_budget.py", line 46, in run
+    for eth,e0,s0,ya,p_,yw,y0,y1 in pars:
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 8, got 7)

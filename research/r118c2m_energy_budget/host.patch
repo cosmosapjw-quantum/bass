@@ -1,0 +1,110 @@
+--- /home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/src/homogeneous_sky/rei_live.rs	2026-11-25 20:15:52.113942297 +0900
++++ /home/cosmosapjw/Downloads/bass_r118c2m_budget_trial/_rustcore/src/homogeneous_sky/rei_live.rs	2026-11-25 20:43:51.289691780 +0900
+@@ -13,7 +13,7 @@
+ use crate::kinetic::lie_history::RayNode;
+ use rec_microphysics::thomson_history::C_SIGMA_T_M3_S;
+ use rei_microphysics::{
+-    axbi_driver::{packet_chemistry_stage, PacketStageInput},
++    axbi_driver::{packet_chemistry_stage, packet_chemistry_stage_budgeted, PacketStageInput},
+     axbi_sources::AxbiSource,
+     coupled_primary::PrimaryPacket,
+     igm_state::{w_erg_per_h_to_ev, IgmGasState},
+@@ -142,6 +142,12 @@
+     pub compression: CompressionLedger,
+     pub compression_removed: usize,
+     pub max_final_rate_error: f64,
++    pub chemistry_signed_ev: f64,
++    pub chemistry_absolute_ev: f64,
++    pub chemistry_budget_used_ev: f64,
++    pub chemistry_max_ratio: f64,
++    pub chemistry_last_ev: f64,
++    pub chemistry_last_limit_ev: f64,
+     pub four: FourLedger,
+ }
+ #[derive(Clone, Debug)]
+@@ -286,6 +292,17 @@
+     width: Option<f64>,
+     rate_tol: Option<f64>,
+ ) -> Result<LiveResult, String> {
++    evolve_energy_budgeted(records,input,width,rate_tol,None)
++}
++/// Opt-in absolute trajectory chemistry budget, eV/H. Does not relax any
++/// original gate; finite precision or an unachievable local target fails closed.
++pub fn evolve_energy_budgeted(
++    records: &[StepRecord], input: LiveInput, width: Option<f64>,
++    rate_tol: Option<f64>, energy_budget_ev: Option<f64>,
++) -> Result<LiveResult,String> {
++    if energy_budget_ev.is_some_and(|b| !b.is_finite() || b<=0. || b>1e-8) {
++        return Err("chemistry energy budget domain".into());
++    }
+     if rate_tol.is_some() && width.is_none() {
+         return Err("rate guard requires compression width".into());
+     }
+@@ -308,6 +325,8 @@
+     {
+         return Err("expected continuous collision-free BASS geometry from zbar20".into());
+     }
++    let eta_span = records.last().unwrap().right.eta-records[0].left.eta;
++    if !eta_span.is_finite() || eta_span<=0. {return Err("invalid energy budget interval".into());}
+     let src = AxbiSource::new(
+         input.nh0_m3 * 1e-6 * input.a0.powi(3),
+         input.escape_fraction,
+@@ -431,19 +450,17 @@
+                 per_h: p.per_h,
+             })
+             .collect();
+-        let q = packet_chemistry_stage(
+-            PacketStageInput {
+-                n_h_cm3: nh * 1e-6,
+-                n_he_cm3: nh * 1e-6 * input.f_he,
+-                tcmb_k: input.tcmb0_k / am,
+-            },
+-            gas,
+-            &inputs,
+-            dt,
+-            &mut counter,
+-            20_000_000,
+-        )
+-        .map_err(|e| format!("REI packet stage eta={:e}: {e}", m.eta))?;
++        let stage_input = PacketStageInput {
++            n_h_cm3: nh * 1e-6,
++            n_he_cm3: nh * 1e-6 * input.f_he,
++            tcmb_k: input.tcmb0_k / am,
++        };
++        let limit = energy_budget_ev.map(|b|b*(h/eta_span));
++        let q = if let Some(b)=limit {
++            packet_chemistry_stage_budgeted(stage_input,gas,&inputs,dt,&mut counter,20_000_000,b)
++        } else {
++            packet_chemistry_stage(stage_input,gas,&inputs,dt,&mut counter,20_000_000)
++        }.map_err(|e|format!("REI packet stage eta={:e} step={} limit={limit:?}: {e}",m.eta,history.len()))?;
+         if let (Some(tol), Some(before)) = (rate_tol, &pre) {
+             let err = rate_moment_error(before, &p.packets, guard(q.gas))?;
+             if err > tol {
+@@ -483,6 +500,27 @@
+         ledger.four.absorbed_pz += a.pz;
+         ledger.four.binding_energy += a.binding;
+         ledger.four.heat_energy += a.heat;
++        if let Some(b)=limit {
++            // Reconstruct from physical gas and photon output, not the Newton residual.
++            let c=HHeModel::controlled_fixture().threshold_ev;
++            let fhe=stage_input.n_he_cm3/stage_input.n_h_cm3;
++            let d=std::array::from_fn::<_,3,_>(|i|q.gas.fractions[i]-gas.fractions[i]);
++            let db=c[0]*d[0]+fhe*(c[1]*d[1]+(c[1]+c[2])*d[2]);
++            let defect=thermal(q.gas)?-thermal(gas)?+db-a.energy
++                +q.ledgers.escaped_u-q.ledgers.cmb_input;
++            if !defect.is_finite() || defect.abs()>b {
++                return Err(format!("host chemistry budget mismatch eta={:e}: {defect:e} > {b:e}",m.eta));
++            }
++            ledger.chemistry_signed_ev+=defect;
++            ledger.chemistry_absolute_ev+=defect.abs();
++            ledger.chemistry_budget_used_ev+=b;
++            ledger.chemistry_max_ratio=ledger.chemistry_max_ratio.max(defect.abs()/b);
++            ledger.chemistry_last_ev=defect;
++            ledger.chemistry_last_limit_ev=b;
++            if ledger.chemistry_absolute_ev>ledger.chemistry_budget_used_ev*(1.+1e-10) {
++                return Err("cumulative chemistry budget mismatch".into());
++            }
++        }
+         gas = q.gas;
+         for (p, n) in p.packets.iter_mut().zip(q.stocks) {
+             p.per_h = n;

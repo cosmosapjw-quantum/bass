@@ -1,0 +1,64 @@
+--- /home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore/examples/rei_live_characteristics.rs	2026-11-25 20:15:52.118942358 +0900
++++ /home/cosmosapjw/Downloads/bass_r118c2m_budget_trial/_rustcore/examples/rei_live_energy_budget.rs	2026-11-25 20:43:51.290595645 +0900
+@@ -1,7 +1,7 @@
+ use bianchi_rustcore::{
+     homogeneous_sky::{
+         material::Material,
+-        rei_live::{evolve_rate_checked, LiveInput},
++        rei_live::{evolve_energy_budgeted, LiveInput},
+         replay::StepRecord,
+         solve::{solve_general, Settings, SolveOptions},
+         CollisionScheme,
+@@ -19,9 +19,9 @@
+ };
+ fn main() -> Result<(), Box<dyn std::error::Error>> {
+     let a = std::env::args().skip(1).collect::<Vec<_>>();
+-    if a.len() != 8 && a.len() != 9 && a.len() != 10 {
++    if a.len() != 8 && a.len() != 9 && a.len() != 10 && a.len() != 11 {
+         return Err(
+-            "usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K [LOG_COMPRESSION_WIDTH [RATE_RELATIVE_TOL]]".into(),
++            "usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K [LOG_COMPRESSION_WIDTH [RATE_RELATIVE_TOL [ENERGY_BUDGET_EV_PER_H]]]".into(),
+         );
+     }
+     let out = Path::new(&a[0]);
+@@ -34,6 +34,7 @@
+     let tm: f64 = a[7].parse()?;
+     let width: Option<f64> = a.get(8).map(|v| v.parse()).transpose()?;
+     let rate_tol: Option<f64> = a.get(9).map(|v| v.parse()).transpose()?;
++    let energy_budget: Option<f64> = a.get(10).map(|v| v.parse()).transpose()?;
+     let short = (19.8..20.).contains(&z) && steps <= 4096;
+     let long = width.is_some() && q == 0. && (4.0..19.8).contains(&z) && steps <= 65536;
+     if !(short || long) || steps == 0 || !q.is_finite() || q.abs() > 0.02 {
+@@ -113,7 +114,7 @@
+     let fhe = 0.2454 / (4. * (1. - 0.2454));
+     let init = IgmGasState::from_temperature([xp, 0., 0.], nh * 1e-6, nh * 1e-6 * fhe, tm)?;
+     let start = std::time::Instant::now();
+-    let s = evolve_rate_checked(
++    let s = evolve_energy_budgeted(
+         &records,
+         LiveInput {
+             a0,
+@@ -128,6 +129,7 @@
+         },
+         width,
+         rate_tol,
++        energy_budget,
+     )?;
+     fs::create_dir(out)?;
+     let mut f = BufWriter::new(fs::File::create(out.join("history.tsv"))?);
+@@ -271,6 +273,15 @@
+         )?;
+     }
+     ff.flush()?;
++    let mut cb=BufWriter::new(fs::File::create(out.join("chemistry_budget.tsv"))?);
++    writeln!(cb,"eta\tlocal_defect_ev\tlocal_limit_ev\tsigned_ev\tabsolute_ev\tbudget_used_ev\tmax_ratio")?;
++    for row in &s.history {
++        let l=&row.ledger;
++        writeln!(cb,"{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",
++            row.eta,l.chemistry_last_ev,l.chemistry_last_limit_ev,l.chemistry_signed_ev,
++            l.chemistry_absolute_ev,l.chemistry_budget_used_ev,l.chemistry_max_ratio)?;
++    }
++    cb.flush()?;
+     let ledger = &s.history.last().unwrap().ledger;
+     fs::write(out.join("compression.txt"),format!("width={width:?}\nanalytic_flrw={long}\nisotropic_uv_reduced={}\nremoved={}\npeak_before={}\npeak_after={}\nmax_N_relative={:.17e}\nmax_U_relative={:.17e}\nmax_log_span={:.17e}\n",s.isotropic_uv_reduced,ledger.compression_removed,ledger.compression.before,ledger.compression.after,ledger.compression.max_number_relative,ledger.compression.max_energy_relative,ledger.compression.max_log_span))?;
+     fs::write(out.join("rate_control.txt"),format!("tolerance={rate_tol:?}\nmax_group_relative={:.17e}\nmax_final_relative={:.17e}\nrate_splits={}\n",ledger.compression.max_rate_relative,ledger.max_final_rate_error,ledger.compression.rate_splits))?;
