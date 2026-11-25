@@ -43,6 +43,8 @@ pub struct Step {
     pub event_q: [f64; 4],
     pub force_defect: f64,
     pub free_change: f64,
+    pub centered_exchange: f64,
+    pub centered_defect: f64,
 }
 fn valid_pos(x: f64) -> bool {
     x.is_finite() && x > 0.
@@ -396,6 +398,27 @@ impl Graph {
     /// Symmetric exact edge splitting: forward/reverse half sweeps.
     /// Second order for fixed finite graph; NOT a stiff-uniform method.
     pub fn step(&self, m: &[f64], clock: &[f64], dt: f64) -> Result<Step, String> {
+        self.step_impl(m, clock, dt, None)
+    }
+    pub fn step_with_detuning(
+        &self,
+        m: &[f64],
+        clock: &[f64],
+        dt: f64,
+        x: &[f64],
+    ) -> Result<Step, String> {
+        if x.len() != self.modes.len() || x.iter().any(|x| !x.is_finite()) {
+            return Err("invalid source detuning coordinates".into());
+        }
+        self.step_impl(m, clock, dt, Some(x))
+    }
+    fn step_impl(
+        &self,
+        m: &[f64],
+        clock: &[f64],
+        dt: f64,
+        coords: Option<&[f64]>,
+    ) -> Result<Step, String> {
         if !valid_mass(dt) || m.len() != self.size() || m.iter().any(|x| !valid_mass(*x)) {
             return Err("invalid event step".into());
         }
@@ -404,6 +427,8 @@ impl Graph {
         let mut q = [0.; 4];
         let mut scale = 0.;
         let before = self.free(m, &v, &z);
+        let (mut exchange, mut compensation, mut gross) = (0., 0., 0.);
+        let angles = self.angles();
         for reverse in [false, true] {
             self.for_edges(reverse, |i, j, w| {
                 let x = y[i];
@@ -418,6 +443,14 @@ impl Graph {
                 // Signed event transfer from one endpoint; number defect
                 // of the two computed endpoints is not silently corrected.
                 let flux = (di - dj) * 0.5;
+                if let Some(x) = coords {
+                    let v = flux * (x[i / angles] - x[j / angles]);
+                    let y = v - compensation;
+                    let t = exchange + y;
+                    compensation = (t - exchange) - y;
+                    exchange = t;
+                    gross += v.abs();
+                }
                 for k in 0..4 {
                     q[k] += flux * (p[k] - r[k]);
                 }
@@ -440,7 +473,23 @@ impl Graph {
             / scale
                 .max(sum(m) * self.modes[0].p * f64::EPSILON)
                 .max(f64::MIN_POSITIVE);
+        let centered_defect = if let Some(x) = coords {
+            let delta = sum(&y
+                .iter()
+                .zip(m)
+                .enumerate()
+                .map(|(i, (a, b))| (a - b) * x[i / angles])
+                .collect::<Vec<_>>());
+            (delta - exchange).abs()
+                / gross
+                    .max(sum(m) * x.iter().map(|v| v.abs()).fold(1., f64::max) * f64::EPSILON)
+                    .max(f64::MIN_POSITIVE)
+        } else {
+            0.
+        };
         Ok(Step {
+            centered_exchange: exchange,
+            centered_defect,
             number_defect: (sum(&y) - sum(m)).abs() / sum(m).max(f64::MIN_POSITIVE),
             free_change: self.free(&y, &v, &z) - before,
             mass: y,
