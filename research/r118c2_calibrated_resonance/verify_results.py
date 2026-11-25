@@ -42,12 +42,13 @@ assert tests('all.log.gz')==258 and tests('examples.log.gz')==3
 if '--raw' in sys.argv:
  for c in a:
   p=pathlib.Path(c['command'][1])
-  for f,h in c['hashes'].items():assert sha(p/f)==h,(c['case'],f)
- for p,h in {**source['input_sha256'],**source['rec_source_sha256']}.items():assert sha(p)==h,p
+  for f,expected_hash in c['hashes'].items():assert sha(p/f)==expected_hash,(c['case'],f)
+ for p,expected_hash in {**source['input_sha256'],**source['rec_source_sha256']}.items():assert sha(p)==expected_hash,p
  assert sha(a[0]['command'][0])==r['binary_sha256']
 out=dict(schema='bass.r118c2.acceptance/1',research_id='R118-C2-SOURCE-CALIBRATED-RESONANCE-KERNEL-01',status='IMPLEMENTATION_VERIFIED_SCOPED',scope='Frozen local scalar source-normalized FP patch; pure scattering branching supplied; nonseparable physical REC full kernel not implemented in BASS; no feedback',source=source,cases=88,time_steps=8410,tests={'rust':258,'examples':3,'new':6},legacy_byte_equal=44,metrics_max=mx,profile_max=pm,dense_be_max=max(c['dense_be_relative_l1'] for c in o['linear']),stiff=o['stiff'],bose_root_max=max(c['nonlinear_root_be_relative_l1'] for c in o['bose']),bose_stiff=o['bose_stiff'],hummer=h,mesh=o['mesh'],physical_source_states=[dict(case=c['case'],metrics={k:c['metrics'][k] for k in ('T_m_k','n_ground_m3','H_s','doppler_fraction','voigt_a','peak_scattering_s','peak_scattering_per_eta','static_sobolev_tau_diagnostic')}) for c in a if c['case'].startswith('physical_') and c['profile']=='dipole'],turning_boundary_escape={c['case']:c['metrics']['escaped_mass']/c['metrics']['initial_mass'] for c in a if c['case'].startswith(('he_turn_dipole_','he_turn_refine_'))},remaining=['actual nonseparable REC scalar angular-frequency bridge with source-owned core/exterior measure','source-owned scattering branching/destruction and true emission, continuum and population feedback','physical global frequency boundary coupling and converged high-order transport','polarized kernel and coupled thermal/momentum exchange'],science_promotion=False,next_id='R118-C2B-REC-NATIVE-ANGULAR-REDISTRIBUTION-BRIDGE-01')
 out['receipt_sha256']={str(p.relative_to(d)):sha(p) for p in sorted(d.glob('*.json')) if p.name!='ACCEPTANCE.json'}
 out['receipt_sha256'].update({str(p.relative_to(d)):sha(p) for p in sorted((d/'logs').glob('*.gz'))})
 out['receipt_sha256']['INITIAL_TRIAL.json.gz']=sha(d/'INITIAL_TRIAL.json.gz')
+assert out['hummer']==o['hummer']
 (d/'ACCEPTANCE.json').write_text(json.dumps(out,indent=2)+'\n')
 print(json.dumps({k:out[k] for k in ('status','cases','time_steps','tests','legacy_byte_equal','metrics_max','profile_max','dense_be_max','stiff','bose_root_max','hummer','next_id')},indent=2))
