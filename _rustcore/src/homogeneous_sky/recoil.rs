@@ -164,6 +164,12 @@ pub(super) fn scatter_with_recoil_events(
     if mass <= 0. || !mass.is_finite() {
         return Err("active scattering requires a finite positive host rest mass density".into());
     }
+    if !sky.iter().all(|p| {
+        let tr = p.screen.trace();
+        tr.is_finite() && tr > 0. && p.screen.iter().all(|x| x.is_finite())
+    }) {
+        return Err("nonpositive input intensity before recoil scattering".into());
+    }
     let mut output = sky.to_vec();
     let mut updated = dust.clone();
     let mut pending = vec![(depth, 0usize)];

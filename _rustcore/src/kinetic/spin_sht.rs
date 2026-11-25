@@ -147,13 +147,45 @@ impl SpinSht {
         let lmin = s.unsigned_abs() as usize;
         let lmax = self.lmax as i64;
         let n_phi = self.grid.n_phi;
+        let n_theta = self.grid.n_theta;
+        let ring_means: Vec<C64> = (0..n_theta)
+            .map(|ring| {
+                f[ring * n_phi..(ring + 1) * n_phi]
+                    .iter()
+                    .copied()
+                    .fold(C64::new(0.0, 0.0), |acc, v| acc + v)
+                    / (n_phi as f64)
+            })
+            .collect();
+        let sphere_mean = if s == 0 {
+            let wt_sum = self.grid.wt.iter().copied().fold(0.0, |acc, w| acc + w);
+            (0..n_theta).fold(C64::new(0.0, 0.0), |acc, r| {
+                acc + ring_means[r] * self.grid.wt[r]
+            }) / wt_sum
+        } else {
+            C64::new(0.0, 0.0)
+        };
         let mut a = vec![C64::new(0.0, 0.0); modes(self.lmax)];
-        for ring in 0..self.grid.n_theta {
+        for ring in 0..n_theta {
             let weight = self.grid.w[ring * n_phi];
+            let rmean = ring_means[ring];
             for m in -lmax..=lmax {
+                if m == 0 {
+                    let ring_total_unshifted = rmean * (n_phi as f64 * weight);
+                    let ring_total_centered = (rmean - sphere_mean) * (n_phi as f64 * weight);
+                    for l in lmin..=self.lmax {
+                        let contrib = if s == 0 && l >= 1 {
+                            ring_total_centered
+                        } else {
+                            ring_total_unshifted
+                        };
+                        a[index(l, 0)] += contrib * self.lam(s, ring, l, 0);
+                    }
+                    continue;
+                }
                 let mut fourier = C64::new(0.0, 0.0);
                 for k in 0..n_phi {
-                    fourier += f[ring * n_phi + k] * self.root(-m, k);
+                    fourier += (f[ring * n_phi + k] - rmean) * self.root(-m, k);
                 }
                 fourier *= weight;
                 for l in lmin.max(m.unsigned_abs() as usize)..=self.lmax {
@@ -204,6 +236,9 @@ impl SpinSht {
 pub fn evaluate_at(s: i64, a: &[C64], lmax: usize, e: [f64; 3]) -> C64 {
     assert_eq!(a.len(), modes(lmax), "coefficient length");
     let norm = (e[0] * e[0] + e[1] * e[1] + e[2] * e[2]).sqrt();
+    if !norm.is_finite() || norm == 0.0 {
+        return C64::new(0.0, 0.0);
+    }
     let z = (e[2] / norm).clamp(-1.0, 1.0);
     let phi = if e[0] == 0.0 && e[1] == 0.0 {
         0.0
@@ -321,6 +356,39 @@ mod tests {
                     mode.m
                 );
             }
+        }
+    }
+
+    #[test]
+    fn constant_and_axisymmetric_fields_have_no_monopole_or_azimuthal_leakage() {
+        for (lmax, nt, np) in [(16, 19, 38), (24, 27, 54), (32, 35, 70)] {
+            let sht = SpinSht::new(lmax, nt, np).unwrap();
+            let ones = vec![C64::new(1.0, 0.0); sht.len()];
+            let a = sht.analyze(0, &ones);
+            let max_high = a[1..].iter().map(|v| v.norm()).fold(0.0, f64::max);
+            assert!(
+                max_high < 1e-30,
+                "grid {nt}x{np} constant field leaked {max_high:e} into l>=1"
+            );
+            let z_only: Vec<C64> = (0..nt)
+                .flat_map(|r| {
+                    let z = sht.grid.ct[r];
+                    std::iter::repeat(C64::new(1.0 + 0.25 * (3.0 * z * z - 1.0), 0.0)).take(np)
+                })
+                .collect();
+            let az = sht.analyze(0, &z_only);
+            let mut max_m_nonzero = 0.0f64;
+            for l in 1..=lmax {
+                for m in -(l as i64)..=(l as i64) {
+                    if m != 0 {
+                        max_m_nonzero = max_m_nonzero.max(az[index(l, m)].norm());
+                    }
+                }
+            }
+            assert!(
+                max_m_nonzero < 1e-30,
+                "grid {nt}x{np} axisymmetric field leaked {max_m_nonzero:e} into m!=0"
+            );
         }
     }
 }

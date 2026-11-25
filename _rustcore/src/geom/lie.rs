@@ -190,10 +190,11 @@ pub fn invariants(n: &Tensor, a: &[f64; 3]) -> LieInvariants {
         .collect();
     ev.sort_by(|x, y| x.partial_cmp(y).unwrap_or(std::cmp::Ordering::Equal));
     let j = g.jacobi_residual();
+    let has_h = matches!(c.name, "III" | "VI_h" | "VI*_-1/9" | "VII_h");
     LieInvariants {
         name: c.name,
         class_b: c.class == crate::geom::group::GroupClass::B,
-        h: c.kappa.filter(|k| *k != 0.0).map(|k| 1.0 / k),
+        h: c.kappa.filter(|&k| has_h && k != 0.0).map(|k| 1.0 / k),
         exceptional: c.exceptional,
         n_eigenvalues: [ev[0], ev[1], ev[2]],
         a_norm: Vector3::from(*a).norm(),
@@ -386,6 +387,12 @@ mod tests {
         }
         let (n, a) = canonical_algebra("VIstar", 0.3, &Matrix3::identity()).unwrap();
         assert!((invariants(&n, &a).h.unwrap() + 1.0 / 9.0).abs() < 1e-15);
+        // Rotated Type IV has rank(N) = 1 (n2 n3 = 0): roundoff must not yield spurious h.
+        let rot = Rotation3::from_euler_angles(0.4, -1.1, 2.3).into_inner();
+        let (n_iv, a_iv) = canonical_algebra("IV", 0.3, &rot).unwrap();
+        let inv_iv = invariants(&n_iv, &a_iv);
+        assert_eq!(inv_iv.name, "IV");
+        assert!(inv_iv.h.is_none());
         assert!(canonical_algebra("X", 1.0, &Matrix3::identity()).is_err());
     }
 

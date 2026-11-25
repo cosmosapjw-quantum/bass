@@ -17,7 +17,7 @@
 use super::{moments, Photon, RadiationMoments, M, V};
 use crate::kinetic::lie_hierarchy::{lie_data, LieHierarchy};
 use crate::kinetic::lie_history::RayNode;
-use crate::kinetic::spin_sht::{SpinSht, C64};
+use crate::kinetic::spin_sht::{index, SpinSht, C64};
 use std::sync::Arc;
 
 /// Representation selected for photons (and neutrinos) of one solve.
@@ -136,7 +136,7 @@ impl HarmonicSky {
         for k in 0..grid.len() {
             let e = V::new(grid.ehat[3 * k], grid.ehat[3 * k + 1], grid.ehat[3 * k + 2]);
             let (t, p) = dyad(&e);
-            let screen: M = (t * t.transpose() + p * p.transpose()) * (0.5 * i[k])
+            let screen: M = super::projector(&e) * (0.5 * i[k])
                 + (t * t.transpose() - p * p.transpose()) * (0.5 * q[k])
                 + (t * p.transpose() + p * t.transpose()) * (0.5 * u[k]);
             if !screen.iter().all(|x| x.is_finite()) {
@@ -149,6 +149,42 @@ impl HarmonicSky {
             });
         }
         Ok(out)
+    }
+
+    /// Update harmonic coefficients by transforming the collision increment `after - before`,
+    /// preserving small optically-thin perturbations without O(1) monopole round-trip drift.
+    pub fn absorb_delta(&mut self, before: &[Photon], after: &[Photon]) -> Result<(), String> {
+        let grid = &self.transform.grid;
+        if before.len() != grid.len() || after.len() != grid.len() {
+            return Err("grid photon count does not match the harmonic grid".into());
+        }
+        let mut di = Vec::with_capacity(grid.len());
+        let mut dq = Vec::with_capacity(grid.len());
+        let mut du = Vec::with_capacity(grid.len());
+        for (k, (b, a)) in before.iter().zip(after.iter()).enumerate() {
+            let e = V::new(grid.ehat[3 * k], grid.ehat[3 * k + 1], grid.ehat[3 * k + 2]);
+            if (b.direction - e).norm() > 1e-12 || (a.direction - e).norm() > 1e-12 {
+                return Err("grid photon moved off its harmonic grid direction".into());
+            }
+            let (t, p) = dyad(&e);
+            let ds = a.screen - b.screen;
+            di.push(ds.trace());
+            dq.push(t.dot(&(ds * t)) - p.dot(&(ds * p)));
+            du.push(2.0 * t.dot(&(ds * p)));
+        }
+        let [da0, dap, dam] = self.transform.from_stokes(&di, &dq, &du);
+        for (dst, d) in self.coefficients[0].iter_mut().zip(da0) {
+            *dst += d;
+        }
+        if self.polarized() {
+            for (dst, d) in self.coefficients[1].iter_mut().zip(dap) {
+                *dst += d;
+            }
+            for (dst, d) in self.coefficients[2].iter_mut().zip(dam) {
+                *dst += d;
+            }
+        }
+        Ok(())
     }
 
     /// Project grid photons (same directions as [`Self::photons`]) back to l <= lmax.
@@ -177,6 +213,53 @@ impl HarmonicSky {
             self.coefficients[2] = am;
         }
         Ok(())
+    }
+
+    /// Exact grid-independent radiation moments from l <= 2 spherical-harmonic modes,
+    /// while checking positivity and preserving grid-level minimum/eigenvalue diagnostics.
+    pub fn moments(&self) -> Result<RadiationMoments, String> {
+        let grid_stats = moments(&self.photons()?)?;
+        let a0 = &self.coefficients[0];
+        let pi = std::f64::consts::PI;
+        let area = 4.0 * pi;
+        let energy = area.sqrt() * a0[index(0, 0)].re;
+        if !energy.is_finite() || energy <= 0.0 {
+            return Err("invalid harmonic radiation energy".into());
+        }
+        let c1_0 = (4.0 * pi / 3.0).sqrt();
+        let c1_1 = (8.0 * pi / 3.0).sqrt();
+        let a10 = a0[index(1, 0)].re;
+        let a11 = a0[index(1, 1)];
+        let flux = [
+            -c1_1 * a11.re / energy,
+            c1_1 * a11.im / energy,
+            c1_0 * a10 / energy,
+        ];
+        let a20 = a0[index(2, 0)].re;
+        let a21 = a0[index(2, 1)];
+        let a22 = a0[index(2, 2)];
+        let t_zz = (16.0 * pi / 45.0).sqrt() * a20 / energy;
+        let c2_1 = (8.0 * pi / 15.0).sqrt();
+        let d_xy = c2_1 * a22.re / energy;
+        let p_xx = 1.0 / 3.0 - 0.5 * t_zz + d_xy;
+        let p_yy = 1.0 / 3.0 - 0.5 * t_zz - d_xy;
+        let p_zz = 1.0 / 3.0 + t_zz;
+        let p_xy = -c2_1 * a22.im / energy;
+        let p_xz = -c2_1 * a21.re / energy;
+        let p_yz = c2_1 * a21.im / energy;
+        let pressure = [[p_xx, p_xy, p_xz], [p_xy, p_yy, p_yz], [p_xz, p_yz, p_zz]];
+        if !flux.iter().chain(pressure.iter().flatten()).all(|v| v.is_finite()) {
+            return Err("non-finite harmonic radiation moments".into());
+        }
+        Ok(RadiationMoments {
+            area,
+            energy,
+            flux,
+            pressure,
+            minimum_intensity: grid_stats.minimum_intensity,
+            minimum_screen_eigenvalue: grid_stats.minimum_screen_eigenvalue,
+            max_screen_leak: grid_stats.max_screen_leak,
+        })
     }
 }
 
@@ -210,7 +293,7 @@ impl Field {
     pub fn moments(&self) -> Result<RadiationMoments, String> {
         match self {
             Field::Rays(sky) => moments(sky),
-            Field::Harmonic(h) => moments(&h.photons()?),
+            Field::Harmonic(h) => h.moments(),
         }
     }
 

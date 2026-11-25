@@ -125,12 +125,16 @@ impl Ionization {
         }
         let scale = self.emission_exposure_per_eta * (host_proper_ratio / hubble_ratio);
         let added = scale * delta_xe * (end - start);
+        if !added.is_finite() {
+            return Err("nonfinite electron-fraction exposure shift".into());
+        }
         let total: f64 = cells.iter().map(|c| c.0).sum();
         if total > 0.0 {
             let factor = ((total + added) / total).max(0.0);
             for (depth, _) in &mut cells {
                 *depth *= factor;
             }
+            cells.retain(|(depth, _)| *depth > 0.0);
         } else if added > 0.0 {
             cells.push((added, [0.0; 3]));
         }

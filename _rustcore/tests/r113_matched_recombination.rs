@@ -111,7 +111,7 @@ fn bianchi_response_is_converged_and_route_independent() {
 fn matched_recombination_requires_a_table_and_valid_anchors() {
     let cfg = settings("I", 0.01, 8, [0.; 3]);
     let mat = Material::constant(cfg.duration, 0., [0.; 3]).unwrap();
-    let mut opts = SolveOptions {
+    let opts = SolveOptions {
         recombination: Some(MatchedRecombination {
             t_unit_k: T_UNIT,
             n_h_emit_m3: N_H,
@@ -131,8 +131,75 @@ fn matched_recombination_requires_a_table_and_valid_anchors() {
         &opts,
     );
     assert!(no_table.is_err());
-    opts.recombination.as_mut().unwrap().t_unit_k = f64::NAN;
+    let mut bad = opts;
+    bad.recombination.as_mut().unwrap().t_unit_k = f64::NAN;
     assert!(solve_general(
+        &cfg,
+        &mat,
+        None,
+        Some(&ion),
+        ExpansionEquation::Raychaudhuri,
+        0.157,
+        &bad,
+    )
+    .is_err());
+    // Open-geometry omega_lambda >= 1.0 must fail closed for the flat-FLRW matched reference.
+    let mut lam_cfg = settings("VIIh", 0.01, 8, [0.; 3]);
+    lam_cfg.omega_lambda = 1.0;
+    assert!(solve_general(
+        &lam_cfg,
+        &mat,
+        None,
+        Some(&ion),
+        ExpansionEquation::Raychaudhuri,
+        0.157,
+        &SolveOptions {
+            recombination: Some(MatchedRecombination {
+                t_unit_k: T_UNIT,
+                n_h_emit_m3: N_H,
+                h_emit_s: H_EMIT,
+                stop_eta: None,
+            }),
+            ..SolveOptions::default()
+        },
+    )
+    .is_err());
+}
+
+#[test]
+fn non_grid_aligned_stop_eta_freezes_before_crossing() {
+    let cfg = settings("I", 0.01, 24, [1e-3, 0., 0.]);
+    let ion = table();
+    let mat = Material::constant(cfg.duration, 0., [0.; 3]).unwrap();
+    let stop = 0.105; // strictly between step 12 (eta=0.1) and step 13 (eta=0.108333...)
+    let opts = SolveOptions {
+        recombination: Some(MatchedRecombination {
+            t_unit_k: T_UNIT,
+            n_h_emit_m3: N_H,
+            h_emit_s: H_EMIT,
+            stop_eta: Some(stop),
+        }),
+        ..SolveOptions::default()
+    };
+    let full = solve_general(
+        &cfg,
+        &mat,
+        None,
+        Some(&ion),
+        ExpansionEquation::Raychaudhuri,
+        0.157,
+        &SolveOptions {
+            recombination: Some(MatchedRecombination {
+                t_unit_k: T_UNIT,
+                n_h_emit_m3: N_H,
+                h_emit_s: H_EMIT,
+                stop_eta: None,
+            }),
+            ..SolveOptions::default()
+        },
+    )
+    .unwrap();
+    let held = solve_general(
         &cfg,
         &mat,
         None,
@@ -141,7 +208,13 @@ fn matched_recombination_requires_a_table_and_valid_anchors() {
         0.157,
         &opts,
     )
-    .is_err());
+    .unwrap();
+    // Index 12 is eta=0.10 <= 0.105; index 13 is eta=0.108333 > 0.105 so step 12->13 must not update.
+    assert_eq!(held.history[12].delta_xe, full.history[12].delta_xe);
+    assert!(held.history[12..]
+        .iter()
+        .all(|s| s.delta_xe == held.history[12].delta_xe));
+    assert_ne!(held.history[13].delta_xe, full.history[13].delta_xe);
 }
 
 /// The offset is held after the stop e-fold (REI handover), and is unchanged before it.

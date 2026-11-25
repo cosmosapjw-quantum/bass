@@ -21,7 +21,7 @@ use crate::kinetic::radiation_feedback::{
     advance_mixture_with_options, refresh_mixture, ExpansionEquation, LieUpdate,
 };
 use crate::kinetic::tilted_dust::Dust;
-use rec_microphysics::anisotropic::DirectionalSky;
+use rec_microphysics::anisotropic::{compton_temperature_k, DirectionalSky};
 use rec_microphysics::matched_history::{
     anisotropic_peebles_rate, implicit_matched_step, isotropic_peebles_rate, MatchedStep, X_MAX,
 };
@@ -92,10 +92,10 @@ pub struct MatchedRecombination {
     /// at emission (the anchors of the ionization table).
     pub n_h_emit_m3: f64,
     pub h_emit_s: f64,
-    /// Last e-fold at which a matched step starts (None: the whole run). Beyond it
-    /// the offset is held. Use it to stop the TLA response where the table is owned
-    /// by another physics model (e.g. the REI reionization segment of an REI
-    /// `bass_ionization` table), since the closure has no ionizing sources.
+    /// Last step endpoint e-fold allowed for a matched step (None: the whole run).
+    /// Steps ending past `stop_eta` hold the offset constant. Use it to stop the TLA
+    /// response at the handover to another physics model (e.g. the REI reionization
+    /// segment of an REI `bass_ionization` table), since the closure has no ionizing sources.
     pub stop_eta: Option<f64>,
 }
 
@@ -114,8 +114,9 @@ impl MatchedRecombination {
             )
         }
     }
-    fn active(&self, eta: f64) -> bool {
-        self.stop_eta.is_none_or(|stop| eta < stop)
+    fn active(&self, end_eta: f64) -> bool {
+        self.stop_eta
+            .is_none_or(|stop| end_eta <= stop + 32. * f64::EPSILON * (1. + stop))
     }
     /// Reference hydrogen fraction, proper rate dx/dt [s^-1] and H [s^-1] at eta.
     fn reference(
@@ -130,6 +131,9 @@ impl MatchedRecombination {
             + (1. - omega_lambda)
                 * (matter_fraction * (-3. * eta).exp()
                     + (1. - matter_fraction) * (-4. * eta).exp());
+        if !e2.is_finite() || e2 <= 0. {
+            return Err("matched recombination reference expansion squared must be positive".into());
+        }
         let h = self.h_emit_s * e2.sqrt();
         let rate = isotropic_peebles_rate(
             self.t_unit_k * (-eta).exp(),
@@ -253,7 +257,8 @@ fn collide_segment(
                     scheme,
                 );
             }
-            let mut grid = h.photons()?;
+            let before = h.photons()?;
+            let mut grid = before.clone();
             let events = collide_on(
                 &mut grid,
                 dust,
@@ -264,7 +269,7 @@ fn collide_segment(
                 recoil,
                 scheme,
             )?;
-            h.absorb(&grid)?;
+            h.absorb_delta(&before, &grid)?;
             Ok(events)
         }
     }
@@ -543,6 +548,12 @@ pub fn solve_general(
         if ionization.is_none() {
             return Err("matched recombination corrects an ionization table: supply one".into());
         }
+        if cfg.omega_lambda >= 1.0 {
+            return Err(
+                "matched recombination uses a flat FLRW reference, requiring omega_lambda < 1.0"
+                    .into(),
+            );
+        }
         rec.validate()?;
     }
     // Material coverage must match the full evolution even for an optically empty segment.
@@ -737,18 +748,18 @@ pub fn solve_general(
             next.omega_radiation = src.rad;
         }
         if let (Some(rec), Some((ion, initial_proper))) = (
-            opts.recombination.as_ref().filter(|r| r.active(node.eta)),
+            opts.recombination.as_ref().filter(|r| r.active(next.eta)),
             opacity.ionization,
         ) {
-            let (x_ref_prev, _, _) =
-                rec.reference(ion, node.eta, cfg.omega_lambda, cfg.dust_fraction)?;
-            let (x_ref_next, rate_ref, hubble_ref) =
-                rec.reference(ion, next.eta, cfg.omega_lambda, cfg.dust_fraction)?;
+            let x_ref_next = ion.xe_at(next.eta)?.min(X_MAX);
             opacity.delta_xe = if x_ref_next >= X_MAX {
                 // Hydrogen fully ionized in the reference (Saha-locked, x_e,table >= 1
                 // with helium electrons): the matched hydrogen response vanishes.
                 0.
             } else {
+                let x_ref_prev = ion.xe_at(node.eta)?.min(X_MAX);
+                let (_, rate_ref, hubble_ref) =
+                    rec.reference(ion, next.eta, cfg.omega_lambda, cfg.dust_fraction)?;
                 let beta = host_beta(&dust)?;
                 let beta_prime = std::array::from_fn(|i| (beta[i] - beta_before[i]) / dt);
                 let photons = step.sky.photons()?;
@@ -759,6 +770,8 @@ pub fn solve_general(
                     temperature_k: &msky.temperature_k,
                     expansion_factor: &msky.expansion_factor,
                 };
+                let tm = compton_temperature_k(&rsky)
+                    .map_err(|e| format!("matched recombination at eta {}: {e:?}", next.eta))?;
                 let n_h = rec.n_h_emit_m3 * host_proper_mass(&dust)? / initial_proper;
                 let hubble = rec.h_emit_s * next.hubble_ratio;
                 let gamma = 1. / (1. - beta.iter().map(|b| b * b).sum::<f64>()).sqrt();
@@ -773,7 +786,7 @@ pub fn solve_general(
                     reference_hubble_s: hubble_ref,
                 };
                 let x = implicit_matched_step(&matched, |x| {
-                    anisotropic_peebles_rate(&rsky, n_h, hubble, x, None)
+                    anisotropic_peebles_rate(&rsky, n_h, hubble, x, Some(tm))
                 })
                 .map_err(|e| format!("matched recombination at eta {}: {e:?}", next.eta))?;
                 x - x_ref_next

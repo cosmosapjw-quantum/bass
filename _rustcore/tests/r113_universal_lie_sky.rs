@@ -1,6 +1,7 @@
 //! R113 verification: harmonic (Lie spin-harmonic) route, neutrinos and frames.
 use bianchi_rustcore::homogeneous_sky::{
     field::{HarmonicSky, Route},
+    frames::{combine, energy_frame},
     material::Material,
     observed_sky, scatter_with,
     solve::{solve_general, Settings, Solution, SolveOptions},
@@ -254,4 +255,97 @@ fn harmonic_and_ray_routes_agree_on_a_tilted_class_b_sky() {
     );
     assert!(d16 < 5e-3 && d16 <= d8 + 1e-12, "{d8:e} {d16:e}");
     assert!(shear_gap(s16) < 1e-5);
+}
+
+#[test]
+fn thin_harmonic_collisions_do_not_accumulate_monopole_leakage() {
+    let iso = HarmonicSky::isotropic(16, 19, 38, true).unwrap();
+    let m_iso = iso.moments().unwrap();
+    assert!((m_iso.area - 4.0 * std::f64::consts::PI).abs() < 1e-15);
+    assert!((m_iso.energy - 4.0 * std::f64::consts::PI).abs() < 1e-14);
+    assert_eq!(m_iso.flux, [0.0; 3]);
+    let mut rand_sky = HarmonicSky::isotropic(12, 16, 32, true).unwrap();
+    let [mut a0, ap, am] = random_real_coefficients(12, 8, 19);
+    a0[0] = C64::new(30.0 * (4.0 * std::f64::consts::PI).sqrt(), 0.0);
+    rand_sky.coefficients = vec![a0, ap, am];
+    let m_ana = rand_sky.moments().unwrap();
+    let m_quad = bianchi_rustcore::homogeneous_sky::moments(&rand_sky.photons().unwrap()).unwrap();
+    assert!((m_ana.energy - m_quad.energy).abs() < 1e-13 * m_ana.energy);
+    for i in 0..3 {
+        assert!((m_ana.flux[i] - m_quad.flux[i]).abs() < 1e-13);
+        for j in 0..3 {
+            assert!((m_ana.pressure[i][j] - m_quad.pressure[i][j]).abs() < 1e-13);
+        }
+    }
+
+    let mut cfg = settings("I", 5e-4, 4.0, 512);
+    cfg.recoil = true;
+    cfg.dust_fraction = 0.5;
+    cfg.collision = CollisionScheme::Sdirk2;
+    cfg.lie_update = LieUpdate::Congruence;
+    let mat = Material::constant(4.0, 0.5, [0.; 3]).unwrap();
+
+    let eval_l = |lmax: usize| {
+        let sol = solve_general(
+            &cfg,
+            &mat,
+            None,
+            None,
+            ExpansionEquation::Raychaudhuri,
+            0.157,
+            &SolveOptions {
+                route: Route::harmonic(lmax),
+                neutrino_fraction: 0.4,
+                recombination: None,
+            },
+        )
+        .unwrap();
+        let last = sol.history.last().unwrap();
+        let mut parts = vec![(sol.photon_scale, &last.radiation)];
+        if let Some(nu) = &last.neutrino {
+            parts.push((sol.neutrino_scale, nu));
+        }
+        let (_, rad_flux, rad_press) = combine(&parts).unwrap();
+        let rad_beta = energy_frame(rad_flux, rad_press).unwrap();
+        let frame_rad_norm = rad_beta.iter().map(|x| x * x).sum::<f64>().sqrt();
+        let obs = last.host_beta;
+        let sky = observed_sky(&sol.photons, obs).unwrap();
+        let modes = analyze(&sky, 4).unwrap();
+        let c2_tt = modes
+            .iter()
+            .filter(|m| m.ell == 2)
+            .map(|m| m.alm[0][0] * m.alm[0][0] + m.alm[0][1] * m.alm[0][1])
+            .sum::<f64>()
+            / 5.0;
+        let c4_tt = modes
+            .iter()
+            .filter(|m| m.ell == 4)
+            .map(|m| m.alm[0][0] * m.alm[0][0] + m.alm[0][1] * m.alm[0][1])
+            .sum::<f64>()
+            / 9.0;
+        let c4_ee = modes
+            .iter()
+            .filter(|m| m.ell == 4)
+            .map(|m| m.alm[1][0] * m.alm[1][0] + m.alm[1][1] * m.alm[1][1])
+            .sum::<f64>()
+            / 9.0;
+        (frame_rad_norm, c2_tt, c4_tt, c4_ee)
+    };
+
+    let (fr16, _, c4_tt_16, c4_ee_16) = eval_l(16);
+    let (fr24, c2_tt_24, c4_tt_24, c4_ee_24) = eval_l(24);
+    assert!(
+        fr16 < 1e-15 && fr24 < 1e-15,
+        "monopole drifted radiation frame: l16={fr16:e}, l24={fr24:e}"
+    );
+    let rel_c4_tt = (c4_tt_24 - c4_tt_16).abs() / c4_tt_24.max(1e-30);
+    let norm_c4_ee = (c4_ee_24 - c4_ee_16).abs() / c2_tt_24.max(1e-30);
+    assert!(
+        rel_c4_tt < 1e-7,
+        "C_4^TT shifted across harmonic lmax=16->24: {rel_c4_tt:e}"
+    );
+    assert!(
+        norm_c4_ee < 1e-16,
+        "C_4^EE sky-normalized shift exceeded sub-ULP bound: {norm_c4_ee:e}"
+    );
 }

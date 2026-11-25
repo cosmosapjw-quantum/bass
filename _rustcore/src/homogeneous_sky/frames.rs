@@ -90,12 +90,7 @@ pub fn relative_velocity(frame: [f64; 3], object: [f64; 3]) -> Result<[f64; 3], 
     let t = go;
     let x = bo * go;
     let t_prime = gf * (t - bf.dot(&x));
-    let b2 = bf.norm_squared();
-    let x_prime = if b2 > 0.0 {
-        x + bf * ((gf - 1.0) / b2 * bf.dot(&x)) - bf * (gf * t)
-    } else {
-        x
-    };
+    let x_prime = x + bf * (gf * gf / (1.0 + gf) * bf.dot(&x)) - bf * (gf * t);
     Ok((x_prime / t_prime).into())
 }
 

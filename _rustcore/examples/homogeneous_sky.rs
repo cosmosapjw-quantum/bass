@@ -258,7 +258,8 @@ fn lie_constants(dir: &Path, sol: &Solution) -> Result<(), Error> {
     f.flush()?;
     Ok(())
 }
-/// Matched recombination: tabulated x_e, its offset and the hydrogen fraction used.
+/// Matched recombination: tabulated total electron fraction x_e, matched offset,
+/// and corrected total electron fraction (including helium).
 fn recombination_history(dir: &Path, sol: &Solution, ion: &Ionization) -> Result<(), Error> {
     let mut f = writer(&dir.join("recombination.tsv"))?;
     writeln!(f, "eta\txe_table\tdelta_xe\txe")?;
@@ -327,9 +328,45 @@ fn run() -> Result<(), Error> {
         opt("nmu", "10").parse::<usize>()?,
         opt("nphi", "24").parse::<usize>()?,
     );
-    if nmu < lmax.saturating_add(1) || nphi < lmax.saturating_mul(2).saturating_add(1) {
-        return Err("sampling is below nominal harmonic resolution".into());
-    }
+    let route = match opt("route", "rays") {
+        "rays" => {
+            if ["harmonic-lmax", "harmonic-ntheta", "harmonic-nphi"]
+                .iter()
+                .any(|k| a.contains_key(*k))
+            {
+                return Err("--harmonic-* options require --route harmonic".into());
+            }
+            if nmu < lmax.saturating_add(1) || nphi < lmax.saturating_mul(2).saturating_add(1) {
+                return Err("sampling is below nominal harmonic resolution".into());
+            }
+            Route::Rays
+        }
+        "harmonic" => {
+            let l: usize = opt("harmonic-lmax", "12").parse()?;
+            let nt = match a.get("harmonic-ntheta") {
+                Some(x) => x.parse::<usize>()?,
+                None => l + 3,
+            };
+            let np = match a.get("harmonic-nphi") {
+                Some(x) => x.parse::<usize>()?,
+                None => 2 * l + 6,
+            };
+            if nt < lmax.saturating_add(1) || np < lmax.saturating_mul(2).saturating_add(1) {
+                return Err(
+                    "harmonic collision grid is below nominal resolution of --lmax".into(),
+                );
+            }
+            if nmu < 4 || nphi < 4 || nphi % 2 != 0 {
+                return Err("seed --nmu/--nphi must be >= 4 with even --nphi".into());
+            }
+            Route::Harmonic {
+                lmax: l,
+                n_theta: nt,
+                n_phi: np,
+            }
+        }
+        _ => return Err("unknown route (rays or harmonic)".into()),
+    };
     let lie = if let Some(path) = a.get("lie-ic") {
         if a.contains_key("family") || a.contains_key("shear") {
             return Err("--lie-ic replaces --family and --shear".into());
@@ -436,34 +473,6 @@ fn run() -> Result<(), Error> {
             }
             None
         }
-    };
-    let route = match opt("route", "rays") {
-        "rays" => {
-            if ["harmonic-lmax", "harmonic-ntheta", "harmonic-nphi"]
-                .iter()
-                .any(|k| a.contains_key(*k))
-            {
-                return Err("--harmonic-* options require --route harmonic".into());
-            }
-            Route::Rays
-        }
-        "harmonic" => {
-            let l: usize = opt("harmonic-lmax", "12").parse()?;
-            let nt = match a.get("harmonic-ntheta") {
-                Some(x) => x.parse::<usize>()?,
-                None => l + 3,
-            };
-            let np = match a.get("harmonic-nphi") {
-                Some(x) => x.parse::<usize>()?,
-                None => 2 * l + 6,
-            };
-            Route::Harmonic {
-                lmax: l,
-                n_theta: nt,
-                n_phi: np,
-            }
-        }
-        _ => return Err("unknown route (rays or harmonic)".into()),
     };
     let recombination = match opt("recombination", "table") {
         "table" => {
