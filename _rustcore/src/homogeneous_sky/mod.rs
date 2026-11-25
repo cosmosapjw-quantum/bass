@@ -11,6 +11,7 @@ pub mod frequency;
 pub mod harmonic_collision;
 pub mod ionization;
 pub mod material;
+pub mod rec_angular;
 pub mod rec_bridge;
 mod recoil;
 pub mod replay;
