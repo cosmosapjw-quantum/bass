@@ -12,7 +12,7 @@ fn gamma(p: V) -> f64 {
 /// collision equation. In the continuum GAIN * integral(1-ee^T)dOmega = 1.
 /// In the electron tetrad A = GAIN sum(w'_i P'_i); tr[A T S T]=tr[S] for
 /// T=A^-1/2. Positive coherencies remain positive on anisotropic meshes.
-fn gain_map(sky: &[Photon], beta: V) -> Result<M, String> {
+pub(super) fn gain_map(sky: &[Photon], beta: V) -> Result<M, String> {
     let mut angular = M::zeros();
     for p in sky {
         let (e, _, d) = boost(p.direction, beta)?;

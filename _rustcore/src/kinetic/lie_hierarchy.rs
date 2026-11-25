@@ -141,6 +141,117 @@ impl LieHierarchy {
         }
     }
 
+    /// Multiplication by R~=-Sigma:ee in the signed-spin basis.
+    fn redshift_add(
+        &self,
+        pot: &PhotonPotentials,
+        src: &[Vec<C64>],
+        dst: &mut [Vec<C64>],
+        factor: f64,
+    ) {
+        for (slot, list) in self.entries.iter().enumerate() {
+            for e in list {
+                dst[slot][e.target as usize] +=
+                    factor * pot.r[e.lm as usize] * e.g * src[slot][e.source as usize];
+            }
+        }
+    }
+
+    /// Raw moments of xi=log(T/T_emit)+eta. Differentiate the centered
+    /// Mellin generator at carrier zero: A0 M_k + k R~ M_(k-1).
+    /// No angular synthesis or finite differences in carrier weight.
+    pub fn stream_log_triplet(
+        &self,
+        states: &mut [Vec<Vec<C64>>; 3],
+        left: &LieData,
+        right: &LieData,
+        dt: f64,
+    ) -> Result<(), String> {
+        if self.carrier != 0.
+            || !dt.is_finite()
+            || states
+                .iter()
+                .any(|s| s.len() != self.slots() || s.iter().any(|v| v.len() != modes(self.lmax)))
+        {
+            return Err("invalid log-moment hierarchy shape or carrier".into());
+        }
+        let norm = |d: &LieData| {
+            d.shear
+                .iter()
+                .flatten()
+                .chain(d.n.iter().flatten())
+                .chain(&d.a)
+                .chain(&d.rotation)
+                .map(|v| v * v)
+                .sum::<f64>()
+                .sqrt()
+        };
+        let bound = dt.abs() * (self.lmax as f64 + 6.) * 2. * norm(left).max(norm(right));
+        if !bound.is_finite() || bound > 1e7 {
+            return Err("unresolved log-moment streaming interval".into());
+        }
+        let count = (bound / 0.5).ceil().max(1.) as usize;
+        let h = dt / count as f64;
+        let pl = photon_potentials(left);
+        let pr = photon_potentials(right);
+        let zero = || std::array::from_fn::<_, 3, _>(|_| self.zero_state());
+        let mut k1 = zero();
+        let mut k2 = zero();
+        let mut k3 = zero();
+        let mut k4 = zero();
+        let mut tmp = zero();
+        let rhs = |p: &PhotonPotentials, x: &[Vec<Vec<C64>>; 3], out: &mut [Vec<Vec<C64>>; 3]| {
+            for i in 0..3 {
+                self.rhs(p, &x[i], &mut out[i]);
+                if i > 0 {
+                    self.redshift_add(p, &x[i - 1], &mut out[i], i as f64);
+                }
+            }
+        };
+        let axpy = |out: &mut [Vec<Vec<C64>>; 3],
+                    x: &[Vec<Vec<C64>>; 3],
+                    k: &[Vec<Vec<C64>>; 3],
+                    a: f64| {
+            for i in 0..3 {
+                for j in 0..self.slots() {
+                    for m in 0..modes(self.lmax) {
+                        out[i][j][m] = x[i][j][m] + a * k[i][j][m];
+                    }
+                }
+            }
+        };
+        for i in 0..count {
+            let p0 = pl.lerp(&pr, i as f64 / count as f64);
+            let pm = pl.lerp(&pr, (i as f64 + 0.5) / count as f64);
+            let p1 = pl.lerp(&pr, (i + 1) as f64 / count as f64);
+            rhs(&p0, states, &mut k1);
+            axpy(&mut tmp, states, &k1, h * 0.5);
+            rhs(&pm, &tmp, &mut k2);
+            axpy(&mut tmp, states, &k2, h * 0.5);
+            rhs(&pm, &tmp, &mut k3);
+            axpy(&mut tmp, states, &k3, h);
+            rhs(&p1, &tmp, &mut k4);
+            for j in 0..3 {
+                for s in 0..self.slots() {
+                    for m in 0..modes(self.lmax) {
+                        states[j][s][m] +=
+                            (k1[j][s][m] + 2. * (k2[j][s][m] + k3[j][s][m]) + k4[j][s][m])
+                                * (h / 6.);
+                    }
+                }
+            }
+        }
+        if states
+            .iter()
+            .flatten()
+            .flatten()
+            .any(|v| !v.re.is_finite() || !v.im.is_finite())
+        {
+            return Err("nonfinite log-moment coefficients".into());
+        }
+        Ok(())
+    }
+
     pub fn zero_state(&self) -> Vec<Vec<C64>> {
         vec![vec![C64::new(0.0, 0.0); modes(self.lmax)]; self.slots()]
     }
@@ -154,6 +265,27 @@ impl LieHierarchy {
         left: &LieData,
         right: &LieData,
         dt: f64,
+    ) -> Result<(), String> {
+        self.stream_impl(state, left, right, dt, false)
+    }
+
+    /// Stream exp(k eta) B_k without the common FLRW redshift factor.
+    pub fn stream_centered(
+        &self,
+        state: &mut [Vec<C64>],
+        left: &LieData,
+        right: &LieData,
+        dt: f64,
+    ) -> Result<(), String> {
+        self.stream_impl(state, left, right, dt, true)
+    }
+    fn stream_impl(
+        &self,
+        state: &mut [Vec<C64>],
+        left: &LieData,
+        right: &LieData,
+        dt: f64,
+        centered: bool,
     ) -> Result<(), String> {
         if !dt.is_finite() {
             return Err("non-finite streaming interval".into());
@@ -208,10 +340,12 @@ impl LieHierarchy {
                 }
             }
         }
-        let decay = (-self.carrier * dt).exp();
-        for s in state.iter_mut() {
-            for v in s.iter_mut() {
-                *v *= decay;
+        if !centered {
+            let decay = (-self.carrier * dt).exp();
+            for s in state.iter_mut() {
+                for v in s.iter_mut() {
+                    *v *= decay;
+                }
             }
         }
         if state

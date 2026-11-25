@@ -106,10 +106,19 @@ impl HarmonicSky {
         n_phi: usize,
         polarized: bool,
     ) -> Result<Self, String> {
+        Self::with_carrier(lmax, n_theta, n_phi, polarized, 4.)
+    }
+    pub(super) fn with_carrier(
+        lmax: usize,
+        n_theta: usize,
+        n_phi: usize,
+        polarized: bool,
+        carrier: f64,
+    ) -> Result<Self, String> {
         if n_theta < lmax + 1 || n_phi < 2 * lmax + 1 {
             return Err("harmonic collision grid is below the band limit of its lmax".into());
         }
-        let hierarchy = Arc::new(LieHierarchy::new(lmax, polarized, 4.0)?);
+        let hierarchy = Arc::new(LieHierarchy::new(lmax, polarized, carrier)?);
         let transform = Arc::new(SpinSht::new(lmax, n_theta, n_phi)?);
         let mut coefficients = hierarchy.zero_state();
         coefficients[0][0] = C64::new((4.0 * std::f64::consts::PI).sqrt(), 0.0);
@@ -139,6 +148,37 @@ impl HarmonicSky {
             &lie_data(right),
             right.eta - left.eta,
         )
+    }
+
+    pub(super) fn stream_centered(
+        &mut self,
+        left: &RayNode,
+        right: &RayNode,
+    ) -> Result<(), String> {
+        self.hierarchy.stream_centered(
+            &mut self.coefficients,
+            &lie_data(left),
+            &lie_data(right),
+            right.eta - left.eta,
+        )
+    }
+    pub(super) fn stream_log_triplet(
+        m: &mut [Self; 3],
+        left: &RayNode,
+        right: &RayNode,
+    ) -> Result<(), String> {
+        let hierarchy = m[0].hierarchy.clone();
+        let mut states = std::array::from_fn(|i| m[i].coefficients.clone());
+        hierarchy.stream_log_triplet(
+            &mut states,
+            &lie_data(left),
+            &lie_data(right),
+            right.eta - left.eta,
+        )?;
+        for (x, c) in m.iter_mut().zip(states) {
+            x.coefficients = c;
+        }
+        Ok(())
     }
 
     /// Grid photons with the field values and fixed quadrature weights.

@@ -14,6 +14,7 @@ pub mod rec_bridge;
 mod recoil;
 pub mod replay;
 pub mod solve;
+pub mod spectral;
 
 type V = Vector3<f64>;
 type M = Matrix3<f64>;

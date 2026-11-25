@@ -12,6 +12,7 @@ use bianchi_rustcore::homogeneous_sky::{
         solve_general, solve_general_species_sdirk, solve_general_species_sdirk_on_grid,
         solve_general_species_thermal, MatchedRecombination, Settings, Solution, SolveOptions,
     },
+    spectral::{self, Sample as SpectralSample, SpectralSky},
     CollisionScheme,
 };
 use bianchi_rustcore::kinetic::lie_hierarchy::lie_data;
@@ -26,7 +27,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration).";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration). R118: --spectral-moments harmonic|rays replays accepted geometry and collision depths/velocities with independent cold spectral carriers; optional --spectral-lmax L --spectral-ntheta N --spectral-nphi N. Writes spectral_history.tsv, spectral_normal.tsv, spectral_observer.tsv and harmonic spectral_modes.tsv. No spectral feedback.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -65,6 +66,10 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "recombination",
             "species-reference",
             "species-step-grid",
+            "spectral-moments",
+            "spectral-lmax",
+            "spectral-ntheta",
+            "spectral-nphi",
             "t-unit-k",
             "recombination-stop-eta",
             "harmonic-lmax",
@@ -380,6 +385,110 @@ fn coupled_stage_history(dir: &Path, sol: &Solution) -> Result<(), Error> {
         writeln!(f, "{}", v.join("\t"))?;
     }
     f.flush()?;
+    Ok(())
+}
+/// Dimensionless centered spectral carriers; tensor components are in
+/// the propagation tetrad, never HEALPix temperature/E/B coefficients.
+fn write_spectral_samples(path: &Path, samples: &[SpectralSample]) -> Result<(), Error> {
+    let mut f = writer(path)?;
+    write!(f,"e_x\te_y\te_z\tweight\tb3\tb4\tm0\tmean_log_t\tvariance\ty_m\tmin_primary_eigenvalue\tmin_log_gram_eigenvalue")?;
+    for name in spectral::CARRIERS {
+        for ij in ["xx", "yy", "zz", "xy", "xz", "yz"] {
+            write!(f, "\t{name}_{ij}")?;
+        }
+    }
+    writeln!(f)?;
+    for q in samples {
+        let mut values = vec![
+            q.direction[0],
+            q.direction[1],
+            q.direction[2],
+            q.weight,
+            q.b3,
+            q.b4,
+            q.m0,
+            q.mean_log_t,
+            q.variance,
+            q.y_m,
+            q.min_primary_eigenvalue,
+            q.min_log_gram_eigenvalue,
+        ];
+        for m in q.screens {
+            for (i, j) in [(0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2)] {
+                values.push(m[i][j]);
+            }
+        }
+        writeln!(
+            f,
+            "{}",
+            values
+                .iter()
+                .map(|v| format!("{v:.17e}"))
+                .collect::<Vec<_>>()
+                .join("\t")
+        )?;
+    }
+    f.flush()?;
+    Ok(())
+}
+fn write_spectral(dir: &Path, sp: &SpectralSky, observer: [f64; 3]) -> Result<(), Error> {
+    write_spectral_samples(&dir.join("spectral_normal.tsv"), &sp.samples()?)?;
+    write_spectral_samples(
+        &dir.join("spectral_observer.tsv"),
+        &sp.observer_samples(observer)?,
+    )?;
+    let mut f = writer(&dir.join("spectral_history.tsv"))?;
+    writeln!(f,"eta\tnumber_comoving\tenergy_comoving\tnumber_flux_x\tnumber_flux_y\tnumber_flux_z\tmean_variance\tmin_variance\tmax_variance\tmean_y_m\tmin_y_m\tmax_m0_defect\tmin_primary_eigenvalue\tmin_log_gram_eigenvalue")?;
+    for s in &sp.history {
+        let v = [
+            s.eta,
+            s.number_comoving,
+            s.energy_comoving,
+            s.number_flux_comoving[0],
+            s.number_flux_comoving[1],
+            s.number_flux_comoving[2],
+            s.mean_variance,
+            s.min_variance,
+            s.max_variance,
+            s.mean_y_m,
+            s.min_y_m,
+            s.max_m0_defect,
+            s.min_primary_eigenvalue,
+            s.min_log_gram_eigenvalue,
+        ];
+        writeln!(
+            f,
+            "{}",
+            v.iter()
+                .map(|x| format!("{x:.17e}"))
+                .collect::<Vec<_>>()
+                .join("\t")
+        )?;
+    }
+    f.flush()?;
+    if let Some(coef) = &sp.coefficients {
+        let mut f = writer(&dir.join("spectral_modes.tsv"))?;
+        writeln!(f, "carrier\tspin\tell\tm\tre\tim")?;
+        for (k, slots) in coef.iter().enumerate() {
+            for (i, slot) in slots.iter().enumerate() {
+                for (j, z) in slot.iter().enumerate() {
+                    let l = (j as f64).sqrt().floor() as i64;
+                    let m = j as i64 - l * l - l;
+                    writeln!(
+                        f,
+                        "{}\t{}\t{}\t{}\t{:.17e}\t{:.17e}",
+                        spectral::CARRIERS[k],
+                        [0, 2, -2][i],
+                        l,
+                        m,
+                        z.re,
+                        z.im
+                    )?;
+                }
+            }
+        }
+        f.flush()?;
+    }
     Ok(())
 }
 /// Neutrino density, flux and anisotropic stress pi/rho along the history.
@@ -767,6 +876,64 @@ fn run() -> Result<(), Error> {
         }
         None => None,
     };
+    let spectral_result = if let Some(route) = a.get("spectral-moments") {
+        let (l0, nt0, np0) = match &sol.route {
+            Route::Harmonic {
+                lmax,
+                n_theta,
+                n_phi,
+            }
+            | Route::HarmonicContinuum {
+                lmax,
+                n_theta,
+                n_phi,
+                ..
+            } => (*lmax, *n_theta, *n_phi),
+            Route::Rays => (lmax.max(2), nmu, nphi),
+        };
+        let l = a
+            .get("spectral-lmax")
+            .map(|v| v.parse::<usize>())
+            .transpose()?
+            .unwrap_or(l0);
+        let nt = a
+            .get("spectral-ntheta")
+            .map(|v| v.parse::<usize>())
+            .transpose()?
+            .unwrap_or(if route == "rays" { nmu } else { nt0.max(l + 1) });
+        let np = a
+            .get("spectral-nphi")
+            .map(|v| v.parse::<usize>())
+            .transpose()?
+            .unwrap_or(if route == "rays" {
+                nphi
+            } else {
+                np0.max(2 * l + 1)
+            });
+        if route == "rays" && a.contains_key("spectral-lmax") {
+            return Err("--spectral-lmax requires harmonic spectral moments".into());
+        }
+        // Bound the opt-in research route before allocating (not a science gate).
+        if l > 128 || nt > 512 || np > 1024 {
+            return Err("spectral research mesh exceeds bounded implementation".into());
+        }
+        let clock = std::time::Instant::now();
+        let sp = match route.as_str() {
+            "harmonic" => spectral::replay_harmonic(&sol.records, l, nt, np)?,
+            "rays" => spectral::replay_rays(&sol.records, nt, np)?,
+            _ => return Err("unknown --spectral-moments route".into()),
+        };
+        let elapsed = clock.elapsed().as_secs_f64();
+        Some((route, l, nt, np, sp, elapsed))
+    } else {
+        if ["spectral-lmax", "spectral-ntheta", "spectral-nphi"]
+            .iter()
+            .any(|k| a.contains_key(*k))
+        {
+            return Err("spectral mesh requires --spectral-moments".into());
+        }
+        None
+    };
     if let Some(parent) = out.parent().filter(|p| !p.as_os_str().is_empty()) {
         fs::create_dir_all(parent)?;
     }
@@ -776,6 +943,10 @@ fn run() -> Result<(), Error> {
         write_modes_as(&out, m, *l, "los_modes.tsv", "los_cl.tsv")?;
     }
     diagnostics(&out, &sol)?;
+    if let Some((_, _, _, _, sp, _)) = &spectral_result {
+        write_spectral(&out, sp, obs)?;
+    }
+
     lie_constants(&out, &sol)?;
     species(&out, &sol)?;
     if options.recombination.is_some() {
@@ -895,6 +1066,28 @@ fn run() -> Result<(), Error> {
     if let Some(r) = &species_reference {
         let a = r.nodes()[0];
         writeln!(f,"species_helium_model={:?}\nspecies_f_he={:.17e}\nspecies_reference_n_h_emit_m3={:.17e}\nspecies_reference_h_emit_s={:.17e}\nspecies_reference_tr_emit_k={:.17e}\nspecies_thermal_energy_feedback=tracer_only\nspecies_coupling={}",r.helium(),r.f_he(),a.n_h_m3,a.h_s,a.tr_k,if species_sdirk{"partitioned_SDIRK2_stage_consistent_linear_bare_rate"}else{"lagged_opacity_BE"})?;
+    }
+    if let Some((route, l, nt, np, sp, elapsed)) = &spectral_result {
+        let checks = sp.sampled_necessary_checks(1e-9)?;
+        writeln!(
+            f,
+            "spectral_sampled_necessary_checks={}\nspectral_sampled_absolute_tolerance=1e-9",
+            if checks { "PASS_SCOPED" } else { "UNRESOLVED" }
+        )?;
+        let q = sp.history.last().ok_or("empty spectral output")?;
+        let e = sol
+            .history
+            .last()
+            .ok_or("empty bolometric output")?
+            .radiation
+            .energy;
+        let gap =
+            (q.energy_comoving * (-4. * q.eta).exp() * 4. * std::f64::consts::PI / e - 1.).abs();
+        let mesh_gap = sp
+            .bolometric_gap(&sol.photons)
+            .map(|v| format!("{v:.17e}"))
+            .unwrap_or_else(|_| "unavailable_different_mesh".into());
+        writeln!(f,"spectral_route={route}\nspectral_lmax={}\nspectral_grid={}x{}\nspectral_scope=cold_fixed_accepted_history_independent_gain_normalization_no_feedback\nspectral_center=log(T/T_emit)+eta\nspectral_collision_events={}\nspectral_number_collision_defect={:.17e}\nspectral_rest_energy_collision_defect={:.17e}\nspectral_number_continuity_trapezoid_defect={:.17e}\nspectral_bolometric_integral_relative_gap={gap:.17e}\nspectral_bolometric_screen_relative_gap={mesh_gap}\nspectral_wall_s={elapsed:.9}",if route.as_str()=="rays"{0}else{*l},nt,np,sp.collision_events,sp.max_collision_number_defect,sp.max_collision_rest_energy_defect,sp.number_continuity_defect(&sol.records)?)?;
     }
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;
