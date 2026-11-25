@@ -20,6 +20,24 @@ pub struct TransportLedger {
     pub redshift_work: f64,
     pub max_support_error: f64,
 }
+#[derive(Clone, Debug, Default)]
+pub struct CompressionLedger {
+    pub before: usize,
+    pub after: usize,
+    pub max_number_relative: f64,
+    pub max_energy_relative: f64,
+    pub max_log_span: f64,
+}
+/// Axisymmetric ring-averaged normal-frame UV stress (SI energy density).
+/// This is a tracer inventory, not an Einstein-source admission.
+#[derive(Clone, Copy, Debug)]
+pub struct LrsStress {
+    pub rho_j_m3: f64,
+    pub flux_z_j_m3: f64,
+    pub p_parallel_j_m3: f64,
+    pub p_perp_j_m3: f64,
+    pub delta_j_m3: f64,
+}
 #[derive(Clone, Debug)]
 pub struct BirthPackets {
     pub directions: Vec<[f64; 3]>,
@@ -65,6 +83,42 @@ impl BirthPackets {
             sum(self.packets.iter().map(|p| p.per_h * p.energy_ev)),
         )
     }
+    /// PR171/PR173 proper volume conversion, exactly once per H nucleus.
+    pub fn lrs_stress(&self, nh_m3: f64) -> Result<LrsStress, String> {
+        if !nh_m3.is_finite()
+            || nh_m3 <= 0.
+            || self.packets.iter().any(|p| {
+                p.ray >= self.directions.len()
+                    || !p.per_h.is_finite()
+                    || p.per_h < 0.
+                    || !p.energy_ev.is_finite()
+                    || p.energy_ev <= 0.
+            })
+        {
+            return Err("invalid UV stress input".into());
+        }
+        let scale = nh_m3 * 1.602176634e-19;
+        let u = sum(self.packets.iter().map(|p| p.per_h * p.energy_ev));
+        let q = sum(self
+            .packets
+            .iter()
+            .map(|p| p.per_h * p.energy_ev * self.directions[p.ray][2]));
+        let z = sum(self
+            .packets
+            .iter()
+            .map(|p| p.per_h * p.energy_ev * self.directions[p.ray][2].powi(2)));
+        let pp = sum(self
+            .packets
+            .iter()
+            .map(|p| p.per_h * p.energy_ev * (1. - self.directions[p.ray][2].powi(2)) * 0.5));
+        Ok(LrsStress {
+            rho_j_m3: u * scale,
+            flux_z_j_m3: q * scale,
+            p_parallel_j_m3: z * scale,
+            p_perp_j_m3: pp * scale,
+            delta_j_m3: (z - pp) * scale,
+        })
+    }
     pub fn transport(
         &mut self,
         left: &RayNode,
@@ -91,7 +145,22 @@ impl BirthPackets {
         let mut new_dirs = Vec::with_capacity(self.directions.len());
         let mut ratios = Vec::with_capacity(self.directions.len());
         let mut new_weights = Vec::with_capacity(self.directions.len());
+        let flrw = left
+            .shear
+            .iter()
+            .flatten()
+            .chain(right.shear.iter().flatten())
+            .all(|&x| x == 0.);
         for (i, &d) in self.directions.iter().enumerate() {
+            // Exactly isotropic geometry has a common Killing redshift.
+            // Do not introduce ray-dependent roundoff into subsequent
+            // discontinuous compression-bin/threshold decisions.
+            if flrw {
+                new_dirs.push(d);
+                ratios.push((left.eta - right.eta).exp());
+                new_weights.push(self.weights[i]);
+                continue;
+            }
             let ray = advance_ray(left, right, d)?;
             let r = ray.log_energy.exp();
             if !(0. < r && r <= 1.) {
@@ -105,8 +174,10 @@ impl BirthPackets {
         if !w.is_finite() || w <= 0. {
             return Err("invalid angular birth measure".into());
         }
-        for a in &mut new_weights {
-            *a /= w;
+        if !flrw {
+            for a in &mut new_weights {
+                *a /= w;
+            }
         }
         let mut work = Vec::with_capacity(self.packets.len());
         let mut escaped = Vec::new();
@@ -135,6 +206,94 @@ impl BirthPackets {
             redshift_work: sum(work.into_iter()),
             max_support_error,
         })
+    }
+    /// Positive endpoint quadrature on existing physical support. Same ray
+    /// and actual Verner threshold region, bounded log-energy span.
+    /// Representative birth labels remain exact; their weights are no longer
+    /// the uncompressed birth-cohort weights. No invented energy or direction.
+    pub fn compress(&mut self, width: f64) -> Result<CompressionLedger, String> {
+        if !width.is_finite()
+            || !(1e-5..=0.25).contains(&width)
+            || self.packets.iter().any(|p| {
+                p.ray >= self.directions.len()
+                    || !p.energy_ev.is_finite()
+                    || p.energy_ev < HI_EDGE_EV
+                    || !p.per_h.is_finite()
+                    || p.per_h < 0.
+                    || !p.birth_eta.is_finite()
+                    || !p.birth_energy_ev.is_finite()
+                    || p.energy_ev > p.birth_energy_ev * (1. + 2e-13)
+            })
+        {
+            return Err("invalid endpoint compression domain".into());
+        }
+        let mut groups = std::collections::BTreeMap::<(usize, usize, i64), Vec<Packet>>::new();
+        let edges = [HI_EDGE_EV, 24.59, 54.42];
+        for &p in &self.packets {
+            if p.per_h == 0. {
+                continue;
+            }
+            let region = edges.partition_point(|e| *e <= p.energy_ev) - 1;
+            let bin = ((p.energy_ev / edges[region]).ln() / width).floor() as i64;
+            groups.entry((p.ray, region, bin)).or_default().push(p);
+        }
+        let mut r = CompressionLedger {
+            before: self.packets.len(),
+            ..Default::default()
+        };
+        let mut out = Vec::new();
+        for (_, g) in groups {
+            if g.len() <= 2 {
+                out.extend(g);
+                continue;
+            }
+            let lo = *g
+                .iter()
+                .min_by(|a, b| a.energy_ev.total_cmp(&b.energy_ev))
+                .unwrap();
+            let hi = *g
+                .iter()
+                .max_by(|a, b| a.energy_ev.total_cmp(&b.energy_ev))
+                .unwrap();
+            let n = sum(g.iter().map(|p| p.per_h));
+            let u = sum(g.iter().map(|p| p.per_h * p.energy_ev));
+            if !n.is_finite() || !u.is_finite() || n <= 0. || u <= 0. {
+                return Err("nonfinite compression stock".into());
+            }
+            let span = hi.energy_ev - lo.energy_ev;
+            let (a, b) = if span == 0. {
+                (n, 0.)
+            } else {
+                (
+                    sum(g
+                        .iter()
+                        .map(|p| p.per_h * ((hi.energy_ev - p.energy_ev) / span))),
+                    sum(g
+                        .iter()
+                        .map(|p| p.per_h * ((p.energy_ev - lo.energy_ev) / span))),
+                )
+            };
+            if !a.is_finite() || !b.is_finite() || a < 0. || b < 0. {
+                return Err("invalid endpoint weights".into());
+            }
+            let nd = ((a + b) - n).abs() / n;
+            let ud = (a * lo.energy_ev + b * hi.energy_ev - u).abs() / u;
+            if nd > 3e-14 || ud > 3e-14 {
+                return Err("endpoint compression moment defect".into());
+            }
+            r.max_number_relative = r.max_number_relative.max(nd);
+            r.max_energy_relative = r.max_energy_relative.max(ud);
+            r.max_log_span = r.max_log_span.max((hi.energy_ev / lo.energy_ev).ln());
+            if a > 0. {
+                out.push(Packet { per_h: a, ..lo });
+            }
+            if b > 0. {
+                out.push(Packet { per_h: b, ..hi });
+            }
+        }
+        r.after = out.len();
+        self.packets = out;
+        Ok(r)
     }
     /// Positive cell-integrated number/energy source at the actual birth time.
     pub fn inject(

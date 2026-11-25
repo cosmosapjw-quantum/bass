@@ -5,7 +5,7 @@
 //! tracer driven by live charge, with isotropic CMB thermal bath retained.
 use super::replay::StepRecord;
 use super::{
-    birth_packets::{sum, BirthPackets, TransportLedger},
+    birth_packets::{sum, BirthPackets, CompressionLedger, TransportLedger},
     geometric_one, initial_sky, scatter_with, CollisionScheme, Photon,
 };
 use crate::kinetic::lie_history::RayNode;
@@ -42,6 +42,8 @@ pub struct LiveLedger {
     pub redshift_work: f64,
     pub cmb_input: f64,
     pub photo_events: [f64; 3],
+    pub compression: CompressionLedger,
+    pub compression_removed: usize,
 }
 #[derive(Clone, Debug)]
 pub struct LiveRow {
@@ -68,6 +70,7 @@ pub struct LiveResult {
     pub photons: BirthPackets,
     pub cmb: Vec<Photon>,
     pub rhs: usize,
+    pub isotropic_uv_reduced: bool,
 }
 fn midpoint(a: &RayNode, b: &RayNode) -> RayNode {
     RayNode {
@@ -163,6 +166,13 @@ fn snapshot(
     })
 }
 pub fn evolve(records: &[StepRecord], input: LiveInput) -> Result<LiveResult, String> {
+    evolve_with_compression(records, input, None)
+}
+pub fn evolve_with_compression(
+    records: &[StepRecord],
+    input: LiveInput,
+    width: Option<f64>,
+) -> Result<LiveResult, String> {
     if records.is_empty()
         || records[0].left.eta != 0.
         || input.a0 != 1. / 21.
@@ -186,18 +196,33 @@ pub fn evolve(records: &[StepRecord], input: LiveInput) -> Result<LiveResult, St
         input.n_mu,
     )
     .map_err(|e| e.to_string())?;
-    let dirs = src
+    let dirs: Vec<[f64; 3]> = src
         .angular_cells
         .iter()
         .map(|a| [(1. - a.mu * a.mu).sqrt(), 0., a.mu])
         .collect();
-    let weights = src.angular_cells.iter().map(|a| a.count_fraction).collect();
+    let weights: Vec<f64> = src.angular_cells.iter().map(|a| a.count_fraction).collect();
     let cells: Vec<_> = src
         .spectral_cells
         .iter()
         .map(|c| (c.energy_ev, c.photon_fraction))
         .collect();
-    let mut p = BirthPackets::new(dirs, weights)?;
+    // The UV equation in exactly isotropic non-tilted geometry with
+    // an isotropic source and empty initial UV inventory is scalar in angle.
+    // A common spectrum avoids independently rounded threshold decisions.
+    // Keep the full CMB transport and the original angular quadrature.
+    let isotropic_uv_reduced = width.is_some() && records.iter().all(|r| {
+        [&r.left, &r.right].iter().all(|n| {
+            n.shear.iter().flatten().all(|&x| x == 0.)
+                && n.n.iter().flatten().all(|&x| x == 0.)
+                && n.a == [0.; 3] && n.rotation == [0.; 3]
+        })
+    });
+    let mut p = if isotropic_uv_reduced {
+        BirthPackets::new(vec![[0., 0., 1.]], vec![1.])?
+    } else {
+        BirthPackets::new(dirs.clone(), weights.clone())?
+    };
     let mut gas = input.initial_gas;
     let mut ledger = LiveLedger::default();
     let initial_e = thermal(gas)? + binding(gas, input.f_he);
@@ -239,6 +264,21 @@ pub fn evolve(records: &[StepRecord], input: LiveInput) -> Result<LiveResult, St
         let (sn, su) = p.inject(m.eta, source.per_h_s, dt, &cells)?;
         ledger.emitted_n += sn;
         ledger.emitted_u += su;
+        if let Some(w) = width {
+            let q = p.compress(w)?;
+            ledger.compression_removed += q.before - q.after;
+            ledger.compression.before = ledger.compression.before.max(q.before);
+            ledger.compression.after = ledger.compression.after.max(q.after);
+            ledger.compression.max_number_relative = ledger
+                .compression
+                .max_number_relative
+                .max(q.max_number_relative);
+            ledger.compression.max_energy_relative = ledger
+                .compression
+                .max_energy_relative
+                .max(q.max_energy_relative);
+            ledger.compression.max_log_span = ledger.compression.max_log_span.max(q.max_log_span);
+        }
         let inputs: Vec<_> = p
             .packets
             .iter()
@@ -312,7 +352,22 @@ pub fn evolve(records: &[StepRecord], input: LiveInput) -> Result<LiveResult, St
         t += dt;
         history.push(LiveRow { tau, ..n });
     }
+    if isotropic_uv_reduced {
+        let mut lifted = BirthPackets::new(dirs, weights.clone())?;
+        let norm = sum(weights.iter().copied());
+        for (ray, w) in weights.iter().enumerate() {
+            for packet in &p.packets {
+                lifted.packets.push(super::birth_packets::Packet {
+                    ray,
+                    per_h: packet.per_h * w / norm,
+                    ..*packet
+                });
+            }
+        }
+        p = lifted;
+    }
     Ok(LiveResult {
+        isotropic_uv_reduced,
         history,
         photons: p,
         cmb,

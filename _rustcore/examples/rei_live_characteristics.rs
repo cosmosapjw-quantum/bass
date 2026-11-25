@@ -1,12 +1,13 @@
 use bianchi_rustcore::{
     homogeneous_sky::{
         material::Material,
-        rei_live::{evolve, LiveInput},
+        rei_live::{evolve_with_compression, LiveInput},
+        replay::StepRecord,
         solve::{solve_general, Settings, SolveOptions},
         CollisionScheme,
     },
     kinetic::{
-        lie_history::LieInitial,
+        lie_history::{LieInitial, RayNode},
         radiation_feedback::{ExpansionEquation, LieUpdate},
     },
 };
@@ -18,8 +19,10 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let a = std::env::args().skip(1).collect::<Vec<_>>();
-    if a.len() != 8 {
-        return Err("usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K".into());
+    if a.len() != 8 && a.len() != 9 {
+        return Err(
+            "usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K [LOG_COMPRESSION_WIDTH]".into(),
+        );
     }
     let out = Path::new(&a[0]);
     let z: f64 = a[1].parse()?;
@@ -29,8 +32,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let nmu: usize = a[5].parse()?;
     let xp: f64 = a[6].parse()?;
     let tm: f64 = a[7].parse()?;
-    if !(19.8..20.).contains(&z) || steps == 0 || steps > 4096 || !q.is_finite() || q.abs() > 0.02 {
-        return Err("bounded live LRS I history z20 to [19.8,20)".into());
+    let width: Option<f64> = a.get(8).map(|v| v.parse()).transpose()?;
+    let short = (19.8..20.).contains(&z) && steps <= 4096;
+    let long = width.is_some() && q == 0. && (4.0..19.8).contains(&z) && steps <= 65536;
+    if !(short || long) || steps == 0 || !q.is_finite() || q.abs() > 0.02 {
+        return Err("bounded short LRS I or compressed analytic FLRW z20 to z>=4".into());
     }
     let a0 = 1. / 21.;
     let om = 0.315 * 21f64.powi(3);
@@ -59,21 +65,55 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         omega_lambda: ol / ((om + or + ol) * (1. + q * q)),
         lie_update: LieUpdate::Congruence,
     };
-    let geom = solve_general(
-        &cfg,
-        &Material::constant(duration, 0., [0.; 3])?,
-        Some(&lie),
-        None,
-        ExpansionEquation::GaussReduced,
-        0.0224 / 0.674f64.powi(2) / 0.315,
-        &SolveOptions::default(),
-    )?;
+    // For the long FLRW control, exact H(a) avoids integrating a redundant
+    // geometry solve. The existing short route still uses BASS accepted records.
+    let (records, nodes) = if long {
+        let nodes = (0..=steps)
+            .map(|i| {
+                let eta = duration * i as f64 / steps as f64;
+                let e = (om * (-3. * eta).exp() + or * (-4. * eta).exp() + ol).sqrt();
+                RayNode {
+                    eta,
+                    hubble_ratio: e / (om + or + ol).sqrt(),
+                    omega_radiation: or * (-4. * eta).exp() / e.powi(2),
+                    omega_lambda: ol / e.powi(2),
+                    ..Default::default()
+                }
+            })
+            .collect::<Vec<_>>();
+        let records = nodes
+            .windows(2)
+            .map(|p| StepRecord {
+                left: p[0].clone(),
+                right: p[1].clone(),
+                first: vec![],
+                second: vec![],
+            })
+            .collect::<Vec<_>>();
+        (records, nodes)
+    } else {
+        let geom = solve_general(
+            &cfg,
+            &Material::constant(duration, 0., [0.; 3])?,
+            Some(&lie),
+            None,
+            ExpansionEquation::GaussReduced,
+            0.0224 / 0.674f64.powi(2) / 0.315,
+            &SolveOptions::default(),
+        )?;
+        let nodes = geom
+            .history
+            .iter()
+            .map(|s| s.node.clone())
+            .collect::<Vec<_>>();
+        (geom.records, nodes)
+    };
     let nh = 0.18981984507140268 * 21f64.powi(3);
     let fhe = 0.2454 / (4. * (1. - 0.2454));
     let init = IgmGasState::from_temperature([xp, 0., 0.], nh * 1e-6, nh * 1e-6 * fhe, tm)?;
     let start = std::time::Instant::now();
-    let s = evolve(
-        &geom.records,
+    let s = evolve_with_compression(
+        &records,
         LiveInput {
             a0,
             h0_s: h,
@@ -85,6 +125,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             energy_subdivisions: sub,
             n_mu: nmu,
         },
+        width,
     )?;
     fs::create_dir(out)?;
     let mut f = BufWriter::new(fs::File::create(out.join("history.tsv"))?);
@@ -158,8 +199,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         f,
         "eta\tH_ratio\tSigma_xx\tSigma_yy\tSigma_zz\tGauss\tCodazzi_max"
     )?;
-    for v in &geom.history {
-        let n = &v.node;
+    for n in &nodes {
         writeln!(
             f,
             "{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",
@@ -192,6 +232,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         )?;
     }
     f.flush()?;
+    let stress = s.photons.lrs_stress(s.history.last().unwrap().nh_m3)?;
+    fs::write(out.join("uv_stress.txt"),format!("rho_J_m3={:.17e}\nflux_z_J_m3={:.17e}\nP_parallel_J_m3={:.17e}\nP_perp_J_m3={:.17e}\nDelta_J_m3={:.17e}\n",stress.rho_j_m3,stress.flux_z_j_m3,stress.p_parallel_j_m3,stress.p_perp_j_m3,stress.delta_j_m3))?;
+    let ledger = &s.history.last().unwrap().ledger;
+    fs::write(out.join("compression.txt"),format!("width={width:?}\nanalytic_flrw={long}\nisotropic_uv_reduced={}\nremoved={}\npeak_before={}\npeak_after={}\nmax_N_relative={:.17e}\nmax_U_relative={:.17e}\nmax_log_span={:.17e}\n",s.isotropic_uv_reduced,ledger.compression_removed,ledger.compression.before,ledger.compression.after,ledger.compression.max_number_relative,ledger.compression.max_energy_relative,ledger.compression.max_log_span))?;
     fs::write(out.join("run.txt"),format!("scope=live_REI_on_accepted_BASS_LRS_I_geometry\ngeometry_feedback_from_REI=false\nthermal_CMB=isotropic\nsteps={}\nrhs={}\nwall_s={:.17e}\n",s.history.len()-1,s.rhs,start.elapsed().as_secs_f64()))?;
     Ok(())
 }
