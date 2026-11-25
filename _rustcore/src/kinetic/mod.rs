@@ -37,3 +37,5 @@ pub mod viscous;
 pub mod wigner;
 
 pub mod massive_memory;
+
+pub mod memory_mixture;
