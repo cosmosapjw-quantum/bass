@@ -1,0 +1,181 @@
+use bianchi_rustcore::{
+    homogeneous_sky::{field::HarmonicSky, scatter_with, CollisionScheme},
+    kinetic::{
+        lie_history::{advance_ray, RayNode},
+        spin_sht::{index, SpinSht},
+    },
+};
+use nalgebra::{Matrix3, Vector3};
+fn rows(m: Matrix3<f64>) -> [[f64; 3]; 3] {
+    std::array::from_fn(|i| std::array::from_fn(|j| m[(i, j)]))
+}
+fn dyad(n: Vector3<f64>) -> (Vector3<f64>, Vector3<f64>) {
+    let h = n.x.hypot(n.y);
+    let p = Vector3::new(-n.y / h, n.x / h, 0.);
+    (p.cross(&n), p)
+}
+fn seed(n: Vector3<f64>, j: Matrix3<f64>) -> Matrix3<f64> {
+    let p = Matrix3::identity() - n * n.transpose();
+    let q = p * j * p;
+    p * 0.5 + (q - p * (q.trace() / 2.)) * 0.02
+}
+fn coeffs(
+    sht: &SpinSht,
+    mat: &[Matrix3<f64>],
+) -> [Vec<bianchi_rustcore::kinetic::spin_sht::C64>; 3] {
+    let (mut i, mut q, mut u) = (vec![], vec![], vec![]);
+    for (v, m) in sht.grid.ehat.chunks_exact(3).zip(mat) {
+        let n = Vector3::from_column_slice(v);
+        let (t, p) = dyad(n);
+        i.push(m.trace());
+        q.push(t.dot(&(m * t)) - p.dot(&(m * p)));
+        u.push(2. * t.dot(&(m * p)));
+    }
+    sht.from_stokes(&i, &q, &u)
+}
+fn spectra(s: &[Vec<bianchi_rustcore::kinetic::spin_sht::C64>], lmax: usize) -> [f64; 5] {
+    let (mut ee, mut b3, mut eo, mut be, mut bo) = (0., 0., 0., 0., 0.);
+    let norm = s[0][0].re / (4. * std::f64::consts::PI).sqrt();
+    for l in 2..=lmax {
+        for m in -(l as i64)..=l as i64 {
+            let k = index(l, m);
+            let e = (s[1][k] + s[2][k]) * 0.5;
+            let b = (s[1][k] - s[2][k]) * 0.5;
+            if l == 2 {
+                ee += e.norm_sqr()
+            }
+            if l == 3 {
+                b3 += b.norm_sqr()
+            }
+            if l % 2 == 1 {
+                eo += e.norm_sqr();
+                bo += b.norm_sqr()
+            } else {
+                be += b.norm_sqr()
+            }
+        }
+    }
+    [ee, b3, eo, be, bo].map(|v| v.sqrt() / norm)
+}
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let steps: usize = std::env::args()
+        .nth(1)
+        .map(|x| x.parse())
+        .transpose()?
+        .unwrap_or(32);
+    if steps == 0 || steps > 256 {
+        return Err("pulse steps".into());
+    }
+    let a: Matrix3<f64> = Matrix3::from_diagonal(&Vector3::new(1., -1., 0.));
+    let b: Matrix3<f64> = Matrix3::new(0., 1., 0., 1., 0., 1., 0., 1., 0.);
+    let j: Matrix3<f64> = Matrix3::from_diagonal(&Vector3::new(-0.5, -0.5, 1.));
+    println!("eps,lmax,case,mode,E2,B3,Eodd,Beven,Bodd,ref_E2,ref_B3,ref_Eodd,ref_Beven,ref_Bodd,ref_gap");
+    for l in [6, 8, 10] {
+        let sht = SpinSht::new(l, 2 * l + 4, 4 * l + 8)?;
+        for eps in [0.04, 0.02, 0.01, 0.005] {
+            for (name, pulses) in [
+                ("AB", vec![a, b]),
+                ("BA", vec![b, a]),
+                ("aligned", vec![j, j]),
+                ("loop", vec![a, b, -a, -b]),
+            ] {
+                for mode in ["seed", "born"] {
+                    let mut sky = HarmonicSky::isotropic(l, 2 * l + 4, 4 * l + 8, true)?;
+                    if mode == "seed" {
+                        let v: Vec<_> = sht
+                            .grid
+                            .ehat
+                            .chunks_exact(3)
+                            .map(|v| seed(Vector3::from_column_slice(v), j))
+                            .collect();
+                        sky.coefficients = coeffs(&sht, &v).into();
+                    }
+                    let h = 1. / steps as f64;
+                    let mut u = 0.;
+                    for &ss in &pulses {
+                        let s = ss * eps;
+                        for _ in 0..steps {
+                            let x = RayNode {
+                                eta: u,
+                                shear: rows(s),
+                                ..Default::default()
+                            };
+                            let m = RayNode {
+                                eta: u + h / 2.,
+                                ..x.clone()
+                            };
+                            let y = RayNode {
+                                eta: u + h,
+                                ..x.clone()
+                            };
+                            sky.stream(&x, &m)?;
+                            if mode == "born" {
+                                let mut rays = sky.photons()?;
+                                let before = rays.clone();
+                                scatter_with(
+                                    &mut rays,
+                                    0.025 * h,
+                                    [0.; 3],
+                                    CollisionScheme::Sdirk2,
+                                )?;
+                                sky.absorb_delta(&before, &rays)?;
+                            }
+                            sky.stream(&m, &y)?;
+                            u += h;
+                        }
+                    }
+                    let sp = spectra(&sky.coefficients, l);
+                    let mut rr = [0.; 5];
+                    let mut gap = 0.;
+                    if mode == "seed" {
+                        // Independent ray quadrature: trace each fixed endpoint direction backward
+                        // through exact constant-S segments, then push seed coherency forward.
+                        let mut mats = Vec::new();
+                        for v in sht.grid.ehat.chunks_exact(3) {
+                            let mut n = Vector3::from_column_slice(v);
+                            let mut rot = Matrix3::identity();
+                            let mut le = 0.;
+                            let mut u = pulses.len() as f64;
+                            for &ss in pulses.iter().rev() {
+                                let s = ss * eps;
+                                for _ in 0..128 {
+                                    let x = RayNode {
+                                        eta: u,
+                                        shear: rows(s),
+                                        ..Default::default()
+                                    };
+                                    let y = RayNode {
+                                        eta: u - 1. / 128.,
+                                        ..x.clone()
+                                    };
+                                    let z = advance_ray(&x, &y, n.into())?;
+                                    rot = Matrix3::from_fn(|i, j| z.rotation[i][j]) * rot;
+                                    n = Vector3::from(z.e);
+                                    le += z.log_energy;
+                                    u -= 1. / 128.;
+                                }
+                            }
+                            mats.push(rot.transpose() * seed(n, j) * rot * (-4. * le).exp());
+                        }
+                        let cc = coeffs(&sht, &mats);
+                        rr = spectra(&cc, l);
+                        let norm = cc[0][0].re;
+                        gap = sky
+                            .coefficients
+                            .iter()
+                            .zip(cc.iter())
+                            .flat_map(|(x, y)| x.iter().zip(y))
+                            .map(|(x, y)| (*x - *y).norm() / norm)
+                            .fold(0., f64::max);
+                    }
+                    print!("{eps},{l},{name},{mode}");
+                    for v in sp.iter().chain(rr.iter()) {
+                        print!(",{v:.17e}")
+                    }
+                    println!(",{gap:.17e}");
+                }
+            }
+        }
+    }
+    Ok(())
+}

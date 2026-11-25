@@ -96,6 +96,17 @@ impl OwnedModel {
         Ok(Self { particles: p, cold })
     }
     pub fn matter(&self, a: f64, f: &Matrix3<f64>) -> Result<Matter, String> {
+        self.matter_impl(a, f, true)
+    }
+    pub fn matter_without_photons(&self, a: f64, f: &Matrix3<f64>) -> Result<Matter, String> {
+        self.matter_impl(a, f, false)
+    }
+    fn matter_impl(
+        &self,
+        a: f64,
+        f: &Matrix3<f64>,
+        include_photons: bool,
+    ) -> Result<Matter, String> {
         if !a.is_finite()
             || a <= 0.
             || !f.iter().all(|v| v.is_finite())
@@ -108,6 +119,9 @@ impl OwnedModel {
         let mut pressure = Matrix3::zeros();
         let mut photon = 0.;
         for p in &self.particles {
+            if p.photon && !include_photons {
+                continue;
+            }
             let v = inv * p.q;
             let e = v.norm().hypot(a * p.m);
             rho += p.w * e;

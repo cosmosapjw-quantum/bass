@@ -41,3 +41,5 @@ pub mod massive_memory;
 pub mod memory_mixture;
 
 pub mod owned_vlasov;
+
+pub mod owned_thomson;
