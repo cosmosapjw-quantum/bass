@@ -1,0 +1,1 @@
+The original 8e-5 whole run reached the predeclared 200-rejection cap due to repeated step growth/retry near z19.6; first checkpoint at 400 accepted steps, rejects 200. Preserve both. Use the already-running 4e-5 matched time grid, fresh split at 400, no cap relaxation or changed physics. Compare uninterrupted and resumed with exact binary identity.

@@ -22,6 +22,7 @@ pub struct ThomsonOwner {
     l: usize,
     nt: usize,
     np: usize,
+    owner_identity: String,
 }
 fn rows(m: Matrix3<f64>) -> [[f64; 3]; 3] {
     std::array::from_fn(|i| std::array::from_fn(|j| m[(i, j)]))
@@ -43,6 +44,7 @@ impl ThomsonOwner {
             l,
             nt: st,
             np: sp,
+            owner_identity: format!("{:016x} {nr} {nt} {np} {l} {st} {sp}", eps.to_bits()),
         })
     }
     pub fn initial(&self, a: f64, s: [f64; 5]) -> Result<ThomsonState, String> {
@@ -424,5 +426,89 @@ impl ThomsonOwner {
         let (m, _) = self.external_matter(t, s, x)?;
         let g = &t.geometry;
         Ok(1. - g.s.iter().map(|v| v * v).sum::<f64>() / 6. - (m.rho + OL) / g.h.powi(2))
+    }
+}
+
+impl ThomsonOwner {
+    /// Exact, finite accepted state in the native bolometric hierarchy convention.
+    /// A separate joint manifest binds source/executable identities.
+    pub fn state_text(&self, t: &ThomsonState) -> Result<String, String> {
+        let g = &t.geometry;
+        if !g.a.is_finite()
+            || !g.h.is_finite()
+            || g.a < t.initial_a
+            || g.h <= 0.
+            || t.initial_a <= 0.
+            || !t.initial_a.is_finite()
+            || !g.s.iter().chain(g.f.iter()).all(|x| x.is_finite())
+            || (g.f.determinant() - 1.).abs() > 1e-7
+            || t.sky.lmax() != self.l
+            || t.sky.grid_size() != (self.nt, self.np)
+            || !t.sky.polarized()
+            || t.sky.coefficients.len() != 3
+            || t.sky.coefficients.iter().any(|v| {
+                v.len() != (self.l + 1).pow(2)
+                    || v.iter().any(|x| !x.re.is_finite() || !x.im.is_finite())
+            })
+        {
+            return Err("Thomson checkpoint domain".into());
+        }
+        self.matter(t)?;
+        let v = [g.a, g.h, t.initial_a]
+            .into_iter()
+            .chain(g.s)
+            .chain((0..3).flat_map(|i| (0..3).map(move |j| g.f[(i, j)])))
+            .chain(
+                t.sky
+                    .coefficients
+                    .iter()
+                    .flatten()
+                    .flat_map(|x| [x.re, x.im]),
+            );
+        Ok(format!(
+            "BASS_THOMSON_STATE_V1\n{}\n{}\n",
+            self.owner_identity,
+            v.map(|x| format!("{:016x}", x.to_bits()))
+                .collect::<Vec<_>>()
+                .join(" ")
+        ))
+    }
+    pub fn restore_state_text(&self, text: &str) -> Result<ThomsonState, String> {
+        let l = text.lines().collect::<Vec<_>>();
+        if l.len() != 3 || l[0] != "BASS_THOMSON_STATE_V1" || l[1] != self.owner_identity {
+            return Err("Thomson checkpoint identity".into());
+        }
+        let v = l[2]
+            .split_whitespace()
+            .map(|s| {
+                u64::from_str_radix(s, 16)
+                    .map(f64::from_bits)
+                    .map_err(|_| "Thomson checkpoint format".to_string())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        if v.len() != 17 + 6 * (self.l + 1).pow(2) || v.iter().any(|x| !x.is_finite()) {
+            return Err("Thomson checkpoint shape".into());
+        }
+        let mut sky = HarmonicSky::isotropic(self.l, self.nt, self.np, true)?;
+        for (x, p) in sky
+            .coefficients
+            .iter_mut()
+            .flatten()
+            .zip(v[17..].chunks_exact(2))
+        {
+            *x = super::spin_sht::C64::new(p[0], p[1]);
+        }
+        let t = ThomsonState {
+            geometry: OwnedState {
+                a: v[0],
+                h: v[1],
+                s: v[3..8].try_into().unwrap(),
+                f: Matrix3::from_row_slice(&v[8..17]),
+            },
+            sky,
+            initial_a: v[2],
+        };
+        self.state_text(&t)?;
+        Ok(t)
     }
 }

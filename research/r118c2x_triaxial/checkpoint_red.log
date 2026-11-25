@@ -1,0 +1,35 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore)
+error[E0599]: no method named `state_text` found for struct `ThomsonOwner` in the current scope
+ --> tests/r118c2x_checkpoint.rs:7:10
+  |
+7 |  let q=m.state_text(&s).unwrap();
+  |          ^^^^^^^^^^ method not found in `ThomsonOwner`
+
+error[E0599]: no method named `restore_state_text` found for struct `ThomsonOwner` in the current scope
+ --> tests/r118c2x_checkpoint.rs:8:10
+  |
+8 |  let r=m.restore_state_text(&q).unwrap();
+  |          ^^^^^^^^^^^^^^^^^^ method not found in `ThomsonOwner`
+
+error[E0599]: no method named `state_text` found for struct `ThomsonOwner` in the current scope
+ --> tests/r118c2x_checkpoint.rs:9:17
+  |
+9 |  assert_eq!(q,m.state_text(&r).unwrap());
+  |                 ^^^^^^^^^^ method not found in `ThomsonOwner`
+
+error[E0599]: no method named `state_text` found for struct `ThomsonOwner` in the current scope
+  --> tests/r118c2x_checkpoint.rs:11:15
+   |
+11 |  assert_eq!(m.state_text(&a).unwrap(),m.state_text(&b).unwrap());
+   |               ^^^^^^^^^^ method not found in `ThomsonOwner`
+
+error[E0599]: no method named `state_text` found for struct `ThomsonOwner` in the current scope
+  --> tests/r118c2x_checkpoint.rs:11:41
+   |
+11 |  assert_eq!(m.state_text(&a).unwrap(),m.state_text(&b).unwrap());
+   |                                         ^^^^^^^^^^ method not found in `ThomsonOwner`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `bianchi_rustcore` (test "r118c2x_checkpoint") due to 5 previous errors
