@@ -295,3 +295,134 @@ impl ThomsonOwner {
         Ok(1. - s.s.iter().map(|v| v * v).sum::<f64>() / 6. - (m.rho + OL) / s.h.powi(2))
     }
 }
+
+/// External material/radiation correction in present critical energy units.
+/// Negative rho is permitted only as a correction to an existing reservoir.
+#[derive(Clone, Copy, Debug)]
+pub struct ExternalContribution {
+    pub rho: f64,
+    pub pressure: [[f64; 3]; 3],
+    pub photon_rho: f64,
+    pub ne_m3: f64,
+}
+pub trait ExternalMatter {
+    type State: Clone;
+    fn contribution(
+        &mut self,
+        s: &Self::State,
+        g: &OwnedState,
+    ) -> Result<ExternalContribution, String>;
+    fn advance(
+        &mut self,
+        s: &Self::State,
+        old: &OwnedState,
+        mid: &OwnedState,
+        end: &OwnedState,
+    ) -> Result<Self::State, String>;
+}
+impl ThomsonOwner {
+    fn external_matter<X: ExternalMatter>(
+        &self,
+        t: &ThomsonState,
+        s: &X::State,
+        x: &mut X,
+    ) -> Result<(Matter, f64), String> {
+        let mut m = self.matter(t)?;
+        let v = x.contribution(s, &t.geometry)?;
+        if ![v.rho, v.photon_rho, v.ne_m3]
+            .iter()
+            .chain(v.pressure.iter().flatten())
+            .all(|x| x.is_finite())
+            || v.ne_m3 < 0.
+        {
+            return Err("external matter domain".into());
+        }
+        let p = Matrix3::from_fn(|i, j| v.pressure[i][j]);
+        if (p - p.transpose()).norm() > 1e-12 * p.norm().max(1e-30) {
+            return Err("external pressure symmetry".into());
+        }
+        m.rho += v.rho;
+        m.pressure += p;
+        m.photon_rho += v.photon_rho;
+        if m.rho <= 0. || m.photon_rho <= 0. {
+            return Err("external total density domain".into());
+        }
+        Ok((m, v.ne_m3))
+    }
+    /// Midpoint-predicted geometry plus stage-owned external matter. State is
+    /// returned by value; the caller retains old state if either trial fails.
+    pub fn step_external<X: ExternalMatter>(
+        &self,
+        t: &ThomsonState,
+        xs: &X::State,
+        x: &mut X,
+        du: f64,
+    ) -> Result<(ThomsonState, X::State, f64), String> {
+        if !du.is_finite() || du <= 0. || du > 0.1 {
+            return Err("external step domain".into());
+        }
+        let s = &t.geometry;
+        let (m, ne) = self.external_matter(t, xs, x)?;
+        let n = Self::node(s, &m);
+        let stage = |d: f64| {
+            advance_mixture(
+                &n,
+                &n,
+                d,
+                m.rho / s.h.powi(2),
+                rows(m.pressure / m.rho),
+                [0.; 3],
+            )
+        };
+        let geom = |d: f64, y: RayNode| OwnedState {
+            a: s.a * d.exp(),
+            h: y.hubble_ratio,
+            s: stf_components(Matrix3::from_fn(|i, j| y.shear[i][j])),
+            f: (stf_matrix(s.s) * d).exp() * s.f,
+        };
+        let q = geom(du / 4., stage(du / 4.)?);
+        let mg = geom(du / 2., stage(du / 2.)?);
+        let (sk, e0) = Self::radiation(&t.sky, &n, du / 2., C_SIG * ne / (H0 * s.h) * du / 2.)?;
+        let half = ThomsonState {
+            geometry: mg,
+            sky: sk,
+            initial_a: t.initial_a,
+        };
+        let xm = x.advance(xs, s, &q, &half.geometry)?;
+        let (hm, nem) = self.external_matter(&half, &xm, x)?;
+        let at = Self::node(&half.geometry, &hm);
+        let out = advance_mixture(
+            &n,
+            &at,
+            du,
+            hm.rho / half.geometry.h.powi(2),
+            rows(hm.pressure / hm.rho),
+            [0.; 3],
+        )?;
+        let (sky, e1) =
+            Self::radiation(&t.sky, &at, du, C_SIG * nem / (H0 * half.geometry.h) * du)?;
+        let next = ThomsonState {
+            geometry: OwnedState {
+                a: s.a * du.exp(),
+                h: out.hubble_ratio,
+                s: stf_components(Matrix3::from_fn(|i, j| out.shear[i][j])),
+                f: (stf_matrix(half.geometry.s) * du).exp() * s.f,
+            },
+            sky,
+            initial_a: t.initial_a,
+        };
+        let xn = x.advance(xs, s, &half.geometry, &next.geometry)?;
+        self.external_matter(&next, &xn, x)?;
+        Ok((next, xn, e0.max(e1)))
+    }
+    pub fn constraint_external<X: ExternalMatter>(
+        &self,
+        t: &ThomsonState,
+        s: &X::State,
+        x: &mut X,
+    ) -> Result<f64, String> {
+        let (m, _) = self.external_matter(t, s, x)?;
+        let g = &t.geometry;
+        Ok(1. - g.s.iter().map(|v| v * v).sum::<f64>() / 6. - (m.rho + OL) / g.h.powi(2))
+    }
+}

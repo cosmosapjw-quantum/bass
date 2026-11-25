@@ -1,0 +1,2 @@
+# C2X
+Prioritize general-ray/live joint checkpoint and bounded late evolution. Carry secondary radiation as physically defined moments rather than isotropic signed reservoirs; refine UV and time/angular axes. Independently explore full nonlinear diagonal-triaxial B3 onset using actual collisionless stress and hierarchy, distinguishing leading source and final observable. Do not infer detection from the current roundoff-sized H difference.

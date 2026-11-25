@@ -1,0 +1,27 @@
+   Compiling rei_microphysics v0.1.0 (/home/cosmosapjw/worktrees/rei-htt-thomson-20261124/rust/rei_microphysics)
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /home/cosmosapjw/worktrees/rei-htt-thomson-20261124/rust/rei_microphysics/src/axbi_covariant_driver.rs:395:18
+    |
+395 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+395 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+395 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: `rei_microphysics` (lib) generated 1 warning (run `cargo fix --lib -p rei_microphysics` to apply 1 suggestion)
+   Compiling c2w_live_rei_bridge v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c2w_alignment/bridge)
+warning: value assigned to `h` is never read
+   --> src/main.rs:237:21
+    |
+237 |                     h = du;
+    |                     ^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: `c2w_live_rei_bridge` (bin "c2w_live_rei_bridge") generated 1 warning
+    Finished `release` profile [optimized] target(s) in 26.70s
