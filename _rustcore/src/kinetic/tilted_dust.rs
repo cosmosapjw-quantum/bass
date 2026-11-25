@@ -216,6 +216,20 @@ impl Dust {
         Ok(updated)
     }
 
+    /// Instantaneous collisionless p'=dp/deta in the propagation tetrad.
+    pub fn free_momentum_rhs(&self, index: usize, node: &RayNode) -> Result<[f64; 3], String> {
+        let stream = self
+            .streams
+            .get(index)
+            .ok_or("dust beam index out of range")?;
+        let p = Vec3::from(stream.p);
+        let rhs = Coeff::from_node(node)?.rates(p).0 - p;
+        if !rhs.iter().all(|x| x.is_finite()) {
+            return Err("nonfinite dust momentum RHS".into());
+        }
+        Ok(rhs.into())
+    }
+
     /// Read one beam's physical normal-frame moments on the same time slice.
     pub fn beam(&self, index: usize) -> Result<DustBeam, String> {
         let stream = self

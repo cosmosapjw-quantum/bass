@@ -9,8 +9,8 @@ use bianchi_rustcore::homogeneous_sky::{
     observed_sky,
     replay::los_sky,
     solve::{
-        solve_general, solve_general_species_thermal, MatchedRecombination, Settings, Solution,
-        SolveOptions,
+        solve_general, solve_general_species_sdirk, solve_general_species_sdirk_on_grid,
+        solve_general_species_thermal, MatchedRecombination, Settings, Solution, SolveOptions,
     },
     CollisionScheme,
 };
@@ -26,7 +26,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration).";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -64,6 +64,7 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "route",
             "recombination",
             "species-reference",
+            "species-step-grid",
             "t-unit-k",
             "recombination-stop-eta",
             "harmonic-lmax",
@@ -343,6 +344,44 @@ fn thermochemistry_history(
     f.flush()?;
     Ok(())
 }
+/// Accepted internal stages only; no predictor or rejected trial is emitted.
+fn coupled_stage_history(dir: &Path, sol: &Solution) -> Result<(), Error> {
+    let mut f = writer(&dir.join("coupled_stages.tsv"))?;
+    writeln!(f,"macro_step\tstage\teta\txe\tx_heii\ttm_k\tn_h_m3\th_s\tgamma\tbeta_prime_x\tbeta_prime_y\tbeta_prime_z\texpansion_ratio\trate_left\trate_used\trate_rebuilt\trelative_residual\tdepth\titerations\tchemistry_iterations\tchemistry_residual")?;
+    for (i, s) in sol.coupled_stages.iter().enumerate() {
+        let mut v = vec![(i / 2 + 1).to_string(), s.stage.to_string()];
+        v.extend(
+            [
+                s.eta,
+                s.xe,
+                s.x_heii,
+                s.tm_k,
+                s.n_h_m3,
+                s.h_s,
+                s.gamma,
+                s.beta_prime[0],
+                s.beta_prime[1],
+                s.beta_prime[2],
+                s.expansion_ratio,
+                s.rate_left,
+                s.rate_used,
+                s.rate_rebuilt,
+                s.relative_residual,
+                s.depth,
+            ]
+            .iter()
+            .map(|x| format!("{x:.17e}")),
+        );
+        v.extend([
+            s.iterations.to_string(),
+            s.chemistry_iterations.to_string(),
+            format!("{:.17e}", s.chemistry_residual),
+        ]);
+        writeln!(f, "{}", v.join("\t"))?;
+    }
+    f.flush()?;
+    Ok(())
+}
 /// Neutrino density, flux and anisotropic stress pi/rho along the history.
 fn species(dir: &Path, sol: &Solution) -> Result<(), Error> {
     if sol.neutrinos.is_none() {
@@ -475,7 +514,31 @@ fn run() -> Result<(), Error> {
     } else {
         None
     };
-    let species_reference = if opt("recombination", "table") == "species-thermal" {
+    let species_sdirk = opt("recombination", "table") == "species-sdirk";
+    let species_edges = if let Some(path) = a.get("species-step-grid") {
+        if !species_sdirk {
+            return Err("--species-step-grid requires species-sdirk".into());
+        }
+        let txt = fs::read_to_string(path)?;
+        let mut lines = txt
+            .lines()
+            .filter(|l| !l.trim().is_empty() && !l.trim_start().starts_with('#'));
+        if lines.next().map(str::trim) != Some("eta") {
+            return Err("species-step-grid needs eta header".into());
+        }
+        Some(
+            lines
+                .map(|l| l.trim().parse::<f64>())
+                .collect::<Result<Vec<_>, _>>()?,
+        )
+    } else {
+        None
+    };
+
+    let species_reference = if matches!(
+        opt("recombination", "table"),
+        "species-thermal" | "species-sdirk"
+    ) {
         if [
             "ionization",
             "n-h-emit-m3",
@@ -624,7 +687,7 @@ fn run() -> Result<(), Error> {
                     .transpose()?,
             })
         }
-        "species-thermal" => None,
+        "species-thermal" | "species-sdirk" => None,
         other => return Err(format!("unknown --recombination {other}").into()),
     };
     let options = SolveOptions {
@@ -637,15 +700,33 @@ fn run() -> Result<(), Error> {
     }
     let baryon_fraction: f64 = opt("baryon-fraction", "0.5").parse()?;
     let sol = if let Some(reference) = &species_reference {
-        solve_general_species_thermal(
-            &cfg,
-            &material,
-            lie.as_ref(),
-            expansion,
-            baryon_fraction,
-            &options,
-            reference,
-        )?
+        if let Some(edges) = &species_edges {
+            solve_general_species_sdirk_on_grid(
+                &cfg,
+                &material,
+                lie.as_ref(),
+                expansion,
+                baryon_fraction,
+                &options,
+                reference,
+                edges,
+            )?
+        } else {
+            let solver = if species_sdirk {
+                solve_general_species_sdirk
+            } else {
+                solve_general_species_thermal
+            };
+            solver(
+                &cfg,
+                &material,
+                lie.as_ref(),
+                expansion,
+                baryon_fraction,
+                &options,
+                reference,
+            )?
+        }
     } else {
         solve_general(
             &cfg,
@@ -702,6 +783,9 @@ fn run() -> Result<(), Error> {
     }
     if let Some(reference) = &species_reference {
         thermochemistry_history(&out, &sol, reference)?;
+        if species_sdirk {
+            coupled_stage_history(&out, &sol)?;
+        }
     }
     let mut f = writer(&out.join("run.txt"))?;
     writeln!(f,"schema=bass.homogeneous_sky.v2\ncodazzi_convention=(D_b sigma^b_a + kappa q_a)/H^2 in the propagation tetrad\nfamily={}\nfeedback={}\nduration={}\nsteps={}\nnmu={}\nnphi={}\nlmax={}\nshear={}\ndust_fraction={}\ndust_beta={:?}\nobserver_beta={:?}",if lie.is_some(){"custom_lie"}else{cfg.family},if cfg.recoil{"active_photons_dust_Thomson_recoil"}else if active{"active_photons_and_optional_dust"}else{"polarized_tracer_on_native_scalar_radiation"},dur,cfg.steps,nmu,nphi,lmax,if lie.is_some(){"custom_tensor".into()}else{cfg.shear.to_string()},cfg.dust_fraction,if sol.initial_dust_mode=="codazzi_coflow"{sol.history[0].host_beta}else{cfg.dust_beta},obs)?;
@@ -710,7 +794,9 @@ fn run() -> Result<(), Error> {
         "initial_dust_mode={}\ninitial_host_beta={:?}\nopacity_source={}",
         sol.initial_dust_mode,
         sol.history[0].host_beta,
-        if species_reference.is_some() {
+        if species_sdirk {
+            "species_sdirk_stage_linear_bare_rate"
+        } else if species_reference.is_some() {
             "species_reference_plus_lagged_delta_xe_times_host_proper_density_over_H"
         } else if ionization.is_some() {
             "xe_times_evolved_host_rest_density_over_H"
@@ -801,13 +887,14 @@ fn run() -> Result<(), Error> {
         relative(frames.total, obs)?,
         frames.host,
         frames.host.map(|h| relative(frames.total, h)).transpose()?,
-        if species_reference.is_some() {"species-thermal"}
+        if species_sdirk {"species-sdirk"}
+        else if species_reference.is_some() {"species-thermal"}
         else if options.recombination.is_some() {"matched"} else {"table"},
         sol.history.last().ok_or("empty history")?.delta_xe,
     )?;
     if let Some(r) = &species_reference {
         let a = r.nodes()[0];
-        writeln!(f,"species_helium_model={:?}\nspecies_f_he={:.17e}\nspecies_reference_n_h_emit_m3={:.17e}\nspecies_reference_h_emit_s={:.17e}\nspecies_reference_tr_emit_k={:.17e}\nspecies_thermal_energy_feedback=tracer_only\nspecies_coupling=lagged_opacity_BE",r.helium(),r.f_he(),a.n_h_m3,a.h_s,a.tr_k)?;
+        writeln!(f,"species_helium_model={:?}\nspecies_f_he={:.17e}\nspecies_reference_n_h_emit_m3={:.17e}\nspecies_reference_h_emit_s={:.17e}\nspecies_reference_tr_emit_k={:.17e}\nspecies_thermal_energy_feedback=tracer_only\nspecies_coupling={}",r.helium(),r.f_he(),a.n_h_m3,a.h_s,a.tr_k,if species_sdirk{"partitioned_SDIRK2_stage_consistent_linear_bare_rate"}else{"lagged_opacity_BE"})?;
     }
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;

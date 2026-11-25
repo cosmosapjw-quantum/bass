@@ -1,5 +1,7 @@
 //! Elastic Thomson scattering coupled to the first massive stream on its mass shell.
-use super::{boost, projector, scatter_kernel, CollisionEvent, CollisionScheme, Photon, GAIN, M, V};
+use super::{
+    boost, projector, scatter_kernel, CollisionEvent, CollisionScheme, Photon, GAIN, M, V,
+};
 use crate::kinetic::tilted_dust::Dust;
 
 fn gamma(p: V) -> f64 {
@@ -31,6 +33,44 @@ fn gain_map(sky: &[Photon], beta: V) -> Result<M, String> {
     }
     let inv = M::from_diagonal(&eig.eigenvalues.map(|v| 1. / v.sqrt()));
     Ok(eig.eigenvectors * inv * eig.eigenvectors.transpose())
+}
+
+/// Host momentum gain per unit bare depth on the discrete positive
+/// gain-normalized quadrature, using the SAME generator as the ray cell.
+/// The inverse boost is a screen isometry, giving trace weight D^-3.
+pub(super) fn momentum_gain_per_depth(sky: &[Photon], beta: V) -> Result<V, String> {
+    let map = gain_map(sky, beta)?;
+    let terms = sky
+        .iter()
+        .map(|p| super::ray_terms(p, beta, Some(&map)))
+        .collect::<Result<Vec<_>, _>>()?;
+    let source = terms.iter().fold(M::zeros(), |s, t| s + t.area * t.rest);
+    let mut q = V::zeros();
+    for (p, t) in sky.iter().zip(&terms) {
+        let diff = GAIN * t.gain_projector * source * t.gain_projector.transpose() - t.rest;
+        q -= p.weight * t.d.powi(-3) * diff.trace() * p.direction;
+    }
+    if !q.iter().all(|x| x.is_finite()) {
+        return Err("nonfinite instantaneous recoil".into());
+    }
+    Ok(q)
+}
+
+/// Continuum elastic Thomson force per unit bare depth, from the exact
+/// bolometric radiation stress tensor. q_u^a=-T^{ab}u_b-rho_u u^a.
+pub(super) fn continuum_momentum_gain_per_depth(
+    m: &super::RadiationMoments,
+    b: V,
+) -> Result<V, String> {
+    let g = 1. / (1. - b.norm_squared()).sqrt();
+    let f = V::from(m.flux);
+    let p = M::from_fn(|i, j| m.pressure[i][j]);
+    let rho_ratio = g * g * (1. - 2. * b.dot(&f) + b.dot(&(p * b)));
+    let q = m.energy * g * (f - p * b - rho_ratio * b);
+    if !q.iter().all(|x| x.is_finite()) {
+        return Err("nonfinite continuum recoil force".into());
+    }
+    Ok(q)
 }
 
 /// Integrate the photon change first, avoiding subtraction of two large total
@@ -320,6 +360,28 @@ mod tests {
     }
 
     #[test]
+    fn instantaneous_thomson_force_matches_depth_derivative_and_continuum() {
+        let mut sky = initial_sky(48, 96).unwrap();
+        for p in &mut sky {
+            p.screen *= 1. + 0.1 * p.direction.x + 0.03 * p.direction.y * p.direction.z;
+        }
+        let rm = moments(&sky).unwrap();
+        for b in [V::new(0.3, -0.2, 0.1), V::new(0., 0., 0.85)] {
+            let discrete = momentum_gain_per_depth(&sky, b).unwrap();
+            let continuum = continuum_momentum_gain_per_depth(&rm, b).unwrap();
+            let error = (discrete - continuum).norm() / continuum.norm();
+            let mut a = sky.clone();
+            let map = gain_map(&sky, b).unwrap();
+            let h = 1e-7;
+            scatter_kernel(&mut a, h, b.into(), Some(&map), CollisionScheme::Sdirk2).unwrap();
+            let q = -exchange(&sky, &a, 1.).1 / h;
+            let fd = (q - discrete).norm() / discrete.norm();
+            eprintln!("beta={b:?} force continuum rel={error:e}, FD rel={fd:e}");
+            assert!(error < 2e-10 && fd < 5e-7);
+        }
+    }
+
+    #[test]
     fn sdirk2_stage_positivity_overshoot_bisects_in_recoil() {
         let mut sky = initial_sky(8, 20).unwrap();
         // Concentrate almost all energy into one beam so single-step SDIRK2
@@ -340,6 +402,10 @@ mod tests {
         )
         .unwrap();
         assert!(defect.is_finite() && defect.abs() < 1e-12);
-        assert!(events.len() > 1, "expected bisection, got {} event(s)", events.len());
+        assert!(
+            events.len() > 1,
+            "expected bisection, got {} event(s)",
+            events.len()
+        );
     }
 }

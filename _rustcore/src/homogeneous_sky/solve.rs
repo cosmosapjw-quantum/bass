@@ -30,6 +30,10 @@ use rec_microphysics::species_thermal::{
     StepDiagnostics as ThermalDiagnostics,
 };
 
+#[path = "coupled.rs"]
+mod coupled;
+pub use coupled::CoupledStageReceipt;
+
 pub struct Settings<'a> {
     pub family: &'a str,
     pub shear: f64,
@@ -180,6 +184,8 @@ pub struct ThermochemistrySnapshot {
     pub diagnostics: ThermalDiagnostics,
 }
 pub struct Solution {
+    /// Accepted internal stage receipts, only for partitioned SDIRK.
+    pub coupled_stages: Vec<CoupledStageReceipt>,
     /// Nonempty only in the explicit species-thermal route.
     pub thermochemistry: Vec<ThermochemistrySnapshot>,
     pub photons: Vec<Photon>,
@@ -557,6 +563,8 @@ pub fn solve_general(
         baryon_fraction,
         opts,
         None,
+        false,
+        None,
     )
 }
 
@@ -595,6 +603,100 @@ pub fn solve_general_species_thermal(
         baryon_fraction,
         opts,
         Some(reference),
+        false,
+        None,
+    )
+}
+
+/// R117: partitioned SDIRK2 chemistry with endpoint-consistent bare opacity
+/// and conservative BASS radiation-geometry substeps. Not a monolithic RK.
+pub fn solve_general_species_sdirk(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+    opts: &SolveOptions,
+    reference: &ReferenceHistory,
+) -> Result<Solution, String> {
+    solve_species_sdirk_impl(
+        cfg,
+        mat,
+        lie,
+        expansion,
+        baryon_fraction,
+        opts,
+        reference,
+        None,
+    )
+}
+
+/// Same partitioned method on an explicitly supplied nonuniform macro grid.
+/// The edges are normal-clock e-folds, including zero and cfg.duration.
+pub fn solve_general_species_sdirk_on_grid(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+    opts: &SolveOptions,
+    reference: &ReferenceHistory,
+    edges: &[f64],
+) -> Result<Solution, String> {
+    if cfg.steps.checked_add(1) != Some(edges.len())
+        || edges.first() != Some(&0.)
+        || edges.last() != Some(&cfg.duration)
+        || edges.iter().any(|x| !x.is_finite())
+        || edges.windows(2).any(|w| w[1] <= w[0])
+    {
+        return Err("species SDIRK grid must contain steps+1 finite strictly increasing edges from 0 to duration".into());
+    }
+    solve_species_sdirk_impl(
+        cfg,
+        mat,
+        lie,
+        expansion,
+        baryon_fraction,
+        opts,
+        reference,
+        Some(edges),
+    )
+}
+#[allow(clippy::too_many_arguments)]
+fn solve_species_sdirk_impl(
+    cfg: &Settings<'_>,
+    mat: &Material,
+    lie: Option<&LieInitial>,
+    expansion: ExpansionEquation,
+    baryon_fraction: f64,
+    opts: &SolveOptions,
+    reference: &ReferenceHistory,
+    edges: Option<&[f64]>,
+) -> Result<Solution, String> {
+    if opts.recombination.is_some()
+        || !cfg.recoil
+        || !cfg.active
+        || cfg.collision != CollisionScheme::Sdirk2
+        || mat.has_scattering()
+        || mat.has_prescribed_motion()
+    {
+        return Err("species-sdirk requires active recoil, SDIRK2 collision and exclusive reference ownership".into());
+    }
+    reference
+        .at(cfg.duration)
+        .map_err(|e| format!("species reference coverage: {e:?}"))?;
+    let ion = Ionization::from_species_reference(reference)?;
+    solve_general_inner(
+        cfg,
+        mat,
+        lie,
+        Some(&ion),
+        expansion,
+        baryon_fraction,
+        opts,
+        Some(reference),
+        true,
+        edges,
     )
 }
 
@@ -608,6 +710,8 @@ fn solve_general_inner(
     baryon_fraction: f64,
     opts: &SolveOptions,
     species_ref: Option<&ReferenceHistory>,
+    species_sdirk: bool,
+    macro_edges: Option<&[f64]>,
 ) -> Result<Solution, String> {
     if !(0.0 < baryon_fraction && baryon_fraction < 1.0)
         || (cfg.dust_fraction == 0. && baryon_fraction != 0.5)
@@ -686,7 +790,14 @@ fn solve_general_inner(
         (Some(ic), false) => {
             radiation_history_from_lie(ic, cfg.duration, cfg.steps, cfg.nmu, cfg.nphi)?
         }
-        (None, true) => radiation_history(cfg.family, cfg.shear, dt, 1, cfg.nmu, cfg.nphi)?,
+        (None, true) => radiation_history(
+            cfg.family,
+            cfg.shear,
+            macro_edges.map_or(dt, |e| e[1]),
+            1,
+            cfg.nmu,
+            cfg.nphi,
+        )?,
         (None, false) => radiation_history(
             cfg.family,
             cfg.shear,
@@ -761,6 +872,7 @@ fn solve_general_inner(
         strict_species_offset: species_ref.is_some(),
     };
     let mut thermochemistry = Vec::new();
+    let mut coupled_stages = Vec::new();
     if let Some(r) = species_ref {
         let first = r.nodes()[0];
         let b = host_beta(&dust)?;
@@ -803,6 +915,86 @@ fn solve_general_inner(
     let mut collision_defect = 0.;
     let mut records = Vec::with_capacity(cfg.steps);
     for step in 0..cfg.steps {
+        if species_sdirk {
+            let r = species_ref.ok_or("missing stage reference")?;
+            let end = macro_edges.map_or((step + 1) as f64 * dt, |e| e[step + 1]);
+            let prev = thermochemistry
+                .last()
+                .ok_or("missing chemistry state")?
+                .state;
+            let ctx = coupled::Context {
+                cfg,
+                reference: r,
+                initial_proper: opacity.ionization.ok_or("missing species anchors")?.1,
+                scale,
+                nu_scale,
+                expansion,
+            };
+            let m = ctx.advance_macro(&node, &sky, nu.as_ref(), &dust, prev, end)?;
+            let a = m.middle;
+            let b = m.end;
+            cumulative += a.cell.depth + b.cell.depth;
+            collision_defect += a.cell.energy_defect + b.cell.energy_defect;
+            records.push(StepRecord {
+                left: node.clone(),
+                right: a.node.clone(),
+                first: a.cell.first,
+                second: a.cell.second,
+            });
+            records.push(StepRecord {
+                left: a.node,
+                right: b.node.clone(),
+                first: b.cell.first,
+                second: b.cell.second,
+            });
+            let ref_next = r
+                .at(end)
+                .map_err(|e| format!("accepted reference: {e:?}"))?;
+            opacity.delta_xe = b.state.xe() - ref_next.state.xe();
+            thermochemistry.push(ThermochemistrySnapshot {
+                eta: end,
+                state: b.state,
+                reference: ref_next.state,
+                n_h_m3: b.receipt.n_h_m3,
+                h_s: b.receipt.h_s,
+                gamma: b.receipt.gamma,
+                // Preserve R116's interval-mean output semantics; thermal
+                // stage RHS uses the instantaneous congruence expansion.
+                expansion_ratio: Some(
+                    -(b.receipt.n_h_m3 / thermochemistry.last().unwrap().n_h_m3).ln()
+                        / (end - node.eta),
+                ),
+                endpoint_expansion_ratio: Some(b.receipt.expansion_ratio),
+                compton_temperature_k: Some(b.compton_temperature_k),
+                diagnostics: m.diagnostics,
+            });
+            coupled_stages.extend([a.receipt, b.receipt]);
+            sky = b.cell.sky;
+            nu = b.cell.nu;
+            dust = b.cell.dust;
+            node = b.node;
+            let rad = sky.moments()?;
+            let nm = field_moments(&nu)?;
+            src = source(
+                &rad,
+                scale,
+                nm.as_ref().map(|x| (x, nu_scale)),
+                &dust,
+                &node,
+            )?;
+            history.push(Snapshot {
+                node: node.clone(),
+                radiation: rad,
+                omega_dust: src.dust,
+                proper_depth: cumulative,
+                collision_energy_defect: collision_defect,
+                host_beta: host_beta(&dust)?,
+                neutrino: nm,
+                omega_neutrino: src.nu,
+                delta_xe: opacity.delta_xe,
+            });
+            continue;
+        }
         let mut next = if cfg.active {
             let half = advance_mixture_with_options(
                 &node,
@@ -1012,6 +1204,7 @@ fn solve_general_inner(
     }
     let neutrinos = nu.as_ref().map(Field::photons).transpose()?;
     Ok(Solution {
+        coupled_stages,
         thermochemistry,
         photons: sky.photons()?,
         history,
