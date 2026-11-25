@@ -7,6 +7,7 @@ use nalgebra::{Matrix3, SMatrix, SVector, Vector3};
 use std::f64::consts::{PI, SQRT_2};
 pub mod field;
 pub mod frames;
+pub mod frequency;
 pub mod harmonic_collision;
 pub mod ionization;
 pub mod material;
