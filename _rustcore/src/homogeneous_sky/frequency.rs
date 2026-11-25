@@ -6,6 +6,8 @@
 use super::{rec_bridge::material_expansion_factor, recoil::gain_map, replay::StepRecord, *};
 use crate::kinetic::lie_hierarchy::lie_data;
 
+#[path = "frequency_dual.rs"]
+pub mod dual;
 #[path = "frequency_projected.rs"]
 mod projected;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -329,6 +331,7 @@ pub struct FrequencySnapshot {
 }
 #[derive(Clone, Debug, Default)]
 struct Audit {
+    dual_second_moment: f64,
     escape_n: f64,
     escape_e: f64,
     line_n: f64,

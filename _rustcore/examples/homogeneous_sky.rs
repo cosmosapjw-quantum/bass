@@ -5,7 +5,9 @@ use bianchi_rustcore::homogeneous_sky::{
     field::Route,
     frames::{combine, energy_frame, relative_velocity},
     frequency::{
-        self, FrequencyGrid, FrequencyMethod, FrequencySky, Line, LineHistory, VelocityNode,
+        self,
+        dual::{self, DualSky, Redistribution},
+        FrequencyGrid, FrequencyMethod, FrequencySky, Line, LineHistory, VelocityNode,
     },
     ionization::Ionization,
     material::Material,
@@ -30,7 +32,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration). R118: --spectral-moments harmonic|rays replays accepted geometry and collision depths/velocities with independent cold spectral carriers; optional --spectral-lmax L --spectral-ntheta N --spectral-nphi N. Writes spectral_history.tsv, spectral_normal.tsv, spectral_observer.tsv and harmonic spectral_modes.tsv. No spectral feedback. R118-B: --frequency-bins N enables moving log-frequency grid cold occupation replay; --frequency-collision union|projected selects union resolvent or projected generator BE/SDIRK; --frequency-log-min LO --frequency-log-max HI --frequency-nmu N --frequency-nphi N. Optional --frequency-line center,width,strength,source (log h nu/kB T_emit; Gaussian prescribed true absorption/emission), --frequency-line-velocity host|TSV (eta beta_x beta_y beta_z), --frequency-line-substeps N. No new feedback.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration). R118: --spectral-moments harmonic|rays replays accepted geometry and collision depths/velocities with independent cold spectral carriers; optional --spectral-lmax L --spectral-ntheta N --spectral-nphi N. Writes spectral_history.tsv, spectral_normal.tsv, spectral_observer.tsv and harmonic spectral_modes.tsv. No spectral feedback. R118-B: --frequency-bins N enables moving log-frequency grid cold occupation replay; --frequency-collision union|projected|dual selects union resolvent, projected constant generator, or positive number-energy nodal generator BE/SDIRK; --frequency-redistribution diffusion,theta (dual only, requires frequency-line and velocity; dilute reversible model, not atomic kernel); --frequency-log-min LO --frequency-log-max HI --frequency-nmu N --frequency-nphi N. Optional --frequency-line center,width,strength,source (log h nu/kB T_emit; Gaussian prescribed true absorption/emission), --frequency-line-velocity host|TSV (eta beta_x beta_y beta_z), --frequency-line-substeps N. No new feedback.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -75,6 +77,7 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "spectral-nphi",
             "frequency-bins",
             "frequency-collision",
+            "frequency-redistribution",
             "frequency-log-min",
             "frequency-log-max",
             "frequency-nmu",
@@ -627,6 +630,104 @@ fn write_frequency(
     }
     Ok(())
 }
+enum FrequencyOutput {
+    Cells(FrequencySky),
+    Dual(DualSky),
+}
+fn write_dual_frequency(
+    dir: &Path,
+    s: &DualSky,
+    g: &FrequencyGrid,
+    obs: [f64; 3],
+    velocity: Option<&[VelocityNode]>,
+) -> Result<(), Error> {
+    let mut f = writer(&dir.join("frequency_history.tsv"))?;
+    writeln!(f,"eta\tnumber_centered\tenergy_centered\tnumber_flux_x\tnumber_flux_y\tnumber_flux_z\tescaped_number_centered\tescaped_energy_centered\tline_number_centered\tline_normal_energy_centered\tline_material_energy_centered\tline_projection_energy_centered\tthomson_projection_energy_centered\tline_normal_projection_energy_centered\tthomson_normal_energy_centered\tthomson_normal_projection_energy_centered\tgeometric_energy_centered\tmin_screen_relative\tredistribution_normal_energy_centered\tredistribution_material_energy_centered")?;
+    for (r, d) in s.history.iter().zip(&s.redistribution) {
+        let vals = [
+            r.eta,
+            r.number_centered,
+            r.energy_centered,
+            r.number_flux[0],
+            r.number_flux[1],
+            r.number_flux[2],
+            r.escaped_number_centered,
+            r.escaped_energy_centered,
+            r.line_number_centered,
+            r.line_normal_energy_centered,
+            r.line_material_energy_centered,
+            r.line_projection_energy_centered,
+            r.thomson_projection_energy_centered,
+            r.line_normal_projection_energy_centered,
+            r.thomson_normal_energy_centered,
+            r.thomson_normal_projection_energy_centered,
+            r.geometric_energy_centered,
+            r.min_screen_relative,
+            d.normal_energy,
+            d.material_energy,
+        ];
+        writeln!(
+            f,
+            "{}",
+            vals.iter()
+                .map(|v| format!("{v:.17e}"))
+                .collect::<Vec<_>>()
+                .join("\t")
+        )?;
+    }
+    f.flush()?;
+    let mut f = writer(&dir.join("frequency_rays.tsv"))?;
+    writeln!(f,"ray\te_x\te_y\te_z\tweight\tlog_shift\tobserver_e_x\tobserver_e_y\tobserver_e_z\tobserver_weight\tobserver_log_shift")?;
+    let mut c = writer(&dir.join("frequency_nodes.tsv"))?;
+    writeln!(c,"ray\tnode\tu\tn_xx\tn_yy\tn_zz\tn_xy\tn_xz\tn_yz\tobserver_n_xx\tobserver_n_yy\tobserver_n_zz\tobserver_n_xy\tobserver_n_xz\tobserver_n_yz")?;
+    let pairs = [(0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2)];
+    for (i, (r, o)) in s.samples().iter().zip(s.observer_samples(obs)?).enumerate() {
+        let vals = [
+            r.direction[0],
+            r.direction[1],
+            r.direction[2],
+            r.weight,
+            r.log_shift,
+            o.direction[0],
+            o.direction[1],
+            o.direction[2],
+            o.weight,
+            o.log_shift,
+        ];
+        writeln!(
+            f,
+            "{i}\t{}",
+            vals.iter()
+                .map(|v| format!("{v:.17e}"))
+                .collect::<Vec<_>>()
+                .join("\t")
+        )?;
+        for j in 0..g.edges().len() {
+            write!(c, "{i}\t{j}\t{:.17e}", g.edges()[j])?;
+            for m in [&r.number_mass[j], &o.number_mass[j]] {
+                for (a, b) in pairs {
+                    write!(c, "\t{:.17e}", m[a][b])?;
+                }
+            }
+            writeln!(c)?;
+        }
+    }
+    f.flush()?;
+    c.flush()?;
+    if let Some(vel) = velocity {
+        let mut f = writer(&dir.join("frequency_line_velocity.tsv"))?;
+        writeln!(f, "eta\tbeta_x\tbeta_y\tbeta_z")?;
+        for v in vel {
+            writeln!(
+                f,
+                "{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",
+                v.eta, v.beta[0], v.beta[1], v.beta[2]
+            )?;
+        }
+        f.flush()?;
+    }
+    Ok(())
+}
 /// Neutrino density, flux and anisotropic stress pi/rho along the history.
 fn species(dir: &Path, sol: &Solution) -> Result<(), Error> {
     if sol.neutrinos.is_none() {
@@ -1127,19 +1228,50 @@ fn run() -> Result<(), Error> {
             (None, None, "none")
         };
         let start = std::time::Instant::now();
-        let method = match opt("frequency-collision", "projected") {
-            "union" => FrequencyMethod::UnionProjection,
-            "projected" => FrequencyMethod::Projected,
-            _ => return Err("frequency-collision must be union or projected".into()),
+        let method = opt("frequency-collision", "projected");
+        let red = if let Some(v) = a.get("frequency-redistribution") {
+            if method != "dual" || line.is_none() {
+                return Err(
+                    "frequency-redistribution requires dual and explicit line history".into(),
+                );
+            }
+            let q = v
+                .split(',')
+                .map(str::parse::<f64>)
+                .collect::<Result<Vec<_>, _>>()?;
+            if q.len() != 2 {
+                return Err("frequency-redistribution needs diffusion,theta".into());
+            }
+            Some(Redistribution::new(q[0], q[1])?)
+        } else {
+            None
         };
-        let f = frequency::replay_frequency_with_method(
-            &sol.records,
-            nt,
-            np,
-            &g,
-            line.as_ref(),
-            method,
-        )?;
+        let f = match method {
+            "dual" => FrequencyOutput::Dual(dual::replay_dual_frequency(
+                &sol.records,
+                nt,
+                np,
+                &g,
+                line.as_ref(),
+                red.as_ref(),
+            )?),
+            "union" | "projected" => {
+                let m = if method == "union" {
+                    FrequencyMethod::UnionProjection
+                } else {
+                    FrequencyMethod::Projected
+                };
+                FrequencyOutput::Cells(frequency::replay_frequency_with_method(
+                    &sol.records,
+                    nt,
+                    np,
+                    &g,
+                    line.as_ref(),
+                    m,
+                )?)
+            }
+            _ => return Err("frequency-collision must be union, projected or dual".into()),
+        };
         Some((
             g,
             f,
@@ -1152,6 +1284,7 @@ fn run() -> Result<(), Error> {
     } else {
         if [
             "frequency-collision",
+            "frequency-redistribution",
             "frequency-log-min",
             "frequency-log-max",
             "frequency-nmu",
@@ -1181,7 +1314,10 @@ fn run() -> Result<(), Error> {
     }
 
     if let Some((g, s, vel, _, _, _, _)) = &frequency_result {
-        write_frequency(&out, s, g, obs, vel.as_deref())?;
+        match s {
+            FrequencyOutput::Cells(s) => write_frequency(&out, s, g, obs, vel.as_deref())?,
+            FrequencyOutput::Dual(s) => write_dual_frequency(&out, s, g, obs, vel.as_deref())?,
+        }
     }
     lie_constants(&out, &sol)?;
     species(&out, &sol)?;
@@ -1325,7 +1461,7 @@ fn run() -> Result<(), Error> {
             .unwrap_or_else(|_| "unavailable_different_mesh".into());
         writeln!(f,"spectral_route={route}\nspectral_lmax={}\nspectral_grid={}x{}\nspectral_scope=cold_fixed_accepted_history_independent_gain_normalization_no_feedback\nspectral_center=log(T/T_emit)+eta\nspectral_collision_events={}\nspectral_number_collision_defect={:.17e}\nspectral_rest_energy_collision_defect={:.17e}\nspectral_number_continuity_trapezoid_defect={:.17e}\nspectral_bolometric_integral_relative_gap={gap:.17e}\nspectral_bolometric_screen_relative_gap={mesh_gap}\nspectral_wall_s={elapsed:.9}",if route.as_str()=="rays"{0}else{*l},nt,np,sp.collision_events,sp.max_collision_number_defect,sp.max_collision_rest_energy_defect,sp.number_continuity_defect(&sol.records)?)?;
     }
-    if let Some((g, s, _, owner, nt, np, seconds)) = &frequency_result {
+    if let Some((g, FrequencyOutput::Cells(s), _, owner, nt, np, seconds)) = &frequency_result {
         let last = s.history.last().ok_or("empty frequency history")?;
         let e = sol
             .history
@@ -1350,6 +1486,37 @@ fn run() -> Result<(), Error> {
         writeln!(f,"frequency_method={}\nfrequency_max_fv_stage_residual={:.17e}\nfrequency_max_fv_stage_iterations={}",opt("frequency-collision","projected"),s.max_fv_stage_residual,s.max_fv_stage_iterations)?;
         writeln!(f,"frequency_scope=cold_ray_number_conservative_projection_prescribed_true_line_no_feedback\nfrequency_grid={}x{}x{}\nfrequency_log_range={:.17e},{:.17e}\nfrequency_line_owner={owner}\nfrequency_collision_events={}\nfrequency_collision_subcells={}\nfrequency_line_cells={}\nfrequency_turning_rays={}\nfrequency_min_drift={}\nfrequency_max_drift={}\nfrequency_number_collision_defect={:.17e}\nfrequency_material_energy_preprojection_defect={:.17e}\nfrequency_material_energy_projection_defect={:.17e}\nfrequency_line_number_defect={:.17e}\nfrequency_number_continuity_trapezoid_defect={:.17e}\nfrequency_normal_energy_balance_defect={:.17e}\nfrequency_b4_relative_gap={gap}\nfrequency_wall_s={seconds:.9}",
             nt,np,g.bins(),g.edges()[0],g.edges().last().unwrap(),s.collision_events,s.collision_subcells,s.line_cells,s.turning_rays,optional(s.min_drift),optional(s.max_drift),s.max_number_defect,s.max_material_energy_defect,s.max_projection_energy_defect,s.max_line_number_defect,s.number_continuity_defect(&sol.records)?,s.normal_energy_balance_defect())?;
+    }
+    if let Some((g, FrequencyOutput::Dual(s), _, owner, nt, np, seconds)) = &frequency_result {
+        let last = s.history.last().ok_or("empty dual frequency history")?;
+        let e = sol
+            .history
+            .last()
+            .ok_or("empty bolometric history")?
+            .radiation
+            .energy;
+        let gap = if *owner == "none" {
+            format!(
+                "{:.17e}",
+                (last.energy_centered * (-4. * last.eta).exp() * 4. * std::f64::consts::PI / e
+                    - 1.)
+                    .abs()
+            )
+        } else {
+            "not_applicable_prescribed_line".into()
+        };
+        let optional = |v: Option<f64>| {
+            v.map(|v| format!("{v:.17e}"))
+                .unwrap_or_else(|| "not_applicable".into())
+        };
+        let a = &s.stats;
+        writeln!(
+            f,
+            "frequency_numerical_second_energy_moment={:.17e}",
+            a.numerical_second_energy_moment
+        )?;
+        writeln!(f,"frequency_method=dual\nfrequency_scope=positive_nodal_number_energy_measure_cold_Thomson_prescribed_true_line_no_feedback\nfrequency_grid={}x{}x{}\nfrequency_nodes_per_ray={}\nfrequency_log_range={:.17e},{:.17e}\nfrequency_line_owner={owner}\nfrequency_collision_events={}\nfrequency_collision_subcells={}\nfrequency_line_cells={}\nfrequency_turning_rays={}\nfrequency_min_drift={}\nfrequency_max_drift={}\nfrequency_number_collision_defect={:.17e}\nfrequency_material_energy_preprojection_defect={:.17e}\nfrequency_material_energy_projection_defect={:.17e}\nfrequency_line_number_defect={:.17e}\nfrequency_number_continuity_trapezoid_defect={:.17e}\nfrequency_normal_energy_balance_defect={:.17e}\nfrequency_max_fv_stage_residual={:.17e}\nfrequency_max_fv_stage_iterations={}\nfrequency_b4_relative_gap={gap}\nfrequency_wall_s={seconds:.9}\nfrequency_redistribution_scope=prescribed_dilute_angle_coherent_Wien_reversible_model_not_calibrated_atomic\nfrequency_redistribution_cells={}\nfrequency_redistribution_number_defect={:.17e}\nfrequency_redistribution_energy_defect={:.17e}\nfrequency_pair_balance_defect={:.17e}",
+            nt,np,g.bins(),g.edges().len(),g.edges()[0],g.edges().last().unwrap(),a.collision_events,a.collision_subcells,a.line_cells,a.turning_rays,optional(a.min_drift),optional(a.max_drift),a.max_number_defect,a.max_material_energy_defect,a.max_projection_energy_defect,a.max_line_number_defect,s.number_continuity_defect(&sol.records)?,s.normal_energy_balance_defect(),a.max_fv_stage_residual,a.max_fv_stage_iterations,a.redistribution_cells,a.max_redistribution_number_defect,a.max_redistribution_energy_defect,a.max_pair_balance_defect)?;
     }
     writeln!(f,"basis=outward sky opposite photon propagation, HEALPix spin convention\nT=I^(1/4)/angular_mean(I^(1/4))-1\nQ,U=bolometric Stokes/(4 angular_mean(I))\nC_lm=a_lm^X conjugate(a_lm^Y)\ndiagnostics_flux=normal-frame photon propagation\nargv={:?}",env::args().skip(1).collect::<Vec<_>>())?;
     f.flush()?;
