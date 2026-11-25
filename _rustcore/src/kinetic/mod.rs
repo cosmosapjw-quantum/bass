@@ -35,3 +35,5 @@ pub mod transport;
 pub mod typev;
 pub mod viscous;
 pub mod wigner;
+
+pub mod massive_memory;
