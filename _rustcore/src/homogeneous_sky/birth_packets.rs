@@ -18,6 +18,9 @@ pub struct TransportLedger {
     pub boundary_n: f64,
     pub boundary_u: f64,
     pub redshift_work: f64,
+    pub boundary_pz: f64,
+    pub redshift_pz: f64,
+    pub crossing_energy_error: f64,
     pub max_support_error: f64,
 }
 #[derive(Clone, Debug, Default)]
@@ -180,6 +183,9 @@ impl BirthPackets {
             }
         }
         let mut work = Vec::with_capacity(self.packets.len());
+        let mut momentum_work = Vec::with_capacity(self.packets.len());
+        let mut boundary_pz = Vec::new();
+        let mut crossing_energy_error = 0_f64;
         let mut escaped = Vec::new();
         let mut kept = Vec::with_capacity(self.packets.len());
         let mut max_support_error = 0_f64;
@@ -189,9 +195,50 @@ impl BirthPackets {
             // at the Verner HI fit cutoff. Binding thresholds stay in REI.
             let stop = if e < HI_EDGE_EV { HI_EDGE_EV } else { e };
             work.push(p.per_h * (p.energy_ev - stop));
+            let old_pz = p.per_h * p.energy_ev * self.directions[p.ray][2];
             if e < HI_EDGE_EV {
-                escaped.push(p.per_h)
+                escaped.push(p.per_h);
+                let mu = if flrw || p.energy_ev == HI_EDGE_EV {
+                    self.directions[p.ray][2]
+                } else {
+                    // Exact Killing components for diagonal LRS I with
+                    // linearly interpolated accepted shear. The BASS full-step
+                    // ray still owns the survivor map. Crossing uses the exact
+                    // local LRS geodesic, not a guessed endpoint direction.
+                    let dir = self.directions[p.ray];
+                    let h = right.eta - left.eta;
+                    let at = |t: f64| {
+                        let q: [f64; 3] = std::array::from_fn(|i| {
+                            let integ = h
+                                * (t * left.shear[i][i]
+                                    + 0.5 * t * t * (right.shear[i][i] - left.shear[i][i]));
+                            dir[i] * (-h * t - integ).exp()
+                        });
+                        let r = q.iter().map(|v| v * v).sum::<f64>().sqrt();
+                        (p.energy_ev * r, q[2] / r)
+                    };
+                    let (mut lo, mut hi) = (0., 1.);
+                    if at(hi).0 > HI_EDGE_EV {
+                        return Err("LRS crossing inconsistent with accepted ray map".into());
+                    }
+                    for _ in 0..52 {
+                        let t = (lo + hi) * 0.5;
+                        if at(t).0 > HI_EDGE_EV {
+                            lo = t
+                        } else {
+                            hi = t
+                        }
+                    }
+                    let (en, mu) = at((lo + hi) * 0.5);
+                    crossing_energy_error =
+                        crossing_energy_error.max((en - HI_EDGE_EV).abs() / HI_EDGE_EV);
+                    mu
+                };
+                let q = p.per_h * HI_EDGE_EV * mu;
+                boundary_pz.push(q);
+                momentum_work.push(old_pz - q);
             } else {
+                momentum_work.push(old_pz - p.per_h * e * new_dirs[p.ray][2]);
                 max_support_error = max_support_error.max((e / p.birth_energy_ev - 1.).max(0.));
                 kept.push(Packet { energy_ev: e, ..p });
             }
@@ -204,6 +251,9 @@ impl BirthPackets {
             boundary_n: bn,
             boundary_u: bn * HI_EDGE_EV,
             redshift_work: sum(work.into_iter()),
+            boundary_pz: sum(boundary_pz.into_iter()),
+            redshift_pz: sum(momentum_work.into_iter()),
+            crossing_energy_error,
             max_support_error,
         })
     }

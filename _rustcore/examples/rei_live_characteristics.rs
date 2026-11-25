@@ -234,6 +234,41 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     f.flush()?;
     let stress = s.photons.lrs_stress(s.history.last().unwrap().nh_m3)?;
     fs::write(out.join("uv_stress.txt"),format!("rho_J_m3={:.17e}\nflux_z_J_m3={:.17e}\nP_parallel_J_m3={:.17e}\nP_perp_J_m3={:.17e}\nDelta_J_m3={:.17e}\n",stress.rho_j_m3,stress.flux_z_j_m3,stress.p_parallel_j_m3,stress.p_perp_j_m3,stress.delta_j_m3))?;
+    let mut ff = BufWriter::new(fs::File::create(out.join("uv_exchange.tsv"))?);
+    writeln!(ff,"eta\temitted_U\tabsorbed_U\tbinding_U\theat_U\tboundary_U\tgeometry_U\tcurrent_U\temitted_pz\tabsorbed_pz\tboundary_pz\tgeometry_pz\tcurrent_pz\tmomentum_defect\tmax_event_gap\tmax_absorption_energy_gap\tmax_packet_loss\tmax_crossing_error")?;
+    for row in &s.history {
+        let l = &row.ledger;
+        let f = &l.four;
+        let v = [
+            row.eta,
+            l.emitted_u,
+            f.absorbed_energy,
+            f.binding_energy,
+            f.heat_energy,
+            l.boundary_u,
+            l.redshift_work,
+            row.photons_u,
+            f.emitted_pz,
+            f.absorbed_pz,
+            f.boundary_pz,
+            f.geometry_pz,
+            f.current_pz,
+            f.momentum_defect,
+            f.max_event_gap,
+            f.max_absorption_energy_gap,
+            f.max_packet_loss,
+            f.max_crossing_error,
+        ];
+        writeln!(
+            ff,
+            "{}",
+            v.iter()
+                .map(|x| format!("{x:.17e}"))
+                .collect::<Vec<_>>()
+                .join("\t")
+        )?;
+    }
+    ff.flush()?;
     let ledger = &s.history.last().unwrap().ledger;
     fs::write(out.join("compression.txt"),format!("width={width:?}\nanalytic_flrw={long}\nisotropic_uv_reduced={}\nremoved={}\npeak_before={}\npeak_after={}\nmax_N_relative={:.17e}\nmax_U_relative={:.17e}\nmax_log_span={:.17e}\n",s.isotropic_uv_reduced,ledger.compression_removed,ledger.compression.before,ledger.compression.after,ledger.compression.max_number_relative,ledger.compression.max_energy_relative,ledger.compression.max_log_span))?;
     fs::write(out.join("run.txt"),format!("scope=live_REI_on_accepted_BASS_LRS_I_geometry\ngeometry_feedback_from_REI=false\nthermal_CMB=isotropic\nsteps={}\nrhs={}\nwall_s={:.17e}\n",s.history.len()-1,s.rhs,start.elapsed().as_secs_f64()))?;

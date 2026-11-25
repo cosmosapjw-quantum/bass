@@ -15,7 +15,7 @@ use rei_microphysics::{
     axbi_sources::AxbiSource,
     coupled_primary::PrimaryPacket,
     igm_state::{w_erg_per_h_to_ev, IgmGasState},
-    HHeModel,
+    Absorber, AtomicProvider, HHeModel,
 };
 
 #[derive(Clone, Copy, Debug)]
@@ -29,6 +29,101 @@ pub struct LiveInput {
     pub escape_fraction: f64,
     pub energy_subdivisions: usize,
     pub n_mu: usize,
+}
+/// eV per H nucleus; spatial component is c times axial momentum.
+#[derive(Clone, Debug, Default)]
+pub struct AbsorptionBudget {
+    pub energy: f64,
+    pub pz: f64,
+    pub binding: f64,
+    pub heat: f64,
+    pub events: [f64; 3],
+    pub max_packet_loss: f64,
+}
+/// Reconstruct actual accepted BE per-species event counts using the original
+/// rates and final gas. Compare to observed packet differences, not a second
+/// copy of the REI ledger. This diagnoses material deposition; no velocity update.
+pub fn absorption_budget(
+    p: &BirthPackets,
+    stocks: &[f64],
+    gas: IgmGasState,
+    nh_cm3: f64,
+    fhe: f64,
+    dt: f64,
+    angular_reduced: bool,
+) -> Result<AbsorptionBudget, String> {
+    if stocks.len() != p.packets.len()
+        || !nh_cm3.is_finite()
+        || nh_cm3 <= 0.
+        || !fhe.is_finite()
+        || fhe <= 0.
+        || !dt.is_finite()
+        || dt <= 0.
+    {
+        return Err("UV absorption budget domain".into());
+    }
+    let nhe = nh_cm3 * fhe;
+    gas.eos(nh_cm3, nhe).map_err(|e| e.to_string())?;
+    let [x, y, z] = gas.fractions;
+    let n = [nh_cm3 * (1. - x), nhe * (1. - y - z), nhe * y];
+    let provider = AtomicProvider::reference();
+    let c = HHeModel::controlled_fixture();
+    let species = [Absorber::HI, Absorber::HeI, Absorber::HeII];
+    let mut a = AbsorptionBudget::default();
+    let mut es = Vec::new();
+    let mut ps = Vec::new();
+    for (p0, &n1) in p.packets.iter().zip(stocks) {
+        if p0.ray >= p.directions.len()
+            || !n1.is_finite()
+            || n1 < 0.
+            || !p0.per_h.is_finite()
+            || p0.per_h < 0.
+            || n1 > p0.per_h
+        {
+            return Err("UV absorption stock domain".into());
+        }
+        let loss = p0.per_h - n1;
+        let en = loss * p0.energy_ev;
+        es.push(en);
+        ps.push(if angular_reduced {
+            0.
+        } else {
+            en * p.directions[p0.ray][2]
+        });
+        let mut ev = 0.;
+        for j in 0..3 {
+            let sig = provider
+                .cross_section(species[j], p0.energy_ev)
+                .map_err(|e| e.to_string())?;
+            let count = dt * c.c_cm_s * n[j] * sig * n1;
+            a.events[j] += count;
+            ev += count;
+            a.binding += count * c.threshold_ev[j];
+            a.heat += count * (p0.energy_ev - c.threshold_ev[j]);
+        }
+        a.max_packet_loss = a
+            .max_packet_loss
+            .max((ev - loss).abs() / p0.per_h.max(1e-300));
+    }
+    a.energy = sum(es.into_iter());
+    a.pz = sum(ps.into_iter());
+    Ok(a)
+}
+#[derive(Clone, Debug, Default)]
+pub struct FourLedger {
+    pub emitted_pz: f64,
+    pub absorbed_pz: f64,
+    pub boundary_pz: f64,
+    pub geometry_pz: f64,
+    pub absorbed_energy: f64,
+    pub binding_energy: f64,
+    pub heat_energy: f64,
+    pub max_event_gap: f64,
+    pub max_absorption_energy_gap: f64,
+    pub max_packet_loss: f64,
+    pub max_crossing_error: f64,
+    pub current_pz: f64,
+    pub momentum_defect: f64,
 }
 #[derive(Clone, Debug, Default)]
 pub struct LiveLedger {
@@ -44,6 +139,7 @@ pub struct LiveLedger {
     pub photo_events: [f64; 3],
     pub compression: CompressionLedger,
     pub compression_removed: usize,
+    pub four: FourLedger,
 }
 #[derive(Clone, Debug)]
 pub struct LiveRow {
@@ -92,10 +188,15 @@ fn binding(y: IgmGasState, fhe: f64) -> f64 {
     let c = HHeModel::controlled_fixture().threshold_ev;
     c[0] * y.fractions[0] + fhe * (c[1] * y.fractions[1] + (c[1] + c[2]) * y.fractions[2])
 }
-fn apply_transport(l: &mut LiveLedger, m: TransportLedger) {
+fn apply_transport(l: &mut LiveLedger, m: TransportLedger, reduced: bool) {
     l.boundary_n += m.boundary_n;
     l.boundary_u += m.boundary_u;
     l.redshift_work += m.redshift_work;
+    if !reduced {
+        l.four.boundary_pz += m.boundary_pz;
+        l.four.geometry_pz += m.redshift_pz;
+    }
+    l.four.max_crossing_error = l.four.max_crossing_error.max(m.crossing_energy_error);
 }
 fn coordinates(n: &RayNode, input: &LiveInput) -> (f64, f64, f64) {
     (
@@ -211,13 +312,15 @@ pub fn evolve_with_compression(
     // an isotropic source and empty initial UV inventory is scalar in angle.
     // A common spectrum avoids independently rounded threshold decisions.
     // Keep the full CMB transport and the original angular quadrature.
-    let isotropic_uv_reduced = width.is_some() && records.iter().all(|r| {
-        [&r.left, &r.right].iter().all(|n| {
-            n.shear.iter().flatten().all(|&x| x == 0.)
-                && n.n.iter().flatten().all(|&x| x == 0.)
-                && n.a == [0.; 3] && n.rotation == [0.; 3]
-        })
-    });
+    let isotropic_uv_reduced = width.is_some()
+        && records.iter().all(|r| {
+            [&r.left, &r.right].iter().all(|n| {
+                n.shear.iter().flatten().all(|&x| x == 0.)
+                    && n.n.iter().flatten().all(|&x| x == 0.)
+                    && n.a == [0.; 3]
+                    && n.rotation == [0.; 3]
+            })
+        });
     let mut p = if isotropic_uv_reduced {
         BirthPackets::new(vec![[0., 0., 1.]], vec![1.])?
     } else {
@@ -256,7 +359,7 @@ pub fn evolve_with_compression(
         // Geometry and adiabatic work half map.
         let q = p.transport(l, &m)?;
         support = support.max(q.max_support_error);
-        apply_transport(&mut ledger, q);
+        apply_transport(&mut ledger, q, isotropic_uv_reduced);
         let old = thermal(gas)?;
         gas = gas.adiabatic_to(a0, am).map_err(|e| e.to_string())?;
         ledger.thermal_work += old - thermal(gas)?;
@@ -264,6 +367,10 @@ pub fn evolve_with_compression(
         let (sn, su) = p.inject(m.eta, source.per_h_s, dt, &cells)?;
         ledger.emitted_n += sn;
         ledger.emitted_u += su;
+        if !isotropic_uv_reduced {
+            ledger.four.emitted_pz +=
+                su * sum(p.weights.iter().zip(&p.directions).map(|(w, d)| w * d[2]));
+        }
         if let Some(w) = width {
             let q = p.compress(w)?;
             ledger.compression_removed += q.before - q.after;
@@ -304,6 +411,32 @@ pub fn evolve_with_compression(
         if (direct_loss - q.ledgers.absorbed_n).abs() > 1e-10 * ledger.emitted_n.max(1.) {
             return Err("live REI event count mismatch".into());
         }
+        let a = absorption_budget(
+            &p,
+            &q.stocks,
+            q.gas,
+            nh * 1e-6,
+            input.f_he,
+            dt,
+            isotropic_uv_reduced,
+        )?;
+        let eg = (a.binding + a.heat - a.energy).abs() / a.energy.max(1e-20);
+        let gap = sum(a
+            .events
+            .iter()
+            .zip(q.ledgers.photo_events)
+            .map(|(x, y)| (x - y).abs()))
+            / q.ledgers.absorbed_n.max(1e-20);
+        if gap > 1e-10 || eg > 1e-8 || a.max_packet_loss > 1e-12 {
+            return Err(format!("UV absorption budget gap {gap:e} {eg:e}"));
+        }
+        ledger.four.max_event_gap = ledger.four.max_event_gap.max(gap);
+        ledger.four.max_absorption_energy_gap = ledger.four.max_absorption_energy_gap.max(eg);
+        ledger.four.max_packet_loss = ledger.four.max_packet_loss.max(a.max_packet_loss);
+        ledger.four.absorbed_energy += a.energy;
+        ledger.four.absorbed_pz += a.pz;
+        ledger.four.binding_energy += a.binding;
+        ledger.four.heat_energy += a.heat;
         gas = q.gas;
         for (p, n) in p.packets.iter_mut().zip(q.stocks) {
             p.per_h = n;
@@ -317,10 +450,26 @@ pub fn evolve_with_compression(
         let root = q.max_residual;
         let q = p.transport(&m, r)?;
         support = support.max(q.max_support_error);
-        apply_transport(&mut ledger, q);
+        apply_transport(&mut ledger, q, isotropic_uv_reduced);
         let old = thermal(gas)?;
         gas = gas.adiabatic_to(am, a1).map_err(|e| e.to_string())?;
         ledger.thermal_work += old - thermal(gas)?;
+        ledger.four.current_pz = if isotropic_uv_reduced {
+            0.
+        } else {
+            sum(p
+                .packets
+                .iter()
+                .map(|v| v.per_h * v.energy_ev * p.directions[v.ray][2]))
+        };
+        ledger.four.momentum_defect = ledger.four.current_pz
+            + ledger.four.absorbed_pz
+            + ledger.four.boundary_pz
+            + ledger.four.geometry_pz
+            - ledger.four.emitted_pz;
+        if ledger.four.momentum_defect.abs() > 1e-10 * ledger.emitted_u.max(1e-30) {
+            return Err("UV axial momentum ledger".into());
+        }
         // Actual newly evolved endpoint charge, not tabulated xe.
         let last = history.last().unwrap();
         let n = snapshot(
