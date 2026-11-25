@@ -184,3 +184,114 @@ impl ThomsonOwner {
         Ok((next, err.max(err0)))
     }
 }
+
+impl ThomsonOwner {
+    /// Research-only UV exchange: actual H/S/F drives canonical UV rays.
+    /// Gas inputs are prescribed; UV emission draws from a pressureless
+    /// reservoir inside cold matter and absorption returns to it.
+    pub fn step_uv(
+        &self,
+        t: &ThomsonState,
+        uv: &super::uv_feedback::UvModel,
+        us: &super::uv_feedback::UvState,
+        du: f64,
+        g0: super::uv_feedback::Gas,
+        gq: super::uv_feedback::Gas,
+        gm: super::uv_feedback::Gas,
+        feedback: bool,
+    ) -> Result<(ThomsonState, super::uv_feedback::UvState, f64), String> {
+        if !du.is_finite() || du <= 0. || du > 0.1 {
+            return Err("UV step domain".into());
+        }
+        let s = &t.geometry;
+        let mut m = self.matter(t)?;
+        if feedback {
+            uv.add_matter(us, s, &mut m)?;
+        }
+        let n = Self::node(s, &m);
+        let stage = |d: f64| {
+            advance_mixture(
+                &n,
+                &n,
+                d,
+                m.rho / s.h.powi(2),
+                rows(m.pressure / m.rho),
+                [0.; 3],
+            )
+        };
+        let geom = |d: f64, stage: RayNode| OwnedState {
+            a: s.a * d.exp(),
+            h: stage.hubble_ratio,
+            s: stf_components(Matrix3::from_fn(|i, j| stage.shear[i][j])),
+            f: (stf_matrix(s.s) * d).exp() * s.f,
+        };
+        let q = geom(du / 4., stage(du / 4.)?);
+        let mg = geom(du / 2., stage(du / 2.)?);
+        let (sk, er0) = Self::radiation(
+            &t.sky,
+            &n,
+            du / 2.,
+            C_SIG * (g0.ne_m3 + gm.ne_m3) / 2. / (H0 * s.h) * du / 2.,
+        )?;
+        let half = ThomsonState {
+            geometry: mg,
+            sky: sk,
+            initial_a: t.initial_a,
+        };
+        let mut uh = us.clone();
+        uv.advance(&mut uh, s, &q, &half.geometry, du / 2. / (H0 * q.h), gq)?;
+        let mut hm = self.matter(&half)?;
+        if feedback {
+            uv.add_matter(&uh, &half.geometry, &mut hm)?;
+        }
+        let at = Self::node(&half.geometry, &hm);
+        let out = advance_mixture(
+            &n,
+            &at,
+            du,
+            hm.rho / half.geometry.h.powi(2),
+            rows(hm.pressure / hm.rho),
+            [0.; 3],
+        )?;
+        let (sky, er) = Self::radiation(
+            &t.sky,
+            &at,
+            du,
+            C_SIG * gm.ne_m3 / (H0 * half.geometry.h) * du,
+        )?;
+        let next = ThomsonState {
+            geometry: OwnedState {
+                a: s.a * du.exp(),
+                h: out.hubble_ratio,
+                s: stf_components(Matrix3::from_fn(|i, j| out.shear[i][j])),
+                f: (stf_matrix(half.geometry.s) * du).exp() * s.f,
+            },
+            sky,
+            initial_a: t.initial_a,
+        };
+        let mut uu = us.clone();
+        uv.advance(
+            &mut uu,
+            s,
+            &half.geometry,
+            &next.geometry,
+            du / (H0 * half.geometry.h),
+            gm,
+        )?;
+        Ok((next, uu, er.max(er0)))
+    }
+    pub fn constraint_uv(
+        &self,
+        t: &ThomsonState,
+        uv: &super::uv_feedback::UvModel,
+        us: &super::uv_feedback::UvState,
+        feedback: bool,
+    ) -> Result<f64, String> {
+        let mut m = self.matter(t)?;
+        let s = &t.geometry;
+        if feedback {
+            uv.add_matter(us, s, &mut m)?;
+        }
+        Ok(1. - s.s.iter().map(|v| v * v).sum::<f64>() / 6. - (m.rho + OL) / s.h.powi(2))
+    }
+}

@@ -45,3 +45,7 @@ pub mod owned_vlasov;
 pub mod owned_thomson;
 
 pub mod b3_coupling;
+
+pub mod magnetic_kernel;
+
+pub mod uv_feedback;
