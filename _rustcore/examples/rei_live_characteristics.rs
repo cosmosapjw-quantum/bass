@@ -1,7 +1,7 @@
 use bianchi_rustcore::{
     homogeneous_sky::{
         material::Material,
-        rei_live::{evolve_with_compression, LiveInput},
+        rei_live::{evolve_rate_checked, LiveInput},
         replay::StepRecord,
         solve::{solve_general, Settings, SolveOptions},
         CollisionScheme,
@@ -19,9 +19,9 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let a = std::env::args().skip(1).collect::<Vec<_>>();
-    if a.len() != 8 && a.len() != 9 {
+    if a.len() != 8 && a.len() != 9 && a.len() != 10 {
         return Err(
-            "usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K [LOG_COMPRESSION_WIDTH]".into(),
+            "usage OUT END_Z STEPS Q_REF ENERGY_SUBDIV N_MU XP TM_K [LOG_COMPRESSION_WIDTH [RATE_RELATIVE_TOL]]".into(),
         );
     }
     let out = Path::new(&a[0]);
@@ -33,6 +33,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let xp: f64 = a[6].parse()?;
     let tm: f64 = a[7].parse()?;
     let width: Option<f64> = a.get(8).map(|v| v.parse()).transpose()?;
+    let rate_tol: Option<f64> = a.get(9).map(|v| v.parse()).transpose()?;
     let short = (19.8..20.).contains(&z) && steps <= 4096;
     let long = width.is_some() && q == 0. && (4.0..19.8).contains(&z) && steps <= 65536;
     if !(short || long) || steps == 0 || !q.is_finite() || q.abs() > 0.02 {
@@ -112,7 +113,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let fhe = 0.2454 / (4. * (1. - 0.2454));
     let init = IgmGasState::from_temperature([xp, 0., 0.], nh * 1e-6, nh * 1e-6 * fhe, tm)?;
     let start = std::time::Instant::now();
-    let s = evolve_with_compression(
+    let s = evolve_rate_checked(
         &records,
         LiveInput {
             a0,
@@ -126,6 +127,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             n_mu: nmu,
         },
         width,
+        rate_tol,
     )?;
     fs::create_dir(out)?;
     let mut f = BufWriter::new(fs::File::create(out.join("history.tsv"))?);
@@ -271,6 +273,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ff.flush()?;
     let ledger = &s.history.last().unwrap().ledger;
     fs::write(out.join("compression.txt"),format!("width={width:?}\nanalytic_flrw={long}\nisotropic_uv_reduced={}\nremoved={}\npeak_before={}\npeak_after={}\nmax_N_relative={:.17e}\nmax_U_relative={:.17e}\nmax_log_span={:.17e}\n",s.isotropic_uv_reduced,ledger.compression_removed,ledger.compression.before,ledger.compression.after,ledger.compression.max_number_relative,ledger.compression.max_energy_relative,ledger.compression.max_log_span))?;
+    fs::write(out.join("rate_control.txt"),format!("tolerance={rate_tol:?}\nmax_group_relative={:.17e}\nmax_final_relative={:.17e}\nrate_splits={}\n",ledger.compression.max_rate_relative,ledger.max_final_rate_error,ledger.compression.rate_splits))?;
     fs::write(out.join("run.txt"),format!("scope=live_REI_on_accepted_BASS_LRS_I_geometry\ngeometry_feedback_from_REI=false\nthermal_CMB=isotropic\nsteps={}\nrhs={}\nwall_s={:.17e}\n",s.history.len()-1,s.rhs,start.elapsed().as_secs_f64()))?;
     Ok(())
 }

@@ -30,6 +30,103 @@ pub struct CompressionLedger {
     pub max_number_relative: f64,
     pub max_energy_relative: f64,
     pub max_log_span: f64,
+    pub max_rate_relative: f64,
+    pub rate_splits: usize,
+}
+/// Frozen material absorption signature. The positive observables are
+/// endpoint and BE-survivor weighted cross sections and excess energies,
+/// plus the survivor number and energy. Units cancel in relative checks.
+#[derive(Clone, Copy, Debug)]
+pub struct RateGuard {
+    pub absorber_cm3: [f64; 3],
+    pub dt_s: f64,
+}
+impl RateGuard {
+    fn validate(self) -> Result<(), String> {
+        if !self.dt_s.is_finite()
+            || self.dt_s <= 0.
+            || self.absorber_cm3.iter().any(|v| !v.is_finite() || *v < 0.)
+        {
+            return Err("invalid compression rate guard".into());
+        }
+        Ok(())
+    }
+    fn features(self, e: f64) -> Result<[f64; 14], String> {
+        use rei_microphysics::{Absorber, AtomicProvider, HHeModel};
+        let p = AtomicProvider::reference();
+        let c = HHeModel::controlled_fixture();
+        let mut sigma = [0.; 3];
+        for (j, a) in [Absorber::HI, Absorber::HeI, Absorber::HeII]
+            .into_iter()
+            .enumerate()
+        {
+            sigma[j] = p.cross_section(a, e).map_err(|v| v.to_string())?;
+        }
+        let x = self.dt_s * c.c_cm_s * sum((0..3).map(|j| self.absorber_cm3[j] * sigma[j]));
+        if !x.is_finite() || x < 0. {
+            return Err("invalid compression optical depth".into());
+        }
+        let survival = 1. / (1. + x);
+        let mut v = [0.; 14];
+        v[12] = survival;
+        v[13] = survival * e;
+        for j in 0..3 {
+            let heat = if sigma[j] == 0. {
+                0.
+            } else {
+                if e < c.threshold_ev[j] {
+                    return Err("compression threshold ownership".into());
+                }
+                sigma[j] * (e - c.threshold_ev[j])
+            };
+            v[4 * j] = sigma[j];
+            v[4 * j + 1] = heat;
+            v[4 * j + 2] = sigma[j] * survival;
+            v[4 * j + 3] = heat * survival;
+        }
+        Ok(v)
+    }
+}
+fn rate_error(a: [f64; 14], b: [f64; 14]) -> f64 {
+    (0..14)
+        .map(|j| {
+            if a[j] == 0. {
+                if b[j] == 0. {
+                    0.
+                } else {
+                    f64::INFINITY
+                }
+            } else {
+                (b[j] - a[j]).abs() / a[j]
+            }
+        })
+        .fold(0., f64::max)
+}
+fn rate_moments(p: &[Packet], g: RateGuard) -> Result<[f64; 14], String> {
+    let mut out = [0.; 14];
+    for a in p {
+        if !a.per_h.is_finite()
+            || a.per_h < 0.
+            || !a.energy_ev.is_finite()
+            || a.energy_ev < HI_EDGE_EV
+        {
+            return Err("invalid rate moment stock".into());
+        }
+        for (q, v) in out.iter_mut().zip(g.features(a.energy_ev)?) {
+            *q += a.per_h * v;
+        }
+    }
+    if out.iter().any(|v| !v.is_finite() || *v < 0.) {
+        return Err("invalid rate moment".into());
+    }
+    Ok(out)
+}
+pub fn rate_moment_error(before: &[Packet], after: &[Packet], g: RateGuard) -> Result<f64, String> {
+    g.validate()?;
+    Ok(rate_error(
+        rate_moments(before, g)?,
+        rate_moments(after, g)?,
+    ))
 }
 /// Axisymmetric ring-averaged normal-frame UV stress (SI energy density).
 /// This is a tracer inventory, not an Einstein-source admission.
@@ -262,6 +359,25 @@ impl BirthPackets {
     /// Representative birth labels remain exact; their weights are no longer
     /// the uncompressed birth-cohort weights. No invented energy or direction.
     pub fn compress(&mut self, width: f64) -> Result<CompressionLedger, String> {
+        self.compress_impl(width, None)
+    }
+    pub fn compress_rate_checked(
+        &mut self,
+        width: f64,
+        guard: RateGuard,
+        tol: f64,
+    ) -> Result<CompressionLedger, String> {
+        guard.validate()?;
+        if !tol.is_finite() || !(1e-10..=0.01).contains(&tol) {
+            return Err("compression rate tolerance domain".into());
+        }
+        self.compress_impl(width, Some((guard, tol)))
+    }
+    fn compress_impl(
+        &mut self,
+        width: f64,
+        guard: Option<(RateGuard, f64)>,
+    ) -> Result<CompressionLedger, String> {
         if !width.is_finite()
             || !(1e-5..=0.25).contains(&width)
             || self.packets.iter().any(|p| {
@@ -292,7 +408,10 @@ impl BirthPackets {
             ..Default::default()
         };
         let mut out = Vec::new();
-        for (_, g) in groups {
+        // Depth-first per-group splitting, with deterministic order. The
+        // original unguarded path still follows the original group order.
+        let mut todo: Vec<_> = groups.into_values().rev().collect();
+        while let Some(mut g) = todo.pop() {
             if g.len() <= 2 {
                 out.extend(g);
                 continue;
@@ -330,6 +449,19 @@ impl BirthPackets {
             let ud = (a * lo.energy_ev + b * hi.energy_ev - u).abs() / u;
             if nd > 3e-14 || ud > 3e-14 {
                 return Err("endpoint compression moment defect".into());
+            }
+            if let Some((ctx, tol)) = guard {
+                let q = [Packet { per_h: a, ..lo }, Packet { per_h: b, ..hi }];
+                let err = rate_moment_error(&g, &q, ctx)?;
+                if err > tol {
+                    g.sort_by(|a, b| a.energy_ev.total_cmp(&b.energy_ev));
+                    let right = g.split_off(g.len() / 2);
+                    todo.push(right);
+                    todo.push(g);
+                    r.rate_splits += 1;
+                    continue;
+                }
+                r.max_rate_relative = r.max_rate_relative.max(err);
             }
             r.max_number_relative = r.max_number_relative.max(nd);
             r.max_energy_relative = r.max_energy_relative.max(ud);

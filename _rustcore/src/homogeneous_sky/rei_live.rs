@@ -5,7 +5,9 @@
 //! tracer driven by live charge, with isotropic CMB thermal bath retained.
 use super::replay::StepRecord;
 use super::{
-    birth_packets::{sum, BirthPackets, CompressionLedger, TransportLedger},
+    birth_packets::{
+        rate_moment_error, sum, BirthPackets, CompressionLedger, RateGuard, TransportLedger,
+    },
     geometric_one, initial_sky, scatter_with, CollisionScheme, Photon,
 };
 use crate::kinetic::lie_history::RayNode;
@@ -139,6 +141,7 @@ pub struct LiveLedger {
     pub photo_events: [f64; 3],
     pub compression: CompressionLedger,
     pub compression_removed: usize,
+    pub max_final_rate_error: f64,
     pub four: FourLedger,
 }
 #[derive(Clone, Debug)]
@@ -274,6 +277,21 @@ pub fn evolve_with_compression(
     input: LiveInput,
     width: Option<f64>,
 ) -> Result<LiveResult, String> {
+    evolve_rate_checked(records, input, width, None)
+}
+/// Optional per-step nonlinear moment control; not a trajectory-wide bound.
+pub fn evolve_rate_checked(
+    records: &[StepRecord],
+    input: LiveInput,
+    width: Option<f64>,
+    rate_tol: Option<f64>,
+) -> Result<LiveResult, String> {
+    if rate_tol.is_some() && width.is_none() {
+        return Err("rate guard requires compression width".into());
+    }
+    if rate_tol.is_some_and(|t| !t.is_finite() || !(2e-10..=0.01).contains(&t)) {
+        return Err("rate guard tolerance".into());
+    }
     if records.is_empty()
         || records[0].left.eta != 0.
         || input.a0 != 1. / 21.
@@ -371,8 +389,27 @@ pub fn evolve_with_compression(
             ledger.four.emitted_pz +=
                 su * sum(p.weights.iter().zip(&p.directions).map(|(w, d)| w * d[2]));
         }
+        let pre = rate_tol.map(|_| p.packets.clone());
+        let guard = |gas: IgmGasState| {
+            let [x, y, z] = gas.fractions;
+            let h = nh * 1e-6;
+            let he = h * input.f_he;
+            RateGuard {
+                absorber_cm3: [h * (1. - x), he * (1. - y - z), he * y],
+                dt_s: dt,
+            }
+        };
         if let Some(w) = width {
-            let q = p.compress(w)?;
+            let q = if let Some(tol) = rate_tol {
+                p.compress_rate_checked(w, guard(gas), tol * 0.5)?
+            } else {
+                p.compress(w)?
+            };
+            ledger.compression.max_rate_relative = ledger
+                .compression
+                .max_rate_relative
+                .max(q.max_rate_relative);
+            ledger.compression.rate_splits += q.rate_splits;
             ledger.compression_removed += q.before - q.after;
             ledger.compression.before = ledger.compression.before.max(q.before);
             ledger.compression.after = ledger.compression.after.max(q.after);
@@ -407,6 +444,15 @@ pub fn evolve_with_compression(
             20_000_000,
         )
         .map_err(|e| format!("REI packet stage eta={:e}: {e}", m.eta))?;
+        if let (Some(tol), Some(before)) = (rate_tol, &pre) {
+            let err = rate_moment_error(before, &p.packets, guard(q.gas))?;
+            if err > tol {
+                return Err(format!(
+                    "final-state rate compression mismatch {err:e} > {tol:e}"
+                ));
+            }
+            ledger.max_final_rate_error = ledger.max_final_rate_error.max(err);
+        }
         let direct_loss = sum(inputs.iter().zip(&q.stocks).map(|(a, b)| a.per_h - b));
         if (direct_loss - q.ledgers.absorbed_n).abs() > 1e-10 * ledger.emitted_n.max(1.) {
             return Err("live REI event count mismatch".into());
