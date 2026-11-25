@@ -297,7 +297,11 @@ fn screen_min_rel(m: &M) -> Result<f64, String> {
     if scale == 0. {
         return Ok(0.);
     }
-    let q = m / scale;
+    let q = if scale < 1e-280 {
+        m.map(|v| v / scale)
+    } else {
+        m / scale
+    };
     let tr = q.trace();
     let disc = (2. * q.norm_squared() - tr * tr).max(0.).sqrt();
     Ok(0.5 * (tr - disc))
@@ -331,6 +335,9 @@ pub struct FrequencySnapshot {
 }
 #[derive(Clone, Debug, Default)]
 struct Audit {
+    temperature_tail_number: f64,
+    temperature_tail_energy: f64,
+    temperature_tail_count: usize,
     dual_second_moment: f64,
     escape_n: f64,
     escape_e: f64,

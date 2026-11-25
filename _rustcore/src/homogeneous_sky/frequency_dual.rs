@@ -281,6 +281,7 @@ fn collide(
     eta: f64,
     ev: &CollisionEvent,
     a: &mut Audit,
+    temperature: bool,
 ) -> Result<(), String> {
     let beta = V::from(ev.beta);
     validate_cell(ev.depth, &beta)?;
@@ -309,16 +310,38 @@ fn collide(
         let (y1, e1, k1, r1) = plan.stage(&input, d)?;
         let mut ex = Exchange::default();
         let result = if ev.scheme == CollisionScheme::Sdirk2 {
-            let q: Field = input
-                .iter()
-                .zip(&y1)
-                .map(|(x, y)| {
-                    x.iter()
-                        .zip(y)
-                        .map(|(x, y)| *x + (1. + SQRT_2) * (*y - *x))
-                        .collect()
-                })
-                .collect();
+            let q: Field = if temperature {
+                // Algebraically the same SDIRK2 stage input, but a sum
+                // of PSD terms. z=d*D<=gamma from the depth subcell cap.
+                // Avoid signed subtraction of nearly equal sparse atoms.
+                let (gain, _) = plan.gain(&y1, false)?;
+                input
+                    .iter()
+                    .zip(gain)
+                    .zip(&plan.t)
+                    .map(|((v, g), t)| {
+                        let z = d * t.d;
+                        v.iter()
+                            .zip(g)
+                            .map(|(m, g)| {
+                                *m * ((1. - SQRT_2 * z) / (1. + z))
+                                    + g * ((1. + SQRT_2) * d / (1. + z))
+                            })
+                            .collect()
+                    })
+                    .collect()
+            } else {
+                input
+                    .iter()
+                    .zip(&y1)
+                    .map(|(x, y)| {
+                        x.iter()
+                            .zip(y)
+                            .map(|(x, y)| *x + (1. + SQRT_2) * (*y - *x))
+                            .collect()
+                    })
+                    .collect()
+            };
             let (y2, e2, k2, r2) = plan.stage(&q, d)?;
             ex.add(e1, (1. - SDIRK_GAMMA) * h);
             ex.add(e2, d);
@@ -332,16 +355,33 @@ fn collide(
             y1
         };
         let (mut n0, mut e0, mut en0, mut n1, mut e1, mut en1) = (0., 0., 0., 0., 0., 0.);
-        for (i, (ray, v)) in rays.iter_mut().zip(result).enumerate() {
+        for (i, (ray, mut v)) in rays.iter_mut().zip(result).enumerate() {
             let t = &plan.t[i];
             let (n, e) = values(ray, x, eta);
             n0 += n;
             e0 += t.d * e;
             en0 += e;
-            if v.iter()
-                .any(|m| screen_min_rel(m).map_or(true, |q| q < -1e-10))
+            if temperature {
+                // Below this absolute normal-slice mass the f64
+                // relative PSD test becomes unreliable in sparse tails.
+                // Remove all such atoms independent of sign and bound
+                // the discarded B3/B4 moments; do not hide a physical
+                // negative eigenvalue of a resolved atom.
+                for (k, m) in v.iter_mut().enumerate() {
+                    let bound = 3. * m.amax();
+                    if bound > 0. && bound < 1e-280 {
+                        a.temperature_tail_number += bound;
+                        a.temperature_tail_energy += bound * t.x[k] / t.d;
+                        a.temperature_tail_count += 1;
+                        *m = M::zeros();
+                    }
+                }
+            }
+            if let Some(m) = v
+                .iter()
+                .find(|m| screen_min_rel(m).map_or(true, |q| q < -1e-10))
             {
-                return Err("non-PSD dual frequency node".into());
+                return Err(format!("non-PSD dual frequency node scale={:e} relative={:?} temperature={temperature}",m.amax(),screen_min_rel(m)).into());
             }
             ray.f = v.into_iter().map(|m| m / t.scale).collect();
             let (n, e) = values(ray, x, eta);
@@ -829,13 +869,13 @@ pub fn replay_dual_frequency(
     let mut redistribution = vec![RedistributionSnapshot::default()];
     for r in records {
         for ev in &r.first {
-            collide(&mut rays, g, &x, r.left.eta, ev, &mut a)?;
+            collide(&mut rays, g, &x, r.left.eta, ev, &mut a, false)?;
         }
         geometry(
             &mut rays, g, &x, &weights, &r.left, &r.right, line, red, &mut a, &mut ra,
         )?;
         for ev in &r.second {
-            collide(&mut rays, g, &x, r.right.eta, ev, &mut a)?;
+            collide(&mut rays, g, &x, r.right.eta, ev, &mut a, false)?;
         }
         history.push(snapshot(&rays, &x, r.right.eta, &a)?);
         redistribution.push(RedistributionSnapshot {
@@ -918,4 +958,197 @@ mod tests {
         assert!(err < 1e-13);
         assert!(audit.normal.abs() < 1e-15);
     }
+}
+
+// Cold Thomson is frequency independent in the material frame. Replay the
+// *temperature measure*, with e^(3u) weighted screen masses, through the
+// same conservative nodal collision plan. This is not a frequency-grid
+// reconstruction of an already integrated spectrum.
+#[derive(Clone, Debug)]
+pub struct TemperatureComponent {
+    /// log(T/T_emit), including geometry and final observer Doppler.
+    pub log_temperature: f64,
+    /// Scalar trace of the invariant temperature screen measure.
+    pub weight: f64,
+    pub screen: [[f64; 3]; 3],
+}
+#[derive(Clone, Debug)]
+pub struct TemperatureSample {
+    pub direction: [f64; 3],
+    pub angular_weight: f64,
+    pub components: Vec<TemperatureComponent>,
+}
+impl TemperatureSample {
+    /// f and d f/d ln(nu) evaluated directly from the evolved mixture.
+    pub fn evaluate(&self, frequency_over_temperature: f64) -> Result<(f64, f64), String> {
+        if !frequency_over_temperature.is_finite() || frequency_over_temperature <= 0. {
+            return Err("invalid dimensionless mixture frequency".into());
+        }
+        let mut f = 0.;
+        let mut df = 0.;
+        for c in &self.components {
+            let y = frequency_over_temperature * (-c.log_temperature).exp();
+            if y > 700. {
+                continue;
+            }
+            let b = 1. / y.exp_m1();
+            f += c.weight * b;
+            df -= c.weight * y * b * (1. + b);
+        }
+        if !f.is_finite() || !df.is_finite() || f < 0. {
+            return Err("nonfinite or negative mixture occupation".into());
+        }
+        Ok((f, df))
+    }
+    pub fn moments(&self, eta: f64) -> (f64, f64) {
+        let mut n = 0.;
+        let mut e = 0.;
+        for c in &self.components {
+            let x = c.log_temperature + eta;
+            n += c.weight * (3. * x).exp();
+            e += c.weight * (4. * x).exp();
+        }
+        (n, e)
+    }
+}
+pub struct TemperatureSky {
+    rays: Vec<Ray>,
+    nodes: Vec<f64>,
+    pub eta: f64,
+    pub escape_number: f64,
+    pub escape_energy: f64,
+    pub max_number_defect: f64,
+    pub max_material_energy_defect: f64,
+    pub max_projection_energy_defect: f64,
+    pub max_stage_residual: f64,
+    pub numerical_second_temperature_moment: f64,
+    pub collision_events: usize,
+    pub discarded_tail_number_bound: f64,
+    pub discarded_tail_energy_bound: f64,
+    pub discarded_tail_count: usize,
+}
+impl TemperatureSky {
+    pub fn samples(&self, beta: [f64; 3]) -> Result<Vec<TemperatureSample>, String> {
+        self.rays
+            .iter()
+            .map(|r| {
+                let (e, j, d) = boost(r.e, V::from(beta))?;
+                let components =
+                    r.f.iter()
+                        .zip(&self.nodes)
+                        .map(|(m, u)| {
+                            let m = j * (*m) * j.transpose() * (-3. * u).exp();
+                            TemperatureComponent {
+                                log_temperature: u + r.shift + d.ln(),
+                                weight: m.trace(),
+                                screen: rows(&m),
+                            }
+                        })
+                        .collect();
+                Ok(TemperatureSample {
+                    direction: e.into(),
+                    angular_weight: r.w / (d * d),
+                    components,
+                })
+            })
+            .collect()
+    }
+}
+pub fn replay_temperature_mixture(
+    records: &[StepRecord],
+    nmu: usize,
+    nphi: usize,
+    bins: usize,
+    extent: f64,
+) -> Result<TemperatureSky, String> {
+    if records.is_empty()
+        || records[0].left.eta != 0.
+        || bins % 2 != 0
+        || !extent.is_finite()
+        || extent <= 0.
+        || extent > 4.
+    {
+        return Err(
+            "temperature replay needs nonempty emission history, even bins and 0<extent<=4".into(),
+        );
+    }
+    let g = FrequencyGrid::new(-extent, extent, bins)?;
+    let nr = nmu
+        .checked_mul(nphi)
+        .ok_or("temperature angular overflow")?;
+    if nr > 256
+        || nr
+            .checked_mul(nr)
+            .and_then(|v| v.checked_mul(bins + 1))
+            .is_none_or(|v| v > 20_000_000)
+    {
+        return Err("temperature remap allocation exceeds bound".into());
+    }
+    for (i, r) in records.iter().enumerate() {
+        lie_data(&r.left).validate()?;
+        lie_data(&r.right).validate()?;
+        if !r.left.eta.is_finite()
+            || !r.right.eta.is_finite()
+            || r.right.eta <= r.left.eta
+            || (i > 0
+                && (records[i - 1].right.eta != r.left.eta
+                    || lie_data(&records[i - 1].right) != lie_data(&r.left)))
+        {
+            return Err("discontinuous temperature replay records".into());
+        }
+    }
+    if g.edges[bins / 2] != 0. {
+        return Err("temperature grid requires exact emission atom at u=0".into());
+    }
+    let x = energy_nodes(&g);
+    let mut rays = initial_sky(nmu, nphi)?
+        .iter()
+        .map(|p| {
+            let mut f = vec![M::zeros(); bins + 1];
+            // NORM3 makes the existing photon-number audit dimensionless
+            // B3. Divide by NORM3 when evaluating the temperature transform.
+            f[bins / 2] = p.screen * NORM3;
+            Ray {
+                e: p.direction,
+                w: p.weight,
+                shift: 0.,
+                f,
+                last_sign: 0,
+                turned: false,
+            }
+        })
+        .collect::<Vec<_>>();
+    let mut a = Audit::default();
+    for r in records {
+        for ev in &r.first {
+            collide(&mut rays, &g, &x, r.left.eta, ev, &mut a, true)?;
+        }
+        geometric_all(&mut rays, &x, &r.left, &r.right, &mut a)?;
+        for ev in &r.second {
+            collide(&mut rays, &g, &x, r.right.eta, ev, &mut a, true)?;
+        }
+        // Verify PSD and all finite moments at accepted output slices.
+        snapshot(&rays, &x, r.right.eta, &a)?;
+    }
+    for r in &mut rays {
+        for m in &mut r.f {
+            *m /= NORM3;
+        }
+    }
+    Ok(TemperatureSky {
+        rays,
+        nodes: g.edges,
+        eta: records.last().unwrap().right.eta,
+        escape_number: a.escape_n,
+        escape_energy: a.escape_e / E_PER_N,
+        max_number_defect: a.max_number,
+        max_material_energy_defect: a.max_rest,
+        max_projection_energy_defect: a.max_project,
+        max_stage_residual: a.max_fv_residual,
+        numerical_second_temperature_moment: a.dual_second_moment / E_PER_N,
+        collision_events: a.events,
+        discarded_tail_number_bound: a.temperature_tail_number,
+        discarded_tail_energy_bound: a.temperature_tail_energy,
+        discarded_tail_count: a.temperature_tail_count,
+    })
 }

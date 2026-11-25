@@ -32,7 +32,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration). R118: --spectral-moments harmonic|rays replays accepted geometry and collision depths/velocities with independent cold spectral carriers; optional --spectral-lmax L --spectral-ntheta N --spectral-nphi N. Writes spectral_history.tsv, spectral_normal.tsv, spectral_observer.tsv and harmonic spectral_modes.tsv. No spectral feedback. R118-B: --frequency-bins N enables moving log-frequency grid cold occupation replay; --frequency-collision union|projected|dual selects union resolvent, projected constant generator, or positive number-energy nodal generator BE/SDIRK; --frequency-redistribution diffusion,theta (dual only, requires frequency-line and velocity; dilute reversible model, not atomic kernel); --frequency-log-min LO --frequency-log-max HI --frequency-nmu N --frequency-nphi N. Optional --frequency-line center,width,strength,source (log h nu/kB T_emit; Gaussian prescribed true absorption/emission), --frequency-line-velocity host|TSV (eta beta_x beta_y beta_z), --frequency-line-substeps N. No new feedback.";
+const HELP:&str="homogeneous_sky --out NEW_DIRECTORY [--family I|II|III|IV|V|VI0|VIh[:h]|VIstar|VII0|VIIh[:h]|VIII|IX|FLRW] [--shear 0.08 --duration 0.2 --steps 16 --nmu 10 --nphi 24 --lmax 4] [--tau 0.06 --electron-beta 0.1,0,0 | --material TSV] [--observer-beta 0,0,0] [--feedback auto|active|tracer|recoil] [--expansion-equation raychaudhuri|gauss-reduced] [--dust-fraction 0.2 --baryon-fraction 0.157 --dust-beta 0.12,0,0]. Clock eta=ln(a/a_emit). A material TSV has eta rate_per_eta beta_x beta_y beta_z. Dust fractions refer to initial total matter energy. --lie-ic FILE replaces --family/--shear: three whitespace rows shear/n (11 22 33 12 13 23) and a (1 2 3), Hubble normalized. A nonzero Codazzi flux determines the two streams' coflow.  --ionization FILE --n-h-emit-m3 VALUE --h-emit-s VALUE replace --tau/--material/--electron-beta in recoil mode; FILE has eta xe_per_H. --collision backward-euler|sdirk2 selects the Thomson cell integrator. --lie-update additive|congruence selects the active structure-constant step (congruence preserves Jacobi and h exactly). --omega-lambda X sets Lambda/(3H^2) on the initial slice (active feedback). --los-lmax L [--los-ntheta NT --los-nphi NP] replays the recorded solution along backward characteristics on an observer Gauss-Legendre grid (defaults NT=L+1, NP=2L+2) and writes los_modes.tsv/los_cl.tsv to multipole L. R113: --route rays|harmonic|harmonic-continuum selects the photon representation (harmonic = Lie-generated spin-harmonic PSTF hierarchy; --harmonic-lmax L, default 12, --harmonic-ntheta/--harmonic-nphi collision grid, defaults L+3, 2L+6). --route harmonic-continuum uses grid-free cold Thomson with --harmonic-work-lmax W (explicit W >= harmonic-lmax, <=256; angular grid retained only for diagnostics/REC/output). --neutrino-fraction F puts F of the initial radiation energy in collisionless massless neutrinos (active feedback). --observer-frame normal|host|spectator|radiation|radiation-total chooses the observer velocity on the final slice instead of --observer-beta. lie_constants.tsv lists the Y_LM type constants of the photon generator; run.txt reports the radiation energy frames, stream velocities, local boost and global tilt. --recombination matched --t-unit-k T (T_CMB0 (1+z_emit) in K) corrects the --ionization table by the implicit matched hydrogen TLA response of the transported sky (REC matched_history; writes recombination.tsv); --recombination-stop-eta E holds the offset after eta = E (e.g. where an REI bass_ionization table hands over to reionization). R116-B: --recombination species-thermal --species-reference TSV enables source-owned H/He/W matched history, replaces --ionization and its anchors, requires recoil. One helium owner phase only; tracer thermal ledger, lagged opacity. R117: --recombination species-sdirk with --collision sdirk2 uses partitioned stage-consistent bare opacity and two-stage SDIRK chemistry; writes coupled_stages.tsv. Optional --species-step-grid TSV (eta header, steps+1 edges from 0 to duration). R118: --spectral-moments harmonic|rays replays accepted geometry and collision depths/velocities with independent cold spectral carriers; optional --spectral-lmax L --spectral-ntheta N --spectral-nphi N. Writes spectral_history.tsv, spectral_normal.tsv, spectral_observer.tsv and harmonic spectral_modes.tsv. No spectral feedback. R118-B: --frequency-bins N enables moving log-frequency grid cold occupation replay; --frequency-collision union|projected|dual selects union resolvent, projected constant generator, or positive number-energy nodal generator BE/SDIRK; --frequency-redistribution diffusion,theta (dual only, requires frequency-line and velocity; dilute reversible model, not atomic kernel); --frequency-log-min LO --frequency-log-max HI --frequency-nmu N --frequency-nphi N. Optional --frequency-line center,width,strength,source (log h nu/kB T_emit; Gaussian prescribed true absorption/emission), --frequency-line-velocity host|TSV (eta beta_x beta_y beta_z), --frequency-line-substeps N. No new feedback. R118-C2E: --temperature-mixture EVEN_BINS [--temperature-log-extent 2 --temperature-nmu 4 --temperature-nphi 8] evolves a cold Planck temperature measure on accepted records, outputs material-frame temperature_nodes.tsv and independent B3/B4 receipts. Not a resonance collision solver.";
 type Error = Box<dyn std::error::Error>;
 fn args() -> Result<BTreeMap<String, String>, Error> {
     let mut args = env::args().skip(1);
@@ -75,6 +75,10 @@ fn args() -> Result<BTreeMap<String, String>, Error> {
             "spectral-lmax",
             "spectral-ntheta",
             "spectral-nphi",
+            "temperature-mixture",
+            "temperature-log-extent",
+            "temperature-nmu",
+            "temperature-nphi",
             "frequency-bins",
             "frequency-collision",
             "frequency-redistribution",
@@ -1171,6 +1175,40 @@ fn run() -> Result<(), Error> {
         }
         None
     };
+    let temperature_result = if let Some(n) = a.get("temperature-mixture") {
+        let nt: usize = opt("temperature-nmu", "4").parse()?;
+        let np: usize = opt("temperature-nphi", "8").parse()?;
+        let start = std::time::Instant::now();
+        let sky = dual::replay_temperature_mixture(
+            &sol.records,
+            nt,
+            np,
+            n.parse()?,
+            opt("temperature-log-extent", "2").parse()?,
+        )?;
+        let reference = spectral::replay_rays(&sol.records, nt, np)?;
+        let material = frames.host.unwrap_or([0.; 3]);
+        Some((
+            sky,
+            reference,
+            material,
+            nt,
+            np,
+            start.elapsed().as_secs_f64(),
+        ))
+    } else {
+        if [
+            "temperature-log-extent",
+            "temperature-nmu",
+            "temperature-nphi",
+        ]
+        .iter()
+        .any(|k| a.contains_key(*k))
+        {
+            return Err("temperature mesh requires temperature-mixture".into());
+        }
+        None
+    };
     let frequency_result = if let Some(n) = a.get("frequency-bins") {
         let g = FrequencyGrid::new(
             opt("frequency-log-min", "-12").parse()?,
@@ -1319,6 +1357,27 @@ fn run() -> Result<(), Error> {
             FrequencyOutput::Dual(s) => write_dual_frequency(&out, s, g, obs, vel.as_deref())?,
         }
     }
+    if let Some((s, reference, beta, _, _, _)) = &temperature_result {
+        let mut f = writer(&out.join("temperature_nodes.tsv"))?;
+        writeln!(
+            f,
+            "ray\tnode\tlog_temperature\tweight\tq_xx\tq_yy\tq_zz\tq_xy\tq_xz\tq_yz"
+        )?;
+        let mut r = writer(&out.join("temperature_rays.tsv"))?;
+        writeln!(r,"ray\te_x\te_y\te_z\tangular_weight\tb3\tb4\tref_b3\tref_b4\tref_m0\tref_mean_log_t\tref_variance")?;
+        let q = s.samples(*beta)?;
+        let exact = reference.observer_samples(*beta)?;
+        for (i, (v, w)) in q.iter().zip(exact).enumerate() {
+            let b = v.moments(s.eta);
+            writeln!(r,"{i}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",v.direction[0],v.direction[1],v.direction[2],v.angular_weight,b.0,b.1,w.b3,w.b4,w.m0,w.mean_log_t,w.variance)?;
+            for (k, c) in v.components.iter().enumerate() {
+                let m = &c.screen;
+                writeln!(f,"{i}\t{k}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}\t{:.17e}",c.log_temperature,c.weight,m[0][0],m[1][1],m[2][2],m[0][1],m[0][2],m[1][2])?;
+            }
+        }
+        f.flush()?;
+        r.flush()?;
+    }
     lie_constants(&out, &sol)?;
     species(&out, &sol)?;
     if options.recombination.is_some() {
@@ -1438,6 +1497,9 @@ fn run() -> Result<(), Error> {
     if let Some(r) = &species_reference {
         let a = r.nodes()[0];
         writeln!(f,"species_helium_model={:?}\nspecies_f_he={:.17e}\nspecies_reference_n_h_emit_m3={:.17e}\nspecies_reference_h_emit_s={:.17e}\nspecies_reference_tr_emit_k={:.17e}\nspecies_thermal_energy_feedback=tracer_only\nspecies_coupling={}",r.helium(),r.f_he(),a.n_h_m3,a.h_s,a.tr_k,if species_sdirk{"partitioned_SDIRK2_stage_consistent_linear_bare_rate"}else{"lagged_opacity_BE"})?;
+    }
+    if let Some((s, _, beta, nt, np, elapsed)) = &temperature_result {
+        writeln!(f,"temperature_scope=positive_cold_Planck_mixture_accepted_history_no_frequency_reconstruction\ntemperature_grid={nt}x{np}\ntemperature_material_beta={beta:?}\ntemperature_escape_number={:.17e}\ntemperature_escape_energy={:.17e}\ntemperature_number_defect={:.17e}\ntemperature_material_energy_defect={:.17e}\ntemperature_projection_energy_defect={:.17e}\ntemperature_stage_residual={:.17e}\ntemperature_second_moment_spread={:.17e}\ntemperature_events={}\ntemperature_tail_number_bound={:.17e}\ntemperature_tail_energy_bound={:.17e}\ntemperature_tail_count={}\ntemperature_wall_s={elapsed:.9}",s.escape_number,s.escape_energy,s.max_number_defect,s.max_material_energy_defect,s.max_projection_energy_defect,s.max_stage_residual,s.numerical_second_temperature_moment,s.collision_events,s.discarded_tail_number_bound,s.discarded_tail_energy_bound,s.discarded_tail_count)?;
     }
     if let Some((route, l, nt, np, sp, elapsed)) = &spectral_result {
         let checks = sp.sampled_necessary_checks(1e-9)?;
