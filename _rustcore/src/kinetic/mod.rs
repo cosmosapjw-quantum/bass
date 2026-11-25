@@ -39,3 +39,5 @@ pub mod wigner;
 pub mod massive_memory;
 
 pub mod memory_mixture;
+
+pub mod owned_vlasov;
