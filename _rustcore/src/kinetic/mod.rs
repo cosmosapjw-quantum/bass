@@ -51,3 +51,5 @@ pub mod magnetic_kernel;
 pub mod uv_feedback;
 
 pub mod cooling_rays;
+
+pub mod quadratic_wedge;
