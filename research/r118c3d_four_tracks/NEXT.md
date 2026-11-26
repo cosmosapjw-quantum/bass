@@ -1,0 +1,6 @@
+# R118-C3E: four distinct research lanes
+- TRIPLE BASS–REC–REI: keep REC scalar clock feedback and actual carried BASS state; replace prescribed REC H-only history by geometry-aware REC atomic/frequency transfer where feasible. Match cosmology and initial conditions before attributing differences to anisotropy. Close formal full H+He donor validation without substituting HMLA as FULL. Use a physical handoff of spectral radiation as well as CMB harmonics; then extend live trajectory. Improve early constraint convergence and late spectral error metric with matched resolutions.
+- BASS independent: derive physically generated histories approaching spin1 wedge null (current null is constructed), compare amplitude scaling and cubic/higher-rank response; use native nonlinear owner and actual species.
+- REC independent: two-sided real-level local closure now tested; derive one-owner FULL opacity, causal blue-to-red boundary and autonomous real source/loss, then evolving kernel.
+- REI independent: number-conserving spectral Compton operator is conditional linear Te=Tgamma; next arbitrary temperature equilibrium and nonlinear conservative positivity, energy feedback with exact radiation and gas exchange.
+Maintain separate results/claims and per-stage push; do not stop independent lanes at triple blocker.
