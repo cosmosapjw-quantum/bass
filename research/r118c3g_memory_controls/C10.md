@@ -1,0 +1,3 @@
+# C10: bounded closeout
+R1–R10/C1–C9 remotely verified through receipt. C10 closes this research epoch only. Derived axial-normal iff criterion for a spin-1 wedge in Lambda^2 W; actual native four-memory controls remain spin-3 dominated (~0.923–0.940), no dynamic null claim. Exact C3F scalar donor unchanged. Next: parametrize axial-normal family and independently vary admissible native temporal response coefficients; optimize normalized spin-3 projection with nonzero wedge norm and finite-amplitude error, plus first-order sensitivity of memory reachability. No production promotion.
+Local scratch duplicates removed after verifying committed versions and remote refs; active and independent worktrees preserved, dry-run prune had no candidates. See ops/CLEANUP.json.
