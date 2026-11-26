@@ -1,0 +1,2 @@
+# C3D continuation
+Use the full ten-component wedge along actual self-consistent geometries with independent memory parameters. Separate the quadratic projected signal from cubic residuals with amplitude and temporal resolution convergence. Test the spin-1 null subspace with a constructed history and compare the higher-rank response. Preserve previous pins, baseline, and source-linked histories. Coordinate REC physical interface and REI evolving-occupation feedback research rather than claiming their promotion.
