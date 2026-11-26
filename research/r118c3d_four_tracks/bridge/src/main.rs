@@ -433,15 +433,32 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     let local_target = config.local_target;
     let owner = ThomsonOwner::new(0., 32, 8, 16, 4, 8, 16)?;
-    let donor_sha = sha(Path::new(&args[9]))?;
+    let state_sha = sha(Path::new(&args[9]))?;
+    let mut donor_sha = state_sha.clone();
+    let mut expected_id =
+        "REC_HMLA_e72aa466566bdff42f8c0720a0f52b69a3859c91fa51899d01b2d4408eca11f2".to_string();
+    let mut expected_x = 0.00021014665671400957;
+    let mut expected_t = 9.304371943681256;
+    if args.len() == 11 {
+        let packet = fs::read_to_string(&args[10])?;
+        let v = packet.split_whitespace().collect::<Vec<_>>();
+        if v.len() != 4 || !v[0].starts_with("REC_HMLA_") || v[0].len() != 73 || v[3] != state_sha {
+            return Err("REC feedback packet identity".into());
+        }
+        expected_id = v[0].to_owned();
+        expected_x = v[1].parse()?;
+        expected_t = v[2].parse()?;
+        donor_sha = format!("{}:{}", state_sha, sha(Path::new(&args[10]))?);
+    } else if args.len() != 10 {
+        return Err("triple bridge argument count".into());
+    }
     let mut s = owner.restore_state_text(&fs::read_to_string(&args[9])?)?;
     if s.geometry.a != 1. / 21. || owner.constraint(&s)?.abs() > 1e-3 {
         return Err("REC-BASS boundary geometry".into());
     }
-    let expected = "REC_HMLA_e72aa466566bdff42f8c0720a0f52b69a3859c91fa51899d01b2d4408eca11f2";
-    if config.initial_state_id != expected
-        || config.initial_x_hii != 0.00021014665671400957
-        || config.initial_temperature_k != 9.304371943681256
+    if config.initial_state_id != expected_id
+        || config.initial_x_hii != expected_x
+        || config.initial_temperature_k != expected_t
     {
         return Err("REC donor IC identity".into());
     }
@@ -480,10 +497,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     fs::write(out.join("rei_source_identity.txt"), compiled_identity())?;
     fs::write(out.join("REC_BASS_BOUNDARY.txt"), fs::read(&args[9])?)?;
-    fs::write(
-        out.join("REC_DONOR_ID.txt"),
-        "e72aa466566bdff42f8c0720a0f52b69a3859c91fa51899d01b2d4408eca11f2\n",
-    )?;
+    fs::write(out.join("REC_DONOR_ID.txt"), format!("{}\n", expected_id))?;
+    if args.len() == 11 {
+        fs::write(out.join("REC_FEEDBACK_PACKET.txt"), fs::read(&args[10])?)?;
+    }
     fs::write(out.join("config.cfg"), fs::read(&args[0])?)?;
     let mut w = BufWriter::new(fs::File::create(out.join("history.csv"))?);
     writeln!(w,"a,z,h,S0,S1,S2,S3,S4,F00,F01,F02,F10,F11,F12,F20,F21,F22,ne,T,xHII,xHeII,xHeIII,J0,Pxx,Pyy,Pzz,Pxy,Pxz,Pyz,thermal,binding,escape,cmb,source,work,ledger,gauss,local_error,cool_pi_norm,cool_Pyz,accepted,rhs,stage_calls,rejected")?;
