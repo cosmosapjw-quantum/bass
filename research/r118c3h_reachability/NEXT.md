@@ -1,0 +1,1 @@
+increase independent scalar temporal response channels using physically admissible masses/time windows; measure rank-four minor robustness under signed first-order probes and optimize spin3 subject to minimum physical wedge and condition bound. Independent: map cubic parity coefficient and its observational degeneracy with quadratic spin memory. Retain C3F scalar donor.
