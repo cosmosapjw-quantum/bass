@@ -33,12 +33,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let w3: f64 = p[6].parse()?;
     let s4: f64 = p[7].parse()?;
     let orient: f64 = p[8].parse()?;
-    if !(mass.is_finite() && mass > 0. && w3 > 0. && w3 < 1. && s4.is_finite() && orient.is_finite()) { return Err("invalid controls".into()); }
-    let w = (1.-w3)/2.;
+    if !(mass.is_finite()
+        && mass > 0.
+        && w3 > 0.
+        && w3 < 1.
+        && s4.is_finite()
+        && orient.is_finite())
+    {
+        return Err("invalid controls".into());
+    }
+    let w = (1. - w3) / 2.;
     let specs = [
         (0.001, w, [0., amp, 0., 0., 0.]),
         (0.006, w, [0., 0., 0.6 * amp, 0.8 * amp, 0.]),
-        (mass, w3, [amp * orient.sin(), 0., 0., amp * orient.cos(), 0.]),
+        (
+            mass,
+            w3,
+            [amp * orient.sin(), 0., 0., amp * orient.cos(), 0.],
+        ),
     ];
     let m = ThomsonOwner::with_species(&specs, 32, 12, 24, l, 12, 24)?;
     let mut s = m.initial(
