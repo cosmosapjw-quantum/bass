@@ -96,3 +96,80 @@ impl CoolingRays {
         Ok((out, work))
     }
 }
+
+impl CoolingRays {
+    fn valid_spectrum(&self, s: &[f64], edges: &[f64]) -> bool {
+        edges.len() >= 2
+            && edges[0] == 0.
+            && *edges.last().unwrap() == f64::INFINITY
+            && edges.windows(2).all(|w| w[0].is_finite() && w[1] > w[0])
+            && s.len() == self.dir.len() * (edges.len() - 1)
+            && s.iter().all(|v| v.is_finite() && *v >= 0.)
+    }
+    /// Energy per H in fixed reference-energy bands, evaluated at current coframe.
+    pub fn spectral_energy(
+        &self,
+        s: &[f64],
+        edges: &[f64],
+        g: &OwnedState,
+    ) -> Result<Vec<f64>, String> {
+        if !self.valid_spectrum(s, edges) {
+            return Err("cooling spectrum domain".into());
+        }
+        let n = edges.len() - 1;
+        let mut out = vec![0.; n];
+        for (j, (r, _, _)) in self.rays(g)?.iter().enumerate() {
+            for k in 0..n {
+                out[k] += s[j * n + k] * r;
+            }
+        }
+        Ok(out)
+    }
+    /// Grey Gaunt free-free energy spectrum dU/dE ∝ exp(-E/kT).
+    /// Energy only: no finite photon count in the zero-frequency band.
+    pub fn advance_freefree(
+        &self,
+        s: &[f64],
+        edges: &[f64],
+        old: &OwnedState,
+        mid: &OwnedState,
+        end: &OwnedState,
+        birth: f64,
+        kt_ev: f64,
+    ) -> Result<(Vec<f64>, f64), String> {
+        if !self.valid_spectrum(s, edges)
+            || !birth.is_finite()
+            || birth < 0.
+            || !kt_ev.is_finite()
+            || kt_ev <= 0.
+            || old.a > mid.a
+            || mid.a > end.a
+        {
+            return Err("freefree spectrum domain".into());
+        }
+        let a = self.rays(old)?;
+        let m = self.rays(mid)?;
+        let b = self.rays(end)?;
+        let z = m.iter().map(|v| v.2).sum::<f64>();
+        if z <= 0. || !z.is_finite() {
+            return Err("freefree weights".into());
+        }
+        let n = edges.len() - 1;
+        let mut out = s.to_vec();
+        let mut work = 0.;
+        for j in 0..self.dir.len() {
+            let q = birth * m[j].2 / (z * m[j].0);
+            let fac = m[j].0 / kt_ev;
+            for k in 0..n {
+                let frac = (-fac * edges[k]).exp() * (-(-fac * (edges[k + 1] - edges[k])).exp_m1());
+                let i = j * n + k;
+                out[i] += q * frac;
+                work += (a[j].0 - m[j].0) * s[i] + (m[j].0 - b[j].0) * out[i];
+            }
+        }
+        if !self.valid_spectrum(&out, edges) || !work.is_finite() {
+            return Err("freefree spectrum result".into());
+        }
+        Ok((out, work))
+    }
+}

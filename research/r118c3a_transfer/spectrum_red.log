@@ -1,0 +1,21 @@
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore)
+error[E0599]: no method named `advance_freefree` found for struct `CoolingRays` in the current scope
+ --> tests/r118c3a_spectrum.rs:8:14
+  |
+8 |  let (v,w)=c.advance_freefree(&s,&edges,&g(a),&g(2.*a),&g(3.*a),1.,0.01)....
+  |              ^^^^^^^^^^^^^^^^ method not found in `CoolingRays`
+
+error[E0599]: no method named `spectral_energy` found for struct `CoolingRays` in the current scope
+ --> tests/r118c3a_spectrum.rs:9:10
+  |
+9 |  let u=c.spectral_energy(&v,&edges,&g(3.*a)).unwrap();
+  |          ^^^^^^^^^^^^^^^ method not found in `CoolingRays`
+
+error[E0599]: no method named `advance_freefree` found for struct `CoolingRays` in the current scope
+  --> tests/r118c3a_spectrum.rs:13:12
+   |
+13 |  assert!(c.advance_freefree(&s,&edges,&g(a),&g(a),&g(a),1.,-1.).is_err());
+   |            ^^^^^^^^^^^^^^^^ method not found in `CoolingRays`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `bianchi_rustcore` (test "r118c3a_spectrum") due to 3 previous errors

@@ -1,0 +1,21 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling rei_microphysics v0.1.0 (/home/cosmosapjw/worktrees/rei-htt-thomson-20261124/rust/rei_microphysics)
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore)
+warning: use of deprecated method `std::sync::atomic::Atomic::<usize>::fetch_update`: renamed to `try_update` for consistency
+   --> /home/cosmosapjw/worktrees/rei-htt-thomson-20261124/rust/rei_microphysics/src/axbi_covariant_driver.rs:400:18
+    |
+400 |                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |                  ^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+    |
+400 -                 .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+400 +                 .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+    |
+
+warning: `rei_microphysics` (lib) generated 1 warning (run `cargo fix --lib -p rei_microphysics` to apply 1 suggestion)
+   Compiling c3a_live_rei_bridge v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c3a_transfer/bridge)
+    Finished `release` profile [optimized] target(s) in 38.00s
