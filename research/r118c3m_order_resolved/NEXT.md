@@ -1,0 +1,1 @@
+derive analytic second-order Einstein-Vlasov STF response and compare S2 with measured signed native paths, then jointly minimize B3^(2), B3^(3) under physical reachable amplitude constraints. Independent: early-generated E2/TE/B5 joint observable identifiability and nuisance sensitivity, synthetic only unless actual covariance available.
