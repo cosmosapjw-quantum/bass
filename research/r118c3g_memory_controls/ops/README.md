@@ -1,0 +1,1 @@
+Historical orchestration source, not an entry point: scripts may mutate repos and push if executed. Use functions explicitly to reproduce local calculations; stage driver main is for the historical run only. Source copies for C5 are already in each repository history.
