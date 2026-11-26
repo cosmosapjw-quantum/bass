@@ -1,0 +1,1 @@
+R118-C3P: derive invariant fourth-order STF/expansion response and leading B5 residual, improve squeeze family jointly using resolved coefficient tensors and actual amplitude constraints, not merely further blind grid scans. Independent: spin-2 transfer with actual covariance if accessible, otherwise controlled pure-B leakage/conditioning with varying nuisance bandwidth.
