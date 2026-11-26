@@ -47,6 +47,32 @@ impl ThomsonOwner {
             owner_identity: format!("{:016x} {nr} {nt} {np} {l} {st} {sp}", eps.to_bits()),
         })
     }
+    /// Research-only configurable collisionless memory species; original constructor unchanged.
+    pub fn with_species(
+        specs: &[(f64, f64, [f64; 5])],
+        nr: usize,
+        nt: usize,
+        np: usize,
+        l: usize,
+        st: usize,
+        sp: usize,
+    ) -> Result<Self, String> {
+        let model = OwnedModel::with_species(specs, nr, nt, np)?;
+        HarmonicSky::isotropic(l, st, sp, true)?;
+        let mut owner_identity = format!("SPECIES_V1 {nr} {nt} {np} {l} {st} {sp} {}", specs.len());
+        for &(m, w, j) in specs {
+            for v in [m, w].into_iter().chain(j) {
+                owner_identity.push_str(&format!(" {:016x}", v.to_bits()));
+            }
+        }
+        Ok(Self {
+            model,
+            l,
+            nt: st,
+            np: sp,
+            owner_identity,
+        })
+    }
     pub fn initial(&self, a: f64, s: [f64; 5]) -> Result<ThomsonState, String> {
         let mut t = ThomsonState {
             geometry: self.model.initial(a, s)?,

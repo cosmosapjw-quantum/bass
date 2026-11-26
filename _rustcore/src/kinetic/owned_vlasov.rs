@@ -95,6 +95,75 @@ impl OwnedModel {
         }
         Ok(Self { particles: p, cold })
     }
+    pub fn with_species(
+        specs: &[(f64, f64, [f64; 5])],
+        nr: usize,
+        nt: usize,
+        np: usize,
+    ) -> Result<Self, String> {
+        if specs.is_empty()
+            || specs.iter().any(|(m, w, j)| {
+                !m.is_finite()
+                    || *m < 0.
+                    || !w.is_finite()
+                    || *w <= 0.
+                    || j.iter().any(|v| !v.is_finite())
+                    || j.iter().map(|v| v * v).sum::<f64>() > 0.010000000000001
+            })
+            || (specs.iter().map(|s| s.1).sum::<f64>() - 1.).abs() > 1e-12
+            || nr < 16
+            || nt < 4
+            || np < 8
+        {
+            return Err("owner quadrature domain".into());
+        }
+        let grid = SphereGrid::new(nt, np);
+        let (xx, ww) = gauss_legendre(nr);
+        let ys: Vec<_> = xx.iter().map(|x| 30. * (1. + x)).collect();
+        let norm = ys
+            .iter()
+            .zip(&ww)
+            .map(|(&y, &w)| 30. * w * y.powi(3) / (1. + y.exp()))
+            .sum::<f64>();
+        let mut p = Vec::new();
+        let mut cold = OM + ON;
+        for &(mass, fraction, j) in specs {
+            let j = stf_matrix(j);
+            let m = mass / T;
+            let nr0 = ys
+                .iter()
+                .zip(&ww)
+                .map(|(&y, &w)| 30. * w * y * y * y.hypot(m) / (1. + y.exp()))
+                .sum::<f64>();
+            cold -= ON * fraction * nr0 / norm;
+            for (v, &w) in grid.ehat.chunks_exact(3).zip(&grid.w) {
+                let n = Vector3::from_column_slice(v);
+                let def = (-n.dot(&(j * n))).exp();
+                for (&y, &wr) in ys.iter().zip(&ww) {
+                    let wt = ON * fraction * 30. * wr * y * y / (1. + (y * def).exp()) / norm * w
+                        / (4. * std::f64::consts::PI);
+                    p.push(Particle {
+                        q: y * n,
+                        w: wt,
+                        m,
+                        photon: false,
+                    });
+                }
+            }
+        }
+        for (v, &w) in grid.ehat.chunks_exact(3).zip(&grid.w) {
+            p.push(Particle {
+                q: Vector3::from_column_slice(v),
+                w: OG * w / (4. * std::f64::consts::PI),
+                m: 0.,
+                photon: true,
+            });
+        }
+        if cold <= 0. {
+            return Err("owner cold density".into());
+        }
+        Ok(Self { particles: p, cold })
+    }
     pub fn matter(&self, a: f64, f: &Matrix3<f64>) -> Result<Matter, String> {
         self.matter_impl(a, f, true)
     }
