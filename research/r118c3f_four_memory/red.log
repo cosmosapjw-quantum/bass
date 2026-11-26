@@ -1,0 +1,45 @@
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/worktrees/bass-r109-native-20261124/_rustcore)
+error[E0599]: no associated function or constant named `with_species` found for struct `OwnedModel` in the current scope
+  --> tests/r118c3f_species.rs:6:20
+   |
+ 6 |  let b=OwnedModel::with_species(&specs,32,8,16).unwrap();
+   |                    ^^^^^^^^^^^^ associated function or constant not found in `OwnedModel`
+   |
+note: if you're trying to build a new `OwnedModel`, consider using `OwnedModel::new` which returns `Result<OwnedModel, String>`
+  --> src/kinetic/owned_vlasov.rs:44:5
+   |
+44 |     pub fn new(eps: f64, nr: usize, nt: usize, np: usize) -> Result<Self, String> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no associated function or constant named `with_species` found for struct `OwnedModel` in the current scope
+  --> tests/r118c3f_species.rs:10:22
+   |
+10 |  assert!(OwnedModel::with_species(&[(0.01,0.8,[0.;5])],32,8,16).is_err());
+   |                      ^^^^^^^^^^^^ associated function or constant not found in `OwnedModel`
+   |
+note: if you're trying to build a new `OwnedModel`, consider using `OwnedModel::new` which returns `Result<OwnedModel, String>`
+  --> src/kinetic/owned_vlasov.rs:44:5
+   |
+44 |     pub fn new(eps: f64, nr: usize, nt: usize, np: usize) -> Result<Self, String> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no associated function or constant named `with_species` found for struct `ThomsonOwner` in the current scope
+  --> tests/r118c3f_species.rs:11:22
+   |
+11 |  let m=ThomsonOwner::with_species(&specs,32,8,16,4,8,16).unwrap();
+   |                      ^^^^^^^^^^^^ associated function or constant not found in `ThomsonOwner`
+   |
+note: if you're trying to build a new `ThomsonOwner`, consider using `ThomsonOwner::new` which returns `Result<ThomsonOwner, String>`
+  --> src/kinetic/owned_thomson.rs:31:5
+   |
+31 | /     pub fn new(
+32 | |         eps: f64,
+33 | |         nr: usize,
+34 | |         nt: usize,
+...  |
+38 | |         sp: usize,
+39 | |     ) -> Result<Self, String> {
+   | |_____________________________^
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `bianchi_rustcore` (test "r118c3f_species") due to 3 previous errors
