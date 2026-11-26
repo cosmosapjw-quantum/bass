@@ -1,0 +1,1 @@
+Additional axis-isolated cases: common max du=2e-5, freq-only and angle-only relative to time/joint; q64 32-ray du=1e-5 resolves early stiff transient. Preserve original caps and immutable configuration.
