@@ -61,9 +61,9 @@ def main():
  rows=[]
  for masses in [(.001,.006,.05),(.0001,.004,.1),(.0001,.02,.2),(.001,.03,.15),(.0001,.001,.01),(.003,.02,.08)]:
   d,u,s,h=solve(masses,48,128);rows.append(d);print(masses,d['ratio'],d['normalized_ratio'],flush=True)
- best=max(rows,key=lambda q:q['ratio']);fine=[]
+ best=max(rows[1:],key=lambda q:q['ratio']);fine=[]
  for mass in [rows[0]['masses'],best['masses']]:
-  q,u,s,h=solve(mass,96,512,3e-12);fine.append(q);np.savez_compressed(D/('linear_'+('base' if mass==rows[0]['masses'] else 'best')+'.npz'),u=u,s=s,h=h)
+  q,u,s,h=solve(mass,96,512,3e-12);fine.append(q);np.savez_compressed(D/('linear_'+('base' if mass==rows[0]['masses'] else 'dispersed')+'.npz'),u=u,s=s,h=h)
  out=dict(status='LINEAR_RESPONSE_ORACLE',radial_ibp_error=radial_check(),scan=rows,refined=fine,parity=parity(),scope='first-order represented FD and C3C Thomson quadrupole closure, not native finite amplitude; rank assessed under refinement')
  (D/'R7.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(dict(radial=out['radial_ibp_error'],refined=fine,parity=out['parity']),indent=2))
 if __name__=='__main__':main()
