@@ -1,0 +1,1 @@
+C3B: two independent STF matter memories versus single-STF. Exact quadratic rank3 map, native full amplitude and aligned control, perturbation recurrence. CMB free-free absorption opt-in live bridge with separate signed absorption ledger and Gaunt table shape. REC labelled causal wing transport.
