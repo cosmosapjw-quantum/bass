@@ -1,0 +1,1 @@
+R118-C3O: derive third-order geometry and leading residual higher-order observable terms; identify invariant weak-plane squeeze optimum and test alternate physical amplitude metric/clock, verify with analytic order integrator and resolved native controls. Independent: spin-2 cut-sky E/B mixing and nuisance Fisher, distinguish synthetic from observed covariance.
