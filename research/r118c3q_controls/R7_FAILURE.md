@@ -1,0 +1,1 @@
+Initial right-transvection test failed relative X M cancellation for weak-plane numerical M, with condition ratio ~1.43e9. Norm-scaled actual wedge test remained small. Switched to output-space SL(2) stabilizer of W=C M C^T, which has two well-separated nonzero planes; no claim of exact M rank.

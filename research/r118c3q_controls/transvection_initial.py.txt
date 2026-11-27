@@ -1,0 +1,40 @@
+"""Symplectic congruence controls, fixed Frobenius norm, nontrivial wedge."""
+import sys,json,numpy as np
+from pathlib import Path
+from scipy.linalg import schur,qr
+D=Path(__file__).resolve().parent;P=D.parent/'r118c3p_analytic_s4';N=D.parent/'r118c3n_analytic_s2'
+M=np.array(json.loads((N/'JOINT.json').read_text())['M']);C0=np.load(P/'opt_verified_2048.npz')['control']
+W0=C0@M@C0.T
+T,V=schur(M,output='real')
+# Rank-one nilpotent transvections X=M H, H=vv^T. Rescale by
+# actual control displacement. All preserve M before norm normalization.
+def generators():
+ v=[V[:,i] for i in range(4)]+[(V[:,i]+s*V[:,j])/np.sqrt(2) for i in range(4) for j in range(i+1,4) for s in [-1,1]]
+ X=[];J=[]
+ for z in v:
+  x=M@np.outer(z,z);d=C0@x;d-=C0*np.sum(C0*d)
+  scale=np.linalg.norm(d)
+  if scale<1e-20:continue
+  X.append(x/scale);J.append((d/scale).ravel())
+ Q,R,p=qr(np.array(J).T,pivoting=True,mode='economic')
+ return np.array(X)[p],abs(np.diag(R))
+X,rank=generators()
+def control(t):
+ C=C0.copy()
+ for x,a in zip(X,t):C=C+a*C@x
+ C/=np.linalg.norm(C)
+ return C
+def check(C):
+ W=C@M@C.T
+ return dict(norm=float(np.linalg.norm(C)),wedge_ratio=float(np.linalg.norm(W)/np.linalg.norm(W0)),wedge_direction_error=float(np.linalg.norm(W/np.linalg.norm(W)-W0/np.linalg.norm(W0))))
+def test():
+ rows=[]
+ for i,x in enumerate(X[:8]):
+  assert np.linalg.norm(x@M+M@x.T)<=1e-11*max(np.linalg.norm(x@M),1e-300)
+  for t in [-.1,.1]:
+   z=np.zeros(len(X));z[i]=t;C=control(z);q=check(C)
+   assert q['wedge_ratio']>.7 and q['wedge_direction_error']<1e-4,(i,q)
+   rows.append(dict(axis=i,t=t,**q))
+ o=dict(rank_diagonal=rank.tolist(),rows=rows,scope='finite numerical M, relative wedge preservation diagnostic; weak skew block not exact-rank certified')
+ (D/'R7.json').write_text(json.dumps(o,indent=2)+'\n');print(o,flush=True)
+if __name__=='__main__':test()
