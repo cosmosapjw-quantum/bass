@@ -38,7 +38,7 @@ def analysis():
   rr=[];w0=wedge(A,M)
   for j,N in enumerate(mats):
    w=wedge(A,N);dx=w-w0;dm=N-M;rhs=wedge(A,dm);err=frob(dx-rhs);bound=np.linalg.norm(A,2)**2*np.linalg.norm(dm,'fro')
-   rr.append(dict(matrix=labels[j],spin3_rel=frob(P3@w)/norm,spin1_target_rel=frob(P1@w-target)/norm,transfer_abs=frob(dx),transfer_identity_error=err,Frobenius_bound=float(bound),bound_holds=frob(dx)*np.sqrt(2)<=bound+1e-15))
+   rr.append(dict(matrix=labels[j],spin3_rel=frob(P3@w)/norm,spin1_target_rel=frob(P1@w-target)/norm,transfer_abs=frob(dx),transfer_identity_error=err,Frobenius_bound=float(bound),bound_holds=bool(frob(dx)*np.sqrt(2)<=bound+1e-15)))
   assert all(x['bound_holds'] for x in rr)
   stats[k]=dict(budget_rel=float(abs(np.sum(A*A)-budget)/budget),matrix_tests=rr,sensitivity=float(np.linalg.norm(np.asarray(P3,float)@jac(A,mats[-1]),2)*np.linalg.norm(A)/norm))
  diff=[]
