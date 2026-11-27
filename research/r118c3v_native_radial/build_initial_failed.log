@@ -1,0 +1,13 @@
+   Compiling bianchi_rustcore v0.1.0 (/home/cosmosapjw/r118c3v_bass_shadow_20261127/_rustcore)
+error: unexpected token: `<-`
+  --> examples/c3v_radial.rs:26:189
+   |
+26 | ...a.sort_by(f64::total_cmp);if a[0]<-1e-10{return Err("negative screen"...
+   |                                     ^^
+   |
+help: if you meant to write a comparison against a negative value, add a space in between `<` and `-`
+   |
+26 |    for p in s.sky.photons()?{let z=p.screen();let e=nalgebra::Matrix3::from_fn(|i,j|z[i][j]).symmetric_eigen().eigenvalues;let mut a=e.as_slice().to_vec();a.sort_by(f64::total_cmp);if a[0]< -1e-10{return Err("negative screen".into())}minscreen=minscreen.min(a[1]);}
+   |                                                                                                                                                                                              +
+
+error: could not compile `bianchi_rustcore` (example "c3v_radial") due to 1 previous error
