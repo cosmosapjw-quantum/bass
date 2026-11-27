@@ -1,0 +1,38 @@
+"""Exact W and weighted-budget rank-one sphere updates."""
+import json,numpy as np
+from pathlib import Path
+from scipy.linalg import null_space
+D=Path(__file__).resolve().parent;P=D.parent/'r118c3t_radial_null'
+f=np.load(P/'FAMILY.npz');M,G,H=[f[k] for k in ['M','G','H']]
+def start(tag):
+ return np.load(P/('best_4096.npz' if tag=='best' else 'base_4096.npz'))['control']@np.linalg.inv(H)
+def directions(A):
+ _,s,V=np.linalg.svd(A@M,full_matrices=True)
+ rank=int(np.sum(s>s[0]*1e-14));assert rank in [4,5]
+ K=V[rank:].T;_,sv,VT=np.linalg.svd(A@K,full_matrices=False);K=K@VT.T
+ return K,sv
+def change(A,j,k,t):
+ K,sv=directions(A);v=K[:,j%K.shape[1]];av=A@v;r=np.linalg.norm(av)
+ if r<1e-15:return A.copy()
+ e=av/r;Q=null_space(e[None,:]);b=r*(np.cos(t)*e+np.sin(t)*Q[:,k])
+ return A+np.outer(b-av,v)
+def check(A,B):
+ W=A@M@A.T;w=B@M@B.T
+ return dict(budget=float(np.sum(B*B)),metric_relative=float(abs(np.sum(B*B)-np.sum(A*A))/np.sum(A*A)),wedge_relative=float(np.linalg.norm(w-W)/np.linalg.norm(W)),displacement=float(np.linalg.norm(B-A)))
+def main():
+ rows=[]
+ for tag in ['base','best']:
+  A=start(tag);K,sv=directions(A);rr=[]
+  for j in range(K.shape[1]):
+   for k in [0,1]:
+    for t in [-np.pi/2,np.pi/2,np.pi]:
+     B=change(A,j,k,t);o=check(A,B);assert o['metric_relative']<1e-12 and o['wedge_relative']<1e-5
+     rr.append(dict(j=j,k=k,t=t,**o))
+  # A sequential noncommuting sequence, recompute null basis after each step.
+  X=A.copy()
+  for j,k,t in [(0,1,.7),(1,0,-.6),(0,2,1.2),(2,1,.4)]:X=change(X,j,k,t)
+  q=check(A,X);assert q['metric_relative']<1e-12 and q['wedge_relative']<1e-5
+  rows.append(dict(tag=tag,sv_AK=sv.tolist(),max_single_displacement=float(2*sv[0]),samples=rr,sequential=q))
+ o=dict(rows=rows,scope='exact algebraic sphere updates conditional on actual numerical rank/null; two distinct W strata, not global optimizer')
+ (D/'R7.json').write_text(json.dumps(o,indent=2)+'\n');print(o,flush=True)
+if __name__=='__main__':main()
