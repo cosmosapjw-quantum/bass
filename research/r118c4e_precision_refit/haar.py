@@ -5,15 +5,16 @@ D=Path(__file__).resolve().parent;P=D.parent;C3=P/'r118c4c_conditioned_transfer'
 src=(C3/'orientation.py').read_text()
 old="ids=list(range(45))+list(range(210,230))";assert src.count(old)==1;src=src.replace(old,"ids=list(range(90,130))+list(range(250,270))")
 token=" S,N=np.array(ss),np.array(nn);train=(S+N)[:45];test=(S+N)[45:]";assert src.count(token)==1
-src=src[:src.index(token)]+'''
+prefix=src[:src.index(" root=H/'Downloads/htt_r105_commander'")]
+src=prefix+'''
  from scipy.stats import qmc
  from scipy.special import logsumexp
- S,N=np.array(ss),np.array(nn);old=np.load(C4_OLD/'EXPANDED_SCORES.npz')
- assert np.array_equal(idx,old['sample_pixel']) and np.array_equal(R,old['response_basis']) and np.array_equal(coeff,old['coeff'])
- ids0=np.r_[old['ids'],ids];assert len(np.unique(ids0))==190
- o=np.argsort(ids0);ids0=ids0[o];S=np.r_[old['signal'],S][o];N=np.r_[old['noise'],N][o];X=S+N
- np.savez_compressed(D/'EXPANDED_SCORES.npz',sample_pixel=idx,response_basis=R,coeff=coeff,ids=ids0,signal=S,noise=N)
- write('NEW_INPUTS.json',records)
+ cached=np.load(D/'EXPANDED_SCORES.npz');old=np.load(C4_OLD/'EXPANDED_SCORES.npz')
+ assert np.array_equal(idx,cached['sample_pixel']) and np.array_equal(R,cached['response_basis']) and np.array_equal(coeff,cached['coeff'])
+ ids0=cached['ids'];assert np.array_equal(ids0,np.r_[np.arange(130),np.arange(210,270)])
+ ix=np.searchsorted(ids0,old['ids']);assert np.array_equal(ids0[ix],old['ids']) and np.array_equal(cached['signal'][ix],old['signal']) and np.array_equal(cached['noise'][ix],old['noise'])
+ records=json.loads((D/'NEW_INPUTS.json').read_text());assert len(records)==60 and {x['id'] for x in records}==set(range(90,130))|set(range(250,270))
+ X=cached['signal']+cached['noise']
  train=X[ids0<130];assert len(train)==130
  cal=X[(ids0>=210)&(ids0<250)];test=X[(ids0>=250)&(ids0<270)];assert len(cal)==40 and len(test)==20
  def cov(X,a,target):
@@ -26,18 +27,25 @@ src=src[:src.index(token)]+'''
   cv=[float(np.mean([score(train[i:i+1],cov(f,a,target),f.mean(0))[0] for i,f in enumerate(folds)])) for a in alphas]
   j=int(np.argmin(cv));fit_results.append(dict(target=target,alpha=float(alphas[j]),cv=cv,cv_min=cv[j]))
  best=min(fit_results,key=lambda a:a['cv_min']);C=cov(train,best['alpha'],best['target']);C0=cov(train,0.,'isotropic');Ci=np.linalg.inv(C);mu=train.mean(0)
- def coef_real(a):
-  v=[]
-  for l in [3,5,7]:
-   i=l*l-4+l;v.append(a[i].real*beam[l])
-   for m in range(1,l+1):v.extend([np.sqrt(2)*a[i+m].real*beam[l],np.sqrt(2)*a[i+m].imag*beam[l]])
-  return np.array(v)
+ # Exact complex harmonic compression before any reality projection.
+ # For a=u+iv, real(-iY a) = real(-iY)u + real(Y)v (stacked Q/U).
+ Treal=Q.T@real(-1j*Y[:,:60]);Timag=Q.T@real(Y[:,:60])
  def compressed(angles):
-  cc=np.stack([coef_real(rotate(a,angles) if angles!=(0.,0.,0.) else a) for a in coeff]);return R@cc.T
- # Direct pixel and algebraic response compare on two orientations.
- replay=[]
+  cc=np.stack([rotate(a,angles) if angles!=(0.,0.,0.) else a for a in coeff])
+  for l in [3,5,7]:cc[:,l*l-4:(l+1)**2-4]*=beam[l]
+  return Treal@cc.real.T+Timag@cc.imag.T
+ # Check original real-basis path and corrected complex compression independently.
+ replay=[];old_replay=[]
  for ang in [(0.,0.,0.),(.3,1.1,.7)]:
   a=compressed(ang);b,_=response(ang);err=np.linalg.norm(a-b)/np.linalg.norm(b);assert err<1e-10;replay.append(float(err))
+  cc=np.stack([rotate(v,ang) if ang!=(0.,0.,0.) else v for v in coeff]);vv=[]
+  for c0 in cc:
+   v=[]
+   for l in [3,5,7]:
+    i=l*l-4+l;v.append(c0[i].real*beam[l])
+    for m in range(1,l+1):v.extend([np.sqrt(2)*c0[i+m].real*beam[l],np.sqrt(2)*c0[i+m].imag*beam[l]])
+   vv.append(v)
+  old_replay.append(float(np.linalg.norm(R@np.array(vv).T-b)/np.linalg.norm(b)))
  t=qmc.Sobol(3,scramble=True,seed=11845).random_base2(9);angles=np.c_[2*np.pi*t[:,0],np.arccos(2*t[:,1]-1),2*np.pi*t[:,2]]
  resp=np.array([compressed(tuple(a)) for a in angles]);Fs=np.einsum('rni,nm,rmj->rij',resp,Ci,resp);eigen=np.linalg.eigvalsh(Fs);assert np.min(eigen)>0
  # Fixed proper coefficient prior, scale selected using training covariance and the orientation geometry only.
@@ -46,7 +54,7 @@ src=src[:src.index(token)]+'''
  # Independent 33d dense covariance identity on actual first orientation and one heldout datum.
  x=Y[-1];v=resp[0];d=C+tau2*v@v.T;direct=.5*(np.linalg.slogdet(C)[1]-np.linalg.slogdet(d)[1]+x@Ci@x-x@np.linalg.solve(d,x));assert abs(direct-ll[0,-1])<1e-10
  logs={n:logsumexp(ll[:n],axis=0)-np.log(n) for n in [64,256,512]};cal95=float(np.quantile(logs[512][:40],.95));nt=logs[512][40:];new_score=float(score(test,C,mu).mean());new_raw=float(score(test,C0,mu).mean())
- out=dict(n_pairs=190,train=130,old_calibration=40,new_test=20,selected=best,fit_results=fit_results,heldout_score_unshrunk=new_raw,heldout_score_shrunk=new_score,mask_sha=acq['mask']['sha256'],beam_sha=acq['beam']['tail_sha256'],prior_sha=sha(C4_OLD/'EXPANDED_SCORES.npz'),tau2=tau2,orientation_count=512,orientation_replay_relative=replay,dense_LR_error=float(abs(direct-ll[0,-1])),fisher_condition_range=[float(np.min(eigen[:,-1]/eigen[:,0])),float(np.max(eigen[:,-1]/eigen[:,0]))],quadrature_max_abs={str(n):float(np.max(abs(logs[n]-logs[512]))) for n in [64,256]},calibration95_logLR=cal95,new_exceed=int(sum(nt>cal95)),new_logLR_mean=float(np.mean(nt)),new_logLR_range=[float(min(nt)),float(max(nt))],scope='conditional proper Gaussian template amplitude prior with empirical training covariance; Haar Sobol integral averaged likelihood ratio, empirical prior-heldout calibration and new heldout test; no observed sky, no official cosmological posterior')
+ out=dict(n_pairs=190,train=130,old_calibration=40,new_test=20,selected=best,fit_results=fit_results,heldout_score_unshrunk=new_raw,heldout_score_shrunk=new_score,mask_sha=acq['mask']['sha256'],beam_sha=acq['beam']['tail_sha256'],prior_sha=sha(C4_OLD/'EXPANDED_SCORES.npz'),tau2=tau2,orientation_count=512,orientation_replay_relative=replay,original_real_basis_replay_relative=old_replay,dense_LR_error=float(abs(direct-ll[0,-1])),fisher_condition_range=[float(np.min(eigen[:,-1]/eigen[:,0])),float(np.max(eigen[:,-1]/eigen[:,0]))],quadrature_max_abs={str(n):float(np.max(abs(logs[n]-logs[512]))) for n in [64,256]},calibration95_logLR=cal95,new_exceed=int(sum(nt>cal95)),new_logLR_mean=float(np.mean(nt)),new_logLR_range=[float(min(nt)),float(max(nt))],scope='conditional proper Gaussian template amplitude prior with empirical training covariance; Haar Sobol integral averaged likelihood ratio, empirical prior-heldout calibration and new heldout test; no observed sky, no official cosmological posterior')
  np.savez_compressed(D/'HAAR_LR.npz',ids=ids0[ids0>=210],angles=angles,logLR=ll,logLR64=logs[64],logLR256=logs[256],logLR512=logs[512],F=Fs,covariance=C,mean=mu)
  write('HAAR_COVARIANCE.json',out);print(out,flush=True)
 '''
