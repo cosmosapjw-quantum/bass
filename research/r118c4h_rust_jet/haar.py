@@ -41,7 +41,7 @@ src=ns['src'];src=src[:src.index(' # Uniform 8192 pilots')]+'''
    U=qmc.Sobol(5,scramble=True,seed=seed).random_base2(13);k=np.minimum(np.searchsorted(np.cumsum(prob),U[:,0],side='right'),len(prob)-1)
    z=ndtri(np.clip(U[:,1:],1e-15,1-1e-15));q=np.einsum('nij,nj->ni',chol[k],z);q/=np.linalg.norm(q,axis=1)[:,None]
    density=logq(q,cov,prob);assert min(density)>=np.log(.25)-1e-12
-   L=loglike(q,data[j:j+1])[:,0];lw=L-density;a={str(n):float(logsumexp(lw[:n])-np.log(n)) for n in [2048,4096,8192]};ess=float(np.exp(2*logsumexp(lw)-logsumexp(2*lw)))
+   logval=loglike(q,data[j:j+1])[:,0];lw=logval-density;a={str(n):float(logsumexp(lw[:n])-np.log(n)) for n in [2048,4096,8192]};ess=float(np.exp(2*logsumexp(lw)-logsumexp(2*lw)))
    rows.append(dict(label=label,seed=seed,logLR=a,ess=ess,components=len(prob),pilot_density_mean=float(mu),prob=prob.tolist(),eigenvalues=np.linalg.eigvalsh(cov).tolist()));lw0.append(lw);print(rows[-1],flush=True)
  prev=json.loads((C4G/'ADAPTIVE_HAAR.json').read_text())['summary'];summary=[]
  for j,label in enumerate(labels):
