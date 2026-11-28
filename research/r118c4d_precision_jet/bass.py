@@ -40,7 +40,7 @@ def gl(n):
  assert abs(w.sum()-2)<1e-15
  return x,w,float(np.max(abs(p1)))
 def integrate(kind,nr,sub):
- start=time.monotonic();dtype={'f64':np.float64,'ld':np.longdouble}[kind];D0=dtype
+ start=time.monotonic();dtype={'f64':np.float64,'ld':np.longdouble,'mf64':np.float64,'mld':np.longdouble}[kind];D0=dtype;matched=kind.startswith('m')
  def q(x):return D0(str(x))
  J,W,ident=harmonic();Jr=np.concatenate([J.real,J.imag],axis=1).astype(dtype)
  e=np.genfromtxt(EARLY,names=True,delimiter=',',dtype=dtype);l=np.genfromtxt(CLOCK,names=True,delimiter=',',dtype=dtype)
@@ -69,6 +69,15 @@ def integrate(kind,nr,sub):
   if t>=x[-1]:return y[-1]
   j=np.searchsorted(x,t,side='right')-1;return y[j]+(y[j+1]-y[j])*(t-x[j])/(x[j+1]-x[j])
  clocks=[(np.r_[dtype(0),e['u'][(e['u']>0)&(e['u']<cut)],cut],e['u'],e['ne_m3'],sub),(np.r_[cut,cut+l['u'][(l['u']>0)&(l['u']<end-cut)],end],cut+l['u'],l['ne_m3'],1)]
+ mesh_sha=None
+ if matched:
+  ef=np.genfromtxt(EARLY,names=True,delimiter=',');lf=np.genfromtxt(CLOCK,names=True,delimiter=',')
+  a0=dtype(ef['a'][0]);c0=float(np.log(1/(21*ef['a'][0])));e0=float(np.log(.2/ef['a'][0]))
+  cut=dtype(c0);end=dtype(e0)
+  e1=ef['u'];l1=c0+lf['u'];tol=1e-14
+  early=np.unique(np.r_[0.,e1[(e1>tol)&(e1<c0-tol)],c0]);late=np.unique(np.r_[c0,l1[(l1>c0+tol)&(l1<e0-tol)],e0])
+  clocks=[(early.astype(dtype),e1.astype(dtype),ef['ne_m3'].astype(dtype),sub),(late.astype(dtype),l1.astype(dtype),lf['ne_m3'].astype(dtype),1)]
+  mesh_sha=hashlib.sha256(early.tobytes()+late.tobytes()).hexdigest()
  z=np.zeros(44,dtype=dtype);z[:5]=C[0];nstep=0;hist=[]
  for u,xx,ne,nsub in clocks:
   for left,right in zip(u[:-1],u[1:]):
@@ -87,7 +96,7 @@ def integrate(kind,nr,sub):
  w0=z[20:30];bd=z[30:37]+1j*z[37:44];bw=W.astype(np.clongdouble)@w0.astype(np.longdouble)
  target=P1@wedge(Z['A'][list(Z['labels']).index('baseline')],np.array(json.loads((S/'RADIAL_FINE.json').read_text())['M']));norm=float(np.linalg.norm(target))
  tag=f'{kind}_{nr}_{sub}';np.savez_compressed(D/(tag+'.npz'),state=z,history=np.array(hist),J=J,W=W,control=control)
- out=dict(kind=kind,nr=nr,early_subdivisions=sub,steps=nstep,rhs_evaluations=6*nstep,mantissa=np.finfo(dtype).nmant,gl_polynomial_residual=glres,seconds=time.monotonic()-start,spin3_relative=float(np.linalg.norm(P3.astype(dtype)@w0)/norm),spin1_relative=float(np.linalg.norm(P1.astype(dtype)@w0-target)/norm),wedge=[str(v) for v in w0],B2_direct_norm=float(np.linalg.norm(bd)),B2_wedge_norm=float(np.linalg.norm(bw)),B2_direct_wedge_abs=float(np.linalg.norm(bd-bw)),B2_re=[float(x) for x in bd.real],B2_im=[float(x) for x in bd.imag],harmonic=ident,clock_hashes=[sha(EARLY),sha(CLOCK)],control_sha256=sha(B/'REFINED_CONTROLS.npz'),scope='all represented clock knots, fixed DP5, actual physical source, extended arithmetic only; not arbitrary precision or exact continuum')
+ out=dict(kind=kind,nr=nr,early_subdivisions=sub,steps=nstep,rhs_evaluations=6*nstep,mantissa=np.finfo(dtype).nmant,matched_grid_sha256=mesh_sha,gl_polynomial_residual=glres,seconds=time.monotonic()-start,spin3_relative=float(np.linalg.norm(P3.astype(dtype)@w0)/norm),spin1_relative=float(np.linalg.norm(P1.astype(dtype)@w0-target)/norm),wedge=[str(v) for v in w0],B2_direct_norm=float(np.linalg.norm(bd)),B2_wedge_norm=float(np.linalg.norm(bw)),B2_direct_wedge_abs=float(np.linalg.norm(bd-bw)),B2_re=[float(x) for x in bd.real],B2_im=[float(x) for x in bd.imag],harmonic=ident,clock_hashes=[sha(EARLY),sha(CLOCK)],control_sha256=sha(B/'REFINED_CONTROLS.npz'),scope='all represented clock knots, fixed DP5, actual physical source, extended arithmetic only; not arbitrary precision or exact continuum')
  write(tag+'.json',out);print(tag,out,flush=True)
 def jet(nt):
  from radial_jets import solve
@@ -95,8 +104,8 @@ def jet(nt):
  out=dict(nt=nt,nr=192,nmu=8,seconds=time.monotonic()-t0,B3_order1_to5=np.linalg.norm(b[:,9:16],axis=1).tolist(),B2_re=b[1,9:16].real.tolist(),B2_im=b[1,9:16].imag.tolist(),scope='existing source-owned fourth-order geometry/fifth-order harmonic jet, fixed uniform RK4 and radial interpolation; not exact event segmented')
  write(tag+'.json',out);print(tag,out,flush=True)
 def analysis():
- rows=[json.loads(p.read_text()) for p in sorted(D.glob('ld_*.json'))+sorted(D.glob('f64_*.json'))];jets=[json.loads(p.read_text()) for p in sorted(D.glob('jet_*.json'))];d={f"{x['kind']}_{x['nr']}_{x['early_subdivisions']}":x for x in rows};compar=[]
- for a,b in [('f64_192_16','ld_192_16'),('ld_192_16','ld_192_32'),('ld_192_32','ld_256_32')]:
+ rows=[json.loads(p.read_text()) for p in sorted(D.glob('ld_*.json'))+sorted(D.glob('f64_*.json'))+sorted(D.glob('mld_*.json'))+sorted(D.glob('mf64_*.json'))];jets=[json.loads(p.read_text()) for p in sorted(D.glob('jet_*.json'))];d={f"{x['kind']}_{x['nr']}_{x['early_subdivisions']}":x for x in rows};compar=[]
+ for a,b in [('f64_192_16','ld_192_16'),('ld_192_16','ld_192_32'),('ld_192_32','ld_256_32'),('mf64_192_16','mld_192_16'),('mld_192_16','mld_192_32')]:
   if a not in d or b not in d:continue
   x,y=d[a],d[b];u=np.array(x['wedge'],np.longdouble);v=np.array(y['wedge'],np.longdouble);compar.append(dict(a=a,b=b,wedge_relative=float(np.linalg.norm(u-v)/np.linalg.norm(v)),B2_absolute=float(np.linalg.norm(np.array(x['B2_re'])+1j*np.array(x['B2_im'])-np.array(y['B2_re'])-1j*np.array(y['B2_im'])))))
  prior=json.loads((C3/'NATIVE.json').read_text())['results']['candidate'];out=dict(rows=rows,comparisons=compar,jets=jets,prior_native=prior,scope='matched arithmetic vs mesh refinement; compare direct coefficient and nonlinear jet, no exact cancellation claim')
