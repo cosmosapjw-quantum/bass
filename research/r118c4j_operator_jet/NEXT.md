@@ -1,0 +1,1 @@
+Compose actual local native matter, coframe, expansion, radiation and collision Taylor operators through full midpoint/Strang evolution; differentiate radial distribution weights; verify higher orders and general Lie constraints.
