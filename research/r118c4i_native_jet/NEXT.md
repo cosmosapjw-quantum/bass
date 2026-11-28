@@ -1,0 +1,1 @@
+Differentiate actual nonlinear matter/geometry and native streaming operators; extend direct coefficient to higher orders and general Lie types. Validate adaptive MIS against independent multi-scramble reference.
