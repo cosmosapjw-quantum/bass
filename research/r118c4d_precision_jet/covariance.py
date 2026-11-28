@@ -22,11 +22,11 @@ src=src[:src.index(token)]+'''
   train=X[ids0<n];assert len(train)==n
   oldtest=X[(ids0>=210)&(ids0<230)];newtest=X[(ids0>=230)&(ids0<250)]
   assert len(oldtest)==len(newtest)==20
-  folds=[np.delete(train,i,axis=0) for i in range(n)];fits=[]
+  folds=[np.delete(train,i,axis=0) for i in range(n)];fit_results=[]
   for target in ['isotropic','diagonal']:
    cv=[float(np.mean([score(train[i:i+1],cov(f,a,target),f.mean(0))[0] for i,f in enumerate(folds)])) for a in alphas]
-   j=int(np.argmin(cv));fits.append(dict(target=target,alpha=float(alphas[j]),cv=cv,cv_min=cv[j]))
-  best=min(fits,key=lambda a:a['cv_min']);S0=cov(train,0.,'isotropic');C=cov(train,best['alpha'],best['target'])
+   j=int(np.argmin(cv));fit_results.append(dict(target=target,alpha=float(alphas[j]),cv=cv,cv_min=cv[j]))
+  best=min(fit_results,key=lambda a:a['cv_min']);S0=cov(train,0.,'isotropic');C=cov(train,best['alpha'],best['target'])
   metrics={}
   for k,te in [('prior',oldtest),('new',newtest),('combined',np.r_[oldtest,newtest])]:
    v=te-train.mean(0);w=np.linalg.solve(np.linalg.cholesky(C),v.T).T
@@ -36,7 +36,7 @@ src=src[:src.index(token)]+'''
   for ang in angles:
    Xr,ret=response(ang);F=Xr.T@np.linalg.solve(C,Xr);ev=np.linalg.eigvalsh(F);assert ev[0]>0
    orientation.append(dict(angles=list(ang),eigen=ev.tolist(),condition=float(ev[-1]/ev[0])))
-  results.append(dict(train=n,selected=best,fits=fits,heldout=metrics,orientations=orientation))
+  results.append(dict(train=n,selected=best,fits=fit_results,heldout=metrics,orientations=orientation))
  out=dict(n_pairs=130,old_pairs=65,new_pairs=65,dimension=33,mask_sha=acq['mask']['sha256'],beam_sha=acq['beam']['tail_sha256'],prior_scores_sha256=sha(C3_OLD/'ORIENTATION_SCORES.npz'),results=results,scope='actual official mask/beam projected B33 scores. Same 65 old+65 new; 90 train and 40 test including new separate 20. Selection only training LOO. Not observed-sky fit or official likelihood.')
  write('EXPANDED_COVARIANCE.json',out);print(out,flush=True)
 '''
