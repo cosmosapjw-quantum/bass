@@ -3,7 +3,7 @@ from pathlib import Path
 import json,numpy as np
 D=Path(__file__).resolve().parent;P=D.parent;H=P/'r118c4h_rust_jet';G=P/'r118c4g_discrete_quadratic';F=P/'r118c4f_robust_transfer';E=P/'r118c4e_precision_refit';C3=P/'r118c4c_conditioned_transfer';C4=P/'r118c4d_precision_jet'
 old=(H/'haar.py').read_text();ns={'__file__':str(H/'haar.py'),'__name__':'inspect'}
-exec(compile(old[:old.index("g={'__file__'")],str(H/'haar.py'),'exec'),ns)
+exec(compile(old[:old.rindex("\ng={'__file__'")],str(H/'haar.py'),'exec'),ns)
 src=ns['src'];start=src.index('  # check proposal normalization');src=src[:start]+'''
   # same 512 cell proposal as C4G and same ACG construction as C4H
   bins=8;nc=bins**3;ix=np.ravel_multi_index(np.minimum((pilot*bins).astype(int),bins-1).T,(bins,)*3);cnt=np.bincount(ix,minlength=nc);assert np.all(cnt==16)
