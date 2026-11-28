@@ -5,7 +5,7 @@ D=Path(__file__).resolve().parent;R=D.parents[1];P=D.parent;X=P/'r118c3x_native_
 def sha(b):return hashlib.sha256(b).hexdigest()
 def write(n,o):(D/n).write_text(json.dumps(o,indent=2)+'\n')
 def build():
- i=json.loads((X/'ops/BUILD_ID.json').read_text())['identity'];prev=json.loads((J/'BUILD_ID.json').read_text());SH.mkdir(exist_ok=False)
+ i=json.loads((X/'ops/BUILD_ID.json').read_text())['identity'];prev=json.loads((J/'BUILD_ID.json').read_text());SH.mkdir(exist_ok=os.environ.get("C4K_REBUILD")=="1")
  ar=subprocess.check_output(['git','-C',str(R),'archive',i['base'],'_rustcore','generated/rust/typeii','runtime/rust/typeii','research/r109_native_sky/hyrec_1100']);assert sha(ar)==i['archive_sha']
  with tarfile.open(fileobj=io.BytesIO(ar)) as t:t.extractall(SH,filter='data')
  changes={}

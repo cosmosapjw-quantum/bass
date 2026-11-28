@@ -32,7 +32,7 @@ impl ThomsonOwner{
         (hnew*(dold.h/old.geometry.h-dt*dq),dold.s+dt*ds)
     }
     fn c4k_f_d(s:&Matrix3<f64>,ds:&Matrix3<f64>,f:&Matrix3<f64>,df:&Matrix3<f64>,dt:f64)->Matrix3<f64>{
-        let x=s*dt;let dx=ds*dt;let mut a=Matrix3::identity();let mut da=Matrix3::zeros();let mut de=Matrix3::zeros();
+        let x=s*dt;let dx=ds*dt;let mut a=Matrix3::<f64>::identity();let mut da=Matrix3::<f64>::zeros();let mut de=Matrix3::<f64>::zeros();
         for k in 1..=18{da=(da*x+a*dx)/(k as f64);a=a*x/(k as f64);de+=da;}
         x.exp()*df+de*f
     }
