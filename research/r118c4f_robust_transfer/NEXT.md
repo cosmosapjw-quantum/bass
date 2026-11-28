@@ -1,0 +1,1 @@
+Use heldout and native results to choose control; direct nonlinear perturbative coefficient or coupled higher-precision native integrator, prior-dependent orientation sensitivity remains a conditional diagnostic.
