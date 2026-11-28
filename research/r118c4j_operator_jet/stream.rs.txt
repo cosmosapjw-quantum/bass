@@ -1,0 +1,36 @@
+use bianchi_rustcore::kinetic::lie_hierarchy::LieHierarchy;
+use bianchi_rustcore::geom::lie::{LieData,photon_potentials};
+type V=Vec<Vec<C64>>;
+type Jet=[V;3];
+fn ax(y:&Jet,k:&Jet,h:f64)->Jet{std::array::from_fn(|i|y[i].iter().zip(&k[i]).map(|(a,b)|a.iter().zip(b).map(|(u,v)|u+h*v).collect()).collect())}
+fn rhs(h:&LieHierarchy,d:&LieData,g:&LieData,y:&Jet)->Jet{
+ let p=photon_potentials(d);let q=photon_potentials(g);
+ let mut z:Jet=std::array::from_fn(|_|h.zero_state());for i in 0..3{h.rhs(&p,&y[i],&mut z[i]);if i>0{let mut w=h.zero_state();h.rhs(&q,&y[i-1],&mut w);for(a,b)in z[i].iter_mut().zip(w){for(x,v)in a.iter_mut().zip(b){*x+=v;}}}}z
+}
+fn norm(v:&V)->f64{v.iter().flatten().map(|v|v.norm_sqr()).sum::<f64>().sqrt()}
+fn diff(a:&V,b:&V)->f64{a.iter().zip(b).flat_map(|(a,b)|a.iter().zip(b)).map(|(a,b)|(a-b).norm_sqr()).sum::<f64>().sqrt()}
+fn c4j_stream(t:&bianchi_rustcore::kinetic::owned_thomson::ThomsonState,lmax:usize,case:usize)->Result<(),String>{
+ let h=LieHierarchy::new(lmax,true,4.)?;
+ let s=bianchi_rustcore::kinetic::memory_mixture::stf_matrix(t.geometry.s);
+ let mut d=LieData{shear:std::array::from_fn(|i|std::array::from_fn(|j|s[(i,j)])),..Default::default()};
+ // extra generator checks: fixed Lie geometry at one slice, not evolution solutions.
+ if case==1{d.n=[[0.,0.,0.],[0.,0.3,0.],[0.,0.,0.3]];}
+ if case==2{d.a=[0.2,0.,0.];d.n=[[0.,0.,0.],[0.,0.25,0.],[0.,0.,-0.25]];}
+ let g=LieData{shear:[[0.12,0.04,-0.03],[0.04,-0.05,0.02],[-0.03,0.02,-0.07]],..Default::default()};
+ let dt=0.02;let y0=t.sky.coefficients.clone();let y:Jet=[y0.clone(),h.zero_state(),h.zero_state()];
+ // bound <= 0.5 so exact native count=1 for tested +/- states.
+ let bound=dt*(lmax as f64+6.)*(d.shear.iter().flatten().map(|v|v*v).sum::<f64>().sqrt()+d.n.iter().flatten().map(|v|v*v).sum::<f64>().sqrt()+d.a.iter().map(|v|v*v).sum::<f64>().sqrt()+0.01*g.shear.iter().flatten().map(|v|v*v).sum::<f64>().sqrt());assert!(bound<0.5);
+ let k1=rhs(&h,&d,&g,&y);let k2=rhs(&h,&d,&g,&ax(&y,&k1,dt/2.));let k3=rhs(&h,&d,&g,&ax(&y,&k2,dt/2.));let k4=rhs(&h,&d,&g,&ax(&y,&k3,dt));
+ let mut out=ax(&ax(&ax(&ax(&y,&k1,dt/6.),&k2,dt/3.),&k3,dt/3.),&k4,dt/6.);
+ for w in &mut out{for v in w.iter_mut().flatten(){*v*=(-4.*dt).exp();}}
+ let mut base=y0.clone();h.stream(&mut base,&d,&d,dt)?;
+ assert!(diff(&base,&out[0])/norm(&base)<1e-13);
+ for eps in [0.01,0.003,0.001]{
+ let shift=|e:f64|{let mut p=d;for i in 0..3{for j in 0..3{p.shear[i][j]+=e*g.shear[i][j];}}p};
+ let p=shift(eps);let m=shift(-eps);let mut up=y0.clone();let mut um=y0.clone();h.stream(&mut up,&p,&p,dt)?;h.stream(&mut um,&m,&m,dt)?;
+ let a:V=up.iter().zip(&um).map(|(a,b)|a.iter().zip(b).map(|(x,y)|(x-y)/(2.*eps)).collect()).collect();
+ let b:V=up.iter().zip(&um).zip(&base).map(|((a,b),c)|a.iter().zip(b).zip(c).map(|((x,y),z)|(x+y-2.*z)/(2.*eps*eps)).collect()).collect();
+ eprintln!("C4J_STREAM,{:.17e},{case},{eps:.17e},{bound:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e}",t.geometry.a,diff(&base,&out[0])/norm(&base),norm(&out[1])/norm(&base),norm(&out[2])/norm(&base),diff(&a,&out[1])/norm(&out[1]),diff(&b,&out[2])/norm(&out[2]));
+ }
+ Ok(())
+}

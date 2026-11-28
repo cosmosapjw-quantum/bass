@@ -1,0 +1,13 @@
+    pub fn c4j_matter_probe(&self,t:&ThomsonState,g:&Matrix3<f64>)->Result<(),String>{
+        let a=t.geometry.a;let f=&t.geometry.f;let base=self.model.matter_without_photons(a,f)?;
+        let jet=self.model.c4j_matter_jet(a,f,g)?;
+        for eps in [0.01,0.003,0.001]{
+            let p=self.model.matter_without_photons(a,&((g*eps).exp()*f))?;
+            let m=self.model.matter_without_photons(a,&((g*(-eps)).exp()*f))?;
+            let r1=(p.rho-m.rho)/(2.*eps);let r2=(p.rho+m.rho-2.*base.rho)/(2.*eps*eps);
+            let p1=(p.pressure-m.pressure)/(2.*eps);let p2=(p.pressure+m.pressure-2.*base.pressure)/(2.*eps*eps);
+            let scale=base.rho;let ps=base.pressure.norm();
+            eprintln!("C4J_MAT,{a:.17e},{eps:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e}",jet[0].0/scale,jet[1].0/scale,(r1-jet[0].0).abs()/scale,(r2-jet[1].0).abs()/scale,jet[0].1.norm()/ps,jet[1].1.norm()/ps,(p1-jet[0].1).norm()/ps,(p2-jet[1].1).norm()/ps);
+        }
+        Ok(())
+    }

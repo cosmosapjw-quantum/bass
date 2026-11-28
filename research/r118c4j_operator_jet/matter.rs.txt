@@ -1,0 +1,17 @@
+    /// Fixed particle weights and a; F(e)=exp(e A) F, trace A=0.
+    pub fn c4j_matter_jet(&self,a:f64,f:&Matrix3<f64>,g:&Matrix3<f64>)->Result<[(f64,Matrix3<f64>);2],String>{
+        if g.trace().abs()>1e-12{return Err("non-STF coframe tangent trace".into())}
+        let inv=f.try_inverse().ok_or("singular coframe")?.transpose();
+        let mut rho=[0.;2];let mut p=[Matrix3::zeros(),Matrix3::zeros()];
+        for x in &self.particles{
+            if x.photon{continue}
+            let v=inv*x.q;let v1=-g.transpose()*v;let v2=g.transpose()*g.transpose()*v*0.5;
+            let e=v.norm().hypot(a*x.m);let e1=v.dot(&v1)/e;let e2=(v1.norm_squared()+2.*v.dot(&v2)-e1*e1)/(2.*e);
+            let q=v*v.transpose();let q1=v1*v.transpose()+v*v1.transpose();
+            let q2=v2*v.transpose()+v*v2.transpose()+v1*v1.transpose();
+            rho[0]+=x.w*e1;rho[1]+=x.w*e2;
+            p[0]+=x.w*(q1/e-q*(e1/e.powi(2)));
+            p[1]+=x.w*(q2/e-q1*(e1/e.powi(2))+q*(e1*e1/e.powi(3)-e2/e.powi(2)));
+        }
+        Ok(std::array::from_fn(|i|(rho[i]/a.powi(4),p[i]/a.powi(4))))
+    }
