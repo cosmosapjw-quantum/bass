@@ -1,0 +1,24 @@
+    // Derivative wrt a common factor (1+p) multiplying represented radial STF controls.
+    pub fn c4k_weights(&self,specs:&[(f64,f64,[f64;5],[f64;5])],nr:usize,nt:usize,np:usize)->Result<Vec<f64>,String>{
+        let count=nr*nt*np;let mut out=vec![0.;self.particles.len()];
+        assert_eq!(self.particles.len(),specs.len()*count+nt*np);
+        for (i,p) in self.particles.iter().enumerate(){
+            if p.photon{continue;}
+            let j=i/count;let (_,_,j1,j2)=specs[j];let y=p.q.norm();let n=p.q/y;
+            let w=1./(1.+(-0.5*((y-8.)/1.4).powi(2)+0.5*((y-0.7)/1.4).powi(2)).clamp(-700.,700.).exp());
+            let j=n.dot(&((w*stf_matrix(j1)+(1.-w)*stf_matrix(j2))*n));
+            let x=y*(-j).exp();let f=1./(1.+x.exp());out[i]=p.w*x*(1.-f)*j;
+        }Ok(out)
+    }
+    pub fn c4k_matter_d(&self,a:f64,f:&Matrix3<f64>,df:&Matrix3<f64>,dw:&[f64])->Result<Matter,String>{
+        assert_eq!(dw.len(),self.particles.len());
+        let inv=f.try_inverse().ok_or("singular tangent coframe")?.transpose();
+        let g=-(inv*df.transpose());let mut rho=0.;let mut pr=Matrix3::zeros();
+        for (p,w1) in self.particles.iter().zip(dw){
+            if p.photon{continue}
+            let v=inv*p.q;let dv=g*v;let e=v.norm().hypot(a*p.m);let de=v.dot(&dv)/e;
+            let vv=v*v.transpose();rho+=w1*e+p.w*de;
+            pr+=vv*(w1/e-p.w*de/e.powi(2))+(dv*v.transpose()+v*dv.transpose())*(p.w/e);
+        }
+        Ok(Matter{rho:rho/a.powi(4),pressure:pr/a.powi(4),photon_rho:0.})
+    }
