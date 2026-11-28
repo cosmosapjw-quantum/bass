@@ -1,0 +1,32 @@
+use bianchi_rustcore::{geom::lie::canonical_algebra,kinetic::{lie_history::{initial_lie_node,LieInitial},radiation_feedback::{advance_mixture_with_options,ExpansionEquation,LieUpdate}}};
+use nalgebra::{Matrix3,Vector3};
+fn mat(a:[[f64;3];3])->Matrix3<f64>{Matrix3::from_fn(|i,j|a[i][j])}
+fn rows(m:Matrix3<f64>)->[[f64;3];3]{std::array::from_fn(|i|std::array::from_fn(|j|m[(i,j)]))}
+fn main()->Result<(),Box<dyn std::error::Error>>{
+ let p=std::env::args().nth(1).ok_or("stress input")?;
+ let a:Vec<f64>=std::fs::read_to_string(p)?.split_whitespace().map(str::parse).collect::<Result<_,_>>()?;
+ assert_eq!(a.len(),7);let dp=Matrix3::new(a[1],a[4],a[5],a[4],a[2],a[6],a[5],a[6],a[3]);let dr=a[0];let scale=dr.abs().max(dp.norm());assert!(scale>0.);
+ let s=Matrix3::new(0.02,0.003,-0.005,0.003,-0.012,0.002,-0.005,0.002,-0.008);
+ // Controlled local off-constraint matter perturbation; scale selected only for FD.
+ let p0=Matrix3::identity()*0.12;let rho=0.8;let q1=(dr+dp.trace())/(2.*scale);let p1=dp/scale;let ds1=q1*s+3.*(p1-Matrix3::identity()*p1.trace()/3.);
+ let dt=0.013;
+ println!("family,mode,h,scale,physical_dq,dlnh_gap,ds_gap,n_gap,a_gap,jacobi,physical_ds_norm");
+ for f in ["I","II","III","IV","V","VI0","VIstar","VII0","VIh:-0.25","VIIh:0.25","VIII","IX"]{
+  let (n,a)=canonical_algebra(f,0.1,&Matrix3::identity())?;
+  let node=initial_lie_node(&LieInitial{shear:rows(s),n,a})?;
+  for mode in [LieUpdate::Additive,LieUpdate::Congruence]{
+   let advance=|e:f64|{let r=rho+e*dr/scale;advance_mixture_with_options(&node,&node,dt,r,rows((p0+e*p1)/r),[0.;3],ExpansionEquation::Raychaudhuri,mode)};
+   let base=advance(0.)?;
+   let (dn,da)=if mode==LieUpdate::Additive{(dt*q1*mat(node.n),dt*q1*Vector3::from(node.a))}else{(dt*q1*mat(base.n),dt*q1*Vector3::from(base.a))};
+   for ep in [0.001,0.0001]{
+    let u=advance(ep)?;let v=advance(-ep)?;
+    let lh=(u.hubble_ratio.ln()-v.hubble_ratio.ln())/(2.*ep);
+    let ds=(mat(u.shear)-mat(v.shear))/(2.*ep);
+    let dnn=(mat(u.n)-mat(v.n))/(2.*ep);
+    let daa=(Vector3::from(u.a)-Vector3::from(v.a))/(2.*ep);
+    let jac=(mat(u.n)*Vector3::from(u.a)).norm().max((mat(v.n)*Vector3::from(v.a)).norm());
+    println!("{f},{},{ep:.17e},{scale:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{jac:.17e},{:.17e}",mode.name(),scale*q1,(lh+dt*q1).abs(),(ds-dt*ds1).norm(),(dnn-dn).norm(),(daa-da).norm(),scale*ds1.norm());
+   }
+  }
+ }Ok(())
+}
