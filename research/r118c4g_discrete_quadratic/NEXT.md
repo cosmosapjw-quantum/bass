@@ -1,0 +1,1 @@
+Carry exact discrete coefficient into native Rust owner or compare higher jets and clock/geometry source; refine adaptive rotation quadrature with independent pilot and observed ESS.
