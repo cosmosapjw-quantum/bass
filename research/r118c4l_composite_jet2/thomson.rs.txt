@@ -1,0 +1,112 @@
+impl ThomsonOwner {
+    pub fn c4l_weights2(&self,specs:&[(f64,f64,[f64;5],[f64;5])],nr:usize,nt:usize,np:usize)->Result<Vec<f64>,String>{self.model.c4l_weights2(specs,nr,nt,np)}
+    pub fn c4l_matter2(&self,t:&ThomsonState,d1:&C4KTangent,d2:&C4KTangent,w1:&[f64],w2:&[f64])->Result<Matter,String>{
+        use crate::kinetic::spin_sht::index;
+        let mut m=self.model.c4l_matter2(t.geometry.a,&t.geometry.f,&d1.f,&d2.f,w1,w2)?;
+        let a=&d2.sky[0];let p=std::f64::consts::PI;let energy=(4.*p).sqrt()*a[0].re;
+        let zz=(16.*p/45.).sqrt()*a[index(2,0)].re;let c=(8.*p/15.).sqrt();let xy=c*a[index(2,2)].re;
+        let off=-c*a[index(2,2)].im;let xz=-c*a[index(2,1)].re;let yz=c*a[index(2,1)].im;
+        let pressure=Matrix3::new(energy/3.-zz/2.+xy,off,xz,off,energy/3.-zz/2.-xy,yz,xz,yz,energy/3.+zz);
+        let scale=OG/t.initial_a.powi(4)/(4.*p);m.rho+=scale*energy;m.photon_rho=scale*energy;m.pressure+=scale*pressure;Ok(m)
+    }
+    pub fn c4l_initial2(&self,t:&ThomsonState,d1:&C4KTangent,w1:&[f64],w2:&[f64])->Result<C4KTangent,String>{
+        let mut d2=C4KTangent{h:0.,s:Matrix3::zeros(),f:Matrix3::zeros(),sky:t.sky.coefficients.iter().map(|v|vec![crate::kinetic::spin_sht::C64::new(0.,0.);v.len()]).collect()};
+        let m=self.matter(t)?;let m1=self.c4k_matter_d(t,d1,w1)?;let m2=self.c4l_matter2(t,d1,&d2,w1,w2)?;
+        let s=stf_matrix(t.geometry.s);let den=1.-s.norm_squared()/6.;
+        let a=s.dot(&d1.s)/(3.*den);let b=(d1.s.norm_squared()+2.*s.dot(&d2.s))/(6.*den);
+        let r1=m1.rho/(m.rho+OL)+a;let r2=m2.rho/(m.rho+OL)+a*m1.rho/(m.rho+OL)+a*a+b;
+        d2.h=t.geometry.h*(0.5*r2-0.125*r1*r1);Ok(d2)
+    }
+    pub fn c4l_constraint2(&self,t:&ThomsonState,d1:&C4KTangent,d2:&C4KTangent,w1:&[f64],w2:&[f64])->Result<f64,String>{
+        let m=self.matter(t)?;let m1=self.c4k_matter_d(t,d1,w1)?;let m2=self.c4l_matter2(t,d1,d2,w1,w2)?;let h=t.geometry.h;let x=d1.h/h;let y=d2.h/h;
+        Ok(-(d1.s.norm_squared()+2.*stf_matrix(t.geometry.s).dot(&d2.s))/6.-(m2.rho-2.*x*m1.rho+(3.*x*x-2.*y)*(m.rho+OL))/h.powi(2))
+    }
+    fn c4l_geom2(old:&ThomsonState,o1:&C4KTangent,o2:&C4KTangent,at:&ThomsonState,d1:&C4KTangent,d2:&C4KTangent,m:&Matter,m1:&Matter,m2:&Matter,dt:f64,hnew:f64)->(f64,Matrix3<f64>){
+        let s=stf_matrix(at.geometry.s);let h=at.geometry.h;let x=d1.h/h;let y=d2.h/h;let r=3.*x*x-2.*y;
+        let a=m.rho+m.pressure.trace()-2.*OL;let b=m1.rho+m1.pressure.trace();let c=m2.rho+m2.pressure.trace();
+        let q=s.norm_squared()/3.+a/(2.*h*h);
+        let q1=2.*s.dot(&d1.s)/3.+(b-2.*x*a)/(2.*h*h);
+        let q2=(d1.s.norm_squared()+2.*s.dot(&d2.s))/3.+(c-2.*x*b+r*a)/(2.*h*h);
+        let p=(m2.pressure-2.*x*m1.pressure+r*m.pressure)/h.powi(2);
+        let ds=(q-2.)*d2.s+q1*d1.s+q2*s+3.*(p-Matrix3::identity()*p.trace()/3.);
+        let dh=hnew*(o2.h/old.geometry.h-dt*q2+0.5*(dt*q1).powi(2)-dt*q1*o1.h/old.geometry.h);
+        (dh,o2.s+dt*ds)
+    }
+    fn c4l_f2(s:&Matrix3<f64>,s1:&Matrix3<f64>,s2:&Matrix3<f64>,f:&Matrix3<f64>,f1:&Matrix3<f64>,f2:&Matrix3<f64>,dt:f64)->Matrix3<f64>{
+        let x=s*dt;let x1=s1*dt;let x2=s2*dt;let mut a=Matrix3::<f64>::identity();let mut b=Matrix3::<f64>::zeros();let mut c=b;let mut e1=b;let mut e2=b;
+        for k in 1..=18{let z=k as f64;c=(c*x+b*x1+a*x2)/z;b=(b*x+a*x1)/z;a=a*x/z;e1+=b;e2+=c;}
+        x.exp()*f2+e1*f1+e2*f
+    }
+    fn c4l_stream2(h:&crate::kinetic::lie_hierarchy::LieHierarchy,y:&C4KV,y1:&C4KV,y2:&C4KV,s:&Matrix3<f64>,s1:&Matrix3<f64>,s2:&Matrix3<f64>,dt:f64)->C4KV{
+        use crate::geom::lie::{LieData,photon_potentials};
+        let pot=|s:Matrix3<f64>|photon_potentials(&LieData{shear:rows(s),..Default::default()});
+        let p=pot(*s);let p1=pot(*s1);let p2=pot(*s2);
+        assert!(dt.abs()*(h.lmax as f64+2.+h.carrier)*s.norm()<0.49);
+        let ax=|a:&C4KV,b:&C4KV,c:f64|->C4KV{a.iter().zip(b).map(|(v,w)|v.iter().zip(w).map(|(x,z)|*x+c*z).collect()).collect()};
+        let base=[y.clone(),y1.clone(),y2.clone()];
+        let rhs=|a:&[C4KV;3]|-> [C4KV;3]{
+            let mut f=h.zero_state();let mut g=h.zero_state();let mut r=h.zero_state();let mut z=h.zero_state();let mut v=h.zero_state();
+            h.rhs(&p,&a[0],&mut f);h.rhs(&p,&a[1],&mut g);h.rhs(&p1,&a[0],&mut z);g=ax(&g,&z,1.);
+            h.rhs(&p,&a[2],&mut r);h.rhs(&p1,&a[1],&mut z);h.rhs(&p2,&a[0],&mut v);r=ax(&ax(&r,&z,1.),&v,1.);
+            [f,g,r]
+        };
+        let stage=|k:&[C4KV;3],v:f64|std::array::from_fn(|j|ax(&base[j],&k[j],v));
+        let k1=rhs(&base);let k2=rhs(&stage(&k1,dt/2.));let k3=rhs(&stage(&k2,dt/2.));let k4=rhs(&stage(&k3,dt));
+        let decay=(-h.carrier*dt).exp();
+        y2.iter().zip(&k1[2]).zip(&k2[2]).zip(&k3[2]).zip(&k4[2]).map(|((((a,b),c),d),e)|a.iter().zip(b).zip(c).zip(d).zip(e).map(|((((x,k1),k2),k3),k4)|(*x+(*k1+(*k2+*k3)*2.+*k4)*(dt/6.))*decay).collect()).collect()
+    }
+    fn c4l_radiation(old:&HarmonicSky,y1:&C4KV,y2:&C4KV,at:&RayNode,s1:&Matrix3<f64>,s2:&Matrix3<f64>,du:f64,depth:[f64;3],h:&crate::kinetic::lie_hierarchy::LieHierarchy)->Result<(HarmonicSky,C4KV,C4KV),String>{
+        use crate::kinetic::spin_sht::index;
+        let sig=Matrix3::from_fn(|i,j|at.shear[i][j]);
+        let mut s=old.clone();let mut d=old.clone();let mut b=old.clone();
+        d.coefficients=Self::c4k_stream_d(h,&old.coefficients,y1,&sig,s1,du/2.);
+        b.coefficients=Self::c4l_stream2(h,&old.coefficients,y1,y2,&sig,s1,s2,du/2.);
+        let a=RayNode{eta:0.,..at.clone()};let v=RayNode{eta:du/2.,..a.clone()};
+        s.stream(&a,&v)?;Self::c3w_parity(&mut s);Self::c3w_parity(&mut d);Self::c3w_parity(&mut b);
+        let [x,x1,x2]=depth;
+        let z=(-x).exp();let t=(-0.3*x).exp()*(-(-0.7*x).exp_m1())/0.7;let dz=-z*x1;let dt=(z-0.3*t)*x1;
+        let z2=z*(0.5*x1*x1-x2);let t2=(z-0.3*t)*x2+0.5*(-z-0.3*(z-0.3*t))*x1*x1;
+        let c=(8_f64/3.).sqrt();
+        for l in 1..=s.lmax(){for m in -(l as i64)..=l as i64{let k=index(l,m);
+            if l==2{
+                let i=s.coefficients[0][k];let e=-(s.coefficients[1][k]+s.coefficients[2][k])*0.5;
+                let di=d.coefficients[0][k];let de=-(d.coefficients[1][k]+d.coefficients[2][k])*0.5;
+                let bi=b.coefficients[0][k];let be=-(b.coefficients[1][k]+b.coefficients[2][k])*0.5;
+                let ni=z*i+t*(0.1*i+0.4/c*e);let ne=z*e+t*(0.15*c*i+0.6*e);
+                let ndi=z*di+t*(0.1*di+0.4/c*de)+dz*i+dt*(0.1*i+0.4/c*e);
+                let nde=z*de+t*(0.15*c*di+0.6*de)+dz*e+dt*(0.15*c*i+0.6*e);
+                let nbi=z*bi+t*(0.1*bi+0.4/c*be)+dz*di+dt*(0.1*di+0.4/c*de)+z2*i+t2*(0.1*i+0.4/c*e);
+                let nbe=z*be+t*(0.15*c*bi+0.6*be)+dz*de+dt*(0.15*c*di+0.6*de)+z2*e+t2*(0.15*c*i+0.6*e);
+                s.coefficients[0][k]=ni;s.coefficients[1][k]=-ne;s.coefficients[2][k]=-ne;
+                d.coefficients[0][k]=ndi;d.coefficients[1][k]=-nde;d.coefficients[2][k]=-nde;
+                b.coefficients[0][k]=nbi;b.coefficients[1][k]=-nbe;b.coefficients[2][k]=-nbe;
+            }else{for j in 0..s.coefficients.len(){b.coefficients[j][k]=z*b.coefficients[j][k]+dz*d.coefficients[j][k]+z2*s.coefficients[j][k];d.coefficients[j][k]=z*d.coefficients[j][k]+dz*s.coefficients[j][k];s.coefficients[j][k]*=z;}}
+        }}
+        b.coefficients=Self::c4l_stream2(h,&s.coefficients,&d.coefficients,&b.coefficients,&sig,s1,s2,du/2.);
+        d.coefficients=Self::c4k_stream_d(h,&s.coefficients,&d.coefficients,&sig,s1,du/2.);
+        let c=RayNode{eta:du,..a.clone()};s.stream(&v,&c)?;Self::c3w_parity(&mut s);Self::c3w_parity(&mut d);Self::c3w_parity(&mut b);s.moments()?;
+        Ok((s,d.coefficients,b.coefficients))
+    }
+    pub fn c4l_step(&self,t:&ThomsonState,d:&C4KTangent,b:&C4KTangent,w1:&[f64],w2:&[f64],h:&crate::kinetic::lie_hierarchy::LieHierarchy,du:f64,ne0:f64,nem:f64)->Result<(ThomsonState,C4KTangent,C4KTangent),String>{
+        let s=&t.geometry;let m=self.matter(t)?;let dm=self.c4k_matter_d(t,d,w1)?;let bm=self.c4l_matter2(t,d,b,w1,w2)?;let n=Self::node(s,&m);
+        let mid=advance_mixture(&n,&n,du/2.,m.rho/s.h.powi(2),rows(m.pressure/m.rho),[0.;3])?;
+        let sm=stf_components(Matrix3::from_fn(|i,j|mid.shear[i][j]));let dep=|x:f64,h:f64,d:f64,b:f64|[x,-x*d/h,x*((d/h).powi(2)-b/h)];
+        let depth=dep(C_SIG*(ne0+nem)/2./(H0*s.h)*du/2.,s.h,d.h,b.h);
+        let (sk,dsk,bsk)=Self::c4l_radiation(&t.sky,&d.sky,&b.sky,&n,&d.s,&b.s,du/2.,depth,h)?;
+        let half=ThomsonState{geometry:OwnedState{a:s.a*(du/2.).exp(),h:mid.hubble_ratio,s:sm,f:(stf_matrix(s.s)*(du/2.)).exp()*s.f},sky:sk,initial_a:t.initial_a};
+        let(dh,ds)=Self::c4k_geom_d(t,d,t,d,&m,&dm,du/2.,mid.hubble_ratio);
+        let(bh,bs)=Self::c4l_geom2(t,d,b,t,d,b,&m,&dm,&bm,du/2.,mid.hubble_ratio);
+        let hd=C4KTangent{h:dh,s:ds,f:Self::c4k_f_d(&stf_matrix(s.s),&d.s,&s.f,&d.f,du/2.),sky:dsk};
+        let hb=C4KTangent{h:bh,s:bs,f:Self::c4l_f2(&stf_matrix(s.s),&d.s,&b.s,&s.f,&d.f,&b.f,du/2.),sky:bsk};
+        let hm=self.matter(&half)?;let dhm=self.c4k_matter_d(&half,&hd,w1)?;let bhm=self.c4l_matter2(&half,&hd,&hb,w1,w2)?;let at=Self::node(&half.geometry,&hm);
+        let out=advance_mixture(&n,&at,du,hm.rho/half.geometry.h.powi(2),rows(hm.pressure/hm.rho),[0.;3])?;
+        let depth=dep(C_SIG*nem/(H0*half.geometry.h)*du,half.geometry.h,hd.h,hb.h);
+        let(sky,dsky,bsky)=Self::c4l_radiation(&t.sky,&d.sky,&b.sky,&at,&hd.s,&hb.s,du,depth,h)?;
+        let next=ThomsonState{geometry:OwnedState{a:s.a*du.exp(),h:out.hubble_ratio,s:stf_components(Matrix3::from_fn(|i,j|out.shear[i][j])),f:(stf_matrix(sm)*du).exp()*s.f},sky,initial_a:t.initial_a};
+        let(dh,ds)=Self::c4k_geom_d(t,d,&half,&hd,&hm,&dhm,du,out.hubble_ratio);
+        let(bh,bs)=Self::c4l_geom2(t,d,b,&half,&hd,&hb,&hm,&dhm,&bhm,du,out.hubble_ratio);
+        let nd=C4KTangent{h:dh,s:stf_matrix(stf_components(ds)),f:Self::c4k_f_d(&stf_matrix(sm),&hd.s,&s.f,&d.f,du),sky:dsky};
+        let nb=C4KTangent{h:bh,s:stf_matrix(stf_components(bs)),f:Self::c4l_f2(&stf_matrix(sm),&hd.s,&hb.s,&s.f,&d.f,&b.f,du),sky:bsky};
+        self.matter(&next)?;Ok((next,nd,nb))
+    }
+}

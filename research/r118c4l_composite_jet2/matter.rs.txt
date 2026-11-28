@@ -1,0 +1,29 @@
+    /// Taylor coefficients (not factorial-free derivatives) for radial control scaling.
+    pub fn c4l_weights2(&self,specs:&[(f64,f64,[f64;5],[f64;5])],nr:usize,nt:usize,np:usize)->Result<Vec<f64>,String>{
+        let count=nr*nt*np;let mut out=vec![0.;self.particles.len()];
+        assert_eq!(self.particles.len(),specs.len()*count+nt*np);
+        for (i,p) in self.particles.iter().enumerate(){
+            if p.photon{continue}
+            let (_,_,j1,j2)=specs[i/count];let y=p.q.norm();let n=p.q/y;
+            let w=1./(1.+(-0.5*((y-8.)/1.4).powi(2)+0.5*((y-0.7)/1.4).powi(2)).clamp(-700.,700.).exp());
+            let j=n.dot(&((w*stf_matrix(j1)+(1.-w)*stf_matrix(j2))*n));
+            let x=y*(-j).exp();let f=1./(1.+x.exp());
+            out[i]=0.5*p.w*x*(1.-f)*j*j*(x*(1.-2.*f)-1.);
+        }Ok(out)
+    }
+    pub fn c4l_matter2(&self,a:f64,f:&Matrix3<f64>,f1:&Matrix3<f64>,f2:&Matrix3<f64>,w1:&[f64],w2:&[f64])->Result<Matter,String>{
+        assert_eq!(w1.len(),self.particles.len());assert_eq!(w2.len(),w1.len());
+        let inv=f.try_inverse().ok_or("singular jet coframe")?.transpose();
+        let g1=-(inv*f1.transpose());let g2=-(inv*f2.transpose());
+        let mut rho=0.;let mut pr=Matrix3::zeros();
+        for (i,p) in self.particles.iter().enumerate(){
+            if p.photon{continue}
+            let v=inv*p.q;let v1=g1*v;let v2=g2*v+g1*v1;
+            let e=v.norm().hypot(a*p.m);let e1=v.dot(&v1)/e;let e2=(v1.norm_squared()+2.*v.dot(&v2)-e1*e1)/(2.*e);
+            let q=v*v.transpose();let q1=v*v1.transpose()+v1*v.transpose();
+            let q2=v*v2.transpose()+v2*v.transpose()+v1*v1.transpose();
+            let r1=-e1/e.powi(2);let r2=e1*e1/e.powi(3)-e2/e.powi(2);
+            rho+=p.w*e2+w1[i]*e1+w2[i]*e;
+            pr+=q2*(p.w/e)+q1*(w1[i]/e+p.w*r1)+q*(w2[i]/e+w1[i]*r1+p.w*r2);
+        }Ok(Matter{rho:rho/a.powi(4),pressure:pr/a.powi(4),photon_rho:0.})
+    }
