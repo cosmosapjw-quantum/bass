@@ -1,0 +1,1 @@
+Refit physical control against high-accuracy direct wedge, then compare native signed-amplitude extrapolation under independently refined grids. Preserve source-owned B3 and finite covariance boundary.
