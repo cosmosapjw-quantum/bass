@@ -56,13 +56,28 @@ def heldout():
  out=dict(selected=str(b['selected']),radial=320,early_subdivisions=16,rows=rows,harmonic=ident,scope='independent actual physical DP5 propagation and untrained radial basis, same exact clock mesh')
  write('HELDOUT.json',out);print(out,flush=True)
 def native():
- b=np.load(D/'TRAIN_CONTROLS.npz');binary=D.parents[1]/'_rustcore/target/release/examples/c3x_radial';want=json.loads((P/'r118c3x_native_coefficients/ops/BUILD_ID.json').read_text())['binary']['sha256'];assert sha(binary)==want
+ with np.load(D/'TRAIN_CONTROLS.npz') as b: controls={k:b['control_'+k].copy() for k in ['old','new']}
+ binary=D.parents[1]/'_rustcore/target/release/examples/c3x_radial';want=json.loads((P/'r118c3x_native_coefficients/ops/BUILD_ID.json').read_text())['binary']['sha256'];assert sha(binary)==want
  clock=P/'r118c3l_reachable_sky/clock.csv';cases=[('zero',0.)]+[(k,e) for k in ['old','new'] for e in [-.01,.01,-.02,.02,-.04,.04]]
  def job(q):
-  k,e=q;tag=f'{k}_{e:g}_16384';ctrl=b['control_old' if k=='old' else 'control_new'];np.savetxt(D/(tag+'.ctrl'),np.r_[[.001,.006,.05],(e*ctrl.T).ravel()][None],fmt='%.17e');t=time.monotonic()
+  k,e=q;tag=f'{k}_{e:g}_16384';ctrl=controls['old' if k=='old' else 'new'];expected=np.r_[[.001,.006,.05],(e*ctrl.T).ravel()][None]
+  # Resume only explicitly successful prior cases and validate the exact input and output.
+  import io
+  st=io.StringIO();np.savetxt(st,expected,fmt='%.17e');expected_bytes=st.getvalue().encode()
+  logfile=D/'native.log'
+  done=logfile.is_file() and ('native '+tag) in logfile.read_text().splitlines()
+  if done:
+   assert (D/(tag+'.ctrl')).read_bytes()==expected_bytes
+   a=np.genfromtxt(D/(tag+'.csv'),names=True,delimiter=',')
+   assert len(a)>0 and sum((a['epoch']==1)&(a['ell']==3))==7 and all(np.all(np.isfinite(a[k])) for k in a.dtype.names)
+   assert 'max_gauss=' in (D/(tag+'.geom')).read_text()
+   print('verified_resume',tag,flush=True)
+   return dict(tag=tag,exit=0,reused=True,seconds=None,control_sha=sha(D/(tag+'.ctrl')),output_sha=sha(D/(tag+'.csv')))
+  assert not any((D/(tag+ext)).exists() for ext in ['.ctrl','.csv','.geom']),tag
+  (D/(tag+'.ctrl')).write_bytes(expected_bytes);t=time.monotonic()
   with (D/(tag+'.csv')).open('w') as f,(D/(tag+'.geom')).open('w') as z:r=subprocess.run([str(binary),str(clock),str(D/(tag+'.ctrl')),'16384','192','8','8'],stdout=f,stderr=z,timeout=280)
   assert r.returncode==0 and 'max_gauss=' in (D/(tag+'.geom')).read_text(),tag
-  print('native',tag,flush=True);return dict(tag=tag,exit=r.returncode,seconds=time.monotonic()-t)
+  print('native',tag,flush=True);return dict(tag=tag,exit=r.returncode,reused=False,seconds=time.monotonic()-t,control_sha=sha(D/(tag+'.ctrl')),output_sha=sha(D/(tag+'.csv')))
  with cf.ThreadPoolExecutor(max_workers=7) as ex:rows=list(ex.map(job,cases))
  def read(k,e):
   a=np.genfromtxt(D/f'{k}_{e:g}_16384.csv',names=True,delimiter=',');m=(a['epoch']==1)&(a['ell']==3);assert sum(m)==7;return a['Bre'][m]+1j*a['Bim'][m]

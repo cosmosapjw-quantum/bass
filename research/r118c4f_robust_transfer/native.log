@@ -1,0 +1,40 @@
+native old_0.02_16384
+native new_-0.02_16384
+native new_-0.01_16384
+native old_-0.04_16384
+native new_0.01_16384
+native zero_0_16384
+native old_0.01_16384
+native new_-0.04_16384
+native new_0.04_16384
+native new_0.02_16384
+Traceback (most recent call last):
+  File "/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c4f_robust_transfer/bass.py", line 76, in <module>
+    if __name__=='__main__':{'fit':fit,'heldout':heldout,'native':native}[sys.argv[1]]()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c4f_robust_transfer/bass.py", line 66, in native
+    with cf.ThreadPoolExecutor(max_workers=7) as ex:rows=list(ex.map(job,cases))
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/worktrees/bass-r109-native-20261124/research/r118c4f_robust_transfer/bass.py", line 62, in job
+    k,e=q;tag=f'{k}_{e:g}_16384';ctrl=b['control_old' if k=='old' else 'control_new'];np.savetxt(D/(tag+'.ctrl'),np.r_[[.001,.006,.05],(e*ctrl.T).ravel()][None],fmt='%.17e');t=time.monotonic()
+                                      ~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/.local/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 245, in __getitem__
+    with self.zip.open(key) as bytes:
+         ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/zipfile/__init__.py", line 1665, in open
+    raise BadZipFile(f"Overlapped entries: {zinfo.orig_filename!r} (possible zip bomb)")
+zipfile.BadZipFile: Overlapped entries: 'control_old.npy' (possible zip bomb)
